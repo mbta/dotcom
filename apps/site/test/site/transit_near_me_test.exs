@@ -53,7 +53,7 @@ defmodule Site.TransitNearMeTest do
       schedules_fn = fn _stop, time ->
         case time do
           # always within service date, so within 24 hours
-          [min_time: ^now] ->
+          [] ->
             []
 
           # when search is expanded to tomorrow's service date, limit buses to within 24 hours
@@ -187,10 +187,13 @@ defmodule Site.TransitNearMeTest do
         TransitNearMe.build(@address, date: @date, now: now, schedules_fn: schedules_fn)
 
       # Filter applies to bus routes…
-      assert Enum.find(Map.get(schedules, "6542"), &(&1.route.id == "fakeID"))
-      refute Enum.find(Map.get(schedules, "6542"), &(&1.route.id == "553"))
+      assert Enum.find(Map.get(schedules, "6542"), &(PredictedSchedule.route(&1).id == "fakeID"))
+      refute Enum.find(Map.get(schedules, "6542"), &(PredictedSchedule.route(&1).id == "553"))
       # …but not other route types
-      assert Enum.find(Map.get(schedules, "place-sstat"), &(&1.route.id == "Red"))
+      assert Enum.find(
+               Map.get(schedules, "place-sstat"),
+               &(PredictedSchedule.route(&1).id == "Red")
+             )
     end
   end
 
@@ -206,76 +209,6 @@ defmodule Site.TransitNearMeTest do
                "Green Line E",
                "Green Line D"
              ]
-    end
-  end
-
-  describe "build_headsign_map/2" do
-    @headsign "Headsign A"
-    @pm_12_00 DateTime.from_naive!(~N[2030-02-19T12:00:00], "Etc/UTC")
-    @route %Route{id: "subway", type: 1, direction_destinations: %{0 => "0", 1 => "1"}}
-    @stop %Stop{id: "stop"}
-    @schedule_trip %Trip{id: "0", headsign: @headsign, direction_id: 0, shape_id: "1"}
-    @prediction_trip %Trip{id: "1", headsign: @headsign, direction_id: 0, shape_id: "2"}
-    @base_schedule %Schedule{stop: @stop, route: @route, time: @pm_12_00}
-
-    test "prediction.trip does not match schedule.trip, uses schedule anyway" do
-      provided_schedules = [%{@base_schedule | trip: @schedule_trip}]
-
-      predictions_fn = fn
-        [route: "subway", direction_id: 0, stop: "stop", min_time: @pm_12_00] ->
-          [%Prediction{route: @route, time: @pm_12_00, trip: @prediction_trip}]
-      end
-
-      schedules_fn = fn _, _ -> [] end
-      opts = [now: @pm_12_00, predictions_fn: predictions_fn, schedules_fn: schedules_fn]
-
-      {_, %{times: [%{prediction: %{time: prediction_time}, scheduled_time: scheduled_time}]}} =
-        TransitNearMe.build_headsign_map({@headsign, provided_schedules}, opts)
-
-      assert prediction_time == ["arriving"]
-      assert scheduled_time == ["12:00", " ", "PM"]
-    end
-
-    test "prediction.trip does not match schedule.trip, can't find schedule" do
-      route = %Route{id: "cr", type: 2, direction_destinations: %{0 => "0", 1 => "1"}}
-      provided_schedules = [%{@base_schedule | trip: @schedule_trip, route: route}]
-
-      predictions_fn = fn
-        [route: "cr", direction_id: 0, stop: "stop", min_time: @pm_12_00] ->
-          [%Prediction{route: route, time: @pm_12_00, trip: @prediction_trip}]
-      end
-
-      schedules_fn = fn _, _ -> [] end
-      opts = [now: @pm_12_00, predictions_fn: predictions_fn, schedules_fn: schedules_fn]
-
-      {_, %{times: [%{prediction: %{time: prediction_time}, scheduled_time: scheduled_time}]}} =
-        TransitNearMe.build_headsign_map({@headsign, provided_schedules}, opts)
-
-      assert prediction_time == ["12:00", " ", "PM"]
-      assert scheduled_time == nil
-    end
-
-    test "prediction.trip does not match schedule.trip, finds a different schedule" do
-      route = %Route{id: "cr", type: 2, direction_destinations: %{0 => "0", 1 => "1"}}
-      provided_schedules = [%{@base_schedule | trip: @schedule_trip, route: route}]
-      am_11_00 = DateTime.from_naive!(~N[2030-02-19T11:00:00], "Etc/UTC")
-
-      predictions_fn = fn
-        [route: "cr", direction_id: 0, stop: "stop", min_time: ^am_11_00] ->
-          [%Prediction{route: route, time: @pm_12_00, trip: @prediction_trip}]
-      end
-
-      schedules_fn = fn _, _ ->
-        [%{@base_schedule | trip: @prediction_trip, route: route, time: am_11_00}]
-      end
-
-      opts = [now: am_11_00, predictions_fn: predictions_fn, schedules_fn: schedules_fn]
-
-      {_, %{times: [%{prediction: %{time: prediction_time}, scheduled_time: scheduled_time}]}} =
-        TransitNearMe.build_headsign_map({@headsign, provided_schedules}, opts)
-
-      assert prediction_time == ["12:00", " ", "PM"]
-      assert scheduled_time == ["11:00", " ", "AM"]
     end
   end
 
@@ -392,23 +325,32 @@ defmodule Site.TransitNearMeTest do
         distances: %{"stop" => 0.1},
         schedules: %{
           "stop-1" => [
-            %{
-              base_schedule
-              | # Headsign B -- 12:00
-                trip: Enum.at(trips, 0),
-                time: pm_12_00
+            %PredictedSchedule{
+              schedule: %{
+                base_schedule
+                | # Headsign B -- 12:00
+                  trip: Enum.at(trips, 0),
+                  time: pm_12_00
+              },
+              prediction: %Prediction{route: route, time: pm_12_00, trip: Enum.at(trips, 0)}
             },
-            %{
-              base_schedule
-              | # Headsign A -- 12:01
-                trip: Enum.at(trips, 1),
-                time: pm_12_01
+            %PredictedSchedule{
+              schedule: %{
+                base_schedule
+                | # Headsign A -- 12:01
+                  trip: Enum.at(trips, 1),
+                  time: pm_12_01
+              },
+              prediction: %Prediction{route: route, time: pm_12_01, trip: Enum.at(trips, 1)}
             },
-            %{
-              base_schedule
-              | # Headsign B -- 12:02
-                trip: Enum.at(trips, 2),
-                time: pm_12_02
+            %PredictedSchedule{
+              schedule: %{
+                base_schedule
+                | # Headsign B -- 12:02
+                  trip: Enum.at(trips, 2),
+                  time: pm_12_02
+              },
+              prediction: %Prediction{route: route, time: pm_12_02, trip: Enum.at(trips, 2)}
             }
           ]
         },
@@ -417,20 +359,10 @@ defmodule Site.TransitNearMeTest do
 
       stop_repo_fn = fn "stop" -> stop end
 
-      predictions_fn = fn
-        [route: "subway", stop: "stop", direction_id: 0, min_time: ^pm_12_00] ->
-          [
-            %Prediction{route: route, time: pm_12_00, trip: Enum.at(trips, 0)},
-            %Prediction{route: route, time: pm_12_01, trip: Enum.at(trips, 1)},
-            %Prediction{route: route, time: pm_12_02, trip: Enum.at(trips, 2)}
-          ]
-      end
-
       output =
         TransitNearMe.schedules_for_routes(
           input,
           [],
-          predictions_fn: predictions_fn,
           stops_fn: stop_repo_fn,
           now: pm_12_00
         )
@@ -510,124 +442,130 @@ defmodule Site.TransitNearMeTest do
         },
         schedules: %{
           "place-sstat" => [
-            %Schedules.Schedule{
-              early_departure?: true,
-              flag?: false,
-              pickup_type: 0,
-              route: %Routes.Route{
-                custom_route?: false,
-                description: :rapid_transit,
-                direction_destinations: %{0 => "Ashmont/Braintree", 1 => "Alewife"},
-                direction_names: %{0 => "South", 1 => "North"},
-                id: "Red",
-                long_name: "Red Line",
-                name: "Red Line",
-                type: 1
-              },
-              stop: %Stops.Stop{
-                accessibility: ["accessible"],
-                address: nil,
-                closed_stop_info: nil,
-                has_charlie_card_vendor?: false,
-                has_fare_machine?: false,
-                id: "place-sstat",
-                is_child?: true,
-                latitude: 42.352271,
-                longitude: -71.055242,
-                name: "South Station",
-                note: nil,
-                parking_lots: [],
-                station?: false
-              },
-              stop_sequence: 90,
-              time: now,
-              trip: %Schedules.Trip{
-                bikes_allowed?: false,
-                direction_id: 0,
-                headsign: "Ashmont",
-                id: "38899812-21:00-LL",
-                name: "",
-                shape_id: "931_0009"
+            %PredictedSchedule{
+              schedule: %Schedules.Schedule{
+                early_departure?: true,
+                flag?: false,
+                pickup_type: 0,
+                route: %Routes.Route{
+                  custom_route?: false,
+                  description: :rapid_transit,
+                  direction_destinations: %{0 => "Ashmont/Braintree", 1 => "Alewife"},
+                  direction_names: %{0 => "South", 1 => "North"},
+                  id: "Red",
+                  long_name: "Red Line",
+                  name: "Red Line",
+                  type: 1
+                },
+                stop: %Stops.Stop{
+                  accessibility: ["accessible"],
+                  address: nil,
+                  closed_stop_info: nil,
+                  has_charlie_card_vendor?: false,
+                  has_fare_machine?: false,
+                  id: "place-sstat",
+                  is_child?: true,
+                  latitude: 42.352271,
+                  longitude: -71.055242,
+                  name: "South Station",
+                  note: nil,
+                  parking_lots: [],
+                  station?: false
+                },
+                stop_sequence: 90,
+                time: now,
+                trip: %Schedules.Trip{
+                  bikes_allowed?: false,
+                  direction_id: 0,
+                  headsign: "Ashmont",
+                  id: "38899812-21:00-LL",
+                  name: "",
+                  shape_id: "931_0009"
+                }
               }
             },
-            %Schedules.Schedule{
-              early_departure?: true,
-              flag?: false,
-              pickup_type: 0,
-              route: %Routes.Route{
-                custom_route?: false,
-                description: :local_bus,
-                direction_destinations: %{0 => "Roberts", 1 => "Downtown Boston"},
-                direction_names: %{0 => "Outbound", 1 => "Inbound"},
-                id: "553",
-                long_name: "Roberts - Downtown Boston",
-                name: "553",
-                type: 3
-              },
-              stop: %Stops.Stop{
-                accessibility: ["accessible"],
-                address: nil,
-                closed_stop_info: nil,
-                has_charlie_card_vendor?: false,
-                has_fare_machine?: false,
-                id: "place-sstat",
-                is_child?: true,
-                latitude: 42.352271,
-                longitude: -71.055242,
-                name: "South Station",
-                note: nil,
-                parking_lots: [],
-                station?: false
-              },
-              stop_sequence: 90,
-              time: now,
-              trip: %Schedules.Trip{
-                bikes_allowed?: false,
-                direction_id: 0,
-                headsign: "Ashmont",
-                id: "38899812-21:00-LL",
-                name: "",
-                shape_id: "931_0009"
+            %PredictedSchedule{
+              schedule: %Schedules.Schedule{
+                early_departure?: true,
+                flag?: false,
+                pickup_type: 0,
+                route: %Routes.Route{
+                  custom_route?: false,
+                  description: :local_bus,
+                  direction_destinations: %{0 => "Roberts", 1 => "Downtown Boston"},
+                  direction_names: %{0 => "Outbound", 1 => "Inbound"},
+                  id: "553",
+                  long_name: "Roberts - Downtown Boston",
+                  name: "553",
+                  type: 3
+                },
+                stop: %Stops.Stop{
+                  accessibility: ["accessible"],
+                  address: nil,
+                  closed_stop_info: nil,
+                  has_charlie_card_vendor?: false,
+                  has_fare_machine?: false,
+                  id: "place-sstat",
+                  is_child?: true,
+                  latitude: 42.352271,
+                  longitude: -71.055242,
+                  name: "South Station",
+                  note: nil,
+                  parking_lots: [],
+                  station?: false
+                },
+                stop_sequence: 90,
+                time: now,
+                trip: %Schedules.Trip{
+                  bikes_allowed?: false,
+                  direction_id: 0,
+                  headsign: "Ashmont",
+                  id: "38899812-21:00-LL",
+                  name: "",
+                  shape_id: "931_0009"
+                }
               }
             },
-            %Schedules.Schedule{
-              early_departure?: true,
-              flag?: false,
-              pickup_type: 0,
-              route: %Routes.Route{
-                custom_route?: false,
-                description: :key_bus_route,
-                direction_destinations: %{0 => "Logan Airport", 1 => "South Station"},
-                direction_names: %{0 => "Outbound", 1 => "Inbound"},
-                id: "741",
-                long_name: "Logan Airport - South Station",
-                name: "SL1",
-                type: 3
-              },
-              stop: %Stops.Stop{
-                accessibility: ["accessible"],
-                address: nil,
-                closed_stop_info: nil,
-                has_charlie_card_vendor?: false,
-                has_fare_machine?: false,
-                id: "place-sstat",
-                is_child?: true,
-                latitude: 42.352271,
-                longitude: -71.055242,
-                name: "South Station",
-                note: nil,
-                parking_lots: [],
-                station?: false
-              },
-              stop_sequence: 90,
-              time: now,
-              trip: %Schedules.Trip{
-                bikes_allowed?: false,
-                direction_id: 0,
-                headsign: "Ashmont",
-                id: "38899812-21:00-LL",
-                name: "",
-                shape_id: "931_0009"
+            %PredictedSchedule{
+              schedule: %Schedules.Schedule{
+                early_departure?: true,
+                flag?: false,
+                pickup_type: 0,
+                route: %Routes.Route{
+                  custom_route?: false,
+                  description: :key_bus_route,
+                  direction_destinations: %{0 => "Logan Airport", 1 => "South Station"},
+                  direction_names: %{0 => "Outbound", 1 => "Inbound"},
+                  id: "741",
+                  long_name: "Logan Airport - South Station",
+                  name: "SL1",
+                  type: 3
+                },
+                stop: %Stops.Stop{
+                  accessibility: ["accessible"],
+                  address: nil,
+                  closed_stop_info: nil,
+                  has_charlie_card_vendor?: false,
+                  has_fare_machine?: false,
+                  id: "place-sstat",
+                  is_child?: true,
+                  latitude: 42.352271,
+                  longitude: -71.055242,
+                  name: "South Station",
+                  note: nil,
+                  parking_lots: [],
+                  station?: false
+                },
+                stop_sequence: 90,
+                time: now,
+                trip: %Schedules.Trip{
+                  bikes_allowed?: false,
+                  direction_id: 0,
+                  headsign: "Ashmont",
+                  id: "38899812-21:00-LL",
+                  name: "",
+                  shape_id: "931_0009"
+                }
               }
             }
           ]
@@ -756,36 +694,30 @@ defmodule Site.TransitNearMeTest do
         direction_destinations: %{0 => "First Stop", 1 => "Last Stop"}
       }
 
-      base_prediction = %Prediction{route: route, stop: stop}
-
       time = DateTime.from_naive!(~N[2019-02-21T12:00:00], "Etc/UTC")
-      parent = self()
-
-      predictions_fn = fn [route: "route", direction_id: 0, stop: "stop", min_time: ^time] =
-                            params ->
-        send(parent, {:predictions_fn, params})
-
-        Enum.map(
-          1..4,
-          &%{base_prediction | direction_id: 0, trip: Map.get(@trips, "trip-#{&1}"), time: time}
-        )
-      end
 
       schedules =
         Enum.map(
           1..4,
-          &%Schedule{
-            route: route,
-            stop: stop,
-            time: time,
-            trip: Map.get(@trips, "trip-#{&1}")
+          &%PredictedSchedule{
+            schedule: %Schedule{
+              route: route,
+              stop: stop,
+              time: time,
+              trip: Map.get(@trips, "trip-#{&1}")
+            },
+            prediction: %Prediction{
+              route: route,
+              stop: stop,
+              time: time,
+              trip: Map.get(@trips, "trip-#{&1}")
+            }
           }
         )
 
       assert {%DateTime{}, output} =
                TransitNearMe.build_direction_map(
                  {0, schedules},
-                 predictions_fn: predictions_fn,
                  now: time
                )
 
@@ -811,41 +743,30 @@ defmodule Site.TransitNearMeTest do
         direction_destinations: %{0 => "First Stop", 1 => "Last Stop"}
       }
 
-      base_prediction = %Prediction{route: route, stop: stop}
-
       time = DateTime.from_naive!(~N[2019-02-21T12:00:00], "Etc/UTC")
-      parent = self()
-
-      predictions_fn = fn
-        [route: "route", stop: "stop", direction_id: 0, min_time: ^time] = params ->
-          send(parent, {:predictions_fn, params})
-
-          Enum.map(
-            1..4,
-            &%{
-              base_prediction
-              | direction_id: 0,
-                trip: Map.get(@trips, "trip-#{&1}"),
-                time: time
-            }
-          )
-      end
 
       schedules =
         Enum.map(
           1..4,
-          &%Schedule{
-            route: route,
-            stop: stop,
-            time: time,
-            trip: Map.get(@trips, "trip-#{&1}")
+          &%PredictedSchedule{
+            prediction: %Prediction{
+              stop: stop,
+              route: route,
+              trip: Map.get(@trips, "trip-#{&1}"),
+              time: time
+            },
+            schedule: %Schedule{
+              stop: stop,
+              route: route,
+              trip: Map.get(@trips, "trip-#{&1}"),
+              time: time
+            }
           }
         )
 
       assert {%DateTime{}, output} =
                TransitNearMe.build_direction_map(
                  {0, schedules},
-                 predictions_fn: predictions_fn,
                  now: time
                )
 
@@ -853,92 +774,59 @@ defmodule Site.TransitNearMeTest do
 
       assert Enum.count(output.headsigns) === 2
 
-      assert_receive {:predictions_fn, _}
-
       for headsign <- output.headsigns do
         assert Enum.count(headsign.times) === TransitNearMe.schedule_count(route)
 
         for %{scheduled_time: sched} <- headsign.times do
-          assert sched === nil
+          assert sched === ["12:00", " ", "PM"]
         end
       end
     end
   end
 
-  describe "schedules_or_predictions/2" do
-    test "does not return predictions for commuter rail, bus, or ferry" do
+  describe "filter_predicted_schedules/2" do
+    test "does not remove schedules without predictions for commuter rail, bus, or ferry" do
       now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
-      prediction_time = DateTime.from_naive!(~N[2019-02-27T12:05:00], "Etc/UTC")
 
       for type <- 2..4 do
         route = %Route{id: "route", type: type}
         stop = %Stop{id: "stop"}
         trip = %Trip{direction_id: 0}
-        schedule = %Schedule{route: route, stop: stop, trip: trip}
 
-        predictions_fn = fn _ ->
-          send(self(), :predictions_fn)
-          [%Prediction{route: route, stop: stop, trip: trip, time: prediction_time}]
-        end
+        schedule = %PredictedSchedule{
+          schedule: %Schedule{route: route, stop: stop, trip: trip},
+          prediction: nil
+        }
 
-        assert TransitNearMe.schedules_or_predictions([schedule], predictions_fn, now) == [
+        assert TransitNearMe.filter_predicted_schedules([schedule], route, now) == [
                  schedule
                ]
-
-        refute_receive :predictions_fn
       end
     end
 
-    test "returns predictions for subway if predictions exist" do
+    test "filters schedules without predictions for subway if predictions exist" do
       now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
       prediction_time = DateTime.from_naive!(~N[2019-02-27T12:05:00], "Etc/UTC")
 
       for type <- [0, 1] do
         route = %Route{id: "route", type: type}
         stop = %Stop{id: "stop"}
-        trip = %Trip{direction_id: 0}
-        schedule = %Schedule{route: route, stop: stop, trip: trip}
-        prediction = %Prediction{route: route, stop: stop, trip: trip, time: prediction_time}
+        trip_1 = %Trip{direction_id: 0, id: "trip-1"}
+        trip_2 = %Trip{direction_id: 0, id: "trip-2"}
 
-        predictions_fn = fn _ ->
-          [prediction]
-        end
+        schedule_1 = %PredictedSchedule{
+          schedule: %Schedule{route: route, stop: stop, trip: trip_1},
+          prediction: %Prediction{route: route, stop: stop, trip: trip_1, time: prediction_time}
+        }
 
-        assert TransitNearMe.schedules_or_predictions([schedule], predictions_fn, now) ==
-                 [prediction]
+        schedule_2 = %PredictedSchedule{
+          schedule: %Schedule{route: route, stop: stop, trip: trip_2},
+          prediction: nil
+        }
+
+        assert TransitNearMe.filter_predicted_schedules([schedule_1, schedule_2], route, now) ==
+                 [schedule_1]
       end
-    end
-
-    test "returns predictions sorted by time" do
-      now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
-      first_prediction_time = DateTime.from_naive!(~N[2019-02-27T12:05:00], "Etc/UTC")
-      last_prediction_time = DateTime.from_naive!(~N[2019-02-27T13:05:00], "Etc/UTC")
-
-      route = %Route{id: "route", type: 0}
-      stop = %Stop{id: "stop"}
-      trip = %Trip{direction_id: 0}
-      schedule = %Schedule{route: route, stop: stop, trip: trip}
-
-      last_prediction = %Prediction{
-        route: route,
-        stop: stop,
-        trip: trip,
-        time: last_prediction_time
-      }
-
-      first_prediction = %Prediction{
-        route: route,
-        stop: stop,
-        trip: trip,
-        time: first_prediction_time
-      }
-
-      predictions_fn = fn _ ->
-        [last_prediction, first_prediction]
-      end
-
-      assert TransitNearMe.schedules_or_predictions([schedule], predictions_fn, now) ==
-               [first_prediction, last_prediction]
     end
 
     test "returns empty list for subway if no predictions during normal hours" do
@@ -948,15 +836,9 @@ defmodule Site.TransitNearMeTest do
         route = %Route{id: "route", type: type}
         stop = %Stop{id: "stop"}
         trip = %Trip{direction_id: 0}
-        schedule = %Schedule{route: route, stop: stop, trip: trip}
+        schedule = %PredictedSchedule{schedule: %Schedule{route: route, stop: stop, trip: trip}}
 
-        predictions_fn = fn _ ->
-          send(self(), :predictions_fn)
-          []
-        end
-
-        assert TransitNearMe.schedules_or_predictions([schedule], predictions_fn, now) == []
-        assert_receive :predictions_fn
+        assert TransitNearMe.filter_predicted_schedules([schedule], route, now) == []
       end
     end
 
@@ -967,25 +849,22 @@ defmodule Site.TransitNearMeTest do
         route = %Route{id: "route", type: type}
         stop = %Stop{id: "stop"}
         trip = %Trip{direction_id: 0}
-        schedule = %Schedule{route: route, stop: stop, trip: trip}
 
-        predictions_fn = fn _ ->
-          send(self(), :predictions_fn)
-          []
-        end
+        schedule = %PredictedSchedule{
+          schedule: %Schedule{route: route, stop: stop, trip: trip}
+        }
 
-        assert TransitNearMe.schedules_or_predictions([schedule], predictions_fn, now) == [
+        assert TransitNearMe.filter_predicted_schedules([schedule], route, now) == [
                  schedule
                ]
-
-        assert_receive :predictions_fn
       end
     end
   end
 
   describe "filter_headsign_schedules/2" do
-    @predicted_schedule {DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC"),
-                         DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")}
+    @predicted_schedule %PredictedSchedule{
+      schedule: %Schedule{time: DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")}
+    }
     @time_data_with_prediction %{
       delay: 0,
       prediction: %{status: nil, time: ["5", " ", "min"], track: nil},
@@ -998,16 +877,24 @@ defmodule Site.TransitNearMeTest do
       scheduled_time: ["3:50", " ", "PM"]
     }
 
-    test "result contains a predictions, one result returned" do
+    test "result contains a prediction, one result returned" do
       schedules = [
         {@predicted_schedule, @time_data_without_prediction},
-        {@predicted_schedule, @time_data_with_prediction},
+        {
+          %{
+            @predicted_schedule
+            | prediction: %Prediction{
+                time: DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
+              }
+          },
+          @time_data_with_prediction
+        },
         {@predicted_schedule, @time_data_without_prediction},
         {@predicted_schedule, @time_data_without_prediction}
       ]
 
-      [{_predicted_schedule, time_data}] =
-        TransitNearMe.filter_headsign_schedules(schedules, %Route{type: 3})
+      assert [{_predicted_schedule, time_data}] =
+               TransitNearMe.filter_headsign_schedules(schedules, %Route{type: 3})
 
       assert time_data.prediction != nil
     end
@@ -1020,11 +907,10 @@ defmodule Site.TransitNearMeTest do
         {@predicted_schedule, @time_data_without_prediction}
       ]
 
-      [{_predicted_schedule, time_data}, {_predicted_schedule2, time_data2}] =
-        TransitNearMe.filter_headsign_schedules(schedules, %Route{type: 3})
+      assert [{_predicted_schedule, time_data}] =
+               TransitNearMe.filter_headsign_schedules(schedules, %Route{type: 3})
 
       assert time_data.prediction == nil
-      assert time_data2.prediction == nil
     end
   end
 
@@ -1089,7 +975,8 @@ defmodule Site.TransitNearMeTest do
                   time: ["5", " ", "min"],
                   track: "2"
                 },
-                scheduled_time: nil
+                scheduled_time: nil,
+                delay: 0
               }
             ],
             train_number: nil
@@ -1114,7 +1001,7 @@ defmodule Site.TransitNearMeTest do
           now: @now
         )
 
-      assert actual == %{}
+      assert %{"place-wimnl" => [%{}]} = actual
     end
   end
 end
