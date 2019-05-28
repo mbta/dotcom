@@ -148,7 +148,7 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
       assert fare_request("ferry:month:mticket") == {:ok, "$74.50 – $298.00"}
     end
 
-    test "handles :zone:X and :interzone:Y requests" do
+    test "handles :zone:X requests" do
       assert [
                name: {:zone, "1A"},
                reduced: nil,
@@ -158,7 +158,32 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
              |> fare_result() == "$84.50"
 
       assert fare_request("zone:1A:month") == {:ok, "$84.50"}
+    end
 
+    test "inter/zone passes are more expensive by default" do
+      assert [
+               name: {:zone, "8"},
+               reduced: nil,
+               duration: :month
+             ]
+             |> Repo.all()
+             |> fare_result() == "$363.00"
+
+      assert fare_request("zone:8:month") == {:ok, "$363.00"}
+
+      assert [
+               name: {:zone, "8"},
+               reduced: nil,
+               duration: :month,
+               includes_media: :mticket
+             ]
+             |> Repo.all()
+             |> fare_result() == "$353.00"
+
+      assert fare_request("zone:8:month:mticket") == {:ok, "$353.00"}
+    end
+
+    test "handles :interzone:X requests" do
       assert [
                name: {:interzone, "3"},
                reduced: :any,
