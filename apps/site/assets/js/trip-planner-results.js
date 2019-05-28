@@ -27,7 +27,7 @@ export class TripPlannerResults {
     $(document).on("trip-plan:remove-marker", this.onRemoveMarker);
   }
 
-  onUpdateMarker(ev, { detail }) {
+  onUpdateMarker({ detail }) {
     if (!this.firstMap) {
       return;
     }
@@ -54,7 +54,7 @@ export class TripPlannerResults {
     }
   }
 
-  onRemoveMarker(ev, { detail }) {
+  onRemoveMarker({ detail }) {
     if (!this.firstMap) {
       return;
     }

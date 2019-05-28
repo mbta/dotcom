@@ -222,14 +222,18 @@ export class TripPlannerLocControls {
       label,
       title
     };
-    $(document).trigger("trip-plan:update-marker", { detail });
+    const event = new Event("trip-plan:update-marker");
+    event.detail = detail;
+    document.dispatchEvent(event);
   }
 
   removeMarker(ac) {
     const $ = window.jQuery;
     const label = ac._input.getAttribute("data-label");
     const detail = { label };
-    $(document).trigger("trip-plan:remove-marker", { detail });
+    const event = new Event("trip-plan:remove-marker");
+    event.detail = detail;
+    document.dispatchEvent(event);
   }
 
   resetResetButtons() {

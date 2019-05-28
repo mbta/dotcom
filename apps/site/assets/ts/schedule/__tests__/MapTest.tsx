@@ -1,6 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import Map, { getBounds, iconOpts, reducer } from "../components/Map";
+import Map, { iconOpts, reducer } from "../components/Map";
 import {
   MapData,
   MapMarker as Marker
@@ -39,21 +39,6 @@ const data: MapData = {
   }
 };
 /* eslint-enable typescript/camelcase */
-
-describe("getBounds", () => {
-  it("creates bounds from the list of markers", () => {
-    expect(getBounds(data.markers)).toEqual({
-      _northEast: {
-        lat: data.markers[0].latitude,
-        lng: data.markers[0].longitude
-      },
-      _southWest: {
-        lat: data.markers[1].latitude,
-        lng: data.markers[1].longitude
-      }
-    });
-  });
-});
 
 describe("Schedule Map", () => {
   it("renders", () => {

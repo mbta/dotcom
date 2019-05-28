@@ -1,7 +1,7 @@
 import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
-import { LatLng, latLng, LatLngBounds, latLngBounds } from "leaflet";
 import initChannel, { SocketEvent } from "./Channel";
 import Map from "../../leaflet/components/Map";
+import getBounds from "../../leaflet/bounds";
 import {
   MapData,
   MapMarker as Marker
@@ -23,11 +23,6 @@ const setupChannels = (channel: string, dispatch: Dispatch<Action>): void => {
   initChannel<EventData[]>("vehicles:remove", (action: Action) =>
     dispatch(action)
   );
-};
-
-export const getBounds = (markers: Marker[]): LatLngBounds => {
-  const points: LatLng[] = markers.map(m => latLng(m.latitude, m.longitude));
-  return latLngBounds(points);
 };
 
 export const iconOpts = (
