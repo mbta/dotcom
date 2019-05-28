@@ -49,8 +49,8 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
 
   @type request_tuple ::
           {:ok, [repo_arg]}
-          | {summary_mode, [repo_arg]}
-          | {zone_type, String.t(), [repo_arg]}
+          | {:ok, {summary_mode, [repo_arg]}}
+          | {:ok, {zone_type, String.t(), [repo_arg]}}
 
   @default_args [reduced: nil, duration: :single_trip]
   @summary_atoms [:commuter_rail, :bus_subway, :ferry]
