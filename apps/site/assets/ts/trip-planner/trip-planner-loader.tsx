@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "whatwg-fetch";
 import TripPlannerPage from "./components/TripPlannerPage";
 import { MapData } from "../leaflet/components/__mapdata";
 
