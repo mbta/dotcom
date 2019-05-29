@@ -1,0 +1,13 @@
+<%= if @teaser.image do %>
+  <img class="c-content-teaser__image" src="<%= @teaser.image.url %>" alt="<%= @teaser.image.alt %>" >
+<% end %>
+
+<%= if @teaser.date do %>
+  <div class="c-content-teaser__date u-small-caps">
+    <%= display_date(@teaser) %>
+  </div>
+<% end %>
+
+<h3 class="c-content-teaser__title">
+  <%= @teaser.title %>
+</h3>

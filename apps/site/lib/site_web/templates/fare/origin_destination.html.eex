@@ -1,0 +1,64 @@
+<h1>Find Your Fare</h1>
+<h2><%= mode_name(@mode) %></h2>
+<%= origin_destination_description(@mode) %>
+<div class="callout">
+  <div class="row">
+    <div class="col-xs-12 col-md-6 fare-selector-container">
+      <%= render SiteWeb.PartialView, "_stop_selector.html",
+        conn: @conn,
+        query_key: "origin",
+        selected: (if @origin, do: @origin.id, else: nil),
+        disabled: nil,
+        all_stops: @origin_stops,
+        key_stops: @key_stops,
+        label_text: "Enter your origin",
+        placeholder_text: "a stop",
+        exclude: ["destination"],
+        disabled_values: [],
+        route_type: @route_type
+      %>
+    </div>
+    <%= unless @origin == nil do %>
+      <div class="col-xs-12 col-md-6 fare-selector-container">
+        <%= render SiteWeb.PartialView, "_stop_selector.html",
+          conn: @conn,
+          query_key: "destination",
+          selected: (if @destination, do: @destination.id, else: nil),
+          disabled: (if @origin, do: @origin.id, else: nil),
+          all_stops: @destination_stops,
+          key_stops: destination_key_stops(@destination_stops, @key_stops),
+          label_text: "Enter your destination",
+          placeholder_text: "a stop",
+          disabled_values: [],
+          route_type: @route_type
+        %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<%= cta_for_mode(@conn, @mode) %>
+
+<%= unless @selected_filter == nil do %>
+  <%= if @origin && @destination do %>
+    <div class="row">
+      <div class="col-xs-12">
+        <p>
+          <strong><%= Fares.Format.name(List.first(@selected_filter.fares)) %> Fare</strong>
+          <span class="hidden-xs-down">|</span><span class="hidden-sm-up"><br /></span>
+          <%= @origin.name %> <i class="fa fa-arrow-right"></i> <%= @destination.name %>
+        </p>
+        <p class="fares-info-lead">
+          People 12 and older who do not qualify for
+          <%= link to: cms_static_page_path(@conn, "/fares/reduced") do %>
+            reduced fares
+          <% end %>
+          pay the standard fare. If you are a student, senior, or someone with a disability
+          who qualifies for reduced fares, click on the correct category below to view your fare.
+          Children 11 and younger accompanied by a paying adult ride for free (up to 2 children per adult).
+        </p>
+      </div>
+    </div>
+  <% end %>
+  <%= render "_fares_display.html", selected_filter: @selected_filter, filters: @filters, conn: @conn, fare_type: @fare_type %>
+<% end %>

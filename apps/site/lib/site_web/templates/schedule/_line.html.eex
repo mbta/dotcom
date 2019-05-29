@@ -1,0 +1,81 @@
+<%= if Laboratory.enabled?(@conn, :schedule_redesign) do %>
+  <script data-for="schedule-page" id="js-schedule-page-data" type="text/plain">
+    <%= raw Poison.encode!(@schedule_page_data) %>
+  </script>
+<% end %>
+<div class="page-section m-schedule-line">
+  <div class="row">
+    <div class="col-md-12">
+    <%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high) %>
+    <%= render "_route_disclaimer.html", route: @route, date_time: @date_time %>
+    </div>
+    <div class="col-xs-12 col-md-7">
+    <%= if Enum.empty?(@branches) do %>
+      <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
+    <% else %>
+        <h2>Stops</h2>
+        <%= render "_line_filters.html",
+          conn: @conn,
+          headsigns: @headsigns,
+          direction_id: @direction_id,
+          route: @route,
+          origin: assigns[:origin],
+          destination: assigns[:destination],
+          show_date_select?: @show_date_select?,
+          force_six_column: true,
+          route_shapes: @route_shapes,
+          active_shape: @active_shape,
+          show_variant_selector: assigns[:show_variant_selector]
+        %>
+
+        <div class="line-map-container">
+          <%= if display_map_link?(@route.type) do %>
+            <img src="<%= @map_img_src %>" class="img-fluid">
+            <a href="<%= @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>" target="_blank">
+              <%= fa "search-plus" %>
+              View map as a PDF
+            </a>
+          <% else %>
+            <%= render "_line_map.html",
+              conn: @conn,
+              channel: @channel,
+              dynamic_map_data: @dynamic_map_data,
+              map_img_src: @map_img_src
+            %>
+          <% end %>
+        </div>
+
+        <%= render "_stop_list.html", assigns %>
+    </div>
+    <% end %>
+    <% redesign? = Laboratory.enabled?(@conn, :schedule_redesign) %>
+    <div class="col-xs-12 col-md-4 col-md-offset-1">
+      <%= if redesign? do %>
+        <div id="react-root">
+          <%= Site.React.render("SchedulePage", %{schedulePageData: @schedule_page_data}) %>
+        </div>
+      <% else %>
+        <%= render "_cms_teasers.html", featured_content: @featured_content, news: @news, conn: @conn %>
+        <%= render "_pdf_schedules.html", assigns %>
+      <% end %>
+      <%= render "_line_connections.html", assigns %>
+      <%= if !redesign? do %>
+        <%= render "_fares.html", assigns %>
+        <div class="hours">
+          <%= if assigns[:hours_of_operation] do %>
+          <h2 class="hours-heading">Hours of Operation</h3>
+          <%= render "_hours_of_op.html", assigns %>
+          <% end %>
+        </div>
+        <%= render "_holidays.html", assigns %>
+      <% end %>
+      <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
+      <%= if Application.get_env(:site, :dev_server?) do %>
+        <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/schedule.js" %>"></script>
+      <% else %>
+        <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+        <script defer src="<%= static_url(@conn, "/js/schedule.js") %>"></script>
+      <% end %>
+    </div>
+  </div>
+</div>

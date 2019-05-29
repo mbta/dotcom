@@ -1,0 +1,22 @@
+{
+  "id" : "66573fdf-37e6-36aa-bf9d-a2ff47a45780",
+  "request" : {
+    "url" : "/routes/?stop=Norwood+Central",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-WiEJ7.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:35 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mldeo8g89nluoac03d7q1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "66573fdf-37e6-36aa-bf9d-a2ff47a45780"
+}

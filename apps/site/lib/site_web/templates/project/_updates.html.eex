@@ -1,0 +1,30 @@
+<div class="c-project-updates-list c-paragraph <%= @class %>">
+  <h2>Project Updates</h2>
+
+  <%= for update <- Enum.take(@updates, 2) do %>
+    <%= link to: project_update_path(@conn, :project_update, update), class: "c-project-update" do %>
+
+      <%= if update.image do %>
+        <img src="<%= update.image.url %>" alt="<%= update.image.alt %>" class="c-project-update__photo">
+      <% end %>
+
+      <div class="c-project-update__date u-small-caps">
+        <%= format_full_date(update.date) %>
+      </div>
+
+      <h3 class="c-project-update__title">
+          <%= update.title %>
+      </h3>
+    <% end %>
+  <% end %>
+
+  <%=
+    if show_all_updates_link?(@updates) do
+      link(
+        "View all project updates",
+        class: "c-call-to-action",
+        to: project_updates_path(@conn, :project_updates, Project.alias(@project))
+      )
+    end
+  %>
+</div>

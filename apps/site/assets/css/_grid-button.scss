@@ -1,0 +1,151 @@
+.c-grid-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  // add a negative margin to the button container so that
+  // the buttons themselves will look flush with the
+  // edges of the page container.
+  margin: $base-spacing * -.25;
+}
+
+.c-grid-button {
+  display: block;
+  flex-basis: 100%;
+  flex-grow: 0;
+  flex-shrink: 0;
+  margin-bottom: $space-6;
+  margin-top: $space-6;
+  padding: 0 $base-spacing * .25;
+
+  @include media-breakpoint-down(sm) {
+    flex-basis: 100%;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.c-grid-button__content {
+  align-items: center;
+  border: $border;
+  border-radius: $border-radius;
+  display: flex;
+  font-variant-numeric: tabular-nums;
+  height: 100%;
+  line-height: 1.25;
+  padding: $base-spacing * .75;
+
+  &:hover {
+    background: $brand-primary-lightest;
+    border-color: $brand-primary;
+  }
+}
+
+// Setting max-width along with flex-basis fixes an issue in IE 10 & 11
+// where width is affected by padding & borders in child elements.
+// https://github.com/philipwalton/flexbugs/issues/3
+.c-grid-button--red-line,
+.c-grid-button--green-line,
+.c-grid-button--blue-line,
+.c-grid-button--orange-line,
+.c-grid-button--mattapan-line,
+.c-grid-button--static-page,
+.c-grid-buttons__condensed
+ {
+  @include media-breakpoint-up(sm) {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+}
+
+.c-grid-button--bus,
+.c-grid-button--silver-line {
+  @include media-breakpoint-up(sm) {
+    flex-basis: 20%;
+    max-width: 20%;
+  }
+
+  @include media-breakpoint-down(xs) {
+    flex-basis: 33.33%;
+    max-width: 33.33%;
+  }
+}
+
+.c-grid-button--commuter-rail {
+  @include media-breakpoint-up(sm) {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+
+  @include media-breakpoint-only(md) {
+    flex-basis: 33.33%;
+    max-width: 33.33%;
+  }
+}
+
+.c-grid-button--ferry,
+.c-grid-button--the-ride {
+  @include media-breakpoint-up(sm) {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+}
+
+.c-grid-button__icon {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: center;
+  padding-right: $base-spacing / 2;
+
+  [class*=c-svg] {
+    flex: 0 0 auto;
+  }
+}
+
+.c-grid-button__icon--condensed {
+  margin: auto;
+  padding-right: 0;
+  position: relative;
+}
+
+.c-grid-button__name {
+  flex: 1 1 auto;
+}
+
+.c-grid-button__alert {
+  flex: 0 0 auto;
+  justify-self: flex-end;
+  padding-right: $base-spacing / 2;
+
+  path {
+    fill: $brand-primary;
+  }
+}
+
+.c-grid-button__alert--condensed {
+  position: absolute;
+  right: -.5rem;
+  top: -.5rem;
+
+  path {
+    fill: $brand-primary;
+  }
+}
+
+.c-grid-buttons__condensed {
+  display: flex;
+  justify-content: space-between;
+}
+
+.c-grid-button__condensed {
+  flex-basis: 25%;
+  padding-right: $base-spacing / 2;
+  width: 25%;
+
+  &:last-child {
+    padding-right: 0;
+  }
+}

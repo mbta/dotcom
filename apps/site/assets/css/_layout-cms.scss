@@ -1,0 +1,203 @@
+// CMS PAGE LAYOUT
+//
+// Explicit column/offset counts per breakpoint and sidebar config.
+// 'c-cms' is the default set of values, (values that are shared between
+// all three layout configurations). Values from the c-cms group will be
+// applied to the other layout groups should those values be absent.
+
+$layout-cms: (
+  sm: (
+    c-cms: (
+      title:   (span: 10, offset: 1),
+      body:    (span: 10, offset: 1),
+      sidebar: (span: 10, offset: 1)
+    )
+  ),
+  md: (
+    c-cms: (
+      body:     (span: 8),
+      sidebar:  (span: 4)
+    ),
+    no-sidebar: (
+      title:    (span: 9, offset: 1),
+      body:     (offset: 1)
+    ),
+    sidebar-left: (
+      title:    (span: 8)
+    ),
+    sidebar-right: (
+      title:    (span: 11)
+    )
+  ),
+  lg: (
+    c-cms: (
+      body:     (span: 7),
+      sidebar:  (span: 3)
+    ),
+    no-sidebar: (
+      title:    (span: 8, offset: 1),
+      body:     (offset: 1)
+    ),
+    sidebar-left: (
+      title:    (span: 8, pull: 1)
+    ),
+    sidebar-right: (
+      title:    (span: 10),
+      sidebar:  (span: 4, offset: 1)
+    )
+  ),
+  xxl: (
+    c-cms: (
+      body:     (span: 6),
+      sidebar:  (span: 3)
+    ),
+    no-sidebar: (
+      title:    (span: 7, offset: 1),
+      body:     (offset: 1)
+    ),
+    sidebar-left: (
+      title:    (span: 7, pull: 2)
+    ),
+    sidebar-right: (
+      title:    (span: 9),
+      sidebar:  (span: 4, offset: 2)
+    )
+  )
+);
+
+// CMS Page Structure:
+//
+// .c-cms: container for both rows
+// - .c-cms__header: top row
+//   -- .c-cms__title: single column
+// - .c-cms__content: bottom row
+//   -- .c-cms__sidebar: none, left, or right
+//   -- .c-cms__body: main copy
+
+.c-cms__header,
+.c-cms__content {
+  @include make-row();
+}
+
+.c-cms__title,
+.c-cms__sidebar,
+.c-cms__body {
+  @include make-col();
+  // CMS content column should default to maximum space
+  // in absence of proper layout classes / hierarchy
+  width: 100%;
+}
+
+// Initialize this map, and let is be fully populated for use
+// in the _embedded-media.scss loop (which loads after this file).
+$body-columns: ();
+
+// CONTAINER SETUP:
+// For each breakpoint in our map above...
+@each $breakpoint-name, $breakpoint in $layout-cms {
+  @include media-breakpoint-only($breakpoint-name) {
+    // For each sidebar-layout within this breakpoint...
+    @each $layout-name, $layout in $breakpoint {
+      [class*=#{$layout-name}] {
+        // For each HTML element within this sidebar-layout...
+        @each $element-name, $element in $layout {
+          .c-cms__#{$element-name} {
+            // Execute each Bootstrap _grid 'make-col-X' mixin for this element
+            @each $col-mixin, $value in $element {
+              @include make-col-mixin($col-mixin, $value);
+              // Opportunistically store this config's body column count for _embedded-media loop
+              // so that we do not need advanced logic to look it up dynamically in the $layout-cms map
+              @if $element-name == body and $col-mixin == span {
+                $body-columns: map-merge($body-columns, ($breakpoint-name: $value));
+}}}}}}}}
+
+// The following two rules setup the header and sidebar
+// so that they are adjacent to each other; we want the
+// left sidebar NOT to clear the title row in this situation.
+.c-cms__header {
+  @include media-breakpoint-up(md) {
+    .c-cms--sidebar-left &::after {
+      clear: none;
+    }
+  }
+}
+
+.c-cms__title {
+  @include media-breakpoint-up(md) {
+    .c-cms--sidebar-left & {
+      // Allows us to use the same HTML structure even
+      // though the left sidebar starts at the top of page
+      float: right;
+    }
+  }
+}
+
+.c-cms__title-text {
+  @include media-breakpoint-up(md) {
+    margin-bottom: 0;
+  }
+}
+
+.c-cms__meta {
+  @include h4();
+}
+
+.c-cms__content,
+.landing-page-content {
+  flex: 1 0 auto;
+
+  .img-fluid:not(.c-media__element) {
+    @include img-fluid();
+    margin-bottom: $base-spacing;
+  }
+}
+
+.c-cms--sidebar-left {
+  @include media-breakpoint-down(sm) {
+
+    // Change order so navigation appears at bottom
+    // (after content) when in single-column layout
+    .c-cms__content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .c-cms__sidebar {
+      order: 2;
+    }
+  }
+}
+
+.c-cms__sidebar {
+  // Provide additional buffer when in single-column layout
+  margin-bottom: $base-spacing;
+
+  // Visually align sidebar headings' baselines with the adjacent h1 baseline
+  // (below values provide alignment only if sidebar headings are set as h3)
+  .c-cms--sidebar-left & {
+    // Values below approximate differences in line-height & font-size between
+    // h1 headings and h3 headings, should those variables change in the future.
+    $h1-top: strip-units($font-size-h1) * $headings-margin-top;
+    $top-adjust: 1.25rem;
+    $bottom-adjust: .275rem;
+    $h1-bottom: 1rem;
+
+    margin-top: $h1-top; // Match the space above the h1
+
+    @include media-breakpoint-up(md) {
+      .c-cms__sidebar-title {
+        @include h3();
+        margin: 0 0 $h1-bottom; // Match the below the h1
+        padding: $top-adjust 0 $bottom-adjust; // Equalize line-height differences and base-align
+      }
+    }
+  }
+
+  // Also baseline-align the h3 titles in the right sidebar (event pages)
+  // to any h2 elements in the adjacent .c-cms__body container.
+  .c-cms--sidebar-right & {
+    @include media-breakpoint-up(md) {
+      padding-top: .875rem;
+    }
+  }
+}

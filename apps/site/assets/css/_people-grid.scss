@@ -1,0 +1,38 @@
+.people-grid-paragraph {
+  margin: $base-spacing 0;
+}
+
+.people-grid-photo {
+  float: left;
+  margin-bottom: $base-spacing-sm;
+  margin-right: $base-spacing-sm;
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: $base-spacing;
+    margin-right: $base-spacing;
+  }
+}
+
+.people-grid-large img {
+  font-family: 'object-fit: cover;';
+  height: 180px;
+  object-fit: cover;
+  width: 140px;
+
+  @include media-breakpoint-up(md) {
+    height: 210px;
+    width: 160px;
+  }
+}
+
+.people-grid-small img {
+  font-family: 'object-fit: cover;';
+  height: 155px;
+  object-fit: cover;
+  width: 120px;
+
+  @include media-breakpoint-up(md) {
+    height: 180px;
+    width: 140px;
+  }
+}

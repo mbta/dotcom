@@ -1,0 +1,50 @@
+<div class="container">
+  <h1 class="trip-plan-title">Trip Planner</h1>
+  <div class="trip-plan-container">
+    <%= render "_sidebar.html", assigns %>
+    <div class="trip-plan-body">
+      <%= case assigns[:query] do %>
+        <% %{itineraries: {:ok, itineraries}} -> %>
+        <p class="no-trips page-section">
+          We found
+          <%= l = length(itineraries) %>
+          <%= Inflex.inflect("trip", l) %>
+          for you
+        </p>
+        <p class="instructions page-section"><%= itinerary_explanation(@query, @modes) %></p>
+        <%= for {i,
+                routes,
+                map,
+                links,
+                itinerary_row_list,
+                index} <- Enum.zip([
+            itineraries,
+            @routes,
+            @itinerary_maps,
+            @related_links,
+            @itinerary_row_lists,
+            Stream.iterate(1, & &1 + 1)]) do
+              render "_itinerary.html",
+              itinerary: i,
+              index: index,
+              routes: routes,
+              itinerary_map: map,
+              links: links,
+              itinerary_row_list: itinerary_row_list,
+              expanded: @expanded,
+              conn: @conn
+            end %>
+        <% _ -> %>
+          <% {map_data, map_url} = {@initial_map_data , @initial_map_src} %>
+          <div class="trip-plan-initial-map map">
+            <script data-for="trip-plan-map--initial" class="js-trip-plan-map-dynamic-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
+            <div id="trip-plan-map--initial"></div>
+
+            <div class="map-static" style="background-image:url(<%= map_url %>);">
+              <span class="sr-only">Map of downtown Boston"</span>
+            </div>
+          </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,108 @@
+@import 'variables';
+
+.tab-select-btn-group {
+  @include icon-size(1.5rem);
+
+  border-bottom: $space-4 solid $btn-primary-bg;
+  border-collapse: collapse;
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  vertical-align: middle;
+
+  // Special case because of display: table-cell;
+  [class*="c-svg__icon"] {
+    vertical-align: middle;
+  }
+
+  .btn {
+    border: $tab-border;
+    border-bottom: 0;
+    border-radius: 0;
+    display: table-cell;
+    padding: $space-12;
+    text-align: center;
+
+    @include hover-focus-active {
+      background-color: $btn-primary-focus-bg;
+      color: $btn-primary-focus-color;
+    }
+  }
+
+  .tab-select-btn-selected {
+    background-color: $btn-primary-bg;
+    color: $btn-primary-color;
+    font-weight: bold;
+
+    @include hover-focus-active {
+      background-color: $btn-primary-bg;
+      color: $btn-primary-color;
+    }
+  }
+
+  .tab-select-btn-title {
+    vertical-align: middle;
+  }
+
+  .stacked-tab-label {
+    display: none;
+  }
+}
+
+.tab-select-btn-group-stacked {
+  @include media-breakpoint-down(xs) {
+    .tab-select-btn-group {
+      border-bottom: 0;
+      display: inline-block;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: $space-12;
+      text-align: left;
+      width: 100%;
+
+      &:last-child {
+        border-bottom: $tab-border;
+      }
+    }
+
+    .stacked-tab-label {
+      display: inline-block;
+      padding-bottom: $base-spacing * .875;
+    }
+  }
+}
+
+.tab-select-btn-group-partial {
+  @include media-breakpoint-up(md) {
+    .btn {
+      border-right: 0;
+      display: inline-block;
+      width: 33.33%;
+
+      &:last-child {
+        border-right: $tab-border;
+      }
+    }
+  }
+}
+
+.tab-select-btn-group-table-layout-auto {
+  .tab-select-btn-group {
+    table-layout: auto;
+  }
+}
+
+.collapse.in,
+.collapse:target {
+  + .show-mode-toggle-btn {
+    display: none;
+  }
+}
+
+.social-button-block {
+  a {
+    text-decoration: none;
+  }
+}

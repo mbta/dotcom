@@ -1,0 +1,16 @@
+<%
+  tag_id = case google_tag_manager_id() do
+    nil -> "null"
+    id -> raw("\"" <> Phoenix.HTML.javascript_escape(id) <> "\"")
+  end
+%>
+<div id="google_translate_element"></div>
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    if (document.getElementById("google_translate_element").hasChildNodes()) { return; }
+    new google.translate.TranslateElement({
+      pageLanguage: 'en', includedLanguages: 'en,ar,es,fr,ht,it,km,ko,pl,pt,ru,vi,zh-CN,zh-TW',
+      layout: null, gaTrack: true, gaId: <%= tag_id %>}, "google_translate_element");
+  }
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>

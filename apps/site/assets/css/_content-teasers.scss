@@ -1,0 +1,121 @@
+.c-teaser-list {
+
+  // For teaser lists with with images, arrange teasers
+  // into columns when displayed in the main body area.
+  @include media-breakpoint-up(sm) {
+    .c-cms__body &--page,
+    .c-cms__body &--project,
+    .c-cms__body &--project-update {
+      @include make-row();
+      .c-content-teaser {
+        @include make-col();
+        @include make-col-span(6);
+      }
+    }
+  }
+
+  // When multiple teasers are shown in series, add
+  // adequate vertical spacing between items.
+  .c-content-teaser {
+    margin-bottom: $base-spacing;
+  }
+}
+
+.c-content-teaser {
+  border: 0;
+  color: inherit;
+  display: block;
+  text-decoration: none;
+
+  &--event,
+  &--news-entry {
+    .c-content-teaser__title {
+      color: $brand-primary;
+      font-weight: 500;
+    }
+  }
+
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+
+    .c-content-teaser__title {
+      color: $brand-primary;
+    }
+  }
+
+  &:nth-child(odd) {
+    clear: both;
+  }
+
+  &--news-entry {
+    border-left: $base-spacing / 2 solid $brand-primary;
+    padding-left: $base-spacing;
+  }
+
+  &--orange-line {
+    border-color: $brand-orange-line;
+  }
+
+  &--green-line {
+    border-color: $brand-green-line;
+  }
+
+  &--red-line {
+    border-color: $brand-red-line;
+  }
+
+  &--blue-line {
+    border-color: $brand-blue-line;
+  }
+
+  &--silver-line {
+    border-color: $brand-silver-line;
+  }
+
+  &--mattapan-line {
+    border-color: $brand-red-line;
+  }
+
+  &--commuter-rail {
+    border-color: $brand-commuter-rail;
+  }
+
+  &--bus {
+    border-color: $brand-bus;
+  }
+
+  &--ferry {
+    border-color: $brand-ferry;
+  }
+
+  &--subway {
+    border-color: $brand-subway;
+  }
+
+  &--the-ride {
+    border-color: $brand-the-ride;
+  }
+}
+
+.c-content-teaser__image {
+  margin-bottom: $base-spacing / 2;
+  width: 100%;
+
+  &--guides {
+    margin-bottom: 0;
+  }
+}
+
+.c-content-teaser__date,
+.c-content-teaser__topic {
+  font-weight: 700;
+}
+
+.c-content-teaser__title {
+  margin-top: 0;
+
+  .c-content-teaser--diversion & {
+    margin-bottom: 0;
+  }
+}

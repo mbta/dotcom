@@ -1,0 +1,13 @@
+<%= if @itineraries? do %>
+  <div class="hidden-sm-up hidden-no-js" data-toggle-hide>
+    <div class="planner-location-box-location">
+      <strong>Start from:</strong> <%= Query.location_name(assigns[:query], :from) %>
+    </div>
+    <div class="planner-location-box-location">
+      <strong>End here: </strong><%= Query.location_name(assigns[:query], :to) %>
+    </div>
+      <a class="btn btn-primary trip-planner-edit-btn" data-toggle="collapse" href="#planner-form">
+        Edit trip
+      </a>
+  </div>
+<% end %>

@@ -1,0 +1,22 @@
+{
+  "id" : "2943bcf8-b285-325a-ba6a-4e449f977d86",
+  "request" : {
+    "url" : "/routes/?stop=Wakefield",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-WTQaP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:36 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mldfsjc0ibmd3a003da51",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2943bcf8-b285-325a-ba6a-4e449f977d86"
+}

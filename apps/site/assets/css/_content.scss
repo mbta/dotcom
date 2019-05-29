@@ -1,0 +1,187 @@
+.c-cms__title-prefix {
+  display: none;
+
+  // Only show "More from <title>" prefix if we are
+  // in a stacked/single column page layout (sm-down)
+  @include media-breakpoint-down(sm) {
+    display: inline;
+  }
+}
+
+.c-cms__sidebar-blurb {
+  @include media-breakpoint-up(md) {
+    display: none;
+  }
+}
+
+.c-cms__sidebar-links {
+  padding-left: 0;
+
+  li {
+    list-style-type: none;
+  }
+
+  > :last-child {
+    border-bottom: $border;
+  }
+}
+
+.c-cms__sidebar-link {
+  border-left: $border;
+  border-right: $border;
+  border-top: $border;
+  display: block;
+  padding: $base-spacing-sm $base-spacing;
+  text-decoration: none;
+
+  @include hover-focus-active {
+    background-color: $brand-primary;
+    color: $white;
+    text-decoration: none;
+  }
+}
+
+.c-cms__sidebar-link--is-current {
+  background-color: $brand-primary;
+  color: $white;
+}
+
+.landing-page-hero {
+  background-color: $gray;
+  background-position: center;
+  background-size: cover;
+  color: $white;
+  text-align: center;
+}
+
+.landing-page-titles {
+  margin: 0 auto;
+  padding: 7rem 0;
+
+  @include media-breakpoint-down(sm) {
+    padding: 4rem 0;
+    width: 80%;
+  }
+}
+
+.landing-page-title {
+  margin: 0;
+}
+
+.landing-page-subtitle {
+  font-size: 1rem;
+}
+
+.landing-page-stripe-bar {
+  margin-bottom: $base-spacing-lg;
+}
+
+.content-person-sidebar-img {
+  float: left;
+}
+
+.content-person-body {
+  @include media-breakpoint-up(sm) {
+    margin-left: 170px;
+  }
+}
+
+.content-file-grid-row {
+  margin-bottom: $base-spacing-sm;
+}
+
+.c-call-to-action {
+  border-bottom: 2px solid $brand-primary-light;
+  font-weight: 500;
+  text-decoration: none;
+
+  &.c-call-to-action--light {
+    border-color: transparentize($white, .25);
+    color: $white;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    border-color: currentColor;
+    text-decoration: none;
+  }
+}
+
+.iframe-container {
+  @include media-breakpoint-down(sm) {
+    height: 0;
+    overflow: hidden;
+    padding-bottom: 100%;
+    position: relative;
+  }
+
+  .eventview & { // FMCB livestream iframe
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 56.25%; // 16x9 Aspect Ratio
+    }
+  }
+}
+
+.iframe,
+.iframe-full-width {
+  border: 0;
+  display: block;
+  width: 100%;
+
+  @include media-breakpoint-down(sm) {
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+  }
+}
+
+.iframe {
+  @include media-breakpoint-up(md) {
+    height: $base-spacing * 19;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+}
+
+.iframe-full-width {
+  @include media-breakpoint-up(md) {
+    width: 100%;
+  }
+}
+
+.l-content-files {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: $base-spacing;
+}
+
+.c-content-file {
+  flex: 0 1 33%;
+
+  @include media-breakpoint-down(sm) {
+    flex: 0 1 50%;
+  }
+
+  @include media-breakpoint-down(xs) {
+    flex: 0 1 100%;
+  }
+}
+
+.c-content-file__link {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: $base-spacing;
+}
+
+.c-content-file__icon {
+  flex: 0 1 auto;
+  margin-right: $base-spacing / 2;
+}
+
+.c-content-file__description {
+  flex: 1 1 auto;
+  margin-right: $base-spacing;
+}

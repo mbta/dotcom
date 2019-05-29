@@ -1,0 +1,23 @@
+.c-feedback {
+  background-color: $brand-primary-lightest-contrast;
+  border: 1px solid $gray-lightest;
+  margin-top: $base-spacing;
+  padding: 0 $base-spacing / 2;
+
+  h3 {
+    margin-top: $base-spacing;
+  }
+}
+
+.c-feedback__button {
+  display: block;
+  margin: $base-spacing 0;
+
+  @include media-breakpoint-down(md) {
+    width: 50%;
+  }
+
+  @include media-breakpoint-only(xs) {
+    width: 100%;
+  }
+}

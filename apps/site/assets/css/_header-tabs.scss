@@ -1,0 +1,87 @@
+@import 'variables';
+
+.header-tabs {
+  color: $black;
+  display: flex;
+  flex: 0 0 auto;
+  margin-bottom: 0;
+}
+
+.header-tab {
+  @include make-col-span(2.5);
+
+  background-color: $transparent-white;
+  border: 0;
+  border-radius: $border-radius $border-radius 0 0;
+  color: $black;
+  font-weight: bold;
+  padding: $space-12;
+  position: relative;
+  text-align: center;
+
+  @include media-breakpoint-down(md) {
+    width: 100%;
+  }
+
+  @include media-breakpoint-down(xs) {
+    font-size: $base-spacing * .85714; // 12 / 14
+    padding: $space-8;
+  }
+
+  @include hover-focus-active {
+    background-color: $white;
+    text-decoration: none;
+
+    &::before {
+      border-bottom-color: $brand-secondary;
+      border-bottom-style: solid;
+      border-bottom-width: $space-6;
+      bottom: 0;
+      content: ' ';
+      left: 0;
+      position: absolute;
+      width: 100%;
+    }
+  }
+}
+
+.header-tab--bus {
+  @include hover-focus-active {
+
+    &::before {
+      border-bottom-color: $brand-secondary-dark;
+    }
+  }
+}
+
+.header-tab--dark {
+  background-color: $transparent-gray;
+}
+
+.header-tab:not(:last-child) {
+  margin-right: $base-spacing;
+
+  @include media-breakpoint-down(xs) {
+    margin-right: $base-spacing / 4;
+  }
+}
+
+.header-tab--selected {
+  background-color: $white;
+  cursor: default;
+
+  @include hover-focus-active {
+    background-color: $white;
+    text-decoration: none;
+
+    &::before {
+      border: 0;
+    }
+  }
+}
+
+.header-tab--alert {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}

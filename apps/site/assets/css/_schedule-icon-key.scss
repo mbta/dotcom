@@ -1,0 +1,7 @@
+.m-schedule-icon-key-container {
+  @include icon-size-inline(1.5em);
+
+  [class*=c-svg__icon] {
+    margin-right: $base-spacing;
+  }
+}

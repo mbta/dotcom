@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StopWithRoutesCard it renders a stop card 1`] = `
+<div
+  className="m-tnm-sidebar__stop-card"
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  role="button"
+  style={
+    Object {
+      "cursor": "pointer",
+    }
+  }
+  tabIndex={0}
+>
+  <div
+    className="m-tnm-sidebar__stop-card-header"
+  >
+    <a
+      className="m-tnm-sidebar__stop-card-name"
+    >
+      Charles St S @ Park Plaza
+    </a>
+    <div
+      className="m-tnm-sidebar__stop-distance"
+    >
+      .1 mi
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__stop-card-description"
+  >
+    <span
+      className="m-tnm-sidebar__stop-route-name"
+    >
+      <span
+        className="m-tnm-sidebar__mode-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span>
+        Bus: 
+        <a
+          href="/schedules/43?origin=1241"
+        >
+          43
+        </a>
+        
+      </span>
+    </span>
+  </div>
+</div>
+`;

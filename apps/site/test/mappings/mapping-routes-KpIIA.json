@@ -1,0 +1,22 @@
+{
+  "id" : "35a09aa7-e657-3495-bbac-01042d6912fe",
+  "request" : {
+    "url" : "/routes/?stop=47&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-KpIIA.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:11 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1j7ge1bsh8r7g03bfr1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "35a09aa7-e657-3495-bbac-01042d6912fe"
+}

@@ -1,0 +1,6 @@
+all:
+  exclude:
+    - "apps/site/mappings/*"
+    - "apps/site/__files/*"
+    - "apps/site/test/backstop_data/**/*"
+    - "apps/site/vendor/**/*"

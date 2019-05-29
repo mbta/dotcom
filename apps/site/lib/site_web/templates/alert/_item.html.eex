@@ -1,0 +1,41 @@
+<% label = Alerts.Alert.human_label(@alert) %>
+<% alert_icon_type = Alerts.Alert.icon(@alert) %>
+<li tabindex="0"
+    class="c-alert-item c-alert-item--<%= @alert.priority %>
+           <%= if @alert.description, do: "js-toggle-alert" %>
+           <%= if @alert.description, do: "c-alert-item--expandable" %>"
+           <%= if @alert.description, do: raw("aria-expanded=\"false\" role=\"button\"") %>>
+  <div class="c-alert-item__icon">
+    <%= alert_icon(alert_icon_type) %>
+  </div>
+  <div class="c-alert-item__top">
+    <div class="c-alert-item__top-text-container">
+      <div class="c-alert-item__effect">
+        <%= effect_name(@alert) %>
+        <%= unless label == "" do
+          content_tag(:span, [label], class: alert_label_class(@alert))
+        end %>
+      </div>
+      <div>
+        <%= replace_urls_with_links(@alert.header) %>
+      </div>
+    </div>
+    <div class="c-alert-item__top-caret-container">
+      <%= if @alert.description do %>
+        <%= fa "angle-up", class: "c-alert-item__caret--up" %>
+        <%= fa "angle-down", class: "c-alert-item__caret--down" %>
+      <% end %>
+    </div>
+  </div>
+  <%= if @alert.description do %>
+    <div class="c-alert-item__bottom c-alert-item__bottom--<%= @alert.priority %>">
+      <div class="c-alert-item__description">
+        <%= format_alert_description(@alert.description) %>
+
+        <div class="c-alert-item__updated">
+          <%= alert_updated(@alert, @date_time) %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</li>

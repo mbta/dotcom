@@ -1,0 +1,22 @@
+{
+  "id" : "24a762fa-82bb-34ce-88d6-e5a9502f99ec",
+  "request" : {
+    "url" : "/routes/?stop=Wachusett",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-SntLR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:35 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mldestdnavqc5t003d8e1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "24a762fa-82bb-34ce-88d6-e5a9502f99ec"
+}

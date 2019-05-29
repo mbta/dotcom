@@ -1,0 +1,379 @@
+[
+  {
+    "nid": [
+      {
+        "value": 3727
+      }
+    ],
+    "uuid": [
+      {
+        "value": "5d75b19f-02a2-452f-a3dd-e68cc8c7dd15"
+      }
+    ],
+    "vid": [
+      {
+        "value": 13965
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "what_s_happening_item",
+        "target_type": "node_type",
+        "target_uuid": "c80a5c1a-7478-48e3-a10d-a6158ad39703"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1536615988
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Visitor's Guide"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 19,
+        "target_type": "user",
+        "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+        "url": "/user/19"
+      }
+    ],
+    "created": [
+      {
+        "value": 1534187858
+      }
+    ],
+    "changed": [
+      {
+        "value": 1536615988
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "path": [
+      {
+        "alias": null,
+        "pid": null,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "field_page_type": [
+      { "data": null, "id": 248, "name": "Guides", "vocab": "page_type" }
+    ],
+    "field_image": [
+      {
+        "url": "https://test-mbta.pantheonsite.io/sites/default/files/styles/whats_happening/public/media/2018-08/george-washington-public-garden.jpg?itok=1Ud1qVel",
+        "alt": "boston public garden george washington"
+      }
+    ],
+    "field_wh_blurb": [
+      {
+        "value": "Visiting Boston? Find your way around with our new Visitor's Guide to the T."
+      }
+    ],
+    "field_wh_link": [
+      {
+        "uri": "/guides/boston-visitor-guide",
+        "title": "",
+        "options": []
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3755
+      }
+    ],
+    "uuid": [
+      {
+        "value": "24487237-19b9-4fd5-82c2-c1b35d43b989"
+      }
+    ],
+    "vid": [
+      {
+        "value": 13728
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "what_s_happening_item",
+        "target_type": "node_type",
+        "target_uuid": "c80a5c1a-7478-48e3-a10d-a6158ad39703"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1535972472
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Late Night Bus"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1535888758
+      }
+    ],
+    "changed": [
+      {
+        "value": 1535972472
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "path": [
+      {
+        "alias": null,
+        "pid": null,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "field_page_type": [],
+    "field_image": [
+      {
+        "url": "https://test-mbta.pantheonsite.io/sites/default/files/styles/whats_happening/public/projects/late-night-bus/night-bus-by-osman-rana-unsplash.jpg?itok=K3LGpv53",
+        "alt": "A bus at night in downtown Boston, Photo by Osman Rana, via Unsplash."
+      }
+    ],
+    "field_wh_blurb": [
+      {
+        "value": "The MBTA now offers expanded bus service from 10 PM – 3 AM every night."
+      }
+    ],
+    "field_wh_link": [
+      {
+        "uri": "/projects/late-night-bus-service",
+        "title": "",
+        "options": []
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3642
+      }
+    ],
+    "uuid": [
+      {
+        "value": "b39e4c4a-f282-437a-b0fc-8fa8a9428053"
+      }
+    ],
+    "vid": [
+      {
+        "value": 13705
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "what_s_happening_item",
+        "target_type": "node_type",
+        "target_uuid": "c80a5c1a-7478-48e3-a10d-a6158ad39703"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1535743306
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Parking Prices Update"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1528818730
+      }
+    ],
+    "changed": [
+      {
+        "value": 1535743306
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "path": [
+      {
+        "alias": null,
+        "pid": null,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "field_page_type": [],
+    "field_image": [
+      {
+        "url": "https://test-mbta.pantheonsite.io/sites/default/files/styles/whats_happening/public/projects/parking-prices/wonderland-garage-3x2.jpg?itok=EIp8rbO6",
+        "alt": "Cars are parked on the top level of the Wonderland Garage, bright sunshine"
+      }
+    ],
+    "field_wh_blurb": [
+      {
+        "value": "Learn about the new parking prices at MBTA lots and garages."
+      }
+    ],
+    "field_wh_link": [
+      {
+        "uri": "internal:/parkingprices",
+        "title": "",
+        "options": []
+      }
+    ]
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "response": {
+    "numFound": 0,
+    "start": 0,
+    "maxScore": 0,
+    "docs": []
+  },
+  "facet_counts": {
+    "facet_queries": [],
+    "facet_fields": {
+      "content_type": [
+        "event",
+        0,
+        "landing_page",
+        0,
+        "news_entry",
+        0,
+        "page",
+        0,
+        "person",
+        0
+      ]
+    },
+    "facet_dates": [],
+    "facet_ranges": []
+  }
+}

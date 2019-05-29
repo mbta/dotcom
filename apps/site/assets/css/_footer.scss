@@ -1,0 +1,95 @@
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+//
+// GENERAL FOOTER STYLES
+//
+//
+
+.m-footer {
+  background-color: $footer-color;
+  color: $white;
+  min-width: 20rem;
+  padding-bottom: $base-spacing * 2;
+  padding-top: $base-spacing * 2;
+
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-base;
+  }
+
+  @include media-breakpoint-down(md) {
+    font-size: $font-size-base-sm;
+  }
+
+  @media print {
+    display: none;
+  }
+}
+
+.m-footer__group {
+  @include media-breakpoint-up(md) {
+    @include make-col();
+    @include make-col-span(3);
+    padding-bottom: $base-spacing * 2;
+  }
+}
+
+.m-footer__group-title {
+  @include h5();
+  font-size: 1.04em; // Tweak so that titles appear same size as links (~15px)
+  margin-bottom: .5rem; // Match vertical spacing of listed items below
+}
+
+.m-footer__item {
+  display: block;
+  margin: .25rem 0;
+
+  a {
+    color: $brand-primary-light-contrast;
+  }
+}
+
+.m-footer__copyright {
+  font-size: $font-size-base-xs;
+}
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+//
+// MOBILE FOOTER STYLES
+//
+
+@include media-breakpoint-down(sm) {
+  .m-footer__group {
+    display: none;
+  }
+
+  .m-footer__group-title {
+    display: none;
+  }
+
+  .m-footer--mobile__group {
+    display: block;
+  }
+
+  .m-footer--mobile__items {
+    text-align: center;
+
+    @include not-last-child {
+      &::after {
+        color: $white;
+        content: '●';
+        margin-left: .25em;
+        margin-right: .25em;
+      }
+    }
+  }
+
+  .m-footer--mobile__item {
+    display: inline;
+  }
+
+  .m-footer__copyright {
+    padding-top: 0;
+    text-align: center;
+  }
+}

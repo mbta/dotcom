@@ -1,0 +1,1117 @@
+[
+  {
+    "nid": [
+      {
+        "value": 3004
+      }
+    ],
+    "uuid": [
+      {
+        "value": "6c72a458-6158-4080-9282-52387841237e"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10113
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project",
+        "target_type": "node_type",
+        "target_uuid": "d5951988-9e07-45d9-9e6c-bbf540ed62cc"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522675473
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Wollaston Station Improvements"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 17,
+        "target_type": "user",
+        "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+        "url": "/user/17"
+      }
+    ],
+    "created": [
+      {
+        "value": 1506603085
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522675473
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": false
+      }
+    ],
+    "path": [],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>Major accessibility improvements, state-of-the-art safety features, and parking lot site improvements are some of the enhancements to be made during the project renovating Wollaston Station as part of the $911 million investment committed to improve the South Side Red Line.</p>\r\n\r\n<p>Currently the only non ADA-accessible station on the Red Line, Wollaston will be transformed into a modern, fully accessible facility, making the entirety of the Red Line 100% accessible.</p>\r\n\r\n<p>New features and upgrades to the station include 3 brand new elevators, 2 new escalators, and additional customer paths to / from the new station, including 2 additional stairways, new bathrooms, and energy efficient lighting. New electrical, fire protection, security, flooding mitigation, and site utility upgrades will also occur to support the accessible improvements. The estimated construction value of the Wollaston Station Improvements is $33 million.</p>\r\n\r\n<h2>Service Alerts</h2>\r\n\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<p>Wollaston Station will be closed for renovation from January 8, 2018 to summer 2019. Bus shuttles replace train service.</p>\r\n\r\n<p><a href=\"/projects/wollaston-station/project-updates/how-the-wollaston-station-improvements-affect-your-trip\">Find out how the Wollaston Station closure will affect your trip {{ fa \"arrow-right\" }}</a></p>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<p><img alt=\"A white Yankee coach on the right, along the sidewalk by a bus shelter. An MBTA worker in a neon vest stands nearby.\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1000\" src=\"/sites/default/files/projects/wollaston-bus-shuttle-yankee.jpg\" width=\"1348\" /></p>\r\n</div>\r\n</div>\r\n",
+        "format": "full_html",
+        "processed": "<p>Major accessibility improvements, state-of-the-art safety features, and parking lot site improvements are some of the enhancements to be made during the project renovating Wollaston Station as part of the $911 million investment committed to improve the South Side Red Line.</p>\n\n<p>Currently the only non ADA-accessible station on the Red Line, Wollaston will be transformed into a modern, fully accessible facility, making the entirety of the Red Line 100% accessible.</p>\n\n<p>New features and upgrades to the station include 3 brand new elevators, 2 new escalators, and additional customer paths to / from the new station, including 2 additional stairways, new bathrooms, and energy efficient lighting. New electrical, fire protection, security, flooding mitigation, and site utility upgrades will also occur to support the accessible improvements. The estimated construction value of the Wollaston Station Improvements is $33 million.</p>\n\n<h2>Service Alerts</h2>\n\n<div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<p>Wollaston Station will be closed for renovation from January 8, 2018 to summer 2019. Bus shuttles replace train service.</p>\n\n<p><a href=\"/projects/wollaston-station/project-updates/how-the-wollaston-station-improvements-affect-your-trip\">Find out how the Wollaston Station closure will affect your trip {{ fa \"arrow-right\" }}</a></p>\n</div>\n\n<div class=\"col-md-6 col-2\">\n<p><img alt=\"A white Yankee coach on the right, along the sidewalk by a bus shelter. An MBTA worker in a neon vest stands nearby.\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1000\" src=\"/sites/default/files/projects/wollaston-bus-shuttle-yankee.jpg\" width=\"1348\" /></p>\n</div>\n</div>\n",
+        "summary": ""
+      }
+    ],
+    "field_contact_information": [
+      {
+        "value": "MBTA Customer Support"
+      }
+    ],
+    "field_end_year": [
+      {
+        "value": "2020"
+      }
+    ],
+    "field_featured": [
+      {
+        "value": true
+      }
+    ],
+    "field_featured_image": [
+      {
+        "target_id": 722,
+        "alt": "Red Line train departing from Wollaston Station during the day",
+        "title": "",
+        "width": 1400,
+        "height": 932,
+        "target_type": "file",
+        "target_uuid": "6224ad11-cb92-4751-b237-bf2635a67cbf",
+        "url": "https://mbta.kbox.site/sites/default/files/2017-09/wollaston-station-train-departure-1400.JPG",
+        "mime_type": "image/jpeg"
+      }
+    ],
+    "field_files": [],
+    "field_keywords": [
+      {
+        "value": "wollaston station wollaston closure wollaston closed wollaston shuttle wollaston bus shuttle wollaston shuttle bus"
+      }
+    ],
+    "field_media_email": [
+      {
+        "value": "wollaston@mbta.com"
+      }
+    ],
+    "field_media_phone": [
+      {
+        "value": "617-222-3200"
+      }
+    ],
+    "field_page_type": [],
+    "field_paragraphs": [
+      {
+        "target_id": 6000,
+        "target_revision_id": 108826,
+        "id": [
+          {
+            "value": 6000
+          }
+        ],
+        "uuid": [
+          {
+            "value": "9d1e39f3-c3f6-469d-8ef9-01ef0c790f4d"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 108826
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "type": [
+          {
+            "target_id": "custom_html",
+            "target_type": "paragraphs_type",
+            "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+          }
+        ],
+        "uid": [
+          {
+            "target_id": 29,
+            "target_type": "user",
+            "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+            "url": "/user/29"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1551306663
+          }
+        ],
+        "revision_uid": [
+          {
+            "target_id": 29,
+            "target_type": "user",
+            "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+            "url": "/user/29"
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "3164"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": []
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "field_custom_html_body": [
+          {
+            "value": "<p>Testing</p>\r\n",
+            "format": "full_html",
+            "processed": "<p>Testing</p>\n"
+          }
+        ],
+        "field_right_rail": [
+          {
+            "value": false
+          }
+        ]
+      }
+    ],
+    "field_photo_gallery": [
+      {
+        "target_id": 685,
+        "alt": "Wollaston Station",
+        "title": "",
+        "width": 800,
+        "height": 437,
+        "target_type": "file",
+        "target_uuid": "5f5957dd-52ba-4391-91bd-ceddc08a509f",
+        "url": "https://mbta.kbox.site/sites/default/files/2017-09/wollaston-renovated-lobby-and-entrance-from-parking-lot-800_0.jpeg",
+        "mime_type": "image/jpeg"
+      },
+      {
+        "target_id": 691,
+        "alt": "New Wollaston Station Stairs and Elevators",
+        "title": "",
+        "width": 800,
+        "height": 369,
+        "target_type": "file",
+        "target_uuid": "679e21d2-9ecc-48c5-bdfc-72c0800c00e4",
+        "url": "https://mbta.kbox.site/sites/default/files/2017-09/wollaston-stairs-and-elevators-to-access-platform-800_1.jpeg",
+        "mime_type": "image/jpeg"
+      },
+      {
+        "target_id": 686,
+        "alt": "New Wollaston Bridge to Platform",
+        "title": "",
+        "width": 800,
+        "height": 432,
+        "target_type": "file",
+        "target_uuid": "f44d1aba-4478-401d-bd08-d5ce67b6c97d",
+        "url": "https://mbta.kbox.site/sites/default/files/2017-09/wollaston-bridge-access-platform-800_0.jpeg",
+        "mime_type": "image/jpeg"
+      },
+      {
+        "target_id": 690,
+        "alt": "Wollaston Station Entrance",
+        "title": "",
+        "width": 4256,
+        "height": 2832,
+        "target_type": "file",
+        "target_uuid": "9254e52f-2753-4e99-8382-6740cea6bb17",
+        "url": "https://mbta.kbox.site/sites/default/files/2017-09/wollaston-entrance-now.JPG",
+        "mime_type": "image/jpeg"
+      },
+      {
+        "target_id": 693,
+        "alt": "Wollaston Station Platform",
+        "title": "",
+        "width": 2000,
+        "height": 1331,
+        "target_type": "file",
+        "target_uuid": "446d77aa-3bbe-45cc-a319-eac81e785ff7",
+        "url": "https://mbta.kbox.site/sites/default/files/2017-09/wollaston-station-platform-sign.JPG",
+        "mime_type": "image/jpeg"
+      }
+    ],
+    "field_project_status": [
+      {
+        "value": "Construction"
+      }
+    ],
+    "field_related_transit": [],
+    "field_start_year": [
+      {
+        "value": "2017"
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "Wollaston Station will be completely renovated to become an accessible, modern, code-compliant station. "
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2018-04-02"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3480
+      }
+    ],
+    "uuid": [
+      {
+        "value": "e5075956-e59c-42ce-9a14-17a1f49d131e"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10110
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project",
+        "target_type": "node_type",
+        "target_uuid": "d5951988-9e07-45d9-9e6c-bbf540ed62cc"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522661616
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 17,
+        "target_type": "user",
+        "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+        "url": "/user/17"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Silver Line 3 Chelsea (SL3)"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1520643035
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522661616
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": false
+      }
+    ],
+    "path": [
+      {
+        "alias": "/projects/project-name",
+        "pid": 3530,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p><a href=\"https://www.mbta.com/projects/silver-line-3-chelsea#googtrans(es)\" target=\"_blank\">En Español {{fa \"arrow-right\"}}</a></p>\r\n\r\n<h2>What is the SL3?</h2>\r\n\r\n<p>Travel between Boston and Chelsea will be easier and faster once <a href=\"/schedules/743\">Silver Line 3 Chelsea (SL3) service</a> begins on April 21, 2018.</p>\r\n\r\n<p>For the cost of a standard subway fare, the SL3 provides direct access to Logan Airport, the Seaport District, and South Station. The larger Silver Line buses travel in bus-only lanes and tunnels to avoid traffic—and you don't need to transfer to another line or mode of transit to get to Boston.</p>\r\n\r\n<hr />\r\n<h2>Who is the SL3 for?</h2>\r\n\r\n<p>Residents of Chelsea, Revere, or East Boston who need to go to Logan Airport, the Seaport District, or South Station.</p>\r\n\r\n<p>The SL3 may offer faster service if you:</p>\r\n\r\n<ul>\r\n\t<li><strong>Take MBTA bus routes 111, 112, 114, 116, or 117. </strong>The SL3 offers fewer stops and transfers along these key bus routes, and it travels in exclusive bus lanes to avoid traffic.</li>\r\n\t<li><strong>Transfer from the Blue Line to get to South Station or the Seaport. </strong>The SL3 offers direct service to both.</li>\r\n\t<li><strong>Take taxis or rideshares to the airport. </strong>The SL3 stops at Airport Station on the Blue Line for a fraction of the cost of a taxi or rideshare.</li>\r\n\t<li><strong>Drive to Boston. </strong>Taking public transit saves you money on tolls, gas, and parking. In addition, the SL3 travels in exclusive bus lanes to avoid traffic.</li>\r\n</ul>\r\n\r\n<hr />\r\n<h2>Where does the SL3 stop?</h2>\r\n\r\n<p><iframe src=\"https://www.google.com/maps/d/embed?mid=16t8KpwnXJdM6voTbeOurcg7Z9wN186jp\"></iframe></p>\r\n\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<h3>New Stations in Chelsea</h3>\r\n\r\n<p><a href=\"/sites/default/files/projects/silverline3/sl3-chelsea-station-large-crop.jpg\"><img alt=\"sl3-chelsea-station-large-crop.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1321\" src=\"/sites/default/files/projects/silverline3/sl3-chelsea-station-large-crop.jpg\" width=\"1982\" /></a></p>\r\n\r\n<p>The SL3 stops at 4 new Silver Line stations in Chelsea:</p>\r\n\r\n<ul>\r\n\t<li><a href=\"/stops/place-chels\">Chelsea Station </a>(174 Everett Ave)</li>\r\n\t<li><a href=\"/stops/place-belsq\">Bellingham Station</a> (225 Arlington St)</li>\r\n\t<li><a href=\"/stops//place-boxdt\">Box District Station </a>(200 Highland St)</li>\r\n\t<li><a href=\"/stops/place-estav\">Eastern Ave Station</a> (40 Eastern Ave)</li>\r\n</ul>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<h3>Existing Stations in Boston</h3>\r\n\r\n<p><a href=\"/sites/default/files/projects/silverline3/sl3-airport-station-curbside.jpg\"><img alt=\"sl3-airport-station-curbside.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1321\" src=\"/sites/default/files/projects/silverline3/sl3-airport-station-curbside.jpg\" width=\"1982\" /></a></p>\r\n\r\n<p>The SL3 also stops at these MBTA stations in Boston:</p>\r\n\r\n<ul>\r\n\t<li><a href=\"/stops/place-aport\">Airport Station</a></li>\r\n\t<li><a href=\"/stops/74614\">Silver Line Way</a></li>\r\n\t<li><a href=\"/stops/place-crtst\">Courthouse Station</a></li>\r\n\t<li><a href=\"/stops/place-wtcst\">World Trade Center Station</a></li>\r\n\t<li><a href=\"/stops/place-sstat\">South Station</a></li>\r\n</ul>\r\n</div>\r\n</div>\r\n\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<h3>Accessibility of New Stations</h3>\r\n\r\n<p>All stations feature raised boarding platforms with detectable warnings.</p>\r\n\r\n<p><a href=\"/stops/place-belsq\">Bellingham Station</a> is accessible via the north side of 6th St.</p>\r\n\r\n<h3>Features of New Stations</h3>\r\n\r\n<p>The stations improve on standard MBTA bus stops. They include:</p>\r\n\r\n<ul>\r\n\t<li>Emergency/customer service call boxes</li>\r\n\t<li>Canopies to provide weather protection</li>\r\n\t<li>Canopied bike racks</li>\r\n</ul>\r\n\r\n<h3>Neighborhood Maps of New Stations</h3>\r\n\r\n<p><a href=\"/sites/default/files/projects/silverline3/neighborhood-map-chelsea.pdf\">{{fa \"file-pdf-o\"}} Chelsea Station map</a><br />\r\n<a href=\"/sites/default/files/projects/silverline3/neighborhood-map-bellingham.pdf\">{{fa \"file-pdf-o\"}} Bellingham Station map</a><br />\r\n<a href=\"/sites/default/files/projects/silverline3/neighborhood-map-box-district.pdf\">{{fa \"file-pdf-o\"}} Box District Station map</a><br />\r\n<a href=\"/sites/default/files/projects/silverline3/neighborhood-map-eastern-ave.pdf\">{{fa \"file-pdf-o\"}} Eastern Ave Station map</a></p>\r\n\r\n<ul>\r\n</ul>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<p><a href=\"/sites/default/files/projects/silverline3/sl3-going-your-way-map-revised.jpg\"><img alt=\"Stylized map showing the 4 new stops in Chelsea, Airport Station on the Blue Line, 3 Silver Line stops, and South Station on the Red Line.\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1651\" src=\"/sites/default/files/projects/silverline3/sl3-going-your-way-map-revised.jpg\" width=\"1276\" /></a></p>\r\n\r\n<p><a href=\"/sites/default/files/projects/silverline3/sl3-going-your-way-map-revised.jpg\">{{fa \"search-plus\"}} View larger map</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<h2>When does the SL3 run?</h2>\r\n\r\n<ul>\r\n</ul>\r\n\r\n<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\">\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th scope=\"col\">Day</th>\r\n\t\t\t<th scope=\"col\">First inbound trip</th>\r\n\t\t\t<th scope=\"col\">Last outbound trip</th>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>Monday – Friday</td>\r\n\t\t\t<td>5:00 AM</td>\r\n\t\t\t<td>12:55 AM</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>Saturday</td>\r\n\t\t\t<td>5:30 AM</td>\r\n\t\t\t<td>12:55 AM</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>Sunday</td>\r\n\t\t\t<td>6:30 AM</td>\r\n\t\t\t<td>12:55 AM</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p>The SL3 runs:</p>\r\n\r\n<ul>\r\n\t<li>Every 10 minutes during peak times (7 AM – 9 AM and 4 PM – 6 PM)</li>\r\n\t<li>Every 12-15 minutes during off-peak times and on weekends</li>\r\n</ul>\r\n\r\n<p>A one-way, end-to-end trip between Chelsea Station and South Station takes about 30 minutes.</p>\r\n\r\n<p><a href=\"/schedules/743\">View the SL3 schedule {{fa \"arrow-right\"}}</a></p>\r\n\r\n<p><a href=\"/sites/default/files/route_pdfs/2018-spring/rtSilver123.pdf\">{{fa \"file-pdf-o\"}} Download the PDF schedule</a></p>\r\n\r\n<hr />\r\n<h2>How much does the SL3 cost?</h2>\r\n\r\n<p>A single-ride fare on the SL3 is a standard subway fare:</p>\r\n\r\n<ul>\r\n\t<li>$2.25 with a CharlieCard</li>\r\n\t<li>$2.75 with a CharlieTicket</li>\r\n</ul>\r\n\r\n<p>Transfers to other subway lines are free.</p>\r\n\r\n<p><a href=\"/fares/transfers\">Learn more about transfers to other modes {{ fa \"arrow-right\" }}</a></p>\r\n\r\n<hr />\r\n<h2>What are the buses like?</h2>\r\n\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<p><a href=\"/sites/default/files/projects/silverline3/silver-line-south-station-passengers.jpg\"><img alt=\"silver-line-south-station-passengers.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1321\" src=\"/sites/default/files/projects/silverline3/silver-line-south-station-passengers.jpg\" width=\"1981\" /></a></p>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<p><a href=\"/sites/default/files/projects/silverline3/sl3-bus-interior-revised.jpg\"><img alt=\"sl3-bus-interior-revised.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"534\" src=\"/sites/default/files/projects/silverline3/sl3-bus-interior-revised.jpg\" width=\"800\" /></a></p>\r\n</div>\r\n</div>\r\n\r\n<p>SL3 rapid transit buses are roomier and offer a smoother ride than other MBTA buses. Like other Silver Line buses, they include plenty of space for luggage if you’re going to the airport.</p>\r\n\r\n<p>All Silver Line buses are accessible to people with disabilities.</p>\r\n\r\n<hr />",
+        "format": "full_html",
+        "processed": "<p><a href=\"https://www.mbta.com/projects/silver-line-3-chelsea#googtrans(es)\" target=\"_blank\">En Español {{fa \"arrow-right\"}}</a></p>\n\n<h2>What is the SL3?</h2>\n\n<p>Travel between Boston and Chelsea will be easier and faster once <a href=\"/schedules/743\">Silver Line 3 Chelsea (SL3) service</a> begins on April 21, 2018.</p>\n\n<p>For the cost of a standard subway fare, the SL3 provides direct access to Logan Airport, the Seaport District, and South Station. The larger Silver Line buses travel in bus-only lanes and tunnels to avoid traffic—and you don't need to transfer to another line or mode of transit to get to Boston.</p>\n\n<hr /><h2>Who is the SL3 for?</h2>\n\n<p>Residents of Chelsea, Revere, or East Boston who need to go to Logan Airport, the Seaport District, or South Station.</p>\n\n<p>The SL3 may offer faster service if you:</p>\n\n<ul><li><strong>Take MBTA bus routes 111, 112, 114, 116, or 117. </strong>The SL3 offers fewer stops and transfers along these key bus routes, and it travels in exclusive bus lanes to avoid traffic.</li>\n\t<li><strong>Transfer from the Blue Line to get to South Station or the Seaport. </strong>The SL3 offers direct service to both.</li>\n\t<li><strong>Take taxis or rideshares to the airport. </strong>The SL3 stops at Airport Station on the Blue Line for a fraction of the cost of a taxi or rideshare.</li>\n\t<li><strong>Drive to Boston. </strong>Taking public transit saves you money on tolls, gas, and parking. In addition, the SL3 travels in exclusive bus lanes to avoid traffic.</li>\n</ul><hr /><h2>Where does the SL3 stop?</h2>\n\n<p><iframe src=\"https://www.google.com/maps/d/embed?mid=16t8KpwnXJdM6voTbeOurcg7Z9wN186jp\"></iframe></p>\n\n<div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<h3>New Stations in Chelsea</h3>\n\n<p><a href=\"/sites/default/files/projects/silverline3/sl3-chelsea-station-large-crop.jpg\"><img alt=\"sl3-chelsea-station-large-crop.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1321\" src=\"/sites/default/files/projects/silverline3/sl3-chelsea-station-large-crop.jpg\" width=\"1982\" /></a></p>\n\n<p>The SL3 stops at 4 new Silver Line stations in Chelsea:</p>\n\n<ul><li><a href=\"/stops/place-chels\">Chelsea Station </a>(174 Everett Ave)</li>\n\t<li><a href=\"/stops/place-belsq\">Bellingham Station</a> (225 Arlington St)</li>\n\t<li><a href=\"/stops//place-boxdt\">Box District Station </a>(200 Highland St)</li>\n\t<li><a href=\"/stops/place-estav\">Eastern Ave Station</a> (40 Eastern Ave)</li>\n</ul></div>\n\n<div class=\"col-md-6 col-2\">\n<h3>Existing Stations in Boston</h3>\n\n<p><a href=\"/sites/default/files/projects/silverline3/sl3-airport-station-curbside.jpg\"><img alt=\"sl3-airport-station-curbside.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1321\" src=\"/sites/default/files/projects/silverline3/sl3-airport-station-curbside.jpg\" width=\"1982\" /></a></p>\n\n<p>The SL3 also stops at these MBTA stations in Boston:</p>\n\n<ul><li><a href=\"/stops/place-aport\">Airport Station</a></li>\n\t<li><a href=\"/stops/74614\">Silver Line Way</a></li>\n\t<li><a href=\"/stops/place-crtst\">Courthouse Station</a></li>\n\t<li><a href=\"/stops/place-wtcst\">World Trade Center Station</a></li>\n\t<li><a href=\"/stops/place-sstat\">South Station</a></li>\n</ul></div>\n</div>\n\n<div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<h3>Accessibility of New Stations</h3>\n\n<p>All stations feature raised boarding platforms with detectable warnings.</p>\n\n<p><a href=\"/stops/place-belsq\">Bellingham Station</a> is accessible via the north side of 6th St.</p>\n\n<h3>Features of New Stations</h3>\n\n<p>The stations improve on standard MBTA bus stops. They include:</p>\n\n<ul><li>Emergency/customer service call boxes</li>\n\t<li>Canopies to provide weather protection</li>\n\t<li>Canopied bike racks</li>\n</ul><h3>Neighborhood Maps of New Stations</h3>\n\n<p><a href=\"/sites/default/files/projects/silverline3/neighborhood-map-chelsea.pdf\">{{fa \"file-pdf-o\"}} Chelsea Station map</a><br /><a href=\"/sites/default/files/projects/silverline3/neighborhood-map-bellingham.pdf\">{{fa \"file-pdf-o\"}} Bellingham Station map</a><br /><a href=\"/sites/default/files/projects/silverline3/neighborhood-map-box-district.pdf\">{{fa \"file-pdf-o\"}} Box District Station map</a><br /><a href=\"/sites/default/files/projects/silverline3/neighborhood-map-eastern-ave.pdf\">{{fa \"file-pdf-o\"}} Eastern Ave Station map</a></p>\n\n<ul></ul></div>\n\n<div class=\"col-md-6 col-2\">\n<p><a href=\"/sites/default/files/projects/silverline3/sl3-going-your-way-map-revised.jpg\"><img alt=\"Stylized map showing the 4 new stops in Chelsea, Airport Station on the Blue Line, 3 Silver Line stops, and South Station on the Red Line.\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1651\" src=\"/sites/default/files/projects/silverline3/sl3-going-your-way-map-revised.jpg\" width=\"1276\" /></a></p>\n\n<p><a href=\"/sites/default/files/projects/silverline3/sl3-going-your-way-map-revised.jpg\">{{fa \"search-plus\"}} View larger map</a></p>\n</div>\n</div>\n\n<hr /><h2>When does the SL3 run?</h2>\n\n<ul></ul><table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\"><thead><tr><th scope=\"col\">Day</th>\n\t\t\t<th scope=\"col\">First inbound trip</th>\n\t\t\t<th scope=\"col\">Last outbound trip</th>\n\t\t</tr></thead><tbody><tr><td>Monday – Friday</td>\n\t\t\t<td>5:00 AM</td>\n\t\t\t<td>12:55 AM</td>\n\t\t</tr><tr><td>Saturday</td>\n\t\t\t<td>5:30 AM</td>\n\t\t\t<td>12:55 AM</td>\n\t\t</tr><tr><td>Sunday</td>\n\t\t\t<td>6:30 AM</td>\n\t\t\t<td>12:55 AM</td>\n\t\t</tr></tbody></table><p>The SL3 runs:</p>\n\n<ul><li>Every 10 minutes during peak times (7 AM – 9 AM and 4 PM – 6 PM)</li>\n\t<li>Every 12-15 minutes during off-peak times and on weekends</li>\n</ul><p>A one-way, end-to-end trip between Chelsea Station and South Station takes about 30 minutes.</p>\n\n<p><a href=\"/schedules/743\">View the SL3 schedule {{fa \"arrow-right\"}}</a></p>\n\n<p><a href=\"/sites/default/files/route_pdfs/2018-spring/rtSilver123.pdf\">{{fa \"file-pdf-o\"}} Download the PDF schedule</a></p>\n\n<hr /><h2>How much does the SL3 cost?</h2>\n\n<p>A single-ride fare on the SL3 is a standard subway fare:</p>\n\n<ul><li>$2.25 with a CharlieCard</li>\n\t<li>$2.75 with a CharlieTicket</li>\n</ul><p>Transfers to other subway lines are free.</p>\n\n<p><a href=\"/fares/transfers\">Learn more about transfers to other modes {{ fa \"arrow-right\" }}</a></p>\n\n<hr /><h2>What are the buses like?</h2>\n\n<div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<p><a href=\"/sites/default/files/projects/silverline3/silver-line-south-station-passengers.jpg\"><img alt=\"silver-line-south-station-passengers.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1321\" src=\"/sites/default/files/projects/silverline3/silver-line-south-station-passengers.jpg\" width=\"1981\" /></a></p>\n</div>\n\n<div class=\"col-md-6 col-2\">\n<p><a href=\"/sites/default/files/projects/silverline3/sl3-bus-interior-revised.jpg\"><img alt=\"sl3-bus-interior-revised.jpg\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"534\" src=\"/sites/default/files/projects/silverline3/sl3-bus-interior-revised.jpg\" width=\"800\" /></a></p>\n</div>\n</div>\n\n<p>SL3 rapid transit buses are roomier and offer a smoother ride than other MBTA buses. Like other Silver Line buses, they include plenty of space for luggage if you’re going to the airport.</p>\n\n<p>All Silver Line buses are accessible to people with disabilities.</p>\n\n<hr />",
+        "summary": ""
+      }
+    ],
+    "field_contact_information": [],
+    "field_end_year": [
+      {
+        "value": "2018"
+      }
+    ],
+    "field_featured": [
+      {
+        "value": true
+      }
+    ],
+    "field_featured_image": [
+      {
+        "target_id": 3367,
+        "alt": "Woman smiling on the right. SL3 Chelsea: Going Your Way, starting 04.21.18",
+        "title": "",
+        "width": 1362,
+        "height": 758,
+        "target_type": "file",
+        "target_uuid": "f2b067b8-0211-420b-bc2a-74f02ecf5d94",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/silverline3/sl3-project-page-featured-image-v3.png",
+        "mime_type": "image/png"
+      }
+    ],
+    "field_files": [
+      {
+        "target_id": 3363,
+        "display": true,
+        "description": "SL3 Public Meeting Presentation (English)",
+        "target_type": "file",
+        "target_uuid": "9d5c706a-34ce-4267-a021-da47d4bd0ef7",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/silverline3/sl3-presentation-v11-english.pdf",
+        "mime_type": "application/pdf"
+      },
+      {
+        "target_id": 3364,
+        "display": true,
+        "description": "SL3 Public Meeting Presentation (Español)",
+        "target_type": "file",
+        "target_uuid": "bfa4665e-3fd6-4352-a0bb-45f9988dff6e",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/silverline3/sl3-presentation-v11-spanish.pdf",
+        "mime_type": "application/pdf"
+      }
+    ],
+    "field_keywords": [
+      {
+        "value": "sl3 silver line 3 silverline3 chelsea to boston to chelsea"
+      }
+    ],
+    "field_media_email": [],
+    "field_media_phone": [],
+    "field_page_type": [],
+    "field_paragraphs": [],
+    "field_photo_gallery": [
+      {
+        "target_id": 3236,
+        "alt": "SL3 buses travel in bus-only lanes, like this one.",
+        "title": "",
+        "width": 1710,
+        "height": 2000,
+        "target_type": "file",
+        "target_uuid": "d0a7cd93-9036-4bc3-91b1-ef909e24926d",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/silverline3/sl3-bus-only-lane.jpg",
+        "mime_type": "image/jpeg"
+      },
+      {
+        "target_id": 3238,
+        "alt": "Box District Station, one of the 4 new stations built for the SL3.",
+        "title": "",
+        "width": 2000,
+        "height": 1415,
+        "target_type": "file",
+        "target_uuid": "105a7dfe-ec64-4ea2-9616-9be34b3f3d3a",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/silverline3/sl3-boxdistrict-station.jpg",
+        "mime_type": "image/jpeg"
+      }
+    ],
+    "field_project_status": [
+      {
+        "value": "Complete"
+      }
+    ],
+    "field_related_transit": [],
+    "field_start_year": [
+      {
+        "value": "2015"
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "Beginning Saturday, April 21, 2018, the Silver Line 3 Chelsea (SL3) route will operate between South Station and the communities of Chelsea and East Boston."
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2018-03-30"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3064
+      }
+    ],
+    "uuid": [
+      {
+        "value": "800556bb-2f92-4b9f-a5cb-d0ea0969b770"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10078
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project",
+        "target_type": "node_type",
+        "target_uuid": "d5951988-9e07-45d9-9e6c-bbf540ed62cc"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522358454
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Commuter Rail Positive Train Control (PTC)"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 17,
+        "target_type": "user",
+        "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+        "url": "/user/17"
+      }
+    ],
+    "created": [
+      {
+        "value": 1508748583
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522358454
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": false
+      }
+    ],
+    "path": [
+      {
+        "alias": "/projects/commuter-rail-positive-train-control-ptc",
+        "pid": 3304,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>As part of a <a href=\"https://www.fra.dot.gov/ptc\">federal mandate</a> passed by Congress in 2008, the MBTA is installing Positive Train Control (PTC) technology across all Commuter Rail lines. The goal is to have all hardware installed by December 2018 and to have the PTC system fully operational by the end of 2020.</p>\r\n\r\n<p>PTC can automatically reduce a train’s speed or even stop it to avoid a collision or derailment. It will improve safety and reduce human error on the commuter rail.</p>\r\n\r\n<p><a href=\"/projects/commuter-rail-positive-train-control-ptc/update/ptc-program-updates\">Get the latest PTC program updates {{ fa \"arrow-right\" }}</a></p>\r\n\r\n<h2>Benefits</h2>\r\n\r\n<p>The MBTA’s PTC system is designed to prevent:</p>\r\n\r\n<ul>\r\n\t<li>Train-to-train collisions</li>\r\n\t<li>Derailments caused by high speed</li>\r\n\t<li>Trains speeding through work zones where crews are near the tracks</li>\r\n\t<li>Unexpected movement of trains through “open” switches</li>\r\n</ul>\r\n\r\n<p>The system works through:</p>\r\n\r\n<ul>\r\n\t<li>On-board controls that monitor and regulate a train’s speed if the operator fails to</li>\r\n\t<li>Signals along the rail corridor that transmit safety data</li>\r\n\t<li>System-wide communications throughout the commuter rail network</li>\r\n\t<li>An upgraded, centralized dispatch for the network</li>\r\n</ul>\r\n\r\n<p>This project impacts every element of the commuter rail system—the tracks on every line, hardware and software in the dispatch center, signal houses, antennae, radios and hardware on the train engines, and more.</p>\r\n\r\n<h2><strong>Goals</strong></h2>\r\n\r\n<p>The PTC project will improve every commuter rail passenger’s safety by reducing human error in a range of scenarios, including possible derailments and collisions.</p>\r\n\r\n<h2><strong>Project Timeline</strong></h2>\r\n\r\n<p>Congress first passed the mandate for the installation of PTC systems in 2008. Their original deadline of 2015 was extended to December 31, 2018, with a further extension to December 31, 2020 available to transit authorities that meet key milestones.</p>\r\n\r\n<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\">\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th scope=\"col\">Years</th>\r\n\t\t\t<th scope=\"col\">Activities</th>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>2015 – 2016</td>\r\n\t\t\t<td>PTC installation contract awarded to Ansaldo STS USA, Inc. (ASTS); Notice to Proceed provided</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>2017 – 2018</td>\r\n\t\t\t<td>Install hardware along all Commuter Rail lines</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>2018 – 2020</td>\r\n\t\t\t<td>Install software and other technical elements needed to bring PTC system online</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<h2><strong>Service Alerts</strong></h2>\r\n\r\n<p>To install the hardware for PTC along the tracks, weekend service will be suspended on each line for a period of time during 2017 – 2018. No more than 2 lines should be affected at any given time.</p>\r\n\r\n<p>Weekend shutdowns will take place in the fall of 2017 and spring of 2018.</p>\r\n\r\n<table>\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th>Commuter Rail Line</th>\r\n\t\t\t<th>Upcoming Weekend Shutdowns</th>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Worcester\">Framingham/Worcester</a></td>\r\n\t\t\t<td>TBD</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Franklin\">Franklin</a></td>\r\n\t\t\t<td>April 7 – May 27, 2018<br />\r\n\t\t\t<a href=\"/franklin\">Bus shuttles replace train service</a></td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n",
+        "format": "full_html",
+        "processed": "<p>As part of a <a href=\"https://www.fra.dot.gov/ptc\">federal mandate</a> passed by Congress in 2008, the MBTA is installing Positive Train Control (PTC) technology across all Commuter Rail lines. The goal is to have all hardware installed by December 2018 and to have the PTC system fully operational by the end of 2020.</p>\n\n<p>PTC can automatically reduce a train’s speed or even stop it to avoid a collision or derailment. It will improve safety and reduce human error on the commuter rail.</p>\n\n<p><a href=\"/projects/commuter-rail-positive-train-control-ptc/update/ptc-program-updates\">Get the latest PTC program updates {{ fa \"arrow-right\" }}</a></p>\n\n<h2>Benefits</h2>\n\n<p>The MBTA’s PTC system is designed to prevent:</p>\n\n<ul><li>Train-to-train collisions</li>\n\t<li>Derailments caused by high speed</li>\n\t<li>Trains speeding through work zones where crews are near the tracks</li>\n\t<li>Unexpected movement of trains through “open” switches</li>\n</ul><p>The system works through:</p>\n\n<ul><li>On-board controls that monitor and regulate a train’s speed if the operator fails to</li>\n\t<li>Signals along the rail corridor that transmit safety data</li>\n\t<li>System-wide communications throughout the commuter rail network</li>\n\t<li>An upgraded, centralized dispatch for the network</li>\n</ul><p>This project impacts every element of the commuter rail system—the tracks on every line, hardware and software in the dispatch center, signal houses, antennae, radios and hardware on the train engines, and more.</p>\n\n<h2><strong>Goals</strong></h2>\n\n<p>The PTC project will improve every commuter rail passenger’s safety by reducing human error in a range of scenarios, including possible derailments and collisions.</p>\n\n<h2><strong>Project Timeline</strong></h2>\n\n<p>Congress first passed the mandate for the installation of PTC systems in 2008. Their original deadline of 2015 was extended to December 31, 2018, with a further extension to December 31, 2020 available to transit authorities that meet key milestones.</p>\n\n<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\"><thead><tr><th scope=\"col\">Years</th>\n\t\t\t<th scope=\"col\">Activities</th>\n\t\t</tr></thead><tbody><tr><td>2015 – 2016</td>\n\t\t\t<td>PTC installation contract awarded to Ansaldo STS USA, Inc. (ASTS); Notice to Proceed provided</td>\n\t\t</tr><tr><td>2017 – 2018</td>\n\t\t\t<td>Install hardware along all Commuter Rail lines</td>\n\t\t</tr><tr><td>2018 – 2020</td>\n\t\t\t<td>Install software and other technical elements needed to bring PTC system online</td>\n\t\t</tr></tbody></table><h2><strong>Service Alerts</strong></h2>\n\n<p>To install the hardware for PTC along the tracks, weekend service will be suspended on each line for a period of time during 2017 – 2018. No more than 2 lines should be affected at any given time.</p>\n\n<p>Weekend shutdowns will take place in the fall of 2017 and spring of 2018.</p>\n\n<table><thead><tr><th>Commuter Rail Line</th>\n\t\t\t<th>Upcoming Weekend Shutdowns</th>\n\t\t</tr></thead><tbody><tr><td><a href=\"/schedules/CR-Worcester\">Framingham/Worcester</a></td>\n\t\t\t<td>TBD</td>\n\t\t</tr><tr><td><a href=\"/schedules/CR-Franklin\">Franklin</a></td>\n\t\t\t<td>April 7 – May 27, 2018<br /><a href=\"/franklin\">Bus shuttles replace train service</a></td>\n\t\t</tr></tbody></table>",
+        "summary": ""
+      }
+    ],
+    "field_contact_information": [
+      {
+        "value": "PTC Hotline"
+      }
+    ],
+    "field_end_year": [
+      {
+        "value": "2020"
+      }
+    ],
+    "field_featured": [
+      {
+        "value": false
+      }
+    ],
+    "field_featured_image": [
+      {
+        "target_id": 1995,
+        "alt": "Commuter rail train at a station platform.",
+        "title": "",
+        "width": 6016,
+        "height": 4016,
+        "target_type": "file",
+        "target_uuid": "4d685646-545b-47e4-b7c3-483febdf7d1a",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/commuter-rail-train-in-station.jpg",
+        "mime_type": "image/jpeg"
+      }
+    ],
+    "field_files": [],
+    "field_keywords": [],
+    "field_media_email": [
+      {
+        "value": "PTCProgram@mbta.com"
+      }
+    ],
+    "field_media_phone": [
+      {
+        "value": "617-721-7506"
+      }
+    ],
+    "field_page_type": [],
+    "field_paragraphs": [],
+    "field_photo_gallery": [],
+    "field_project_status": [
+      {
+        "value": "Construction"
+      }
+    ],
+    "field_related_transit": [],
+    "field_start_year": [
+      {
+        "value": "2015"
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "Positive Train Control (PTC) technology will improve safety and reduce human error on the Commuter Rail. It is a federally mandated system that can automatically reduce train speeds or even stop a train to avoid a collision or derailment."
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2018-03-29"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3478
+      }
+    ],
+    "uuid": [
+      {
+        "value": "17a424bf-14a6-4265-ace5-188296870281"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10054
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project",
+        "target_type": "node_type",
+        "target_uuid": "d5951988-9e07-45d9-9e6c-bbf540ed62cc"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522333999
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Early Morning Bus Service"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1520631665
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522333999
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": false
+      }
+    ],
+    "path": [
+      {
+        "alias": "/projects/early-morning-bus-service",
+        "pid": 3528,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p><a href=\"/projects/early-morning-bus-service#googtrans(es)\" target=\"_blank\">En Español {{ fa \"arrow-right\" }}</a></p>\r\n\r\n<p><iframe class=\"iframe iframe-full-width\" src=\"https://www.youtube.com/embed/nkCUw_nhHK4?rel=0\">&amp;amp;amp;amp;amp;lt;br /&amp;amp;amp;amp;amp;gt;</iframe></p>\r\n\r\n<p>Beginning April 1, 2018, some of Boston's busiest bus routes will start service as early as 3:20 AM.&nbsp;</p>\r\n\r\n<p>Whether you live in Chelsea or Mattapan, work the early&nbsp;or late shift, or need to get to the Seaport or downtown Boston, these&nbsp;early morning bus routes have been specifically chosen to help you get where you need to go.</p>\r\n\r\n<p>The&nbsp;new schedules&nbsp;include:</p>\r\n\r\n<ul>\r\n\t<li>17 additional&nbsp;early morning trips&nbsp;on&nbsp;routes <a href=\"/schedules/16\">16</a>, <a href=\"/schedules/19\">19</a>, <a href=\"/schedules/31\">31</a>, <a href=\"/schedules/32\">32</a>, <a href=\"/schedules/65\">65</a>, <a href=\"/schedules/70\">70</a>, <a href=\"/schedules/117\">117</a>, and <a href=\"/schedules/455\">455</a></li>\r\n\t<li>9 trips departing&nbsp;earlier,&nbsp;on&nbsp;routes&nbsp;<a href=\"/schedules/31\">31</a>, <a href=\"/schedules/104\">104</a>, <a href=\"/schedules/109\">109</a>, and <a href=\"/schedules/455\">455</a>&nbsp;</li>\r\n</ul>\r\n\r\n<p>Early morning service runs 7 days a week. Schedules&nbsp;vary on Saturdays and Sundays.</p>\r\n\r\n<h2>Early Morning Bus Routes</h2>\r\n\r\n<p>Start planning your early morning bus trip with our trip planner, or view the entire list of bus routes that start before 6 AM.&nbsp;&nbsp;</p>\r\n\r\n<p><a href=\"/trip-planner\">Plan your early morning bus&nbsp;trip&nbsp;{{fa \"arrow-right\"}}</a></p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p><img alt=\"early-am-bus-vehicle-2x-departing.png\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"318\" src=\"/sites/default/files/projects/early-morning-bus/early-am-bus-vehicle-2x-departing.png\" width=\"1600\" /></p>\r\n\r\n<div class=\"row three-col\">\r\n<div class=\"col-md-4 col-1\">\r\n<h3>{{ mbta-circle-icon \"bus\" }} First trip: 3 – 4 AM</h3>\r\n\r\n<p>Routes <a href=\"/schedules/15\">15</a>, <a href=\"/schedules/28\">28</a>, <a href=\"/schedules/171\">171</a></p>\r\n</div>\r\n\r\n<div class=\"col-md-4 col-2\">\r\n<h3>{{ mbta-circle-icon \"bus\" }} First trip: 4 – 5 AM</h3>\r\n\r\n<p>Routes <a href=\"/schedules/1\">1</a>, <a href=\"/schedules/10\">10</a>,&nbsp;<a href=\"/schedules/15/line?variant=1910035\">15</a>, <a href=\"/schedules/16\">16</a>, <a href=\"/schedules/17\">17</a>, <a href=\"/schedules/21\">21</a>, <a href=\"/schedules/22\">22</a>, <a href=\"/schedules/23\">23</a>, <a href=\"/schedules/26\">26</a>, <a href=\"/schedules/31\">31</a>, <a href=\"/schedules/32\">32</a>, <a href=\"/schedules/34\">34</a>, <a href=\"/schedules/34E\">34E</a>, <a href=\"/schedules/36\">36</a>, <a href=\"/schedules/39/line?variant=1920023\">39</a>, <a href=\"/schedules/41\">41</a>,&nbsp;<a href=\"/schedules/57\">57</a>, <a href=\"/schedules/60\">60</a>, <a href=\"/schedules/66\">66</a>, <a href=\"/schedules/70\">70</a>, <a href=\"/schedules/71\">71</a>, <a href=\"73\">73</a>, <a href=\"/schedules/77\">77</a>, <a href=\"/schedules/89\">89</a>, <a href=\"/schedules/95\">95</a>, <a href=\"/schedules/101\">101</a>, <a href=\"/schedules/104\">104</a>, <a href=\"/schedules/109\">109</a>, <a href=\"/schedules/111\">111</a>, <a href=\"/schedules/117\">117</a>, <a href=\"/schedules/216\">216</a>, <a href=\"/schedules/450\">450</a>, <a href=\"/schedules/455\">455</a></p>\r\n</div>\r\n\r\n<div class=\"col-md-4 col-3\">\r\n<h3>{{ mbta-circle-icon \"bus\" }} First trip: 5 – 6 AM</h3>\r\n\r\n<p>Routes <a href=\"/schedules/7\">7</a>, <a href=\"/schedules/8\">8</a>, <a href=\"/schedules/9\">9</a>, <a href=\"/schedules/11\">11</a>, <a href=\"/schedules/14\">14</a>, <a href=\"/schedules/19\">19</a>, <a href=\"/schedules/24\">24</a>, <a href=\"/schedules/27\">27</a>, <a href=\"/schedules/29\">29</a>, <a href=\"/schedules/30\">30</a>, <a href=\"/schedules/33\">33</a>, <a href=\"/schedules/35\">35</a>, <a href=\"/schedules/37\">37</a>, <a href=\"/schedules/38\">38</a>, <a href=\"/schedules/40\">40</a>, <a href=\"/schedules/42\">42</a>, <a href=\"/schedules/43\">43</a>, <a href=\"/schedules/44\">44</a>, <a href=\"/schedules/45\">45</a>, <a href=\"/schedules/47\">47</a>, <a href=\"/schedules/50\">50</a>, <a href=\"/schedules/51\">51</a>, <a href=\"/schedules/55\">55</a>, <a href=\"/schedules/62\">62</a>, <a href=\"/schedules/64\">64</a>, <a href=\"/schedules/65\">65</a>, <a href=\"/schedules/67\">67</a>, <a href=\"/schedules/69\">69</a>, <a href=\"/schedules/70A\">70A</a>, <a href=\"/schedules/72\">72</a>, <a href=\"/schedules/74\">74</a>, <a href=\"/schedules/78\">78</a>, <a href=\"/schedules/80\">80</a>, <a href=\"/schedules/83\">83</a>, <a href=\"/schedules/85\">85</a>, <a href=\"/schedules/86\">86</a>, <a href=\"/schedules/87\">87</a>, <a href=\"/schedules/88\">88</a>, <a href=\"/schedules/91\">91</a>, <a href=\"/schedules/92\">92</a>, <a href=\"/schedules/93\">93</a>, <a href=\"/schedules/94\">94</a>, <a href=\"/schedules/96\">96</a>, <a href=\"/schedules/100\">100</a>, <a href=\"/schedules/105\">105</a>, <a href=\"/schedules/106\">106</a>, <a href=\"/schedules/108\">108</a>, <a href=\"/schedules/110\">110</a>, <a href=\"/schedules/116\">116</a>, <a href=\"/schedules/119\">119</a>, <a href=\"/schedules/120\">120</a>, <a href=\"/schedules/132\">132</a>, <a href=\"/schedules/134\">134</a>, <a href=\"/schedules/136\">136</a>, <a href=\"/schedules/201\">201</a>, <a href=\"/schedules/202\">202</a>, <a href=\"/schedules/210\">210</a>, <a href=\"/schedules/211\">211</a>, <a href=\"/schedules/215\">215</a>, <a href=\"/schedules/220\">220</a>, <a href=\"/schedules/222\">222</a>, <a href=\"/schedules/225\">225</a>, <a href=\"/schedules/230\">230</a>, <a href=\"/schedules/238\">238</a>, <a href=\"/schedules/240\">240</a>, <a href=\"/schedules/352\">352</a>, <a href=\"/schedules/354\">354</a>, <a href=\"/schedules/424\">424</a>, <a href=\"/schedules/426\">426</a>, <a href=\"/schedules/429\">429</a>, <a href=\"/schedules/430\">430</a>, <a href=\"/schedules/442\">442</a>, <a href=\"/schedules/459\">459</a>, <a href=\"/schedules/505\">505</a>, <a href=\"/schedules/553\">553</a>, <a href=\"/schedules/554\">554</a>, <a href=\"/schedules/747\">CT2</a>, <a href=\"/schedules/741\">SL1</a>, <a href=\"/schedules/742\">SL2</a>, <a href=\"/schedules/743\">SL3</a>, <a href=\"/schedules/749\">SL4</a>, <a href=\"/schedules/751\">SL5</a>, <a href=\"/schedules/746\">SL Waterfront</a></p>\r\n</div>\r\n</div>\r\n\r\n<p>&nbsp;</p>\r\n",
+        "format": "full_html",
+        "processed": "<p><a href=\"/projects/early-morning-bus-service#googtrans(es)\" target=\"_blank\">En Español {{ fa \"arrow-right\" }}</a></p>\n\n<p><iframe class=\"iframe iframe-full-width\" src=\"https://www.youtube.com/embed/nkCUw_nhHK4?rel=0\">&amp;amp;amp;amp;amp;lt;br /&amp;amp;amp;amp;amp;gt;</iframe></p>\n\n<p>Beginning April 1, 2018, some of Boston's busiest bus routes will start service as early as 3:20 AM. </p>\n\n<p>Whether you live in Chelsea or Mattapan, work the early or late shift, or need to get to the Seaport or downtown Boston, these early morning bus routes have been specifically chosen to help you get where you need to go.</p>\n\n<p>The new schedules include:</p>\n\n<ul><li>17 additional early morning trips on routes <a href=\"/schedules/16\">16</a>, <a href=\"/schedules/19\">19</a>, <a href=\"/schedules/31\">31</a>, <a href=\"/schedules/32\">32</a>, <a href=\"/schedules/65\">65</a>, <a href=\"/schedules/70\">70</a>, <a href=\"/schedules/117\">117</a>, and <a href=\"/schedules/455\">455</a></li>\n\t<li>9 trips departing earlier, on routes <a href=\"/schedules/31\">31</a>, <a href=\"/schedules/104\">104</a>, <a href=\"/schedules/109\">109</a>, and <a href=\"/schedules/455\">455</a> </li>\n</ul><p>Early morning service runs 7 days a week. Schedules vary on Saturdays and Sundays.</p>\n\n<h2>Early Morning Bus Routes</h2>\n\n<p>Start planning your early morning bus trip with our trip planner, or view the entire list of bus routes that start before 6 AM.  </p>\n\n<p><a href=\"/trip-planner\">Plan your early morning bus trip {{fa \"arrow-right\"}}</a></p>\n\n<p> </p>\n\n<p><img alt=\"early-am-bus-vehicle-2x-departing.png\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"318\" src=\"/sites/default/files/projects/early-morning-bus/early-am-bus-vehicle-2x-departing.png\" width=\"1600\" /></p>\n\n<div class=\"row three-col\">\n<div class=\"col-md-4 col-1\">\n<h3>{{ mbta-circle-icon \"bus\" }} First trip: 3 – 4 AM</h3>\n\n<p>Routes <a href=\"/schedules/15\">15</a>, <a href=\"/schedules/28\">28</a>, <a href=\"/schedules/171\">171</a></p>\n</div>\n\n<div class=\"col-md-4 col-2\">\n<h3>{{ mbta-circle-icon \"bus\" }} First trip: 4 – 5 AM</h3>\n\n<p>Routes <a href=\"/schedules/1\">1</a>, <a href=\"/schedules/10\">10</a>, <a href=\"/schedules/15/line?variant=1910035\">15</a>, <a href=\"/schedules/16\">16</a>, <a href=\"/schedules/17\">17</a>, <a href=\"/schedules/21\">21</a>, <a href=\"/schedules/22\">22</a>, <a href=\"/schedules/23\">23</a>, <a href=\"/schedules/26\">26</a>, <a href=\"/schedules/31\">31</a>, <a href=\"/schedules/32\">32</a>, <a href=\"/schedules/34\">34</a>, <a href=\"/schedules/34E\">34E</a>, <a href=\"/schedules/36\">36</a>, <a href=\"/schedules/39/line?variant=1920023\">39</a>, <a href=\"/schedules/41\">41</a>, <a href=\"/schedules/57\">57</a>, <a href=\"/schedules/60\">60</a>, <a href=\"/schedules/66\">66</a>, <a href=\"/schedules/70\">70</a>, <a href=\"/schedules/71\">71</a>, <a href=\"73\">73</a>, <a href=\"/schedules/77\">77</a>, <a href=\"/schedules/89\">89</a>, <a href=\"/schedules/95\">95</a>, <a href=\"/schedules/101\">101</a>, <a href=\"/schedules/104\">104</a>, <a href=\"/schedules/109\">109</a>, <a href=\"/schedules/111\">111</a>, <a href=\"/schedules/117\">117</a>, <a href=\"/schedules/216\">216</a>, <a href=\"/schedules/450\">450</a>, <a href=\"/schedules/455\">455</a></p>\n</div>\n\n<div class=\"col-md-4 col-3\">\n<h3>{{ mbta-circle-icon \"bus\" }} First trip: 5 – 6 AM</h3>\n\n<p>Routes <a href=\"/schedules/7\">7</a>, <a href=\"/schedules/8\">8</a>, <a href=\"/schedules/9\">9</a>, <a href=\"/schedules/11\">11</a>, <a href=\"/schedules/14\">14</a>, <a href=\"/schedules/19\">19</a>, <a href=\"/schedules/24\">24</a>, <a href=\"/schedules/27\">27</a>, <a href=\"/schedules/29\">29</a>, <a href=\"/schedules/30\">30</a>, <a href=\"/schedules/33\">33</a>, <a href=\"/schedules/35\">35</a>, <a href=\"/schedules/37\">37</a>, <a href=\"/schedules/38\">38</a>, <a href=\"/schedules/40\">40</a>, <a href=\"/schedules/42\">42</a>, <a href=\"/schedules/43\">43</a>, <a href=\"/schedules/44\">44</a>, <a href=\"/schedules/45\">45</a>, <a href=\"/schedules/47\">47</a>, <a href=\"/schedules/50\">50</a>, <a href=\"/schedules/51\">51</a>, <a href=\"/schedules/55\">55</a>, <a href=\"/schedules/62\">62</a>, <a href=\"/schedules/64\">64</a>, <a href=\"/schedules/65\">65</a>, <a href=\"/schedules/67\">67</a>, <a href=\"/schedules/69\">69</a>, <a href=\"/schedules/70A\">70A</a>, <a href=\"/schedules/72\">72</a>, <a href=\"/schedules/74\">74</a>, <a href=\"/schedules/78\">78</a>, <a href=\"/schedules/80\">80</a>, <a href=\"/schedules/83\">83</a>, <a href=\"/schedules/85\">85</a>, <a href=\"/schedules/86\">86</a>, <a href=\"/schedules/87\">87</a>, <a href=\"/schedules/88\">88</a>, <a href=\"/schedules/91\">91</a>, <a href=\"/schedules/92\">92</a>, <a href=\"/schedules/93\">93</a>, <a href=\"/schedules/94\">94</a>, <a href=\"/schedules/96\">96</a>, <a href=\"/schedules/100\">100</a>, <a href=\"/schedules/105\">105</a>, <a href=\"/schedules/106\">106</a>, <a href=\"/schedules/108\">108</a>, <a href=\"/schedules/110\">110</a>, <a href=\"/schedules/116\">116</a>, <a href=\"/schedules/119\">119</a>, <a href=\"/schedules/120\">120</a>, <a href=\"/schedules/132\">132</a>, <a href=\"/schedules/134\">134</a>, <a href=\"/schedules/136\">136</a>, <a href=\"/schedules/201\">201</a>, <a href=\"/schedules/202\">202</a>, <a href=\"/schedules/210\">210</a>, <a href=\"/schedules/211\">211</a>, <a href=\"/schedules/215\">215</a>, <a href=\"/schedules/220\">220</a>, <a href=\"/schedules/222\">222</a>, <a href=\"/schedules/225\">225</a>, <a href=\"/schedules/230\">230</a>, <a href=\"/schedules/238\">238</a>, <a href=\"/schedules/240\">240</a>, <a href=\"/schedules/352\">352</a>, <a href=\"/schedules/354\">354</a>, <a href=\"/schedules/424\">424</a>, <a href=\"/schedules/426\">426</a>, <a href=\"/schedules/429\">429</a>, <a href=\"/schedules/430\">430</a>, <a href=\"/schedules/442\">442</a>, <a href=\"/schedules/459\">459</a>, <a href=\"/schedules/505\">505</a>, <a href=\"/schedules/553\">553</a>, <a href=\"/schedules/554\">554</a>, <a href=\"/schedules/747\">CT2</a>, <a href=\"/schedules/741\">SL1</a>, <a href=\"/schedules/742\">SL2</a>, <a href=\"/schedules/743\">SL3</a>, <a href=\"/schedules/749\">SL4</a>, <a href=\"/schedules/751\">SL5</a>, <a href=\"/schedules/746\">SL Waterfront</a></p>\n</div>\n</div>\n\n<p> </p>\n",
+        "summary": ""
+      }
+    ],
+    "field_contact_information": [],
+    "field_end_year": [],
+    "field_featured": [
+      {
+        "value": false
+      }
+    ],
+    "field_featured_image": [],
+    "field_files": [],
+    "field_keywords": [],
+    "field_media_email": [],
+    "field_media_phone": [],
+    "field_page_type": [],
+    "field_paragraphs": [],
+    "field_photo_gallery": [],
+    "field_project_status": [
+      {
+        "value": "Complete"
+      }
+    ],
+    "field_related_transit": [],
+    "field_start_year": [
+      {
+        "value": "2018"
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "On April 1, 2018, we’re launching early morning bus service on our busiest routes. Service will start as early as 3:20 AM, in neighborhoods from Chelsea to Mattapan, with routes that take riders downtown, to the Seaport, and to key stops in between."
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2018-03-29"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3167
+      }
+    ],
+    "uuid": [
+      {
+        "value": "ca0f65fb-92f8-4291-9e8e-14863d74abd5"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10076
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project",
+        "target_type": "node_type",
+        "target_uuid": "d5951988-9e07-45d9-9e6c-bbf540ed62cc"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522357478
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Ruggles Station Commuter Rail Platform"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 19,
+        "target_type": "user",
+        "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+        "url": "/user/19"
+      }
+    ],
+    "created": [
+      {
+        "value": 1512073443
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522357478
+      }
+    ],
+    "promote": [
+      {
+        "value": true
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": false
+      }
+    ],
+    "path": [
+      {
+        "alias": "/projects/ruggles-station-commuter-rail-platform",
+        "pid": 3338,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p><a href=\"/stops/place-rugg\">Ruggles Station</a> is the fourth-busiest destination for Commuter Rail service, but the current track layout limits the number of trains that can stop there. Today, 30% of Commuter Rail trains bypass Ruggles to stop at Back Bay, so riders have to take the Orange Line back to Ruggles for bus or shuttle service.</p>\r\n\r\n<p>A new Commuter Rail platform and updated busway will ease congestion along the Commuter Rail and make it easier for customers to transfer to the other modes of transit at Ruggles Station.</p>\r\n\r\n<h3>Project Features</h3>\r\n\r\n<ul>\r\n\t<li>A new 800-foot Commuter Rail platform serving the <a href=\"/schedules/CR-Providence\">Providence/Stoughton</a> and <a href=\"/schedules/CR-Franklin\">Franklin</a> lines</li>\r\n\t<li>Reconstructed lower busway</li>\r\n\t<li>New elevators throughout the station</li>\r\n</ul>\r\n\r\n<h3>Commuter Benefits</h3>\r\n\r\n<ul>\r\n\t<li>More trains will stop at Ruggles Station so customers don't need to backtrack from Back Bay</li>\r\n\t<li>Improved accessibility features for customers on the Orange Line and Commuter Rail</li>\r\n\t<li>Reduced traffic for Commuter Rail and Amtrak trains</li>\r\n\t<li>Reduced maintenance costs and service impacts</li>\r\n</ul>\r\n\r\n<h3>Service Alerts</h3>\r\n\r\n<ul>\r\n\t<li>The upper busway will be closed March 19, 2018 – May19, 2018</li>\r\n\t<li>All buses will pick up and drop off in the lower busway (station signage is provided)</li>\r\n</ul>\r\n\r\n<p><a href=\"/stops/place-rugg\">Check Ruggles Station alerts {{fa \"arrow-right\"}}</a></p>\r\n",
+        "format": "full_html",
+        "processed": "<p><a href=\"/stops/place-rugg\">Ruggles Station</a> is the fourth-busiest destination for Commuter Rail service, but the current track layout limits the number of trains that can stop there. Today, 30% of Commuter Rail trains bypass Ruggles to stop at Back Bay, so riders have to take the Orange Line back to Ruggles for bus or shuttle service.</p>\n\n<p>A new Commuter Rail platform and updated busway will ease congestion along the Commuter Rail and make it easier for customers to transfer to the other modes of transit at Ruggles Station.</p>\n\n<h3>Project Features</h3>\n\n<ul><li>A new 800-foot Commuter Rail platform serving the <a href=\"/schedules/CR-Providence\">Providence/Stoughton</a> and <a href=\"/schedules/CR-Franklin\">Franklin</a> lines</li>\n\t<li>Reconstructed lower busway</li>\n\t<li>New elevators throughout the station</li>\n</ul><h3>Commuter Benefits</h3>\n\n<ul><li>More trains will stop at Ruggles Station so customers don't need to backtrack from Back Bay</li>\n\t<li>Improved accessibility features for customers on the Orange Line and Commuter Rail</li>\n\t<li>Reduced traffic for Commuter Rail and Amtrak trains</li>\n\t<li>Reduced maintenance costs and service impacts</li>\n</ul><h3>Service Alerts</h3>\n\n<ul><li>The upper busway will be closed March 19, 2018 – May19, 2018</li>\n\t<li>All buses will pick up and drop off in the lower busway (station signage is provided)</li>\n</ul><p><a href=\"/stops/place-rugg\">Check Ruggles Station alerts {{fa \"arrow-right\"}}</a></p>\n",
+        "summary": ""
+      }
+    ],
+    "field_contact_information": [
+      {
+        "value": "Desiree Patrice"
+      }
+    ],
+    "field_end_year": [
+      {
+        "value": "2020"
+      }
+    ],
+    "field_featured": [
+      {
+        "value": false
+      }
+    ],
+    "field_featured_image": [],
+    "field_files": [],
+    "field_keywords": [],
+    "field_media_email": [
+      {
+        "value": "dpatrice@mbta.com"
+      }
+    ],
+    "field_media_phone": [],
+    "field_page_type": [],
+    "field_paragraphs": [],
+    "field_photo_gallery": [
+      {
+        "target_id": 2932,
+        "alt": "New Ruggles Station platform location",
+        "title": "",
+        "width": 1128,
+        "height": 729,
+        "target_type": "file",
+        "target_uuid": "11f52404-5155-4589-8e35-a22f2d4a1190",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/ruggles%20platform/ruggles-platform-aerial-view.jpg",
+        "mime_type": "image/jpeg"
+      },
+      {
+        "target_id": 2931,
+        "alt": "Rendering of new elevators to Ruggles lower busway",
+        "title": "",
+        "width": 1128,
+        "height": 729,
+        "target_type": "file",
+        "target_uuid": "a65936cb-460b-43d1-80ff-cdf5853dc155",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/ruggles%20platform/ruggles-lower-busway-elevator.jpg",
+        "mime_type": "image/jpeg"
+      },
+      {
+        "target_id": 2933,
+        "alt": "Rendering of new west platform entrance",
+        "title": "",
+        "width": 1128,
+        "height": 729,
+        "target_type": "file",
+        "target_uuid": "4c2b3f14-2dc9-4469-8d0c-fe29221b4ef0",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/ruggles%20platform/ruggles-west-platform-entrance.jpg",
+        "mime_type": "image/jpeg"
+      },
+      {
+        "target_id": 3371,
+        "alt": "New Ruggles Station platform under construction",
+        "title": "",
+        "width": 1600,
+        "height": 1200,
+        "target_type": "file",
+        "target_uuid": "a52764dc-42c2-482e-82c3-6f980786420a",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/ruggles%20platform/ruggles-new-platform1.jpg",
+        "mime_type": "image/jpeg"
+      },
+      {
+        "target_id": 3372,
+        "alt": "New Ruggles Station platform under construction",
+        "title": "",
+        "width": 1600,
+        "height": 1200,
+        "target_type": "file",
+        "target_uuid": "49811fd6-1c7a-4206-a5d0-bdb45c7488ac",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/ruggles%20platform/ruggles-new-platform2.JPG",
+        "mime_type": "image/jpeg"
+      }
+    ],
+    "field_project_status": [
+      {
+        "value": "Construction"
+      }
+    ],
+    "field_related_transit": [],
+    "field_start_year": [
+      {
+        "value": "2017"
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "A new commuter rail platform at Ruggles Station will ease congestion along the Commuter Rail and make Orange Line transfers easier.\r\n"
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2018-03-29"
+      }
+    ]
+  }
+]

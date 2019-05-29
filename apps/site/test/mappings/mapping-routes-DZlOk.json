@@ -1,0 +1,22 @@
+{
+  "id" : "819965da-a3f2-311e-af6d-575bd147cfbe",
+  "request" : {
+    "url" : "/routes/?stop=10011&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-DZlOk.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:11 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1hvvgjprdc65s00kmb3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "819965da-a3f2-311e-af6d-575bd147cfbe"
+}

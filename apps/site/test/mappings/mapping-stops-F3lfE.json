@@ -1,0 +1,22 @@
+{
+  "id" : "65ae00a0-3a77-35d7-bab0-2098a0a035d5",
+  "request" : {
+    "url" : "/stops/?direction_id=0&route=Green-B&include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type&date=2019-05-06",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-F3lfE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:39:28 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:01 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mkrj0ioulb9v63k00khe3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "65ae00a0-3a77-35d7-bab0-2098a0a035d5"
+}

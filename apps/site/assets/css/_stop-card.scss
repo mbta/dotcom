@@ -1,0 +1,54 @@
+.c-stop-card {
+  @include icon-size-inline(1.25em, 0);
+
+  background-color: $white;
+  border-radius: $base-spacing / 4;
+  box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
+  margin-top: $base-spacing;
+  padding: $base-spacing / 2;
+
+  @include media-breakpoint-up(lg) {
+    @include icon-size-inline(1.5em, 0);
+  }
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  .leaflet-popup-content & {
+    box-shadow: none;
+  }
+}
+
+.c-stop-card__stop-name {
+  color: $brand-primary;
+  font-weight: bold;
+}
+
+.c-stop-card__route {
+  align-items: center;
+  display: flex;
+  justify-content: flex-start;
+  padding: $base-spacing / 4 0;
+
+  .leaflet-popup-content & {
+    margin-right: $base-spacing / 2;
+  }
+}
+
+.c-stop-card__route-link {
+  display: block;
+  padding-left: $base-spacing / 2;
+}
+
+.c-stop-card__bus-pill {
+  border-radius: $base-spacing / 4;
+  font-weight: bold;
+  min-width: 2rem;
+  padding: 0 $base-spacing / 4;
+  text-align: center;
+}
+
+.c-stop-card__distance {
+  float: right;
+}

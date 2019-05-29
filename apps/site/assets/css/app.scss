@@ -1,0 +1,142 @@
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// VARIABLES AND MIXINS
+//
+@import 'functions';
+@import 'variables';
+@import 'mixins';
+@import 'node_modules/bootstrap/scss/variables';
+@import 'node_modules/bootstrap/scss/mixins';
+@import 'vendor/font-awesome-4.6.3/scss/mixins';
+@import 'vendor/font-awesome-4.6.3/scss/variables';
+
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// VENDOR STYLES
+//
+@import 'vendor/accessible-date-picker';
+@import 'datepicker'; // our overrides of datepicker styles (can't use BEM conventions)
+
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// NEEDS REFACTOR
+// These files have not yet been refactored to conform to our new BEM-style naming
+// conventions. Use EXTREME caution when editing any of these styles, as they are
+// likely to have been used somewhat randomly across the site, and changes that work
+// on one page may break the layout on another page :(. They are also likely to be
+// deeply nested and difficult to override.
+//
+// Whenever possible, take the opportunity to use new selectors that use correct
+// conventions instead of modifying these existing styles.
+//
+@import 'helpers';
+@import 'map';
+@import 'icons';
+@import 'button-group';
+@import 'stop-bubbles';
+@import 'index';
+@import 'alerts';
+@import 'schedule';
+@import 'route';
+@import 'mode-hub';
+@import 'stops-v1';
+@import 'stop-page';
+@import 'stop-card';
+@import 'modal';
+@import 'errors';
+@import 'customer-support';
+@import 'multi-column';
+@import 'fares';
+@import 'fare-summary';
+@import 'how-to-pay';
+@import 'location-input';
+@import 'carousel';
+@import 'news';
+@import 'events';
+@import 'pagination';
+@import 'trip-plan';
+@import 'people-grid';
+@import 'search'; // partially refactored
+@import 'project';
+@import 'custom-language-select';
+@import 'google-translate';
+
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// COMPONENTS
+//
+// These files contain classes that may be used in multiple places on the site.
+// The styles in this file are base styles and are meant to be overridden by
+// module styles where needed; therefore the selectors for these styles should
+// only use single classes with no nesting. If selectors absolutely must be nested,
+// those selectors should be implemented carefully and precisely, and be well-documented.
+// Use caution when editing any of these styles.
+//
+@import 'svg';
+@import 'badges';
+@import 'form';
+@import 'paragraph';
+@import 'title-card';
+@import 'location-card';
+@import 'descriptive-link';
+@import 'accordion-ui';
+@import 'search-bar';
+@import 'header-tabs';
+@import 'facets';
+@import 'photo-gallery';
+@import 'layout-cms';
+@import 'embedded-media';
+@import 'google-maps';
+@import 'checkbox';
+@import 'radio';
+@import 'grid-button';
+@import 'news-entry';
+@import 'content-teasers';
+@import 'recently-visited';
+@import 'trip-plan-widget';
+@import 'description-list';
+@import 'callout';
+@import 'fare-card';
+@import 'right-rail';
+@import 'feedback';
+@import 'ul-list';
+@import 'modal-component';
+
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// MODULES
+// These files contain styles that are only meant to be used on one page/template.
+// They may use nesting to override component or helper styles where needed, but should
+// still strive to avoid nesting wherever possible. These styles can be edited more easily
+// with less fear of unexpected consequences.
+//
+@import 'detailed-stop';
+@import 'content';
+@import 'homepage';
+@import 'whats-happening';
+@import 'secondary-nav';
+@import 'schedule-line';
+@import 'trip-plan-form';
+@import 'mode';
+@import 'banner';
+@import 'schedule-icon-key';
+@import 'timetable';
+@import 'transit-near-me';
+@import 'project-update';
+@import 'schedule-page';
+
+////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////
+//
+// OVERRIDES
+// These files contain styles that are meant to always override other styles when used.
+// They may use nesting and even !important when absolutely necessary. These styles
+// should be used VERY sparingly and be well-documented.
+//
+@import 'vendor/fixedsticky'; // needs refactor
+@import 'utilities';

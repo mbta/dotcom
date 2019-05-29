@@ -1,0 +1,1413 @@
+{
+  "nid": [
+    {
+      "value": 3195
+    }
+  ],
+  "uuid": [
+    {
+      "value": "455ac547-4f76-4a71-b3bf-e7028ff12240"
+    }
+  ],
+  "vid": [
+    {
+      "value": 8891
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "page",
+      "target_type": "node_type",
+      "target_uuid": "9e4b5efa-9303-469e-b5d6-20ef12fbe1d1"
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1520021693
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 24,
+      "target_type": "user",
+      "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+      "url": "/user/24"
+    }
+  ],
+  "revision_log": [],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "Arts on the T"
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 19,
+      "target_type": "user",
+      "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+      "url": "/user/19"
+    }
+  ],
+  "created": [
+    {
+      "value": 1512746888
+    }
+  ],
+  "changed": [
+    {
+      "value": 1520021693
+    }
+  ],
+  "promote": [
+    {
+      "value": false
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "revision_default": [
+    {
+      "value": true
+    }
+  ],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "moderation_state": [
+    {
+      "value": "published"
+    }
+  ],
+  "path": [
+    {
+      "alias": "/arts",
+      "pid": 558,
+      "langcode": "en"
+    }
+  ],
+  "publish_on": [],
+  "unpublish_on": [],
+  "menu_link": [],
+  "body": [
+    {
+      "value": "<p><img alt=\"art-on-the-mbta-crop.JPG\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"883\" src=\"/sites/default/files/Art/art-on-the-mbta-crop.JPG\" width=\"2000\" /></p>\r\n\r\n<h2>Music</h2>\r\n\r\n<p>The MBTA permits musical performances at a number of subway stations in metro Boston.&nbsp;</p>\r\n\r\n<p>You must be a licensed performer to play in stations in designated areas.</p>\r\n\r\n<p>You can find <a href=\"https://www.mbtarealty.com/subway/\">details about the Subway Performers Program</a> and how to apply from the <a href=\"https://www.mbtarealty.com\">Massachusetts Realty Group</a>, the MBTA’s real estate division.</p>\r\n\r\n<h2>Filming</h2>\r\n\r\n<p>The MBTA is an iconic part of the Boston cityscape. Our transit system has appeared in many films set in the area.&nbsp;</p>\r\n\r\n<p>To film any scene involving the MBTA, you need a film permit. Email <a href=\"mailto:filming@mbta.com\">filming@mbta.com</a> for more information.</p>\r\n\r\n<h2>Visual Art</h2>\r\n\r\n<p>Since 1967, the MBTA has enlisted the help of local artists to bring character to our infrastructure. When you travel on the T, you'll find more than 100 pieces of artwork featured on 6 of our transit lines.</p>\r\n\r\n<p>You can view these pieces on the:</p>\r\n",
+      "format": "basic_html",
+      "processed": "<p><img alt=\"art-on-the-mbta-crop.JPG\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"883\" src=\"/sites/default/files/Art/art-on-the-mbta-crop.JPG\" width=\"2000\" /></p>\n\n<h2>Music</h2>\n\n<p>The MBTA permits musical performances at a number of subway stations in metro Boston. </p>\n\n<p>You must be a licensed performer to play in stations in designated areas.</p>\n\n<p>You can find <a href=\"https://www.mbtarealty.com/subway/\">details about the Subway Performers Program</a> and how to apply from the <a href=\"https://www.mbtarealty.com\">Massachusetts Realty Group</a>, the MBTA’s real estate division.</p>\n\n<h2>Filming</h2>\n\n<p>The MBTA is an iconic part of the Boston cityscape. Our transit system has appeared in many films set in the area. </p>\n\n<p>To film any scene involving the MBTA, you need a film permit. Email <a href=\"mailto:filming@mbta.com\">filming@mbta.com</a> for more information.</p>\n\n<h2>Visual Art</h2>\n\n<p>Since 1967, the MBTA has enlisted the help of local artists to bring character to our infrastructure. When you travel on the T, you'll find more than 100 pieces of artwork featured on 6 of our transit lines.</p>\n\n<p>You can view these pieces on the:</p>",
+      "summary": ""
+    }
+  ],
+  "field_downloads": [],
+  "field_keywords": [],
+  "field_page_type": [
+    {
+      "target_id": 21,
+      "target_type": "taxonomy_term",
+      "target_uuid": "36066740-b400-42c3-851f-4a00c7c84c88",
+      "url": "/taxonomy/term/21"
+    }
+  ],
+  "field_paragraphs": [
+    {
+      "target_id": 1623,
+      "target_revision_id": 27534,
+      "id": [
+        {
+          "value": 1623
+        }
+      ],
+      "uuid": [
+        {
+          "value": "868985a6-48b5-4984-9911-7d4d1eb4f54e"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 27534
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1516984929
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "3195"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_column": [
+        {
+          "target_id": 1620,
+          "target_revision_id": 27531,
+          "id": [
+            {
+              "value": 1620
+            }
+          ],
+          "uuid": [
+            {
+              "value": "ee87d0da-ef57-4671-8b09-d71deebd3cdc"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 27531
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1516984946
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1623"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<p><a href=\"/sites/default/files/Art/green-line-art-120917.pdf\">Green Line {{ fa \"arrow-right\" }}</a>&nbsp;</p>\r\n\r\n<p><a href=\"/sites/default/files/Art/red-line-art-120817.pdf\">Red Line {{ fa \"arrow-right\" }}</a></p>\r\n",
+              "format": "full_html",
+              "processed": "<p><a href=\"/sites/default/files/Art/green-line-art-120917.pdf\">Green Line {{ fa \"arrow-right\" }}</a> </p>\n\n<p><a href=\"/sites/default/files/Art/red-line-art-120817.pdf\">Red Line {{ fa \"arrow-right\" }}</a></p>\n"
+            }
+          ]
+        },
+        {
+          "target_id": 1621,
+          "target_revision_id": 27532,
+          "id": [
+            {
+              "value": 1621
+            }
+          ],
+          "uuid": [
+            {
+              "value": "ff6dd46c-19b9-4e80-a153-4a85f8f19582"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 27532
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1516984971
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1623"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<p><a href=\"/sites/default/files/Art/orange-line-art-120817.pdf\">Orange Line {{ fa \"arrow-right\" }}</a></p>\r\n\r\n<p><a href=\"/sites/default/files/Art/blue-line-art-120817.pdf\">Blue Line {{ fa \"arrow-right\" }}</a></p>\r\n",
+              "format": "full_html",
+              "processed": "<p><a href=\"/sites/default/files/Art/orange-line-art-120817.pdf\">Orange Line {{ fa \"arrow-right\" }}</a></p>\n\n<p><a href=\"/sites/default/files/Art/blue-line-art-120817.pdf\">Blue Line {{ fa \"arrow-right\" }}</a></p>\n"
+            }
+          ]
+        },
+        {
+          "target_id": 1622,
+          "target_revision_id": 27533,
+          "id": [
+            {
+              "value": 1622
+            }
+          ],
+          "uuid": [
+            {
+              "value": "66cb5ede-ee8e-4c57-8741-73db97f74464"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 27533
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1516984987
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1623"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<p><a href=\"/sites/default/files/Art/silver-line-art-120817.pdf\">Silver Line {{ fa \"arrow-right\" }}</a></p>\r\n\r\n<p><a href=\"/sites/default/files/Art/commuter-rail-art-120817.pdf\">Commuter Rail {{ fa \"arrow-right\" }}</a></p>\r\n",
+              "format": "full_html",
+              "processed": "<p><a href=\"/sites/default/files/Art/silver-line-art-120817.pdf\">Silver Line {{ fa \"arrow-right\" }}</a></p>\n\n<p><a href=\"/sites/default/files/Art/commuter-rail-art-120817.pdf\">Commuter Rail {{ fa \"arrow-right\" }}</a></p>\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target_id": 1624,
+      "target_revision_id": 27535,
+      "id": [
+        {
+          "value": 1624
+        }
+      ],
+      "uuid": [
+        {
+          "value": "710c4fbc-c7cd-4909-be78-7f179cdbf756"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 27535
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1516985012
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "3195"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [],
+      "moderation_state": [],
+      "field_custom_html_body": [
+        {
+          "value": "<h3>Submit Your Artwork</h3>\r\n\r\n<p>The MBTA runs 3 programs to feature artwork in stations:</p>\r\n",
+          "format": "basic_html",
+          "processed": "<h3>Submit Your Artwork</h3>\n\n<p>The MBTA runs 3 programs to feature artwork in stations:</p>"
+        }
+      ]
+    },
+    {
+      "target_id": 1628,
+      "target_revision_id": 27539,
+      "id": [
+        {
+          "value": 1628
+        }
+      ],
+      "uuid": [
+        {
+          "value": "50d8dedc-33ee-4a33-a65a-f779c458a12d"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 27539
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1516985435
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "3195"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_column": [
+        {
+          "target_id": 1625,
+          "target_revision_id": 27536,
+          "id": [
+            {
+              "value": 1625
+            }
+          ],
+          "uuid": [
+            {
+              "value": "95ed9d3a-65ea-49a9-8c7b-a3fbdd0d840a"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 27536
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1516985442
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1628"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h4><a href=\"http://old.mbta.com/uploadedfiles/About_the_T/Art_Collection/140815_MBTA_TemporaryArtMuralGuidelinesApplication.pdf.pdf\">Temporary Art and Murals</a></h4>\r\n\r\n<p>The MBTA commissions temporary murals and art installations from community and youth groups throughout the year.</p>\r\n",
+              "format": "basic_html",
+              "processed": "<h4><a href=\"http://old.mbta.com/uploadedfiles/About_the_T/Art_Collection/140815_MBTA_TemporaryArtMuralGuidelinesApplication.pdf.pdf\">Temporary Art and Murals</a></h4>\n\n<p>The MBTA commissions temporary murals and art installations from community and youth groups throughout the year.</p>"
+            }
+          ]
+        },
+        {
+          "target_id": 1626,
+          "target_revision_id": 27537,
+          "id": [
+            {
+              "value": 1626
+            }
+          ],
+          "uuid": [
+            {
+              "value": "d742d018-7731-4843-8317-b94e6179f3a2"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 27537
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1516985466
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1628"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h4><a href=\"http://old.mbta.com/uploadedfiles/Business_Center/140114_MBTA_Integral%20Art%20ProgramPolicy.pdf\">Integral Art</a></h4>\r\n\r\n<p>When building new stations or renovating existing ones, we solicit bids from local artists to create artwork that is integrated into the structure of the station itself.</p>\r\n",
+              "format": "basic_html",
+              "processed": "<h4><a href=\"http://old.mbta.com/uploadedfiles/Business_Center/140114_MBTA_Integral%20Art%20ProgramPolicy.pdf\">Integral Art</a></h4>\n\n<p>When building new stations or renovating existing ones, we solicit bids from local artists to create artwork that is integrated into the structure of the station itself.</p>"
+            }
+          ]
+        },
+        {
+          "target_id": 1627,
+          "target_revision_id": 27538,
+          "id": [
+            {
+              "value": 1627
+            }
+          ],
+          "uuid": [
+            {
+              "value": "c305d1f5-d6b1-45b7-969d-ec4af0c2bf36"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 27538
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1516985480
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1628"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h4><a href=\"/sites/default/files/Art/community-partnership-art-program-120817.pdf\">Community Partnership Art</a></h4>\r\n\r\n<p>Through this program, artists and community groups can submit bids for more permanent artwork in stations.&nbsp;</p>\r\n",
+              "format": "basic_html",
+              "processed": "<h4><a href=\"/sites/default/files/Art/community-partnership-art-program-120817.pdf\">Community Partnership Art</a></h4>\n\n<p>Through this program, artists and community groups can submit bids for more permanent artwork in stations. </p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target_id": 1234,
+      "target_revision_id": 27540,
+      "id": [
+        {
+          "value": 1234
+        }
+      ],
+      "uuid": [
+        {
+          "value": "d7723a4f-a5e0-4f54-a62b-86ac54f8457a"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 27540
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 19,
+          "target_type": "user",
+          "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+          "url": "/user/19"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1512748632
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 19,
+          "target_type": "user",
+          "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+          "url": "/user/19"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "3195"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [],
+      "moderation_state": [],
+      "field_custom_html_body": [
+        {
+          "value": "<p>There are currently no open calls for station construction projects, but you can view some of our recent solicitations for integral art to get a sense of how they work. Check this page for upcoming projects.</p>\r\n",
+          "format": "basic_html",
+          "processed": "<p>There are currently no open calls for station construction projects, but you can view some of our recent solicitations for integral art to get a sense of how they work. Check this page for upcoming projects.</p>"
+        }
+      ]
+    },
+    {
+      "target_id": 1238,
+      "target_revision_id": 27544,
+      "id": [
+        {
+          "value": 1238
+        }
+      ],
+      "uuid": [
+        {
+          "value": "7fa617f7-26c4-473b-a5e1-583ab0a7a215"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 27544
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 19,
+          "target_type": "user",
+          "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+          "url": "/user/19"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1512748649
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 19,
+          "target_type": "user",
+          "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+          "url": "/user/19"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "3195"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_column": [
+        {
+          "target_id": 1235,
+          "target_revision_id": 27541,
+          "id": [
+            {
+              "value": 1235
+            }
+          ],
+          "uuid": [
+            {
+              "value": "12396c3d-03a8-4cd4-8e75-817a221e8c9c"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 27541
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 19,
+              "target_type": "user",
+              "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+              "url": "/user/19"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1512748659
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 19,
+              "target_type": "user",
+              "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+              "url": "/user/19"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1238"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h4>Wollaston Subway Station</h4>\r\n\r\n<ul>\r\n\t<li><a href=\"/sites/default/files/Art/wollaston-call-for-artist-2015.pdf\">Call for Artists (2015)</a></li>\r\n\t<li><a href=\"/sites/default/files/Art/wollaston-integral-art-meeting-081215.pdf\">Presentation</a></li>\r\n\t<li><a href=\"/sites/default/files/Art/wollaston-integral-art-minutes-072915.pdf\">Meeting Minutes/Q&amp;A</a></li>\r\n</ul>\r\n",
+              "format": "basic_html",
+              "processed": "<h4>Wollaston Subway Station</h4>\n\n<ul><li><a href=\"/sites/default/files/Art/wollaston-call-for-artist-2015.pdf\">Call for Artists (2015)</a></li>\n\t<li><a href=\"/sites/default/files/Art/wollaston-integral-art-meeting-081215.pdf\">Presentation</a></li>\n\t<li><a href=\"/sites/default/files/Art/wollaston-integral-art-minutes-072915.pdf\">Meeting Minutes/Q&amp;A</a></li>\n</ul>"
+            }
+          ]
+        },
+        {
+          "target_id": 1237,
+          "target_revision_id": 27542,
+          "id": [
+            {
+              "value": 1237
+            }
+          ],
+          "uuid": [
+            {
+              "value": "d06d8053-25b3-4be5-bb8b-60d25e48f1e2"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 27542
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 19,
+              "target_type": "user",
+              "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+              "url": "/user/19"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1512749430
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 19,
+              "target_type": "user",
+              "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+              "url": "/user/19"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1238"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h4>Blue Hill Avenue Commuter Rail Station</h4>\r\n\r\n<ul>\r\n\t<li><a href=\"/sites/default/files/Art/blue-hill-ave-call-for-artists-2015.pdf\">Call for Artists (2015)</a></li>\r\n\t<li><a href=\"/sites/default/files/Art/blue-hill-ave-integral-art-meeting-072315.pdf\">Presentation</a></li>\r\n\t<li><a href=\"/sites/default/files/Art/blue-hill-ave-integral-art-minutes-072315.pdf\">Meeting Minutes/Q&amp;A</a></li>\r\n</ul>\r\n",
+              "format": "basic_html",
+              "processed": "<h4>Blue Hill Avenue Commuter Rail Station</h4>\n\n<ul><li><a href=\"/sites/default/files/Art/blue-hill-ave-call-for-artists-2015.pdf\">Call for Artists (2015)</a></li>\n\t<li><a href=\"/sites/default/files/Art/blue-hill-ave-integral-art-meeting-072315.pdf\">Presentation</a></li>\n\t<li><a href=\"/sites/default/files/Art/blue-hill-ave-integral-art-minutes-072315.pdf\">Meeting Minutes/Q&amp;A</a></li>\n</ul>"
+            }
+          ]
+        },
+        {
+          "target_id": 1236,
+          "target_revision_id": 27543,
+          "id": [
+            {
+              "value": 1236
+            }
+          ],
+          "uuid": [
+            {
+              "value": "b2dccd9d-ff30-4500-a990-ab910ca08fdd"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 27543
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 19,
+              "target_type": "user",
+              "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+              "url": "/user/19"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1512749051
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 19,
+              "target_type": "user",
+              "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+              "url": "/user/19"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1238"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h4>Chelsea Commuter Rail Station</h4>\r\n\r\n<ul>\r\n\t<li><a href=\"/sites/default/files/Art/chelsea-call-for-artist-2015.pdf\">Call for Artists (2015)</a></li>\r\n\t<li><a href=\"/sites/default/files/Art/chelsea-integral-art-meeting-072915.pdf\">Presentation</a></li>\r\n\t<li><a href=\"/sites/default/files/Art/chelsea-integral-art-minutes-072915.pdf\">Meeting Minutes/Q&amp;A</a></li>\r\n</ul>\r\n",
+              "format": "basic_html",
+              "processed": "<h4>Chelsea Commuter Rail Station</h4>\n\n<ul><li><a href=\"/sites/default/files/Art/chelsea-call-for-artist-2015.pdf\">Call for Artists (2015)</a></li>\n\t<li><a href=\"/sites/default/files/Art/chelsea-integral-art-meeting-072915.pdf\">Presentation</a></li>\n\t<li><a href=\"/sites/default/files/Art/chelsea-integral-art-minutes-072915.pdf\">Meeting Minutes/Q&amp;A</a></li>\n</ul>"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "field_sidebar_menu": [],
+  "breadcrumbs": [
+    {
+      "text": "Home",
+      "uri": "/"
+    },
+    {
+      "text": "Arts on the T",
+      "uri": ""
+    }
+  ]
+}

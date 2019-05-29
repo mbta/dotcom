@@ -1,0 +1,20 @@
+// These styles get rid of Google's tooltip for improving translations.
+// This effect causes a pop-up that is difficult to get rid of when
+// a user hovers too long over a link element.
+.goog-tooltip {
+  display: none !important;
+}
+
+.goog-tooltip:hover {
+  display: none !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#google_translate_element {
+  display: none;
+}

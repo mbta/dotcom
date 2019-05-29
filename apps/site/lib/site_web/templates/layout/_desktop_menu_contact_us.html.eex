@@ -1,0 +1,64 @@
+<div class="menu-row">
+  <div class="col-xs-4 header-column">
+    <div class="h5 header-column-heading">Customer Support</div>
+    <p>
+      <%= tel_link "(617) 222-3200" %><br />
+      <strong>TTY</strong> <%= tel_link "(617) 222-5146" %><br />
+      <strong>Monday &mdash; Friday:</strong> 6:30A until 8:00P<br />
+      <strong>Saturday &mdash; Sunday:</strong> 8:00A until 4:00P<br />
+    </p>
+
+    <ul>
+      <li>
+        <%= link to: customer_support_path(@conn, :index) do %>
+          Send us your comments or questions
+        <% end %>
+      </li>
+      <li>
+        <%= link to: customer_support_path(@conn, :index)<>"#customer_support" do %>
+          View all contact numbers
+        <% end %>
+      </li>
+    </ul>
+  </div>
+  <div class="col-xs-4 header-column">
+    <div class="h5 header-column-heading">Transit Police</div>
+    <p>
+      <strong>Emergency:</strong> <%= tel_link "(617) 222-1212" %><br />
+      <strong>TTY:</strong> <%= tel_link "(617) 222-1200" %><br />
+    </p>
+    <ul>
+      <li>
+        <%= link to: cms_static_page_path(@conn, "/transit-police") do %>
+          Contact the Transit Police
+        <% end %>
+      </li>
+      <li>
+        <%= link to: cms_static_page_path(@conn, "/transit-police/see-something-say-something") do %>
+          See Something, Say Something
+        <% end %>
+      </li>
+    </ul>
+  </div>
+  <div class="col-xs-4 header-column">
+    <div class="h5 header-column-heading">Service Updates</div>
+    <p>Receive notifications of MBTA service alerts by e-mail or text message (SMS).</p>
+    <ul>
+      <li>
+        <%= link to: cms_static_page_path(@conn, "/about-t-alerts") do %>
+          About T-Alerts
+        <% end %>
+      </li>
+      <li>
+        <%= link to: "https://alerts.mbta.com", target: "_blank" do %>
+          Sign Up for T-Alerts
+        <% end %>
+      </li>
+      <li>
+        <%= link to: "https://twitter.com/MBTA", target: "_blank" do %>
+          @MBTA Twitter Updates
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>

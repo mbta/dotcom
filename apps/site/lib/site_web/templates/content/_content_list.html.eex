@@ -1,0 +1,8 @@
+<%= if @content.header do %>
+  <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
+<% end %>
+
+<%= render("_teaser_list.html",
+      teasers: @content.teasers,
+      type: Keyword.get(@content.recipe, :type, :generic),
+      conn: @conn) %>

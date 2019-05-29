@@ -1,0 +1,16 @@
+<div class="fare-sales-locations">
+  <h3>Nearby MBTA fare retail sales locations</h3>
+  <div class="c-location-cards c-location-cards--background-gray small-set grouped">
+    <%= for {%Fares.RetailLocations.Location{name: name, address: address} = location, distance} <- @fare_sales_locations do %>
+      <%= link to: GoogleMaps.direction_map_url(@search_position, location), class: "c-location-card c-location-card--flex", target: "_blank" do %>
+        <div class="c-location-card__name">
+          <%= name %>
+        </div>
+        <div class="c-location-card__distance"><%= round_distance(distance) %></div>
+        <div class="c-location-card__description">
+          <%= address %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

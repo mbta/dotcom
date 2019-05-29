@@ -1,0 +1,741 @@
+{
+  "nid": [
+    {
+      "value": 3183
+    }
+  ],
+  "uuid": [
+    {
+      "value": "d78c7dbe-9474-41df-816a-e0f670ba01f3"
+    }
+  ],
+  "vid": [
+    {
+      "value": 6372
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "page",
+      "target_type": "node_type",
+      "target_uuid": "9e4b5efa-9303-469e-b5d6-20ef12fbe1d1"
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1512744779
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 19,
+      "target_type": "user",
+      "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+      "url": "/user/19"
+    }
+  ],
+  "revision_log": [],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "Waste Management"
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 19,
+      "target_type": "user",
+      "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+      "url": "/user/19"
+    }
+  ],
+  "created": [
+    {
+      "value": 1512592688
+    }
+  ],
+  "changed": [
+    {
+      "value": 1512744779
+    }
+  ],
+  "promote": [
+    {
+      "value": false
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "revision_default": [
+    {
+      "value": true
+    }
+  ],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "moderation_state": [
+    {
+      "value": "published"
+    }
+  ],
+  "path": [],
+  "publish_on": [],
+  "unpublish_on": [],
+  "menu_link": [],
+  "body": [
+    {
+      "value": "<p>The MBTA works with local communities and leaders to ensure that all MBTA waste is managed responsibly and that the communities themselves can reduce their waste, too.</p>\r\n",
+      "format": "basic_html",
+      "processed": "<p>The MBTA works with local communities and leaders to ensure that all MBTA waste is managed responsibly and that the communities themselves can reduce their waste, too.</p>",
+      "summary": ""
+    }
+  ],
+  "field_downloads": [],
+  "field_keywords": [],
+  "field_page_type": [
+    {
+      "target_id": 5,
+      "target_type": "taxonomy_term",
+      "target_uuid": "65e4e59e-9c8c-4a68-8c4c-d2f7559fd7ad",
+      "url": "/taxonomy/term/5"
+    }
+  ],
+  "field_paragraphs": [
+    {
+      "target_id": 1143,
+      "target_revision_id": 11694,
+      "id": [
+        {
+          "value": 1143
+        }
+      ],
+      "uuid": [
+        {
+          "value": "54c23330-b16c-46df-ac25-d30934c931d7"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 11694
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 19,
+          "target_type": "user",
+          "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+          "url": "/user/19"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1512592723
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 19,
+          "target_type": "user",
+          "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+          "url": "/user/19"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "3183"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [],
+      "moderation_state": [],
+      "field_custom_html_body": [
+        {
+          "value": "<h2>Recycling&nbsp;</h2>\r\n\r\n<ul>\r\n</ul>\r\n",
+          "format": "basic_html",
+          "processed": "<h2>Recycling </h2>\n\n<ul></ul>"
+        }
+      ]
+    },
+    {
+      "target_id": 1146,
+      "target_revision_id": 11697,
+      "id": [
+        {
+          "value": 1146
+        }
+      ],
+      "uuid": [
+        {
+          "value": "c6fe8d39-9485-4685-abf1-89b110af4485"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 11697
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 19,
+          "target_type": "user",
+          "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+          "url": "/user/19"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1512593121
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 19,
+          "target_type": "user",
+          "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+          "url": "/user/19"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "3183"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_column": [
+        {
+          "target_id": 1144,
+          "target_revision_id": 11695,
+          "id": [
+            {
+              "value": 1144
+            }
+          ],
+          "uuid": [
+            {
+              "value": "cf01d1c8-ea96-4619-a19c-ba59f74f8956"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 11695
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 19,
+              "target_type": "user",
+              "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+              "url": "/user/19"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1512593124
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 19,
+              "target_type": "user",
+              "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+              "url": "/user/19"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1146"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h3>Agency-Wide Single Stream Recycling</h3>\r\n\r\n<p>Single-stream recycling makes it easier to recycle everything from the paper we use in our offices to the materials we use for our vehicles. Our maintenance facilities recycle all waste, including metal, batteries, glass, cardboard, and electronics. It saves nearly $150,000 a year.</p>\r\n",
+              "format": "basic_html",
+              "processed": "<h3>Agency-Wide Single Stream Recycling</h3>\n\n<p>Single-stream recycling makes it easier to recycle everything from the paper we use in our offices to the materials we use for our vehicles. Our maintenance facilities recycle all waste, including metal, batteries, glass, cardboard, and electronics. It saves nearly $150,000 a year.</p>"
+            }
+          ]
+        },
+        {
+          "target_id": 1145,
+          "target_revision_id": 11696,
+          "id": [
+            {
+              "value": 1145
+            }
+          ],
+          "uuid": [
+            {
+              "value": "34d4ef34-4751-4621-9dab-b38406a72f45"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 11696
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 19,
+              "target_type": "user",
+              "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+              "url": "/user/19"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1512593133
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 19,
+              "target_type": "user",
+              "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+              "url": "/user/19"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1146"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h3>Station Recycling&nbsp;</h3>\r\n\r\n<p>More than 2,500 tons of newspaper have been recycled at the bins located throughout MBTA stations.&nbsp;</p>\r\n\r\n<p>Additionally, single-stream recycling bins are available at Red Line stations in Cambridge so people can recycle plastic bottles, food containers, and more on their commute.&nbsp;</p>\r\n",
+              "format": "basic_html",
+              "processed": "<h3>Station Recycling </h3>\n\n<p>More than 2,500 tons of newspaper have been recycled at the bins located throughout MBTA stations. </p>\n\n<p>Additionally, single-stream recycling bins are available at Red Line stations in Cambridge so people can recycle plastic bottles, food containers, and more on their commute. </p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target_id": 1147,
+      "target_revision_id": 11698,
+      "id": [
+        {
+          "value": 1147
+        }
+      ],
+      "uuid": [
+        {
+          "value": "82f70949-5282-45c4-a8ed-53300e9fd99c"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 11698
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 19,
+          "target_type": "user",
+          "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+          "url": "/user/19"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1512593142
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 19,
+          "target_type": "user",
+          "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+          "url": "/user/19"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "3183"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [],
+      "moderation_state": [],
+      "field_custom_html_body": [
+        {
+          "value": "<h2>Hazardous Waste Management</h2>\r\n\r\n<ul>\r\n\t<li>Waste oil is recycled and sold to save money and reduce environmental impacts.</li>\r\n\t<li>Leftover aerosol in cans is released into 55-gallon drums for proper disposal, and the cans are recycled.</li>\r\n\t<li>All freon from air conditioners is captured and reused.</li>\r\n\t<li>Batteries are returned to manufacturers to ensure proper recycling.</li>\r\n\t<li>All bus tires are leased from the manufacturers, and returned to be recycled after a certain number of miles</li>\r\n</ul>\r\n",
+          "format": "basic_html",
+          "processed": "<h2>Hazardous Waste Management</h2>\n\n<ul><li>Waste oil is recycled and sold to save money and reduce environmental impacts.</li>\n\t<li>Leftover aerosol in cans is released into 55-gallon drums for proper disposal, and the cans are recycled.</li>\n\t<li>All freon from air conditioners is captured and reused.</li>\n\t<li>Batteries are returned to manufacturers to ensure proper recycling.</li>\n\t<li>All bus tires are leased from the manufacturers, and returned to be recycled after a certain number of miles</li>\n</ul>"
+        }
+      ]
+    }
+  ],
+  "field_sidebar_menu": [
+    {
+      "nid": [
+        {
+          "value": 3193
+        }
+      ],
+      "uuid": [
+        {
+          "value": "cbf20149-060c-4101-b8bc-bc5a99032d54"
+        }
+      ],
+      "vid": [
+        {
+          "value": 7692
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "menu_links",
+          "target_type": "node_type",
+          "target_uuid": "d44f2514-b274-4a75-b0e7-492e66c0ed52"
+        }
+      ],
+      "revision_timestamp": [
+        {
+          "value": 1516228612
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 19,
+          "target_type": "user",
+          "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+          "url": "/user/19"
+        }
+      ],
+      "revision_log": [],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "title": [
+        {
+          "value": "Sustainability"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 19,
+          "target_type": "user",
+          "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+          "url": "/user/19"
+        }
+      ],
+      "created": [
+        {
+          "value": 1512744578
+        }
+      ],
+      "changed": [
+        {
+          "value": 1518463755
+        }
+      ],
+      "promote": [
+        {
+          "value": true
+        }
+      ],
+      "sticky": [
+        {
+          "value": false
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "path": [
+        {
+          "alias": null,
+          "pid": null,
+          "langcode": "en"
+        }
+      ],
+      "publish_on": [],
+      "unpublish_on": [],
+      "menu_link": [],
+      "field_blurb": [
+        {
+          "value": "<p>Learn more about sustainability programs at&nbsp;the MBTA.</p>\r\n",
+          "format": "basic_html",
+          "processed": "<p>Learn more about sustainability programs at the MBTA.</p>"
+        }
+      ],
+      "field_links": [
+        {
+          "uri": "/sustainability/energy-conservation",
+          "title": "Energy Conservation",
+          "options": []
+        },
+        {
+          "uri": "/sustainability/nature-conservation",
+          "title": "Nature Conservation",
+          "options": []
+        },
+        {
+          "uri": "/sustainability/waste-management",
+          "title": "Waste Management",
+          "options": []
+        },
+        {
+          "uri": "/sustainability/mbta-vehicle-efficiency",
+          "title": "Vehicle Efficiency",
+          "options": []
+        },
+        {
+          "uri": "/sustainability/sustainable-design",
+          "title": "Sustainable Design",
+          "options": []
+        },
+        {
+          "uri": "/sustainability/community",
+          "title": "Community Programs",
+          "options": []
+        }
+      ],
+      "field_menu_position": [
+        {
+          "value": "bottom"
+        }
+      ]
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "text": "Home",
+      "uri": "/"
+    },
+    {
+      "text": "Sustainability on the T",
+      "uri": "/sustainability"
+    },
+    {
+      "text": "Waste Management",
+      "uri": ""
+    }
+  ]
+}

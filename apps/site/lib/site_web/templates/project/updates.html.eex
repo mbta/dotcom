@@ -1,0 +1,29 @@
+<div class="container">
+  <div class="c-cms c-cms--no-sidebar">
+    <div class="c-cms__header">
+      <div class="c-cms__title">
+        <h1><%= @project.title %>: All Updates</h1>
+      </div>
+    </div>
+    <div class="c-cms__content">
+      <div class="c-cms__body">
+        <%= for update <- @updates do
+          link([
+            content_tag(:div, SiteWeb.PartialView.render_teaser_image(update), class: "m-project-updates__image col-sm-6"),
+            content_tag(:div, [
+              content_tag(:h2, update.title, class: "h3 m-project-updates__title"),
+              content_tag(:p, Timex.format!(update.date, "{Mfull} {D}, {YYYY}"), class: "h4")
+            ], class: "m-project-updates__content col-sm-6")
+          ], to: update.path, class: "m-project-updates__teaser c-content-teaser row")
+        end %>
+        <%= if Enum.empty?(@updates) do content_tag(:div, "There are no updates at this time.") end %>
+        <%= SiteWeb.ContentView.render_paragraph(%Content.Paragraph.DescriptiveLink{
+          parent: "field_paragraphs",
+          title: @project.title,
+          body: content_tag(:p, "Learn more about this project"),
+          link: %Content.Field.Link{url: project_path(@conn, :show, @project)}
+        }, @conn) %>
+      </div>
+    </div>
+  </div>
+</div>

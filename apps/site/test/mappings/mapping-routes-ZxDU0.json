@@ -1,0 +1,22 @@
+{
+  "id" : "cd925da3-be51-38a1-9309-7cc37152d6dc",
+  "request" : {
+    "url" : "/routes/?stop=Uphams+Corner",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZxDU0.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:35 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mlded6jbv5dm6ps013pb2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "cd925da3-be51-38a1-9309-7cc37152d6dc"
+}

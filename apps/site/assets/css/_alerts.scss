@@ -1,0 +1,380 @@
+// Show
+.m-alerts__notice--show-empty {
+  border: $border;
+  padding: $space-6;
+}
+
+.m-alerts__notice--no-alerts {
+  background-color: $gray-lightest;
+  padding: $space-12;
+}
+
+// Header
+.m-alerts-header {
+  margin: $space-12 * 2 auto $space-6;
+  position: relative;
+
+  &:first-child {
+    margin-top: 0;
+  }
+}
+
+.m-alerts-header__name {
+  color: $gray-dark;
+  font-weight: bold;
+  margin: $base-spacing / 2 0;
+  width: 90%;
+
+  &:hover {
+    color: $brand-primary;
+  }
+
+  &--systemwide:hover {
+    color: $gray-dark;
+  }
+}
+
+.m-alerts-header__link {
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.m-alerts-header__long-name {
+  padding-left: $base-spacing;
+}
+
+.m-alerts-header__icon {
+  margin-top: $base-spacing / 2;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+// Group
+.c-alert-group {
+  list-style-type: none;
+  padding-left: 0;
+
+  @include media-breakpoint-down(sm) {
+    margin-left: -$half-gutter;
+    margin-right: -$half-gutter;
+  }
+
+  .schedule-filter-row + & {
+    margin-top: $base-spacing;
+  }
+}
+
+// Item
+.c-alert-item {
+  background-color: $service-alert-yellow;
+  border: 1px solid $service-alert-yellow-darker;
+  overflow: hidden;
+  position: relative;
+
+  @include media-breakpoint-down(sm) {
+    border-left: 0;
+    border-right: 0;
+  }
+
+  .c-alert-item__caret--up {
+    display: none;
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    // when tabbing through, ensure that focus is covered by next item
+    z-index: 1;
+  }
+}
+
+.c-alert-item--expandable {
+  cursor: pointer;
+}
+
+.c-alert-item--system {
+  background-color: $service-alert-yellow-darker;
+  border: 1px solid $service-alert-yellow-darker;
+}
+
+.c-alert-item--low {
+  background-color: $service-alert-gray;
+  border: 1px solid $service-alert-gray-darker;
+}
+
+.c-alert-item__top {
+  display: flex;
+  padding-left: $base-spacing * 3;
+}
+
+.c-alert-item__top-text-container {
+  flex: 1 1 auto;
+  padding: $base-spacing;
+}
+
+.c-alert-item__top-caret-container {
+  align-self: center;
+  flex: 0 0 auto;
+  padding: $base-spacing;
+}
+
+.c-alert-item__icon {
+  left: $base-spacing;
+  pointer-events: none;
+  position: absolute;
+  top: $base-spacing;
+
+  [class*="c-svg__icon"] {
+    height: $base-spacing * 2;
+    width: $base-spacing * 2;
+  }
+}
+
+.c-alert-item__effect {
+  font-size: $font-size-h4;
+  font-weight: bold;
+}
+
+.c-alert-item__bottom {
+  background-color: $service-alert-yellow-lighter;
+  max-height: 0;
+  transition: max-height .5s;
+
+  .c-alert-item--open &,
+  .no-js & {
+    // ideally this would be height: auto, but to get the CSS animation to work it needs a value
+    max-height: 4000px;
+    overflow-y: scroll;
+  }
+}
+
+.c-alert-item__bottom--low {
+  background-color: $white;
+}
+
+.c-alert-item--open {
+  .c-alert-item__caret--up {
+    display: block;
+  }
+
+  .c-alert-item__caret--down {
+    display: none;
+  }
+}
+
+.c-alert-item__description {
+  padding: $base-spacing;
+}
+
+.c-alert-item__updated {
+  font-size: $font-size-sm;
+  margin-top: $space-12;
+}
+
+.c-alert-item__badge {
+  background-color: $service-alert-yellow-darker;
+  border-radius: $base-spacing / 4;
+  padding: $base-spacing / 8 $base-spacing / 2;
+}
+
+.c-alert-item__badge--upcoming {
+  background-color: $service-alert-gray-darker;
+}
+
+.c-alert-item__badge--system {
+  background-color: $service-alert-yellow;
+}
+
+.m-alerts__mode-buttons {
+  display: flex;
+  margin-left: -$grid-gutter-width / 4;
+  margin-right: -$grid-gutter-width / 4;
+
+  @include media-breakpoint-down(xs) {
+    flex-wrap: wrap;
+  }
+}
+
+.m-alerts__mode-button-container {
+  flex: 0 0 20%;
+  padding-left: $grid-gutter-width / 4;
+  padding-right: $grid-gutter-width / 4;
+  text-align: center;
+
+  @include media-breakpoint-down(xs) {
+    flex: 0 0 33%;
+    padding-left: $grid-gutter-width / 4;
+    padding-right: $grid-gutter-width / 4;
+  }
+}
+
+.m-alerts__mode-button {
+  border: 1px solid $brand-primary;
+  border-radius: $border-radius;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: $base-spacing;
+  padding: $base-spacing;
+
+  @include media-breakpoint-up(sm) {
+    @include icon-size($base-spacing * 2.5);
+  }
+
+  @include media-breakpoint-down(xs) {
+    @include icon-size-inline($base-spacing * 1.5);
+
+    align-items: center;
+    flex-direction: row;
+    padding: $base-spacing / 2;
+  }
+
+  &--selected {
+    background: $brand-primary-lightest;
+  }
+}
+
+.m-alerts__mode-name {
+  @include media-breakpoint-down(xs) {
+    padding-left: $base-spacing / 4;
+  }
+}
+
+.m-alerts__time-filters {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: $base-spacing;
+
+  @include media-breakpoint-between(sm, md) {
+    flex-direction: row;
+  }
+}
+
+.m-alerts__time-filter {
+  border-color: $brand-primary;
+  border-style: solid;
+  border-width: 0 1px 1px;
+  color: $brand-primary;
+  flex: 1 1 auto;
+  padding: $base-spacing * .75 $base-spacing;
+
+  @include media-breakpoint-between(sm, md) {
+    border-width: 1px 1px 1px 0;
+    text-align: center;
+  }
+
+  &:first-child {
+    border-top-left-radius: $border-radius;
+    border-top-right-radius: $border-radius;
+    border-top-width: 1px;
+
+    @include media-breakpoint-between(sm, md) {
+      border-bottom-left-radius: $border-radius;
+      border-left-width: 1px;
+      border-top-right-radius: 0;
+    }
+  }
+
+  &:last-child {
+    border-bottom-left-radius: $border-radius;
+    border-bottom-right-radius: $border-radius;
+
+    @include media-breakpoint-between(sm, md) {
+      border-bottom-left-radius: 0;
+      border-top-right-radius: $border-radius;
+    }
+
+  }
+
+  &--selected {
+    background: $brand-primary-lightest;
+  }
+}
+
+.m-alerts-ad {
+  background: $brand-primary;
+  color: $white;
+  margin-top: 1rem;
+  padding: $space-1 $base-spacing 0;
+}
+
+.m-alerts-ad__content {
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-between(sm, md) {
+    flex-direction: row;
+  }
+}
+
+.m-alerts-ad__buttons,
+.m-alerts-ad__image {
+  flex-basis: auto;
+  flex-grow: 1;
+}
+
+.m-alerts-ad__buttons {
+  flex: 1 1 auto;
+
+  @include media-breakpoint-only(md) {
+    flex-basis: 60%;
+    padding-right: $base-spacing * 4;
+  }
+}
+
+.m-alerts-ad__image {
+  flex: 0 0 25%;
+  max-height: $base-spacing * 13;
+  overflow-y: hidden;
+
+  @include media-breakpoint-between(sm, md) {
+    flex-basis: 40%;
+  }
+
+  @include media-breakpoint-down(xs) {
+    max-height: $base-spacing * 25;
+  }
+
+  img {
+    width: 100%;
+  }
+}
+
+.m-alerts-ad__link {
+  border: 1px solid $white;
+  border-radius: $border-radius;
+  color: $white;
+  display: block;
+  margin-bottom: $base-spacing / 2;
+  padding: $base-spacing * .75 $base-spacing;
+  text-align: center;
+}
+
+.m-alerts-ad__link--create {
+  background: $white;
+  color: $brand-primary;
+}
+
+.m-alerts-ad__link--login {
+  &:hover {
+    color: $white;
+  }
+}
+
+.m-alert-badge {
+  background-color: $brand-primary;
+  border-radius: $base-spacing / 4;
+  color: $white;
+  font-weight: bold;
+  margin-left: $base-spacing / 2;
+  padding: $base-spacing / 8 $base-spacing / 2;
+
+  @include media-breakpoint-up(sm) {
+    position: absolute;
+    right: $base-spacing / 2;
+    // unusual top spacing is due to the container having a border-bottom
+    // that visually appears as part of the tab
+    top: $base-spacing / 1.75;
+  }
+}

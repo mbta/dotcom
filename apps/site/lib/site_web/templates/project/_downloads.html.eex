@@ -1,0 +1,5 @@
+<div class="page-section project-downloads">
+  <h2>Downloads</h2>
+  <%= SiteWeb.PartialView.render("_file_columns.html", files: @files) %>
+</div>
+

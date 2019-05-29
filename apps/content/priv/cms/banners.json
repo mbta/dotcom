@@ -1,0 +1,343 @@
+[
+  {
+    "nid": [
+      {
+        "value": 3797
+      }
+    ],
+    "uuid": [
+      {
+        "value": "5a490f96-5b64-4393-8ec0-2a04736e107b"
+      }
+    ],
+    "vid": [
+      {
+        "value": 14582
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "important_notice",
+        "target_type": "node_type",
+        "target_uuid": "753309a0-5bc2-418e-89a8-9a18435165bb"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1537893605
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 29,
+        "target_type": "user",
+        "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+        "url": "/user/29"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Headline goes here"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 29,
+        "target_type": "user",
+        "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+        "url": "/user/29"
+      }
+    ],
+    "created": [
+      {
+        "value": 1537893536
+      }
+    ],
+    "changed": [
+      {
+        "value": 1537893605
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "path": [
+      {
+        "alias": null,
+        "pid": null,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "field_banner_type": [
+      {
+        "value": "important"
+      }
+    ],
+    "field_page_type": [
+      {
+        "data": null,
+        "id": 248,
+        "name": "Careers",
+        "vocab": "page_type"
+      }
+    ],
+    "field_image": [
+      {
+        "url": "https://test-mbta.pantheonsite.io/sites/default/files/styles/important_notice/public/media/2018-09/MiscellaneousBus-.jpg?itok=m0yjUcCD",
+        "alt": "An MBTA bus drives down a Boston street."
+      }
+    ],
+    "field_in_blurb": [],
+    "field_in_link": [
+      {
+        "uri": "/",
+        "title": "",
+        "options": []
+      }
+    ],
+    "field_in_thumb": [],
+    "field_mode": [
+      {
+        "value": "commuter_rail"
+      }
+    ],
+    "field_related_transit": [
+      {
+        "id": 206,
+        "name": "CR-Franklin",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Franklin",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ],
+    "field_text_position": [],
+    "field_updated_on": [
+      {
+        "value": "2018-09-25"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3798
+      }
+    ],
+    "uuid": [
+      {
+        "value": "f1e0ad68-35a9-497d-a91a-a60fe5d66651"
+      }
+    ],
+    "vid": [
+      {
+        "value": 14584
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "important_notice",
+        "target_type": "node_type",
+        "target_uuid": "753309a0-5bc2-418e-89a8-9a18435165bb"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1537908077
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 41,
+        "target_type": "user",
+        "target_uuid": "3842fbe7-1cc4-41a7-bdc6-e57b78d29e7e",
+        "url": "/user/41"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Commuter Rail Guide"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 41,
+        "target_type": "user",
+        "target_uuid": "3842fbe7-1cc4-41a7-bdc6-e57b78d29e7e",
+        "url": "/user/41"
+      }
+    ],
+    "created": [
+      {
+        "value": 1537907724
+      }
+    ],
+    "changed": [
+      {
+        "value": 1537908077
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "path": [
+      {
+        "alias": null,
+        "pid": null,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "field_banner_type": [
+      {
+        "value": "default"
+      }
+    ],
+    "field_category": [
+      {
+        "value": "guides"
+      }
+    ],
+    "field_page_type": [
+      {
+        "data": null,
+        "id": 248,
+        "name": "Guides",
+        "vocab": "page_type"
+      }
+    ],
+    "field_image": [
+      {
+        "url": "https://test-mbta.pantheonsite.io/sites/default/files/styles/important_notice/public/media/2018-09/P519%20Ashland_retouch.jpg?itok=5NKSY_ts",
+        "alt": "Commuter Rail train crossing a bridge in Ashland"
+      }
+    ],
+    "field_in_blurb": [
+      {
+        "value": "This is the description of the commuter rail guide"
+      }
+    ],
+    "field_in_link": [
+      {
+        "uri": "/node/3791",
+        "title": "Read the guide",
+        "options": []
+      }
+    ],
+    "field_in_thumb": [],
+    "field_mode": [
+      {
+        "value": "commuter_rail"
+      }
+    ],
+    "field_related_transit": [
+      {
+        "id": 206,
+        "name": "CR-Franklin",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Franklin",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ],
+    "field_text_position": [
+      {
+        "value": "right"
+      }
+    ],
+    "field_updated_on": [
+      {
+        "value": "2018-10-01"
+      }
+    ]
+  }
+]

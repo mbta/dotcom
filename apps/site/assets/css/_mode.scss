@@ -1,0 +1,74 @@
+.m-mode__header {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
+}
+
+.m-mode__name {
+  display: inline-block;
+  flex: 1 0 auto;
+}
+
+.m-mode__view-all {
+  @include base-font-size();
+
+  display: inline-block;
+  flex: 0 0 auto;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  font-weight: normal;
+  line-height: 1em;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.m-mode__group {
+  margin-bottom: $base-spacing;
+}
+
+.m-mode__recently-visited {
+  .c-grid-button {
+    flex-basis: 50%;
+    max-width: 50%;
+  }
+}
+
+.m-mode__search-bar {
+  .c-search-bar--embedded {
+    @include media-breakpoint-up(md) {
+      width: 75%;
+    }
+  }
+}
+
+.m-mode__schedule-section--word {
+  font-size: $font-size-base;
+  text-transform: uppercase;
+}
+
+.m-mode__schedule-section--number {
+  color: $brand-primary-light;
+  font-size: $font-size-h2;
+}
+
+.m-mode__guide,
+.m-mode__project {
+  margin-bottom: $base-spacing;
+}
+
+.m-mode__projects {
+  @include media-breakpoint-between(sm, md) {
+    display: flex;
+  }
+}
+
+.m-mode__project {
+  @include media-breakpoint-between(sm, md) {
+    flex-basis: 0;
+    flex-grow: 1;
+
+    &:first-child {
+      margin-right: $base-spacing;
+    }
+  }
+}

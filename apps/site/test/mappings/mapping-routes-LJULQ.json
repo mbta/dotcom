@@ -1,0 +1,22 @@
+{
+  "id" : "79b6199d-24bd-3750-8e12-a0bdbc9c3e14",
+  "request" : {
+    "url" : "/routes/?stop=West+Roxbury",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LJULQ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:36 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mldg0old5k2imd803dam1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "79b6199d-24bd-3750-8e12-a0bdbc9c3e14"
+}

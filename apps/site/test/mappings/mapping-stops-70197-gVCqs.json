@@ -1,0 +1,22 @@
+{
+  "id" : "790e9834-73fa-39fd-953d-f0d3dc438852",
+  "request" : {
+    "url" : "/stops/70197?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-70197-gVCqs.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:13 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:01 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1lrd4vrkgqo1k03bhd1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "790e9834-73fa-39fd-953d-f0d3dc438852"
+}

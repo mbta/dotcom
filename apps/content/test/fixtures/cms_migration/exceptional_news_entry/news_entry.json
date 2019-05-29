@@ -1,0 +1,12 @@
+{
+  "category": "event",
+  "title": "News Entry Title",
+  "header": "Between Sullivan and Haymarket Stations",
+  "event_date": "UNKNOWN_DATE_FORMAT",
+  "end_date": "4/1/2017",
+  "contact_name": "Leslie Knope",
+  "phone": "617-222-3344",
+  "email": "knope@mbta.com",
+  "information": "This ID returns an existing record",
+  "id": "1234"
+}

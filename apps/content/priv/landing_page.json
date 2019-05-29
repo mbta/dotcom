@@ -1,0 +1,1373 @@
+{
+  "nid": [
+    {
+      "value": 2750
+    }
+  ],
+  "uuid": [
+    {
+      "value": "639248f5-8c3c-40d2-a984-d547a45d7d1c"
+    }
+  ],
+  "vid": [
+    {
+      "value": 4770
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "landing_page",
+      "target_type": "node_type",
+      "target_uuid": "500bbc7e-2905-492c-9af7-54e00563553c"
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1507234291
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 19,
+      "target_type": "user",
+      "target_uuid": "32dd478a-2480-4837-982a-df62b44190c7",
+      "url": "/user/19"
+    }
+  ],
+  "revision_log": [],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "Parking"
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 17,
+      "target_type": "user",
+      "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+      "url": "/user/17"
+    }
+  ],
+  "created": [
+    {
+      "value": 1504619086
+    }
+  ],
+  "changed": [
+    {
+      "value": 1507234291
+    }
+  ],
+  "promote": [
+    {
+      "value": true
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "revision_default": [
+    {
+      "value": true
+    }
+  ],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "moderation_state": [
+    {
+      "value": "published"
+    }
+  ],
+  "path": [
+    {
+      "alias": "/parking",
+      "pid": 192,
+      "langcode": "en"
+    }
+  ],
+  "publish_on": [],
+  "unpublish_on": [],
+  "menu_link": [],
+  "field_hero_image_desktop": [
+    {
+      "target_id": 608,
+      "alt": "",
+      "title": "",
+      "width": 1800,
+      "height": 322,
+      "target_type": "file",
+      "target_uuid": "8aa3b318-190e-4b36-8d29-9698804d22d0",
+      "url": "https://mbta.kbox.site/sites/default/files/Landing%20Page%20Heroes/parking-gradient-1800.jpg",
+      "mime_type": "image/jpeg"
+    }
+  ],
+  "field_hero_image_mobile": [
+    {
+      "target_id": 609,
+      "alt": "",
+      "title": "",
+      "width": 800,
+      "height": 245,
+      "target_type": "file",
+      "target_uuid": "fc0ebfc3-77d0-4a38-8d91-7227b6d9d93a",
+      "url": "https://mbta.kbox.site/sites/default/files/Landing%20Page%20Heroes/parking-gradient-3200.jpg",
+      "mime_type": "image/jpeg"
+    }
+  ],
+  "field_hero_image_mobile_2x": [
+    {
+      "target_id": 609,
+      "alt": "",
+      "title": "",
+      "width": 1600,
+      "height": 490,
+      "target_type": "file",
+      "target_uuid": "fc0ebfc3-77d0-4a38-8d91-7227b6d9d93a",
+      "url": "https://mbta.kbox.site/sites/default/files/Landing%20Page%20Heroes/parking-gradient-3200.jpg",
+      "mime_type": "image/jpeg"
+    }
+  ],
+  "field_keywords": [],
+  "field_page_type": [
+    {
+      "target_id": 6,
+      "target_type": "taxonomy_term",
+      "target_uuid": "aeb9983b-d027-4aaf-bba5-f2d05ebeea74",
+      "url": "/taxonomy/term/6"
+    }
+  ],
+  "field_paragraphs": [
+    {
+      "target_id": 198,
+      "target_revision_id": 3717,
+      "id": [
+        {
+          "value": 198
+        }
+      ],
+      "uuid": [
+        {
+          "value": "8a7ccef5-5a20-4137-9816-32fc6c74781b"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 3717
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1504620426
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2750"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_custom_html_body": [
+        {
+          "value": "<p dir=\"ltr\">The MBTA owns and operates 100 parking lots and garages across its transportation network, with more than 44,000 spaces available.</p>\r\n\r\n<p dir=\"ltr\">You may also be able to find parking at many municipal, regional transit, or privately owned lots near MBTA stations.</p>\r\n\r\n<p dir=\"ltr\">Please note, the information provided on these pages only applies to MBTA garages and lots.</p>\r\n\r\n<h2 dir=\"ltr\">Parking Information</h2>\r\n",
+          "format": "basic_html",
+          "processed": "<p dir=\"ltr\">The MBTA owns and operates 100 parking lots and garages across its transportation network, with more than 44,000 spaces available.</p>\n\n<p dir=\"ltr\">You may also be able to find parking at many municipal, regional transit, or privately owned lots near MBTA stations.</p>\n\n<p dir=\"ltr\">Please note, the information provided on these pages only applies to MBTA garages and lots.</p>\n\n<h2 dir=\"ltr\">Parking Information</h2>"
+        }
+      ]
+    },
+    {
+      "target_id": 201,
+      "target_revision_id": 3720,
+      "id": [
+        {
+          "value": 201
+        }
+      ],
+      "uuid": [
+        {
+          "value": "61ad00d1-2ed9-4957-8c26-5e6706438d86"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 3720
+        }
+      ],
+      "type": [
+        {
+          "target_id": "title_card_set",
+          "target_type": "paragraphs_type",
+          "target_uuid": "a656c88e-ebec-4c27-bd8c-6f0924dde9b0"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1504620489
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2750"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_title_cards": [
+        {
+          "target_id": 199,
+          "target_revision_id": 3718,
+          "id": [
+            {
+              "value": 199
+            }
+          ],
+          "uuid": [
+            {
+              "value": "7ab9064b-5dae-44b8-bedd-0ece32235879"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 3718
+            }
+          ],
+          "type": [
+            {
+              "target_id": "title_card",
+              "target_type": "paragraphs_type",
+              "target_uuid": "f1b9c3e7-f439-4138-b48c-bbb17a8a003d"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1504620489
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "201"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_title_cards"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_title_card_body": [
+            {
+              "value": "<p>MBTA parking lots and garages are conveniently located near&nbsp;Subway, Commuter Rail, and Ferry stations. Learn more about where you can park, as well as&nbsp;daily and monthly rates.</p>\r\n",
+              "format": "basic_html",
+              "processed": "<p>MBTA parking lots and garages are conveniently located near Subway, Commuter Rail, and Ferry stations. Learn more about where you can park, as well as daily and monthly rates.</p>"
+            }
+          ],
+          "field_title_card_link": [
+            {
+              "uri": "/parking/stations-and-rates",
+              "title": "",
+              "options": []
+            }
+          ],
+          "field_title_card_title": [
+            {
+              "value": "Stations and Rates"
+            }
+          ]
+        },
+        {
+          "target_id": 200,
+          "target_revision_id": 3719,
+          "id": [
+            {
+              "value": 200
+            }
+          ],
+          "uuid": [
+            {
+              "value": "ba3f8312-01b7-4c99-b31a-22009f47fbfa"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 3719
+            }
+          ],
+          "type": [
+            {
+              "target_id": "title_card",
+              "target_type": "paragraphs_type",
+              "target_uuid": "f1b9c3e7-f439-4138-b48c-bbb17a8a003d"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1504620657
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "201"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_title_cards"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_title_card_body": [
+            {
+              "value": "<p>Learn more about MBTA parking policies, including unpaid parking fees, parking tickets, and overnight and winter parking.</p>\r\n",
+              "format": "basic_html",
+              "processed": "<p>Learn more about MBTA parking policies, including unpaid parking fees, parking tickets, and overnight and winter parking.</p>"
+            }
+          ],
+          "field_title_card_link": [
+            {
+              "uri": "/parking/parking-rules-and-policies",
+              "title": "",
+              "options": []
+            }
+          ],
+          "field_title_card_title": [
+            {
+              "value": "Rules and Policies"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target_id": 202,
+      "target_revision_id": 3721,
+      "id": [
+        {
+          "value": 202
+        }
+      ],
+      "uuid": [
+        {
+          "value": "179ab7d6-4a28-4847-8618-9bb8072bacfd"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 3721
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1504620993
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2750"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_custom_html_body": [
+        {
+          "value": "<h2>Payment Methods</h2>\r\n",
+          "format": "basic_html",
+          "processed": "<h2>Payment Methods</h2>"
+        }
+      ]
+    },
+    {
+      "target_id": 205,
+      "target_revision_id": 3724,
+      "id": [
+        {
+          "value": 205
+        }
+      ],
+      "uuid": [
+        {
+          "value": "3eab0b2a-a1ad-425d-8999-fc545479f60d"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 3724
+        }
+      ],
+      "type": [
+        {
+          "target_id": "title_card_set",
+          "target_type": "paragraphs_type",
+          "target_uuid": "a656c88e-ebec-4c27-bd8c-6f0924dde9b0"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1504621004
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2750"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_title_cards": [
+        {
+          "target_id": 203,
+          "target_revision_id": 3722,
+          "id": [
+            {
+              "value": 203
+            }
+          ],
+          "uuid": [
+            {
+              "value": "a5e5649a-280c-4459-babd-de29dac83ea4"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 3722
+            }
+          ],
+          "type": [
+            {
+              "target_id": "title_card",
+              "target_type": "paragraphs_type",
+              "target_uuid": "f1b9c3e7-f439-4138-b48c-bbb17a8a003d"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1504621004
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "205"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_title_cards"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_title_card_body": [
+            {
+              "value": "<p>Pay for parking by the day at any MBTA lot. Learn more about daily rates and how to pay.</p>\r\n",
+              "format": "basic_html",
+              "processed": "<p>Pay for parking by the day at any MBTA lot. Learn more about daily rates and how to pay.</p>"
+            }
+          ],
+          "field_title_card_link": [
+            {
+              "uri": "/parking/pay-day",
+              "title": "",
+              "options": []
+            }
+          ],
+          "field_title_card_title": [
+            {
+              "value": "Pay Per Day"
+            }
+          ]
+        },
+        {
+          "target_id": 204,
+          "target_revision_id": 3723,
+          "id": [
+            {
+              "value": 204
+            }
+          ],
+          "uuid": [
+            {
+              "value": "ad34f714-8e1d-493d-ab1d-f1db3d429351"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 3723
+            }
+          ],
+          "type": [
+            {
+              "target_id": "title_card",
+              "target_type": "paragraphs_type",
+              "target_uuid": "f1b9c3e7-f439-4138-b48c-bbb17a8a003d"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1504621221
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "205"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_title_cards"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_title_card_body": [
+            {
+              "value": "<p>Monthly parking rates are available at many MBTA lots. Learn about how to apply for a permit and where to pay.&nbsp;</p>\r\n",
+              "format": "basic_html",
+              "processed": "<p>Monthly parking rates are available at many MBTA lots. Learn about how to apply for a permit and where to pay. </p>"
+            }
+          ],
+          "field_title_card_link": [
+            {
+              "uri": "/parking/pay-month",
+              "title": "",
+              "options": []
+            }
+          ],
+          "field_title_card_title": [
+            {
+              "value": "Pay Per Month"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target_id": 206,
+      "target_revision_id": 3725,
+      "id": [
+        {
+          "value": 206
+        }
+      ],
+      "uuid": [
+        {
+          "value": "a5fb2a2b-a98b-4e70-bdd1-cff089e7aa4f"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 3725
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1504621285
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2750"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_custom_html_body": [
+        {
+          "value": "<h2>Parking Tickets and Invoices</h2>\r\n",
+          "format": "basic_html",
+          "processed": "<h2>Parking Tickets and Invoices</h2>"
+        }
+      ]
+    },
+    {
+      "target_id": 208,
+      "target_revision_id": 3728,
+      "id": [
+        {
+          "value": 208
+        }
+      ],
+      "uuid": [
+        {
+          "value": "97edbd87-ca9a-47cb-b394-7919ae028313"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 3728
+        }
+      ],
+      "type": [
+        {
+          "target_id": "title_card_set",
+          "target_type": "paragraphs_type",
+          "target_uuid": "a656c88e-ebec-4c27-bd8c-6f0924dde9b0"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1504621304
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2750"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_title_cards": [
+        {
+          "target_id": 207,
+          "target_revision_id": 3726,
+          "id": [
+            {
+              "value": 207
+            }
+          ],
+          "uuid": [
+            {
+              "value": "6f8af5ed-be58-4a0a-a06f-c1c90ce56e31"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 3726
+            }
+          ],
+          "type": [
+            {
+              "target_id": "title_card",
+              "target_type": "paragraphs_type",
+              "target_uuid": "f1b9c3e7-f439-4138-b48c-bbb17a8a003d"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1504621304
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "208"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_title_cards"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_title_card_body": [
+            {
+              "value": "<p>Learn more about how to pay for your unpaid parking invoice or MBTA Transit Police parking ticket.&nbsp;</p>\r\n",
+              "format": "basic_html",
+              "processed": "<p>Learn more about how to pay for your unpaid parking invoice or MBTA Transit Police parking ticket. </p>"
+            }
+          ],
+          "field_title_card_link": [
+            {
+              "uri": "/parking/pay-your-parking-ticket",
+              "title": "",
+              "options": []
+            }
+          ],
+          "field_title_card_title": [
+            {
+              "value": "Pay Your Parking Ticket"
+            }
+          ]
+        },
+        {
+          "target_id": 232,
+          "target_revision_id": 3727,
+          "id": [
+            {
+              "value": 232
+            }
+          ],
+          "uuid": [
+            {
+              "value": "95f4ad7f-c791-45d0-8ba6-985abb2f2fa0"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 3727
+            }
+          ],
+          "type": [
+            {
+              "target_id": "title_card",
+              "target_type": "paragraphs_type",
+              "target_uuid": "f1b9c3e7-f439-4138-b48c-bbb17a8a003d"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1504798377
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "208"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_title_cards"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "field_title_card_body": [
+            {
+              "value": "<p>Learn more about how to request an appeal if you believe you received a parking violation or invoice in error.&nbsp;</p>\r\n",
+              "format": "basic_html",
+              "processed": "<p>Learn more about how to request an appeal if you believe you received a parking violation or invoice in error. </p>"
+            }
+          ],
+          "field_title_card_link": [
+            {
+              "uri": "/parking/dispute-your-parking-ticket",
+              "title": "",
+              "options": []
+            }
+          ],
+          "field_title_card_title": [
+            {
+              "value": "Dispute Your Parking Ticket"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "field_subtitle": [
+    {
+      "value": "Parking page subtitle"
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "text": "Home",
+      "uri": "/"
+    },
+    {
+      "text": "Parking",
+      "uri": ""
+    }
+  ]
+}

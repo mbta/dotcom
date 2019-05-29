@@ -1,0 +1,22 @@
+{
+  "id" : "809a5151-54fb-396f-ae92-00ea174e519c",
+  "request" : {
+    "url" : "/stops/?fields%5Bparent_station%5D=latitude%2Clongitude&fields%5Bstop%5D=latitude%2Clongitude&radius=0.02&route_type=3&latitude=42.3519246&longitude=-71.05507169999998&include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-HKv1o.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:07 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:01 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1anmo0134djeg03b4e1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "809a5151-54fb-396f-ae92-00ea174e519c"
+}

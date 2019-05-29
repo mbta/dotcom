@@ -1,0 +1,10 @@
+<%= tab_selector(%TabSelector{
+  id: "reduced-select",
+  links: for reduced_type <- ~w(nil student senior_disabled)a do
+    {reduced_type, Fares.Format.customers(reduced_type), update_url(@conn, fare_type: reduced_type)}
+  end,
+  selected: @fare_type,
+  stacked_label: "View Fares by Type:",
+  class: "tab-select-btn-group-stacked tab-select-btn-group-partial"
+}) %>
+<%= render "_fare_info.html", selected_filter: @selected_filter, filters: @filters, conn: @conn %>

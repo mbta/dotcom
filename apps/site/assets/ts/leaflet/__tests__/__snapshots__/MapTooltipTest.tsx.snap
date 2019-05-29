@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 1`] = `
+<div
+  className="c-stop-card"
+>
+  <a
+    className="c-stop-card__stop-name"
+    href="/stops/place-sstat"
+  >
+    South Station
+  </a>
+  <a
+    className="m-stop-page__access-icon"
+    href="#header-accessibility"
+    onClick={[Function]}
+  >
+    <span
+      className="m-stop-page__icon"
+    >
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon-accessible-default"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+    </span>
+  </a>
+  <div
+    className="c-stop-card__route"
+  >
+    <span
+      aria-hidden="true"
+      className="notranslate c-svg__icon"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+    <a
+      className="c-stop-card__route-link"
+      href="/schedules/Orange"
+    >
+      Orange Line
+    </a>
+  </div>
+</div>
+`;
+
+exports[`it renders with distance formatted 1`] = `
+<div
+  className="c-stop-card"
+>
+  <span
+    className="c-stop-card__distance"
+  >
+    0.5 miles
+  </span>
+  <a
+    className="c-stop-card__stop-name"
+    href="/stops/place-sstat"
+  >
+    South Station
+  </a>
+  <a
+    className="m-stop-page__access-icon"
+    href="#header-accessibility"
+    onClick={[Function]}
+  >
+    <span
+      className="m-stop-page__icon"
+    >
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon-accessible-default"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+    </span>
+  </a>
+  <div
+    className="c-stop-card__route"
+  >
+    <span
+      aria-hidden="true"
+      className="notranslate c-svg__icon"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+    <a
+      className="c-stop-card__route-link"
+      href="/schedules/Orange"
+    >
+      Orange Line
+    </a>
+  </div>
+</div>
+`;

@@ -1,0 +1,76 @@
+<div class="container">
+  <% sidebar_class = case {@updates, @diversions} do
+    {[], []} -> "c-cms--no-sidebar"
+    {_, _} -> "c-cms--with-sidebar c-cms--sidebar-right"
+    end
+  %>
+  <div class="c-cms <%= sidebar_class %>">
+
+    <div class="c-cms__header">
+      <div class="c-cms__title">
+        <h1 class="c-cms__title-text"><%= @project.title %></h1>
+        <h2 class="c-cms__meta">Updated on <%= format_full_date(@project.updated_on) %></h2>
+      </div>
+    </div>
+
+    <div class="c-cms__content">
+      <div class="c-cms__body">
+        <div class="page-section project-hero-image">
+          <%= if @project.featured_image do %>
+            <figure class="c-media c-media--image c-media--wide">
+              <div class="c-media__content">
+                <%= img_tag @project.featured_image.url, alt: @project.featured_image.alt, class: "c-media__element img-fluid" %>
+              </div>
+            </figure>
+          <% end %>
+        </div>
+
+        <h2>About the Project</h2>
+
+        <%# If there are no paragraphs, use static fields: %>
+        <%= if Enum.empty?(@project.paragraphs) do %>
+          <%= if @project.start_year || @project.status do %>
+            <div class="page-section project-summary">
+              <%= if @project.start_year do %>
+                <div><strong>Timeline:</strong> <%= @project.start_year %><%= if @project.end_year, do: " – #{@project.end_year}" %></div>
+              <% end %>
+              <%= if @project.status do %>
+                <div><strong>Status:</strong> <%= @project.status %></div>
+              <% end %>
+            </div>
+          <% end %>
+
+          <div class="page-section project-body">
+            <%= Site.ContentRewriter.rewrite(@project.body, @conn) %>
+          </div>
+
+          <%= unless Enum.empty?(@project.photo_gallery), do: render "_photos.html", photos: @project.photo_gallery %>
+          <%= unless Enum.empty?(@project.files), do: render "_downloads.html", files: @project.files %>
+
+          <%= unless Enum.empty?(@upcoming_events), do: SiteWeb.EventView.render "_event_list.html",
+            events: @upcoming_events, title: "Upcoming Meetings", conn: @conn %>
+
+          <%= unless Enum.empty?(@past_events), do: SiteWeb.EventView.render "_event_list.html",
+            events: @past_events, title: "Past Meetings", conn: @conn %>
+        <% else %>
+          <%= for paragraph <- @project.paragraphs do %>
+            <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
+          <% end %>
+        <% end %>
+
+        <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
+
+          <%# Project Updates section placement for one-column width: %>
+          <%= unless Enum.empty?(@diversions), do: render("_diversions.html", conn: @conn, teasers: @diversions, class: "c-paragraph--right-rail u-full-bleed") %>
+          <%= unless Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates, project: @project, class: "c-paragraph--right-rail u-full-bleed" %>
+      </div>
+
+      <%= unless Enum.empty?(@updates) && Enum.empty?(@diversions) do %>
+        <div class="c-cms__sidebar">
+          <%= unless Enum.empty?(@diversions), do: render("_diversions.html", conn: @conn, teasers: @diversions, class: "") %>
+          <%= unless Enum.empty?(@updates), do: render("_updates.html", conn: @conn, updates: @updates, project: @project, class: "") %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

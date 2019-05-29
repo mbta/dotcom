@@ -1,0 +1,20 @@
+{
+  "repository": {},
+  "dependencies": {
+    "bootstrap": "4.0.0-alpha.2",
+    "jquery": "> 3.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^7.1.2",
+    "brunch": "~2.10",
+    "clean-css-brunch": "~2.10.0",
+    "csswring": "^6.0.3",
+    "js-beautify": "^1.7.5",
+    "sass-brunch": "2.10.5",
+    "spostcss-brunch": "^1.0.1",
+    "uglify-js-brunch": "~2.10"
+  },
+  "scripts": {
+    "brunch:build": "node_modules/brunch/bin/brunch build"
+  }
+}

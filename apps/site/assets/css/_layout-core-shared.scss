@@ -1,0 +1,54 @@
+@import 'variables';
+
+.container {
+  @include media-breakpoint-up(md) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.body-wrapper {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 100%;
+  max-width: 100%;
+  overflow: visible;
+  width: 100%;
+
+  @media print {
+    display: block;
+  }
+
+  &.modal-open {
+    overflow: hidden;
+  }
+}
+
+.header {
+  @media print {
+    display: none;
+  }
+}
+
+.alert-announcement__container,
+.header,
+.station__header,
+.schedule__header,
+.breadcrumb-container,
+.l-footer,
+.m-secondary-nav {
+  flex: 0 0 auto;
+  max-width: 100%;
+  width: 100%;
+}
+
+.alert-announcement__container,
+.header,
+.breadcrumb-container {
+  align-self: flex-start;
+}
+
+.l-footer {
+  align-self: flex-end;
+}

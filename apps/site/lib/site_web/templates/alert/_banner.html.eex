@@ -1,0 +1,19 @@
+<% label = Alerts.Alert.human_label(@alert) %>
+<div tabindex="0" class="c-alert-item c-alert-item--system">
+  <div class="c-alert-item__icon">
+    <%= @alert |> Alerts.Alert.icon() |> alert_icon() %>
+  </div>
+  <div class="c-alert-item__top">
+    <div class="c-alert-item__top-text-container">
+      <div class="c-alert-item__effect">
+        <%= Alerts.Alert.human_effect(@alert) %>
+        <%= unless label == "" do
+          content_tag(:span, [label], class: alert_label_class(@alert))
+        end %>
+      </div>
+      <div>
+        <%= replace_urls_with_links(@alert.header) %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,625 @@
+[
+  {
+    "nid": "3944",
+    "title": "Quincy Adams Station Entrance at Independence Avenue Reopened",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-12-04/quincy-adams-station-entrance-independence-avenue-reopened",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "On December 3, the walkway leading from Independence Avenue in Quincy to the Red Line’s Quincy Adams Station re-opened, connecting the adjacent neighborhood to faster access to the Station.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-12-04",
+    "created": "2018-12-04",
+    "changed": "2018-12-05",
+    "field_related_transit": [
+      {
+        "id": 219,
+        "name": "Red",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Red",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3931",
+    "title": "Fitchburg Train 404 Update",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-11-27/fitchburg-train-404-update",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "Following a derailment incident this morning, normal service is expected through the day.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-11-27",
+    "created": "2018-11-27",
+    "changed": "2018-12-05",
+    "field_related_transit": [
+      {
+        "id": 204,
+        "name": "CR-Fitchburg",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Fitchburg",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3892",
+    "title": "MassDOT Issues RFP for Lynn Transit Action Plan Study",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-11-13/massdot-issues-rfp-lynn-transit-action-plan-study",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "The Lynn Transit Action Plan Study will focus on strategies to enhance the quality, capacity, and reliability of public transportation for residents and local businesses in Lynn, Massachusetts. ",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-11-13",
+    "created": "2018-11-13",
+    "changed": "2018-12-05",
+    "field_related_transit": [
+      {
+        "id": 213,
+        "name": "CR-Newburyport",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Newburyport",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3891",
+    "title": "T launches MBTA.com/Weekend for Upcoming Weekend Work",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-11-09/t-launches-mbtacomweekend-upcoming-weekend-work",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "The new page consolidates major work into one, concise location.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-11-09",
+    "created": "2018-11-12",
+    "changed": "2018-11-13",
+    "field_related_transit": []
+  },
+  {
+    "nid": "3865",
+    "title": "MBTA Service Plans for Wednesday’s Red Sox Parade",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-10-30/mbta-service-plans-wednesdays-red-sox-parade",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "To accommodate the 2018 Boston Red Sox World Series victory parade, the MBTA will operate enhanced service on Wednesday. Parade attendees strongly encouraged to purchase round-trip fares in advance.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-10-30",
+    "created": "2018-10-30",
+    "changed": "2018-10-30",
+    "field_related_transit": []
+  },
+  {
+    "nid": "3866",
+    "title": "MBTA Launches Perq for Work",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-10-29/mbta-launches-perq-work",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "Perq is the new name of the monthly pass program for companies that want to offer this added benefit to their employees.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-10-29",
+    "created": "2018-10-31",
+    "changed": "2018-10-31",
+    "field_related_transit": []
+  },
+  {
+    "nid": "3859",
+    "title": "Shuttle Buses Replacing Green Line D Branch Service between Reservoir and Kenmore for 8 Consecutive Weekends Beginning October 27-28",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-10-26/shuttle-buses-replacing-green-line-d-branch-service-between-reservoir-and-kenmore-8",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "These shuttle bus service weekends allow for work to take place for the Green Line D branch’s Track and Signal Replacement Project, the Fenway Portal Project, and capital construction work between Beaconsfield and Kenmore.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-10-26",
+    "created": "2018-10-26",
+    "changed": "2018-10-26",
+    "field_related_transit": []
+  },
+  {
+    "nid": "3837",
+    "title": "Franklin Line Weekend Shuttles during 2 Weekends for East Street Bridge Rehabilitation Work",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-10-16/franklin-line-weekend-shuttles-during-2-weekends-east-street-bridge-rehabilitation",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "Weekend work for the East Street Bridge Rehabilitation Project will begin Friday on October 19 and November 9 with regular service resuming on Monday morning of October 22 and November 12, respectively. ",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-10-16",
+    "created": "2018-10-15",
+    "changed": "2018-10-22",
+    "field_related_transit": [
+      {
+        "id": 206,
+        "name": "CR-Franklin",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Franklin",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3834",
+    "title": "Weekend Daytime Closures of Chelsea Street Drawbridge for Standard Maintenance ",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-10-12/weekend-daytime-closures-chelsea-street-drawbridge-standard-maintenance",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "This drawbridge closure will result in the SL3 and Route 112, which both typically operate over the bridge, to be detoured around the affected area. Delays will likely occur.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-10-12",
+    "created": "2018-10-12",
+    "changed": "2018-10-22",
+    "field_related_transit": [
+      {
+        "id": 241,
+        "name": "743",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "743",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": [
+              "silver_line"
+            ],
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 119,
+        "name": "112",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "112",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3822",
+    "title": "Work to Improve Reliability of the Fitchburg Commuter Rail Line Continues",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-10-09/work-improve-reliability-the-fitchburg-commuter-rail-line-continues",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "This tie replacement project is necessary track maintenance to help ensure a smooth and comfortable ride for passengers, and to further improve service reliability.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-10-09",
+    "created": "2018-10-09",
+    "changed": "2018-10-23",
+    "field_related_transit": [
+      {
+        "id": 204,
+        "name": "CR-Fitchburg",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Fitchburg",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3821",
+    "title": "MBTA Announces Retail Concession Opportunities",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-10-09/mbta-announces-retail-concession-opportunities",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "The MBTA will release an Invitation to Bid to lease ten separate retail concession locations, generating non-fare revenue for the MBTA and providing the rare opportunity to lease retail space at some of the MBTA’s most active stations. ",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-10-09",
+    "created": "2018-10-09",
+    "changed": "2018-10-23",
+    "field_related_transit": []
+  },
+  {
+    "nid": "3820",
+    "title": "New Riders’ Transportation Access Group Meeting to Be Held on October 18",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-10-09/new-riders-transportation-access-group-meeting-be-held-october-18",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "R-TAG has been established as a new customer advisory group focused on matters related to accessibility for people with disabilities and seniors.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-10-09",
+    "created": "2018-10-09",
+    "changed": "2018-10-23",
+    "field_related_transit": []
+  },
+  {
+    "nid": "3819",
+    "title": "On Green Line D-branch, Nighttime Bus Shuttles Run Between Brookline Hills and Reservoir in October",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-10-05/green-line-d-night-bus-shuttles-october",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "In support of Green Line’s Track and Signal Replacement Project, buses will replace Green Line D-branch trolleys between Brookline Hills and Reservoir beginning at 9 p.m. through the end of service October 8-11 and October 14-18.\r\n",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-10-05",
+    "created": "2018-10-05",
+    "changed": "2018-10-23",
+    "field_related_transit": []
+  },
+  {
+    "nid": "3809",
+    "title": "MBTA Awards Signal Upgrade Contract for Red and Orange Lines",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-10-01/mbta-awards-signal-upgrade-contract-red-and-orange-lines",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "Once complete, the new signal systems on both lines are expected to substantially improve service reliability and improve peak hour headways.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-10-01",
+    "created": "2018-10-02",
+    "changed": "2018-11-09",
+    "field_related_transit": [
+      {
+        "id": 219,
+        "name": "Red",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Red",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 220,
+        "name": "Orange",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Orange",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3801",
+    "title": "First Extended-range Hybrid Bus Joins MBTA Silver Line Fleet",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-09-26/first-extended-range-hybrid-bus-joins-mbta-silver-line-fleet",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "New bus features include the next generation of hybrid propulsion systems and start/stop technology.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-09-26",
+    "created": "2018-09-27",
+    "changed": "2019-01-15",
+    "field_related_transit": [
+      {
+        "id": 253,
+        "name": "Silver Line",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "silver_line",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 199,
+        "name": "741",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "741",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": [
+              "silver_line"
+            ],
+            "branch": null,
+            "custom": [
+              "late_night",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 200,
+        "name": "742",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "742",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": [
+              "silver_line"
+            ],
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 241,
+        "name": "743",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "743",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": [
+              "silver_line"
+            ],
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 201,
+        "name": "751",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "751",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": [
+              "silver_line"
+            ],
+            "branch": null,
+            "custom": [
+              "late_night",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 202,
+        "name": "749",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "749",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": [
+              "silver_line"
+            ],
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3794",
+    "title": "MBTA Positive Train Control Project Completes Work on Schedule in Order To Apply for 2020 Extension",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-09-24/ptc-completes-work-apply-2020-extension",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "All PTC work has been completed, all requirements have been satisfied, and the MBTA has submitted to the FRA a Request for Extension for full PTC system deployment to December 2020.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-09-24",
+    "created": "2018-09-24",
+    "changed": "2018-10-23",
+    "field_related_transit": []
+  },
+  {
+    "nid": "3792",
+    "title": "MassDOT, MBTA, Keolis, and Transit Police to Partner with Massachusetts Operation Lifesaver to Raise Awareness during Second Annual Rail Safety Week",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-09-24/rail-safety-week",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "MassDOT, MBTA, Keolis, TPD, and others are participating in educational initiatives during the nation’s second annual Rail Safety Week. Developed by Operation Lifesaver, this year’s Rail Safety Week is September 23-29, 2018.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-09-24",
+    "created": "2018-09-24",
+    "changed": "2018-10-23",
+    "field_related_transit": []
+  },
+  {
+    "nid": "3785",
+    "title": "MBTA to Resume Regularly Scheduled Service on the Haverhill Commuter Rail Line",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-09-15/mbta-resume-regularly-scheduled-service-the-haverhill-commuter-rail-line",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "The MBTA is resuming regularly scheduled service on the Haverhill Commuter Rail Line beginning Sunday, September 16, making all stops, including stops at Lawrence, Andover, and Ballardvale.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-09-15",
+    "created": "2018-09-15",
+    "changed": "2018-10-23",
+    "field_related_transit": []
+  },
+  {
+    "nid": "3784",
+    "title": "Limited Service This Weekend on the Haverhill Commuter Rail Line",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-09-14/merrimack-valley-haverhill-line-weekend",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "Train service will operate between Reading and North Station, while express buses will be provided between Haverhill and Reading Station. Neither train nor bus service will be available between North Wilmington and Lawrence Stations.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-09-14",
+    "created": "2018-09-14",
+    "changed": "2018-10-23",
+    "field_related_transit": []
+  },
+  {
+    "nid": "3782",
+    "title": "Haverhill Commuter Rail Line Will Continue to Only Operate between North Station and Reading This Evening",
+    "type": "news_entry",
+    "topic": "News",
+    "path": "/news/2018-09-14/merrimack-valley-haverhill-line-evening",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "Due to the continued emergency situation in the Merrimack Valley, passengers bound for Haverhill or Bradford stations should take the Lowell Line to Anderson-Woburn Station to connect with shuttle buses.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-09-14",
+    "created": "2018-09-14",
+    "changed": "2018-10-23",
+    "field_related_transit": []
+  }
+]

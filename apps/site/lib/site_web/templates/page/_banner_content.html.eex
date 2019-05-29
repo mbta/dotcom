@@ -1,0 +1,17 @@
+<div class="<%= banner_content_class(@banner) %>">
+  <div class="m-banner__top">
+    <div class="m-banner__category u-small-caps">
+      <%= @banner.category %>
+    </div>
+    <h2 class="h2 m-banner__title m-banner__title--<%= @banner.banner_type %>">
+      <%= @banner.title %>
+    </h2>
+    <%= if @banner.banner_type == :important do %>
+      <p><%= @banner.blurb %></p>
+    <% end %>
+  </div>
+
+  <div class="m-banner__bottom">
+    <%= banner_cta(@banner) %>
+  </div>
+</div>

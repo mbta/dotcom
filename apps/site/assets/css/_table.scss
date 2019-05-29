@@ -1,0 +1,150 @@
+@import 'variables';
+@import 'colors';
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///
+///   MIXINS AND FUNCTIONS
+///
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+@function grid-width($column-count) {
+  @return (100% / 12 * $column-count);
+}
+
+@mixin column($width) {
+  @include column;
+  width: grid-width($width);
+}
+
+@mixin force-width {
+// ensures that an element will always get assigned a width, even if it is empty.
+// the reason min-height ensures a width is because CSS.
+  min-height: 1px;
+}
+
+@mixin column($left-padding: $grid-gutter-width / 2, $right-padding: $grid-gutter-width / 2) {
+// a column with equal padding on both sides.
+  @include force-width;
+  float: left;
+  padding-left: $left-padding;
+  padding-right: $right-padding;
+}
+
+@mixin unpadded-column {
+  @include column(0, 0);
+}
+
+@mixin first-column {
+// the far-left column in a group of columns; simply removes padding from the left side of a normal column.
+  @include column(0);
+}
+
+@mixin last-column {
+// the far-right column in a group of columns; simply removes padding from the right side of a normal column.
+  @include column($right-padding: 0);
+}
+
+
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+///
+///   PLACEHOLDERS
+///
+////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////
+
+%unpadded-table-row {
+  @include clearfix();
+
+  background-color: $white;
+  border-bottom: $border;
+  border-top: $border;
+  margin-bottom: -$space-1;
+  margin-top: -$space-1;
+  padding: $base-spacing-sm $grid-gutter-width / 2;
+  position: relative;
+}
+
+%table-row {
+  // An opinionated placeholder which assumes that all direct child divs of the parent element are intended to be
+  // rendered as columns.
+  @extend %unpadded-table-row;
+
+  > div {
+    @include column;
+  }
+
+  > div:first-of-type:not(:last-of-type) {
+    @include first-column;
+  }
+
+  > div:last-of-type:not(:first-of-type) {
+    @include last-column;
+  }
+}
+
+%table-header {
+  background-color: $brand-primary-darkest;
+  border-color: $brand-primary-darkest;
+  color: $white;
+}
+
+.responsive-table {
+  border: $border;
+  width: 100%;
+
+  @include media-breakpoint-up(sm) {
+    tbody th,
+    caption {
+      display: none;
+    }
+  }
+
+  @include media-breakpoint-down(sm) {
+    tbody th,
+    th,
+    td,
+    tr {
+      display: block;
+    }
+
+    thead {
+      display: none;
+    }
+
+    caption {
+      display: block;
+      font-weight: bold;
+      padding-left: $grid-gutter-width / 2;
+    }
+
+    tbody th {
+      padding-bottom: 0;
+    }
+
+    tbody td {
+      padding-bottom: 0;
+      padding-top: 0;
+    }
+
+    tr td:last-child {
+      padding-bottom: $base-spacing;
+    }
+  }
+
+  thead tr,
+  caption {
+    @extend %table-header;
+  }
+
+  th,
+  td {
+    padding: $base-spacing-sm $grid-gutter-width / 2;
+  }
+
+  tbody tr:nth-of-type(even) {
+    background-color: $gray-bordered-background;
+  }
+}

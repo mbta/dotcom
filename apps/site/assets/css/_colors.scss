@@ -1,0 +1,97 @@
+// Primary Colors
+$brand-primary: #165c96;
+$brand-primary-dark: $brand-primary;
+$brand-primary-darkest: #0b2f4c;
+$brand-primary-light: #5da9e8;
+$brand-primary-light-contrast: #a1c6ed;
+$brand-primary-lightest: #cee0f4;
+$brand-primary-lightest-contrast: #e2ecf9;
+
+// Secondary Colors
+$brand-secondary: #ffce0c;
+$brand-secondary-dark: #d8ac00;
+$brand-secondary-light: #ffe372;
+
+// Background Colors
+$brand-navy-dark: #071d2e;
+$gradient-color-light: #3191e1;
+
+// Grays
+$gray: #494f5c;
+$gray-dark: #1c1e23;
+$gray-light: #788093;
+$gray-lighter: #b0b5c0;
+$gray-lightest: #e9eaed;
+$gray-bordered-background: #f2f3f5; // use as background color for gray elements that need a border
+$gray-image-overlay: rgba(28, 30, 35, .8);
+
+// Modes and Lines
+$brand-blue-line: #003da5;
+$brand-green-line: #00843d;
+$brand-orange-line: #ed8b00;
+$brand-red-line: #da291c;
+$brand-silver-line: #7c878e;
+$brand-subway: $gray;
+$brand-bus: #ffc72c;
+$brand-logan-express: #003383;
+$brand-massport-shuttle: #003383;
+$brand-commuter-rail: #80276c;
+$brand-ferry: #008eaa;
+$brand-the-ride: #52bbc5;
+
+// Alerts
+$alert-color: $brand-secondary;
+$alert-color-lighter: #fffae9;
+$alert-notice-color: #dcd3e8;
+$error-text: #b3000f;
+$brand-danger: $error-text;
+$brand-success: #145a06;
+
+// Service Alerts
+$service-alert-yellow: #fff7bf;
+$service-alert-yellow-darker: #fd0;
+$service-alert-yellow-lighter: #fffdf2;
+$service-alert-gray: #f2f3f5;
+$service-alert-gray-darker: #d8dfe6;
+
+// Social Media
+$instagram: #1c1e23;
+$twitter: #55acee;
+$facebook: #395185;
+$youtube: #cd201f;
+
+// Gradients
+$whats-happening-gradient-end: #eff0f2;
+$hp-hero-gradient-start: rgba(28, 30, 35, .4);
+$hp-hero-gradient-end: rgba(28, 30, 35, .8);
+$hp-hero-gradient: linear-gradient(to bottom, $hp-hero-gradient-start, $hp-hero-gradient-end);
+
+// General
+$link-hover-color: $brand-primary-darkest;
+$homepage-bg-color: #fff;
+$footer-color: $brand-navy-dark;
+$input-color: $gray-dark;
+$list-group-link-color: $gray-dark;
+$nav-mobile-link-color: #fff;
+$form-error-message: #f2dede;
+$form-success-message: #dff0d8;
+$white: #fff;
+$black: #000;
+$holiday-color: #dcd3e8;
+$weekend-color: $gray-bordered-background;
+$today-color: $brand-primary;
+$drop-shadow-color: rgba(0, 0, 0, .2);
+
+$transparent-white: transparentize($white, .4);
+$transparent-gray: transparentize($gray-lighter, .5);
+
+// Button Colors
+// - Bootstrap overrides
+$btn-primary-color: $white;
+$btn-primary-bg: $brand-primary;
+$btn-secondary-color: $brand-primary;
+$btn-secondary-bg: $white;
+$btn-secondary-border: $btn-secondary-color;
+// - Custom variables
+$btn-primary-focus-color: $gray-dark;
+$btn-primary-focus-bg: $brand-primary-lightest;

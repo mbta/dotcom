@@ -1,0 +1,8 @@
+<%= for headsign <- @time_data do %>
+  <%= for %{prediction: %{time: time}} <- headsign.times do %>
+    <div class="route-branch-stop-prediction">
+      <%= headsign.name %>
+      <strong><%= time %></strong>
+    </div>
+  <% end %>  
+<% end %>

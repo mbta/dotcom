@@ -1,0 +1,22 @@
+{
+  "id" : "2904138e-c922-3333-b21f-b7efdd654b95",
+  "request" : {
+    "url" : "/routes/?stop=Boat-Long",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-qX9c9.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:35 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mlde2i50q57snq403d691",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2904138e-c922-3333-b21f-b7efdd654b95"
+}

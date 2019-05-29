@@ -1,0 +1,36 @@
+<div class="c-accordion-ui" id="accordion" role="presentation" <%= if @multiselectable do %> aria-multiselectable="true"<% end %>>
+  <%= for section <- @sections do %>
+    <div class="panel" role="heading">
+      <div class="c-accordion-ui__heading<%= if assigns[:sticky] do %> fixedsticky sticky-top<% end %>">
+        <a class="c-accordion-ui__trigger collapsed"
+            href="#<%= section.prefix %>-section"
+            role="button"
+            aria-expanded="false"
+            aria-controls="<%= section.prefix %>-section"
+            data-toggle="collapse"
+            data-parent="#accordion">
+          <span class="c-accordion-ui__title" id="<%= section.prefix %>-title">
+            <%= section.title |> Site.ContentRewriter.rewrite(@conn) |> raw() %>
+          </span>
+          <div class="c-accordion-ui__indicator">
+            <span class="c-indicator__content c-indicator__content--angle"></span>
+          </div>
+        </a>
+      </div>
+      <div class="c-accordion-ui__target collapse js-focus-on-expand"
+          id="<%= section.prefix %>-section"
+          role="region"
+          aria-labelledby="<%= section.prefix %>-title"
+          tabindex="0">
+        <div class="c-accordion-ui__content">
+          <%= if assigns[:parent_view] do %>
+            <% template = if (assigns[:content_template]), do: @content_template, else: section.content_template %>
+            <%= render(@parent_view, template, Map.merge(assigns, section)) %>
+          <% else %>
+            <%= section.content %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

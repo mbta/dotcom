@@ -1,0 +1,20 @@
+[
+  {
+    "nid": "4215",
+    "title": "Diversion Test 2",
+    "type": "diversion",
+    "topic": "",
+    "path": "/diversions/diversion-test-2",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "Start date: January 1, 2020",
+    "location": "|||",
+    "diversion_start": "",
+    "start": "",
+    "updated": "",
+    "posted": "",
+    "created": "2019-04-04",
+    "changed": "2019-04-09",
+    "field_related_transit": []
+  }
+]

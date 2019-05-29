@@ -1,0 +1,22 @@
+{
+  "id" : "c1ad7f87-dd22-37d8-b505-653f4c04d532",
+  "request" : {
+    "url" : "/stops/?direction_id=0&route=CR-Needham&include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-NmMUm.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:42:16 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:01 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml5b6av36j8jgms00fsl4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c1ad7f87-dd22-37d8-b505-653f4c04d532"
+}

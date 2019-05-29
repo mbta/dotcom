@@ -1,0 +1,455 @@
+{
+  "nid": [
+    {
+      "value": 4215
+    }
+  ],
+  "uuid": [
+    {
+      "value": "a1a62980-4a8f-4de8-baab-2beb6a95659b"
+    }
+  ],
+  "vid": [
+    {
+      "value": 24199
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "diversion",
+      "target_type": "node_type",
+      "target_uuid": "6da2860f-7289-4977-bca2-1a8489457275"
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1554788727
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 29,
+      "target_type": "user",
+      "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+      "url": "/user/29"
+    }
+  ],
+  "revision_log": [
+    {
+      "value": "Copy of the revision from <em class=\"placeholder\">Fri, 04/05/2019 - 15:07</em>."
+    }
+  ],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "Diversion Test 2"
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 29,
+      "target_type": "user",
+      "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+      "url": "/user/29"
+    }
+  ],
+  "created": [
+    {
+      "value": 1554408272
+    }
+  ],
+  "changed": [
+    {
+      "value": 1554788727
+    }
+  ],
+  "promote": [
+    {
+      "value": false
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "moderation_state": [
+    {
+      "value": "published"
+    }
+  ],
+  "sidebar": [
+    {
+      "value": true
+    }
+  ],
+  "path": [
+    {
+      "alias": "/diversions/diversion-test-2",
+      "pid": 4303,
+      "langcode": "en"
+    }
+  ],
+  "publish_on": [],
+  "unpublish_on": [],
+  "menu_link": [],
+  "body": [
+    {
+      "value": "<p><strong>Start date: January 1, 2020</strong></p>\r\n\r\n<p>Wollaston Station is closed for renovation for 20 months between January and the summer. Shuttles will replace train service.</p>\r\n\r\n<p><a class=\"btn btn-primary\" href=\"#\">Sign up for email updates</a></p>\r\n",
+      "format": "full_html",
+      "processed": "<p><strong>Start date: January 1, 2020</strong></p>\n\n<p>Wollaston Station is closed for renovation for 20 months between January and the summer. Shuttles will replace train service.</p>\n\n<p><a class=\"btn btn-primary\" href=\"#\">Sign up for email updates</a></p>\n",
+      "summary": "Start date: January 1, 2020"
+    }
+  ],
+  "field_paragraphs": [
+    {
+      "target_id": 6566,
+      "target_revision_id": 122920,
+      "id": [
+        {
+          "value": 6566
+        }
+      ],
+      "uuid": [
+        {
+          "value": "65ef9c07-59f8-4e37-b1f4-ce954df62312"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 122920
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1554487248
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "4215"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [],
+      "field_custom_html_body": [
+        {
+          "value": "<h2>Where are the shuttles right now?</h2>\r\n\r\n<drupal-entity data-embed-button=\"new_media\" data-entity-embed-display=\"view_mode:media.full\" data-entity-embed-display-settings=\"{&quot;link_url&quot;:&quot;&quot;,&quot;linkit_attributes&quot;:{&quot;target&quot;:0}}\" data-entity-type=\"media\" data-entity-uuid=\"0153ad3d-499a-4097-8a6c-fd5dbcdfea85\"></drupal-entity>\r\n",
+          "format": "full_html",
+          "processed": "<h2>Where are the shuttles right now?</h2>\n\n\n\n<!-- THEME DEBUG -->\n<!-- THEME HOOK: 'entity_embed_container' -->\n<!-- BEGIN OUTPUT from 'themes/mbta/templates/content/entity-embed-container.html.twig' -->\n<div class=\"embedded-entity\">    \n\n<!-- THEME DEBUG -->\n<!-- THEME HOOK: 'media' -->\n<!-- FILE NAME SUGGESTIONS:\n   * media--source-image.html.twig\n   * media--image--full.html.twig\n   * media--image.html.twig\n   * media--full.html.twig\n   x media.html.twig\n-->\n<!-- BEGIN OUTPUT from 'themes/mbta/templates/content/media.html.twig' -->\n<div class=\"media media--type-image media--view-mode-full\"><div class=\"media-content\">\n\n<!-- THEME DEBUG -->\n<!-- THEME HOOK: 'field' -->\n<!-- FILE NAME SUGGESTIONS:\n   * field--media--field-media-image--image.html.twig\n   * field--media--field-media-image.html.twig\n   x field--media--image.html.twig\n   * field--field-media-image.html.twig\n   * field--image.html.twig\n   * field.html.twig\n-->\n<!-- BEGIN OUTPUT from 'themes/mbta/templates/field/field--media--image.html.twig' -->\n\n\n<!-- THEME DEBUG -->\n<!-- THEME HOOK: 'image_formatter' -->\n<!-- BEGIN OUTPUT from 'core/themes/classy/templates/field/image-formatter.html.twig' -->\n  \n\n<!-- THEME DEBUG -->\n<!-- THEME HOOK: 'image_style' -->\n<!-- BEGIN OUTPUT from 'core/themes/classy/templates/field/image-style.html.twig' -->\n\n\n<!-- THEME DEBUG -->\n<!-- THEME HOOK: 'image' -->\n<!-- BEGIN OUTPUT from 'core/themes/classy/templates/field/image.html.twig' -->\n<img src=\"/sites/default/files/styles/max_2600x2600/public/media/2019-04/2019-somerville-89-80-detour-map.png?itok=7ylvC0qW\" width=\"1579\" height=\"1707\" alt=\"Bus routes 89 and 90 detour map\" typeof=\"foaf:Image\" class=\"image-style-max-2600x2600\" /><!-- END OUTPUT from 'core/themes/classy/templates/field/image.html.twig' --><!-- END OUTPUT from 'core/themes/classy/templates/field/image-style.html.twig' --><!-- END OUTPUT from 'core/themes/classy/templates/field/image-formatter.html.twig' --><!-- END OUTPUT from 'themes/mbta/templates/field/field--media--image.html.twig' --></div></div>\n\n<!-- END OUTPUT from 'themes/mbta/templates/content/media.html.twig' -->\n\n</div>\n\n<!-- END OUTPUT from 'themes/mbta/templates/content/entity-embed-container.html.twig' -->\n\n"
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ]
+    },
+    {
+      "target_id": 6556,
+      "target_revision_id": 122921,
+      "id": [
+        {
+          "value": 6556
+        }
+      ],
+      "uuid": [
+        {
+          "value": "132bac93-66ff-4ef6-99a5-efb956dee1ec"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 122921
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "content_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1554408290
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 29,
+          "target_type": "user",
+          "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+          "url": "/user/29"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "4215"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [],
+      "field_content_logic": [],
+      "field_content_reference": [],
+      "field_content_type": [
+        {
+          "value": "project"
+        }
+      ],
+      "field_date": [],
+      "field_date_max": [],
+      "field_date_logic": [],
+      "field_multi_column_header": [
+        {
+          "target_id": 6555,
+          "target_revision_id": 122907,
+          "id": [
+            {
+              "value": 6555
+            }
+          ],
+          "uuid": [
+            {
+              "value": "7e99adac-4b53-4ecc-9673-617658d7118e"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 122907
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1554408294
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 29,
+              "target_type": "user",
+              "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+              "url": "/user/29"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "6556"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_header_text": [
+            {
+              "value": "<h2>Related Projects</h2>\r\n",
+              "format": "full_html",
+              "processed": "<h2>Related Projects</h2>\n"
+            }
+          ]
+        }
+      ],
+      "field_number_of_items": [
+        {
+          "value": 2
+        }
+      ],
+      "field_promoted": [],
+      "field_relationship": [
+        {
+          "value": "host"
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": true
+        }
+      ],
+      "field_sorting": [
+        {
+          "value": "field_updated_on_value"
+        }
+      ],
+      "field_sorting_logic": [
+        {
+          "value": "DESC"
+        }
+      ],
+      "field_sticky": [],
+      "field_terms": [],
+      "field_term_depth": [
+        {
+          "value": 4
+        }
+      ],
+      "field_type_logic": []
+    }
+  ],
+  "field_projects": [
+    {
+      "target_id": 3004,
+      "target_type": "node",
+      "target_uuid": "6c72a458-6158-4080-9282-52387841237e",
+      "url": "/projects/wollaston-station-improvements"
+    },
+    {
+      "target_id": 4189,
+      "target_type": "node",
+      "target_uuid": "49d64f62-c56b-473e-8fe9-7001af9a7c6b",
+      "url": "/projects/tobin-bridge-chelsea-curves-rehabilitation"
+    }
+  ],
+  "field_related_transit": [],
+  "field_start_date": []
+}

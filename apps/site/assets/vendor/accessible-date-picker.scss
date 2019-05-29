@@ -1,0 +1,215 @@
+// scss-lint:disable ColorVariable
+// scss-lint:disable SelectorFormat
+
+.datepicker-button {
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    background-color: #ddd;
+  }
+}
+
+.datepicker-calendar {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: .9em;
+  margin: 0 10px 10px 0;
+  padding: 2px;
+  position: absolute;
+  width: 261px;
+  z-index: 50;
+
+  .offscreen {
+    left: -200em;
+    position: absolute;
+    top: -100em;
+  }
+}
+
+.datepicker-month-wrap {
+  height: 30px;
+  margin: 0;
+  padding-top: 1px;
+  text-align: center;
+}
+
+.datepicker-month-fast-prev,
+.datepicker-month-fast-next,
+.datepicker-month-prev,
+.datepicker-month-next {
+  cursor: pointer;
+  height: 24px;
+  margin: 3px;
+  padding-top: 3px;
+  width: 24px;
+
+  .enabled {
+    border: 1px solid #800;
+    border-radius: 4px;
+    margin-top: 2px;
+  }
+
+  .disabled {
+    border: 0;
+    color: #999;
+    cursor: default;
+  }
+}
+
+
+.datepicker-month-fast-prev {
+  padding-right: 2px;
+}
+
+.datepicker-month-fast-next {
+  padding-left: 2px;
+}
+
+.datepicker-month {
+  cursor: pointer;
+  font-size: 1.2em;
+  font-weight: bold;
+  height: 24px;
+  margin: 3px 56px 2px;
+  padding-top: 1px;
+  text-align: center;
+
+  &::after {
+    content: '\e252';
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-size: .6em;
+  }
+
+  &:hover,
+  &:focus {
+    border: 1px solid #800;
+    border-radius: 4px;
+    padding-top: 0;
+  }
+}
+
+.datepicker-grid {
+  font-size: 1.2em;
+  text-align: center;
+  width: 100%;
+
+  &:focus {
+    outline: 1px dotted #999;
+  }
+
+  th {
+    background-color: #eee;
+    border: 0;
+
+    abbr {
+      border: 0;
+    }
+  }
+
+  th,
+  td {
+    padding: 0;
+    text-align: center;
+  }
+
+  td {
+    border: 0;
+    color: #000;
+    cursor: pointer;
+  }
+
+  th,
+  .day {
+    height: 30px;
+  }
+
+  .rtl {
+    direction: rtl;
+  }
+
+  .selectable:hover,
+  .selectable:focus {
+    background-color: #ddd;
+  }
+
+  .unselectable {
+    color: #999;
+    cursor: default;
+  }
+
+  .month {
+    height: 60px;
+  }
+
+  .year {
+    height: 45px;
+  }
+
+  .empty {
+    border: 0;
+    color: #ccc;
+    cursor: default;
+
+    &:hover {
+      background-color: #f9f9f9;
+    }
+  }
+
+}
+
+.curDay,
+.curMonth,
+.curYear {
+  background-color: #fff0c4;
+  border: 1px solid #999;
+}
+
+.datepicker-overlay {
+  background: #777;
+  bottom: 0;
+  display: none;
+  height: 100%;
+  left: 0;
+  min-height: 100%;
+  opacity: .5;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 40;
+}
+
+.datepicker-close {
+  background-color: #ddd;
+  border: 1px solid #999;
+  border-radius: 2px;
+  color: #000;
+  font-weight: bold;
+  height: 30px;
+  margin-top: 1px;
+  width: 100%;
+}
+
+.datepicker-month-fast-prev.enabled,
+.datepicker-month-fast-next.enabled,
+.datepicker-month-prev.enabled,
+.datepicker-month-next.enabled,
+.datepicker-month,
+.datepicker-close {
+  &:hover,
+  &:focus {
+    background-color: #eee;
+    border-color: #999;
+  }
+}
+
+
+.datepicker-weekdays {
+  border-bottom: 1px solid #999;
+  border-top: 1px solid #999;
+}
+
+// scss-lint:enable ColorVariable
+// scss-lint:disable SelectorFormat

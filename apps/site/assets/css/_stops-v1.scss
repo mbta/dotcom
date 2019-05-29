@@ -1,0 +1,298 @@
+.station-info-zone {
+  background-color: $gray-bordered-background;
+  font-size: 1rem;
+  font-weight: normal;
+  padding: 0 .375rem;
+  vertical-align: middle;
+}
+
+.mode-section {
+  margin: $base-spacing 0;
+}
+
+.stations-access-icon {
+  margin-bottom: .375rem;
+}
+
+.fare-agent-distance {
+  color: $gray-light;
+  float: right;
+  text-align: right;
+}
+
+.station-schedule-icon {
+  color: $gray-light;
+}
+
+.station-route-row {
+  @extend %button-focus-color;
+  border-bottom: 1px solid $gray-lightest;
+  border-left: 1px solid $gray-lightest;
+  border-right: 1px solid $gray-lightest;
+  display: block;
+  padding-bottom: .5em;
+  padding-top: .5em;
+
+  .column-name {
+    font-weight: bold;
+  }
+
+  &.station-schedule-header {
+    background-color: $gray-lightest;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+}
+
+.station-trip-headsign,
+.station-trip-name,
+.station-trip-status {
+  color: $gray-dark;
+}
+
+.schedule-upcoming-departure {
+  @include media-breakpoint-down(xs) {
+    padding-left: $grid-gutter-width / 2;
+  }
+
+  &:first-child {
+    padding-left: $grid-gutter-width / 2;
+  }
+
+  &:last-child {
+    padding-right: $grid-gutter-width / 2;
+  }
+}
+
+.severe-delay {
+  color: $error-text;
+}
+
+.station-schedules-empty {
+  @include make-col();
+  @include make-col-span(12);
+  display: none;
+
+  &:first-child {
+    &:last-child {
+      display: initial;
+    }
+  }
+}
+
+.station-map-container {
+  height: 16.5rem;
+  margin-bottom: 1rem;
+
+  @include media-breakpoint-only(md) {
+    height: 14.375rem;
+  }
+
+  @include media-breakpoint-down(sm) {
+    height: 10rem;
+  }
+}
+
+.stop-features-list {
+  @include icon-size-inline(1em);
+
+  float: right;
+
+  [class*="c-svg__icon"] {
+    margin-left: $base-spacing / 4;
+  }
+}
+
+.stop-feature-green {
+  padding-left: $space-4;
+
+  @include media-breakpoint-only(md) {
+    display: none;
+  }
+}
+
+.hub-stop-link {
+  margin: 0 0 $base-spacing / 2;
+
+  @include media-breakpoint-down(sm) {
+    background-color: $white;
+    min-width: 100%;
+    padding: $space-12;
+  }
+
+  @include media-breakpoint-up(md) {
+    max-width: 33%;
+
+    .stop-features-list {
+      display: block;
+      float: none;
+    }
+
+    .hub-stop-name {
+      display: block;
+    }
+  }
+
+  .commuter-rail-zone {
+    margin-left: $base-spacing / 2;
+  }
+}
+
+.hub-stop-container {
+  @include media-breakpoint-down(sm) {
+    padding: 0 $base-spacing;
+  }
+}
+
+.hub-stop-list {
+  margin-bottom: 0;
+
+  @include media-breakpoint-down(sm) {
+    background-color: $gray-lightest;
+    margin-bottom: $base-spacing;
+    padding: $space-6 $base-spacing;
+  }
+}
+
+.stop-list-header {
+  @include icon-size-inline($font-size-h2);
+}
+
+.stops-view-all-btn {
+  border: $border;
+  display: inline-block;
+  margin-top: -$base-spacing;
+  padding: $base-spacing;
+  text-align: center;
+  width: 100%;
+
+  button {
+    background-color: $white;
+    border: 0;
+    color: $brand-primary;
+    padding: 0;
+  }
+}
+
+.stops-hide-all-btn {
+  background-color: $gray-lightest;
+  display: none;
+  margin-top: $space-12;
+  padding: $space-8;
+}
+
+.stops-for-route {
+  .collapse {
+    @include media-breakpoint-up(md) {
+      display: block;
+    }
+  }
+}
+
+.no-schedules-message {
+  padding-top: $base-spacing;
+
+  @include media-breakpoint-down(xs) {
+    padding-top: 0;
+  }
+}
+
+.mode-route-name {
+  @include icon-size-inline(1em);
+}
+
+.station__header {
+  background: $gray-bordered-background;
+  border-bottom: 0;
+
+  // required to prevent h2 margin-top from creating space between
+  // header and breadcrumbs
+  // https://stackoverflow.com/questions/13573653
+  overflow: auto;
+}
+
+.station__header-container {
+  @include make-container-max-widths();
+  margin-left: auto;
+  margin-right: auto;
+
+  @include media-breakpoint-down(sm) {
+    padding-left: $grid-gutter-width / 2;
+    padding-right: $grid-gutter-width / 2;
+  }
+
+  .station__name {
+    margin-bottom: $base-spacing / 2;
+  }
+}
+
+.station__header-features {
+  align-items: center;
+  display: flex;
+  height: $base-spacing * 2;
+  margin-bottom: $base-spacing;
+  margin-top: $base-spacing / 2;
+}
+
+.station__header-feature {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  font-weight: 700;
+  height: 100%;
+  margin-right: $base-spacing / 2;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.station__header-icon {
+  @include icon-size-inline(1.75em, .125em);
+
+  flex: 0 0 auto;
+
+  .c-icon__cr-zone {
+    padding: $base-spacing;
+  }
+}
+
+.station__header-description {
+  border-radius: $base-spacing * 3;
+  color: $white;
+  flex: 0 0 auto;
+  padding: $base-spacing / 4 $base-spacing / 2;
+  text-transform: uppercase;
+  vertical-align: middle;
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
+.station__name--upcase {
+  text-transform: uppercase;
+}
+
+.station__address {
+  margin: $base-spacing 0;
+}
+
+.station__hero-map-container {
+  flex: 1 1 auto;
+  height: $base-spacing * 35;
+
+  @include media-breakpoint-only(xxl) {
+    @include make-container();
+    max-width: map-get($container-max-widths, xxl);
+  }
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
+}

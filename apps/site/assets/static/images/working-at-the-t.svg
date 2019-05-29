@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="90px" height="90px" viewBox="0 0 90 90" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40.3 (33839) - http://www.bohemiancoding.com/sketch -->
+    <title>working-at-the-t</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="working-at-the-t">
+            <g id="t-badge-copy" transform="translate(3.000000, 15.000000)">
+                <rect id="outside-box" fill="#1C77C3" x="0" y="12" width="84" height="48" rx="3"></rect>
+                <rect id="inside-box" fill="#FFFFFF" x="2" y="14" width="80" height="44" rx="3"></rect>
+                <rect id="badge-clip" fill="#1C77C3" x="38" y="0" width="8" height="18" rx="1"></rect>
+                <rect id="line1" fill="#1C77C3" x="38" y="22" width="40" height="4" rx="2"></rect>
+                <rect id="line2" fill="#1C77C3" x="38" y="28" width="24" height="4" rx="2"></rect>
+                <rect id="line3" fill="#1C77C3" x="38" y="40" width="40" height="4" rx="2"></rect>
+                <rect id="line4" fill="#1C77C3" x="38" y="46" width="12" height="4" rx="2"></rect>
+                <path d="M18,48 C24.627417,48 30,42.627417 30,36 C30,29.372583 24.627417,24 18,24 C11.372583,24 6,29.372583 6,36 C6,42.627417 11.372583,48 18,48 Z M10,30 L25.84,30 L25.84,33.66 L19.96,33.66 L19.96,43.452 L15.904,43.452 L15.904,33.66 L10.024,33.66 L10,30 Z" id="t-logo" fill="#1C77C3"></path>
+                <ellipse id="circle" fill="#FFFFFF" cx="42" cy="4" rx="2" ry="2"></ellipse>
+            </g>
+        </g>
+    </g>
+</svg>

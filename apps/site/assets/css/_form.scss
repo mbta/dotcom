@@ -1,0 +1,80 @@
+.c-form__input-container {
+  align-items: center;
+  background: $white;
+  border: 3px solid $brand-primary-dark;
+  border-radius: $border-radius;
+  display: flex;
+  padding: $base-spacing / 4;
+  position: relative;
+
+  &.c-form__input-focused {
+    border-color: $brand-primary-light;
+  }
+}
+
+.c-form__input-container--error {
+  background: $form-error-message;
+  border-color: $error-text;
+
+  &.c-form__input-focused {
+    border-color: $brand-red-line;
+  }
+
+  .c-form__input {
+    background: $form-error-message;
+  }
+}
+
+.c-form__input {
+  border-width: 0;
+  color: $gray-dark;
+  flex: 1 1 auto;
+  padding: $base-spacing / 4 $base-spacing / 2;
+  width: 100%;
+
+  &:focus {
+    outline: 0;
+  }
+}
+
+.c-form__reset-icon {
+  color: $brand-primary;
+  display: none; // gets toggled by javascript on keyup
+  flex: 0 0 auto;
+  height: $space-18;
+  margin-right: $base-spacing / 2;
+  width: $space-18;
+}
+
+.c-form__submit-btn {
+  @include icon-size($base-spacing * 1.5);
+  background: $brand-primary;
+  border: 0;
+  border-radius: $base-spacing / 4;
+  color: $white;
+  cursor: pointer;
+  flex: 0 0 auto;
+  margin-left: $space-2;
+  padding: $base-spacing / 2;
+
+  .c-svg__icon-search-reverse-default {
+    vertical-align: top;
+  }
+}
+
+.c-form__input--with-animated-placeholder::placeholder {
+  color: transparent;
+}
+
+.c-form__animated-placeholder {
+  left: 0;
+  max-width: 85%;
+  opacity: .6;
+  overflow: hidden;
+  padding: $base-spacing * .75;
+  pointer-events: none;
+  position: absolute;
+  text-overflow: ellipsis;
+  top: 0;
+  white-space: nowrap;
+}

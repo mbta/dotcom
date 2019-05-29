@@ -1,0 +1,66 @@
+from locust import HttpLocust, TaskSet, task
+from page import Page
+
+
+class TransitNearMe(TaskSet):
+    def on_start(self):
+        """ on_start is called when Locust starts before any task is scheduled """
+        self.turn_on_flag()
+
+    def turn_on_flag(self):
+        response = self.client.get("/_flags")
+        csrf_token = Page.get_csrf_token(response)
+
+        self.client.post(
+            "/_flags/enable/transit_near_me_redesign",
+            json={
+                "_utf8": "✓",
+                "_csrf_token": csrf_token
+            },
+            headers={"Referer": "/_flags"})
+
+    @task
+    def no_location(self):
+        self.client.get("/transit-near-me-v2")
+
+    @task
+    def office(self):
+        self.client.get(
+            "/transit-near-me-v2?_utf8=✓&location%5Baddress%5D=10+Park+Plaza%2C+Boston%2C+MA+02116%2C+USA&location%5Blatitude%5D=42.3515322&location%5Blongitude%5D=-71.06684519999999"
+        )
+
+    @task
+    def ashmont(self):
+        self.client.get(
+            "/transit-near-me-v2?_utf8=✓&location%5Baddress%5D=Ashmont+St%2C+Boston%2C+MA%2C+USA&location%5Blatitude%5D=42.2870008&location%5Blongitude%5D=-71.05954459999998"
+        )
+
+    @task
+    def lynn(self):
+        self.client.get(
+            "/transit-near-me-v2?_utf8=✓&location%5Baddress%5D=Lynn%2C+MA%2C+USA&location%5Blatitude%5D=42.46676300000001&location%5Blongitude%5D=-70.94949380000003"
+        )
+
+    @task
+    def tts(self):
+        self.client.get(
+            "/transit-near-me-v2?_utf8=✓&location%5Baddress%5D=10+Brookline+St%2C+Cambridge%2C+MA+02139%2C+USA&location%5Blatitude%5D=42.36354439999999&location%5Blongitude%5D=-71.1017089"
+        )
+
+    @task
+    def church(self):
+        self.client.get(
+            "/transit-near-me-v2?_utf8=✓&location%5Baddress%5D=69+Kilmarnock+St%2C+Boston%2C+MA+02215%2C+USA&location%5Blatitude%5D=42.3424708&location%5Blongitude%5D=-71.09949890000001"
+        )
+
+    @task
+    def paris(self):
+        self.client.get(
+            "/transit-near-me-v2?_utf8=✓&location%5Baddress%5D=Paris%2C+France&location%5Blatitude%5D=48.856614&location%5Blongitude%5D=2.3522219000000177"
+        )
+
+
+class WebsiteUser(HttpLocust):
+    task_set = TransitNearMe
+    min_wait = 5000  # 5 seconds
+    max_wait = 15000  # 15 seconds

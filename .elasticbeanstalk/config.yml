@@ -1,0 +1,13 @@
+branch-defaults:
+  master:
+    environment: dotcom-dev-green
+    group_suffix: null
+deploy:
+  artifact: site-build.zip
+global:
+  application_name: dotcom
+  default_ec2_keyname: dotcom-dev
+  default_platform: Docker 1.9.1
+  default_region: us-east-1
+  profile: eb-cli
+  sc: git

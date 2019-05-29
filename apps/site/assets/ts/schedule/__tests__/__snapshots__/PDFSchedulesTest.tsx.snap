@@ -1,0 +1,93 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 1`] = `
+Array [
+  <h3
+    aria-controls="panel-pdfs"
+    aria-expanded={true}
+    className="c-expandable-block__header"
+    id="header-pdfs"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    PDF Schedules
+    <span
+      className="c-expandable-block__header-caret"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "&#xF106;",
+        }
+      }
+    />
+  </h3>,
+  <div
+    aria-labelledby="header-pdfs"
+    className="c-expandable-block__panel"
+    id="panel-pdfs"
+    role="region"
+    tabIndex={0}
+  >
+    <a
+      className="m-schedule-page__sidebar-pdfs"
+      href="https://mbta.com/example-pdf.pdf"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon-pdf"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      Route 1 schedule PDF
+    </a>
+  </div>,
+  <noscript>
+    <style>
+      #header-pdfs { display: none; }
+    </style>
+    <h3
+      className="c-expandable-block__header"
+    >
+      PDF Schedules
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF106;",
+          }
+        }
+      />
+    </h3>
+    <div
+      className="c-expandable-block__panel"
+      role="region"
+    >
+      <a
+        className="m-schedule-page__sidebar-pdfs"
+        href="https://mbta.com/example-pdf.pdf"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span
+          aria-hidden="true"
+          className="notranslate c-svg__icon-pdf"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Route 1 schedule PDF
+      </a>
+    </div>
+  </noscript>,
+]
+`;
+
+exports[`it renders without pdfs 1`] = `null`;

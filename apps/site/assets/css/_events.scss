@@ -1,0 +1,42 @@
+.event-hr-row {
+  border-top: $border;
+  margin-top: $base-spacing-lg;
+  padding-top: $base-spacing-lg;
+}
+
+.arrow-icon:hover {
+  color: $brand-primary-lightest;
+  text-decoration: none;
+}
+
+.event-info-label {
+  font-weight: bold;
+
+  @include media-breakpoint-down(sm) {
+    display: block;
+  }
+}
+
+.events-paragraph {
+  margin: $base-spacing-lg 0;
+}
+
+.events-paged-list-header {
+  background-color: $brand-primary-darkest;
+  color: $white;
+  line-height: 2em;
+  margin-bottom: 0;
+  text-align: center;
+  text-transform: uppercase;
+
+  a {
+    color: $white;
+    display: inline-block;
+    padding: 0 $space-12;
+    vertical-align: bottom;
+  }
+}
+
+.event-inline-block {
+  display: inline-block;
+}

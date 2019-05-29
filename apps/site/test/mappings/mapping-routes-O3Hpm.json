@@ -1,0 +1,22 @@
+{
+  "id" : "7709beae-f94f-346d-a47f-69e26cc6cf80",
+  "request" : {
+    "url" : "/routes/?stop=place-sthld&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-O3Hpm.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:09 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1du54uhh4nod4012o02",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "7709beae-f94f-346d-a47f-69e26cc6cf80"
+}

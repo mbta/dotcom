@@ -1,0 +1,27 @@
+/_build
+/cover
+/**/cover
+*.coverdata
+/deps
+erl_crash.dump
+*.ez
+.DS_Store
+.ruby-version
+.vscode
+.elixir_ls
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/config.yml
+/site-build.zip
+/apps/site/test/backstop_data/bitmaps_test
+/apps/site/test/backstop_data/html_report
+ts-build
+stats.json
+npm-debug.log
+/apps/news/posts.zip
+/bin
+excoveralls.json
+doc/
+coverage
+/rel/app.js

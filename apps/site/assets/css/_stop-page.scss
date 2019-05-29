@@ -1,0 +1,221 @@
+.m-stop-page__header {
+  background: $gray-bordered-background;
+  border-bottom: 0;
+
+  // required to prevent h2 margin-top from creating space between
+  // header and breadcrumbs
+  // https://stackoverflow.com/questions/13573653
+  overflow: auto;
+}
+
+.m-stop-page__header-container {
+  @include make-container-max-widths();
+  margin-left: auto;
+  margin-right: auto;
+
+  @include media-breakpoint-down(sm) {
+    padding-left: $grid-gutter-width / 2;
+    padding-right: $grid-gutter-width / 2;
+  }
+
+  .m-stop-page__name {
+    margin-bottom: $base-spacing / 2;
+  }
+}
+
+.m-stop-page__header-features {
+  align-items: center;
+  display: flex;
+  height: $base-spacing * 2;
+  margin-bottom: $base-spacing;
+  margin-top: $base-spacing / 2;
+}
+
+.m-stop-page__header-feature,
+.m-stop-page__access-icon {
+  align-items: center;
+  display: flex;
+  flex: 0 0 auto;
+  font-weight: 700;
+  height: 100%;
+  margin-right: $base-spacing / 2;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  .m-route-pills & {
+    display: inline-flex;
+    margin-top: $base-spacing / 2;
+  }
+}
+
+.m-stop-page__icon {
+  @include icon-size-inline(1.25em, .125em);
+
+  flex: 0 0 auto;
+
+  @include media-breakpoint-up(lg) {
+    @include icon-size-inline(1.5em, .125em);
+  }
+
+  .c-icon__cr-zone {
+    padding: $base-spacing;
+  }
+}
+
+.m-stop-page__header-description {
+  border-radius: $base-spacing * 3;
+  color: $white;
+  flex: 0 0 auto;
+  padding: $base-spacing / 4 $base-spacing / 2;
+  text-transform: uppercase;
+  vertical-align: middle;
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
+.m-stop-page__sidebar-pills {
+  @include media-breakpoint-down(md) {
+    display: none;
+  }
+}
+
+.m-stop-page__name--upcase {
+  text-transform: uppercase;
+}
+
+.m-stop-page__address-block {
+  background: $white;
+  border: 1px solid $gray-lightest;
+  display: flex;
+  margin-top: -$base-spacing * 3;
+  padding: $base-spacing;
+  position: relative;
+  z-index: $z-index-above-leaflet;
+
+  @include media-breakpoint-down(md) {
+    flex-direction: column;
+  }
+
+  .m-route-pills {
+    @include media-breakpoint-up(lg) {
+      display: none;
+    }
+  }
+
+  h3,
+  .h3 {
+    margin-top: 0;
+  }
+}
+
+.m-stop-page__address {
+  flex: 1 1 auto;
+  padding-right: $base-spacing;
+}
+
+.m-stop-page__address-links {
+  flex: 0 0 auto;
+}
+
+.m-stop-page__address-link {
+  display: block;
+  margin-bottom: $base-spacing / 2;
+}
+
+.m-stop-page__street-view-icon {
+  margin-right: $base-spacing / 2;
+}
+
+.m-stop-page__hero-map-container {
+  flex: 1 1 auto;
+  height: $base-spacing * 25;
+}
+
+.m-stop-page__departures {
+  background-color: $gray-lightest;
+  padding: .75 * $base-spacing;
+  position: relative;
+
+  .m-tnm-sidebar__filter-header {
+    display: inline;
+  }
+}
+
+.m-stop-page__departures-route {
+  background: $white;
+  box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
+
+  .m-tnm-sidebar__filter-bar + & {
+    margin-top: $base-spacing / 2;
+  }
+
+  & + & {
+    margin-top: $base-spacing / 2;
+  }
+}
+
+.m-stop-page__sidebar-list {
+  list-style: none; // Remove default bullets
+}
+
+.m-stop-page__sidebar-list-item::before {
+  color: $brand-primary-light;
+  content: '\2022';  // \2022 is unicode for a bullet
+  display: inline-block;
+  font-size: $base-spacing * 1.25;
+  font-weight: bold;
+  margin-left: -$base-spacing;
+  text-transform: capitalize;
+  width: $base-spacing;
+}
+
+.m-stop-page__pedal-and-park {
+  padding-left: $base-spacing;
+}
+
+.m-route-pills {
+  .u-bg--bus,
+  .u-bg--silver-line {
+    border-radius: $base-spacing / 4;
+  }
+}
+
+.m-stop-page__sidebar-header {
+  margin-top: 0;
+}
+
+.m-stop-page__retail-locations {
+  &.c-location-cards {
+    background: auto;
+    margin-bottom: 0;
+    margin-top: $base-spacing;
+    padding: 0;
+  }
+}
+
+.m-stop-page__retail-location {
+  &.c-location-card {
+    box-shadow: 0 2px 4px 0 $drop-shadow-color;
+    margin: $base-spacing / 2 $base-spacing / 4;
+    padding: $base-spacing / 2;
+  }
+}
+
+.m-stop-page__retail-location-name {
+  &.c-location-card__name {
+    margin-bottom: 0;
+  }
+}
+
+.m-stop-page__transfers {
+  background-color: $gray-bordered-background;
+  padding: $base-spacing * .75;
+}

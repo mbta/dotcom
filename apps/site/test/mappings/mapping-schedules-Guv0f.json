@@ -1,0 +1,22 @@
+{
+  "id" : "a6b0a0ef-f918-3286-a368-b8b78ab58447",
+  "request" : {
+    "url" : "/schedules/?stop=26551&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed&date=2019-06-22",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-Guv0f.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:12 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:51 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1jv8ai55h47bo00knl3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a6b0a0ef-f918-3286-a368-b8b78ab58447"
+}

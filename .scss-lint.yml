@@ -1,0 +1,12 @@
+scss_files: 'apps/site/assets/css/**/*.scss'
+
+exclude: 'apps/site/assets/css/_google-translate.scss'
+
+linters:
+  SelectorFormat:
+    enabled: true
+    convention: hyphenated_BEM
+  # Some properties aren't in the default whitelist for scss-lint, for more details, see this link:
+  # https://github.com/brigade/scss-lint/blob/b5d624ddab68668badb85513f512f3688cbf8cb6/lib/scss_lint/linter/README.md#propertyspelling
+  PropertySpelling:
+    extra_properties: font-variant-numeric

@@ -1,0 +1,64 @@
+.how-to-pay-steps {
+  @include list-unstyled();
+
+  padding: 0 $space-36;
+
+  li {
+    counter-increment: step-counter;
+    margin-top: -1rem;
+
+    &::before {
+      background-color: $brand-primary-dark;
+      border-radius: 12px;
+      color: $white;
+      content: counter(step-counter);
+      font-size: 80%;
+      margin-right: 5px;
+      padding: 3px 8px;
+      position: relative;
+      right: 2rem;
+      top: 1.5rem;
+    }
+  }
+}
+
+
+.how-to-pay-callout {
+  border-bottom: $border;
+  border-top: $border;
+}
+
+.how-to-pay-note {
+  background-color: $gray-lightest;
+}
+
+.how-to-pay-block {
+  border: $border;
+}
+
+.how-to-pay-image {
+  display: block;
+  margin: 0 auto;
+}
+
+.how-to-pay-image-oversize {
+  width: 100%;
+}
+
+.how-to-pay-ferry-box {
+  @include media-breakpoint-up(sm) {
+    border-left: $border;
+  }
+}
+
+.how-to-pay-ride-link {
+  display: inline-block;
+
+  + .how-to-pay-ride-link {
+    padding-left: $space-16;
+  }
+}
+
+.tab-selector-container {
+  margin-bottom: $base-spacing / 2;
+}

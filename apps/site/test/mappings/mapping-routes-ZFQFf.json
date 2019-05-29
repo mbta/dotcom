@@ -1,0 +1,22 @@
+{
+  "id" : "cac0992f-3979-3e21-bfa9-c371961b0ea5",
+  "request" : {
+    "url" : "/routes/?stop=place-lake&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZFQFf.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:09 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1eg3vprpet8kg012ob2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "cac0992f-3979-3e21-bfa9-c371961b0ea5"
+}

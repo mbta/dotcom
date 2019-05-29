@@ -1,0 +1,297 @@
+@import 'variables';
+@import 'keyframes';
+@import 'helpers';
+
+// all ".c-svg__*" icons default to 1.5rem wide/high
+@include icon-size(1.5rem);
+
+.icon {
+  @include icon-size(1rem);
+  display: inline-block;
+  font-weight: normal;
+
+  @include hover-focus-active {
+    text-decoration: none;
+  }
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4 {
+  @include icon-size-inline(1em);
+}
+
+p,
+ul,
+ol,
+td {
+  @include icon-size-inline(1.125em, .21em);
+}
+
+// Sizes
+.icon-small {
+  height: $icon-size-sm;
+  vertical-align: text-bottom;
+  width: $icon-size-sm;
+}
+
+.icon-small-inline {
+  @include old-style-icon-size-inline(1em);
+}
+
+.icon-large-inline {
+  @include old-style-icon-size-inline(2em);
+}
+
+// Default colors
+.icon-image {
+  fill: $gray-dark;
+}
+
+.icon-circle {
+  fill: $white;
+}
+
+// Icon-specifc colors
+.icon-map-image,
+.icon-globe-image {
+  fill: transparent;
+  stroke: $gray-dark;
+}
+
+a {
+  .icon-map-image,
+  .icon-globe-image {
+    .icon-image {
+      stroke: $link-color;
+    }
+  }
+
+  .icon-realtime {
+    svg {
+      fill: $link-color;
+    }
+  }
+}
+
+.icon-alert-circle {
+  fill: $gray-dark;
+
+  + .icon-alert-image {
+    fill: $alert-color;
+  }
+}
+
+.icon-bus-circle {
+  fill: $brand-secondary;
+}
+
+.icon-commuter-rail-circle {
+  fill: $brand-commuter-rail;
+
+  + .icon-commuter-rail-image {
+    fill: $white;
+  }
+}
+
+.icon-subway-circle {
+  fill: $brand-subway;
+
+  + .icon-subway-image {
+    fill: $white;
+  }
+}
+
+.icon-ferry-circle {
+  fill: $brand-ferry;
+
+  + .icon-ferry-image {
+    fill: $white;
+  }
+}
+
+.icon-blue-line-circle {
+  fill: $brand-blue-line;
+
+  + .icon-blue-line-image {
+    fill: $white;
+  }
+}
+
+.icon-red-line-circle,
+.icon-mattapan-line-circle,
+.icon-mattapan-trolley-circle {
+  fill: $brand-red-line;
+
+  + .icon-image {
+    fill: $white;
+  }
+}
+
+.icon-orange-line-circle {
+  fill: $brand-orange-line;
+
+  + .icon-orange-line-image {
+    fill: $white;
+  }
+}
+
+.icon-green-line-circle {
+  fill: $brand-green-line;
+
+  + .icon-green-line-image {
+    fill: $white;
+  }
+}
+
+.icon-access-circle {
+  fill: $brand-primary;
+
+  + .icon-access-image {
+    fill: $white;
+  }
+}
+
+.icon-the-ride-circle {
+  fill: $brand-the-ride;
+
+  + .icon-the-ride-image {
+    fill: $white;
+  }
+}
+
+.icon-twitter-circle {
+  fill: $twitter;
+}
+
+.icon-facebook-circle {
+  fill: $facebook;
+
+  + .icon-facebook-image {
+    fill: $white;
+  }
+}
+
+.icon-flag-stop-image {
+  fill: $brand-commuter-rail;
+}
+
+.icon-early-departure-image {
+  fill: $brand-primary;
+}
+
+// Overrides
+
+.icon-boring {
+  // normal fill for content, white circle with gray border
+  .icon-circle {
+    fill: $white;
+    stroke: $gray-dark;
+  }
+
+  .icon-image {
+    fill: $gray-dark;
+  }
+
+  // some overrides
+  .icon-map-image,
+  .icon-globe-image {
+    fill: transparent;
+    stroke: $gray-dark;
+  }
+}
+
+.icon-selected {
+  // normal fill for content, white circle with gray border
+  .icon-circle {
+    fill: $white;
+    stroke: $white;
+  }
+
+  .icon-image {
+    fill: $brand-primary;
+  }
+
+  // some overrides
+  .icon-map-image,
+  .icon-globe-image {
+    fill: transparent;
+    stroke: $white;
+  }
+}
+
+.icon-circle-grayed {
+  .icon-circle {
+    fill: $gray-light;
+  }
+}
+
+@mixin icon-inverse {
+  // white fill, white border, transparent fill
+  .icon-circle {
+    fill: transparent;
+    stroke: $white;
+  }
+
+  .icon-image {
+    fill: $white;
+    stroke: transparent;
+  }
+
+  // some overrides
+  .icon-map-image,
+  .icon-globe-image {
+    fill: transparent;
+    stroke: $white;
+  }
+
+  .icon-realtime {
+    svg {
+      fill: $white;
+    }
+  }
+}
+
+.icon-inverse,
+%icon-inverse {
+  @include icon-inverse;
+}
+
+.icon-realtime {
+  @include no-wrap(inline);
+
+  line-height: $base-spacing * .75;
+  position: relative;
+
+  &.animate {
+    animation: 2s infinite realtime-text-color-pulse;
+  }
+}
+
+.icon-realtime-text {
+  display: inline-block;
+  font-size: $base-spacing * .75;
+  font-weight: bold;
+  letter-spacing: $space-1 * .9;
+  line-height: $base-spacing * .75;
+  margin-left: $base-spacing / 4;
+  text-transform: uppercase;
+}
+
+.c-svg__icon-live-clock {
+  height: $base-spacing * .6;
+  width: $base-spacing * .6;
+}
+
+.c-icon__cr-zone {
+  border: solid $border-width $brand-commuter-rail;
+  border-radius: $space-4;
+  color: $brand-commuter-rail;
+  padding-left: $base-spacing / 4;
+  padding-right: $base-spacing / 4;
+}

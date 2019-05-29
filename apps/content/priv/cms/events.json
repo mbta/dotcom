@@ -1,0 +1,851 @@
+[
+  {
+    "nid": [
+      {
+        "value": 3268
+      }
+    ],
+    "uuid": [
+      {
+        "value": "94ff4c9e-f8b5-4fd4-ad3e-5bce557af0eb"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10108
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "event",
+        "target_type": "node_type",
+        "target_uuid": "db926d32-29a6-4c0b-8220-7de2c69b78c7"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522454575
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Fiscal & Management Control Board Meeting"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1514582914
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522454575
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [],
+    "path": [],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>The <a href=\"https://www.mbta.com/leadership/fmcb\">Fiscal and Management Control Board</a> (FMCB) closely monitors the T’s finances, management, and operations.</p>\r\n\r\n<hr />\r\n<h2>Live Stream</h2>\r\n\r\n<p><iframe allowfullscreen=\"\" frameborder=\"0\" height=\"360\" id=\"ls_embed_1522092077\" scrolling=\"no\" src=\"https://livestream.com/accounts/20617794/events/8130069/player?width=640&amp;height=360&amp;enableInfoAndActivity=true&amp;defaultDrawer=&amp;autoPlay=true&amp;mute=false\" width=\"640\"></iframe><script type=\"text/javascript\" data-embed_id=\"ls_embed_1522092077\" src=\"https://livestream.com/assets/plugins/referrer_tracking.js\"></script></p>\r\n",
+        "format": "full_html",
+        "processed": "<p>The <a href=\"https://www.mbta.com/leadership/fmcb\">Fiscal and Management Control Board</a> (FMCB) closely monitors the T’s finances, management, and operations.</p>\n\n<hr /><h2>Live Stream</h2>\n\n<p><iframe allowfullscreen=\"\" frameborder=\"0\" height=\"360\" id=\"ls_embed_1522092077\" scrolling=\"no\" src=\"https://livestream.com/accounts/20617794/events/8130069/player?width=640&amp;height=360&amp;enableInfoAndActivity=true&amp;defaultDrawer=&amp;autoPlay=true&amp;mute=false\" width=\"640\"></iframe><script type=\"text/javascript\" data-embed_id=\"ls_embed_1522092077\" src=\"https://livestream.com/assets/plugins/referrer_tracking.js\"></script></p>\n",
+        "summary": "The Fiscal and Management Control Board (FMCB) closely monitors the T’s finances, management, and operations."
+      }
+    ],
+    "field_agenda": [
+      {
+        "value": "<h3>Open Meeting</h3>\r\n\r\n<p><strong>Please note:</strong> No public comments to be taken at this meeting.</p>\r\n\r\n<p>A. Call to order by the Chairperson</p>\r\n\r\n<p>B. Meeting Minutes</p>\r\n\r\n<ul>\r\n\t<li>Approval of March 26, 2018</li>\r\n</ul>\r\n\r\n<p>C. Report from the Deputy General Manager</p>\r\n\r\n<p>D. Bus Dropped Trips Update</p>\r\n\r\n<p>E. FMCB Public Schedule</p>\r\n\r\n<ul>\r\n\t<li>Review of upcoming FMCB agenda items</li>\r\n</ul>\r\n\r\n<p>F. Construction Contract: Wellington Yard</p>\r\n\r\n<ul>\r\n\t<li>Discussion and possible action</li>\r\n</ul>\r\n\r\n<p>G. Appointment of Trustees for the MBTA Deferred Compensation and Savings Plan</p>\r\n\r\n<ul>\r\n\t<li>Discussion and possible action</li>\r\n</ul>\r\n\r\n<p>H. Red/Orange Line Program Update (written)</p>\r\n\r\n<h3>Executive Session</h3>\r\n\r\n<p>I. Discussion of strategy related to real estate.</p>\r\n",
+        "format": "full_html",
+        "processed": "<h3>Open Meeting</h3>\n\n<p><strong>Please note:</strong> No public comments to be taken at this meeting.</p>\n\n<p>A. Call to order by the Chairperson</p>\n\n<p>B. Meeting Minutes</p>\n\n<ul><li>Approval of March 26, 2018</li>\n</ul><p>C. Report from the Deputy General Manager</p>\n\n<p>D. Bus Dropped Trips Update</p>\n\n<p>E. FMCB Public Schedule</p>\n\n<ul><li>Review of upcoming FMCB agenda items</li>\n</ul><p>F. Construction Contract: Wellington Yard</p>\n\n<ul><li>Discussion and possible action</li>\n</ul><p>G. Appointment of Trustees for the MBTA Deferred Compensation and Savings Plan</p>\n\n<ul><li>Discussion and possible action</li>\n</ul><p>H. Red/Orange Line Program Update (written)</p>\n\n<h3>Executive Session</h3>\n\n<p>I. Discussion of strategy related to real estate.</p>\n"
+      }
+    ],
+    "field_agenda_file": [],
+    "field_city": [
+      {
+        "value": "Boston"
+      }
+    ],
+    "field_end_time": [],
+    "field_event_type": [
+      {
+        "target_id": 7,
+        "target_type": "taxonomy_term",
+        "target_uuid": "af7f887c-b010-416e-a958-38de18b9afa3",
+        "url": "/taxonomy/term/7"
+      }
+    ],
+    "field_imported_address": [],
+    "field_keywords": [],
+    "field_location": [
+      {
+        "value": "State Transportation Building, 2nd Floor, Transportation Board Room"
+      }
+    ],
+    "field_meeting_id": [
+      {
+        "value": "1"
+      }
+    ],
+    "field_minutes_file": [],
+    "field_notes": [
+      {
+        "value": "<p>All FMCB meetings are accessible to participants with disabilities. To request a reasonable accommodation, please contact Owen Kane at <a href=\"mailto:OKane@mbta.com\">OKane@mbta.com</a> or at <a href=\"tel:857-368-8767\">857-368-8767</a>.</p>\r\n",
+        "format": "full_html",
+        "processed": "<p>All FMCB meetings are accessible to participants with disabilities. To request a reasonable accommodation, please contact Owen Kane at <a href=\"mailto:OKane@mbta.com\">OKane@mbta.com</a> or at <a href=\"tel:857-368-8767\">857-368-8767</a>.</p>\n"
+      }
+    ],
+    "field_other_files": [],
+    "field_page_type": [],
+    "field_project": [],
+    "field_related_transit": [],
+    "field_start_time": [
+      {
+        "value": "2018-04-02T16:00:00"
+      }
+    ],
+    "field_state": [
+      {
+        "value": "MA"
+      }
+    ],
+    "field_street_address": [
+      {
+        "value": "10 Park Plaza"
+      }
+    ],
+    "field_who": [
+      {
+        "value": "Board Members"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3458
+      }
+    ],
+    "uuid": [
+      {
+        "value": "acbf7719-a487-4271-92af-a8d9e9aad8aa"
+      }
+    ],
+    "vid": [
+      {
+        "value": 9945
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "event",
+        "target_type": "node_type",
+        "target_uuid": "db926d32-29a6-4c0b-8220-7de2c69b78c7"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522177882
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Senior CharlieCard Event"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1520369802
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522177882
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [],
+    "path": [
+      {
+        "alias": "/events/date/title",
+        "pid": 3510,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>People 65 and older can apply for a <a href=\"https://www.mbta.com/fares/reduced/senior-charliecard\">Senior CharlieCard</a> in order to receive the reduced fare on the bus, subway, or ferry.</p>\r\n\r\n<p>At this event:</p>\r\n\r\n<ol>\r\n\t<li>Fill out an application. Bring a valid, government-issued ID or license to prove you're 65 or older.</li>\r\n\t<li>Staff at the event will mail your application and photo to the MBTA.</li>\r\n\t<li>Your permanent Senior CharlieCard will arrive in the mail 7 – 10 business days after the MBTA receives your application.</li>\r\n</ol>\r\n\r\n<p><a href=\"/fares/reduced/senior-charliecard\">Learn more about the Senior CharlieCard {{fa \"arrow-right\"}}</a></p>\r\n",
+        "format": "basic_html",
+        "processed": "<p>People 65 and older can apply for a <a href=\"https://www.mbta.com/fares/reduced/senior-charliecard\">Senior CharlieCard</a> in order to receive the reduced fare on the bus, subway, or ferry.</p>\n\n<p>At this event:</p>\n\n<ol><li>Fill out an application. Bring a valid, government-issued ID or license to prove you're 65 or older.</li>\n\t<li>Staff at the event will mail your application and photo to the MBTA.</li>\n\t<li>Your permanent Senior CharlieCard will arrive in the mail 7 – 10 business days after the MBTA receives your application.</li>\n</ol><p><a href=\"/fares/reduced/senior-charliecard\">Learn more about the Senior CharlieCard {{fa \"arrow-right\"}}</a></p>",
+        "summary": "People 65 and older can apply for a Senior CharlieCard in order to receive the reduced fare on the bus, subway, or ferry."
+      }
+    ],
+    "field_agenda": [],
+    "field_agenda_file": [],
+    "field_city": [
+      {
+        "value": "Concord"
+      }
+    ],
+    "field_end_time": [
+      {
+        "value": "2018-04-03T19:00:00"
+      }
+    ],
+    "field_event_type": [],
+    "field_imported_address": [],
+    "field_keywords": [],
+    "field_location": [
+      {
+        "value": "Harvey Wheeler Community Center"
+      }
+    ],
+    "field_meeting_id": [],
+    "field_minutes_file": [],
+    "field_notes": [],
+    "field_other_files": [],
+    "field_page_type": [],
+    "field_project": [],
+    "field_related_transit": [],
+    "field_start_time": [
+      {
+        "value": "2018-04-03T17:00:00"
+      }
+    ],
+    "field_state": [
+      {
+        "value": "MA"
+      }
+    ],
+    "field_street_address": [
+      {
+        "value": "1276 Main Street"
+      }
+    ],
+    "field_who": [
+      {
+        "value": "People 65 and older"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3461
+      }
+    ],
+    "uuid": [
+      {
+        "value": "4b784a80-cfd4-42fa-b2ee-7c6a97199445"
+      }
+    ],
+    "vid": [
+      {
+        "value": 9826
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "event",
+        "target_type": "node_type",
+        "target_uuid": "db926d32-29a6-4c0b-8220-7de2c69b78c7"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1521735710
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Public Meeting: Sullivan Square Station Lower Busway and Parking Lot Reconstruction"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1520447384
+      }
+    ],
+    "changed": [
+      {
+        "value": 1521735710
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [],
+    "path": [
+      {
+        "alias": "/events/2018-04-05/public-meeting-sullivan-square-station-lower-busway-and-parking-lot",
+        "pid": 3513,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>The MBTA is currently working with Wynn Boston Harbor to implement roadway and transportation improvements to Sullivan Square—including the reconstruction of Sullivan Square Station's lower busway and parking lot—to enhance the level of service, performance, and passenger safety. Located in front of Sullivan Square Station, the upper and lower busways connect 12 bus lines, serving Boston, Malden, Medford, Somerville, Cambridge, and Everett.</p>\r\n\r\n<p>Wynn is privately funding these improvements, and no public or tax payer funds are being used to pay for these improvements.</p>\r\n\r\n<p>The planned improvements will upgrade, replace, or repair the roadway surface, pavement markings, drainage, bus shelters, lighting, security, traffic and wayfinding signage, and landscaping.</p>\r\n\r\n<p>Improvements have been designed to:</p>\r\n\r\n<ul>\r\n\t<li>improve traffic flow around the station</li>\r\n\t<li>enhance pedestrian, bicycle and customer safety</li>\r\n\t<li>increase bus operation capacity and efficiency</li>\r\n\t<li>improve the station's accessibility</li>\r\n</ul>\r\n\r\n<p>The construction will be phased to minimize disruptions to MBTA customers and maintain the current levels of transit and bus service for the duration of the project. Parking service will be reduced and at times fully relocated during construction.</p>\r\n\r\n<p>Construction will begin in April 2018 and is scheduled to last approximately 7 months.</p>\r\n",
+        "format": "basic_html",
+        "processed": "<p>The MBTA is currently working with Wynn Boston Harbor to implement roadway and transportation improvements to Sullivan Square—including the reconstruction of Sullivan Square Station's lower busway and parking lot—to enhance the level of service, performance, and passenger safety. Located in front of Sullivan Square Station, the upper and lower busways connect 12 bus lines, serving Boston, Malden, Medford, Somerville, Cambridge, and Everett.</p>\n\n<p>Wynn is privately funding these improvements, and no public or tax payer funds are being used to pay for these improvements.</p>\n\n<p>The planned improvements will upgrade, replace, or repair the roadway surface, pavement markings, drainage, bus shelters, lighting, security, traffic and wayfinding signage, and landscaping.</p>\n\n<p>Improvements have been designed to:</p>\n\n<ul><li>improve traffic flow around the station</li>\n\t<li>enhance pedestrian, bicycle and customer safety</li>\n\t<li>increase bus operation capacity and efficiency</li>\n\t<li>improve the station's accessibility</li>\n</ul><p>The construction will be phased to minimize disruptions to MBTA customers and maintain the current levels of transit and bus service for the duration of the project. Parking service will be reduced and at times fully relocated during construction.</p>\n\n<p>Construction will begin in April 2018 and is scheduled to last approximately 7 months.</p>",
+        "summary": ""
+      }
+    ],
+    "field_agenda": [],
+    "field_agenda_file": [],
+    "field_city": [
+      {
+        "value": "Charlestown"
+      }
+    ],
+    "field_end_time": [],
+    "field_event_type": [],
+    "field_imported_address": [],
+    "field_keywords": [],
+    "field_location": [
+      {
+        "value": "The Schraffts Center, Cafeteria"
+      }
+    ],
+    "field_meeting_id": [],
+    "field_minutes_file": [],
+    "field_notes": [
+      {
+        "value": "<p>The meeting location is accessible to people with disabilities. MassDOT provides reasonable accommodations and/or language assistance free of charge upon request (including, but not limited to, interpreters in American Sign Language and languages other than English, open or closed captioning for videos, assistive listening devices and alternate material formats, such as audio tapes, Braille and large print), as available.</p>\r\n\r\n<p>For accommodation or language assistance, please contact Trish Foley by phone at <a href=\"tel:857-368-8907\">857-368-8907</a> or by email at <a href=\"mailto:trish.foley@ dot.state.ma.us\">trish.foley@ dot.state.ma.us</a>.</p>\r\n\r\n<p>Requests should be made as soon as possible prior to the meeting, and for more difficult-to-arrange services (including sign-language, CART or language translation or interpretation), requests should be made at least ten (10) business days before the meeting.</p>\r\n\r\n<p>In case of inclement weather, meeting cancellation announcements will be posted here.</p>\r\n",
+        "format": "full_html",
+        "processed": "<p>The meeting location is accessible to people with disabilities. MassDOT provides reasonable accommodations and/or language assistance free of charge upon request (including, but not limited to, interpreters in American Sign Language and languages other than English, open or closed captioning for videos, assistive listening devices and alternate material formats, such as audio tapes, Braille and large print), as available.</p>\n\n<p>For accommodation or language assistance, please contact Trish Foley by phone at <a href=\"tel:857-368-8907\">857-368-8907</a> or by email at <a href=\"mailto:trish.foley@ dot.state.ma.us\">trish.foley@ dot.state.ma.us</a>.</p>\n\n<p>Requests should be made as soon as possible prior to the meeting, and for more difficult-to-arrange services (including sign-language, CART or language translation or interpretation), requests should be made at least ten (10) business days before the meeting.</p>\n\n<p>In case of inclement weather, meeting cancellation announcements will be posted here.</p>\n"
+      }
+    ],
+    "field_other_files": [
+      {
+        "target_id": 3318,
+        "display": true,
+        "description": "Flyer",
+        "target_type": "file",
+        "target_uuid": "2798f7de-3ef0-41be-ac2b-876fba039a77",
+        "url": "https://mbta.kbox.site/sites/default/files/projects/sullivan-square/2018-04-05-sullivan-square-public-meeting.pdf",
+        "mime_type": "application/pdf"
+      }
+    ],
+    "field_page_type": [],
+    "field_project": [
+      {
+        "target_id": 3464,
+        "target_type": "node",
+        "target_uuid": "6fbe49d7-a415-47c4-b1db-7418861a251e",
+        "url": "/projects/sullivan-square-lower-busway-and-parking-lot-reconstruction"
+      }
+    ],
+    "field_related_transit": [],
+    "field_start_time": [
+      {
+        "value": "2018-04-05T22:00:00"
+      }
+    ],
+    "field_state": [
+      {
+        "value": "MA"
+      }
+    ],
+    "field_street_address": [
+      {
+        "value": "529 Main St"
+      }
+    ],
+    "field_who": [
+      {
+        "value": "General Public"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3512
+      }
+    ],
+    "uuid": [
+      {
+        "value": "ce05d38d-d8f8-4ea1-bdc8-b42722795f17"
+      }
+    ],
+    "vid": [
+      {
+        "value": 9957
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "event",
+        "target_type": "node_type",
+        "target_uuid": "db926d32-29a6-4c0b-8220-7de2c69b78c7"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522180086
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Senior CharlieCard Event"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1522177377
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522180086
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [],
+    "path": [
+      {
+        "alias": "/events/2018-04-09/senior-charliecard-event",
+        "pid": 3559,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>People 65 and older can apply for a <a href=\"https://www.mbta.com/fares/reduced/senior-charliecard\">Senior CharlieCard</a> in order to receive the reduced fare on the bus, subway, or ferry.</p>\r\n\r\n<p>At this event:</p>\r\n\r\n<ol>\r\n\t<li>Fill out an application. Bring a valid, government-issued ID or license to prove you're 65 or older.</li>\r\n\t<li>Staff at the event will mail your application and photo to the MBTA.</li>\r\n\t<li>Your permanent Senior CharlieCard will arrive in the mail 7 – 10 business days after the MBTA receives your application.</li>\r\n</ol>\r\n\r\n<p><a href=\"/fares/reduced/senior-charliecard\">Learn more about the Senior CharlieCard {{fa \"arrow-right\"}}</a></p>\r\n",
+        "format": "basic_html",
+        "processed": "<p>People 65 and older can apply for a <a href=\"https://www.mbta.com/fares/reduced/senior-charliecard\">Senior CharlieCard</a> in order to receive the reduced fare on the bus, subway, or ferry.</p>\n\n<p>At this event:</p>\n\n<ol><li>Fill out an application. Bring a valid, government-issued ID or license to prove you're 65 or older.</li>\n\t<li>Staff at the event will mail your application and photo to the MBTA.</li>\n\t<li>Your permanent Senior CharlieCard will arrive in the mail 7 – 10 business days after the MBTA receives your application.</li>\n</ol><p><a href=\"/fares/reduced/senior-charliecard\">Learn more about the Senior CharlieCard {{fa \"arrow-right\"}}</a></p>",
+        "summary": "People 65 and older can apply for a Senior CharlieCard in order to receive the reduced fare on the bus, subway, or ferry."
+      }
+    ],
+    "field_agenda": [],
+    "field_agenda_file": [],
+    "field_city": [
+      {
+        "value": "Haverhill"
+      }
+    ],
+    "field_end_time": [
+      {
+        "value": "2018-04-09T17:00:00"
+      }
+    ],
+    "field_event_type": [],
+    "field_imported_address": [],
+    "field_keywords": [],
+    "field_location": [
+      {
+        "value": "Haverhill Council on Aging"
+      }
+    ],
+    "field_meeting_id": [],
+    "field_minutes_file": [],
+    "field_notes": [],
+    "field_other_files": [],
+    "field_page_type": [],
+    "field_project": [],
+    "field_related_transit": [],
+    "field_start_time": [
+      {
+        "value": "2018-04-09T13:00:00"
+      }
+    ],
+    "field_state": [
+      {
+        "value": "MA"
+      }
+    ],
+    "field_street_address": [
+      {
+        "value": "10 Welcome St"
+      }
+    ],
+    "field_who": [
+      {
+        "value": "People 65 and older"
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3335
+      }
+    ],
+    "uuid": [
+      {
+        "value": "40dffb80-7382-4e1f-862f-6131a0f35313"
+      }
+    ],
+    "vid": [
+      {
+        "value": 7115
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "event",
+        "target_type": "node_type",
+        "target_uuid": "db926d32-29a6-4c0b-8220-7de2c69b78c7"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1514941896
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Access Advisory Committee to the MBTA: Board of Directors Meeting"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1514585845
+      }
+    ],
+    "changed": [
+      {
+        "value": 1514941896
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [],
+    "path": [
+      {
+        "alias": "/events/2018-06-27/access-advisory-committee-the-mbta-board-directors-meeting",
+        "pid": 3429,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>The <a href=\"http://www.ctps.org/aact\" target=\"_blank\">Access Advisory Committee to the MBTA</a> (AACT) is a consumer body composed of persons with disabilities, <a href=\"/accessibility/the-ride\">RIDE</a> customers, advocates and representatives of disability advocacy groups and agencies who advise and make recommendations to the MBTA regarding accessible transportation. AACT members and other interested persons meet publicly each month. For more information, contact <a href=\"mailto:AACT@ctps.org\">AACT@ctps.org</a>.</p>\r\n",
+        "format": "full_html",
+        "processed": "<p>The <a href=\"http://www.ctps.org/aact\" target=\"_blank\">Access Advisory Committee to the MBTA</a> (AACT) is a consumer body composed of persons with disabilities, <a href=\"/accessibility/the-ride\">RIDE</a> customers, advocates and representatives of disability advocacy groups and agencies who advise and make recommendations to the MBTA regarding accessible transportation. AACT members and other interested persons meet publicly each month. For more information, contact <a href=\"mailto:AACT@ctps.org\">AACT@ctps.org</a>.</p>\n",
+        "summary": ""
+      }
+    ],
+    "field_agenda": [],
+    "field_agenda_file": [],
+    "field_city": [
+      {
+        "value": "Boston"
+      }
+    ],
+    "field_end_time": [
+      {
+        "value": "2018-06-27T14:00:00"
+      }
+    ],
+    "field_event_type": [
+      {
+        "target_id": 7,
+        "target_type": "taxonomy_term",
+        "target_uuid": "af7f887c-b010-416e-a958-38de18b9afa3",
+        "url": "/taxonomy/term/7"
+      }
+    ],
+    "field_imported_address": [],
+    "field_keywords": [],
+    "field_location": [
+      {
+        "value": "State Transportation Building, 2nd Floor, Conference Rooms 2 and 3"
+      }
+    ],
+    "field_meeting_id": [],
+    "field_minutes_file": [],
+    "field_notes": [],
+    "field_other_files": [],
+    "field_page_type": [],
+    "field_project": [],
+    "field_related_transit": [],
+    "field_start_time": [
+      {
+        "value": "2018-06-27T16:00:00"
+      }
+    ],
+    "field_state": [
+      {
+        "value": "MA"
+      }
+    ],
+    "field_street_address": [
+      {
+        "value": "10 Park Plaza"
+      }
+    ],
+    "field_who": [
+      {
+        "value": "General Public"
+      }
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "id" : "0006c4cb-bf68-337d-9b5a-693cf69db4d6",
+  "request" : {
+    "url" : "/routes/?stop=Boat-Hingham",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BV28n.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:35 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mlde0p5u2blggkc03d661",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0006c4cb-bf68-337d-9b5a-693cf69db4d6"
+}

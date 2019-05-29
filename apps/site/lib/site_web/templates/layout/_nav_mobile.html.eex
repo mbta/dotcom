@@ -1,0 +1,22 @@
+<nav class="collapse row" id="navbar" role="navigation">
+  <ul class="mobile-nav">
+    <li class="mobile-nav-item search-mobile">
+      <%= Phoenix.HTML.Link.link to: search_path(@conn, :index), class: "mobile-nav-link" do %>
+        <span class="mobile-nav-item-header">
+          <%= svg_icon(%SvgIcon{icon: :search, show_tooltip?: false}) %>
+          <span>Search</span>
+        </span>
+      <% end %>
+    </li>
+    <%= for {name, description, href} <- [{"Home", "", page_path(@conn, :index)} | nav_link_content(@conn)] do %>
+      <li class="mobile-nav-item">
+        <%=
+          link to: href, class: "mobile-nav-link" do [
+            content_tag(:span, bold_if_active(@conn, href, name), class: "mobile-nav-item-header"),
+            content_tag(:p, description, class: "mobile-nav-description")
+          ] end
+        %>
+      </li>
+    <% end %>
+  </ul>
+</nav>

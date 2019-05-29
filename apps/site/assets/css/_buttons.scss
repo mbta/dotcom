@@ -1,0 +1,224 @@
+@import 'variables';
+@import 'colors';
+
+// Override Bootstrap .btn:hover colors to be
+// explicit brand colors vs. darken (%) transforms.
+// Removes third, 'active' state as well (specificity).
+.btn {
+  // Bootstrap override (uses absolute base font size otherwise).
+  // Allows button to inherit size of surrounding/body text.
+  font-size: inherit;
+
+  &.btn-primary {
+    @include hover {
+      background-color: $brand-primary-darkest;
+    }
+
+    &:focus,
+    &.focus {
+      background-color: $brand-primary-darkest;
+    }
+  }
+
+  &.btn-secondary {
+    background-color: transparent;
+    @include hover {
+      background-color: $brand-primary-lightest;
+      color: $brand-primary-darkest;
+    }
+
+    &:focus,
+    &.focus {
+      background-color: $brand-primary-lightest;
+      color: $brand-primary-darkest;
+    }
+  }
+}
+
+// ! Non-standard button styles below (not Bootstrap):
+
+.button,
+%button {
+  @extend %button-focus-color;
+  border-color: $gray-lightest;
+  border-radius: 0;
+  border-style: solid;
+  border-width: 1px;
+  padding: $half-gutter;
+
+  > .icon-alert {
+    margin-left: $base-spacing / 2;
+  }
+}
+
+.button-primary,
+%button-primary {
+  @extend %button;
+  background-color: $brand-primary;
+  color: $white;
+}
+
+.button-primary-outline,
+%button-primary-outline {
+  @extend %button;
+  background-color: transparent;
+  background-image: none;
+  border-color: $btn-primary-bg;
+  color: $btn-primary-bg;
+}
+
+%button-focus-color {
+  // helper to give an element the focus coloring of a button
+  @include hover-focus-active {
+    background-color: $btn-primary-focus-bg;
+    color: $btn-primary-focus-color;
+    text-decoration: none;
+
+    * {
+      color: $btn-primary-focus-color;
+    }
+  }
+}
+
+
+@mixin button-selected-color {
+  // helper to give an element the selected coloring
+  @include plain-hover-focus {
+    background-color: $btn-primary-bg;
+    color: $btn-primary-color;
+
+    * {
+      color: $btn-primary-color;
+    }
+
+    .icon {
+      // make the icon white
+      @include icon-inverse;
+    }
+  }
+}
+
+%button-selected-color {
+  @include button-selected-color;
+}
+
+.button-group,
+%button-group {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto $half-gutter;
+  width: 100%;
+
+  .button-container {
+    @extend %button-focus-color;
+    align-items: center;
+    background: $white;
+    display: flex;
+    flex: 1 1 33%;
+    margin-top: 1px;
+    min-height: 3rem;
+    outline: 1px solid $gray-lightest;
+    padding: 0;
+
+    @include media-breakpoint-down(xs) {
+      flex: 0 1 100%;
+      min-width: 100%;
+    }
+
+    @include media-breakpoint-up(sm) {
+      flex: 0 1 33%;
+      min-width: 33%;
+    }
+
+    .button {
+      align-items: center;
+      border-width: 0;
+      flex: 1;
+      justify-content: space-evenly;
+      width: 100%;
+    }
+  }
+}
+
+.c-inline-buttons {
+  margin: -1em -#{$half-gutter / 2} 1em;
+
+  .btn {
+    margin: 1em $half-gutter / 2 0;
+
+    @include media-breakpoint-down(sm) {
+      white-space: normal;
+    }
+  }
+}
+
+.commuter-rail {
+  @include media-breakpoint-up(sm) {
+    .button-container:nth-child(odd):last-child {
+      flex-grow: 0;
+    }
+  }
+
+  .button-container {
+    @include media-breakpoint-down(sm) {
+      flex: 1 1 50%;
+      min-width: 50%;
+    }
+
+    @include media-breakpoint-only(md) {
+      flex: 1 1 33%;
+      min-width: 33%;
+    }
+
+    @include media-breakpoint-up(lg) {
+      flex: 1 1 25%;
+      min-width: 25%;
+    }
+  }
+}
+
+.subway {
+  .button-container {
+    @include media-breakpoint-down(sm) {
+      flex: 0 1 50%;
+      min-width: 50%;
+    }
+
+    @include media-breakpoint-up(md) {
+      flex: 0 1 25%;
+      min-width: 25%;
+    }
+  }
+}
+
+.bus {
+  .button-container {
+    @include media-breakpoint-down(sm) {
+      flex: 1 1 33%;
+      min-width: 33%;
+    }
+
+    @include media-breakpoint-up(md) {
+      flex: 1 1 20%;
+      min-width: 20%;
+    }
+  }
+}
+
+.the-ride {
+  .button-container {
+    @include media-breakpoint-down(xs) {
+      flex: 0 1 100%;
+      min-width: 100%;
+    }
+
+    @include media-breakpoint-up(sm) {
+      flex: 0 1 50%;
+      min-width: 50%;
+    }
+  }
+}
+
+.stop-btn {
+  text-align: left;
+}

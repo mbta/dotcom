@@ -1,0 +1,51 @@
+.location-link {
+  border: 0;
+  margin: $space-16 0 $space-8;
+
+  @media print {
+    display: none;
+  }
+}
+
+.location-link-invert {
+  background-color: $gray-image-overlay;
+  border: 0;
+  color: $white;
+  margin: $space-4 0 $space-12;
+  padding: $space-12;
+
+  &:hover {
+    background-color: darken($gray-image-overlay, 50%);
+    color: $brand-primary-lightest;
+  }
+
+  .location-link-text {
+    &:hover {
+      color: $brand-primary-lightest;
+    }
+  }
+}
+
+.location-link-text {
+  text-decoration: underline;
+
+  &:hover {
+    color: $brand-primary-darkest;
+  }
+}
+
+.location-error {
+  @extend %error-message;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.no-js .location-btn {
+  display: none;
+}
+
+.geolocation-disabled .location-btn {
+  display: none;
+}

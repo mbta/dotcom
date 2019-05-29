@@ -1,0 +1,305 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 1`] = `
+<div
+  className="m-stop-page__departures-route"
+>
+  <a
+    className="h3 m-tnm-sidebar__route-name u-bg--red-line"
+    href="/schedules/Red"
+  >
+    <span
+      className=""
+    >
+      Red Line
+    </span>
+  </a>
+  <div
+    className="m-tnm-sidebar__direction"
+  >
+    <div
+      className="m-tnm-sidebar__direction-name u-small-caps"
+    >
+      South
+    </div>
+    <div
+      className="m-tnm-sidebar__direction-headsigns"
+    >
+      <div
+        className="m-tnm-sidebar__headsign-schedule"
+      >
+        <div
+          className="m-tnm-sidebar__headsign"
+        >
+          <div
+            className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+          >
+            Ashmont
+          </div>
+        </div>
+        <div
+          className="m-tnm-sidebar__schedules"
+        >
+          <div
+            className="m-tnm-sidebar__schedule"
+          >
+            <div
+              className="m-tnm-sidebar__time"
+            >
+              <div
+                className="m-tnm-sidebar__time-number"
+              >
+                3
+              </div>
+              <div
+                className="m-tnm-sidebar__time-mins"
+              >
+                min
+              </div>
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__schedule"
+          >
+            <div
+              className="m-tnm-sidebar__time"
+            >
+              <div
+                className="m-tnm-sidebar__time-number"
+              >
+                13
+              </div>
+              <div
+                className="m-tnm-sidebar__time-mins"
+              >
+                min
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="m-tnm-sidebar__headsign-schedule"
+      >
+        <div
+          className="m-tnm-sidebar__headsign"
+        >
+          <div
+            className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+          >
+            Braintree
+          </div>
+        </div>
+        <div
+          className="m-tnm-sidebar__schedules"
+        >
+          <div
+            className="m-tnm-sidebar__schedule"
+          >
+            <div
+              className="m-tnm-sidebar__time"
+            >
+              <div
+                className="m-tnm-sidebar__time-number"
+              >
+                9
+              </div>
+              <div
+                className="m-tnm-sidebar__time-mins"
+              >
+                min
+              </div>
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__schedule"
+          >
+            <div
+              className="m-tnm-sidebar__time"
+            >
+              <div
+                className="m-tnm-sidebar__time-number"
+              >
+                21
+              </div>
+              <div
+                className="m-tnm-sidebar__time-mins"
+              >
+                min
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__direction"
+  >
+    <div
+      className="m-tnm-sidebar__direction-name u-small-caps"
+    >
+      North
+    </div>
+    <div
+      className="m-tnm-sidebar__direction-headsigns"
+    >
+      <div
+        className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+      >
+        <div
+          className="m-tnm-sidebar__headsign"
+        >
+          <div
+            className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+          >
+            Alewife
+          </div>
+        </div>
+        <div
+          className="m-tnm-sidebar__schedules"
+        >
+          <div
+            className="m-tnm-sidebar__schedule"
+          >
+            <div
+              className="m-tnm-sidebar__time"
+            >
+              <div
+                className="m-tnm-sidebar__time-number"
+              >
+                7
+              </div>
+              <div
+                className="m-tnm-sidebar__time-mins"
+              >
+                min
+              </div>
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__schedule"
+          >
+            <div
+              className="m-tnm-sidebar__time"
+            >
+              <div
+                className="m-tnm-sidebar__time-number"
+              >
+                13
+              </div>
+              <div
+                className="m-tnm-sidebar__time-mins"
+              >
+                min
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`renders blue line routes 1`] = `
+<div
+  className="m-stop-page__departures-route"
+>
+  <a
+    className="h3 m-tnm-sidebar__route-name u-bg--blue-line"
+    href="/schedules/Blue"
+  >
+    <span
+      className=""
+    >
+      Blue Line
+    </span>
+  </a>
+</div>
+`;
+
+exports[`renders bus routes 1`] = `
+<div
+  className="m-stop-page__departures-route"
+>
+  <a
+    className="h3 m-tnm-sidebar__route-name u-bg--bus"
+    href="/schedules/Bus"
+  >
+    <span
+      className="bus-route-sign"
+    >
+      Bus
+    </span>
+  </a>
+</div>
+`;
+
+exports[`renders ferry routes 1`] = `
+<div
+  className="m-stop-page__departures-route"
+>
+  <a
+    className="h3 m-tnm-sidebar__route-name u-bg--ferry"
+    href="/schedules/Boat-F4"
+  >
+    <span
+      className=""
+    >
+      Charlestown Ferry
+    </span>
+  </a>
+</div>
+`;
+
+exports[`renders green line routes 1`] = `
+<div
+  className="m-stop-page__departures-route"
+>
+  <a
+    className="h3 m-tnm-sidebar__route-name u-bg--green-line"
+    href="/schedules/Green-B"
+  >
+    <span
+      className=""
+    >
+      B Line
+    </span>
+  </a>
+</div>
+`;
+
+exports[`renders orange line routes 1`] = `
+<div
+  className="m-stop-page__departures-route"
+>
+  <a
+    className="h3 m-tnm-sidebar__route-name u-bg--orange-line"
+    href="/schedules/Orange"
+  >
+    <span
+      className=""
+    >
+      Orange Line
+    </span>
+  </a>
+</div>
+`;
+
+exports[`renders red line routes 1`] = `
+<div
+  className="m-stop-page__departures-route"
+>
+  <a
+    className="h3 m-tnm-sidebar__route-name u-bg--red-line"
+    href="/schedules/Red"
+  >
+    <span
+      className=""
+    >
+      Red Line
+    </span>
+  </a>
+</div>
+`;

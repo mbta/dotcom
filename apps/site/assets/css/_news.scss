@@ -1,0 +1,36 @@
+.recent-news {
+  @include media-breakpoint-up(sm) {
+    .recent-news-title {
+      @include make-col();
+      @include make-col-span(6);
+    }
+  }
+}
+
+.recent-news-title {
+  color: $gray-dark;
+  font-weight: bold;
+}
+
+.news-entry-hr-row {
+  @include media-breakpoint-up(md) {
+    border-bottom: $border;
+    margin-top: $base-spacing-lg;
+    padding-bottom: $base-spacing;
+    padding-top: $base-spacing;
+  }
+}
+
+.news-entry-hr-col {
+  @include media-breakpoint-down(sm) {
+    border-bottom: $border;
+    margin-top: $base-spacing-sm;
+    padding-top: $base-spacing-sm;
+  }
+}
+
+.news-entry-title {
+  font-size: $font-size-h3;
+  font-weight: bold;
+  line-height: $headings-line-height;
+}

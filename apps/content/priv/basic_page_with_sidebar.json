@@ -1,0 +1,1122 @@
+{
+  "nid": [
+    {
+      "value": 2798
+    }
+  ],
+  "uuid": [
+    {
+      "value": "0fe8c1a0-e2fc-4847-ab99-613bf418f74d"
+    }
+  ],
+  "vid": [
+    {
+      "value": 8590
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "page",
+      "target_type": "node_type",
+      "target_uuid": "9e4b5efa-9303-469e-b5d6-20ef12fbe1d1"
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1519060359
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 17,
+      "target_type": "user",
+      "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+      "url": "/user/17"
+    }
+  ],
+  "revision_log": [],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "Fenway Park"
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 17,
+      "target_type": "user",
+      "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+      "url": "/user/17"
+    }
+  ],
+  "created": [
+    {
+      "value": 1504805951
+    }
+  ],
+  "changed": [
+    {
+      "value": 1519060359
+    }
+  ],
+  "promote": [
+    {
+      "value": false
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "revision_default": [
+    {
+      "value": true
+    }
+  ],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "moderation_state": [
+    {
+      "value": "published"
+    }
+  ],
+  "sidebar": [],
+  "path": [
+    {
+      "alias": "/destinations/fenway-park",
+      "pid": 237,
+      "langcode": "en"
+    }
+  ],
+  "publish_on": [],
+  "unpublish_on": [],
+  "menu_link": [],
+  "body": [
+    {
+      "value": "<p><img alt=\"Man wearing a Red Sox jersey waits for a Green Line train\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"600\" src=\"/sites/default/files/2017-09/green-line-to-fenway.jpg\" width=\"1400\" /></p>\r\n\r\n<p>Whether you're headed to Fenway Park for a Red Sox game, a concert, or one of the many events hosted at this historic baseball park every year, the T can get you there—and help you avoid traffic.</p>\r\n\r\n<p>It can get crowded on game days, so be sure to plan ahead. You can check for <a href=\"/alerts/subway\">delays and service updates</a> online, and follow <a href=\"http://twitter.com/fenwaypark\">Fenway Park</a>, the <a href=\"http://twitter.com/RedSox\">Red Sox</a> and the <a href=\"http://twitter.com/MBTA\">MBTA</a> on Twitter for game day alerts and notices.</p>\r\n",
+      "format": "full_html",
+      "processed": "<p><img alt=\"Man wearing a Red Sox jersey waits for a Green Line train\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"600\" src=\"/sites/default/files/2017-09/green-line-to-fenway.jpg\" width=\"1400\" /></p>\n\n<p>Whether you're headed to Fenway Park for a Red Sox game, a concert, or one of the many events hosted at this historic baseball park every year, the T can get you there—and help you avoid traffic.</p>\n\n<p>It can get crowded on game days, so be sure to plan ahead. You can check for <a href=\"/alerts/subway\">delays and service updates</a> online, and follow <a href=\"http://twitter.com/fenwaypark\">Fenway Park</a>, the <a href=\"http://twitter.com/RedSox\">Red Sox</a> and the <a href=\"http://twitter.com/MBTA\">MBTA</a> on Twitter for game day alerts and notices.</p>\n",
+      "summary": ""
+    }
+  ],
+  "field_downloads": [],
+  "field_image": [],
+  "field_keywords": [],
+  "field_page_type": [
+    {
+      "target_id": 2,
+      "target_type": "taxonomy_term",
+      "target_uuid": "5e1e556a-7d26-4556-9aa3-5f9c94aa208c",
+      "url": "/taxonomy/term/2"
+    }
+  ],
+  "field_paragraphs": [
+    {
+      "target_id": 1006,
+      "target_revision_id": 24457,
+      "id": [
+        {
+          "value": 1006
+        }
+      ],
+      "uuid": [
+        {
+          "value": "ad6b2407-4c67-4644-8dc8-c18bc421acc1"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 24457
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1512121888
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2798"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_column": [
+        {
+          "target_id": 1004,
+          "target_revision_id": 24455,
+          "id": [
+            {
+              "value": 1004
+            }
+          ],
+          "uuid": [
+            {
+              "value": "b887d059-2f0d-4ce3-b3b5-cd67fdd351d2"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 24455
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1512121943
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1006"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h2><a href=\"/schedules/Green\">Green Line</a></h2>\r\n\r\n<p><span><span><span><a href=\"/stops/place-kencl\">Kenmore</a> and <a href=\"/stops/place-fenwy\">Fenway</a> Stations are both within walking distance of Fenway Park. </span></span></span></p>\r\n\r\n<p><span><span><span><span>From downtown Boston, you can take any Green Line B, C, or D train to Kenmore, or a D train to Fenway. </span></span></span></span></p>\r\n\r\n<p><span><span><span><span>Green Line E trains </span><strong><span>do not</span></strong><span> go to Fenway or Kenmore. If you get on an E train, transfer to a B, C, or D train at Park Street, Boylston, Arlington, or Copley Stations.</span></span></span></span></p>\r\n",
+              "format": "basic_html",
+              "processed": "<h2><a href=\"/schedules/Green\">Green Line</a></h2>\n\n<p><span><span><span><a href=\"/stops/place-kencl\">Kenmore</a> and <a href=\"/stops/place-fenwy\">Fenway</a> Stations are both within walking distance of Fenway Park. </span></span></span></p>\n\n<p><span><span><span><span>From downtown Boston, you can take any Green Line B, C, or D train to Kenmore, or a D train to Fenway. </span></span></span></span></p>\n\n<p><span><span><span><span>Green Line E trains </span><strong><span>do not</span></strong><span> go to Fenway or Kenmore. If you get on an E train, transfer to a B, C, or D train at Park Street, Boylston, Arlington, or Copley Stations.</span></span></span></span></p>"
+            }
+          ]
+        },
+        {
+          "target_id": 1005,
+          "target_revision_id": 24456,
+          "id": [
+            {
+              "value": 1005
+            }
+          ],
+          "uuid": [
+            {
+              "value": "ef39b072-e0b8-4bfa-911c-fb874e7d0f14"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 24456
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1512122016
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1006"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h2><a href=\"/schedules/commuter_rail\">Commuter Rail</a></h2>\r\n\r\n<p><span><span><span><a href=\"/stops/Yawkey\">Yawkey Station</a>, on the Worcester Line, is within walking distance of Fenway Park. </span></span></span></p>\r\n\r\n<p><span><span><span><span>For all other Commuter Rail lines:</span></span></span></span></p>\r\n\r\n<ul>\r\n\t<li><span><span><span><span><span><span>At North Station, take any&nbsp;Green Line train&nbsp;</span></span></span></span></span></span><strong><span><span><span><span><span><span>except E&nbsp;</span></span></span></span></span></span></strong><span><span><span><span><span><span>to Kenmore.</span></span></span></span></span></span></li>\r\n\t<li><span><span><span><span>At South Station, take the Red Line to Park Street to transfer to a B, C, or D Green Line train to Kenmore.</span></span></span></span></li>\r\n</ul>\r\n",
+              "format": "basic_html",
+              "processed": "<h2><a href=\"/schedules/commuter_rail\">Commuter Rail</a></h2>\n\n<p><span><span><span><a href=\"/stops/Yawkey\">Yawkey Station</a>, on the Worcester Line, is within walking distance of Fenway Park. </span></span></span></p>\n\n<p><span><span><span><span>For all other Commuter Rail lines:</span></span></span></span></p>\n\n<ul><li><span><span><span><span><span><span>At North Station, take any Green Line train </span></span></span></span></span></span><strong><span><span><span><span><span><span>except E </span></span></span></span></span></span></strong><span><span><span><span><span><span>to Kenmore.</span></span></span></span></span></span></li>\n\t<li><span><span><span><span>At South Station, take the Red Line to Park Street to transfer to a B, C, or D Green Line train to Kenmore.</span></span></span></span></li>\n</ul>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target_id": 1009,
+      "target_revision_id": 24460,
+      "id": [
+        {
+          "value": 1009
+        }
+      ],
+      "uuid": [
+        {
+          "value": "e495a5ec-86dc-4ac8-9e21-7ef9b3dbf62c"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 24460
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1512121894
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2798"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_column": [
+        {
+          "target_id": 1007,
+          "target_revision_id": 24458,
+          "id": [
+            {
+              "value": 1007
+            }
+          ],
+          "uuid": [
+            {
+              "value": "7bfedeed-5a11-4a0b-9d4f-431bbfa86546"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 24458
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1512122050
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1009"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h2><a href=\"/schedules/bus\">Bus</a></h2>\r\n\r\n<p><span><span><span>Bus routes <a href=\"/schedules/1/line\">1</a>, <a href=\"/schedules/8/line\">8</a>, <a href=\"/schedules/19/line\">19</a>, <a href=\"/schedules/47/line\">47</a>, <a href=\"/schedules/55/line\">55</a>, <a href=\"/schedules/57/line\">57</a>, <a href=\"/schedules/60/line\">60</a>, <a href=\"/schedules/65/line\">65</a>, <a href=\"/schedules/701/line\">CT1</a>, <a href=\"/schedules/747/line\">CT2</a>, and <a href=\"/schedules/708/line\">CT3</a> all stop within walking distance of Fenway Park. </span></span></span></p>\r\n\r\n<p><span><span><span><span>Be sure to plan ahead when taking the bus, as routes and schedules may vary depending on traffic and days of the week.</span></span></span></span></p>\r\n",
+              "format": "basic_html",
+              "processed": "<h2><a href=\"/schedules/bus\">Bus</a></h2>\n\n<p><span><span><span>Bus routes <a href=\"/schedules/1/line\">1</a>, <a href=\"/schedules/8/line\">8</a>, <a href=\"/schedules/19/line\">19</a>, <a href=\"/schedules/47/line\">47</a>, <a href=\"/schedules/55/line\">55</a>, <a href=\"/schedules/57/line\">57</a>, <a href=\"/schedules/60/line\">60</a>, <a href=\"/schedules/65/line\">65</a>, <a href=\"/schedules/701/line\">CT1</a>, <a href=\"/schedules/747/line\">CT2</a>, and <a href=\"/schedules/708/line\">CT3</a> all stop within walking distance of Fenway Park. </span></span></span></p>\n\n<p><span><span><span><span>Be sure to plan ahead when taking the bus, as routes and schedules may vary depending on traffic and days of the week.</span></span></span></span></p>"
+            }
+          ]
+        },
+        {
+          "target_id": 1008,
+          "target_revision_id": 24459,
+          "id": [
+            {
+              "value": 1008
+            }
+          ],
+          "uuid": [
+            {
+              "value": "d043bc38-10b3-463a-82ed-4f0da7978094"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 24459
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1512122084
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1009"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h2><a href=\"/fares\">MBTA Tickets and Passes</a></h2>\r\n\r\n<p><span><span><span>Be sure to put enough money on your CharlieTicket at the start of your trip so you don’t need to wait in line to reload your pass after the game.</span></span></span></p>\r\n\r\n<p><span><span><span><span>1-day passes are also available. They include transfers to the subway, bus, and Commuter Rail Zone 1A.</span></span></span></span></p>\r\n",
+              "format": "basic_html",
+              "processed": "<h2><a href=\"/fares\">MBTA Tickets and Passes</a></h2>\n\n<p><span><span><span>Be sure to put enough money on your CharlieTicket at the start of your trip so you don’t need to wait in line to reload your pass after the game.</span></span></span></p>\n\n<p><span><span><span><span>1-day passes are also available. They include transfers to the subway, bus, and Commuter Rail Zone 1A.</span></span></span></span></p>"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target_id": 1012,
+      "target_revision_id": 24463,
+      "id": [
+        {
+          "value": 1012
+        }
+      ],
+      "uuid": [
+        {
+          "value": "935ed8a2-bbb5-4204-957d-e6bf24205f8a"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 24463
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1512121899
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "2798"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": "a:0:{}"
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "field_column": [
+        {
+          "target_id": 1010,
+          "target_revision_id": 24461,
+          "id": [
+            {
+              "value": 1010
+            }
+          ],
+          "uuid": [
+            {
+              "value": "725b0aaf-74cc-4404-96db-1730f3ad36e7"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 24461
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1512122120
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1012"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h2><a href=\"/parking\">MBTA Parking</a></h2>\r\n\r\n<p>The best way to avoid Red Sox traffic is to park at an MBTA commuter parking lot outside of the city and take the train in. Spots fill up fast on game days, so be sure to plan ahead.</p>\r\n",
+              "format": "basic_html",
+              "processed": "<h2><a href=\"/parking\">MBTA Parking</a></h2>\n\n<p>The best way to avoid Red Sox traffic is to park at an MBTA commuter parking lot outside of the city and take the train in. Spots fill up fast on game days, so be sure to plan ahead.</p>"
+            }
+          ]
+        },
+        {
+          "target_id": 1011,
+          "target_revision_id": 24462,
+          "id": [
+            {
+              "value": 1011
+            }
+          ],
+          "uuid": [
+            {
+              "value": "09eb69bd-762c-4955-86bf-f1f985702a99"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 24462
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1512122185
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "1012"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": "a:0:{}"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "moderation_state": [],
+          "field_column_body": [
+            {
+              "value": "<h2><a href=\"/schedules/Green\">Late Games</a></h2>\r\n\r\n<p>The last Green Line train leaves Kenmore Station at 12:40 a.m. If the game is expected to run late, there will be an alert on the jumbo screen before the last train leaves Kenmore.</p>\r\n",
+              "format": "basic_html",
+              "processed": "<h2><a href=\"/schedules/Green\">Late Games</a></h2>\n\n<p>The last Green Line train leaves Kenmore Station at 12:40 a.m. If the game is expected to run late, there will be an alert on the jumbo screen before the last train leaves Kenmore.</p>"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "field_related_transit": [],
+  "field_sidebar_menu": [
+    {
+      "nid": [
+        {
+          "value": 2800
+        }
+      ],
+      "uuid": [
+        {
+          "value": "9e2c6236-a987-4a1a-8f70-d0083eee6064"
+        }
+      ],
+      "vid": [
+        {
+          "value": 8625
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "menu_links",
+          "target_type": "node_type",
+          "target_uuid": "d44f2514-b274-4a75-b0e7-492e66c0ed52"
+        }
+      ],
+      "revision_timestamp": [
+        {
+          "value": 1519312564
+        }
+      ],
+      "revision_uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "revision_log": [],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "title": [
+        {
+          "value": "Destinations"
+        }
+      ],
+      "uid": [
+        {
+          "target_id": 17,
+          "target_type": "user",
+          "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+          "url": "/user/17"
+        }
+      ],
+      "created": [
+        {
+          "value": 1504810764
+        }
+      ],
+      "changed": [
+        {
+          "value": 1519312564
+        }
+      ],
+      "promote": [
+        {
+          "value": true
+        }
+      ],
+      "sticky": [
+        {
+          "value": false
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "moderation_state": [],
+      "path": [
+        {
+          "alias": null,
+          "pid": null,
+          "langcode": "en"
+        }
+      ],
+      "publish_on": [],
+      "unpublish_on": [],
+      "menu_link": [],
+      "field_blurb": [
+        {
+          "value": "<p>Visiting Boston? Learn more about some of the popular spots you can get to on the T.</p>\r\n",
+          "format": "basic_html",
+          "processed": "<p>Visiting Boston? Learn more about some of the popular spots you can get to on the T.</p>"
+        }
+      ],
+      "field_links": [
+        {
+          "uri": "/destinations/logan-airport",
+          "title": "Logan Airport",
+          "options": []
+        },
+        {
+          "uri": "/destinations/fenway-park",
+          "title": "Fenway Park",
+          "options": []
+        },
+        {
+          "uri": "/destinations/gillette-stadium",
+          "title": "Gillette Stadium",
+          "options": []
+        },
+        {
+          "uri": "/destinations/td-garden",
+          "title": "TD Garden",
+          "options": []
+        },
+        {
+          "uri": "/destinations/wachusett-ski-resort",
+          "title": "Wachusett Ski Resort",
+          "options": []
+        },
+        {
+          "uri": "/destinations/boston-marathon",
+          "title": "Boston Marathon",
+          "options": []
+        },
+        {
+          "uri": "/destinations/salem-haunted-happenings",
+          "title": "Salem",
+          "options": []
+        },
+        {
+          "uri": "http://capeflyer.com/",
+          "title": "Cape Cod",
+          "options": []
+        }
+      ],
+      "field_menu_position": [
+        {
+          "value": "bottom"
+        }
+      ]
+    }
+  ],
+  "breadcrumbs": [
+    {
+      "text": "Home",
+      "uri": "/"
+    },
+    {
+      "text": "Destinations",
+      "uri": "/destinations"
+    },
+    {
+      "text": "Fenway Park",
+      "uri": ""
+    }
+  ]
+}

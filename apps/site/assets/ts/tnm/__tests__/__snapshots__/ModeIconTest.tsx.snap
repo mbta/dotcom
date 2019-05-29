@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders a small icon if supplied a type 1`] = `
+<span
+  className="m-tnm-sidebar__mode-icon"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "SVG",
+    }
+  }
+/>
+`;
+
+exports[`renders a station icon if supplied a type that doesn't have an imported icon 1`] = `
+<span
+  className="m-tnm-sidebar__mode-icon"
+  dangerouslySetInnerHTML={
+    Object {
+      "__html": "SVG",
+    }
+  }
+/>
+`;

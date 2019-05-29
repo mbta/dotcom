@@ -1,0 +1,1 @@
+<%= render("_generic.html", teaser: @teaser) %>

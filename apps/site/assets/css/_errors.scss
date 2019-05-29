@@ -1,0 +1,79 @@
+@import 'variables';
+
+.errorview {
+  flex: 0 0 auto;
+}
+
+.error-card {
+  background: $white;
+  color: $gray-dark;
+  text-align: center;
+}
+
+.error-card-header {
+  border-bottom: 0;
+  font-size: 4rem;
+
+  @include media-breakpoint-down(sm) {
+    h1 {
+      padding-bottom: 0;
+    }
+  }
+}
+
+.error-card-subheader {
+  margin-bottom: $base-spacing;
+}
+
+.error-card-content {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+
+  @include media-breakpoint-down(sm) {
+    width: 80%;
+  }
+}
+
+.error-card-image {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.error-card-button {
+  @include media-breakpoint-up(md) {
+    margin-bottom: $base-spacing * 3;
+    margin-top: $base-spacing * 3;
+  }
+
+  @include media-breakpoint-down(sm) {
+    margin-bottom: $base-spacing * 4;
+    margin-top: $base-spacing * 4;
+  }
+}
+
+%error-message {
+  background-color: $form-error-message;
+  color: $error-text;
+  padding: .375rem .75rem;
+}
+
+.c-fullscreen-error__container {
+  @extend %error-message;
+}
+
+.c-fullscreen-error__heading {
+  margin: $base-spacing 0 0;
+}
+
+.c-fullscreen-error__dismiss {
+  color: $error-text;
+  cursor: pointer;
+  float: right;
+  text-decoration: none;
+
+  @include hover-focus-active {
+    color: $error-text;
+  }
+}

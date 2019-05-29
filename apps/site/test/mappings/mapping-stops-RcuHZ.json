@@ -1,0 +1,22 @@
+{
+  "id" : "244f87ed-227f-3400-a0af-cbdd50cb6bd4",
+  "request" : {
+    "url" : "/stops/?direction_id=1&route=Green-E&include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type&date=2019-04-11",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-RcuHZ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:39:24 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:01 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mkrbg8tp0jrl3h800fbu4",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "244f87ed-227f-3400-a0af-cbdd50cb6bd4"
+}

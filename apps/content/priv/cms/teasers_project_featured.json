@@ -1,0 +1,126 @@
+[
+  {
+    "nid": "3661",
+    "title": "Green Line D Track and Signal Replacement",
+    "type": "project",
+    "topic": "Projects",
+    "path": "/projects/green-line-d-track-and-signal-replacement",
+    "image_uri": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/projects/green-line-d-track-signal/green-line-d-track.jpg?itok=Bx9iTVmL",
+    "image_alt": "Tracks at Riverside",
+    "text": "The project will replace approximately 6.5 miles of signal infrastructure and 25,000 feet of track between Beaconsfield and Riverside.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-11-30",
+    "posted": "",
+    "created": "2018-06-21",
+    "changed": "2018-11-30",
+    "field_related_transit": [
+      {
+        "id": 223,
+        "name": "Green-D",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Green-D",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": [
+              "Green"
+            ],
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3445",
+    "title": "Better Bus Project",
+    "type": "project",
+    "topic": "Projects",
+    "path": "/projects/better-bus-project",
+    "image_uri": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/projects/betterbus/betterbus-banner-large.png?itok=hQA6cLgN",
+    "image_alt": "Better Bus Project: Making transit better together",
+    "text": "In cooperation with the communities served by MBTA bus routes, the current bus network will be compared to the Service Delivery Policy to identify and fill service gaps.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-09-13",
+    "posted": "",
+    "created": "2018-02-23",
+    "changed": "2018-11-09",
+    "field_related_transit": [
+      {
+        "id": 249,
+        "name": "Bus",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "bus",
+          "gtfs_group": "mode",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3721",
+    "title": "New Red and Orange Line Vehicles",
+    "type": "project",
+    "topic": "Projects",
+    "path": "/projects/new-red-and-orange-line-vehicles",
+    "image_uri": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/2018-08/new-red-line-front.jpg?itok=JSxeLqqZ",
+    "image_alt": "Red Line mock-up vehicle",
+    "text": "The Red and Orange Line fleets will be entirely replaced by 2022 for safer, more efficient service.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-08-13",
+    "posted": "",
+    "created": "2018-08-08",
+    "changed": "2018-11-29",
+    "field_related_transit": [
+      {
+        "id": 219,
+        "name": "Red",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Red",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 220,
+        "name": "Orange",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Orange",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "id" : "a5c75658-2b7c-3e8b-81e2-b18db7d8b1b3",
+  "request" : {
+    "url" : "/routes/?stop=74624&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-jacZO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:11 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1hqqrou2c4bas03bdo1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a5c75658-2b7c-3e8b-81e2-b18db7d8b1b3"
+}

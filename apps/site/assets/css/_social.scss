@@ -1,0 +1,52 @@
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+// SOCIAL LINK STYLES
+//
+// Used in header and footer.
+//
+
+.c-social {
+  margin-bottom: $base-spacing;
+  padding: .5rem 0 0;
+
+  @include not-last-child {
+    margin-right: $base-spacing / 2;
+  }
+}
+
+.c-social__item {
+  display: inline-block;
+}
+
+.c-social__link {
+  border-radius: 100%;
+  color: $white;
+  display: inline-block;
+  height: 1.5em;
+  text-align: center;
+  width: 1.5em;
+}
+
+.c-social--instagram {
+  background-color: $white;
+
+  .fa {
+    color: $instagram;
+  }
+}
+
+.c-social--youtube {
+  background-color: $youtube;
+
+  .fa {
+    color: $white;
+  }
+}
+
+.c-social--twitter {
+  background-color: $twitter;
+
+  .fa {
+    color: $white;
+  }
+}

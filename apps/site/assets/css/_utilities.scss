@@ -1,0 +1,140 @@
+@mixin bg-text($color) {
+  color: $color;
+
+  &:hover {
+    color: $color;
+  }
+
+  a {
+    color: $color;
+
+    &:hover {
+      color: $color;
+    }
+  }
+}
+
+.u-bg--orange-line {
+  @include bg-text($white);
+  background-color: $brand-orange-line;
+}
+
+.u-bg--green-line {
+  @include bg-text($white);
+  background-color: $brand-green-line;
+}
+
+.u-bg--red-line {
+  @include bg-text($white);
+  background-color: $brand-red-line;
+}
+
+.u-bg--blue-line {
+  @include bg-text($white);
+  background-color: $brand-blue-line;
+}
+
+.u-bg--silver-line {
+  @include bg-text($white);
+  background-color: $brand-silver-line;
+}
+
+.u-bg--mattapan-line,
+.u-bg--mattapan-trolley {
+  @include bg-text($white);
+  background-color: $brand-red-line;
+}
+
+.u-bg--commuter-rail {
+  @include bg-text($white);
+  background-color: $brand-commuter-rail;
+}
+
+.u-bg--bus {
+  @include bg-text($black);
+  background-color: $brand-bus;
+}
+
+.u-bg--ferry {
+  @include bg-text($white);
+  background-color: $brand-ferry;
+}
+
+.u-bg--subway {
+  @include bg-text($white);
+  background-color: $brand-subway;
+}
+
+.u-bg--the-ride {
+  @include bg-text($black);
+  background-color: $brand-the-ride;
+}
+
+.u-bg--unknown {
+  @include bg-text($white);
+  background-color: $brand-primary;
+}
+
+.u-nowrap {
+  white-space: nowrap;
+}
+
+.u-linethrough {
+  text-decoration: line-through;
+}
+
+.u-small-caps {
+  font-family: $headings-font-family;
+  font-size: $font-size-small-caps;
+  text-transform: uppercase;
+}
+
+.u-no-underline {
+  text-decoration: none;
+}
+
+.u-pointer {
+  cursor: pointer;
+}
+
+.u-padding-top {
+  padding-top: $base-spacing;
+}
+
+.u-error {
+  background-color: $form-error-message;
+  color: $error-text;
+  padding: $base-spacing / 2;
+}
+
+.u-full-bleed {
+  // Disable upper margin collapse since we want the bg color here.
+  @include margin-clearance;
+
+  background-color: $brand-primary-lightest-contrast;
+
+  // Visual trick to avoid horizontal overflow scrollbars
+  // without needing to rebuild/reflow parent layout/grid.
+  box-shadow: -66vw 0 $brand-primary-lightest-contrast,
+               66vw 0 $brand-primary-lightest-contrast,
+              -33vw 0 $brand-primary-lightest-contrast,
+               33vw 0 $brand-primary-lightest-contrast;
+
+  margin-bottom: 3 * $base-spacing;
+  margin-top: 3 * $base-spacing;
+
+  @include media-breakpoint-up(lg) {
+    // Multiple sets are needed at wider breakpoints to fill
+    // in the gaps (width is restricted to HTML element width).
+    box-shadow: -55vw 0 $brand-primary-lightest-contrast,
+                 55vw 0 $brand-primary-lightest-contrast,
+                -50vw 0 $brand-primary-lightest-contrast,
+                 50vw 0 $brand-primary-lightest-contrast,
+                -45vw 0 $brand-primary-lightest-contrast,
+                 45vw 0 $brand-primary-lightest-contrast,
+                -25vw 0 $brand-primary-lightest-contrast,
+                 25vw 0 $brand-primary-lightest-contrast,
+                -10vw 0 $brand-primary-lightest-contrast,
+                 10vw 0 $brand-primary-lightest-contrast;
+  }
+}

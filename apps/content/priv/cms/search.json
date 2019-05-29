@@ -1,0 +1,340 @@
+{
+  "response": {
+    "numFound": 2083,
+    "start": 0,
+    "maxScore": 0.9726244,
+    "docs": [
+      {
+          "id": "p18u6y-all_content-entity:node/2948:en",
+          "index_id": "all_content",
+          "hash": "p18u6y",
+          "site": "http://mbta.kbox.site/",
+          "ss_type": "search_result",
+          "its_nid": 2948,
+          "ts_title": "Charlie Card",
+          "ts_field_keywords": "Charlie Card",
+          "ss_field_url_link": "internal:/fares?a=b",
+          "ss_field_url_title": "Charlie Card",
+          "ts_field_description": "Information about the Charlie Card and Fares in General",
+          "ss_search_api_id": "entity:node/2948:en",
+          "ss_search_api_datasource": "entity:node",
+          "ss_search_api_language": "en",
+          "timestamp": "2017-09-26T03:19:22.964Z",
+          "sm_url": [
+              "/node/2948"
+          ],
+          "score": 9.656963,
+          "highlights": [
+              "Information about the <span class=\"solr-highlight-match\">Charlie</span> <span class=\"solr-highlight-match\">Card</span> and Fares in General",
+              "<span class=\"solr-highlight-match\">Charlie</span> <span class=\"solr-highlight-match\">Card</span>",
+              "<span class=\"solr-highlight-match\">Charlie</span> <span class=\"solr-highlight-match\">Card</span>"
+          ]
+      },
+      {
+        "id": "p18u6y-all_content-entity:node/2948:en",
+        "index_id": "all_content",
+        "hash": "p18u6y",
+        "site": "http://mbta.kbox.site/",
+        "ss_type": "search_result",
+        "its_nid": 2948,
+        "ts_title": "Charlie Card",
+        "ts_field_keywords": "Charlie Card",
+        "ss_field_url_link": "entity:node/10",
+        "ss_field_url_title": "Charlie Card",
+        "ts_field_description": "Information about the Charlie Card and Fares in General",
+        "ss_search_api_id": "entity:node/2948:en",
+        "ss_search_api_datasource": "entity:node",
+        "ss_search_api_language": "en",
+        "timestamp": "2017-09-26T03:19:22.964Z",
+        "sm_url": [
+            "/node/2948"
+        ],
+        "score": 9.656963,
+        "highlights": [
+            "Information about the <span class=\"solr-highlight-match\">Charlie</span> <span class=\"solr-highlight-match\">Card</span> and Fares in General",
+            "<span class=\"solr-highlight-match\">Charlie</span> <span class=\"solr-highlight-match\">Card</span>",
+            "<span class=\"solr-highlight-match\">Charlie</span> <span class=\"solr-highlight-match\">Card</span>"
+        ]
+      },
+      {
+        "id": "p18u6y-all_content-entity:node/2610:en",
+        "index_id": "all_content",
+        "hash": "p18u6y",
+        "site": "http://mbta.kbox.site/",
+        "ts_field_bio": "Monica Tibbits-Nutt is the Executive Director of the 128 Business Council where she has worked since 2010, advising communities in the 128 Corridor in transit planning and overseeing the operation of 12 shuttle routes with nearly half a million in annual ridership. Tibbits-Nutt also has experience with the MBTA, where she served as a Transportation Planning Consultant to the MBTA Advisory Board, and as Executive Director and Transportation Planner for TransitWorks, providing research evaluation for the MBTA and Secretary of Transportation. She holds a B.S. from the University of Southern Indiana and a Masters of City and Regional Planning from Ohio State University.",
+        "ss_type": "person",
+        "its_nid": 2610,
+        "ts_field_position": "Member",
+        "ts_title": "Monica Tibbits-Nutt",
+        "ss_search_api_id": "entity:node/2610:en",
+        "ss_search_api_datasource": "entity:node",
+        "ss_search_api_language": "en",
+        "timestamp": "2017-08-28T15:53:23.56Z",
+        "sm_url": [
+          "/people/monica-tibbits-nutt"
+        ],
+        "score": 0.9726244,
+        "highlights": [
+          " with the <span class=\"solr-highlight-match\">MBTA</span>, where she served as a Transportation Planning Consultant to the <span class=\"solr-highlight-match\">MBTA</span> Advisory Board, and",
+          " the <span class=\"solr-highlight-match\">MBTA</span> and Secretary of Transportation. She holds a B.S. from the University of Southern Indiana and"
+        ]
+      },
+      {
+        "id": "p18u6y-all_content-entity:node/2614:en",
+        "index_id": "all_content",
+        "hash": "p18u6y",
+        "site": "http://mbta.kbox.site/",
+        "ss_type": "landing_page",
+        "its_nid": 2614,
+        "ts_title": "Leadership",
+        "ss_search_api_id": "entity:node/2614:en",
+        "ss_search_api_datasource": "entity:node",
+        "ss_search_api_language": "en",
+        "timestamp": "2017-08-28T15:53:23.56Z",
+        "sm_url": [
+          "/leadership"
+        ],
+        "tm_field_custom_html_body": [
+          "Overview The MBTA is overseen by 2 governing bodies—the Massachusetts Department of Transportation (MassDOT) Board and the Fiscal and Management Control Board (FMCB). Stephanie Pollack is the Secretary of Transportation & CEO, and Steve Poftak is the Interim General Manager.",
+          "Fiscal and Management Control Board Governor Charlie Baker established the Fiscal and Management Control Board (FMCB) in 2015 to rein in costs and ensure that the MBTA operates effectively. The board is made up of 5 members appointed by the Governor and will work to drive organizational change for 3-5 years at the T. Among its many goals, the FMCB aims to improve: Governance Finances Agency structure Operations",
+          "The MassDOT Board Stephanie Pollack serves as the chair of the MassDOT Board, which has 11 members. The MassDOT Board is responsible for all transportation issues in Massachusetts, including highways, mass transit, vehicle licensing, aeronautics, and more. Three of the MassDOT Board members are also on the FMCB.",
+          "Get Involved The FMCB meets once a week to discuss the status of the MBTA. Once a month, the FMCB and the MassDOT Board have a joint meeting. Each meeting starts with a section for public comments on any topic on that day’s agenda. All FMCB meetings are accessible to participants with disabilities. To request an accommodation, please contact Owen Kane at  okane@mbta.com  or 857-368-8767."
+        ],
+        "score": 0.74872667,
+        "highlights": [
+          "Overview The <span class=\"solr-highlight-match\">MBTA</span> is overseen by 2 governing bodies—the Massachusetts Department of Transportation",
+          " Control Board (FMCB) in 2015 to rein in costs and ensure that the <span class=\"solr-highlight-match\">MBTA</span> operates effectively. The board is",
+          "Get Involved The FMCB meets once a week to discuss the status of the <span class=\"solr-highlight-match\">MBTA</span>. Once a month, the FMCB"
+        ]
+      },
+      {
+        "id": "p18u6y-all_content-entity:node/2616:en",
+        "index_id": "all_content",
+        "hash": "p18u6y",
+        "site": "http://mbta.kbox.site/",
+        "ss_type": "landing_page",
+        "its_nid": 2616,
+        "ts_title": "MBTA CMS Style Guide",
+        "ss_search_api_id": "entity:node/2616:en",
+        "ss_search_api_datasource": "entity:node",
+        "ss_search_api_language": "en",
+        "timestamp": "2017-08-28T15:53:23.56Z",
+        "sm_url": [
+          "/cms/style-guide"
+        ],
+        "tm_field_custom_html_body": [
+          "Overview This page is a guide to creating beautiful, compelling content on the MBTA's Drupal CMS. It walks through the tools that the CMS provides to content authors, and provides some tips and tricks to using them well. The Drupal system allows content authors to create content of a various types: events, pages, \"What's Happening\" items that appear on the home page, and more. Each of these content types include a custom set of fields to collect data, so that they appear consistent across the site. Most of these fields are simple to use, but two of them use powerful tools that have their own sets of best practices. Those two tools are: The WYSIWYG Editor \"Paragraphs\" The WYSIWYG Editor The \"What You See Is What You Get\" (WYSIWYG) editor is a powerful text entry tool that is used in many places in the CMS to enter \"rich text\" – which is text that includes things like italics, headers, links, and tables – without having to write HTML code. Over time we've come up with a few \"best practices\" to use this editor well: When adding links to other pages on the MBTA site, use \"relative URLs\" that begin with a forward slash. For example, use link to \"/accessibility/trip_logistics\" instead of \"https://t.mbta.com/accessibility/trip-logistics\". Use hyphens (\"-\") instead of underscores (\"_\") when creating URLs. All external URLs need to include either \"http\" or \"https\". For example, use \"https://www.mbta.com\" instead of just \"www.mbta.com\". Prefer \"https\" if the page works with it. Paragraphs Complex pages can be built out of a set of building blocks called \"paragraphs\". These features are pre-built widgets that collect a bit of information and render themselves in an interesting way. Both the \"Basic Page\" and \"Landing Page\" content types support paragraphs. To see a list of all available paragraphs and how to use them, please visit the Paragraphs Guide ."
+        ],
+        "score": 0.7353691,
+        "highlights": [
+          "<span class=\"solr-highlight-match\">MBTA</span> CMS Style Guide",
+          "Overview This page is a guide to creating beautiful, compelling content on the <span class=\"solr-highlight-match\">MBTA's</span> Drupal CMS.",
+          " well: When adding links to other pages on the <span class=\"solr-highlight-match\">MBTA</span> site, use \"relative URLs\" that begin with a forward",
+          " of \"https://t.<span class=\"solr-highlight-match\">mbta</span>.com/accessibility/trip-logistics\". Use hyphens (\"-\") instead of underscores (\"_\") when creating URLs. All external URLs need to"
+        ]
+      },
+      {
+        "id": "p18u6y-all_content-entity:node/1215:en",
+        "index_id": "all_content",
+        "hash": "p18u6y",
+        "site": "http://mbta.kbox.site/",
+        "ts_body": "** PUBLIC COMMENT PERIOD FOR ITEMS APPEARING ON THIS AGENDA. 1. Approval of the Minutes of the Meeting of September 7, 2006. 2. General Manager's Report. 3. Authorization for the execution of a Contract with the Global Montello Group, LLC, of",
+        "ss_type": "event",
+        "its_nid": 1215,
+        "ts_title": "Board Meeting",
+        "ds_field_start_time": "2006-10-05T17:00:00Z",
+        "ss_field_imported_address": "Ten Park Plaza, Transportation Building, Offices of the Board, Third Floor, Boston, Massachusetts",
+        "ss_search_api_id": "entity:node/1215:en",
+        "ss_search_api_datasource": "entity:node",
+        "ss_search_api_language": "en",
+        "timestamp": "2017-08-28T15:52:33.552Z",
+        "sm_url": [
+          "/events/2006-10-05/board-meeting"
+        ],
+        "score": 0.3987279,
+        "highlights": [
+          "Board <span class=\"solr-highlight-match\">Meeting</span>",
+          " <span class=\"solr-highlight-match\">Meeting</span> of September 7, 2006. 2. General Manager's Report. 3. Authorization for the execution of"
+        ]
+      },
+      {
+        "id": "p18u6y-all_content-entity:file/15:en",
+        "index_id": "all_content",
+        "hash": "p18u6y",
+        "site": "http://mbta.kbox.site/",
+        "ts_filename": "C. Perkins.pdf",
+        "ss_uri": "public://2017-01/C. Perkins.pdf",
+        "ss_filemime": "application/pdf",
+        "ss_search_api_id": "entity:file/15:en",
+        "ss_search_api_datasource": "entity:file",
+        "ss_search_api_language": "en",
+        "timestamp": "2017-08-28T15:52:21.884Z",
+        "score": 2.3203247,
+        "highlights": [
+          "C. Perkins.<span class=\"solr-highlight-match\">pdf</span>"
+        ]
+      },
+      {
+        "id": "p18u6y-all_content-entity:node/2629:en",
+        "index_id": "all_content",
+        "hash": "p18u6y",
+        "site": "http://mbta.kbox.site/",
+        "ss_type": "landing_page",
+        "its_nid": 2629,
+        "ts_title": "Fiscal and Management Control Board",
+        "ss_search_api_id": "entity:node/2629:en",
+        "ss_search_api_datasource": "entity:node",
+        "ss_search_api_language": "en",
+        "timestamp": "2017-08-28T15:53:23.56Z",
+        "sm_url": [
+          "/leadership/fmcb"
+        ],
+        "tm_field_custom_html_body": [
+          "History The winter of 2015 brought serious challenges to light at the MBTA. It also coincided with Governor Charlie Baker’s first months in office. As a result, Governor Baker convened a special panel to investigate why the MBTA was struggling and how it might improve. That panel recommended forming a board to closely monitor the T’s finances, management, and operations over the following 3-5 years. The Fiscal and Management Control Board (FMCB) was established on July 17, 2015, and has met on a near-weekly basis since to help get the T back on track. Each FMCB meeting starts with a section for public comments on any topic on that day’s agenda. The core issues the FMCB seeks to address are: Unsustainable operating budget Underinvestment in infrastructure Difficulty completing projects Ineffective workplace practices Lack of long-term vision and strategy Leadership changes and staffing issues Lack of customer focus Inefficient contracting Lack of accountability to the Governor and Legislature",
+          "Progress at the MBTA In its first 2 years overseeing the T, the FMCB has reduced operating costs and made smart investments for the T’s future. Some highlights are: Cost savings through private and public partnerships Launching major projects to improve customer experience $100 million of winter resiliency improvements Replacement of 120 Red Line cars Replacement of 1/3 of the bus fleet with 375 hybrid and CNG vehicles Renewed Green Line Extension project Updated automated fare collection system Less overtime pay and absenteeism Stronger executive leadership Board Members",
+          "More About the FMCB"
+        ],
+        "score": 0.6484163,
+        "highlights": [
+          "History The winter of 2015 brought serious challenges to light at the <span class=\"solr-highlight-match\">MBTA</span>. It also coincided with",
+          " investigate why the <span class=\"solr-highlight-match\">MBTA</span> was struggling and how it might improve. That panel recommended forming a board to",
+          "Progress at the <span class=\"solr-highlight-match\">MBTA</span> In its first 2 years overseeing the T, the FMCB has reduced operating costs"
+        ]
+      },
+      {
+        "id": "p18u6y-all_content-entity:node/1305:en",
+        "index_id": "all_content",
+        "hash": "p18u6y",
+        "site": "http://mbta.kbox.site/",
+        "ts_body": "On September 8th, 2005, the MBTA Board of Directors, chaired by Transportation Secretary John Cogliano, recognized long time transportation librarian George Sanborn for his decades of dedicated service to the Commonwealth of Massachusetts. Presenting Mr. Sanborn with a commendation, MBTA General Manager Daniel A. Grabauskas made the following statement: George Sanborn is the recently retired Reference Librarian from our State Transportation Library. After 37 years of service, he has often been fondly referred to as the “T historian.” For those who use our library for research: authors, artists, film makers, employees of the MBTA, other transportation agencies, the general public and the academic community, Mr. Sanborn has been a trusted guide. His unwavering commitment to historical fact and his unrivaled knowledge of transportation is evidenced by his notoriety on local as well as national levels. He is a noted reference point for premier publications, including National Geographic and Smithsonian. Locally, he has appeared on WCVB’s news show, Chronicle and the Boston Globe has also relied on George’s expertise for questions that appeared in “Ask the Globe.” George is a popular lecturer on the history of the MBTA, and has spoken to groups such as the American Public Transportation Association and the “700” Club. George is an honored member of the National Railway Historical Society and a Trustee of the Trolley Museum. Above all, he has demonstrated exemplary performance on behalf of the Commonwealth of Massachusetts and her citizens. We thank him for his professionalism over the years, as he continues to share his passion for the history of transportation while in retirement. We wish George Sanborn well and hope we can call on him in the future, because he is truly irreplaceable.",
+        "ss_type": "news_entry",
+        "its_nid": 1305,
+        "ts_title": "MBTA",
+        "ss_search_api_id": "entity:node/1305:en",
+        "ss_search_api_datasource": "entity:node",
+        "ss_search_api_language": "en",
+        "timestamp": "2017-08-28T15:52:37.357Z",
+        "sm_url": [
+          "/node/1305"
+        ],
+        "score": 0.5812052,
+        "highlights": [
+          "<span class=\"solr-highlight-match\">MBTA</span>",
+          "On September 8th, 2005, the <span class=\"solr-highlight-match\">MBTA</span> Board of Directors, chaired by Transportation Secretary John",
+          " to the Commonwealth of Massachusetts. Presenting Mr. Sanborn with a commendation, <span class=\"solr-highlight-match\">MBTA</span> General",
+          " film makers, employees of the <span class=\"solr-highlight-match\">MBTA</span>, other transportation agencies, the general public and the academic"
+        ]
+      },
+      {
+        "id": "p18u6y-all_content-entity:node/2605:en",
+        "index_id": "all_content",
+        "hash": "p18u6y",
+        "site": "http://mbta.kbox.site/",
+        "ts_field_bio": "Steve Poftak is Interim General Manager of the MBTA while on leave from his position as the Executive Director of the Rappaport Institute for Greater Boston at the Harvard Kennedy School. He has served as the Vice-Chair of the MBTA's Fiscal Management and Control Board, as well as serving on the MassDOT Board of Directors. Previously, Poftak was Research Director and Director of the Center for Better Government at the Pioneer Institute for Public Policy Research. He has led research projects and authored a number of papers on transportation policy, government efficiency, municipal finance, and job creation. Prior to that, he worked at the Commonwealth's Executive Office for Administration and Finance, where he managed the $1.3 billion capital budget, prepared the state's quarterly cash flow reporting, and monitored non-tax revenue receipts. Poftak holds an M.B.A. from the Olin School at Babson College and a B.A. in Political Science from Middlebury College. He is a Boston resident and has children who attend the Boston Public Schools.",
+        "ss_type": "person",
+        "its_nid": 2605,
+        "ts_field_position": "Interim General Manager",
+        "ts_title": "Steve Poftak",
+        "ss_search_api_id": "entity:node/2605:en",
+        "ss_search_api_datasource": "entity:node",
+        "ss_search_api_language": "en",
+        "timestamp": "2017-08-28T15:53:23.56Z",
+        "sm_url": [
+          "/people/steve-poftak"
+        ],
+        "score": 0.5294297,
+        "highlights": [
+          "Steve Poftak is Interim General Manager of the <span class=\"solr-highlight-match\">MBTA</span> while on leave from his position as the",
+          " served as the Vice-Chair of the <span class=\"solr-highlight-match\">MBTA's</span> Fiscal Management and Control Board, as well as serving on the"
+        ]
+      },
+      {
+        "id": "p18u6y-all_content-entity:node/2606:en",
+        "index_id": "all_content",
+        "hash": "p18u6y",
+        "site": "http://mbta.kbox.site/",
+        "ts_field_bio": "Joseph \"Joe\" Aiello is currently a partner and Director of Business Development North America at Meridiam Infrastructure where he has worked since 2007, overseeing strategic development and investments in transportation, water, and social infrastructure. Before joining Meridiam, Aiello served in several capacities for 13 years with DMJM Harris prior to its acquisition by AECOM Enterprises, Inc. where he was most recently President for the firm's global, public-private partnership business. Aiello also worked at the MBTA as Assistant General Manager of Planning and Budget and Assistant Director of Construction for Special Projects and Finance. He holds his B.A. from the University of Massachusetts at Amherst and an M.S. in City and Regional Planning from Harvard University.",
+        "ss_type": "person",
+        "its_nid": 2606,
+        "ts_field_position": "Chair",
+        "ts_title": "Joseph Aiello",
+        "ss_search_api_id": "entity:node/2606:en",
+        "ss_search_api_datasource": "entity:node",
+        "ss_search_api_language": "en",
+        "timestamp": "2017-08-28T15:53:23.56Z",
+        "sm_url": [
+          "/people/joseph-aiello"
+        ],
+        "score": 0.46795416,
+        "highlights": [
+          " <span class=\"solr-highlight-match\">MBTA</span> as Assistant General Manager of Planning and Budget and Assistant Director of Construction for"
+        ]
+      },
+      {
+        "id": "p18u6y-all_content-entity:node/2578:en",
+        "index_id": "all_content",
+        "hash": "p18u6y",
+        "site": "http://mbta.kbox.site/",
+        "ss_type": "page",
+        "its_nid": 2578,
+        "ts_title": "Office of the Chief",
+        "ss_search_api_id": "entity:node/2578:en",
+        "ss_search_api_datasource": "entity:node",
+        "ss_search_api_language": "en",
+        "timestamp": "2017-08-28T15:53:23.56Z",
+        "sm_url": [
+          "/safety/transit-police/office-the-chief"
+        ],
+        "tm_field_custom_html_body": [
+          "*** NEED PERSON PARA***",
+          "Fiscal Affairs Unit The Fiscal Affairs unit is headed by the Superintendent of Administration and Finance and is responsible for payroll, budget, and finance. The Fiscal Affairs Unit also coordinates the procurement process for department purchases and ensures compliance with the various authority, state, and federal spending statutes. Planning and Research Section The Planning and Research Section is commanded by a Lieutenant Detective and is responsible for long-range planning and research projects as directed by the Chief of Police, as well as the Crime Analysis Unit and the Accreditation function of the Department. Additionally, the Planning and Research Section oversees the Homeland Security and emergency preparedness functions of the Department and maintains liaisons with various local, state, and federal partner agencies. Parking Clerk The Parking Clerk is responsible for processing and managing the MBTA Transit Police Parking Citation Program. In accordance with Massachusetts law, the Parking Clerk conducts appeals hearings from the public who wish to appeal parking citations issued to their motor vehicles. Facilities Manager The Facilities Manager is responsible for the maintenance and operation of the Transit Police Headquarters building. Additionally, the Facilities Manager oversees the Department’s fleet of police cruisers and other vehicles and ensures their proper maintenance and serviceability. Technical Services Unit Technical Services Unit is responsible for the Department’s information technology systems and communications systems. "
+        ],
+        "score": 0.37436333,
+        "highlights": [
+          " Parking Clerk The Parking Clerk is responsible for processing and managing the <span class=\"solr-highlight-match\">MBTA</span> Transit Police Parking"
+        ]
+      },
+      {
+        "id": "p18u6y-all_content-entity:node/1884:en",
+        "index_id": "all_content",
+        "hash": "p18u6y",
+        "site": "http://mbta.kbox.site/",
+        "ts_body": "MBTA Payroll 2014 MBTA Payroll 2014",
+        "ss_type": "news_entry",
+        "its_nid": 1884,
+        "ts_title": "MBTA Payroll",
+        "ss_search_api_id": "entity:node/1884:en",
+        "ss_search_api_datasource": "entity:node",
+        "ss_search_api_language": "en",
+        "timestamp": "2017-08-28T15:52:58.107Z",
+        "sm_url": [
+          "/news/2014-02-13/mbta-payroll"
+        ],
+        "score": 0.36416057,
+        "highlights": [
+          "<span class=\"solr-highlight-match\">MBTA</span> Payroll",
+          "<span class=\"solr-highlight-match\">MBTA</span> Payroll 2014 <span class=\"solr-highlight-match\">MBTA</span> Payroll 2014"
+        ]
+      }
+    ]
+  },
+  "facet_counts": {
+    "facet_queries": [],
+    "facet_fields": {
+      "content_type": [
+        "news_entry",
+        1170,
+        "event",
+        866,
+        "page",
+        40,
+        "person",
+        4,
+        "landing_page",
+        3
+      ]
+    },
+    "facet_dates": [],
+    "facet_ranges": []
+  }
+}

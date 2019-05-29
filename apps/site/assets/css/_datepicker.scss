@@ -1,0 +1,108 @@
+.datepicker-calendar {
+  border: 1px solid $brand-primary-dark;
+  border-radius: 0;
+  display: none;
+  font-size: .6rem;
+  margin-top: $base-spacing;
+  padding: 0;
+}
+
+.datepicker-month-prev.disabled,
+.datepicker-month-next.disabled,
+.datepicker-month-next.enabled,
+.datepicker-month-prev.enabled,
+.datepicker-month-next.enabled:hover,
+.datepicker-month-prev.enabled:hover {
+  background-color: initial;
+  border: 1px solid $white;
+  border-radius: 50%;
+  color: $white;
+  font-size: $base-spacing;
+  height: $base-spacing * 1.5;
+  margin: auto;
+  padding: 0;
+  width: $base-spacing * 1.5;
+
+  .fa {
+    bottom: .05em;
+    font-size: $base-spacing;
+    line-height: $base-spacing * 1.5;
+    position: relative;
+    text-align: center;
+    width: 100%;
+  }
+
+  .fa-caret-right {
+    left: .05em;
+  }
+
+  .fa-caret-left {
+    right: .05em;
+  }
+}
+
+.datepicker-month-wrap {
+  background: $brand-primary-darkest;
+  color: $white;
+  height: auto;
+  height: initial;
+  padding: $base-spacing-sm;
+}
+
+.datepicker-month::after {
+  content: '';
+}
+
+.datepicker-month,
+.datepicker-month:hover {
+  background: inherit;
+  border: inherit;
+  cursor: default;
+  line-height: $base-spacing * 1.5;
+  margin: auto;
+  padding: 0;
+}
+
+.datepicker-grid {
+  td,
+  th,
+  .empty,
+  .day,
+  .selectable {
+    background: inherit;
+    border-bottom: $border;
+    border-right: $border;
+    font-weight: normal;
+
+    &:first-child,
+    &:last-child {
+      background: $gray-bordered-background;
+    }
+  }
+
+  tr {
+    border: 0;
+  }
+
+  //scss-lint:disable SelectorFormat
+  .selectable {
+    color: $brand-primary;
+  }
+
+  .curDay,
+  .curDay:hover,
+  .curDay:focus {
+    background: $brand-primary;
+    color: $white;
+
+    &:hover {
+      color: initial;
+    }
+  }
+}
+
+.datepicker-day abbr {
+  cursor: default;
+  text-decoration: none;
+}
+

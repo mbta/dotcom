@@ -1,0 +1,374 @@
+// MEDIA LAYOUT
+
+// Media Map
+// # of master-grid columns different types of media occupy,
+// depending on sidebar layout and on current breakpoint.
+//
+// callout:  full bleed callouts (asymmetrical two-column grid)
+// wide:     visual media - extends on both sides (images, iframes, videos)
+// text:     text-based media - extends on right side only (tables, quotes, fare card multi-columns)
+// left:     graphic media floated left
+// right:    graphic media floated right
+
+$layout-media: (
+  sm: (
+    c-cms: (
+      cards:    (span: 10),
+      callout:  (span: 10),
+      wide:     (span: 12, offset: -1),
+      text:     (span: 11),
+      left:     (span: 6, offset: -1),
+      right:    (span: 6, offset: -1)
+    )
+  ),
+  md: (
+    c-cms: (
+      callout:  (span: 10),
+    ),
+    no-sidebar: (
+      wide:     (span: 10, offset: -1),
+      cards:    (span: 9),
+      text:     (span: 9),
+      left:     (span: 5, offset: -1),
+      right:    (span: 5, offset: -1)
+    ),
+    with-sidebar: (
+      left:     (span: 4),
+      right:    (span: 4)
+    )
+  ),
+  lg: (
+    c-cms: (
+      cards:    (span: 8),
+      callout:  (span: 10),
+      text:     (span: 8),
+      right:    (span: 4, offset: -1)
+    ),
+    no-sidebar: (
+      wide:     (span: 9, offset: -1),
+      left:     (span: 4, offset: -1)
+    ),
+    sidebar-left: (
+      wide:     (span: 8),
+      left:     (span: 3)
+    ),
+    sidebar-right: (
+      wide:     (span: 8),
+      left:     (span: 3)
+    )
+  ),
+  xxl: (
+    c-cms: (
+      cards:    (span: 7),
+      callout:  (span: 10),
+      text:     (span: 7),
+      right:    (span: 4, offset: -1)
+    ),
+    no-sidebar: (
+      wide:     (span: 8, offset: -1),
+      left:     (span: 4, offset: -1)
+    ),
+    sidebar-left: (
+      wide:     (span: 7),
+      left:     (span: 3)
+    ),
+    sidebar-right: (
+      wide:     (span: 7),
+      left:     (span: 3)
+    )
+  )
+);
+
+/// Wrapper for the make-col-mixin() @mixin in _mixins.scss.
+/// Provides Bootstrap grid styling via @mixins, depending
+/// on the currrent type of media and @mixin request. This
+/// @mixin is responsible for applying Bootstrap's @make-col()
+/// mixin for all elements except those floated to the right.
+/// This @mixin also handles the logic for making spans and
+/// offset values match those of the parent or master grid.
+///
+/// @author amaisano
+///
+/// @param {String} $type - The current type of media (left, right, text, etc)
+/// @param {String} $mixin - The current Bootstrap mixin suffix/action being requested
+/// @param {Integer} $columns - The number of columns text/body occupies on the master grid
+/// @param {Integer} $size - The parameter to forward to Boostrap's grid mixins
+///
+/// @example
+/// `@include make-col-media('left', 'span', 8, 7)`
+/// `@include make-col-media('left', 'offset', -1, 7)`
+@mixin make-col-media($type, $mixin, $columns, $size: 0) {
+
+  // All elements passing through this will have a non-full-width
+  // col-span, and will therefore need make-col() so that both the
+  // element grid gutters and parent grid gutters match up:
+  @if $mixin == span {
+    @include make-col-mixin($mixin, $size, $columns);
+    @if $type == right {
+      @include make-col-right();
+    } @else {
+      @include make-col();
+    }
+  }
+
+  // For media, we handle offsets explicitly since
+  // right-floated media needs their margin offsets
+  // to be added to the left side instead of right:
+  @if $mixin == offset {
+    @if $type == right {
+      margin-right: percentage($size / $columns);
+    } @else {
+      @include make-col-offset($size, $columns);
+    }
+  }
+}
+
+/// Media elements can "break out" or be "offset" from the
+/// designated text/body columns depending on the presence of
+/// a sidebar and the current breakpoint.
+///
+/// @author amaisano
+///
+/// @param {String} $breakpoint - The current breakpoint we are setting media up for.
+/// @param {String} $layout-name - The current sidebar layout we are setting media up for.
+/// @param {Integer} $parent-cols - The number of columns text/body occupies on the master grid.
+///
+/// @example
+/// ```
+///   .c-cms__body {
+///     @include offset-media(md, 10, {Map});
+///   }
+/// ```
+@mixin offset-media($breakpoint, $layout, $parent-cols) {
+
+  // Lookup media data for the current $breakpoint->$layout:
+  $media: map-deep-get($layout-media, $breakpoint, $layout);
+
+  // Each key determines the kind of col-span, float, and offset
+  // rules each group of selectors will be assigned. This also helps
+  // to classify which element/class identifies as each type of media.
+  // NOTE: These keys must match the ones found in $layout-media (_layout.scss).
+  $supported-media: (
+    wide: (
+      '.c-media--wide'
+    ),
+    text: (
+      '.c-media--table'
+    ),
+    left: (
+      '.c-media--align-left'
+    ),
+    right: (
+      '.c-media--align-right'
+    ),
+    callout: (
+      '.c-media--callout'
+    ),
+    cards: (
+      '.c-media--cards'
+    )
+  );
+
+  // For each category of media present in the current breakpoint->layout...
+  @each $media-type, $config in $media {
+    // For each of the selectors above that match this $media-type...
+    @each $selector in map-get($supported-media, $media-type) {
+      #{$selector} {
+        // For each mixin directive in this $media-type's configuration...
+        @each $col-mixin, $value in $config {
+          // Apply row mixin only if this item is not 100% width of container
+          @if $col-mixin == span {
+            @include make-row();
+            // make-row() includes by default the clearfix() mixin; undo that for floated media
+            @if $media-type == left or $media-type == right {
+              &::after { clear: none; }
+            }
+          }
+          // Apply column span, offset, and other mixins:
+          &:not(.c-media), // Media elements w/o child __element (will not be floated)
+          .c-media__content { // Has expected HTML structure (might be floated)
+            @include make-col-media($media-type, $col-mixin, $parent-cols, $value);
+          }
+        }
+      }
+    }
+  }
+
+  // Edge case: if content authors float an image directly before
+  // a heading element, force that heading element and the image to
+  // top-align with each other. This breaks our heading progression.
+
+  // @TODO: Use elixir content_rewriter.ex to tag the media element so
+  // that we can push the media down to match the heading margin-top.
+  @each $heading in $headings {
+    p + .c-media--half + #{$heading},
+    p + .c-media--half + .#{$heading} {
+      margin-top: 0;
+    }
+  }
+}
+
+// MEDIA SETUP:
+// For each breakpoint in our map above...
+@each $breakpoint-name, $breakpoint in $layout-media {
+  @include media-breakpoint-only($breakpoint-name) {
+    // For each sidebar-layout within this breakpoint...
+    @each $layout-name, $layout in $breakpoint {
+      [class*=#{$layout-name}] {
+        // For each category of media which has a unique configuration for this sidebar-layout...
+        @each $media-type, $col-config in $layout {
+          .c-cms__body {
+            // Send the configuration to a mixin which will apply the appropriate col-mixins and parameters
+            @include offset-media($breakpoint-name, $layout-name, map-get($body-columns, $breakpoint-name));
+}}}}}}
+
+// Consolidated styles for images, iframes, tables, and other elements
+//
+// Layout:
+//
+// figure.c-media: container that acts as a bootstrap row
+// - div.c-media__content: container that acts as a boostrap column
+//   -- *.c-media__element: the actual <img>, <iframe>, or other element (may be within a link)
+//   -- figcaption.c-media__caption: optional text caption following element
+//
+// NOTE: row/column/offset logic is applied via @mixin "offset-media()" -- the styles
+// found in this file are more general and don't rely as heavily on sidebar layout/breakpoint.
+
+.c-media {
+  margin-bottom: $base-spacing * 1.5;
+  margin-top: $base-spacing;
+
+  // Floated media above xs handles margins within structure, not on figure
+  @include media-breakpoint-up(sm) {
+    &.c-media--half {
+      -webkit-margin-after: 0;
+      -webkit-margin-before: 0;
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+  }
+
+  // Don't interrupt vertical rhythm of h1 + .page-section
+  .page-section > &:first-child {
+    margin-top: 0;
+  }
+
+  // Unless columns are stacked, strip offset/float media styles
+  @each $breakpoint in (xs, sm, md) {
+    [class*="col-#{$breakpoint}"] & {
+      @include media-breakpoint-up($breakpoint) {
+        @include restore-media-defaults();
+      }
+    }
+  }
+}
+
+.c-media__content {
+
+  @include media-breakpoint-up(sm) {
+
+    // Margin-bottom doesn't work on floated elements,
+    // so it needs to be moved inside the structure (it
+    // should only be enough to clear 1 additional line).
+    .c-media--half & {
+      margin-bottom: $base-spacing / 2;
+
+      // Emulates the space between the top of an inline text element
+      // and the top of that element's character ascenders. This is
+      // used for optically aligning the top of images/media floated
+      // to either side of <p> with the actual top pixels of characters.
+      p + & {
+        margin-top: (($line-height / 2) * 1rem) / 2;
+      }
+    }
+
+    // Push adjacent copy to align with grid:
+    .c-media--align-left & {
+      margin-right: $half-gutter;
+    }
+
+    .c-media--align-right & {
+      margin-left: $half-gutter;
+    }
+  }
+
+  .c-media.c-media--cards & {
+    .c-cms__body & {
+      float: none;
+    }
+  }
+}
+
+.c-media__element {
+
+  // The diagonal line pattern takes up the
+  // background space of an image/iframe, and
+  // is exposed in the add-on space that the
+  // padding -left or -right provides (depending
+  // on float conditions), in combination with
+  // the alternate "content-box" box-model.
+
+  @include media-breakpoint-up(sm) {
+
+    .c-media--half & {
+      background-image: $gray-stripe-pattern;
+      box-sizing: content-box;
+    }
+
+    .c-media--align-left & {
+      margin-right: -$half-gutter;
+      padding-right: $half-gutter;
+    }
+
+    .c-media--align-right & {
+      margin-left: -$half-gutter;
+      padding-left: $half-gutter;
+    }
+  }
+}
+
+.c-media__embed {
+  border: 0;
+  display: block;
+  margin: 0;
+  min-height: 15rem;
+  padding: 0;
+  width: 100%;
+}
+
+.c-media__element--fixed-aspect {
+  background-image: none;
+  height: 0;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: relative;
+
+  &.c-media__element--aspect-default {
+    padding-bottom: 100%; // 1:1
+  }
+
+  &.c-media__element--aspect-standard {
+    padding-bottom: 75%; // 4:3
+  }
+
+  &.c-media__element--aspect-wide {
+    padding-bottom: 56.25%; // 16:9
+  }
+
+  .c-media__embed {
+    height: 100%;
+    left: 0;
+    min-height: 0;
+    position: absolute;
+    top: 0;
+  }
+}
+
+.c-media__caption {
+  border-bottom: $border;
+  font-size: $font-size-sm;
+  line-height: 1.3;
+  margin-top: $space-12;
+  padding-bottom: $space-12;
+}

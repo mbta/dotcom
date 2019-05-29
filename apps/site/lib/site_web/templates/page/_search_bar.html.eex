@@ -1,0 +1,14 @@
+<div class="hidden-no-js">
+  <div class="homepage-search">
+    <form action="/search" method="get">
+      <%= SiteWeb.PartialView.render("_search_input.html",
+        Map.merge(assigns, %{
+          placeholder: "Search for routes, places, information, and more",
+          aria_label: "Search MBTA.com",
+          prefix: "homepage"
+        })) %>
+    </form>
+    <div id="homepage-search__autocomplete" class="c-search-bar__results"></div>
+    <div id="homepage-search__results" class="c-search-bar__results"></div>
+  </div>
+</div>

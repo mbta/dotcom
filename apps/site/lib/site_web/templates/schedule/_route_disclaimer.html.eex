@@ -1,0 +1,26 @@
+<%= if @route.id == "Red" do %>
+  <%
+    header =
+      :div
+      |> content_tag(
+        [
+          "Shuttle routes in effect due to Wollaston Station closure. ",
+          link(
+            "Learn more",
+            to: SiteWeb.ScheduleController.ClosedStops.wollaston_update_link(),
+            aria_label: "Learn more about how the Wollaston Station closure will affect your trip."
+          )
+        ]
+      )
+      |> safe_to_string
+
+    alert = %Alerts.Alert{
+      effect: :shuttle,
+      lifecycle: :ongoing,
+      header: header,
+      description: nil
+    }
+  %>
+
+  <%= SiteWeb.AlertView.render "group.html", alerts: [alert], route: @route, date_time: @date_time %>
+<% end %>

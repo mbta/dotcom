@@ -1,0 +1,319 @@
+@mixin base-font-size {
+  @include media-breakpoint-up(xxl) {
+    font-size: $font-size-base-xxl;
+  }
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-base-sm;
+  }
+
+  @media print {
+    // override the base font size.  Since everything (should) be defined in
+    // rems, this makes all the text bigger.
+    font-size: $font-size-base-print;
+  }
+}
+
+@mixin truncate($margin-right: 1em, $fallback-width: 95%) {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  // scss-lint:disable DuplicateProperty
+  width: $fallback-width; // fallback for browsers which don't support calc()
+  width: calc(100% - #{$margin-right});
+}
+
+@mixin no-wrap($display: inline-block) {
+  display: $display;
+  text-decoration: inherit;
+  white-space: nowrap;
+}
+
+@mixin column-lines($breakpoint) {
+  $gap: $grid-gutter-width / 2;
+  margin: $gap #{-$gap};
+
+  & > [class*="col-#{$breakpoint}-"] {
+    border-left: $border;
+    left: $gap;
+    padding: 0 ($gap * 2) 0 $gap;
+
+    > *:first-child {
+      margin-top: 0;
+      padding-top: 0;
+    }
+
+    > *:last-child {
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+}
+
+@mixin not-last-child {
+  > :not(:last-child) {
+    @content;
+  }
+}
+
+/////////////////////////////////////////////////////
+// Supporting @mixins for heading typography below //
+/////////////////////////////////////////////////////
+
+@mixin base-heading {
+  font-family: $headings-font-family;
+  font-weight: $headings-font-weight;
+  line-height: $headings-line-height;
+  margin-bottom: $headings-margin-bottom;
+  margin-top: $headings-margin-top;
+}
+
+@mixin h1 {
+  @include base-heading();
+  font-size: $font-size-h1;
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-h1-sm;
+  }
+}
+
+@mixin h2 {
+  @include base-heading();
+  @include after-heading-space();
+  font-size: $font-size-h2;
+
+  @include media-breakpoint-down(sm) {
+    font-size: $font-size-h2-sm;
+  }
+}
+
+@mixin h3 {
+  @include base-heading();
+  @include after-heading-space();
+  font-size: $font-size-h3;
+
+  + h4,
+  + .h4 {
+    @include reduce-adjacent-heading-space();
+  }
+}
+
+@mixin h4 {
+  @include base-heading();
+  @include after-heading-space();
+  font-size: $font-size-h4;
+  font-weight: bold;
+
+  + h5,
+  + .h5 {
+    @include reduce-adjacent-heading-space();
+  }
+}
+
+@mixin h5 {
+  @include base-heading();
+  @include after-heading-space();
+  font-size: $font-size-h5;
+
+  + h6,
+  + .h6 {
+    @include reduce-adjacent-heading-space();
+  }
+}
+
+@mixin h6 {
+  @include h5();
+  font-weight: $font-weight-medium;
+}
+
+@mixin reduce-adjacent-heading-space {
+  // Adjacent (sibling) headings should not have additional space
+  // between them (similar concept to paragraphs following headlines).
+  //
+  // This rule helps sub-headings feel "attached" or grouped under
+  // their parent headings, and not disjointed or ambiguous.
+  //
+  // EXCLUSIONS: H1 and H2, as well as H6. H1 usually exists in its
+  // own space and we want to always have consistent space after it.
+  // H2 is used to introduce large sections often with tables and other
+  // non-text content, so it's OK to have the original space under it.
+  // H6 has no following H7 element, so it's excluded for obvious reasons.
+  margin-top: -.125em;
+}
+
+@mixin after-heading-space {
+
+  // Paragraph copy directly following headlines (even if nested in divs) have
+  // their own built-in spacing (line-heights, em-square), so we undo the
+  // global after-heading spacing when paragraphs directly follow headings.
+  + p,
+  + div > p:first-child,
+  + div > div > p:first-child,
+  + ul,
+  + div > ul:first-child,
+  + div > div > ul:first-child,
+  + ol,
+  + div > ol:first-child,
+  + div > div > ol:first-child {
+    margin-top: -$after-heading-adjustment;
+  }
+
+  // When columns break and are ordered vertically only the first should get
+  // the updated spacing
+  @include media-breakpoint-down(sm) {
+    + div > div ~ div > p:first-child,
+    + div > div ~ div > ul:first-child,
+    + div > div ~ div > ol:first-child {
+      margin-top: 0;
+    }
+  }
+
+  // If an author floats media between a heading and body copy, we lose
+  // the heading + copy relationship. Add this scenario back here:
+  @include media-breakpoint-up(sm) {
+    + .c-media--half + p {
+      margin-top: -$after-heading-adjustment;
+    }
+  }
+
+  // When images are visually directly after a headline, they should get
+  // the same gap non-paragraphs get by default (undo negative margin above).
+  + p > img:first-child,
+  + p > a:first-child > img:first-child {
+    margin-top: $after-heading-adjustment;
+  }
+  // Make floated media items align with the top of adjacent wrapped text characters
+  @include media-breakpoint-up(sm) {
+    + .c-media--half .c-media__content {
+      margin-top: $after-heading-adjustment;
+    }
+  }
+}
+
+/////////////////////////////////////////////////////
+// Supporting @mixins for CMS layout & media below //
+/////////////////////////////////////////////////////
+
+/// Override Bootstrap's make-col() @mixin, but with float: right.
+@mixin make-col-right($gutter: $grid-gutter-width) {
+  @include make-col();
+  @if not $enable-flex {
+    float: right;
+  }
+}
+
+/// Wrapper for Bootstrap's make-col-modifier() @mixin
+@mixin make-col-mixin($type, $size, $columns: $grid-columns) {
+  @if $type == span {
+    @include make-col-span($size, $columns);
+  } @else {
+    @include make-col-modifier($type, $size, $columns);
+  }
+}
+
+/// Restores media nested in sub-columns to non-floated,
+/// non-offset, former/default appearance and layout.
+@mixin restore-media-defaults {
+  @include media-breakpoint-up(sm) {
+    .c-cms__body & {
+      // Reset row
+      &.c-media {
+        margin: 1rem 0 1.5rem; // Defaults for .c-media--wide
+
+        &::after {
+          content: none;
+          display: none;
+        }
+      }
+      // Reset column
+      .c-media__content {
+        float: none;
+        margin: 0;
+        padding-left: 0;
+        padding-right: 0;
+        width: 100%;
+      }
+      // Reset element
+      .c-media__element {
+        background-image: none;
+        margin-left: 0;
+        margin-right: 0;
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
+}
+
+// Match horizontally paired links' gutters with
+// vertical gutters (useful for mixed groups).
+@mixin adjacent-descriptive-links {
+  @include media-breakpoint-up(sm) {
+    margin-top: $grid-gutter-width;
+  }
+}
+
+// Hack to force margin clearance between $location
+// of current element and adjacent element.
+@mixin margin-clearance($location: top) {
+  border-#{$location}: 1px solid transparent;
+}
+
+/////////////////////////////////////////////////
+// Supporting @mixins for icon alignment below //
+/////////////////////////////////////////////////
+
+// Use this mixin when you just want to set a size on an icon and don't need to position it
+@mixin icon-size($width-height) {
+  [class*="c-svg__icon"] {
+    height: $width-height;
+    width: $width-height;
+  }
+}
+
+// This mixin is for aligning svgs with text
+// This mixin is only for new svgs with the "c-svg__icon" class prefix
+@mixin icon-size-inline($width-height, $offset: null) {
+  @if $offset {
+    [class*="c-svg__icon"] {
+      height: $width-height;
+      position: relative;
+      top: $offset;
+      width: $width-height;
+    }
+  } @else {
+    [class*="c-svg__icon"] {
+      @include center-icon($width-height)
+    }
+  }
+}
+
+// This mixin is also for aligning svgs with text
+// This mixin is only for old svgs without the "c-svg__icon" class prefix
+// You can add this to classes like "icon" by selecting that class in the proper context
+@mixin old-style-icon-size-inline($width-height) {
+  @include center-icon($width-height)
+}
+
+// Don't use this mixin directly, use icon-size-inline or old-style-icon-size-inline
+// This aligns the icon with the text since SVG is not text itself
+// This will produce a top value to pull down the SVG to the same baseline as the text
+// If it isn't correct in your context, icon-size-inline allows you to set your own offset
+// Icons in display: table-cell may need tweaking, as well as oddly portioned icons where
+// the true center of the icon doesn't look natural
+@mixin center-icon($width-height) {
+  // Non-integer values tend to need tweaking
+  $map: (
+    1.25em: .25em,
+    1.5em: .35em
+  );
+  height: $width-height;
+  width: $width-height;
+  position: relative;
+  @if map-has-key($map, $width-height) {
+    top: map-get($map, $width-height);
+  } @else {
+    top: .125 * $width-height;
+  }
+}

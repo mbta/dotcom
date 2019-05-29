@@ -1,0 +1,16 @@
+<div class="c-location-card__name">
+  <%= link SiteWeb.ViewHelpers.break_text_at_slash(@stop.name), to: stop_path(SiteWeb.Endpoint, :show, @stop.id, tab: "schedule") %>
+</div>
+<div class="c-location-card__distance"><%= if assigns[:distance], do: @distance %></div>
+<%= if length(@stop.accessibility) > 0 && !("unknown" in @stop.accessibility) do %>
+  <div class="c-location-card__accessible-icon">
+    <%= svg_icon_with_circle(%SvgIconWithCircle{icon: :access, size: :small}) %>
+  </div>
+<% end %>
+
+<%= for %{ group_name: group_name, routes: routes } <- @routes do %>
+  <div class="c-location-card__description">
+    <div class="c-location-card__transit-route-icon"><%= svg_icon_with_circle(%SvgIconWithCircle{icon: group_name, size: :small}) %></div>
+    <div class="c-location-card__transit-route-name"><%= SiteWeb.PartialView.LocationCard.render_routes(group_name, routes, @stop) %></div>
+  </div>
+<% end %>

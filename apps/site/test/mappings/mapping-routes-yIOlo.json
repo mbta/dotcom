@@ -1,0 +1,22 @@
+{
+  "id" : "a997f9d6-452c-3614-953b-ae43f73b516b",
+  "request" : {
+    "url" : "/routes/?stop=231&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-yIOlo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:11 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1irfihos47qi400kmt3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a997f9d6-452c-3614-953b-ae43f73b516b"
+}

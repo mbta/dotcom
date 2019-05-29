@@ -1,0 +1,39 @@
+defmodule Leaflet.MapData.Marker do
+  @moduledoc """
+  Represents a leaflet map marker.
+  """
+
+  defstruct id: nil,
+            icon: nil,
+            latitude: 0.0,
+            longitude: 0.0,
+            rotation_angle: 0,
+            size: nil,
+            tooltip: nil,
+            tooltip_text: nil
+
+  @type t :: %__MODULE__{
+          id: integer | nil,
+          icon: String.t() | nil,
+          latitude: float,
+          longitude: float,
+          rotation_angle: integer,
+          size: [integer] | nil,
+          tooltip: String.t() | nil,
+          tooltip_text: String.t() | nil
+        }
+
+  @spec new(float, float, Keyword.t()) :: t()
+  def new(latitude, longitude, opts \\ []) do
+    %__MODULE__{
+      icon: Keyword.get(opts, :icon),
+      id: Keyword.get(opts, :id),
+      latitude: latitude,
+      longitude: longitude,
+      rotation_angle: Keyword.get(opts, :rotation_angle, 0),
+      size: Keyword.get(opts, :size),
+      tooltip: Keyword.get(opts, :tooltip),
+      tooltip_text: Keyword.get(opts, :tooltip_text)
+    }
+  end
+end

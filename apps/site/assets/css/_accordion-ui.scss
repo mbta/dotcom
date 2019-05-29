@@ -1,0 +1,118 @@
+.c-accordion-ui {
+  border: solid $border-width $brand-primary-dark;
+  border-bottom: 0;
+  margin: $base-spacing 0;
+}
+
+.c-accordion-ui__heading {
+  &.sticky-top {
+    background-color: $white;
+  }
+}
+
+.c-accordion-ui__trigger {
+  @include icon-size-inline(1.5em);
+  border-bottom: solid $border-width $brand-primary-dark;
+  color: $brand-primary;
+  // Flexbox used to keep indicator icon right
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  &[role='button'] {
+    // <a> is higher spec. than single class,
+    // so bump up the spec by using an attr.
+    text-decoration: none;
+  }
+
+  &:hover {
+    background-color: $brand-primary-lightest;
+    color: $brand-primary-darkest;
+  }
+}
+
+.c-accordion-ui__indicator {
+  align-items: center;
+  display: flex;
+  padding-left: $base-spacing * 2;
+}
+
+.c-indicator__content {
+  &::after {
+    @include fa-icon();
+  }
+
+  &.c-indicator__content--angle::after {
+    content: $fa-var-angle-up;
+  }
+
+  .collapsed &.c-indicator__content--angle::after {
+    content: $fa-var-angle-down;
+  }
+}
+
+.c-accordion-ui__trigger,
+.c-accordion-ui__content {
+  // Character/line-height includes some space, so here we
+  // reduce the vertical spacing slightly to account for this
+  padding: ($base-spacing / 1.5) $base-spacing;
+
+  // Prevent tables from breaking out of accordion boxes:
+  .c-media--table {
+    @include media-breakpoint-up(sm) {
+      .c-media__content {
+        max-width: 100%;
+        overflow-x: auto;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      .c-media__element {
+        font-size: .875rem;
+      }
+    }
+  }
+}
+
+.c-accordion-ui__target {
+  // Borders on this element are hidden while collapsed
+  border-bottom: solid $border-width $brand-primary-dark;
+}
+
+.c-expandable-block__header {
+  background-color: $brand-primary-lightest-contrast;
+  cursor: pointer;
+  margin-bottom: 0;
+  padding: $base-spacing $base-spacing / 2;
+}
+
+.c-expandable-block__header-icon {
+  display: block;
+  float: left;
+  height: 1em;
+  margin-right: $base-spacing;
+  position: relative;
+  top: .125em;
+  width: 1em;
+}
+
+.c-expandable-block__header-caret--black {
+  color: $black;
+  float: right;
+  font-family: FontAwesome;
+}
+
+.c-expandable-block__header-caret {
+  color: $brand-primary;
+  float: right;
+  font-family: FontAwesome;
+}
+
+.c-expandable-block__panel {
+  border: 1px solid $gray-lightest;
+  padding: $base-spacing $base-spacing / 2;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,855 @@
+[
+  {
+    "stop": {
+      "stop": {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Charles St S @ Park Plaza",
+        "longitude": -71.067101,
+        "latitude": 42.351748,
+        "is_child?": false,
+        "id": "1241",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "fare_facilities": [],
+        "closed_stop_info": null,
+        "bike_storage": [],
+        "address": null,
+        "accessibility": ["accessible"]
+      },
+      "href": "/stops/1241",
+      "distance": "115 ft"
+    },
+    "routes": [
+      {
+        "routes": [
+          {
+            "type": 3,
+            "name": "43",
+            "long_name": "Ruggles - Downtown Boston",
+            "id": "43",
+            "href": "/schedules/43?origin=1241",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "Ruggles"
+            },
+            "description": "local_bus",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "bus"
+      }
+    ],
+    "distance": "0.1 mi"
+  },
+  {
+    "stop": {
+      "stop": {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Stuart St @ Charles St S",
+        "longitude": -71.066798,
+        "latitude": 42.351039,
+        "is_child?": false,
+        "id": "9983",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "fare_facilities": [],
+        "closed_stop_info": null,
+        "bike_storage": [],
+        "address": null,
+        "accessibility": ["accessible"]
+      },
+      "href": "/stops/9983",
+      "distance": "199 ft"
+    },
+    "routes": [
+      {
+        "routes": [
+          {
+            "type": 3,
+            "name": "504",
+            "long_name": "Watertown Yard - Downtown Boston",
+            "id": "504",
+            "href": "/schedules/504?origin=9983",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "Watertown Yard"
+            },
+            "description": "commuter_bus",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "55",
+            "long_name": "Jersey Street & Queensberry Street - Downtown Boston",
+            "id": "55",
+            "href": "/schedules/55?origin=9983",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "Jersey Street & Queensberry Street"
+            },
+            "description": "local_bus",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "553",
+            "long_name": "Roberts - Downtown Boston",
+            "id": "553",
+            "href": "/schedules/553?origin=9983",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "Roberts"
+            },
+            "description": "local_bus",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "bus"
+      }
+    ],
+    "distance": "46 ft"
+  },
+  {
+    "stop": {
+      "stop": {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "285 Tremont St",
+        "longitude": -71.065439,
+        "latitude": 42.349606,
+        "is_child?": false,
+        "id": "8281",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "fare_facilities": [],
+        "closed_stop_info": null,
+        "bike_storage": [],
+        "address": null,
+        "accessibility": ["accessible"]
+      },
+      "href": "/stops/8281",
+      "distance": "0.2 mi"
+    },
+    "routes": [
+      {
+        "routes": [
+          {
+            "type": 3,
+            "name": "43",
+            "long_name": "Ruggles - Downtown Boston",
+            "id": "43",
+            "href": "/schedules/43?origin=8281",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "Ruggles"
+            },
+            "description": "local_bus",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "bus"
+      }
+    ],
+    "distance": ".02 mi"
+  },
+  {
+    "stop": {
+      "stop": {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Boylston",
+        "longitude": -71.06459,
+        "latitude": 42.35302,
+        "is_child?": false,
+        "id": "place-boyls",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "fare_facilities": ["fare_vending_machine"],
+        "closed_stop_info": null,
+        "bike_storage": [],
+        "address": "Boylston St and Tremont St, Boston, MA",
+        "accessibility": []
+      },
+      "href": "/stops/place-boyls",
+      "distance": "0.2 mi"
+    },
+    "routes": [
+      {
+        "routes": [
+          {
+            "type": 0,
+            "name": "Green Line",
+            "long_name": "Green Line",
+            "id": "Green",
+            "href": "/schedules/Green?origin=place-boyls",
+            "direction_names": { "1": "East", "0": "West" },
+            "direction_destinations": {
+              "1": "Park Street / Government Center / North Station / Lechmere",
+              "0": "Boston College / Cleveland Circle / Riverside / Heath Street"
+            },
+            "description": "rapid_transit",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "green_line"
+      }
+    ],
+    "distance": ".03 mi"
+  },
+  {
+    "stop": {
+      "stop": {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Tremont St @ Boylston Station",
+        "longitude": -71.064353,
+        "latitude": 42.353247,
+        "is_child?": false,
+        "id": "8279",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "fare_facilities": [],
+        "closed_stop_info": null,
+        "bike_storage": [],
+        "address": null,
+        "accessibility": ["unknown"]
+      },
+      "href": "/stops/8279",
+      "distance": "0.2 mi"
+    },
+    "routes": [
+      {
+        "routes": [
+          {
+            "type": 3,
+            "name": "SL5",
+            "long_name": "Dudley - Downtown Crossing",
+            "id": "749",
+            "href": "/schedules/749?origin=8279",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Crossing",
+              "0": "Dudley"
+            },
+            "description": "key_bus_route",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "15",
+            "long_name": "Kane Square - Ruggles",
+            "id": "15",
+            "href": "/schedules/15?origin=8279",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": { "1": "Ruggles", "0": "Kane Square" },
+            "description": "key_bus_route",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "55",
+            "long_name": "Jersey Street & Queensberry Street - Downtown Boston",
+            "id": "55",
+            "href": "/schedules/55?origin=8279",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "Jersey Street & Queensberry Street"
+            },
+            "description": "local_bus",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "43",
+            "long_name": "Ruggles - Downtown Boston",
+            "id": "43",
+            "href": "/schedules/43?origin=8279",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "Ruggles"
+            },
+            "description": "local_bus",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "bus"
+      }
+    ],
+    "distance": ".03 mi"
+  },
+  {
+    "stop": {
+      "stop": {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Arlington St @ Saint James Ave",
+        "longitude": -71.070442,
+        "latitude": 42.351105,
+        "is_child?": false,
+        "id": "145",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "fare_facilities": [],
+        "closed_stop_info": null,
+        "bike_storage": [],
+        "address": null,
+        "accessibility": ["accessible"]
+      },
+      "href": "/stops/145",
+      "distance": "0.2 mi"
+    },
+    "routes": [
+      {
+        "routes": [
+          {
+            "type": 3,
+            "name": "9",
+            "long_name": "City Point - Copley via Broadway Station",
+            "id": "9",
+            "href": "/schedules/9?origin=145",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": { "1": "Copley", "0": "City Point" },
+            "description": "local_bus",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "bus"
+      }
+    ],
+    "distance": ".05 mi"
+  },
+  {
+    "stop": {
+      "stop": {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Saint James Ave @ Arlington St",
+        "longitude": -71.070502,
+        "latitude": 42.351039,
+        "is_child?": false,
+        "id": "177",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "fare_facilities": [],
+        "closed_stop_info": null,
+        "bike_storage": [],
+        "address": null,
+        "accessibility": ["accessible"]
+      },
+      "href": "/stops/177",
+      "distance": "0.2 mi"
+    },
+    "routes": [
+      {
+        "routes": [
+          {
+            "type": 3,
+            "name": "504",
+            "long_name": "Watertown Yard - Downtown Boston",
+            "id": "504",
+            "href": "/schedules/504?origin=177",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "Watertown Yard"
+            },
+            "description": "commuter_bus",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "55",
+            "long_name": "Jersey Street & Queensberry Street - Downtown Boston",
+            "id": "55",
+            "href": "/schedules/55?origin=177",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "Jersey Street & Queensberry Street"
+            },
+            "description": "local_bus",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "553",
+            "long_name": "Roberts - Downtown Boston",
+            "id": "553",
+            "href": "/schedules/553?origin=177",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "Roberts"
+            },
+            "description": "local_bus",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "bus"
+      }
+    ],
+    "distance": ".5 mi"
+  },
+  {
+    "stop": {
+      "stop": {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Tufts Medical Center",
+        "longitude": -71.063917,
+        "latitude": 42.349662,
+        "is_child?": false,
+        "id": "place-tumnl",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": false,
+        "fare_facilities": ["fare_vending_machine"],
+        "closed_stop_info": null,
+        "bike_storage": [],
+        "address": "750 Washington St, Boston, MA",
+        "accessibility": ["accessible", "escalator_up", "elevator"]
+      },
+      "href": "/stops/place-tumnl",
+      "distance": "0.2 mi"
+    },
+    "routes": [
+      {
+        "routes": [
+          {
+            "type": 1,
+            "name": "Orange Line",
+            "long_name": "Orange Line",
+            "id": "Orange",
+            "href": "/schedules/Orange?origin=place-tumnl",
+            "direction_names": { "1": "North", "0": "South" },
+            "direction_destinations": { "1": "Oak Grove", "0": "Forest Hills" },
+            "description": "rapid_transit",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "orange_line"
+      },
+      {
+        "routes": [
+          {
+            "type": 3,
+            "name": "SL5",
+            "long_name": "Dudley - Downtown Crossing",
+            "id": "749",
+            "href": "/schedules/749?origin=place-tumnl",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Crossing",
+              "0": "Dudley"
+            },
+            "description": "key_bus_route",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "SL4",
+            "long_name": "Dudley - South Station",
+            "id": "751",
+            "href": "/schedules/751?origin=place-tumnl",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": { "1": "South Station", "0": "Dudley" },
+            "description": "key_bus_route",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "15",
+            "long_name": "Kane Square - Ruggles",
+            "id": "15",
+            "href": "/schedules/15?origin=place-tumnl",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": { "1": "Ruggles", "0": "Kane Square" },
+            "description": "key_bus_route",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "11",
+            "long_name": "City Point - Downtown Boston",
+            "id": "11",
+            "href": "/schedules/11?origin=place-tumnl",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "City Point"
+            },
+            "description": "local_bus",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "bus"
+      }
+    ],
+    "distance": ".7 mi"
+  },
+  {
+    "stop": {
+      "stop": {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Kneeland St @ Washington St",
+        "longitude": -71.062868,
+        "latitude": 42.350845,
+        "is_child?": false,
+        "id": "6542",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "fare_facilities": [],
+        "closed_stop_info": null,
+        "bike_storage": [],
+        "address": null,
+        "accessibility": ["accessible"]
+      },
+      "href": "/stops/6542",
+      "distance": "0.2 mi"
+    },
+    "routes": [
+      {
+        "routes": [
+          {
+            "type": 3,
+            "name": "504",
+            "long_name": "Watertown Yard - Downtown Boston",
+            "id": "504",
+            "href": "/schedules/504?origin=6542",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "Watertown Yard"
+            },
+            "description": "commuter_bus",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "553",
+            "long_name": "Roberts - Downtown Boston",
+            "id": "553",
+            "href": "/schedules/553?origin=6542",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "Roberts"
+            },
+            "description": "local_bus",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "bus"
+      }
+    ],
+    "distance": ".03 mi"
+  },
+  {
+    "stop": {
+      "stop": {
+        "station?": false,
+        "parking_lots": [],
+        "note": null,
+        "name": "Washington St @ Essex St",
+        "longitude": -71.062581,
+        "latitude": 42.352288,
+        "is_child?": false,
+        "id": "6537",
+        "has_fare_machine?": false,
+        "has_charlie_card_vendor?": false,
+        "fare_facilities": [],
+        "closed_stop_info": null,
+        "bike_storage": [],
+        "address": null,
+        "accessibility": ["accessible"]
+      },
+      "href": "/stops/6537",
+      "distance": "0.2 mi"
+    },
+    "routes": [
+      {
+        "routes": [
+          {
+            "type": 3,
+            "name": "SL4",
+            "long_name": "Dudley - South Station",
+            "id": "751",
+            "href": "/schedules/751?origin=6537",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": { "1": "South Station", "0": "Dudley" },
+            "description": "key_bus_route",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "15",
+            "long_name": "Kane Square - Ruggles",
+            "id": "15",
+            "href": "/schedules/15?origin=6537",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": { "1": "Ruggles", "0": "Kane Square" },
+            "description": "key_bus_route",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "11",
+            "long_name": "City Point - Downtown Boston",
+            "id": "11",
+            "href": "/schedules/11?origin=6537",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Downtown Boston",
+              "0": "City Point"
+            },
+            "description": "local_bus",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "bus"
+      }
+    ],
+    "distance": "204 ft"
+  },
+  {
+    "stop": {
+      "stop": {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Park Street",
+        "longitude": -71.062424,
+        "latitude": 42.356395,
+        "is_child?": false,
+        "id": "place-pktrm",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": true,
+        "fare_facilities": ["fare_media_assistant", "fare_vending_machine"],
+        "closed_stop_info": null,
+        "bike_storage": [],
+        "address": "Tremont St and Winter St, Boston, MA 02108",
+        "accessibility": [
+          "accessible",
+          "escalator_up",
+          "elevator",
+          "portable_boarding_lift"
+        ]
+      },
+      "href": "/stops/place-pktrm",
+      "distance": "0.4 mi"
+    },
+    "routes": [
+      {
+        "routes": [
+          {
+            "type": 0,
+            "name": "Green Line",
+            "long_name": "Green Line",
+            "id": "Green",
+            "href": "/schedules/Green?origin=place-pktrm",
+            "direction_names": { "1": "East", "0": "West" },
+            "direction_destinations": {
+              "1": "Park Street / Government Center / North Station / Lechmere",
+              "0": "Boston College / Cleveland Circle / Riverside / Heath Street"
+            },
+            "description": "rapid_transit",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "green_line"
+      },
+      {
+        "routes": [
+          {
+            "type": 1,
+            "name": "Red Line",
+            "long_name": "Red Line",
+            "id": "Red",
+            "href": "/schedules/Red?origin=place-pktrm",
+            "direction_names": { "1": "North", "0": "South" },
+            "direction_destinations": {
+              "1": "Alewife",
+              "0": "Ashmont/Braintree"
+            },
+            "description": "rapid_transit",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "red_line"
+      }
+    ],
+    "distance": ".5 mi"
+  },
+  {
+    "stop": {
+      "stop": {
+        "station?": true,
+        "parking_lots": [],
+        "note": null,
+        "name": "Back Bay",
+        "longitude": -71.075727,
+        "latitude": 42.34735,
+        "is_child?": false,
+        "id": "place-bbsta",
+        "has_fare_machine?": true,
+        "has_charlie_card_vendor?": true,
+        "fare_facilities": [
+          "fare_media_assistant",
+          "fare_vending_machine",
+          "ticket_window"
+        ],
+        "closed_stop_info": null,
+        "bike_storage": ["bike_storage_cage"],
+        "address": "145 Dartmouth St Boston, MA 02116",
+        "accessibility": [
+          "accessible",
+          "escalator_both",
+          "elevated_subplatform",
+          "elevator",
+          "fully_elevated_platform"
+        ]
+      },
+      "href": "/stops/place-bbsta",
+      "distance": "0.5 mi"
+    },
+    "routes": [
+      {
+        "routes": [
+          {
+            "type": 1,
+            "name": "Orange Line",
+            "long_name": "Orange Line",
+            "id": "Orange",
+            "href": "/schedules/Orange?origin=place-bbsta",
+            "direction_names": { "1": "North", "0": "South" },
+            "direction_destinations": { "1": "Oak Grove", "0": "Forest Hills" },
+            "description": "rapid_transit",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "orange_line"
+      },
+      {
+        "routes": [
+          {
+            "type": 3,
+            "name": "170",
+            "long_name": "Waltham - Dudley",
+            "id": "170",
+            "href": "/schedules/170?origin=place-bbsta",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": { "1": "Dudley", "0": "Waltham" },
+            "description": "commuter_bus",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "39",
+            "long_name": "Forest Hills - Back Bay Station",
+            "id": "39",
+            "href": "/schedules/39?origin=place-bbsta",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "Back Bay Station",
+              "0": "Forest Hills"
+            },
+            "description": "key_bus_route",
+            "custom_route?": false
+          },
+          {
+            "type": 3,
+            "name": "10",
+            "long_name": "City Point - Copley via Boston Medical Center",
+            "id": "10",
+            "href": "/schedules/10?origin=place-bbsta",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": { "1": "Copley", "0": "City Point" },
+            "description": "local_bus",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "bus"
+      },
+      {
+        "routes": [
+          {
+            "type": 2,
+            "name": "Franklin Line",
+            "long_name": "Franklin Line",
+            "id": "CR-Franklin",
+            "href": "/stops/place-bbsta?tab=schedule",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Forge Park/495"
+            },
+            "description": "commuter_rail",
+            "custom_route?": false
+          },
+          {
+            "type": 2,
+            "name": "Needham Line",
+            "long_name": "Needham Line",
+            "id": "CR-Needham",
+            "href": "/stops/place-bbsta?tab=schedule",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Needham Heights"
+            },
+            "description": "commuter_rail",
+            "custom_route?": false
+          },
+          {
+            "type": 2,
+            "name": "Providence/​Stoughton Line",
+            "long_name": "Providence/Stoughton Line",
+            "id": "CR-Providence",
+            "href": "/stops/place-bbsta?tab=schedule",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Wickford Junction"
+            },
+            "description": "commuter_rail",
+            "custom_route?": false
+          },
+          {
+            "type": 2,
+            "name": "Framingham/​Worcester Line",
+            "long_name": "Framingham/Worcester Line",
+            "id": "CR-Worcester",
+            "href": "/stops/place-bbsta?tab=schedule",
+            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Worcester"
+            },
+            "description": "commuter_rail",
+            "custom_route?": false
+          }
+        ],
+        "group_name": "commuter_rail"
+      }
+    ],
+    "distance": ".7 mi"
+  }
+]

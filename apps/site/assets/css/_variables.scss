@@ -1,0 +1,146 @@
+@import 'colors';
+
+$grid-breakpoints: (
+  xs: 0,
+  sm: 544px,
+  md: 800px,
+  lg: 1088px,
+  xxl: 1344px
+);
+
+$container-max-widths: (
+  xs: 100%,
+  sm: 100%,
+  md: map-get($grid-breakpoints, md) - (16px * 2),
+  lg: map-get($grid-breakpoints, lg) - (16px * 8),
+  xxl: map-get($grid-breakpoints, xxl) - (18px * 8)
+);
+
+@import 'node_modules/bootstrap/scss/variables';
+$spacers: (
+  0: (
+    x: 0,
+    y: 0
+  ),
+  1: (
+    x: $spacer-x,
+    y: $spacer-y
+  ),
+  2: (
+    x: ($spacer-x * 1.5),
+    y: ($spacer-y * 1.5)
+  ),
+  3: (
+    x: ($spacer-x * 3),
+    y: ($spacer-y * 3)
+  ),
+  g: (
+    // for grid
+    x: $grid-gutter-width,
+    y: $grid-gutter-width
+  )
+);
+
+$space-16: 1rem;
+$space-12: $space-16 * .75;
+$space-18: $space-12 * 1.5;
+$space-24: $space-12 * 2;
+$space-36: $space-16 * 2.25;
+$space-8: $space-16 / 2; // 8px real, 4px Zeplin
+$space-6: $space-12 / 2; // 6px real, 3px Zeplin
+$space-4: $space-12 / 4; // 3px real, 1.5px Zeplin
+$space-2: $space-12 / 6; // 2px real, 1px Zeplin
+$space-1: $space-12 / 12; // 1px real, 0.5px Zeplin
+
+$base-spacing: $space-16;
+$base-spacing-sm: $space-8;
+$base-spacing-lg: $space-24;
+$base-spacing-xl: $space-36;
+
+$homepage-gutter: $base-spacing / 2;
+$half-gutter: $grid-gutter-width / 2;
+$col-width: 100% / $grid-columns;
+
+$font-family-base: 'Inter UI', $font-family-sans-serif;
+$headings-font-family: 'Helvetica Neue', Helvetica, Arial, $font-family-sans-serif;
+$headings-font-weight: 700;
+
+$font-size-base-xs: 12px;
+$font-size-base-sm: 14px;
+$font-size-base: 16px;
+$font-size-base-xxl: 18px;
+$font-size-base-print: 24px;
+
+$headings: 'h1', 'h2', 'h3', 'h4', 'h5', 'h6';
+
+$font-size-h1: 2.5rem;
+$font-size-h2: 1.75rem;
+$font-size-h3: 1.3125rem;
+$font-size-h4: 1.125rem;
+$font-size-h5: 1rem;
+$font-size-small-caps: .875rem;
+
+$font-size-h1-sm: 2rem;
+$font-size-h2-sm: 1.625rem;
+
+$font-weight-medium: 500;
+
+$headings-margin-top: 1.075em;
+$headings-line-height: 1.275em;
+$headings-margin-bottom: .375em;
+
+$pagination-line-height: 1.5rem;
+
+$border-width: 1px;
+$border-color: $gray-lightest;
+$border: $border-width solid $border-color;
+$border-md: 2px solid $border-color;
+$drop-shadow: $space-4 $space-4 $space-6 $drop-shadow-color;
+
+$header-navbar-height-multiplier: 3;
+$header-navbar-height: $base-spacing * $header-navbar-height-multiplier;
+$navbar-padding-vertical: $base-spacing * .75;
+$navbar-padding-horizontal: 0;
+$default-border-radius: $space-4;
+$icon-size: $space-16 * 1.5;
+$icon-size-sm: $space-16;
+$icon-size-lg: $space-16 * 3;
+$tooltip-width: 20rem;
+$tab-border: $border-width solid $btn-primary-bg;
+
+$btn-padding-x: $base-spacing * 1.6;
+$btn-padding-y: $base-spacing * .6;
+
+$z-index-modal: 101;
+$z-index-above-leaflet: 23;
+$z-index-leaflet-level-8: 21;
+$z-index-leaflet-level-7: 21;
+$z-index-leaflet-level-6: 20;
+$z-index-leaflet-level-5: 19;
+$z-index-leaflet-level-4: 18;
+$z-index-leaflet-level-3: 17;
+$z-index-leaflet-level-2: 16;
+$z-index-leaflet-level-1: 15;
+$z-index-desktop-menu: 14;
+$zindex-sticky: 13;
+$z-index-datepicker-content: 12;
+$z-index-search-bar-results: 11;
+$z-index-calendar-cover: 8;
+$z-index-stop-bubble: 7;
+$z-index-redline-braintree-stops: 6;
+$z-index-stop-bubble-line: 5;
+$z-index-trip-selected: 4;
+$z-index-schedule-timetable-more-text: 3;
+$z-index-alert-list-header: 2;
+
+$after-heading-adjustment: .25em;
+
+$gray-stripe-pattern: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAAXNSR0IArs4c6QAAABZJREFUCB1jYMAC7t279x9DmG6CQJsBUrkVl6gmw/kAAAAASUVORK5CYII=');
+
+// form variables
+$form-check-margin-bottom: $base-spacing-sm;
+$form-check-input-gutter: $base-spacing;
+$form-check-input-margin-y: 0;
+
+// Font-awesome settings
+$fa-font-path: '/fonts';

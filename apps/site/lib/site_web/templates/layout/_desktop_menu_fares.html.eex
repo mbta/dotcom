@@ -1,0 +1,37 @@
+<div class="menu-row">
+  <div class="col-md-4 col-lg-3 fares-column">
+    <div class="h5 header-column-heading">More Fares Info</div>
+    <div class="col-xs-12 p-a-0">
+      <ul>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/fares") do %>
+            Fares Overview
+          <% end %>
+        </li>
+        <li>
+          <%= link to: "https://charliecard.mbta.com", target: "_blank" do %>
+            Add Value to CharlieCard
+          <% end %>
+        </li>
+        <li>
+          <%= link to: fare_path(@conn, :show, "reduced") do %>
+            Reduced Fares
+          <% end %>
+        </li>
+        <li>
+          <%= link to: "https://commerce.mbta.com", target: "_blank" do %>
+            Order Monthly Passes
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/pass-program") do %>
+            Institutional Sales
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-md-8 col-lg-9">
+    <%= SiteWeb.FareView.summarize(@common_fare_summaries) %>
+  </div>
+</div>

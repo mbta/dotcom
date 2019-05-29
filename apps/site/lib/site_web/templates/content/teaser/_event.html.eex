@@ -1,0 +1,15 @@
+<%= if @teaser.date do %>
+  <div class="c-content-teaser__date u-small-caps">
+    <%= display_date(@teaser) %>
+  </div>
+<% end %>
+
+<div class="c-content-teaser__title">
+  <%= @teaser.title %>
+</div>
+
+<%= if @teaser.location do %>
+  <div class="c-content-teaser__location">
+    <%= display_location(@teaser.location) %>
+  </div>
+<% end %>

@@ -1,0 +1,262 @@
+@import 'variables';
+@import 'bootstrap';
+
+$padding: 1rem;
+
+.style-guide {
+  background: none;
+
+  @include media-breakpoint-down(sm) {
+    padding: 0;
+
+    .main-container {
+      padding: $padding;
+    }
+
+    .main-content {
+      float: none;
+    }
+  }
+
+  @include media-breakpoint-up(md) {
+    .main-container {
+      padding: $padding * 3;
+    }
+  }
+
+  .page-header {
+    @include media-breakpoint-down(sm) {
+      h1 {
+        text-align: center;
+      }
+    }
+
+    @include media-breakpoint-up(md) {
+      li:first-child {
+        margin-left: 0;
+        padding-left: 0;
+      }
+    }
+
+    h1 {
+      background: $brand-primary;
+      color: $white;
+      margin: 0;
+      padding: $padding * 3;
+    }
+
+    nav {
+      border-bottom: 1px solid $gray-lighter;
+    }
+
+    .col-md-2 {
+      width: auto;
+    }
+
+    li {
+      color: $gray;
+      font-weight: 200;
+      margin: 0 $padding;
+      text-transform: uppercase;
+    }
+  }
+
+  .subpage-nav ul {
+    -webkit-padding-start: 0;
+    padding: 0 $padding 0 0;
+  }
+
+  .component {
+    margin-bottom: $padding * 3;
+
+    &:first-child {
+      margin-top: $padding * 3;
+    }
+
+    > div {
+      margin-bottom: $padding * 1.5;
+    }
+
+    .row {
+      padding: 0;
+    }
+  }
+
+  .code {
+    background: $gray-lightest;
+    border: $border;
+    border-radius: 3px;
+    padding: $padding;
+
+    code {
+      font-size: .75em;
+    }
+  }
+
+  li {
+    list-style-position: outside;
+    list-style-type: none;
+  }
+
+  .content,
+  .principles {
+    ul {
+      padding: 0 2rem;
+    }
+
+    li {
+      list-style-position: outside;
+      list-style-type: disc;
+    }
+
+    > ul {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .logo {
+    img {
+      max-width: 300px;
+    }
+
+    .logo-color,
+    .logo-background {
+      display: inline-block;
+      width: 45%;
+    }
+
+    h2 {
+      margin-top: 3rem;
+    }
+  }
+
+  .logo-secondary img {
+    height: 100px;
+  }
+
+  nav li {
+    @include media-breakpoint-down(sm) {
+      padding: $padding / 2 $padding;
+      text-align: center;
+    }
+
+    @include media-breakpoint-up(md) {
+      padding: $padding;
+    }
+  }
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  .row {
+    margin: 0;
+    padding-left: $padding * 3;
+    padding-right: $padding * 3;
+  }
+}
+
+.subpage-nav {
+  li {
+    $border: $border;
+
+    @include media-breakpoint-up(md) {
+      border-top: $border;
+      padding-left: $padding;
+    }
+
+    &:last-child {
+      border-bottom: $border;
+    }
+
+    &.active {
+      border-right: 10px solid $brand-secondary;
+    }
+  }
+}
+
+.typography {
+
+  p {
+    margin-bottom: 0;
+  }
+
+  section {
+    margin-top: $padding * 3;
+  }
+
+  .heading {
+    display: flex;
+    margin-bottom: $padding * 2;
+  }
+
+  .heading-name {
+    width: 120px;
+  }
+
+  .heading-example {
+    width: 400px;
+  }
+
+  .meta-key {
+    color: $gray-lighter;
+    font-weight: 300;
+  }
+}
+
+.heading-metadata p:first-child {
+  width: 200px;
+}
+
+.font-variant {
+  align-items: center;
+  display: flex;
+
+  .large-letter-sample {
+    font-size: 80px;
+    width: 120px;
+  }
+
+  .all-characters {
+    flex: 1;
+  }
+
+  .font-metadata {
+    border-left: 1px solid $gray-lighter;
+    flex: 1;
+    font-size: .9rem;
+    font-style: normal;
+    font-weight: normal;
+    padding-left: $padding;
+  }
+}
+
+
+.color-group > div {
+  display: flex;
+  flex-wrap: wrap;
+
+  .color {
+    margin: $padding * 2 $padding * 2 0 0;
+    width: 200px;
+  }
+
+  h3,
+  p {
+    margin: 10px 0 0;
+    text-align: center;
+  }
+
+  .color-box {
+    height: 200px;
+    width: 100%;
+  }
+}
+
+// add a background since these icons are displayed on a dark background
+.icon-inverse,
+.icon-boring {
+  background: $gray-dark;
+  padding: $padding / 2;
+}

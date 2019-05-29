@@ -1,0 +1,74 @@
+.c-trip-plan-widget {
+  background-color: $gray-bordered-background;
+  border: solid 1px $gray-lightest;
+  padding: 0 $base-spacing $base-spacing;
+}
+
+.c-trip-plan-widget__inputs {
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-between(sm, md) {
+    flex-direction: row;
+
+    .c-trip-plan-widget__from {
+      margin-right: $base-spacing;
+    }
+
+    .c-search-bar {
+      flex-basis: 50%;
+    }
+  }
+}
+
+.c-trip-plan-widget__submit {
+  display: inline-flex;
+  justify-content: center;
+  width: 65%;
+
+  @include media-breakpoint-between(sm, md) {
+    width: 40%;
+  }
+}
+
+.c-trip-plan-widget__submit-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.c-trip-plan-widget__input-label {
+  color: $brand-primary;
+  font-size: $font-size-h3;
+  font-weight: bold;
+  margin-left: $base-spacing / 2;
+}
+
+.c-form__input-container--error {
+  .c-trip-plan-widget__input-label {
+    color: $error-text;
+  }
+}
+
+.c-trip-plan-widget__location-input {
+  width: 80%;
+}
+
+.c-trip-plan-widget__location-error {
+  margin-left: -$base-spacing * .75;
+  margin-right: -$base-spacing * .75;
+  margin-top: $base-spacing * .75;
+  padding-bottom: $base-spacing * .75;
+  padding-top: $base-spacing * .75;
+}
+
+.c-trip-plan-widget__label--to {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.c-trip-plan-widget__reverse-control {
+  color: $brand-primary;
+  cursor: pointer;
+  margin-left: auto;
+  user-select: none;
+}

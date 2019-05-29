@@ -1,0 +1,22 @@
+{
+  "id" : "adb81074-8184-374e-bcf1-5bfe297c323f",
+  "request" : {
+    "url" : "/stops/?fields%5Bparent_station%5D=latitude%2Clongitude&fields%5Bstop%5D=latitude%2Clongitude&radius=0.6&route_type=0%2C1&latitude=42.3519246&longitude=-71.05507169999998&include=parent_station",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-rZHOY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:07 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:01 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1anlk9o705sgk03b4d1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "adb81074-8184-374e-bcf1-5bfe297c323f"
+}

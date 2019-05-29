@@ -1,0 +1,61 @@
+@import 'variables';
+@import 'mixins';
+@import 'bootstrap';
+@import 'bootstrap-extra';
+@import '../vendor/font-awesome-4.6.3/scss/font-awesome';
+@import 'inter_ui';
+@import 'layout-core-shared';
+@import 'footer';
+@import 'header';
+@import 'headings';
+@import 'social';
+@import 'svg';
+
+.header,
+.m-footer {
+  @include base-font-size();
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+  margin: 0;
+  min-width: 20rem;
+  text-rendering: optimizeLegibility;
+}
+
+.search-mobile {
+  margin: $base-spacing 0;
+
+  g {
+    fill: $white;
+  }
+}
+
+// For some reason these font icons are misaligned in the layout template
+.c-social--instagram {
+  .fa {
+    color: $instagram;
+    position: relative;
+    top: .25em;
+  }
+}
+
+.c-social--youtube {
+  .fa {
+    position: relative;
+    top: .2em;
+  }
+}
+
+.c-social--twitter {
+  .fa {
+    position: relative;
+    top: .25em;
+  }
+}
+
+.icon-search {
+  height: 30px;
+  // Another misaligned font icon, only in the layout template
+  margin-right: 5px;
+  width: 30px;
+}

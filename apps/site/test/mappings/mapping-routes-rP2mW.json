@@ -1,0 +1,22 @@
+{
+  "id" : "87e75025-238b-3b97-bdcd-982e562c11c2",
+  "request" : {
+    "url" : "/routes/?stop=10007&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-rP2mW.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:11 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1ip9vnpl70tv403bf41",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "87e75025-238b-3b97-bdcd-982e562c11c2"
+}

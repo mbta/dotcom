@@ -1,0 +1,71 @@
+<div class="container page-section" id="important-links">
+  <div class="m-homepage--10-col-sm-only">
+    <h2>Important Links</h2>
+    <div class="m-homepage__important-links">
+      <%= link to: cms_static_page_path(@conn, "/accessibility"), class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Accessibility</div>
+          <div class="m-homepage__important-link-icon">
+            <%= svg "icon-accessibility.svg" %>
+          </div>
+        </div>
+      <% end %>
+      <%= link to: cms_static_page_path(@conn, "/leadership/fmcb"), class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Leadership</div>
+          <div class="m-homepage__important-link-icon">
+            (FMCB)
+          </div>
+        </div>
+      <% end %>
+      <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home/", class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Performance</div>
+          <div class="m-homepage__important-link-icon">
+            <%= fa "signal" %>
+          </div>
+        </div>
+      <% end %>
+      <%= link to: cms_static_page_path(@conn, "/careers"), class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Careers</div>
+          <div class="m-homepage__important-link-icon">
+            <%= fa "users" %>
+          </div>
+        </div>
+      <% end %>
+      <%= link to: cms_static_page_path(@conn, "/titlevi"), class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Civil Rights</div>
+          <div class="m-homepage__important-link-icon">
+            <%= fa "balance-scale" %>
+          </div>
+        </div>
+      <% end %>
+      <%= link to: cms_static_page_path(@conn, "/sustainability"), class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Sustainability</div>
+          <div class="m-homepage__important-link-icon">
+            <%= fa "recycle" %>
+          </div>
+        </div>
+      <% end %>
+      <%= link to: cms_static_page_path(@conn, "/business"), class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Business</div>
+          <div class="m-homepage__important-link-icon">
+            <%= fa "briefcase" %>
+          </div>
+        </div>
+      <% end %>
+      <%= link to: "http://transitapp.com", class: "m-homepage__important-link" do %>
+        <div class="m-homepage__important-link-content">
+          <div class="m-homepage__important-link-title">Transit App</div>
+          <div class="m-homepage__important-link-icon">
+            <%= svg "transit-app.svg" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,223 @@
+.fares-tab-group {
+  border-bottom: .25rem solid $brand-primary;
+
+  &:empty {
+    border-bottom-width: 1px;
+  }
+}
+
+.fares-box {
+  border: solid $space-1 $brand-primary;
+  margin: 0 0 $base-spacing;
+  padding-left: ($grid-gutter-width / 2);
+  padding-right: ($grid-gutter-width / 2);
+}
+
+.fares-row {
+  @include make-row();
+
+  &:not(:first-child) {
+    border-top: 1px solid $gray-lightest;
+  }
+}
+
+.fare-name {
+  margin-top: 0;
+}
+
+.fare-price {
+  float: right;
+
+  @include media-breakpoint-only(sm) {
+    display: block;
+    float: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+.fares-box-column {
+  @include make-col();
+  @include make-col-span(12);
+
+  padding-bottom: $grid-gutter-width / 2;
+  padding-top: $grid-gutter-width / 2;
+
+  @include media-breakpoint-down(xs) {
+    border-top: 1px solid $gray-lightest;
+
+    &:first-child {
+      border-top: 0;
+    }
+  }
+
+  @include media-breakpoint-up(sm) {
+    @include make-col-span(6);
+
+    &:nth-child(1) {
+      border-right: 1px solid $gray-lightest;
+    }
+
+    &:nth-child(2) {
+      border-left: 1px solid $gray-lightest;
+      left: -1px;
+    }
+  }
+}
+
+.fare-mode-row {
+  background-color: $gray-lightest;
+  margin-bottom: 1rem;
+  padding: $base-spacing;
+
+  > * {
+    display: inline-block;
+    max-width: 75%;
+  }
+}
+
+.fare-travel-routes {
+  margin-bottom: 1rem;
+}
+
+.fares-google-play {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+.fares-callout-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.fares-callout-container {
+  display: flex;
+  flex-direction: column;
+
+  @include media-breakpoint-down(sm) {
+    &:first-child {
+      margin-bottom: .5em;
+    }
+  }
+}
+
+//scss-lint:disable SelectorFormat
+.charlie_card-template {
+  .h4 {
+    margin-top: 1.5rem;
+  }
+
+  .page-section {
+    margin-bottom: 2rem;
+  }
+}
+//scss-lint:enable SelectorFormat
+
+.charlie-card-hours,
+.charlie-store-info,
+.expired-address {
+  p {
+    margin-bottom: 0;
+  }
+}
+
+.charlie-card-stations {
+  margin-top: $base-spacing;
+}
+
+.charlie-ticket-method {
+  margin-bottom: $base-spacing;
+}
+
+.payment-image {
+  margin-bottom: $base-spacing;
+
+  @include media-breakpoint-only(xs) {
+    &:not(:first-child) {
+      margin-top: $base-spacing;
+    }
+  }
+
+  img {
+    width: 100%;
+  }
+
+}
+
+.fare-card-image {
+  display: inline-block;
+  text-align: center;
+
+  + .fare-card-image {
+    margin-left: $grid-gutter-width;
+  }
+}
+
+@include media-breakpoint-down(sm) {
+  .fare-selector-container {
+    padding-bottom: .75rem;
+  }
+}
+
+.the-ride-column {
+  @include media-breakpoint-up(sm) {
+    &:nth-child(odd) {
+      padding-right: 1.5rem;
+    }
+
+    &:nth-child(even) {
+      padding-left: 1.5rem;
+    }
+  }
+}
+
+.charlie-card-block {
+  display: inline-block;
+
+  @include media-breakpoint-only(sm) {
+    max-width: 55%;
+  }
+}
+
+.fare-photo-figure {
+  figcaption {
+    font-size: 1rem;
+    margin-bottom: .5rem;
+    padding: 0;
+    text-align: left;
+  }
+}
+
+.fare-tip {
+  margin-top: $base-spacing;
+}
+
+a {
+  @include hover-focus-active {
+    .fare-link {
+      text-decoration: inherit;
+    }
+  }
+}
+
+.commuter-rail-photo-video-container {
+  height: 0;
+  margin-bottom: $base-spacing * 1.5;
+  margin-top: 0;
+  padding-bottom: 56%; // The height of the video will be 56% of the width.
+  position: relative;
+  width: 100%;
+
+  .commuter-rail-photo-video {
+    // Adjust the iframe so it's rendered in the outer-width and outer-height of it's parent
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+}
+
+.fares-mode-icon-group {
+  @include icon-size-inline(1.25em);
+}

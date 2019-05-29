@@ -1,0 +1,59 @@
+<% fare_summaries = Map.get(assigns, :common_fare_summaries, []) %>
+<nav id="desktop-menu" class="desktop-menu-nav" role="tablist">
+  <div class="pull-right">
+    <%= for {name, _, href} <- nav_link_content(@conn) do %>
+      <div class="nav-item">
+        <%=
+            id = to_camelcase(name)
+            filename = name
+            |> String.downcase
+            |> String.replace(" ", "_")
+
+            link([
+              content_tag(:div, [class: "nav-link-content js-header-link__content"], do: [
+                content_tag(:span, ["#{name} "], class: "nav-link-name"),
+                content_tag(:div, [], class: "nav-link-arrows js-header-link__carets")
+              ])
+            ], to: href,
+               class: "desktop-nav-link js-header-link collapsed",
+               data: [parent: "#desktop-menu", target: "#" <> id],
+               role: "tab",
+               aria: [controls: id])
+        %>
+        <div class="desktop-menu">
+          <div class="desktop-menu-background-image">
+            <div class="container">
+              <div class="desktop-menu-body panel">
+                <div class="collapse" id="<%= id %>" role="tabpanel">
+                  <%= unless assigns[:exclude_dropdowns] do %>
+                    <%= render "_desktop_menu_#{filename}.html", conn: @conn, common_fare_summaries: fare_summaries %>
+                  <% end %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  
+    <div id="custom-language-selector" class="nav-item u-pointer">
+      <a tabindex="0" id="language-menu-toggle" class="notranslate desktop-nav-link js-header-link navbar-toggle toggle-up-down collapsed" aria-expanded="false" aria-controls="languageMenu" data-parent="#desktop-menu" data-target="#languageMenu" role="tab" data-toggle="collapse">
+        <div class="nav-link-content js-header-link__content">
+          <span class="nav-link-name"><i class="fa fa-globe" aria-hidden="true"></i> EN</span>
+          <div class="nav-link-arrows js-header-link__carets"></div>
+        </div>
+      </a>
+    </div>
+
+    <div class="nav-item">
+      <%=
+        link([
+          content_tag(:div, [
+            content_tag(:span, "Search", class: "nav-link-name"),
+            content_tag(:span, svg_icon(%SvgIcon{icon: :search, show_tooltip?: false}), class: "nav-search-icon")
+          ], class: "nav-link-content")
+        ], to: "/search", role: "tab", class: "desktop-nav-link navbar-toggle collapsed toggle-up-down")
+      %>
+    </div>
+  </div>
+</nav>

@@ -1,0 +1,303 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 1`] = `
+Array [
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<div><a href=\\"http://some-link\\">Some teaser from CMS></a></div>",
+      }
+    }
+  />,
+  <h3
+    aria-controls="panel-pdfs"
+    aria-expanded={true}
+    className="c-expandable-block__header"
+    id="header-pdfs"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    PDF Schedules
+    <span
+      className="c-expandable-block__header-caret"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "&#xF106;",
+        }
+      }
+    />
+  </h3>,
+  <div
+    aria-labelledby="header-pdfs"
+    className="c-expandable-block__panel"
+    id="panel-pdfs"
+    role="region"
+    tabIndex={0}
+  >
+    <a
+      className="m-schedule-page__sidebar-pdfs"
+      href="https://mbta.com/example-pdf.pdf"
+      rel="noopener noreferrer"
+      target="_blank"
+    >
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon-pdf"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      Route 1 schedule PDF
+    </a>
+  </div>,
+  <noscript>
+    <style>
+      #header-pdfs { display: none; }
+    </style>
+    <h3
+      className="c-expandable-block__header"
+    >
+      PDF Schedules
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF106;",
+          }
+        }
+      />
+    </h3>
+    <div
+      className="c-expandable-block__panel"
+      role="region"
+    >
+      <a
+        className="m-schedule-page__sidebar-pdfs"
+        href="https://mbta.com/example-pdf.pdf"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span
+          aria-hidden="true"
+          className="notranslate c-svg__icon-pdf"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Route 1 schedule PDF
+      </a>
+    </div>
+  </noscript>,
+  <h3
+    aria-controls="panel-fares"
+    aria-expanded={false}
+    className="c-expandable-block__header"
+    id="header-fares"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    Fares
+    <span
+      className="c-expandable-block__header-caret"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "&#xF107;",
+        }
+      }
+    />
+  </h3>,
+  <noscript>
+    <style>
+      #header-fares { display: none; }
+    </style>
+    <h3
+      className="c-expandable-block__header"
+    >
+      Fares
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF106;",
+          }
+        }
+      />
+    </h3>
+    <div
+      className="c-expandable-block__panel"
+      role="region"
+    >
+      <p
+        className="m-schedule-page__fare"
+      >
+        <span>
+          CharlieCard
+        </span>
+        <span>
+          $2.25
+        </span>
+      </p>
+      <p
+        className="m-schedule-page__fare"
+      >
+        <span>
+          CharlieTicket or Cash
+        </span>
+        <span>
+          $2.75
+        </span>
+      </p>
+      <p
+        className="m-schedule-page__link"
+      >
+        <a
+          className="c-call-to-action"
+          href="/fares/bus-fares"
+        >
+          More about fares
+        </a>
+      </p>
+    </div>
+  </noscript>,
+  <h3
+    aria-controls="panel-hours"
+    aria-expanded={false}
+    className="c-expandable-block__header"
+    id="header-hours"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    Hours of Operation
+    <span
+      className="c-expandable-block__header-caret"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "&#xF107;",
+        }
+      }
+    />
+  </h3>,
+  <noscript>
+    <style>
+      #header-hours { display: none; }
+    </style>
+    <h3
+      className="c-expandable-block__header"
+    >
+      Hours of Operation
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF106;",
+          }
+        }
+      />
+    </h3>
+    <div
+      className="c-expandable-block__panel"
+      role="region"
+    >
+      <div
+        className="m-schedule-page__sidebar-hours"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<div class=\\"m-schedule-page__sidebar-hours\\">  <h3 class=\\"hours-period-heading\\">Monday to Friday</h3>
+<p class=\\"hours-directions\\">
+  <span class=\\"hours-direction-name\\">Inbound</span>
+  <span class=\\"hours-time\\">04:17A-12:46A</span>
+</p>
+<p class=\\"hours-directions\\">
+  <span class=\\"hours-direction-name\\">Outbound</span>
+  <span class=\\"hours-time\\">05:36A-01:08A</span>
+</p>
+</div>",
+          }
+        }
+      />
+    </div>
+  </noscript>,
+  <h3
+    aria-controls="panel-holidays"
+    aria-expanded={false}
+    className="c-expandable-block__header"
+    id="header-holidays"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    Upcoming Holidays
+    <span
+      className="c-expandable-block__header-caret"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "&#xF107;",
+        }
+      }
+    />
+  </h3>,
+  <noscript>
+    <style>
+      #header-holidays { display: none; }
+    </style>
+    <h3
+      className="c-expandable-block__header"
+    >
+      Upcoming Holidays
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF106;",
+          }
+        }
+      />
+    </h3>
+    <div
+      className="c-expandable-block__panel"
+      role="region"
+    >
+      <ul
+        className="c-unordered-list m-schedule-page__sidebar-list"
+      >
+        <li
+          className="c-unordered-list-item"
+        >
+          Memorial Day
+           (
+          May 27, 2019
+          )
+        </li>
+      </ul>
+      <a
+        className="c-call-to-action"
+        href="/holiday"
+      >
+        View holiday schedules
+      </a>
+    </div>
+  </noscript>,
+  <div
+    onClick={[Function]}
+    role="presentation"
+  >
+    <button
+      className="btn btn-primary"
+      type="button"
+    >
+      Click me!
+    </button>
+  </div>,
+]
+`;

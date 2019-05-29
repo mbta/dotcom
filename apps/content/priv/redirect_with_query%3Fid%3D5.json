@@ -1,0 +1,118 @@
+{
+  "nid": [
+    {
+      "value": 2670
+    }
+  ],
+  "uuid": [
+    {
+      "value": "4f2ab4df-77b9-4da9-8e52-eb5c495109c4"
+    }
+  ],
+  "vid": [
+    {
+      "value": 3546
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "redirect",
+      "target_type": "node_type",
+      "target_uuid": "3937502a-3e8d-4cbc-bc6c-91865a076f77"
+    }
+  ],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "Redirect with Query Params"
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 12,
+      "target_type": "user",
+      "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+      "url": "\/user\/12"
+    }
+  ],
+  "created": [
+    {
+      "value": 1503686613
+    }
+  ],
+  "changed": [
+    {
+      "value": 1503686665
+    }
+  ],
+  "promote": [
+    {
+      "value": true
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1503686665
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 12,
+      "target_type": "user",
+      "target_uuid": "28c3025b-59e4-43c8-813b-74786413b884",
+      "url": "\/user\/12"
+    }
+  ],
+  "revision_log": [
+
+  ],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "path": [
+    {
+      "alias": "\/test\/path?id=5",
+      "pid": 113,
+      "langcode": "en"
+    }
+  ],
+  "publish_on": [
+
+  ],
+  "unpublish_on": [
+
+  ],
+  "menu_link": [
+
+  ],
+  "field_redirect_to": [
+    {
+      "uri": "http:\/\/google.com",
+      "title": "",
+      "options": [
+
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+.c-paragraph {
+  margin-bottom: $base-spacing;
+  margin-top: $base-spacing;
+
+  // When we extend/wrap paragraph content, prevent the
+  // default media wrapper classes from doubling-up margins.
+  > .c-media--extended {
+    margin-bottom: 0;
+    margin-top: 0;
+  }
+}
+
+// Lone Descriptive Link (not nested in a multi column)
+.c-paragraph--descriptive-link {
+  + .c-paragraph--descriptive-link,
+  + .c-paragraph--with-links,
+  .c-paragraph--with-links + & {
+    @include adjacent-descriptive-links;
+  }
+}

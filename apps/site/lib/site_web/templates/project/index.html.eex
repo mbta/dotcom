@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="page-section">
+    <h1>Transforming the T</h1>
+
+    <p>The T is evolving every day—renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system for people of all abilities.</p>
+
+    <p>Take a look at what we're working on to make the MBTA better.</p>
+
+    <%= if !Enum.empty?(@featured_project_teasers) do %>
+      <h2 class="featured-project-subheader">Featured Projects</h2>
+    <% end %>
+
+    <%= for project <- @featured_project_teasers do %>
+      <%= render "_featured_project.html", project: project, conn: @conn %>
+      <hr>
+    <% end %>
+
+    <%= render "_all_projects.html", projects: @project_teasers, conn: @conn %>
+  </div>
+</div>

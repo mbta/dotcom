@@ -1,0 +1,22 @@
+{
+  "id" : "485b0877-c742-3c29-9a45-ef8687969350",
+  "request" : {
+    "url" : "/routes/?stop=place-aport",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-PoORX.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:35 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mldeq5cal5tj92g03d821",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "485b0877-c742-3c29-9a45-ef8687969350"
+}

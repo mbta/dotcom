@@ -1,0 +1,37 @@
+.route-hours {
+  p {
+    margin-bottom: 0;
+  }
+
+  .col-xs-12 {
+    margin-bottom: $base-spacing;
+  }
+}
+
+.hours-directions {
+  margin-bottom: 0;
+
+  @include media-breakpoint-up(md) {
+    width: 75%;
+  }
+}
+
+.hours-direction-name {
+  display: inline-block;
+  width: 40%;
+}
+
+.hours-time {
+  display: inline-block;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.commuter-rail-zone {
+  background: $gray-lightest;
+  border-radius: $border-radius;
+  color: $gray-dark;
+  display: inline-block;
+  font-size: $font-size-sm;
+  padding: $base-spacing / 4;
+}

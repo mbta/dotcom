@@ -1,0 +1,22 @@
+{
+  "id" : "9b04ae12-c665-34e5-830e-5add39a80a96",
+  "request" : {
+    "url" : "/routes/?stop=place-smary&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-POMBk.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:08 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1cd6nebtvkp5003b6v1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "9b04ae12-c665-34e5-830e-5add39a80a96"
+}

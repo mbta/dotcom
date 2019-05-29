@@ -1,0 +1,56 @@
+.carousel {
+  @include list-unstyled();
+}
+
+.carousel,
+.carousel-active {
+  margin: 0 auto;
+  width: 85%;
+}
+
+.carousel-active {
+  display: none;
+}
+
+.carousel-item {
+  display: block;
+  padding-bottom: 1rem;
+  width: 100%;
+
+  > * {
+    margin: 0 auto;
+  }
+
+  img {
+    @include img-fluid();
+  }
+}
+
+@include media-breakpoint-up(sm) {
+  .js .carousel-active {
+    display: block;
+  };
+
+  .js .carousel-item {
+    cursor: pointer;
+    float: left;
+    padding: $space-6;
+    width: 5.375rem;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+
+  .js .carousel-item figure {
+    margin: 0;
+  }
+
+  .js .carousel-item figcaption {
+    display: none;
+  }
+}

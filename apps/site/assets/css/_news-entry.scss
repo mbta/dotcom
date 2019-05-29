@@ -1,0 +1,123 @@
+.c-news-entry {
+  align-items: flex-start;
+  border-left: $base-spacing / 2 solid $brand-primary;
+  display: flex;
+  font-weight: bold;
+  margin-bottom: $base-spacing;
+  margin-top: 0;
+
+  &:hover {
+    color: $brand-primary;
+    text-decoration: none;
+  }
+
+  &--orange-line {
+    border-color: $brand-orange-line;
+  }
+
+  &--green-line {
+    border-color: $brand-green-line;
+  }
+
+  &--red-line {
+    border-color: $brand-red-line;
+  }
+
+  &--blue-line {
+    border-color: $brand-blue-line;
+  }
+
+  &--silver-line {
+    border-color: $brand-silver-line;
+  }
+
+  &--mattapan-line {
+    border-color: $brand-red-line;
+  }
+
+  &--commuter-rail {
+    border-color: $brand-commuter-rail;
+  }
+
+  &--bus {
+    border-color: $brand-bus;
+  }
+
+  &--ferry {
+    border-color: $brand-ferry;
+  }
+
+  &--subway {
+    border-color: $brand-subway;
+  }
+
+  &--the-ride {
+    border-color: $brand-the-ride;
+  }
+}
+
+.c-news-entry--small {
+  padding-left: $base-spacing;
+}
+
+.c-news-entry--large {
+  @include media-breakpoint-down(sm) {
+    padding-left: $base-spacing;
+  }
+}
+
+.c-news-entry__date {
+  color: $black;
+  flex: 0 0 20%;
+  font-family: $headings-font-family;
+  max-width: 20%;
+  padding-right: $base-spacing / 2;
+  text-align: left;
+
+  @include media-breakpoint-down(xs) {
+    flex-basis: 25%;
+    max-width: 25%;
+  }
+}
+
+.c-news-entry__month {
+  margin-right: $base-spacing / 4;
+
+  &--large {
+    @include media-breakpoint-up(md) {
+      font-size: $font-size-h3;
+    }
+  }
+}
+
+.c-news-entry__day--large {
+  @include media-breakpoint-up(md) {
+    font-size: $font-size-h2;
+    line-height: $font-size-h2;
+  }
+}
+
+.c-news-entry__month--large,
+.c-news-entry__day--large {
+  @include media-breakpoint-up(md) {
+    display: block;
+    margin-right: 0;
+    text-align: center;
+  }
+}
+
+.c-news-entry__title {
+  flex: 0 0 80%;
+  font-weight: $font-weight-medium;
+
+  @include media-breakpoint-down(xs) {
+    flex-basis: 75%;
+    max-width: 75%;
+  }
+
+  &--large {
+    @include media-breakpoint-up(md) {
+      font-size: $font-size-h3;
+    }
+  }
+}

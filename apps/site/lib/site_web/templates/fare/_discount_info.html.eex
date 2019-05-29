@@ -1,0 +1,9 @@
+<div>
+  <% note = fare_type_note(@conn, @fare_type) %>
+  <%= if note do %>
+    <p class="fare-tip">
+      <strong>Tip:</strong>
+      <%= note %>
+    </p>
+  <% end %>
+</div>

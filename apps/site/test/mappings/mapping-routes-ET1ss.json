@@ -1,0 +1,22 @@
+{
+  "id" : "0b35abd6-a452-32c2-a119-a843680ae9ad",
+  "request" : {
+    "url" : "/routes/?stop=place-lngmd&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ET1ss.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:08 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1c8pcco4tfh48012no2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0b35abd6-a452-32c2-a119-a843680ae9ad"
+}

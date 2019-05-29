@@ -1,0 +1,13 @@
+@import 'helpers';
+
+.c-badge {
+  display: inline-block;
+  font-weight: normal;
+  margin: 0 .25em .25em 0;
+  text-decoration-color: transparent;
+  vertical-align: top;
+
+  @include hover-focus-active {
+    text-decoration: none;
+  }
+}

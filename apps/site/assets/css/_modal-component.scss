@@ -1,0 +1,52 @@
+.c-modal__cover {
+  background-color: rgba($black, .15);
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  transform: translateZ(0);
+  width: 100%;
+  z-index: $z-index-modal; // Higher than any other content
+}
+
+.c-modal {
+  background-color: $white;
+  box-shadow: 0 0 $space-4 $space-2 $drop-shadow-color;
+  max-height: 100%;
+  -webkit-overflow-scrolling: touch;
+  overflow-y: auto;
+  padding: $base-spacing * 1.5;
+  position: fixed;
+  top: 50%;
+
+  @include media-breakpoint-down(sm) {
+    left: 3.5%;
+    right: 3.5%;
+    top: $base-spacing * 2;
+  }
+
+  @include media-breakpoint-only(xs) {
+    height: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+  }
+
+  @include media-breakpoint-up(md) {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+  }
+}
+
+.c-modal__content {
+  min-height: 300px;
+  padding-top: $base-spacing / 4;
+}
+
+.c-modal__close {
+  margin: $base-spacing;
+  position: absolute;
+  right: 0;
+  top: 0;
+}

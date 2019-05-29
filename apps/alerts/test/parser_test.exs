@@ -1,0 +1,334 @@
+defmodule Alerts.ParserTest do
+  use ExUnit.Case, async: true
+
+  alias Alerts.{InformedEntity, InformedEntitySet, Parser}
+
+  describe "Alert.parse/1" do
+    test ".parse converts a JsonApi.Item into an Alerts.Alert" do
+      assert Parser.Alert.parse(%JsonApi.Item{
+               type: "alert",
+               id: "130612",
+               attributes: %{
+                 "informed_entity" => [
+                   %{
+                     "route_type" => 3,
+                     "route" => "18",
+                     "stop" => "stop",
+                     "trip" => "trip",
+                     "direction_id" => 1,
+                     "activities" => [
+                       "BOARD",
+                       "RIDE"
+                     ]
+                   }
+                 ],
+                 "header" => "Route 18 experiencing moderate delays due to traffic",
+                 "active_period" => [
+                   %{
+                     "start" => "2016-06-06T14:48:48-04:00",
+                     "end" => "2016-06-06T19:53:51-04:00"
+                   }
+                 ],
+                 "severity" => "Minor",
+                 "lifecycle" => "Ongoing",
+                 "effect_name" => "Delay",
+                 "updated_at" => "2016-06-20T16:09:29-04:00",
+                 "description" => "Affected routes: 18",
+                 "banner" => "Test banner copy"
+               }
+             }) ==
+               %Alerts.Alert{
+                 id: "130612",
+                 header: "Route 18 experiencing moderate delays due to traffic",
+                 informed_entity:
+                   Alerts.InformedEntitySet.new([
+                     %Alerts.InformedEntity{
+                       route_type: 3,
+                       route: "18",
+                       stop: "stop",
+                       trip: "trip",
+                       direction_id: 1,
+                       activities:
+                         MapSet.new([
+                           :board,
+                           :ride
+                         ])
+                     }
+                   ]),
+                 active_period: [
+                   {~N[2016-06-06T14:48:48] |> Timex.to_datetime("Etc/GMT+4"),
+                    ~N[2016-06-06T19:53:51] |> Timex.to_datetime("Etc/GMT+4")}
+                 ],
+                 severity: 3,
+                 lifecycle: :ongoing,
+                 effect: :delay,
+                 updated_at: ~N[2016-06-20T16:09:29] |> Timex.to_datetime("Etc/GMT+4"),
+                 description: "Affected routes: 18",
+                 priority: :high
+               }
+    end
+
+    test "Whitespace is trimmed from description" do
+      assert %Alerts.Alert{description: "Affected routes:\t18"} =
+               Parser.Alert.parse(%JsonApi.Item{
+                 type: "alert",
+                 id: "130612",
+                 attributes: %{
+                   "informed_entity" => [
+                     %{
+                       "route_type" => 3,
+                       "route" => "18",
+                       "stop" => "stop",
+                       "trip" => "trip",
+                       "direction_id" => 1,
+                       "activities" => ["BOARD"]
+                     }
+                   ],
+                   "header" => "Route 18 experiencing moderate delays due to traffic",
+                   "active_period" => [
+                     %{
+                       "start" => "2016-06-06T14:48:48-04:00",
+                       "end" => "2016-06-06T19:53:51-04:00"
+                     }
+                   ],
+                   "severity" => "Minor",
+                   "lifecycle" => "Ongoing",
+                   "effect_name" => "Delay",
+                   "updated_at" => "2016-06-20T16:09:29-04:00",
+                   "description" => "\n\r\tAffected routes:\t18\n\r\t"
+                 }
+               })
+    end
+
+    test "Green line informed entity creates entity for 'Green' route" do
+      parsed =
+        Parser.Alert.parse(%JsonApi.Item{
+          type: "alert",
+          id: "130612",
+          attributes: %{
+            "informed_entity" => [
+              %{
+                "route_type" => 0,
+                "route" => "Green-B",
+                "stop" => "stop",
+                "trip" => "trip",
+                "direction_id" => 1,
+                "activities" => ["BOARD"]
+              }
+            ],
+            "header" => "Green Line is experiencing moderate delays due to traffic",
+            "active_period" => [
+              %{
+                "start" => "2016-06-06T14:48:48-04:00",
+                "end" => "2016-06-06T19:53:51-04:00"
+              }
+            ],
+            "severity" => "Minor",
+            "lifecycle" => "Ongoing",
+            "effect_name" => "Delay",
+            "updated_at" => "2016-06-20T16:09:29-04:00",
+            "description" => "\n\r\tAffected routes:\t18\n\r\t"
+          }
+        })
+
+      informed_entities =
+        parsed.informed_entity
+        |> Enum.map(& &1.route)
+
+      assert informed_entities == ["Green-B", "Green"]
+    end
+
+    test "Green line informed entities are not duplicated" do
+      parsed =
+        Parser.Alert.parse(%JsonApi.Item{
+          type: "alert",
+          id: "130612",
+          attributes: %{
+            "informed_entity" => [
+              %{
+                "route_type" => 0,
+                "route" => "Green-B",
+                "stop" => "stop",
+                "trip" => "trip",
+                "direction_id" => 1,
+                "activities" => ["BOARD"]
+              },
+              %{
+                "route_type" => 0,
+                "route" => "Green-C",
+                "stop" => "stop",
+                "trip" => "trip",
+                "direction_id" => 1,
+                "activities" => ["BOARD"]
+              }
+            ],
+            "header" => "Green Line is experiencing moderate delays due to traffic",
+            "active_period" => [
+              %{
+                "start" => "2016-06-06T14:48:48-04:00",
+                "end" => "2016-06-06T19:53:51-04:00"
+              }
+            ],
+            "severity" => "Minor",
+            "lifecycle" => "Ongoing",
+            "effect_name" => "Delay",
+            "updated_at" => "2016-06-20T16:09:29-04:00",
+            "description" => "\n\r\tAffected routes:\t18\n\r\t"
+          }
+        })
+
+      informed_entities =
+        parsed.informed_entity
+        |> Enum.map(& &1.route)
+
+      assert Enum.filter(informed_entities, &(&1 == "Green")) == ["Green"]
+    end
+
+    test "All whitespace descriptions are parsed as nil" do
+      assert %Alerts.Alert{description: nil} =
+               Parser.Alert.parse(%JsonApi.Item{
+                 type: "alert",
+                 id: "130612",
+                 attributes: %{
+                   "informed_entity" => [
+                     %{
+                       "route_type" => 3,
+                       "route" => "18",
+                       "stop" => "stop",
+                       "trip" => "trip",
+                       "direction_id" => 1,
+                       "activities" => ["BOARD"]
+                     }
+                   ],
+                   "header" => "Route 18 experiencing moderate delays due to traffic",
+                   "active_period" => [
+                     %{
+                       "start" => "2016-06-06T14:48:48-04:00",
+                       "end" => "2016-06-06T19:53:51-04:00"
+                     }
+                   ],
+                   "severity" => "Minor",
+                   "lifecycle" => "Ongoing",
+                   "effect_name" => "Delay",
+                   "updated_at" => "2016-06-20T16:09:29-04:00",
+                   "description" => "\n\r\t\n    \r\t\n\r "
+                 }
+               })
+    end
+
+    test "alerts with effect and not effect_name are parsed" do
+      alert =
+        Parser.Alert.parse(%JsonApi.Item{
+          type: "alert",
+          id: "130612",
+          attributes: %{
+            "informed_entity" => [],
+            "header" => "",
+            "active_period" => [],
+            "severity" => 3,
+            "lifecycle" => "ONGOING",
+            "effect" => "DELAY",
+            "updated_at" => "2016-06-20T16:09:29-04:00",
+            "description" => ""
+          }
+        })
+
+      assert %Alerts.Alert{
+               lifecycle: :ongoing,
+               severity: 3,
+               effect: :delay
+             } = alert
+    end
+
+    test "Categorizes ACCESS_ISSUE alerts without special text as :access_issue" do
+      alert =
+        Parser.Alert.parse(%JsonApi.Item{
+          type: "alert",
+          id: "130612",
+          attributes: %{
+            "informed_entity" => [],
+            "header" => "This is not a special issue",
+            "active_period" => [],
+            "severity" => 3,
+            "lifecycle" => "ONGOING",
+            "effect" => "ACCESS_ISSUE",
+            "updated_at" => "2016-06-20T16:09:29-04:00",
+            "description" => ""
+          }
+        })
+
+      assert %Alerts.Alert{
+               lifecycle: :ongoing,
+               severity: 3,
+               effect: :access_issue
+             } = alert
+    end
+  end
+
+  describe "Banner.parse/1" do
+    setup do
+      json_item = %JsonApi.Item{
+        attributes: %{
+          "active_period" => [
+            %{
+              "end" => "2019-01-13T02:30:00-05:00",
+              "start" => "2019-01-07T16:26:25-05:00"
+            }
+          ],
+          "banner" => "All service may experience delays due to snow",
+          "cause" => "SPECIAL_EVENT",
+          "created_at" => "2019-01-07T16:26:31-05:00",
+          "description" => nil,
+          "effect" => "DELAY",
+          "header" => "All service may experience delays due to snow",
+          "informed_entity" => [
+            %{
+              "activities" => [
+                "BOARD",
+                "EXIT",
+                "RIDE"
+              ],
+              "route_type" => 2
+            }
+          ],
+          "lifecycle" => "NEW",
+          "service_effect" => "Subway delays",
+          "severity" => 5,
+          "short_header" => "All service may experience delays due to snow",
+          "timeframe" => "through Saturday",
+          "updated_at" => "2019-01-07T16:26:59-05:00",
+          "url" => "https://mbta.com/guides/winter-guide"
+        },
+        id: "123",
+        type: "alert"
+      }
+
+      %{json_item: json_item}
+    end
+
+    test "converts a JsonApi.Item into a list of Alerts.Banners", %{json_item: json_item} do
+      expected_banner = [
+        %Alerts.Banner{
+          id: "123",
+          title: "All service may experience delays due to snow",
+          url: "https://mbta.com/guides/winter-guide",
+          effect: :delay,
+          severity: 5,
+          informed_entity_set:
+            InformedEntitySet.new([
+              %InformedEntity{
+                activities: MapSet.new([:board, :exit, :ride]),
+                direction_id: nil,
+                route: nil,
+                route_type: 2,
+                stop: nil,
+                trip: nil
+              }
+            ])
+        }
+      ]
+
+      assert Parser.Banner.parse(json_item) == expected_banner
+    end
+  end
+end

@@ -1,0 +1,22 @@
+{
+  "id" : "6c2cd093-31ae-3320-8e00-6286bbcf2efe",
+  "request" : {
+    "url" : "/routes/?stop=Boston+Landing",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BhCtU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:35 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mlde6q2d08fmsng013ou2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6c2cd093-31ae-3320-8e00-6286bbcf2efe"
+}

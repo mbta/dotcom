@@ -1,0 +1,22 @@
+{
+  "id" : "cb0d40aa-7a21-3789-851c-44c6d3329d10",
+  "request" : {
+    "url" : "/routes/?stop=place-prmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BTZMt.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:07 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1bi7eue5h7lj803b5k1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "cb0d40aa-7a21-3789-851c-44c6d3329d10"
+}

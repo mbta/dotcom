@@ -1,0 +1,11 @@
+{
+  "priority": 100,
+  "request": {
+    "method": "GET",
+    "urlPattern": ".*"
+  },
+  "response": {
+    "proxyBaseUrl" : "{{request.headers.X-WM-Proxy-Url}}",
+    "transformers": ["response-template"]
+  }
+}

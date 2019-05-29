@@ -1,0 +1,737 @@
+[
+  {
+    "nid": [
+      {
+        "value": 3519
+      }
+    ],
+    "uuid": [
+      {
+        "value": "3f5003b0-68d3-42e0-8b28-708ed6d1e722"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10095
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "news_entry",
+        "target_type": "node_type",
+        "target_uuid": "1944f2c9-6e14-46d1-9f16-4f54428e8f3c"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522420641
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "New Early Morning Bus Routes Begin April 1"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1522353808
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522420641
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
+    "path": [],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p><iframe class=\"iframe iframe-full-width\" src=\"https://www.youtube.com/embed/nkCUw_nhHK4?rel=0\"><br />\r\n</iframe></p>\r\n\r\n<p>Beginning Sunday, April 1, the MBTA will begin a one-year <a href=\"/earlyAM\">early morning bus service pilot</a> on its busiest key bus routes serving neighborhoods within the immediate Boston core traveling to downtown Boston, the Seaport, and key stops in between beginning as early as 3:20 AM. Serving residents who start their work day before many people's alarms ring, the new routes are part of the MBTA's continued commitment to expanding offerings for those riders who need them most.</p>\r\n\r\n<p>\"The T's expansion into early morning bus service will provide an important opportunity for the changing needs of Massachusetts' workforce,\" said Governor Charlie Baker. \"Throughout this one-year pilot, the MBTA will be able to gather important information about changes in bus ridership and analyze that data to better inform future transportation plans around the Greater Boston area.\"</p>\r\n\r\n<p>\"The launch of early morning service demonstrates that the MBTA is acting on its top priority to put the needs of its customers first,\" said Transportation Secretary Stephanie Pollack. \"This new transit option will serve workers who must start their day earlier than most. Other commuters and city residents depend upon these essential workers and the MBTA's ability to get them to their workplaces safely and on time.”</p>\r\n\r\n<p>\"These new early morning routes are here for the people who make Boston run,\" said MBTA General Manager Luis Manuel Ramírez. \"We know that getting downtown before the sun rises can be a challenge, and our vision is to offer more service for riders who need accessible, affordable, and reliable options in their neighborhoods.\"</p>\r\n\r\n<p>The changes also include additional service on existing routes during pre-dawn hours. Some routes will extend beyond their normal end points during the early morning to provide direct service to downtown Boston and Logan Airport, allowing customers to reach those destinations even before the trains start running. Early morning service is already a part of the MBTA's bus service on several routes, but these added services represent earlier and/or extended routes on several bus lines. This expansion is the result of a year-long ridership study and planning initiative at the T, which resulted in the identification of key routes where early morning demand is heaviest.</p>\r\n\r\n<p>Customers are encouraged to <a href=\"/trip-planner\">visit the MBTA's Trip Planner</a> to learn if early morning bus service is available within their communities beginning on April 1.</p>\r\n\r\n<p>Routes with added early morning service include:</p>\r\n\r\n<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\">\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th scope=\"col\">Days</th>\r\n\t\t\t<th scope=\"col\">Routes</th>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>Monday – Friday</td>\r\n\t\t\t<td><a href=\"/schedules/16/schedule?date=2018-04-01\">16</a>, <a href=\"/schedules/19/schedule?date=2018-04-01\">19</a>, <a href=\"/schedules/31/schedule?date=2018-04-01\">31</a>, <a href=\"/schedules/32/schedule?date=2018-04-01\">32</a>, <a href=\"/schedules/65/schedule?date=2018-04-01\">65</a>, <a href=\"/schedules/70/schedule?date=2018-04-01\">70</a>, <a href=\"/schedules/104/schedule?date=2018-04-01\">104</a>, <a href=\"/schedules/109/schedule?date=2018-04-01\">109</a>, <a href=\"/schedules/455/schedule?date=2018-04-01\">455</a></td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>Saturday</td>\r\n\t\t\t<td><a href=\"/schedules/109/schedule?date=2018-04-01\">109</a>, <a href=\"/schedules/117/schedule?date=2018-04-01\">117</a>, <a href=\"/schedules/455/schedule?date=2018-04-01\">455</a></td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>Sunday</td>\r\n\t\t\t<td><a href=\"/schedules/31/schedule?date=2018-04-01\">31</a>, <a href=\"/schedules/109/schedule?date=2018-04-01\">109</a>, <a href=\"/schedules/455/schedule?date=2018-04-01\">455</a></td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<p><a href=\"/earlyAM\">Learn more about Early Morning Bus Service {{fa \"arrow-right\"}}</a></p>\r\n",
+        "format": "full_html",
+        "processed": "<p><iframe class=\"iframe iframe-full-width\" src=\"https://www.youtube.com/embed/nkCUw_nhHK4?rel=0\"><br /></iframe></p>\n\n<p>Beginning Sunday, April 1, the MBTA will begin a one-year <a href=\"/earlyAM\">early morning bus service pilot</a> on its busiest key bus routes serving neighborhoods within the immediate Boston core traveling to downtown Boston, the Seaport, and key stops in between beginning as early as 3:20 AM. Serving residents who start their work day before many people's alarms ring, the new routes are part of the MBTA's continued commitment to expanding offerings for those riders who need them most.</p>\n\n<p>\"The T's expansion into early morning bus service will provide an important opportunity for the changing needs of Massachusetts' workforce,\" said Governor Charlie Baker. \"Throughout this one-year pilot, the MBTA will be able to gather important information about changes in bus ridership and analyze that data to better inform future transportation plans around the Greater Boston area.\"</p>\n\n<p>\"The launch of early morning service demonstrates that the MBTA is acting on its top priority to put the needs of its customers first,\" said Transportation Secretary Stephanie Pollack. \"This new transit option will serve workers who must start their day earlier than most. Other commuters and city residents depend upon these essential workers and the MBTA's ability to get them to their workplaces safely and on time.”</p>\n\n<p>\"These new early morning routes are here for the people who make Boston run,\" said MBTA General Manager Luis Manuel Ramírez. \"We know that getting downtown before the sun rises can be a challenge, and our vision is to offer more service for riders who need accessible, affordable, and reliable options in their neighborhoods.\"</p>\n\n<p>The changes also include additional service on existing routes during pre-dawn hours. Some routes will extend beyond their normal end points during the early morning to provide direct service to downtown Boston and Logan Airport, allowing customers to reach those destinations even before the trains start running. Early morning service is already a part of the MBTA's bus service on several routes, but these added services represent earlier and/or extended routes on several bus lines. This expansion is the result of a year-long ridership study and planning initiative at the T, which resulted in the identification of key routes where early morning demand is heaviest.</p>\n\n<p>Customers are encouraged to <a href=\"/trip-planner\">visit the MBTA's Trip Planner</a> to learn if early morning bus service is available within their communities beginning on April 1.</p>\n\n<p>Routes with added early morning service include:</p>\n\n<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\"><thead><tr><th scope=\"col\">Days</th>\n\t\t\t<th scope=\"col\">Routes</th>\n\t\t</tr></thead><tbody><tr><td>Monday – Friday</td>\n\t\t\t<td><a href=\"/schedules/16/schedule?date=2018-04-01\">16</a>, <a href=\"/schedules/19/schedule?date=2018-04-01\">19</a>, <a href=\"/schedules/31/schedule?date=2018-04-01\">31</a>, <a href=\"/schedules/32/schedule?date=2018-04-01\">32</a>, <a href=\"/schedules/65/schedule?date=2018-04-01\">65</a>, <a href=\"/schedules/70/schedule?date=2018-04-01\">70</a>, <a href=\"/schedules/104/schedule?date=2018-04-01\">104</a>, <a href=\"/schedules/109/schedule?date=2018-04-01\">109</a>, <a href=\"/schedules/455/schedule?date=2018-04-01\">455</a></td>\n\t\t</tr><tr><td>Saturday</td>\n\t\t\t<td><a href=\"/schedules/109/schedule?date=2018-04-01\">109</a>, <a href=\"/schedules/117/schedule?date=2018-04-01\">117</a>, <a href=\"/schedules/455/schedule?date=2018-04-01\">455</a></td>\n\t\t</tr><tr><td>Sunday</td>\n\t\t\t<td><a href=\"/schedules/31/schedule?date=2018-04-01\">31</a>, <a href=\"/schedules/109/schedule?date=2018-04-01\">109</a>, <a href=\"/schedules/455/schedule?date=2018-04-01\">455</a></td>\n\t\t</tr></tbody></table><p><a href=\"/earlyAM\">Learn more about Early Morning Bus Service {{fa \"arrow-right\"}}</a></p>\n",
+        "summary": ""
+      }
+    ],
+    "field_keywords": [],
+    "field_media_contact": [
+      {
+        "value": "MassDOT Press Office"
+      }
+    ],
+    "field_media_email": [
+      {
+        "value": "Lisa.Battiston@dot.state.ma.us"
+      }
+    ],
+    "field_media_phone": [
+      {
+        "value": "857-368-8500"
+      }
+    ],
+    "field_migration_id": [
+      {
+        "value": "1234"
+      }
+    ],
+    "field_more_information": [
+      {
+        "value": "<p>For more information, contact us</p>"
+      }
+    ],
+    "field_page_type": [],
+    "field_posted_on": [
+      {
+        "value": "2018-03-29"
+      }
+    ],
+    "field_related_transit": [],
+    "field_teaser": [
+      {
+        "value": "The MBTA will begin a one-year early morning bus service pilot on its busiest key bus routes serving neighborhoods within the immediate Boston core traveling to downtown Boston, the Seaport, and key stops in between beginning as early as 3:20 AM."
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3518
+      }
+    ],
+    "uuid": [
+      {
+        "value": "99c8b039-1125-4e39-ad19-84bd1a04532e"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10068
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "news_entry",
+        "target_type": "node_type",
+        "target_uuid": "1944f2c9-6e14-46d1-9f16-4f54428e8f3c"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522353762
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Weekend Bus Shuttle Service Effective April 7 on Franklin Line Between Forge Park/495 and Readville Stations for 8 Weekends"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1522352722
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522353762
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+      {
+        "alias": "/news/date/title",
+        "pid": 3562,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p><a href=\"/franklin\"><img alt=\"Graphic showing shuttles from Forge Park to Readville, and train service from Readville to South Station.\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1119\" src=\"/sites/default/files/projects/ptc/franklin-weekend-shuttle-graphic-horizontal.png\" width=\"2901\" /></a></p>\r\n\r\n<p>To accommodate the installation of federally mandated <a href=\"/ptc\">Positive Train Control (PTC)</a> infrastructure, the MBTA will <a href=\"/franklin\">replace weekend Franklin Line train service with free bus shuttle service</a> from Forge Park/495 to Readville Stations beginning Saturday, April 7, and ending on Sunday, May 27.</p>\r\n\r\n<p>The free weekend bus shuttle service along the Franklin Line between Forge Park/495 and Readville will make stops at all stations (except Plimptonville and Hyde Park Stations, as there is no regular weekend train service to these stations). Inbound bus shuttles will follow weekend Franklin Line schedules, with outbound bus shuttles leaving Readville approximately 5 minutes after the train arrives. Bus shuttles will connect to regular weekend Franklin Line train service at Readville Station where trains will make all stops between Readville and South Station for a Zone 2 fare. All bus shuttles are accessible for persons with disabilities. Bicycles are prohibited on all shuttle buses during all service hours.</p>\r\n\r\n<p>This shutdown of Franklin Line train service between Forge Park/495 and Readville on weekends from April 7 to May 27 is necessary for crews to begin installation activities that include installing poles, fiber optic cables, signal houses, and antenna for the federally mandated PTC system, which is designed to prevent train-on-train collisions. Amtrak is installing PTC infrastructure between Readville and South Station, allowing this portion of the Franklin Line to remain open.</p>\r\n\r\n<p>The first MBTA PTC installation began the weekend of July 8, 2017, on the Newburyport/Rockport Commuter Rail Line, with various commuter rail lines across the system currently at various stages of PTC hardware installation. The MBTA’s PTC Implementation Plan submitted to the Federal Railroad Administration provides for the installation of hardware on all commuter rail lines and 2 pilot lines (Stoughton Line and Lowell Line) by the end of 2018, with full PTC implementation by December 31, 2020.</p>\r\n\r\n<p><a href=\"/franklin\">Learn more about the Franklin Line weekend bus shuttles {{fa \"arrow-right\"}}</a></p>\r\n",
+        "format": "basic_html",
+        "processed": "<p><a href=\"/franklin\"><img alt=\"Graphic showing shuttles from Forge Park to Readville, and train service from Readville to South Station.\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1119\" src=\"/sites/default/files/projects/ptc/franklin-weekend-shuttle-graphic-horizontal.png\" width=\"2901\" /></a></p>\n\n<p>To accommodate the installation of federally mandated <a href=\"/ptc\">Positive Train Control (PTC)</a> infrastructure, the MBTA will <a href=\"/franklin\">replace weekend Franklin Line train service with free bus shuttle service</a> from Forge Park/495 to Readville Stations beginning Saturday, April 7, and ending on Sunday, May 27.</p>\n\n<p>The free weekend bus shuttle service along the Franklin Line between Forge Park/495 and Readville will make stops at all stations (except Plimptonville and Hyde Park Stations, as there is no regular weekend train service to these stations). Inbound bus shuttles will follow weekend Franklin Line schedules, with outbound bus shuttles leaving Readville approximately 5 minutes after the train arrives. Bus shuttles will connect to regular weekend Franklin Line train service at Readville Station where trains will make all stops between Readville and South Station for a Zone 2 fare. All bus shuttles are accessible for persons with disabilities. Bicycles are prohibited on all shuttle buses during all service hours.</p>\n\n<p>This shutdown of Franklin Line train service between Forge Park/495 and Readville on weekends from April 7 to May 27 is necessary for crews to begin installation activities that include installing poles, fiber optic cables, signal houses, and antenna for the federally mandated PTC system, which is designed to prevent train-on-train collisions. Amtrak is installing PTC infrastructure between Readville and South Station, allowing this portion of the Franklin Line to remain open.</p>\n\n<p>The first MBTA PTC installation began the weekend of July 8, 2017, on the Newburyport/Rockport Commuter Rail Line, with various commuter rail lines across the system currently at various stages of PTC hardware installation. The MBTA’s PTC Implementation Plan submitted to the Federal Railroad Administration provides for the installation of hardware on all commuter rail lines and 2 pilot lines (Stoughton Line and Lowell Line) by the end of 2018, with full PTC implementation by December 31, 2020.</p>\n\n<p><a href=\"/franklin\">Learn more about the Franklin Line weekend bus shuttles {{fa \"arrow-right\"}}</a></p>",
+        "summary": ""
+      }
+    ],
+    "field_keywords": [],
+    "field_media_contact": [
+      {
+        "value": "MassDOT Press Office"
+      }
+    ],
+    "field_media_email": [
+      {
+        "value": "Lisa.Battiston@dot.state.ma.us"
+      }
+    ],
+    "field_media_phone": [
+      {
+        "value": "857-368-8500"
+      }
+    ],
+    "field_migration_id": [],
+    "field_more_information": [],
+    "field_page_type": [],
+    "field_posted_on": [
+      {
+        "value": "2018-03-29"
+      }
+    ],
+    "field_related_transit": [],
+    "field_teaser": [
+      {
+        "value": "Weekend bus shuttles will run from April 7 to May 27 to accommodate the installation of federally mandated Positive Train Control (PTC) infrastructure."
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3510
+      }
+    ],
+    "uuid": [
+      {
+        "value": "2184fbe5-b7d8-4017-97ea-06f33283d303"
+      }
+    ],
+    "vid": [
+      {
+        "value": 9884
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "news_entry",
+        "target_type": "node_type",
+        "target_uuid": "1944f2c9-6e14-46d1-9f16-4f54428e8f3c"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1521835401
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Art by Boston-Area Teens to Premiere at MBTA Stations on Monday, March 26"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1521832523
+      }
+    ],
+    "changed": [
+      {
+        "value": 1521835401
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+      {
+        "alias": "/news/2018-03-23/art-boston-area-teens-premiere-mbta-stations-monday-march-26",
+        "pid": 3557,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>Created in collaboration with the Institute of Contemporary Art/Boston, these innovative video works share the creative voices of young people in our city.</p>\r\n\r\n<hr />\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<p><img alt=\"ica-teens-shades-of-the-city.png\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"805\" src=\"/sites/default/files/Art/ica-teens-shades-of-the-city.png\" width=\"1440\" /></p>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<p><strong><em>Shades of the City</em><br />\r\nby Mithsuca Berry of Revere</strong></p>\r\n\r\n<p>Hand-drawn, stop-motion animation tells the story of a woman of color who falls asleep on the train and dreams about painting the city of Boston in her likeness.</p>\r\n</div>\r\n</div>\r\n\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<p><img alt=\"ica-teens-fraternal-eclipse.png\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"804\" src=\"/sites/default/files/Art/ica-teens-fraternal-eclipse.png\" width=\"1436\" /></p>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<p><strong><em>Fraternal Eclipse</em><br />\r\nby Sydney A. Bobb of Boston</strong></p>\r\n\r\n<p>The lives of 3 passengers intersect for a brief moment on public transportation, leaving them with deeper thoughts than they had expected.</p>\r\n</div>\r\n</div>\r\n\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<p><img alt=\"ica-teens-walk-in-the-park.png\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"805\" src=\"/sites/default/files/Art/ica-teens-walk-in-the-park.png\" width=\"1440\" /></p>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<p><strong><em>A Walk in the Park</em><br />\r\nby Gabe S. of Boston</strong></p>\r\n\r\n<p>A tribute to the beauty of Boston, this series of time-lapse videos captures moments of life throughout Boston Common, from the statehouse to Frog Pond.</p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<p>On Monday, March 26, the MBTA will premiere artwork by Boston-area youth at stations throughout the city on the MBTA’s Outfront digital boards.</p>\r\n\r\n<p>\"The digital network that the MBTA is building is delivering real value to our customers in many different ways—and this partnership with the <a href=\"https://www.icaboston.org/ica-teens\" target=\"_blank\">ICA Teen Arts Program</a> is one that we’re particularly proud to showcase,\" said MBTA General Manager Luis Manuel Ramírez. \"In addition to providing critical customer-focused information, the T's new digital network is providing a canvas to highlight excellent creative work from local teens.\"</p>\r\n\r\n<p>\"We hope T riders enjoy the results as much as we do,\" said MBTA Director of Revenue Evan Rowe. \"To our knowledge, this is the first time that the T has done an effort like this, and we're eager for feedback. It's all about making our customers' journeys better, and maybe even adding a touch of delight to their days.\"</p>\r\n\r\n<p>\"The ICA’s award-winning teen arts program serves thousands of young people every year, creating informed future artists, leaders, citizens, and audiences,\" said Monica Garza, the ICA's Charlotte Wagner Director of Education. \"This partnership with the MBTA presented an exciting opportunity to share their creative voices with a larger Boston community.\"</p>\r\n\r\n<p>Three teens—Mithsuca Berry of Revere, Sydney A. Bobb of Boston, and Gabe S. of Boston—proposed and created short videos for the MBTA around the collaborative themes: “whimsy,” “love letter to Boston,” and “peace and quiet.” The 3 teens are all members of the Teen Arts Program at the ICA.</p>\r\n\r\n<p>The teens’ videos will be presented on high-definition digital triptych screens installed within MBTA stations across the system. This new digital network provides customer information across the entire system at no cost to the MBTA, and generates advertising revenue to help support daily MBTA operations. The collaboration with the ICA is just the first step in the MBTA's program of providing useful and enjoyable customer content across its growing digital network.</p>\r\n\r\n<p>The MBTA encourages its riders to keep an eye on these in-station digital screens to catch the work of these teens. Stay connected and let the T know what you think by tweeting to us <a href=\"https://www.twitter.com/mbta\" target=\"_blank\">@MBTA</a>.</p>\r\n",
+        "format": "full_html",
+        "processed": "<p>Created in collaboration with the Institute of Contemporary Art/Boston, these innovative video works share the creative voices of young people in our city.</p>\n\n<hr /><div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<p><img alt=\"ica-teens-shades-of-the-city.png\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"805\" src=\"/sites/default/files/Art/ica-teens-shades-of-the-city.png\" width=\"1440\" /></p>\n</div>\n\n<div class=\"col-md-6 col-2\">\n<p><strong><em>Shades of the City</em><br />\nby Mithsuca Berry of Revere</strong></p>\n\n<p>Hand-drawn, stop-motion animation tells the story of a woman of color who falls asleep on the train and dreams about painting the city of Boston in her likeness.</p>\n</div>\n</div>\n\n<div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<p><img alt=\"ica-teens-fraternal-eclipse.png\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"804\" src=\"/sites/default/files/Art/ica-teens-fraternal-eclipse.png\" width=\"1436\" /></p>\n</div>\n\n<div class=\"col-md-6 col-2\">\n<p><strong><em>Fraternal Eclipse</em><br />\nby Sydney A. Bobb of Boston</strong></p>\n\n<p>The lives of 3 passengers intersect for a brief moment on public transportation, leaving them with deeper thoughts than they had expected.</p>\n</div>\n</div>\n\n<div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<p><img alt=\"ica-teens-walk-in-the-park.png\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"805\" src=\"/sites/default/files/Art/ica-teens-walk-in-the-park.png\" width=\"1440\" /></p>\n</div>\n\n<div class=\"col-md-6 col-2\">\n<p><strong><em>A Walk in the Park</em><br />\nby Gabe S. of Boston</strong></p>\n\n<p>A tribute to the beauty of Boston, this series of time-lapse videos captures moments of life throughout Boston Common, from the statehouse to Frog Pond.</p>\n</div>\n</div>\n\n<hr /><p>On Monday, March 26, the MBTA will premiere artwork by Boston-area youth at stations throughout the city on the MBTA’s Outfront digital boards.</p>\n\n<p>\"The digital network that the MBTA is building is delivering real value to our customers in many different ways—and this partnership with the <a href=\"https://www.icaboston.org/ica-teens\" target=\"_blank\">ICA Teen Arts Program</a> is one that we’re particularly proud to showcase,\" said MBTA General Manager Luis Manuel Ramírez. \"In addition to providing critical customer-focused information, the T's new digital network is providing a canvas to highlight excellent creative work from local teens.\"</p>\n\n<p>\"We hope T riders enjoy the results as much as we do,\" said MBTA Director of Revenue Evan Rowe. \"To our knowledge, this is the first time that the T has done an effort like this, and we're eager for feedback. It's all about making our customers' journeys better, and maybe even adding a touch of delight to their days.\"</p>\n\n<p>\"The ICA’s award-winning teen arts program serves thousands of young people every year, creating informed future artists, leaders, citizens, and audiences,\" said Monica Garza, the ICA's Charlotte Wagner Director of Education. \"This partnership with the MBTA presented an exciting opportunity to share their creative voices with a larger Boston community.\"</p>\n\n<p>Three teens—Mithsuca Berry of Revere, Sydney A. Bobb of Boston, and Gabe S. of Boston—proposed and created short videos for the MBTA around the collaborative themes: “whimsy,” “love letter to Boston,” and “peace and quiet.” The 3 teens are all members of the Teen Arts Program at the ICA.</p>\n\n<p>The teens’ videos will be presented on high-definition digital triptych screens installed within MBTA stations across the system. This new digital network provides customer information across the entire system at no cost to the MBTA, and generates advertising revenue to help support daily MBTA operations. The collaboration with the ICA is just the first step in the MBTA's program of providing useful and enjoyable customer content across its growing digital network.</p>\n\n<p>The MBTA encourages its riders to keep an eye on these in-station digital screens to catch the work of these teens. Stay connected and let the T know what you think by tweeting to us <a href=\"https://www.twitter.com/mbta\" target=\"_blank\">@MBTA</a>.</p>\n",
+        "summary": "Created in collaboration with the Institute of Contemporary Art/Boston, these innovative video works share the creative voices of young people in our city."
+      }
+    ],
+    "field_keywords": [],
+    "field_media_contact": [
+      {
+        "value": "MassDOT Press Office"
+      }
+    ],
+    "field_media_email": [],
+    "field_media_phone": [
+      {
+        "value": "857-368-8500"
+      }
+    ],
+    "field_migration_id": [],
+    "field_more_information": [],
+    "field_page_type": [],
+    "field_posted_on": [
+      {
+        "value": "2018-03-23"
+      }
+    ],
+    "field_related_transit": [],
+    "field_teaser": [
+      {
+        "value": "Created in collaboration with the Institute of Contemporary Art/Boston, these innovative video works share the creative voices of young people in our city."
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3509
+      }
+    ],
+    "uuid": [
+      {
+        "value": "5617c577-593c-4bd2-bcb9-1491bdc55409"
+      }
+    ],
+    "vid": [
+      {
+        "value": 9873
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "news_entry",
+        "target_type": "node_type",
+        "target_uuid": "1944f2c9-6e14-46d1-9f16-4f54428e8f3c"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1521832476
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Extra Transit Service Saturday, March 24 for the Boston March for Our Lives"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1521832018
+      }
+    ],
+    "changed": [
+      {
+        "value": 1521832476
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+      {
+        "alias": "/news/2018-03-23/extra-transit-service-saturday-march-24-the-boston-march-our-lives",
+        "pid": 3556,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>To accommodate those attending the <a href=\"https://event.marchforourlives.com/event/march-our-lives-events/8734\" target=\"_blank\">Boston March for Our Lives</a> on Saturday, March 24, the MBTA will provide extra service on the Red, Orange, Green, and Blue Lines.</p>\r\n\r\n<p>Customers should expect a heavy volume of passengers at stations in the downtown area and on the Orange Line at Roxbury Crossing, Ruggles, Massachusetts Avenue, and Back Bay Stations.</p>\r\n\r\n<p>Customers are also advised that, due to customer safety, it may be necessary to temporarily close Park Street and/or Boylston Street Stations during the rally on Boston Common.</p>\r\n\r\n<p>Extra MBTA staff will be deployed to key stations in and around the event to provide customer assistance, and Transit Police will be on patrol throughout the system.</p>\r\n\r\n<p>Bus routes that operate along the March for Our Lives route will be detoured beginning at approximately 11 a.m. on March 24 until the route is clear. Bus routes that cross Tremont Street may also experience a significant delay during the March for Our Lives. For more information on these detours and delays as they occur, please <a href=\"/alerts\">check T-Alerts</a>.</p>\r\n\r\n<p>Additional passenger capacity on most Commuter Rail trains will also be provided on March 24.</p>\r\n\r\n<p><a href=\"/alerts\">Check T-Alerts {{ fa \"arrow-right\" }}</a></p>\r\n\r\n<p><a href=\"/about-t-alerts\">Sign up for T-Alerts {{ fa \"arrow-right\" }}</a></p>\r\n\r\n<p><a href=\"https://www.twiter.com/mbta\" target=\"_blank\">Follow @MBTA on Twitter {{ fa \"arrow-right\" }}</a></p>\r\n\r\n<p><a href=\"https://www.twiter.com/mbta_cr\">Follow @MBTA_CR on Twitter {{ fa \"arrow-right\" }}</a></p>\r\n\r\n<p><a href=\"https://www.boston.gov/news/traffic-advisory-march-our-lives-event-saturday\" target=\"_blank\">See City of Boston's Traffic Advisory {{ fa \"arrow-right\" }}</a></p>\r\n",
+        "format": "full_html",
+        "processed": "<p>To accommodate those attending the <a href=\"https://event.marchforourlives.com/event/march-our-lives-events/8734\" target=\"_blank\">Boston March for Our Lives</a> on Saturday, March 24, the MBTA will provide extra service on the Red, Orange, Green, and Blue Lines.</p>\n\n<p>Customers should expect a heavy volume of passengers at stations in the downtown area and on the Orange Line at Roxbury Crossing, Ruggles, Massachusetts Avenue, and Back Bay Stations.</p>\n\n<p>Customers are also advised that, due to customer safety, it may be necessary to temporarily close Park Street and/or Boylston Street Stations during the rally on Boston Common.</p>\n\n<p>Extra MBTA staff will be deployed to key stations in and around the event to provide customer assistance, and Transit Police will be on patrol throughout the system.</p>\n\n<p>Bus routes that operate along the March for Our Lives route will be detoured beginning at approximately 11 a.m. on March 24 until the route is clear. Bus routes that cross Tremont Street may also experience a significant delay during the March for Our Lives. For more information on these detours and delays as they occur, please <a href=\"/alerts\">check T-Alerts</a>.</p>\n\n<p>Additional passenger capacity on most Commuter Rail trains will also be provided on March 24.</p>\n\n<p><a href=\"/alerts\">Check T-Alerts {{ fa \"arrow-right\" }}</a></p>\n\n<p><a href=\"/about-t-alerts\">Sign up for T-Alerts {{ fa \"arrow-right\" }}</a></p>\n\n<p><a href=\"https://www.twiter.com/mbta\" target=\"_blank\">Follow @MBTA on Twitter {{ fa \"arrow-right\" }}</a></p>\n\n<p><a href=\"https://www.twiter.com/mbta_cr\">Follow @MBTA_CR on Twitter {{ fa \"arrow-right\" }}</a></p>\n\n<p><a href=\"https://www.boston.gov/news/traffic-advisory-march-our-lives-event-saturday\" target=\"_blank\">See City of Boston's Traffic Advisory {{ fa \"arrow-right\" }}</a></p>\n",
+        "summary": "The MBTA will provide extra service on the Red, Orange, Green, and Blue Lines. Expect a heavy volume of passengers in the downtown area and on the Orange Line. It may be necessary to temporarily close Park Street and/or Boylston Street Stations."
+      }
+    ],
+    "field_keywords": [],
+    "field_media_contact": [
+      {
+        "value": "MassDOT Press Office"
+      }
+    ],
+    "field_media_email": [],
+    "field_media_phone": [
+      {
+        "value": "857-368-8500"
+      }
+    ],
+    "field_migration_id": [],
+    "field_more_information": [],
+    "field_page_type": [],
+    "field_posted_on": [
+      {
+        "value": "2018-03-23"
+      }
+    ],
+    "field_related_transit": [],
+    "field_teaser": [
+      {
+        "value": "The MBTA will provide extra service on the Red, Orange, Green, and Blue Lines. Expect a heavy volume of passengers in the downtown area and on the Orange Line. It may be necessary to temporarily close Park Street and/or Boylston Street Stations."
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3505
+      }
+    ],
+    "uuid": [
+      {
+        "value": "c793fbdd-9ac1-4c60-813a-82ddd9e4da48"
+      }
+    ],
+    "vid": [
+      {
+        "value": 9743
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "news_entry",
+        "target_type": "node_type",
+        "target_uuid": "1944f2c9-6e14-46d1-9f16-4f54428e8f3c"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1521642200
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "AFC 2.0 to Support Faster Trips on Buses and Green Line Trains"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1521579058
+      }
+    ],
+    "changed": [
+      {
+        "value": 1521642200
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+      {
+        "alias": "/news/2018-03-20/afc-20-support-faster-trips-buses-and-green-line-trains",
+        "pid": 3552,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p><strong>Highlights:</strong></p>\r\n\r\n<ul>\r\n\t<li>Contract finalized, advancing new Automated Fare Collection system to improve the customer experience of paying fares</li>\r\n\t<li><a href=\"/afc2\">AFC 2.0</a> benefits include convenient payment options, all-door boarding, tap on for all modes and accessibility improvements</li>\r\n</ul>\r\n\r\n<hr />\r\n<p>Taking a major step toward a new system that will simplify fare collection and improve the delivery of transit services, the MBTA reached commercial and financial close today with the consortium of <a href=\"https://www.cubic.com/\" target=\"_blank\">Cubic</a> | <a href=\"http://www.laing.com/\" target=\"_blank\">John Laing</a>, executing an agreement on a multi-year contract for the design, implementation, operation, and maintenance of a new Automated Fare Collection system.</p>\r\n\r\n<p>Known as <a href=\"/afc2\">AFC 2.0</a>, the new system has a total program value for capital and operating costs of $701.3 million, which includes operating costs through 2031. The value on today’s closing was $22 million less than the amount <a href=\"/events/2017-11-20/fiscal-management-control-board-meeting\">approved by the Fiscal Management Control Board in the November award of the contract</a>. The team has been working diligently to reach financial close to minimize exposure to interest rate movement. AFC 2.0 is moving forward under a public-private partnership model with incentives for the contractor to ensure the infrastructure is operational, with risk-sharing agreements for the financing, and requires the contractor to perform system maintenance over the thirteen-year agreement.</p>\r\n\r\n<p>“As the first public-private partnership for the MBTA, this method will allow a major customer service improvement to advance in a cost-effective manner,” said MassDOT Secretary and CEO Stephanie Pollack. “The contract structure for AFC 2.0 is a crucial component of this project because it serves as a method to deliver the project, to finance it, and to free up our own internal resources to focus on other critical MBTA efforts.”</p>\r\n\r\n<p>“This isn’t just the next generation of fare collection, but an entirely new way that our customers will interact with the MBTA,” said MBTA General Manager Luis Manuel Ramírez. “The new system will be compatible with all MBTA transit modes, will provide fare payment flexibility, and will have more fare media options for use. While we’re excited about today’s milestone, we will soon initiate a major effort to educate our customers, stakeholders, and partners at all levels of government on the benefits of the new system.”</p>\r\n\r\n<p>Benefits of the new system include:</p>\r\n\r\n<ul>\r\n\t<li><strong>Faster buses and Green Line trains:</strong> The new system will allow all-door boarding on the Green Line and on buses. With shorter lines and reduced boarding times, buses and Green Line trains will have reduced “dwell times.”</li>\r\n\t<li><strong>Tap everywhere: </strong>The new system will be available on all modes starting from the initial rollout. The ability to tap and board the same way on all buses, trains, commuter rail, and ferries means customers can seamlessly transfer between modes.</li>\r\n\t<li><strong>New CharlieCard:</strong> The new system includes a contactless fare card, similar to the existing CharlieCard with added security and account management benefits. New fare cards will be available at select retail locations and fare vending machines located in all subway stations and at some bus stops.</li>\r\n\t<li><strong>Use of smartphone or contactless credit card:</strong> Customers can skip the step of reloading value by tapping with contactless credit cards or smartphones at fare gates and readers.</li>\r\n\t<li><strong>Pay before boarding more easily:</strong> Account value can be reloaded at fare vending machines and retailers throughout the MBTA service area, as well as through the call center and a new website.</li>\r\n\t<li><strong>Pay with cash: </strong>Cash payments will continue to be accepted at all vending machines and local retailers, which will be in twice as many locations as they are today. Even if customers tap with a smartphone, they will be able to reload using cash.</li>\r\n\t<li><strong>Account management: </strong>Customers can check their balances, access travel history, and reload or replace a lost card online or by phone through the MBTA’s call center.</li>\r\n\t<li><strong>Accessibility improvements:</strong> The entire system will be designed for a broad range of accessibility needs, by user experience specialists. All fare gates will be wider and the website and mobile app will be compliant with digital accessibility guidelines.</li>\r\n\t<li><strong>Privacy protection: </strong>The privacy requirements embedded in the new system are above and beyond the industry standard to ensure that each customer’s personally identifiable information (PII) and travel history are protected.</li>\r\n</ul>\r\n\r\n<p>MBTA customers will begin to experience the first elements of the new system late in 2019. During a gradual transition period, the existing CharlieCard will continue to be accepted alongside the new payment options to allow customers time to make the switch. Full implementation will occur by mid-2020, followed by a retirement of the existing system in 2021.</p>\r\n\r\n<hr />\r\n<p><a href=\"/projects/afc2\">Learn more about Automated Fare Collection 2.0 (AFC 2.0) {{fa \"arrow-right\"}}</a></p>\r\n",
+        "format": "full_html",
+        "processed": "<p><strong>Highlights:</strong></p>\n\n<ul><li>Contract finalized, advancing new Automated Fare Collection system to improve the customer experience of paying fares</li>\n\t<li><a href=\"/afc2\">AFC 2.0</a> benefits include convenient payment options, all-door boarding, tap on for all modes and accessibility improvements</li>\n</ul><hr /><p>Taking a major step toward a new system that will simplify fare collection and improve the delivery of transit services, the MBTA reached commercial and financial close today with the consortium of <a href=\"https://www.cubic.com/\" target=\"_blank\">Cubic</a> | <a href=\"http://www.laing.com/\" target=\"_blank\">John Laing</a>, executing an agreement on a multi-year contract for the design, implementation, operation, and maintenance of a new Automated Fare Collection system.</p>\n\n<p>Known as <a href=\"/afc2\">AFC 2.0</a>, the new system has a total program value for capital and operating costs of $701.3 million, which includes operating costs through 2031. The value on today’s closing was $22 million less than the amount <a href=\"/events/2017-11-20/fiscal-management-control-board-meeting\">approved by the Fiscal Management Control Board in the November award of the contract</a>. The team has been working diligently to reach financial close to minimize exposure to interest rate movement. AFC 2.0 is moving forward under a public-private partnership model with incentives for the contractor to ensure the infrastructure is operational, with risk-sharing agreements for the financing, and requires the contractor to perform system maintenance over the thirteen-year agreement.</p>\n\n<p>“As the first public-private partnership for the MBTA, this method will allow a major customer service improvement to advance in a cost-effective manner,” said MassDOT Secretary and CEO Stephanie Pollack. “The contract structure for AFC 2.0 is a crucial component of this project because it serves as a method to deliver the project, to finance it, and to free up our own internal resources to focus on other critical MBTA efforts.”</p>\n\n<p>“This isn’t just the next generation of fare collection, but an entirely new way that our customers will interact with the MBTA,” said MBTA General Manager Luis Manuel Ramírez. “The new system will be compatible with all MBTA transit modes, will provide fare payment flexibility, and will have more fare media options for use. While we’re excited about today’s milestone, we will soon initiate a major effort to educate our customers, stakeholders, and partners at all levels of government on the benefits of the new system.”</p>\n\n<p>Benefits of the new system include:</p>\n\n<ul><li><strong>Faster buses and Green Line trains:</strong> The new system will allow all-door boarding on the Green Line and on buses. With shorter lines and reduced boarding times, buses and Green Line trains will have reduced “dwell times.”</li>\n\t<li><strong>Tap everywhere: </strong>The new system will be available on all modes starting from the initial rollout. The ability to tap and board the same way on all buses, trains, commuter rail, and ferries means customers can seamlessly transfer between modes.</li>\n\t<li><strong>New CharlieCard:</strong> The new system includes a contactless fare card, similar to the existing CharlieCard with added security and account management benefits. New fare cards will be available at select retail locations and fare vending machines located in all subway stations and at some bus stops.</li>\n\t<li><strong>Use of smartphone or contactless credit card:</strong> Customers can skip the step of reloading value by tapping with contactless credit cards or smartphones at fare gates and readers.</li>\n\t<li><strong>Pay before boarding more easily:</strong> Account value can be reloaded at fare vending machines and retailers throughout the MBTA service area, as well as through the call center and a new website.</li>\n\t<li><strong>Pay with cash: </strong>Cash payments will continue to be accepted at all vending machines and local retailers, which will be in twice as many locations as they are today. Even if customers tap with a smartphone, they will be able to reload using cash.</li>\n\t<li><strong>Account management: </strong>Customers can check their balances, access travel history, and reload or replace a lost card online or by phone through the MBTA’s call center.</li>\n\t<li><strong>Accessibility improvements:</strong> The entire system will be designed for a broad range of accessibility needs, by user experience specialists. All fare gates will be wider and the website and mobile app will be compliant with digital accessibility guidelines.</li>\n\t<li><strong>Privacy protection: </strong>The privacy requirements embedded in the new system are above and beyond the industry standard to ensure that each customer’s personally identifiable information (PII) and travel history are protected.</li>\n</ul><p>MBTA customers will begin to experience the first elements of the new system late in 2019. During a gradual transition period, the existing CharlieCard will continue to be accepted alongside the new payment options to allow customers time to make the switch. Full implementation will occur by mid-2020, followed by a retirement of the existing system in 2021.</p>\n\n<hr /><p><a href=\"/projects/afc2\">Learn more about Automated Fare Collection 2.0 (AFC 2.0) {{fa \"arrow-right\"}}</a></p>\n",
+        "summary": "AFC 2.0 benefits include convenient payment options, all-door boarding, tap on for all modes, and accessibility improvements."
+      }
+    ],
+    "field_keywords": [],
+    "field_media_contact": [
+      {
+        "value": "MassDOT Press Office"
+      }
+    ],
+    "field_media_email": [],
+    "field_media_phone": [
+      {
+        "value": "857-368-8500"
+      }
+    ],
+    "field_migration_id": [],
+    "field_more_information": [],
+    "field_page_type": [],
+    "field_posted_on": [
+      {
+        "value": "2018-03-20"
+      }
+    ],
+    "field_related_transit": [],
+    "field_teaser": [
+      {
+        "value": "AFC 2.0 benefits include convenient payment options, all-door boarding, tap on for all modes, and accessibility improvements."
+      }
+    ]
+  }
+]

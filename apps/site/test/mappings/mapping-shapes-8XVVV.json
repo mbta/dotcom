@@ -1,0 +1,22 @@
+{
+  "id" : "bcceed69-acba-31d9-982c-244cf093ae40",
+  "request" : {
+    "url" : "/shapes/?route=CR-Worcester&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-8XVVV.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:39:16 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:11:58 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mkqsc93l4fctho003ao81",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "bcceed69-acba-31d9-982c-244cf093ae40"
+}

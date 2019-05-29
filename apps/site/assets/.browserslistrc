@@ -1,0 +1,8 @@
+# Attempt to cover old but in use browsers
+# Brings in ios safari 10
+> 0.25%
+
+# Browsers that we explicitly support
+safari >= 4
+ie >= 11
+last 2 versions

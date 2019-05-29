@@ -1,0 +1,22 @@
+{
+  "id" : "abc9f3f9-1f0a-3bad-9da3-6cd50ee50c28",
+  "request" : {
+    "url" : "/routes/?stop=Needham+Heights",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-3TxgE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:36 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mldg06sjhgd26g003dak1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "abc9f3f9-1f0a-3bad-9da3-6cd50ee50c28"
+}

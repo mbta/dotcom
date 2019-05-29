@@ -1,0 +1,22 @@
+{
+  "id" : "369d54e0-d5b5-37fd-acc9-2b001e4385a7",
+  "request" : {
+    "url" : "/schedules/?stop=6550&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed&min_time=16%3A00",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-JVQIn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:12 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:51 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1ju2mrn5t1a4s00knk3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "369d54e0-d5b5-37fd-acc9-2b001e4385a7"
+}

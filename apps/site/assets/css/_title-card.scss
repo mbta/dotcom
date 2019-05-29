@@ -1,0 +1,60 @@
+.l-title-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  &::after {
+    content: none;
+  }
+}
+
+.c-title-card {
+  background-color: $white;
+  border-radius: $space-1 * 3;
+  color: $gray-dark;
+  display: block;
+  flex: 1 1 50%;
+  margin-bottom: $base-spacing;
+  max-width: 49%;
+  padding-right: $base-spacing;
+
+  @include media-breakpoint-up(sm) {
+    min-height: $space-24 * 6;
+  }
+
+  @include media-breakpoint-down(xs) {
+    flex-basis: 100%;
+    max-width: 100%;
+  }
+}
+
+.c-title-card--link {
+  @extend %button-focus-color;
+  border: $border;
+  padding: $base-spacing-sm $base-spacing;
+  position: relative;
+}
+
+.c-title-card--link::before {
+  border-bottom-left-radius: $space-1 * 3;
+  border-left: ($space-1 * 4) solid $btn-primary-bg;
+  border-top-left-radius: $space-1 * 3;
+  content: ' ';
+  display: block;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.c-title-card__title {
+  font-size: $font-size-h4;
+  font-weight: bold;
+  line-height: $headings-line-height;
+  margin-bottom: $base-spacing-sm;
+}
+
+.c-title-card--link__title {
+  color: $link-color;
+}
+

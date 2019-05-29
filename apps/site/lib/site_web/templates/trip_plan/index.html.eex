@@ -1,0 +1,57 @@
+<div class="container">
+  <h1 class="trip-plan-title">Trip Planner</h1>
+  <div class="trip-plan-container">
+    <%= render "_sidebar.html", assigns %>
+    <div class="trip-plan-body">
+      <%= case assigns[:query] do %>
+        <% %{itineraries: {:ok, itineraries}} -> %>
+        <p class="no-trips page-section">
+          We found
+          <%= l = length(itineraries) %>
+          <%= Inflex.inflect("trip", l) %>
+          for you
+        </p>
+        <p class="instructions page-section"><%= itinerary_explanation(@query, @modes) %></p>
+        <%= for {i,
+                routes,
+                map,
+                links,
+                itinerary_row_list,
+                index} <- Enum.zip([
+            itineraries,
+            @routes,
+            @itinerary_maps,
+            @related_links,
+            @itinerary_row_lists,
+            Stream.iterate(1, & &1 + 1)]) do
+              render "_itinerary.html",
+              itinerary: i,
+              index: index,
+              routes: routes,
+              itinerary_map: map,
+              links: links,
+              itinerary_row_list: itinerary_row_list,
+              expanded: @expanded,
+              conn: @conn
+            end %>
+        <% _ -> %>
+          <%= if assigns[:map_info] do %>
+            <% %{map_info: {map_data, map_src} } = assigns %>
+            <% map_data = Map.put(map_data, :tile_server_url, Application.fetch_env!(:site, :tile_server_url)) %>
+            <script class="js-map-data" type="text/plain"><%= raw Poison.encode!(map_data) %></script>
+            <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
+              <div class="trip-plan-initial-map map" id="leaflet-react-root"></div>
+                <%= if Application.get_env(:site, :dev_server?) do %>
+                  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/leaflet.js" %>"></script>
+                <% else %>
+                  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+                  <script defer src="<%= static_url(@conn, "/js/leaflet.js") %>"></script>
+                <% end %>
+                <div class="map-static" style="background-image:url(<%= map_src %>);">
+                  <span class="sr-only">Map of downtown Boston"</span>
+                </div>
+            <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

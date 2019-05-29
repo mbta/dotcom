@@ -1,0 +1,22 @@
+{
+  "id" : "8fa204fe-d0ce-313e-8da4-520c09122e4e",
+  "request" : {
+    "url" : "/stops/Back%20Bay?include=parent_station%2Cfacilities&fields%5Bfacility%5D=name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-Back Bay-6a7u5.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:43:35 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:01 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml9ujq7unpreavg03d461",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8fa204fe-d0ce-313e-8da4-520c09122e4e"
+}

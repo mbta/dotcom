@@ -1,0 +1,245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders a stop card 1`] = `
+<div
+  className="m-tnm-sidebar__route"
+  data-mode="bus"
+>
+  <a
+    className="h3 m-tnm-sidebar__route-name u-bg--bus"
+    href="/schedules/route-id"
+  >
+    <span
+      className="bus-route-sign"
+    >
+      Route Header
+    </span>
+    <span
+      aria-hidden="true"
+      className="notranslate m-tnm-sidebar__route-alert"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+  </a>
+  <div
+    className="m-tnm-sidebar__route-stop"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    style={
+      Object {
+        "cursor": "pointer",
+      }
+    }
+    tabIndex={0}
+  >
+    <div
+      className="m-tnm-sidebar__stop-info"
+    >
+      <a
+        className="m-tnm-sidebar__stop-name"
+        href="/stops/stop-id"
+      >
+        <span
+          aria-hidden="true"
+          className="notranslate m-tnm-sidebar__stop-marker"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Stop Name
+        <span
+          aria-hidden="true"
+          className="notranslate m-tnm-sidebar__stop-accessible"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+      </a>
+      <div
+        className="m-tnm-sidebar__stop-distance"
+      >
+        238 ft
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__direction"
+    >
+      <div
+        className="m-tnm-sidebar__direction-name u-small-caps"
+      >
+        Outbound
+      </div>
+      <div
+        className="m-tnm-sidebar__direction-headsigns"
+      >
+        <div
+          className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+        >
+          <div
+            className="m-tnm-sidebar__headsign"
+          >
+            <div
+              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+            >
+              Headsign
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__schedules"
+          >
+            <div
+              className="m-tnm-sidebar__schedule"
+            >
+              <div
+                className="m-tnm-sidebar__time"
+              >
+                <div
+                  className="m-tnm-sidebar__time-number"
+                >
+                  4:30
+                </div>
+                <div
+                  className="m-tnm-sidebar__time-mins"
+                >
+                  PM
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`it renders a stop card for the silver line 1`] = `
+<div
+  className="m-tnm-sidebar__route"
+  data-mode="bus"
+>
+  <a
+    className="h3 m-tnm-sidebar__route-name u-bg--silver-line"
+    href="/schedules/751"
+  >
+    <span
+      className=""
+    >
+      Route Header
+    </span>
+    <span
+      aria-hidden="true"
+      className="notranslate m-tnm-sidebar__route-alert"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+  </a>
+  <div
+    className="m-tnm-sidebar__route-stop"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    style={
+      Object {
+        "cursor": "pointer",
+      }
+    }
+    tabIndex={0}
+  >
+    <div
+      className="m-tnm-sidebar__stop-info"
+    >
+      <a
+        className="m-tnm-sidebar__stop-name"
+        href="/stops/stop-id"
+      >
+        <span
+          aria-hidden="true"
+          className="notranslate m-tnm-sidebar__stop-marker"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Stop Name
+        <span
+          aria-hidden="true"
+          className="notranslate m-tnm-sidebar__stop-accessible"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+      </a>
+      <div
+        className="m-tnm-sidebar__stop-distance"
+      >
+        238 ft
+      </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__direction"
+    >
+      <div
+        className="m-tnm-sidebar__direction-name u-small-caps"
+      >
+        Outbound
+      </div>
+      <div
+        className="m-tnm-sidebar__direction-headsigns"
+      >
+        <div
+          className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+        >
+          <div
+            className="m-tnm-sidebar__headsign"
+          >
+            <div
+              className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+            >
+              Headsign
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__schedules"
+          >
+            <div
+              className="m-tnm-sidebar__schedule"
+            >
+              <div
+                className="m-tnm-sidebar__time"
+              >
+                <div
+                  className="m-tnm-sidebar__time-number"
+                >
+                  4:30
+                </div>
+                <div
+                  className="m-tnm-sidebar__time-mins"
+                >
+                  PM
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`returns null if route has no schedules 1`] = `null`;

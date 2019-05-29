@@ -1,0 +1,16 @@
+<div class="route-holiday-container">
+  <h2>Upcoming Holidays</h2>
+
+  <ul class="route-holiday-info">
+    <%= for holiday <- @holidays do %>
+      <li>
+        <%= holiday.name %> (<%= holiday.date %>)
+      </li>
+    <% end %>
+  </ul>
+  <p>
+    <%= link to: cms_static_page_path(@conn, "/holidays"), class: "c-call-to-action" do %>
+      View holiday schedules
+    <% end %>
+  </p>
+</div>

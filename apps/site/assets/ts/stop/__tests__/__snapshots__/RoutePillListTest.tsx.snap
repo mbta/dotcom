@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div
+  className="m-route-pills"
+>
+  <div
+    className="m-route-pills--subway"
+  >
+    <a
+      className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--red-line
+    "
+      href="/schedules/Red"
+    >
+      Red Line
+    </a>
+  </div>
+  <div
+    className="m-route-pills--bus"
+  >
+    <a
+      className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--silver-line
+    "
+      href="/schedules/741"
+    >
+      SL1
+    </a>
+    <a
+      className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--silver-line
+    "
+      href="/schedules/742"
+    >
+      SL2
+    </a>
+    <a
+      className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--silver-line
+    "
+      href="/schedules/743"
+    >
+      SL3
+    </a>
+  </div>
+  <div
+    className="m-route-pills--commuter_rail"
+  >
+    <a
+      className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      href="/schedules/CR-Fairmount"
+    >
+      Fairmount Line
+    </a>
+    <a
+      className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      href="/schedules/CR-Worcester"
+    >
+      Framingham/​Worcester Line
+    </a>
+    <a
+      className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      href="/schedules/CR-Franklin"
+    >
+      Franklin Line
+    </a>
+    <a
+      className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      href="/schedules/CR-Greenbush"
+    >
+      Greenbush Line
+    </a>
+    <a
+      className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      href="/schedules/CR-Kingston"
+    >
+      Kingston/​Plymouth Line
+    </a>
+    <a
+      className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      href="/schedules/CR-Middleborough"
+    >
+      Middleborough/​Lakeville Line
+    </a>
+    <a
+      className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      href="/schedules/CR-Needham"
+    >
+      Needham Line
+    </a>
+    <a
+      className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+      href="/schedules/CR-Providence"
+    >
+      Providence/​Stoughton Line
+    </a>
+  </div>
+</div>
+`;
+
+exports[`renders a ferry route 1`] = `
+<div
+  className="m-route-pills"
+>
+  <div
+    className="m-route-pills--ferry"
+  >
+    <a
+      className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--ferry
+    "
+      href="/schedules/Boat-F4"
+    >
+      Charlestown Ferry
+    </a>
+  </div>
+</div>
+`;

@@ -1,0 +1,46 @@
+.m-schedule-line {
+  .trip-filters,
+  .line-map-container {
+    margin-bottom: $base-spacing;
+  }
+}
+
+.m-schedule-line__connection-icon {
+  @include icon-size(1.5em);
+
+  display: inline-block;
+}
+
+.m-schedule-line__info {
+  margin-bottom: 0;
+}
+
+.m-schedule-line__info:last-child {
+  margin-bottom: $base-spacing;
+}
+
+.m-schedule-line__connection-line {
+  display: flex;
+}
+
+.m-schedule-line__connection-name {
+  margin-left: $base-spacing / 2;
+}
+
+.m-schedule-line__map-static {
+  @include media-breakpoint-up(lg) {
+    height: 600px;
+  }
+}
+
+.m-schedule-line__teaser {
+  @include media-breakpoint-up(md) {
+    margin-top: $base-spacing * 2;
+  }
+}
+
+.m-schedule-line__news {
+  border-left-width: 0;
+  flex-direction: column;
+  padding-left: 0;
+}

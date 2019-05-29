@@ -1,0 +1,138 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 1`] = `
+<Alerts>
+  <div
+    className="container"
+  >
+    <div
+      className="page-section"
+    >
+      <ul
+        className="c-alert-group"
+      >
+        <Alert>
+          <li
+            aria-expanded={true}
+            className="c-alert-item c-alert-item--high c-alert-item--expandable c-alert-item--open"
+            id="alert-304666"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <div
+              className="c-alert-item__icon"
+            >
+              <span
+                aria-hidden="true"
+                className="notranslate c-svg__icon-alerts-triangle"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+            </div>
+            <div
+              className="c-alert-item__top"
+            >
+              <div
+                className="c-alert-item__top-text-container"
+              >
+                <div
+                  className="c-alert-item__effect"
+                >
+                  Detour 
+                </div>
+                Route 170 will be rerouted at certain times during the Marathon on Monday, April 15.
+              </div>
+              <div
+                className="c-alert-item__top-caret-container"
+              >
+                <span
+                  className="c-expandable-block__header-caret--black"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "&#xF106;",
+                    }
+                  }
+                />
+              </div>
+            </div>
+            <div
+              aria-labelledby="alert-304666"
+              className="c-alert-item__bottom c-alert-item__buttom--high"
+              role="region"
+              tabIndex={0}
+            >
+              <div
+                className="c-alert-item__description"
+              >
+                <div
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "<strong>Affected direction:</strong><br />Inbound<br />
+<br /><strong>Affected stops:</strong><br />Meridian St @ West Eagle St",
+                    }
+                  }
+                />
+                <div
+                  className="c-alert-item__updated"
+                >
+                  Updated: 4/11/2019 09:33A
+                </div>
+              </div>
+            </div>
+            <noscript>
+              <div
+                aria-labelledby="alert-304666"
+                className="c-alert-item__bottom c-alert-item__buttom--high"
+                role="region"
+                tabIndex={0}
+              />
+            </noscript>
+          </li>
+        </Alert>
+        <Alert>
+          <li
+            aria-expanded={true}
+            className="c-alert-item c-alert-item--low"
+            id="alert-00005"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <div
+              className="c-alert-item__icon"
+            />
+            <div
+              className="c-alert-item__top"
+            >
+              <div
+                className="c-alert-item__top-text-container"
+              >
+                <div
+                  className="c-alert-item__effect"
+                >
+                  Other 
+                  <span
+                    className="u-small-caps c-alert-item__badge c-alert-item__badge--upcoming"
+                  >
+                    Upcoming
+                  </span>
+                </div>
+                There is construction at this station.
+              </div>
+              <div
+                className="c-alert-item__top-caret-container"
+              />
+            </div>
+          </li>
+        </Alert>
+      </ul>
+    </div>
+  </div>
+</Alerts>
+`;

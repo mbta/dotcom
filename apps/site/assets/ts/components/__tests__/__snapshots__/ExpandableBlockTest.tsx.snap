@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`render expandable block expanded by default 1`] = `
+Array [
+  <h3
+    aria-controls="panel-accessibility"
+    aria-expanded={true}
+    className="c-expandable-block__header"
+    id="header-accessibility"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    <span
+      aria-hidden="true"
+      className="notranslate c-expandable-block__header-icon"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+    Accessibility
+    <span
+      className="c-expandable-block__header-caret"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "&#xF106;",
+        }
+      }
+    />
+  </h3>,
+  <div
+    aria-labelledby="header-accessibility"
+    className="c-expandable-block__panel"
+    id="panel-accessibility"
+    role="region"
+    tabIndex={0}
+  >
+    <div>
+      <p>
+        South Station is accessible. It has the following features:
+      </p>
+      <p>
+        This is a test
+      </p>
+    </div>
+  </div>,
+  <noscript>
+    <style>
+      #header-accessibility { display: none; }
+    </style>
+    <h3
+      className="c-expandable-block__header"
+    >
+      <span
+        aria-hidden="true"
+        className="notranslate c-expandable-block__header-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      Accessibility
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF106;",
+          }
+        }
+      />
+    </h3>
+    <div
+      className="c-expandable-block__panel"
+      role="region"
+    >
+      <div>
+        <p>
+          South Station is accessible. It has the following features:
+        </p>
+        <p>
+          This is a test
+        </p>
+      </div>
+    </div>
+  </noscript>,
+]
+`;

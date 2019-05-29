@@ -1,0 +1,22 @@
+{
+  "id" : "de3bb3c9-f7d0-3ba3-a916-ed5d41ebda3e",
+  "request" : {
+    "url" : "/routes/?stop=South+Attleboro",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HQSkj.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:36 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mldg35linlpc81s03db11",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "de3bb3c9-f7d0-3ba3-a916-ed5d41ebda3e"
+}

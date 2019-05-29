@@ -1,0 +1,22 @@
+{
+  "id" : "15f49000-3d4d-3b27-b6c3-0802853198f6",
+  "request" : {
+    "url" : "/routes/?stop=place-bbsta",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-jRBtK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:35 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mldeb65v1t22d00013p22",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "15f49000-3d4d-3b27-b6c3-0802853198f6"
+}

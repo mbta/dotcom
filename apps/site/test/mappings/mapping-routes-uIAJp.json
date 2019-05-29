@@ -1,0 +1,22 @@
+{
+  "id" : "70ce3eb8-33aa-3f91-b56b-bda3416081fa",
+  "request" : {
+    "url" : "/routes/?stop=Lawrence",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-uIAJp.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:36 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mldfnc2jrt3sm4803d9d1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "70ce3eb8-33aa-3f91-b56b-bda3416081fa"
+}

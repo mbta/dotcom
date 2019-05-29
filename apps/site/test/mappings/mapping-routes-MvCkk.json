@@ -1,0 +1,22 @@
+{
+  "id" : "b9a335c8-d6d5-3e3a-b717-e83aa1dcce6e",
+  "request" : {
+    "url" : "/routes/?stop=place-butlr&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MvCkk.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:09 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1e8h8rlf9aek803b9c1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b9a335c8-d6d5-3e3a-b717-e83aa1dcce6e"
+}

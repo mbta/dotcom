@@ -1,0 +1,135 @@
+{
+  "nid": [
+    {
+      "value": 2606
+    }
+  ],
+  "uuid": [
+    {
+      "value": "ce287bbc-5786-4798-91d2-352bd78670dd"
+    }
+  ],
+  "vid": [
+    {
+      "value": 3230
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "person",
+      "target_type": "node_type",
+      "target_uuid": "70bdf287-d61a-44f2-a086-9818cc3930f9"
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1500468924
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 17,
+      "target_type": "user",
+      "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+      "url": "/user/17"
+    }
+  ],
+  "revision_log": [],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "title": [
+    {
+      "value": "Joseph Aiello"
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 17,
+      "target_type": "user",
+      "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+      "url": "/user/17"
+    }
+  ],
+  "created": [
+    {
+      "value": 1500468683
+    }
+  ],
+  "changed": [
+    {
+      "value": 1500468924
+    }
+  ],
+  "promote": [
+    {
+      "value": false
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "moderation_state": [
+    {
+      "value": "published"
+    }
+  ],
+  "path": [
+    {
+      "alias": "/people/joseph-aiello",
+      "pid": 81,
+      "langcode": "en"
+    }
+  ],
+  "publish_on": [],
+  "unpublish_on": [],
+  "menu_link": [],
+  "field_bio": [
+    {
+      "value": "<p dir=\"ltr\">Joseph \"Joe\" Aiello is currently a partner and Director of Business Development North America at Meridiam Infrastructure where he has worked since 2007, overseeing strategic development and investments in transportation, water, and social infrastructure. Before joining Meridiam, Aiello served in several capacities for 13 years with DMJM Harris prior to its acquisition by AECOM Enterprises, Inc. where he was most recently President for the firm's global, public-private partnership business. Aiello also worked at the MBTA as Assistant General Manager of Planning and Budget and Assistant Director of Construction for Special Projects and Finance. He holds his B.A. from the University of Massachusetts at Amherst and an M.S. in City and Regional Planning from Harvard University.</p>\r\n",
+      "format": "basic_html",
+      "processed": "<p dir=\"ltr\">Joseph \"Joe\" Aiello is currently a partner and Director of Business Development North America at Meridiam Infrastructure where he has worked since 2007, overseeing strategic development and investments in transportation, water, and social infrastructure. Before joining Meridiam, Aiello served in several capacities for 13 years with DMJM Harris prior to its acquisition by AECOM Enterprises, Inc. where he was most recently President for the firm's global, public-private partnership business. Aiello also worked at the MBTA as Assistant General Manager of Planning and Budget and Assistant Director of Construction for Special Projects and Finance. He holds his B.A. from the University of Massachusetts at Amherst and an M.S. in City and Regional Planning from Harvard University.</p>",
+      "summary": ""
+    }
+  ],
+  "field_keywords": [],
+  "field_position": [
+    {
+      "value": "Chair",
+      "format": "basic_html",
+      "processed": "Chair"
+    }
+  ],
+  "field_profile_image": [
+    {
+      "target_id": 118,
+      "alt": "Joseph Aiello",
+      "title": "",
+      "width": 125,
+      "height": 161,
+      "target_type": "file",
+      "target_uuid": "1a43205e-ab77-49c4-889d-eea84aeab37b",
+      "url": "https://mbta.kbox.site/sites/default/files/Leadership/AielloJoeBio%20%281%29.jpg",
+      "mime_type": "image/jpeg"
+    }
+  ]
+}

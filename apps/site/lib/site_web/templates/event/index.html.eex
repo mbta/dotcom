@@ -1,0 +1,23 @@
+<div class="container">
+  <div class="c-cms c-cms--no-sidebar">
+
+    <div class="c-cms__header">
+      <div class="c-cms__title">
+        <h1 class="c-cms__title-text">Events</h1>
+      </div>
+    </div>
+
+    <div class="c-cms__content">
+      <div class="c-cms__body">
+        <div class="page-section">
+          <%= render "_event_list.html",
+            events: @events,
+            conn: @conn,
+            title: month_navigation_header(@conn, @month),
+            nav: true,
+            empty_placeholder_text: no_results_message(@month) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

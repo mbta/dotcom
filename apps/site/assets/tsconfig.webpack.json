@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig",
+  "exclude": [
+    "**/__tests__/**/*",
+    "node_modules",
+    "vendor/",
+    "ts/ts-build/"
+  ]
+}

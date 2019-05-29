@@ -1,0 +1,14 @@
+.c-unordered-list {
+  list-style: none; // Remove default bullets
+}
+
+.c-unordered-list-item::before {
+  color: $brand-primary-light;
+  content: '\2022';  // \2022 is unicode for a bullet
+  display: inline-block;
+  font-size: $base-spacing * 1.25;
+  font-weight: bold;
+  margin-left: -$base-spacing;
+  text-transform: capitalize;
+  width: $base-spacing;
+}

@@ -1,0 +1,98 @@
+<div class="menu-row">
+  <div class="col-xs-4 header-column">
+    <div class="h5 header-column-heading">Transit Services</div>
+    <div class="col-xs-12 p-a-0">
+      <ul>
+        <li>
+          <%= link to: schedule_path(@conn, :show, "subway") do %>
+            Subway
+          <% end %>
+        </li>
+        <li>
+          <%= link to: schedule_path(@conn, :show, "bus") do %>
+            Bus
+          <% end %>
+        </li>
+        <li>
+          <%= link to: schedule_path(@conn, :show, "commuter-rail") do %>
+            Commuter Rail
+          <% end %>
+        </li>
+        <li>
+          <%= link to: schedule_path(@conn, :show, "ferry") do %>
+            Ferry
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/accessibility/the-ride") do %>
+            The RIDE
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-xs-4 header-column">
+    <div class="h5 header-column-heading">Plan Your Journey</div>
+    <div class="col-xs-12 p-a-0">
+      <ul>
+        <li>
+          <%= link to: trip_plan_v1_path(@conn, :index) do %>
+            Trip Planner
+          <% end %>
+        </li>
+        <li>
+          <%= link to: stop_path(@conn, :index) do %>
+            Station Info
+          <% end %>
+        </li>
+        <li>
+          <%= link to: alert_path(@conn, :index) do %>
+            Service Alerts
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/maps") do %>
+            Maps
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/destinations") do %>
+            Destinations
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-xs-4 header-column">
+    <div class="h5 header-column-heading">Riding the T</div>
+    <div class="col-xs-12 p-a-0">
+      <ul>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/accessibility") do %>
+            Accessibility
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/parking") do %>
+            Parking
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/bikes") do %>
+            Bikes 
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/language-services") do %>
+            Language Services
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/safety") do %><%# the safety bounce! %>
+            Safety
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

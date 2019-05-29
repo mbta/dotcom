@@ -1,0 +1,364 @@
+[
+  {
+    "tid": [
+      {
+        "value": 22
+      }
+    ],
+    "uuid": [
+      {
+        "value": "8584a7f7-a3ac-47b5-b94b-7d7b563da325"
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "vid": [
+      {
+        "target_id": "route",
+        "target_type": "taxonomy_vocabulary",
+        "target_uuid": "c1a3cf50-3263-48dc-8619-bebd7c711757"
+      }
+    ],
+    "name": [
+      {
+        "value": "87"
+      }
+    ],
+    "description": [
+      {
+        "value": null,
+        "format": null
+      }
+    ],
+    "weight": [
+      {
+        "value": 0
+      }
+    ],
+    "parent": [],
+    "changed": [
+      {
+        "value": 1508529032
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "path": [],
+    "field_pdfs": [
+      {
+        "target_id": 346,
+        "target_revision_id": 4349,
+        "id": [
+          {
+            "value": 346
+          }
+        ],
+        "uuid": [
+          {
+            "value": "b87c8e3a-9bd4-4871-b01e-5e398dd3a661"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 4349
+          }
+        ],
+        "type": [
+          {
+            "target_id": "route_pdfs",
+            "target_type": "paragraphs_type",
+            "target_uuid": "c2a6a712-c210-4400-bd87-f8bb7a7e8944"
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "uid": [
+          {
+            "target_id": 29,
+            "target_type": "user",
+            "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+            "url": "/user/29"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1508504162
+          }
+        ],
+        "revision_uid": [
+          {
+            "target_id": 29,
+            "target_type": "user",
+            "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+            "url": "/user/29"
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "22"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "taxonomy_term"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_pdfs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": "a:0:{}"
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "field_link_text_override": [],
+        "field_pdf_date_end": [],
+        "field_pdf_date_start": [
+          {
+            "value": "2019-02-01"
+          }
+        ],
+        "field_route_pdf": [
+          {
+            "target_id": 380,
+            "display": null,
+            "description": "",
+            "target_type": "file",
+            "target_uuid": "6d9c345e-ddb6-4d5a-b94b-e85ac6189abc",
+            "url": "http://dev-mbta.pantheonsite.io/sites/default/files/route_pdfs/route087-future.pdf",
+            "mime_type": "application/pdf"
+          }
+        ]
+      },
+      {
+        "target_id": 348,
+        "target_revision_id": 4351,
+        "id": [
+          {
+            "value": 348
+          }
+        ],
+        "uuid": [
+          {
+            "value": "0ac76735-d471-4b05-bb55-67b6fe7163f7"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 4351
+          }
+        ],
+        "type": [
+          {
+            "target_id": "route_pdfs",
+            "target_type": "paragraphs_type",
+            "target_uuid": "c2a6a712-c210-4400-bd87-f8bb7a7e8944"
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "uid": [
+          {
+            "target_id": 29,
+            "target_type": "user",
+            "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+            "url": "/user/29"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1508504249
+          }
+        ],
+        "revision_uid": [
+          {
+            "target_id": 29,
+            "target_type": "user",
+            "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+            "url": "/user/29"
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "22"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "taxonomy_term"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_pdfs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": "a:0:{}"
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "field_link_text_override": [],
+        "field_pdf_date_end": [
+          {
+            "value": "2019-01-31"
+          }
+        ],
+        "field_pdf_date_start": [
+          {
+            "value": "2017-07-01"
+          }
+        ],
+        "field_route_pdf": [
+          {
+            "target_id": 380,
+            "display": null,
+            "description": "",
+            "target_type": "file",
+            "target_uuid": "6d9c345e-ddb6-4d5a-b94b-e85ac6189abc",
+            "url": "http://dev-mbta.pantheonsite.io/sites/default/files/route_pdfs/route087.pdf",
+            "mime_type": "application/pdf"
+          }
+        ]
+      },
+      {
+        "target_id": 347,
+        "target_revision_id": 4350,
+        "id": [
+          {
+            "value": 347
+          }
+        ],
+        "uuid": [
+          {
+            "value": "ebdbaaec-4b2d-4d60-a16a-0a0446a31845"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 4350
+          }
+        ],
+        "type": [
+          {
+            "target_id": "route_pdfs",
+            "target_type": "paragraphs_type",
+            "target_uuid": "c2a6a712-c210-4400-bd87-f8bb7a7e8944"
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "uid": [
+          {
+            "target_id": 29,
+            "target_type": "user",
+            "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+            "url": "/user/29"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1508504185
+          }
+        ],
+        "revision_uid": [
+          {
+            "target_id": 29,
+            "target_type": "user",
+            "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+            "url": "/user/29"
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "22"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "taxonomy_term"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_pdfs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": "a:0:{}"
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "field_link_text_override": [
+          {
+            "value": "This is a special inclusion (custom text)."
+          }
+        ],
+        "field_pdf_date_end": [],
+        "field_pdf_date_start": [
+          {
+            "value": "2017-10-01"
+          }
+        ],
+        "field_route_pdf": [
+          {
+            "target_id": 434,
+            "display": null,
+            "description": "",
+            "target_type": "file",
+            "target_uuid": "0b9f0de2-3beb-4883-a9f9-71bbe74f5df2",
+            "url": "http://dev-mbta.pantheonsite.io/sites/default/files/route_pdfs/route087-custom.pdf",
+            "mime_type": "application/pdf"
+          }
+        ]
+      }
+    ]
+  }
+]

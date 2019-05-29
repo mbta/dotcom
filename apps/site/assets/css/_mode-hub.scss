@@ -1,0 +1,102 @@
+@import 'variables';
+
+.mode-hub-header {
+  @include icon-size(1.5em);
+}
+
+.m-mode-hub__map-btns {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -$base-spacing / 4;
+  margin-right: -$base-spacing / 4;
+}
+
+.m-mode-hub__map-btn-wrapper {
+  flex: 0 0 50%;
+  padding: $space-6 $base-spacing / 4;
+
+  @include media-breakpoint-down(xs) {
+    flex-basis: 100%;
+  }
+}
+
+.m-mode-hub__map-btn {
+  align-items: center;
+  border: $border;
+  border-radius: $border-radius;
+  display: flex;
+  padding: $space-6 $base-spacing $space-6 $space-6;
+
+  &:hover {
+    background: $brand-primary-lightest;
+    border-color: $brand-primary;
+    text-decoration: none;
+
+    .m-mode-hub__map-btn-caret {
+      color: $brand-primary;
+    }
+  }
+}
+
+.m-mode-hub__map-btn-thumbnail {
+  flex: 0 0 auto;
+  margin-right: $base-spacing;
+  width: $base-spacing * 3;
+}
+
+.m-mode-hub__map-btn-text {
+  flex: 1 1 auto;
+}
+
+.m-mode-hub__map-btn-caret {
+  color: $gray-lighter;
+  flex: 0 0 auto;
+  font-size: 2em;
+  margin-left: $base-spacing;
+}
+
+.m-mode-hub__map-image {
+  margin-bottom: $base-spacing;
+  object-fit: contain;
+  width: 100%;
+}
+
+.m-mode-hub__guides {
+  @include media-breakpoint-down(md) {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+  }
+}
+
+.m-mode-hub__guides-wrapper {
+  // this fixes a horizontal scroll issues on Safari at small breakpoints
+  overflow: hidden;
+}
+
+.m-mode-hub__guide {
+  @include media-breakpoint-up(lg) {
+    margin-bottom: $base-spacing;
+  }
+
+  @include media-breakpoint-down(md) {
+    flex: 0 0 80%;
+
+    & + & {
+      // add a margin between items when laid out horizontally
+      margin-left: $base-spacing / 2;
+    }
+  }
+}
+
+.m-mode-hub__news {
+  flex-direction: column;
+}
+
+.m-mode-hub__trip-plan-widget {
+  margin-bottom: $base-spacing;
+
+  @include media-breakpoint-down(md) {
+    margin-top: $base-spacing;
+  }
+}

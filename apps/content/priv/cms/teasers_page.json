@@ -1,0 +1,123 @@
+[
+  {
+    "nid": "3862",
+    "title": "Red Sox World Series Victory Parade",
+    "type": "page",
+    "topic": "Guides",
+    "path": "/guides/victory-parade",
+    "image_uri": "http://dev-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/media/2018-10/Fenway-Red-Sox-Banner-2018-6607.jpg?itok=HGVe_wAY",
+    "image_alt": "American League Champions banners on Fenway Park including 2018",
+    "text": "We’re excited to celebrate with Boston as the Red Sox roll through the city on duck boats in honor of their…",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "",
+    "created": "2018-10-30",
+    "changed": "2018-10-31",
+    "field_related_transit": [
+      {
+        "id": 249,
+        "name": "Bus",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "bus",
+          "gtfs_group": "mode",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 251,
+        "name": "Subway",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "subway",
+          "gtfs_group": "mode",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 250,
+        "name": "Commuter Rail",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "commuter_rail",
+          "gtfs_group": "mode",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3789",
+    "title": "Beginner&#039;s Guide to the Commuter Rail ",
+    "type": "page",
+    "topic": "Guides",
+    "path": "/guides/commuter-rail-guide",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "Whether you’re trying to plan your commute to work or you just want to get out of the city for a bit, the…",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "",
+    "created": "2018-09-19",
+    "changed": "2018-10-19",
+    "field_related_transit": [
+      {
+        "id": 250,
+        "name": "Commuter Rail",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "commuter_rail",
+          "gtfs_group": "mode",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3709",
+    "title": "The Boston Visitor&#039;s Guide to the T",
+    "type": "page",
+    "topic": "Guides",
+    "path": "/guides/boston-visitor-guide",
+    "image_uri": "http://dev-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/media/2018-08/vistorguidedistressed2.png?itok=Q7jLuQJ2",
+    "image_alt": "boston summer visitors guide",
+    "text": "Visiting Boston? Find your way around with our new Visitor's Guide to the T.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "",
+    "created": "2018-07-27",
+    "changed": "2018-10-16",
+    "field_related_transit": []
+  }
+]

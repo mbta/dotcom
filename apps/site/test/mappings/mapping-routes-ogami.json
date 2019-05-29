@@ -1,0 +1,22 @@
+{
+  "id" : "ecf39f01-9f5a-3016-a2a0-041331910cdc",
+  "request" : {
+    "url" : "/routes/?stop=Newburyport",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ogami.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:36 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mldg402fgdu0ev403db41",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ecf39f01-9f5a-3016-a2a0-041331910cdc"
+}

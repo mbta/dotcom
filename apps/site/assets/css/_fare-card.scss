@@ -1,0 +1,133 @@
+// The size of the .c-fare-card__icon SVG ÷ 2
+$fare-card-icon-offset: 1.375 * $base-spacing;
+
+.c-fare-card {
+  background-color: $white;
+  border: 2px solid;
+  flex-grow: 1;
+  margin-bottom: $base-spacing;
+  margin-top: $fare-card-icon-offset;
+  padding: $fare-card-icon-offset $base-spacing 0;
+  position: relative;
+  text-align: center;
+  width: 100%;
+
+  &__icon {
+    @include icon-size(2.75rem);
+    left: 50%;
+    margin-left: -$fare-card-icon-offset;
+    position: absolute;
+    top: -$fare-card-icon-offset;
+
+    span {
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  &__name {
+    margin-top: .6rem;
+  }
+
+  &__duration {
+    white-space: nowrap;
+  }
+
+  &__fare {
+    margin-top: .8rem;
+  }
+
+  &__note {
+    font-size: .875rem;
+  }
+
+  &--linked {
+    @extend %button-focus-color;
+    color: $black;
+    display: block;
+  }
+
+  &--subway {
+    border-color: $brand-subway;
+  }
+
+  &--bus {
+    border-color: $brand-bus;
+  }
+
+  &--commuter-rail {
+    border-color: $brand-commuter-rail;
+  }
+
+  &--ferry {
+    border-color: $brand-ferry;
+  }
+
+  &--the-ride {
+    border-color: $brand-the-ride;
+  }
+}
+
+.c-fare-card--grouped {
+  padding: 0;
+
+  .c-fare-card__header {
+    border-bottom: 2px solid;
+    padding-top: $fare-card-icon-offset;
+  }
+
+  .c-multi-column__row {
+    margin: 0;
+  }
+
+  .c-multi-column__column {
+    padding: $base-spacing $base-spacing 0;
+
+    &:first-child {
+      border-right: 2px solid;
+
+      @include media-breakpoint-only(xs) {
+        border-bottom: 2px solid;
+        border-right: 0;
+      }
+    }
+  }
+
+  .c-fare-card__fare {
+    margin-top: 0;
+  }
+
+  &.c-fare-card--subway .c-fare-card__header,
+  &.c-fare-card--subway .c-multi-column__column {
+    border-color: $brand-subway;
+  }
+
+  &.c-fare-card--bus .c-fare-card__header,
+  &.c-fare-card--bus .c-multi-column__column {
+    border-color: $brand-bus;
+  }
+
+  &.c-fare-card--commuter-rail .c-fare-card__header,
+  &.c-fare-card--commuter-rail .c-multi-column__column {
+    border-color: $brand-commuter-rail;
+  }
+
+  &.c-fare-card--ferry .c-fare-card__header,
+  &.c-fare-card--ferry .c-multi-column__column {
+    border-color: $brand-ferry;
+  }
+
+  &.c-fare-card--the-ride .c-fare-card__header,
+  &.c-fare-card--the-ride .c-multi-column__column {
+    border-color: $brand-the-ride;
+  }
+}
+
+.c-fare-pass__name {
+  margin-top: 0;
+}
+
+.c-fare-pass__price {
+  float: left;
+  margin: 0 0 $base-spacing;
+}

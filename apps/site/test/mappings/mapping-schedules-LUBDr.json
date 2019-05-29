@@ -1,0 +1,22 @@
+{
+  "id" : "46c53b2e-6f34-37d4-8406-bf231c188a6c",
+  "request" : {
+    "url" : "/schedules/?route=1&date=2019-06-23&direction_id=1&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-LUBDr.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json",
+      "Date" : "Mon, 01 Apr 2019 17:42:42 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:51 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml6rutrtdav752o03cqp1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "46c53b2e-6f34-37d4-8406-bf231c188a6c"
+}

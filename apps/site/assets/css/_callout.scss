@@ -1,0 +1,80 @@
+.c-paragraph--callout {
+  &.c-callout--with-image {
+
+    @include media-breakpoint-only(xxl) {
+      // Sibling element should clear overhang
+      margin-bottom: 2.25rem;
+    }
+
+    // Shift bg color/margin-collapse to inner, first column,
+    // in order to allow for "overhang" effect of image.
+    @include media-breakpoint-only(xs) {
+      // We don't want blue around the image here, and negative
+      // margin is already provided by using a `row` class.
+      box-shadow: none;
+
+      &.u-full-bleed {
+        background-color: transparent;
+      }
+
+      .c-callout__column--text {
+        background-color: $brand-primary-lightest-contrast;
+      }
+    }
+  }
+}
+
+.c-callout__row {
+  &::before,
+  &::after {
+    content: none;
+  }
+}
+
+.c-callout__column--text {
+  padding-bottom: 2.25rem;
+
+  @include media-breakpoint-only(xs) {
+    padding-top: 1rem;
+
+    h2:first-child {
+      margin-top: .5rem;
+    }
+  }
+
+  .c-callout--with-image & {
+    @include media-breakpoint-only(xs) {
+      // Allow extra space for adjacent image to "bite" into this container.
+      padding-bottom: 8rem;
+    }
+
+    @include media-breakpoint-up(lg) {
+      // Add space above for better optical balance between both columns.
+      padding-top: 2.25rem;
+    }
+  }
+}
+
+.c-callout__column--image {
+  @include media-breakpoint-only(xs) {
+    margin: 0 1em;
+    padding: 0;
+  }
+}
+
+.c-callout__image {
+  @include img-fluid;
+
+  margin: 2.25rem 0;
+
+  @include media-breakpoint-only(xs) {
+    // Image "bites" into previous container
+    margin-bottom: 1rem;
+    margin-top: -6.5rem;
+  }
+
+  @include media-breakpoint-only(xxl) {
+    // Image appears to overhang container
+    margin-bottom: -2.25rem;
+  }
+}

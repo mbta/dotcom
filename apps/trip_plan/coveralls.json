@@ -1,0 +1,6 @@
+{
+  "skip_files": [
+    "lib/trip_plan/api/mock_planner.ex",
+    "lib/trip_plan/geocode/mock_geocode.ex"
+  ]
+}

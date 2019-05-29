@@ -1,0 +1,36 @@
+.m-schedule-page__sidebar-pdfs {
+  display: flex;
+  margin-bottom: $base-spacing / 2;
+
+  .c-svg__icon-pdf {
+    fill: $brand-primary;
+    flex-shrink: 0;
+    height: $base-spacing * 1.5;
+    margin-right: $base-spacing / 2;
+    width: $base-spacing * 1.5;
+  }
+}
+
+.m-schedule-page__sidebar-hours {
+  h3:first-child {
+    margin-top: 0;
+  }
+}
+
+.m-schedule__map {
+  height: $base-spacing * 25;
+}
+
+.m-schedule-page__fare {
+  display: flex;
+  justify-content: space-between;
+}
+
+.m-schedule-page__link {
+  margin-top: $base-spacing / 2;
+}
+
+.c-unordered-list,
+.m-schedule-page__sidebar-list {
+  padding-left: $base-spacing * 1.5;
+}

@@ -1,0 +1,22 @@
+{
+  "id" : "4f5701a3-826e-39bd-b0ef-9214d9e81b24",
+  "request" : {
+    "url" : "/routes/?stop=place-prmnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BJ9dq.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:07 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1bjotgshs0bpg03b5o1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4f5701a3-826e-39bd-b0ef-9214d9e81b24"
+}

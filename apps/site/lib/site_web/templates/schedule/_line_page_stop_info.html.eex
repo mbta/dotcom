@@ -1,0 +1,31 @@
+<% time_data = if Map.has_key?(@conn.assigns, :time_data_by_stop), do: @conn.assigns.time_data_by_stop[@stop.id] || [], else: [] %>
+<%= if @stop.closed_stop_info do %>
+  <%= render "_line_page_stop_closed_text_icons.html", stop: @stop %>
+<% else %>
+  <%= render "_line_page_stop_text_icons.html", stop: @stop, conn: @conn %>
+  <div class="route-branch-stop-info-container">
+    <div>
+      <%= if @stop.zone do %>
+        <div>
+          <div class="commuter-rail-zone route-branch-stop-zone">
+            <%= unless @route.type == 2 do %>Commuter Rail<% end %>
+            <span class="u-nowrap">Zone <%= @stop.zone %></span>
+          </div>
+        </div>
+      <% end %>
+      
+    </div>
+    <%= render "_line_page_stop_predictions.html", time_data: time_data,
+                                                   route_type: @route.type %>
+  </div>
+<% end %>
+<div class="route-branch-stop-links">
+  <%= if direction_id = schedule_link_direction_id(@stop, @reverse_direction_all_stops, @direction_id) do %>
+    <% trip_path = trip_view_path(@conn, :show, @route.id, origin: @stop.id, direction_id: direction_id) %>
+    <%= link class: "route-branch-stop-link schedule-link", to: trip_path do %>
+      Schedules from here
+    <% end %>
+  <% else %>
+    <div class="route-branch-stop-link"></div>
+  <% end %>
+</div>

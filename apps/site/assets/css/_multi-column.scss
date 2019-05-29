@@ -1,0 +1,105 @@
+// Any Multi-column
+.c-multi-column__row {
+  @include media-breakpoint-only(xs) {
+    &::after {
+      content: none;
+    }
+  }
+}
+
+// Make MC header margins behave as normal paragraph
+.c-multi-column__header {
+  margin-bottom: $base-spacing;
+  margin-top: $base-spacing;
+}
+
+// Multi-column with either Fare Cards or Descriptive Links
+.c-paragraph--with-cards {
+  @include media-breakpoint-up(sm) {
+    .c-multi-column__row,
+    .c-multi-column__column {
+      display: flex;
+    }
+
+    .c-multi-column__column {
+      flex-direction: column;
+    }
+  }
+}
+
+// Multi-column with Fare Cards
+.c-paragraph--with-fares {
+
+  // On XS we lose flexbox so fare card margins collapse all the way up
+  // to their adjacent components again. However, we want to keep
+  // about 2rem of space between the end of a fare card set and the next
+  // paragraph so that the next paragraph does not appear to be visually
+  // grouped or attached to that last individual fare card before it.
+  @include media-breakpoint-only(xs) {
+    + *:not(.c-paragraph--with-fares):not(.c-paragraph--accordion) {
+      &::before {
+        content: '';
+        display: flex;
+        margin-bottom: $base-spacing;
+      }
+    }
+  }
+
+  // When paragraphs follow directly, give them an extra $base-spacing of space
+  // (such as when fare groups are added directly to Elixir-only pages)
+  @include media-breakpoint-up(sm) {
+    + p {
+      margin-top: $base-spacing;
+    }
+  }
+
+  &.c-paragraph--ungrouped {
+
+    // Rely on nested `.c-fare-card` for margin-bottom.
+    @include media-breakpoint-up(sm) {
+      margin-bottom: 0;
+      margin-top: 0;
+    }
+
+    @include media-breakpoint-only(xs) {
+      @include margin-clearance;
+
+      & + &,
+      .c-multi-column__column ~ .c-multi-column__column {
+        @include margin-clearance;
+      }
+
+      // Trigger margin collapse when a grouped set of fares
+      // is preceded by a non-grouped set of fares (stacked).
+      + .c-paragraph--grouped {
+        border-top: 0;
+      }
+    }
+  }
+
+  &.c-paragraph--grouped {
+    // Due to negatively offset mode icon, prevent upper margin collapse
+    @include margin-clearance;
+
+    // Rely on child `.c-fare-card` margin-top
+    margin-top: 0;
+
+    // Disable margin-collapse between adjacent
+    // ungrouped and grouped fare cards.
+    .c-paragraph--ungrouped + & {
+      @include margin-clearance;
+    }
+
+    // Ensure margins below paragraph are collapsed
+    // (multi-classed to beat media system specificty)
+    .c-media.c-media--cards::after {
+      content: none;
+    }
+  }
+}
+
+.c-paragraph--with-links + .c-paragraph--with-links {
+  // Gap between sibling groups of descriptive links
+  // should be same as gap between left and right cards
+  @include adjacent-descriptive-links;
+}

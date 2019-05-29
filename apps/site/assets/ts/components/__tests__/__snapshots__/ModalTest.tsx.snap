@@ -1,0 +1,106 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 1`] = `
+<WrappedModal>
+  <Modal>
+    <ModalTrigger>
+      <div
+        onClick={[Function]}
+        role="presentation"
+      >
+        <button
+          id="my-button"
+          type="button"
+        />
+      </div>
+    </ModalTrigger>
+    <ModalContent>
+      <Portal
+        containerInfo={
+          <body>
+            <div
+              id="body-wrapper"
+            >
+              <div
+                id="react-root"
+              />
+            </div>
+            <aside
+              aria-label="Title for modal content"
+              aria-modal="true"
+              class="c-modal__cover"
+              id="modal-cover"
+              role="dialog"
+              tabindex="-1"
+            >
+              <div
+                class="c-modal"
+              >
+                <button
+                  class="btn btn-secondary c-modal__close"
+                  id="modal-close"
+                  type="button"
+                >
+                  Close
+                </button>
+                <div
+                  class="c-modal__content"
+                >
+                  <div
+                    id="content"
+                  >
+                    <p>
+                      South Station is accessible. It has the following features:
+                    </p>
+                    <p>
+                      This is a test
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </aside>
+          </body>
+        }
+      >
+        <aside
+          aria-label="Title for modal content"
+          aria-modal={true}
+          className="c-modal__cover"
+          id="modal-cover"
+          onClick={[Function]}
+          onKeyDown={[Function]}
+          role="dialog"
+          tabIndex={-1}
+        >
+          <div
+            className="c-modal"
+          >
+            <button
+              className="btn btn-secondary c-modal__close"
+              id="modal-close"
+              onClick={[Function]}
+              type="button"
+            >
+              Close
+            </button>
+            <div
+              className="c-modal__content"
+            >
+              <div
+                id="content"
+              >
+                <p>
+                  South Station is accessible. It has the following features:
+                </p>
+                <p>
+                  This is a test
+                </p>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </Portal>
+    </ModalContent>
+  </Modal>
+</WrappedModal>
+`;

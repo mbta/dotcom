@@ -1,0 +1,22 @@
+{
+  "id" : "c4f4709c-42e3-355b-ade2-fb6ec488be51",
+  "request" : {
+    "url" : "/routes/?stop=place-nqncy",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZpFFv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:35 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mldetkq3e3gehuk03d8i1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c4f4709c-42e3-355b-ade2-fb6ec488be51"
+}

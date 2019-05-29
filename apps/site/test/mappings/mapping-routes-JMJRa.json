@@ -1,0 +1,22 @@
+{
+  "id" : "a88e26eb-6145-33d7-b03c-f0b92dcb1552",
+  "request" : {
+    "url" : "/routes/?stop=place-denrd&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-JMJRa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:09 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1dqlsi1c4971s03b8r1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a88e26eb-6145-33d7-b03c-f0b92dcb1552"
+}

@@ -1,0 +1,56 @@
+.dl {
+  @include make-row();
+  border-bottom: 1px solid $gray-light;
+  margin: .5rem 0 0;
+}
+
+.dl--item {
+  // added this because at larger breakpoints items float into different rows
+  @include media-breakpoint-up(md) {
+    clear: both;
+  }
+}
+
+.dt {
+  @include make-col();
+  @include make-col-span(3);
+  border-top: 1px solid $gray-light;
+  padding-top: 1rem;
+
+  @include media-breakpoint-up(md) {
+    border-top: 1px solid $gray-light;
+    padding-left: 0;
+  }
+
+  @include media-breakpoint-down(sm) {
+    @include make-col-span(12);
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.dd {
+  @include make-col();
+  @include make-col-span(9);
+  margin-bottom: 0;
+  padding-top: 1rem;
+
+  @include media-breakpoint-up(md) {
+    border-top: 1px solid $gray-light;
+    padding-right: 0;
+  }
+
+  @include media-breakpoint-down(sm) {
+    @include make-col-span(12);
+    padding: 0;
+  }
+
+  h1:first-child,
+  h2:first-child,
+  h3:first-child,
+  h4:first-child,
+  h5:first-child,
+  h6:first-child {
+    margin-top: 0;
+  }
+}

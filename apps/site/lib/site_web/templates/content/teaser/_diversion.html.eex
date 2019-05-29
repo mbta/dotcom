@@ -1,0 +1,9 @@
+<h3 class="c-content-teaser__title">
+  <%= @teaser.title %>
+</h3>
+
+<%= if @teaser.text do %>
+  <div class="c-content-teaser__text">
+    <%= @teaser.text %>
+  </div>
+<% end %>

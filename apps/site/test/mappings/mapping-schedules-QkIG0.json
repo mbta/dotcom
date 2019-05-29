@@ -1,0 +1,22 @@
+{
+  "id" : "cf4c1904-0071-3ef2-b27c-7973385ee2f4",
+  "request" : {
+    "url" : "/schedules/?route=CR-Worcester&date=2019-06-24&direction_id=0&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-QkIG0.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json",
+      "Date" : "Mon, 01 Apr 2019 17:45:17 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:51 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mlfrtaghaip1fr403ddk1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "cf4c1904-0071-3ef2-b27c-7973385ee2f4"
+}

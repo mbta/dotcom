@@ -1,0 +1,64 @@
+.c-cms__sidebar {
+
+  // Any paragraph in the sidebar == a "right-rail" paragraph
+  .c-paragraph {
+    background-color: $brand-primary-lightest-contrast;
+    padding: $base-spacing; // Sidebar paragraphs don't get .u-full-bleed, so add this manually here
+
+    // Right sidebar paragraphs are cloned from their sources
+    // located in .c-cms__body. They switch visibility with
+    // one another at the SM breakpoint.
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+
+    // Optical adjustment to top margin of the first direct child
+    // heading due to presence background color in sidebar paragraphs.
+    @each $heading in $headings {
+      > #{$heading}:first-child,
+      > .#{$heading}:first-child,
+      .c-multi-column__column:first-child > #{$heading}:first-child,
+      .c-multi-column__column:first-child > .#{$heading}:first-child {
+        margin-top: .125em; // Should be relative to heading font-size
+      }
+    }
+
+    // Better align start of shaded content with main body column content.
+    &:first-child {
+      margin-top: 0;
+    }
+
+    .c-multi-column__row,
+    .c-multi-column__column {
+      float: none;
+      margin: 0;
+      padding: 0;
+      width: 100%;
+    }
+
+    .c-inline-buttons {
+      margin: 1em 0;
+    }
+
+    .btn {
+      margin: 0;
+      width: 100%;
+    }
+  }
+}
+
+.c-cms__body {
+  // Any "right-rail" paragraph in the body should be hidden above SM
+  .c-paragraph--right-rail {
+
+    // Most paragraphs have headings; balance space below and above
+    padding-bottom: $base-spacing;
+
+    // Right sidebar paragraphs are cloned from their sources
+    // located in .c-cms__body. They switch visibility with
+    // one another at the SM breakpoint.
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+  }
+}

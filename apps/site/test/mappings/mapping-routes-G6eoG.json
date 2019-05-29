@@ -1,0 +1,22 @@
+{
+  "id" : "a3dde2f3-85b7-3d18-9b87-37f4e28f1087",
+  "request" : {
+    "url" : "/routes/?stop=Abington",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-G6eoG.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:35 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mldf8q7kvjgmjrk013q72",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a3dde2f3-85b7-3d18-9b87-37f4e28f1087"
+}

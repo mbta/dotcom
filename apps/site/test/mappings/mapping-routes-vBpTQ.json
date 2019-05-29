@@ -1,0 +1,22 @@
+{
+  "id" : "a1cc9fd7-25d2-3a95-8ed6-13c65bdddbeb",
+  "request" : {
+    "url" : "/routes/?stop=Hyde+Park",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-vBpTQ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:35 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mldede091kge98g013pd2",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a1cc9fd7-25d2-3a95-8ed6-13c65bdddbeb"
+}

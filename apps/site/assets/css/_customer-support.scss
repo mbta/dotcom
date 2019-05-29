@@ -1,0 +1,172 @@
+@import 'variables';
+
+.support-success,
+.support-error {
+  margin-top: .5em;
+  padding: .5em;
+}
+
+.support-form {
+  .error-container {
+    margin: 0 0 .5em;
+  }
+}
+
+.support-success {
+  background-color: $form-success-message;
+}
+
+.support-error {
+  background-color: $form-error-message;
+  color: $error-text;
+}
+
+.photo-preview-container {
+  margin-bottom: $base-spacing / 2;
+
+  .photo-preview {
+    display: inline-block;
+    margin-left: $base-spacing / 2;
+    margin-top: $base-spacing / 2;
+
+    img {
+      // Polyfill for IE object-fit support
+      font-family: 'object-fit: cover;';
+      object-fit: contain;
+    }
+
+    p {
+      margin: 0;
+    }
+  }
+
+  .clear-photo {
+    padding-left: $base-spacing / 8;
+  }
+}
+
+.upload-photo-link {
+  cursor: pointer;
+
+  > .fa {
+    padding-right: $base-spacing / 2;
+  }
+
+  + input {
+    padding: $base-spacing / 2 0;
+  }
+}
+
+.support-text-entered-container {
+  background-color: $gray-lightest;
+  padding: .5em;
+}
+
+body {
+  &.no-js {
+    .upload-photo-link {
+      display: none;
+    }
+  }
+
+  &.js {
+    .support-form-expanded {
+      display: none;
+    }
+
+    // scss-lint:disable IdSelector
+    #photo {
+      display: none;
+    }
+  }
+}
+
+.support-comment-success {
+  color: $brand-success;
+}
+
+.support-tel-number:nth-child(2) {
+  margin-left: 1rem;
+}
+
+.support-form-text-input {
+  border: 2px solid $brand-primary;
+  font-size: inherit; // Bootstrap override
+
+  &--small {
+    @include media-breakpoint-down(xs) {
+      width: 100%;
+    }
+
+    @include media-breakpoint-up(sm) {
+      width: 50%;
+    }
+  }
+}
+
+.support-form-control {
+  border-color: $brand-primary;
+}
+
+.has-success .support-form-control + span::before {
+  @include fa-icon();
+  color: $brand-success;
+  content: $fa-var-check-circle;
+  float: right;
+  left: -.5rem;
+  position: relative;
+  top: -1.75rem;
+}
+
+.submit-button {
+  margin-top: $base-spacing / 2;
+
+  @include media-breakpoint-down(xs) {
+    width: 100%;
+  }
+}
+
+button .waiting {
+  margin: 5%;
+}
+
+.contrast {
+  background-color: $gray-bordered-background;
+
+  &.form-group {
+    margin-bottom: $base-spacing / 8;
+    padding: $base-spacing * .75;
+  }
+}
+
+.service-legend {
+  font-size: inherit;
+}
+
+.service-radios {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.service-radio {
+  margin: 0 $base-spacing 0 0;
+}
+
+.response-time-disclaimer {
+  margin-top: $base-spacing / 2;
+}
+
+.clear-upload-container {
+  display: inline-block;
+  position: relative;
+}
+
+.clear-photo {
+  color: $brand-primary;
+  cursor: pointer;
+  height: $base-spacing;
+  position: absolute;
+  right: $base-spacing / 2;
+  top: -$base-spacing / 2;
+  width: $base-spacing;
+}

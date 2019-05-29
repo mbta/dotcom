@@ -1,0 +1,22 @@
+{
+  "id" : "a78950ec-d617-396d-b6dc-83ceee839aaa",
+  "request" : {
+    "url" : "/routes/?stop=Boat-Rowes",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-W4BnL.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:44:35 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8mlde2o98votco4803d6a1",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a78950ec-d617-396d-b6dc-83ceee839aaa"
+}

@@ -1,0 +1,128 @@
+<div class="menu-row">
+  <div class="col-xs-4 header-column">
+    <div class="h5 header-column-heading">About Us</div>
+    <div class="row">
+      <div class="col-xs-6">
+        <ul>
+          <li>
+            <%= link to: cms_static_page_path(@conn, "/mbta-at-a-glance") do %>
+              Overview
+            <% end %>
+          </li>
+          <li>
+            <%= link to: cms_static_page_path(@conn, "/leadership") do %>
+              Leadership
+            <% end %>
+          </li>
+          <li>
+            <%= link to: cms_static_page_path(@conn, "/leadership/fmcb") do %>
+              FMCB
+            <% end %>
+          </li>
+          <li>
+            <%= link to: news_entry_path(@conn, :index) do %>
+              News &amp; Updates
+            <% end %>
+          </li>
+          <li>
+            <%= link to: event_path(@conn, :index) do %>
+              Events
+            <% end %>
+          </li>
+        </ul>
+      </div>
+      <div class="col-xs-6">
+        <ul>
+          <li>
+            <%= link to: cms_static_page_path(@conn, "/policies/title-vi") do %>
+              Civil Rights
+            <% end %>
+          </li>
+          <li>
+            <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" do %>
+              <span class="no-wrap">Performance</span>
+            <% end %>
+          </li>
+          <li>
+            <%= link to: cms_static_page_path(@conn, "/sustainability") do %>
+              <span class="no-wrap">Sustainability</span>
+            <% end %>
+          </li>
+          <li>
+            <%= link to: cms_static_page_path(@conn, "/history") do %>
+              History
+            <% end %>
+          </li>
+          <li>
+            <%= link to: "http://www.mbtagifts.com/", target: "_blank" do %>
+              Gifts
+            <% end %>
+          </li>
+          <li>
+            <%= link to: cms_static_page_path(@conn, "/careers") do %>
+              Careers
+            <% end %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-xs-4 header-column">
+    <div class="h5 header-column-heading">Business Center</div>
+    <div class="col-xs-12 p-a-0">
+      <ul>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/business") do %>
+            Business Opportunities
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/developers") do %>
+            Developers
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/financials") do %>
+            Financials
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/innovation") do %>
+            Innovation
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="col-xs-4 header-column">
+    <div class="h5 header-column-heading">Improvements and Projects</div>
+    <div class="col-xs-12 p-a-0">
+      <ul>
+        <li>
+          <%= link to: project_path(@conn, :show, "commuter-rail-positive-train-control-ptc") do %>
+            Commuter Rail Positive Train Control
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/afc2") do %>
+            Automated Fare Collection 2.0
+          <% end %>
+        </li>
+        <li>
+          <%= link to: "https://www.mass.gov/green-line-extension-project-glx", target: "_blank" do %>
+            Green Line Extension
+          <% end %>
+        </li>
+        <li>
+          <%= link to: cms_static_page_path(@conn, "/wollaston") do %>
+            Wollaston Station
+          <% end %>
+        </li>
+        <li>
+          <%= link to: project_path(@conn, :index) do %>
+            See All Projects
+          <% end %>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+<%= for {period, {direction_0, direction_1}} <- Map.get(assigns, :hours_of_operation, []) do %>
+  <h3 class="hours-period-heading"><%= schedule_period(period) %></h4>
+  <%= for {direction_id, departure} <- [{1, direction_1}, {0, direction_0}] do %>
+    <p class="hours-directions">
+      <span class="hours-direction-name"><%= Routes.Route.direction_name(@route, direction_id) %></span>
+      <span class="hours-time"><%= display_departure_range(departure) %></span>
+    </p>
+  <% end %>
+<% end %>

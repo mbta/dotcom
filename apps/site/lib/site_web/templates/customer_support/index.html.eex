@@ -1,0 +1,125 @@
+<div class="container">
+  <div class="page-section">
+    <h1>Contact Us</h1>
+    <div class="row">
+      <div class="col-xs-12 support-thank-you <%= if @show_form, do: "hidden-xs-up" %>" tabindex="-1">
+        <div class="support-success" id="<%= if !show_error_message(@conn), do: "support-result" %>">
+          <%= fa "check-circle" %>
+          Thank you for your feedback.
+        </div>
+        <p>Your comments have been sent to our Customer Support team.</p>
+      </div>
+      <div class="col-xs-12 support-form-error <%= if !show_error_message(@conn), do: "hidden-xs-up" %>" tabindex="-1">
+        <div class="support-error" id="<%= if show_error_message(@conn), do: "support-result" %>">
+          <%= fa "exclamation-circle" %>
+          We had an issue submitting your feedback -- please call us at the Main Hotline below, or try again in a few minutes.
+        </div>
+      </div>
+    </div>
+    <%= if @show_form do %>
+      <%= render "_form.html", forward_assigns(@conn) %>
+    <% end %>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <h2>Call Us</h2>
+            <p>
+              Monday &mdash; Friday: 6:30 AM &mdash; 8 PM<br>
+              Saturday &mdash; Sunday: 8 AM &mdash; 4 PM
+            </p>
+
+            <p>
+              <strong>Main Hotline:</strong> <%= tel_link "617-222-3200" %><br>
+              <strong>Toll Free:</strong> <%= tel_link "800-392-6100" %><br>
+              <strong>TTY:</strong> <%= tel_link "617-222-5146" %>
+            </p>
+          
+            <p>
+              <strong>Elevator/Escalator Hotline:</strong> <%= tel_link "617-222-2828" %><br>
+            </p>
+
+            <p>
+              <strong>Lost and Found:</strong>
+                <%= link to: cms_static_page_path(@conn, "/customer-support/lost-and-found") do %>
+                  View phone numbers
+                <% end %>
+            </p>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <h2>Transit Police</h2>
+              <p>
+                <strong>Emergency:</strong> <%= tel_link "617-222-1212" %><br>
+                <strong>TTY:</strong> <%= tel_link "617-222-1200" %>
+              </p>
+            <p>
+              <%= link to: cms_static_page_path(@conn, "/transit-police"), class: "c-call-to-action" do %>
+                Contact the Transit Police
+              <% end %>
+            </p>
+            <p>
+              <%= link to: cms_static_page_path(@conn, "/transit-police/see-something-say-something"), class: "c-call-to-action" do %>
+                See Something, Say Something
+              <% end %>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <h2>Get Service Updates</h2>
+            <p>Receive notifications of MBTA service alerts by email or text.</p>
+            <p><a class="c-call-to-action" href="https://alerts.mbta.com" target="_blank">Sign up for T-Alerts</a></p>
+            <p><a class="c-call-to-action" href="https://twitter.com/MBTA" target="_blank">Follow @MBTA on Twitter</a></p>
+            <p><a class="c-call-to-action" href=https://twitter.com/MBTA_CR" target="_blank">Follow @MBTA_CR on Twitter</a></p>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <h2>Write to Us</h2>
+            <p>
+              MBTA<br />
+              10 Park Plaza<br />
+              Suite 5610<br />
+              Boston, MA 02116
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <h2>Request Public Records</h2>
+            <p>Members of the public have the right to request copies of MBTA documents, with certain exceptions. Fees apply and may vary depending on the request.</p>
+            <p>
+              <%= link to: "https://massachusettsdot.mycusthelp.com/WEBAPP/_rs/supporthome.aspx?lp=3&COID=64D93B66", target: "_blank", class: "c-call-to-action" do %>
+                Submit a public records request to the MBTA
+              <% end %>
+            </p>
+            <p>You can also email <a class="c-call-to-action" href="mailto:mbta.rao@mbta.com">mbta.rao@mbta.com</a> with your request.</p>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <h2>Report Fraud, Waste, or Abuse</h2>
+            <p>The Internal Special Audit Unit within the Office of the Inspector General monitors the quality, efficiency, and integrity of MassDOT programs.</p>
+            <p>
+              <%= link to: "https://www.mass.gov/service-details/massdot-fraud-waste-and-abuse", target: "_blank", class: "c-call-to-action" do %>
+                Report suspected fraud, waste, or abuse
+              <% end %>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <h2>Join Us</h2>
+            <p>Check out the exciting roles we're hiring for and find out how to start your career at the MBTA.</p>
+            <p>
+              <%= link to: "/careers", class: "c-call-to-action" do %>
+                Learn about MBTA career opportunities
+              <% end %>
+            </p>
+            <p>
+              <%= link to: "https://jobs.lever.co/mbta", target: "_blank", class: "c-call-to-action" do %>
+                View Customer Technology opportunities
+              <% end %>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

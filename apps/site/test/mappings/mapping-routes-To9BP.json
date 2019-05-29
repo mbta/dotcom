@@ -1,0 +1,22 @@
+{
+  "id" : "830eae61-d9eb-338e-8fe0-f43b4f5dd973",
+  "request" : {
+    "url" : "/routes/?stop=place-jaksn&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-To9BP.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 01 Apr 2019 17:41:08 GMT",
+      "last-modified" : "Sun, 31 Mar 2019 19:10:00 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-request-id" : "2m8ml1ck58gedhv4eo00kkj3",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "830eae61-d9eb-338e-8fe0-f43b4f5dd973"
+}

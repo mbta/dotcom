@@ -1,0 +1,769 @@
+[
+  {
+    "nid": "3661",
+    "title": "Green Line D Track and Signal Replacement",
+    "type": "project",
+    "topic": "Projects",
+    "path": "/projects/green-line-d-track-and-signal-replacement",
+    "image_uri": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/projects/green-line-d-track-signal/green-line-d-track.jpg?itok=Bx9iTVmL",
+    "image_alt": "Tracks at Riverside",
+    "text": "The project will replace approximately 6.5 miles of signal infrastructure and 25,000 feet of track between Beaconsfield and Riverside.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-11-30",
+    "posted": "",
+    "created": "2018-06-21",
+    "changed": "2018-11-30",
+    "field_related_transit": [
+      {
+        "id": 223,
+        "name": "Green-D",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Green-D",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": [
+              "Green"
+            ],
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3445",
+    "title": "Better Bus Project",
+    "type": "project",
+    "topic": "Projects",
+    "path": "/projects/better-bus-project",
+    "image_uri": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/projects/betterbus/betterbus-banner-large.png?itok=hQA6cLgN",
+    "image_alt": "Better Bus Project: Making transit better together",
+    "text": "In cooperation with the communities served by MBTA bus routes, the current bus network will be compared to the Service Delivery Policy to identify and fill service gaps.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-09-13",
+    "posted": "",
+    "created": "2018-02-23",
+    "changed": "2018-11-09",
+    "field_related_transit": [
+      {
+        "id": 249,
+        "name": "Bus",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "bus",
+          "gtfs_group": "mode",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3721",
+    "title": "New Red and Orange Line Vehicles",
+    "type": "project",
+    "topic": "Projects",
+    "path": "/projects/new-red-and-orange-line-vehicles",
+    "image_uri": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/2018-08/new-red-line-front.jpg?itok=JSxeLqqZ",
+    "image_alt": "Red Line mock-up vehicle",
+    "text": "The Red and Orange Line fleets will be entirely replaced by 2022 for safer, more efficient service.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-08-13",
+    "posted": "",
+    "created": "2018-08-08",
+    "changed": "2018-11-29",
+    "field_related_transit": [
+      {
+        "id": 219,
+        "name": "Red",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Red",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 220,
+        "name": "Orange",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Orange",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3169",
+    "title": "Quincy Center Station Improvements",
+    "type": "project",
+    "topic": "Projects",
+    "path": "/projects/quincy-center-station-improvements",
+    "image_uri": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/projects/quincy-center-garage/construction-photos/2018-06-05-quincy-center-garage-demolition.jpg?itok=az51pAiq",
+    "image_alt": "Demolition of Quincy Center Garage",
+    "text": "The Quincy Center Garage will undergo a number of repairs to improve accessibility and safety.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-11-29",
+    "posted": "",
+    "created": "2017-11-30",
+    "changed": "2018-11-29",
+    "field_related_transit": [
+      {
+        "id": 219,
+        "name": "Red",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Red",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 207,
+        "name": "CR-Greenbush",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Greenbush",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3004",
+    "title": "Wollaston Station Improvements",
+    "type": "project",
+    "topic": "Projects",
+    "path": "/projects/wollaston-station-improvements",
+    "image_uri": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/2017-09/wollaston-station-train-departure-1400.JPG?itok=ZhyvpNyB",
+    "image_alt": "Red Line train departing from Wollaston Station during the day",
+    "text": "Wollaston Station will be completely renovated to become an accessible, modern, code-compliant station.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-11-29",
+    "posted": "",
+    "created": "2017-09-28",
+    "changed": "2018-11-29",
+    "field_related_transit": [
+      {
+        "id": 219,
+        "name": "Red",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Red",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3601",
+    "title": "Newton Highlands Station Accessibility Improvements",
+    "type": "project",
+    "topic": "Projects",
+    "path": "/projects/newton-highlands-station-accessibility-improvements",
+    "image_uri": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/projects/newton-highlands-accessibility/ramp-walnut-st.jpg?itok=93eFQY9f",
+    "image_alt": "Rendering of a new ramp from Walnut Street",
+    "text": "The project includes installation of 3 new ramps and level boarding platforms with tactile edges.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-11-27",
+    "posted": "",
+    "created": "2018-05-29",
+    "changed": "2018-11-27",
+    "field_related_transit": [
+      {
+        "id": 223,
+        "name": "Green-D",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Green-D",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": [
+              "Green"
+            ],
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3628",
+    "title": "Fenway Portal Project",
+    "type": "project",
+    "topic": "Projects",
+    "path": "/projects/fenway-portal-project",
+    "image_uri": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/2018-11/fenway-portal-green-line-train-crop.jpg?itok=YNYWiV-W",
+    "image_alt": "A Green Line train passes through the Fenway Portal.",
+    "text": "Large steel doors will be installed at the entrance to the Green Line tunnel to protect the subway from potential future flooding.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-11-22",
+    "posted": "",
+    "created": "2018-06-07",
+    "changed": "2018-11-22",
+    "field_related_transit": [
+      {
+        "id": 223,
+        "name": "Green-D",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Green-D",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": [
+              "Green"
+            ],
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3064",
+    "title": "Commuter Rail Positive Train Control (PTC)",
+    "type": "project",
+    "topic": "Projects",
+    "path": "/projects/commuter-rail-positive-train-control-ptc",
+    "image_uri": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/projects/commuter-rail-train-in-station.jpg?itok=C6xlGXyW",
+    "image_alt": "Commuter rail train at a station platform.",
+    "text": "Positive Train Control (PTC) technology will improve safety and reduce human error on the Commuter Rail. It is a federally mandated system that can automatically reduce train speeds or even stop a train to avoid a collision or derailment.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-11-22",
+    "posted": "",
+    "created": "2017-10-23",
+    "changed": "2018-11-22",
+    "field_related_transit": [
+      {
+        "id": 210,
+        "name": "CR-Lowell",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Lowell",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 250,
+        "name": "Commuter Rail",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "commuter_rail",
+          "gtfs_group": "mode",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3869",
+    "title": "Bus Transit Priority",
+    "type": "project",
+    "topic": "Projects",
+    "path": "/projects/bus-transit-priority",
+    "image_uri": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/2018-10/2018-Arlington-Dedicated-Bus-Lane.jpg?itok=POR5qM8p",
+    "image_alt": "Bus traveling on a bus priority lane in Arlington",
+    "text": "The T is partnering with communities to explore and implement tools such as bus lanes, queue jumps, and transit signal priority to improve bus reliability and service.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-11-21",
+    "posted": "",
+    "created": "2018-10-31",
+    "changed": "2018-11-21",
+    "field_related_transit": [
+      {
+        "id": 91,
+        "name": "77",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "77",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "key_bus_routes",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 81,
+        "name": "79",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "79",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 151,
+        "name": "350",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "350",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 49,
+        "name": "30",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "30",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 52,
+        "name": "34E",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "34E",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "late_night",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 53,
+        "name": "34",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "34",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 54,
+        "name": "35",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "35",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 55,
+        "name": "36",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "36",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 56,
+        "name": "37",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "37",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "limited_service",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 59,
+        "name": "40",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "40",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "limited_service",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 60,
+        "name": "50",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "50",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "limited_service",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 67,
+        "name": "51",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "51",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 86,
+        "name": "71",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "71",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "key_bus_routes",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 88,
+        "name": "73",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "73",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "key_bus_routes",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 112,
+        "name": "104",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "104",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "late_night",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 117,
+        "name": "110",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "110",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 119,
+        "name": "112",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "112",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 194,
+        "name": "701",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "701",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 108,
+        "name": "97",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "97",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3508",
+    "title": "Rail Vision",
+    "type": "project",
+    "topic": "Projects",
+    "path": "/projects/rail-vision",
+    "image_uri": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/projects/commuter-rail-vision/commuter-rail-vision-logo-v3.png?itok=sBF7uI37",
+    "image_alt": "Logo with \u0026quot;Rail Vision\u0026quot; in purple and a grid layout between the two words",
+    "text": "The Rail Vision study\u0026#039;s results will identify the most cost-effective strategy for leveraging the MBTA\u0026#039;s rail network to meet new trends in travel and address the economic growth needs of the Greater Boston region.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-11-21",
+    "posted": "",
+    "created": "2018-03-23",
+    "changed": "2018-11-21",
+    "field_related_transit": [
+      {
+        "id": 250,
+        "name": "Commuter Rail",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "commuter_rail",
+          "gtfs_group": "mode",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  }
+]

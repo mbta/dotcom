@@ -1,0 +1,1 @@
+&nbsp;<%= fa "cog fa-spin hidden-xs-up loading-indicator" %><span class="sr-only hidden-xs-up loading-indicator">Loading...</span>

@@ -1,0 +1,386 @@
+$location-line-width: $space-6;
+
+@mixin stop-bubble-mode-color($class, $color) {
+// scss-lint:disable NestingDepth
+// scss-lint:disable SelectorDepth
+// Changes the color for the stop bubble based on the route type
+  #{$class} {
+    .route-branch-stop-bubble-line,
+    .route-branch-indent-start {
+      background-color: $color;
+    }
+
+    .expand-icon {
+      .horizontal {
+        background-color: rgba($color, .4);
+
+        &::before,
+        &::after {
+          background-color: $color;
+        }
+      }
+    }
+  }
+}
+
+.icon-inverse,
+.stop-bubble-terminus {
+  circle {
+    fill: $gray-dark;
+  }
+}
+
+.trip-info-labels {
+  .route-branch-stop-info {
+    border-bottom-width: 0;
+    padding-bottom: 0;
+    padding-top: $base-spacing;
+  }
+}
+
+.route-branch-stop {
+  align-items: stretch;
+  display: flex;
+  flex: 1 1 0%;
+  overflow: visible; // if set to hidden, site works better in IE10, but then cirlces are slightly cropped everywhere
+  width: 100%;
+
+  &.expanded {
+    .expand-icon {
+      display: none;
+    }
+  }
+}
+
+.route-branch-stop-info-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.route-branch-stop-prediction {
+  text-align: right;
+}
+
+.route-branch-stop-bubbles {
+  // scss-lint:disable DuplicateProperty
+  align-items: stretch;
+  display: inline-block; // for non-flex browsers
+  display: flex;
+  flex: 0 0 auto;
+  justify-content: flex-start;
+  overflow: visible;
+  padding-right: $base-spacing;
+}
+
+.personal-itinerary {
+  .route-branch-stop-bubble-line {
+    background-color: $black;
+    width: 1px;
+  }
+}
+
+.route-branch-stop-bubble {
+  // scss-lint:disable DuplicateProperty
+  align-items: center;
+  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  overflow: visible;
+  position: relative;
+  width: $icon-size;
+
+  &.stop {
+    margin-top: -1px;
+  }
+
+  &.transfer {
+    circle {
+      stroke-width: $space-6;
+    }
+  }
+
+  &.merge:last-child {
+    .route-branch-stop-bubble-line.direction-1,
+    .merge-stop-spacer {
+      flex: 0 0 $base-spacing / 2;
+      min-height: $base-spacing / 2;
+    }
+  }
+
+  svg {
+    height: 1.5rem;
+    overflow: visible;
+    position: relative;
+    transform: translate(.5px, 1px);
+    vertical-align: top;
+    width: 1.5rem;
+  }
+
+  text {
+    font-weight: bold;
+    transform: translate(-2px, 0);
+  }
+
+  .terminus-circle {
+    background-color: $gray-dark;
+    border-radius: 100%;
+    color: $white;
+    height: $icon-size;
+    text-align: center;
+    width: $icon-size;
+  }
+}
+
+.stop-bubble-stop {
+  circle {
+    fill: $white;
+    stroke: $gray-dark;
+    stroke-width: $space-2;
+  }
+}
+
+.expand-icon {
+  display: flex;
+  flex: 0 0 $base-spacing;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  width: $base-spacing;
+
+  .horizontal {
+    border-radius: $location-line-width * 2;
+    border-width: 0;
+    flex-basis: $location-line-width;
+    flex-grow: 0;
+    flex-shrink: 0;
+    position: relative;
+    width: $base-spacing;
+
+    &::before,
+    &::after {
+      border-radius: $location-line-width * 2;
+      content: '';
+      height: $location-line-width;
+      position: absolute;
+      transform: rotate(-45deg);
+      width: $base-spacing;
+    }
+
+    &::before {
+      transform-origin: 0 $location-line-width;
+    }
+
+    &::after {
+      transform-origin: $base-spacing 0;
+    }
+  }
+
+  + .route-branch-stop-bubble-line {
+    border-radius: $location-line-width * 2 $location-line-width * 2 0 0;
+
+    &.expanded {
+      border-radius: 0;
+    }
+  }
+}
+
+.route-branch-stop-bubble-line {
+  // scss-lint:disable DuplicateProperty
+  border-width: 0;
+  display: none; // hide on non-flex browsers
+  display: flex;
+  flex: 1 0 0%;
+  min-height: 1rem;
+  width: $location-line-width;
+
+  &.above {
+    flex: 0 0 $base-spacing / 4;
+    min-height: 0;
+  }
+}
+
+.route-branch-stop-info {
+  // scss-lint:disable DuplicateProperty
+  border-bottom: $border;
+  display: inline-block; // for non-flex browsers
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  margin-bottom: $base-spacing;  // both margin-bottom and padding-bottom are needed on this element
+  padding-bottom: $base-spacing; // to keep the icon properly aligned with the text
+  width: 60%; // for non-flex browsers
+}
+
+.route-branch-destination {
+  border-bottom-width: 0;
+}
+
+@include media-breakpoint-down(sm) {
+  .green-line {
+    .route-branch-stop-icons {
+      display: block;
+      padding-bottom: $base-spacing / 2;
+    }
+  }
+}
+
+.toggle-stop-list {
+  align-items: center;
+  color: $gray-dark;
+  display: flex;
+  justify-content: space-between;
+  text-align: left;
+  width: 100%;
+
+  &:hover {
+    text-decoration: none;
+  }
+
+  &:focus {
+    text-decoration: none;
+  }
+}
+
+.expand-branch-stop-count {
+  color: $brand-primary;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.expand-link-stop-text {
+  flex: 1 1 auto;
+  max-width: 80%;
+  // .btn has white-space: nowrap set. We need to override this to allow the stop text to wrap
+  white-space: normal;
+}
+
+.expand-branch-link-icon {
+  color: $brand-primary;
+  flex: 0 0 auto;
+}
+
+@include media-breakpoint-only(xs) {
+  .route-branch-stop-link {
+    display: block;
+  }
+}
+
+.trip-info-stop-name-times {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.trip-info-name {
+  display: inline-block; // for non-flex browsers
+  flex: 1 1 0%;
+  min-width: 50%;
+  padding-right: $base-spacing;
+}
+
+.trip-info-time {
+  display: inline-block; // for non-flex browsers
+  flex: 0 0 $base-spacing * 4.5;
+  float: right; // for non-flex browsers
+}
+
+.route-branch-stop-name {
+  font-weight: bold;
+}
+
+.route-branch-stop-name-icons,
+.route-branch-stop-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  > div {
+    display: inline-block;
+    flex: 1 1 0%;
+  }
+
+  .route-branch-stop-icons {
+    display: flex;
+    flex: 0 0 auto;
+    text-align: right;
+
+    svg {
+      // required for icons to be displayed on IE 10+
+      flex: 0 0 auto;
+      margin-left: $base-spacing / 8;
+    }
+  }
+}
+
+.route-branch-indent-start {
+  align-self: flex-start;
+  height: $location-line-width;
+  width: ($icon-size / 2) + ($location-line-width / 2);
+
+  .solid {
+    height: $location-line-width;
+  }
+}
+
+.schedule-link {
+  padding-right: $base-spacing;
+}
+
+.route-branch-stop-link {
+  display: inline-block;
+}
+
+.route-branch-stop-zone {
+  margin-bottom: $base-spacing / 4;
+  margin-top: $base-spacing / 4;
+}
+
+.vehicle-bubble {
+  height: $base-spacing;
+  left: 0;
+  position: relative;
+  top: 0;
+  transform: scale(1.2); // vehicle SVGs are currently sized incorrectly
+                         // (circle is rendered inside of SVG and svg is too small);
+                         // this is a temporary fix until we get new assets -KH
+  z-index: $z-index-stop-bubble;
+}
+
+.route-branch-warning-icon {
+  margin-left: $space-8;
+}
+
+.route-branch-stop-disabled {
+  color: $gray-lighter;
+}
+
+.route-branch-stop-icons {
+  @include icon-size(1.5rem);
+
+  [class*="c-svg__icon"] {
+    margin-left: $base-spacing / 4;
+  }
+}
+
+.vehicle-bubble__green {
+  height: 1.3125 * $base-spacing;
+  width: 1.3125 * $base-spacing;
+}
+
+@include stop-bubble-mode-color(".commuter-rail", $brand-commuter-rail);
+@include stop-bubble-mode-color(".red-line", $brand-red-line);
+@include stop-bubble-mode-color(".mattapan-line", $brand-red-line);
+@include stop-bubble-mode-color(".blue-line", $brand-blue-line);
+@include stop-bubble-mode-color(".orange-line", $brand-orange-line);
+@include stop-bubble-mode-color(".green-line", $brand-green-line);
+@include stop-bubble-mode-color(".green-line-b", $brand-green-line);
+@include stop-bubble-mode-color(".green-line-c", $brand-green-line);
+@include stop-bubble-mode-color(".green-line-d", $brand-green-line);
+@include stop-bubble-mode-color(".green-line-e", $brand-green-line);
+@include stop-bubble-mode-color(".bus", $brand-bus);
+@include stop-bubble-mode-color(".logan-express", $brand-logan-express);
+@include stop-bubble-mode-color(".massport-shuttle", $brand-massport-shuttle);
+@include stop-bubble-mode-color(".silver-line", $brand-silver-line);
+@include stop-bubble-mode-color(".ferry", $brand-ferry);
+@include stop-bubble-mode-color(".personal-itinerary", $gray-dark);

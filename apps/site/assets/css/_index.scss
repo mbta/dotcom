@@ -1,0 +1,25 @@
+.homepage-search {
+  @include media-breakpoint-down(sm) {
+    padding-bottom: $base-spacing;
+    padding-top: $base-spacing;
+  }
+}
+
+.index-news-item {
+  @include truncate();
+
+  background-color: initial;
+  border-top: 0;
+}
+
+.list-group-item-flush {
+  padding-left: 0;
+
+  &:first-child {
+    padding-top: 0;
+  }
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}

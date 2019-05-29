@@ -1,0 +1,75 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`does not render when connection list is empty 1`] = `null`;
+
+exports[`renders 1`] = `
+Array [
+  <h3
+    aria-controls="panel-connections"
+    aria-expanded={false}
+    className="c-expandable-block__header"
+    id="header-connections"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    Connections
+    <span
+      className="c-expandable-block__header-caret"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "&#xF107;",
+        }
+      }
+    />
+  </h3>,
+  <noscript>
+    <style>
+      #header-connections { display: none; }
+    </style>
+    <h3
+      className="c-expandable-block__header"
+    >
+      Connections
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF106;",
+          }
+        }
+      />
+    </h3>
+    <div
+      className="c-expandable-block__panel"
+      role="region"
+    >
+      <div
+        className="m-route-pills"
+      >
+        <div
+          className="m-route-pills--subway"
+        >
+          <h4
+            className="h4"
+          >
+            subway
+          </h4>
+          <a
+            className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--orange-line
+    "
+            href="/schedules/Orange"
+          >
+            Orange Line
+          </a>
+        </div>
+      </div>
+    </div>
+  </noscript>,
+]
+`;
