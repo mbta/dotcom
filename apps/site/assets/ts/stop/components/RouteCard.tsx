@@ -45,6 +45,16 @@ const RouteCard = ({
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-stop-page__departures-route">
     <Header route={route} />
+    {directions.length === 0 && (
+      <>
+        <div>No departures within 24 hours</div>
+        <div>
+          <a href={`/schedules/${route.id}`}>
+            View {route.long_name} schedules
+          </a>
+        </div>
+      </>
+    )}
 
     {directions.map(direction => (
       <Direction
