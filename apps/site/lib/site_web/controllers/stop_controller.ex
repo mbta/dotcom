@@ -213,25 +213,33 @@ defmodule SiteWeb.StopController do
     schedules_fn = &Schedules.Repo.by_route_ids/2
     now = Util.now()
 
-    [route_id]
-    |> schedules_fn.(
-      stop_ids: stop_id,
-      min_time: now
-    )
-    |> Enum.reject(& &1.last_stop?)
+    schedules =
+      [route_id]
+      |> schedules_fn.(
+        stop_ids: stop_id,
+        min_time: now
+      )
+
+    [route: route_id, stop: stop_id, min_time: now]
+    |> Predictions.Repo.all()
+    |> PredictedSchedule.group(schedules)
     |> case do
-      [_ | _] = schedules ->
-        schedules
+      [_ | _] = ps ->
+        ps
 
       [] ->
         # if there are no schedules left for today, get schedules for tomorrow
-        [route_id]
-        |> schedules_fn.(
-          stop_ids: stop_id,
-          date: TransitNearMe.tomorrow_date(now)
+        PredictedSchedule.group(
+          [],
+          schedules_fn.(
+            [route_id],
+            stop_ids: stop_id,
+            date: TransitNearMe.tomorrow_date(now)
+          )
         )
-        |> Enum.reject(& &1.last_stop?)
     end
+    |> Enum.reject(&PredictedSchedule.last_stop?/1)
+    |> Enum.reject(&(PredictedSchedule.time(&1) == nil))
   end
 
   @spec filter_headsigns([TransitNearMe.direction_data()]) :: [TransitNearMe.direction_data()]

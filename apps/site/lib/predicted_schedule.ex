@@ -114,6 +114,15 @@ defmodule PredictedSchedule do
     nil
   end
 
+  @spec last_stop?(t) :: boolean
+  def last_stop?(%PredictedSchedule{schedule: %Schedule{last_stop?: last_stop?}}) do
+    last_stop?
+  end
+
+  def last_stop?(%PredictedSchedule{}) do
+    false
+  end
+
   @doc """
   Retrieves status from predicted schedule if one is available
   """

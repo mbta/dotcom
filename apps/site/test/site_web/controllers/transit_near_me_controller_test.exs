@@ -63,14 +63,30 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     stops: [@back_bay],
     schedules: %{
       "place-bbsta" => [
-        %Schedule{stop: @back_bay, route: struct(Route, @orange_line)},
-        %Schedule{stop: @back_bay, route: struct(Route, @cr_worcester)},
-        %Schedule{stop: @back_bay, route: struct(Route, @cr_franklin)},
-        %Schedule{stop: @back_bay, route: struct(Route, @cr_needham)},
-        %Schedule{stop: @back_bay, route: struct(Route, @cr_providence)},
-        %Schedule{stop: @back_bay, route: struct(Route, @bus_10)},
-        %Schedule{stop: @back_bay, route: struct(Route, @bus_39)},
-        %Schedule{stop: @back_bay, route: struct(Route, @bus_170)}
+        %PredictedSchedule{
+          schedule: %Schedule{stop: @back_bay, route: struct(Route, @orange_line)}
+        },
+        %PredictedSchedule{
+          schedule: %Schedule{stop: @back_bay, route: struct(Route, @cr_worcester)}
+        },
+        %PredictedSchedule{
+          schedule: %Schedule{stop: @back_bay, route: struct(Route, @cr_franklin)}
+        },
+        %PredictedSchedule{
+          schedule: %Schedule{stop: @back_bay, route: struct(Route, @cr_needham)}
+        },
+        %PredictedSchedule{
+          schedule: %Schedule{stop: @back_bay, route: struct(Route, @cr_providence)}
+        },
+        %PredictedSchedule{
+          schedule: %Schedule{stop: @back_bay, route: struct(Route, @bus_10)}
+        },
+        %PredictedSchedule{
+          schedule: %Schedule{stop: @back_bay, route: struct(Route, @bus_39)}
+        },
+        %PredictedSchedule{
+          schedule: %Schedule{stop: @back_bay, route: struct(Route, @bus_170)}
+        }
       ]
     }
   }
@@ -160,10 +176,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
   describe "with no location params" do
     test "does not attempt to calculate stops with routes", %{conn: conn} do
-      conn =
-        conn
-        |> put_req_cookie("transit_near_me_redesign", "true")
-        |> get(transit_near_me_path(conn, :index))
+      conn = get(conn, transit_near_me_path(conn, :index))
 
       assert conn.status == 200
 
@@ -181,10 +194,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     test "assigns stops with routes", %{conn: conn} do
       params = %{"address" => %{"latitude" => "valid", "longitude" => "valid"}}
 
-      conn =
-        conn
-        |> put_req_cookie("transit_near_me_redesign", "true")
-        |> get(transit_near_me_path(conn, :index, params))
+      conn = get(conn, transit_near_me_path(conn, :index, params))
 
       assert conn.status == 200
 
