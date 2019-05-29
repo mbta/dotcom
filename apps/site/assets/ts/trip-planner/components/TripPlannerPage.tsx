@@ -91,9 +91,9 @@ const TripPlannerPage = ({ mapData }: Props): ReactElement<HTMLElement> => {
   const [state, dispatch] = useReducer(reducer, { markers: mapData.markers });
   useEffect(() => {
     const onRemoveCb = (ev: Event): void =>
-      onRemove(event as RemoveEvent, dispatch);
+      onRemove(ev as RemoveEvent, dispatch);
     const onUpdateCb = (ev: Event): void =>
-      onUpdate(event as UpdateEvent, dispatch);
+      onUpdate(ev as UpdateEvent, dispatch);
 
     document.removeEventListener("trip-plan:remove-marker", onRemoveCb);
     document.addEventListener("trip-plan:remove-marker", onRemoveCb);
