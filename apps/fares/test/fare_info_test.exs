@@ -3,6 +3,9 @@ defmodule Fares.FareInfoTest do
   alias Fares.Fare
   import Fares.FareInfo
 
+  @after_july_1_2019 1_561_953_601
+  @before_july_1_2019 1_561_953_599
+
   describe "fare_info/0" do
     test "returns a non-empty list of Fare objects" do
       actual = fare_info()
@@ -21,6 +24,46 @@ defmodule Fares.FareInfoTest do
       assert Enum.any?(results, &match?(%Fare{reduced: :senior_disabled}, &1))
       assert Enum.any?(results, &match?(%Fare{reduced: :student}, &1))
       assert Enum.any?(results, &match?(%Fare{reduced: :any}, &1))
+    end
+
+    test "get pre july 1, 2019 data" do
+      actual =
+        @after_july_1_2019
+        |> fare_info()
+        |> List.first()
+
+      expected = %Fare{
+        additional_valid_modes: [],
+        cents: 975.0,
+        duration: :round_trip,
+        media: [:senior_card],
+        mode: :ferry,
+        name: :commuter_ferry_logan,
+        price_label: nil,
+        reduced: :senior_disabled
+      }
+
+      assert actual == expected
+    end
+
+    test "get post july 1, 2019 data" do
+      actual =
+        @before_july_1_2019
+        |> fare_info()
+        |> List.first()
+
+      expected = %Fare{
+        additional_valid_modes: [],
+        cents: 1850.0,
+        duration: :round_trip,
+        media: [:senior_card],
+        mode: :ferry,
+        name: :commuter_ferry_logan,
+        price_label: nil,
+        reduced: :senior_disabled
+      }
+
+      assert actual == expected
     end
   end
 
@@ -143,7 +186,7 @@ defmodule Fares.FareInfoTest do
                  name: {:interzone, "5"},
                  reduced: nil
                },
-               %Fares.Fare{
+               %Fare{
                  additional_valid_modes: [],
                  cents: 1000,
                  duration: :weekend,
