@@ -148,6 +148,53 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
       assert fare_request("ferry:month:mticket") == {:ok, "$74.50 – $298.00"}
     end
 
+    test "handles :zone:X requests" do
+      assert [
+               name: {:zone, "1A"},
+               reduced: nil,
+               duration: :month
+             ]
+             |> Repo.all()
+             |> fare_result() == "$84.50"
+
+      assert fare_request("zone:1A:month") == {:ok, "$84.50"}
+    end
+
+    test "inter/zone passes are more expensive by default" do
+      assert [
+               name: {:zone, "8"},
+               reduced: nil,
+               duration: :month
+             ]
+             |> Repo.all()
+             |> fare_result() == "$363.00"
+
+      assert fare_request("zone:8:month") == {:ok, "$363.00"}
+
+      assert [
+               name: {:zone, "8"},
+               reduced: nil,
+               duration: :month,
+               includes_media: :mticket
+             ]
+             |> Repo.all()
+             |> fare_result() == "$353.00"
+
+      assert fare_request("zone:8:month:mticket") == {:ok, "$353.00"}
+    end
+
+    test "handles :interzone:X requests" do
+      assert [
+               name: {:interzone, "3"},
+               reduced: :any,
+               duration: :single_trip
+             ]
+             |> Repo.all()
+             |> fare_result() == "$1.75"
+
+      assert fare_request("interzone:3:reduced") == {:ok, "$1.75"}
+    end
+
     test "it uses the last valid value for a key when conflicting values are found" do
       results = Repo.all(name: :local_bus, reduced: nil, duration: :single_trip)
       assert fare_request("subway:local_bus:charlie_card") == {:ok, fare_result(results)}

@@ -15,8 +15,13 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
   # Fares.Fare related type specs
   @type required_key :: :reduced | :duration
   @type optional_key :: :name | :mode | :includes_media
+  @type placeholder_key :: :zone_type | :zone_id
   @type summary_mode :: :commuter_rail | :bus_subway | :ferry
   @type the_ride :: :ada_ride | :premium_ride
+  @type zone_type :: :zone | :interzone
+
+  @type fare_key :: optional_key | required_key | placeholder_key
+
   @type fare_name ::
           :commuter_ferry_logan
           | :commuter_ferry
@@ -28,12 +33,20 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
           | :outer_express_bus
           | :subway
 
-  @type fare_key :: optional_key | required_key
   @type fare_value ::
-          fare_name | the_ride | summary_mode | Fare.media() | Fare.reduced() | Fare.duration()
-  @type request_error :: {:error, {:invalid | :empty | :incomplete | :unmatched, String.t()}}
+          fare_name
+          | the_ride
+          | summary_mode
+          | zone_type
+          | Fare.media()
+          | Fare.reduced()
+          | Fare.duration()
+
   @type fares_or_summaries :: [Summary.t()] | Summary.t() | [Fare.t()] | Fare.t()
   @type repo_arg :: {fare_key, fare_value}
+
+  @type request_error :: {:error, {:invalid | :empty | :incomplete | :unmatched, String.t()}}
+  @type request_tuple :: {:ok, [repo_arg]} | {:ok, {summary_mode, [repo_arg]}}
 
   @default_args [reduced: nil, duration: :single_trip]
   @summary_atoms [:commuter_rail, :bus_subway, :ferry]
@@ -83,6 +96,13 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
     "single_trip",
     "round_trip"
   ]
+
+  @zone_type [
+    "interzone",
+    "zone"
+  ]
+
+  @zone_id ["1A", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
 
   @spec fare_request(String.t()) :: {:ok, String.t()} | request_error
   def fare_request(string) do
@@ -159,18 +179,34 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
     {filter_insert(good, duration: value), bad}
   end
 
+  defp parse_token(value, good, bad) when value in @zone_type do
+    {filter_insert(good, zone_type: value), bad}
+  end
+
+  defp parse_token(value, good, bad) when value in @zone_id do
+    {[{:zone_id, value} | good], bad}
+  end
+
   defp parse_token(value, good, bad) do
     {good, [value | bad]}
   end
 
-  @spec compose_args({:ok, list} | request_error) ::
-          {:ok, [repo_arg] | {summary_mode, [repo_arg]}} | request_error
+  @spec compose_args({:ok, list} | request_error) :: request_tuple | request_error
   defp compose_args({:ok, []}) do
     {:error, {:empty, "no input"}}
   end
 
   defp compose_args({:ok, args}) do
     case Enum.into(args, %{}) do
+      # CR zone args need to be converted to a :name Tuple from their temporary placeholders
+      %{zone_type: type, zone_id: id} ->
+        zone_request =
+          args
+          |> Keyword.put(:name, {type, id})
+          |> Keyword.drop([:zone_type, :zone_id])
+
+        {:ok, zone_request}
+
       # Prevent both :mode and :name keys from being sent to Repo.all (never matches fare)
       %{name: _} ->
         {:ok, Keyword.delete(args, :mode)}
@@ -185,18 +221,25 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
     end
   end
 
-  defp compose_args(invalid_error), do: invalid_error
+  defp compose_args(invalid_error) do
+    invalid_error
+  end
 
-  @spec request_fares({:ok, [repo_arg] | {summary_mode, [repo_arg]}} | request_error) ::
-          [Summary.t()] | [Fare.t()] | request_error
+  @spec request_fares(request_tuple | request_error) :: [Summary.t()] | [Fare.t()] | request_error
+  # If the mode indicates a summary will be returned, format the results of get_fares/1 as a summary
   defp request_fares({:ok, {mode, args}}) when mode in @summary_atoms do
     args
     |> get_fares()
     |> Format.summarize(mode)
   end
 
-  defp request_fares({:ok, args}), do: get_fares(args)
-  defp request_fares(error), do: error
+  defp request_fares({:ok, args}) do
+    get_fares(args)
+  end
+
+  defp request_fares(error) do
+    error
+  end
 
   @spec process_results(fares_or_summaries | request_error) :: {:ok, String.t()} | request_error
   defp process_results([]) do
@@ -215,18 +258,11 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
     {:ok, Summary.price_range(summary)}
   end
 
-  defp process_results(error), do: error
+  defp process_results(error) do
+    error
+  end
 
   # Helpers
-
-  # Fill in any missing/required arguments with the default,
-  # then call Fares.Repo.all/1 to get matching fares.
-  @spec get_fares([repo_arg]) :: [Fare.t()]
-  defp get_fares(args) do
-    @default_args
-    |> Keyword.merge(args)
-    |> Repo.all()
-  end
 
   # Adds the valid key/val into our arg list, after first
   # converting the value into a proper, known Fare atom.
@@ -235,5 +271,14 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
     Enum.reduce(new_args, old_args, fn {k, v}, args ->
       Keyword.put(args, k, String.to_existing_atom(v))
     end)
+  end
+
+  # Fill in any missing/required arguments with the default,
+  # then call Fares.Repo.all/1 to get matching fares.
+  @spec get_fares([repo_arg]) :: [Fare.t()]
+  defp get_fares(args) do
+    @default_args
+    |> Keyword.merge(args)
+    |> Repo.all()
   end
 end
