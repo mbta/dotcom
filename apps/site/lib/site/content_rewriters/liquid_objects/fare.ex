@@ -46,11 +46,7 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
   @type repo_arg :: {fare_key, fare_value}
 
   @type request_error :: {:error, {:invalid | :empty | :incomplete | :unmatched, String.t()}}
-
-  @type request_tuple ::
-          {:ok, [repo_arg]}
-          | {:ok, {summary_mode, [repo_arg]}}
-          | {:ok, {zone_type, String.t(), [repo_arg]}}
+  @type request_tuple :: {:ok, [repo_arg]} | {:ok, {summary_mode, [repo_arg]}}
 
   @default_args [reduced: nil, duration: :single_trip]
   @summary_atoms [:commuter_rail, :bus_subway, :ferry]
@@ -202,9 +198,13 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
 
   defp compose_args({:ok, args}) do
     case Enum.into(args, %{}) do
-      # CR zone args needs to be processed differently prior to Repo.all (special format)
+      # CR zone args need to be converted to a :name Tuple from their temporary placeholders
       %{zone_type: type, zone_id: id} ->
-        {:ok, {type, id, args}}
+        args
+        |> Keyword.put(:name, {type, id})
+        |> Keyword.drop([:zone_type, :zone_id])
+
+        {:ok, args}
 
       # Prevent both :mode and :name keys from being sent to Repo.all (never matches fare)
       %{name: _} ->
@@ -230,14 +230,6 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
     args
     |> get_fares()
     |> Format.summarize(mode)
-  end
-
-  # If the request is for a zone or interzone fare, merge placeholder keys into tuple value for :name
-  defp request_fares({:ok, {zone_type, zone_id, args}}) when zone_id in @zone_id do
-    args
-    |> Keyword.put(:name, {zone_type, zone_id})
-    |> Keyword.drop([:zone_type, :zone_id])
-    |> get_fares()
   end
 
   defp request_fares({:ok, args}) do
