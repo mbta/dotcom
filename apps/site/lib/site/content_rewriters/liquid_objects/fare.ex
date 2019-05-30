@@ -200,11 +200,12 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
     case Enum.into(args, %{}) do
       # CR zone args need to be converted to a :name Tuple from their temporary placeholders
       %{zone_type: type, zone_id: id} ->
-        args
-        |> Keyword.put(:name, {type, id})
-        |> Keyword.drop([:zone_type, :zone_id])
+        zone_request =
+          args
+          |> Keyword.put(:name, {type, id})
+          |> Keyword.drop([:zone_type, :zone_id])
 
-        {:ok, args}
+        {:ok, zone_request}
 
       # Prevent both :mode and :name keys from being sent to Repo.all (never matches fare)
       %{name: _} ->
