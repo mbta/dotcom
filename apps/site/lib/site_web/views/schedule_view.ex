@@ -27,6 +27,8 @@ defmodule SiteWeb.ScheduleView do
     "Mattapan"
   ]
 
+  @july_1_2019 1_561_953_600
+
   @doc """
   Given a list of schedules, returns a display of the route direction. Assumes all
   schedules have the same route and direction.
@@ -451,5 +453,18 @@ defmodule SiteWeb.ScheduleView do
   defp sort_subway(route_a, route_b) do
     Enum.find_index(@subway_order, fn x -> x == route_a.id end) <
       Enum.find_index(@subway_order, fn x -> x == route_b.id end)
+  end
+
+  @spec fare_change_message(integer) :: Safe.t()
+  def fare_change_message(now \\ System.system_time(:second)) do
+    if now < @july_1_2019 do
+      content_tag :div, class: "trip-fare" do
+        link(to: "/fare-proposal-2019/fare-prices") do
+          "Fares are changing July 1, 2019."
+        end
+      end
+    else
+      []
+    end
   end
 end

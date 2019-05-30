@@ -54,4 +54,5 @@
       (<%= link("View fares", to: fare_path(@conn, :show, fare_group(@route.type), fare_params(@origin, @destination))) %>)
     </div>
   <% end %>
+  <%= fare_change_message() %>
 </div>
