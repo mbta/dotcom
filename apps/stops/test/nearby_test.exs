@@ -154,8 +154,8 @@ defmodule Stops.NearbyTest do
       actual = @position |> api_around(radius: 0.06) |> distance_sort
 
       expected = [
-        %{id: "North Billerica", latitude: 42.593248, longitude: -71.280995},
-        %{id: "Wilmington", latitude: 42.546624, longitude: -71.174334},
+        %{id: "place-NHRML-0218", latitude: 42.593248, longitude: -71.280995},
+        %{id: "place-NHRML-0152", latitude: 42.546624, longitude: -71.174334},
         %{id: "6902", latitude: 42.519675, longitude: -71.21163}
       ]
 

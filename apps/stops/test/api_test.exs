@@ -5,9 +5,9 @@ defmodule Stops.ApiTest do
 
   describe "by_gtfs_id/1" do
     test "uses the gtfs ID to find a stop" do
-      {:ok, stop} = by_gtfs_id("Anderson/ Woburn")
+      {:ok, stop} = by_gtfs_id("place-NHRML-0127")
 
-      assert stop.id == "Anderson/ Woburn"
+      assert stop.id == "place-NHRML-0127"
       assert stop.name == "Anderson/Woburn"
       assert stop.station?
       assert stop.accessibility != []

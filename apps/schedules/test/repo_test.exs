@@ -91,18 +91,18 @@ defmodule Schedules.RepoTest do
   end
 
   describe "schedule_for_trip/2" do
-    @trip_id "Lowell"
+    @trip_id "place-NHRML-0254"
              |> schedule_for_stop(direction_id: 1)
              |> List.first()
              |> Map.get(:trip)
              |> Map.get(:id)
 
     test "returns stops in order of their stop_sequence for a given trip" do
-      # find a Lowell trip ID
+      # find a place-NHRML-0254 trip ID
       response = schedule_for_trip(@trip_id)
       assert response |> Enum.all?(fn schedule -> schedule.trip.id == @trip_id end)
       refute response == []
-      assert List.first(response).stop.id == "Lowell"
+      assert List.first(response).stop.id == "place-NHRML-0254"
       assert List.last(response).stop.id == "place-north"
     end
 
@@ -157,11 +157,11 @@ defmodule Schedules.RepoTest do
       today = Util.service_date() |> Timex.format!("{ISOdate}")
 
       response =
-        origin_destination("Anderson/ Woburn", "North Station", date: today, direction_id: 1)
+        origin_destination("place-NHRML-0127", "North Station", date: today, direction_id: 1)
 
       [{origin, dest} | _] = response
 
-      assert origin.stop.id == "Anderson/ Woburn"
+      assert origin.stop.id == "place-NHRML-0127"
       assert dest.stop.id == "place-north"
       assert origin.trip.id == dest.trip.id
       assert origin.time < dest.time
@@ -169,10 +169,10 @@ defmodule Schedules.RepoTest do
 
     test "does not require a direction id" do
       today = Util.service_date() |> Timex.format!("{ISOdate}")
-      no_direction_id = origin_destination("Anderson/ Woburn", "North Station", date: today)
+      no_direction_id = origin_destination("place-NHRML-0127", "North Station", date: today)
 
       direction_id =
-        origin_destination("Anderson/ Woburn", "North Station", date: today, direction_id: 1)
+        origin_destination("place-NHRML-0127", "North Station", date: today, direction_id: 1)
 
       assert no_direction_id == direction_id
     end
@@ -196,7 +196,7 @@ defmodule Schedules.RepoTest do
       with_mock V3Api.Schedules, all: fn _ -> {:error, :tuple} end do
         response =
           origin_destination(
-            "Anderson/ Woburn",
+            "place-NHRML-0127",
             "North Station"
           )
 
@@ -315,15 +315,15 @@ defmodule Schedules.RepoTest do
   describe "has_trip?/1" do
     test "keeps parsed schedules with trips" do
       assert has_trip?(
-               {"CR-Lowell", "CR-Weekday-Fall-18-348", "Lowell",
+               {"CR-Lowell", "CR-Weekday-Fall-18-348", "place-NHRML-0254",
                 "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5", false, false, false, 1, 0}
              )
     end
 
     test "filters out parsed schedules that returned without trips" do
       refute has_trip?(
-               {"CR-Lowell", nil, "Lowell", "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5", false,
-                false, false, 1, 0}
+               {"CR-Lowell", nil, "place-NHRML-0254", "2018-11-05 23:05:00-05:00 -05 Etc/GMT+5",
+                false, false, false, 1, 0}
              )
     end
   end

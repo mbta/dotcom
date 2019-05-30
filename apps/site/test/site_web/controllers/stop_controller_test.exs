@@ -77,7 +77,7 @@ defmodule SiteWeb.StopControllerTest do
     conn =
       conn
       |> put_req_cookie("stop_page_redesign", "true")
-      |> get(stop_path(conn, :show, "Worcester"))
+      |> get(stop_path(conn, :show, "place-WML-0442"))
 
     assert conn.assigns.zone_number == "8"
   end

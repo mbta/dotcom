@@ -51,11 +51,11 @@ defmodule Site.VehicleHelpersTest do
 
     test "translate parent stop to itself" do
       locations = %{
-        {"CR-Weekday-Spring-19-330", "Lowell"} => %Vehicles.Vehicle{
+        {"CR-Weekday-Spring-19-330", "place-NHRML-0254"} => %Vehicles.Vehicle{
           latitude: 1.1,
           longitude: 2.2,
           status: :stopped,
-          stop_id: "Lowell",
+          stop_id: "place-NHRML-0254",
           trip_id: "CR-Weekday-Spring-19-330",
           shape_id: "903_0018"
         }
@@ -63,7 +63,7 @@ defmodule Site.VehicleHelpersTest do
 
       assert @route
              |> build_tooltip_index(locations, @predictions)
-             |> Map.has_key?("Lowell")
+             |> Map.has_key?("place-NHRML-0254")
     end
 
     test "verify the Vehicle tooltip data" do

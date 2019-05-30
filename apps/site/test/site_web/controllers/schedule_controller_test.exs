@@ -75,7 +75,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "assigns information for the trip view", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "CR-Worcester", origin: "Westborough"))
+      conn = get(conn, trip_view_path(conn, :show, "CR-Worcester", origin: "place-WML-0340"))
       assert conn.assigns.tab == "trip-view"
       refute conn.assigns.schedules == nil
       refute conn.assigns.predictions == nil
@@ -118,8 +118,8 @@ defmodule SiteWeb.ScheduleControllerTest do
       conn = get(conn, trip_view_path(conn, :show, "CR-Lowell"))
       zone_map = conn.assigns.zone_map
 
-      assert "North Billerica" in Map.keys(zone_map)
-      assert zone_map["North Billerica"] == "5"
+      assert "place-NHRML-0218" in Map.keys(zone_map)
+      assert zone_map["place-NHRML-0218"] == "5"
     end
   end
 
@@ -260,7 +260,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       end
 
       # stops are in inbound order
-      assert List.first(stops).id == "Needham Heights"
+      assert List.first(stops).id == "place-NB-0137"
       assert List.last(stops).id == "place-sstat"
 
       # includes the stop features
