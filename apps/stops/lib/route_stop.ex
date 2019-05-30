@@ -104,7 +104,12 @@ defmodule Stops.RouteStop do
 
     stop_ids
     |> Enum.flat_map(fn stop_id ->
-      case Map.fetch(stops, stop_id) do
+      parent_stop_id =
+        stop_id
+        |> Stops.Repo.get_parent()
+        |> Map.fetch!(:id)
+
+      case Map.fetch(stops, parent_stop_id) do
         {:ok, stop} -> [stop]
         :error -> []
       end
