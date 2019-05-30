@@ -50,7 +50,7 @@ defmodule Stops.RepoTest do
       response = by_route("CR-Lowell", 1)
 
       assert response != []
-      assert match?(%Stop{id: "Lowell", name: "Lowell"}, List.first(response))
+      assert match?(%Stop{id: "place-NHRML-0254", name: "Lowell"}, List.first(response))
       assert match?(%Stop{id: "place-north", name: "North Station"}, List.last(response))
       assert response == Enum.uniq(response)
     end
@@ -59,23 +59,23 @@ defmodule Stops.RepoTest do
       response = by_route("CR-Fitchburg", 1)
 
       assert Enum.map(response, &{&1.id, &1.name}) == [
-               {"Wachusett", "Wachusett"},
-               {"Fitchburg", "Fitchburg"},
-               {"North Leominster", "North Leominster"},
-               {"Shirley", "Shirley"},
-               {"Ayer", "Ayer"},
-               {"Littleton / Rte 495", "Littleton/Rte 495"},
-               {"South Acton", "South Acton"},
-               {"West Concord", "West Concord"},
-               {"Concord", "Concord"},
-               {"Lincoln", "Lincoln"},
-               {"Silver Hill", "Silver Hill"},
-               {"Hastings", "Hastings"},
-               {"Kendal Green", "Kendal Green"},
-               {"Brandeis/ Roberts", "Brandeis/Roberts"},
-               {"Waltham", "Waltham"},
-               {"Waverley", "Waverley"},
-               {"Belmont", "Belmont"},
+               {"place-FR-3338", "Wachusett"},
+               {"place-FR-0494", "Fitchburg"},
+               {"place-FR-0451", "North Leominster"},
+               {"place-FR-0394", "Shirley"},
+               {"place-FR-0361", "Ayer"},
+               {"place-FR-0301", "Littleton/Rte 495"},
+               {"place-FR-0253", "South Acton"},
+               {"place-FR-0219", "West Concord"},
+               {"place-FR-0201", "Concord"},
+               {"place-FR-0167", "Lincoln"},
+               {"place-FR-0147", "Silver Hill"},
+               {"place-FR-0137", "Hastings"},
+               {"place-FR-0132", "Kendal Green"},
+               {"place-FR-0115", "Brandeis/Roberts"},
+               {"place-FR-0098", "Waltham"},
+               {"place-FR-0074", "Waverley"},
+               {"place-FR-0064", "Belmont"},
                {"place-portr", "Porter"},
                {"place-north", "North Station"}
              ]
@@ -111,8 +111,8 @@ defmodule Stops.RepoTest do
   describe "by_routes/3" do
     test "can return stops from multiple route IDs" do
       response = by_routes(["CR-Lowell", "CR-Haverhill"], 1)
-      assert Enum.find(response, &(&1.id == "Lowell"))
-      assert Enum.find(response, &(&1.id == "Haverhill"))
+      assert Enum.find(response, &(&1.id == "place-NHRML-0254"))
+      assert Enum.find(response, &(&1.id == "place-WR-0329"))
       # North Station only appears once
       assert response |> Enum.filter(&(&1.id == "place-north")) |> length == 1
     end
@@ -123,7 +123,7 @@ defmodule Stops.RepoTest do
       # commuter rail
       response = by_route_type(2)
 
-      assert Enum.find(response, &(&1.id == "Lowell"))
+      assert Enum.find(response, &(&1.id == "place-NHRML-0254"))
 
       # uses parent stop
       assert Enum.find(response, &(&1.id == "North Station")) == nil

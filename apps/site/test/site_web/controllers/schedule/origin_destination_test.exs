@@ -127,7 +127,7 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
       refute conn.assigns.origin == nil
       assert conn.assigns.origin.id == "place-hymnl"
       refute conn.assigns.destination == nil
-      assert conn.assigns.destination.id == "64"
+      assert conn.assigns.destination.id == "place-dudly"
       assert conn.assigns.direction_id == 1
     end
 
