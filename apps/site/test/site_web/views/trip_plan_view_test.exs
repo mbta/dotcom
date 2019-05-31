@@ -489,7 +489,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
     test "renders the form with all fields", %{conn: conn} do
       html =
-        "index.html"
+        "_sidebar.html"
         |> render(Map.put(@index_assigns, :conn, conn))
         |> safe_to_string()
 
@@ -505,7 +505,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
     test "includes a text field for the javascript datepicker to attach to", %{conn: conn} do
       html =
-        "index.html"
+        "_sidebar.html"
         |> render(Map.put(@index_assigns, :conn, conn))
         |> safe_to_string()
 

@@ -31,7 +31,7 @@ const data: MapData = {
 it("it renders using the marker's position and zoom", () => {
   const div = document.createElement("div");
   document.body.appendChild(div);
-  const wrapper = mount(<Map mapData={{ ...data }} />, {
+  const wrapper = mount(<Map mapData={data} />, {
     attachTo: div
   });
   expect(

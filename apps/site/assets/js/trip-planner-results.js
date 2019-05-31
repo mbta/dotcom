@@ -110,7 +110,6 @@ export class TripPlannerResults {
   }
 
   initPlanMap(ev) {
-    // TODO: make sure new page has different selector
     const el = ev.target.querySelector(".js-trip-plan-map-dynamic-data");
     const id = el.getAttribute("data-for");
     // check if map was already initialized

@@ -9,7 +9,7 @@ interface Props {
 const ItineraryAccordion = ({
   itinerary
 }: Props): ReactElement<HTMLElement> => (
-  <div className="m-trip-plan-itinerary-container">
+  <div className="m-trip-plan-results__itinerary-container">
     <div
       className="itinerary-accessible"
       dangerouslySetInnerHTML={{ __html: itinerary.access_html }} // eslint-disable-line react/no-danger
@@ -20,14 +20,14 @@ const ItineraryAccordion = ({
         iconSvgText: null,
         text: (
           <div
-            className="m-trip-plan-itinerary-summary"
+            className="m-trip-plan-results__itinerary-summary"
             dangerouslySetInnerHTML={{ __html: itinerary.tab_html }} // eslint-disable-line react/no-danger
           />
         )
       }}
       initiallyExpanded={false}
     >
-      <div className="m-trip-plan-itinerary-body">
+      <div className="m-trip-plan-results__itinerary-body">
         <div className="trip-plan-map map">
           <Map mapData={itinerary.map} boundsByMarkers />
         </div>

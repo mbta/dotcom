@@ -319,7 +319,7 @@ defmodule SiteWeb.TripPlanView do
           "May not be accessible"
         end
       ],
-      class: "trip-plan-itinerary-accessibility"
+      class: "m-trip-plan-results__itinerary-accessibility"
     )
   end
 
@@ -526,7 +526,8 @@ defmodule SiteWeb.TripPlanView do
             Stream.iterate(1, &(&1 + 1))
           ]) do
       tab_html =
-        render_to_string("_itinerary_tab.html",
+        "_itinerary_tab.html"
+        |> render_to_string(
           itinerary: i,
           index: index,
           routes: routes,
@@ -535,25 +536,25 @@ defmodule SiteWeb.TripPlanView do
 
       access_html = i |> accessibility_icon() |> HTML.safe_to_string()
 
-      "_itinerary.html"
-      |> render_to_string(
-        itinerary: i,
-        index: index,
-        routes: routes,
-        links: links,
-        itinerary_row_list: itinerary_row_list,
-        conn: conn,
-        expanded: expanded
-      )
-      |> (fn x ->
-            Map.new(%{
-              html: x,
-              tab_html: tab_html,
-              id: index,
-              map: itinerary_map(map),
-              access_html: access_html
-            })
-          end).()
+      html =
+        "_itinerary.html"
+        |> render_to_string(
+          itinerary: i,
+          index: index,
+          routes: routes,
+          links: links,
+          itinerary_row_list: itinerary_row_list,
+          conn: conn,
+          expanded: expanded
+        )
+
+      %{
+        html: html,
+        tab_html: tab_html,
+        id: index,
+        map: itinerary_map(map),
+        access_html: access_html
+      }
     end
   end
 

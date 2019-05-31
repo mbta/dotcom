@@ -20,7 +20,7 @@ const defaultIconOpts: LeafletOpts = {
 
 export default (
   icon: string | null,
-  opts: IconOpts | null | undefined
+  opts?: IconOpts | null
 ): Icon | undefined => {
   const iconOpts =
     opts !== null && opts

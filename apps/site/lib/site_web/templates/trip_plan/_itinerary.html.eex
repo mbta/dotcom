@@ -1,6 +1,6 @@
 <div>
   <%= if @itinerary_row_list.alerts? do %>
-    <div class="m-itinerary-has-alerts-text">
+    <div class="m-trip-plan-results__itinerary-alerts-text">
       <strong>Note:</strong> This trip may be affected by disruptions in service. Check steps with <%= fa "exclamation-triangle" %> for details.
     </div>
   <% end %>

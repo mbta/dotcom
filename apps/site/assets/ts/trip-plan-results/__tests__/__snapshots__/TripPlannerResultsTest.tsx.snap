@@ -2,7 +2,7 @@
 
 exports[`it renders 1`] = `
 <div
-  className="m-trip-plan-itinerary-container"
+  className="m-trip-plan-results__itinerary-container"
 >
   <div
     className="itinerary-accessible"
@@ -26,7 +26,7 @@ exports[`it renders 1`] = `
       className="c-expandable-block__header-text"
     >
       <div
-        className="m-trip-plan-itinerary-summary"
+        className="m-trip-plan-results__itinerary-summary"
         dangerouslySetInnerHTML={
           Object {
             "__html": "<div>HTML for the accordion button</div>",
@@ -51,7 +51,7 @@ exports[`it renders 1`] = `
       className="c-expandable-block__header"
     >
       <div
-        className="m-trip-plan-itinerary-summary"
+        className="m-trip-plan-results__itinerary-summary"
         dangerouslySetInnerHTML={
           Object {
             "__html": "<div>HTML for the accordion button</div>",
@@ -72,7 +72,7 @@ exports[`it renders 1`] = `
       role="region"
     >
       <div
-        className="m-trip-plan-itinerary-body"
+        className="m-trip-plan-results__itinerary-body"
       >
         <div
           className="trip-plan-map map"

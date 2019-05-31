@@ -27,14 +27,14 @@ defmodule Site.TripPlan.Map do
   @spec initial_map_src() :: static_map
   def initial_map_src do
     {630, 400}
-    |> MapData.new(16)
+    |> MapData.new(14)
     |> MapData.to_google_map_data()
     |> GoogleMaps.static_map_url()
   end
 
   def initial_map_data do
     {630, 400}
-    |> MapData.new(16)
+    |> MapData.new(14)
   end
 
   # Maps for results
@@ -44,13 +44,13 @@ defmodule Site.TripPlan.Map do
   Route or nil when given a route_id
   """
   @spec itinerary_map({Itinerary.t(), integer()}, Keyword.t()) :: t
-  def itinerary_map({itinerary, id}, opts \\ []) do
-    map_data = itinerary_map_data(itinerary, id, Keyword.merge(@default_opts, opts))
+  def itinerary_map(itinerary, opts \\ []) do
+    map_data = itinerary_map_data(itinerary, Keyword.merge(@default_opts, opts))
     {map_data, map_data |> MapData.to_google_map_data() |> GoogleMaps.static_map_url()}
   end
 
-  @spec itinerary_map_data(Itinerary.t(), integer(), Keyword.t()) :: MapData.t()
-  defp itinerary_map_data(itinerary, id, opts) do
+  @spec itinerary_map_data(Itinerary.t(), Keyword.t()) :: MapData.t()
+  defp itinerary_map_data(itinerary, opts) do
     markers =
       itinerary
       |> markers_for_legs(opts)
@@ -61,7 +61,6 @@ defmodule Site.TripPlan.Map do
 
     {600, 600}
     |> MapData.new()
-    |> Map.put(:id, Integer.to_string(id))
     |> MapData.add_markers(markers)
     |> MapData.add_polylines(paths)
   end
