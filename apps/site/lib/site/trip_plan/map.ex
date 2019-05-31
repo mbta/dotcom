@@ -43,7 +43,7 @@ defmodule Site.TripPlan.Map do
   Accepts a function that will return either a
   Route or nil when given a route_id
   """
-  @spec itinerary_map({Itinerary.t(), integer()}, Keyword.t()) :: t
+  @spec itinerary_map(Itinerary.t(), Keyword.t()) :: t
   def itinerary_map(itinerary, opts \\ []) do
     map_data = itinerary_map_data(itinerary, Keyword.merge(@default_opts, opts))
     {map_data, map_data |> MapData.to_google_map_data() |> GoogleMaps.static_map_url()}
