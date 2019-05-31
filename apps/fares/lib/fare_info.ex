@@ -5,18 +5,24 @@ defmodule Fares.FareInfo do
 
   alias Fares.Fare
 
-  @filename "priv/fares.csv"
+  @july_1_2019 1_561_953_600
 
   @doc "Load fare info from a CSV file."
   @spec fare_info() :: [Fare.t()]
-  @spec fare_info(Path.t()) :: [Fare.t()]
-  def fare_info(filename \\ @filename) do
-    filename
+  @spec fare_info(integer) :: [Fare.t()]
+  def fare_info(now \\ System.system_time(:second)) do
+    now
+    |> filename()
     |> fare_data()
     |> Enum.flat_map(&mapper/1)
     |> Enum.concat(free_fare())
     |> split_reduced_fares()
   end
+
+  @spec filename(integer) :: Path.t()
+  defp filename(now) when now > @july_1_2019, do: "priv/fares-july1.csv"
+
+  defp filename(_), do: "priv/fares.csv"
 
   @spec mapper([String.t()]) :: [Fare.t()]
   def mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do

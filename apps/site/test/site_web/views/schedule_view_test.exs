@@ -41,6 +41,8 @@ defmodule SiteWeb.ScheduleViewTest do
     trip: @trip,
     stop_name: @stop.name
   }
+  @after_july_1_2019 1_561_953_601
+  @before_july_1_2019 1_561_953_599
 
   describe "display_direction/1" do
     test "given no schedules, returns no content" do
@@ -353,7 +355,7 @@ defmodule SiteWeb.ScheduleViewTest do
         )
 
       rendered = safe_to_string(actual)
-      refute rendered =~ "fare"
+      refute rendered =~ "Fare:"
     end
 
     test "a branch is expanded if the expanded param is the branch name", %{conn: conn} do
@@ -1106,6 +1108,21 @@ defmodule SiteWeb.ScheduleViewTest do
   describe "single_trip_fares/1" do
     test "only return summary for single_trip fares" do
       assert single_trip_fares("commuter_rail") == [{"Zones 1A-10", ["$2.25", " – ", "$12.50"]}]
+    end
+  end
+
+  describe "fare_change_message/1" do
+    test "before july 1, 2019" do
+      actual =
+        @before_july_1_2019
+        |> fare_change_message()
+        |> safe_to_string()
+
+      assert actual =~ "Fares are changing"
+    end
+
+    test "after july 1, 2019" do
+      assert fare_change_message(@after_july_1_2019) == []
     end
   end
 end
