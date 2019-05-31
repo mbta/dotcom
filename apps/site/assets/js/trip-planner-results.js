@@ -94,7 +94,7 @@ export class TripPlannerResults {
 
   toggleIcon(e) {
     const container = $(e.target).parent();
-    const icon = $(container).find("[data-planner-header] i");
+    const icon = $(container).find(".trip-plan-itinerary-expand i");
     icon.toggleClass("fa-angle-up fa-angle-down");
   }
 
