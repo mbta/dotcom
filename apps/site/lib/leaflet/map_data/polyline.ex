@@ -20,8 +20,10 @@ defmodule Leaflet.MapData.Polyline do
 
   @default_opts [color: "#000000", weight: 5, dotted?: false]
 
-  @spec new(Shape.t(), Keyword.t()) :: t()
-  def new(%Shape{polyline: polyline, id: id}, user_opts \\ []) when is_binary(polyline) do
+  @spec new(Shape.t() | String.t(), Keyword.t()) :: t()
+  def new(polyline, user_opts \\ [])
+
+  def new(%Shape{polyline: polyline, id: id}, user_opts) when is_binary(polyline) do
     positions =
       polyline
       |> Polyline.decode()
@@ -33,6 +35,22 @@ defmodule Leaflet.MapData.Polyline do
       color: opts[:color],
       dotted?: opts[:dotted?],
       id: id,
+      positions: positions,
+      weight: opts[:weight]
+    }
+  end
+
+  def new(polyline, user_opts) when is_binary(polyline) do
+    positions =
+      polyline
+      |> Polyline.decode()
+      |> Enum.map(fn {lng, lat} -> [lat, lng] end)
+
+    opts = Keyword.merge(@default_opts, user_opts)
+
+    %__MODULE__{
+      color: opts[:color],
+      dotted?: opts[:dotted?],
       positions: positions,
       weight: opts[:weight]
     }

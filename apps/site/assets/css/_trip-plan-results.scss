@@ -1,0 +1,76 @@
+.m-trip-plan-itinerary-container {
+  margin-bottom: $base-spacing * 1.5;
+
+  .c-expandable-block__header {
+    line-height: 1.5;
+    font-size: $base-spacing;
+    margin-top: 0;
+  }
+
+  .c-expandable-block__header-text {
+    align-items: center;
+    display: flex;
+  }
+}
+
+
+.m-trip-plan-itinerary-summary {
+  display: flex;
+  flex-grow: 1;
+  flex-wrap: wrap;
+}
+
+.m-trip-plan-itinerary-accessibility {
+  @include icon-size-inline(1em);
+
+  [class*="c-svg__icon"] {
+    margin-right: $base-spacing / 4;
+  }
+}
+
+.m-trip-plan-itinerary-legs {
+  @include icon-size-inline(1.5em, .1875em);
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+
+  .fa-angle-right {
+    margin-left: $base-spacing / 4;
+    margin-right: $base-spacing / 4;
+  }
+}
+
+.m-trip-plan-itinerary-length {
+  align-items: center;
+  display: flex;
+  flex-shrink: 1;
+  justify-content: flex-end;
+  margin-right: $base-spacing / 2;
+}
+
+.m-trip-plan-itinerary-length-time {
+  font-weight: bold;
+}
+
+.m-trip-plan-itinerary-length-distance {
+  margin-left: $space-12;
+  white-space: nowrap;
+
+  g {
+    fill: currentColor;
+  }
+}
+
+.m-trip-plan-itinerary-body {
+  padding: 0 $space-16;
+}
+
+.m-itinerary-has-alerts-icon {
+  margin-left: $space-8;
+}
+
+.m-itinerary-has-alerts-text {
+  background-color: $gray-lightest;
+  margin-bottom: $base-spacing;
+  padding: $base-spacing;
+}

@@ -12,15 +12,19 @@ Array [
     role="button"
     tabIndex={0}
   >
-    PDF Schedules
-    <span
-      className="c-expandable-block__header-caret"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "&#xF106;",
+    <div
+      className="c-expandable-block__header-text"
+    >
+      PDF Schedules
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF106;",
+          }
         }
-      }
-    />
+      />
+    </div>
   </h3>,
   <div
     aria-labelledby="header-pdfs"

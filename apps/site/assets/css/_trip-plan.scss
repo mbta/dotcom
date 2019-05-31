@@ -52,11 +52,6 @@
 .trip-plan-itinerary-container {
   margin-top: $space-12;
 
-  > * {
-    padding-left: $space-16;
-    padding-right: $space-16;
-  }
-
   .toggle-stop-list {
     padding-bottom: $space-6;
     text-decoration: none;
@@ -78,8 +73,7 @@
   border: $border-width solid $brand-primary;
   border-radius: $border-radius;
   display: flex;
-  padding-bottom: $base-spacing / 2;
-  padding-top: $base-spacing / 2;
+  padding: $base-spacing / 2 $space-16;
 
   &:not(.collapsed) {
     background-color: $brand-primary-darkest;
@@ -173,6 +167,7 @@
 .trip-plan-itinerary-body {
   border: $border;
   border-radius: 0 0 $border-radius $border-radius;
+  padding: 0 $space-16;
 }
 
 .trip-plan-map {

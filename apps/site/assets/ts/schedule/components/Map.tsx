@@ -28,8 +28,8 @@ const setupChannels = (channel: string, dispatch: Dispatch<Action>): void => {
 export const iconOpts = (
   icon: string | null
 ): {
-  iconSize?: [number, number];
-  iconAnchor?: [number, number];
+  icon_size?: [number, number];
+  icon_anchor?: [number, number];
 } => {
   switch (icon) {
     case null:
@@ -37,14 +37,14 @@ export const iconOpts = (
 
     case "vehicle-bordered-expanded":
       return {
-        iconSize: [18, 18],
-        iconAnchor: [6, 6]
+        icon_size: [18, 18],
+        icon_anchor: [6, 6]
       };
 
     case "stop-circle-bordered-expanded":
       return {
-        iconSize: [12, 12],
-        iconAnchor: [6, 6]
+        icon_size: [12, 12],
+        icon_anchor: [6, 6]
       };
 
     default:
@@ -58,8 +58,8 @@ const zIndex = (icon: string | null): number | undefined =>
 const updateMarker = (marker: Marker): Marker => ({
   ...marker,
   tooltip: <div>{marker.tooltip_text}</div>,
-  iconOpts: iconOpts(marker.icon),
-  zIndex: zIndex(marker.icon)
+  icon_opts: iconOpts(marker.icon),
+  z_index: zIndex(marker.icon)
 });
 
 const isVehicleMarker = (marker: Marker): boolean =>

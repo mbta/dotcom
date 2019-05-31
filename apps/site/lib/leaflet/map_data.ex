@@ -18,7 +18,8 @@ defmodule Leaflet.MapData do
             polylines: [],
             tile_server_url: "",
             width: 0,
-            zoom: nil
+            zoom: nil,
+            id: ""
 
   @type t :: %__MODULE__{
           default_center: lat_lng,
@@ -27,7 +28,8 @@ defmodule Leaflet.MapData do
           polylines: [Polyline.t()],
           tile_server_url: String.t(),
           width: integer,
-          zoom: integer | nil
+          zoom: integer | nil,
+          id: String.t()
         }
 
   @spec new({integer, integer}, integer | nil) :: t

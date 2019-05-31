@@ -1,0 +1,18 @@
+  <div class="m-trip-plan-itinerary-legs">
+    <%= @routes |> Enum.map(&icon_for_route/1) |> Enum.intersperse(fa "angle-right") %>
+  </div>
+  <div class="m-trip-plan-itinerary-length">
+    <span class="m-trip-plan-itinerary-length-time">
+      <%= Timex.format!(@itinerary.start, "{h12}:{m} {AM}") %> - <%= Timex.format!(@itinerary.stop, "{h12}:{m} {AM}") %>
+    </span>
+    <span class="m-trip-plan-itinerary-length-distance">
+      <%= svg "walk.svg" %>
+      <%= @itinerary |> TripPlan.Itinerary.walking_distance |> display_meters_as_miles %> mi
+    </span>
+    <%= if @itinerary_row_list.alerts? do %>
+      <span class="m-itinerary-has-alerts-icon">
+        <%= fa "exclamation-triangle" %>
+      </span>
+    <% end %>
+  </div>
+

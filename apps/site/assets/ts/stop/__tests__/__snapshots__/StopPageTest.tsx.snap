@@ -2877,15 +2877,19 @@ Array [
                 }
               }
             />
-            Accessibility
-            <span
-              className="c-expandable-block__header-caret"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "&#xF106;",
+            <div
+              className="c-expandable-block__header-text"
+            >
+              Accessibility
+              <span
+                className="c-expandable-block__header-caret"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#xF106;",
+                  }
                 }
-              }
-            />
+              />
+            </div>
           </h3>
           <div
             aria-labelledby="header-accessibility"
@@ -3038,15 +3042,19 @@ Array [
                 }
               }
             />
-            Parking
-            <span
-              className="c-expandable-block__header-caret"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "&#xF107;",
+            <div
+              className="c-expandable-block__header-text"
+            >
+              Parking
+              <span
+                className="c-expandable-block__header-caret"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#xF107;",
+                  }
                 }
-              }
-            />
+              />
+            </div>
           </h3>
           <noscript>
             <style>
@@ -3223,15 +3231,19 @@ Array [
                 }
               }
             />
-            Bikes
-            <span
-              className="c-expandable-block__header-caret"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "&#xF107;",
+            <div
+              className="c-expandable-block__header-text"
+            >
+              Bikes
+              <span
+                className="c-expandable-block__header-caret"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#xF107;",
+                  }
                 }
-              }
-            />
+              />
+            </div>
           </h3>
           <noscript>
             <style>
@@ -3316,15 +3328,19 @@ Array [
                 }
               }
             />
-            Fare Sales
-            <span
-              className="c-expandable-block__header-caret"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "&#xF107;",
+            <div
+              className="c-expandable-block__header-text"
+            >
+              Fare Sales
+              <span
+                className="c-expandable-block__header-caret"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#xF107;",
+                  }
                 }
-              }
-            />
+              />
+            </div>
           </h3>
           <noscript>
             <style>

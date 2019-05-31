@@ -26,7 +26,7 @@
       </span>
 
       <span class="expand-branch-link-icon">
-        <%= if @expanded, do: fa("plus-circle", class: "fa-minus-circle"), else: fa("plus-circle") %>
+        <%= if @expanded, do: fa("angle-up"), else: fa("angle-down") %>
       </span>
     <% end %>
   </div>

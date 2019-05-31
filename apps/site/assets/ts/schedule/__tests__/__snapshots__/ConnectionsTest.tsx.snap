@@ -14,15 +14,19 @@ Array [
     role="button"
     tabIndex={0}
   >
-    Connections
-    <span
-      className="c-expandable-block__header-caret"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "&#xF107;",
+    <div
+      className="c-expandable-block__header-text"
+    >
+      Connections
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF107;",
+          }
         }
-      }
-    />
+      />
+    </div>
   </h3>,
   <noscript>
     <style>

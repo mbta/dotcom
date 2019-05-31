@@ -41,8 +41,8 @@ export const buildIcon = (
     if (markerIcon === "current-location-marker") {
       // Custom size for current-location marker and no hover icon
       return Icon(`${markerIcon}`, {
-        iconSize: size,
-        iconAnchor: [size![0] / 2, size![1] / 2]
+        icon_size: size,
+        icon_anchor: [size![0] / 2, size![1] / 2]
       });
     }
     if (hovered || isSelected) {

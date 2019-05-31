@@ -8,7 +8,7 @@ export class TripPlannerResults {
     this.firstMap = null;
     this.addEventListeners();
     this.initFirstMap();
-
+    
     $("[data-planner-body]").on("hide.bs.collapse", this.toggleIcon);
     $("[data-planner-body]").on("show.bs.collapse", this.toggleIcon);
     $("[data-planner-body]").on("shown.bs.collapse", this.initPlanMap);
@@ -95,7 +95,7 @@ export class TripPlannerResults {
   toggleIcon(e) {
     const container = $(e.target).parent();
     const icon = $(container).find("[data-planner-header] i");
-    icon.toggleClass("fa-plus-circle fa-minus-circle");
+    icon.toggleClass("fa-angle-up fa-angle-down");
   }
 
   initFirstMap() {
@@ -110,6 +110,7 @@ export class TripPlannerResults {
   }
 
   initPlanMap(ev) {
+    // TODO: make sure new page has different selector
     const el = ev.target.querySelector(".js-trip-plan-map-dynamic-data");
     const id = el.getAttribute("data-for");
     // check if map was already initialized

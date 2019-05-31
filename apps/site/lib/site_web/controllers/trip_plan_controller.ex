@@ -3,7 +3,6 @@ defmodule SiteWeb.TripPlanController do
   alias Routes.Route
   alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
-  alias Site.TripPlan.MapV1, as: TripPlanMapV1
   alias TripPlan.{Itinerary, Leg}
 
   plug(:require_google_maps)
@@ -54,7 +53,9 @@ defmodule SiteWeb.TripPlanController do
       plan_error: MapSet.to_list(query.errors),
       routes: Enum.map(itineraries, &routes_for_itinerary(&1, route_mapper)),
       itinerary_maps:
-        Enum.map(itineraries, &TripPlanMapV1.itinerary_map(&1, route_mapper: route_mapper)),
+        itineraries
+        |> Enum.with_index(1)
+        |> Enum.map(&TripPlanMap.itinerary_map(&1, route_mapper: route_mapper)),
       related_links:
         Enum.map(itineraries, &RelatedLink.links_for_itinerary(&1, route_by_id: route_mapper)),
       itinerary_row_lists: itinerary_row_lists

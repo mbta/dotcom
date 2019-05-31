@@ -1,9 +1,10 @@
 defmodule SiteWeb.TripPlanView do
   use SiteWeb, :view
   require Routes.Route
+  alias Site.React
   alias Site.TripPlan.{Query, ItineraryRow}
   alias Routes.Route
-  alias Phoenix.HTML.Form
+  alias Phoenix.{HTML, HTML.Form}
   alias SiteWeb.PartialView.SvgIconWithCircle
 
   import Schedules.Repo, only: [end_of_rating: 0]
@@ -502,5 +503,74 @@ defmodule SiteWeb.TripPlanView do
 
   def transfer_route_name(%Route{type: type}) do
     SiteWeb.ViewHelpers.mode_name(type)
+  end
+
+  def render_to_string(template, data) do
+    template |> render(data) |> HTML.safe_to_string()
+  end
+
+  def itinerary_map({map_data, map_src}) do
+    map_data
+    |> Map.put(:tile_server_url, Application.fetch_env!(:site, :tile_server_url))
+    |> Map.put(:src, map_src)
+  end
+
+  def itinerary_html(itineraries, %{conn: conn, expanded: expanded}) do
+    for {i, routes, map, links, itinerary_row_list, index} <-
+          Enum.zip([
+            itineraries,
+            conn.assigns.routes,
+            conn.assigns.itinerary_maps,
+            conn.assigns.related_links,
+            conn.assigns.itinerary_row_lists,
+            Stream.iterate(1, &(&1 + 1))
+          ]) do
+      tab_html =
+        render_to_string("_itinerary_tab.html",
+          itinerary: i,
+          index: index,
+          routes: routes,
+          itinerary_row_list: itinerary_row_list
+        )
+
+      access_html = i |> accessibility_icon() |> HTML.safe_to_string()
+
+      "_itinerary.html"
+      |> render_to_string(
+        itinerary: i,
+        index: index,
+        routes: routes,
+        links: links,
+        itinerary_row_list: itinerary_row_list,
+        conn: conn,
+        expanded: expanded
+      )
+      |> (fn x ->
+            Map.new(%{
+              html: x,
+              tab_html: tab_html,
+              id: index,
+              map: itinerary_map(map),
+              access_html: access_html
+            })
+          end).()
+    end
+  end
+
+  @spec render_react(map) :: HTML.safe()
+  def render_react(assigns) do
+    Util.log_duration(__MODULE__, :do_render_react, [assigns])
+  end
+
+  @spec do_render_react(map) :: HTML.safe()
+  def do_render_react(%{
+        itineraryData: data
+      }) do
+    React.render(
+      "TripPlannerResults",
+      %{
+        itineraryData: data
+      }
+    )
   end
 end

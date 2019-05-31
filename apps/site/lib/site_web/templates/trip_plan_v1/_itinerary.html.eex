@@ -25,7 +25,7 @@
       </div>
     </div>
     <span class="trip-plan-itinerary-expand">
-      <%= fa "plus-circle" %>
+      <%= fa "angle-down" %>
     </span>
   </a>
   <% {map_data, map_url} = @itinerary_map %>

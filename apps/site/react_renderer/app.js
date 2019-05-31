@@ -5,11 +5,13 @@ import readline from "readline";
 import TransitNearMe from "../assets/ts/tnm/components/TransitNearMe";
 import StopPage from "../assets/ts/stop/components/StopPage";
 import SchedulePage from "../assets/ts/schedule/components/SchedulePage";
+import TripPlannerResults from "../assets/ts/trip-plan-results/components/TripPlannerResults";
 
 const Components = {
   TransitNearMe,
   StopPage,
-  SchedulePage
+  SchedulePage,
+  TripPlannerResults
 };
 
 const encodeZeroWidthSpaceAsHtml = str => str.replace(/​/g, "&#8203;");

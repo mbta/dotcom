@@ -21,15 +21,19 @@ Array [
         }
       }
     />
-    Bikes
-    <span
-      className="c-expandable-block__header-caret"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "&#xF107;",
+    <div
+      className="c-expandable-block__header-text"
+    >
+      Bikes
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF107;",
+          }
         }
-      }
-    />
+      />
+    </div>
   </h3>,
   <noscript>
     <style>
@@ -130,15 +134,19 @@ exports[`BikeStorage via enzyme-to-json it displays parking info when opened and
           }
         }
       />
-      Bikes
-      <span
-        className="c-expandable-block__header-caret"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "&#xF106;",
+      <div
+        className="c-expandable-block__header-text"
+      >
+        Bikes
+        <span
+          className="c-expandable-block__header-caret"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "&#xF106;",
+            }
           }
-        }
-      />
+        />
+      </div>
     </h3>
     <div
       aria-labelledby="header-bikes"
