@@ -2,7 +2,6 @@ import React, { ReactElement } from "react";
 import { Itinerary } from "./TripPlannerResults";
 import Map from "../../leaflet/components/Map";
 import ExpandableBlock from "../../components/ExpandableBlock";
-import getBounds from "../../leaflet/bounds";
 
 interface Props {
   itinerary: Itinerary;
@@ -30,8 +29,8 @@ const Itinerary = ({ itinerary }: Props): ReactElement<HTMLElement> => {
         <div className="m-trip-plan-itinerary-body">
           <div className="trip-plan-map map">
             <Map
-              bounds={getBounds(itinerary.map.markers)}
               mapData={itinerary.map}
+              boundsByMarkers
             />
           </div>
           <div dangerouslySetInnerHTML={{ __html: itinerary.html }} />

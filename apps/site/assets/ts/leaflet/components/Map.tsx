@@ -25,6 +25,7 @@ export const defaultZoomOpts: ZoomOpts = {
 
 interface Props {
   bounds?: LatLngBounds;
+  boundsByMarkers?: boolean;
   mapData: MapData;
 }
 
@@ -48,6 +49,7 @@ const rotateMarker = (
 
 const Component = ({
   bounds,
+  boundsByMarkers,
   mapData: {
     default_center: defaultCenter,
     markers,
@@ -67,11 +69,13 @@ const Component = ({
     const FullscreenControl = require("react-leaflet-fullscreen");
     /* eslint-enable */
     const { Map, Marker, Polyline, Popup, TileLayer } = leaflet;
+    const getBounds = require("../bounds").default;
+    const boundsOrByMarkers = bounds || boundsByMarkers && getBounds(markers);
     const position = mapCenter(markers, defaultCenter);
     const nonNullZoom = zoom === null ? undefined : zoom;
     return (
       <Map
-        bounds={bounds}
+        bounds={boundsOrByMarkers}
         center={position}
         zoom={nonNullZoom}
         {...defaultZoomOpts}
