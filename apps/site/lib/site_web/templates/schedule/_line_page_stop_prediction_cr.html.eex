@@ -12,7 +12,11 @@
           <span class="u-linethrough"><%= time_data.scheduled_time %></span> <strong><%= time_data.prediction.time %></strong>
         <% end %>
       </div>
-      <%= headsign.name %><%= train_info %> · <span class="u-nowrap"><%= status %></span>
+      <span class="route-branch-headsign-wrapper">
+        <span class="route-branch-headsign">
+          <%= headsign.name %>
+        </span>
+      </span><%= train_info %> · <span class="u-nowrap"><%= status %></span>
     </div>
   <% end %>
 <% end %>
