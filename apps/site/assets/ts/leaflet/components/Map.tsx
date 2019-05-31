@@ -67,10 +67,10 @@ const Component = ({
     ) => Icon | undefined = require("../icon").default;
     require("leaflet-rotatedmarker");
     const FullscreenControl = require("react-leaflet-fullscreen");
+    const getBounds = require("../bounds").default;
     /* eslint-enable */
     const { Map, Marker, Polyline, Popup, TileLayer } = leaflet;
-    const getBounds = require("../bounds").default;
-    const boundsOrByMarkers = bounds || boundsByMarkers && getBounds(markers);
+    const boundsOrByMarkers = bounds || (boundsByMarkers && getBounds(markers));
     const position = mapCenter(markers, defaultCenter);
     const nonNullZoom = zoom === null ? undefined : zoom;
     return (

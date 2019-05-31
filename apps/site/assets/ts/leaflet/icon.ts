@@ -6,13 +6,13 @@ export type IconType = (
   opts: IconOpts | undefined
 ) => Icon | undefined;
 
-interface leafletOpts {
+interface LeafletOpts {
   iconSize: [number, number];
   iconAnchor: [number, number];
   popupAnchor: [number, number];
 }
 
-const defaultIconOpts: leafletOpts = {
+const defaultIconOpts: LeafletOpts = {
   iconAnchor: [22, 55],
   iconSize: [45, 75],
   popupAnchor: [0, -37]

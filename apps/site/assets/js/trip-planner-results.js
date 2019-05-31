@@ -8,7 +8,7 @@ export class TripPlannerResults {
     this.firstMap = null;
     this.addEventListeners();
     this.initFirstMap();
-    
+
     $("[data-planner-body]").on("hide.bs.collapse", this.toggleIcon);
     $("[data-planner-body]").on("show.bs.collapse", this.toggleIcon);
     $("[data-planner-body]").on("shown.bs.collapse", this.initPlanMap);
