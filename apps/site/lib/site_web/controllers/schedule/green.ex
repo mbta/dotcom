@@ -3,6 +3,7 @@ defmodule SiteWeb.ScheduleController.Green do
 
   import UrlHelpers, only: [update_url: 2]
   alias Schedules.Schedule
+  alias SiteWeb.ScheduleController.LineController
   alias SiteWeb.ScheduleView
 
   plug(:route)
@@ -44,14 +45,14 @@ defmodule SiteWeb.ScheduleController.Green do
   def trip_view(conn, _params) do
     conn
     |> assign(:tab, "trip-view")
-    |> put_view(SiteWeb.ScheduleView)
+    |> put_view(ScheduleView)
     |> render("show.html", [])
   end
 
   def alerts(conn, _params) do
     conn
     |> assign(:tab, "alerts")
-    |> put_view(SiteWeb.ScheduleView)
+    |> put_view(ScheduleView)
     |> render("show.html", [])
   end
 
@@ -68,14 +69,8 @@ defmodule SiteWeb.ScheduleController.Green do
     |> call_plug(SiteWeb.ScheduleController.Line)
     |> call_plug(SiteWeb.ScheduleController.CMS)
     |> await_assign_all_default(__MODULE__)
-    |> put_view(SiteWeb.ScheduleView)
-    |> assign(
-      :schedule_page_data,
-      %{
-        pdfs:
-          ScheduleView.route_pdfs(conn.assigns.route_pdfs, conn.assigns.route, conn.assigns.date)
-      }
-    )
+    |> put_view(ScheduleView)
+    |> LineController.assign_shedule_page_data()
     |> render("show.html", [])
   end
 
