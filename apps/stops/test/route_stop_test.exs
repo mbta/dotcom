@@ -54,20 +54,20 @@ defmodule Stops.RouteStopTest do
       ashmont_shape = %Shape{
         id: "ashmont",
         name: "Ashmont",
-        stop_ids: ~w(alewife shared ashmont)s
+        stop_ids: ~w(place-alfcl place-pktrm place-asmnl)s
       }
 
       braintree_shape = %Shape{
         id: "braintree",
         name: "Braintree",
-        stop_ids: ~w(alewife shared braintree)s
+        stop_ids: ~w(place-alfcl place-pktrm place-brntn)s
       }
 
-      stops = make_stops(~w(braintree ashmont shared alewife)s)
+      stops = make_stops(~w(place-brntn place-asmnl place-pktrm place-alfcl)s)
       route = %Route{id: "Red"}
       actual = list_from_shapes([ashmont_shape, braintree_shape], stops, route, 0)
 
-      assert_stop_ids(actual, ~w(alewife shared braintree ashmont)s)
+      assert_stop_ids(actual, ~w(place-alfcl place-pktrm place-brntn place-asmnl)s)
       assert_branch_names(actual, [nil, nil, "Braintree", "Ashmont"])
     end
 
@@ -75,20 +75,20 @@ defmodule Stops.RouteStopTest do
       ashmont_shape = %Shape{
         id: "ashmont",
         name: "Ashmont",
-        stop_ids: ~w(ashmont shared alewife)s
+        stop_ids: ~w(place-asmnl place-pktrm place-alfcl)s
       }
 
       braintree_shape = %Shape{
         id: "braintree",
         name: "Braintree",
-        stop_ids: ~w(braintree shared alewife)s
+        stop_ids: ~w(place-brntn place-pktrm place-alfcl)s
       }
 
-      stops = make_stops(~w(braintree ashmont shared alewife)s)
+      stops = make_stops(~w(place-asmnl place-brntn place-pktrm place-alfcl)s)
       route = %Route{id: "Red"}
       actual = list_from_shapes([ashmont_shape, braintree_shape], stops, route, 1)
 
-      assert_stop_ids(actual, ~w(ashmont braintree shared alewife))
+      assert_stop_ids(actual, ~w(place-asmnl place-brntn place-pktrm place-alfcl))
       assert_branch_names(actual, ["Ashmont", "Braintree", nil, nil])
     end
 
@@ -96,20 +96,20 @@ defmodule Stops.RouteStopTest do
       kingston = %Shape{
         id: "kingston",
         name: "Kingston",
-        stop_ids: ~w(sstat jfk braintree kingston)s
+        stop_ids: ~w(place-sstat place-jfk place-brntn Kingston)s
       }
 
       plymouth = %Shape{
         id: "plymouth",
         name: "Plymouth",
-        stop_ids: ~w(sstat braintree plymouth)s
+        stop_ids: ~w(place-sstat place-brntn Plymouth)s
       }
 
-      stops = make_stops(~w(sstat jfk braintree kingston plymouth)s)
+      stops = make_stops(~w(place-sstat place-jfk place-brntn place-KB-0351 place-PB-0356)s)
       route = %Route{id: "CR-Kingston"}
       actual = list_from_shapes([kingston, plymouth], stops, route, 0)
 
-      assert_stop_ids(actual, ~w(sstat jfk braintree plymouth kingston))
+      assert_stop_ids(actual, ~w(place-sstat place-jfk place-brntn place-PB-0356 place-KB-0351))
       assert_branch_names(actual, [nil, nil, nil, "Plymouth", "Kingston"])
     end
 
@@ -117,30 +117,34 @@ defmodule Stops.RouteStopTest do
       kingston = %Shape{
         id: "kingston",
         name: "Kingston",
-        stop_ids: ~w(kingston braintree jfk sstat)s
+        stop_ids: ~w(Kingston place-brntn place-jfk place-sstat)s
       }
 
       plymouth = %Shape{
         id: "plymouth",
         name: "Plymouth",
-        stop_ids: ~w(plymouth braintree sstat)s
+        stop_ids: ~w(Plymouth place-brntn place-sstat)s
       }
 
-      stops = make_stops(~w(sstat jfk braintree kingston plymouth)s)
+      stops = make_stops(~w(place-sstat place-jfk place-brntn place-KB-0351 place-PB-0356)s)
       route = %Route{id: "CR-Kingston"}
       actual = list_from_shapes([kingston, plymouth], stops, route, 1)
 
-      assert_stop_ids(actual, ~w(kingston plymouth braintree jfk sstat)s)
+      assert_stop_ids(actual, ~w(place-KB-0351 place-PB-0356 place-brntn place-jfk place-sstat)s)
       assert_branch_names(actual, ["Kingston", "Plymouth", nil, nil, nil])
     end
 
     test "handles ferry routes with multiple shapes by returning the stops as-is" do
       primary = %Shape{id: "primary"}
       other = %Shape{id: "secondary"}
-      stops = make_stops(~w(long george logan hull rowes hingham))
+      stops = make_stops(~w(Boat-Long Boat-George Boat-Logan Boat-Hull Boat-Rowes Boat-Hingham))
       route = %Route{id: "boat", type: 4}
       actual = list_from_shapes([primary, other], stops, route, 1)
-      assert_stop_ids(actual, ~w(long george logan hull rowes hingham))
+
+      assert_stop_ids(
+        actual,
+        ~w(Boat-Long Boat-George Boat-Logan Boat-Hull Boat-Rowes Boat-Hingham)
+      )
     end
   end
 

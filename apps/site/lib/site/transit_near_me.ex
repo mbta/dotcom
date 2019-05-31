@@ -72,9 +72,14 @@ defmodule Site.TransitNearMe do
     now = Keyword.fetch!(opts, :now)
     schedules_fn = Keyword.fetch!(opts, :schedules_fn)
 
+    date =
+      now
+      |> DateTime.to_date()
+      |> Date.to_string()
+
     predicted_schedules =
       stop.id
-      |> schedules_fn.([])
+      |> schedules_fn.(date: date)
       |> schedules_or_tomorrow(schedules_fn, stop, now)
       |> get_predicted_schedules([stop: stop.id], opts)
 

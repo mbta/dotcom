@@ -46,6 +46,12 @@ defmodule Site.TransitNearMeTest do
 
     test "filters out bus routes which are more than 24 hours from now" do
       now = Util.now()
+
+      now_date =
+        now
+        |> DateTime.to_date()
+        |> Date.to_string()
+
       time_tomorrow_within_24 = Timex.shift(now, hours: 23)
       time_too_far_in_future = Timex.shift(now, hours: 25)
       api_tomorrow = TransitNearMe.tomorrow_date(now)
@@ -53,7 +59,7 @@ defmodule Site.TransitNearMeTest do
       schedules_fn = fn _stop, time ->
         case time do
           # always within service date, so within 24 hours
-          [] ->
+          [date: ^now_date] ->
             []
 
           # when search is expanded to tomorrow's service date, limit buses to within 24 hours
