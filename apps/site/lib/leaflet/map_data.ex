@@ -4,6 +4,7 @@ defmodule Leaflet.MapData do
   """
   alias GoogleMaps.MapData, as: GoogleMapData
   alias GoogleMaps.MapData.Marker, as: GoogleMapsMarker
+  alias GoogleMaps.MapData.Path, as: GoogleMapsPath
 
   alias Leaflet.MapData.{
     Marker,
@@ -66,7 +67,8 @@ defmodule Leaflet.MapData do
         width: width,
         height: height,
         zoom: zoom,
-        markers: markers
+        markers: markers,
+        polylines: polylines
       }) do
     %GoogleMapData{
       default_center: default_center,
@@ -80,6 +82,14 @@ defmodule Leaflet.MapData do
             longitude: longitude,
             latitude: latitude,
             visible?: false
+          }
+        end),
+      paths:
+        Enum.map(polylines, fn %{color: color, weight: weight, dotted?: dotted?} ->
+          %GoogleMapsPath{
+            color: color,
+            weight: weight,
+            dotted?: dotted?
           }
         end)
     }
