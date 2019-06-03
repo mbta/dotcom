@@ -58,7 +58,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
         route_type: conn.assigns.route.type,
-        schedule_note: schedule_note(conn.assigns.route)
+        schedule_note: ScheduleNote.new(route)
       }
     )
   end
@@ -84,14 +84,6 @@ defmodule SiteWeb.ScheduleController.LineController do
           |> Enum.map(&%{route: Route.to_json_safe(&1), direction_id: nil})
       }
     end)
-  end
-
-  @spec schedule_note(Route.t()) :: ScheduleNote.t() | map
-  defp schedule_note(route) do
-    case Route.type_atom(route) do
-      :subway -> ScheduleNote.new(route)
-      _ -> nil
-    end
   end
 
   defp route_description(route) do

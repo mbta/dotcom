@@ -21,7 +21,6 @@ defmodule Site.ScheduleNote do
   def new(route) do
     case Route.type_atom(route) do
       :subway -> schedule_note(route)
-      # Raise instead?
       _ -> nil
     end
   end
