@@ -30,11 +30,11 @@ defmodule SiteWeb.ScheduleController.LineController do
       |> await_assign_all_default(__MODULE__)
 
     conn
-    |> assign_shedule_page_data()
+    |> assign_schedule_page_data()
     |> render("show.html", [])
   end
 
-  def assign_shedule_page_data(conn) do
+  def assign_schedule_page_data(conn) do
     assign(
       conn,
       :schedule_page_data,

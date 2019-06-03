@@ -70,7 +70,7 @@ defmodule SiteWeb.ScheduleController.Green do
     |> call_plug(SiteWeb.ScheduleController.CMS)
     |> await_assign_all_default(__MODULE__)
     |> put_view(ScheduleView)
-    |> LineController.assign_shedule_page_data()
+    |> LineController.assign_schedule_page_data()
     |> render("show.html", [])
   end
 
