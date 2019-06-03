@@ -30,7 +30,13 @@ defmodule SiteWeb.ScheduleController.LineController do
       |> await_assign_all_default(__MODULE__)
 
     conn
-    |> assign(
+    |> assign_schedule_page_data()
+    |> render("show.html", [])
+  end
+
+  def assign_schedule_page_data(conn) do
+    assign(
+      conn,
       :schedule_page_data,
       %{
         connections: group_connections(conn.assigns.connections),
@@ -53,7 +59,6 @@ defmodule SiteWeb.ScheduleController.LineController do
         route_type: conn.assigns.route.type
       }
     )
-    |> render("show.html", [])
   end
 
   defp tab_name(conn, _), do: assign(conn, :tab, "line")
