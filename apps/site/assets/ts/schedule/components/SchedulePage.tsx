@@ -34,20 +34,6 @@ const SchedulePage = ({
     <Fares fares={fares} fareLink={fareLink} routeType={routeType} />
     <HoursOfOperation hours={hours} />
     <UpcomingHolidays holidays={holidays} />
-    <Modal
-      triggerElement={
-        <button type="button" className="btn btn-primary">
-          Click me!
-        </button>
-      }
-      ariaLabel={{ label: "A modal with some tabbable elements" }}
-    >
-      <>
-        <div>Testing</div>
-        <a href="/">This is tabblable</a>
-        <input />
-      </>
-    </Modal>
   </>
 );
 export default SchedulePage;
