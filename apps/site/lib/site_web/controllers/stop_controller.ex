@@ -179,10 +179,7 @@ defmodule SiteWeb.StopController do
     Enum.map(grouped_routes, fn {group, routes} ->
       %{
         group_name: group,
-        routes:
-          routes
-          |> schedules_for_routes(stop_id)
-          |> Enum.reject(&no_directions_include_headsigns?/1)
+        routes: schedules_for_routes(routes, stop_id)
       }
     end)
   end
@@ -248,19 +245,13 @@ defmodule SiteWeb.StopController do
       if any_headsign_includes_predictions?(direction) do
         %{
           direction_id: direction.direction_id,
-          headsigns: Enum.reject(direction.headsigns, &(!includes_predictions?(&1)))
+          headsigns: Enum.filter(direction.headsigns, &includes_predictions?/1)
         }
       else
         direction
       end
     end)
   end
-
-  @spec no_directions_include_headsigns?(route_with_directions) :: boolean
-  defp no_directions_include_headsigns?(%{route: %Route{type: 4}}), do: false
-
-  defp no_directions_include_headsigns?(%{directions: directions}),
-    do: !Enum.any?(directions, &any_headsign_includes_predictions?/1)
 
   @spec any_headsign_includes_predictions?(TransitNearMe.direction_data()) :: boolean
   defp any_headsign_includes_predictions?(%{headsigns: headsigns}),
