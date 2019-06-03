@@ -603,11 +603,15 @@ defmodule Site.TransitNearMe do
   end
 
   @spec simple_prediction(Prediction.t() | nil, atom, DateTime.t()) :: simple_prediction | nil
-  def simple_prediction(nil, _, _) do
+  def simple_prediction(nil, _route_type, _now) do
     nil
   end
 
-  def simple_prediction(%Prediction{} = prediction, route_type, now) do
+  def simple_prediction(%Prediction{time: nil}, _route_type, _now) do
+    nil
+  end
+
+  def simple_prediction(%Prediction{time: %DateTime{}} = prediction, route_type, now) do
     seconds = Timex.diff(prediction.time, now, :seconds)
 
     prediction
