@@ -34,3 +34,25 @@
 .m-schedule-page__sidebar-list {
   padding-left: $base-spacing * 1.5;
 }
+
+.m-schedule-page__schedule-note-title {
+  color: $brand-primary;
+  margin-top: 0;
+}
+
+.m-schedule-page__service-note-time:last-child {
+  margin-bottom: 0;
+}
+
+.m-schedule-page__schedule-note-container {
+  background-color: $gray-bordered-background;
+  padding: $base-spacing * 2 $base-spacing;
+}
+
+.m-schedule-page__service {
+  font-weight: bold;
+}
+
+.m-schedule-page__service-subheading {
+  font-weight: bold;
+}

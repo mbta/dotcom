@@ -7,6 +7,7 @@ import HoursOfOperation from "./HoursOfOperation";
 import Fares from "./Fares";
 import UpcomingHolidays from "./UpcomingHolidays";
 import Modal from "../../components/Modal";
+import ScheduleNote from "./ScheduleNote";
 
 interface Props {
   schedulePageData: SchedulePageData;
@@ -21,10 +22,12 @@ const SchedulePage = ({
     fares,
     holidays,
     fare_link: fareLink,
-    route_type: routeType
+    route_type: routeType,
+    schedule_note: scheduleNote
   }
 }: Props): ReactElement<HTMLElement> => (
   <>
+    {!!scheduleNote && <ScheduleNote {...scheduleNote} />}
     <ContentTeasers teasers={teasers} />
     <PDFSchedules pdfs={pdfs} />
     <Connections connections={connections} />

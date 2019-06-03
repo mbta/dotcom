@@ -10,6 +10,18 @@ export interface SchedulePageData {
   fare_link: string;
   holidays: Holiday[];
   route_type: RouteType;
+  schedule_note: ScheduleNote;
+}
+
+export interface ScheduleNote {
+  peak_service: string;
+  offpeak_service: string;
+  exceptions: ServiceException[];
+}
+
+export interface ServiceException {
+  type: string;
+  service: string;
 }
 
 export interface SchedulePDF {
