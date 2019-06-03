@@ -45,6 +45,10 @@
 }
 
 .m-schedule-page__schedule-note-container {
+  @include media-breakpoint-up(md) {
+    margin-top: $base-spacing * 2;
+  }
+
   background-color: $gray-bordered-background;
   padding: $base-spacing * 2 $base-spacing;
 }
@@ -55,4 +59,14 @@
 
 .m-schedule-page__service-subheading {
   font-weight: bold;
+}
+
+.m-schedule-page__teaser {
+  margin-top: $base-spacing;
+}
+
+.m-schedule-page__news {
+  border-left-width: 0;
+  flex-direction: column;
+  padding-left: 0;
 }

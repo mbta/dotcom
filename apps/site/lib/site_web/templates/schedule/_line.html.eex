@@ -55,7 +55,7 @@
           <%= Site.React.render("SchedulePage", %{schedulePageData: @schedule_page_data}) %>
         </div>
       <% else %>
-        <%= render "_cms_teasers.html", featured_content: @featured_content, news: @news, conn: @conn %>
+        <%= render "_cms_teasers-v1.html", featured_content: @featured_content, news: @news, conn: @conn %>
         <%= render "_pdf_schedules.html", assigns %>
       <% end %>
       <%= render "_line_connections.html", assigns %>

@@ -36,7 +36,7 @@ const ScheduleNote = ({
         {service(peakService)}
       </div>
       <div className="m-schedule-page__schedule-note">
-        <h4 className="m-schedule-page__service">Offpeak / Weekends</h4>
+        <h4 className="m-schedule-page__service">Off Peak / Weekends</h4>
         {offPeak(offpeakService, exceptions)}
         {exceptions.map(exception =>
           service(`${exception.service} ${exception.type}`)
@@ -45,4 +45,5 @@ const ScheduleNote = ({
     </div>
   );
 };
+
 export default ScheduleNote;
