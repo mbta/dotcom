@@ -17,11 +17,17 @@ module.exports = {
       lines: 95,
       statements: -25 // No idea what good default is for this, this means "up to 25 uncovered statements allowed"
     },
+    // The Leaflet API is difficult to test, so we consider a lower
+    // threshold acceptable for these modules. However, callbacks in
+    // these modules should always use named functions, and have unit tests.
+    "./ts/leaflet/components/": {
+      branches: 75,
+      functions: 85,
+      lines: 94,
+      statements: -25
+    },
     "./ts/tnm/components/leaflet": {
-      // The Leaflet API is difficult to test, so we consider a lower
-      // threshold acceptable for these modules. However, callbacks in
-      // these modules should always use named functions, and have unit tests.
-      branches: 55,
+      branches: 50,
       functions: 60,
       lines: 60,
       statements: -25

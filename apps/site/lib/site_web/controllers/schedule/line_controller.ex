@@ -2,8 +2,8 @@ defmodule SiteWeb.ScheduleController.LineController do
   use SiteWeb, :controller
   alias Phoenix.HTML
   alias Routes.{Group, Route}
-  alias SiteWeb.{ScheduleView, ViewHelpers}
   alias Site.ScheduleNote
+  alias SiteWeb.{ScheduleView, ViewHelpers}
 
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.Plugs.DateInRating)

@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import SchedulePage from "../components/SchedulePage";
 import { TypedRoutes } from "../../stop/components/__stop";
-import { Route } from "../../__v3api";
+import ScheduleNote from "../components/ScheduleNote";
 
 const pdfs = [
   {
@@ -52,6 +52,7 @@ it("it renders", () => {
     .create(
       <SchedulePage
         schedulePageData={{
+          schedule_note: null,
           connections,
           fares,
           fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
@@ -65,4 +66,34 @@ it("it renders", () => {
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
+});
+
+const scheduleNoteData = {
+  offpeak_service: "8-12 minutes",
+  peak_service: "5 minutes",
+  exceptions: [
+    { service: "26 minutes", type: "weekend mornings and late night" }
+  ]
+};
+
+it("it renders with conditional components", () => {
+  createReactRoot();
+  const tree = renderer.create(
+    <SchedulePage
+      schedulePageData={{
+        schedule_note: scheduleNoteData,
+        connections,
+        fares,
+        fare_link: fareLink,
+        hours,
+        holidays,
+        pdfs,
+        teasers,
+        route_type: 1
+      }}
+    />
+  );
+  expect(
+    tree.root.findByType(ScheduleNote).props.scheduleNote.offpeak_service
+  ).toBe("8-12 minutes");
 });

@@ -10,7 +10,7 @@ export interface SchedulePageData {
   fare_link: string;
   holidays: Holiday[];
   route_type: RouteType;
-  schedule_note: ScheduleNote;
+  schedule_note: ScheduleNote | null;
 }
 
 export interface ScheduleNote {

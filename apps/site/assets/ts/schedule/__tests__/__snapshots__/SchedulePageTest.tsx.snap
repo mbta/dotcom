@@ -288,16 +288,5 @@ Array [
       </a>
     </div>
   </noscript>,
-  <div
-    onClick={[Function]}
-    role="presentation"
-  >
-    <button
-      className="btn btn-primary"
-      type="button"
-    >
-      Click me!
-    </button>
-  </div>,
 ]
 `;

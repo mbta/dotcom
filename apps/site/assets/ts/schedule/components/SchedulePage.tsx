@@ -6,7 +6,6 @@ import ContentTeasers from "./ContentTeasers";
 import HoursOfOperation from "./HoursOfOperation";
 import Fares from "./Fares";
 import UpcomingHolidays from "./UpcomingHolidays";
-import Modal from "../../components/Modal";
 import ScheduleNote from "./ScheduleNote";
 
 interface Props {
@@ -27,7 +26,7 @@ const SchedulePage = ({
   }
 }: Props): ReactElement<HTMLElement> => (
   <>
-    {!!scheduleNote && <ScheduleNote {...scheduleNote} />}
+    {!!scheduleNote && <ScheduleNote scheduleNote={scheduleNote} />}
     <ContentTeasers teasers={teasers} />
     <PDFSchedules pdfs={pdfs} />
     <Connections connections={connections} />
