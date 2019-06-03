@@ -33,7 +33,11 @@ const ModalTrigger = ({
   triggerElement
 }: ModalTriggerProps): ReactElement<HTMLElement> => (
   // This will contain a button or other element that will bubble up active events
-  <div role="presentation" onClick={() => onClick()}>
+  <div
+    className="c-modal__trigger-wrapper"
+    role="presentation"
+    onClick={() => onClick()}
+  >
     {triggerElement}
   </div>
 );

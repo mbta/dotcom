@@ -4,6 +4,7 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
   """
 
   alias GoogleMaps
+  alias Site.JsonHelpers
   alias Routes.Route
   alias Site.TransitNearMe
   alias SiteWeb.PartialView.LocationCard
@@ -66,17 +67,8 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutes do
     |> Map.from_struct()
     |> Map.put(:href, route_path)
     |> Map.update!(:name, &ViewHelpers.break_text_at_slash(&1))
-    |> Map.update!(:direction_names, &update_map_for_encoding(&1))
-    |> Map.update!(:direction_destinations, &update_map_for_encoding(&1))
-  end
-
-  @spec update_map_for_encoding(:unknown | map) :: map
-  def update_map_for_encoding(:unknown) do
-    :unknown
-  end
-
-  def update_map_for_encoding(map) do
-    Map.new(map, fn {key, val} -> {Integer.to_string(key), val} end)
+    |> Map.update!(:direction_names, &JsonHelpers.update_map_for_encoding(&1))
+    |> Map.update!(:direction_destinations, &JsonHelpers.update_map_for_encoding(&1))
   end
 
   @spec build_stop_with_routes(Stop.t(), TransitNearMe.t()) :: stop_with_routes
