@@ -76,7 +76,7 @@ exports[`it renders a stop card 1`] = `
             className="m-tnm-sidebar__schedule"
           >
             <div
-              className="m-tnm-sidebar__time"
+              className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
             >
               <div
                 className="m-tnm-sidebar__time-number"

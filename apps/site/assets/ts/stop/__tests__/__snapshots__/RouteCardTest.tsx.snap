@@ -44,7 +44,7 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__schedule"
           >
             <div
-              className="m-tnm-sidebar__time"
+              className="m-tnm-sidebar__time "
             >
               <div
                 className="m-tnm-sidebar__time-number"
@@ -62,7 +62,7 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__schedule"
           >
             <div
-              className="m-tnm-sidebar__time"
+              className="m-tnm-sidebar__time "
             >
               <div
                 className="m-tnm-sidebar__time-number"
@@ -97,7 +97,7 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__schedule"
           >
             <div
-              className="m-tnm-sidebar__time"
+              className="m-tnm-sidebar__time "
             >
               <div
                 className="m-tnm-sidebar__time-number"
@@ -115,7 +115,7 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__schedule"
           >
             <div
-              className="m-tnm-sidebar__time"
+              className="m-tnm-sidebar__time "
             >
               <div
                 className="m-tnm-sidebar__time-number"
@@ -163,7 +163,7 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__schedule"
           >
             <div
-              className="m-tnm-sidebar__time"
+              className="m-tnm-sidebar__time "
             >
               <div
                 className="m-tnm-sidebar__time-number"
@@ -181,7 +181,7 @@ exports[`it renders 1`] = `
             className="m-tnm-sidebar__schedule"
           >
             <div
-              className="m-tnm-sidebar__time"
+              className="m-tnm-sidebar__time "
             >
               <div
                 className="m-tnm-sidebar__time-number"
