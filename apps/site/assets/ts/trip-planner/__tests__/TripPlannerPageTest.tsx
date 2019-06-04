@@ -40,7 +40,7 @@ describe("TripPlannerPage", () => {
       cbHash[name] = cb;
     };
 
-    renderer.create(<TripPlannerPage mapData={mapData} />)
+    renderer.create(<TripPlannerPage mapData={mapData} />);
 
     expect(Object.keys(cbHash)).toEqual([
       "trip-plan:remove-marker",

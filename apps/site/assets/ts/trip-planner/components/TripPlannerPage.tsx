@@ -101,7 +101,7 @@ const TripPlannerPage = ({ mapData }: Props): ReactElement<HTMLElement> => {
     return () => {
       document.removeEventListener("trip-plan:remove-marker", onRemoveCb);
       document.removeEventListener("trip-plan:update-marker", onUpdateCb);
-    }
+    };
   });
   const bounds = state.markers.length ? getBounds(state.markers) : undefined;
 
