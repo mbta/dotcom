@@ -12,15 +12,19 @@ Array [
     role="button"
     tabIndex={0}
   >
-    Fares
-    <span
-      className="c-expandable-block__header-caret"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "&#xF107;",
+    <div
+      className="c-expandable-block__header-text"
+    >
+      Fares
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF107;",
+          }
         }
-      }
-    />
+      />
+    </div>
   </h3>,
   <noscript>
     <style>

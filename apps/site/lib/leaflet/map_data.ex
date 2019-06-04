@@ -4,6 +4,7 @@ defmodule Leaflet.MapData do
   """
   alias GoogleMaps.MapData, as: GoogleMapData
   alias GoogleMaps.MapData.Marker, as: GoogleMapsMarker
+  alias GoogleMaps.MapData.Path, as: GoogleMapsPath
 
   alias Leaflet.MapData.{
     Marker,
@@ -18,7 +19,8 @@ defmodule Leaflet.MapData do
             polylines: [],
             tile_server_url: "",
             width: 0,
-            zoom: nil
+            zoom: nil,
+            id: ""
 
   @type t :: %__MODULE__{
           default_center: lat_lng,
@@ -27,7 +29,8 @@ defmodule Leaflet.MapData do
           polylines: [Polyline.t()],
           tile_server_url: String.t(),
           width: integer,
-          zoom: integer | nil
+          zoom: integer | nil,
+          id: String.t()
         }
 
   @spec new({integer, integer}, integer | nil) :: t
@@ -64,7 +67,8 @@ defmodule Leaflet.MapData do
         width: width,
         height: height,
         zoom: zoom,
-        markers: markers
+        markers: markers,
+        polylines: polylines
       }) do
     %GoogleMapData{
       default_center: default_center,
@@ -78,6 +82,14 @@ defmodule Leaflet.MapData do
             longitude: longitude,
             latitude: latitude,
             visible?: false
+          }
+        end),
+      paths:
+        Enum.map(polylines, fn %{color: color, weight: weight, dotted?: dotted?} ->
+          %GoogleMapsPath{
+            color: color,
+            weight: weight,
+            dotted?: dotted?
           }
         end)
     }

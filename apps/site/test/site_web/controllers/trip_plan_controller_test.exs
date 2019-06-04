@@ -90,8 +90,6 @@ defmodule SiteWeb.TripPlanControllerTest do
       conn = get(conn, trip_plan_path(conn, :index, @good_params))
       response = html_response(conn, 200)
       assert response =~ "Trip Planner"
-      assert response =~ "itinerary-1"
-      assert conn.assigns.requires_google_maps?
       assert %Query{} = conn.assigns.query
       assert conn.assigns.routes
       assert conn.assigns.itinerary_maps
@@ -240,18 +238,10 @@ defmodule SiteWeb.TripPlanControllerTest do
       for {map_data, static_map} <- conn.assigns.itinerary_maps do
         assert static_map =~ "color"
 
-        for path <- map_data.paths do
+        for path <- map_data.polylines do
           assert path.color
         end
       end
-    end
-
-    test "does not enable transit layer on plan maps", %{conn: conn} do
-      conn = get(conn, trip_plan_path(conn, :index, @good_params))
-
-      assert Enum.all?(conn.assigns.itinerary_maps, fn {map_data, _} ->
-               map_data.layers.transit == false
-             end)
     end
 
     test "renders a geocoding error", %{conn: conn} do
@@ -552,10 +542,7 @@ defmodule SiteWeb.TripPlanControllerTest do
       }
 
       morning_conn = get(conn, trip_plan_path(conn, :index, params))
-      morning = html_response(morning_conn, 200)
       assert Enum.count(morning_conn.assigns.itinerary_row_lists) == 2
-
-      assert [_itinerary1, _itinerary2] = Floki.find(morning, ".terminus-circle .fa-check")
 
       afternoon_conn =
         get(
@@ -570,10 +557,7 @@ defmodule SiteWeb.TripPlanControllerTest do
           })
         )
 
-      afternoon = html_response(afternoon_conn, 200)
-
       assert Enum.count(afternoon_conn.assigns.itinerary_row_lists) == 2
-      assert [_itinerary1, _itinerary2] = Floki.find(afternoon, ".terminus-circle .fa-check")
     end
   end
 

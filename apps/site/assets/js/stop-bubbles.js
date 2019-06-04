@@ -10,7 +10,7 @@ export default function stopBubbles($) {
   }
 
   function toggleArrow(link) {
-    link.find(".fa").toggleClass("fa-minus-circle");
+    link.find(".fa").toggleClass("fa-angle-down fa-angle-up");
   }
 
   function toggleBranch(link) {

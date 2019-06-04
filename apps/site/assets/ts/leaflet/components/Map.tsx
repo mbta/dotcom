@@ -25,6 +25,7 @@ export const defaultZoomOpts: ZoomOpts = {
 
 interface Props {
   bounds?: LatLngBounds;
+  boundsByMarkers?: boolean;
   mapData: MapData;
 }
 
@@ -33,8 +34,7 @@ const mapCenter = (
   { latitude, longitude }: { latitude: number; longitude: number }
 ): [number, number] | undefined => {
   if (markers.length === 1) return [markers[0].latitude, markers[0].longitude];
-  if (latitude && longitude) return [latitude, longitude];
-  return undefined;
+  return [latitude, longitude];
 };
 
 const rotateMarker = (
@@ -49,6 +49,7 @@ const rotateMarker = (
 
 const Component = ({
   bounds,
+  boundsByMarkers,
   mapData: {
     default_center: defaultCenter,
     markers,
@@ -66,18 +67,26 @@ const Component = ({
     ) => Icon | undefined = require("../icon").default;
     require("leaflet-rotatedmarker");
     const FullscreenControl = require("react-leaflet-fullscreen");
+    const getBounds = require("../bounds").default;
     /* eslint-enable */
     const { Map, Marker, Polyline, Popup, TileLayer } = leaflet;
+    const boundsOrByMarkers = bounds || (boundsByMarkers && getBounds(markers));
     const position = mapCenter(markers, defaultCenter);
+    const nonNullZoom = zoom === null ? undefined : zoom;
     return (
-      <Map bounds={bounds} center={position} zoom={zoom} {...defaultZoomOpts}>
+      <Map
+        bounds={boundsOrByMarkers}
+        center={position}
+        zoom={nonNullZoom}
+        {...defaultZoomOpts}
+      >
         <TileLayer
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url={`${tileServerUrl}/osm_tiles/{z}/{x}/{y}.png`}
         />
         {polylines.map(polyline => (
           <Polyline
-            key={polyline.id}
+            key={polyline.id || `polyline-${Math.floor(Math.random() * 1000)}`}
             positions={polyline.positions}
             color={polyline.color}
             weight={polyline.weight}
@@ -85,11 +94,11 @@ const Component = ({
         ))}
         {markers.map(marker => (
           <Marker
-            icon={buildIcon(marker.icon, marker.iconOpts)}
+            icon={buildIcon(marker.icon, marker.icon_opts)}
             key={marker.id || `marker-${Math.floor(Math.random() * 1000)}`}
             position={[marker.latitude, marker.longitude]}
             ref={ref => ref && rotateMarker(ref.leafletElement, marker)}
-            zIndexOffset={marker.zIndex}
+            zIndexOffset={marker.z_index}
           >
             {marker.tooltip && (
               <Popup minWidth={320} maxHeight={175}>

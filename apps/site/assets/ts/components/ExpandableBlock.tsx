@@ -4,7 +4,7 @@ import renderSvg from "../helpers/render-svg";
 import { caret } from "../helpers/icon";
 
 export interface ExpandableBlockHeader {
-  text: string;
+  text: string | ReactElement<HTMLElement>;
   iconSvgText: string | null;
 }
 
@@ -93,8 +93,10 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
         {iconSvgText
           ? renderSvg("c-expandable-block__header-icon", iconSvgText)
           : null}
-        {text}
-        {caret("c-expandable-block__header-caret", expanded)}
+        <div className="c-expandable-block__header-text">
+          {text}
+          {caret("c-expandable-block__header-caret", expanded)}
+        </div>
       </h3>
       {expanded ? (
         <div

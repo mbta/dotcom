@@ -19,15 +19,19 @@ Array [
     role="button"
     tabIndex={0}
   >
-    PDF Schedules
-    <span
-      className="c-expandable-block__header-caret"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "&#xF106;",
+    <div
+      className="c-expandable-block__header-text"
+    >
+      PDF Schedules
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF106;",
+          }
         }
-      }
-    />
+      />
+    </div>
   </h3>,
   <div
     aria-labelledby="header-pdfs"
@@ -104,15 +108,19 @@ Array [
     role="button"
     tabIndex={0}
   >
-    Fares
-    <span
-      className="c-expandable-block__header-caret"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "&#xF107;",
+    <div
+      className="c-expandable-block__header-text"
+    >
+      Fares
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF107;",
+          }
         }
-      }
-    />
+      />
+    </div>
   </h3>,
   <noscript>
     <style>
@@ -177,15 +185,19 @@ Array [
     role="button"
     tabIndex={0}
   >
-    Hours of Operation
-    <span
-      className="c-expandable-block__header-caret"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "&#xF107;",
+    <div
+      className="c-expandable-block__header-text"
+    >
+      Hours of Operation
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF107;",
+          }
         }
-      }
-    />
+      />
+    </div>
   </h3>,
   <noscript>
     <style>
@@ -237,15 +249,19 @@ Array [
     role="button"
     tabIndex={0}
   >
-    Upcoming Holidays
-    <span
-      className="c-expandable-block__header-caret"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "&#xF107;",
+    <div
+      className="c-expandable-block__header-text"
+    >
+      Upcoming Holidays
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF107;",
+          }
         }
-      }
-    />
+      />
+    </div>
   </h3>,
   <noscript>
     <style>

@@ -6,14 +6,14 @@ export type TileServerUrl =
   | "";
 
 export interface IconOpts {
-  iconSize?: [number, number];
-  iconAnchor?: [number, number];
-  popupAnchor?: [number, number];
+  icon_size?: [number, number];
+  icon_anchor?: [number, number];
+  popup_anchor?: [number, number];
 }
 
 export interface MapMarker {
   icon: string | null;
-  iconOpts?: IconOpts;
+  icon_opts?: IconOpts;
   id: string | null;
   longitude: number;
   latitude: number;
@@ -21,7 +21,7 @@ export interface MapMarker {
   rotation_angle: number;
   tooltip: ReactElement<HTMLElement> | null;
   tooltip_text?: string | null;
-  zIndex?: number;
+  z_index?: number;
 }
 
 export interface Polyline {
@@ -33,6 +33,7 @@ export interface Polyline {
 }
 
 export interface MapData {
+  id?: string;
   default_center: {
     longitude: number;
     latitude: number;
@@ -42,5 +43,5 @@ export interface MapData {
   polylines: Polyline[];
   tile_server_url: TileServerUrl;
   width: number;
-  zoom: number;
+  zoom: number | null;
 }

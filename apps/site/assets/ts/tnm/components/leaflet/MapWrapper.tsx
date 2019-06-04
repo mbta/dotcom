@@ -23,7 +23,7 @@ export interface Props {
   tileServerUrl: string;
   tooltipData: StopsForMarkers;
   visibleMarkers: MapMarker[];
-  zoom: number | undefined;
+  zoom: number | undefined | null;
 }
 
 export const centerMapByMarker = (

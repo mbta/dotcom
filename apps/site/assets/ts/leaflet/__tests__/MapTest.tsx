@@ -2,6 +2,7 @@ import React from "react";
 import { mount } from "enzyme";
 import Map from "../components/Map";
 import { MapData, MapMarker } from "../components/__mapdata";
+import getBounds from "../bounds";
 
 /* eslint-disable @typescript-eslint/camelcase */
 const marker: MapMarker = {
@@ -27,7 +28,7 @@ const data: MapData = {
   zoom: 16
 };
 
-it("it renders using the marker's position", () => {
+it("it renders using the marker's position and zoom", () => {
   const div = document.createElement("div");
   document.body.appendChild(div);
   const wrapper = mount(<Map mapData={data} />, {
@@ -39,6 +40,23 @@ it("it renders using the marker's position", () => {
       .find(".leaflet-tile")
       .prop("src")
   ).toBe(`${data.tile_server_url}/osm_tiles/16/19829/24220.png`);
+});
+
+it("it renders using the marker's position and no zoom", () => {
+  const div = document.createElement("div");
+  document.body.appendChild(div);
+  const wrapper = mount(
+    <Map mapData={{ ...data, zoom: null }} bounds={getBounds([marker])} />,
+    {
+      attachTo: div
+    }
+  );
+  expect(
+    wrapper
+      .render()
+      .find(".leaflet-tile")
+      .prop("src")
+  ).toBe(`${data.tile_server_url}/osm_tiles/18/79319/96882.png`);
 });
 
 it("it renders using the default center position", () => {

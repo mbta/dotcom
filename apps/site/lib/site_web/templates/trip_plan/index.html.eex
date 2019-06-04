@@ -3,6 +3,7 @@
   <div class="trip-plan-container">
     <%= render "_sidebar.html", assigns %>
     <div class="trip-plan-body">
+      <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
       <%= case assigns[:query] do %>
         <% %{itineraries: {:ok, itineraries}} -> %>
         <p class="no-trips page-section">
@@ -12,28 +13,17 @@
           for you
         </p>
         <p class="instructions page-section"><%= itinerary_explanation(@query, @modes) %></p>
-        <%= for {i,
-                routes,
-                map,
-                links,
-                itinerary_row_list,
-                index} <- Enum.zip([
-            itineraries,
-            @routes,
-            @itinerary_maps,
-            @related_links,
-            @itinerary_row_lists,
-            Stream.iterate(1, & &1 + 1)]) do
-              render "_itinerary.html",
-              itinerary: i,
-              index: index,
-              routes: routes,
-              itinerary_map: map,
-              links: links,
-              itinerary_row_list: itinerary_row_list,
-              expanded: @expanded,
-              conn: @conn
-            end %>
+        <% itinerary_data = itinerary_html(itineraries, %{conn: @conn, expanded: @expanded}) %>
+        <script id="js-tp-itinerary-data" type="text/plain"><%= raw(Poison.encode!(%{itineraryData: itinerary_data})) %></script>
+        <div id="react-root">
+            <%= unless Enum.empty?(itineraries) do render_react(%{itineraryData: itinerary_data}) end %>
+        </div>
+        <%= if Application.get_env(:site, :dev_server?) do %>
+          <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/tripplanresults.js" %>"></script>
+        <% else %>
+          <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+          <script defer src="<%= static_url(@conn, "/js/tripplanresults.js") %>"></script>
+        <% end %>
         <% _ -> %>
           <%= if assigns[:map_info] do %>
             <% %{map_info: {map_data, map_src} } = assigns %>
@@ -54,4 +44,3 @@
       <% end %>
     </div>
   </div>
-</div>
