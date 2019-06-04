@@ -1,0 +1,25 @@
+{
+  "id" : "10cfdbf9-4c96-3cd7-b3a0-b6764c656d75",
+  "request" : {
+    "url" : "/routes/?stop=place-valrd",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-PMV0p.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:28:25 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6771",
+      "x-ratelimit-reset" : "1559658540",
+      "x-request-id" : "FaUFJaJJ5Ue8DBwAKRCh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "10cfdbf9-4c96-3cd7-b3a0-b6764c656d75"
+}

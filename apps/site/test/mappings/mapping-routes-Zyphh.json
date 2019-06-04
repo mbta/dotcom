@@ -1,0 +1,25 @@
+{
+  "id" : "534a479c-9a33-388d-bdfd-510780470e5f",
+  "request" : {
+    "url" : "/routes/?stop=place-DB-0095",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Zyphh.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:28:24 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6894",
+      "x-ratelimit-reset" : "1559658540",
+      "x-request-id" : "FaUFJX98vBiUcTEAKQoh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "534a479c-9a33-388d-bdfd-510780470e5f"
+}

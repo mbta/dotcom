@@ -1,0 +1,25 @@
+{
+  "id" : "b17b7468-5b82-3c55-b732-21a214ea48e2",
+  "request" : {
+    "url" : "/predictions/?stop=place-dwnxg&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-0x8FQ.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:25:55 GMT",
+      "last-modified" : "Tue, 04 Jun 2019 14:25:54 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6318",
+      "x-ratelimit-reset" : "1559658360",
+      "x-request-id" : "FaUFArA_2gRkf50ADani",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b17b7468-5b82-3c55-b732-21a214ea48e2"
+}

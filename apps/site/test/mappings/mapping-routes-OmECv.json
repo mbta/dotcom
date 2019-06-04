@@ -1,0 +1,25 @@
+{
+  "id" : "ec3de5e0-ec0c-34ae-8edc-855d7a3b354d",
+  "request" : {
+    "url" : "/routes/?stop=place-chswk",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-OmECv.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:28:25 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6716",
+      "x-ratelimit-reset" : "1559658540",
+      "x-request-id" : "FaUFJbK-9d4KbvoAKRQB",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ec3de5e0-ec0c-34ae-8edc-855d7a3b354d"
+}

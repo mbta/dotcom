@@ -1,0 +1,25 @@
+{
+  "id" : "a9a8de46-27f2-32bd-963b-39cd61ee15f7",
+  "request" : {
+    "url" : "/routes/?stop=place-astao&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LWi45.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:25:48 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6820",
+      "x-ratelimit-reset" : "1559658360",
+      "x-request-id" : "FaUFATazLzXHCIQADZkC",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a9a8de46-27f2-32bd-963b-39cd61ee15f7"
+}

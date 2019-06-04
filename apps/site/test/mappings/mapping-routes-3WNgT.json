@@ -1,0 +1,25 @@
+{
+  "id" : "ffa3734d-3b48-3794-805b-77d591b7f384",
+  "request" : {
+    "url" : "/routes/?stop=place-river&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-3WNgT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:25:49 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6685",
+      "x-ratelimit-reset" : "1559658360",
+      "x-request-id" : "FaUFAXkVscb5UisABRkj",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ffa3734d-3b48-3794-805b-77d591b7f384"
+}

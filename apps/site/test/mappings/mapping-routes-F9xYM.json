@@ -1,0 +1,25 @@
+{
+  "id" : "cf112702-5a3a-3aa3-b998-4fb866d6b2ad",
+  "request" : {
+    "url" : "/routes/?stop=place-FR-0301",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-F9xYM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:28:24 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6876",
+      "x-ratelimit-reset" : "1559658540",
+      "x-request-id" : "FaUFJYTFUnRmMa8ADdgi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "cf112702-5a3a-3aa3-b998-4fb866d6b2ad"
+}

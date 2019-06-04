@@ -1,0 +1,25 @@
+{
+  "id" : "17bb4bb7-4549-31dd-857f-0d5479597c98",
+  "request" : {
+    "url" : "/routes/?stop=place-bmmnl",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Izpe8.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:28:25 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6746",
+      "x-ratelimit-reset" : "1559658540",
+      "x-request-id" : "FaUFJaoaRj8lMLsAKRIB",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "17bb4bb7-4549-31dd-857f-0d5479597c98"
+}

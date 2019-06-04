@@ -1,0 +1,25 @@
+{
+  "id" : "c2ef47c3-4e67-3c20-b8bd-651ee7aef4be",
+  "request" : {
+    "url" : "/routes/?stop=place-newtn",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-rulfO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:28:25 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6684",
+      "x-ratelimit-reset" : "1559658540",
+      "x-request-id" : "FaUFJcApBqUnLaIADeWC",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c2ef47c3-4e67-3c20-b8bd-651ee7aef4be"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "6a0de37b-b601-3d34-8495-9fe38637ae5a",
+  "request" : {
+    "url" : "/routes/?stop=place-MM-0200",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-deIMl.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:28:24 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6824",
+      "x-ratelimit-reset" : "1559658540",
+      "x-request-id" : "FaUFJZNK2X54oH8AKQ6h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6a0de37b-b601-3d34-8495-9fe38637ae5a"
+}

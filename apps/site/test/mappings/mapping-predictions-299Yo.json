@@ -1,0 +1,25 @@
+{
+  "id" : "0a600e0d-58d8-3f1d-a1a1-08d61586a8b8",
+  "request" : {
+    "url" : "/predictions/?direction_id=0&stop=place-sstat&route=CR-Providence&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-299Yo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:27:57 GMT",
+      "last-modified" : "Tue, 04 Jun 2019 14:27:47 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6875",
+      "x-ratelimit-reset" : "1559658480",
+      "x-request-id" : "FaUFH00i_i8f4PkADc2C",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0a600e0d-58d8-3f1d-a1a1-08d61586a8b8"
+}

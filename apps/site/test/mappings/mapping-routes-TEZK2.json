@@ -1,0 +1,25 @@
+{
+  "id" : "72f2343b-4244-320d-9bd8-b7a7fa22c70f",
+  "request" : {
+    "url" : "/routes/?stop=place-GRB-0146",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-TEZK2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:28:24 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6868",
+      "x-ratelimit-reset" : "1559658540",
+      "x-request-id" : "FaUFJYefzYXIjbwAKQvB",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "72f2343b-4244-320d-9bd8-b7a7fa22c70f"
+}
