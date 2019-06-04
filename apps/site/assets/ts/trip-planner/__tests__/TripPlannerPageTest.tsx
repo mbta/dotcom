@@ -39,10 +39,9 @@ describe("TripPlannerPage", () => {
     document.addEventListener = (name: string, cb: EventListener) => {
       cbHash[name] = cb;
     };
-    renderer
-      .create(<TripPlannerPage mapData={mapData} />)
-      // update triggers useEffect to run
-      .update(<TripPlannerPage mapData={mapData} />);
+
+    renderer.create(<TripPlannerPage mapData={mapData} />)
+
     expect(Object.keys(cbHash)).toEqual([
       "trip-plan:remove-marker",
       "trip-plan:update-marker"
@@ -57,12 +56,16 @@ describe("TripPlannerPage", () => {
     };
     const updateEvent: UpdateEvent = { ...update, detail };
     const updateCb = cbHash["trip-plan:update-marker"];
-    act(() => updateCb(updateEvent));
+    act(() => {
+      expect(() => updateCb(updateEvent)).not.toThrow();
+    });
 
     const remove = new Event("trip-plan:remove-marker");
-    const removeEvent: RemoveEvent = { ...update, detail: { label: "A" } };
+    const removeEvent: RemoveEvent = { ...remove, detail: { label: "A" } };
     const removeCb = cbHash["trip-plan:remove-marker"];
-    act(() => removeCb(removeEvent));
+    act(() => {
+      expect(() => removeCb(removeEvent)).not.toThrow();
+    });
   });
 });
 
