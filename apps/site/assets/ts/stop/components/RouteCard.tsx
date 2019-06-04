@@ -46,14 +46,14 @@ const RouteCard = ({
   <div className="m-stop-page__departures-route">
     <Header route={route} />
     {directions.length === 0 && (
-      <>
+      <div className="m-stop-page__no-departures">
         <div>No departures within 24 hours</div>
         <div>
-          <a href={`/schedules/${route.id}`}>
-            View {route.long_name} schedules
+          <a href={`/schedules/${route.id}`} className="c-call-to-action">
+            View {route.name} schedules
           </a>
         </div>
-      </>
+      </div>
     )}
 
     {directions.map(direction => (
