@@ -5,10 +5,9 @@
   <%= render "_line_page_stop_text_icons.html", stop: @stop, conn: @conn %>
   <div class="route-branch-stop-info-container">
     <div>
-      <%= if @stop.zone do %>
+      <%= if @stop.zone && @route.type == 2 do %>
         <div>
           <div class="commuter-rail-zone route-branch-stop-zone">
-            <%= unless @route.type == 2 do %>Commuter Rail<% end %>
             <span class="u-nowrap">Zone <%= @stop.zone %></span>
           </div>
         </div>

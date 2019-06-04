@@ -63,18 +63,22 @@ $location-line-width: $space-6;
 
 .route-branch-headsign-wrapper {
   display: inline-flex;
-  max-width: 16rem;
+  max-width: 14rem;
 
   @include media-breakpoint-only(sm) {
-    max-width: 20rem;
+    max-width: 23rem;
   }
 
   @include media-breakpoint-only(md) {
-    max-width: 11rem;
+    max-width: 21rem;
+  }
+
+  @include media-breakpoint-only(lg) {
+    max-width: 28rem;
   }
 
   @include media-breakpoint-only(xxl) {
-    max-width: 20rem;
+    max-width: 32rem;
   }
 }
 
