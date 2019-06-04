@@ -74,6 +74,7 @@ defmodule Routes.Route do
   def types_for_mode(:blue_line), do: [1]
   def types_for_mode(:orange_line), do: [1]
   def types_for_mode(:mattapan_line), do: [0]
+  def types_for_mode(:silver_line), do: [3]
 
   @spec icon_atom(t) :: gtfs_route_type | subway_lines_type
   def icon_atom(%__MODULE__{id: "Red"}), do: :red_line
@@ -100,7 +101,7 @@ defmodule Routes.Route do
   def type_name(:the_ride), do: "The RIDE"
 
   for type_atom <- ~w(subway commuter_rail bus ferry
-                      orange_line red_line blue_line
+                      orange_line red_line blue_line silver_line
                       green_line green_line_b green_line_c green_line_d green_line_e
                       mattapan_trolley mattapan_line)a do
     type_string =
