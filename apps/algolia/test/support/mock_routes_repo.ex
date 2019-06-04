@@ -39,22 +39,48 @@ defmodule Algolia.MockRoutesRepo do
     %{0 => "Terminus 1", 1 => "Terminus 2"}
   end
 
+  @direction_destinations %{0 => "Start", 1 => "End"}
+
   def get("HeavyRail"),
-    do: %Routes.Route{id: "HeavyRail", description: :rapid_transit, name: "Heavy Rail", type: 1}
+    do: %Routes.Route{
+      id: "HeavyRail",
+      description: :rapid_transit,
+      name: "Heavy Rail",
+      type: 1,
+      direction_destinations: @direction_destinations
+    }
 
   def get("LightRail"),
     do: %Routes.Route{
       id: "Green-LightRail",
       description: :rapid_transit,
       name: "Light Rail",
-      type: 0
+      type: 0,
+      direction_destinations: @direction_destinations
     }
 
   def get("CR-Commuterrail"),
-    do: %Routes.Route{id: "CR-Commuterrail", name: "Commuter Rail Line", type: 2}
+    do: %Routes.Route{
+      id: "CR-Commuterrail",
+      name: "Commuter Rail Line",
+      type: 2,
+      direction_destinations: @direction_destinations
+    }
 
-  def get("1000"), do: %Routes.Route{id: "1000", name: "1000", type: 3}
+  def get("1000"),
+    do: %Routes.Route{
+      id: "1000",
+      name: "1000",
+      type: 3,
+      direction_destinations: @direction_destinations
+    }
 
   def get("Boat-1000"),
-    do: %Routes.Route{id: "Boat-1000", description: :ferry, name: "Ferry Route", type: 4}
+    do: %Routes.Route{
+      id: "Boat-1000",
+      description: :ferry,
+      name: "Ferry Route",
+      type: 4,
+      direction_destinations: @direction_destinations
+    }
 end
