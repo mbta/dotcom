@@ -4,11 +4,11 @@ exports[`it renders 1`] = `
 <div
   className="m-schedule-page__schedule-note-container"
 >
-  <h3
+  <h2
     className="m-schedule-page__schedule-note-title"
   >
     Schedule Note
-  </h3>
+  </h2>
   <div
     className="m-schedule-page__schedule-note"
   >
@@ -57,11 +57,11 @@ exports[`it renders without service exceptions 1`] = `
 <div
   className="m-schedule-page__schedule-note-container"
 >
-  <h3
+  <h2
     className="m-schedule-page__schedule-note-title"
   >
     Schedule Note
-  </h3>
+  </h2>
   <div
     className="m-schedule-page__schedule-note"
   >

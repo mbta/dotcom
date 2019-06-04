@@ -33,7 +33,7 @@ const ScheduleNote = ({
   }
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-schedule-page__schedule-note-container">
-    <h3 className="m-schedule-page__schedule-note-title">Schedule Note</h3>
+    <h2 className="m-schedule-page__schedule-note-title">Schedule Note</h2>
     <div className="m-schedule-page__schedule-note">
       <h4 className="m-schedule-page__service">Peak Service</h4>
       <div className="m-schedule-page__service-subheading">
