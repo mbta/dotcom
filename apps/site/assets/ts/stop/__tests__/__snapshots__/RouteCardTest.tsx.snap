@@ -216,17 +216,22 @@ exports[`renders blue line routes 1`] = `
       Blue Line
     </span>
   </a>
-  <div>
-    No departures within 24 hours
-  </div>
-  <div>
-    <a
-      href="/schedules/Blue"
-    >
-      View 
-      Blue Line
-       schedules
-    </a>
+  <div
+    className="m-stop-page__no-departures"
+  >
+    <div>
+      No departures within 24 hours
+    </div>
+    <div>
+      <a
+        className="c-call-to-action"
+        href="/schedules/Blue"
+      >
+        View 
+        Blue Line
+         schedule
+      </a>
+    </div>
   </div>
 </div>
 `;
@@ -245,17 +250,22 @@ exports[`renders bus routes 1`] = `
       Bus
     </span>
   </a>
-  <div>
-    No departures within 24 hours
-  </div>
-  <div>
-    <a
-      href="/schedules/Bus"
-    >
-      View 
-      Bus
-       schedules
-    </a>
+  <div
+    className="m-stop-page__no-departures"
+  >
+    <div>
+      No departures within 24 hours
+    </div>
+    <div>
+      <a
+        className="c-call-to-action"
+        href="/schedules/Bus"
+      >
+        View 
+        Bus
+         schedule
+      </a>
+    </div>
   </div>
 </div>
 `;
@@ -274,17 +284,22 @@ exports[`renders ferry routes 1`] = `
       Charlestown Ferry
     </span>
   </a>
-  <div>
-    No departures within 24 hours
-  </div>
-  <div>
-    <a
-      href="/schedules/Boat-F4"
-    >
-      View 
-      Charlestown Ferry
-       schedules
-    </a>
+  <div
+    className="m-stop-page__no-departures"
+  >
+    <div>
+      No departures within 24 hours
+    </div>
+    <div>
+      <a
+        className="c-call-to-action"
+        href="/schedules/Boat-F4"
+      >
+        View 
+        Charlestown Ferry
+         schedule
+      </a>
+    </div>
   </div>
 </div>
 `;
@@ -303,17 +318,22 @@ exports[`renders green line routes 1`] = `
       B Line
     </span>
   </a>
-  <div>
-    No departures within 24 hours
-  </div>
-  <div>
-    <a
-      href="/schedules/Green-B"
-    >
-      View 
-      B Line
-       schedules
-    </a>
+  <div
+    className="m-stop-page__no-departures"
+  >
+    <div>
+      No departures within 24 hours
+    </div>
+    <div>
+      <a
+        className="c-call-to-action"
+        href="/schedules/Green-B"
+      >
+        View 
+        B Line
+         schedule
+      </a>
+    </div>
   </div>
 </div>
 `;
@@ -332,17 +352,22 @@ exports[`renders orange line routes 1`] = `
       Orange Line
     </span>
   </a>
-  <div>
-    No departures within 24 hours
-  </div>
-  <div>
-    <a
-      href="/schedules/Orange"
-    >
-      View 
-      Orange Line
-       schedules
-    </a>
+  <div
+    className="m-stop-page__no-departures"
+  >
+    <div>
+      No departures within 24 hours
+    </div>
+    <div>
+      <a
+        className="c-call-to-action"
+        href="/schedules/Orange"
+      >
+        View 
+        Orange Line
+         schedule
+      </a>
+    </div>
   </div>
 </div>
 `;
@@ -361,17 +386,22 @@ exports[`renders red line routes 1`] = `
       Red Line
     </span>
   </a>
-  <div>
-    No departures within 24 hours
-  </div>
-  <div>
-    <a
-      href="/schedules/Red"
-    >
-      View 
-      Red Line
-       schedules
-    </a>
+  <div
+    className="m-stop-page__no-departures"
+  >
+    <div>
+      No departures within 24 hours
+    </div>
+    <div>
+      <a
+        className="c-call-to-action"
+        href="/schedules/Red"
+      >
+        View 
+        Red Line
+         schedule
+      </a>
+    </div>
   </div>
 </div>
 `;

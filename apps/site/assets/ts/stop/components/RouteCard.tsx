@@ -50,7 +50,7 @@ const RouteCard = ({
         <div>No departures within 24 hours</div>
         <div>
           <a href={`/schedules/${route.id}`} className="c-call-to-action">
-            View {route.name} schedules
+            View {route.name} schedule
           </a>
         </div>
       </div>
