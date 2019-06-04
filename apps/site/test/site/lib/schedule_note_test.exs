@@ -1,8 +1,8 @@
 defmodule Site.ScheduleNoteTest do
   use ExUnit.Case, async: true
 
-  alias Site.ScheduleNote
   alias Routes.Route
+  alias Site.ScheduleNote
 
   @red_line %Route{id: "Red"}
   @blue_line %Route{id: "Blue"}
