@@ -95,11 +95,13 @@ const TripPlannerPage = ({ mapData }: Props): ReactElement<HTMLElement> => {
     const onUpdateCb = (ev: Event): void =>
       onUpdate(ev as UpdateEvent, dispatch);
 
-    document.removeEventListener("trip-plan:remove-marker", onRemoveCb);
     document.addEventListener("trip-plan:remove-marker", onRemoveCb);
-
-    document.removeEventListener("trip-plan:update-marker", onUpdateCb);
     document.addEventListener("trip-plan:update-marker", onUpdateCb);
+
+    return () => {
+      document.removeEventListener("trip-plan:remove-marker", onRemoveCb);
+      document.removeEventListener("trip-plan:update-marker", onUpdateCb);
+    }
   });
   const bounds = state.markers.length ? getBounds(state.markers) : undefined;
 
