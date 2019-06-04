@@ -1,0 +1,25 @@
+{
+  "id" : "e4af9291-99f6-3ea3-a436-d7bc683e3860",
+  "request" : {
+    "url" : "/trips/?route=Red&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-gavv2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:23:26 GMT",
+      "last-modified" : "Tue, 04 Jun 2019 14:23:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6891",
+      "x-ratelimit-reset" : "1559658240",
+      "x-request-id" : "FaUE4CSoHkBd6DYABPaD",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e4af9291-99f6-3ea3-a436-d7bc683e3860"
+}

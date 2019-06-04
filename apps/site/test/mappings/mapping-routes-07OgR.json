@@ -1,0 +1,25 @@
+{
+  "id" : "d482fc56-e2a0-3345-afcb-2f4d8db1118f",
+  "request" : {
+    "url" : "/routes/?stop=place-WML-0035",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-07OgR.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:28:24 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6903",
+      "x-ratelimit-reset" : "1559658540",
+      "x-request-id" : "FaUFJXzTHh5a3RAAKQmh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d482fc56-e2a0-3345-afcb-2f4d8db1118f"
+}

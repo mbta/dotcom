@@ -1,0 +1,25 @@
+{
+  "id" : "206d6722-288b-3856-9ba5-f8e02082ddb5",
+  "request" : {
+    "url" : "/routes/?stop=place-qnctr&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ITH1W.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:25:49 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6692",
+      "x-ratelimit-reset" : "1559658360",
+      "x-request-id" : "FaUFAXcJZQliLs0ABRjD",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "206d6722-288b-3856-9ba5-f8e02082ddb5"
+}

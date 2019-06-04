@@ -1,0 +1,25 @@
+{
+  "id" : "6a77673f-0435-3bb2-a7ad-ba46ecbddbd0",
+  "request" : {
+    "url" : "/trips/?route=CR-Newburyport&fields%5Btrip%5D=headsign&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-IN2es.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:23:26 GMT",
+      "last-modified" : "Tue, 04 Jun 2019 14:23:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6870",
+      "x-ratelimit-reset" : "1559658240",
+      "x-request-id" : "FaUE4DLXN5PQ8ZsABPfj",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6a77673f-0435-3bb2-a7ad-ba46ecbddbd0"
+}

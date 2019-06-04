@@ -1,0 +1,25 @@
+{
+  "id" : "6ad5962f-c8b5-396c-9457-0a3578c681bc",
+  "request" : {
+    "url" : "/routes/?stop=230&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-sGEUg.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:25:52 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6428",
+      "x-ratelimit-reset" : "1559658360",
+      "x-request-id" : "FaUFAf0JL1IQygkABSRD",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6ad5962f-c8b5-396c-9457-0a3578c681bc"
+}

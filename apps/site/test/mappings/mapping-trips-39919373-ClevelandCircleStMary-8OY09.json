@@ -1,0 +1,25 @@
+{
+  "id" : "f71fe284-6c27-39f1-a1a7-a4b7661c81e6",
+  "request" : {
+    "url" : "/trips/39919373-ClevelandCircleStMary",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-39919373-ClevelandCircleStMary-8OY09.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:30:11 GMT",
+      "last-modified" : "Tue, 04 Jun 2019 14:30:04 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6927",
+      "x-ratelimit-reset" : "1559658660",
+      "x-request-id" : "FaUFPncO6Gm5h3gABS9j",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f71fe284-6c27-39f1-a1a7-a4b7661c81e6"
+}

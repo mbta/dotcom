@@ -1,0 +1,25 @@
+{
+  "id" : "e68a1da5-7d96-3120-a248-d69c6022501b",
+  "request" : {
+    "url" : "/routes/?stop=place-lech",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MDddF.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:28:25 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6692",
+      "x-ratelimit-reset" : "1559658540",
+      "x-request-id" : "FaUFJbvgGbmFMDAADeUi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e68a1da5-7d96-3120-a248-d69c6022501b"
+}

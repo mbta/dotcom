@@ -1,0 +1,25 @@
+{
+  "id" : "e3f8964e-23ca-3593-b0aa-e322773b6fe9",
+  "request" : {
+    "url" : "/routes/?stop=place-dudly",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-kPCVn.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:27:17 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6927",
+      "x-ratelimit-reset" : "1559658480",
+      "x-request-id" : "FaUFFemxwQg5n3cADcDi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e3f8964e-23ca-3593-b0aa-e322773b6fe9"
+}

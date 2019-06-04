@@ -1,0 +1,25 @@
+{
+  "id" : "33bc3cc3-5338-3cdb-9c7f-8389aa1d610d",
+  "request" : {
+    "url" : "/routes/?stop=place-fenwd",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-JvwZk.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:28:25 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6697",
+      "x-ratelimit-reset" : "1559658540",
+      "x-request-id" : "FaUFJbf_JYIHfN0ADeSi",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "33bc3cc3-5338-3cdb-9c7f-8389aa1d610d"
+}

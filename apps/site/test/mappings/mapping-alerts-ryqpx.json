@@ -1,0 +1,25 @@
+{
+  "id" : "d69b53d5-447e-32f1-b701-c2994e298749",
+  "request" : {
+    "url" : "/alerts/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-alerts-ryqpx.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:23:26 GMT",
+      "last-modified" : "Tue, 04 Jun 2019 14:22:35 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6932",
+      "x-ratelimit-reset" : "1559658240",
+      "x-request-id" : "FaUE3_m3MEvu7gYAKIgh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d69b53d5-447e-32f1-b701-c2994e298749"
+}

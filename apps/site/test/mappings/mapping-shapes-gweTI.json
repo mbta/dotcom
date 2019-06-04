@@ -1,0 +1,25 @@
+{
+  "id" : "0c7d76f7-87aa-39f0-87c7-14cd40f76100",
+  "request" : {
+    "url" : "/shapes/?route=712&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-gweTI.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:23:30 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:22:49 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6350",
+      "x-ratelimit-reset" : "1559658240",
+      "x-request-id" : "FaUE4Q_npSES2-cABQKj",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0c7d76f7-87aa-39f0-87c7-14cd40f76100"
+}

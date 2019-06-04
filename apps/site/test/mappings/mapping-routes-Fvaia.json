@@ -1,0 +1,25 @@
+{
+  "id" : "4b0dd438-118b-362f-aca6-90842188c19a",
+  "request" : {
+    "url" : "/routes/?stop=place-stplb",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Fvaia.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:28:25 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6676",
+      "x-ratelimit-reset" : "1559658540",
+      "x-request-id" : "FaUFJcOmZhMleKQAKRYh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4b0dd438-118b-362f-aca6-90842188c19a"
+}

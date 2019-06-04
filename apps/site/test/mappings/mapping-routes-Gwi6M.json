@@ -1,0 +1,25 @@
+{
+  "id" : "74f70d09-2d68-3ff5-a4ff-58b83c54b0da",
+  "request" : {
+    "url" : "/routes/?stop=888&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Gwi6M.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Tue, 04 Jun 2019 14:25:50 GMT",
+      "last-modified" : "Mon, 03 Jun 2019 19:21:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6660",
+      "x-ratelimit-reset" : "1559658360",
+      "x-request-id" : "FaUFAYeosvR83-EABRuD",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "74f70d09-2d68-3ff5-a4ff-58b83c54b0da"
+}
