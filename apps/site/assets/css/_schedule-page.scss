@@ -45,12 +45,12 @@
 }
 
 .m-schedule-page__schedule-note-container {
+  background-color: $gray-bordered-background;
+  padding: $base-spacing * 2 $base-spacing;
+
   @include media-breakpoint-up(md) {
     margin-top: $base-spacing * 2;
   }
-
-  background-color: $gray-bordered-background;
-  padding: $base-spacing * 2 $base-spacing;
 }
 
 .m-schedule-page__service,

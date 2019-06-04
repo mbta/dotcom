@@ -58,7 +58,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
         route_type: conn.assigns.route.type,
-        schedule_note: ScheduleNote.new(route)
+        schedule_note: ScheduleNote.new(conn.assigns.route)
       }
     )
   end
