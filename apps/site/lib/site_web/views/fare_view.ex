@@ -96,9 +96,12 @@ defmodule SiteWeb.FareView do
   end
 
   def fare_type_note(_conn, %Fare{reduced: nil, mode: :commuter_rail}) do
-    content_tag :span do
-      ~s(If you buy a round trip ticket with cash on board the train, it is only valid until the end of service that same day.)
-    end
+    content_tag(:span, [
+      ~s(Tickets purchased on board the train in cash may include a $3 surcharge, and may only be valid until the end of service that day. ),
+      link("Learn more about paying your Commuter Rail fare.",
+        to: cms_static_page_path(SiteWeb.Endpoint, "/fares/commuter-rail-fares")
+      )
+    ])
   end
 
   def fare_type_note(_conn, _fare) do
