@@ -23,7 +23,11 @@ defmodule Algolia.ObjectTest do
 
       assert data.route == %{
                route
-               | direction_names: [route.direction_names[0], route.direction_names[1]]
+               | direction_names: [route.direction_names[0], route.direction_names[1]],
+                 direction_destinations: [
+                   route.direction_destinations[0],
+                   route.direction_destinations[1]
+                 ]
              }
 
       refute Map.has_key?(data, :_geoloc)
@@ -38,7 +42,11 @@ defmodule Algolia.ObjectTest do
 
       assert data.route == %{
                route
-               | direction_names: [route.direction_names[0], route.direction_names[1]]
+               | direction_names: [route.direction_names[0], route.direction_names[1]],
+                 direction_destinations: [
+                   route.direction_destinations[0],
+                   route.direction_destinations[1]
+                 ]
              }
 
       refute Map.has_key?(data, :_geoloc)
