@@ -37,7 +37,7 @@ const ScheduleNote = ({
     <h2 className="m-schedule-page__schedule-note-title">
       <div
         className="m-schedule-page__schedule-note-icon"
-        dangerouslySetInnerHTML={{ __html: scheduleIcon }}
+        dangerouslySetInnerHTML={{ __html: scheduleIcon }} // eslint-disable-line react/no-danger
       />
       Schedule Note
     </h2>
