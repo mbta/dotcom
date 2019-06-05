@@ -149,6 +149,10 @@
   }
 }
 
+.m-stop-page__no-departures {
+  padding: $base-spacing / 2;
+}
+
 .m-stop-page__departures-route {
   background: $white;
   box-shadow: 0 $space-2 $space-4 $drop-shadow-color;

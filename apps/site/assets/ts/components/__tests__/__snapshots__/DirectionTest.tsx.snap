@@ -31,7 +31,7 @@ exports[`it does not display the direction destination when there is only one he
           className="m-tnm-sidebar__schedule"
         >
           <div
-            className="m-tnm-sidebar__time"
+            className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
           >
             <div
               className="m-tnm-sidebar__time-number"
@@ -87,7 +87,7 @@ exports[`it does not display the route direction for commuter rail 1`] = `
           className="m-tnm-sidebar__schedule"
         >
           <div
-            className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail"
+            className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
           >
             <div
               className="m-tnm-sidebar__time-number"
@@ -127,7 +127,7 @@ exports[`it does not display the route direction for commuter rail 1`] = `
           className="m-tnm-sidebar__schedule"
         >
           <div
-            className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail"
+            className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
           >
             <div
               className="m-tnm-sidebar__time-number"
@@ -178,7 +178,7 @@ exports[`it renders 1`] = `
           className="m-tnm-sidebar__schedule"
         >
           <div
-            className="m-tnm-sidebar__time"
+            className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
           >
             <div
               className="m-tnm-sidebar__time-number"
@@ -213,7 +213,7 @@ exports[`it renders 1`] = `
           className="m-tnm-sidebar__schedule"
         >
           <div
-            className="m-tnm-sidebar__time"
+            className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
           >
             <div
               className="m-tnm-sidebar__time-number"

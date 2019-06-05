@@ -78,9 +78,12 @@ const crStatus = ({ delay, prediction }: PredictedOrScheduledTime): string => {
 };
 
 const renderTimeCommuterRail = (
-  data: PredictedOrScheduledTime
+  data: PredictedOrScheduledTime,
+  modifier: string
 ): ReactElement<HTMLElement> => (
-  <div className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail">
+  <div
+    className={`m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail ${modifier}`}
+  >
     {crTime(data)}
     <div className="m-tnm-sidebar__status">
       {`${crStatus(data)}${
@@ -92,8 +95,11 @@ const renderTimeCommuterRail = (
   </div>
 );
 
-const renderTimeDefault = (time: string[]): ReactElement<HTMLElement> => (
-  <div className="m-tnm-sidebar__time">
+const renderTimeDefault = (
+  time: string[],
+  modifier: string
+): ReactElement<HTMLElement> => (
+  <div className={`m-tnm-sidebar__time ${modifier}`}>
     <div className="m-tnm-sidebar__time-number">{time[0]}</div>
     <div className="m-tnm-sidebar__time-mins">{time[2]}</div>
   </div>
@@ -110,6 +116,11 @@ const renderTime = (
   // eslint-disable-next-line @typescript-eslint/camelcase
   const time = prediction ? prediction.time : scheduled_time!;
 
+  const classModifier =
+    !prediction && [0, 1, 3].includes(routeType)
+      ? "m-tnm-sidebar__time--schedule"
+      : "";
+
   return (
     <div
       // eslint-disable-next-line @typescript-eslint/camelcase
@@ -117,8 +128,8 @@ const renderTime = (
       className="m-tnm-sidebar__schedule"
     >
       {routeType === 2
-        ? renderTimeCommuterRail(tnmTime)
-        : renderTimeDefault(time)}
+        ? renderTimeCommuterRail(tnmTime, classModifier)
+        : renderTimeDefault(time, classModifier)}
     </div>
   );
 };

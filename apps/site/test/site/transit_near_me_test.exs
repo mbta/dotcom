@@ -790,7 +790,7 @@ defmodule Site.TransitNearMeTest do
     end
   end
 
-  describe "filter_predicted_schedules/2" do
+  describe "filter_predicted_schedules/3" do
     test "does not remove schedules without predictions for commuter rail, bus, or ferry" do
       now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
 
@@ -804,7 +804,7 @@ defmodule Site.TransitNearMeTest do
           prediction: nil
         }
 
-        assert TransitNearMe.filter_predicted_schedules([schedule], route, now) == [
+        assert TransitNearMe.filter_predicted_schedules([schedule], route, stop.id, now) == [
                  schedule
                ]
       end
@@ -830,7 +830,12 @@ defmodule Site.TransitNearMeTest do
           prediction: nil
         }
 
-        assert TransitNearMe.filter_predicted_schedules([schedule_1, schedule_2], route, now) ==
+        assert TransitNearMe.filter_predicted_schedules(
+                 [schedule_1, schedule_2],
+                 route,
+                 stop.id,
+                 now
+               ) ==
                  [schedule_1]
       end
     end
@@ -844,7 +849,7 @@ defmodule Site.TransitNearMeTest do
         trip = %Trip{direction_id: 0}
         schedule = %PredictedSchedule{schedule: %Schedule{route: route, stop: stop, trip: trip}}
 
-        assert TransitNearMe.filter_predicted_schedules([schedule], route, now) == []
+        assert TransitNearMe.filter_predicted_schedules([schedule], route, stop.id, now) == []
       end
     end
 
@@ -860,7 +865,7 @@ defmodule Site.TransitNearMeTest do
           schedule: %Schedule{route: route, stop: stop, trip: trip}
         }
 
-        assert TransitNearMe.filter_predicted_schedules([schedule], route, now) == [
+        assert TransitNearMe.filter_predicted_schedules([schedule], route, stop.id, now) == [
                  schedule
                ]
       end

@@ -74,7 +74,7 @@ defmodule Site.TransitNearMe do
 
     date =
       now
-      |> DateTime.to_date()
+      |> Util.service_date()
       |> Date.to_string()
 
     predicted_schedules =
@@ -384,9 +384,16 @@ defmodule Site.TransitNearMe do
       |> List.first()
       |> PredictedSchedule.route()
 
+    stop_id =
+      schedules
+      |> List.first()
+      |> PredictedSchedule.stop()
+      |> Stops.Repo.get_parent()
+      |> Map.fetch!(:id)
+
     {closest_time, headsigns} =
       schedules
-      |> filter_predicted_schedules(route, now)
+      |> filter_predicted_schedules(route, stop_id, now)
       |> Enum.group_by(&(PredictedSchedule.trip(&1) && PredictedSchedule.trip(&1).headsign))
       |> Enum.map(fn {headsign, predicted_scheds} ->
         {headsign,
@@ -405,10 +412,27 @@ defmodule Site.TransitNearMe do
     }
   end
 
-  @spec filter_predicted_schedules([PredictedSchedule.t()], Routes.Route.t(), DateTime.t()) :: [
+  @stops_without_predictions [
+    "place-lake",
+    "place-clmnl",
+    "place-river",
+    "place-hsmnl"
+  ]
+
+  @spec filter_predicted_schedules(
+          [PredictedSchedule.t()],
+          Routes.Route.t(),
+          Stop.id_t(),
+          DateTime.t()
+        ) :: [
           PredictedSchedule.t()
         ]
-  def filter_predicted_schedules(predicted_schedules, %Route{type: type}, now)
+  def filter_predicted_schedules(predicted_schedules, %Route{}, stop_id, %DateTime{})
+      when stop_id in @stops_without_predictions do
+    predicted_schedules
+  end
+
+  def filter_predicted_schedules(predicted_schedules, %Route{type: type}, _stop_id, now)
       when type in [0, 1] do
     # subway routes should only use predictions
     predicted_schedules
@@ -426,7 +450,7 @@ defmodule Site.TransitNearMe do
     end
   end
 
-  def filter_predicted_schedules(predicted_schedules, %Route{}, %DateTime{}) do
+  def filter_predicted_schedules(predicted_schedules, %Route{}, _stop_id, %DateTime{}) do
     # all other modes can use schedules
     predicted_schedules
   end
