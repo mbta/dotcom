@@ -3,6 +3,7 @@ import {
   ScheduleNote as ScheduleNoteType,
   ServiceException
 } from "./__schedule";
+import scheduleIcon from "../../../static/images/icon-schedule-finder.svg";
 
 const service = (serviceTime: string): ReactElement<HTMLElement> => (
   <p className="m-schedule-page__service-note-time" key={serviceTime}>
@@ -33,7 +34,13 @@ const ScheduleNote = ({
   }
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-schedule-page__schedule-note-container">
-    <h2 className="m-schedule-page__schedule-note-title">Schedule Note</h2>
+    <h2 className="m-schedule-page__schedule-note-title">
+      <div
+        className="m-schedule-page__schedule-note-icon"
+        dangerouslySetInnerHTML={{ __html: scheduleIcon }}
+      />
+      Schedule Note
+    </h2>
     <div className="m-schedule-page__schedule-note">
       <h4 className="m-schedule-page__service">Peak Service</h4>
       <div className="m-schedule-page__service-subheading">

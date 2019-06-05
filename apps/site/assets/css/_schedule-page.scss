@@ -35,8 +35,17 @@
   padding-left: $base-spacing * 1.5;
 }
 
+.m-schedule-page__schedule-note-icon {
+  height: 1em;
+  margin-right: $base-spacing / 2;
+  position: relative;
+  top: .125em;
+  width: 1em;
+}
+
 .m-schedule-page__schedule-note-title {
   color: $brand-primary;
+  display: flex;
   margin-top: 0;
 }
 
