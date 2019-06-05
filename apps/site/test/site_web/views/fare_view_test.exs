@@ -36,7 +36,7 @@ defmodule SiteWeb.FareViewTest do
     test "returns fare note for commuter rail" do
       assert safe_to_string(
                fare_type_note(build_conn(), %Fare{mode: :commuter_rail, reduced: nil})
-             ) =~ "If you buy a round trip ticket"
+             ) =~ "Tickets purchased on board the train"
     end
   end
 
