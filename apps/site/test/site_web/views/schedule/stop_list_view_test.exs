@@ -563,12 +563,20 @@ defmodule SiteWeb.StopListViewTest do
 
       rendered =
         "_cms_teasers.html"
-        |> ScheduleView.render(featured_content: featured, news: news, conn: conn)
+        |> ScheduleView.render(
+          featured_content: featured,
+          news: news,
+          conn: conn,
+          teaser_class: "teaser-class",
+          news_class: "news-class"
+        )
         |> safe_to_string()
 
       assert rendered =~ featured.image.url
       assert rendered =~ featured.image.alt
       assert rendered =~ featured.title
+      assert rendered =~ "teaser-class"
+      assert rendered =~ "news-class"
 
       for item <- news do
         assert rendered =~ item.title
