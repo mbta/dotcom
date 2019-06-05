@@ -19,6 +19,10 @@
       box-sizing: border-box;
     }
 
+    body {
+      margin: 0;
+    }
+
     *,
     *:before,
     *:after {
@@ -38,6 +42,12 @@
 
     .header-border {
       border-bottom: 1px solid #e9eaed;
+    }
+
+    .svg-container>svg {
+      display: block;
+      height: 3rem;
+      width: 12rem;
     }
 
     .sr-only {
@@ -93,8 +103,7 @@
       background-color: #071d2e;
       color: #fff;
       width: 100%;
-      padding-bottom: 2rem;
-      padding-top: 2rem;
+      padding: 1rem 0;
     }
 
     .m-footer__copyright {
@@ -103,15 +112,14 @@
   </style>
 </head>
 
-<body style="margin: 0;">
+<body>
   <div class="body-wrapper">
     <header class="header header-border">
       <div class="container">
-        <div class="header-navbar">
+        <div>
           <span class="sr-only">MBTA Home Page</span>
           <div class="svg-container" aria-hidden="true">
-            <svg viewBox="0 0 198 36.91016" xmlns="http://www.w3.org/2000/svg"
-              style="display: block; height: 3rem; width: 12rem;">
+            <svg viewBox="0 0 198 36.91016" xmlns="http://www.w3.org/2000/svg">
               <path
                 d="m18 34.4a16.4 16.4 0 1 1 16.4-16.4 16.34585 16.34585 0 0 1 -16.4 16.4zm0-34.4a18 18 0 1 0 18 18 18.05292 18.05292 0 0 0 -18-18"
                 fill="#1c1e23" />
