@@ -41,6 +41,14 @@
         <% end %>
         <h2 class="h2">Maps</h2>
         <%= map_buttons([:subway, :bus, :commuter_rail, :commuter_rail_zones, :ferry]) %>
+
+        <h2 class="h2">Fares</h2>
+
+        <%= for paragraph <- hub_fare_cards(), do: SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
+
+        <p>
+          <%= link("View fares overview", to: cms_static_page_path(@conn, "/fares"), class: "c-call-to-action") %>
+        </p>
       </div>
 
       <div class="m-mode-hub__guides-wrapper col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-4 col-lg-offset-1">
@@ -51,17 +59,6 @@
           <%= for guide <- @guides do SiteWeb.PartialView.teaser(guide, class: "m-mode-hub__guide") end %>
         </div>
       </div>
-
-      <div class="col-xs-12 col-sm-10 col-sm-offset-1 col-md-12 col-md-offset-0 col-lg-7">
-        <h2 class="h2">Fares</h2>
-
-        <%= for paragraph <- hub_fare_cards(), do: SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
-
-        <p>
-          <%= link("View fares overview", to: cms_static_page_path(@conn, "/fares"), class: "c-call-to-action") %>
-        </p>
-      </div>
-
     </div>
   </div>
 </div>
