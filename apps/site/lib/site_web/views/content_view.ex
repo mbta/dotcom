@@ -154,8 +154,12 @@ defmodule SiteWeb.ContentView do
     }"
   end
 
+  defp format_time(%{minute: 0} = time) do
+    Timex.format!(time, "{h12} {AM}")
+  end
+
   defp format_time(time) do
-    Timex.format!(time, "{h12}:{m}{am}")
+    Timex.format!(time, "{h12}:{m} {AM}")
   end
 
   defp nested_paragraphs(columns), do: columns |> Enum.flat_map(& &1.paragraphs)
