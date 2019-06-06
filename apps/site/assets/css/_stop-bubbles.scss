@@ -42,7 +42,7 @@ $location-line-width: $space-6;
   align-items: stretch;
   display: flex;
   flex: 1 1 0%;
-  overflow: visible; // if set to hidden, site works better in IE10, but then cirlces are slightly cropped everywhere
+  overflow: visible; // if set to hidden, site works better in IE10, but then circles are slightly cropped everywhere
   width: 100%;
 
   &.expanded {
@@ -59,6 +59,33 @@ $location-line-width: $space-6;
 
 .route-branch-stop-prediction {
   text-align: right;
+}
+
+.route-branch-headsign-wrapper {
+  display: inline-flex;
+  max-width: 14rem;
+
+  @include media-breakpoint-only(sm) {
+    max-width: 23rem;
+  }
+
+  @include media-breakpoint-only(md) {
+    max-width: 21rem;
+  }
+
+  @include media-breakpoint-only(lg) {
+    max-width: 28rem;
+  }
+
+  @include media-breakpoint-only(xxl) {
+    max-width: 32rem;
+  }
+}
+
+.route-branch-headsign {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .route-branch-stop-bubbles {
