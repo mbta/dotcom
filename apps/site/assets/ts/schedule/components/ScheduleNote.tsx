@@ -34,13 +34,13 @@ const ScheduleNote = ({
   }
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-schedule-page__schedule-note-container">
-    <h2 className="m-schedule-page__schedule-note-title">
+    <h3 className="m-schedule-page__schedule-note-title">
       <div
         className="m-schedule-page__schedule-note-icon"
         dangerouslySetInnerHTML={{ __html: scheduleIcon }} // eslint-disable-line react/no-danger
       />
       Schedule Note
-    </h2>
+    </h3>
     <div className="m-schedule-page__schedule-note">
       <h4 className="m-schedule-page__service">Peak Service</h4>
       <div className="m-schedule-page__service-subheading">
