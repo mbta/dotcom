@@ -41,6 +41,7 @@ defmodule SiteWeb.VehicleChannel do
     route = Routes.Repo.get(vehicle.route_id)
     stop_name = get_stop_name(vehicle.stop_id)
     trip = Schedules.Repo.trip(vehicle.trip_id)
+    prediction = List.first(Predictions.Repo.all(trip: vehicle.trip_id))
 
     %{
       data: %{vehicle: vehicle, stop_name: stop_name},
@@ -53,14 +54,14 @@ defmodule SiteWeb.VehicleChannel do
           rotation_angle: vehicle.bearing,
           tooltip_text:
             %VehicleTooltip{
-              prediction: nil,
+              prediction: prediction,
               vehicle: vehicle,
               route: route,
               stop_name: stop_name,
               trip: trip
             }
             |> VehicleHelpers.tooltip()
-            |> Floki.text()
+            |> Floki.text(sep: "<br>")
         )
     }
   end
