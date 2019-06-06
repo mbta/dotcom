@@ -1,3 +1,3 @@
-<%= if @featured_content do SiteWeb.PartialView.teaser(@featured_content, class: "m-schedule-line__teaser") end %>
+<%= if @featured_content do SiteWeb.PartialView.teaser(@featured_content, class: @teaser_class) end %>
 <%= unless Enum.empty?(@news) do content_tag(:h2, "News", class: "h2") end %>
-<%= for news_item <- @news do SiteWeb.PartialView.news_entry(news_item, class: "m-schedule-line__news") end %>
+<%= for news_item <- @news do SiteWeb.PartialView.news_entry(news_item, class: @news_class) end %>

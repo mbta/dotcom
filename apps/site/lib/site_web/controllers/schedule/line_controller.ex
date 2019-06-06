@@ -2,6 +2,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   use SiteWeb, :controller
   alias Phoenix.HTML
   alias Routes.{Group, Route}
+  alias Site.ScheduleNote
   alias SiteWeb.{ScheduleView, ViewHelpers}
 
   plug(SiteWeb.Plugs.Route)
@@ -46,7 +47,10 @@ defmodule SiteWeb.ScheduleController.LineController do
           HTML.safe_to_string(
             ScheduleView.render(
               "_cms_teasers.html",
-              conn.assigns
+              Map.merge(conn.assigns, %{
+                teaser_class: "m-schedule-page__teaser",
+                news_class: "m-schedule-page__news"
+              })
             )
           ),
         hours: HTML.safe_to_string(ScheduleView.render("_hours_of_op.html", conn.assigns)),
@@ -56,7 +60,8 @@ defmodule SiteWeb.ScheduleController.LineController do
           end),
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
-        route_type: conn.assigns.route.type
+        route_type: conn.assigns.route.type,
+        schedule_note: ScheduleNote.new(conn.assigns.route)
       }
     )
   end
