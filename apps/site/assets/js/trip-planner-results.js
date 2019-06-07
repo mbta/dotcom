@@ -1,6 +1,26 @@
 import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import GoogleMap from "./google-map-class";
 
+const toggleTextContent = e => {
+  if (e.target.textContent.trim() === "(view alert)") {
+    e.target.textContent = "(hide alert)";
+  } else {
+    e.target.textContent = "(view alert)";
+  }
+};
+
+export const addToggleAlertHandlers = () => {
+  [...document.querySelectorAll(`.js-trip-plan-alert-toggle`)].forEach(elem => {
+    elem.addEventListener("click", toggleTextContent);
+  });
+};
+
+export const removeToggleAlertHandlers = () => {
+  [...document.querySelectorAll(`.js-trip-plan-alert-toggle`)].forEach(elem => {
+    elem.removeEventListener("click", toggleTextContent);
+  });
+};
+
 export class TripPlannerResults {
   constructor() {
     this.bind();

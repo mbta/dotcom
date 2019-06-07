@@ -1,17 +1,29 @@
 const ITEM_SELECTOR = "js-toggle-alert";
 
-export default () =>
+export const onload = () =>
   document.addEventListener("turbolinks:load", addAlertItemEventHandlers, {
     passive: true
   });
 
-const addAlertItemEventHandlers = () =>
-  [...document.querySelectorAll(`.${ITEM_SELECTOR}`)].forEach(alertItem => {
-    alertItem.removeEventListener("click", handleAlertItemClick);
-    alertItem.removeEventListener("keydown", handleAlertItemKeyPress);
-    alertItem.addEventListener("click", handleAlertItemClick);
-    alertItem.addEventListener("keydown", handleAlertItemKeyPress);
-  });
+export const addAlertItemEventHandlers = () => {
+  if (typeof document !== "undefined") {
+    [...document.querySelectorAll(`.${ITEM_SELECTOR}`)].forEach(alertItem => {
+      alertItem.removeEventListener("click", handleAlertItemClick);
+      alertItem.removeEventListener("keydown", handleAlertItemKeyPress);
+      alertItem.addEventListener("click", handleAlertItemClick);
+      alertItem.addEventListener("keydown", handleAlertItemKeyPress);
+    });
+  }
+};
+
+export const removeAlertItemEventHandlers = () => {
+  if (typeof document !== "undefined") {
+    [...document.querySelectorAll(`.${ITEM_SELECTOR}`)].forEach(alertItem => {
+      alertItem.removeEventListener("click", handleAlertItemClick);
+      alertItem.removeEventListener("keydown", handleAlertItemKeyPress);
+    });
+  }
+};
 
 const handleAlertItemKeyPress = e =>
   isEnter(e.key || e.keyCode) ? handleAlertItemClick(e) : () => {};

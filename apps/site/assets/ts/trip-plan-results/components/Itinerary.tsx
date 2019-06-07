@@ -1,11 +1,41 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect } from "react";
 import { Itinerary } from "./TripPlannerResults";
 import Map from "../../leaflet/components/Map";
 import ExpandableBlock from "../../components/ExpandableBlock";
+import {
+  addAlertItemEventHandlers,
+  removeAlertItemEventHandlers
+} from "../../../js/alert-item";
+import {
+  addToggleAlertHandlers,
+  removeToggleAlertHandlers
+} from "../../../js/trip-planner-results";
 
 interface Props {
   itinerary: Itinerary;
 }
+
+const ItineraryBody = (itinerary: Itinerary) => {
+  useEffect(() => {
+    addAlertItemEventHandlers();
+    addToggleAlertHandlers();
+    return () => {
+      removeAlertItemEventHandlers();
+      removeToggleAlertHandlers();
+    };
+  }, []);
+  return (
+    <div className="m-trip-plan-results__itinerary-body">
+      <div className="trip-plan-map map">
+        <Map mapData={itinerary.map} boundsByMarkers />
+      </div>
+      <div
+        dangerouslySetInnerHTML={{ __html: itinerary.html }} // eslint-disable-line react/no-danger
+      />
+    </div>
+  );
+};
+
 const ItineraryAccordion = ({
   itinerary
 }: Props): ReactElement<HTMLElement> => (
@@ -27,14 +57,7 @@ const ItineraryAccordion = ({
       }}
       initiallyExpanded={false}
     >
-      <div className="m-trip-plan-results__itinerary-body">
-        <div className="trip-plan-map map">
-          <Map mapData={itinerary.map} boundsByMarkers />
-        </div>
-        <div
-          dangerouslySetInnerHTML={{ __html: itinerary.html }} // eslint-disable-line react/no-danger
-        />
-      </div>
+      <ItineraryBody {...itinerary} />
     </ExpandableBlock>
   </div>
 );
