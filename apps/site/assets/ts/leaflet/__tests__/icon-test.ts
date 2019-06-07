@@ -22,10 +22,9 @@ it("returns default icon opts if options are missing", () => {
 it("returns default icon opts if some options are missing", () => {
   const iconClass = icon("string", { icon_size: [50, 50] });
   expect(iconClass!.options).toEqual({
-    iconAnchor: [22, 55],
+    ...defaultIconOpts,
     iconRetinaUrl: "/images/icon-string.svg",
     iconSize: [50, 50],
     iconUrl: "/images/icon-string.svg",
-    popupAnchor: [0, -37]
   });
 });
