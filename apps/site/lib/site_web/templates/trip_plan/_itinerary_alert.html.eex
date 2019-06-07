@@ -7,7 +7,7 @@
     aria-expanded="false"
     aria-controls="itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>-<%= @stop_id %>"
     >
-    (toggle alert)
+    (view alert)
   </a>
   <div class="collapse" id="itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>-<%= @stop_id %>">
     <%= for alert <- @alerts do %>
