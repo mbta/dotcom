@@ -15,7 +15,7 @@ interface Props {
   itinerary: Itinerary;
 }
 
-const ItineraryBody = (itinerary: Itinerary) => {
+const ItineraryBody = (itinerary: Itinerary): ReactElement<HTMLElement> => {
   useEffect(() => {
     addAlertItemEventHandlers();
     addToggleAlertHandlers();

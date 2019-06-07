@@ -8,8 +8,6 @@ export const onload = () =>
 export const addAlertItemEventHandlers = () => {
   if (typeof document !== "undefined") {
     [...document.querySelectorAll(`.${ITEM_SELECTOR}`)].forEach(alertItem => {
-      alertItem.removeEventListener("click", handleAlertItemClick);
-      alertItem.removeEventListener("keydown", handleAlertItemKeyPress);
       alertItem.addEventListener("click", handleAlertItemClick);
       alertItem.addEventListener("keydown", handleAlertItemKeyPress);
     });
