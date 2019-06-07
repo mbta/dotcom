@@ -41,7 +41,7 @@ defmodule SiteWeb.VehicleChannel do
     route = Routes.Repo.get(vehicle.route_id)
     stop_name = get_stop_name(vehicle.stop_id)
     trip = Schedules.Repo.trip(vehicle.trip_id)
-    prediction = List.first(Predictions.Repo.all(trip: vehicle.trip_id))
+    prediction = List.first(Predictions.Repo.all(trip: vehicle.trip_id, stop: vehicle.stop_id))
 
     %{
       data: %{vehicle: vehicle, stop_name: stop_name},
