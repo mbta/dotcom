@@ -14,13 +14,6 @@ defmodule SiteWeb.ScheduleController.DefaultsTest do
     {:ok, conn: conn}
   end
 
-  describe "assigns headsigns to" do
-    test "correct headsigns if route has been assigned", %{conn: conn} do
-      conn = Defaults.call(conn, [])
-      assert conn.assigns.headsigns == %{0 => ["Harvard"], 1 => ["Dudley"]}
-    end
-  end
-
   describe "assigns show_date_select? to" do
     test "false when not in params", %{conn: conn} do
       conn = Defaults.call(conn, [])

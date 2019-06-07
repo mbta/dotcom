@@ -15,7 +15,6 @@
   </div>
   <%= render "_direction_select.html",
     conn: @conn,
-    headsigns: @headsigns,
     direction_id: @direction_id,
     route: @route,
     origin: @origin,

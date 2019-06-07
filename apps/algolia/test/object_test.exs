@@ -19,7 +19,7 @@ defmodule Algolia.ObjectTest do
       route = repo.get("CR-Commuterrail")
       data = Algolia.Object.data(route)
       assert data.stop_names == ["Green Line Stop", "Subway Station", "Commuter Rail Stop"]
-      assert data.headsigns == ["CR Terminus 1", "CR Terminus 2"]
+      assert data.headsigns == ["Start", "End"]
 
       assert data.route == %{
                route
@@ -38,7 +38,7 @@ defmodule Algolia.ObjectTest do
       data = Algolia.Object.data(route)
       # Should not include bus stop
       assert data.stop_names == ["Green Line Stop", "Commuter Rail Stop"]
-      assert data.headsigns == ["Terminus 1", "Terminus 2"]
+      assert data.headsigns == ["Start", "End"]
 
       assert data.route == %{
                route

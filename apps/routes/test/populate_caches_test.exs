@@ -15,13 +15,6 @@ defmodule Routes.PopulateCachesTest do
       [%Route{id: "1"}]
     end
 
-    def headsigns(id) do
-      Agent.update(
-        __MODULE__,
-        fn set -> MapSet.put(set, {:headsigns, id}) end
-      )
-    end
-
     def get_shapes(id, direction_id) do
       Agent.update(
         __MODULE__,
@@ -58,7 +51,6 @@ defmodule Routes.PopulateCachesTest do
 
       # get the calls that were made
       set = Agent.get(FakeRepo, & &1)
-      assert MapSet.member?(set, {:headsigns, "1"})
       assert MapSet.member?(set, {:get_shapes, "1", 0})
       assert MapSet.member?(set, {:get_shapes, "1", 1})
     end

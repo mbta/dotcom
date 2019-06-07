@@ -29,8 +29,8 @@ defmodule Algolia.Routes do
   @spec headsigns(String.t()) :: [String.t()]
   def headsigns(id) do
     id
-    |> @repo.headsigns()
+    |> @repo.get()
+    |> Map.get(:direction_destinations)
     |> Map.values()
-    |> List.flatten()
   end
 end

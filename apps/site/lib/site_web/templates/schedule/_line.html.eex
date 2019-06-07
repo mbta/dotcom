@@ -16,7 +16,6 @@
         <h2>Stops</h2>
         <%= render "_line_filters.html",
           conn: @conn,
-          headsigns: @headsigns,
           direction_id: @direction_id,
           route: @route,
           origin: assigns[:origin],
