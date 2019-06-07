@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div
+  className="schedule-finder"
+>
+  <h2
+    className="h3 schedule-finder__heading"
+  >
+    <span
+      aria-hidden="true"
+      className="notranslate c-svg__icon"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+     Schedule Finder
+  </h2>
+  <div>
+    Choose a stop to get schedule information and real-time departure predictions.
+  </div>
+  <div
+    className="schedule-finder__select-container false"
+  >
+    <select
+      className="schedule-finder__select"
+      id="sf_direction_select"
+      onChange={[Function]}
+      onKeyUp={[Function]}
+    >
+      <option
+        value=""
+      >
+        Choose a direction
+      </option>
+      <option
+        value="0"
+      >
+        INBOUND
+         
+        Oak Grove
+      </option>
+      <option
+        value="1"
+      >
+        OUTBOUND
+         
+        Forest Hills
+      </option>
+    </select>
+    <span
+      aria-hidden="true"
+      className="notranslate c-svg__icon schedule-finder__arrow"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+  </div>
+  <div
+    className="schedule-finder__select-container false"
+  >
+    <select
+      className="schedule-finder__select"
+      id="sf_origin_select"
+      onChange={[Function]}
+      onKeyUp={[Function]}
+    >
+      <option
+        value=""
+      >
+        Choose an origin stop
+      </option>
+      <option
+        value="place-mlmnl"
+      >
+        Malden Center
+      </option>
+      <option
+        value="place-welln"
+      >
+        Wellington
+      </option>
+    </select>
+    <span
+      aria-hidden="true"
+      className="notranslate c-svg__icon schedule-finder__arrow"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+  </div>
+  <div
+    className="text-right"
+  >
+    <div
+      className="c-modal__trigger-wrapper"
+      onClick={[Function]}
+      role="presentation"
+    >
+      <input
+        className="btn btn-primary"
+        onClick={[Function]}
+        type="submit"
+        value="Get schedules"
+      />
+    </div>
+  </div>
+</div>
+`;

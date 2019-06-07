@@ -88,3 +88,7 @@
   background: $gray-stripe-pattern repeat;
   min-height: 25px;
 }
+
+.text-right { // official Bootstrap 4 class not in alpha
+  text-align: right;
+}

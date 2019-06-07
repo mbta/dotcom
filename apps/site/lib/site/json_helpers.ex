@@ -15,9 +15,7 @@ defmodule Site.JsonHelpers do
         {Integer.to_string(key), val}
       end)
     end)
-    |> Map.update!(:direction_destinations, fn map ->
-      Map.new(map, fn {key, val} -> {Integer.to_string(key), val} end)
-    end)
+    |> Map.update!(:direction_destinations, &update_map_for_encoding(&1))
     |> Map.put(:header, route_header(route))
   end
 
@@ -35,4 +33,13 @@ defmodule Site.JsonHelpers do
 
   # Strip the <div class="bus-route-sign"> added by route_header_text
   defp parse_header({:safe, html_content}), do: [Enum.at(html_content, 4)]
+
+  @spec update_map_for_encoding(:unknown | map) :: map
+  def update_map_for_encoding(:unknown) do
+    :unknown
+  end
+
+  def update_map_for_encoding(map) do
+    Map.new(map, fn {key, val} -> {Integer.to_string(key), val} end)
+  end
 end

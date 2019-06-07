@@ -5,6 +5,7 @@ exports[`it renders 1`] = `
   <Modal>
     <ModalTrigger>
       <div
+        className="c-modal__trigger-wrapper"
         onClick={[Function]}
         role="presentation"
       >

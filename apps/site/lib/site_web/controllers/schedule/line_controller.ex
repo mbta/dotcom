@@ -2,7 +2,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   use SiteWeb, :controller
   alias Phoenix.HTML
   alias Routes.{Group, Route}
-  alias Site.ScheduleNote
+  alias Site.{JsonHelpers, ScheduleNote}
   alias SiteWeb.{ScheduleView, ViewHelpers}
 
   plug(SiteWeb.Plugs.Route)
@@ -61,9 +61,18 @@ defmodule SiteWeb.ScheduleController.LineController do
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
         route_type: conn.assigns.route.type,
-        schedule_note: ScheduleNote.new(conn.assigns.route)
+        schedule_note: ScheduleNote.new(conn.assigns.route),
+        direction_destinations:
+          JsonHelpers.update_map_for_encoding(conn.assigns.route.direction_destinations),
+        direction_names: JsonHelpers.update_map_for_encoding(conn.assigns.route.direction_names),
+        stops: simple_stop_list(conn.assigns.all_stops)
       }
     )
+  end
+
+  @spec simple_stop_list(Stops.Repo.stops_response()) :: [%{id: String.t(), name: String.t()}]
+  defp simple_stop_list(all_stops) do
+    Enum.map(all_stops, fn {_, %{id: id, name: name}} -> %{id: id, name: name} end)
   end
 
   defp tab_name(conn, _), do: assign(conn, :tab, "line")
