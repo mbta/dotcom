@@ -12,7 +12,7 @@ interface LeafletOpts {
   popupAnchor: [number, number];
 }
 
-const defaultIconOpts: LeafletOpts = {
+export const defaultIconOpts: LeafletOpts = {
   iconAnchor: [22, 55],
   iconSize: [45, 75],
   popupAnchor: [0, -37]
