@@ -57,7 +57,7 @@ const zIndex = (icon: string | null): number | undefined =>
 
 const updateMarker = (marker: Marker): Marker => ({
   ...marker,
-  tooltip: <div>{marker.tooltip_text}</div>,
+  tooltip: marker.tooltip_text ? <div dangerouslySetInnerHTML={{__html: marker.tooltip_text}}/> : <div/>,
   icon_opts: iconOpts(marker.icon), // eslint-disable-line @typescript-eslint/camelcase
   z_index: zIndex(marker.icon) // eslint-disable-line @typescript-eslint/camelcase
 });
