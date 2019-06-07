@@ -25,10 +25,9 @@ export default (
   const iconOpts =
     opts !== null && opts
       ? {
-          iconAnchor: opts.icon_anchor,
-          iconSize: opts.icon_size,
-          popupAnchor: opts.popup_anchor,
-          ...opts
+          iconAnchor: opts.icon_anchor || defaultIconOpts.iconAnchor,
+          iconSize: opts.icon_size || defaultIconOpts.iconSize,
+          popupAnchor: opts.popup_anchor || defaultIconOpts.popupAnchor
         }
       : defaultIconOpts;
   return icon === null
