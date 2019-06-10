@@ -23,7 +23,10 @@ it("it renders without service exceptions", () => {
   createReactRoot();
   const tree = renderer
     .create(
-      <ScheduleNote scheduleNote={{ ...scheduleNoteData, exceptions: [] }} className="test" />
+      <ScheduleNote
+        scheduleNote={{ ...scheduleNoteData, exceptions: [] }}
+        className="test"
+      />
     )
     .toJSON();
   expect(tree).toMatchSnapshot();

@@ -60,7 +60,7 @@ it("it renders", () => {
       <SchedulePage
         schedulePageData={{
           schedule_note: null,
-         cconnections,
+          connections,
           fares,
           fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
           hours,
