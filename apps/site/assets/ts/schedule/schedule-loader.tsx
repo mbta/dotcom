@@ -26,7 +26,7 @@ const render = (): void => {
     document.getElementById("react-root")
   );
 
-  !!schedulePageData.schedule_note &&
+  if (schedulePageData.schedule_note) {
     ReactDOM.render(
       <ScheduleNote
         className="m-schedule-page__schedule-notes--mobile"
@@ -34,6 +34,7 @@ const render = (): void => {
       />,
       document.getElementById("react-schedule-note-root")
     );
+  }
 };
 
 export const onLoad = (): void => {
