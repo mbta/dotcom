@@ -14,7 +14,7 @@ const scheduleNoteData = {
 it("it renders", () => {
   createReactRoot();
   const tree = renderer
-    .create(<ScheduleNote scheduleNote={scheduleNoteData} />)
+    .create(<ScheduleNote scheduleNote={scheduleNoteData} className="test" />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -23,7 +23,7 @@ it("it renders without service exceptions", () => {
   createReactRoot();
   const tree = renderer
     .create(
-      <ScheduleNote scheduleNote={{ ...scheduleNoteData, exceptions: [] }} />
+      <ScheduleNote scheduleNote={{ ...scheduleNoteData, exceptions: [] }} className="test" />
     )
     .toJSON();
   expect(tree).toMatchSnapshot();

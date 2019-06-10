@@ -2,7 +2,7 @@
 
 exports[`it renders 1`] = `
 <div
-  className="m-schedule-page__schedule-note-container"
+  className="m-schedule-page__schedule-notes test"
 >
   <h3
     className="m-schedule-page__schedule-note-title"
@@ -63,7 +63,7 @@ exports[`it renders 1`] = `
 
 exports[`it renders without service exceptions 1`] = `
 <div
-  className="m-schedule-page__schedule-note-container"
+  className="m-schedule-page__schedule-notes test"
 >
   <h3
     className="m-schedule-page__schedule-note-title"
