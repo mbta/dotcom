@@ -72,7 +72,6 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
         onClick: () =>
           toggleExpanded({ expanded: !hookedState.expanded, focused: true })
       };
-
   const { expanded, focused }: State = state;
   const headerId = `header-${id}`;
   const panelId = `panel-${id}`;

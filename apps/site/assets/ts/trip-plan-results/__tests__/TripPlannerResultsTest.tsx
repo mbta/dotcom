@@ -33,12 +33,15 @@ const map = {
 
 it("it renders", () => {
   createReactRoot();
-  const tree = renderer
-    .create(
-      <TripPlannerResults
-        itineraryData={[{ html, access_html, tab_html, id: 1, map }]}
-      />
-    )
-    .toJSON();
-  expect(tree).toMatchSnapshot();
+  const tree = renderer.create(
+    <TripPlannerResults
+      itineraryData={[{ html, access_html, tab_html, id: 1, map }]}
+    />
+  );
+  tree.update(
+    <TripPlannerResults
+      itineraryData={[{ html, access_html, tab_html, id: 1, map }]}
+    />
+  );
+  expect(tree.toJSON()).toMatchSnapshot();
 });

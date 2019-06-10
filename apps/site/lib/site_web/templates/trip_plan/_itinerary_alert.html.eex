@@ -6,11 +6,10 @@
     data-target="#itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>-<%= @stop_id %>"
     aria-expanded="false"
     aria-controls="itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>-<%= @stop_id %>"
-    style="display: none"
     >
     (view alert)
   </a>
-  <div class="collapse in" id="itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>-<%= @stop_id %>">
+  <div class="collapse" id="itinerary-alert-<%= @itinerary_idx %>-<%= @row_idx %>-<%= @stop_id %>">
     <%= for alert <- @alerts do %>
       <ul class="c-alert-group">
         <%= SiteWeb.AlertView.render "_item.html", alert: alert, extra_id: ItineraryRow.route_id(assigns[:itinerary_row]), date_time: @conn.assigns.date_time %>
