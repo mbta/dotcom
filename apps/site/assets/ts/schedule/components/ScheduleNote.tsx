@@ -24,6 +24,7 @@ const offPeak = (
 
 interface Props {
   scheduleNote: ScheduleNoteType;
+  className: string;
 }
 
 const ScheduleNote = ({
@@ -31,9 +32,10 @@ const ScheduleNote = ({
     peak_service: peakService,
     offpeak_service: offpeakService,
     exceptions
-  }
+  },
+  className
 }: Props): ReactElement<HTMLElement> => (
-  <div className="m-schedule-page__schedule-note-container">
+  <div className={`m-schedule-page__schedule-notes ${className}`}>
     <h3 className="m-schedule-page__schedule-note-title">
       <div
         className="m-schedule-page__schedule-note-icon"
