@@ -85,6 +85,9 @@ export const reducer = (state: Marker[], action: Action): Marker[] => {
       );
 
     case "update":
+      if (action.data.length === 0) {
+        return state;
+      }
       return state.map(marker =>
         marker.id === action.data[0].marker.id
           ? updateMarker(action.data[0].marker)
