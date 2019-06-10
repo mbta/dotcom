@@ -19,6 +19,7 @@ defmodule SiteWeb.VehicleChannel do
 
   @impl Phoenix.Channel
   def handle_out(event, %{data: vehicles}, socket) when event in ["reset", "add", "update"] do
+    IO.inspect vehicles, label: "handle out"
     push(socket, "data", %{event: event, data: Enum.map(vehicles, &build_marker/1)})
     {:noreply, socket}
   end
@@ -41,27 +42,28 @@ defmodule SiteWeb.VehicleChannel do
     route = Routes.Repo.get(vehicle.route_id)
     stop_name = get_stop_name(vehicle.stop_id)
     trip = Schedules.Repo.trip(vehicle.trip_id)
-
+    marker =  Marker.new(
+      vehicle.latitude,
+      vehicle.longitude,
+      id: vehicle.id,
+      icon: "vehicle-bordered-expanded",
+      rotation_angle: vehicle.bearing,
+      tooltip_text:
+        %VehicleTooltip{
+          prediction: nil,
+          vehicle: vehicle,
+          route: route,
+          stop_name: stop_name,
+          trip: trip
+        }
+        |> VehicleHelpers.tooltip()
+        |> Floki.text()
+    )
+    IO.inspect marker, label: "MARKER"
+    IO.inspect vehicle, label: "GREEN LINE"
     %{
       data: %{vehicle: vehicle, stop_name: stop_name},
-      marker:
-        Marker.new(
-          vehicle.latitude,
-          vehicle.longitude,
-          id: vehicle.id,
-          icon: "vehicle-bordered-expanded",
-          rotation_angle: vehicle.bearing,
-          tooltip_text:
-            %VehicleTooltip{
-              prediction: nil,
-              vehicle: vehicle,
-              route: route,
-              stop_name: stop_name,
-              trip: trip
-            }
-            |> VehicleHelpers.tooltip()
-            |> Floki.text()
-        )
+      marker: marker
     }
   end
 
