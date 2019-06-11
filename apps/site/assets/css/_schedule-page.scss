@@ -53,12 +53,22 @@
   margin-bottom: 0;
 }
 
-.m-schedule-page__schedule-note-container {
+.m-schedule-page__schedule-notes {
   background-color: $brand-primary-lightest-contrast;
   padding: $base-spacing * 2 $base-spacing;
+}
 
+.m-schedule-page__schedule-notes--desktop {
+  margin-top: $base-spacing * 2;
+
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
+.m-schedule-page__schedule-notes--mobile {
   @include media-breakpoint-up(md) {
-    margin-top: $base-spacing * 2;
+    display: none;
   }
 }
 

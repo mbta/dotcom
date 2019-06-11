@@ -30,7 +30,12 @@ const SchedulePage = ({
   }
 }: Props): ReactElement<HTMLElement> => (
   <>
-    {!!scheduleNote && <ScheduleNote scheduleNote={scheduleNote} />}
+    {!!scheduleNote && (
+      <ScheduleNote
+        className="m-schedule-page__schedule-notes--desktop"
+        scheduleNote={scheduleNote}
+      />
+    )}
     {routeType !== 0 &&
     routeType !== 1 && ( // don't show for subway
         <ScheduleFinder

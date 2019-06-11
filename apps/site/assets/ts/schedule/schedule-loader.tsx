@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import SchedulePage from "./components/SchedulePage";
+import ScheduleNote from "./components/ScheduleNote";
 import Map from "./components/Map";
 import { SchedulePageData } from "./components/__schedule";
 import { MapData } from "../leaflet/components/__mapdata";
@@ -24,6 +25,16 @@ const render = (): void => {
     <SchedulePage schedulePageData={schedulePageData} />,
     document.getElementById("react-root")
   );
+
+  if (schedulePageData.schedule_note) {
+    ReactDOM.render(
+      <ScheduleNote
+        className="m-schedule-page__schedule-notes--mobile"
+        scheduleNote={schedulePageData.schedule_note}
+      />,
+      document.getElementById("react-schedule-note-root")
+    );
+  }
 };
 
 export const onLoad = (): void => {

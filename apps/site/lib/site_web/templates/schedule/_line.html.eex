@@ -10,6 +10,14 @@
     <%= render "_route_disclaimer.html", route: @route, date_time: @date_time %>
     </div>
     <div class="col-xs-12 col-md-7">
+    <% redesign? = Laboratory.enabled?(@conn, :schedule_redesign) %>
+    <%= if redesign? do %>
+      <div id="react-schedule-note-root">
+          <%= if @schedule_page_data.schedule_note do %>
+          <%= Site.React.render("ScheduleNote", %{scheduleNote: @schedule_page_data.schedule_note, className: "m-schedule-page__schedule-notes--mobile"}) %>
+          <% end %>
+      </div>
+    <% end %>
     <%= if Enum.empty?(@branches) do %>
       <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
     <% else %>
@@ -48,7 +56,6 @@
         <%= render "_stop_list.html", assigns %>
     </div>
     <% end %>
-    <% redesign? = Laboratory.enabled?(@conn, :schedule_redesign) %>
     <div class="col-xs-12 col-md-5 col-lg-4 col-lg-offset-1">
       <%= if redesign? do %>
         <div id="react-root">
