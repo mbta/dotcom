@@ -22,10 +22,8 @@ const SchedulePage = ({
     fares,
     holidays,
     fare_link: fareLink,
-    route_type: routeType,
+    route,
     schedule_note: scheduleNote,
-    direction_names: directionNames,
-    direction_destinations: directionDestinations,
     stops
   }
 }: Props): ReactElement<HTMLElement> => (
@@ -36,18 +34,16 @@ const SchedulePage = ({
         scheduleNote={scheduleNote}
       />
     )}
-    {routeType !== 0 &&
-    routeType !== 1 && ( // don't show for subway
-        <ScheduleFinder
-          directionDestinations={directionDestinations}
-          directionNames={directionNames}
-          stops={stops}
-        />
-      )}
+    {route.type !== 0 && route.type !== 1 && (
+      <ScheduleFinder
+        route={route} // don't show for subway
+        stops={stops}
+      />
+    )}
     <ContentTeasers teasers={teasers} />
     <PDFSchedules pdfs={pdfs} />
     <Connections connections={connections} />
-    <Fares fares={fares} fareLink={fareLink} routeType={routeType} />
+    <Fares fares={fares} fareLink={fareLink} routeType={route.type} />
     <HoursOfOperation hours={hours} />
     <UpcomingHolidays holidays={holidays} />
   </>

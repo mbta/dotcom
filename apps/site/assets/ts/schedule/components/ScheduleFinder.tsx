@@ -4,28 +4,28 @@ import React, {
   SyntheticEvent,
   useState
 } from "react";
-import { DirectionInfo } from "../../__v3api";
+import { Route, RouteType } from "../../__v3api";
 import { SimpleStop } from "./__schedule";
 import Modal from "../../components/Modal";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 import icon from "../../../static/images/icon-schedule-finder.svg";
 import arrowIcon from "../../../static/images/icon-down-arrow.svg";
 import renderSvg from "../../helpers/render-svg";
+import isSilverLine from "../../helpers/silver-line";
 
 interface Props {
-  directionDestinations: DirectionInfo;
-  directionNames: DirectionInfo;
+  route: Route;
   stops: SimpleStop[];
 }
 
-type SelectedDirection = number | null;
+type SelectedDirection = 0 | 1 | null;
 type SelectedOrigin = string | null;
 
 interface State {
-  selectedDirection: SelectedDirection;
-  selectedOrigin: SelectedOrigin;
   directionError: boolean;
   originError: boolean;
+  selectedDirection: SelectedDirection;
+  selectedOrigin: SelectedOrigin;
 }
 
 interface SelectContainerProps {
@@ -71,9 +71,46 @@ const ErrorMessage = ({
   );
 };
 
+const routePill = (
+  id: string,
+  type: RouteType,
+  name: string
+): ReactElement<HTMLElement> | null =>
+  type === 3 ? (
+    <div className="m-route-pills">
+      <div
+        className={`h1 schedule-finder__modal-route-pill u-bg--${
+          isSilverLine(id) ? "silver-line" : "bus"
+        }`}
+      >
+        {name}
+      </div>
+    </div>
+  ) : null;
+
+const stopNameLink = (
+  selectedOrigin: string | null,
+  stops: SimpleStop[]
+): ReactElement<HTMLElement> | null => {
+  if (selectedOrigin === null) return null;
+  const stop = stops.find(({ id }) => id === selectedOrigin);
+  return <a href={`/stops/${stop!.id}`}>{stop!.name}</a>;
+};
+
+const parseSelectedDirection = (value: string): 0 | 1 | null => {
+  if (value === "0") return 0;
+  if (value === "1") return 1;
+  return null;
+};
+
 const ScheduleFinder = ({
-  directionDestinations,
-  directionNames,
+  route: {
+    id: routeId,
+    direction_destinations: directionDestinations,
+    direction_names: directionNames,
+    name: routeName,
+    type: routeType
+  },
   stops
 }: Props): ReactElement<HTMLElement> => {
   const submitButtonEl = React.useRef<HTMLInputElement>(null);
@@ -128,7 +165,7 @@ const ScheduleFinder = ({
           className="schedule-finder__select"
           onChange={e =>
             handleChangeDirection(
-              e.target.value ? parseInt(e.target.value, 10) : null
+              e.target.value ? parseSelectedDirection(e.target.value) : null
             )
           }
           onKeyUp={e =>
@@ -182,8 +219,22 @@ const ScheduleFinder = ({
           ariaLabel={{ label: "Schedules" }}
         >
           <>
-            <div>Selected Direction: {state.selectedDirection}</div>
-            <div>Selected Origin: {state.selectedOrigin}</div>
+            <div className="schedule-finder__modal-header">
+              {routePill(routeId, routeType, routeName)}
+              <div>
+                <div className="h3 u-small-caps" style={{ margin: 0 }}>
+                  {state.selectedDirection === null
+                    ? null
+                    : directionNames[state.selectedDirection]}
+                </div>
+                <h2 className="h2" style={{ margin: 0 }}>
+                  {state.selectedDirection === null
+                    ? null
+                    : directionDestinations[state.selectedDirection]}
+                </h2>
+              </div>
+            </div>
+            <div>from {stopNameLink(state.selectedOrigin, stops)}</div>
           </>
         </Modal>
       </div>
