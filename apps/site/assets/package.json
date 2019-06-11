@@ -7,7 +7,6 @@
     "autocomplete.js": "git+https://github.com/mbta/autocomplete.js.git#ad94896",
     "bootstrap": "4.0.0-alpha.2",
     "core-js": "^2.6.5",
-    "email-validation": "^0.1.2",
     "fast-deep-equal": "^2.0.1",
     "filesize": "^3.3.0",
     "focus-trap": "^5.0.0",
