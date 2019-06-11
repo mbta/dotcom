@@ -26,8 +26,6 @@ defmodule Routes.PopulateCaches do
     all_routes = repo_mod.all()
 
     for route <- all_routes do
-      _ = Task.async(fn -> repo_mod.headsigns(route.id) end)
-
       for direction_id <- [0, 1] do
         _ = Task.async(fn -> repo_mod.get_shapes(route.id, direction_id) end)
       end

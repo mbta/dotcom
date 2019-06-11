@@ -5,9 +5,8 @@ defmodule Routes.Repo do
   import Routes.Parser
 
   alias JsonApi
-  alias JsonApi.{Error, Item}
   alias Routes.{Route, Shape}
-  alias V3Api.{Routes, Shapes, Trips}
+  alias V3Api.{Routes, Shapes}
 
   @doc """
 
@@ -154,54 +153,6 @@ defmodule Routes.Repo do
     end
   end
 
-  @doc """
-
-  Given a route_id, returns a map with the headsigns for trips in the given
-  directions (by direction_id).
-
-  """
-  @spec headsigns(String.t()) :: %{0 => [String.t()], 1 => [String.t()]}
-  def headsigns(id) do
-    cache(id, fn id ->
-      Map.new([0, 1], &{&1, fetch_headsigns(id, &1)})
-    end)
-  end
-
-  @spec fetch_headsigns(Route.id_t(), non_neg_integer) :: [String.t()]
-  def fetch_headsigns(route_id, direction_id) do
-    route_id
-    |> Trips.by_route("fields[trip]": "headsign", direction_id: direction_id)
-    |> calculate_headsigns(route_id)
-  end
-
-  @spec calculate_headsigns(JsonApi.t() | Error.t(), Route.id_t()) :: [
-          Route.id_t()
-        ]
-  def calculate_headsigns(%JsonApi{data: data}, route_id) do
-    data
-    |> filter_non_primary_routes(route_id)
-    |> Enum.flat_map(&get_headsign(&1))
-    |> order_by_frequency
-  end
-
-  def calculate_headsigns(error, _route_id) do
-    _ = Logger.error("module=#{__MODULE__} function=calculate_headsigns error=#{inspect(error)}")
-    []
-  end
-
-  defp get_headsign(%{attributes: %{"headsign" => ""}}), do: []
-  defp get_headsign(%{attributes: %{"headsign" => headsign}}), do: [headsign]
-
-  @spec filter_non_primary_routes([Item.t()], Route.id_t()) :: [
-          JsonApi.t() | Error.t()
-        ]
-  defp filter_non_primary_routes(trips, route_id),
-    do: Enum.filter(trips, &route_id_matches?(&1, route_id))
-
-  @spec route_id_matches?(Item.t(), Route.id_t()) :: boolean
-  defp route_id_matches?(trip, route_id),
-    do: Enum.any?(trip.relationships["route"], fn trip -> trip.id == route_id end)
-
   @spec handle_response(JsonApi.t() | {:error, any}) :: {:ok, [Route.t()]} | {:error, any}
   def handle_response({:error, reason}) do
     {:error, reason}
@@ -236,23 +187,6 @@ defmodule Routes.Repo do
   def route_hidden?(%{id: "CapeFlyer"}), do: true
   def route_hidden?(%{id: "Boat-F3"}), do: true
   def route_hidden?(_), do: false
-
-  defp order_by_frequency(enum) do
-    # the complicated function in the middle collapses some lengths which are
-    # close together and allows us to instead sort by the name.  For example,
-    # on the Red line, Braintree has 649 trips, Ashmont has 647.  The
-    # division by -4 with a round makes them both -162 and so equal.  We
-    # divide by -4 so that the ordering by count is large to small, but the
-    # name ordering is small to large.
-    enum
-    |> Enum.group_by(& &1)
-    |> Enum.sort_by(fn {value, values} ->
-      {values
-       |> length
-       |> (fn v -> Float.round(v / -4) end).(), value}
-    end)
-    |> Enum.map(&elem(&1, 0))
-  end
 
   @doc """
   The Green Line.

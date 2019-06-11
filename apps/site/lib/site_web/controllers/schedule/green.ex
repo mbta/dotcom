@@ -16,7 +16,6 @@ defmodule SiteWeb.ScheduleController.Green do
   plug(:all_stops)
   plug(SiteWeb.ScheduleController.OriginDestination)
   plug(:validate_direction)
-  plug(:headsigns)
   plug(:schedules)
   plug(:vehicle_locations)
   plug(:predictions)
@@ -93,17 +92,6 @@ defmodule SiteWeb.ScheduleController.Green do
       stops ->
         assign(conn, :all_stops, stops)
     end
-  end
-
-  def headsigns(conn, _opts) do
-    headsigns =
-      GreenLine.branch_ids()
-      |> Task.async_stream(&Routes.Repo.headsigns/1, timeout: @task_timeout)
-      |> Enum.reduce(%{}, fn {:ok, result}, acc ->
-        Map.merge(result, acc, fn _k, v1, v2 -> Enum.uniq(v1 ++ v2) end)
-      end)
-
-    assign(conn, :headsigns, headsigns)
   end
 
   def schedules(%Plug.Conn{assigns: %{origin: nil}} = conn, _) do

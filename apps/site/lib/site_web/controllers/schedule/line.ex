@@ -168,9 +168,9 @@ defmodule SiteWeb.ScheduleController.Line do
   defp get_green_branch(branch_id, stops, shapes, direction_id) do
     headsign =
       branch_id
-      |> Routes.Repo.headsigns()
+      |> Routes.Repo.get()
+      |> Map.get(:direction_destinations)
       |> Map.get(direction_id)
-      |> hd
 
     branch =
       shapes

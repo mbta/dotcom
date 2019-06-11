@@ -126,20 +126,6 @@ defmodule SiteWeb.ScheduleController.GreenTest do
     assert conn.assigns.schedule_error
   end
 
-  test "assigns headsigns for all branches", %{conn: conn} do
-    conn = get(conn, schedule_path(conn, :show, "Green"))
-
-    assert "Boston College" in conn.assigns.headsigns[0]
-    assert "Cleveland Circle" in conn.assigns.headsigns[0]
-    assert "Riverside" in conn.assigns.headsigns[0]
-    assert "Heath Street" in conn.assigns.headsigns[0]
-
-    assert "Park Street" in conn.assigns.headsigns[1]
-    assert "Lechmere" in conn.assigns.headsigns[1]
-    assert "North Station" in conn.assigns.headsigns[1]
-    assert "Government Center" in conn.assigns.headsigns[1]
-  end
-
   describe "predictions" do
     test "assigns predictions and vehicle_predictions for all branches", %{conn: conn} do
       conn =
