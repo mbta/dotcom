@@ -36,7 +36,7 @@ defmodule Predictions.RepoTest do
     end
 
     test "filters by min_time" do
-      min_time = Util.now() |> Timex.shift(hours: 1)
+      min_time = Util.now() |> Timex.shift(minutes: 15)
       predictions = Repo.all(route: "Red", min_time: min_time)
       refute Enum.empty?(predictions)
 
