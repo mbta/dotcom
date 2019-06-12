@@ -6,7 +6,7 @@ import { enzymeToJsonWithoutProps } from "../../app/helpers/testUtils";
 const body = '<div id="body-wrapper"><div id="react-root"></div></div>';
 
 const ariaLabel = { label: "Title for modal content" };
-const content = (
+const content = () => (
   <div id="content">
     <p>South Station is accessible. It has the following features:</p>
     <p>This is a test</p>
@@ -41,7 +41,7 @@ test("Modal closes when close button is clicked", () => {
 
   const modal = (
     <Modal triggerElement={button} ariaLabel={{ elementId: "modal-header" }}>
-      <h2 id="modal-header">A heading</h2>
+      {() => <h2 id="modal-header">A heading</h2>}
     </Modal>
   );
 

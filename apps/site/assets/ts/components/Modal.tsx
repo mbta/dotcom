@@ -14,13 +14,20 @@ import {
   labelOrDescribedBy
 } from "../helpers/aria-props";
 
+interface ContentProps {
+  closeModal: Function;
+}
+
+type RenderCallback = (args: ContentProps) => JSX.Element;
+
 interface Props {
   triggerElement: ReactElement<HTMLElement>;
-  children: ReactElement<HTMLElement>;
+  children: RenderCallback;
   closeText?: string | ReactElement<HTMLElement>;
   role?: "dialog" | "alertdialog";
   ariaLabel: AriaLabel | AriaLabelledBy;
   focusElementId?: string; // a selector string to the DOM node that will receive focus when the model is first opened
+  className?: string;
 }
 
 interface ModalTriggerProps {
@@ -43,7 +50,7 @@ const ModalTrigger = ({
 );
 
 interface ModalContentProps {
-  content: ReactElement<HTMLElement>;
+  content: RenderCallback;
   closeText: string | ReactElement<HTMLElement>;
   role: string;
   ariaLabel: AriaLabel | AriaLabelledBy;
@@ -51,6 +58,7 @@ interface ModalContentProps {
   focusElementId: string;
   bodyPadding: string;
   scrollBarPadding: number;
+  className?: string;
 }
 
 const ModalContent = ({
@@ -61,7 +69,8 @@ const ModalContent = ({
   ariaLabel,
   focusElementId,
   bodyPadding,
-  scrollBarPadding
+  scrollBarPadding,
+  className
 }: ModalContentProps): ReactElement<HTMLElement> => {
   useLayoutEffect(() => {
     // Activate trap and disable scroll on background body
@@ -110,7 +119,7 @@ const ModalContent = ({
       onKeyDown={e => handleReactExitKeyPress(e, closeModal)}
       onClick={e => onClickAway(e)}
     >
-      <div className="c-modal">
+      <div className={`c-modal ${className}`}>
         <button
           id="modal-close"
           className="btn btn-secondary c-modal__close"
@@ -119,7 +128,7 @@ const ModalContent = ({
         >
           {closeText}
         </button>
-        <div className="c-modal__content">{content}</div>
+        <div className="c-modal__content">{content({ closeModal })}</div>
       </div>
     </aside>,
     document.body
@@ -139,7 +148,8 @@ const Modal = ({
   ariaLabel,
   focusElementId = "modal-close",
   priorPadding,
-  paddingRight
+  paddingRight,
+  className
 }: ModalWithNoScrollProps): ReactElement<HTMLElement> => {
   const [isOpen, setVisibility] = useState(false);
   const closeModal = (): void => setVisibility(false);
@@ -158,6 +168,7 @@ const Modal = ({
           ariaLabel={ariaLabel}
           closeModal={closeModal}
           focusElementId={focusElementId}
+          className={className}
         />
       ) : null}
     </>

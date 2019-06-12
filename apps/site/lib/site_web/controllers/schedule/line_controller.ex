@@ -69,7 +69,24 @@ defmodule SiteWeb.ScheduleController.LineController do
 
   @spec simple_stop_list(Stops.Repo.stops_response()) :: [%{id: String.t(), name: String.t()}]
   defp simple_stop_list(all_stops) do
-    Enum.map(all_stops, fn {_, %{id: id, name: name}} -> %{id: id, name: name} end)
+    Enum.map(all_stops, fn {_,
+                            %{
+                              id: id,
+                              name: name,
+                              closed_stop_info: closed_stop_info,
+                              zone: zone,
+                              route: %{type: type}
+                            }} ->
+      closed_stop? = if closed_stop_info == nil, do: false, else: true
+      zone = if type == 2, do: zone, else: nil
+
+      %{
+        id: id,
+        name: name,
+        is_closed: closed_stop?,
+        zone: zone
+      }
+    end)
   end
 
   defp tab_name(conn, _), do: assign(conn, :tab, "line")

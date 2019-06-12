@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import ScheduleFinder from "../components/ScheduleFinder";
-import { DirectionInfo, Route } from "../../__v3api";
+import { Route } from "../../__v3api";
 
 // the enzyme test was done as one test because there was
 // an issue mounting it more than once due to the focus-trap
@@ -23,8 +23,24 @@ const route: Route = {
   type: 1
 };
 const stops = [
-  { name: "Malden Center", id: "place-mlmnl" },
-  { name: "Wellington", id: "place-welln" }
+  {
+    name: "SL",
+    id: "741",
+    is_closed: false,
+    zone: "1"
+  },
+  {
+    name: "Abc",
+    id: "123",
+    is_closed: false,
+    zone: null
+  },
+  {
+    name: "Wellington",
+    id: "place-welln",
+    is_closed: true,
+    zone: null
+  }
 ];
 
 it("renders", () => {
@@ -48,12 +64,12 @@ it("opens modal after displaying error", () => {
   // now there are errors, no values were set
   expect(wrapper.exists(".error-container")).toBeTruthy();
 
-  // the modal should not be showing
-  expect(wrapper.exists(".c-modal__content")).toBeFalsy();
+  // the route modal should not be showing
+  expect(wrapper.exists(".schedule-finder__modal-header")).toBeFalsy();
 
   wrapper
     .find("#sf_direction_select")
-    .simulate("change", { target: { value: "1" } });
+    .simulate("change", { target: { value: "0" } });
 
   wrapper.find("input").simulate("click");
 
@@ -75,12 +91,12 @@ it("opens modal after displaying error", () => {
 
   wrapper
     .find("#sf_direction_select")
-    .simulate("change", { target: { value: "1" } });
+    .simulate("change", { target: { value: "0" } });
 
   wrapper.find("input").simulate("click");
 
-  // now the modal should appear
-  expect(wrapper.exists(".c-modal__content")).toBeTruthy();
+  // now the route modal should appear
+  expect(wrapper.exists(".schedule-finder__modal-header")).toBeTruthy();
 
   // and the errors should be gone
   expect(wrapper.exists(".error-container")).toBeFalsy();
@@ -88,6 +104,44 @@ it("opens modal after displaying error", () => {
   // for code cov
   wrapper.find("#sf_origin_select").simulate("keyUp", { key: "Enter" });
   wrapper.find("#sf_direction_select").simulate("keyUp", { key: "Enter" });
+  wrapper.find("#sf_origin_select").simulate("click");
+
+  // show origin modal
+  wrapper.find("#modal-close").simulate("click");
+  wrapper
+    .find("#sf_origin_select_container")
+    .hostNodes()
+    .simulate("click");
+  expect(wrapper.find(".schedule-finder__origin-list-item").length).toBe(3);
+
+  // click origin modal line item
+  wrapper
+    .find(".schedule-finder__origin-list-item")
+    .at(0)
+    .simulate("click");
+
+  // keyup on origin modal line item
+  wrapper
+    .find("#sf_origin_select_container")
+    .hostNodes()
+    .simulate("click");
+
+  wrapper
+    .find(".schedule-finder__origin-list-item")
+    .at(2)
+    .simulate("keyUp", { key: "Enter" });
+
+  // prevent opening origin modal when direction not set
+  wrapper
+    .find("#sf_direction_select")
+    .simulate("change", { target: { value: "" } });
+
+  wrapper
+    .find("#sf_origin_select_container")
+    .hostNodes()
+    .simulate("click");
+
+  expect(wrapper.exists(".error-container")).toBeTruthy();
 });
 
 it("modal renders route pill for bus lines", () => {
