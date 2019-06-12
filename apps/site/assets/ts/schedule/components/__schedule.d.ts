@@ -1,5 +1,5 @@
 import { TypedRoutes } from "../../stop/components/__stop";
-import { DirectionInfo, RouteType } from "../../__v3api";
+import { Route } from "../../__v3api";
 
 export interface SchedulePageData {
   connections: TypedRoutes[];
@@ -9,10 +9,8 @@ export interface SchedulePageData {
   fares: Fare[];
   fare_link: string;
   holidays: Holiday[];
-  route_type: RouteType;
+  route: Route;
   schedule_note: ScheduleNote | null;
-  direction_destinations: DirectionInfo;
-  direction_names: DirectionInfo;
   stops: SimpleStop[];
 }
 

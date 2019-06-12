@@ -2,7 +2,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   use SiteWeb, :controller
   alias Phoenix.HTML
   alias Routes.{Group, Route}
-  alias Site.{JsonHelpers, ScheduleNote}
+  alias Site.ScheduleNote
   alias SiteWeb.{ScheduleView, ViewHelpers}
 
   plug(SiteWeb.Plugs.Route)
@@ -60,11 +60,8 @@ defmodule SiteWeb.ScheduleController.LineController do
           end),
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
-        route_type: conn.assigns.route.type,
+        route: Route.to_json_safe(conn.assigns.route),
         schedule_note: ScheduleNote.new(conn.assigns.route),
-        direction_destinations:
-          JsonHelpers.update_map_for_encoding(conn.assigns.route.direction_destinations),
-        direction_names: JsonHelpers.update_map_for_encoding(conn.assigns.route.direction_names),
         stops: simple_stop_list(conn.assigns.all_stops)
       }
     )

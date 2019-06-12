@@ -4,6 +4,7 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 import SchedulePage from "../components/SchedulePage";
 import { TypedRoutes } from "../../stop/components/__stop";
 import ScheduleNote from "../components/ScheduleNote";
+import { Route } from "../../__v3api";
 
 const pdfs = [
   {
@@ -46,8 +47,17 @@ const holidays = [
   }
 ];
 
-const directionDestinations = { 0: "Oak Grove", 1: "Forest Hills" };
-const directionNames = { 0: "Inbound", 1: "Outbound" };
+const route: Route = {
+  alert_count: 0,
+  description: "",
+  direction_destinations: { 0: "Oak Grove", 1: "Forest Hills" },
+  direction_names: { 0: "Inbound", 1: "Outbound" },
+  header: "",
+  id: "Orange",
+  name: "Orange",
+  long_name: "Orange Line",
+  type: 1
+};
 const stops = [
   { name: "Malden Center", id: "place-mlmnl" },
   { name: "Wellington", id: "place-welln" }
@@ -67,9 +77,7 @@ it("it renders", () => {
           holidays,
           pdfs,
           teasers,
-          route_type: 1,
-          direction_names: directionNames,
-          direction_destinations: directionDestinations,
+          route,
           stops
         }}
       />
@@ -99,9 +107,7 @@ it("it renders with conditional components", () => {
         holidays,
         pdfs,
         teasers,
-        route_type: 1,
-        direction_names: directionNames,
-        direction_destinations: directionDestinations,
+        route,
         stops
       }}
     />

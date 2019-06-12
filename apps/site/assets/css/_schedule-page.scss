@@ -139,3 +139,16 @@
   right: $base-spacing / 2;
   top: $base-spacing / 2;
 }
+
+.schedule-finder__modal-header {
+  display: flex;
+  margin-bottom: $base-spacing / 4;
+}
+
+.schedule-finder__modal-route-pill {
+  margin-bottom: 0;
+  margin-right: $base-spacing;
+  margin-top: 0;
+  padding-left: $base-spacing;
+  padding-right: $base-spacing;
+}
