@@ -51,7 +51,7 @@ defmodule Site.Stream.Vehicles do
   end
 
   @spec do_send_green_line([Vehicle.t()], 0 | 1, atom) :: :ok
-  defp do_send_green_line([], direction_id, event) do
+  defp do_send_green_line([], _direction_id, _event) do
     :ok
   end
 
