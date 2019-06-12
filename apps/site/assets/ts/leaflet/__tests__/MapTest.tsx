@@ -1,8 +1,9 @@
 import React from "react";
 import { mount } from "enzyme";
-import Map from "../components/Map";
+import Map, { setZoom } from "../components/Map";
 import { MapData, MapMarker } from "../components/__mapdata";
 import getBounds from "../bounds";
+import { LeafletEvent } from "leaflet";
 
 /* eslint-disable @typescript-eslint/camelcase */
 const marker: MapMarker = {
@@ -72,5 +73,15 @@ it("it renders using the default center position", () => {
       .find(".leaflet-tile")
       .prop("src")
   ).toBe(`${data.tile_server_url}/osm_tiles/16/19650/23738.png`);
+});
+
+it("sets zoom state on zoom", () => {
+  const dispatch = jest.fn();
+  const zoomEvent: LeafletEvent = {
+    type: "zoom",
+    target: { _zoom: 10 }
+  };
+  setZoom(dispatch)(zoomEvent);
+  expect(dispatch).toHaveBeenCalledWith(10);
 });
 /* eslint-disable @typescript-eslint/camelcase */
