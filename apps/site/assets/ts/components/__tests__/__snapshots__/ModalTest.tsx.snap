@@ -20,7 +20,9 @@ exports[`it renders 1`] = `
         containerInfo={
           <body>
             <div
+              aria-hidden="true"
               id="body-wrapper"
+              style="padding-right: 1024px;"
             >
               <div
                 id="react-root"
