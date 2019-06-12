@@ -89,10 +89,10 @@ export const reducer = (state: Marker[], action: Action): Marker[] => {
         return state;
       }
       // Filter out the existing marker if necessary, always add new marker
-      const newState = state.filter(
-        marker => marker.id !== action.data[0].marker.id
-      );
-      return [updateMarker(action.data[0].marker), ...newState];
+      return [
+        updateMarker(action.data[0].marker),
+        ...state.filter(marker => marker.id !== action.data[0].marker.id)
+      ];
     case "remove":
       return state.filter(
         marker =>
