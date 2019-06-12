@@ -1,8 +1,8 @@
 import React, {
   ReactElement,
   useState,
+  useLayoutEffect,
   MouseEvent,
-  useEffect,
   createRef
 } from "react";
 import { createPortal } from "react-dom";
@@ -63,7 +63,7 @@ const ModalContent = ({
   bodyPadding,
   scrollBarPadding
 }: ModalContentProps): ReactElement<HTMLElement> => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     // Activate trap and disable scroll on background body
     const trap = createFocusTrap("#modal-cover", {
       initialFocus: `#${focusElementId}`,
@@ -71,11 +71,12 @@ const ModalContent = ({
     });
     trap.activate();
 
+    const htmlElement = document.getElementsByTagName("html")[0];
     const bodyWrapper = document.getElementById("body-wrapper");
     if (bodyWrapper) {
       // aria-hidden for mobile devices where we want to emulate "focus" behavior
       bodyWrapper.setAttribute("aria-hidden", "true");
-      bodyWrapper.classList.add("modal-open");
+      htmlElement.classList.add("modal-open");
       bodyWrapper.style.paddingRight = `${scrollBarPadding}px`;
     }
 
@@ -83,7 +84,7 @@ const ModalContent = ({
     return () => {
       if (bodyWrapper) {
         bodyWrapper.setAttribute("aria-hidden", "false");
-        bodyWrapper.classList.remove("modal-open");
+        htmlElement.classList.remove("modal-open");
         bodyWrapper.style.paddingRight = bodyPadding;
       }
       trap.deactivate();
