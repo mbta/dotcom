@@ -1,4 +1,4 @@
-import email from "email-validation";
+/* eslint-disable */
 
 export default function($ = window.jQuery) {
   document.addEventListener(
@@ -233,7 +233,12 @@ const validators = {
   },
   email: function($) {
     if (responseRequested($)) {
-      return email.valid($("#email").val());
+      return (
+        $("#email")
+          .val()
+          .trim()
+          .match(/.+\@.+\..+/) !== null
+      );
     }
     return true;
   },
