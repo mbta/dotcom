@@ -15,7 +15,7 @@ module.exports = {
       branches: 94,
       functions: 95,
       lines: 95,
-      statements: -25 // No idea what good default is for this, this means "up to 25 uncovered statements allowed"
+      statements: -40 // Since we have SSR checks, this needs to be lenient
     },
     // The Leaflet API is difficult to test, so we consider a lower
     // threshold acceptable for these modules. However, callbacks in
