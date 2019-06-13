@@ -23,7 +23,11 @@ defmodule SiteWeb.FareView do
   @doc "Renders a summary of fares into HTML"
   @spec summarize([Summary.t()], Keyword.t()) :: HTML.safe()
   def summarize(summaries, opts \\ []) do
-    render("_summary.html", summaries: summaries, class: opts[:class])
+    render("_summary.html",
+      summaries: summaries,
+      class: opts[:class],
+      link_class: Keyword.get(opts, :link_class, "")
+    )
   end
 
   @doc "Return the reduced fare note for the given fare"

@@ -10,14 +10,10 @@
 
     <ul>
       <li>
-        <%= link to: customer_support_path(@conn, :index) do %>
-          Send us your comments or questions
-        <% end %>
+        <%= link "Send us your commments or questions", to: customer_support_path(@conn, :index), class: "ga-nav-sublink" %>
       </li>
       <li>
-        <%= link to: customer_support_path(@conn, :index)<>"#customer_support" do %>
-          View all contact numbers
-        <% end %>
+        <%= link "View all contact numbers", to: customer_support_path(@conn, :index)<>"#customer_support", class: "ga-nav-sublink" %>
       </li>
     </ul>
   </div>
@@ -29,14 +25,10 @@
     </p>
     <ul>
       <li>
-        <%= link to: cms_static_page_path(@conn, "/transit-police") do %>
-          Contact the Transit Police
-        <% end %>
+        <%= link "Contact the Transit Police", to: cms_static_page_path(@conn, "/transit-police"), class: "ga-nav-sublink" %>
       </li>
       <li>
-        <%= link to: cms_static_page_path(@conn, "/transit-police/see-something-say-something") do %>
-          See Something, Say Something
-        <% end %>
+        <%= link "See Something, Say Something", to: cms_static_page_path(@conn, "/transit-police/see-something-say-something"), class: "ga-nav-sublink" %>
       </li>
     </ul>
   </div>
@@ -45,19 +37,13 @@
     <p>Receive notifications of MBTA service alerts by e-mail or text message (SMS).</p>
     <ul>
       <li>
-        <%= link to: cms_static_page_path(@conn, "/about-t-alerts") do %>
-          About T-Alerts
-        <% end %>
+        <%= link "About T-Alerts", to: cms_static_page_path(@conn, "/about-t-alerts"), class: "ga-nav-sublink" %>
       </li>
       <li>
-        <%= link to: "https://alerts.mbta.com", target: "_blank" do %>
-          Sign Up for T-Alerts
-        <% end %>
+        <%= link "Sign Up for T-Alerts", to: "https://alerts.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
       </li>
       <li>
-        <%= link to: "https://twitter.com/MBTA", target: "_blank" do %>
-          @MBTA Twitter Updates
-        <% end %>
+        <%= link "@MBTA Twitter Updates", to: "https://twitter.com/MBTA", target: "_blank", class: "ga-nav-sublink" %>
       </li>
     </ul>
   </div>

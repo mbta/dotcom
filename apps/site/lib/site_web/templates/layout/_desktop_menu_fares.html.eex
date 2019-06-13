@@ -4,34 +4,24 @@
     <div class="col-xs-12 p-a-0">
       <ul>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/fares") do %>
-            Fares Overview
-          <% end %>
+          <%= link "Fares Overview", to: cms_static_page_path(@conn, "/fares"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: "https://charliecard.mbta.com", target: "_blank" do %>
-            Add Value to CharlieCard
-          <% end %>
+          <%= link "Add Value to CharlieCard", to: "https://charliecard.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: fare_path(@conn, :show, "reduced") do %>
-            Reduced Fares
-          <% end %>
+          <%= link "Reduced Fares", to: fare_path(@conn, :show, "reduced"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: "https://commerce.mbta.com", target: "_blank" do %>
-            Order Monthly Passes
-          <% end %>
+          <%= link "Order Monthly Passes", to: "https://commerce.mbta.com", target: "_blank", class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/pass-program") do %>
-            Institutional Sales
-          <% end %>
+          <%= link "Institutional Sales", to: cms_static_page_path(@conn, "/pass-program"), class: "ga-nav-sublink" %>
         </li>
       </ul>
     </div>
   </div>
   <div class="col-md-8 col-lg-9">
-    <%= SiteWeb.FareView.summarize(@common_fare_summaries) %>
+    <%= SiteWeb.FareView.summarize(@common_fare_summaries, link_class: "ga-nav-sublink") %>
   </div>
 </div>

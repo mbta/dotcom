@@ -4,29 +4,19 @@
     <div class="col-xs-12 p-a-0">
       <ul>
         <li>
-          <%= link to: schedule_path(@conn, :show, "subway") do %>
-            Subway
-          <% end %>
+          <%= link "Subway", to: schedule_path(@conn, :show, "subway"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: schedule_path(@conn, :show, "bus") do %>
-            Bus
-          <% end %>
+          <%= link "Bus", to: schedule_path(@conn, :show, "bus"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: schedule_path(@conn, :show, "commuter-rail") do %>
-            Commuter Rail
-          <% end %>
+          <%= link "Commuter Rail", to: schedule_path(@conn, :show, "commuter-rail"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: schedule_path(@conn, :show, "ferry") do %>
-            Ferry
-          <% end %>
+          <%= link "Ferry", to: schedule_path(@conn, :show, "ferry"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/accessibility/the-ride") do %>
-            The RIDE
-          <% end %>
+          <%= link "The RIDE", to: cms_static_page_path(@conn, "/accessibility/the-ride"), class: "ga-nav-sublink" %>
         </li>
       </ul>
     </div>
@@ -36,29 +26,19 @@
     <div class="col-xs-12 p-a-0">
       <ul>
         <li>
-          <%= link to: trip_plan_v1_path(@conn, :index) do %>
-            Trip Planner
-          <% end %>
+          <%= link "Trip Planner", to: trip_plan_v1_path(@conn, :index), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: stop_path(@conn, :index) do %>
-            Station Info
-          <% end %>
+          <%= link "Station Info", to: stop_path(@conn, :index), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: alert_path(@conn, :index) do %>
-            Service Alerts
-          <% end %>
+          <%= link "Service Alerts", to: alert_path(@conn, :index), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/maps") do %>
-            Maps
-          <% end %>
+          <%= link "Maps", to: cms_static_page_path(@conn, "/maps"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/destinations") do %>
-            Destinations
-          <% end %>
+          <%= link "Destinations", to: cms_static_page_path(@conn, "/destinations"), class: "ga-nav-sublink" %>
         </li>
       </ul>
     </div>
@@ -68,29 +48,19 @@
     <div class="col-xs-12 p-a-0">
       <ul>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/accessibility") do %>
-            Accessibility
-          <% end %>
+          <%= link "Accessibility", to: cms_static_page_path(@conn, "/accessibility"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/parking") do %>
-            Parking
-          <% end %>
+          <%= link "Parking", to: cms_static_page_path(@conn, "/parking"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/bikes") do %>
-            Bikes 
-          <% end %>
+          <%= link "Bikes", to: cms_static_page_path(@conn, "/bikes"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/language-services") do %>
-            Language Services
-          <% end %>
+          <%= link "Language Services", to: cms_static_page_path(@conn, "/language-services"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/safety") do %><%# the safety bounce! %>
-            Safety
-          <% end %>
+          <%= link "Safety", to: cms_static_page_path(@conn, "/safety"), class: "ga-nav-sublink" %>
         </li>
       </ul>
     </div>
