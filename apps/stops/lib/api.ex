@@ -15,7 +15,7 @@ defmodule Stops.Api do
 
   @default_params [
     include: "parent_station,facilities,child_stops",
-    "fields[facility]": "name,type,properties,latitude,longitude",
+    "fields[facility]": "long_name,type,properties,latitude,longitude",
     "fields[stop]":
       "address,name,latitude,longitude,address," <>
         "wheelchair_boarding,location_type," <>
@@ -268,7 +268,7 @@ defmodule Stops.Api do
   defp parse_parking_area(parking_area) do
     parking_area.attributes["properties"]
     |> Enum.reduce(%{}, &property_acc/2)
-    |> Map.put("name", parking_area.attributes["name"])
+    |> Map.put("name", parking_area.attributes["long_name"])
     |> Map.put("latitude", parking_area.attributes["latitude"])
     |> Map.put("longitude", parking_area.attributes["longitude"])
     |> to_parking_lot
