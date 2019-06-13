@@ -206,18 +206,20 @@ defmodule SiteWeb.StopController do
     }
   end
 
-  defp get_schedules(route_id, stop_id) do
+  def get_schedules(route_id, stop_id, opts \\ []) do
     schedules_fn = &Schedules.Repo.by_route_ids/2
     now = Util.now()
+    direction_id = Keyword.get(opts, :direction_id)
 
     schedules =
       [route_id]
       |> schedules_fn.(
         stop_ids: stop_id,
-        min_time: now
+        min_time: now,
+        direction_id: direction_id
       )
 
-    [route: route_id, stop: stop_id, min_time: now]
+    [route: route_id, stop: stop_id, min_time: now, direction_id: direction_id]
     |> Predictions.Repo.all()
     |> PredictedSchedule.group(schedules)
     |> case do
@@ -231,6 +233,7 @@ defmodule SiteWeb.StopController do
           schedules_fn.(
             [route_id],
             stop_ids: stop_id,
+            direction_id: direction_id,
             date: TransitNearMe.tomorrow_date(now)
           )
         )

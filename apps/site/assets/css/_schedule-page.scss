@@ -229,3 +229,51 @@
   top: 0;
   width: $base-spacing * 2;
 }
+
+.schedule-table__row {
+  border: $border;
+  display: flex;
+  justify-content: space-between;
+  padding: $base-spacing / 2;
+  width: 400px;
+}
+
+.schedule-table__row:nth-child(even) {
+  background: $gray-bordered-background;
+}
+
+.schedule-table__row:nth-child(odd) {
+  background: $white;
+}
+
+.schedule-table__time--delayed,
+.schedule-table__time {
+  font-weight: bold;
+  text-align: right;
+}
+
+.schedule-table__row-header {
+  background: $brand-primary-lightest-contrast;
+  color: $brand-primary;
+  display: flex;
+  font-weight: bold;
+  justify-content: space-between;
+  padding: $base-spacing / 2;
+  width: 400px;
+}
+
+.schedule-table__row-route {
+  display: inline-flex;
+  align-items: center;
+}
+
+.schedule-table__row-route-pill {
+  font-size: .8 * $base-spacing;
+  margin-right: $base-spacing;
+
+  .u-bg--bus {
+    font-weight: bold;
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+}

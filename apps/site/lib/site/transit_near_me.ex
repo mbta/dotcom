@@ -603,7 +603,7 @@ defmodule Site.TransitNearMe do
   defp expand_route_id(route), do: [route]
 
   @spec build_time_map(PredictedSchedule.t(), Keyword.t()) :: predicted_schedule_and_time_data
-  defp build_time_map(%PredictedSchedule{} = predicted_schedule, opts) do
+  def build_time_map(%PredictedSchedule{} = predicted_schedule, opts) do
     now = Keyword.fetch!(opts, :now)
 
     route_type =

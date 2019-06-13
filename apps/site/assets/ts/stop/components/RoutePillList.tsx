@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Route } from "../../__v3api";
+import { Route, BareRoute } from "../../__v3api";
 import { TypedRoutes } from "./__stop";
 import { breakTextAtSlash } from "../../helpers/text";
 
@@ -18,7 +18,7 @@ const routeToClass = (name: string): string =>
 const busName = (name: string): string =>
   name.startsWith("SL") ? "silver-line" : "bus";
 
-const modeNameForBg = ({ name, type }: Route): string => {
+const modeNameForBg = ({ name, type }: Route | BareRoute): string => {
   switch (type) {
     case 0:
     case 1:
@@ -32,7 +32,8 @@ const modeNameForBg = ({ name, type }: Route): string => {
   }
 };
 
-const modeBgClass = (route: Route): string => `u-bg--${modeNameForBg(route)}`;
+export const modeBgClass = (route: Route | BareRoute): string =>
+  `u-bg--${modeNameForBg(route)}`;
 
 const RoutePill = ({ route }: RoutePillProps): ReactElement<HTMLElement> => (
   <a

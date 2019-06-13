@@ -7,8 +7,8 @@ import renderSvg from "../../helpers/render-svg";
 import Modal from "../../components/Modal";
 import SelectContainer from "./schedule-finder/SelectContainer";
 import ErrorMessage from "./schedule-finder/ErrorMessage";
-import OriginModalContents from "./schedule-finder/OriginModalContents";
-import ScheduleModalContents from "./schedule-finder/ScheduleModalContents";
+import OriginModalContent from "./schedule-finder/OriginModalContent";
+import ScheduleModalContent from "./schedule-finder/ScheduleModalContent";
 
 interface Props {
   route: Route;
@@ -47,6 +47,9 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
     direction_destinations: directionDestinations,
     direction_names: directionNames
   } = route;
+
+  const submitButtonEl = React.useRef<HTMLInputElement>(null);
+
   const [state, setState] = useState<State>({
     selectedDirection: null,
     selectedOrigin: null,
@@ -208,7 +211,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
         {() => (
           <>
             {state.modalId === "origin" && (
-              <OriginModalContents
+              <OriginModalContent
                 selectedDirection={state.selectedDirection}
                 selectedOrigin={state.selectedOrigin}
                 stops={stops}
@@ -216,7 +219,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
               />
             )}
             {state.modalId === "schedule" && (
-              <ScheduleModalContents
+              <ScheduleModalContent
                 selectedDirection={state.selectedDirection}
                 selectedOrigin={state.selectedOrigin}
                 stops={stops}

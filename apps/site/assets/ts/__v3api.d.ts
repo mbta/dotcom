@@ -73,16 +73,19 @@ export interface Prediction {
   track: string | null;
 }
 
-export interface Route {
-  alert_count: number;
+export interface BareRoute {
   description: string;
   direction_destinations: DirectionInfo;
   direction_names: DirectionInfo;
-  header: string;
   id: string;
   long_name: string;
   name: string;
   type: RouteType;
+}
+
+export interface Route extends BareRoute {
+  header: string;
+  alert_count: number;
   href?: string;
 }
 
