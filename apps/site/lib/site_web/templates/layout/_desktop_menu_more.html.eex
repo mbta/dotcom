@@ -5,63 +5,47 @@
       <div class="col-xs-6">
         <ul>
           <li>
-            <%= link to: cms_static_page_path(@conn, "/mbta-at-a-glance") do %>
-              Overview
-            <% end %>
+            <%= link "Overview", to: cms_static_page_path(@conn, "/mbta-at-a-glance"), class: "ga-nav-sublink" %>
           </li>
           <li>
-            <%= link to: cms_static_page_path(@conn, "/leadership") do %>
-              Leadership
-            <% end %>
+            <%= link "Leadership", to: cms_static_page_path(@conn, "/leadership"), class: "ga-nav-sublink" %>
           </li>
           <li>
-            <%= link to: cms_static_page_path(@conn, "/leadership/fmcb") do %>
-              FMCB
-            <% end %>
+            <%= link "FMCB", to: cms_static_page_path(@conn, "/leadership/fmcb"), class: "ga-nav-sublink" %>
           </li>
           <li>
-            <%= link to: news_entry_path(@conn, :index) do %>
+            <%= link to: news_entry_path(@conn, :index), class: "ga-nav-sublink" do %>
               News &amp; Updates
             <% end %>
           </li>
           <li>
-            <%= link to: event_path(@conn, :index) do %>
-              Events
-            <% end %>
+            <%= link "Events", to: event_path(@conn, :index), class: "ga-nav-sublink" %>
           </li>
         </ul>
       </div>
       <div class="col-xs-6">
         <ul>
           <li>
-            <%= link to: cms_static_page_path(@conn, "/policies/title-vi") do %>
-              Civil Rights
-            <% end %>
+            <%= link "Civil Rights", to: cms_static_page_path(@conn, "/policies/title-vi"), class: "ga-nav-sublink" %>
           </li>
           <li>
-            <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank" do %>
+            <%= link to: "http://www.mbtabackontrack.com/performance/index.html#/home", target: "_blank", class: "ga-nav-sublink" do %>
               <span class="no-wrap">Performance</span>
             <% end %>
           </li>
           <li>
-            <%= link to: cms_static_page_path(@conn, "/sustainability") do %>
+            <%= link to: cms_static_page_path(@conn, "/sustainability"), class: "ga-nav-sublink" do %>
               <span class="no-wrap">Sustainability</span>
             <% end %>
           </li>
           <li>
-            <%= link to: cms_static_page_path(@conn, "/history") do %>
-              History
-            <% end %>
+            <%= link "History", to: cms_static_page_path(@conn, "/history"), class: "ga-nav-sublink" %>
           </li>
           <li>
-            <%= link to: "http://www.mbtagifts.com/", target: "_blank" do %>
-              Gifts
-            <% end %>
+            <%= link "Gifts", to: "http://www.mbtagifts.com/", target: "_blank", class: "ga-nav-sublink" %>
           </li>
           <li>
-            <%= link to: cms_static_page_path(@conn, "/careers") do %>
-              Careers
-            <% end %>
+            <%= link "Careers", to: cms_static_page_path(@conn, "/careers"), class: "ga-nav-sublink" %>
           </li>
         </ul>
       </div>
@@ -72,24 +56,16 @@
     <div class="col-xs-12 p-a-0">
       <ul>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/business") do %>
-            Business Opportunities
-          <% end %>
+          <%= link "Business Opportunities", to: cms_static_page_path(@conn, "/business"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/developers") do %>
-            Developers
-          <% end %>
+          <%= link "Developers", to: cms_static_page_path(@conn, "/developers"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/financials") do %>
-            Financials
-          <% end %>
+          <%= link "Financials", to: cms_static_page_path(@conn, "/financials"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/innovation") do %>
-            Innovation
-          <% end %>
+          <%= link "Innovation", to: cms_static_page_path(@conn, "/innovation"), class: "ga-nav-sublink" %>
         </li>
       </ul>
     </div>
@@ -99,29 +75,19 @@
     <div class="col-xs-12 p-a-0">
       <ul>
         <li>
-          <%= link to: project_path(@conn, :show, "commuter-rail-positive-train-control-ptc") do %>
-            Commuter Rail Positive Train Control
-          <% end %>
+          <%= link "Commuter Rail Positive Train Control", to: project_path(@conn, :show, "commuter-rail-positive-train-control-ptc"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/afc2") do %>
-            Automated Fare Collection 2.0
-          <% end %>
+          <%= link "Automated Fare Collection 2.0", to: cms_static_page_path(@conn, "/afc2"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: "https://www.mass.gov/green-line-extension-project-glx", target: "_blank" do %>
-            Green Line Extension
-          <% end %>
+          <%= link "Green Line Extension", to: "https://www.mass.gov/green-line-extension-project-glx", target: "_blank", class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: cms_static_page_path(@conn, "/wollaston") do %>
-            Wollaston Station
-          <% end %>
+          <%= link "Wollaston Station", to: cms_static_page_path(@conn, "/wollaston"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link to: project_path(@conn, :index) do %>
-            See All Projects
-          <% end %>
+          <%= link "See All Projects", to: project_path(@conn, :index), class: "ga-nav-sublink" %>
       </ul>
     </div>
   </div>
