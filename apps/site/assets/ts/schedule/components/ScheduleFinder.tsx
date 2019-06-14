@@ -55,7 +55,7 @@ const SelectContainer = ({
     onKeyUp={e =>
       handleReactEnterKeyPress(e, () => {
         if (handleClick) {
-          handleClick();
+          handleClick(e);
         }
       })
     }
