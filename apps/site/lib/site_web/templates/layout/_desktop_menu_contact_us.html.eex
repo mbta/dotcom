@@ -10,7 +10,7 @@
 
     <ul>
       <li>
-        <%= link "Send us your commments or questions", to: customer_support_path(@conn, :index), class: "ga-nav-sublink" %>
+        <%= link "Send us your comments or questions", to: customer_support_path(@conn, :index), class: "ga-nav-sublink" %>
       </li>
       <li>
         <%= link "View all contact numbers", to: customer_support_path(@conn, :index)<>"#customer_support", class: "ga-nav-sublink" %>

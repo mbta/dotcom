@@ -14,7 +14,9 @@
             <%= link "FMCB", to: cms_static_page_path(@conn, "/leadership/fmcb"), class: "ga-nav-sublink" %>
           </li>
           <li>
-            <%= link "News &amp; Updates", to: news_entry_path(@conn, :index), class: "ga-nav-sublink" %>
+            <%= link to: news_entry_path(@conn, :index), class: "ga-nav-sublink" do %>
+              News &amp; Updates
+            <% end %>
           </li>
           <li>
             <%= link "Events", to: event_path(@conn, :index), class: "ga-nav-sublink" %>
