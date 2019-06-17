@@ -46,7 +46,7 @@ body {
   &.no-js {
     .collapse:target {
       display: block;
-    };
+    }
 
     .hidden-no-js {
       display: none;
@@ -234,12 +234,12 @@ small {
   padding: 0;
 
   a {
-    color: $gray-dark;
-
-    @include hover-focus-active {
-      text-decoration: none;
-    }
+    text-decoration: underline;
   }
+}
+
+.alert-announcement__header {
+  cursor: pointer;
 }
 
 // To be removed once the smart banner is disabled
