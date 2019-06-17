@@ -15,15 +15,11 @@ const renderUtilization = (
       utilization: { typical, arrive_before }
     } = lot;
     if (typical && total) {
-      let message = `Parking spots at ${name} fill up quickly.`;
-
-      const demandForSpaces = typical / total;
-      if (demandForSpaces > 0.9) {
+      let message;
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      if (arrive_before) {
         // eslint-disable-next-line @typescript-eslint/camelcase
-        if (arrive_before) {
-          // eslint-disable-next-line @typescript-eslint/camelcase
-          message = `${message} We recommend arriving before ${arrive_before}.`;
-        }
+        message = `Parking spots at ${name} fill up quickly. We recommend arriving before ${arrive_before}.`;
       } else {
         message = `Parking at ${name} is generally available throughout the weekday.`;
       }

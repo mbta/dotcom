@@ -166,8 +166,7 @@ describe("Parking", () => {
       parking_lots: [
         {
           ...parkingLot,
-          utilization: { ...utilization, typical: 100 },
-          capacity: { total: 200 }
+          utilization: { ...utilization, arrive_before: undefined }
         }
       ]
     };
