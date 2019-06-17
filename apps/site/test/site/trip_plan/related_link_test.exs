@@ -25,7 +25,7 @@ defmodule Site.TripPlan.RelatedLinkTest do
       assert [route_link, fare_link] = links_for_itinerary(itinerary)
       assert text(route_link) == expected_route
       assert url(route_link) =~ Timex.format!(itinerary.start, "date={ISOdate}")
-      assert url(route_link) =~ "trip=#{trip_id}"
+      assert url(route_link) =~ URI.encode("trip=#{trip_id}")
       assert route_link.icon_name == expected_icon
       assert fare_link.text == "View fare information"
       # fare URL is tested later
