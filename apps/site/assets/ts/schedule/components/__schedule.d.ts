@@ -28,6 +28,8 @@ export interface ServiceException {
 export interface SimpleStop {
   id: string;
   name: string;
+  is_closed: boolean;
+  zone: string | null;
 }
 
 export interface SchedulePDF {

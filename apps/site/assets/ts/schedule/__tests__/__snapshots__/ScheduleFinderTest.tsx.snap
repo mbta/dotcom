@@ -22,13 +22,19 @@ exports[`renders 1`] = `
     Choose a stop to get schedule information and real-time departure predictions.
   </div>
   <div
-    className="schedule-finder__select-container false"
+    className="schedule-finder__select-container "
+    id="sf_direction_select_container"
+    onClick={[Function]}
+    onKeyUp={[Function]}
+    role="button"
+    tabIndex={0}
   >
     <select
       className="schedule-finder__select"
       id="sf_direction_select"
       onChange={[Function]}
       onKeyUp={[Function]}
+      value=""
     >
       <option
         value=""
@@ -61,39 +67,56 @@ exports[`renders 1`] = `
     />
   </div>
   <div
-    className="schedule-finder__select-container false"
+    className="c-modal__trigger-wrapper"
+    onClick={[Function]}
+    role="presentation"
   >
-    <select
-      className="schedule-finder__select"
-      id="sf_origin_select"
-      onChange={[Function]}
+    <div
+      className="schedule-finder__select-container "
+      id="sf_origin_select_container"
+      onClick={[Function]}
       onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
     >
-      <option
+      <select
+        className="schedule-finder__select schedule-finder__select--noclick"
+        id="sf_origin_select"
+        onChange={[Function]}
+        onKeyUp={[Function]}
         value=""
       >
-        Choose an origin stop
-      </option>
-      <option
-        value="place-mlmnl"
-      >
-        Malden Center
-      </option>
-      <option
-        value="place-welln"
-      >
-        Wellington
-      </option>
-    </select>
-    <span
-      aria-hidden="true"
-      className="notranslate c-svg__icon schedule-finder__arrow"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "SVG",
+        <option
+          value=""
+        >
+          Choose an origin stop
+        </option>
+        <option
+          value="741"
+        >
+          SL
+        </option>
+        <option
+          value="123"
+        >
+          Abc
+        </option>
+        <option
+          value="place-welln"
+        >
+          Wellington
+        </option>
+      </select>
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon schedule-finder__arrow"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
         }
-      }
-    />
+      />
+    </div>
   </div>
   <div
     className="text-right"

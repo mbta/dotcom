@@ -37,7 +37,7 @@ exports[`it renders 1`] = `
               tabindex="-1"
             >
               <div
-                class="c-modal"
+                class="c-modal "
               >
                 <button
                   class="btn btn-secondary c-modal__close"
@@ -76,7 +76,7 @@ exports[`it renders 1`] = `
           tabIndex={-1}
         >
           <div
-            className="c-modal"
+            className="c-modal "
           >
             <button
               className="btn btn-secondary c-modal__close"

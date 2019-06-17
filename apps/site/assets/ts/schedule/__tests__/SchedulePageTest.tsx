@@ -59,8 +59,18 @@ const route: Route = {
   type: 1
 };
 const stops = [
-  { name: "Malden Center", id: "place-mlmnl" },
-  { name: "Wellington", id: "place-welln" }
+  {
+    name: "Malden Center",
+    id: "place-mlmnl",
+    is_closed: false,
+    zone: null
+  },
+  {
+    name: "Wellington",
+    id: "place-welln",
+    is_closed: false,
+    zone: null
+  }
 ];
 
 it("it renders", () => {
