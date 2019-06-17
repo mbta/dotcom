@@ -70,7 +70,7 @@ const ModalContent = ({
   focusElementId,
   bodyPadding,
   scrollBarPadding,
-  className
+  className = ""
 }: ModalContentProps): ReactElement<HTMLElement> => {
   useLayoutEffect(() => {
     // Activate trap and disable scroll on background body
