@@ -28,6 +28,7 @@ interface Props {
   ariaLabel: AriaLabel | AriaLabelledBy;
   focusElementId?: string; // a selector string to the DOM node that will receive focus when the model is first opened
   className?: string;
+  openState?: boolean;
 }
 
 interface ModalTriggerProps {
@@ -149,9 +150,10 @@ const Modal = ({
   focusElementId = "modal-close",
   priorPadding,
   paddingRight,
-  className
+  className,
+  openState = false
 }: ModalWithNoScrollProps): ReactElement<HTMLElement> => {
-  const [isOpen, setVisibility] = useState(false);
+  const [isOpen, setVisibility] = useState(openState);
   const closeModal = (): void => setVisibility(false);
   const toggleModal = (): void => setVisibility(!isOpen);
 
