@@ -21,16 +21,31 @@ defmodule SiteWeb.TransitNearMeController do
     |> assign_stops_and_routes()
     |> assign_map_data()
     |> flash_if_error()
-    |> render("index.html", breadcrumbs: [Breadcrumb.build("Transit Near Me")])
+    |> case do
+      :error ->
+        conn
+        |> put_status(:internal_server_error)
+        |> put_view(SiteWeb.ErrorView)
+        |> render("500.html", [])
+
+      %Conn{} = loaded_conn ->
+        render(loaded_conn, "index.html", breadcrumbs: [Breadcrumb.build("Transit Near Me")])
+    end
   end
 
   def api(conn, _) do
-    conn =
-      conn
-      |> assign_location()
-      |> assign_stops_and_routes()
+    conn
+    |> assign_location()
+    |> assign_stops_and_routes()
+    |> case do
+      :error ->
+        conn
+        |> put_status(:internal_server_error)
+        |> json(%{error: :timeout})
 
-    json(conn, conn.assigns.routes_json)
+      %Conn{assigns: %{routes_json: routes}} ->
+        json(conn, routes)
+    end
   end
 
   defp assign_location(conn) do
@@ -54,18 +69,26 @@ defmodule SiteWeb.TransitNearMeController do
 
   defp assign_stops_and_routes(conn), do: do_assign_stops_and_routes(conn, {:stops, []}, nil)
 
-  defp do_assign_stops_and_routes(conn, {:stops, []}, _) do
+  defp do_assign_stops_and_routes(%Conn{}, {_, {:error, _}}, _alerts) do
+    :error
+  end
+
+  defp do_assign_stops_and_routes(conn, {:stops, []}, _alerts) do
     conn
     |> assign(:stops_json, [])
     |> assign(:routes_json, [])
   end
 
-  defp do_assign_stops_and_routes(conn, data, alerts) do
+  defp do_assign_stops_and_routes(conn, %TransitNearMe{} = data, alerts) do
     to_json_fn = Map.get(conn.assigns, :to_json_fn, &TransitNearMe.schedules_for_routes/3)
 
     conn
     |> assign(:stops_json, StopsWithRoutes.stops_with_routes(data))
     |> assign(:routes_json, to_json_fn.(data, alerts, now: conn.assigns.date_time))
+  end
+
+  def assign_map_data(:error) do
+    :error
   end
 
   def assign_map_data(conn) do
@@ -142,7 +165,11 @@ defmodule SiteWeb.TransitNearMeController do
     map_data
   end
 
-  @spec flash_if_error(Conn.t()) :: Plug.Conn.t()
+  @spec flash_if_error(Conn.t() | :error) :: Conn.t() | :error
+  def flash_if_error(:error) do
+    :error
+  end
+
   def flash_if_error(%Conn{assigns: %{stops_json: [], location: {:ok, _}}} = conn) do
     put_flash(
       conn,

@@ -3,6 +3,8 @@ defmodule Site.TransitNearMe do
   Struct and helper functions for gathering data to use on TransitNearMe.
   """
 
+  require Logger
+
   alias Alerts.{Alert, InformedEntity, Match}
   alias GoogleMaps.Geocode.Address
   alias Site.JsonHelpers
@@ -63,7 +65,7 @@ defmodule Site.TransitNearMe do
       &stream_schedules(&1, opts),
       on_timeout: :kill_task
     )
-    |> Enum.reduce_while({:ok, %{}}, &collect_data/2)
+    |> Enum.reduce_while({:ok, %{}}, &collect_data(&1, &2, :stream_schedules))
   end
 
   @spec stream_schedules(Stop.t(), Keyword.t()) ::
@@ -169,17 +171,18 @@ defmodule Site.TransitNearMe do
     |> Date.to_string()
   end
 
-  @spec collect_data({:ok, any} | {:exit, :timeout}, {:ok, map | [any]}) ::
+  @spec collect_data({:ok, any} | {:exit, :timeout}, {:ok, map | [any]}, atom) ::
           {:cont, {:ok, map | [any]}} | {:halt, {:error, :timeout}}
-  defp collect_data({:ok, {key, value}}, {:ok, %{} = acc}) do
+  defp collect_data({:ok, {key, value}}, {:ok, %{} = acc}, _fn) do
     {:cont, {:ok, Map.put(acc, key, value)}}
   end
 
-  defp collect_data({:ok, value}, {:ok, acc}) when is_list(acc) do
+  defp collect_data({:ok, value}, {:ok, acc}, _fn) when is_list(acc) do
     {:cont, {:ok, [value | acc]}}
   end
 
-  defp collect_data({:exit, :timeout}, _) do
+  defp collect_data({:exit, :timeout}, _, fn_name) do
+    _ = Logger.error("module=#{__MODULE__} error=timeout function=#{fn_name}")
     {:halt, {:error, :timeout}}
   end
 
@@ -324,7 +327,7 @@ defmodule Site.TransitNearMe do
     schedules
     |> Enum.group_by(&PredictedSchedule.stop(&1).id)
     |> Task.async_stream(&get_directions_for_stop(&1, distances, opts), on_timeout: :kill_task)
-    |> Enum.reduce_while({:ok, []}, &collect_data/2)
+    |> Enum.reduce_while({:ok, []}, &collect_data(&1, &2, :get_directions_for_stop))
     |> case do
       {:error, :timeout} -> []
       {:ok, results} -> Enum.sort_by(results, &Map.get(distances, &1.stop.id))
@@ -368,7 +371,7 @@ defmodule Site.TransitNearMe do
     schedules
     |> Enum.group_by(&PredictedSchedule.direction_id/1)
     |> Task.async_stream(&build_direction_map(&1, opts), on_timeout: :kill_task)
-    |> Enum.reduce_while({:ok, []}, &collect_data/2)
+    |> Enum.reduce_while({:ok, []}, &collect_data(&1, &2, :build_direction_map))
     |> sort_by_time()
     |> elem(1)
   end
@@ -400,7 +403,7 @@ defmodule Site.TransitNearMe do
          Enum.sort_by(predicted_scheds, &(&1 |> PredictedSchedule.time() |> DateTime.to_unix()))}
       end)
       |> Task.async_stream(&headsign_fn.(&1, opts), on_timeout: :kill_task)
-      |> Enum.reduce_while({:ok, []}, &collect_data/2)
+      |> Enum.reduce_while({:ok, []}, &collect_data(&1, &2, :build_headsign_map))
       |> sort_by_time()
 
     {
