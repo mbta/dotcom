@@ -95,7 +95,7 @@ defmodule SiteWeb.StopControllerTest do
     conn =
       conn
       |> put_req_cookie("stop_page_redesign", "true")
-      |> get(stop_path(conn, :show, 9_070_130))
+      |> get(stop_path(conn, :show, 70_130))
 
     assert redirected_to(conn) == stop_path(conn, :show, "place-harvd")
   end
