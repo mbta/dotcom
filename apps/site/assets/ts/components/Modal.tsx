@@ -1,6 +1,5 @@
 import React, {
   ReactElement,
-  useState,
   useLayoutEffect,
   MouseEvent,
   createRef
@@ -21,33 +20,15 @@ interface ContentProps {
 type RenderCallback = (args: ContentProps) => JSX.Element;
 
 interface Props {
-  triggerElement: ReactElement<HTMLElement>;
   children: RenderCallback;
   closeText?: string | ReactElement<HTMLElement>;
   role?: "dialog" | "alertdialog";
   ariaLabel: AriaLabel | AriaLabelledBy;
   focusElementId?: string; // a selector string to the DOM node that will receive focus when the model is first opened
   className?: string;
+  openState?: boolean;
+  closeModal: Function;
 }
-
-interface ModalTriggerProps {
-  onClick: Function;
-  triggerElement: ReactElement<HTMLElement>;
-}
-
-const ModalTrigger = ({
-  onClick,
-  triggerElement
-}: ModalTriggerProps): ReactElement<HTMLElement> => (
-  // This will contain a button or other element that will bubble up active events
-  <div
-    className="c-modal__trigger-wrapper"
-    role="presentation"
-    onClick={() => onClick()}
-  >
-    {triggerElement}
-  </div>
-);
 
 interface ModalContentProps {
   content: RenderCallback;
@@ -142,38 +123,29 @@ interface ModalWithNoScrollProps extends Props {
 
 const Modal = ({
   children,
-  triggerElement,
   closeText = "Close",
   role = "dialog",
   ariaLabel,
   focusElementId = "modal-close",
   priorPadding,
   paddingRight,
-  className
-}: ModalWithNoScrollProps): ReactElement<HTMLElement> => {
-  const [isOpen, setVisibility] = useState(false);
-  const closeModal = (): void => setVisibility(false);
-  const toggleModal = (): void => setVisibility(!isOpen);
-
-  return (
-    <>
-      <ModalTrigger onClick={toggleModal} triggerElement={triggerElement} />
-      {isOpen ? (
-        <ModalContent
-          bodyPadding={priorPadding}
-          scrollBarPadding={paddingRight}
-          content={children}
-          closeText={closeText}
-          role={role}
-          ariaLabel={ariaLabel}
-          closeModal={closeModal}
-          focusElementId={focusElementId}
-          className={className}
-        />
-      ) : null}
-    </>
-  );
-};
+  className,
+  openState = false,
+  closeModal
+}: ModalWithNoScrollProps): ReactElement<HTMLElement> | null =>
+  openState ? (
+    <ModalContent
+      bodyPadding={priorPadding}
+      scrollBarPadding={paddingRight}
+      content={children}
+      closeText={closeText}
+      role={role}
+      ariaLabel={ariaLabel}
+      focusElementId={focusElementId}
+      className={className}
+      closeModal={closeModal}
+    />
+  ) : null;
 
 // Wrap modal to account for disabling scroll bar on background body
 const WrappedModal = (props: Props): ReactElement<HTMLElement> | null => {

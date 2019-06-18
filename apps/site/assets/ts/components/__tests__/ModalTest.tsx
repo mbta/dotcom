@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { mount } from "enzyme";
 import Modal from "../Modal";
 import { enzymeToJsonWithoutProps } from "../../app/helpers/testUtils";
@@ -12,108 +12,112 @@ const content = () => (
     <p>This is a test</p>
   </div>
 );
-const button = <button type="button" id="my-button" />;
 
-test("Modal visibility changes when triggerElement is clicked", () => {
-  document.body.innerHTML = body;
+interface State {
+  modalOpen: boolean;
+}
 
-  const modal = (
-    <Modal triggerElement={button} ariaLabel={ariaLabel}>
+const StatefulModalConsumer = () => {
+  const [state, setState] = useState<State>({
+    modalOpen: true
+  });
+
+  const closeModal = () => {
+    setState({ modalOpen: false });
+  };
+
+  return (
+    <Modal
+      ariaLabel={ariaLabel}
+      closeModal={closeModal}
+      openState={state.modalOpen}
+    >
       {content}
     </Modal>
   );
+};
 
+test("Modal is hidden when openState is false", () => {
+  document.body.innerHTML = body;
+  const modal = (
+    <Modal ariaLabel={ariaLabel} closeModal={() => {}} openState={false}>
+      {content}
+    </Modal>
+  );
   const wrapper = mount(modal);
-
-  expect(wrapper.exists("#content")).toBeFalsy();
-
-  wrapper.find("#my-button").simulate("click");
-
-  expect(wrapper.exists("#content")).toBeTruthy();
-
-  wrapper.find("#my-button").simulate("click");
-
   expect(wrapper.exists("#content")).toBeFalsy();
 });
 
-test("Modal closes when close button is clicked", () => {
+test("Modal is visible when openState is true", () => {
   document.body.innerHTML = body;
-
   const modal = (
-    <Modal triggerElement={button} ariaLabel={{ elementId: "modal-header" }}>
+    <Modal ariaLabel={ariaLabel} closeModal={() => {}} openState>
+      {content}
+    </Modal>
+  );
+  const wrapper = mount(modal);
+  expect(wrapper.exists("#content")).toBeTruthy();
+});
+
+test("Modal close function is called when clicked", () => {
+  document.body.innerHTML = body;
+  const spy = jest.fn();
+  const modal = (
+    <Modal ariaLabel={{ elementId: "modal-header" }} closeModal={spy} openState>
       {() => <h2 id="modal-header">A heading</h2>}
     </Modal>
   );
-
   const wrapper = mount(modal);
-
-  wrapper.find("#my-button").simulate("click");
-
-  expect(wrapper.exists("#modal-header")).toBeTruthy();
-
   wrapper.find("#modal-close").simulate("click");
-
-  expect(wrapper.exists("#content")).toBeFalsy();
+  expect(spy).toHaveBeenCalled();
 });
 
-test("Modal closes with Esc key", () => {
+test("Modal closes function called with Esc key", () => {
   document.body.innerHTML = body;
-
+  const spy = jest.fn();
   const modal = (
-    <Modal triggerElement={button} ariaLabel={ariaLabel}>
+    <Modal ariaLabel={ariaLabel} closeModal={spy} openState>
       {content}
     </Modal>
   );
-
   const wrapper = mount(modal);
-
-  wrapper.find("#my-button").simulate("click");
-
-  expect(wrapper.exists("#content")).toBeTruthy();
-
   wrapper.find("#content").simulate("keyDown", { key: "Escape" });
-
-  expect(wrapper.exists("#content")).toBeFalsy();
+  expect(spy).toHaveBeenCalled();
 });
 
-test("Modal closes when click is outside of the modal", () => {
+test("Modal closes function called when click is outside of the modal", () => {
   document.body.innerHTML = body;
-
+  const spy = jest.fn();
   const modal = (
-    <Modal triggerElement={button} ariaLabel={ariaLabel}>
+    <Modal ariaLabel={ariaLabel} closeModal={spy} openState>
       {content}
     </Modal>
   );
-
   const wrapper = mount(modal);
-
-  wrapper.find("#my-button").simulate("click");
-
-  expect(wrapper.exists("#content")).toBeTruthy();
-
   wrapper.find("#modal-cover").simulate("click");
+  expect(spy).toHaveBeenCalled();
+});
 
-  expect(wrapper.exists("#content")).toBeFalsy();
+test("Modal does not add padding when closed", () => {
+  document.body.innerHTML = body;
+  const modal = (
+    <Modal ariaLabel={ariaLabel} closeModal={() => {}} openState={false}>
+      {content}
+    </Modal>
+  );
+  mount(modal);
+  expect(document.getElementById("body-wrapper")!.style.paddingRight).toBe("");
 });
 
 test("Modal adds padding to body-wrapper to account for disabling the scroll bar", () => {
   document.body.innerHTML = body;
-
-  const modal = (
-    <Modal triggerElement={button} ariaLabel={ariaLabel}>
-      {content}
-    </Modal>
-  );
-
+  const modal = <StatefulModalConsumer />;
   const wrapper = mount(modal);
-
-  expect(document.getElementById("body-wrapper")!.style.paddingRight).toBe("");
-
-  // Close and open to reflect padding changes from useEffect
-  wrapper.find("#my-button").simulate("click");
-
-  wrapper.find("#modal-cover").simulate("click");
-
+  expect(document.getElementById("body-wrapper")!.style.paddingRight).toBe(
+    "1024px"
+  );
+  // Close modal
+  wrapper.find("#modal-close").simulate("click");
   expect(document.getElementById("body-wrapper")!.style.paddingRight).toBe(
     "0px"
   );
@@ -122,14 +126,10 @@ test("Modal adds padding to body-wrapper to account for disabling the scroll bar
 test("it renders", () => {
   document.body.innerHTML = body;
   const modal = (
-    <Modal triggerElement={button} ariaLabel={ariaLabel}>
+    <Modal ariaLabel={ariaLabel} closeModal={() => {}} openState>
       {content}
     </Modal>
   );
-
   const wrapper = mount(modal);
-
-  wrapper.find("#my-button").simulate("click");
-
   expect(enzymeToJsonWithoutProps(wrapper)).toMatchSnapshot();
 });
