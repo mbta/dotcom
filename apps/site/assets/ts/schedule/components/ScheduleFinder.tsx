@@ -244,6 +244,7 @@ const ScheduleFinder = ({
         ...state,
         directionError: true
       });
+      return;
     }
 
     setState({

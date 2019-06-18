@@ -67,72 +67,60 @@ exports[`renders 1`] = `
     />
   </div>
   <div
-    className="c-modal__trigger-wrapper"
+    className="schedule-finder__select-container "
+    id="sf_origin_select_container"
     onClick={[Function]}
-    role="presentation"
+    onKeyUp={[Function]}
+    role="button"
+    tabIndex={0}
   >
-    <div
-      className="schedule-finder__select-container "
-      id="sf_origin_select_container"
-      onClick={[Function]}
+    <select
+      className="schedule-finder__select schedule-finder__select--noclick"
+      id="sf_origin_select"
+      onChange={[Function]}
       onKeyUp={[Function]}
-      role="button"
-      tabIndex={0}
+      value=""
     >
-      <select
-        className="schedule-finder__select schedule-finder__select--noclick"
-        id="sf_origin_select"
-        onChange={[Function]}
-        onKeyUp={[Function]}
+      <option
         value=""
       >
-        <option
-          value=""
-        >
-          Choose an origin stop
-        </option>
-        <option
-          value="741"
-        >
-          SL
-        </option>
-        <option
-          value="123"
-        >
-          Abc
-        </option>
-        <option
-          value="place-welln"
-        >
-          Wellington
-        </option>
-      </select>
-      <span
-        aria-hidden="true"
-        className="notranslate c-svg__icon schedule-finder__arrow"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "SVG",
-          }
+        Choose an origin stop
+      </option>
+      <option
+        value="741"
+      >
+        SL
+      </option>
+      <option
+        value="123"
+      >
+        Abc
+      </option>
+      <option
+        value="place-welln"
+      >
+        Wellington
+      </option>
+    </select>
+    <span
+      aria-hidden="true"
+      className="notranslate c-svg__icon schedule-finder__arrow"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
         }
-      />
-    </div>
+      }
+    />
   </div>
   <div
     className="text-right"
   >
-    <div
-      className="c-modal__trigger-wrapper"
+    <input
+      className="btn btn-primary"
       onClick={[Function]}
-      role="presentation"
-    >
-      <input
-        className="btn btn-primary"
-        onClick={[Function]}
-        type="submit"
-        value="Get schedules"
-      />
-    </div>
+      type="submit"
+      value="Get schedules"
+    />
   </div>
 </div>
 `;
