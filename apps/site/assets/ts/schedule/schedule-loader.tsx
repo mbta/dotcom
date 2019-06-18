@@ -6,7 +6,7 @@ import Map from "./components/Map";
 import { SchedulePageData } from "./components/__schedule";
 import { MapData } from "../leaflet/components/__mapdata";
 
-const render = (): void => {
+const renderMap = (): void => {
   const mapDataEl = document.getElementById("js-map-data");
   if (!mapDataEl) return;
   const channel = mapDataEl.getAttribute("data-channel-id");
@@ -15,7 +15,9 @@ const render = (): void => {
   if (!mapEl) throw new Error("cannot find #map-root");
   const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
   ReactDOM.render(<Map data={mapData} channel={channel} />, mapEl);
+};
 
+const renderSchedulePage = (): void => {
   const schedulePageDataEl = document.getElementById("js-schedule-page-data");
   if (!schedulePageDataEl) return;
   const schedulePageData = JSON.parse(
@@ -25,7 +27,6 @@ const render = (): void => {
     <SchedulePage schedulePageData={schedulePageData} />,
     document.getElementById("react-root")
   );
-
   if (schedulePageData.schedule_note) {
     ReactDOM.render(
       <ScheduleNote
@@ -35,6 +36,11 @@ const render = (): void => {
       document.getElementById("react-schedule-note-root")
     );
   }
+};
+
+const render = (): void => {
+  renderMap();
+  renderSchedulePage();
 };
 
 export const onLoad = (): void => {
