@@ -196,3 +196,40 @@ export interface Alert {
   description: string;
   priority: Priority;
 }
+
+interface DatesNotes {
+  [date: string]: string;
+}
+
+type ServiceType = "weekday" | "saturday" | "sunday" | "other";
+
+type ServiceTypicality =
+  | "unknown"
+  | "typical_service"
+  | "extra_service"
+  | "holiday_service"
+  | "planned_disruption"
+  | "unplanned_disruption";
+
+type DayInteger =
+  | 1 // Monday
+  | 2
+  | 3
+  | 4
+  | 5
+  | 6
+  | 7; // Sunday
+
+export interface Service {
+  added_dates: string[];
+  added_dates_notes: DatesNotes;
+  description: string;
+  end_date: string;
+  id: string;
+  removed_dates: string[];
+  removed_dates_notes: DatesNotes;
+  start_date: string;
+  type: ServiceType;
+  typicality: ServiceTypicality;
+  valid_days: DayInteger[];
+}

@@ -24,6 +24,7 @@ const SchedulePage = ({
     fare_link: fareLink,
     route,
     schedule_note: scheduleNote,
+    services,
     stops,
     direction_id: directionId
   }
@@ -39,6 +40,7 @@ const SchedulePage = ({
       <div className="schedule-finder--desktop">
         <ScheduleFinder
           route={route} // don't show for subway
+          services={services}
           stops={stops}
           directionId={directionId}
         />
