@@ -32,20 +32,16 @@ interface Props {
 }
 
 interface ModalTriggerProps {
-  onClick: Function;
+  //onClick: Function;
   triggerElement: ReactElement<HTMLElement>;
 }
 
 const ModalTrigger = ({
-  onClick,
+  //onClick,
   triggerElement
 }: ModalTriggerProps): ReactElement<HTMLElement> => (
   // This will contain a button or other element that will bubble up active events
-  <div
-    className="c-modal__trigger-wrapper"
-    role="presentation"
-    onClick={() => onClick()}
-  >
+  <div className="c-modal__trigger-wrapper" role="presentation">
     {triggerElement}
   </div>
 );
@@ -153,14 +149,12 @@ const Modal = ({
   className,
   openState = false
 }: ModalWithNoScrollProps): ReactElement<HTMLElement> => {
-  const [isOpen, setVisibility] = useState(openState);
-  const closeModal = (): void => setVisibility(false);
-  const toggleModal = (): void => setVisibility(!isOpen);
+  const closeModal = (): void => {};
 
   return (
     <>
-      <ModalTrigger onClick={toggleModal} triggerElement={triggerElement} />
-      {isOpen ? (
+      <ModalTrigger triggerElement={triggerElement} />
+      {openState ? (
         <ModalContent
           bodyPadding={priorPadding}
           scrollBarPadding={paddingRight}

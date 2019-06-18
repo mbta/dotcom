@@ -27,6 +27,7 @@ interface State {
   originError: boolean;
   selectedDirection: SelectedDirection;
   selectedOrigin: SelectedOrigin;
+  modalOpen: boolean;
 }
 
 interface SelectContainerProps {
@@ -200,8 +201,11 @@ const ScheduleFinder = ({
     selectedDirection: null,
     selectedOrigin: null,
     directionError: false,
-    originError: false
+    originError: false,
+    modalOpen: false
   });
+
+  console.log(state);
 
   const handleClickSubmit = (e: SyntheticEvent): void => {
     e.preventDefault();
@@ -248,12 +252,13 @@ const ScheduleFinder = ({
   };
 
   const handleOriginSelectClick = (e: React.MouseEvent): void => {
+    console.log("clicked");
     // this prevents the modal from opening for keyboard user
     if (e.target instanceof HTMLSelectElement) {
       e.preventDefault();
       e.stopPropagation();
     }
-
+    console.log("A");
     // don't launch modal if direction not selected
     if (state.selectedDirection === null) {
       e.preventDefault();
@@ -263,6 +268,11 @@ const ScheduleFinder = ({
         directionError: true
       });
     }
+    console.log("B");
+    setState({
+      ...state,
+      modalOpen: true
+    });
   };
 
   return (
@@ -311,6 +321,7 @@ const ScheduleFinder = ({
         </select>
       </SelectContainer>
       <Modal
+        openState={state.modalOpen}
         triggerElement={
           <SelectContainer
             error={state.originError}
@@ -375,6 +386,7 @@ const ScheduleFinder = ({
       </Modal>
 
       <div className="text-right">
+        {/*
         <Modal
           triggerElement={
             <input
@@ -408,6 +420,7 @@ const ScheduleFinder = ({
             </>
           )}
         </Modal>
+                    */}
       </div>
     </div>
   );
