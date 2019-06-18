@@ -117,7 +117,8 @@ defmodule SiteWeb.TransitNearMeControllerTest do
      ]}
   end
 
-  def location_fn(%{"address" => %{"latitude" => "no_stops", "longitude" => "no_stops"}}, []) do
+  def location_fn(%{"address" => %{"latitude" => error}}, [])
+      when error in ["no_stops", "timeout_schedules"] do
     send(self(), :location_fn)
 
     {:ok,
@@ -125,7 +126,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
        %Address{
          latitude: 0.0,
          longitude: 0.0,
-         formatted: "no_stops"
+         formatted: error
        }
      ]}
   end
@@ -157,6 +158,11 @@ defmodule SiteWeb.TransitNearMeControllerTest do
   def data_fn(%Address{formatted: "no_stops"}, date: %Date{}, now: %DateTime{}) do
     send(self(), :data_fn)
     %TransitNearMe{}
+  end
+
+  def data_fn(%Address{formatted: "timeout_schedules"}, date: %Date{}, now: %DateTime{}) do
+    send(self(), :data_fn)
+    {:schedules, {:error, :timeout}}
   end
 
   def to_json_fn(%TransitNearMe{}, [], now: %DateTime{}) do
@@ -434,6 +440,20 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert marker.id == "current-location"
       assert marker.tooltip == "10 Park Plaza"
     end
+
+    test "handles timeouts without crashing", %{conn: conn} do
+      params = %{
+        "address" => %{"latitude" => "timeout_schedules", "longitude" => "timeout_schedules"}
+      }
+
+      conn = get(conn, transit_near_me_path(conn, :index, params))
+
+      assert conn.status == 500
+
+      assert_receive :location_fn
+      assert_receive :data_fn
+      refute_receive :to_json_fn
+    end
   end
 
   describe "api" do
@@ -461,6 +481,23 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert_receive :to_json_fn
 
       assert response == []
+    end
+
+    test "handles timeouts without crashing", %{conn: conn} do
+      params = %{
+        "address" => %{"latitude" => "timeout_schedules", "longitude" => "timeout_schedules"}
+      }
+
+      response =
+        conn
+        |> get(transit_near_me_path(conn, :api, params))
+        |> json_response(500)
+
+      assert_receive :location_fn
+      assert_receive :data_fn
+      refute_receive :to_json_fn
+
+      assert response == %{"error" => "timeout"}
     end
   end
 end
