@@ -1,9 +1,4 @@
-import React, {
-  ReactElement,
-  ReactNode,
-  SyntheticEvent,
-  useState
-} from "react";
+import React, { ReactElement, ReactNode, useState } from "react";
 import { Route, RouteType } from "../../__v3api";
 import { SimpleStop } from "./__schedule";
 import Modal from "../../components/Modal";
@@ -28,6 +23,7 @@ interface State {
   selectedDirection: SelectedDirection;
   selectedOrigin: SelectedOrigin;
   modalOpen: boolean;
+  modalId: string | null;
 }
 
 interface SelectContainerProps {
@@ -135,7 +131,6 @@ const stopListOrder = (
 };
 
 interface OriginListItemProps {
-  closeModal: Function;
   changeOrigin: Function;
   stop: SimpleStop;
   selectedOrigin: SelectedOrigin;
@@ -143,7 +138,6 @@ interface OriginListItemProps {
 }
 
 const OriginListItem = ({
-  closeModal,
   changeOrigin,
   stop,
   selectedOrigin,
@@ -152,7 +146,6 @@ const OriginListItem = ({
   const isDisabled = stop.is_closed || stop.id === lastStop.id;
   const handleClick = (): void => {
     if (isDisabled) return;
-    closeModal();
     changeOrigin(stop.id, true);
   };
 
@@ -195,34 +188,23 @@ const ScheduleFinder = ({
   },
   stops
 }: Props): ReactElement<HTMLElement> => {
-  const submitButtonEl = React.useRef<HTMLInputElement>(null);
-
   const [state, setState] = useState<State>({
     selectedDirection: null,
     selectedOrigin: null,
     directionError: false,
     originError: false,
-    modalOpen: false
+    modalOpen: false,
+    modalId: null
   });
 
-  console.log(state);
-
-  const handleClickSubmit = (e: SyntheticEvent): void => {
-    e.preventDefault();
-
-    const origin =
-      state.selectedOrigin ||
-      e.currentTarget.getAttribute("data-selected-origin");
-
-    if (state.selectedDirection === null || origin === null) {
-      e.stopPropagation(); // prevent modal from opening
+  const handleSubmitForm = (): void => {
+    if (state.selectedDirection === null || state.selectedOrigin === null) {
       setState({
         ...state,
-        selectedOrigin: origin,
+        selectedOrigin: state.selectedOrigin,
         directionError: state.selectedDirection === null,
         originError: state.selectedOrigin === null
       });
-      submitButtonEl!.current!.removeAttribute("data-selected-origin");
       return;
     }
 
@@ -230,7 +212,8 @@ const ScheduleFinder = ({
       ...state,
       directionError: false,
       originError: false,
-      selectedOrigin: origin
+      modalId: "schedule",
+      modalOpen: true
     });
   };
 
@@ -243,35 +226,30 @@ const ScheduleFinder = ({
     autoSubmit: boolean
   ): void => {
     if (state.selectedDirection !== null && autoSubmit) {
-      // passing data through the ref to avoid multiple setState calls
-      submitButtonEl!.current!.setAttribute("data-selected-origin", origin!);
-      submitButtonEl!.current!.click();
+      setState({
+        ...state,
+        selectedOrigin: origin,
+        modalId: "schedule",
+        directionError: false,
+        originError: false
+      });
     } else {
       setState({ ...state, selectedOrigin: origin });
     }
   };
 
-  const handleOriginSelectClick = (e: React.MouseEvent): void => {
-    console.log("clicked");
-    // this prevents the modal from opening for keyboard user
-    if (e.target instanceof HTMLSelectElement) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    console.log("A");
-    // don't launch modal if direction not selected
+  const handleOriginSelectClick = (): void => {
     if (state.selectedDirection === null) {
-      e.preventDefault();
-      e.stopPropagation();
       setState({
         ...state,
         directionError: true
       });
     }
-    console.log("B");
+
     setState({
       ...state,
-      modalOpen: true
+      modalOpen: true,
+      modalId: "origin"
     });
   };
 
@@ -307,7 +285,7 @@ const ScheduleFinder = ({
           }
           onKeyUp={e =>
             handleReactEnterKeyPress(e, () => {
-              submitButtonEl!.current!.click();
+              handleSubmitForm();
             })
           }
         >
@@ -320,107 +298,105 @@ const ScheduleFinder = ({
           </option>
         </select>
       </SelectContainer>
+      <SelectContainer
+        error={state.originError}
+        handleClick={handleOriginSelectClick}
+        id="sf_origin_select_container"
+      >
+        <select
+          id="sf_origin_select"
+          className="schedule-finder__select schedule-finder__select--noclick"
+          value={state.selectedOrigin || ""}
+          onChange={e =>
+            handleChangeOrigin(e.target.value ? e.target.value : null, false)
+          }
+          onKeyUp={e =>
+            handleReactEnterKeyPress(e, () => {
+              handleSubmitForm();
+            })
+          }
+        >
+          <option value="">Choose an origin stop</option>
+          {stopListOrder(stops, state.selectedDirection).map(
+            ({ id, name }: SimpleStop) => (
+              <option key={id} value={id}>
+                {name}
+              </option>
+            )
+          )}
+        </select>
+      </SelectContainer>
       <Modal
         openState={state.modalOpen}
-        triggerElement={
-          <SelectContainer
-            error={state.originError}
-            handleClick={handleOriginSelectClick}
-            id="sf_origin_select_container"
-          >
-            <select
-              id="sf_origin_select"
-              className="schedule-finder__select schedule-finder__select--noclick"
-              value={state.selectedOrigin || ""}
-              onChange={e =>
-                handleChangeOrigin(
-                  e.target.value ? e.target.value : null,
-                  false
-                )
-              }
-              onKeyUp={e =>
-                handleReactEnterKeyPress(e, () => {
-                  submitButtonEl!.current!.click();
-                })
-              }
-            >
-              <option value="">Choose an origin stop</option>
-              {stopListOrder(stops, state.selectedDirection).map(
-                ({ id, name }: SimpleStop) => (
-                  <option key={id} value={id}>
-                    {name}
-                  </option>
-                )
-              )}
-            </select>
-          </SelectContainer>
-        }
         ariaLabel={{ label: "Choose Origin Stop" }}
-        className="schedule-finder__origin-modal"
+        className={
+          state.modalId == "origin" ? "schedule-finder__origin-modal" : ""
+        }
+        closeModal={() => {
+          setState({
+            ...state,
+            modalOpen: false,
+            modalId: null
+          });
+        }}
       >
         {({ closeModal }) => (
           <>
-            <p className="schedule-finder__origin-text">
-              Choose an origin stop
-            </p>
-            <div>
-              {stopListOrder(stops, state.selectedDirection).map(
-                (stop: SimpleStop) => (
-                  <OriginListItem
-                    key={stop.id}
-                    stop={stop}
-                    closeModal={closeModal}
-                    changeOrigin={handleChangeOrigin}
-                    selectedOrigin={state.selectedOrigin}
-                    lastStop={
-                      stopListOrder(stops, state.selectedDirection)[
-                        stops.length - 1
-                      ]
-                    }
-                  />
-                )
-              )}
-            </div>
+            {state.modalId == "origin" && (
+              <>
+                <p className="schedule-finder__origin-text">
+                  Choose an origin stop
+                </p>
+                <div>
+                  {stopListOrder(stops, state.selectedDirection).map(
+                    (stop: SimpleStop) => (
+                      <OriginListItem
+                        key={stop.id}
+                        stop={stop}
+                        changeOrigin={handleChangeOrigin}
+                        selectedOrigin={state.selectedOrigin}
+                        lastStop={
+                          stopListOrder(stops, state.selectedDirection)[
+                            stops.length - 1
+                          ]
+                        }
+                      />
+                    )
+                  )}
+                </div>
+              </>
+            )}
+            {state.modalId == "schedule" && (
+              <>
+                <div className="schedule-finder__modal-header">
+                  {routePill(routeId, routeType, routeName)}
+                  <div>
+                    <div className="h3 u-small-caps" style={{ margin: 0 }}>
+                      {state.selectedDirection === null
+                        ? null
+                        : directionNames[state.selectedDirection]}
+                    </div>
+                    <h2 className="h2" style={{ margin: 0 }}>
+                      {state.selectedDirection === null
+                        ? null
+                        : directionDestinations[state.selectedDirection]}
+                    </h2>
+                  </div>
+                </div>
+                <div>from {stopNameLink(state.selectedOrigin!, stops)}</div>
+              </>
+            )}
           </>
         )}
       </Modal>
 
       <div className="text-right">
-        {/*
-        <Modal
-          triggerElement={
-            <input
-              ref={submitButtonEl}
-              className="btn btn-primary"
-              type="submit"
-              value="Get schedules"
-              onClick={handleClickSubmit}
-            />
-          }
-          ariaLabel={{ label: "Schedules" }}
-        >
-          {() => (
-            <>
-              <div className="schedule-finder__modal-header">
-                {routePill(routeId, routeType, routeName)}
-                <div>
-                  <div className="h3 u-small-caps" style={{ margin: 0 }}>
-                    {state.selectedDirection === null
-                      ? null
-                      : directionNames[state.selectedDirection]}
-                  </div>
-                  <h2 className="h2" style={{ margin: 0 }}>
-                    {state.selectedDirection === null
-                      ? null
-                      : directionDestinations[state.selectedDirection]}
-                  </h2>
-                </div>
-              </div>
-              <div>from {stopNameLink(state.selectedOrigin!, stops)}</div>
-            </>
-          )}
-        </Modal>
-                    */}
+        <input
+          className="btn btn-primary"
+          type="submit"
+          value="Get schedules"
+          onClick={handleSubmitForm}
+        />
       </div>
     </div>
   );
