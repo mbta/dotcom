@@ -1,21 +1,22 @@
-import React, { ReactElement, ReactNode, useState } from "react";
-import { Route, RouteType } from "../../__v3api";
+import React, { ReactElement, useState } from "react";
+import { Route } from "../../__v3api";
 import { SimpleStop } from "./__schedule";
-import Modal from "../../components/Modal";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 import icon from "../../../static/images/icon-schedule-finder.svg";
-import arrowIcon from "../../../static/images/icon-down-arrow.svg";
-import checkIcon from "../../../static/images/icon-checkmark.svg";
 import renderSvg from "../../helpers/render-svg";
-import isSilverLine from "../../helpers/silver-line";
+import Modal from "../../components/Modal";
+import SelectContainer from "./schedule-finder/SelectContainer";
+import ErrorMessage from "./schedule-finder/ErrorMessage";
+import OriginModalContents from "./schedule-finder/OriginModalContents";
+import ScheduleModalContents from "./schedule-finder/ScheduleModalContents";
 
 interface Props {
   route: Route;
   stops: SimpleStop[];
 }
 
-type SelectedDirection = 0 | 1 | null;
-type SelectedOrigin = string | null;
+export type SelectedDirection = 0 | 1 | null;
+export type SelectedOrigin = string | null;
 
 interface State {
   directionError: boolean;
@@ -26,101 +27,12 @@ interface State {
   modalId: string | null;
 }
 
-interface SelectContainerProps {
-  id: string;
-  children: ReactNode;
-  error: boolean;
-  handleClick?: Function;
-}
-
-const SelectContainer = ({
-  id,
-  children,
-  error,
-  handleClick
-}: SelectContainerProps): ReactElement<HTMLElement> => (
-  <div
-    id={id}
-    tabIndex={0}
-    className={`schedule-finder__select-container ${error ? "error" : ""}`}
-    role="button"
-    onClick={e => {
-      if (handleClick) {
-        handleClick(e);
-      }
-    }}
-    onKeyUp={e =>
-      handleReactEnterKeyPress(e, () => {
-        if (handleClick) {
-          handleClick(e);
-        }
-      })
-    }
-  >
-    {children}
-    {renderSvg("c-svg__icon schedule-finder__arrow", arrowIcon)}
-  </div>
-);
-
-interface ErrorMessageProps {
-  directionError: boolean;
-  originError: boolean;
-}
-
-const ErrorMessage = ({
-  directionError,
-  originError
-}: ErrorMessageProps): ReactElement<HTMLElement> | null => {
-  if (!directionError && !originError) {
-    return null;
-  }
-
-  let message = "an origin and destination";
-  if (!directionError && originError) {
-    message = "an origin";
-  }
-  if (directionError && !originError) {
-    message = "a destination";
-  }
-
-  return (
-    <div className="error-container">
-      <span role="alert">Please provide {message}</span>
-    </div>
-  );
-};
-
-const routePill = (
-  id: string,
-  type: RouteType,
-  name: string
-): ReactElement<HTMLElement> | null =>
-  type === 3 ? (
-    <div className="m-route-pills">
-      <div
-        className={`h1 schedule-finder__modal-route-pill u-bg--${
-          isSilverLine(id) ? "silver-line" : "bus"
-        }`}
-      >
-        {name}
-      </div>
-    </div>
-  ) : null;
-
-const stopNameLink = (
-  selectedOrigin: string,
-  stops: SimpleStop[]
-): ReactElement<HTMLElement> | null => {
-  const stop = stops.find(({ id }) => id === selectedOrigin);
-  return <a href={`/stops/${stop!.id}`}>{stop!.name}</a>;
-};
-
 const parseSelectedDirection = (value: string): 0 | 1 => {
   if (value === "0") return 0;
   return 1;
 };
 
-const stopListOrder = (
+export const stopListOrder = (
   stops: SimpleStop[],
   selectedDirection: SelectedDirection
 ): SimpleStop[] => {
@@ -130,64 +42,11 @@ const stopListOrder = (
   return stops;
 };
 
-interface OriginListItemProps {
-  changeOrigin: Function;
-  stop: SimpleStop;
-  selectedOrigin: SelectedOrigin;
-  lastStop: SimpleStop;
-}
-
-const OriginListItem = ({
-  changeOrigin,
-  stop,
-  selectedOrigin,
-  lastStop
-}: OriginListItemProps): ReactElement<HTMLElement> => {
-  const isDisabled = stop.is_closed || stop.id === lastStop.id;
-  const handleClick = (): void => {
-    if (isDisabled) return;
-    changeOrigin(stop.id, true);
-  };
-
-  return (
-    <div
-      tabIndex={0}
-      role="button"
-      className={`schedule-finder__origin-list-item ${
-        stop.id === selectedOrigin ? "active" : ""
-      } ${isDisabled ? "disabled" : ""}`}
-      onClick={() => {
-        handleClick();
-      }}
-      onKeyUp={e =>
-        handleReactEnterKeyPress(e, () => {
-          handleClick();
-        })
-      }
-    >
-      <div className="schedule-finder__origin-list-leftpad">
-        {stop.id === selectedOrigin
-          ? renderSvg("schedule-finder__check", checkIcon)
-          : ""}{" "}
-      </div>
-      {stop.name}{" "}
-      {stop.zone && (
-        <span className="schedule-finder__zone">Zone {stop.zone}</span>
-      )}
-    </div>
-  );
-};
-
-const ScheduleFinder = ({
-  route: {
-    id: routeId,
+const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
+  const {
     direction_destinations: directionDestinations,
-    direction_names: directionNames,
-    name: routeName,
-    type: routeType
-  },
-  stops
-}: Props): ReactElement<HTMLElement> => {
+    direction_names: directionNames
+  } = route;
   const [state, setState] = useState<State>({
     selectedDirection: null,
     selectedOrigin: null,
@@ -329,7 +188,12 @@ const ScheduleFinder = ({
       </SelectContainer>
       <Modal
         openState={state.modalOpen}
-        ariaLabel={{ label: "Choose Origin Stop" }}
+        ariaLabel={{
+          label:
+            state.modalId === "origin"
+              ? "Choose Origin Stop"
+              : "Choose Schedule"
+        }}
         className={
           state.modalId === "origin" ? "schedule-finder__origin-modal" : ""
         }
@@ -344,48 +208,20 @@ const ScheduleFinder = ({
         {() => (
           <>
             {state.modalId === "origin" && (
-              <>
-                <p className="schedule-finder__origin-text">
-                  Choose an origin stop
-                </p>
-                <div>
-                  {stopListOrder(stops, state.selectedDirection).map(
-                    (stop: SimpleStop) => (
-                      <OriginListItem
-                        key={stop.id}
-                        stop={stop}
-                        changeOrigin={handleChangeOrigin}
-                        selectedOrigin={state.selectedOrigin}
-                        lastStop={
-                          stopListOrder(stops, state.selectedDirection)[
-                            stops.length - 1
-                          ]
-                        }
-                      />
-                    )
-                  )}
-                </div>
-              </>
+              <OriginModalContents
+                selectedDirection={state.selectedDirection}
+                selectedOrigin={state.selectedOrigin}
+                stops={stops}
+                handleChangeOrigin={handleChangeOrigin}
+              />
             )}
             {state.modalId === "schedule" && (
-              <>
-                <div className="schedule-finder__modal-header">
-                  {routePill(routeId, routeType, routeName)}
-                  <div>
-                    <div className="h3 u-small-caps" style={{ margin: 0 }}>
-                      {state.selectedDirection === null
-                        ? null
-                        : directionNames[state.selectedDirection]}
-                    </div>
-                    <h2 className="h2" style={{ margin: 0 }}>
-                      {state.selectedDirection === null
-                        ? null
-                        : directionDestinations[state.selectedDirection]}
-                    </h2>
-                  </div>
-                </div>
-                <div>from {stopNameLink(state.selectedOrigin!, stops)}</div>
-              </>
+              <ScheduleModalContents
+                selectedDirection={state.selectedDirection}
+                selectedOrigin={state.selectedOrigin}
+                stops={stops}
+                route={route}
+              />
             )}
           </>
         )}
