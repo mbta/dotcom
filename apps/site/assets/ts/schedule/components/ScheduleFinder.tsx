@@ -189,7 +189,10 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
       <Modal
         openState={state.modalOpen}
         ariaLabel={{
-          label: "origin" ? "Choose Origin Stop" : "Choose Schedule"
+          label:
+            state.modalId === "origin"
+              ? "Choose Origin Stop"
+              : "Choose Schedule"
         }}
         className={
           state.modalId === "origin" ? "schedule-finder__origin-modal" : ""

@@ -7,8 +7,8 @@ interface Props {
 }
 
 const StopNameLink = ({
-  selectedOrigin: selectedOrigin,
-  stops: stops
+  selectedOrigin,
+  stops
 }: Props): ReactElement<HTMLElement> | null => {
   const stop = stops.find(({ id }) => id === selectedOrigin);
   return <a href={`/stops/${stop!.id}`}>{stop!.name}</a>;
