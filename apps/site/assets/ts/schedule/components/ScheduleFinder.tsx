@@ -331,7 +331,7 @@ const ScheduleFinder = ({
         openState={state.modalOpen}
         ariaLabel={{ label: "Choose Origin Stop" }}
         className={
-          state.modalId == "origin" ? "schedule-finder__origin-modal" : ""
+          state.modalId === "origin" ? "schedule-finder__origin-modal" : ""
         }
         closeModal={() => {
           setState({
@@ -341,9 +341,9 @@ const ScheduleFinder = ({
           });
         }}
       >
-        {({ closeModal }) => (
+        {() => (
           <>
-            {state.modalId == "origin" && (
+            {state.modalId === "origin" && (
               <>
                 <p className="schedule-finder__origin-text">
                   Choose an origin stop
@@ -367,7 +367,7 @@ const ScheduleFinder = ({
                 </div>
               </>
             )}
-            {state.modalId == "schedule" && (
+            {state.modalId === "schedule" && (
               <>
                 <div className="schedule-finder__modal-header">
                   {routePill(routeId, routeType, routeName)}
