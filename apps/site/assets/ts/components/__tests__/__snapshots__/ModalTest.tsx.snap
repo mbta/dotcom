@@ -3,18 +3,6 @@
 exports[`it renders 1`] = `
 <WrappedModal>
   <Modal>
-    <ModalTrigger>
-      <div
-        className="c-modal__trigger-wrapper"
-        onClick={[Function]}
-        role="presentation"
-      >
-        <button
-          id="my-button"
-          type="button"
-        />
-      </div>
-    </ModalTrigger>
     <ModalContent>
       <Portal
         containerInfo={
