@@ -1,9 +1,11 @@
 import React, { ReactElement, useReducer, useEffect } from "react";
 import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import UpcomingDepartures from "./UpcomingDepartures";
-import { Route, RouteType } from "../../../__v3api";
+import { Route, RouteType, Service } from "../../../__v3api";
 import { SimpleStop, StopPrediction } from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
+import { serviceDays, serviceDate } from "../../../helpers/service";
+import SelectContainer from "./SelectContainer";
 
 const stopInfo = (
   selectedOrigin: string,
@@ -86,6 +88,7 @@ interface Props {
   route: Route;
   selectedDirection: SelectedDirection;
   selectedOrigin: SelectedOrigin;
+  services: Service[];
   stops: SimpleStop[];
 }
 
@@ -99,6 +102,7 @@ const ScheduleModalContent = ({
   },
   selectedDirection,
   selectedOrigin,
+  services,
   stops
 }: Props): ReactElement<HTMLElement> | null => {
   const [state, dispatch] = useReducer(reducer, {
@@ -132,6 +136,20 @@ const ScheduleModalContent = ({
       </div>
       <div>from {stopNameLink(selectedOrigin, stops)}</div>
       <UpcomingDepartures state={state} />
+
+      <div className="schedule-finder__service-selector">
+        <SelectContainer id="service_selector_container" error={false}>
+          <select id="service_selector" className="schedule-finder__select">
+            {services.map(service => (
+              <option value={service.id} key={service.id}>
+                {service.description}
+                {serviceDays(service)}
+                {serviceDate(service)}
+              </option>
+            ))}
+          </select>
+        </SelectContainer>
+      </div>
     </>
   );
 };

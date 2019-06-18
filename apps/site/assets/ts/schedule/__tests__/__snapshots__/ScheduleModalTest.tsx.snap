@@ -37,6 +37,40 @@ Array [
       Malden Center
     </a>
   </div>,
+  <div
+    className="schedule-finder__service-selector"
+  >
+    <div
+      className="schedule-finder__select-container "
+      id="service_selector_container"
+      onClick={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <select
+        className="schedule-finder__select"
+        id="service_selector"
+      >
+        <option
+          value="BUS319-D-Wdy-02"
+        >
+          Weekday schedule
+          (Monday - Friday)
+          June 24, 2019 to August 24, 2019
+        </option>
+      </select>
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon schedule-finder__arrow"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+    </div>
+  </div>,
 ]
 `;
 
