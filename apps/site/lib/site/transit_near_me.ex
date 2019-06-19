@@ -97,7 +97,7 @@ defmodule Site.TransitNearMe do
   def schedules_or_tomorrow([], schedules_fn, stop, now) do
     # if there are no schedules left for today, get schedules for tomorrow
     stop.id
-    |> schedules_fn.(date: tomorrow_date(now))
+    |> schedules_fn.(date: Util.tomorrow_date(now))
     |> Enum.reject(& &1.last_stop?)
     # exclude buses that are more than 24 hours from now
     |> Enum.filter(&coming_today_if_bus(&1, &1.route.type, now))
@@ -162,13 +162,6 @@ defmodule Site.TransitNearMe do
 
   defp format_time_integer(num) do
     Integer.to_string(num)
-  end
-
-  def tomorrow_date(%DateTime{} = datetime) do
-    datetime
-    |> DateTime.to_date()
-    |> Date.add(1)
-    |> Date.to_string()
   end
 
   @spec collect_data({:ok, any} | {:exit, :timeout}, {:ok, map | [any]}, atom) ::

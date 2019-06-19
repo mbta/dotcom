@@ -112,7 +112,7 @@ export const UpcomingDepartures = ({
     return (
       <>
         <h3>Upcoming Departures</h3>
-        <table>
+        <table className="schedule-table">
           <thead className="schedule-table__header">
             <tr className="schedule-table__row-header">
               <th>Destinations</th>
@@ -124,6 +124,7 @@ export const UpcomingDepartures = ({
                 prediction={prediction}
                 stop={stop}
                 destination={destination}
+                // eslint-disable-next-line react/no-array-index-key
                 key={idx}
               />
             ))}

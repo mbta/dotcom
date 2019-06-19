@@ -230,12 +230,17 @@
   width: $base-spacing * 2;
 }
 
+.schedule-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
 .schedule-table__row {
   border: $border;
   display: flex;
   justify-content: space-between;
   padding: $base-spacing / 2;
-  width: 400px;
 }
 
 .schedule-table__row:nth-child(even) {
@@ -259,7 +264,6 @@
   font-weight: bold;
   justify-content: space-between;
   padding: $base-spacing / 2;
-  width: 400px;
 }
 
 .schedule-table__row-route {

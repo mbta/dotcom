@@ -2,8 +2,8 @@ defmodule SiteWeb.ModeController do
   use SiteWeb, :controller
 
   alias Content.Teaser
+  alias Plug.Conn
   alias PredictedSchedule.Display
-  alias PredictedSchedule.Schedules
   alias Site.TransitNearMe
   alias SiteWeb.{Mode}
   alias Routes.{Route}
@@ -47,7 +47,7 @@ defmodule SiteWeb.ModeController do
       }) do
     schedules =
       route_id
-      |> Schedules.get_schedules(origin_stop, direction_id: direction_id)
+      |> PredictedSchedule.get(origin_stop, direction_id: direction_id, now: Util.now())
       |> Enum.map(&TransitNearMe.build_time_map(&1, now: Util.now()))
       |> Enum.map(&route_with_prediction(&1, route_id))
       |> Enum.take(2)

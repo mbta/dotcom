@@ -9,7 +9,6 @@ defmodule SiteWeb.StopController do
   alias Plug.Conn
   alias Fares.{RetailLocations, RetailLocations.Location}
   alias Phoenix.HTML
-  alias PredictedSchedule.Schedules
   alias Site.JsonHelpers
   alias Routes.{Group, Route}
   alias Site.TransitNearMe
@@ -195,10 +194,12 @@ defmodule SiteWeb.StopController do
 
   @spec schedules_for_route(Route.t(), Stop.id_t()) :: route_with_directions | nil
   defp schedules_for_route(%Route{} = route, stop_id) do
+    now = Util.now()
+
     directions =
       route.id
-      |> Schedules.get_schedules(stop_id)
-      |> TransitNearMe.get_direction_map(now: Util.now())
+      |> PredictedSchedule.get(stop_id, now: now)
+      |> TransitNearMe.get_direction_map(now: now())
       |> filter_headsigns()
 
     %{
