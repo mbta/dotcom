@@ -119,11 +119,12 @@ export const UpcomingDepartures = ({
             </tr>
           </thead>
           <tbody>
-            {predictions.map((prediction: StopPrediction) => (
+            {predictions.map((prediction: StopPrediction, idx: number) => (
               <TableRow
                 prediction={prediction}
                 stop={stop}
                 destination={destination}
+                key={idx}
               />
             ))}
           </tbody>

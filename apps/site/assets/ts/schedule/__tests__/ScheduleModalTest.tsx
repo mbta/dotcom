@@ -3,12 +3,12 @@ import ReactDOM from "react-dom";
 import renderer, { act } from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { Route, RouteType } from "../../__v3api";
-import ScheduleModal, {
-  UpcomingDepartures,
+import ScheduleModalContent, {
   reducer,
-  ModalContent,
   fetchData
 } from "../components/schedule-finder/ScheduleModalContent";
+import UpcomingDepartures from "../components/schedule-finder/UpcomingDepartures";
+import { SimpleStop } from "../components/__schedule";
 
 const route: Route = {
   alert_count: 0,
@@ -22,9 +22,9 @@ const route: Route = {
   type: 1
 };
 
-const stops = [
-  { name: "Malden Center", id: "place-mlmnl" },
-  { name: "Wellington", id: "place-welln" }
+const stops: SimpleStop[] = [
+  { name: "Malden Center", id: "place-mlmnl", is_closed: false, zone: "1" },
+  { name: "Wellington", id: "place-welln", is_closed: false, zone: "2" }
 ];
 
 const routeType: RouteType = 3;
@@ -85,7 +85,7 @@ describe("ScheduleModal", () => {
     let resolve: Function = () => {};
     act(() => {
       tree = renderer.create(
-        <ModalContent
+        <ScheduleModalContent
           route={route}
           stops={stops}
           selectedOrigin={stops[0].id}
@@ -102,7 +102,7 @@ describe("ScheduleModal", () => {
     let resolve: Function = () => {};
     act(() => {
       tree = renderer.create(
-        <ModalContent
+        <ScheduleModalContent
           route={route}
           stops={stops}
           selectedOrigin={null}
@@ -118,7 +118,7 @@ describe("ScheduleModal", () => {
     let resolve: Function = () => {};
     act(() => {
       tree = renderer.create(
-        <ModalContent
+        <ScheduleModalContent
           route={route}
           stops={stops}
           selectedOrigin={stops[0].id}

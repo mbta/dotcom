@@ -5,7 +5,7 @@ defmodule SiteWeb.ModeController do
   alias PredictedSchedule.Display
   alias PredictedSchedule.Schedules
   alias Site.TransitNearMe
-  alias SiteWeb.{Mode, StopController}
+  alias SiteWeb.{Mode}
   alias Routes.{Route}
   plug(SiteWeb.Plugs.RecentlyVisited)
   plug(SiteWeb.Plug.Mticket)

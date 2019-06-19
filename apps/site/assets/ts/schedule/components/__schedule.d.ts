@@ -1,5 +1,5 @@
 import { TypedRoutes } from "../../stop/components/__stop";
-import { Route, PredictedOrScheduledTime } from "../../__v3api";
+import { Route, PredictedOrScheduledTime, BareRoute } from "../../__v3api";
 
 export interface SchedulePageData {
   connections: TypedRoutes[];
@@ -49,7 +49,7 @@ export interface Holiday {
 
 export interface StopPrediction {
   headsign: string;
-  route: Route;
+  route: BareRoute;
   prediction: PredictedOrScheduledTime;
   train_number: string;
 }
