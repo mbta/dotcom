@@ -199,7 +199,7 @@ defmodule SiteWeb.StopController do
     directions =
       route.id
       |> PredictedSchedule.get(stop_id, now: now)
-      |> TransitNearMe.get_direction_map(now: now())
+      |> TransitNearMe.get_direction_map(now: now)
       |> filter_headsigns()
 
     %{
