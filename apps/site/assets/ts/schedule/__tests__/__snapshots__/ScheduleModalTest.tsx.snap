@@ -45,7 +45,9 @@ Array [
   <h3>
     Upcoming Departures
   </h3>,
-  <table>
+  <table
+    className="schedule-table"
+  >
     <thead
       className="schedule-table__header"
     >
@@ -96,7 +98,9 @@ Array [
   <h3>
     Upcoming Departures
   </h3>,
-  <table>
+  <table
+    className="schedule-table"
+  >
     <thead
       className="schedule-table__header"
     >
@@ -175,7 +179,9 @@ Array [
   <h3>
     Upcoming Departures
   </h3>,
-  <table>
+  <table
+    className="schedule-table"
+  >
     <thead
       className="schedule-table__header"
     >
