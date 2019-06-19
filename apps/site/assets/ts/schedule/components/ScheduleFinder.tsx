@@ -34,7 +34,7 @@ const parseSelectedDirection = (value: string): 0 | 1 => {
 
 export const stopListOrder = (
   stops: SimpleStop[],
-  selectedDirection: SelectedDirection
+  selectedDirection: SelectedDirection,
 ): SimpleStop[] => {
   if (selectedDirection === 1) {
     return [...stops].reverse();
@@ -45,10 +45,8 @@ export const stopListOrder = (
 const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
   const {
     direction_destinations: directionDestinations,
-    direction_names: directionNames
+    direction_names: directionNames,
   } = route;
-
-  const submitButtonEl = React.useRef<HTMLInputElement>(null);
 
   const [state, setState] = useState<State>({
     selectedDirection: null,
@@ -56,7 +54,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
     directionError: false,
     originError: false,
     modalOpen: false,
-    modalId: null
+    modalId: null,
   });
 
   const handleSubmitForm = (): void => {
@@ -65,7 +63,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
         ...state,
         selectedOrigin: state.selectedOrigin,
         directionError: state.selectedDirection === null,
-        originError: state.selectedOrigin === null
+        originError: state.selectedOrigin === null,
       });
       return;
     }
@@ -75,7 +73,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
       directionError: false,
       originError: false,
       modalId: "schedule",
-      modalOpen: true
+      modalOpen: true,
     });
   };
 
@@ -85,7 +83,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
 
   const handleChangeOrigin = (
     origin: SelectedOrigin,
-    autoSubmit: boolean
+    autoSubmit: boolean,
   ): void => {
     if (state.selectedDirection !== null && autoSubmit) {
       setState({
@@ -93,7 +91,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
         selectedOrigin: origin,
         modalId: "schedule",
         directionError: false,
-        originError: false
+        originError: false,
       });
     } else {
       setState({ ...state, selectedOrigin: origin });
@@ -104,7 +102,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
     if (state.selectedDirection === null) {
       setState({
         ...state,
-        directionError: true
+        directionError: true,
       });
       return;
     }
@@ -112,7 +110,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
     setState({
       ...state,
       modalOpen: true,
-      modalId: "origin"
+      modalId: "origin",
     });
   };
 
@@ -143,7 +141,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
             handleChangeDirection(
               e.target.value !== ""
                 ? parseSelectedDirection(e.target.value)
-                : null
+                : null,
             )
           }
           onKeyUp={e =>
@@ -185,7 +183,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
               <option key={id} value={id}>
                 {name}
               </option>
-            )
+            ),
           )}
         </select>
       </SelectContainer>
@@ -195,7 +193,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
           label:
             state.modalId === "origin"
               ? "Choose Origin Stop"
-              : "Choose Schedule"
+              : "Choose Schedule",
         }}
         className={
           state.modalId === "origin" ? "schedule-finder__origin-modal" : ""
@@ -204,7 +202,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
           setState({
             ...state,
             modalOpen: false,
-            modalId: null
+            modalId: null,
           });
         }}
       >

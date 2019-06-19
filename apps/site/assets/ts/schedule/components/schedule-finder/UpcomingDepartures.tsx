@@ -1,15 +1,12 @@
-
-import React, { ReactElement} from "react";
+import React, { ReactElement } from "react";
 import {
-    timeForCommuterRail,
-    trackForCommuterRail,
-    statusForCommuterRail
-  } from "../../../helpers/prediction-helpers";
+  timeForCommuterRail,
+  trackForCommuterRail,
+  statusForCommuterRail
+} from "../../../helpers/prediction-helpers";
 import { modeIcon } from "../../../helpers/icon";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
-import {
-  BareRoute as Route
-} from "../../../__v3api";
+import { BareRoute as Route } from "../../../__v3api";
 import { SimpleStop, StopPrediction } from "../__schedule";
 
 interface State {
@@ -29,7 +26,6 @@ const hasPredictions = (stopPredictions: StopPrediction[]): boolean =>
     stopPrediction => stopPrediction.prediction.prediction !== null
   ).length > 0;
 
-
 const RoutePillSmall = ({
   route
 }: {
@@ -40,11 +36,11 @@ const RoutePillSmall = ({
   </div>
 );
 interface TableRowProps {
-    prediction: StopPrediction;
-    stop: SimpleStop | undefined;
-    destination: string | null;
-  }
-  
+  prediction: StopPrediction;
+  stop: SimpleStop | undefined;
+  destination: string | null;
+}
+
 const TableRow = ({
   prediction,
   stop,
@@ -74,7 +70,7 @@ const TableRow = ({
     </tr>
   );
 };
-  
+
 const CrTableRow = ({
   prediction,
   destination
