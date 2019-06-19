@@ -9,6 +9,7 @@ defmodule SiteWeb.StopController do
   alias Plug.Conn
   alias Fares.{RetailLocations, RetailLocations.Location}
   alias Phoenix.HTML
+  alias PredictedSchedule.Schedules
   alias Site.JsonHelpers
   alias Routes.{Group, Route}
   alias Site.TransitNearMe
@@ -196,7 +197,7 @@ defmodule SiteWeb.StopController do
   defp schedules_for_route(%Route{} = route, stop_id) do
     directions =
       route.id
-      |> get_schedules(stop_id)
+      |> Schedules.get_schedules(stop_id)
       |> TransitNearMe.get_direction_map(now: Util.now())
       |> filter_headsigns()
 
@@ -204,42 +205,6 @@ defmodule SiteWeb.StopController do
       route: route,
       directions: directions
     }
-  end
-
-  def get_schedules(route_id, stop_id, opts \\ []) do
-    schedules_fn = &Schedules.Repo.by_route_ids/2
-    now = Util.now()
-    direction_id = Keyword.get(opts, :direction_id)
-
-    schedules =
-      [route_id]
-      |> schedules_fn.(
-        stop_ids: stop_id,
-        min_time: now,
-        direction_id: direction_id
-      )
-
-    [route: route_id, stop: stop_id, min_time: now, direction_id: direction_id]
-    |> Predictions.Repo.all()
-    |> PredictedSchedule.group(schedules)
-    |> case do
-      [_ | _] = ps ->
-        ps
-
-      [] ->
-        # if there are no schedules left for today, get schedules for tomorrow
-        PredictedSchedule.group(
-          [],
-          schedules_fn.(
-            [route_id],
-            stop_ids: stop_id,
-            direction_id: direction_id,
-            date: TransitNearMe.tomorrow_date(now)
-          )
-        )
-    end
-    |> Enum.reject(&PredictedSchedule.last_stop?/1)
-    |> Enum.reject(&(PredictedSchedule.time(&1) == nil))
   end
 
   @spec filter_headsigns([TransitNearMe.direction_data()]) :: [TransitNearMe.direction_data()]
