@@ -44,11 +44,12 @@ defmodule SiteWeb.ModeController do
         "id" => route_id,
         "origin_stop" => origin_stop,
         "direction_id" => direction_id
-      }) do
+  }) do
+    now = Util.now()
     schedules =
       route_id
-      |> PredictedSchedule.get(origin_stop, direction_id: direction_id, now: Util.now())
-      |> Enum.map(&TransitNearMe.build_time_map(&1, now: Util.now()))
+      |> PredictedSchedule.get(origin_stop, direction_id: direction_id, now: now)
+      |> Enum.map(&TransitNearMe.build_time_map(&1, now: now)
       |> Enum.map(&route_with_prediction(&1, route_id))
       |> Enum.take(2)
 
