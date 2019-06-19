@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useState, ChangeEvent } from "react";
 import { Route } from "../../__v3api";
 import { SimpleStop } from "./__schedule";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
@@ -21,6 +21,7 @@ export type SelectedOrigin = string | null;
 interface State {
   directionError: boolean;
   originError: boolean;
+  originSearch: string;
   selectedDirection: SelectedDirection;
   selectedOrigin: SelectedOrigin;
   modalOpen: boolean;
@@ -53,9 +54,19 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
     selectedOrigin: null,
     directionError: false,
     originError: false,
+    originSearch: "",
     modalOpen: false,
     modalId: null
   });
+
+  const handleUpdateOriginSearch = (
+    event: ChangeEvent<HTMLInputElement>
+  ): void => {
+    setState({
+      ...state,
+      originSearch: event.target.value
+    });
+  };
 
   const handleSubmitForm = (): void => {
     if (state.selectedDirection === null || state.selectedOrigin === null) {
@@ -94,7 +105,10 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
         originError: false
       });
     } else {
-      setState({ ...state, selectedOrigin: origin });
+      setState({
+        ...state,
+        selectedOrigin: origin
+      });
     }
   };
 
@@ -189,6 +203,9 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
       </SelectContainer>
       <Modal
         openState={state.modalOpen}
+        focusElementId={
+          state.modalId === "origin" ? "origin-filter" : "modal-close"
+        }
         ariaLabel={{
           label:
             state.modalId === "origin"
@@ -212,8 +229,10 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
               <OriginModalContent
                 selectedDirection={state.selectedDirection}
                 selectedOrigin={state.selectedOrigin}
+                originSearch={state.originSearch}
                 stops={stops}
                 handleChangeOrigin={handleChangeOrigin}
+                handleUpdateOriginSearch={handleUpdateOriginSearch}
               />
             )}
             {state.modalId === "schedule" && (

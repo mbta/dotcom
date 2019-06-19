@@ -79,7 +79,8 @@ const ModalContent = ({
       }
       trap.deactivate();
     };
-  });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const ref = createRef<HTMLElement>();
   const onClickAway = (e: MouseEvent): void => {

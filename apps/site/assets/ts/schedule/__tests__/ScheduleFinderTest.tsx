@@ -114,6 +114,15 @@ it("opens modal after displaying error", () => {
     .simulate("click");
   expect(wrapper.find(".schedule-finder__origin-list-item").length).toBe(3);
 
+  // perform search
+  wrapper
+    .find(".schedule-finder__origin-search")
+    .simulate("change", { target: { value: "Wellington" } });
+  expect(wrapper.find(".schedule-finder__origin-list-item").length).toBe(1);
+  wrapper
+    .find(".schedule-finder__origin-search")
+    .simulate("change", { target: { value: "" } });
+
   // click origin modal line item
   wrapper
     .find(".schedule-finder__origin-list-item")
