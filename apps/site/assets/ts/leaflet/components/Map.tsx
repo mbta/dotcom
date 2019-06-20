@@ -107,6 +107,7 @@ const Component = ({
             position={[marker.latitude, marker.longitude]}
             ref={ref => ref && rotateMarker(ref.leafletElement, marker)}
             zIndexOffset={marker.z_index}
+            keyboard={false}
           >
             {marker.tooltip && (
               <Popup minWidth={320} maxHeight={175}>
