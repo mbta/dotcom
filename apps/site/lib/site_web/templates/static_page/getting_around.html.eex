@@ -13,7 +13,7 @@
 
     <h2>Plan Your Journey</h2>
     <div class="c-grid-buttons getting-around">
-      <%= render "_link.html", href: trip_plan_v1_path(@conn, :index), text: "Trip Planner", target: "_self" %>
+      <%= render "_link.html", href: trip_plan_path(@conn, :index), text: "Trip Planner", target: "_self" %>
       <%= render "_link.html", href: stop_path(@conn, :index), text: "Station Info", target: "_self" %>
       <%= render "_link.html", href: alert_path(@conn, :index), text: "Service Alerts", target: "_self" %>
       <%= render "_link.html", href: cms_static_page_path(@conn, "/maps"), text: "Maps", target: "_self" %>

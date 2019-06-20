@@ -15,21 +15,13 @@ defmodule SiteWeb.TripPlanController do
   @type route_map :: %{optional(Route.id_t()) => Route.t()}
   @type route_mapper :: (Route.id_t() -> Route.t() | nil)
 
-  def index(conn, params) do
-    if Laboratory.enabled?(conn, :tp_redesign) do
-      do_index(conn, params)
-    else
-      render_404(conn)
-    end
-  end
-
-  def do_index(conn, %{"plan" => %{"to" => _to, "from" => _fr} = plan}) do
+  def index(conn, %{"plan" => %{"to" => _to, "from" => _fr} = plan}) do
     conn
     |> assign(:expanded, conn.query_params["expanded"])
     |> render_plan(plan)
   end
 
-  def do_index(conn, _params) do
+  def index(conn, _params) do
     render(conn, :index)
   end
 
