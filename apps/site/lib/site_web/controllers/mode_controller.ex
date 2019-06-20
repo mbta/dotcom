@@ -52,7 +52,7 @@ defmodule SiteWeb.ModeController do
       |> PredictedSchedule.get(origin_stop, direction_id: direction_id, now: now)
       |> Enum.map(&TransitNearMe.build_time_map(&1, now: now))
       |> Enum.map(&route_with_prediction(&1, route_id))
-      |> Enum.take(2)
+      |> Enum.take(4)
 
     json(conn, schedules)
   end
