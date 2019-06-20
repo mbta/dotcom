@@ -150,7 +150,7 @@ defmodule Site.TripPlan.Map do
   @spec stop_icon_size(String.t()) :: map | nil
   def stop_icon_size("map-pin-a"), do: nil
   def stop_icon_size("map-pin-b"), do: nil
-  def stop_icon_size(_), do: %{icon_size: [22, 22], icon_anchor: nil}
+  def stop_icon_size(_), do: %{icon_size: [22, 22], icon_anchor: [0, 0]}
 
   @spec leg_color(Leg.t(), route_mapper) :: String.t()
   defp leg_color(%Leg{mode: %TransitDetail{route_id: route_id}}, route_mapper) do
