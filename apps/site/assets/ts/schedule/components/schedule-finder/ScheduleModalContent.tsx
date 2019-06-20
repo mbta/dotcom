@@ -115,7 +115,6 @@ const ScheduleModalContent = ({
   if (selectedOrigin === null || selectedDirection === null) {
     return null;
   }
-  const stop = stopInfo(selectedOrigin, stops);
   const destination = directionDestinations[selectedDirection];
   return (
     <>

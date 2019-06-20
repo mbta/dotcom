@@ -332,8 +332,6 @@ describe("UpcomingDepartures", () => {
           error: false,
           isLoading: false
         }}
-        stop={stops[0]}
-        destination="Destination Name"
       />
     );
     expect(tree.toJSON()).toBeNull();
@@ -357,8 +355,6 @@ describe("UpcomingDepartures", () => {
           error: true,
           isLoading: false
         }}
-        stop={stops[0]}
-        destination="Destination Name"
       />
     );
     expect(tree.toJSON()).toBeNull();
@@ -373,8 +369,6 @@ describe("UpcomingDepartures", () => {
           error: false,
           isLoading: false
         }}
-        stop={stops[0]}
-        destination="Destination Name"
       />
     );
     expect(tree).toMatchSnapshot();
@@ -394,12 +388,11 @@ describe("UpcomingDepartures", () => {
           error: false,
           isLoading: false
         }}
-        stop={stops[0]}
-        destination="Destination Name"
       />
     );
     expect(tree).toMatchSnapshot();
   });
+
   it("renders cr predictions", () => {
     createReactRoot();
     const tree = renderer.create(
@@ -409,8 +402,6 @@ describe("UpcomingDepartures", () => {
           error: false,
           isLoading: false
         }}
-        stop={stops[0]}
-        destination="Destination Name"
       />
     );
     expect(tree).toMatchSnapshot();
