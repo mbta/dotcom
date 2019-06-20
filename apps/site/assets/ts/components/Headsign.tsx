@@ -1,5 +1,10 @@
 import React, { ReactElement } from "react";
 import { RouteType, PredictedOrScheduledTime, Headsign } from "../__v3api";
+import {
+  timeForCommuterRail,
+  statusForCommuterRail,
+  trackForCommuterRail
+} from "../helpers/prediction-helpers";
 
 interface Props {
   headsign: Headsign;
@@ -39,43 +44,8 @@ const renderTrainName = (trainName: string): ReactElement<HTMLElement> => (
   <div className="m-tnm-sidebar__headsign-train">{trainName}</div>
 );
 
-const crDelayedTime = (
-  data: PredictedOrScheduledTime
-): ReactElement<HTMLElement> => (
-  <>
-    <div className="m-tnm-sidebar__time-number--delayed">
-      {data.scheduled_time!.join("")}
-    </div>
-    <div className="m-tnm-sidebar__time-number">
-      {data.prediction && data.prediction.time.join("")}
-    </div>
-  </>
-);
-
-const crTime = (data: PredictedOrScheduledTime): ReactElement<HTMLElement> => {
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  const { delay, prediction, scheduled_time } = data;
-  if (delay >= 5 && prediction) {
-    return crDelayedTime(data);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  const time = prediction ? prediction.time : scheduled_time;
-
-  return <div className="m-tnm-sidebar__time-number">{time!.join("")}</div>;
-};
-
-const crStatus = ({ delay, prediction }: PredictedOrScheduledTime): string => {
-  if (delay >= 5) {
-    return `Delayed ${delay} min`;
-  }
-
-  if (prediction && prediction.status) {
-    return prediction.status;
-  }
-
-  return "On time";
-};
+const crTime = (data: PredictedOrScheduledTime): ReactElement<HTMLElement> =>
+  timeForCommuterRail(data, "m-tnm-sidebar__time-number");
 
 const renderTimeCommuterRail = (
   data: PredictedOrScheduledTime,
@@ -86,11 +56,7 @@ const renderTimeCommuterRail = (
   >
     {crTime(data)}
     <div className="m-tnm-sidebar__status">
-      {`${crStatus(data)}${
-        data.prediction && data.prediction.track
-          ? ` track ${data.prediction.track}`
-          : ""
-      }`}
+      {`${statusForCommuterRail(data)}${trackForCommuterRail(data)}`}
     </div>
   </div>
 );

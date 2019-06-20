@@ -229,3 +229,74 @@
   top: 0;
   width: $base-spacing * 2;
 }
+
+.schedule-table {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.schedule-table__row {
+  border: $border;
+  display: flex;
+  justify-content: space-between;
+  padding: $base-spacing / 2;
+}
+
+.schedule-table__row:nth-child(even) {
+  background: $gray-bordered-background;
+}
+
+.schedule-table__row:nth-child(odd) {
+  background: $white;
+}
+
+.schedule-table__time-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.schedule-table__time {
+  font-weight: bold;
+  text-align: right;
+
+  &--delayed {
+    font-weight: normal;
+    margin-left: $base-spacing;
+    text-align: right;
+    text-decoration: line-through;
+  }
+}
+
+.schedule-table__row-header {
+  background: $brand-primary-lightest-contrast;
+  display: flex;
+  font-weight: bold;
+  justify-content: space-between;
+  padding: $base-spacing / 2;
+}
+
+.schedule-table__row-route {
+  align-items: center;
+  display: inline-flex;
+}
+
+.schedule-table__row-route-pill {
+  font-size: .8 * $base-spacing;
+  margin-right: $base-spacing;
+
+  .u-bg--bus {
+    font-weight: bold;
+    padding-left: .5rem;
+    padding-right: .5rem;
+  }
+}
+
+.schedule-table__headsign {
+  white-space: nowrap;
+
+  .c-svg__icon {
+    margin-right: $base-spacing / 4;
+  }
+}

@@ -25,6 +25,14 @@ defmodule Util do
     now() |> Timex.to_date()
   end
 
+  @doc "Gives the date for tomorrow based on the provided date"
+  def tomorrow_date(%DateTime{} = datetime) do
+    datetime
+    |> DateTime.to_date()
+    |> Date.add(1)
+    |> Date.to_string()
+  end
+
   @doc "Converts a DateTime.t into the America/New_York zone, handling ambiguities"
   @spec to_local_time(DateTime.t() | NaiveDateTime.t() | Timex.AmbiguousDateTime.t()) ::
           DateTime.t() | {:error, any}

@@ -1,9 +1,9 @@
 <% headsign = List.first(@time_data) %>
 <%= unless headsign == nil do %>
   <%= for time_data <- headsign.times do %>
-    <% status = if time_data.delay > 5, do: "#{time_data.delay} mins late", else: "on time" %>
+    <% status = if time_data.delay > 5, do: "Delayed #{time_data.delay} min", else: "On time" %>
     <% train_info = if headsign.train_number != "", do: [" · Train ", headsign.train_number], else: "" %>
-    
+
     <div class="route-branch-stop-prediction">
       <div>
         <%= if time_data.delay <= 5 do %>

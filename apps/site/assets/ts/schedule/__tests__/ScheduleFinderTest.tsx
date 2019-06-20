@@ -173,3 +173,33 @@ it("modal renders route pill for bus lines", () => {
   expect(busWrapper.exists(".m-route-pills")).toBeTruthy();
   expect(busWrapper.exists(".u-bg--bus")).toBeTruthy();
 });
+
+it("modal renders route pill for silver line", () => {
+  const subwayWrapper = mount(<ScheduleFinder stops={stops} route={route} />);
+  subwayWrapper
+    .find("#sf_direction_select")
+    .simulate("change", { target: { value: "1" } });
+
+  subwayWrapper
+    .find("#sf_origin_select")
+    .simulate("change", { target: { value: "place-welln" } });
+
+  subwayWrapper.find("input").simulate("click");
+
+  expect(subwayWrapper.exists(".m-route-pills")).toBeFalsy();
+
+  const busRoute: Route = { ...route, id: "741", name: "SL", type: 3 };
+  const busWrapper = mount(<ScheduleFinder stops={stops} route={busRoute} />);
+  busWrapper
+    .find("#sf_direction_select")
+    .simulate("change", { target: { value: "0" } });
+
+  busWrapper
+    .find("#sf_origin_select")
+    .simulate("change", { target: { value: "place-welln" } });
+
+  busWrapper.find("input").simulate("click");
+
+  expect(busWrapper.exists(".m-route-pills")).toBeTruthy();
+  expect(busWrapper.exists(".u-bg--silver-line")).toBeTruthy();
+});

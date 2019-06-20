@@ -108,6 +108,7 @@ defmodule SiteWeb.Router do
     get("/stops/*path", StopController, :stop_with_slash_redirect)
 
     get("/schedules", ModeController, :index)
+    get("/schedules/predictions_api", ModeController, :predictions_api)
     get("/schedules/subway", ModeController, :subway)
     get("/schedules/bus", ModeController, :bus)
     get("/schedules/ferry", ModeController, :ferry)

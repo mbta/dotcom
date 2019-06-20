@@ -54,7 +54,7 @@ defmodule Site.TransitNearMeTest do
 
       time_tomorrow_within_24 = Timex.shift(now, hours: 23)
       time_too_far_in_future = Timex.shift(now, hours: 25)
-      api_tomorrow = TransitNearMe.tomorrow_date(now)
+      api_tomorrow = Util.tomorrow_date(now)
 
       schedules_fn = fn _stop, time ->
         case time do
