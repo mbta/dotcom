@@ -251,10 +251,15 @@
   background: $white;
 }
 
-.schedule-table__time--delayed,
 .schedule-table__time {
   font-weight: bold;
   text-align: right;
+
+  &--delayed {
+    font-weight: bold;
+    text-align: right;
+    text-decoration: line-through;
+  }
 }
 
 .schedule-table__row-header {
