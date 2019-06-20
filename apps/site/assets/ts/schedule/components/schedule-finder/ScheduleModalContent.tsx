@@ -132,7 +132,7 @@ const ScheduleModalContent = ({
         </div>
       </div>
       <div>from {stopNameLink(selectedOrigin, stops)}</div>
-      <UpcomingDepartures state={state} stop={stop} destination={destination} />
+      <UpcomingDepartures state={state} stop={stop} />
     </>
   );
 };

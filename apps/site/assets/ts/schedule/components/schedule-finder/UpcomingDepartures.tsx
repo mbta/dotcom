@@ -18,7 +18,6 @@ interface State {
 interface Props {
   state: State;
   stop: SimpleStop | undefined;
-  destination: string | null;
 }
 
 const hasPredictions = (stopPredictions: StopPrediction[]): boolean =>
@@ -103,8 +102,7 @@ const CrTableRow = ({
 
 export const UpcomingDepartures = ({
   state,
-  stop,
-  destination
+  stop
 }: Props): ReactElement<HTMLElement> | null => {
   const { data: predictions, error, isLoading } = state;
   if (error || isLoading) {
@@ -125,7 +123,7 @@ export const UpcomingDepartures = ({
               <TableRow
                 prediction={prediction}
                 stop={stop}
-                destination={destination}
+                destination={prediction.headsign}
                 // eslint-disable-next-line react/no-array-index-key
                 key={idx}
               />

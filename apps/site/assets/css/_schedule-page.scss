@@ -253,8 +253,8 @@
 
 .schedule-table__time-container {
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: flex-start;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .schedule-table__time {
