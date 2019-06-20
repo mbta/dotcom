@@ -126,6 +126,17 @@ defmodule PredictedScheduleTest do
     }
   ]
 
+  describe "get/2" do
+    test "PredictedSchedule get returns a list of predicted schedules" do
+      predicted_schedules = get("1", 59, direction_id: 1, now: Util.now())
+      assert is_list(predicted_schedules)
+
+      if !Enum.empty?(predicted_schedules) do
+        assert [%PredictedSchedule{} | _] = predicted_schedules
+      end
+    end
+  end
+
   describe "group/2" do
     test "PredictedSchedules are paired by stop" do
       predicted_schedules = group(@predictions, Enum.shuffle(@schedules))
