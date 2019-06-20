@@ -251,12 +251,19 @@
   background: $white;
 }
 
+.schedule-table__time-container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+}
+
 .schedule-table__time {
   font-weight: bold;
   text-align: right;
 
   &--delayed {
     font-weight: bold;
+    margin-left: $base-spacing;
     text-align: right;
     text-decoration: line-through;
   }

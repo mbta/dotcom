@@ -212,12 +212,16 @@ Array [
         </td>
         <td>
           <div
-            className="schedule-table__time"
+            className="schedule-table__time-container"
           >
-            4:51 PM
+            <div
+              className="schedule-table__time"
+            >
+              4:51 PM
+            </div>
           </div>
           <div
-            className="u-nowrap"
+            className="u-nowrap text-right"
           >
             
             
@@ -245,12 +249,16 @@ Array [
         </td>
         <td>
           <div
-            className="schedule-table__time"
+            className="schedule-table__time-container"
           >
-            4:51 PM
+            <div
+              className="schedule-table__time"
+            >
+              4:51 PM
+            </div>
           </div>
           <div
-            className="u-nowrap"
+            className="u-nowrap text-right"
           >
             Train 591 • 
              track 3 • 
@@ -278,12 +286,16 @@ Array [
         </td>
         <td>
           <div
-            className="schedule-table__time"
+            className="schedule-table__time-container"
           >
-            4:51 PM
+            <div
+              className="schedule-table__time"
+            >
+              4:51 PM
+            </div>
           </div>
           <div
-            className="u-nowrap"
+            className="u-nowrap text-right"
           >
             Train 591 • 
              track 3 • 

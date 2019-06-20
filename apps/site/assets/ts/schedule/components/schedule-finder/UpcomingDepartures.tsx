@@ -88,8 +88,10 @@ const CrTableRow = ({
         {destination}
       </td>
       <td>
-        {timeForCommuterRail(predictedSchedule, "schedule-table__time")}
-        <div className="u-nowrap">
+        <div className="schedule-table__time-container">
+          {timeForCommuterRail(predictedSchedule, "schedule-table__time")}
+        </div>
+        <div className="u-nowrap text-right">
           {trainNumber}
           {track ? `${track} \u2022 ` : ""}
           <strong>{statusForCommuterRail(predictedSchedule)}</strong>
