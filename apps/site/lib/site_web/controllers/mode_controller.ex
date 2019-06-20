@@ -45,7 +45,7 @@ defmodule SiteWeb.ModeController do
         "origin_stop" => origin_stop,
         "direction_id" => direction_id
       }) do
-    now = Util.now()
+    now = conn.assigns.date_time
 
     schedules =
       route_id

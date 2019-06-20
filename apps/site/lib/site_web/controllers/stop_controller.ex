@@ -67,7 +67,7 @@ defmodule SiteWeb.StopController do
       else
         routes_by_stop = Routes.Repo.by_stop(stop.id)
         grouped_routes = grouped_routes(routes_by_stop)
-        routes_map = routes_map(grouped_routes, stop.id)
+        routes_map = routes_map(grouped_routes, stop.id, conn.assigns.date_time)
         json_safe_routes = json_safe_routes(routes_map)
 
         conn
@@ -114,7 +114,7 @@ defmodule SiteWeb.StopController do
   def api(conn, %{"id" => stop_id}) do
     routes_by_stop = Routes.Repo.by_stop(stop_id)
     grouped_routes = grouped_routes(routes_by_stop)
-    routes_map = routes_map(grouped_routes, stop_id)
+    routes_map = routes_map(grouped_routes, stop_id, conn.assigns.date_time)
     json_safe_routes = json_safe_routes(routes_map)
     json(conn, json_safe_routes)
   end
@@ -174,12 +174,14 @@ defmodule SiteWeb.StopController do
     |> Enum.sort_by(&Group.sorter/1)
   end
 
-  @spec routes_map([{Route.gtfs_route_type(), [Route.t()]}], Stop.id_t()) :: [routes_map_t]
-  def routes_map(grouped_routes, stop_id) do
+  @spec routes_map([{Route.gtfs_route_type(), [Route.t()]}], Stop.id_t(), DateTime.t()) :: [
+          routes_map_t
+        ]
+  def routes_map(grouped_routes, stop_id, now) do
     Enum.map(grouped_routes, fn {group, routes} ->
       %{
         group_name: group,
-        routes: schedules_for_routes(routes, stop_id)
+        routes: schedules_for_routes(routes, stop_id, now)
       }
     end)
   end
@@ -188,14 +190,14 @@ defmodule SiteWeb.StopController do
           required(:route) => Route.t(),
           required(:directions) => [TransitNearMe.direction_data()]
         }
-  @spec schedules_for_routes([Route.t()], Stop.id_t()) :: [route_with_directions | nil]
-  defp schedules_for_routes(routes, stop_id),
-    do: Enum.map(routes, &schedules_for_route(&1, stop_id))
+  @spec schedules_for_routes([Route.t()], Stop.id_t(), DateTime.t()) :: [
+          route_with_directions | nil
+        ]
+  defp schedules_for_routes(routes, stop_id, now),
+    do: Enum.map(routes, &schedules_for_route(&1, stop_id, now))
 
-  @spec schedules_for_route(Route.t(), Stop.id_t()) :: route_with_directions | nil
-  defp schedules_for_route(%Route{} = route, stop_id) do
-    now = Util.now()
-
+  @spec schedules_for_route(Route.t(), Stop.id_t(), DateTime.t()) :: route_with_directions | nil
+  defp schedules_for_route(%Route{} = route, stop_id, now) do
     directions =
       route.id
       |> PredictedSchedule.get(stop_id, now: now)
