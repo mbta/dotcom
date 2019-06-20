@@ -197,7 +197,9 @@ Array [
       <tr
         className="schedule-table__row"
       >
-        <td>
+        <td
+          className="schedule-table__headsign"
+        >
           <span
             aria-hidden="true"
             className="notranslate c-svg__icon"
@@ -225,16 +227,16 @@ Array [
           >
             
             
-            <strong>
-              On time
-            </strong>
+            On time
           </div>
         </td>
       </tr>
       <tr
         className="schedule-table__row"
       >
-        <td>
+        <td
+          className="schedule-table__headsign"
+        >
           <span
             aria-hidden="true"
             className="notranslate c-svg__icon"
@@ -260,18 +262,18 @@ Array [
           <div
             className="u-nowrap text-right"
           >
-            Train 591 • 
-             track 3 • 
-            <strong>
-              On time
-            </strong>
+            Train 591 · 
+             track 3 · 
+            On time
           </div>
         </td>
       </tr>
       <tr
         className="schedule-table__row"
       >
-        <td>
+        <td
+          className="schedule-table__headsign"
+        >
           <span
             aria-hidden="true"
             className="notranslate c-svg__icon"
@@ -297,11 +299,9 @@ Array [
           <div
             className="u-nowrap text-right"
           >
-            Train 591 • 
-             track 3 • 
-            <strong>
-              On time
-            </strong>
+            Train 591 · 
+             track 3 · 
+            On time
           </div>
         </td>
       </tr>

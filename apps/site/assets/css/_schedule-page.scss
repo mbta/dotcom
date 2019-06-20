@@ -262,7 +262,7 @@
   text-align: right;
 
   &--delayed {
-    font-weight: bold;
+    font-weight: normal;
     margin-left: $base-spacing;
     text-align: right;
     text-decoration: line-through;
@@ -290,5 +290,13 @@
     font-weight: bold;
     padding-left: .5rem;
     padding-right: .5rem;
+  }
+}
+
+.schedule-table__headsign {
+  white-space: nowrap;
+
+  .c-svg__icon {
+    margin-right: $base-spacing / 4;
   }
 }

@@ -7,7 +7,7 @@ import {
 import { modeIcon } from "../../../helpers/icon";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
 import { BareRoute as Route } from "../../../__v3api";
-import { SimpleStop, StopPrediction } from "../__schedule";
+import { StopPrediction } from "../__schedule";
 
 interface State {
   data: StopPrediction[] | null;
@@ -17,7 +17,6 @@ interface State {
 
 interface Props {
   state: State;
-  stop: SimpleStop | undefined;
 }
 
 const hasPredictions = (stopPredictions: StopPrediction[]): boolean =>
@@ -36,24 +35,14 @@ const RoutePillSmall = ({
 );
 interface TableRowProps {
   prediction: StopPrediction;
-  stop: SimpleStop | undefined;
-  destination: string | null;
 }
 
 const TableRow = ({
-  prediction,
-  stop,
-  destination
+  prediction
 }: TableRowProps): ReactElement<HTMLElement> | null => {
   if (prediction.prediction.prediction === null) return null;
   if (prediction.route.type === 2)
-    return (
-      <CrTableRow
-        prediction={prediction}
-        stop={stop}
-        destination={destination}
-      />
-    );
+    return <CrTableRow prediction={prediction} />;
   return (
     <tr className="schedule-table__row">
       <td>
@@ -71,20 +60,19 @@ const TableRow = ({
 };
 
 const CrTableRow = ({
-  prediction,
-  destination
+  prediction
 }: TableRowProps): ReactElement<HTMLElement> => {
   const track = trackForCommuterRail(prediction.prediction);
   const trainNumber = prediction.train_number
-    ? `Train ${prediction.train_number} \u2022 `
+    ? `Train ${prediction.train_number} · `
     : "";
   const predictedSchedule = prediction.prediction;
   return (
     <tr className="schedule-table__row">
-      <td>
+      <td className="schedule-table__headsign">
         {modeIcon(prediction.route.id)}
         {"   "}
-        {destination}
+        {prediction.headsign}
       </td>
       <td>
         <div className="schedule-table__time-container">
@@ -92,8 +80,8 @@ const CrTableRow = ({
         </div>
         <div className="u-nowrap text-right">
           {trainNumber}
-          {track ? `${track} \u2022 ` : ""}
-          <strong>{statusForCommuterRail(predictedSchedule)}</strong>
+          {track ? `${track} · ` : ""}
+          {statusForCommuterRail(predictedSchedule)}
         </div>
       </td>
     </tr>
@@ -101,8 +89,7 @@ const CrTableRow = ({
 };
 
 export const UpcomingDepartures = ({
-  state,
-  stop
+  state
 }: Props): ReactElement<HTMLElement> | null => {
   const { data: predictions, error, isLoading } = state;
   if (error || isLoading) {
@@ -122,8 +109,6 @@ export const UpcomingDepartures = ({
             {predictions.map((prediction: StopPrediction, idx: number) => (
               <TableRow
                 prediction={prediction}
-                stop={stop}
-                destination={prediction.headsign}
                 // eslint-disable-next-line react/no-array-index-key
                 key={idx}
               />
