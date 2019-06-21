@@ -5,7 +5,7 @@ function delay(timeout) {
 }
 
 module.exports = async (page, scenario, vp) => {
-  if ((await page.$("#plan_result_focus")) !== null) {
+  if ((await page.$("#header-itinerary-1")) !== null) {
     await page.click("#header-itinerary-1");
     if (vp.label.includes("xs")) {
       await page.click(".trip-planner-edit-btn");
