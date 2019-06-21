@@ -88,7 +88,8 @@ it("it renders", () => {
           pdfs,
           teasers,
           route,
-          stops
+          stops,
+          direction_id: 0
         }}
       />
     )
@@ -118,7 +119,8 @@ it("it renders with conditional components", () => {
         pdfs,
         teasers,
         route,
-        stops
+        stops,
+        direction_id: 0
       }}
     />
   );

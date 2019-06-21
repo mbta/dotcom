@@ -87,9 +87,9 @@ exports[`renders 1`] = `
         Choose an origin stop
       </option>
       <option
-        value="741"
+        value="place-welln"
       >
-        SL
+        Wellington
       </option>
       <option
         value="123"
@@ -97,9 +97,9 @@ exports[`renders 1`] = `
         Abc
       </option>
       <option
-        value="place-welln"
+        value="741"
       >
-        Wellington
+        SL
       </option>
     </select>
     <span

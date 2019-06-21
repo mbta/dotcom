@@ -1,5 +1,5 @@
 import React, { ReactElement, useState, ChangeEvent } from "react";
-import { Route } from "../../__v3api";
+import { Route, DirectionId } from "../../__v3api";
 import { SimpleStop } from "./__schedule";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 import icon from "../../../static/images/icon-schedule-finder.svg";
@@ -13,6 +13,7 @@ import ScheduleModalContent from "./schedule-finder/ScheduleModalContent";
 interface Props {
   route: Route;
   stops: SimpleStop[];
+  directionId: DirectionId;
 }
 
 export type SelectedDirection = 0 | 1 | null;
@@ -35,15 +36,20 @@ const parseSelectedDirection = (value: string): 0 | 1 => {
 
 export const stopListOrder = (
   stops: SimpleStop[],
-  selectedDirection: SelectedDirection
+  selectedDirection: SelectedDirection,
+  directionId: DirectionId
 ): SimpleStop[] => {
-  if (selectedDirection === 1) {
+  if (selectedDirection !== directionId) {
     return [...stops].reverse();
   }
   return stops;
 };
 
-const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
+const ScheduleFinder = ({
+  route,
+  stops,
+  directionId
+}: Props): ReactElement<HTMLElement> => {
   const {
     direction_destinations: directionDestinations,
     direction_names: directionNames
@@ -192,7 +198,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
           }
         >
           <option value="">Choose an origin stop</option>
-          {stopListOrder(stops, state.selectedDirection).map(
+          {stopListOrder(stops, state.selectedDirection, directionId).map(
             ({ id, name }: SimpleStop) => (
               <option key={id} value={id}>
                 {name}
@@ -233,6 +239,7 @@ const ScheduleFinder = ({ route, stops }: Props): ReactElement<HTMLElement> => {
                 stops={stops}
                 handleChangeOrigin={handleChangeOrigin}
                 handleUpdateOriginSearch={handleUpdateOriginSearch}
+                directionId={directionId}
               />
             )}
             {state.modalId === "schedule" && (
