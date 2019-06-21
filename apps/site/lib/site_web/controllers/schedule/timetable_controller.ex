@@ -68,32 +68,32 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   @spec trip_messages(Routes.Route.t(), 0 | 1) :: %{{String.t(), String.t()} => String.t()}
   defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0) do
     %{
-      {"221", "Melrose Cedar Park"} => "Via",
-      {"221", "Melrose Highlands"} => "Lowell",
-      {"221", "Greenwood"} => "Line"
+      {"221", "place-WR-0067"} => "Via",
+      {"221", "place-WR-0075"} => "Lowell",
+      {"221", "place-WR-0085"} => "Line"
     }
   end
 
   defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 1) do
     %{
-      {"208", "Greenwood"} => "Via",
-      {"208", "Melrose Highlands"} => "Lowell",
-      {"208", "Melrose Cedar Park"} => "Line"
+      {"208", "place-WR-0085"} => "Via",
+      {"208", "place-WR-0075"} => "Lowell",
+      {"208", "place-WR-0067"} => "Line"
     }
   end
 
   defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 0) do
     %{
-      {"221", "North Billerica"} => "Via",
-      {"221", "Lowell"} => "Haverhill"
+      {"221", "place-NHRML-0218"} => "Via",
+      {"221", "place-NHRML-0254"} => "Haverhill"
     }
   end
 
   defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 1) do
     %{
-      {"208", "Lowell"} => "Via",
-      {"208", "North Billerica"} => "Haverhill",
-      {"208", "Wilmington"} => "-"
+      {"208", "place-NHRML-0254"} => "Via",
+      {"208", "place-NHRML-0218"} => "Haverhill",
+      {"208", "place-NHRML-0152"} => "-"
     }
   end
 
