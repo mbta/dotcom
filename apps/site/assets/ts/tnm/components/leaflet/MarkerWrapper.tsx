@@ -108,6 +108,7 @@ const MarkerWrapper = ({
         onFocus={toggleHovered}
         onMouseOut={toggleHovered}
         onBlur={toggleHovered}
+        keyboard={false}
       >
         {tooltipComponent ? (
           <Popup
