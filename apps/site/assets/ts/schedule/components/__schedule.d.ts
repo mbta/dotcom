@@ -1,5 +1,10 @@
 import { TypedRoutes } from "../../stop/components/__stop";
-import { Route, PredictedOrScheduledTime, BareRoute, DirectionId } from "../../__v3api";
+import {
+  Route,
+  PredictedOrScheduledTime,
+  BareRoute,
+  DirectionId
+} from "../../__v3api";
 
 export interface SchedulePageData {
   connections: TypedRoutes[];
