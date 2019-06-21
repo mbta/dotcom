@@ -1,0 +1,25 @@
+{
+  "id" : "63b3da04-fdd4-3ec6-8c23-6ca94e4a5a25",
+  "request" : {
+    "url" : "/routes/?stop=place-spmnl&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-kYTsK.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:24:23 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6902",
+      "x-ratelimit-reset" : "1561130700",
+      "x-request-id" : "FapAEU8wc0qXACsAC17D",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "63b3da04-fdd4-3ec6-8c23-6ca94e4a5a25"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "d362935c-50de-3ecd-a39f-1742946c6440",
+  "request" : {
+    "url" : "/routes/?stop=place-smary",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Covbd.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:27:18 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6684",
+      "x-ratelimit-reset" : "1561130880",
+      "x-request-id" : "FapAOgAJ3uadmEoAOkVh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "d362935c-50de-3ecd-a39f-1742946c6440"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "03aa37af-4305-3839-a483-d776af850236",
+  "request" : {
+    "url" : "/routes/?stop=place-harsq&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-uNZEM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:24:24 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6811",
+      "x-ratelimit-reset" : "1561130700",
+      "x-request-id" : "FapAEYTxgsPFKxkAOc2h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "03aa37af-4305-3839-a483-d776af850236"
+}

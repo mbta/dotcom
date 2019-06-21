@@ -1,0 +1,25 @@
+{
+  "id" : "bf58cbae-b34d-33d0-b6a6-d04ef0048edd",
+  "request" : {
+    "url" : "/schedules/?direction_id=0&date=2019-08-30&route=CR-Greenbush&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-pElFd.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:26:51 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:20:31 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6895",
+      "x-ratelimit-reset" : "1561130820",
+      "x-request-id" : "FapAM76tsdI8IK0AOiYB",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "bf58cbae-b34d-33d0-b6a6-d04ef0048edd"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "af4b8180-076b-3a15-a08e-60ba514547a4",
+  "request" : {
+    "url" : "/routes/?stop=place-FR-0098",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-iTuiS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:27:17 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6842",
+      "x-ratelimit-reset" : "1561130880",
+      "x-request-id" : "FapAOdPvb6xMuNoAOjgh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "af4b8180-076b-3a15-a08e-60ba514547a4"
+}

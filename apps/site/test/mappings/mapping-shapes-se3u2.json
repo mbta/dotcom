@@ -1,0 +1,25 @@
+{
+  "id" : "eab93cc4-1ac4-392f-889f-979809a105b1",
+  "request" : {
+    "url" : "/shapes/?route=Boat-F4&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-se3u2.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:21:23 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:22:04 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6796",
+      "x-ratelimit-reset" : "1561130520",
+      "x-request-id" : "Fao_50lT6qOd3g0AOQMh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "eab93cc4-1ac4-392f-889f-979809a105b1"
+}

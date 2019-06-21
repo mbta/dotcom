@@ -1,0 +1,25 @@
+{
+  "id" : "64f27b61-488c-3a76-8b99-3568e3169848",
+  "request" : {
+    "url" : "/stops/JFK%2FUMASS?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-JFK-UMASS-6lJnT.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:26:51 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:27 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6886",
+      "x-ratelimit-reset" : "1561130820",
+      "x-request-id" : "FapAM8YOlx86QHoAOich",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "64f27b61-488c-3a76-8b99-3568e3169848"
+}

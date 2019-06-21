@@ -1,0 +1,25 @@
+{
+  "id" : "ca5987e5-e0a3-3d9b-8234-81ca2cccd44e",
+  "request" : {
+    "url" : "/routes/?stop=place-bckhl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-bA7BO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:24:24 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6829",
+      "x-ratelimit-reset" : "1561130700",
+      "x-request-id" : "FapAEXuqJDQ-fNQACHBE",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ca5987e5-e0a3-3d9b-8234-81ca2cccd44e"
+}

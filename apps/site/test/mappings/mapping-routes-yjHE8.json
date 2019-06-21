@@ -1,0 +1,25 @@
+{
+  "id" : "94c52922-daec-3789-b250-964db219c39e",
+  "request" : {
+    "url" : "/routes/?stop=place-NEC-1919",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-yjHE8.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:27:18 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6725",
+      "x-ratelimit-reset" : "1561130880",
+      "x-request-id" : "FapAOfG4PbDCRn4AE1ui",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "94c52922-daec-3789-b250-964db219c39e"
+}

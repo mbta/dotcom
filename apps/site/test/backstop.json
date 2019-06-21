@@ -38,115 +38,8 @@
   ],
   "scenarios": [
     {
-      "label": "Homepage",
-      "url": "http://host.docker.internal:8082/?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "removeSelectors": [
-        "m-whats-happening__section",
-        ".news-section",
-        ".title-card",
-        "#animated-input-placeholder",
-        "#google_translate_element"
-      ],
-      "hideSelectors": ["#animated-input-placeholder"],
-      "selectors": ["header"],
-      "delay": 1000,
-      "misMatchThreshold": 0.015
-    },
-    {
-      "label": "Homepage",
-      "url": "http://host.docker.internal:8082/?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "removeSelectors": [
-        "m-whats-happening__section",
-        ".news-section",
-        ".title-card",
-        "#animated-input-placeholder",
-        "#google_translate_element"
-      ],
-      "hideSelectors": ["#animated-input-placeholder"],
-      "selectors": ["footer"],
-      "delay": 1000,
-      "misMatchThreshold": 0.015
-    },
-    {
-      "label": "Homepage",
-      "url": "http://host.docker.internal:8082/?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "removeSelectors": [
-        "m-whats-happening__section",
-        ".news-section",
-        ".title-card",
-        "#animated-input-placeholder",
-        "#google_translate_element"
-      ],
-      "hideSelectors": ["#animated-input-placeholder"],
-      "selectors": ["main"],
-      "delay": 1000,
-      "misMatchThreshold": 0.015
-    },
-    {
-      "label": "Subway Hub",
-      "url": "http://host.docker.internal:8082/schedules/subway?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "hideSelectors": [],
-      "removeSelectors": [".m-mode-hub__map-image"],
-      "selectors": ["main"],
-      "readyEvent": null,
-      "delay": 1000,
-      "misMatchThreshold": 0.03
-    },
-    {
-      "label": "Subway Hub",
-      "url": "http://host.docker.internal:8082/schedules/subway?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "hideSelectors": [],
-      "removeSelectors": [],
-      "selectors": [".breadcrumb-container"],
-      "readyEvent": null,
-      "delay": 1000,
-      "misMatchThreshold": 0.03
-    },
-    {
-      "label": "All Schedules",
-      "url": "http://host.docker.internal:8082/schedules?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "hideSelectors": [],
-      "removeSelectors": [],
-      "selectors": ["main"],
-      "readyEvent": null,
-      "delay": 1000,
-      "misMatchThreshold": 0.03
-    },
-    {
-      "label": "All Schedules",
-      "url": "http://host.docker.internal:8082/schedules?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "hideSelectors": [],
-      "removeSelectors": [],
-      "selectors": [".breadcrumb-container"],
-      "readyEvent": null,
-      "delay": 1000,
-      "misMatchThreshold": 0.03
-    },
-    {
-      "label": "Alerts",
-      "url": "http://host.docker.internal:8082/alerts/subway?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00#alerts-Orange",
-      "selectors": ["main"],
-      "delay": 1000,
-      "misMatchThreshold": 0.03
-    },
-    {
-      "label": "Getting Around",
-      "url": "http://host.docker.internal:8082/getting-around?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "selectors": ["main"],
-      "delay": 1000,
-      "misMatchThreshold": 0.03
-    },
-    {
-      "label": "Transit Near Me",
-      "url": "http://host.docker.internal:8082/transit-near-me?_utf8=✓&location%5Baddress%5D=South+Station%2C+Atlantic+Avenue%2C+Boston%2C+MA%2C+USA&location%5Blatitude%5D=42.3519246&location%5Blongitude%5D=-71.05507169999998&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
-      "selectors": ["main"],
-      "hideSelectors": [".m-tnm__map"],
-      "delay": 1000,
-      "misMatchThreshold": 0.03
-    },
-    {
       "label": "Header Getting Around",
-      "url": "http://host.docker.internal:8082/?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "selectors": ["#gettingAround"],
       "readyEvent": null,
       "delay": 1000,
@@ -155,7 +48,7 @@
     },
     {
       "label": "Header Fares",
-      "url": "http://host.docker.internal:8082/?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "selectors": ["#fares"],
       "readyEvent": null,
       "delay": 1000,
@@ -164,7 +57,7 @@
     },
     {
       "label": "Header Contact Us",
-      "url": "http://host.docker.internal:8082/?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "selectors": ["#contactUs"],
       "readyEvent": null,
       "delay": 1000,
@@ -173,7 +66,7 @@
     },
     {
       "label": "Header More",
-      "url": "http://host.docker.internal:8082/?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "selectors": ["#more"],
       "readyEvent": null,
       "delay": 1000,
@@ -182,7 +75,7 @@
     },
     {
       "label": "Commuter Rail Fares",
-      "url": "http://host.docker.internal:8082/fares/commuter-rail?destination=place-WML-0214&fare_type=adult&origin=place-sstat&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/fares/commuter-rail?destination=place-WML-0214&fare_type=adult&origin=place-sstat&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "selectors": ["main"],
       "hideSelectors": ["iframe.commuter-rail-photo-video"],
       "delay": 1000,
@@ -190,7 +83,7 @@
     },
     {
       "label": "Bus Schedule",
-      "url": "http://host.docker.internal:8082/schedules/1/schedule?direction_id=0&trip=&origin=102&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/1/schedule?direction_id=0&trip=&origin=102&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "hideSelectors": [".animate"],
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
@@ -199,7 +92,7 @@
     },
     {
       "label": "Bus Schedule",
-      "url": "http://host.docker.internal:8082/schedules/1/schedule?direction_id=0&trip=&origin=102&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/1/schedule?direction_id=0&trip=&origin=102&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "hideSelectors": [".animate"],
       "removeSelectors": [".pdf-links"],
       "selectors": [".schedule__header"],
@@ -208,7 +101,7 @@
     },
     {
       "label": "Bus Map & Info",
-      "url": "http://host.docker.internal:8082/schedules/1/line?direction_id=0&trip=&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/1/line?direction_id=0&trip=&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
       "delay": 1000,
@@ -216,7 +109,7 @@
     },
     {
       "label": "Subway Schedule",
-      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-08-30T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
       "delay": 1000,
@@ -224,7 +117,7 @@
     },
     {
       "label": "Subway Schedule",
-      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-08-30T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": [".schedule__header"],
       "delay": 1000,
@@ -232,7 +125,7 @@
     },
     {
       "label": "Subway Schedule Stop List",
-      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "selectors": [".modal-body"],
       "removeSelectors": [".pdf-links"],
       "readyEvent": null,
@@ -242,7 +135,7 @@
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://host.docker.internal:8082/schedules/CR-Providence/timetable?direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Greenbush/timetable?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": [".schedule__header"],
       "delay": 1000,
@@ -250,7 +143,7 @@
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://host.docker.internal:8082/schedules/CR-Providence/timetable?direction_id=0&origin=Hyde+Park&dest=Wickford+Junction&trip=&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Greenbush/timetable?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": [".scheduleview > main > .container"],
       "delay": 8000,
@@ -258,21 +151,21 @@
     },
     {
       "label": "Stops List Subway",
-      "url": "http://host.docker.internal:8082/stops/subway?&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/stops/subway?&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "selectors": ["main"],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Stops List Commuter Rail",
-      "url": "http://host.docker.internal:8082/stops/commuter-rail?&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/stops/commuter-rail?&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "selectors": ["main"],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
-      "url": "http://host.docker.internal:8082/schedules/CR-Worcester/line?direction_id=0&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Greenbush/line?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "selectors": [".schedule__header"],
       "removeSelectors": [".pdf-links", ".leaflet-container"],
       "delay": 1000,
@@ -280,7 +173,7 @@
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
-      "url": "http://host.docker.internal:8082/schedules/CR-Worcester/line?direction_id=0&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Greenbush/line?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "selectors": ["main"],
       "removeSelectors": [".pdf-links", ".leaflet-container"],
       "delay": 1000,
@@ -288,7 +181,7 @@
     },
     {
       "label": "Retail Sales Locations",
-      "url": "http://host.docker.internal:8082/fares/retail-sales-locations?latitude=42.3491637&longitude=-71.0663166&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/fares/retail-sales-locations?latitude=42.3491637&longitude=-71.0663166&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "selectors": ["main"],
       "hideSelectors": ["#address-search-input"],
       "delay": 1000,
@@ -296,7 +189,7 @@
     },
     {
       "label": "Search",
-      "url": "http://host.docker.internal:8082/search?date=2019-06-21&date_time=2019-06-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/search?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "hideSelectors": ["footer", "#animated-input-placeholder"],
       "readyEvent": null,
       "onReadyScript": "toggle-search-facets.js",
@@ -305,7 +198,7 @@
     },
     {
       "label": "Trip Planner Results",
-      "url": "http://host.docker.internal:8082/trip-planner?_utf8=%E2%9C%93&plan%5Bfrom%5D=Boston+Children%27s+Museum%2C+Congress+Street%2C+Boston%2C+MA%2C+USA&plan%5Bfrom_latitude%5D=42.3518682&plan%5Bfrom_longitude%5D=-71.04999250000003&plan%5Bto%5D=Government+Center&plan%5Bto_latitude%5D=42.359705&plan%5Bto_longitude%5D=-71.059215&plan%5Btime%5D=depart&plan%5Bdate_time%5D%5Bhour%5D=11&plan%5Bdate_time%5D%5Bminute%5D=35&plan%5Bdate_time%5D%5Bam_pm%5D=AM&plan%5Bdate_time%5D%5Bmonth%5D=06&plan%5Bdate_time%5D%5Bday%5D=22&plan%5Bdate_time%5D%5Byear%5D=2019&plan%5Bmodes%5D%5Bsubway%5D=false&plan%5Bmodes%5D%5Bsubway%5D=true&plan%5Bmodes%5D%5Bcommuter_rail%5D=false&plan%5Bmodes%5D%5Bcommuter_rail%5D=true&plan%5Bmodes%5D%5Bbus%5D=false&plan%5Bmodes%5D%5Bbus%5D=true&plan%5Bmodes%5D%5Bferry%5D=false&plan%5Bmodes%5D%5Bferry%5D=true&plan%5Boptimize_for%5D=best_route&date=2019-06-21&date_time=2019-06-21T15:00:00-05:00#plan_result_focus",
+      "url": "http://host.docker.internal:8082/trip-planner?_utf8=%E2%9C%93&plan%5Bfrom%5D=Boston+Children%27s+Museum%2C+Congress+Street%2C+Boston%2C+MA%2C+USA&plan%5Bfrom_latitude%5D=42.3518682&plan%5Bfrom_longitude%5D=-71.04999250000003&plan%5Bto%5D=Government+Center&plan%5Bto_latitude%5D=42.359705&plan%5Bto_longitude%5D=-71.059215&plan%5Btime%5D=depart&plan%5Bdate_time%5D%5Bhour%5D=11&plan%5Bdate_time%5D%5Bminute%5D=35&plan%5Bdate_time%5D%5Bam_pm%5D=AM&plan%5Bdate_time%5D%5Bmonth%5D=06&plan%5Bdate_time%5D%5Bday%5D=22&plan%5Bdate_time%5D%5Byear%5D=2019&plan%5Bmodes%5D%5Bsubway%5D=false&plan%5Bmodes%5D%5Bsubway%5D=true&plan%5Bmodes%5D%5Bcommuter_rail%5D=false&plan%5Bmodes%5D%5Bcommuter_rail%5D=true&plan%5Bmodes%5D%5Bbus%5D=false&plan%5Bmodes%5D%5Bbus%5D=true&plan%5Bmodes%5D%5Bferry%5D=false&plan%5Bmodes%5D%5Bferry%5D=true&plan%5Boptimize_for%5D=best_route&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00#plan_result_focus",
       "hideSelectors": [".map", "footer"],
       "selectors": ["document"],
       "readyEvent": null,
