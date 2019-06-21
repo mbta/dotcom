@@ -24,7 +24,8 @@ const SchedulePage = ({
     fare_link: fareLink,
     route,
     schedule_note: scheduleNote,
-    stops
+    stops,
+    direction_id: directionId
   }
 }: Props): ReactElement<HTMLElement> => (
   <>
@@ -38,6 +39,7 @@ const SchedulePage = ({
       <ScheduleFinder
         route={route} // don't show for subway
         stops={stops}
+        directionId={directionId}
       />
     )}
     <ContentTeasers teasers={teasers} />

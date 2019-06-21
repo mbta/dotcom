@@ -1,0 +1,25 @@
+{
+  "id" : "788259ec-3200-3d50-b17c-c3b5511aee7c",
+  "request" : {
+    "url" : "/routes/?stop=place-NHRML-0055",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MCjqt.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:27:18 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6781",
+      "x-ratelimit-reset" : "1561130880",
+      "x-request-id" : "FapAOeM-4o1NoZQAOj9B",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "788259ec-3200-3d50-b17c-c3b5511aee7c"
+}

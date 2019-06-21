@@ -1,0 +1,25 @@
+{
+  "id" : "47b0352a-332e-3a1e-8614-6673c07fbfda",
+  "request" : {
+    "url" : "/routes/?stop=place-mlmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-IXjKb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:24:25 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6747",
+      "x-ratelimit-reset" : "1561130700",
+      "x-request-id" : "FapAEaUW7_wd5gkACHNk",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "47b0352a-332e-3a1e-8614-6673c07fbfda"
+}

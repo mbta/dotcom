@@ -1,0 +1,25 @@
+{
+  "id" : "a3db3ff8-1154-35e3-a022-52ff033842d3",
+  "request" : {
+    "url" : "/shapes/?route=CR-Needham&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-km46j.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:21:23 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:22:04 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6777",
+      "x-ratelimit-reset" : "1561130520",
+      "x-request-id" : "Fao_507vXzRRM2IAOQWB",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "a3db3ff8-1154-35e3-a022-52ff033842d3"
+}

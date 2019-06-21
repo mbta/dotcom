@@ -1,0 +1,25 @@
+{
+  "id" : "4644e58e-7d54-389d-a6da-39da639bedf9",
+  "request" : {
+    "url" : "/schedules/?stop=place-tumnl&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed&date=2019-08-30",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-0Ic1G.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:24:28 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:20:31 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6352",
+      "x-ratelimit-reset" : "1561130700",
+      "x-request-id" : "FapAEmYslCpNbgAACHvk",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "4644e58e-7d54-389d-a6da-39da639bedf9"
+}

@@ -46,7 +46,7 @@ const stops = [
 it("renders", () => {
   createReactRoot();
   const tree = renderer
-    .create(<ScheduleFinder route={route} stops={stops} />)
+    .create(<ScheduleFinder route={route} stops={stops} directionId={0} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -54,7 +54,9 @@ it("renders", () => {
 it("opens modal after displaying error", () => {
   document.body.innerHTML = body;
 
-  const wrapper = mount(<ScheduleFinder route={route} stops={stops} />);
+  const wrapper = mount(
+    <ScheduleFinder route={route} stops={stops} directionId={0} />
+  );
 
   // there should be no errors
   expect(wrapper.exists(".error-container")).toBeFalsy();
@@ -114,6 +116,15 @@ it("opens modal after displaying error", () => {
     .simulate("click");
   expect(wrapper.find(".schedule-finder__origin-list-item").length).toBe(3);
 
+  // perform search
+  wrapper
+    .find(".schedule-finder__origin-search")
+    .simulate("change", { target: { value: "Wellington" } });
+  expect(wrapper.find(".schedule-finder__origin-list-item").length).toBe(1);
+  wrapper
+    .find(".schedule-finder__origin-search")
+    .simulate("change", { target: { value: "" } });
+
   // click origin modal line item
   wrapper
     .find(".schedule-finder__origin-list-item")
@@ -145,7 +156,9 @@ it("opens modal after displaying error", () => {
 });
 
 it("modal renders route pill for bus lines", () => {
-  const subwayWrapper = mount(<ScheduleFinder stops={stops} route={route} />);
+  const subwayWrapper = mount(
+    <ScheduleFinder stops={stops} route={route} directionId={0} />
+  );
   subwayWrapper
     .find("#sf_direction_select")
     .simulate("change", { target: { value: "1" } });
@@ -159,7 +172,9 @@ it("modal renders route pill for bus lines", () => {
   expect(subwayWrapper.exists(".m-route-pills")).toBeFalsy();
 
   const busRoute: Route = { ...route, id: "66", name: "66", type: 3 };
-  const busWrapper = mount(<ScheduleFinder stops={stops} route={busRoute} />);
+  const busWrapper = mount(
+    <ScheduleFinder stops={stops} route={busRoute} directionId={0} />
+  );
   busWrapper
     .find("#sf_direction_select")
     .simulate("change", { target: { value: "0" } });
@@ -175,7 +190,9 @@ it("modal renders route pill for bus lines", () => {
 });
 
 it("modal renders route pill for silver line", () => {
-  const subwayWrapper = mount(<ScheduleFinder stops={stops} route={route} />);
+  const subwayWrapper = mount(
+    <ScheduleFinder stops={stops} route={route} directionId={0} />
+  );
   subwayWrapper
     .find("#sf_direction_select")
     .simulate("change", { target: { value: "1" } });
@@ -189,7 +206,9 @@ it("modal renders route pill for silver line", () => {
   expect(subwayWrapper.exists(".m-route-pills")).toBeFalsy();
 
   const busRoute: Route = { ...route, id: "741", name: "SL", type: 3 };
-  const busWrapper = mount(<ScheduleFinder stops={stops} route={busRoute} />);
+  const busWrapper = mount(
+    <ScheduleFinder stops={stops} route={busRoute} directionId={0} />
+  );
   busWrapper
     .find("#sf_direction_select")
     .simulate("change", { target: { value: "0" } });

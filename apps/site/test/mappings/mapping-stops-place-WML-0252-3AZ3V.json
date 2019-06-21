@@ -1,0 +1,25 @@
+{
+  "id" : "8fdd1508-b8f4-3783-b0ed-b92bf9106a5b",
+  "request" : {
+    "url" : "/stops/place-WML-0252?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-WML-0252-3AZ3V.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:25:36 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:27 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6859",
+      "x-ratelimit-reset" : "1561130760",
+      "x-request-id" : "FapAIlKTCKeN55kAE0ei",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "8fdd1508-b8f4-3783-b0ed-b92bf9106a5b"
+}

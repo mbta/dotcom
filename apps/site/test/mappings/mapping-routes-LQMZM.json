@@ -1,0 +1,25 @@
+{
+  "id" : "5e89a057-0f0b-36f5-b5b4-2734de7917d3",
+  "request" : {
+    "url" : "/routes/?stop=place-clmnl&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LQMZM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:24:25 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6759",
+      "x-ratelimit-reset" : "1561130700",
+      "x-request-id" : "FapAEZ6Th57-Y6gAOdJh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "5e89a057-0f0b-36f5-b5b4-2734de7917d3"
+}

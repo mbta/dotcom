@@ -62,7 +62,8 @@ defmodule SiteWeb.ScheduleController.LineController do
         holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
         schedule_note: ScheduleNote.new(conn.assigns.route),
-        stops: simple_stop_list(conn.assigns.all_stops)
+        stops: simple_stop_list(conn.assigns.all_stops),
+        direction_id: conn.assigns.direction_id
       }
     )
   end

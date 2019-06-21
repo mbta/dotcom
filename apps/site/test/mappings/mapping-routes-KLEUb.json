@@ -1,0 +1,25 @@
+{
+  "id" : "716a334d-779e-3aa1-bde3-0100e2d5459a",
+  "request" : {
+    "url" : "/routes/?stop=place-grigg&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-KLEUb.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:24:24 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6790",
+      "x-ratelimit-reset" : "1561130700",
+      "x-request-id" : "FapAEY5r0xAIQEwAOdBB",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "716a334d-779e-3aa1-bde3-0100e2d5459a"
+}

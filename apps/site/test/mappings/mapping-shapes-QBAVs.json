@@ -1,0 +1,25 @@
+{
+  "id" : "6f12f14a-12cd-38d6-81bd-383b1f0de848",
+  "request" : {
+    "url" : "/shapes/?route=245&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-QBAVs.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:21:24 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:22:04 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6568",
+      "x-ratelimit-reset" : "1561130520",
+      "x-request-id" : "Fao_54thNw-JMWUAEsji",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "6f12f14a-12cd-38d6-81bd-383b1f0de848"
+}

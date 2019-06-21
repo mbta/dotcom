@@ -1,0 +1,25 @@
+{
+  "id" : "74cf03d8-0ce3-3a89-a765-189126ae126a",
+  "request" : {
+    "url" : "/routes/?stop=place-chill",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-p5t1W.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:27:18 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6744",
+      "x-ratelimit-reset" : "1561130880",
+      "x-request-id" : "FapAOex4vQctDtAAE1sC",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "74cf03d8-0ce3-3a89-a765-189126ae126a"
+}

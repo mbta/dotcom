@@ -1,0 +1,25 @@
+{
+  "id" : "cae11591-e83b-302e-81a2-7926f6977753",
+  "request" : {
+    "url" : "/routes/?stop=place-astao",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RuBy3.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:27:17 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6860",
+      "x-ratelimit-reset" : "1561130880",
+      "x-request-id" : "FapAOc_cMFq_ugAAOjYB",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "cae11591-e83b-302e-81a2-7926f6977753"
+}

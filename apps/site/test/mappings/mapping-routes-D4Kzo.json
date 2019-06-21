@@ -1,0 +1,25 @@
+{
+  "id" : "01736de5-4276-3d30-a70e-3d7dbe01d4d2",
+  "request" : {
+    "url" : "/routes/?stop=place-DB-2205",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-D4Kzo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Fri, 21 Jun 2019 15:27:17 GMT",
+      "last-modified" : "Thu, 20 Jun 2019 22:19:25 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6918",
+      "x-ratelimit-reset" : "1561130880",
+      "x-request-id" : "FapAOb2VwQiLTSAAOi_h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "01736de5-4276-3d30-a70e-3d7dbe01d4d2"
+}
