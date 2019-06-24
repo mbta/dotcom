@@ -66,14 +66,14 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
   const [hookedState, toggleExpanded] = useState(initialState);
   const { state, onClick } = dispatch
     ? {
-      state: initialState,
-      onClick: () => dispatch(action)
-    }
+        state: initialState,
+        onClick: () => dispatch(action)
+      }
     : {
-      state: hookedState,
-      onClick: () =>
-        toggleExpanded({ expanded: !hookedState.expanded, focused: true })
-    };
+        state: hookedState,
+        onClick: () =>
+          toggleExpanded({ expanded: !hookedState.expanded, focused: true })
+      };
   const { expanded, focused }: State = state;
   const headerId = `header-${id}`;
   const panelId = `panel-${id}`;
