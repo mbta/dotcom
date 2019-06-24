@@ -11,9 +11,10 @@ import OriginModalContent from "./schedule-finder/OriginModalContent";
 import ScheduleModalContent from "./schedule-finder/ScheduleModalContent";
 
 interface Props {
+  classModifier: "desktop" | "mobile";
+  directionId: DirectionId;
   route: Route;
   stops: SimpleStop[];
-  directionId: DirectionId;
 }
 
 export type SelectedDirection = 0 | 1 | null;
@@ -46,9 +47,10 @@ export const stopListOrder = (
 };
 
 const ScheduleFinder = ({
+  classModifier,
+  directionId,
   route,
-  stops,
-  directionId
+  stops
 }: Props): ReactElement<HTMLElement> => {
   const {
     direction_destinations: directionDestinations,
@@ -135,7 +137,7 @@ const ScheduleFinder = ({
   };
 
   return (
-    <div className="schedule-finder">
+    <div className={`schedule-finder schedule-finder--${classModifier}`}>
       <h2 className="h3 schedule-finder__heading">
         {renderSvg("c-svg__icon", icon)} Schedule Finder
       </h2>

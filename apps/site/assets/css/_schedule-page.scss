@@ -98,6 +98,18 @@
   .c-modal__trigger-wrapper {
     display: inline; // otherwise clicking next to the button fires the event
   }
+
+  &--desktop {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
+  &--mobile {
+    @include media-breakpoint-up(md) {
+      display: none;
+    }
+  }
 }
 
 .schedule-finder__heading {

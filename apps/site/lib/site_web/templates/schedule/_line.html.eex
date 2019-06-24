@@ -17,6 +17,12 @@
           <%= Site.React.render("ScheduleNote", %{scheduleNote: @schedule_page_data.schedule_note, className: "m-schedule-page__schedule-notes--mobile"}) %>
           <% end %>
       </div>
+      <div id="react-schedule-finder-root">
+        <%= if @route.type !== 0 and @route.type !== 1 do %>
+          <%= Site.React.render("ScheduleFinder", %{classModifier: "mobile",
+          route: Routes.Route.to_json_safe(@route), stops: @schedule_page_data.stops, directionId: @direction_id}) %>
+        <% end %>
+      </div>
     <% end %>
     <%= if Enum.empty?(@branches) do %>
       <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
