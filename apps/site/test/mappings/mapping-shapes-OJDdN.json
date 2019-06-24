@@ -1,0 +1,25 @@
+{
+  "id" : "47aa7a20-c3f3-3fe6-b0bb-c248519c86c9",
+  "request" : {
+    "url" : "/shapes/?route=Green-E&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-OJDdN.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:09:26 GMT",
+      "last-modified" : "Mon, 24 Jun 2019 18:05:11 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69427",
+      "x-ratelimit-reset" : "1561399800",
+      "x-request-id" : "Fas00K7_w1trz9YAAD_h",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "47aa7a20-c3f3-3fe6-b0bb-c248519c86c9"
+}

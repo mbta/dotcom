@@ -49,7 +49,7 @@ defmodule Site.TransitNearMeTest do
 
       now_date =
         now
-        |> DateTime.to_date()
+        |> Util.service_date()
         |> Date.to_string()
 
       time_tomorrow_within_24 = Timex.shift(now, hours: 23)
@@ -114,7 +114,7 @@ defmodule Site.TransitNearMeTest do
                   description: :local_bus,
                   direction_destinations: %{0 => "Roberts", 1 => "Downtown Boston"},
                   direction_names: %{0 => "Outbound", 1 => "Inbound"},
-                  id: "553",
+                  id: "fakeID2",
                   long_name: "Roberts - Downtown Boston",
                   name: "553",
                   type: 3
@@ -194,7 +194,7 @@ defmodule Site.TransitNearMeTest do
 
       # Filter applies to bus routes…
       assert Enum.find(Map.get(schedules, "6542"), &(PredictedSchedule.route(&1).id == "fakeID"))
-      refute Enum.find(Map.get(schedules, "6542"), &(PredictedSchedule.route(&1).id == "553"))
+      refute Enum.find(Map.get(schedules, "6542"), &(PredictedSchedule.route(&1).id == "fakeID2"))
       # …but not other route types
       assert Enum.find(
                Map.get(schedules, "place-sstat"),

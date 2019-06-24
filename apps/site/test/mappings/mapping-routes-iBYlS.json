@@ -1,0 +1,25 @@
+{
+  "id" : "b987393e-89f4-31c6-9c1e-9fe4828528cd",
+  "request" : {
+    "url" : "/routes/?stop=place-PB-0356",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-iBYlS.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:11:20 GMT",
+      "last-modified" : "Mon, 24 Jun 2019 18:03:11 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69293",
+      "x-ratelimit-reset" : "1561399920",
+      "x-request-id" : "Fas06zYmfGD7kMUAAA3D",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "b987393e-89f4-31c6-9c1e-9fe4828528cd"
+}

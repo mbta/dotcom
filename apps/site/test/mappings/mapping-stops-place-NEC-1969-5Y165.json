@@ -1,0 +1,25 @@
+{
+  "id" : "387962ce-e628-38cc-90c8-7899f5ab5b2f",
+  "request" : {
+    "url" : "/stops/place-NEC-1969?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-NEC-1969-5Y165.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:10:06 GMT",
+      "last-modified" : "Sat, 22 Jun 2019 07:41:43 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69352",
+      "x-ratelimit-reset" : "1561399860",
+      "x-request-id" : "Fas02eIpzT6OsC0AETci",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "387962ce-e628-38cc-90c8-7899f5ab5b2f"
+}

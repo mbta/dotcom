@@ -1,0 +1,25 @@
+{
+  "id" : "c9481ea0-211d-37cf-8047-43d65e4a39d3",
+  "request" : {
+    "url" : "/schedules/?route=1&date=2019-09-02&direction_id=1&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-zXxZY.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json",
+      "Date" : "Mon, 24 Jun 2019 18:10:32 GMT",
+      "last-modified" : "Sat, 22 Jun 2019 07:42:38 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69276",
+      "x-ratelimit-reset" : "1561399860",
+      "x-request-id" : "Fas04B08IVAKPbgAXOIh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "c9481ea0-211d-37cf-8047-43d65e4a39d3"
+}

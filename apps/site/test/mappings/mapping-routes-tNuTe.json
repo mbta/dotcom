@@ -1,0 +1,25 @@
+{
+  "id" : "82912676-f52b-396c-a51d-ae642c5dc718",
+  "request" : {
+    "url" : "/routes/?stop=place-fbkst",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-tNuTe.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:11:21 GMT",
+      "last-modified" : "Mon, 24 Jun 2019 18:03:11 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69205",
+      "x-ratelimit-reset" : "1561399920",
+      "x-request-id" : "Fas0600P5yvMiXoAABfD",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "82912676-f52b-396c-a51d-ae642c5dc718"
+}

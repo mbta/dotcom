@@ -1,0 +1,25 @@
+{
+  "id" : "741e6826-130e-346c-8869-66f032090620",
+  "request" : {
+    "url" : "/shapes/?route=112&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-WIpiU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:09:27 GMT",
+      "last-modified" : "Mon, 24 Jun 2019 18:05:11 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69137",
+      "x-ratelimit-reset" : "1561399800",
+      "x-request-id" : "Fas00PuBae3HZFIAAFEh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "741e6826-130e-346c-8869-66f032090620"
+}

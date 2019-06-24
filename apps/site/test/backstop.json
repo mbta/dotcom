@@ -135,7 +135,7 @@
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://host.docker.internal:8082/schedules/CR-Greenbush/timetable?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/timetable?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": [".schedule__header"],
       "delay": 1000,
@@ -143,7 +143,7 @@
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://host.docker.internal:8082/schedules/CR-Greenbush/timetable?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/timetable?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": [".scheduleview > main > .container"],
       "delay": 8000,
@@ -165,7 +165,7 @@
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
-      "url": "http://host.docker.internal:8082/schedules/CR-Greenbush/line?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/line?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "selectors": [".schedule__header"],
       "removeSelectors": [".pdf-links", ".leaflet-container"],
       "delay": 1000,
@@ -173,7 +173,7 @@
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
-      "url": "http://host.docker.internal:8082/schedules/CR-Greenbush/line?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/line?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
       "selectors": ["main"],
       "removeSelectors": [".pdf-links", ".leaflet-container"],
       "delay": 1000,
@@ -198,7 +198,7 @@
     },
     {
       "label": "Trip Planner Results",
-      "url": "http://host.docker.internal:8082/trip-planner?_utf8=✓&plan[from]=Boston Children's Museum, Congress Street, Boston, MA, USA&plan[from_latitude]=42.3518682&plan[from_longitude]=-71.04999250000003&plan[to]=Government Center&plan[to_latitude]=42.359705&plan[to_longitude]=-71.059215&plan[time]=depart&plan[modes][subway]=false&plan[modes][subway]=true&plan[modes][commuter_rail]=false&plan[modes][commuter_rail]=true&plan[ modes][bus]=false&plan[modes][bus]=true&plan[modes][ferry]=false&plan[modes][ferry]=true&plan[optimize_for]=best_route&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00#plan_result_focus",
+      "url": "http://host.docker.internal:8082/trip-planner?_utf8=✓&plan[from]=Boston+Children's+Museum,+Congress+Street,+Boston,+MA,+USA&plan[from_latitude]=42.3518682&plan[from_longitude]=-71.04999250000003&plan[to]=Government+Center&plan[to_latitude]=42.359705&plan[to_longitude]=-71.059215&plan[time]=depart&plan[date_time][hour]=11&plan[date_time][minute]=35&plan[date_time][am_pm]=AM&plan[date_time][month]=8&plan[date_time][day]=30&plan[date_time][year]=2019&plan[modes][subway]=false&plan[modes][subway]=true&plan[modes][commuter_rail]=false&plan[modes][commuter_rail]=true&plan[modes][bus]=false&plan[modes][bus]=true&plan[modes][ferry]=false&plan[modes][ferry]=true&plan[optimize_for]=best_route#plan_result_focus",
       "hideSelectors": [".map", "footer"],
       "selectors": ["document"],
       "readyEvent": null,
