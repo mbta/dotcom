@@ -21,6 +21,7 @@ interface Props {
   header: ExpandableBlockHeader;
   children: ReactElement<HTMLElement>;
   id: string;
+  panelClassName?: string;
 }
 
 interface State {
@@ -44,7 +45,8 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
     initiallyExpanded,
     initiallyFocused,
     children,
-    id
+    id,
+    panelClassName
   } = props;
 
   const initialState = {
@@ -64,14 +66,14 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
   const [hookedState, toggleExpanded] = useState(initialState);
   const { state, onClick } = dispatch
     ? {
-        state: initialState,
-        onClick: () => dispatch(action)
-      }
+      state: initialState,
+      onClick: () => dispatch(action)
+    }
     : {
-        state: hookedState,
-        onClick: () =>
-          toggleExpanded({ expanded: !hookedState.expanded, focused: true })
-      };
+      state: hookedState,
+      onClick: () =>
+        toggleExpanded({ expanded: !hookedState.expanded, focused: true })
+    };
   const { expanded, focused }: State = state;
   const headerId = `header-${id}`;
   const panelId = `panel-${id}`;
@@ -99,7 +101,7 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
       </h3>
       {expanded ? (
         <div
-          className="c-expandable-block__panel"
+          className={`c-expandable-block__panel ${panelClassName || ""}`}
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
           role="region"

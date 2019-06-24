@@ -28,7 +28,7 @@ Array [
   </h3>,
   <div
     aria-labelledby="header-pdfs"
-    className="c-expandable-block__panel"
+    className="c-expandable-block__panel "
     id="panel-pdfs"
     role="region"
     tabIndex={0}

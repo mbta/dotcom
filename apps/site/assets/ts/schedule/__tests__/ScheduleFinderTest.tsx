@@ -46,14 +46,7 @@ const stops = [
 it("renders", () => {
   createReactRoot();
   const tree = renderer
-    .create(
-      <ScheduleFinder
-        classModifier="desktop"
-        route={route}
-        stops={stops}
-        directionId={0}
-      />
-    )
+    .create(<ScheduleFinder route={route} stops={stops} directionId={0} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -62,12 +55,7 @@ it("opens modal after displaying error", () => {
   document.body.innerHTML = body;
 
   const wrapper = mount(
-    <ScheduleFinder
-      classModifier="desktop"
-      route={route}
-      stops={stops}
-      directionId={0}
-    />
+    <ScheduleFinder route={route} stops={stops} directionId={0} />
   );
 
   // there should be no errors
@@ -169,12 +157,7 @@ it("opens modal after displaying error", () => {
 
 it("modal renders route pill for bus lines", () => {
   const subwayWrapper = mount(
-    <ScheduleFinder
-      classModifier="desktop"
-      stops={stops}
-      route={route}
-      directionId={0}
-    />
+    <ScheduleFinder stops={stops} route={route} directionId={0} />
   );
   subwayWrapper
     .find("#sf_direction_select")
@@ -190,12 +173,7 @@ it("modal renders route pill for bus lines", () => {
 
   const busRoute: Route = { ...route, id: "66", name: "66", type: 3 };
   const busWrapper = mount(
-    <ScheduleFinder
-      classModifier="desktop"
-      stops={stops}
-      route={busRoute}
-      directionId={0}
-    />
+    <ScheduleFinder stops={stops} route={busRoute} directionId={0} />
   );
   busWrapper
     .find("#sf_direction_select")
@@ -213,12 +191,7 @@ it("modal renders route pill for bus lines", () => {
 
 it("modal renders route pill for silver line", () => {
   const subwayWrapper = mount(
-    <ScheduleFinder
-      classModifier="desktop"
-      stops={stops}
-      route={route}
-      directionId={0}
-    />
+    <ScheduleFinder stops={stops} route={route} directionId={0} />
   );
   subwayWrapper
     .find("#sf_direction_select")
@@ -234,12 +207,7 @@ it("modal renders route pill for silver line", () => {
 
   const busRoute: Route = { ...route, id: "741", name: "SL", type: 3 };
   const busWrapper = mount(
-    <ScheduleFinder
-      classModifier="desktop"
-      stops={stops}
-      route={busRoute}
-      directionId={0}
-    />
+    <ScheduleFinder stops={stops} route={busRoute} directionId={0} />
   );
   busWrapper
     .find("#sf_direction_select")

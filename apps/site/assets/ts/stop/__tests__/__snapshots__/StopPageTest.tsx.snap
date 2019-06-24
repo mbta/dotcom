@@ -2893,7 +2893,7 @@ Array [
           </h3>
           <div
             aria-labelledby="header-accessibility"
-            className="c-expandable-block__panel"
+            className="c-expandable-block__panel "
             id="panel-accessibility"
             role="region"
             tabIndex={0}
