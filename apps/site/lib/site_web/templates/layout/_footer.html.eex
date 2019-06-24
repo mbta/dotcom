@@ -14,7 +14,7 @@
       <li class="m-footer__group">
         <div class="m-footer__group-title">Plan Your Journey</div>
         <ul class="list-unstyled">
-          <li class="m-footer__item"><%= link "Trip Planner", to: trip_plan_v1_path(@conn, :index) %></li>
+          <li class="m-footer__item"><%= link "Trip Planner", to: trip_plan_path(@conn, :index) %></li>
           <li class="m-footer__item"><%= link "Station Info", to: stop_path(@conn, :index) %></li>
           <li class="m-footer__item"><%= link "Service Alerts", to: alert_path(@conn, :index) %></li>
           <li class="m-footer__item"><%= link "Maps", to: cms_static_page_path(@conn, "/maps") %></li>

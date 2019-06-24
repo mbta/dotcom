@@ -1,3 +1,0 @@
-<div class="c-trip-plan-widget__submit-container">
-  <button id="trip-plan__submit" type="submit" class="btn btn-primary hidden-print c-trip-plan-widget__submit">Get trip suggestions</button>
-</div>

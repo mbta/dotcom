@@ -26,7 +26,7 @@
     <div class="col-xs-12 p-a-0">
       <ul>
         <li>
-          <%= link "Trip Planner", to: trip_plan_v1_path(@conn, :index), class: "ga-nav-sublink" %>
+          <%= link "Trip Planner", to: trip_plan_path(@conn, :index), class: "ga-nav-sublink" %>
         </li>
         <li>
           <%= link "Station Info", to: stop_path(@conn, :index), class: "ga-nav-sublink" %>

@@ -1,8 +1,0 @@
-<%= if show_plan_error?(@plan_error) do %>
-  <div class="m-trip-plan__error" role="alert" tabindex="0">
-    <div class="m-trip-plan__error--title">
-      <%= plan_error_title(@plan_error) %>
-    </div>
-    <%= plan_error_description(@plan_error) %>
-  </div>
-<% end %>

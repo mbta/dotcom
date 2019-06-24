@@ -1,12 +1,12 @@
 function delay(timeout) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(resolve, timeout);
   });
 }
 
 module.exports = async (page, scenario, vp) => {
-  if (await page.$("#plan_result_focus") !== null) {
-    await page.click("#plan_result_focus");
+  if ((await page.$("#header-itinerary-1")) !== null) {
+    await page.click("#header-itinerary-1");
     if (vp.label.includes("xs")) {
       await page.click(".trip-planner-edit-btn");
       await delay(1000);
@@ -14,4 +14,4 @@ module.exports = async (page, scenario, vp) => {
     await page.click(".trip-plan-title");
     await delay(3000);
   }
-}
+};
