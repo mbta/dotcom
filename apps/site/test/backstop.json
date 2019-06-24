@@ -198,7 +198,7 @@
     },
     {
       "label": "Trip Planner Results",
-      "url": "http://host.docker.internal:8082/trip-planner?_utf8=%E2%9C%93&plan%5Bfrom%5D=Boston+Children%27s+Museum%2C+Congress+Street%2C+Boston%2C+MA%2C+USA&plan%5Bfrom_latitude%5D=42.3518682&plan%5Bfrom_longitude%5D=-71.04999250000003&plan%5Bto%5D=Government+Center&plan%5Bto_latitude%5D=42.359705&plan%5Bto_longitude%5D=-71.059215&plan%5Btime%5D=depart&plan%5Bdate_time%5D%5Bhour%5D=11&plan%5Bdate_time%5D%5Bminute%5D=35&plan%5Bdate_time%5D%5Bam_pm%5D=AM&plan%5Bdate_time%5D%5Bmonth%5D=06&plan%5Bdate_time%5D%5Bday%5D=22&plan%5Bdate_time%5D%5Byear%5D=2019&plan%5Bmodes%5D%5Bsubway%5D=false&plan%5Bmodes%5D%5Bsubway%5D=true&plan%5Bmodes%5D%5Bcommuter_rail%5D=false&plan%5Bmodes%5D%5Bcommuter_rail%5D=true&plan%5Bmodes%5D%5Bbus%5D=false&plan%5Bmodes%5D%5Bbus%5D=true&plan%5Bmodes%5D%5Bferry%5D=false&plan%5Bmodes%5D%5Bferry%5D=true&plan%5Boptimize_for%5D=best_route&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00#plan_result_focus",
+      "url": "http://host.docker.internal:8082/trip-planner?_utf8=✓&plan[from]=Boston Children's Museum, Congress Street, Boston, MA, USA&plan[from_latitude]=42.3518682&plan[from_longitude]=-71.04999250000003&plan[to]=Government Center&plan[to_latitude]=42.359705&plan[to_longitude]=-71.059215&plan[time]=depart&plan[modes][subway]=false&plan[modes][subway]=true&plan[modes][commuter_rail]=false&plan[modes][commuter_rail]=true&plan[ modes][bus]=false&plan[modes][bus]=true&plan[modes][ferry]=false&plan[modes][ferry]=true&plan[optimize_for]=best_route&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00#plan_result_focus",
       "hideSelectors": [".map", "footer"],
       "selectors": ["document"],
       "readyEvent": null,
