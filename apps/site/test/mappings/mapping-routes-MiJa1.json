@@ -1,0 +1,25 @@
+{
+  "id" : "f46f5d71-860f-367f-b91c-2fafa003b988",
+  "request" : {
+    "url" : "/routes/?stop=place-FR-3338",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MiJa1.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:11:20 GMT",
+      "last-modified" : "Mon, 24 Jun 2019 18:03:11 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69331",
+      "x-ratelimit-reset" : "1561399920",
+      "x-request-id" : "Fas06yybagwcEbMAAApD",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f46f5d71-860f-367f-b91c-2fafa003b988"
+}

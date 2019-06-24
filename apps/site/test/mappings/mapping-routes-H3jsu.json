@@ -1,0 +1,25 @@
+{
+  "id" : "0ae7d5ef-1af2-3b76-b18c-365d4298c014",
+  "request" : {
+    "url" : "/routes/?stop=Boat-Long-South",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-H3jsu.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:11:20 GMT",
+      "last-modified" : "Mon, 24 Jun 2019 18:03:11 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69414",
+      "x-ratelimit-reset" : "1561399920",
+      "x-request-id" : "Fas06xaIVKA1uXQAAHOB",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "0ae7d5ef-1af2-3b76-b18c-365d4298c014"
+}

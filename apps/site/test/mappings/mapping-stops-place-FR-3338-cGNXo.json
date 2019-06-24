@@ -1,0 +1,25 @@
+{
+  "id" : "27f6b696-e4b8-305f-92a0-7ecbe9ece401",
+  "request" : {
+    "url" : "/stops/place-FR-3338?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-FR-3338-cGNXo.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:10:04 GMT",
+      "last-modified" : "Sat, 22 Jun 2019 07:41:43 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69402",
+      "x-ratelimit-reset" : "1561399860",
+      "x-request-id" : "Fas02ZWes1Oln6YAETRC",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "27f6b696-e4b8-305f-92a0-7ecbe9ece401"
+}

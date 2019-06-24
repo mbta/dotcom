@@ -1,0 +1,25 @@
+{
+  "id" : "aceff2c0-2b39-3c4e-b6ff-926d4341c348",
+  "request" : {
+    "url" : "/routes/?stop=101",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LhYiX.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:10:33 GMT",
+      "last-modified" : "Mon, 24 Jun 2019 18:03:11 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69255",
+      "x-ratelimit-reset" : "1561399860",
+      "x-request-id" : "Fas04CvE3YBX-UMAAGoh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "aceff2c0-2b39-3c4e-b6ff-926d4341c348"
+}

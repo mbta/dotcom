@@ -1,0 +1,25 @@
+{
+  "id" : "e66d7c24-7518-3e80-b110-f4d576c0ff33",
+  "request" : {
+    "url" : "/schedules/?route=Red&date=1970-01-01",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-dwAUa.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json",
+      "Date" : "Mon, 24 Jun 2019 18:10:16 GMT",
+      "last-modified" : "Mon, 24 Jun 2019 18:04:03 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69287",
+      "x-ratelimit-reset" : "1561399860",
+      "x-request-id" : "Fas03E8s3gP5aK0AAGcB",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "e66d7c24-7518-3e80-b110-f4d576c0ff33"
+}

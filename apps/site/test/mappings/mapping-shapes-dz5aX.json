@@ -1,0 +1,25 @@
+{
+  "id" : "afb5e943-3a8f-35b2-96f7-426fd28c157f",
+  "request" : {
+    "url" : "/shapes/?route=CR-SouthShoreLtd&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-dz5aX.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:09:27 GMT",
+      "last-modified" : "Sat, 22 Jun 2019 07:43:57 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69317",
+      "x-ratelimit-reset" : "1561399800",
+      "x-request-id" : "Fas00M5dnA3_LuMAXMUh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "afb5e943-3a8f-35b2-96f7-426fd28c157f"
+}

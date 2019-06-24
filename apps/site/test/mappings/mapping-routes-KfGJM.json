@@ -1,0 +1,25 @@
+{
+  "id" : "ba632392-54a0-3d51-b5ef-506a31703b2c",
+  "request" : {
+    "url" : "/routes/?stop=87",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-KfGJM.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:10:33 GMT",
+      "last-modified" : "Sat, 22 Jun 2019 07:41:41 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69263",
+      "x-ratelimit-reset" : "1561399860",
+      "x-request-id" : "Fas04Cj0wN21JiAAXOLh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ba632392-54a0-3d51-b5ef-506a31703b2c"
+}

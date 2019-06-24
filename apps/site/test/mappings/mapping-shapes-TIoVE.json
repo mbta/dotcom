@@ -1,0 +1,25 @@
+{
+  "id" : "cc552bb5-196d-30a7-ba4e-c513b61c3af0",
+  "request" : {
+    "url" : "/shapes/?route=62&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-TIoVE.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:09:27 GMT",
+      "last-modified" : "Sat, 22 Jun 2019 07:43:57 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69229",
+      "x-ratelimit-reset" : "1561399800",
+      "x-request-id" : "Fas00OXalljxkeMAXMqh",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "cc552bb5-196d-30a7-ba4e-c513b61c3af0"
+}

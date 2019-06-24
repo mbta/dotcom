@@ -1,0 +1,25 @@
+{
+  "id" : "ed7b8b08-63a1-3eab-a2d4-1d539cf62520",
+  "request" : {
+    "url" : "/routes/?stop=place-pktrm",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-JG2UU.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:11:20 GMT",
+      "last-modified" : "Mon, 24 Jun 2019 18:03:11 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69262",
+      "x-ratelimit-reset" : "1561399920",
+      "x-request-id" : "Fas06z4rmSkt2E8AABGD",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "ed7b8b08-63a1-3eab-a2d4-1d539cf62520"
+}

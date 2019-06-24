@@ -1,0 +1,25 @@
+{
+  "id" : "f4a0011e-0d3e-3a47-a947-2b2dc37f9787",
+  "request" : {
+    "url" : "/stops/?direction_id=1&route=CR-Kingston&include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-fLhnO.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:11:55 GMT",
+      "last-modified" : "Mon, 24 Jun 2019 18:03:13 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69147",
+      "x-ratelimit-reset" : "1561399920",
+      "x-request-id" : "Fas08z18Ojpg9CcAAH3B",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "f4a0011e-0d3e-3a47-a947-2b2dc37f9787"
+}

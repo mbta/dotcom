@@ -1,0 +1,25 @@
+{
+  "id" : "2d2c77b3-04a1-3b52-a016-fb1fdf6de995",
+  "request" : {
+    "url" : "/shapes/?route=1&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-yLTov.json",
+    "headers" : {
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Date" : "Mon, 24 Jun 2019 18:09:26 GMT",
+      "last-modified" : "Mon, 24 Jun 2019 18:05:11 GMT",
+      "Server" : "nginx/1.14.1",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69444",
+      "x-ratelimit-remaining" : "69411",
+      "x-ratelimit-reset" : "1561399800",
+      "x-request-id" : "Fas00LQqE50RqmAAAEEB",
+      "Connection" : "keep-alive"
+    }
+  },
+  "uuid" : "2d2c77b3-04a1-3b52-a016-fb1fdf6de995"
+}
