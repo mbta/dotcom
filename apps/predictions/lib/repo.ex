@@ -130,9 +130,7 @@ defmodule Predictions.Repo do
   end
 
   def load_from_other_repos(predictions) do
-    predictions
-    |> Task.async_stream(&record_to_structs/1)
-    |> Enum.flat_map(fn {:ok, prediction} -> prediction end)
+    Enum.flat_map(predictions, &record_to_structs/1)
   end
 
   defp record_to_structs({_, _, nil, _, _, _, _, _, _, _, _}) do
