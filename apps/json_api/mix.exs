@@ -40,6 +40,7 @@ defmodule JsonApi.Mixfile do
   defp deps do
     [
       {:poison, ">= 0.0.0"},
+      {:jason, "~> 1.1"},
       {:excoveralls, "~> 0.5", only: :test},
       {:benchfella, "~> 0.3", only: :dev}
     ]
