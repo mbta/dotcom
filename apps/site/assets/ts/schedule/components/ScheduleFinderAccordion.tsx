@@ -4,6 +4,7 @@ import ExpandableBlock from "../../components/ExpandableBlock";
 import ScheduleFinder from "./ScheduleFinder";
 import { Route, DirectionId } from "../../__v3api";
 import { SimpleStop } from "./__schedule";
+
 interface Props {
   directionId: DirectionId;
   route: Route;
@@ -24,7 +25,7 @@ const ScheduleFinderAccordion = ({
     >
       <ScheduleFinder
         directionId={directionId}
-        hideHeader={true}
+        hideHeader
         route={route}
         stops={stops}
       />
