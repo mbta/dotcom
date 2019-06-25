@@ -21,7 +21,7 @@ defmodule JsonApi.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :poison]]
+    [applications: [:logger, :poison, :jason]]
   end
 
   # Dependencies can be Hex packages:
