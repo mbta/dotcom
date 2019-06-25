@@ -20,6 +20,7 @@ defmodule PredictedSchedule do
     schedules_fn = &Schedules.Repo.by_route_ids/2
     now = Keyword.get(opts, :now)
     direction_id = Keyword.get(opts, :direction_id)
+    sort_fn = Keyword.get(opts, :sort_fn, &sort_predicted_schedules/1)
 
     schedules =
       [route_id]
@@ -31,7 +32,7 @@ defmodule PredictedSchedule do
 
     [route: route_id, stop: stop_id, min_time: now, direction_id: direction_id]
     |> Predictions.Repo.all()
-    |> PredictedSchedule.group(schedules)
+    |> PredictedSchedule.group(schedules, sort_fn: sort_fn)
     |> case do
       [_ | _] = ps ->
         ps
@@ -45,7 +46,8 @@ defmodule PredictedSchedule do
             stop_ids: stop_id,
             direction_id: direction_id,
             date: Util.tomorrow_date(now)
-          )
+          ),
+          sort_fn: sort_fn
         )
     end
     |> Enum.reject(&PredictedSchedule.last_stop?/1)
@@ -58,17 +60,18 @@ defmodule PredictedSchedule do
   PredictedSchedules where the `schedule` and `prediction` share a trip_id.
   Either the `schedule` or `prediction` may be nil, but not both.
   """
-  @spec group([Prediction.t()], [Schedule.t()]) :: [PredictedSchedule.t()]
-  def group(predictions, schedules) do
+  @spec group([Prediction.t()], [Schedule.t()], Keyword.t()) :: [PredictedSchedule.t()]
+  def group(predictions, schedules, opts \\ []) do
     schedule_map = create_map(schedules)
     prediction_map = create_map(predictions)
+    sort_fn = Keyword.get(opts, :sort_fn, &sort_predicted_schedules/1)
 
     schedule_map
     |> unique_map_keys(prediction_map)
     |> Enum.map(fn key ->
       %PredictedSchedule{schedule: schedule_map[key], prediction: prediction_map[key]}
     end)
-    |> Enum.sort_by(&sort_predicted_schedules/1)
+    |> Enum.sort_by(sort_fn)
   end
 
   defp create_map(predictions_or_schedules) do

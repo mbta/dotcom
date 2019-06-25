@@ -37,6 +37,10 @@
     transform: translate(-50%, -50%);
     width: 75%;
   }
+
+  @include media-breakpoint-up(lg) {
+    width: 55%;
+  }
 }
 
 .c-modal__content {
