@@ -5,7 +5,6 @@ defmodule GoogleMaps.Place.Prediction do
 
   @type t :: %__MODULE__{
           description: String.t(),
-          id: String.t(),
           matched_substrings: [map()],
           place_id: String.t(),
           reference: String.t(),
@@ -16,7 +15,6 @@ defmodule GoogleMaps.Place.Prediction do
 
   defstruct [
     :description,
-    :id,
     :matched_substrings,
     :place_id,
     :reference,
@@ -29,7 +27,6 @@ defmodule GoogleMaps.Place.Prediction do
   def new(
         %{
           "description" => description,
-          "id" => id,
           "matched_substrings" => matched_substrings,
           "place_id" => place_id,
           "reference" => reference,
@@ -39,7 +36,6 @@ defmodule GoogleMaps.Place.Prediction do
       ) do
     %__MODULE__{
       description: description,
-      id: id,
       matched_substrings: matched_substrings,
       place_id: place_id,
       reference: reference,
