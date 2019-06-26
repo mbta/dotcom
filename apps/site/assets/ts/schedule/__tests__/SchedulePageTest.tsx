@@ -4,7 +4,7 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 import SchedulePage from "../components/SchedulePage";
 import { TypedRoutes } from "../../stop/components/__stop";
 import ScheduleNote from "../components/ScheduleNote";
-import { Route } from "../../__v3api";
+import { EnhancedRoute } from "../../__v3api";
 
 const pdfs = [
   {
@@ -47,7 +47,7 @@ const holidays = [
   }
 ];
 
-const route: Route = {
+const route: EnhancedRoute = {
   alert_count: 0,
   description: "",
   direction_destinations: { 0: "Oak Grove", 1: "Forest Hills" },

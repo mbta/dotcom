@@ -1,7 +1,7 @@
 import React, { ReactElement, useReducer, useEffect } from "react";
 import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import UpcomingDepartures from "./UpcomingDepartures";
-import { BareRoute as Route, RouteType } from "../../../__v3api";
+import { Route, RouteType } from "../../../__v3api";
 import { SimpleStop, StopPrediction } from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
 

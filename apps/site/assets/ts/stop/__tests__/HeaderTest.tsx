@@ -5,7 +5,7 @@ import stopData from "./stopData.json";
 import { StopPageData, TypedRoutes } from "../components/__stop";
 import Header from "../components/Header";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { Route } from "../../__v3api";
+import { EnhancedRoute } from "../../__v3api";
 
 const data = JSON.parse(JSON.stringify(stopData)) as StopPageData;
 
@@ -419,7 +419,7 @@ it("does not upcase name of bus-only stops", () => {
 
 it("separates bus and silver line pills", () => {
   /* eslint-disable @typescript-eslint/camelcase */
-  const busRoute: Route = {
+  const busRoute: EnhancedRoute = {
     type: 3,
     name: "Bus",
     header: "Bus",

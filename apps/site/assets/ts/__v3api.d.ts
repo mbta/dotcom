@@ -73,7 +73,7 @@ export interface Prediction {
   track: string | null;
 }
 
-export interface BareRoute {
+export interface Route {
   description: string;
   direction_destinations: DirectionInfo;
   direction_names: DirectionInfo;
@@ -83,14 +83,14 @@ export interface BareRoute {
   type: RouteType;
 }
 
-export interface Route extends BareRoute {
+export interface EnhancedRoute extends Route {
   header: string;
   alert_count: number;
   href?: string;
 }
 
 export interface RouteWithStopsWithDirections {
-  route: Route;
+  route: EnhancedRoute;
   stops_with_directions: StopWithDirections[];
 }
 

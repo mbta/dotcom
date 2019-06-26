@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import renderer, { act } from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { Route, RouteType } from "../../__v3api";
+import { EnhancedRoute, RouteType } from "../../__v3api";
 import ScheduleModalContent, {
   reducer,
   fetchData
@@ -10,7 +10,7 @@ import ScheduleModalContent, {
 import UpcomingDepartures from "../components/schedule-finder/UpcomingDepartures";
 import { SimpleStop } from "../components/__schedule";
 
-const route: Route = {
+const route: EnhancedRoute = {
   alert_count: 0,
   description: "",
   direction_destinations: { 0: "Oak Grove", 1: "Forest Hills" },

@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Stop, Route } from "../../__v3api";
+import { Stop, EnhancedRoute } from "../../__v3api";
 import TabComponent from "./Tab";
 import { Tab, TypedRoutes, RouteWithDirections } from "./__stop";
 import { parkingIcon, modeIcon } from "../../helpers/icon";
@@ -58,7 +58,7 @@ const modeType = (modeId: string): string => {
 };
 
 const modeIconFeature = (
-  { id, type }: Route,
+  { id, type }: EnhancedRoute,
   dispatch: Dispatch
 ): ReactElement<HTMLElement> => (
   <a

@@ -8,7 +8,7 @@ import {
   Headsign,
   PredictedOrScheduledTime,
   Stop,
-  Route
+  EnhancedRoute
 } from "../../__v3api";
 
 /* eslint-disable @typescript-eslint/camelcase */
@@ -52,7 +52,7 @@ const stop: Stop = {
   type: "station"
 };
 
-const route: Route = {
+const route: EnhancedRoute = {
   alert_count: 0,
   direction_destinations: ["Outbound Destination", "Inbound Destination"],
   direction_names: ["Outbound", "Inbound"],

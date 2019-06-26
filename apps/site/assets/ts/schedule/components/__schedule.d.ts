@@ -2,7 +2,7 @@ import { TypedRoutes } from "../../stop/components/__stop";
 import {
   Route,
   PredictedOrScheduledTime,
-  BareRoute,
+  EnhancedRoute,
   DirectionId
 } from "../../__v3api";
 
@@ -14,7 +14,7 @@ export interface SchedulePageData {
   fares: Fare[];
   fare_link: string;
   holidays: Holiday[];
-  route: Route;
+  route: EnhancedRoute;
   schedule_note: ScheduleNote | null;
   stops: SimpleStop[];
   direction_id: DirectionId;
@@ -55,7 +55,7 @@ export interface Holiday {
 
 export interface StopPrediction {
   headsign: string;
-  route: BareRoute;
+  route: Route;
   prediction: PredictedOrScheduledTime;
   train_number: string;
 }

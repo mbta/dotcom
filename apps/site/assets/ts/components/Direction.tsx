@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
 import Headsign from "./Headsign";
-import { Direction as DirectionType, Route } from "../__v3api";
+import { Direction as DirectionType, EnhancedRoute } from "../__v3api";
 
 interface Props {
   direction: DirectionType;
-  route: Route;
+  route: EnhancedRoute;
   stopId: string;
 }
 

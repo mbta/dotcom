@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Stop, Route, DirectionId } from "../../__v3api";
+import { Stop, EnhancedRoute, DirectionId } from "../../__v3api";
 import { RouteWithDirection } from "./__stop";
 import { modeIcon } from "../../helpers/icon";
 import accessible from "./StopAccessibilityIcon";
@@ -7,7 +7,7 @@ import accessible from "./StopAccessibilityIcon";
 const formatMilesToFeet = (miles: number): number => Math.floor(miles * 5280.0);
 
 const routeNameBasedOnDirection = (
-  route: Route,
+  route: EnhancedRoute,
   directionId: DirectionId | null
 ): string =>
   directionId === null
@@ -18,7 +18,7 @@ const routeNameBasedOnDirection = (
 interface Props {
   stop: Stop;
   routesWithDirection?: RouteWithDirection[];
-  routes?: Route[];
+  routes?: EnhancedRoute[];
   distance?: number;
   distanceFormatted?: string;
 }

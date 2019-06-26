@@ -6,7 +6,7 @@ import {
   Direction as DirectionType,
   Headsign,
   PredictedOrScheduledTime,
-  Route
+  EnhancedRoute
 } from "../../__v3api";
 
 /* eslint-disable @typescript-eslint/camelcase */
@@ -27,7 +27,7 @@ const direction: DirectionType = {
   headsigns: [headsign]
 };
 
-const route: Route = {
+const route: EnhancedRoute = {
   alert_count: 0,
   direction_destinations: ["Outbound Destination", "Inbound Destination"],
   direction_names: ["Outbound", "Inbound"],

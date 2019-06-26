@@ -1,4 +1,4 @@
-import { Direction, DirectionId, Route, Stop, Alert } from "../../__v3api";
+import { Direction, DirectionId, EnhancedRoute, Stop, Alert } from "../../__v3api";
 import { MapData } from "../../leaflet/components/__mapdata";
 
 export interface TypedRoutes {
@@ -14,7 +14,7 @@ export interface StopMapData {
 
 export interface RouteWithDirection {
   direction_id: DirectionId | null;
-  route: Route;
+  route: EnhancedRoute;
 }
 
 export interface SuggestedTransfer {
@@ -79,6 +79,6 @@ export interface RetailLocationWithDistance {
 }
 
 export interface RouteWithDirections {
-  route: Route;
+  route: EnhancedRoute;
   directions: Direction[];
 }

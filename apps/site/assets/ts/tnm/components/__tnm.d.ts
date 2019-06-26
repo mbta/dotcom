@@ -1,4 +1,4 @@
-import { Route, Mode, StopWithDirections } from "../../__v3api";
+import { EnhancedRoute, Mode, StopWithDirections } from "../../__v3api";
 
 export interface StopWithRoutes {
   stop: StopWithDirections;
@@ -8,5 +8,5 @@ export interface StopWithRoutes {
 
 export interface RouteGroup {
   group_name: Mode;
-  routes: Route[];
+  routes: EnhancedRoute[];
 }

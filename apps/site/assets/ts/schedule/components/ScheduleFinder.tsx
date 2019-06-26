@@ -1,5 +1,5 @@
 import React, { ReactElement, useState, ChangeEvent } from "react";
-import { Route, DirectionId } from "../../__v3api";
+import { EnhancedRoute, DirectionId } from "../../__v3api";
 import { SimpleStop } from "./__schedule";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 import icon from "../../../static/images/icon-schedule-finder.svg";
@@ -13,7 +13,7 @@ import ScheduleModalContent from "./schedule-finder/ScheduleModalContent";
 interface Props {
   directionId: DirectionId;
   hideHeader?: boolean;
-  route: Route;
+  route: EnhancedRoute;
   stops: SimpleStop[];
 }
 

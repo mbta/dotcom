@@ -6,7 +6,7 @@ import { MapData, MapMarker } from "../../../leaflet/components/__mapdata";
 import stopIncludesModes from "../../helpers/stop-includes-modes";
 import { clickMarkerAction, SelectedStopType, Dispatch } from "../../state";
 import { StopWithRoutes } from "../__tnm";
-import { Stop, Route, Mode } from "../../../__v3api";
+import { Stop, EnhancedRoute, Mode } from "../../../__v3api";
 import MapWrapper from "./MapWrapper";
 
 interface Props {
@@ -55,7 +55,7 @@ export const isMarkerVisible = (
     : true;
 
 export interface StopsForMarkers {
-  [id: string]: { stop: Stop; routes: Route[]; distanceFormatted: string };
+  [id: string]: { stop: Stop; routes: EnhancedRoute[]; distanceFormatted: string };
 }
 
 export const buildStopsForMarkers = (

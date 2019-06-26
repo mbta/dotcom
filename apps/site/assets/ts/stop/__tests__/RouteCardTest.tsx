@@ -4,7 +4,7 @@ import stopData from "./stopData.json";
 import { StopPageData, RouteWithDirections } from "../components/__stop";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import RouteCard from "../components/RouteCard";
-import { Route } from "../../__v3api";
+import { EnhancedRoute } from "../../__v3api";
 
 const data: StopPageData = JSON.parse(JSON.stringify(stopData));
 
@@ -26,7 +26,7 @@ it("it renders", () => {
 
 it("renders ferry routes", () => {
   /* eslint-disable @typescript-eslint/camelcase */
-  const route: Route = {
+  const route: EnhancedRoute = {
     type: 4,
     name: "Charlestown Ferry",
     header: "Charlestown Ferry",
@@ -48,7 +48,7 @@ it("renders ferry routes", () => {
 
 it("renders orange line routes", () => {
   /* eslint-disable @typescript-eslint/camelcase */
-  const route: Route = {
+  const route: EnhancedRoute = {
     type: 1,
     name: "Orange Line",
     header: "Orange Line",
@@ -76,7 +76,7 @@ it("renders orange line routes", () => {
 
 it("renders blue line routes", () => {
   /* eslint-disable @typescript-eslint/camelcase */
-  const route: Route = {
+  const route: EnhancedRoute = {
     type: 1,
     name: "Blue Line",
     header: "Blue Line",
@@ -104,7 +104,7 @@ it("renders blue line routes", () => {
 
 it("renders red line routes", () => {
   /* eslint-disable @typescript-eslint/camelcase */
-  const route: Route = {
+  const route: EnhancedRoute = {
     type: 1,
     name: "Red Line",
     header: "Red Line",
@@ -132,7 +132,7 @@ it("renders red line routes", () => {
 
 it("renders green line routes", () => {
   /* eslint-disable @typescript-eslint/camelcase */
-  const route: Route = {
+  const route: EnhancedRoute = {
     type: 1,
     name: "B Line",
     header: "B Line",
@@ -160,7 +160,7 @@ it("renders green line routes", () => {
 
 it("renders bus routes", () => {
   /* eslint-disable @typescript-eslint/camelcase */
-  const route: Route = {
+  const route: EnhancedRoute = {
     type: 3,
     name: "Bus",
     header: "Bus",

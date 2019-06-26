@@ -4,11 +4,11 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 import MapTooltip from "../components/MapTooltip";
 import stopData from "../../stop/__tests__/stopData.json";
 import { StopPageData } from "../../stop/components/__stop";
-import { Route } from "../../__v3api";
+import { EnhancedRoute } from "../../__v3api";
 
 const data: StopPageData = JSON.parse(JSON.stringify(stopData));
 
-const routes: Route[] = [
+const routes: EnhancedRoute[] = [
   {
     type: 1,
     name: "Orange Line",
