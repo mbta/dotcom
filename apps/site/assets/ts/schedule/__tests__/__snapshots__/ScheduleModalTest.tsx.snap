@@ -56,7 +56,9 @@ Array [
           value="BUS319-D-Wdy-02"
         >
           Weekday schedule
+            
           (Monday - Friday)
+            
           June 24, 2019 to August 24, 2019
         </option>
       </select>

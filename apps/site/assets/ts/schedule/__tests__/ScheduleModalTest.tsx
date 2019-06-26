@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import renderer, { act } from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { EnhancedRoute, RouteType, Service } from "../../__v3api";
@@ -96,7 +95,6 @@ const service: Service = {
 describe("ScheduleModal", () => {
   it("it renders", () => {
     let tree;
-    let resolve: Function = () => {};
     act(() => {
       tree = renderer.create(
         <ScheduleModalContent
@@ -114,7 +112,6 @@ describe("ScheduleModal", () => {
 
   it("it doesn't render if selectedOrigin is null", () => {
     let tree;
-    let resolve: Function = () => {};
     act(() => {
       tree = renderer.create(
         <ScheduleModalContent
@@ -131,7 +128,6 @@ describe("ScheduleModal", () => {
 
   it("it doesn't render if selectedDirection is null", () => {
     let tree;
-    let resolve: Function = () => {};
     act(() => {
       tree = renderer.create(
         <ScheduleModalContent

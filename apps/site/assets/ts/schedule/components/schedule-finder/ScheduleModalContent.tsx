@@ -143,7 +143,9 @@ const ScheduleModalContent = ({
             {services.map(service => (
               <option value={service.id} key={service.id}>
                 {service.description}
+                {"  "}
                 {serviceDays(service)}
+                {"  "}
                 {serviceDate(service)}
               </option>
             ))}

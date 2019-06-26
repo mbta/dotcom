@@ -3,7 +3,7 @@ import {
   Route,
   PredictedOrScheduledTime,
   EnhancedRoute,
-  DirectionId
+  DirectionId,
   Service
 } from "../../__v3api";
 
