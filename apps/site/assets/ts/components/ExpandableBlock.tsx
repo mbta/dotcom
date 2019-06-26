@@ -21,6 +21,7 @@ interface Props {
   header: ExpandableBlockHeader;
   children: ReactElement<HTMLElement>;
   id: string;
+  panelClassName?: string;
 }
 
 interface State {
@@ -44,7 +45,8 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
     initiallyExpanded,
     initiallyFocused,
     children,
-    id
+    id,
+    panelClassName
   } = props;
 
   const initialState = {
@@ -99,7 +101,7 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
       </h3>
       {expanded ? (
         <div
-          className="c-expandable-block__panel"
+          className={`c-expandable-block__panel ${panelClassName || ""}`}
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
           role="region"

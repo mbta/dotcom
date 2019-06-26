@@ -5,6 +5,7 @@ import ScheduleNote from "./components/ScheduleNote";
 import Map from "./components/Map";
 import { SchedulePageData } from "./components/__schedule";
 import { MapData } from "../leaflet/components/__mapdata";
+import ScheduleFinderAccordion from "./components/ScheduleFinderAccordion";
 
 const renderMap = (): void => {
   const mapDataEl = document.getElementById("js-map-data");
@@ -34,6 +35,17 @@ const renderSchedulePage = (): void => {
         scheduleNote={schedulePageData.schedule_note}
       />,
       document.getElementById("react-schedule-note-root")
+    );
+  }
+  const { direction_id: directionId, route, stops } = schedulePageData;
+  if (route.type !== 0 && route.type !== 1) {
+    ReactDOM.render(
+      <ScheduleFinderAccordion
+        directionId={directionId}
+        route={route}
+        stops={stops}
+      />,
+      document.getElementById("react-schedule-finder-root")
     );
   }
 };

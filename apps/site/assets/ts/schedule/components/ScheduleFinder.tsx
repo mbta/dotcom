@@ -11,9 +11,10 @@ import OriginModalContent from "./schedule-finder/OriginModalContent";
 import ScheduleModalContent from "./schedule-finder/ScheduleModalContent";
 
 interface Props {
+  directionId: DirectionId;
+  hideHeader?: boolean;
   route: Route;
   stops: SimpleStop[];
-  directionId: DirectionId;
 }
 
 export type SelectedDirection = 0 | 1 | null;
@@ -46,9 +47,10 @@ export const stopListOrder = (
 };
 
 const ScheduleFinder = ({
+  directionId,
+  hideHeader,
   route,
-  stops,
-  directionId
+  stops
 }: Props): ReactElement<HTMLElement> => {
   const {
     direction_destinations: directionDestinations,
@@ -136,9 +138,11 @@ const ScheduleFinder = ({
 
   return (
     <div className="schedule-finder">
-      <h2 className="h3 schedule-finder__heading">
-        {renderSvg("c-svg__icon", icon)} Schedule Finder
-      </h2>
+      {hideHeader ? null : (
+        <h2 className="h3 schedule-finder__heading">
+          {renderSvg("c-svg__icon", icon)} Schedule Finder
+        </h2>
+      )}
       <ErrorMessage
         directionError={state.directionError}
         originError={state.originError}

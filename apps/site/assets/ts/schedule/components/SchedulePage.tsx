@@ -36,11 +36,13 @@ const SchedulePage = ({
       />
     )}
     {route.type !== 0 && route.type !== 1 && (
-      <ScheduleFinder
-        route={route} // don't show for subway
-        stops={stops}
-        directionId={directionId}
-      />
+      <div className="schedule-finder--desktop">
+        <ScheduleFinder
+          route={route} // don't show for subway
+          stops={stops}
+          directionId={directionId}
+        />
+      </div>
     )}
     <ContentTeasers teasers={teasers} />
     <PDFSchedules pdfs={pdfs} />

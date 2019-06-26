@@ -6,13 +6,15 @@ import TransitNearMe from "../assets/ts/tnm/components/TransitNearMe";
 import StopPage from "../assets/ts/stop/components/StopPage";
 import SchedulePage from "../assets/ts/schedule/components/SchedulePage";
 import ScheduleNote from "../assets/ts/schedule/components/ScheduleNote";
+import ScheduleFinder from "../assets/ts/schedule/components/ScheduleFinder";
 import TripPlannerResults from "../assets/ts/trip-plan-results/components/TripPlannerResults";
 
 const Components = {
-  TransitNearMe,
-  StopPage,
-  SchedulePage,
+  ScheduleFinder,
   ScheduleNote,
+  SchedulePage,
+  StopPage,
+  TransitNearMe,
   TripPlannerResults
 };
 
