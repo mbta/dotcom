@@ -1,10 +1,16 @@
 import React, { ReactElement, useReducer, useEffect } from "react";
 import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import UpcomingDepartures from "./UpcomingDepartures";
-import { Route, RouteType, Service } from "../../../__v3api";
+import { Route, RouteType, ServiceWithServiceDate } from "../../../__v3api";
 import { SimpleStop, StopPrediction } from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
-import { serviceDays, serviceDate } from "../../../helpers/service";
+import {
+  serviceDays,
+  serviceDate,
+  groupServiceByDate,
+  ServiceByOptGroup,
+  ServiceOptGroup
+} from "../../../helpers/service";
 import SelectContainer from "./SelectContainer";
 
 const stopInfo = (
@@ -88,9 +94,17 @@ interface Props {
   route: Route;
   selectedDirection: SelectedDirection;
   selectedOrigin: SelectedOrigin;
-  services: Service[];
+  services: ServiceWithServiceDate[];
   stops: SimpleStop[];
 }
+
+type Accumulator = { [key in ServiceOptGroup]: ServiceByOptGroup[] };
+
+const groupByType = (acc: Accumulator, currService: ServiceByOptGroup) => {
+  const currentServiceType: ServiceOptGroup = currService.type;
+  const updatedGroup = [...acc[currentServiceType], currService];
+  return { ...acc, [currentServiceType]: updatedGroup };
+};
 
 const ScheduleModalContent = ({
   route: {
@@ -120,6 +134,16 @@ const ScheduleModalContent = ({
     return null;
   }
   const destination = directionDestinations[selectedDirection];
+  const servicesByOptGroup: Accumulator = services
+    .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
+    .reduce(groupByType, { current: [], holiday: [], other: [] });
+
+  const optGroupNames: ServiceOptGroup[] = ["current", "holiday", "other"];
+  const optGroupTitles: { [key in ServiceOptGroup]: string } = {
+    current: "Current Schedules",
+    holiday: "Holiday Schedules",
+    other: "Other Schedules"
+  };
   return (
     <>
       <div className="schedule-finder__modal-header">
@@ -140,15 +164,25 @@ const ScheduleModalContent = ({
       <div className="schedule-finder__service-selector">
         <SelectContainer id="service_selector_container" error={false}>
           <select id="service_selector" className="schedule-finder__select">
-            {services.map(service => (
-              <option value={service.id} key={service.id}>
-                {service.description}
-                {"  "}
-                {serviceDays(service)}
-                {"  "}
-                {serviceDate(service)}
-              </option>
-            ))}
+            {optGroupNames.map((group: ServiceOptGroup) => {
+              return (
+                <optgroup key={group} label={optGroupTitles[group]}>
+                  {servicesByOptGroup[group].map(
+                    (service: ServiceByOptGroup) => (
+                      <option
+                        value={service.service.id}
+                        key={service.service.id}
+                      >
+                        {service.service.description}
+                        {serviceDays(service.service)}
+                        {group !== "holiday" ? ", " : " "}
+                        {service.servicePeriod}
+                      </option>
+                    )
+                  )}
+                </optgroup>
+              );
+            })}
           </select>
         </SelectContainer>
       </div>

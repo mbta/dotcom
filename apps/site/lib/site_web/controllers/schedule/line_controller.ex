@@ -4,6 +4,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   alias Routes.{Group, Route}
   alias Site.ScheduleNote
   alias SiteWeb.{ScheduleView, ViewHelpers}
+  alias Services.Service
 
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.Plugs.DateInRating)
@@ -36,6 +37,8 @@ defmodule SiteWeb.ScheduleController.LineController do
   end
 
   def assign_schedule_page_data(conn) do
+    service_date = Util.service_date()
+
     assign(
       conn,
       :schedule_page_data,
@@ -64,12 +67,21 @@ defmodule SiteWeb.ScheduleController.LineController do
         services:
           conn.assigns.route.id
           |> Services.Repo.by_route_id()
-          |> Enum.sort_by(&Date.to_string(&1.start_date)),
+          |> Enum.sort_by(&sort_services_by_date/1)
+          |> Enum.map(&Map.put(&1, :service_date, service_date)),
         schedule_note: ScheduleNote.new(conn.assigns.route),
         stops: simple_stop_list(conn.assigns.all_stops),
         direction_id: conn.assigns.direction_id
       }
     )
+  end
+
+  def sort_services_by_date(%Service{typicality: :typical_service, type: :weekday} = service) do
+    {1, Date.to_string(service.start_date)}
+  end
+
+  def sort_services_by_date(%Service{} = service) do
+    {2, Date.to_string(service.start_date)}
   end
 
   @spec simple_stop_list(Stops.Repo.stops_response()) :: [%{id: String.t(), name: String.t()}]

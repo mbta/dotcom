@@ -37,7 +37,12 @@ const renderSchedulePage = (): void => {
       document.getElementById("react-schedule-note-root")
     );
   }
-  const { direction_id: directionId, route, stops, services } = schedulePageData;
+  const {
+    direction_id: directionId,
+    route,
+    stops,
+    services
+  } = schedulePageData;
   if (route.type !== 0 && route.type !== 1) {
     ReactDOM.render(
       <ScheduleFinderAccordion

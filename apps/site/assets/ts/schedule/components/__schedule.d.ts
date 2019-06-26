@@ -4,7 +4,7 @@ import {
   PredictedOrScheduledTime,
   EnhancedRoute,
   DirectionId,
-  Service
+  ServiceWithServiceDate
 } from "../../__v3api";
 
 export interface SchedulePageData {
@@ -17,7 +17,7 @@ export interface SchedulePageData {
   holidays: Holiday[];
   route: EnhancedRoute;
   schedule_note: ScheduleNote | null;
-  services: Service[];
+  services: ServiceWithServiceDate[];
   stops: SimpleStop[];
   direction_id: DirectionId;
 }
