@@ -39,8 +39,8 @@
   }
 
   @include media-breakpoint-up(lg) {
-    width: 55%;
     max-width: $base-spacing * 40;
+    width: 55%;
   }
 }
 
