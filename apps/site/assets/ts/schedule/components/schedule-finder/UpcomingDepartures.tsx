@@ -6,7 +6,7 @@ import {
 } from "../../../helpers/prediction-helpers";
 import { modeIcon } from "../../../helpers/icon";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
-import { BareRoute as Route } from "../../../__v3api";
+import { Route } from "../../../__v3api";
 import { StopPrediction } from "../__schedule";
 
 interface State {

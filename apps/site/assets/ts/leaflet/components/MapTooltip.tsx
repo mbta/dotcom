@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
-import { Stop, Route } from "../../__v3api";
+import { Stop, EnhancedRoute } from "../../__v3api";
 import StopCard from "../../stop/components/StopCard";
 
 export interface Props {
   stop: Stop;
-  routes: Route[];
+  routes: EnhancedRoute[];
   distanceFormatted?: string;
 }
 

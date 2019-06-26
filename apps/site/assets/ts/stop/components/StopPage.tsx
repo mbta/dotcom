@@ -1,7 +1,7 @@
 import React, { ReactElement, useReducer } from "react";
 import StopMapContainer from "./StopMapContainer";
 import { StopPageData, StopMapData, TypedRoutes } from "./__stop";
-import { Route } from "../../__v3api";
+import { EnhancedRoute } from "../../__v3api";
 import StopPageHeader from "./StopPageHeader";
 import { reducer, initialState, Dispatch, updateRoutesAction } from "../state";
 import Alerts from "../../components/Alerts";
@@ -83,7 +83,10 @@ export default ({
               mapId={mapId}
               stop={stop}
               routes={routes.reduce(
-                (accumulator: Route[], groupedRoutes: TypedRoutes): Route[] =>
+                (
+                  accumulator: EnhancedRoute[],
+                  groupedRoutes: TypedRoutes
+                ): EnhancedRoute[] =>
                   accumulator.concat(
                     groupedRoutes.routes.map(typedRoute => typedRoute.route)
                   ),

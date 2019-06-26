@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import StopMap from "./StopMap";
-import { Stop, Route } from "../../__v3api";
+import { Stop, EnhancedRoute } from "../../__v3api";
 import { StopMapData } from "../components/__stop";
 import { SelectedStopType, Dispatch } from "../state";
 
@@ -8,7 +8,7 @@ interface Props {
   initialData: StopMapData;
   mapId: string;
   stop: Stop;
-  routes: Route[];
+  routes: EnhancedRoute[];
   selectedStopId: SelectedStopType;
   dispatch: Dispatch;
 }

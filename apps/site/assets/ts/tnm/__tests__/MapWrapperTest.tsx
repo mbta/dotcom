@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import MapWrapper, { Props } from "../components/leaflet/MapWrapper";
-import { Stop, Route } from "../../__v3api";
+import { Stop, EnhancedRoute } from "../../__v3api";
 import { MapMarker } from "../../leaflet/components/__mapdata";
 
 /* eslint-disable @typescript-eslint/camelcase */
@@ -34,7 +34,7 @@ const stop: Stop = {
   type: "station"
 };
 
-const routes: Route[] = [
+const routes: EnhancedRoute[] = [
   {
     type: 1,
     name: "Orange Line",

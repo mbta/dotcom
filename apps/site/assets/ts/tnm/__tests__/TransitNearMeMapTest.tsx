@@ -8,7 +8,7 @@ import TransitNearMeMap, {
 } from "../components/leaflet/TransitNearMeMap";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { MapMarker } from "../../leaflet/components/__mapdata";
-import { Stop, Route } from "../../__v3api";
+import { Stop, EnhancedRoute } from "../../__v3api";
 import { StopWithRoutes } from "../components/__tnm";
 
 const marker: MapMarker = {
@@ -141,7 +141,7 @@ const stop: Stop = {
   type: "station"
 };
 
-const routes: Route[] = [
+const routes: EnhancedRoute[] = [
   {
     type: 1,
     name: "Orange Line",

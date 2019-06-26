@@ -1,5 +1,5 @@
 import React, { ReactElement, KeyboardEvent, CSSProperties } from "react";
-import { Direction as DirectionType, Route, Stop } from "../__v3api";
+import { Direction as DirectionType, EnhancedRoute, Stop } from "../__v3api";
 import { clickStopCardAction, Dispatch } from "../tnm/state";
 import Direction from "./Direction";
 import renderSvg from "../helpers/render-svg";
@@ -10,7 +10,7 @@ import stationSymbol from "../../static/images/icon-circle-t-small.svg";
 interface Props {
   stop: Stop;
   directions: DirectionType[];
-  route: Route;
+  route: EnhancedRoute;
   dispatch: Dispatch;
   distance: string;
 }

@@ -5,7 +5,7 @@ import MarkerWrapper, {
 } from "../components/leaflet/MarkerWrapper";
 import { mount } from "enzyme";
 import { MapMarker, MapData } from "../../leaflet/components/__mapdata";
-import { Route, Stop } from "../../__v3api";
+import { EnhancedRoute, Stop } from "../../__v3api";
 import { Map as LeafletMap } from "react-leaflet";
 
 describe("onClickMarker", () => {
@@ -92,7 +92,7 @@ const stop: Stop = {
   type: "station"
 };
 
-const routes: Route[] = [
+const routes: EnhancedRoute[] = [
   {
     type: 1,
     name: "Orange Line",

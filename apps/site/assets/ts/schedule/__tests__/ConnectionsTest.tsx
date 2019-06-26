@@ -2,10 +2,10 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import Connections from "../components/Connections";
-import { Route } from "../../__v3api";
+import { EnhancedRoute } from "../../__v3api";
 
 /* eslint-disable @typescript-eslint/camelcase */
-const route: Route = {
+const route: EnhancedRoute = {
   type: 1,
   name: "Orange Line",
   header: "Orange Line",

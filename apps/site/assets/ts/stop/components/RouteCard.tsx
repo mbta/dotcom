@@ -1,15 +1,15 @@
 import React, { ReactElement } from "react";
-import { Direction as DirectionType, Route, Stop } from "../../__v3api";
+import { Direction as DirectionType, EnhancedRoute, Stop } from "../../__v3api";
 import Direction from "../../components/Direction";
 import { isSilverLine } from "../../helpers/silver-line";
 
 interface Props {
-  route: Route;
+  route: EnhancedRoute;
   directions: DirectionType[];
   stop: Stop;
 }
 
-const routeBgColor = (route: Route): string => {
+const routeBgColor = (route: EnhancedRoute): string => {
   if (route.type === 2) return "commuter-rail";
   if (route.type === 4) return "ferry";
   if (route.id === "Red" || route.id === "Mattapan") return "red-line";
@@ -21,15 +21,20 @@ const routeBgColor = (route: Route): string => {
   return "unknown";
 };
 
-const routeBgClass = (route: Route): string => `u-bg--${routeBgColor(route)}`;
+const routeBgClass = (route: EnhancedRoute): string =>
+  `u-bg--${routeBgColor(route)}`;
 
-const busClass = (route: Route): string =>
+const busClass = (route: EnhancedRoute): string =>
   route.type === 3 && !isSilverLine(route.id) ? "bus-route-sign" : "";
 
-const routeHeader = (route: Route): string =>
+const routeHeader = (route: EnhancedRoute): string =>
   isSilverLine(route.id) ? `Silver Line ${route.name}` : route.name;
 
-const Header = ({ route }: { route: Route }): ReactElement<HTMLElement> => (
+const Header = ({
+  route
+}: {
+  route: EnhancedRoute;
+}): ReactElement<HTMLElement> => (
   <a
     href={`/schedules/${route.id}`}
     className={`h3 m-tnm-sidebar__route-name ${routeBgClass(route)}`}

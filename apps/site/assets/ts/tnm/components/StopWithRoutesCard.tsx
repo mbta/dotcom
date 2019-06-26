@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Mode, Route, Stop } from "../../__v3api";
+import { Mode, EnhancedRoute, Stop } from "../../__v3api";
 import { RouteGroup } from "./__tnm";
 import { Dispatch } from "../state";
 import ModeIcon from "./ModeIcon";
@@ -7,7 +7,7 @@ import { useSMDown } from "../../helpers/media-breakpoints";
 import { buttonProps } from "../../components/StopCard";
 
 export const renderRoutesLabel = (
-  routes: Route[],
+  routes: EnhancedRoute[],
   type: Mode
 ): ReactElement<HTMLElement> =>
   type === "commuter_rail" ? (
@@ -25,7 +25,7 @@ export const renderRoutesLabel = (
   );
 
 export const renderRoutes = (
-  routes: Route[],
+  routes: EnhancedRoute[],
   type: Mode
 ): ReactElement<HTMLElement> => (
   <div key={type} className="m-tnm-sidebar__stop-card-description">

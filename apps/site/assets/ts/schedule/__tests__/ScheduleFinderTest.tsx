@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import ScheduleFinder from "../components/ScheduleFinder";
-import { Route } from "../../__v3api";
+import { EnhancedRoute } from "../../__v3api";
 
 // the enzyme test was done as one test because there was
 // an issue mounting it more than once due to the focus-trap
@@ -11,7 +11,7 @@ import { Route } from "../../__v3api";
 
 /* eslint-disable @typescript-eslint/camelcase */
 const body = '<div id="react-root"></div>';
-const route: Route = {
+const route: EnhancedRoute = {
   alert_count: 0,
   description: "",
   direction_destinations: { 0: "Oak Grove", 1: "Forest Hills" },
@@ -171,7 +171,7 @@ it("modal renders route pill for bus lines", () => {
 
   expect(subwayWrapper.exists(".m-route-pills")).toBeFalsy();
 
-  const busRoute: Route = { ...route, id: "66", name: "66", type: 3 };
+  const busRoute: EnhancedRoute = { ...route, id: "66", name: "66", type: 3 };
   const busWrapper = mount(
     <ScheduleFinder stops={stops} route={busRoute} directionId={0} />
   );
@@ -205,7 +205,7 @@ it("modal renders route pill for silver line", () => {
 
   expect(subwayWrapper.exists(".m-route-pills")).toBeFalsy();
 
-  const busRoute: Route = { ...route, id: "741", name: "SL", type: 3 };
+  const busRoute: EnhancedRoute = { ...route, id: "741", name: "SL", type: 3 };
   const busWrapper = mount(
     <ScheduleFinder stops={stops} route={busRoute} directionId={0} />
   );
