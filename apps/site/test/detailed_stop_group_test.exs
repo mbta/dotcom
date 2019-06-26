@@ -20,8 +20,7 @@ defmodule DetailedStopGroupTest do
           "Middleborough/Lakeville Line",
           "Needham Line",
           "Newburyport/Rockport Line",
-          "Providence/Stoughton Line",
-          "South Shore Limited"
+          "Providence/Stoughton Line"
         ])
 
       route_names =
