@@ -42,7 +42,7 @@ defmodule JsonApi do
 
   @spec parse(String.t()) :: JsonApi.t() | {:error, any}
   def parse(body) do
-    with {:ok, parsed} <- Poison.Parser.parse(body),
+    with {:ok, parsed} <- Jason.decode(body),
          {:ok, data} <- parse_data(parsed) do
       %JsonApi{
         links: parse_links(parsed),
@@ -57,7 +57,7 @@ defmodule JsonApi do
     end
   end
 
-  @spec parse_links(Poison.Parser.t()) :: %{String.t() => String.t()}
+  @spec parse_links(term()) :: %{String.t() => String.t()}
   defp parse_links(%{"links" => links}) do
     links
     |> Enum.filter(fn {key, value} -> is_binary(key) && is_binary(value) end)
@@ -68,7 +68,7 @@ defmodule JsonApi do
     %{}
   end
 
-  @spec parse_data(Poison.Parser.t()) :: {:ok, [JsonApi.Item.t()]} | {:error, any}
+  @spec parse_data(term()) :: {:ok, [JsonApi.Item.t()]} | {:error, any}
   defp parse_data(%{"data" => data} = parsed) when is_list(data) do
     included = parse_included(parsed)
     {:ok, Enum.map(data, &parse_data_item(&1, included))}
