@@ -69,7 +69,7 @@ defmodule SiteWeb.ModeController do
     do: {2, Timex.to_unix(schedule.time)}
 
   defp sort_by_time(%PredictedSchedule{schedule: _schedule, prediction: prediction}),
-    do: {2, Timex.to_unix(prediction.time)}
+    do: {1, Timex.to_unix(prediction.time)}
 
   def route_with_prediction({pred_sched, time_map}, route_id) do
     trip = PredictedSchedule.trip(pred_sched)
