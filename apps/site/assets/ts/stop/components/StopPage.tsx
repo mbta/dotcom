@@ -83,7 +83,10 @@ export default ({
               mapId={mapId}
               stop={stop}
               routes={routes.reduce(
-                (accumulator: EnhancedRoute[], groupedRoutes: TypedRoutes): EnhancedRoute[] =>
+                (
+                  accumulator: EnhancedRoute[],
+                  groupedRoutes: TypedRoutes
+                ): EnhancedRoute[] =>
                   accumulator.concat(
                     groupedRoutes.routes.map(typedRoute => typedRoute.route)
                   ),

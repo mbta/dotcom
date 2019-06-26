@@ -21,7 +21,8 @@ const routeBgColor = (route: EnhancedRoute): string => {
   return "unknown";
 };
 
-const routeBgClass = (route: EnhancedRoute): string => `u-bg--${routeBgColor(route)}`;
+const routeBgClass = (route: EnhancedRoute): string =>
+  `u-bg--${routeBgColor(route)}`;
 
 const busClass = (route: EnhancedRoute): string =>
   route.type === 3 && !isSilverLine(route.id) ? "bus-route-sign" : "";
@@ -29,7 +30,11 @@ const busClass = (route: EnhancedRoute): string =>
 const routeHeader = (route: EnhancedRoute): string =>
   isSilverLine(route.id) ? `Silver Line ${route.name}` : route.name;
 
-const Header = ({ route }: { route: EnhancedRoute }): ReactElement<HTMLElement> => (
+const Header = ({
+  route
+}: {
+  route: EnhancedRoute;
+}): ReactElement<HTMLElement> => (
   <a
     href={`/schedules/${route.id}`}
     className={`h3 m-tnm-sidebar__route-name ${routeBgClass(route)}`}

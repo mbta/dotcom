@@ -55,7 +55,11 @@ export const isMarkerVisible = (
     : true;
 
 export interface StopsForMarkers {
-  [id: string]: { stop: Stop; routes: EnhancedRoute[]; distanceFormatted: string };
+  [id: string]: {
+    stop: Stop;
+    routes: EnhancedRoute[];
+    distanceFormatted: string;
+  };
 }
 
 export const buildStopsForMarkers = (

@@ -1,4 +1,10 @@
-import { Direction, DirectionId, EnhancedRoute, Stop, Alert } from "../../__v3api";
+import {
+  Direction,
+  DirectionId,
+  EnhancedRoute,
+  Stop,
+  Alert
+} from "../../__v3api";
 import { MapData } from "../../leaflet/components/__mapdata";
 
 export interface TypedRoutes {
