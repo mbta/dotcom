@@ -9,7 +9,10 @@ import {
   serviceDate,
   groupServiceByDate,
   ServiceByOptGroup,
-  ServiceOptGroup
+  ServiceOptGroup,
+  ServicesKeyedByGroup,
+  groupByType,
+  getTodaysSchedule
 } from "../../../helpers/service";
 import SelectContainer from "./SelectContainer";
 
@@ -98,14 +101,6 @@ interface Props {
   stops: SimpleStop[];
 }
 
-type Accumulator = { [key in ServiceOptGroup]: ServiceByOptGroup[] };
-
-const groupByType = (acc: Accumulator, currService: ServiceByOptGroup) => {
-  const currentServiceType: ServiceOptGroup = currService.type;
-  const updatedGroup = [...acc[currentServiceType], currService];
-  return { ...acc, [currentServiceType]: updatedGroup };
-};
-
 const ScheduleModalContent = ({
   route: {
     id: routeId,
@@ -134,10 +129,12 @@ const ScheduleModalContent = ({
     return null;
   }
   const destination = directionDestinations[selectedDirection];
-  const servicesByOptGroup: Accumulator = services
+  const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
     .reduce(groupByType, { current: [], holiday: [], other: [] });
 
+  const todayService = getTodaysSchedule(servicesByOptGroup);
+  const defaultServiceId = todayService ? todayService.service.id : "";
   const optGroupNames: ServiceOptGroup[] = ["current", "holiday", "other"];
   const optGroupTitles: { [key in ServiceOptGroup]: string } = {
     current: "Current Schedules",
@@ -172,6 +169,7 @@ const ScheduleModalContent = ({
                       <option
                         value={service.service.id}
                         key={service.service.id}
+                        selected={service.service.id === defaultServiceId}
                       >
                         {service.service.description}
                         {serviceDays(service.service)}

@@ -1,11 +1,7 @@
 import { Service, DayInteger, ServiceWithServiceDate } from "../__v3api";
 
-const formattedDate = (date: Date): string => {
-  return date.toLocaleDateString("en-US", {
-    day: "numeric",
-    month: "long"
-  });
-};
+const formattedDate = (date: Date): string =>
+  `${monthIntegerToString(date.getUTCMonth())} ${date.getUTCDate()}`;
 
 const holidayDate = (service: Service): string => {
   const note = service.added_dates_notes[service.start_date];
@@ -17,8 +13,61 @@ export type ServiceOptGroup = "current" | "holiday" | "other";
 export interface ServiceByOptGroup {
   type: ServiceOptGroup;
   servicePeriod: string;
-  service: Service;
+  service: ServiceWithServiceDate;
 }
+
+export const getTodaysSchedule = (services: ServicesKeyedByGroup) => {
+  const serviceDate = "2019-06-30";
+  //const serviceDate = services["current"][0].service.service_date;
+  let holidayMatch: ServiceByOptGroup[] = [];
+  let currentMatch: ServiceByOptGroup[] = [];
+  if (services["holiday"].length > 0) {
+    holidayMatch = services["holiday"].filter(
+      service => service.service.start_date === serviceDate
+    );
+  }
+  if (services["current"].length > 0) {
+    currentMatch = services["current"].filter(service =>
+      serviceDayMatch(service.service, serviceDate)
+    );
+  }
+  if (holidayMatch.length > 0) return holidayMatch[0];
+  if (currentMatch.length > 0) return currentMatch[0];
+  return null;
+};
+
+const UTCDayToDayInteger = (day: number): DayInteger => {
+  // Sunday is 0 for getUTCDay, but 7 for our valid_days
+  if (day === 0) {
+    return 7;
+  }
+  return day as DayInteger;
+};
+
+const serviceDayMatch = (
+  service: ServiceWithServiceDate,
+  serviceDate: string
+) => {
+  const serviceDateObject = new Date(serviceDate);
+  let serviceDayOfWeek = UTCDayToDayInteger(serviceDateObject.getUTCDay());
+  return (
+    service.valid_days.includes(serviceDayOfWeek) &&
+    !service.removed_dates.includes(serviceDate)
+  );
+};
+
+export type ServicesKeyedByGroup = {
+  [key in ServiceOptGroup]: ServiceByOptGroup[]
+};
+
+export const groupByType = (
+  acc: ServicesKeyedByGroup,
+  currService: ServiceByOptGroup
+) => {
+  const currentServiceType: ServiceOptGroup = currService.type;
+  const updatedGroup = [...acc[currentServiceType], currService];
+  return { ...acc, [currentServiceType]: updatedGroup };
+};
 
 export const groupServiceByDate = (
   service: ServiceWithServiceDate
@@ -118,6 +167,23 @@ const dayIntegerToString = (day: DayInteger): string =>
     "Sunday"
   ][day - 1];
 
+const monthIntegerToString = (month: MonthInteger): string =>
+  [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ][month];
+
+type MonthInteger = number | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
 export const serviceDays = ({
   type,
   valid_days: validDays
