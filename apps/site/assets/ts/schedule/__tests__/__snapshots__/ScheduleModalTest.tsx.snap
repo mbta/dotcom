@@ -50,17 +50,27 @@ Array [
     >
       <select
         className="schedule-finder__select"
+        defaultValue=""
         id="service_selector"
       >
-        <option
-          value="BUS319-D-Wdy-02"
+        <optgroup
+          label="Current Schedules"
+        />
+        <optgroup
+          label="Holiday Schedules"
+        />
+        <optgroup
+          label="Other Schedules"
         >
-          Weekday schedule
-            
-          (Monday - Friday)
-            
-          June 24, 2019 to August 24, 2019
-        </option>
+          <option
+            value="BUS319-D-Wdy-02"
+          >
+            Weekday schedule
+             (Monday - Friday)
+            , 
+            June 25 to August 25
+          </option>
+        </optgroup>
       </select>
       <span
         aria-hidden="true"

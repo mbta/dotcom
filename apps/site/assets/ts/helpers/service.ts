@@ -191,10 +191,10 @@ export const serviceDays = ({
   if (validDays.length === 1) return `(${dayIntegerToString(validDays[0])})`;
 
   if (daysAreConsecutive(validDays, true)) {
-    return ` (${dayIntegerToString(validDays[0])} - ${dayIntegerToString(
+    return `(${dayIntegerToString(validDays[0])} - ${dayIntegerToString(
       validDays[validDays.length - 1]
     )})`;
   }
 
-  return ` (${validDays.map(dayIntegerToString).join(", ")})`;
+  return `(${validDays.map(dayIntegerToString).join(", ")})`;
 };

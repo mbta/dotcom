@@ -169,17 +169,20 @@ const ScheduleModalContent = ({
               return (
                 <optgroup key={group} label={optGroupTitles[group]}>
                   {servicesByOptGroup[group].map(
-                    (service: ServiceByOptGroup) => (
-                      <option
-                        value={service.service.id}
-                        key={service.service.id}
-                      >
-                        {service.service.description}
-                        {serviceDays(service.service)}
-                        {group !== "holiday" ? ", " : " "}
-                        {service.servicePeriod}
-                      </option>
-                    )
+                    (service: ServiceByOptGroup) => {
+                      const daysOfWeek = serviceDays(service.service);
+                      return (
+                        <option
+                          value={service.service.id}
+                          key={service.service.id}
+                        >
+                          {service.service.description}
+                          {daysOfWeek && ` ${daysOfWeek}`}
+                          {group !== "holiday" ? ", " : " "}
+                          {service.servicePeriod}
+                        </option>
+                      );
+                    }
                   )}
                 </optgroup>
               );
