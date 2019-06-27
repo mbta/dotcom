@@ -10,13 +10,13 @@ defmodule SiteWeb.Plugs.Cookies do
   @route_cookie_name "mbta_visited_routes"
 
   @id_cookie_options [
-    http_only: false,
+    http_only: true,
     # 20 years
     max_age: 20 * 365 * 24 * 60 * 60
   ]
 
   @route_cookie_options [
-    http_only: false,
+    http_only: true,
     # 30 days
     max_age: 30 * 24 * 60 * 60
   ]
