@@ -17,18 +17,16 @@ export interface ServiceByOptGroup {
 }
 
 export const getTodaysSchedule = (services: ServicesKeyedByGroup) => {
-  const serviceDate = "2019-06-30";
-  //const serviceDate = services["current"][0].service.service_date;
   let holidayMatch: ServiceByOptGroup[] = [];
   let currentMatch: ServiceByOptGroup[] = [];
   if (services["holiday"].length > 0) {
     holidayMatch = services["holiday"].filter(
-      service => service.service.start_date === serviceDate
+      service => service.service.start_date === service.service.service_date
     );
   }
   if (services["current"].length > 0) {
     currentMatch = services["current"].filter(service =>
-      serviceDayMatch(service.service, serviceDate)
+      serviceDayMatch(service.service, service.service.service_date)
     );
   }
   if (holidayMatch.length > 0) return holidayMatch[0];
