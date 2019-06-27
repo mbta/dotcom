@@ -61,6 +61,10 @@ defmodule SiteWeb.ScheduleController.LineController do
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
+        services:
+          conn.assigns.route.id
+          |> Services.Repo.by_route_id()
+          |> Enum.sort_by(&Date.to_string(&1.start_date)),
         schedule_note: ScheduleNote.new(conn.assigns.route),
         stops: simple_stop_list(conn.assigns.all_stops),
         direction_id: conn.assigns.direction_id

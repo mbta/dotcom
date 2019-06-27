@@ -122,7 +122,8 @@ defmodule Site.Mixfile do
       {:google_maps, in_umbrella: true},
       {:util, in_umbrella: true},
       {:predictions, in_umbrella: true},
-      {:trip_plan, in_umbrella: true}
+      {:trip_plan, in_umbrella: true},
+      {:services, in_umbrella: true}
     ]
   end
 end
