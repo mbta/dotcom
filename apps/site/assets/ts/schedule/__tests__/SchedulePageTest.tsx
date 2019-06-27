@@ -4,7 +4,7 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 import SchedulePage from "../components/SchedulePage";
 import { TypedRoutes } from "../../stop/components/__stop";
 import ScheduleNote from "../components/ScheduleNote";
-import { EnhancedRoute, Service } from "../../__v3api";
+import { EnhancedRoute } from "../../__v3api";
 
 const pdfs = [
   {
@@ -73,22 +73,6 @@ const stops = [
   }
 ];
 
-const service: Service = {
-  added_dates: [],
-  added_dates_notes: {},
-  description: "Weekday schedule",
-  end_date: "2019-06-25",
-  id: "BUS319-D-Wdy-02",
-  removed_dates: [],
-  removed_dates_notes: {},
-  start_date: "2019-06-25",
-  type: "weekday",
-  typicality: "typical_service",
-  valid_days: [1, 2, 3, 4, 5]
-};
-
-const services = [service];
-
 it("it renders", () => {
   createReactRoot();
   const tree = renderer
@@ -104,7 +88,6 @@ it("it renders", () => {
           pdfs,
           teasers,
           route,
-          services,
           stops,
           direction_id: 0
         }}
@@ -136,7 +119,6 @@ it("it renders with conditional components", () => {
         pdfs,
         teasers,
         route,
-        services,
         stops,
         direction_id: 0
       }}

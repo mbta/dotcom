@@ -1,7 +1,8 @@
 import React from "react";
+import ReactDOM from "react-dom";
 import renderer, { act } from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { EnhancedRoute, RouteType, Service } from "../../__v3api";
+import { EnhancedRoute, RouteType } from "../../__v3api";
 import ScheduleModalContent, {
   reducer,
   fetchData
@@ -78,23 +79,10 @@ const payload = [
   }
 ];
 
-const service: Service = {
-  added_dates: [],
-  added_dates_notes: {},
-  description: "Weekday schedule",
-  end_date: "2019-08-25",
-  id: "BUS319-D-Wdy-02",
-  removed_dates: [],
-  removed_dates_notes: {},
-  start_date: "2019-06-25",
-  type: "weekday",
-  typicality: "typical_service",
-  valid_days: [1, 2, 3, 4, 5]
-};
-
 describe("ScheduleModal", () => {
   it("it renders", () => {
     let tree;
+    let resolve: Function = () => {};
     act(() => {
       tree = renderer.create(
         <ScheduleModalContent
@@ -102,7 +90,6 @@ describe("ScheduleModal", () => {
           stops={stops}
           selectedOrigin={stops[0].id}
           selectedDirection={0}
-          services={[service]}
         />
       );
     });
@@ -112,6 +99,7 @@ describe("ScheduleModal", () => {
 
   it("it doesn't render if selectedOrigin is null", () => {
     let tree;
+    let resolve: Function = () => {};
     act(() => {
       tree = renderer.create(
         <ScheduleModalContent
@@ -119,7 +107,6 @@ describe("ScheduleModal", () => {
           stops={stops}
           selectedOrigin={null}
           selectedDirection={0}
-          services={[service]}
         />
       );
       expect(tree!.toJSON()).toBeNull();
@@ -128,6 +115,7 @@ describe("ScheduleModal", () => {
 
   it("it doesn't render if selectedDirection is null", () => {
     let tree;
+    let resolve: Function = () => {};
     act(() => {
       tree = renderer.create(
         <ScheduleModalContent
@@ -135,7 +123,6 @@ describe("ScheduleModal", () => {
           stops={stops}
           selectedOrigin={stops[0].id}
           selectedDirection={null}
-          services={[service]}
         />
       );
       expect(tree!.toJSON()).toBeNull();

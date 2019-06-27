@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import ScheduleFinder from "../components/ScheduleFinder";
-import { EnhancedRoute, Service } from "../../__v3api";
+import { EnhancedRoute } from "../../__v3api";
 
 // the enzyme test was done as one test because there was
 // an issue mounting it more than once due to the focus-trap
@@ -43,31 +43,10 @@ const stops = [
   }
 ];
 
-const service: Service = {
-  added_dates: [],
-  added_dates_notes: {},
-  description: "Weekday schedule",
-  end_date: "2019-06-25",
-  id: "BUS319-D-Wdy-02",
-  removed_dates: [],
-  removed_dates_notes: {},
-  start_date: "2019-06-25",
-  type: "weekday",
-  typicality: "typical_service",
-  valid_days: [1, 2, 3, 4, 5]
-};
-
 it("renders", () => {
   createReactRoot();
   const tree = renderer
-    .create(
-      <ScheduleFinder
-        route={route}
-        stops={stops}
-        directionId={0}
-        services={[service]}
-      />
-    )
+    .create(<ScheduleFinder route={route} stops={stops} directionId={0} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -76,12 +55,7 @@ it("opens modal after displaying error", () => {
   document.body.innerHTML = body;
 
   const wrapper = mount(
-    <ScheduleFinder
-      route={route}
-      stops={stops}
-      directionId={0}
-      services={[service]}
-    />
+    <ScheduleFinder route={route} stops={stops} directionId={0} />
   );
 
   // there should be no errors
@@ -183,12 +157,7 @@ it("opens modal after displaying error", () => {
 
 it("modal renders route pill for bus lines", () => {
   const subwayWrapper = mount(
-    <ScheduleFinder
-      stops={stops}
-      route={route}
-      directionId={0}
-      services={[service]}
-    />
+    <ScheduleFinder stops={stops} route={route} directionId={0} />
   );
   subwayWrapper
     .find("#sf_direction_select")
@@ -204,12 +173,7 @@ it("modal renders route pill for bus lines", () => {
 
   const busRoute: EnhancedRoute = { ...route, id: "66", name: "66", type: 3 };
   const busWrapper = mount(
-    <ScheduleFinder
-      stops={stops}
-      route={busRoute}
-      directionId={0}
-      services={[service]}
-    />
+    <ScheduleFinder stops={stops} route={busRoute} directionId={0} />
   );
   busWrapper
     .find("#sf_direction_select")
@@ -227,12 +191,7 @@ it("modal renders route pill for bus lines", () => {
 
 it("modal renders route pill for silver line", () => {
   const subwayWrapper = mount(
-    <ScheduleFinder
-      stops={stops}
-      route={route}
-      directionId={0}
-      services={[service]}
-    />
+    <ScheduleFinder stops={stops} route={route} directionId={0} />
   );
   subwayWrapper
     .find("#sf_direction_select")
@@ -248,12 +207,7 @@ it("modal renders route pill for silver line", () => {
 
   const busRoute: EnhancedRoute = { ...route, id: "741", name: "SL", type: 3 };
   const busWrapper = mount(
-    <ScheduleFinder
-      stops={stops}
-      route={busRoute}
-      directionId={0}
-      services={[service]}
-    />
+    <ScheduleFinder stops={stops} route={busRoute} directionId={0} />
   );
   busWrapper
     .find("#sf_direction_select")
