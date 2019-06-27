@@ -160,7 +160,11 @@ const ScheduleModalContent = ({
 
       <div className="schedule-finder__service-selector">
         <SelectContainer id="service_selector_container" error={false}>
-          <select id="service_selector" className="schedule-finder__select">
+          <select
+            id="service_selector"
+            className="schedule-finder__select"
+            defaultValue={defaultServiceId}
+          >
             {optGroupNames.map((group: ServiceOptGroup) => {
               return (
                 <optgroup key={group} label={optGroupTitles[group]}>
@@ -169,7 +173,6 @@ const ScheduleModalContent = ({
                       <option
                         value={service.service.id}
                         key={service.service.id}
-                        selected={service.service.id === defaultServiceId}
                       >
                         {service.service.description}
                         {serviceDays(service.service)}
