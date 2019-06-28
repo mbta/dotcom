@@ -67,10 +67,28 @@ Array [
         </optgroup>
         <optgroup
           label="Holiday Schedules"
-        />
+        >
+          <option
+            value="BUS319-D-Wdy-02"
+          >
+            Holiday schedule
+             (Wednesday)
+             
+            on June 25
+          </option>
+        </optgroup>
         <optgroup
           label="Other Schedules"
-        />
+        >
+          <option
+            value="BUS319-D-Wdy-02"
+          >
+            Weekday schedule
+             (Monday - Friday)
+            , 
+            starts July 5
+          </option>
+        </optgroup>
       </select>
       <span
         aria-hidden="true"

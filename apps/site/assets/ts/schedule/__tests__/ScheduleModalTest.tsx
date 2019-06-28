@@ -1,10 +1,8 @@
 import React from "react";
 import renderer, { act } from "react-test-renderer";
-import { createReactRoot } from "../../app/helpers/testUtils";
 import {
   EnhancedRoute,
   RouteType,
-  Service,
   ServiceWithServiceDate
 } from "../../__v3api";
 import ScheduleModalContent, {
@@ -97,6 +95,18 @@ const service: ServiceWithServiceDate = {
   service_date: "2019-06-26"
 };
 
+const holidayService: ServiceWithServiceDate = {
+  ...service,
+  description: "Holiday schedule",
+  valid_days: [3],
+  end_date: "2019-06-25"
+};
+
+const upcomingService: ServiceWithServiceDate = {
+  ...service,
+  start_date: "2019-07-05"
+};
+
 describe("ScheduleModal", () => {
   it("it renders", () => {
     let tree;
@@ -107,7 +117,7 @@ describe("ScheduleModal", () => {
           stops={stops}
           selectedOrigin={stops[0].id}
           selectedDirection={0}
-          services={[service]}
+          services={[service, holidayService, upcomingService]}
         />
       );
     });
