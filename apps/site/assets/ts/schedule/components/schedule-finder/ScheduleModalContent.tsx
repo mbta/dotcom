@@ -6,7 +6,6 @@ import { SimpleStop, StopPrediction } from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
 import {
   serviceDays,
-  serviceDate,
   groupServiceByDate,
   ServiceByOptGroup,
   ServiceOptGroup,
@@ -165,28 +164,21 @@ const ScheduleModalContent = ({
             className="schedule-finder__select"
             defaultValue={defaultServiceId}
           >
-            {optGroupNames.map((group: ServiceOptGroup) => {
-              return (
-                <optgroup key={group} label={optGroupTitles[group]}>
-                  {servicesByOptGroup[group].map(
-                    (service: ServiceByOptGroup) => {
-                      const daysOfWeek = serviceDays(service.service);
-                      return (
-                        <option
-                          value={service.service.id}
-                          key={service.service.id}
-                        >
-                          {service.service.description}
-                          {daysOfWeek && ` ${daysOfWeek}`}
-                          {group !== "holiday" ? ", " : " "}
-                          {service.servicePeriod}
-                        </option>
-                      );
-                    }
-                  )}
-                </optgroup>
-              );
-            })}
+            {optGroupNames.map((group: ServiceOptGroup) => (
+              <optgroup key={group} label={optGroupTitles[group]}>
+                {servicesByOptGroup[group].map((service: ServiceByOptGroup) => {
+                  const daysOfWeek = serviceDays(service.service);
+                  return (
+                    <option value={service.service.id} key={service.service.id}>
+                      {service.service.description}
+                      {daysOfWeek && ` ${daysOfWeek}`}
+                      {group !== "holiday" ? ", " : " "}
+                      {service.servicePeriod}
+                    </option>
+                  );
+                })}
+              </optgroup>
+            ))}
           </select>
         </SelectContainer>
       </div>

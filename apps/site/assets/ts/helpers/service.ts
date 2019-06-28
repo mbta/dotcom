@@ -1,5 +1,21 @@
 import { Service, DayInteger, ServiceWithServiceDate } from "../__v3api";
 
+const monthIntegerToString = (month: MonthInteger): string =>
+  [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ][month];
+
 const formattedDate = (date: Date): string =>
   `${monthIntegerToString(date.getUTCMonth())} ${date.getUTCDate()}`;
 
@@ -16,24 +32,6 @@ export interface ServiceByOptGroup {
   service: ServiceWithServiceDate;
 }
 
-export const getTodaysSchedule = (services: ServicesKeyedByGroup) => {
-  let holidayMatch: ServiceByOptGroup[] = [];
-  let currentMatch: ServiceByOptGroup[] = [];
-  if (services["holiday"].length > 0) {
-    holidayMatch = services["holiday"].filter(
-      service => service.service.start_date === service.service.service_date
-    );
-  }
-  if (services["current"].length > 0) {
-    currentMatch = services["current"].filter(service =>
-      serviceDayMatch(service.service, service.service.service_date)
-    );
-  }
-  if (holidayMatch.length > 0) return holidayMatch[0];
-  if (currentMatch.length > 0) return currentMatch[0];
-  return null;
-};
-
 const UTCDayToDayInteger = (day: number): DayInteger => {
   // Sunday is 0 for getUTCDay, but 7 for our valid_days
   if (day === 0) {
@@ -45,13 +43,34 @@ const UTCDayToDayInteger = (day: number): DayInteger => {
 const serviceDayMatch = (
   service: ServiceWithServiceDate,
   serviceDate: string
-) => {
-  const serviceDateObject = new Date(serviceDate);
-  let serviceDayOfWeek = UTCDayToDayInteger(serviceDateObject.getUTCDay());
+): boolean => {
+  const serviceDayOfWeek = UTCDayToDayInteger(
+    new Date(serviceDate).getUTCDay()
+  );
   return (
     service.valid_days.includes(serviceDayOfWeek) &&
     !service.removed_dates.includes(serviceDate)
   );
+};
+
+export const getTodaysSchedule = (
+  services: ServicesKeyedByGroup
+): ServiceByOptGroup | null => {
+  let holidayMatch: ServiceByOptGroup[] = [];
+  let currentMatch: ServiceByOptGroup[] = [];
+  if (services.holiday.length > 0) {
+    holidayMatch = services.holiday.filter(
+      service => service.service.start_date === service.service.service_date
+    );
+  }
+  if (services.current.length > 0) {
+    currentMatch = services.current.filter(service =>
+      serviceDayMatch(service.service, service.service.service_date)
+    );
+  }
+  if (holidayMatch.length > 0) return holidayMatch[0];
+  if (currentMatch.length > 0) return currentMatch[0];
+  return null;
 };
 
 export type ServicesKeyedByGroup = {
@@ -61,7 +80,7 @@ export type ServicesKeyedByGroup = {
 export const groupByType = (
   acc: ServicesKeyedByGroup,
   currService: ServiceByOptGroup
-) => {
+): ServicesKeyedByGroup => {
   const currentServiceType: ServiceOptGroup = currService.type;
   const updatedGroup = [...acc[currentServiceType], currService];
   return { ...acc, [currentServiceType]: updatedGroup };
@@ -81,7 +100,7 @@ export const groupServiceByDate = (
     return {
       type: "holiday",
       servicePeriod: holidayDate(service),
-      service: service
+      service
     };
   }
 
@@ -95,7 +114,7 @@ export const groupServiceByDate = (
     return {
       type: "current",
       servicePeriod: `ends ${formattedDate(endDateObject)}`,
-      service: service
+      service
     };
   }
 
@@ -103,7 +122,7 @@ export const groupServiceByDate = (
     return {
       type: "other",
       servicePeriod: `starts ${formattedDate(startDateObject)}`,
-      service: service
+      service
     };
   }
 
@@ -112,7 +131,7 @@ export const groupServiceByDate = (
     servicePeriod: `${formattedDate(startDateObject)} to ${formattedDate(
       endDateObject
     )}`,
-    service: service
+    service
   };
 };
 
@@ -127,9 +146,8 @@ export const serviceDate = (
   const startDateObject = new Date(startDate);
   const endDateObject = new Date(endDate);
   if ("service_date" in service) {
-    const serviceDate = service.service_date;
     // Get unix timestamps
-    const serviceDateTime = new Date(serviceDate).getTime();
+    const serviceDateTime = new Date(service.service_date).getTime();
     const startDateTime = startDateObject.getTime();
     const endDateTime = endDateObject.getTime();
 
@@ -164,22 +182,6 @@ const dayIntegerToString = (day: DayInteger): string =>
     "Saturday",
     "Sunday"
   ][day - 1];
-
-const monthIntegerToString = (month: MonthInteger): string =>
-  [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ][month];
 
 type MonthInteger = number | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
 export const serviceDays = ({
