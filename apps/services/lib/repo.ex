@@ -7,7 +7,7 @@ defmodule Services.Repo do
 
   def by_route_id(route_id, params \\ [])
 
-  def by_route_id([route_id], params) when is_list(route_id) do
+  def by_route_id([route_id] = route, params) when is_list(route) do
     by_route_id(route_id, params)
   end
 
