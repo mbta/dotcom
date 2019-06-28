@@ -1,0 +1,357 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScheduleModal it renders 1`] = `
+Array [
+  <div
+    className="schedule-finder__modal-header"
+  >
+    <div>
+      <div
+        className="h3 u-small-caps"
+        style={
+          Object {
+            "margin": 0,
+          }
+        }
+      >
+         
+        Inbound
+      </div>
+      <h2
+        className="h2"
+        style={
+          Object {
+            "margin": 0,
+          }
+        }
+      >
+        Oak Grove
+      </h2>
+    </div>
+  </div>,
+  <div>
+    from 
+    <a
+      href="/stops/place-mlmnl"
+    >
+      Malden Center
+    </a>
+  </div>,
+  <div
+    className="schedule-finder__service-selector"
+  >
+    <div
+      className="schedule-finder__select-container "
+      id="service_selector_container"
+      onClick={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <select
+        className="schedule-finder__select"
+        defaultValue="BUS319-D-Wdy-02"
+        id="service_selector"
+      >
+        <optgroup
+          label="Current Schedules"
+        >
+          <option
+            value="BUS319-D-Wdy-02"
+          >
+            Weekday schedule
+             (Monday - Friday)
+            , 
+            ends August 25
+          </option>
+        </optgroup>
+        <optgroup
+          label="Holiday Schedules"
+        />
+        <optgroup
+          label="Other Schedules"
+        />
+      </select>
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon schedule-finder__arrow"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+    </div>
+  </div>,
+]
+`;
+
+exports[`UpcomingDepartures renders SL bus predictions 1`] = `
+Array [
+  <h3>
+    Upcoming Departures
+  </h3>,
+  <table
+    className="schedule-table"
+  >
+    <thead
+      className="schedule-table__header"
+    >
+      <tr
+        className="schedule-table__row-header"
+      >
+        <th>
+          Destinations
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        className="schedule-table__row"
+      >
+        <td>
+          <div
+            className="schedule-table__row-route"
+          >
+            <div
+              className="schedule-table__row-route-pill m-route-pills"
+            >
+              <div
+                className="u-bg--silver-line"
+              >
+                SL-2
+              </div>
+            </div>
+               
+            Harvard
+          </div>
+        </td>
+        <td
+          className="schedule-table__time"
+        >
+          15
+           
+          min
+        </td>
+      </tr>
+    </tbody>
+  </table>,
+]
+`;
+
+exports[`UpcomingDepartures renders bus predictions 1`] = `
+Array [
+  <h3>
+    Upcoming Departures
+  </h3>,
+  <table
+    className="schedule-table"
+  >
+    <thead
+      className="schedule-table__header"
+    >
+      <tr
+        className="schedule-table__row-header"
+      >
+        <th>
+          Destinations
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        className="schedule-table__row"
+      >
+        <td>
+          <div
+            className="schedule-table__row-route"
+          >
+            <div
+              className="schedule-table__row-route-pill m-route-pills"
+            >
+              <div
+                className="u-bg--bus"
+              >
+                1
+              </div>
+            </div>
+               
+            Harvard
+          </div>
+        </td>
+        <td
+          className="schedule-table__time"
+        >
+          15
+           
+          min
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td>
+          <div
+            className="schedule-table__row-route"
+          >
+            <div
+              className="schedule-table__row-route-pill m-route-pills"
+            >
+              <div
+                className="u-bg--bus"
+              >
+                1
+              </div>
+            </div>
+               
+            Harvard
+          </div>
+        </td>
+        <td
+          className="schedule-table__time"
+        >
+          11
+           
+          min
+        </td>
+      </tr>
+    </tbody>
+  </table>,
+]
+`;
+
+exports[`UpcomingDepartures renders cr predictions 1`] = `
+Array [
+  <h3>
+    Upcoming Departures
+  </h3>,
+  <table
+    className="schedule-table"
+  >
+    <thead
+      className="schedule-table__header"
+    >
+      <tr
+        className="schedule-table__row-header"
+      >
+        <th>
+          Destinations
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Framingham
+        </td>
+        <td>
+          <div
+            className="schedule-table__time-container"
+          >
+            <div
+              className="schedule-table__time"
+            >
+              4:51 PM
+            </div>
+          </div>
+          <div
+            className="u-nowrap text-right"
+          >
+            
+            
+            On time
+          </div>
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Framingham
+        </td>
+        <td>
+          <div
+            className="schedule-table__time-container"
+          >
+            <div
+              className="schedule-table__time"
+            >
+              4:51 PM
+            </div>
+          </div>
+          <div
+            className="u-nowrap text-right"
+          >
+            Train 591 · 
+             track 3 · 
+            On time
+          </div>
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Framingham
+        </td>
+        <td>
+          <div
+            className="schedule-table__time-container"
+          >
+            <div
+              className="schedule-table__time"
+            >
+              4:51 PM
+            </div>
+          </div>
+          <div
+            className="u-nowrap text-right"
+          >
+            Train 591 · 
+             track 3 · 
+            On time
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>,
+]
+`;

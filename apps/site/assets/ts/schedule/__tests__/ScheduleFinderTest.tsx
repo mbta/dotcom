@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import ScheduleFinder from "../components/ScheduleFinder";
-import { EnhancedRoute, Service } from "../../__v3api";
+import { EnhancedRoute, Service, ServiceWithServiceDate } from "../../__v3api";
 
 // the enzyme test was done as one test because there was
 // an issue mounting it more than once due to the focus-trap
@@ -43,7 +43,7 @@ const stops = [
   }
 ];
 
-const service: Service = {
+const service: ServiceWithServiceDate = {
   added_dates: [],
   added_dates_notes: {},
   description: "Weekday schedule",
@@ -54,7 +54,8 @@ const service: Service = {
   start_date: "2019-06-25",
   type: "weekday",
   typicality: "typical_service",
-  valid_days: [1, 2, 3, 4, 5]
+  valid_days: [1, 2, 3, 4, 5],
+  service_date: "2019-06-26"
 };
 
 it("renders", () => {

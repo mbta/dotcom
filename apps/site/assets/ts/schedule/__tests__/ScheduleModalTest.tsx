@@ -1,12 +1,16 @@
 import React from "react";
 import renderer, { act } from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { EnhancedRoute, RouteType, Service } from "../../__v3api";
+import {
+  EnhancedRoute,
+  RouteType,
+  Service,
+  ServiceWithServiceDate
+} from "../../__v3api";
 import ScheduleModalContent, {
   reducer,
   fetchData
 } from "../components/schedule-finder/ScheduleModalContent";
-import UpcomingDepartures from "../components/schedule-finder/UpcomingDepartures";
 import { SimpleStop } from "../components/__schedule";
 
 const route: EnhancedRoute = {
@@ -27,7 +31,7 @@ const stops: SimpleStop[] = [
 ];
 
 const routeType: RouteType = 3;
-const payload = [
+export const payload = [
   {
     train_number: "",
     route: {
@@ -78,7 +82,7 @@ const payload = [
   }
 ];
 
-const service: Service = {
+const service: ServiceWithServiceDate = {
   added_dates: [],
   added_dates_notes: {},
   description: "Weekday schedule",
@@ -89,7 +93,8 @@ const service: Service = {
   start_date: "2019-06-25",
   type: "weekday",
   typicality: "typical_service",
-  valid_days: [1, 2, 3, 4, 5]
+  valid_days: [1, 2, 3, 4, 5],
+  service_date: "2019-06-26"
 };
 
 describe("ScheduleModal", () => {
@@ -224,199 +229,5 @@ describe("ScheduleModal", () => {
       );
       expect(newState).toEqual({ data: null, isLoading: true, error: false });
     });
-  });
-});
-
-const stopPrediction = payload;
-
-const crRouteType: RouteType = 2;
-
-// This payload from Phoenix would currently only be 2 predictions but adding 3
-// for test coverage simplicity
-const crPrediction = [
-  {
-    train_number: "",
-    route: {
-      type: crRouteType,
-      name: "Framingham/Worcester Line",
-      long_name: "Framingham/Worcester Line",
-      id: "CR-Worcester",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "South Station", "0": "Worcester" },
-      description: "commuter_rail",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["4:51", " ", "PM"],
-      prediction: {
-        track: null,
-        time: ["4:51", " ", "PM"],
-        status: null,
-        seconds: 1854
-      },
-      delay: 0
-    },
-    headsign: "Framingham"
-  },
-  {
-    train_number: "591",
-    route: {
-      type: crRouteType,
-      name: "Framingham/Worcester Line",
-      long_name: "Framingham/Worcester Line",
-      id: "CR-Worcester",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "South Station", "0": "Worcester" },
-      description: "commuter_rail",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["4:51", " ", "PM"],
-      prediction: {
-        track: "3",
-        time: ["4:51", " ", "PM"],
-        status: null,
-        seconds: 1854
-      },
-      delay: 0
-    },
-    headsign: "Framingham"
-  },
-  {
-    train_number: "591",
-    route: {
-      type: crRouteType,
-      name: "Framingham/Worcester Line",
-      long_name: "Framingham/Worcester Line",
-      id: "CR-Worcester",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "South Station", "0": "Worcester" },
-      description: "commuter_rail",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["4:51", " ", "PM"],
-      prediction: {
-        track: "3",
-        time: ["4:51", " ", "PM"],
-        status: null,
-        seconds: 1854
-      },
-      delay: 0
-    },
-    headsign: "Framingham"
-  },
-  {
-    train_number: "593",
-    route: {
-      type: crRouteType,
-      name: "Framingham/Worcester Line",
-      long_name: "Framingham/Worcester Line",
-      id: "CR-Worcester",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "South Station", "0": "Worcester" },
-      description: "commuter_rail",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["5:31", " ", "PM"],
-      prediction: null,
-      delay: 0
-    },
-    headsign: "Framingham"
-  }
-];
-describe("UpcomingDepartures", () => {
-  it("doesn't render if there are not predictions", () => {
-    createReactRoot();
-    const tree = renderer.create(
-      <UpcomingDepartures
-        state={{
-          data: [
-            {
-              ...stopPrediction[0],
-              prediction: {
-                prediction: null,
-                delay: 0,
-                scheduled_time: ["3", ":25", "PM"]
-              }
-            }
-          ],
-          error: false,
-          isLoading: false
-        }}
-      />
-    );
-    expect(tree.toJSON()).toBeNull();
-  });
-
-  it("doesn't render if there was an error", () => {
-    createReactRoot();
-    const tree = renderer.create(
-      <UpcomingDepartures
-        state={{
-          data: [
-            {
-              ...stopPrediction[0],
-              prediction: {
-                prediction: null,
-                delay: 0,
-                scheduled_time: ["3", ":25", "PM"]
-              }
-            }
-          ],
-          error: true,
-          isLoading: false
-        }}
-      />
-    );
-    expect(tree.toJSON()).toBeNull();
-  });
-
-  it("renders bus predictions", () => {
-    createReactRoot();
-    const tree = renderer.create(
-      <UpcomingDepartures
-        state={{
-          data: stopPrediction,
-          error: false,
-          isLoading: false
-        }}
-      />
-    );
-    expect(tree).toMatchSnapshot();
-  });
-
-  it("renders SL bus predictions", () => {
-    createReactRoot();
-    const tree = renderer.create(
-      <UpcomingDepartures
-        state={{
-          data: [
-            {
-              ...stopPrediction[0],
-              route: { ...stopPrediction[0].route, name: "SL-2", id: "741" }
-            }
-          ],
-          error: false,
-          isLoading: false
-        }}
-      />
-    );
-    expect(tree).toMatchSnapshot();
-  });
-
-  it("renders cr predictions", () => {
-    createReactRoot();
-    const tree = renderer.create(
-      <UpcomingDepartures
-        state={{
-          data: crPrediction,
-          error: false,
-          isLoading: false
-        }}
-      />
-    );
-    expect(tree).toMatchSnapshot();
   });
 });
