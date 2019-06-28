@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import SelectContainer from "./SelectContainer";
 import { ServiceWithServiceDate } from "../../../__v3api";
 import {
@@ -23,7 +23,7 @@ interface Props {
   services: ServiceWithServiceDate[];
 }
 
-export const ServiceSelector = ({ services }: Props) => {
+const ServiceSelector = ({ services }: Props): ReactElement<HTMLElement> => {
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
     .reduce(groupByType, { current: [], holiday: [], other: [] });
@@ -59,3 +59,5 @@ export const ServiceSelector = ({ services }: Props) => {
     </div>
   );
 };
+
+export default ServiceSelector;

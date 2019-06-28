@@ -4,7 +4,7 @@ import UpcomingDepartures from "./UpcomingDepartures";
 import { Route, RouteType, ServiceWithServiceDate } from "../../../__v3api";
 import { SimpleStop, StopPrediction } from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
-import { ServiceSelector } from "./ServiceSelector";
+import ServiceSelector from "./ServiceSelector";
 
 const stopInfo = (
   selectedOrigin: string,
