@@ -37,7 +37,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   end
 
   def assign_schedule_page_data(conn) do
-    service_date = Util.service_date()
+    # service_date = Util.service_date()
 
     assign(
       conn,
