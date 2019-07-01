@@ -26,7 +26,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       conn = get(conn, trip_view_path(conn, :show, "1", origin: "2167", direction_id: "1"))
       html_response(conn, 200)
       assert conn.assigns.origin.id == "2167"
-      assert conn.assigns.trip_info == nil
+      assert conn.assigns.trip_info
     end
 
     test "finds a trip list with origin and destination", %{conn: conn} do
@@ -39,7 +39,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       html_response(conn, 200)
       assert conn.assigns.origin.id == "2167"
       assert conn.assigns.destination.id == "82"
-      assert conn.assigns.trip_info == nil
+      assert conn.assigns.trip_info
       assert conn.assigns.schedules != nil
       assert conn.assigns.predictions != nil
     end
@@ -79,7 +79,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert conn.assigns.tab == "trip-view"
       refute conn.assigns.schedules == nil
       refute conn.assigns.predictions == nil
-      assert conn.assigns.trip_info == nil
+      assert conn.assigns.trip_info
     end
 
     test "assigns information for the timetable", %{conn: conn} do
@@ -213,7 +213,7 @@ defmodule SiteWeb.ScheduleControllerTest do
           trip_view_path(conn, :show, "Mattapan", origin: "place-butlr", direction_id: "1")
         )
 
-      assert conn.assigns.trip_info == nil
+      assert conn.assigns.trip_info
       refute Enum.empty?(conn.assigns.journeys)
     end
   end

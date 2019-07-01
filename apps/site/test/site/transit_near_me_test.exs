@@ -208,7 +208,13 @@ defmodule Site.TransitNearMeTest do
       data = TransitNearMe.build(@address, date: @date, now: Util.now())
       routes = TransitNearMe.routes_for_stop(data, "place-pktrm")
 
-      assert length(Enum.map(routes, & &1.name)) > 0
+      assert Enum.map(routes, & &1.name) == [
+               "Red Line",
+               "Green Line B",
+               "Green Line C",
+               "Green Line E",
+               "Green Line D"
+             ]
     end
   end
 
@@ -226,7 +232,7 @@ defmodule Site.TransitNearMeTest do
 
       routes = TransitNearMe.schedules_for_routes(data, alerts, now: now)
 
-      # [%{id: closest_stop} | _] = data.stops
+      [%{id: closest_stop} | _] = data.stops
 
       assert [route_with_stops_with_directions | _] = routes
 
@@ -241,39 +247,44 @@ defmodule Site.TransitNearMeTest do
       assert %{stops_with_directions: [stop_with_directions | _]} =
                route_with_stops_with_directions
 
-      # assert %{alert_count: 1} = nil
+      assert %{alert_count: 1} = Enum.find(routes, &(&1.route.id == "Orange"))
 
       stop = stop_with_directions.stop
       assert %Stop{} = stop
-      # assert stop.id == closest_stop
+      assert stop.id == closest_stop
 
-      # assert stop_with_directions |> Map.keys() |> Enum.sort() == nil
+      assert stop_with_directions |> Map.keys() |> Enum.sort() == [
+               :directions,
+               :distance,
+               :href,
+               :stop
+             ]
 
-      # assert stop_with_directions.distance == "238 ft"
+      assert stop_with_directions.distance == "238 ft"
 
-      # assert %{directions: [direction | _]} = stop_with_directions
+      assert %{directions: [direction | _]} = stop_with_directions
 
-      # assert direction.direction_id in [0, 1]
+      assert direction.direction_id in [0, 1]
 
-      # assert Map.keys(direction) == [:direction_id, :headsigns]
+      assert Map.keys(direction) == [:direction_id, :headsigns]
 
-      # assert %{headsigns: [headsign | _]} = direction
+      assert %{headsigns: [headsign | _]} = direction
 
-      # assert Map.keys(headsign) == [:name, :times, :train_number]
+      assert Map.keys(headsign) == [:name, :times, :train_number]
 
-      # assert length(headsign.times) <= 2
+      assert length(headsign.times) <= 2
 
-      # assert %{times: [time | _]} = headsign
+      assert %{times: [time | _]} = headsign
 
-      # assert Map.keys(time) == [:delay, :prediction, :scheduled_time]
+      assert Map.keys(time) == [:delay, :prediction, :scheduled_time]
 
-      # assert %{scheduled_time: scheduled_time, prediction: prediction} = time
+      assert %{scheduled_time: scheduled_time, prediction: prediction} = time
 
-      # assert {:ok, _} = Timex.parse(Enum.join(scheduled_time), "{h12}:{m} {AM}")
+      assert {:ok, _} = Timex.parse(Enum.join(scheduled_time), "{h12}:{m} {AM}")
 
-      # if prediction do
-      #   assert Map.keys(prediction) == [:seconds, :status, :time, :track]
-      # end
+      if prediction do
+        assert Map.keys(prediction) == [:seconds, :status, :time, :track]
+      end
     end
 
     test "sorts directions and headsigns within stops" do

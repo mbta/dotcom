@@ -8,20 +8,20 @@ defmodule MapHelpersTest do
       assert map_pdf_url(:subway) ==
                static_url(
                  SiteWeb.Endpoint,
-                 "/sites/default/files/maps/2019-04-08-rapid-transit-key-bus-routes-map-v33.pdf"
+                 "/subway-map"
                )
     end
 
     test "returns the map link for ferry" do
       assert map_pdf_url(:ferry) ==
-               static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-08-ferry-map.pdf")
+               static_url(SiteWeb.Endpoint, "/ferry-map")
     end
 
     test "returns the bus map for bus" do
       assert map_pdf_url(:bus) ==
                static_url(
                  SiteWeb.Endpoint,
-                 "/sites/default/files/maps/2019-04-08-mbta-system-map-full-revised.pdf"
+                 "/bus-map"
                )
     end
 
@@ -29,7 +29,7 @@ defmodule MapHelpersTest do
       assert map_pdf_url(:commuter_rail) ==
                static_url(
                  SiteWeb.Endpoint,
-                 "/sites/default/files/maps/2019-04-08-commuter-rail-map-v33.pdf"
+                 "/cr-map"
                )
     end
   end

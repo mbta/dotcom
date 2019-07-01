@@ -38,7 +38,7 @@ defmodule Predictions.RepoTest do
     test "filters by min_time" do
       min_time = Util.now() |> Timex.shift(minutes: 15)
       predictions = Repo.all(route: "Orange", min_time: min_time)
-      # refute Enum.empty?(predictions)
+      refute Enum.empty?(predictions)
 
       for prediction <- predictions do
         assert DateTime.compare(prediction.time, min_time) in [:gt, :eq]
