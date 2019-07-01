@@ -8,29 +8,29 @@ defmodule Site.MapHelpers do
   def map_pdf_url(:subway) do
     static_url(
       SiteWeb.Endpoint,
-      "/sites/default/files/maps/2019-04-08-rapid-transit-key-bus-routes-map-v33.pdf"
+      "/subway-map"
     )
   end
 
   def map_pdf_url(:bus) do
     static_url(
       SiteWeb.Endpoint,
-      "/sites/default/files/maps/2019-04-08-mbta-system-map-full-revised.pdf"
+      "/bus-map"
     )
   end
 
   def map_pdf_url(:commuter_rail) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2019-04-08-commuter-rail-map-v33.pdf")
+    static_url(SiteWeb.Endpoint, "/cr-map")
   end
 
   def map_pdf_url(:ferry) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-08-ferry-map.pdf")
+    static_url(SiteWeb.Endpoint, "/ferry-map")
   end
 
   def map_pdf_url(:commuter_rail_zones) do
     static_url(
       SiteWeb.Endpoint,
-      "/sites/default/files/maps/2019-04-08-commuter-rail-map-zones.pdf"
+      "/cr-map-zones"
     )
   end
 
