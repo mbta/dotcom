@@ -8,7 +8,8 @@ import {
   getTodaysSchedule,
   ServiceOptGroup,
   ServiceByOptGroup,
-  serviceDays
+  serviceDays,
+  hasMultipleWeekdaySchedules
 } from "../../../helpers/service";
 
 const optGroupNames: ServiceOptGroup[] = ["current", "holiday", "other"];
@@ -23,6 +24,30 @@ interface Props {
   services: ServiceWithServiceDate[];
 }
 
+const serviceDescription = (
+  service: ServiceWithServiceDate,
+  group: ServiceOptGroup,
+  servicePeriod: string,
+  multipleWeekdays: boolean
+): ReactElement<HTMLElement> => {
+  const daysOfWeek = serviceDays(service);
+  let title = `${service.description}${daysOfWeek ? ` (${daysOfWeek})` : ""}`;
+  if (
+    multipleWeekdays &&
+    service.type === "weekday" &&
+    service.typicality !== "holiday_service"
+  ) {
+    title = `${daysOfWeek} schedule`;
+  }
+  return (
+    <option value={service.id} key={service.id}>
+      {title}
+      {group !== "holiday" ? ", " : " "}
+      {servicePeriod}
+    </option>
+  );
+};
+
 const ServiceSelector = ({ services }: Props): ReactElement<HTMLElement> => {
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
@@ -30,7 +55,6 @@ const ServiceSelector = ({ services }: Props): ReactElement<HTMLElement> => {
 
   const todayService = getTodaysSchedule(servicesByOptGroup);
   const defaultServiceId = todayService ? todayService.service.id : "";
-
   return (
     <div className="schedule-finder__service-selector">
       <SelectContainer id="service_selector_container" error={false}>
@@ -39,21 +63,24 @@ const ServiceSelector = ({ services }: Props): ReactElement<HTMLElement> => {
           className="schedule-finder__select"
           defaultValue={defaultServiceId}
         >
-          {optGroupNames.map((group: ServiceOptGroup) => (
-            <optgroup key={group} label={optGroupTitles[group]}>
-              {servicesByOptGroup[group].map((service: ServiceByOptGroup) => {
-                const daysOfWeek = serviceDays(service.service);
-                return (
-                  <option value={service.service.id} key={service.service.id}>
-                    {service.service.description}
-                    {daysOfWeek && ` ${daysOfWeek}`}
-                    {group !== "holiday" ? ", " : " "}
-                    {service.servicePeriod}
-                  </option>
-                );
-              })}
-            </optgroup>
-          ))}
+          {optGroupNames.map((group: ServiceOptGroup) => {
+            const multipleWeekdays = hasMultipleWeekdaySchedules(
+              servicesByOptGroup[group].map(service => service.service)
+            );
+
+            return (
+              <optgroup key={group} label={optGroupTitles[group]}>
+                {servicesByOptGroup[group].map((service: ServiceByOptGroup) =>
+                  serviceDescription(
+                    service.service,
+                    group,
+                    service.servicePeriod,
+                    multipleWeekdays
+                  )
+                )}
+              </optgroup>
+            );
+          })}
         </select>
       </SelectContainer>
     </div>

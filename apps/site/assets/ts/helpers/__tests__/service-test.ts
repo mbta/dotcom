@@ -59,21 +59,21 @@ describe("serviceDays", () => {
 
   it("returns a single day in parentheses", () => {
     const friday: Service = { ...service, valid_days: [5] };
-    expect(serviceDays(friday)).toBe("(Friday)");
+    expect(serviceDays(friday)).toBe("Friday");
   });
 
-  it("returns consecutive days as (Monday - Friday)", () => {
-    expect(serviceDays(service)).toBe("(Monday - Friday)");
+  it("returns consecutive days as Monday - Friday", () => {
+    expect(serviceDays(service)).toBe("Monday - Friday");
     const monToWed: Service = { ...service, valid_days: [1, 2, 3] };
-    expect(serviceDays(monToWed)).toBe("(Monday - Wednesday)");
+    expect(serviceDays(monToWed)).toBe("Monday - Wednesday");
 
     const wedToFri: Service = { ...service, valid_days: [3, 4, 5] };
-    expect(serviceDays(wedToFri)).toBe("(Wednesday - Friday)");
+    expect(serviceDays(wedToFri)).toBe("Wednesday - Friday");
   });
 
   it("lists all non-consecutive days", () => {
     const monWedFri: Service = { ...service, valid_days: [1, 3, 5] };
-    expect(serviceDays(monWedFri)).toBe("(Monday, Wednesday, Friday)");
+    expect(serviceDays(monWedFri)).toBe("Monday, Wednesday, Friday");
   });
 });
 

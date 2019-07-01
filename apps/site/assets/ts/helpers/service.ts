@@ -184,19 +184,28 @@ const dayIntegerToString = (day: DayInteger): string =>
   ][day - 1];
 
 type MonthInteger = number | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
+
 export const serviceDays = ({
   type,
   valid_days: validDays
 }: Service): string => {
   if (type === "saturday" || type === "sunday") return "";
 
-  if (validDays.length === 1) return `(${dayIntegerToString(validDays[0])})`;
+  if (validDays.length === 1) return `${dayIntegerToString(validDays[0])}`;
 
   if (daysAreConsecutive(validDays, true)) {
-    return `(${dayIntegerToString(validDays[0])} - ${dayIntegerToString(
+    return `${dayIntegerToString(validDays[0])} - ${dayIntegerToString(
       validDays[validDays.length - 1]
-    )})`;
+    )}`;
   }
 
-  return `(${validDays.map(dayIntegerToString).join(", ")})`;
+  return `${validDays.map(dayIntegerToString).join(", ")}`;
 };
+
+export const hasMultipleWeekdaySchedules = (
+  services: ServiceWithServiceDate[]
+): boolean =>
+  services.filter(
+    service =>
+      service.type === "weekday" && service.typicality !== "holiday_service"
+  ).length > 1;

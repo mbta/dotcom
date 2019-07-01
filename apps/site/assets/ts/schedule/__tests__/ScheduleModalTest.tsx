@@ -97,6 +97,8 @@ const service: ServiceWithServiceDate = {
 
 const holidayService: ServiceWithServiceDate = {
   ...service,
+  id: "2",
+  typicality: "holiday_service",
   description: "Holiday schedule",
   valid_days: [3],
   end_date: "2019-06-25"
@@ -104,6 +106,15 @@ const holidayService: ServiceWithServiceDate = {
 
 const upcomingService: ServiceWithServiceDate = {
   ...service,
+  id: "3",
+  valid_days: [4, 5],
+  start_date: "2019-07-05"
+};
+
+const upcomingServiceTwo: ServiceWithServiceDate = {
+  ...service,
+  id: "4",
+  valid_days: [1, 2, 3],
   start_date: "2019-07-05"
 };
 
@@ -117,7 +128,12 @@ describe("ScheduleModal", () => {
           stops={stops}
           selectedOrigin={stops[0].id}
           selectedDirection={0}
-          services={[service, holidayService, upcomingService]}
+          services={[
+            service,
+            holidayService,
+            upcomingService,
+            upcomingServiceTwo
+          ]}
         />
       );
     });
