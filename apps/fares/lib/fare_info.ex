@@ -7,7 +7,7 @@ defmodule Fares.FareInfo do
 
   @doc "Load fare info from a CSV file."
   @spec fare_info() :: [Fare.t()]
-  def fare_info() do
+  def fare_info do
     "priv/fares-july1.csv"
     |> fare_data()
     |> Enum.flat_map(&mapper/1)
