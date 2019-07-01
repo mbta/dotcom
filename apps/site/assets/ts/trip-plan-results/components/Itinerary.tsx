@@ -6,10 +6,30 @@ import {
   addAlertItemEventHandlers,
   removeAlertItemEventHandlers
 } from "../../../js/alert-item";
-import {
-  addToggleAlertHandlers,
-  removeToggleAlertHandlers
-} from "../../../js/trip-planner-results";
+
+const toggleTextContent = (e: Event): void => {
+  if ((e.target! as HTMLElement).textContent!.trim() === "(view alert)") {
+    (e.target! as HTMLElement).textContent = "(hide alert)";
+  } else {
+    (e.target! as HTMLElement).textContent = "(view alert)";
+  }
+};
+
+const addToggleAlertHandlers = (): void => {
+  Array.from(document.querySelectorAll(`.js-trip-plan-alert-toggle`)).forEach(
+    elem => {
+      elem.addEventListener("click", toggleTextContent);
+    }
+  );
+};
+
+const removeToggleAlertHandlers = (): void => {
+  Array.from(document.querySelectorAll(`.js-trip-plan-alert-toggle`)).forEach(
+    elem => {
+      elem.removeEventListener("click", toggleTextContent);
+    }
+  );
+};
 
 interface Props {
   itinerary: Itinerary;
