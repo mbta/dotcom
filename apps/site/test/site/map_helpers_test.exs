@@ -2,6 +2,7 @@ defmodule MapHelpersTest do
   use SiteWeb.ConnCase, async: true
   alias Routes.Route
   import Site.MapHelpers
+  import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   describe "map_pdf_url/1" do
     test "returns the map link for subway" do

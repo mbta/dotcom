@@ -3,6 +3,7 @@ defmodule Site.MapHelpers do
   alias GoogleMaps.MapData.Marker
 
   import SiteWeb.Router.Helpers, only: [static_url: 2]
+  import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   @spec map_pdf_url(atom) :: String.t()
   def map_pdf_url(:subway) do
