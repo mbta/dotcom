@@ -136,7 +136,7 @@ defmodule SiteWeb.ViewHelpersTest do
           IO.iodata_to_binary([text, " ", prices])
         end)
 
-      assert fares == ["All ferry routes $3.50 – $18.50", "All ferry routes $74.50 – $308.00"]
+      assert fares == ["All ferry routes $3.70 – $9.75", "All ferry routes $80.00 – $329.00"]
     end
 
     test "Ferry summmaries with a fare name return a single fare" do
@@ -148,9 +148,9 @@ defmodule SiteWeb.ViewHelpersTest do
         end)
 
       assert fares == [
-               "CharlieTicket, Cash, or mTicket $3.50",
-               "CharlieTicket $84.50",
-               "mTicket $74.50"
+               "CharlieTicket, Cash, or mTicket $3.70",
+               "CharlieTicket $90.00",
+               "mTicket $80.00"
              ]
     end
   end
