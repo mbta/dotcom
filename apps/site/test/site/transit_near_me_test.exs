@@ -208,12 +208,12 @@ defmodule Site.TransitNearMeTest do
       data = TransitNearMe.build(@address, date: @date, now: Util.now())
       routes = TransitNearMe.routes_for_stop(data, "place-pktrm")
 
-      assert Enum.map(routes, & &1.name) == [
-               "Red Line",
+      assert Enum.sort(Enum.map(routes, & &1.name)) == [
                "Green Line B",
                "Green Line C",
+               "Green Line D",
                "Green Line E",
-               "Green Line D"
+               "Red Line"
              ]
     end
   end

@@ -183,8 +183,12 @@ defmodule PredictedSchedule do
     departing?
   end
 
-  def upcoming?(ps, current_time) do
-    Timex.after?(time(ps) || current_time, current_time)
+  def upcoming?(ps, %{__struct__: mod} = current_time) do
+    # in the tests, schedule.time and prediction.time are NaiveDateTime,
+    # rather than DateTime, structs. Luckily they both have a `diff`
+    # function, so we can use the `__struct__` attribute to call the
+    # correct function.
+    mod.compare(time(ps) || current_time, current_time) == :gt
   end
 
   @doc """
@@ -250,26 +254,25 @@ defmodule PredictedSchedule do
   def is_schedule_after?(%PredictedSchedule{schedule: nil}, _time), do: false
 
   def is_schedule_after?(%PredictedSchedule{schedule: schedule}, time) do
-    Timex.after?(schedule.time, time)
+    DateTime.compare(schedule.time, time) == :gt
   end
 
   # Returns unique list of all stop_id's from given schedules and predictions
-  @spec unique_map_keys(%{key => Schedule.t()}, %{key => Prediction.t()}) :: [String.t()]
+  @spec unique_map_keys(%{key => Schedule.t()}, %{key => Prediction.t()}) :: [key]
         when key: {String.t(), String.t(), non_neg_integer}
   defp unique_map_keys(schedule_map, prediction_map) do
     schedule_map
+    |> Map.merge(prediction_map)
     |> Map.keys()
-    |> Enum.concat(Map.keys(prediction_map))
-    |> Enum.uniq()
   end
 
   @spec sort_predicted_schedules(PredictedSchedule.t()) ::
           {integer, non_neg_integer, non_neg_integer}
   defp sort_predicted_schedules(%PredictedSchedule{schedule: nil, prediction: prediction}),
-    do: {1, prediction.stop_sequence, Timex.to_unix(prediction.time)}
+    do: {1, prediction.stop_sequence, to_unix(prediction.time)}
 
   defp sort_predicted_schedules(%PredictedSchedule{schedule: schedule}),
-    do: {2, schedule.stop_sequence, Timex.to_unix(schedule.time)}
+    do: {2, schedule.stop_sequence, to_unix(schedule.time)}
 
   def sort_with_status(%PredictedSchedule{
         schedule: _schedule,
@@ -279,7 +282,8 @@ defmodule PredictedSchedule do
     {0, status_order(status)}
   end
 
-  def sort_with_status(predicted_schedule), do: {1, predicted_schedule |> time |> Timex.to_unix()}
+  def sort_with_status(predicted_schedule),
+    do: {1, predicted_schedule |> time |> to_unix()}
 
   @spec status_order(String.t()) :: non_neg_integer | :sort_max
   defp status_order("Boarding"), do: 0
@@ -290,6 +294,20 @@ defmodule PredictedSchedule do
       {num, _stops_away} -> num + 1
       _ -> :sort_max
     end
+  end
+
+  defp to_unix(%DateTime{} = time) do
+    DateTime.to_unix(time)
+  end
+
+  defp to_unix(%NaiveDateTime{} = time) do
+    time
+    |> DateTime.from_naive!("Etc/UTC")
+    |> to_unix()
+  end
+
+  defp to_unix(nil) do
+    nil
   end
 
   @doc """
@@ -303,10 +321,17 @@ defmodule PredictedSchedule do
       do: 0
 
   def delay(%PredictedSchedule{schedule: schedule, prediction: prediction}) do
-    if prediction.time do
-      Timex.diff(prediction.time, schedule.time, :minutes)
-    else
-      0
+    case prediction.time do
+      %{__struct__: mod} = time ->
+        # in the tests, schedule.time and prediction.time are NaiveDateTime,
+        # rather than DateTime, structs. Luckily they both have a `diff`
+        # function, so we can use the `__struct__` attribute to call the
+        # correct function.
+        seconds = mod.diff(time, schedule.time)
+        div(seconds, 60)
+
+      _ ->
+        0
     end
   end
 
