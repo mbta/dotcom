@@ -2,11 +2,12 @@ defmodule MapHelpersTest do
   use SiteWeb.ConnCase, async: true
   alias Routes.Route
   import Site.MapHelpers
+  import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   describe "map_pdf_url/1" do
     test "returns the map link for subway" do
       assert map_pdf_url(:subway) ==
-               static_url(
+               cms_static_page_path(
                  SiteWeb.Endpoint,
                  "/subway-map"
                )
@@ -14,12 +15,12 @@ defmodule MapHelpersTest do
 
     test "returns the map link for ferry" do
       assert map_pdf_url(:ferry) ==
-               static_url(SiteWeb.Endpoint, "/ferry-map")
+               cms_static_page_path(SiteWeb.Endpoint, "/ferry-map")
     end
 
     test "returns the bus map for bus" do
       assert map_pdf_url(:bus) ==
-               static_url(
+               cms_static_page_path(
                  SiteWeb.Endpoint,
                  "/bus-map"
                )
@@ -27,7 +28,7 @@ defmodule MapHelpersTest do
 
     test "returns the map link for commuter rail" do
       assert map_pdf_url(:commuter_rail) ==
-               static_url(
+               cms_static_page_path(
                  SiteWeb.Endpoint,
                  "/cr-map"
                )

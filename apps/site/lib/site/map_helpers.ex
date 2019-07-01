@@ -3,32 +3,30 @@ defmodule Site.MapHelpers do
   alias GoogleMaps.MapData.Marker
 
   import SiteWeb.Router.Helpers, only: [static_url: 2]
+  import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   @spec map_pdf_url(atom) :: String.t()
   def map_pdf_url(:subway) do
-    static_url(
+    cms_static_page_path(
       SiteWeb.Endpoint,
       "/subway-map"
     )
   end
 
   def map_pdf_url(:bus) do
-    static_url(
-      SiteWeb.Endpoint,
-      "/bus-map"
-    )
+    cms_static_page_path(SiteWeb.Endpoint, "/bus-map")
   end
 
   def map_pdf_url(:commuter_rail) do
-    static_url(SiteWeb.Endpoint, "/cr-map")
+    cms_static_page_path(SiteWeb.Endpoint, "/cr-map")
   end
 
   def map_pdf_url(:ferry) do
-    static_url(SiteWeb.Endpoint, "/ferry-map")
+    cms_static_page_path(SiteWeb.Endpoint, "/ferry-map")
   end
 
   def map_pdf_url(:commuter_rail_zones) do
-    static_url(
+    cms_static_page_path(
       SiteWeb.Endpoint,
       "/cr-map-zones"
     )
