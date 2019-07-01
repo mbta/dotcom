@@ -36,8 +36,28 @@ defmodule SiteWeb.ScheduleController.LineController do
     |> render("show.html", [])
   end
 
+  def schedules_for_service(route_id, services) do
+    services
+    |> Enum.reduce(%{}, fn %{start_date: date, id: service_id}, acc ->
+      Map.put(acc, service_id, %{
+        service_id: service_id,
+        "0":
+          Enum.map(
+            Schedules.Repo.by_route_ids([route_id], date: date, direction_id: 0),
+            &Map.drop(&1, [:route])
+          ),
+        "1":
+          Enum.map(
+            Schedules.Repo.by_route_ids([route_id], date: date, direction_id: 1),
+            &Map.drop(&1, [:route])
+          )
+      })
+    end)
+  end
+
   def assign_schedule_page_data(conn) do
     service_date = Util.service_date()
+    services = Services.Repo.by_route_id(conn.assigns.route.id)
 
     assign(
       conn,
@@ -65,10 +85,10 @@ defmodule SiteWeb.ScheduleController.LineController do
         holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
         services:
-          conn.assigns.route.id
-          |> Services.Repo.by_route_id()
+          services
           |> Enum.sort_by(&sort_services_by_date/1)
           |> Enum.map(&Map.put(&1, :service_date, service_date)),
+        service_schedules: schedules_for_service(conn.assigns.route.id, services),
         schedule_note: ScheduleNote.new(conn.assigns.route),
         stops: simple_stop_list(conn.assigns.all_stops),
         direction_id: conn.assigns.direction_id

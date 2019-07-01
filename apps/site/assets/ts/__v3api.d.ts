@@ -237,3 +237,24 @@ export interface Service {
 export interface ServiceWithServiceDate extends Service {
   service_date: string;
 }
+
+export interface Trip {
+  id: string;
+  name: string;
+  headsign: string;
+  direction_id: DirectionId;
+  shape_id: string;
+  "bikes_allowed?": boolean;
+}
+
+export interface Schedule {
+  route: Route;
+  trip: Trip;
+  stop: Stop;
+  time: string;
+  "flag?": boolean;
+  "early_departure?": boolean;
+  "last_stop?": boolean;
+  stop_sequence: number;
+  pickup_type: number;
+}

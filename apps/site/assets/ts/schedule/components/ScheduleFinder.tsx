@@ -4,7 +4,7 @@ import {
   DirectionId,
   ServiceWithServiceDate
 } from "../../__v3api";
-import { SimpleStop } from "./__schedule";
+import { SimpleStop, ServiceSchedule } from "./__schedule";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 import icon from "../../../static/images/icon-schedule-finder.svg";
 import renderSvg from "../../helpers/render-svg";
@@ -20,6 +20,7 @@ interface Props {
   hideHeader?: boolean;
   route: EnhancedRoute;
   stops: SimpleStop[];
+  serviceSchedules: ServiceSchedule;
 }
 
 export type SelectedDirection = 0 | 1 | null;
@@ -57,7 +58,8 @@ const ScheduleFinder = ({
   hideHeader,
   route,
   services,
-  stops
+  stops,
+  serviceSchedules
 }: Props): ReactElement<HTMLElement> => {
   const {
     direction_destinations: directionDestinations,
@@ -261,6 +263,7 @@ const ScheduleFinder = ({
                 selectedOrigin={state.selectedOrigin}
                 services={services}
                 stops={stops}
+                serviceSchedules={serviceSchedules}
               />
             )}
           </>

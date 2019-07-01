@@ -4,7 +4,8 @@ import {
   PredictedOrScheduledTime,
   EnhancedRoute,
   DirectionId,
-  ServiceWithServiceDate
+  ServiceWithServiceDate,
+  Schedule
 } from "../../__v3api";
 
 export interface SchedulePageData {
@@ -18,10 +19,20 @@ export interface SchedulePageData {
   route: EnhancedRoute;
   schedule_note: ScheduleNote | null;
   services: ServiceWithServiceDate[];
+  service_schedules: ServiceSchedule;
   stops: SimpleStop[];
   direction_id: DirectionId;
 }
 
+export interface ServiceSchedule {
+  [key: string]: ServiceScheduleItem;
+}
+
+export interface ServiceScheduleItem {
+  service_id: string;
+  "0": Schedule[];
+  "1": Schedule[];
+}
 export interface ScheduleNote {
   peak_service: string;
   offpeak_service: string;

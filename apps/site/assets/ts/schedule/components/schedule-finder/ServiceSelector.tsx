@@ -11,6 +11,7 @@ import {
   serviceDays,
   hasMultipleWeekdaySchedules
 } from "../../../helpers/service";
+import { ServiceSchedule } from "../__schedule";
 
 const optGroupNames: ServiceOptGroup[] = ["current", "holiday", "other"];
 
@@ -22,6 +23,7 @@ const optGroupTitles: { [key in ServiceOptGroup]: string } = {
 
 interface Props {
   services: ServiceWithServiceDate[];
+  serviceSchedules: ServiceSchedule;
 }
 
 const serviceDescription = (
@@ -45,7 +47,10 @@ const serviceDescription = (
   );
 };
 
-const ServiceSelector = ({ services }: Props): ReactElement<HTMLElement> => {
+const ServiceSelector = ({
+  services,
+  serviceSchedules
+}: Props): ReactElement<HTMLElement> => {
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
     .reduce(groupByType, { current: [], holiday: [], other: [] });
@@ -80,6 +85,9 @@ const ServiceSelector = ({ services }: Props): ReactElement<HTMLElement> => {
           })}
         </select>
       </SelectContainer>
+      <div>
+        {JSON.stringify(serviceSchedules[services[0].id]["0"][0].trip.headsign)}
+      </div>
     </div>
   );
 };
