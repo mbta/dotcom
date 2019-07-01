@@ -178,9 +178,9 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
                includes_media: :mticket
              ]
              |> Repo.all()
-             |> fare_result() == "$353.00"
+             |> fare_result() == "$378.00"
 
-      assert fare_request("zone:8:month:mticket") == {:ok, "$353.00"}
+      assert fare_request("zone:8:month:mticket") == {:ok, "$378.00"}
     end
 
     test "handles :interzone:X requests" do
