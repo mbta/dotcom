@@ -59,7 +59,7 @@ Array [
           <option
             value="BUS319-D-Wdy-02"
           >
-            Weekday schedule (Monday - Friday)
+            Weekday schedule
             , 
             ends August 25
           </option>
@@ -70,7 +70,7 @@ Array [
           <option
             value="2"
           >
-            Holiday schedule (Wednesday)
+            Holiday schedule
              
             on June 25
           </option>

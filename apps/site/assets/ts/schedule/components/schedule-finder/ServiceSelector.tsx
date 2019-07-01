@@ -30,18 +30,15 @@ const serviceDescription = (
   servicePeriod: string,
   multipleWeekdays: boolean
 ): ReactElement<HTMLElement> => {
-  const daysOfWeek = serviceDays(service);
-  let title = `${service.description}${daysOfWeek ? ` (${daysOfWeek})` : ""}`;
-  if (
+  const isMultipleWeekday =
     multipleWeekdays &&
     service.type === "weekday" &&
-    service.typicality !== "holiday_service"
-  ) {
-    title = `${daysOfWeek} schedule`;
-  }
+    service.typicality !== "holiday_service";
   return (
     <option value={service.id} key={service.id}>
-      {title}
+      {isMultipleWeekday
+        ? `${serviceDays(service)} schedule`
+        : service.description}
       {group !== "holiday" ? ", " : " "}
       {servicePeriod}
     </option>
