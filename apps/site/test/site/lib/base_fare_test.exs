@@ -16,7 +16,7 @@ defmodule BaseFareTest do
     origin_id = "place-north"
     destination_id = "Haverhill"
 
-    assert %Fares.Fare{cents: 1050, duration: :single_trip} =
+    assert %Fares.Fare{cents: 1100, duration: :single_trip} =
              base_fare(route, origin_id, destination_id)
   end
 
