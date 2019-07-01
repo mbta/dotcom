@@ -1,5 +1,9 @@
 import React, { ReactElement, useState, ChangeEvent } from "react";
-import { EnhancedRoute, DirectionId } from "../../__v3api";
+import {
+  EnhancedRoute,
+  DirectionId,
+  ServiceWithServiceDate
+} from "../../__v3api";
 import { SimpleStop } from "./__schedule";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 import icon from "../../../static/images/icon-schedule-finder.svg";
@@ -11,6 +15,7 @@ import OriginModalContent from "./schedule-finder/OriginModalContent";
 import ScheduleModalContent from "./schedule-finder/ScheduleModalContent";
 
 interface Props {
+  services: ServiceWithServiceDate[];
   directionId: DirectionId;
   hideHeader?: boolean;
   route: EnhancedRoute;
@@ -22,12 +27,13 @@ export type SelectedOrigin = string | null;
 
 interface State {
   directionError: boolean;
+  modalId: string | null;
+  modalOpen: boolean;
   originError: boolean;
   originSearch: string;
   selectedDirection: SelectedDirection;
   selectedOrigin: SelectedOrigin;
-  modalOpen: boolean;
-  modalId: string | null;
+  selectedService: string | null;
 }
 
 const parseSelectedDirection = (value: string): 0 | 1 => {
@@ -50,6 +56,7 @@ const ScheduleFinder = ({
   directionId,
   hideHeader,
   route,
+  services,
   stops
 }: Props): ReactElement<HTMLElement> => {
   const {
@@ -58,13 +65,14 @@ const ScheduleFinder = ({
   } = route;
 
   const [state, setState] = useState<State>({
-    selectedDirection: null,
-    selectedOrigin: null,
     directionError: false,
     originError: false,
     originSearch: "",
     modalOpen: false,
-    modalId: null
+    modalId: null,
+    selectedDirection: null,
+    selectedOrigin: null,
+    selectedService: null
   });
 
   const handleUpdateOriginSearch = (
@@ -248,10 +256,11 @@ const ScheduleFinder = ({
             )}
             {state.modalId === "schedule" && (
               <ScheduleModalContent
+                route={route}
                 selectedDirection={state.selectedDirection}
                 selectedOrigin={state.selectedOrigin}
+                services={services}
                 stops={stops}
-                route={route}
               />
             )}
           </>

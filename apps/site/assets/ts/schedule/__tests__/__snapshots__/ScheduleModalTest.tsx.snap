@@ -37,275 +37,73 @@ Array [
       Malden Center
     </a>
   </div>,
-]
-`;
-
-exports[`UpcomingDepartures renders SL bus predictions 1`] = `
-Array [
-  <h3>
-    Upcoming Departures
-  </h3>,
-  <table
-    className="schedule-table"
+  <div
+    className="schedule-finder__service-selector"
   >
-    <thead
-      className="schedule-table__header"
+    <div
+      className="schedule-finder__select-container "
+      id="service_selector_container"
+      onClick={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
     >
-      <tr
-        className="schedule-table__row-header"
+      <select
+        className="schedule-finder__select"
+        defaultValue="BUS319-D-Wdy-02"
+        id="service_selector"
       >
-        <th>
-          Destinations
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        className="schedule-table__row"
-      >
-        <td>
-          <div
-            className="schedule-table__row-route"
+        <optgroup
+          label="Current Schedules"
+        >
+          <option
+            value="BUS319-D-Wdy-02"
           >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL-2
-              </div>
-            </div>
-               
-            Harvard
-          </div>
-        </td>
-        <td
-          className="schedule-table__time"
+            Weekday schedule
+            , 
+            ends August 25
+          </option>
+        </optgroup>
+        <optgroup
+          label="Holiday Schedules"
         >
-          15
-           
-          min
-        </td>
-      </tr>
-    </tbody>
-  </table>,
-]
-`;
-
-exports[`UpcomingDepartures renders bus predictions 1`] = `
-Array [
-  <h3>
-    Upcoming Departures
-  </h3>,
-  <table
-    className="schedule-table"
-  >
-    <thead
-      className="schedule-table__header"
-    >
-      <tr
-        className="schedule-table__row-header"
-      >
-        <th>
-          Destinations
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        className="schedule-table__row"
-      >
-        <td>
-          <div
-            className="schedule-table__row-route"
+          <option
+            value="2"
           >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--bus"
-              >
-                1
-              </div>
-            </div>
-               
-            Harvard
-          </div>
-        </td>
-        <td
-          className="schedule-table__time"
-        >
-          15
-           
-          min
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td>
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--bus"
-              >
-                1
-              </div>
-            </div>
-               
-            Harvard
-          </div>
-        </td>
-        <td
-          className="schedule-table__time"
-        >
-          11
-           
-          min
-        </td>
-      </tr>
-    </tbody>
-  </table>,
-]
-`;
-
-exports[`UpcomingDepartures renders cr predictions 1`] = `
-Array [
-  <h3>
-    Upcoming Departures
-  </h3>,
-  <table
-    className="schedule-table"
-  >
-    <thead
-      className="schedule-table__header"
-    >
-      <tr
-        className="schedule-table__row-header"
-      >
-        <th>
-          Destinations
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__headsign"
-        >
-          <span
-            aria-hidden="true"
-            className="notranslate c-svg__icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
+            Holiday schedule
              
-          Framingham
-        </td>
-        <td>
-          <div
-            className="schedule-table__time-container"
-          >
-            <div
-              className="schedule-table__time"
-            >
-              4:51 PM
-            </div>
-          </div>
-          <div
-            className="u-nowrap text-right"
-          >
-            
-            
-            On time
-          </div>
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__headsign"
+            on June 25
+          </option>
+        </optgroup>
+        <optgroup
+          label="Other Schedules"
         >
-          <span
-            aria-hidden="true"
-            className="notranslate c-svg__icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
-             
-          Framingham
-        </td>
-        <td>
-          <div
-            className="schedule-table__time-container"
+          <option
+            value="3"
           >
-            <div
-              className="schedule-table__time"
-            >
-              4:51 PM
-            </div>
-          </div>
-          <div
-            className="u-nowrap text-right"
+            Thursday - Friday schedule
+            , 
+            starts July 5
+          </option>
+          <option
+            value="4"
           >
-            Train 591 · 
-             track 3 · 
-            On time
-          </div>
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__headsign"
-        >
-          <span
-            aria-hidden="true"
-            className="notranslate c-svg__icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
-             
-          Framingham
-        </td>
-        <td>
-          <div
-            className="schedule-table__time-container"
-          >
-            <div
-              className="schedule-table__time"
-            >
-              4:51 PM
-            </div>
-          </div>
-          <div
-            className="u-nowrap text-right"
-          >
-            Train 591 · 
-             track 3 · 
-            On time
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>,
+            Monday - Wednesday schedule
+            , 
+            starts July 5
+          </option>
+        </optgroup>
+      </select>
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon schedule-finder__arrow"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+    </div>
+  </div>,
 ]
 `;

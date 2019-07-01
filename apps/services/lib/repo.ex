@@ -5,7 +5,13 @@ defmodule Services.Repo do
   alias Services.Service
   alias V3Api.Services, as: ServicesApi
 
-  def by_route_id(route_id, params \\ []) when is_binary(route_id) do
+  def by_route_id(route_id, params \\ [])
+
+  def by_route_id([route_id] = route, params) when is_list(route) do
+    by_route_id(route_id, params)
+  end
+
+  def by_route_id(route_id, params) when is_binary(route_id) do
     cache({route_id, params}, fn _ ->
       params
       |> Keyword.put(:route, route_id)
