@@ -55,7 +55,8 @@ defmodule Site.Mixfile do
       :floki,
       :polyline,
       :util,
-      :trip_plan
+      :trip_plan,
+      :services
     ]
 
     apps =
