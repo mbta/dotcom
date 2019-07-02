@@ -67,7 +67,9 @@
     <% end %>
     <div class="col-xs-12 col-md-5 col-lg-4 col-lg-offset-1">
       <%= if redesign? do %>
+        <% without_schedules = @schedule_page_data |> Map.put(:service_schedules, %{})%>
         <div id="react-root">
+          <%= Site.React.render("SchedulePage", %{schedulePageData: without_schedules}) %>
         </div>
       <% else %>
         <%= render "_cms_teasers.html", featured_content: @featured_content, news: @news, conn: @conn, teaser_class: "m-schedule-line__teaser", news_class: "m-schedule-line__news" %>
