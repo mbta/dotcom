@@ -38,6 +38,8 @@ The new face of https://www.mbta.com/
      asdf plugin-add ruby
      asdf plugin-add nodejs
      ```
+     
+     You can verify the plugins were installed with `asdf plugin-list`
 
    * Import the Node.js release team's OpenPGP keys to install 'nodejs' plugin:
 
@@ -53,20 +55,22 @@ The new face of https://www.mbta.com/
      asdf install
      ```
 
-   * Verify that all the plugins got installed:
+   * Verify that all the languages for our setup were installed:
 
      ```
-     asdf plugin-list
+     asdf current
      ```
 
-     You should see the following output:
+     You should see the following output with versions specified from `.tool-versions`:
 
      ```
-     elixir
-     erlang
-     nodejs
-     ruby
+      elixir         <version> (set by ~/dotcom/.tool-versions)
+      erlang         <version> (set by ~/dotcom/.tool-versions)
+      nodejs         <version> (set by ~/dotcom/.tool-versions)
+      ruby           <version> (set by ~/dotcom/.tool-versions)
      ```
+     
+     If you are missing any versions, you should re-run `asdf install`. Related [Github issue about asdf-erlang](https://github.com/asdf-vm/asdf-erlang/issues/57)
 
 4. Install Sass:
     ```
