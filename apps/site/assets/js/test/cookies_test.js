@@ -3,6 +3,12 @@ import * as Cookies from "../cookies";
 
 describe("Cookies", () => {
   describe("getCookieFromString", () => {
+    it("gets correct result for no cookies", () => {
+      const cookies = "";
+      const result = Cookies.getCookieFromString(cookies, "cookie");
+      assert.equal(result, null);
+    });
+
     it("gets correct result for single cookie", () => {
       const cookies = "cookie1=value1";
       const result = Cookies.getCookieFromString(cookies, "cookie1");
