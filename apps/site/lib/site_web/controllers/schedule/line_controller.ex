@@ -40,12 +40,12 @@ defmodule SiteWeb.ScheduleController.LineController do
     services =
       Enum.map(
         Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id),
-        &Map.drop(&1, [:route])
+        &Map.update!(&1, :route, fn route -> Route.to_json_safe(route) end)
       )
 
     services_by_trip =
       services
-      |> Enum.map(&Map.update!(&1, :time, fn time -> Timex.format!(time, "{h12}:{m} {AM}") end))
+      |> Enum.map(&Map.update!(&1, :time, fn time -> Timex.format!(time, "{0h12}:{m} {AM}") end))
       |> Enum.group_by(& &1.trip.id)
 
     ordered_trips = services |> Enum.sort_by(& &1.time) |> Enum.map(& &1.trip.id) |> Enum.uniq()

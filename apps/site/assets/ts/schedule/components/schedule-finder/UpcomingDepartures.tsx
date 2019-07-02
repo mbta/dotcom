@@ -24,7 +24,7 @@ const hasPredictions = (stopPredictions: StopPrediction[]): boolean =>
     stopPrediction => stopPrediction.prediction.prediction !== null
   ).length > 0;
 
-const RoutePillSmall = ({
+export const RoutePillSmall = ({
   route
 }: {
   route: Route;
@@ -44,7 +44,7 @@ const TableRow = ({
   if (prediction.route.type === 2)
     return <CrTableRow prediction={prediction} />;
   return (
-    <tr className="schedule-table__row">
+    <tr className="schedule-table__row schedule-table__row--stretch">
       <td>
         <div className="schedule-table__row-route">
           <RoutePillSmall route={prediction.route} />
@@ -68,7 +68,7 @@ const CrTableRow = ({
     : "";
   const predictedSchedule = prediction.prediction;
   return (
-    <tr className="schedule-table__row">
+    <tr className="schedule-table__row schedule-table__row--stretch">
       <td className="schedule-table__headsign">
         {modeIcon(prediction.route.id)}
         {"   "}

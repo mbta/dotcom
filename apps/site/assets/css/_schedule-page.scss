@@ -271,11 +271,21 @@
   width: 100%;
 }
 
+.schedule-table__header {
+  background: $brand-primary-lightest-contrast;
+  display: flex;
+  font-weight: bold;
+  padding: $base-spacing / 2;
+}
+
 .schedule-table__row {
   border: $border;
   display: flex;
-  justify-content: space-between;
   padding: $base-spacing / 2;
+}
+
+.schedule-table__row--stretch {
+  justify-content: space-between;
 }
 
 .schedule-table__row:nth-child(even) {
@@ -294,6 +304,7 @@
 
 .schedule-table__time {
   font-weight: bold;
+  font-variant-numeric: tabular-nums;
   text-align: right;
 
   &--delayed {
@@ -309,7 +320,10 @@
   display: flex;
   font-weight: bold;
   justify-content: space-between;
-  padding: $base-spacing / 2;
+}
+
+.schedule-table__row-header-label {
+  margin-right: $base-spacing * 3;
 }
 
 .schedule-table__row-route {
@@ -334,4 +348,8 @@
   .c-svg__icon {
     margin-right: $base-spacing / 4;
   }
+}
+
+.schedule-table__td {
+  margin-right: $base-spacing * 2;
 }

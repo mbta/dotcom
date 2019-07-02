@@ -12,6 +12,8 @@ import {
   hasMultipleWeekdaySchedules
 } from "../../../helpers/service";
 import { ServiceSchedule } from "../__schedule";
+import { RoutePillSmall } from "./UpcomingDepartures";
+import { modeIcon } from "../../../helpers/icon";
 
 const optGroupNames: ServiceOptGroup[] = ["current", "holiday", "other"];
 
@@ -58,6 +60,46 @@ const Trip = ({ schedule }: { schedule: Schedule }) => {
   );
 };
 
+const TableRow = ({
+  schedule
+}: {
+  schedule: Schedule;
+}): ReactElement<HTMLElement> | null => {
+  if (schedule.route.type === 2) return <CrTableRow schedule={schedule} />;
+  return (
+    <tr className="schedule-table__row">
+      <td className="schedule-table__td schedule-table__time">
+        {schedule.time}
+      </td>
+      <td className="schedule-table__td">
+        <div className="schedule-table__row-route">
+          <RoutePillSmall route={schedule.route} />
+        </div>
+        {schedule.stop.name}
+      </td>
+    </tr>
+  );
+};
+
+const CrTableRow = ({
+  schedule
+}: {
+  schedule: Schedule;
+}): ReactElement<HTMLElement> => {
+  return (
+    <tr className="schedule-table__row">
+      <td className="schedule-table__td">
+        <div className="schedule-table__time">{schedule.time}</div>
+      </td>
+      <td className="schedule-table__headsign">
+        {modeIcon(schedule.route.id)}
+        {"   "}
+        {schedule.trip.name}
+      </td>
+    </tr>
+  );
+};
+
 const ServiceSelector = ({
   services,
   serviceSchedules
@@ -97,13 +139,16 @@ const ServiceSelector = ({
           })}
         </select>
       </SelectContainer>
-      <table>
-        <thead>
-          <tr>Destination</tr>
+      <table className="schedule-table">
+        <thead className="schedule-table__header">
+          <tr className="schedule-table__row-header">
+          <th className="schedule-table__row-header-label">Departs</th>
+          <th className="schedule-table__row-header-label">Destination</th>
+          </tr>
         </thead>
         <tbody>
           {selectedServiceSchedule.trip_order.map(trip_id => (
-            <Trip schedule={selectedServiceSchedule.by_trip[trip_id][0]} />
+            <TableRow schedule={selectedServiceSchedule.by_trip[trip_id][0]} />
           ))}
         </tbody>
       </table>
