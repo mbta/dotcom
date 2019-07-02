@@ -85,9 +85,7 @@ const ServiceSelector = ({
           })}
         </select>
       </SelectContainer>
-      <div>
-        {JSON.stringify(serviceSchedules[services[0].id]["0"][0].trip.headsign)}
-      </div>
+      {/* JSON.stringify(serviceSchedules[services[0].id]["0"][0].trip.headsign) */}
     </div>
   );
 };

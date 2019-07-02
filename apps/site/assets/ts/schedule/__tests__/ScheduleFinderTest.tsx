@@ -67,6 +67,7 @@ it("renders", () => {
         stops={stops}
         directionId={0}
         services={[service]}
+        serviceSchedules={{}}
       />
     )
     .toJSON();
@@ -82,6 +83,7 @@ it("opens modal after displaying error", () => {
       stops={stops}
       directionId={0}
       services={[service]}
+      serviceSchedules={{}}
     />
   );
 
@@ -189,6 +191,7 @@ it("modal renders route pill for bus lines", () => {
       route={route}
       directionId={0}
       services={[service]}
+      serviceSchedules={{}}
     />
   );
   subwayWrapper
@@ -210,6 +213,7 @@ it("modal renders route pill for bus lines", () => {
       route={busRoute}
       directionId={0}
       services={[service]}
+      serviceSchedules={{}}
     />
   );
   busWrapper
@@ -233,6 +237,7 @@ it("modal renders route pill for silver line", () => {
       route={route}
       directionId={0}
       services={[service]}
+      serviceSchedules={{}}
     />
   );
   subwayWrapper
@@ -254,6 +259,7 @@ it("modal renders route pill for silver line", () => {
       route={busRoute}
       directionId={0}
       services={[service]}
+      serviceSchedules={{}}
     />
   );
   busWrapper

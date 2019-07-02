@@ -108,7 +108,8 @@ it("it renders", () => {
           route,
           services,
           stops,
-          direction_id: 0
+          direction_id: 0,
+          service_schedules: {}
         }}
       />
     )
@@ -140,7 +141,8 @@ it("it renders with conditional components", () => {
         route,
         services,
         stops,
-        direction_id: 0
+        direction_id: 0,
+        service_schedules: {}
       }}
     />
   );
