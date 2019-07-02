@@ -36,23 +36,25 @@ defmodule SiteWeb.ScheduleController.LineController do
     |> render("show.html", [])
   end
 
+  def get_schedules(route_id, date, direction_id) do
+    services =
+      Enum.map(
+        Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id),
+        &Map.drop(&1, [:route])
+      )
+
+    services_by_trip = services |> Enum.group_by(& &1.trip.id)
+    ordered_trips = services |> Enum.sort_by(& &1.time) |> Enum.map(& &1.trip.id) |> Enum.uniq()
+    %{by_trip: services_by_trip, trip_order: ordered_trips}
+  end
+
   def schedules_for_service(route_id, services) do
     services
     |> Enum.reduce(%{}, fn %{start_date: date, id: service_id}, acc ->
       Map.put(acc, service_id, %{
         service_id: service_id,
-        "0":
-          Enum.map(
-            Schedules.Repo.by_route_ids([route_id], date: date, direction_id: 0),
-            &Map.drop(&1, [:route])
-          )
-          |> Enum.group_by(& &1.trip.id),
-        "1":
-          Enum.map(
-            Schedules.Repo.by_route_ids([route_id], date: date, direction_id: 1),
-            &Map.drop(&1, [:route])
-          )
-          |> Enum.group_by(& &1.trip.id)
+        "0": get_schedules(route_id, date, 0),
+        "1": get_schedules(route_id, date, 1)
       })
     end)
   end

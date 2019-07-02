@@ -28,10 +28,14 @@ export interface ServiceSchedule {
   [key: string]: ServiceScheduleItem;
 }
 
+export interface ServiceScheduleByTrip {
+  [key: string]: Schedule[];
+}
+
 export interface ServiceScheduleItem {
   service_id: string;
-  "0": Schedule[];
-  "1": Schedule[];
+  "0": { "by_trip": ServiceScheduleByTrip; trip_order: string[] };
+  "1": { "by_trip": ServiceScheduleByTrip; trip_order: string[] };
 }
 export interface ScheduleNote {
   peak_service: string;

@@ -49,7 +49,7 @@ const serviceDescription = (
 
 const ServiceSelector = ({
   services
-}: // serviceSchedules
+  , serviceSchedules}:
 Props): ReactElement<HTMLElement> => {
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
@@ -57,6 +57,7 @@ Props): ReactElement<HTMLElement> => {
 
   const todayService = getTodaysSchedule(servicesByOptGroup);
   const defaultServiceId = todayService ? todayService.service.id : "";
+  const selectedServiceSchedule = serviceSchedules[services[0].id]["0"];
   return (
     <div className="schedule-finder__service-selector">
       <SelectContainer id="service_selector_container" error={false}>
@@ -85,7 +86,9 @@ Props): ReactElement<HTMLElement> => {
           })}
         </select>
       </SelectContainer>
-      {/* JSON.stringify(serviceSchedules[services[0].id]["0"][0].trip.headsign) */}
+      { selectedServiceSchedule.trip_order.map(trip_id => <div>{selectedServiceSchedule.by_trip[trip_id][0].stop.name} - {selectedServiceSchedule.by_trip[trip_id][0].time}</div>) }
+
+
     </div>
   );
 };
