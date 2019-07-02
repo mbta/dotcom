@@ -49,17 +49,6 @@ const serviceDescription = (
   );
 };
 
-const Trip = ({ schedule }: { schedule: Schedule }) => {
-  return (
-    <tr>
-      <td>
-        {schedule.time} {schedule.trip.name && `Train ${schedule.trip.name} `}
-        {schedule.stop.name}
-      </td>
-    </tr>
-  );
-};
-
 const TableRow = ({
   schedule
 }: {
