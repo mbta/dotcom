@@ -45,12 +45,14 @@ defmodule SiteWeb.ScheduleController.LineController do
           Enum.map(
             Schedules.Repo.by_route_ids([route_id], date: date, direction_id: 0),
             &Map.drop(&1, [:route])
-          ),
+          )
+          |> Enum.group_by(& &1.trip.id),
         "1":
           Enum.map(
             Schedules.Repo.by_route_ids([route_id], date: date, direction_id: 1),
             &Map.drop(&1, [:route])
           )
+          |> Enum.group_by(& &1.trip.id)
       })
     end)
   end
