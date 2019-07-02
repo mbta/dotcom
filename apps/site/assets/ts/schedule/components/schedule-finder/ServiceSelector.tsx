@@ -64,7 +64,7 @@ const TableRow = ({
         <div className="schedule-table__row-route">
           <RoutePillSmall route={schedule.route} />
         </div>
-        {schedule.stop.name}
+        {schedule.trip.headsign}
       </td>
     </tr>
   );
@@ -80,10 +80,13 @@ const CrTableRow = ({
       <td className="schedule-table__td">
         <div className="schedule-table__time">{schedule.time}</div>
       </td>
+      <td className="schedule-table__td schedule-table__tab-num">
+        {schedule.trip.name}
+      </td>
       <td className="schedule-table__headsign">
         {modeIcon(schedule.route.id)}
         {"   "}
-        {schedule.trip.name}
+        {schedule.trip.headsign}
       </td>
     </tr>
   );
@@ -148,6 +151,9 @@ const ServiceSelector = ({
         <thead className="schedule-table__header">
           <tr className="schedule-table__row-header">
             <th className="schedule-table__row-header-label">Departs</th>
+            {selectedServiceSchedule.by_trip[firstTrip][0].route.type === 2 && (
+              <th className="schedule-table__row-header-label--small">Train</th>
+            )}
             <th className="schedule-table__row-header-label">Destination</th>
           </tr>
         </thead>

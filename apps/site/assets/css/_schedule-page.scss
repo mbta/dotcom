@@ -323,7 +323,11 @@
 }
 
 .schedule-table__row-header-label {
-  margin-right: $base-spacing * 3;
+  margin-right: $base-spacing * 3.75;
+}
+
+.schedule-table__row-header-label--small {
+  margin-right: $base-spacing * 2.5;
 }
 
 .schedule-table__row-route {
@@ -351,7 +355,11 @@
 }
 
 .schedule-table__td {
-  margin-right: $base-spacing * 2;
+  margin-right: $base-spacing * 3;
+}
+
+.schedule-table__tab-num {
+  font-variant-numeric: tabular-nums;
 }
 
 .schedule-finder__first-last-trip {
