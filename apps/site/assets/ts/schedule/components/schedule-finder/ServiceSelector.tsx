@@ -48,9 +48,9 @@ const serviceDescription = (
 };
 
 const ServiceSelector = ({
-  services,
-  serviceSchedules
-}: Props): ReactElement<HTMLElement> => {
+  services
+}: // serviceSchedules
+Props): ReactElement<HTMLElement> => {
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
     .reduce(groupByType, { current: [], holiday: [], other: [] });
