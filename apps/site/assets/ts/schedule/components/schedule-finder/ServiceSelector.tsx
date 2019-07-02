@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import SelectContainer from "./SelectContainer";
-import { ServiceWithServiceDate } from "../../../__v3api";
+import { ServiceWithServiceDate, Schedule } from "../../../__v3api";
 import {
   ServicesKeyedByGroup,
   groupServiceByDate,
@@ -47,10 +47,21 @@ const serviceDescription = (
   );
 };
 
+const Trip = ({ schedule }: { schedule: Schedule }) => {
+  return (
+    <tr>
+      <td>
+        {schedule.time} {schedule.trip.name && `Train ${schedule.trip.name} `}
+        {schedule.stop.name}
+      </td>
+    </tr>
+  );
+};
+
 const ServiceSelector = ({
-  services
-  , serviceSchedules}:
-Props): ReactElement<HTMLElement> => {
+  services,
+  serviceSchedules
+}: Props): ReactElement<HTMLElement> => {
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
     .reduce(groupByType, { current: [], holiday: [], other: [] });
@@ -86,9 +97,16 @@ Props): ReactElement<HTMLElement> => {
           })}
         </select>
       </SelectContainer>
-      { selectedServiceSchedule.trip_order.map(trip_id => <div>{selectedServiceSchedule.by_trip[trip_id][0].stop.name} - {selectedServiceSchedule.by_trip[trip_id][0].time}</div>) }
-
-
+      <table>
+        <thead>
+          <tr>Destination</tr>
+        </thead>
+        <tbody>
+          {selectedServiceSchedule.trip_order.map(trip_id => (
+            <Trip schedule={selectedServiceSchedule.by_trip[trip_id][0]} />
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

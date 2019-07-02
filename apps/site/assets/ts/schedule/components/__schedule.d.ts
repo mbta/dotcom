@@ -34,8 +34,8 @@ export interface ServiceScheduleByTrip {
 
 export interface ServiceScheduleItem {
   service_id: string;
-  "0": { "by_trip": ServiceScheduleByTrip; trip_order: string[] };
-  "1": { "by_trip": ServiceScheduleByTrip; trip_order: string[] };
+  "0": { by_trip: ServiceScheduleByTrip; trip_order: string[] };
+  "1": { by_trip: ServiceScheduleByTrip; trip_order: string[] };
 }
 export interface ScheduleNote {
   peak_service: string;

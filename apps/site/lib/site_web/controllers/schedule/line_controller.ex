@@ -43,7 +43,11 @@ defmodule SiteWeb.ScheduleController.LineController do
         &Map.drop(&1, [:route])
       )
 
-    services_by_trip = services |> Enum.group_by(& &1.trip.id)
+    services_by_trip =
+      services
+      |> Enum.map(&Map.update!(&1, :time, fn time -> Timex.format!(time, "{h12}:{m} {AM}") end))
+      |> Enum.group_by(& &1.trip.id)
+
     ordered_trips = services |> Enum.sort_by(& &1.time) |> Enum.map(& &1.trip.id) |> Enum.uniq()
     %{by_trip: services_by_trip, trip_order: ordered_trips}
   end
