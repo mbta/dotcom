@@ -5,13 +5,14 @@ export function getCookie(name) {
 export function getCookieFromString(cookies, name) {
   const cookieArray = cookies.split(";");
 
-  let cookieHash = {};
   for (let cookie in cookieArray) {
     let key;
     let value;
     [key, value] = cookieArray[cookie].split("=");
-    cookieHash[key.trim()] = value.trim();
+    if (key && key.trim() === name) {
+      return value.trim();
+    }
   }
 
-  return cookieHash[name];
+  return null;
 }
