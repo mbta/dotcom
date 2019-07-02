@@ -68,7 +68,6 @@
     <div class="col-xs-12 col-md-5 col-lg-4 col-lg-offset-1">
       <%= if redesign? do %>
         <div id="react-root">
-          <%= Site.React.render("SchedulePage", %{schedulePageData: @schedule_page_data}) %>
         </div>
       <% else %>
         <%= render "_cms_teasers.html", featured_content: @featured_content, news: @news, conn: @conn, teaser_class: "m-schedule-line__teaser", news_class: "m-schedule-line__news" %>
