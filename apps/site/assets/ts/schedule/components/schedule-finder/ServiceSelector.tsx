@@ -111,6 +111,12 @@ const ServiceSelector = ({
   const todayService = getTodaysSchedule(servicesByOptGroup);
   const defaultServiceId = todayService ? todayService.service.id : "";
   const selectedServiceSchedule = serviceSchedules[services[0].id]["0"];
+  const firstTrip = selectedServiceSchedule.trip_order[0];
+  const lastTrip =
+    selectedServiceSchedule.trip_order[
+      selectedServiceSchedule.trip_order.length - 1
+    ];
+
   return (
     <div className="schedule-finder__service-selector">
       <SelectContainer id="service_selector_container" error={false}>
@@ -139,16 +145,29 @@ const ServiceSelector = ({
           })}
         </select>
       </SelectContainer>
+      <div className="schedule-finder__first-last-trip">
+        <div>
+          {firstTrip !== undefined &&
+            `First Trip: ${selectedServiceSchedule.by_trip[firstTrip][0].time}`}
+        </div>
+        <div>
+          {lastTrip !== undefined &&
+            `Last Trip: ${selectedServiceSchedule.by_trip[lastTrip][0].time}`}
+        </div>
+      </div>
       <table className="schedule-table">
         <thead className="schedule-table__header">
           <tr className="schedule-table__row-header">
-          <th className="schedule-table__row-header-label">Departs</th>
-          <th className="schedule-table__row-header-label">Destination</th>
+            <th className="schedule-table__row-header-label">Departs</th>
+            <th className="schedule-table__row-header-label">Destination</th>
           </tr>
         </thead>
         <tbody>
           {selectedServiceSchedule.trip_order.map(trip_id => (
-            <TableRow schedule={selectedServiceSchedule.by_trip[trip_id][0]} />
+            <TableRow
+              key={trip_id}
+              schedule={selectedServiceSchedule.by_trip[trip_id][0]}
+            />
           ))}
         </tbody>
       </table>
