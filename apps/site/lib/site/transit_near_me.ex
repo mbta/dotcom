@@ -58,18 +58,19 @@ defmodule Site.TransitNearMe do
   end
 
   @spec get_schedules([Stop.t()], Keyword.t()) ::
-          {:ok, %{Stop.id_t() => [Schedule.t()]}} | {:error, :timeout}
+          {:ok, %{Stop.id_t() => [PredictedSchedule.t()]}} | {:error, :timeout}
   defp get_schedules(stops, opts) do
     stops
     |> Task.async_stream(
       &stream_schedules(&1, opts),
+      ordered: false,
       on_timeout: :kill_task
     )
     |> Enum.reduce_while({:ok, %{}}, &collect_data(&1, &2, :stream_schedules))
   end
 
   @spec stream_schedules(Stop.t(), Keyword.t()) ::
-          {Stop.id_t(), [Schedule.t()]}
+          {Stop.id_t(), [PredictedSchedule.t()]}
   def stream_schedules(stop, opts) do
     now = Keyword.fetch!(opts, :now)
     schedules_fn = Keyword.fetch!(opts, :schedules_fn)
@@ -89,8 +90,7 @@ defmodule Site.TransitNearMe do
   end
 
   @spec schedules_or_tomorrow([Schedule.t()], fun(), Stop.t(), DateTime.t()) :: [Schedule.t()]
-  def schedules_or_tomorrow(schedules, _, _, _)
-      when is_list(schedules) and length(schedules) > 0 do
+  def schedules_or_tomorrow([_ | _] = schedules, _, _, _) do
     schedules
   end
 
@@ -124,22 +124,17 @@ defmodule Site.TransitNearMe do
     params
     |> predictions_fn.()
     |> PredictedSchedule.group(schedules)
-    |> Enum.reject(&PredictedSchedule.last_stop?/1)
-    |> Enum.filter(&after_min_time?(&1, now))
+    |> Enum.filter(&(!PredictedSchedule.last_stop?(&1) and after_min_time?(&1, now)))
   end
 
   @spec after_min_time?(PredictedSchedule.t(), DateTime.t()) :: boolean
   defp after_min_time?(%PredictedSchedule{} = predicted_schedule, min_time) do
     case PredictedSchedule.time(predicted_schedule) do
+      %DateTime{} = time ->
+        DateTime.compare(time, min_time) != :lt
+
       nil ->
         false
-
-      %DateTime{} = time ->
-        case DateTime.compare(time, min_time) do
-          :gt -> true
-          :eq -> true
-          :lt -> false
-        end
     end
   end
 
@@ -179,17 +174,14 @@ defmodule Site.TransitNearMe do
     {:halt, {:error, :timeout}}
   end
 
-  @spec sort_by_time({:ok, [{DateTime.t() | nil, any}]} | {:error, :timeout}) ::
+  @spec sort_by_time([{DateTime.t() | nil, any}]) ::
           {DateTime.t() | nil, [any]}
-  defp sort_by_time({:error, :timeout}) do
+
+  defp sort_by_time([]) do
     {nil, []}
   end
 
-  defp sort_by_time({:ok, []}) do
-    {nil, []}
-  end
-
-  defp sort_by_time({:ok, list}) do
+  defp sort_by_time(list) do
     {[closest_time | _], sorted} =
       list
       |> Enum.sort_by(fn
@@ -208,8 +200,8 @@ defmodule Site.TransitNearMe do
   def routes_for_stop(%__MODULE__{schedules: schedules}, stop_id) do
     schedules
     |> Map.fetch!(stop_id)
-    |> Enum.reduce(MapSet.new(), &MapSet.put(&2, PredictedSchedule.route(&1)))
-    |> MapSet.to_list()
+    |> Stream.map(&PredictedSchedule.route/1)
+    |> Enum.uniq()
   end
 
   @doc """
@@ -291,15 +283,12 @@ defmodule Site.TransitNearMe do
           Keyword.t()
         ) :: route_data
   def schedules_for_route(
-        {_route_id, [%PredictedSchedule{} | _] = schedules},
+        {_route_id, [%PredictedSchedule{} = ps | _] = schedules},
         distances,
         alerts,
         opts
       ) do
-    route =
-      schedules
-      |> List.first()
-      |> PredictedSchedule.route()
+    route = PredictedSchedule.route(ps)
 
     %{
       route: JsonHelpers.stringified_route(route),
@@ -319,12 +308,8 @@ defmodule Site.TransitNearMe do
   defp get_stops_for_route(schedules, distances, opts) do
     schedules
     |> Enum.group_by(&PredictedSchedule.stop(&1).id)
-    |> Task.async_stream(&get_directions_for_stop(&1, distances, opts), on_timeout: :kill_task)
-    |> Enum.reduce_while({:ok, []}, &collect_data(&1, &2, :get_directions_for_stop))
-    |> case do
-      {:error, :timeout} -> []
-      {:ok, results} -> Enum.sort_by(results, &Map.get(distances, &1.stop.id))
-    end
+    |> Stream.map(&get_directions_for_stop(&1, distances, opts))
+    |> Enum.sort_by(&Map.get(distances, &1.stop.id))
   end
 
   @spec get_directions_for_stop(
@@ -333,11 +318,8 @@ defmodule Site.TransitNearMe do
           Keyword.t()
         ) ::
           stop_with_data
-  defp get_directions_for_stop({_stop_id, schedules}, distances, opts) do
-    schedule_stop =
-      schedules
-      |> List.first()
-      |> PredictedSchedule.stop()
+  defp get_directions_for_stop({_stop_id, [ps | _] = schedules}, distances, opts) do
+    schedule_stop = PredictedSchedule.stop(ps)
 
     stop_fn = Keyword.get(opts, :stops_fn, &Stops.Repo.get_parent/1)
 
@@ -363,26 +345,21 @@ defmodule Site.TransitNearMe do
   def get_direction_map(schedules, opts) do
     schedules
     |> Enum.group_by(&PredictedSchedule.direction_id/1)
-    |> Task.async_stream(&build_direction_map(&1, opts), on_timeout: :kill_task)
-    |> Enum.reduce_while({:ok, []}, &collect_data(&1, &2, :build_direction_map))
+    |> Enum.map(&build_direction_map(&1, opts))
     |> sort_by_time()
     |> elem(1)
   end
 
   @spec build_direction_map({0 | 1, [PredictedSchedule.t()]}, Keyword.t()) ::
           {DateTime.t(), direction_data}
-  def build_direction_map({direction_id, schedules}, opts) do
+  def build_direction_map({direction_id, [ps | _] = schedules}, opts) do
     headsign_fn = Keyword.get(opts, :headsign_fn, &build_headsign_map/2)
     now = Keyword.fetch!(opts, :now)
 
-    route =
-      schedules
-      |> List.first()
-      |> PredictedSchedule.route()
+    route = PredictedSchedule.route(ps)
 
     stop_id =
-      schedules
-      |> List.first()
+      ps
       |> PredictedSchedule.stop()
       |> Stops.Repo.get_parent()
       |> Map.fetch!(:id)
@@ -390,13 +367,13 @@ defmodule Site.TransitNearMe do
     {closest_time, headsigns} =
       schedules
       |> filter_predicted_schedules(route, stop_id, now)
-      |> Enum.group_by(&(PredictedSchedule.trip(&1) && PredictedSchedule.trip(&1).headsign))
+      |> Enum.group_by(&((trip = PredictedSchedule.trip(&1)) && trip.headsign))
       |> Enum.map(fn {headsign, predicted_scheds} ->
-        {headsign,
-         Enum.sort_by(predicted_scheds, &(&1 |> PredictedSchedule.time() |> DateTime.to_unix()))}
+        predicted_scheds =
+          Enum.sort_by(predicted_scheds, &(&1 |> PredictedSchedule.time() |> DateTime.to_unix()))
+
+        headsign_fn.({headsign, predicted_scheds}, opts)
       end)
-      |> Task.async_stream(&headsign_fn.(&1, opts), on_timeout: :kill_task)
-      |> Enum.reduce_while({:ok, []}, &collect_data(&1, &2, :build_headsign_map))
       |> sort_by_time()
 
     {
@@ -465,9 +442,9 @@ defmodule Site.TransitNearMe do
           {Schedules.Trip.headsign(), [PredictedSchedule.t()]},
           Keyword.t()
         ) :: {DateTime.t(), headsign_data}
-  def build_headsign_map({headsign, schedules}, opts) do
-    route = schedules |> List.first() |> PredictedSchedule.route()
-    trip = schedules |> List.first() |> PredictedSchedule.trip()
+  def build_headsign_map({headsign, [ps | _] = schedules}, opts) do
+    route = PredictedSchedule.route(ps)
+    trip = PredictedSchedule.trip(ps)
 
     {[soonest | _], headsign_schedules} =
       schedules
@@ -503,7 +480,7 @@ defmodule Site.TransitNearMe do
 
     if prediction_available? do
       schedules
-      |> Enum.reject(&(&1 |> elem(0) |> PredictedSchedule.has_prediction?() |> Kernel.==(false)))
+      |> Enum.filter(&(&1 |> elem(0) |> PredictedSchedule.has_prediction?()))
       |> Enum.take(2)
     else
       schedules
@@ -539,11 +516,10 @@ defmodule Site.TransitNearMe do
     |> schedules_fn.(direction_id: direction_id)
     |> get_predicted_schedules([route: route_id, direction_id: direction_id], opts)
     |> Enum.group_by(&PredictedSchedule.route(&1).id)
-    |> Enum.map(&schedules_for_route(&1, %{}, [], opts))
-    |> Enum.flat_map(& &1.stops_with_directions)
+    |> Enum.flat_map(&schedules_for_route(&1, %{}, [], opts).stops_with_directions)
     |> convert_route_time_data_to_map()
-    |> Enum.reduce(%{}, fn {stop_id, time_data}, accumulator ->
-      Map.put(accumulator, stop_id, limit_route_time_data(time_data))
+    |> Map.new(fn {stop_id, time_data} ->
+      {stop_id, limit_route_time_data(time_data)}
     end)
   end
 
@@ -564,13 +540,10 @@ defmodule Site.TransitNearMe do
 
   defp limit_route_time_data(headsign_data) do
     headsign_data
-    |> Enum.reduce([], fn headsign, accumulator ->
-      split_headsigns = Enum.map(headsign.times, &%{headsign | times: [&1]})
-
-      [split_headsigns | accumulator]
+    |> Enum.flat_map(fn headsign ->
+      Enum.map(headsign.times, &%{headsign | times: [&1]})
     end)
-    |> List.flatten()
-    |> Enum.sort(&(first_headsign_prediction_time(&1) < first_headsign_prediction_time(&2)))
+    |> Enum.sort_by(&first_headsign_prediction_time(&1))
     |> Enum.take(2)
   end
 
@@ -632,7 +605,7 @@ defmodule Site.TransitNearMe do
   end
 
   def simple_prediction(%Prediction{time: %DateTime{}} = prediction, route_type, now) do
-    seconds = Timex.diff(prediction.time, now, :seconds)
+    seconds = DateTime.diff(prediction.time, now)
 
     prediction
     |> Map.take([:status, :track])
