@@ -47,7 +47,7 @@
 
           <%= if fare_card.show_media do %>
             <p class="c-fare-card__media">
-              with a <%= Fares.Format.media(fare) %>
+              with <%= Fares.Format.media(fare) %>
             </p>
           <% end %>
 
