@@ -21,9 +21,11 @@
     _ -> Fares.Format.price(fare)
   end
 
+  mticket_html = content_tag(:span, "mTicket App", class: "no-wrap")
+
   media = case fare do
-    %Fares.Summary{duration: :weekend} -> ["CharlieTicket, Cash, or ", content_tag(:span, "mTicket app", class: "no-wrap")]
-    %Fares.Summary{} -> ["CharlieTicket or ", content_tag(:span, "mTicket app", class: "no-wrap")]
+    %Fares.Summary{duration: :weekend} -> ["CharlieTicket, Cash, or ", mticket_html]
+    %Fares.Summary{} -> ["CharlieTicket or ", mticket_html]
     _ -> Fares.Format.media(fare)
   end
 
