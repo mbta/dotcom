@@ -23,6 +23,7 @@ defmodule Content.Teaser do
     text: nil,
     topic: nil,
     date: nil,
+    date_end: nil,
     location: nil,
     routes: []
   ]
@@ -43,6 +44,7 @@ defmodule Content.Teaser do
           text: String.t() | nil,
           topic: String.t() | nil,
           date: Date.t() | DateTime.t() | nil,
+          date_end: DateTime.t() | nil,
           location: location() | nil,
           routes: [CMS.route_term()]
         }
@@ -70,25 +72,27 @@ defmodule Content.Teaser do
       text: content(text),
       topic: content(topic),
       location: data |> location(),
-      date: date(data),
+      date: date(data, "start"),
+      date_end: date(data, "end"),
       routes: routes(route_data)
     }
   end
 
-  @spec date(map) :: Date.t() | nil
+  @spec date(map, String.t()) :: Date.t() | nil
   # news_entry and project_update types share a common "Posted On" date field (both are required).
-  defp date(%{"type" => type, "posted" => date}) when type in ["news_entry", "project_update"] do
+  defp date(%{"type" => type, "posted" => date}, _)
+       when type in ["news_entry", "project_update"] do
     do_date(date)
   end
 
   # project types have a required "Updated On" date field.
-  defp date(%{"type" => "project", "updated" => date}) do
+  defp date(%{"type" => "project", "updated" => date}, _) do
     do_date(date)
   end
 
   # event types have a required "Start Time" date field.
-  defp date(%{"type" => "event", "start" => date}) do
-    do_datetime(date)
+  defp date(%{"type" => "event"} = event, index) do
+    do_datetime(Map.get(event, index))
   end
 
   # Emulate /cms/teasers endpoint and fall back to creation date when:
