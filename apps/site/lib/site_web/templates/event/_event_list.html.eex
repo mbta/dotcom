@@ -5,10 +5,10 @@
     <%= for event <- @events do %>
       <li class="list-group-item">
         <div>
-          <%= render_duration(event.start_time, event.end_time) %>
+          <%= render_duration(event.date, nil) %>
         </div>
         <div>
-          <%= link to: event_path(@conn, :show, event) do %>
+          <%= link to: cms_static_page_path(@conn, event.path) do %>
             <%= event.title %>
           <% end %>
         </div>
