@@ -13,8 +13,16 @@ defmodule SiteWeb.Content.TeaserView do
   def teaser_color(%Teaser{routes: []}), do: "unknown"
 
   @spec display_date(Teaser.t()) :: String.t()
-  def display_date(%Teaser{type: :event, date: date}) do
+  def display_date(%Teaser{type: :event, date: date, date_end: nil}) do
     Timex.format!(date, "{Mfull} {D}, {YYYY}, {h12}:{m} {AM}")
+  end
+
+  def display_date(%Teaser{type: :event, date: date_start, date_end: date_end}) do
+    [
+      Timex.format!(date_start, "{Mfull} {D}, {YYYY}, {h12}:{m} {AM}"),
+      " - ",
+      Timex.format!(date_end, "{h12}:{m} {AM}")
+    ]
   end
 
   def display_date(%Teaser{date: date}) do
