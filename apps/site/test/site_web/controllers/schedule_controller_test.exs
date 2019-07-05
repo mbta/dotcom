@@ -379,7 +379,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Bus line with variant", %{conn: conn} do
-      variant = List.last(Routes.Repo.get_shapes("9", 1)).id
+      variant = List.last(Routes.Repo.get_shapes("9", direction_id: 1)).id
       conn = get(conn, line_path(conn, :show, "9", direction_id: 1, variant: variant))
 
       # during the summer, the 9 only has 2 shapes. It has three when school
@@ -395,7 +395,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     test "Bus line with correct default shape", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "9", direction_id: 1))
-      default_shape_id = List.first(Routes.Repo.get_shapes("9", 1)).id
+      default_shape_id = List.first(Routes.Repo.get_shapes("9", direction_id: 1)).id
       assert conn.assigns.active_shape.id == default_shape_id
     end
 
@@ -490,5 +490,21 @@ defmodule SiteWeb.ScheduleControllerTest do
     refute conn.assigns.featured_content.type == :news_entry
     assert [%Content.Teaser{} | _] = conn.assigns.news
     assert Enum.all?(conn.assigns.news, &(&1.type === :news_entry))
+  end
+
+  test "assigns route_patterns and shape map", %{conn: conn} do
+    conn = get(conn, line_path(conn, :show, "742"))
+    assert conn.status == 200
+
+    route_patterns = conn.assigns.route_patterns
+    shape_map = conn.assigns.shape_map
+
+    first_route_pattern_0 = List.first(route_patterns[0])
+    first_route_pattern_1 = List.first(route_patterns[1])
+    shape = shape_map[first_route_pattern_0.shape_id]
+
+    assert first_route_pattern_0.direction_id == 0
+    assert first_route_pattern_1.direction_id == 1
+    assert shape.id == first_route_pattern_0.shape_id
   end
 end

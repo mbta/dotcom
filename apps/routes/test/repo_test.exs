@@ -263,7 +263,7 @@ defmodule Routes.RepoTest do
 
   describe "get_shapes/2" do
     test "Get valid response for bus route" do
-      shapes = Repo.get_shapes("9", 1)
+      shapes = Repo.get_shapes("9", direction_id: 1)
       shape = List.first(shapes)
 
       assert Enum.count(shapes) >= 2
@@ -272,8 +272,8 @@ defmodule Routes.RepoTest do
     end
 
     test "get different number of shapes from same route depending on filtering" do
-      all_shapes = Repo.get_shapes("100", 1, false)
-      priority_shapes = Repo.get_shapes("100", 1)
+      all_shapes = Repo.get_shapes("100", [direction_id: 1], false)
+      priority_shapes = Repo.get_shapes("100", direction_id: 1)
 
       refute Enum.count(all_shapes) == Enum.count(priority_shapes)
     end
