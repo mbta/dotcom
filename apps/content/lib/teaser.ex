@@ -78,7 +78,7 @@ defmodule Content.Teaser do
     }
   end
 
-  @spec date(map, String.t()) :: Date.t() | nil
+  @spec date(map, String.t()) :: Date.t() | NaiveDateTime.t() | nil
   # news_entry and project_update types share a common "Posted On" date field (both are required).
   defp date(%{"type" => type, "posted" => date}, _)
        when type in ["news_entry", "project_update"] do
@@ -99,7 +99,7 @@ defmodule Content.Teaser do
   # A: :sort_by and :sort_order have not been set OR
   # B: The results are all basic page type content items.
   # *: All content types have this core field date.
-  defp date(%{"created" => date}) do
+  defp date(%{"created" => date}, _) do
     do_date(date)
   end
 
@@ -112,10 +112,10 @@ defmodule Content.Teaser do
   end
 
   # The Event start time includes time and timezone data
-  @spec do_datetime(String.t()) :: DateTime.t() | nil
+  @spec do_datetime(String.t()) :: NaiveDateTime.t() | nil
   defp do_datetime(date) do
-    case DateTime.from_iso8601(date) do
-      {:ok, dt, offset} -> DateTime.add(dt, offset)
+    case NaiveDateTime.from_iso8601(date) do
+      {:ok, date_time} -> date_time
       {:error, _} -> nil
     end
   end
