@@ -37,7 +37,20 @@ defmodule SiteWeb.ProjectControllerTest do
         } ->
           {:ok, []}
 
-        "/cms/events", [project_id: 3004] ->
+        "/cms/teasers",
+        %{
+          related_to: 3004,
+          type: :event,
+          date_op: "<"
+        } ->
+          {:ok, []}
+
+        "/cms/teasers",
+        %{
+          related_to: 3004,
+          type: :event,
+          date_op: ">="
+        } ->
           {:ok, []}
       end
 
@@ -61,8 +74,20 @@ defmodule SiteWeb.ProjectControllerTest do
         })
         |> assert_called()
 
-        "/cms/events"
-        |> Static.view(project_id: 3004)
+        "/cms/teasers"
+        |> Static.view(%{
+          related_to: 3004,
+          type: :event,
+          date_op: "<"
+        })
+        |> assert_called()
+
+        "/cms/teasers"
+        |> Static.view(%{
+          related_to: 3004,
+          type: :event,
+          date_op: ">="
+        })
         |> assert_called()
       end
     end

@@ -1,13 +1,14 @@
 defmodule SiteWeb.ProjectViewTest do
   use SiteWeb.ConnCase, async: true
 
-  alias Content.{Event, Field.Image, Paragraph.CustomHTML, Project, Teaser}
+  alias Content.{Field.Image, Paragraph.CustomHTML, Project, Teaser}
   alias Phoenix.HTML
   alias Plug.Conn
   alias SiteWeb.ProjectView
 
   @now Timex.now()
   @conn %Conn{}
+
   @project %Project{
     id: 1,
     updated_on: @now,
@@ -16,7 +17,20 @@ defmodule SiteWeb.ProjectViewTest do
     start_year: @now.year,
     status: "In Progress"
   }
-  @events [%Event{id: 1, start_time: @now, end_time: @now, path_alias: nil}]
+
+  @events [
+    %Teaser{
+      type: :event,
+      path: "/events/2019-12-16/joint-meeting-the-fiscal-management",
+      image: nil,
+      text: "event teaser",
+      title: "Event title",
+      date: @now,
+      date_end: @now,
+      id: 1
+    }
+  ]
+
   @updates [
     %Teaser{
       type: :project_update,
@@ -39,6 +53,7 @@ defmodule SiteWeb.ProjectViewTest do
       id: 2
     }
   ]
+
   @diversions [
     %Teaser{
       type: :diversion,
