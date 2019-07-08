@@ -6,6 +6,7 @@
 erl_crash.dump
 *.ez
 .DS_Store
+.ruby-version
 .vscode
 .elixir_ls
 

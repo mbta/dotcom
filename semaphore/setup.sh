@@ -41,6 +41,9 @@ echo npm version is `npm -v`
 npm config set cache $SEMAPHORE_CACHE_DIR/npm
 NODEJS_ORG_MIRROR=$NVM_NODEJS_ORG_MIRROR npm run ci-install --no-optional
 
+# for pronto
+rbenv local 2.4.1
+
 npm run webpack:build
 npm run react:setup
 npm run react:build
