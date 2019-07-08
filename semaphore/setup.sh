@@ -41,12 +41,6 @@ echo npm version is `npm -v`
 npm config set cache $SEMAPHORE_CACHE_DIR/npm
 NODEJS_ORG_MIRROR=$NVM_NODEJS_ORG_MIRROR npm run ci-install --no-optional
 
-
-rbenv local 2.4.1
-# Setup scss
-GEM_SPEC=$SEMAPHORE_CACHE_DIR/gems
-gem install sass -v 3.4.23
-
 npm run webpack:build
 npm run react:setup
 npm run react:build
