@@ -100,7 +100,6 @@ defmodule SiteWeb.ScheduleController.Line do
     GreenLine.branch_ids() |> Enum.join(",") |> get_route_patterns()
   end
 
-  @spec get_route_patterns(Route.id_t()) :: map
   defp get_route_patterns(route_id) do
     route_id
     |> RoutePatternRepo.by_route_id()
