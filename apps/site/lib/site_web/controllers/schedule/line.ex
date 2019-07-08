@@ -6,8 +6,8 @@ defmodule SiteWeb.ScheduleController.Line do
   alias Plug.Conn
   alias RoutePatterns.Repo, as: RoutePatternRepo
   alias RoutePatterns.RoutePattern
-  alias Routes.{Route, Shape}
   alias Routes.Repo, as: RoutesRepo
+  alias Routes.{Route, Shape}
   alias Schedules.Repo, as: SchedulesRepo
   alias Site.StopBubble
   alias Site.TransitNearMe
@@ -126,8 +126,7 @@ defmodule SiteWeb.ScheduleController.Line do
   def get_route_shape_map(route_id) do
     route_id
     |> get_route_shapes()
-    |> Enum.map(fn shape -> {shape.id, shape} end)
-    |> Map.new()
+    |> Map.new(fn shape -> {shape.id, shape} end)
   end
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course

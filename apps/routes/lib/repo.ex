@@ -52,7 +52,7 @@ defmodule Routes.Repo do
     opts = Keyword.put(opts, :route, route_id)
 
     shapes =
-      cache(opts, fn _ ->
+      cache(Enum.sort(opts), fn _ ->
         case Shapes.all(opts) do
           {:error, _} ->
             []
