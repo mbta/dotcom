@@ -109,7 +109,7 @@ defmodule Feedback.Mailer do
     end
   end
 
-  defp formatted_utc_timestamp() do
+  defp formatted_utc_timestamp do
     time_fetcher = Application.get_env(:feedback, :time_fetcher)
 
     time_fetcher.utc_now
