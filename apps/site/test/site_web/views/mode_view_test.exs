@@ -55,7 +55,7 @@ defmodule SiteWeb.ModeViewTest do
 
         assert header
                |> Floki.find(".m-mode__name")
-               |> Floki.text()
+               |> Floki.text(deep: false)
                |> String.trim() == text
 
         assert header
