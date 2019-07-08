@@ -120,6 +120,7 @@ const ServiceSelector = ({
 
   return (
     <>
+      <h3>Daily Schedule</h3>
       <div className="schedule-finder__service-selector">
         <SelectContainer id="service_selector_container" error={false}>
           <select
@@ -170,14 +171,10 @@ const ScheduleTable = ({
   return (
     <>
       <div className="schedule-finder__first-last-trip">
-        <div>
-          {firstTrip !== undefined &&
-            `First Trip: ${schedule.by_trip[firstTrip][0].time}`}
-        </div>
-        <div>
-          {lastTrip !== undefined &&
-            `Last Trip: ${schedule.by_trip[lastTrip][0].time}`}
-        </div>
+        <div className="u-small-caps u-bold">First Trip</div>
+        {schedule.by_trip[firstTrip][0].time}
+        <div className="u-small-caps u-bold">Last Trip</div>
+        {schedule.by_trip[lastTrip][0].time}
       </div>
       <table className="schedule-table">
         <thead className="schedule-table__header">

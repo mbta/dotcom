@@ -52,7 +52,7 @@ const TableRow = ({
           {prediction.headsign}
         </div>
       </td>
-      <td className="schedule-table__time">
+      <td className="schedule-table__time u-bold">
         {prediction.prediction.prediction.time}
       </td>
     </tr>
@@ -76,7 +76,10 @@ const CrTableRow = ({
       </td>
       <td>
         <div className="schedule-table__time-container">
-          {timeForCommuterRail(predictedSchedule, "schedule-table__time")}
+          {timeForCommuterRail(
+            predictedSchedule,
+            "schedule-table__time u-bold"
+          )}
         </div>
         <div className="u-nowrap text-right">
           {trainNumber}
