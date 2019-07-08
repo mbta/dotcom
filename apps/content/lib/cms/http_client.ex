@@ -26,6 +26,8 @@ defmodule Content.CMS.HTTPClient do
 
   @impl true
   def view(path, params) do
+    # IO.inspect({path, params}, label: "Incoming view request")
+
     params = [
       {"_format", "json"}
       | Enum.reduce(params, [], &stringify_params/2)
@@ -38,9 +40,11 @@ defmodule Content.CMS.HTTPClient do
   @type param_value :: String.t() | atom() | Keyword.t()
   @type param_list :: [{String.t(), String.t()}]
 
-  # Allow only whitelisted, known, nested params
-  @type safe_key :: :value | :min | :max
-  @safe_keys [:value, :min, :max]
+  # Allow only whitelisted, known, nested params.
+  # Note: when redirecting from CMS, nested params will
+  # be shaped as a Map.t() with String.t() keys and values.
+  @type safe_key :: :value | :min | :max | String.t()
+  @safe_keys [:value, :min, :max, "lattitude", "longitude"]
 
   @spec stringify_params({param_key, param_value}, param_list) :: param_list
   defp stringify_params({key, val}, acc) when is_atom(key) do
@@ -60,6 +64,14 @@ defmodule Content.CMS.HTTPClient do
   end
 
   defp stringify_params({key, val}, acc) when is_binary(key) and is_list(val) do
+    val
+    # drop original param, add new key/vals for nested params
+    |> Enum.reduce(acc, fn nested_param, acc -> list_to_params(key, acc, nested_param) end)
+    # restore original order of nested params
+    |> Enum.reverse()
+  end
+
+  defp stringify_params({key, val}, acc) when is_binary(key) and is_map(val) do
     val
     # drop original param, add new key/vals for nested params
     |> Enum.reduce(acc, fn nested_param, acc -> list_to_params(key, acc, nested_param) end)
