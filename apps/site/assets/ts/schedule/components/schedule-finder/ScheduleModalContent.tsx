@@ -140,6 +140,7 @@ const ScheduleModalContent = ({
       <ServiceSelector
         services={services}
         serviceSchedules={serviceSchedules}
+        directionId={selectedDirection}
       />
     </>
   );

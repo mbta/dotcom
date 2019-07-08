@@ -25,17 +25,22 @@ export interface SchedulePageData {
 }
 
 export interface ServiceSchedule {
-  [key: string]: ServiceScheduleItem;
+  [key: string]: ServiceScheduleByDirection;
 }
 
 export interface ServiceScheduleByTrip {
   [key: string]: Schedule[];
 }
 
-export interface ServiceScheduleItem {
+export interface ServiceScheduleInfo {
+  by_trip: ServiceScheduleByTrip;
+  trip_order: string[];
+}
+
+export interface ServiceScheduleByDirection {
   service_id: string;
-  "0": { by_trip: ServiceScheduleByTrip; trip_order: string[] };
-  "1": { by_trip: ServiceScheduleByTrip; trip_order: string[] };
+  "0": ServiceScheduleInfo;
+  "1": ServiceScheduleInfo;
 }
 export interface ScheduleNote {
   peak_service: string;
