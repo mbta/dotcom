@@ -36,7 +36,7 @@ defmodule Feedback.MailerTest do
                  <MODE></MODE>
                  <LINE></LINE>
                  <STATION></STATION>
-                 <INCIDENTDATE></INCIDENTDATE>
+                 <INCIDENTDATE>07/08/2019 08:04</INCIDENTDATE>
                  <VEHICLE></VEHICLE>
                  <FIRSTNAME>Riding</FIRSTNAME>
                  <LASTNAME>Public</LASTNAME>
