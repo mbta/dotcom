@@ -89,7 +89,7 @@ const CrTableRow = ({
     </td>
     <td className="schedule-table__headsign">
       {modeIcon(schedule.route.id)}
-      {"   "}
+      {" "}
       {schedule.trip.headsign}
     </td>
   </tr>
