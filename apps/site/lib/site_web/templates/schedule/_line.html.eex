@@ -11,6 +11,7 @@
     </div>
     <div class="col-xs-12 col-md-7">
     <% redesign? = Laboratory.enabled?(@conn, :schedule_redesign) %>
+    <% redesign_direction? = Laboratory.enabled?(@conn, :schedule_direction_redesign) %>
     <%= if redesign? do %>
       <div id="react-schedule-note-root">
           <%= if @schedule_page_data.schedule_note do %>
@@ -32,35 +33,42 @@
           </div>
         <% end %>
 
-        <%= render "_line_filters.html",
-          conn: @conn,
-          direction_id: @direction_id,
-          route: @route,
-          origin: assigns[:origin],
-          destination: assigns[:destination],
-          show_date_select?: @show_date_select?,
-          force_six_column: true,
-          route_shapes: @route_shapes,
-          active_shape: @active_shape,
-          show_variant_selector: assigns[:show_variant_selector]
-        %>
+        <%= if redesign_direction? do %>
+          <div id="react-schedule-direction-root">
+            <%= Site.React.render("ScheduleDirection", %{directionId: @direction_id, shapesById: @schedule_page_data.shape_map, 
+            routePatternsByDirection: @schedule_page_data.route_patterns, route: @schedule_page_data.route}) %>
+          </div>
+        <% else %>
+          <%= render "_line_filters.html",
+            conn: @conn,
+            direction_id: @direction_id,
+            route: @route,
+            origin: assigns[:origin],
+            destination: assigns[:destination],
+            show_date_select?: @show_date_select?,
+            force_six_column: true,
+            route_shapes: @route_shapes,
+            active_shape: @active_shape,
+            show_variant_selector: assigns[:show_variant_selector]
+          %>
 
-        <div class="line-map-container">
-          <%= if display_map_link?(@route.type) do %>
-            <img src="<%= @map_img_src %>" class="img-fluid">
-            <a href="<%= @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>" target="_blank">
-              <%= fa "search-plus" %>
-              View map as a PDF
-            </a>
-          <% else %>
-            <%= render "_line_map.html",
-              conn: @conn,
-              channel: @channel,
-              dynamic_map_data: @dynamic_map_data,
-              map_img_src: @map_img_src
-            %>
-          <% end %>
-        </div>
+          <div class="line-map-container">
+            <%= if display_map_link?(@route.type) do %>
+              <img src="<%= @map_img_src %>" class="img-fluid">
+              <a href="<%= @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>" target="_blank">
+                <%= fa "search-plus" %>
+                View map as a PDF
+              </a>
+            <% else %>
+              <%= render "_line_map.html",
+                conn: @conn,
+                channel: @channel,
+                dynamic_map_data: @dynamic_map_data,
+                map_img_src: @map_img_src
+              %>
+            <% end %>
+          </div>
+        <% end %>
 
         <%= render "_stop_list.html", assigns %>
     </div>

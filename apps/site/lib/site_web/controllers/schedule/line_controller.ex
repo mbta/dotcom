@@ -104,7 +104,9 @@ defmodule SiteWeb.ScheduleController.LineController do
         service_schedules: schedules_for_service(conn.assigns.route.id, services),
         schedule_note: ScheduleNote.new(conn.assigns.route),
         stops: simple_stop_list(conn.assigns.all_stops),
-        direction_id: conn.assigns.direction_id
+        direction_id: conn.assigns.direction_id,
+        route_patterns: conn.assigns.route_patterns,
+        shape_map: conn.assigns.shape_map
       }
     )
   end
