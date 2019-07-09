@@ -109,7 +109,8 @@ const ServiceSelector = ({
 }: Props): ReactElement<HTMLElement> | null => {
   const ref = useRef<HTMLSelectElement>(null);
   const [state, setState] = useState({ selectedServiceId: "" });
-  if (services.length <= 0 || Object.keys(serviceSchedules).length <= 0) return null;
+  if (services.length <= 0 || Object.keys(serviceSchedules).length <= 0)
+    return null;
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
     .reduce(groupByType, { current: [], holiday: [], other: [] });
@@ -118,7 +119,7 @@ const ServiceSelector = ({
   const selectedServiceId = state.selectedServiceId || defaultServiceId;
   const selectedServiceSchedule =
     serviceSchedules[selectedServiceId][directionId];
-  
+
   return (
     <>
       <h3>Daily Schedule</h3>

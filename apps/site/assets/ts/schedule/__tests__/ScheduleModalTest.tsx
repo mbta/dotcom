@@ -1,9 +1,6 @@
 import React from "react";
 import renderer, { act } from "react-test-renderer";
-import {
-  EnhancedRoute,
-  RouteType
-} from "../../__v3api";
+import { EnhancedRoute, RouteType } from "../../__v3api";
 import ScheduleModalContent, {
   reducer,
   fetchData

@@ -7,7 +7,53 @@ import { EnhancedRoute, Service, ServiceWithServiceDate } from "../../__v3api";
 import serviceData from "./serviceData.json";
 import { ServiceSchedule } from "../components/__schedule";
 
-const services: ServiceWithServiceDate[] = [{"valid_days":[1,2,3,4,5],"typicality":"typical_service","type":"weekday","start_date":"2019-07-02","service_date":"2019-07-09","removed_dates_notes":{"2019-07-04":"Independence Day"},"removed_dates":["2019-07-04"],"name":"Weekday","id":"BUS319-O-Wdy-02","end_date":"2019-08-30","description":"Weekday schedule","added_dates_notes":{},"added_dates":[]},{"valid_days":[6],"typicality":"typical_service","type":"saturday","start_date":"2019-07-06","service_date":"2019-07-09","removed_dates_notes":{},"removed_dates":[],"name":"Saturday","id":"BUS319-P-Sa-02","end_date":"2019-08-31","description":"Saturday schedule","added_dates_notes":{},"added_dates":[]},{"valid_days":[7],"typicality":"typical_service","type":"sunday","start_date":"2019-07-07","service_date":"2019-07-09","removed_dates_notes":{},"removed_dates":[],"name":"Sunday","id":"BUS319-Q-Su-02","end_date":"2019-08-25","description":"Sunday schedule","added_dates_notes":{},"added_dates":[]}] as ServiceWithServiceDate[];
+const services: ServiceWithServiceDate[] = [
+  {
+    valid_days: [1, 2, 3, 4, 5],
+    typicality: "typical_service",
+    type: "weekday",
+    start_date: "2019-07-02",
+    service_date: "2019-07-09",
+    removed_dates_notes: { "2019-07-04": "Independence Day" },
+    removed_dates: ["2019-07-04"],
+    name: "Weekday",
+    id: "BUS319-O-Wdy-02",
+    end_date: "2019-08-30",
+    description: "Weekday schedule",
+    added_dates_notes: {},
+    added_dates: []
+  },
+  {
+    valid_days: [6],
+    typicality: "typical_service",
+    type: "saturday",
+    start_date: "2019-07-06",
+    service_date: "2019-07-09",
+    removed_dates_notes: {},
+    removed_dates: [],
+    name: "Saturday",
+    id: "BUS319-P-Sa-02",
+    end_date: "2019-08-31",
+    description: "Saturday schedule",
+    added_dates_notes: {},
+    added_dates: []
+  },
+  {
+    valid_days: [7],
+    typicality: "typical_service",
+    type: "sunday",
+    start_date: "2019-07-07",
+    service_date: "2019-07-09",
+    removed_dates_notes: {},
+    removed_dates: [],
+    name: "Sunday",
+    id: "BUS319-Q-Su-02",
+    end_date: "2019-08-25",
+    description: "Sunday schedule",
+    added_dates_notes: {},
+    added_dates: []
+  }
+] as ServiceWithServiceDate[];
 const serviceSchedules: ServiceSchedule = serviceData as ServiceSchedule;
 // the enzyme test was done as one test because there was
 // an issue mounting it more than once due to the focus-trap
@@ -72,7 +118,7 @@ it("opens modal after displaying error", () => {
       stops={stops}
       directionId={0}
       services={services}
-        serviceSchedules={serviceSchedules}
+      serviceSchedules={serviceSchedules}
     />
   );
 
@@ -193,7 +239,9 @@ it("modal renders route pill for bus lines", () => {
 
   subwayWrapper.find("input").simulate("click");
 
-  expect(subwayWrapper.exists(".schedule-finder__modal-route-pill")).toBeFalsy();
+  expect(
+    subwayWrapper.exists(".schedule-finder__modal-route-pill")
+  ).toBeFalsy();
 
   const busRoute: EnhancedRoute = { ...route, id: "66", name: "66", type: 3 };
   const busWrapper = mount(
@@ -239,7 +287,9 @@ it("modal renders route pill for silver line", () => {
 
   subwayWrapper.find("input").simulate("click");
 
-  expect(subwayWrapper.exists(".schedule-finder__modal-route-pill")).toBeFalsy();
+  expect(
+    subwayWrapper.exists(".schedule-finder__modal-route-pill")
+  ).toBeFalsy();
 
   const busRoute: EnhancedRoute = { ...route, id: "741", name: "SL", type: 3 };
   const busWrapper = mount(
