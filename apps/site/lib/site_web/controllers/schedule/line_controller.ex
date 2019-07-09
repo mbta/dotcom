@@ -32,12 +32,15 @@ defmodule SiteWeb.ScheduleController.LineController do
       |> await_assign_all_default(__MODULE__)
 
     if Laboratory.enabled?(conn, :schedule_redesign) do
-      render(assign_schedule_page_data(conn), "show.html", [])
+      conn
+      |> assign_schedule_page_data()
+      |> render("show.html", [])
     else
       render(conn, "show.html", [])
     end
   end
 
+  @spec get_schedules(binary, any, any) :: %{by_trip: map, trip_order: [any]}
   def get_schedules(route_id, date, direction_id) do
     services =
       Enum.map(
