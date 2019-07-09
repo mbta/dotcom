@@ -26,8 +26,6 @@ defmodule Content.CMS.HTTPClient do
 
   @impl true
   def view(path, params) do
-    # IO.inspect({path, params}, label: "Incoming view request")
-
     params = [
       {"_format", "json"}
       | Enum.reduce(params, [], &stringify_params/2)
@@ -63,15 +61,7 @@ defmodule Content.CMS.HTTPClient do
     [{key, val} | acc]
   end
 
-  defp stringify_params({key, val}, acc) when is_binary(key) and is_list(val) do
-    val
-    # drop original param, add new key/vals for nested params
-    |> Enum.reduce(acc, fn nested_param, acc -> list_to_params(key, acc, nested_param) end)
-    # restore original order of nested params
-    |> Enum.reverse()
-  end
-
-  defp stringify_params({key, val}, acc) when is_binary(key) and is_map(val) do
+  defp stringify_params({key, val}, acc) when is_binary(key) and (is_map(val) or is_list(val)) do
     val
     # drop original param, add new key/vals for nested params
     |> Enum.reduce(acc, fn nested_param, acc -> list_to_params(key, acc, nested_param) end)
@@ -85,13 +75,21 @@ defmodule Content.CMS.HTTPClient do
   end
 
   # Convert nested key values to their own keys, if whitelisted
-  @spec list_to_params(String.t(), param_list, {safe_key(), String.t()}) :: param_list
+  @spec list_to_params(String.t(), param_list, {safe_key(), String.t()} | map) :: param_list
   defp list_to_params(key, acc, {sub_key, sub_val}) when sub_key in @safe_keys do
     stringify_params({key <> "[#{sub_key}]", sub_val}, acc)
   end
 
+  # Nested params from 302 redirects come in as a single-pair Map.t() element
+  defp list_to_params(key, acc, val) when is_map(val) do
+    val
+    |> Map.to_list()
+    |> Enum.at(0)
+    |> (&list_to_params(key, acc, &1)).()
+  end
+
+  # Drop entire param (key[subkey]=val) completely
   defp list_to_params(_, acc, _) do
-    # drop invalid param
     acc
   end
 end

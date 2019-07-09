@@ -141,15 +141,15 @@ defmodule Content.CMS.HTTPClientTest do
       end
     end
 
-    test "nested key values in request work when being redirected by CMS" do
-      with_mock ExternalRequest, process: fn _method, _path, _body, _params -> {:ok, []} end do
+    test "nested and non-nested key values in request work when being redirected by CMS" do
+      with_mock ExternalRequest,
+        process: fn _method, _path, _body, _params -> {:ok, []} end do
         view(
           "/redirect",
           %{
-            "location" => [
-              %{"lattitude" => "1234"},
-              %{"longitude" => "5678"}
-            ]
+            "location" => %{"lattitude" => "1234", "longitude" => "5678"},
+            "foo" => %{"bad_sub_key" => "bar"},
+            "fiz" => "baz"
           }
         )
 
@@ -160,6 +160,7 @@ defmodule Content.CMS.HTTPClientTest do
                    "",
                    params: [
                      {"_format", "json"},
+                     {"fiz", "baz"},
                      {"location[lattitude]", "1234"},
                      {"location[longitude]", "5678"}
                    ]
