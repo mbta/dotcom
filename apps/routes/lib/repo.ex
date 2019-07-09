@@ -47,11 +47,13 @@ defmodule Routes.Repo do
     end
   end
 
-  @spec get_shapes(String.t(), 0 | 1, boolean) :: [Shape.t()]
-  def get_shapes(route_id, direction_id, filter_negative_priority? \\ true) do
+  @spec get_shapes(String.t(), Keyword.t(), boolean) :: [Shape.t()]
+  def get_shapes(route_id, opts, filter_negative_priority? \\ true) do
+    opts = Keyword.put(opts, :route, route_id)
+
     shapes =
-      cache({route_id, direction_id}, fn _ ->
-        case Shapes.all(route: route_id, direction_id: direction_id) do
+      cache(Enum.sort(opts), fn _ ->
+        case Shapes.all(opts) do
           {:error, _} ->
             []
 

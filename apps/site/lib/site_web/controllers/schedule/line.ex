@@ -1,23 +1,32 @@
 defmodule SiteWeb.ScheduleController.Line do
   @behaviour Plug
   import Plug.Conn, only: [assign: 3]
-  alias Stops.{RouteStops, RouteStop}
+  import SiteWeb.ScheduleController.ClosedStops, only: [add_wollaston: 4]
+
+  alias Plug.Conn
+  alias RoutePatterns.Repo, as: RoutePatternRepo
+  alias RoutePatterns.RoutePattern
+  alias Routes.Repo, as: RoutesRepo
   alias Routes.{Route, Shape}
+  alias Schedules.Repo, as: SchedulesRepo
+  alias Site.StopBubble
   alias Site.TransitNearMe
   alias SiteWeb.ScheduleController.Line.Maps
   alias SiteWeb.ScheduleController.Line.Dependencies, as: Dependencies
-  import SiteWeb.ScheduleController.ClosedStops, only: [add_wollaston: 4]
+  alias Stops.Repo, as: StopsRepo
+  alias Stops.{RouteStops, RouteStop, Stop}
+  alias Util.EnumHelpers
 
   defmodule Dependencies do
-    defstruct stops_by_route_fn: &Stops.Repo.by_route/3
+    defstruct stops_by_route_fn: &StopsRepo.by_route/3
 
-    @type t :: %__MODULE__{stops_by_route_fn: Stops.Repo.stop_by_route()}
+    @type t :: %__MODULE__{stops_by_route_fn: StopsRepo.stop_by_route()}
   end
 
   @type query_param :: String.t() | nil
   @type direction_id :: 0 | 1
-  @typep stop_with_bubble_info :: {[Site.StopBubble.stop_bubble()], RouteStop.t()}
-  @typep stops_by_route :: %{String.t() => [Stops.Stop.t()]}
+  @typep stop_with_bubble_info :: {[StopBubble.stop_bubble()], RouteStop.t()}
+  @typep stops_by_route :: %{String.t() => [Stop.t()]}
 
   @impl true
   def init([]), do: []
@@ -28,19 +37,21 @@ defmodule SiteWeb.ScheduleController.Line do
   end
 
   def do_call(
-        %Plug.Conn{assigns: %{route: %Route{} = route, direction_id: direction_id}} = conn,
+        %Conn{assigns: %{route: %Route{} = route, direction_id: direction_id}} = conn,
         args
       ) do
     deps = Keyword.get(args, :deps, %Dependencies{})
     update_conn(conn, route, direction_id, deps)
   end
 
-  @spec update_conn(Plug.Conn.t(), Route.t(), direction_id, Dependencies.t()) :: Plug.Conn.t()
+  @spec update_conn(Conn.t(), Route.t(), direction_id, Dependencies.t()) :: Conn.t()
   defp update_conn(conn, route, direction_id, deps) do
     variant = conn.query_params["variant"]
     expanded = conn.query_params["expanded"]
     route_shapes = get_route_shapes(route.id, direction_id)
     route_stops = get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
+    route_patterns = get_route_patterns(route.id)
+    shape_map = get_route_shape_map(route.id)
     vehicles = conn.assigns[:vehicle_locations]
     vehicle_tooltips = conn.assigns[:vehicle_tooltips]
     vehicle_polylines = VehicleHelpers.get_vehicle_polylines(vehicles, route_shapes)
@@ -58,6 +69,8 @@ defmodule SiteWeb.ScheduleController.Line do
       Maps.map_data(route, map_stops, vehicle_polylines, vehicle_tooltips)
 
     conn
+    |> assign(:route_patterns, route_patterns)
+    |> assign(:shape_map, shape_map)
     |> assign(:direction_id, direction_id)
     |> assign(:all_stops, build_stop_list(branches, direction_id))
     |> assign(:branches, branches)
@@ -76,25 +89,61 @@ defmodule SiteWeb.ScheduleController.Line do
   defp active_shape(_shapes, _route_type), do: nil
 
   # For bus routes, we only want to show the stops for the active route variant.
-  @spec filter_route_shapes([Routes.Shape.t()], [Routes.Shape.t()], Routes.Route.t()) :: [
-          Routes.Shape.t()
+  @spec filter_route_shapes([Shape.t()], [Shape.t()], Route.t()) :: [
+          Shape.t()
         ]
-  def filter_route_shapes(_, [active_shape], %Routes.Route{type: 3}), do: [active_shape]
+  def filter_route_shapes(_, [active_shape], %Route{type: 3}), do: [active_shape]
   def filter_route_shapes(all_shapes, _active_shapes, _Route), do: all_shapes
 
+  @spec get_route_patterns(Route.id_t()) :: map
+  defp get_route_patterns("Green") do
+    GreenLine.branch_ids() |> Enum.join(",") |> get_route_patterns()
+  end
+
+  defp get_route_patterns(route_id) do
+    route_id
+    |> RoutePatternRepo.by_route_id()
+    |> Enum.map(&Task.async(fn -> get_route_pattern_shape(&1) end))
+    |> Enum.map(&Task.await/1)
+    |> Enum.group_by(& &1.direction_id)
+  end
+
+  @spec get_route_pattern_shape(RoutePattern.t()) :: map
+  defp get_route_pattern_shape(route_pattern) do
+    shape_id =
+      route_pattern.representative_trip_id
+      |> SchedulesRepo.trip()
+      |> case do
+        nil -> nil
+        trip -> trip.shape_id
+      end
+
+    Map.put(route_pattern, :shape_id, shape_id)
+  end
+
+  @spec get_route_shape_map(Route.id_t()) :: map
+  def get_route_shape_map(route_id) do
+    route_id
+    |> get_route_shapes()
+    |> Map.new(fn shape -> {shape.id, shape} end)
+  end
+
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
-  @spec get_route_shapes(Routes.Route.id_t(), direction_id) :: [Routes.Shape.t()]
+  @spec get_route_shapes(Route.id_t(), direction_id | nil) :: [Shape.t()]
+  def get_route_shapes(route_id, direction_id \\ nil)
+
   def get_route_shapes("Green", direction_id) do
     GreenLine.branch_ids()
-    |> Enum.map(&Task.async(fn -> get_route_shapes(&1, direction_id) end))
-    |> Enum.flat_map(&Task.await/1)
+    |> Enum.join(",")
+    |> get_route_shapes(direction_id)
   end
 
   def get_route_shapes(route_id, direction_id) do
-    Routes.Repo.get_shapes(route_id, direction_id)
+    opts = if direction_id == nil, do: [], else: [direction_id: direction_id]
+    RoutesRepo.get_shapes(route_id, opts)
   end
 
-  @spec get_route_stops(Routes.Route.id_t(), direction_id, Stops.Repo.stop_by_route()) ::
+  @spec get_route_stops(Route.id_t(), direction_id, StopsRepo.stop_by_route()) ::
           stops_by_route
   def get_route_stops("Green", direction_id, stops_by_route_fn) do
     GreenLine.branch_ids()
@@ -106,7 +155,7 @@ defmodule SiteWeb.ScheduleController.Line do
     do_get_route_stops(route_id, direction_id, stops_by_route_fn)
   end
 
-  @spec do_get_route_stops(Routes.Route.id_t(), direction_id, Stops.Repo.stop_by_route()) ::
+  @spec do_get_route_stops(Route.id_t(), direction_id, StopsRepo.stop_by_route()) ::
           stops_by_route
   defp do_get_route_stops(route_id, direction_id, stops_by_route_fn) do
     case stops_by_route_fn.(route_id, direction_id, []) do
@@ -115,41 +164,41 @@ defmodule SiteWeb.ScheduleController.Line do
     end
   end
 
-  @spec get_active_shapes([Routes.Shape.t()], Routes.Route.t(), Route.branch_name()) :: [
-          Routes.Shape.t()
+  @spec get_active_shapes([Shape.t()], Route.t(), Route.branch_name()) :: [
+          Shape.t()
         ]
-  defp get_active_shapes(shapes, %Routes.Route{type: 3}, variant) do
+  defp get_active_shapes(shapes, %Route{type: 3}, variant) do
     shapes
     |> get_requested_shape(variant)
     |> get_default_shape(shapes)
   end
 
-  defp get_active_shapes(_shapes, %Routes.Route{id: "Green"}, _variant) do
+  defp get_active_shapes(_shapes, %Route{id: "Green"}, _variant) do
     # not used by the green line code
     []
   end
 
   defp get_active_shapes(shapes, _route, _variant), do: shapes
 
-  @spec get_requested_shape([Routes.Shape.t()], query_param) :: Routes.Shape.t() | nil
+  @spec get_requested_shape([Shape.t()], query_param) :: Shape.t() | nil
   defp get_requested_shape(_shapes, nil), do: nil
   defp get_requested_shape(shapes, variant), do: Enum.find(shapes, &(&1.id == variant))
 
-  @spec get_default_shape(Routes.Shape.t() | nil, [Routes.Shape.t()]) :: [Routes.Shape.t()]
+  @spec get_default_shape(Shape.t() | nil, [Shape.t()]) :: [Shape.t()]
   defp get_default_shape(nil, [default | _]), do: [default]
-  defp get_default_shape(%Routes.Shape{} = shape, _shapes), do: [shape]
+  defp get_default_shape(%Shape{} = shape, _shapes), do: [shape]
   defp get_default_shape(_, _), do: []
 
   @doc """
   Gets a list of RouteStops representing all of the branches on the route. Routes without branches will always be a
   list with a single RouteStops struct.
   """
-  @spec get_branches([Routes.Shape.t()], stops_by_route, Routes.Route.t(), direction_id) :: [
+  @spec get_branches([Shape.t()], stops_by_route, Route.t(), direction_id) :: [
           RouteStops.t()
         ]
   def get_branches(_, stops, _, _) when stops == %{}, do: []
 
-  def get_branches(shapes, stops, %Routes.Route{id: "Green"}, direction_id) do
+  def get_branches(shapes, stops, %Route{id: "Green"}, direction_id) do
     GreenLine.branch_ids()
     |> Enum.map(&get_green_branch(&1, stops[&1], shapes, direction_id))
     |> Enum.reverse()
@@ -161,14 +210,14 @@ defmodule SiteWeb.ScheduleController.Line do
 
   @spec get_green_branch(
           GreenLine.branch_name(),
-          [Stops.Stop.t()],
-          [Routes.Shape.t()],
+          [Stop.t()],
+          [Shape.t()],
           direction_id
-        ) :: Stops.RouteStops.t()
+        ) :: RouteStops.t()
   defp get_green_branch(branch_id, stops, shapes, direction_id) do
     headsign =
       branch_id
-      |> Routes.Repo.get()
+      |> RoutesRepo.get()
       |> Map.get(:direction_destinations)
       |> Map.get(direction_id)
 
@@ -176,7 +225,7 @@ defmodule SiteWeb.ScheduleController.Line do
       shapes
       |> Enum.reject(&is_nil(&1.name))
       |> Enum.filter(&(&1.name =~ headsign))
-      |> get_branches(%{branch_id => stops}, %Routes.Route{id: branch_id, type: 0}, direction_id)
+      |> get_branches(%{branch_id => stops}, %Route{id: branch_id, type: 0}, direction_id)
       |> List.first()
 
     %{
@@ -220,7 +269,7 @@ defmodule SiteWeb.ScheduleController.Line do
 
   def build_stop_list([%RouteStops{stops: stops}], _direction_id) do
     stops
-    |> Util.EnumHelpers.with_first_last()
+    |> EnumHelpers.with_first_last()
     |> Enum.map(fn {stop, is_terminus?} ->
       bubble_type = if is_terminus?, do: :terminus, else: :stop
       {[{nil, bubble_type}], %{stop | branch: nil}}
@@ -372,13 +421,13 @@ defmodule SiteWeb.ScheduleController.Line do
   @spec do_build_branched_stop_list(
           [Route.branch_name()],
           Route.branch_name(),
-          [Stops.RouteStop.t()],
+          [RouteStop.t()],
           [stop_with_bubble_info]
         ) :: {[stop_with_bubble_info], [Route.branch_name()]}
   defp do_build_branched_stop_list(branch_names, current_branch, branch_stops, all_stops) do
     stop_list =
       branch_stops
-      |> Util.EnumHelpers.with_first_last()
+      |> EnumHelpers.with_first_last()
       |> Enum.reduce(all_stops, &build_branched_stop(&1, &2, {current_branch, branch_names}))
       |> add_wollaston_on_red_line(current_branch)
 
@@ -391,7 +440,7 @@ defmodule SiteWeb.ScheduleController.Line do
 
   @spec add_wollaston_on_red_line([RouteStops.t()], Route.branch_name()) :: [RouteStops.t()]
   defp add_wollaston_on_red_line(
-         [{_, %Stops.RouteStop{route: %Routes.Route{id: "Red"}}} | _tail] = stop_list,
+         [{_, %RouteStop{route: %Route{id: "Red"}}} | _tail] = stop_list,
          nil
        ) do
     add_wollaston(stop_list, 0, &extract_fn/1, &build_fn/2)
@@ -467,7 +516,7 @@ defmodule SiteWeb.ScheduleController.Line do
   @doc """
   Returns a tuple with the stop bubble type, and the name of the branch that the bubble represents.
   """
-  @spec stop_bubble_type(String.t(), RouteStop.t()) :: Site.StopBubble.stop_bubble()
+  @spec stop_bubble_type(String.t(), RouteStop.t()) :: StopBubble.stop_bubble()
   def stop_bubble_type(bubble_branch_name, stop)
 
   def stop_bubble_type(branch_id, %RouteStop{branch: branch_id, is_terminus?: true}),
@@ -509,7 +558,7 @@ defmodule SiteWeb.ScheduleController.Line do
   @doc """
   Sorts branches and their stops into the correct order to prepare them to be parsed.
   """
-  @spec sort_branches([Stops.RouteStops.t()], direction_id) :: [Stops.RouteStops.t()]
+  @spec sort_branches([RouteStops.t()], direction_id) :: [RouteStops.t()]
   def sort_branches(branches, 0),
     do: Enum.reduce(branches, [], &[%{&1 | stops: Enum.reverse(&1.stops)} | &2])
 
@@ -519,9 +568,9 @@ defmodule SiteWeb.ScheduleController.Line do
   Takes the final generated list of all stops for the route and sorts them into the correct order based on direction id.
   """
   @spec sort_stop_list(
-          {[Stops.RouteStop.t()], [Route.branch_name()]} | [Stops.RouteStop.t()],
+          {[RouteStop.t()], [Route.branch_name()]} | [RouteStop.t()],
           direction_id
-        ) :: [Stops.RouteStop.t()]
+        ) :: [RouteStop.t()]
   def sort_stop_list({all_stops, _branches}, direction_id),
     do: sort_stop_list(all_stops, direction_id)
 
@@ -535,7 +584,7 @@ defmodule SiteWeb.ScheduleController.Line do
   stop going in the opposite direction.
 
   """
-  @spec reverse_direction_all_stops(Routes.Route.id_t(), 0 | 1) :: [Stops.Stop.t()]
+  @spec reverse_direction_all_stops(Route.id_t(), 0 | 1) :: [Stop.t()]
   def reverse_direction_all_stops(route_id, direction_id) do
     reverse_direction_id =
       case direction_id do
@@ -543,7 +592,7 @@ defmodule SiteWeb.ScheduleController.Line do
         0 -> 1
       end
 
-    case Stops.Repo.by_route(route_id, reverse_direction_id) do
+    case StopsRepo.by_route(route_id, reverse_direction_id) do
       {:error, _} -> []
       stops -> stops
     end

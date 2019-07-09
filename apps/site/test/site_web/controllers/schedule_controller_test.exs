@@ -1,6 +1,12 @@
 defmodule SiteWeb.ScheduleControllerTest do
   use SiteWeb.ConnCase
 
+  alias Content.Teaser
+  alias Plug.Conn
+  alias Routes.{Repo, Shape}
+  alias Schedules.Sort
+  alias Stops.RouteStops
+
   @moduletag :external
 
   describe "Bus" do
@@ -110,7 +116,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
       assert conn.assigns.header_schedules ==
                conn.assigns.timetable_schedules
-               |> Schedules.Sort.sort_by_first_times()
+               |> Sort.sort_by_first_times()
                |> Enum.map(&List.first/1)
     end
 
@@ -252,7 +258,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     test "Commuter Rail data", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "CR-Needham", direction_id: 1))
       assert html_response(conn, 200) =~ "Needham Line"
-      assert [%Stops.RouteStops{stops: stops}] = conn.assigns.branches
+      assert [%RouteStops{stops: stops}] = conn.assigns.branches
 
       # make sure each stop has a zone
       for stop <- stops do
@@ -282,7 +288,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     test "Ferry data", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "Boat-F4", direction_id: 0))
       assert html_response(conn, 200) =~ "Charlestown Ferry"
-      assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
+      assert %Conn{assigns: %{branches: [%RouteStops{stops: stops}]}} = conn
 
       # inbound order
       assert List.first(stops).id == "Boat-Long-South"
@@ -294,7 +300,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     test "Bus data", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "86", direction_id: 1))
-      assert %Plug.Conn{assigns: %{branches: [%Stops.RouteStops{stops: stops}]}} = conn
+      assert %Conn{assigns: %{branches: [%RouteStops{stops: stops}]}} = conn
       assert conn.status === 200
       assert List.first(stops).name === "Sullivan Square"
       assert List.last(stops).name === "Reservoir"
@@ -305,13 +311,13 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     test "Red Line data", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "Red", direction_id: 0))
-      assert %Plug.Conn{assigns: %{branches: branches}} = conn
+      assert %Conn{assigns: %{branches: branches}} = conn
       assert html_response(conn, 200) =~ "Red Line"
 
       assert [
-               %Stops.RouteStops{branch: nil, stops: unbranched_stops},
-               %Stops.RouteStops{branch: "Braintree", stops: braintree},
-               %Stops.RouteStops{branch: "Ashmont", stops: ashmont}
+               %RouteStops{branch: nil, stops: unbranched_stops},
+               %RouteStops{branch: "Braintree", stops: braintree},
+               %RouteStops{branch: "Ashmont", stops: ashmont}
              ] = branches
 
       # stops are in southbound order
@@ -351,7 +357,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     defp stop_ids(conn) do
-      Enum.flat_map(conn.assigns.branches, fn %Stops.RouteStops{stops: stops} ->
+      Enum.flat_map(conn.assigns.branches, fn %RouteStops{stops: stops} ->
         Enum.map(stops, & &1.id)
       end)
     end
@@ -379,14 +385,14 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Bus line with variant", %{conn: conn} do
-      variant = List.last(Routes.Repo.get_shapes("9", 1)).id
+      variant = List.last(Repo.get_shapes("9", direction_id: 1)).id
       conn = get(conn, line_path(conn, :show, "9", direction_id: 1, variant: variant))
 
       # during the summer, the 9 only has 2 shapes. It has three when school
       # is in session.
       assert Enum.count(conn.assigns.route_shapes) >= 2
 
-      assert %Routes.Shape{stop_ids: [_ | _] = stop_ids} =
+      assert %Shape{stop_ids: [_ | _] = stop_ids} =
                Enum.find(conn.assigns.route_shapes, &(&1.id == variant))
 
       assert "place-brdwy" in stop_ids
@@ -395,7 +401,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     test "Bus line with correct default shape", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "9", direction_id: 1))
-      default_shape_id = List.first(Routes.Repo.get_shapes("9", 1)).id
+      default_shape_id = List.first(Repo.get_shapes("9", direction_id: 1)).id
       assert conn.assigns.active_shape.id == default_shape_id
     end
 
@@ -486,9 +492,25 @@ defmodule SiteWeb.ScheduleControllerTest do
   test "assigns CMS content for line page", %{conn: conn} do
     conn = get(conn, line_path(conn, :show, "Red"))
     assert conn.status == 200
-    assert %Content.Teaser{} = conn.assigns.featured_content
+    assert %Teaser{} = conn.assigns.featured_content
     refute conn.assigns.featured_content.type == :news_entry
-    assert [%Content.Teaser{} | _] = conn.assigns.news
+    assert [%Teaser{} | _] = conn.assigns.news
     assert Enum.all?(conn.assigns.news, &(&1.type === :news_entry))
+  end
+
+  test "assigns route_patterns and shape map", %{conn: conn} do
+    conn = get(conn, line_path(conn, :show, "742"))
+    assert conn.status == 200
+
+    route_patterns = conn.assigns.route_patterns
+    shape_map = conn.assigns.shape_map
+
+    first_route_pattern_0 = List.first(route_patterns[0])
+    first_route_pattern_1 = List.first(route_patterns[1])
+    shape = shape_map[first_route_pattern_0.shape_id]
+
+    assert first_route_pattern_0.direction_id == 0
+    assert first_route_pattern_1.direction_id == 1
+    assert shape.id == first_route_pattern_0.shape_id
   end
 end

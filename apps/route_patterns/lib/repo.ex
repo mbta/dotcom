@@ -10,6 +10,7 @@ defmodule RoutePatterns.Repo do
       nil -> [route: route_id]
       direction_id -> [route: route_id, direction_id: direction_id]
     end
+    |> Keyword.put(:sort, "sort_order")
     |> RoutePatternsApi.all()
     |> parse_api_response()
   end
