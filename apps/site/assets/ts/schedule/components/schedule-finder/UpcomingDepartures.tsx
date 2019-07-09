@@ -47,9 +47,7 @@ const TableRow = ({
     <tr className="schedule-table__row schedule-table__row--stretch">
       <td>
         <div className="schedule-table__row-route">
-          <RoutePillSmall route={prediction.route} />
-          {" "}
-          {prediction.headsign}
+          <RoutePillSmall route={prediction.route} /> {prediction.headsign}
         </div>
       </td>
       <td className="schedule-table__time u-bold">
@@ -70,9 +68,7 @@ const CrTableRow = ({
   return (
     <tr className="schedule-table__row schedule-table__row--stretch">
       <td className="schedule-table__headsign">
-        {modeIcon(prediction.route.id)}
-        {" "}
-        {prediction.headsign}
+        {modeIcon(prediction.route.id)} {prediction.headsign}
       </td>
       <td>
         <div className="schedule-table__time-container">

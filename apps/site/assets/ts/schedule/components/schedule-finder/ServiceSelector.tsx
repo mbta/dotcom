@@ -88,9 +88,7 @@ const CrTableRow = ({
       {schedule.trip.name}
     </td>
     <td className="schedule-table__headsign">
-      {modeIcon(schedule.route.id)}
-      {" "}
-      {schedule.trip.headsign}
+      {modeIcon(schedule.route.id)} {schedule.trip.headsign}
     </td>
   </tr>
 );
