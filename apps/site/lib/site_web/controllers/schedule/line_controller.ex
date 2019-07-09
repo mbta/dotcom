@@ -31,9 +31,11 @@ defmodule SiteWeb.ScheduleController.LineController do
       |> put_view(ScheduleView)
       |> await_assign_all_default(__MODULE__)
 
-    conn
-    |> assign_schedule_page_data()
-    |> render("show.html", [])
+    if Laboratory.enabled?(conn, :schedule_redesign) do
+      render(assign_schedule_page_data(conn), "show.html", [])
+    else
+      render(conn, "show.html", [])
+    end
   end
 
   def get_schedules(route_id, date, direction_id) do
