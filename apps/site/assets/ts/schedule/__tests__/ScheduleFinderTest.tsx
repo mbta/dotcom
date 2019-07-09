@@ -4,7 +4,11 @@ import { mount } from "enzyme";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import ScheduleFinder from "../components/ScheduleFinder";
 import { EnhancedRoute, Service, ServiceWithServiceDate } from "../../__v3api";
+import serviceData from "./serviceData.json";
+import { ServiceSchedule } from "../components/__schedule";
 
+const services: ServiceWithServiceDate[] = [{"valid_days":[1,2,3,4,5],"typicality":"typical_service","type":"weekday","start_date":"2019-07-02","service_date":"2019-07-09","removed_dates_notes":{"2019-07-04":"Independence Day"},"removed_dates":["2019-07-04"],"name":"Weekday","id":"BUS319-O-Wdy-02","end_date":"2019-08-30","description":"Weekday schedule","added_dates_notes":{},"added_dates":[]},{"valid_days":[6],"typicality":"typical_service","type":"saturday","start_date":"2019-07-06","service_date":"2019-07-09","removed_dates_notes":{},"removed_dates":[],"name":"Saturday","id":"BUS319-P-Sa-02","end_date":"2019-08-31","description":"Saturday schedule","added_dates_notes":{},"added_dates":[]},{"valid_days":[7],"typicality":"typical_service","type":"sunday","start_date":"2019-07-07","service_date":"2019-07-09","removed_dates_notes":{},"removed_dates":[],"name":"Sunday","id":"BUS319-Q-Su-02","end_date":"2019-08-25","description":"Sunday schedule","added_dates_notes":{},"added_dates":[]}] as ServiceWithServiceDate[];
+const serviceSchedules: ServiceSchedule = serviceData as ServiceSchedule;
 // the enzyme test was done as one test because there was
 // an issue mounting it more than once due to the focus-trap
 // dependency that the Modal component depends on
@@ -43,21 +47,6 @@ const stops = [
   }
 ];
 
-const service: ServiceWithServiceDate = {
-  added_dates: [],
-  added_dates_notes: {},
-  description: "Weekday schedule",
-  end_date: "2019-06-25",
-  id: "BUS319-D-Wdy-02",
-  removed_dates: [],
-  removed_dates_notes: {},
-  start_date: "2019-06-25",
-  type: "weekday",
-  typicality: "typical_service",
-  valid_days: [1, 2, 3, 4, 5],
-  service_date: "2019-06-26"
-};
-
 it("renders", () => {
   createReactRoot();
   const tree = renderer
@@ -66,8 +55,8 @@ it("renders", () => {
         route={route}
         stops={stops}
         directionId={0}
-        services={[service]}
-        serviceSchedules={{}}
+        services={services}
+        serviceSchedules={serviceSchedules}
       />
     )
     .toJSON();
@@ -82,8 +71,8 @@ it("opens modal after displaying error", () => {
       route={route}
       stops={stops}
       directionId={0}
-      services={[service]}
-      serviceSchedules={{}}
+      services={services}
+        serviceSchedules={serviceSchedules}
     />
   );
 
@@ -190,8 +179,8 @@ it("modal renders route pill for bus lines", () => {
       stops={stops}
       route={route}
       directionId={0}
-      services={[service]}
-      serviceSchedules={{}}
+      services={services}
+      serviceSchedules={serviceSchedules}
     />
   );
   subwayWrapper
@@ -204,7 +193,7 @@ it("modal renders route pill for bus lines", () => {
 
   subwayWrapper.find("input").simulate("click");
 
-  expect(subwayWrapper.exists(".m-route-pills")).toBeFalsy();
+  expect(subwayWrapper.exists(".schedule-finder__modal-route-pill")).toBeFalsy();
 
   const busRoute: EnhancedRoute = { ...route, id: "66", name: "66", type: 3 };
   const busWrapper = mount(
@@ -212,8 +201,8 @@ it("modal renders route pill for bus lines", () => {
       stops={stops}
       route={busRoute}
       directionId={0}
-      services={[service]}
-      serviceSchedules={{}}
+      services={services}
+      serviceSchedules={serviceSchedules}
     />
   );
   busWrapper
@@ -226,7 +215,7 @@ it("modal renders route pill for bus lines", () => {
 
   busWrapper.find("input").simulate("click");
 
-  expect(busWrapper.exists(".m-route-pills")).toBeTruthy();
+  expect(busWrapper.exists(".schedule-finder__modal-route-pill")).toBeTruthy();
   expect(busWrapper.exists(".u-bg--bus")).toBeTruthy();
 });
 
@@ -236,8 +225,8 @@ it("modal renders route pill for silver line", () => {
       stops={stops}
       route={route}
       directionId={0}
-      services={[service]}
-      serviceSchedules={{}}
+      services={services}
+      serviceSchedules={serviceSchedules}
     />
   );
   subwayWrapper
@@ -250,7 +239,7 @@ it("modal renders route pill for silver line", () => {
 
   subwayWrapper.find("input").simulate("click");
 
-  expect(subwayWrapper.exists(".m-route-pills")).toBeFalsy();
+  expect(subwayWrapper.exists(".schedule-finder__modal-route-pill")).toBeFalsy();
 
   const busRoute: EnhancedRoute = { ...route, id: "741", name: "SL", type: 3 };
   const busWrapper = mount(
@@ -258,8 +247,8 @@ it("modal renders route pill for silver line", () => {
       stops={stops}
       route={busRoute}
       directionId={0}
-      services={[service]}
-      serviceSchedules={{}}
+      services={services}
+      serviceSchedules={serviceSchedules}
     />
   );
   busWrapper
@@ -272,6 +261,6 @@ it("modal renders route pill for silver line", () => {
 
   busWrapper.find("input").simulate("click");
 
-  expect(busWrapper.exists(".m-route-pills")).toBeTruthy();
+  expect(busWrapper.exists(".schedule-finder__modal-route-pill")).toBeTruthy();
   expect(busWrapper.exists(".u-bg--silver-line")).toBeTruthy();
 });

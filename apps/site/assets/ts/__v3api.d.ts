@@ -232,6 +232,7 @@ export interface Service {
   type: ServiceType;
   typicality: ServiceTypicality;
   valid_days: DayInteger[];
+  name: string;
 }
 
 export interface ServiceWithServiceDate extends Service {

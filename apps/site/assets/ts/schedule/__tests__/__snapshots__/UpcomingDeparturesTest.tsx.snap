@@ -37,74 +37,6 @@ Array [
       Malden Center
     </a>
   </div>,
-  <div
-    className="schedule-finder__service-selector"
-  >
-    <div
-      className="schedule-finder__select-container "
-      id="service_selector_container"
-      onClick={[Function]}
-      onKeyUp={[Function]}
-      role="button"
-      tabIndex={0}
-    >
-      <select
-        className="schedule-finder__select"
-        defaultValue="BUS319-D-Wdy-02"
-        id="service_selector"
-      >
-        <optgroup
-          label="Current Schedules"
-        >
-          <option
-            value="BUS319-D-Wdy-02"
-          >
-            Weekday schedule
-            , 
-            ends August 25
-          </option>
-        </optgroup>
-        <optgroup
-          label="Holiday Schedules"
-        >
-          <option
-            value="2"
-          >
-            Holiday schedule
-             
-            on June 25
-          </option>
-        </optgroup>
-        <optgroup
-          label="Other Schedules"
-        >
-          <option
-            value="3"
-          >
-            Thursday - Friday schedule
-            , 
-            starts July 5
-          </option>
-          <option
-            value="4"
-          >
-            Monday - Wednesday schedule
-            , 
-            starts July 5
-          </option>
-        </optgroup>
-      </select>
-      <span
-        aria-hidden="true"
-        className="notranslate c-svg__icon schedule-finder__arrow"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "SVG",
-          }
-        }
-      />
-    </div>
-  </div>,
 ]
 `;
 
@@ -149,7 +81,7 @@ Array [
           </div>
         </td>
         <td
-          className="schedule-table__time"
+          className="schedule-table__time u-bold"
         >
           15
            
@@ -202,7 +134,7 @@ Array [
           </div>
         </td>
         <td
-          className="schedule-table__time"
+          className="schedule-table__time u-bold"
         >
           15
            
@@ -230,7 +162,7 @@ Array [
           </div>
         </td>
         <td
-          className="schedule-table__time"
+          className="schedule-table__time u-bold"
         >
           11
            
@@ -285,7 +217,7 @@ Array [
             className="schedule-table__time-container"
           >
             <div
-              className="schedule-table__time"
+              className="schedule-table__time u-bold"
             >
               4:51 PM
             </div>
@@ -322,7 +254,7 @@ Array [
             className="schedule-table__time-container"
           >
             <div
-              className="schedule-table__time"
+              className="schedule-table__time u-bold"
             >
               4:51 PM
             </div>
@@ -359,7 +291,7 @@ Array [
             className="schedule-table__time-container"
           >
             <div
-              className="schedule-table__time"
+              className="schedule-table__time u-bold"
             >
               4:51 PM
             </div>

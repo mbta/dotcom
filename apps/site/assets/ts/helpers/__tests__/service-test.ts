@@ -20,7 +20,8 @@ const service: Service = {
   start_date: "2019-06-25",
   type: "weekday",
   typicality: "typical_service",
-  valid_days: [1, 2, 3, 4, 5]
+  valid_days: [1, 2, 3, 4, 5],
+  name: "weekday"
 };
 
 const serviceWithDate: ServiceWithServiceDate = {
@@ -35,7 +36,8 @@ const serviceWithDate: ServiceWithServiceDate = {
   type: "weekday",
   typicality: "typical_service",
   valid_days: [1, 2, 3, 4, 5],
-  service_date: "2019-06-25"
+  service_date: "2019-06-25",
+  name: "weekday"
 };
 
 describe("serviceDays", () => {
@@ -168,8 +170,6 @@ const groupServices = (services: ServiceWithServiceDate[]) =>
     );
 
 const holidayService = { ...service, service_date: "2019-06-25" };
-
-const servicesGrouped = [currentService, upcomingService, holidayService];
 
 describe("getTodaysSchedule", () => {
   it("marks the holiday day as today if there is a holiday", () => {
