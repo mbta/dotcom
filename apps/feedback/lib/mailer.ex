@@ -110,7 +110,7 @@ defmodule Feedback.Mailer do
   end
 
   defp formatted_utc_timestamp do
-    time_fetcher = Application.get_env(:feedback, :time_fetcher)
+    time_fetcher = Application.get_env(:feedback, :time_fetcher) || DateTime
 
     time_fetcher.utc_now
     |> Timex.format!("{0M}/{0D}/{YYYY} {h24}:{m}")
