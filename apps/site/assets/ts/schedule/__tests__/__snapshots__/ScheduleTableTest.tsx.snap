@@ -5741,3 +5741,449 @@ Array [
   </table>,
 ]
 `;
+
+exports[`ScheduleTable it renders CR schedules 1`] = `
+Array [
+  <div
+    className="schedule-finder__first-last-trip"
+  >
+    <div
+      className="u-small-caps u-bold"
+    >
+      First Trip
+    </div>
+    07:11 AM
+    <div
+      className="u-small-caps u-bold"
+    >
+      Last Trip
+    </div>
+    10:40 PM
+  </div>,
+  <table
+    className="schedule-table"
+  >
+    <thead
+      className="schedule-table__header"
+    >
+      <tr
+        className="schedule-table__row-header"
+      >
+        <th
+          className="schedule-table__row-header-label"
+        >
+          Departs
+        </th>
+        <th
+          className="schedule-table__row-header-label--small"
+        >
+          Train
+        </th>
+        <th
+          className="schedule-table__row-header-label"
+        >
+          Destination
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__td"
+        >
+          <div
+            className="schedule-table__time"
+          >
+            07:11 AM
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__tab-num"
+        >
+          033
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Kingston
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__td"
+        >
+          <div
+            className="schedule-table__time"
+          >
+            08:56 AM
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__tab-num"
+        >
+          061
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Kingston
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__td"
+        >
+          <div
+            className="schedule-table__time"
+          >
+            10:50 AM
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__tab-num"
+        >
+          063
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Plymouth
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__td"
+        >
+          <div
+            className="schedule-table__time"
+          >
+            12:25 PM
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__tab-num"
+        >
+          065
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Plymouth
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__td"
+        >
+          <div
+            className="schedule-table__time"
+          >
+            02:47 PM
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__tab-num"
+        >
+          041
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Kingston
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__td"
+        >
+          <div
+            className="schedule-table__time"
+          >
+            04:20 PM
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__tab-num"
+        >
+          043
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Kingston
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__td"
+        >
+          <div
+            className="schedule-table__time"
+          >
+            05:00 PM
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__tab-num"
+        >
+          045
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Kingston
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__td"
+        >
+          <div
+            className="schedule-table__time"
+          >
+            05:38 PM
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__tab-num"
+        >
+          047
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Kingston
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__td"
+        >
+          <div
+            className="schedule-table__time"
+          >
+            06:15 PM
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__tab-num"
+        >
+          067
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Plymouth
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__td"
+        >
+          <div
+            className="schedule-table__time"
+          >
+            07:29 PM
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__tab-num"
+        >
+          051
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Kingston
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__td"
+        >
+          <div
+            className="schedule-table__time"
+          >
+            09:30 PM
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__tab-num"
+        >
+          055
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Kingston
+        </td>
+      </tr>
+      <tr
+        className="schedule-table__row"
+      >
+        <td
+          className="schedule-table__td"
+        >
+          <div
+            className="schedule-table__time"
+          >
+            10:40 PM
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__tab-num"
+        >
+          057
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+             
+          Kingston
+        </td>
+      </tr>
+    </tbody>
+  </table>,
+]
+`;
