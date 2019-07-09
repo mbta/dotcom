@@ -14,7 +14,8 @@ The new face of https://www.mbta.com/
   - [Additional documentation](#additional-documentation)
 ## Getting Started
 
-1. Request a V3 API key at https://api-v3.mbta.com/
+1. Request a V3 API key at https://api-v3.mbta.com/. Note that, at any given time, the site may not be compatible with the
+very latest API version. As of this writing, the site is compatible with API version 2019-04-05.
 
 1. Install [Homebrew](https://docs.brew.sh/Installation.html):
     ```
