@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 1`] = `
+<div>
+  <h5>
+    Schedule Direction Component
+  </h5>
+  <p>
+    Inbound
+  </p>
+  <p>
+    active shape:
+     
+    South Station
+  </p>
+  <div>
+    Direction Menu: 
+    1
+     items for direction 
+    1
+  </div>
+</div>
+`;
