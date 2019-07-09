@@ -259,3 +259,22 @@ export interface Schedule {
   stop_sequence: number;
   pickup_type: number;
 }
+
+export interface Shape {
+  stop_ids: string[];
+  priority: number;
+  polyline: string;
+  name: string;
+  id: string;
+  direction_id: DirectionId;
+}
+
+export interface RoutePattern {
+  typicality: 1 | 2 | 3 | 4;
+  time_desc: string | null;
+  route_id: string;
+  representative_trip_id: string;
+  name: string;
+  id: string;
+  direction_id: DirectionId;
+}

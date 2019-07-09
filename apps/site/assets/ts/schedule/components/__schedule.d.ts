@@ -5,8 +5,22 @@ import {
   EnhancedRoute,
   DirectionId,
   ServiceWithServiceDate,
-  Schedule
+  Schedule,
+  RoutePattern,
+  Shape
 } from "../../__v3api";
+
+export interface RoutePatternWithShape extends RoutePattern {
+  shape_id: string;
+}
+
+export interface ShapesById {
+  [key: string]: Shape;
+}
+
+export interface RoutePatternsByDirection {
+  [key: string]: RoutePatternWithShape[];
+}
 
 export interface SchedulePageData {
   connections: TypedRoutes[];
@@ -22,6 +36,8 @@ export interface SchedulePageData {
   service_schedules: ServiceSchedule;
   stops: SimpleStop[];
   direction_id: DirectionId;
+  shape_map: ShapesById;
+  route_patterns: RoutePatternsByDirection;
 }
 
 export interface ServiceSchedule {
