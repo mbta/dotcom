@@ -28,7 +28,14 @@ Array [
           <option
             value="BUS319-O-Wdy-02"
           >
-            Weekday schedule
+            Monday - Friday schedule
+            , 
+            ends August 30
+          </option>
+          <option
+            value="BUS319-D-Wdy-02"
+          >
+            Friday schedule
             , 
             ends August 30
           </option>
