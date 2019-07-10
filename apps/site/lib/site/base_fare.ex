@@ -13,14 +13,19 @@ defmodule Site.BaseFare do
 
   @default_filters [reduced: nil, duration: :single_trip]
 
-  @spec base_fare(Route.t(), Stops.Stop.id_t(), Stops.Stop.id_t(), (Keyword.t() -> [Fare.t()])) ::
+  @spec base_fare(
+          Route.t() | map,
+          Stops.Stop.id_t(),
+          Stops.Stop.id_t(),
+          (Keyword.t() -> [Fare.t()])
+        ) ::
           String.t() | nil
   def base_fare(route, origin_id, destination_id, fare_fn \\ &Fares.Repo.all/1)
   def base_fare(nil, _, _, _), do: nil
 
-  def base_fare(%Route{type: route_type} = route, origin_id, destination_id, fare_fn) do
+  def base_fare(route, origin_id, destination_id, fare_fn) do
     route_filters =
-      route_type
+      route.type
       |> Route.type_atom()
       |> name_or_mode_filter(route, origin_id, destination_id)
 
@@ -34,7 +39,7 @@ defmodule Site.BaseFare do
     [mode: :subway]
   end
 
-  defp name_or_mode_filter(:bus, %Route{id: route_id}, origin_id, _destination_id) do
+  defp name_or_mode_filter(:bus, %{id: route_id}, origin_id, _destination_id) do
     name =
       cond do
         Fares.inner_express?(route_id) -> :inner_express_bus

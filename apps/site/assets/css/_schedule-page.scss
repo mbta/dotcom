@@ -288,6 +288,14 @@
   justify-content: space-between;
 }
 
+// Separate class instead of modifier to avoid complicated nth-child selector
+.schedule-table__row-selected {
+  background: $brand-primary;
+  color: $white;
+  display: flex;
+  padding: $base-spacing / 2;
+}
+
 .schedule-table__row:nth-child(even) {
   background: $gray-bordered-background;
 }
@@ -319,6 +327,7 @@
   display: flex;
   font-weight: bold;
   justify-content: space-between;
+  overflow: hidden;
 }
 
 .schedule-table__row-header-label {
@@ -417,4 +426,47 @@
   40% {
     box-shadow: 0 2.5em 0 0;
   }
+}
+.schedule-table__subtable {
+  width: 100%;
+}
+
+.schedule-table__subtable-trip-info {
+  display: flex;
+}
+
+.schedule-table__subtable-trip-info-title {
+  margin-right: $base-spacing;
+}
+
+.schedule-table__subtable-trip-info-link {
+  margin-left: $base-spacing;
+}
+
+.schedule-table__subtable-tr {
+  display: flex;
+  padding: $base-spacing / 2;
+}
+
+.schedule-table__subtable-container {
+  display: flex;
+}
+
+.schedule-table__subtable-data {
+  padding: $base-spacing / 4 0;
+
+  &--right-adjusted {
+    text-align: right;
+  }
+}
+
+.schedule-table__subtable-row {
+  border-top: 1px solid $gray-lightest;
+}
+
+.schedule-table__subtable-td {
+  border: 2px solid $brand-primary;
+  border-top: 0;
+  padding: $base-spacing / 2;
+  width: 100%;
 }
