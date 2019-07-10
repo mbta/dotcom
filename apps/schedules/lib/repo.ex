@@ -229,10 +229,6 @@ defmodule Schedules.Repo do
     end)
   end
 
-  defp load_from_other_repos({:error, _} = error) do
-    error
-  end
-
   defp load_from_other_repos(schedules) do
     {time, result} =
       :timer.tc(fn ->
