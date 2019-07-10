@@ -28,7 +28,14 @@ Array [
           <option
             value="Weekday"
           >
-            Weekday schedule
+            Monday - Thursday schedule
+            , 
+            ends August 30
+          </option>
+          <option
+            value="Weekday-F"
+          >
+            Friday schedule
             , 
             ends August 30
           </option>

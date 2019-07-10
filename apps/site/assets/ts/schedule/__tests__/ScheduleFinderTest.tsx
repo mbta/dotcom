@@ -3,6 +3,7 @@ import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import ScheduleFinder from "../components/ScheduleFinder";
+import ScheduleFinderAccordion from "../components/ScheduleFinderAccordion";
 import { EnhancedRoute, Service, ServiceWithServiceDate } from "../../__v3api";
 import serviceData from "./serviceData.json";
 import { ServiceSchedule } from "../components/__schedule";
@@ -267,6 +268,152 @@ it("modal renders route pill for bus lines", () => {
   expect(busWrapper.exists(".u-bg--bus")).toBeTruthy();
 });
 
+it("modal renders route pill for silver line", () => {
+  const subwayWrapper = mount(
+    <ScheduleFinder
+      stops={stops}
+      route={route}
+      directionId={0}
+      services={services}
+      serviceSchedules={serviceSchedules}
+    />
+  );
+  subwayWrapper
+    .find("#sf_direction_select")
+    .simulate("change", { target: { value: "1" } });
+
+  subwayWrapper
+    .find("#sf_origin_select")
+    .simulate("change", { target: { value: "place-welln" } });
+
+  subwayWrapper.find("input").simulate("click");
+
+  expect(
+    subwayWrapper.exists(".schedule-finder__modal-route-pill")
+  ).toBeFalsy();
+
+  const busRoute: EnhancedRoute = { ...route, id: "741", name: "SL", type: 3 };
+  const busWrapper = mount(
+    <ScheduleFinder
+      stops={stops}
+      route={busRoute}
+      directionId={0}
+      services={services}
+      serviceSchedules={serviceSchedules}
+    />
+  );
+  busWrapper
+    .find("#sf_direction_select")
+    .simulate("change", { target: { value: "0" } });
+
+  busWrapper
+    .find("#sf_origin_select")
+    .simulate("change", { target: { value: "place-welln" } });
+
+  busWrapper.find("input").simulate("click");
+
+  expect(busWrapper.exists(".schedule-finder__modal-route-pill")).toBeTruthy();
+  expect(busWrapper.exists(".u-bg--silver-line")).toBeTruthy();
+});
+
+it("modal renders within ScheduleFinderAccordion", () => {
+  const subwayWrapper = mount(
+    <ScheduleFinderAccordion
+      stops={stops}
+      route={route}
+      directionId={0}
+      services={services}
+      serviceSchedules={serviceSchedules}
+    />
+  );
+
+  subwayWrapper.find("#header-schedule-finder-mobile").simulate("click");
+
+  subwayWrapper
+    .find("#sf_direction_select")
+    .simulate("change", { target: { value: "1" } });
+
+  subwayWrapper
+    .find("#sf_origin_select")
+    .simulate("change", { target: { value: "place-welln" } });
+
+  subwayWrapper.find("input").simulate("click");
+
+  expect(
+    subwayWrapper.exists(".schedule-finder__modal-route-pill")
+  ).toBeFalsy();
+
+  const busRoute: EnhancedRoute = { ...route, id: "741", name: "SL", type: 3 };
+  const busWrapper = mount(
+    <ScheduleFinder
+      stops={stops}
+      route={busRoute}
+      directionId={0}
+      services={services}
+      serviceSchedules={serviceSchedules}
+    />
+  );
+  busWrapper
+    .find("#sf_direction_select")
+    .simulate("change", { target: { value: "0" } });
+
+  busWrapper
+    .find("#sf_origin_select")
+    .simulate("change", { target: { value: "place-welln" } });
+
+  busWrapper.find("input").simulate("click");
+
+  expect(busWrapper.exists(".schedule-finder__modal-route-pill")).toBeTruthy();
+  expect(busWrapper.exists(".u-bg--silver-line")).toBeTruthy();
+});
+
+it("modal renders route pill for silver line", () => {
+  const subwayWrapper = mount(
+    <ScheduleFinder
+      stops={stops}
+      route={route}
+      directionId={0}
+      services={services}
+      serviceSchedules={serviceSchedules}
+    />
+  );
+  subwayWrapper
+    .find("#sf_direction_select")
+    .simulate("change", { target: { value: "1" } });
+
+  subwayWrapper
+    .find("#sf_origin_select")
+    .simulate("change", { target: { value: "place-welln" } });
+
+  subwayWrapper.find("input").simulate("click");
+
+  expect(
+    subwayWrapper.exists(".schedule-finder__modal-route-pill")
+  ).toBeFalsy();
+
+  const busRoute: EnhancedRoute = { ...route, id: "741", name: "SL", type: 3 };
+  const busWrapper = mount(
+    <ScheduleFinder
+      stops={stops}
+      route={busRoute}
+      directionId={0}
+      services={services}
+      serviceSchedules={serviceSchedules}
+    />
+  );
+  busWrapper
+    .find("#sf_direction_select")
+    .simulate("change", { target: { value: "0" } });
+
+  busWrapper
+    .find("#sf_origin_select")
+    .simulate("change", { target: { value: "place-welln" } });
+
+  busWrapper.find("input").simulate("click");
+
+  expect(busWrapper.exists(".schedule-finder__modal-route-pill")).toBeTruthy();
+  expect(busWrapper.exists(".u-bg--silver-line")).toBeTruthy();
+});
 it("modal renders route pill for silver line", () => {
   const subwayWrapper = mount(
     <ScheduleFinder

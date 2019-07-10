@@ -8,7 +8,7 @@ import { ServiceWithServiceDate } from "../../__v3api";
 
 const services: ServiceWithServiceDate[] = [
   {
-    valid_days: [1, 2, 3, 4, 5],
+    valid_days: [1, 2, 3, 4],
     typicality: "typical_service",
     type: "weekday",
     start_date: "2019-07-03",
@@ -17,6 +17,21 @@ const services: ServiceWithServiceDate[] = [
     removed_dates: ["2019-07-04"],
     name: "Weekday",
     id: "Weekday",
+    end_date: "2019-08-30",
+    description: "Weekday schedule",
+    added_dates_notes: {},
+    added_dates: []
+  },
+  {
+    valid_days: [5],
+    typicality: "typical_service",
+    type: "weekday",
+    start_date: "2019-07-03",
+    service_date: "2019-07-10",
+    removed_dates_notes: { "2019-07-04": "Independence Day" },
+    removed_dates: ["2019-07-04"],
+    name: "Weekday",
+    id: "Weekday-F",
     end_date: "2019-08-30",
     description: "Weekday schedule",
     added_dates_notes: {},
