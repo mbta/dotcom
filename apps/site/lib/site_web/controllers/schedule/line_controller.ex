@@ -42,6 +42,7 @@ defmodule SiteWeb.ScheduleController.LineController do
 
   @spec get_schedules(binary, any, any) :: %{by_trip: map, trip_order: [any]}
   def get_schedules(route_id, date, direction_id) do
+    # credo:disable-for-next-line
     IO.inspect(date, label: "get schedules date")
 
     {time, _result} =
@@ -49,6 +50,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id)
       end)
 
+    # credo:disable-for-next-line
     IO.inspect(time, label: "time for schedules repo")
 
     services =
@@ -82,6 +84,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         end)
       end)
 
+    # credo:disable-for-next-line
     IO.inspect(time, label: "get schedules_for_service")
     result
   end

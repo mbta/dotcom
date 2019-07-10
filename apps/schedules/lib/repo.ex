@@ -254,6 +254,7 @@ defmodule Schedules.Repo do
         |> Enum.map(fn {:ok, schedule} -> schedule end)
       end)
 
+    # credo:disable-for-next-line
     IO.inspect(time, label: "load_from_other_repos")
     result
   end
