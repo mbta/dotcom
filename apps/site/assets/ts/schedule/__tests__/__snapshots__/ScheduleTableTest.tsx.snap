@@ -73,330 +73,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          05:46 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          05:55 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:03 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:10 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:17 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:24 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:31 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:37 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:43 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:49 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:54 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:59 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           07:03 AM
         </td>
         <td
@@ -416,33 +92,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:05 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -478,33 +127,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          07:10 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           07:13 AM
         </td>
         <td
@@ -524,60 +146,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:14 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:19 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -613,33 +181,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          07:24 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           07:26 AM
         </td>
         <td
@@ -659,60 +200,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:27 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:32 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -748,33 +235,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          07:37 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           07:39 AM
         </td>
         <td
@@ -794,33 +254,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:42 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -856,33 +289,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          07:46 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           07:50 AM
         </td>
         <td
@@ -902,60 +308,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:51 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:55 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -991,33 +343,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          07:59 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           08:01 AM
         </td>
         <td
@@ -1037,33 +362,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          08:03 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -1099,60 +397,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          08:08 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          08:12 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           08:15 AM
         </td>
         <td
@@ -1172,33 +416,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          08:17 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -1234,33 +451,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          08:22 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           08:25 AM
         </td>
         <td
@@ -1280,60 +470,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          08:26 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          08:31 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -1369,33 +505,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          08:35 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           08:38 AM
         </td>
         <td
@@ -1415,60 +524,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          08:39 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          08:43 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -1504,33 +559,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          08:48 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           08:51 AM
         </td>
         <td
@@ -1550,33 +578,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          08:53 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -1612,33 +613,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          08:57 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           09:03 AM
         </td>
         <td
@@ -1658,33 +632,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          09:05 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -1747,33 +694,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          09:14 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           09:20 AM
         </td>
         <td
@@ -1801,33 +721,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          09:23 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           09:27 AM
         </td>
         <td
@@ -1847,33 +740,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          09:31 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -1936,87 +802,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          09:40 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          09:50 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          10:05 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           10:17 AM
         </td>
         <td
@@ -2036,60 +821,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          10:20 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          10:35 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -2125,33 +856,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          10:50 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           10:56 AM
         </td>
         <td
@@ -2171,114 +875,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          11:05 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          11:20 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          11:35 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          11:50 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -2314,33 +910,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          12:05 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           12:08 PM
         </td>
         <td
@@ -2360,87 +929,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          12:14 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          12:24 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          12:34 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -2476,60 +964,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          12:44 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          12:54 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           01:02 PM
         </td>
         <td
@@ -2549,60 +983,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          01:04 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          01:14 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -2638,33 +1018,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          01:24 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           01:32 PM
         </td>
         <td
@@ -2692,195 +1045,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          01:34 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          01:44 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          01:54 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          02:04 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          02:14 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          02:24 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          02:33 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           02:38 PM
         </td>
         <td
@@ -2900,195 +1064,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          02:43 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          02:53 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          03:02 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          03:12 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          03:23 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          03:32 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          03:42 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -3151,33 +1126,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          03:53 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           04:01 PM
         </td>
         <td
@@ -3197,33 +1145,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          04:03 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -3259,33 +1180,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          04:13 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           04:19 PM
         </td>
         <td
@@ -3305,33 +1199,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          04:22 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -3367,33 +1234,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          04:27 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           04:31 PM
         </td>
         <td
@@ -3413,60 +1253,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          04:33 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          04:38 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -3502,33 +1288,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          04:43 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           04:45 PM
         </td>
         <td
@@ -3548,33 +1307,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          04:48 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -3610,33 +1342,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          04:53 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           04:54 PM
         </td>
         <td
@@ -3656,33 +1361,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          04:58 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -3718,33 +1396,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          05:03 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           05:06 PM
         </td>
         <td
@@ -3764,33 +1415,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          05:08 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -3826,60 +1450,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          05:13 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          05:18 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           05:20 PM
         </td>
         <td
@@ -3899,33 +1469,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          05:23 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -3961,33 +1504,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          05:28 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           05:32 PM
         </td>
         <td
@@ -4007,60 +1523,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          05:33 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          05:38 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -4096,33 +1558,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          05:43 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           05:47 PM
         </td>
         <td
@@ -4142,60 +1577,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          05:48 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          05:53 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -4231,33 +1612,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          05:58 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           06:01 PM
         </td>
         <td
@@ -4277,60 +1631,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:02 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:07 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -4366,33 +1666,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          06:12 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           06:16 PM
         </td>
         <td
@@ -4412,60 +1685,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:17 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:22 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -4501,330 +1720,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          06:27 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:32 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:37 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:42 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:47 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:52 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          06:57 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:02 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:06 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:12 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:17 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:23 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           07:25 PM
         </td>
         <td
@@ -4844,87 +1739,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:29 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:38 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          07:46 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -4987,60 +1801,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          07:59 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          08:09 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           08:18 PM
         </td>
         <td
@@ -5060,60 +1820,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          08:25 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          08:38 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -5149,141 +1855,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          08:51 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          09:04 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          09:17 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          09:30 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          09:43 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           09:48 PM
         </td>
         <td
@@ -5303,60 +1874,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          09:56 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          10:09 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
@@ -5392,249 +1909,6 @@ Array [
         <td
           className="schedule-table__td schedule-table__time"
         >
-          10:22 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          10:35 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          10:48 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          11:01 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          11:14 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          11:29 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          11:44 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          11:59 PM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          12:14 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
           12:24 AM
         </td>
         <td
@@ -5654,60 +1928,6 @@ Array [
             </div>
           </div>
           Silver Line Way
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          12:30 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row"
-      >
-        <td
-          className="schedule-table__td schedule-table__time"
-        >
-          12:50 AM
-        </td>
-        <td
-          className="schedule-table__td"
-        >
-          <div
-            className="schedule-table__row-route"
-          >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
-            >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL2
-              </div>
-            </div>
-          </div>
-          Drydock
         </td>
       </tr>
       <tr
