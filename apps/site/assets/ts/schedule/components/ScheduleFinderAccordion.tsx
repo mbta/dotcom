@@ -7,20 +7,22 @@ import {
   EnhancedRoute,
   ServiceWithServiceDate
 } from "../../__v3api";
-import { SimpleStop } from "./__schedule";
+import { SimpleStop, ServiceSchedule } from "./__schedule";
 
 interface Props {
   directionId: DirectionId;
   route: EnhancedRoute;
   stops: SimpleStop[];
   services: ServiceWithServiceDate[];
+  serviceSchedules: ServiceSchedule;
 }
 
 const ScheduleFinderAccordion = ({
   directionId,
   route,
   stops,
-  services
+  services,
+  serviceSchedules
 }: Props): ReactElement<HTMLDivElement> => (
   <div className="schedule-finder--mobile">
     <ExpandableBlock
@@ -35,6 +37,7 @@ const ScheduleFinderAccordion = ({
         route={route}
         stops={stops}
         services={services}
+        serviceSchedules={serviceSchedules}
       />
     </ExpandableBlock>
   </div>

@@ -31,13 +31,46 @@ defmodule SiteWeb.ScheduleController.LineController do
       |> put_view(ScheduleView)
       |> await_assign_all_default(__MODULE__)
 
-    conn
-    |> assign_schedule_page_data()
-    |> render("show.html", [])
+    if Laboratory.enabled?(conn, :schedule_redesign) do
+      conn
+      |> assign_schedule_page_data()
+      |> render("show.html", [])
+    else
+      render(conn, "show.html", [])
+    end
+  end
+
+  @spec get_schedules(binary, any, any) :: %{by_trip: map, trip_order: [any]}
+  def get_schedules(route_id, date, direction_id) do
+    services =
+      Enum.map(
+        Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id),
+        &Map.update!(&1, :route, fn route -> Route.to_json_safe(route) end)
+      )
+
+    services_by_trip =
+      services
+      |> Enum.map(&Map.update!(&1, :time, fn time -> Timex.format!(time, "{0h12}:{m} {AM}") end))
+      |> Enum.group_by(& &1.trip.id)
+
+    ordered_trips = services |> Enum.sort_by(& &1.time) |> Enum.map(& &1.trip.id) |> Enum.uniq()
+    %{by_trip: services_by_trip, trip_order: ordered_trips}
+  end
+
+  def schedules_for_service(route_id, services) do
+    services
+    |> Enum.reduce(%{}, fn %{start_date: date, id: service_id}, acc ->
+      Map.put(acc, service_id, %{
+        service_id: service_id,
+        "0": get_schedules(route_id, date, 0),
+        "1": get_schedules(route_id, date, 1)
+      })
+    end)
   end
 
   def assign_schedule_page_data(conn) do
     service_date = Util.service_date()
+    services = Services.Repo.by_route_id(conn.assigns.route.id)
 
     assign(
       conn,
@@ -65,10 +98,10 @@ defmodule SiteWeb.ScheduleController.LineController do
         holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
         services:
-          conn.assigns.route.id
-          |> Services.Repo.by_route_id()
+          services
           |> Enum.sort_by(&sort_services_by_date/1)
           |> Enum.map(&Map.put(&1, :service_date, service_date)),
+        service_schedules: schedules_for_service(conn.assigns.route.id, services),
         schedule_note: ScheduleNote.new(conn.assigns.route),
         stops: simple_stop_list(conn.assigns.all_stops),
         direction_id: conn.assigns.direction_id
