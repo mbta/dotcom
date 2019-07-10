@@ -80,14 +80,6 @@ defmodule Content.CMS.HTTPClient do
     stringify_params({key <> "[#{sub_key}]", sub_val}, acc)
   end
 
-  # Nested params from 302 redirects come in as a single-pair Map.t() element
-  defp list_to_params(key, acc, val) when is_map(val) do
-    val
-    |> Map.to_list()
-    |> Enum.at(0)
-    |> (&list_to_params(key, acc, &1)).()
-  end
-
   # Drop entire param (key[subkey]=val) completely
   defp list_to_params(_, acc, _) do
     acc
