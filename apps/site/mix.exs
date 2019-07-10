@@ -56,7 +56,8 @@ defmodule Site.Mixfile do
       :polyline,
       :util,
       :trip_plan,
-      :services
+      :services,
+      :route_patterns
     ]
 
     apps =
@@ -124,7 +125,8 @@ defmodule Site.Mixfile do
       {:util, in_umbrella: true},
       {:predictions, in_umbrella: true},
       {:trip_plan, in_umbrella: true},
-      {:services, in_umbrella: true}
+      {:services, in_umbrella: true},
+      {:route_patterns, in_umbrella: true}
     ]
   end
 end
