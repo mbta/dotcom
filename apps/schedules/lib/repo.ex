@@ -244,22 +244,28 @@ defmodule Schedules.Repo do
   end
 
   defp load_from_other_repos(schedules) do
-    schedules
-    |> Task.async_stream(fn {route_id, trip_id, stop_id, time, flag?, early_departure?,
-                             last_stop?, stop_sequence, pickup_type} ->
-      %Schedules.Schedule{
-        route: Routes.Repo.get(route_id),
-        trip: trip(trip_id),
-        stop: Stops.Repo.get_parent(stop_id),
-        time: time,
-        flag?: flag?,
-        early_departure?: early_departure?,
-        last_stop?: last_stop?,
-        stop_sequence: stop_sequence,
-        pickup_type: pickup_type
-      }
-    end)
-    |> Enum.map(fn {:ok, schedule} -> schedule end)
+    {time, result} =
+      :timer.tc(fn ->
+        schedules
+        |> Task.async_stream(fn {route_id, trip_id, stop_id, time, flag?, early_departure?,
+                                 last_stop?, stop_sequence, pickup_type} ->
+          %Schedules.Schedule{
+            route: Routes.Repo.get(route_id),
+            trip: trip(trip_id),
+            stop: Stops.Repo.get_parent(stop_id),
+            time: time,
+            flag?: flag?,
+            early_departure?: early_departure?,
+            last_stop?: last_stop?,
+            stop_sequence: stop_sequence,
+            pickup_type: pickup_type
+          }
+        end)
+        |> Enum.map(fn {:ok, schedule} -> schedule end)
+      end)
+
+    IO.inspect(time, label: "load_from_other_repos")
+    result
   end
 
   @spec insert_trips_into_cache([JsonApi.Item.t()]) :: :ok
