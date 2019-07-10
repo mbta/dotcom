@@ -207,8 +207,8 @@ defmodule Schedules.Repo do
     |> Enum.uniq_by(fn {o, _} -> o.trip.id end)
   end
 
-  @spec filter_by_min_time([Parser.record()] | {:error, any}, DateTime.t() | nil) ::
-          [Parser.record()] | {:error, any}
+  @spec filter_by_min_time([Schedule.t()] | {:error, any}, DateTime.t() | nil) ::
+          [Schedule.t()] | {:error, any}
   defp filter_by_min_time({:error, error}, _) do
     {:error, error}
   end
