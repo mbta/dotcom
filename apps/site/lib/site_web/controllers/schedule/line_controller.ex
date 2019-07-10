@@ -42,6 +42,15 @@ defmodule SiteWeb.ScheduleController.LineController do
 
   @spec get_schedules(binary, any, any) :: %{by_trip: map, trip_order: [any]}
   def get_schedules(route_id, date, direction_id) do
+    IO.inspect(date, label: "get schedules date")
+
+    {time, _result} =
+      :timer.tc(fn ->
+        Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id)
+      end)
+
+    IO.inspect(time, label: "time for schedules repo")
+
     services =
       Enum.map(
         Schedules.Repo.by_route_ids([route_id], date: date, direction_id: direction_id),
@@ -58,14 +67,23 @@ defmodule SiteWeb.ScheduleController.LineController do
   end
 
   def schedules_for_service(route_id, services) do
-    services
-    |> Enum.reduce(%{}, fn %{start_date: date, id: service_id}, acc ->
-      Map.put(acc, service_id, %{
-        service_id: service_id,
-        "0": get_schedules(route_id, date, 0),
-        "1": get_schedules(route_id, date, 1)
-      })
-    end)
+    {time, result} =
+      :timer.tc(
+        fn ->
+          services
+          |> Enum.reduce(%{}, fn %{start_date: date, id: service_id}, acc ->
+            Map.put(acc, service_id, %{
+              service_id: service_id,
+              "0": get_schedules(route_id, date, 0),
+              "1": get_schedules(route_id, date, 1)
+            })
+          end)
+        end,
+        []
+      )
+
+    IO.inspect(time, label: "get schedules_for_service")
+    result
   end
 
   def assign_schedule_page_data(conn) do
