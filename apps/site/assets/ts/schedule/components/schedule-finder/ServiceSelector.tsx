@@ -116,7 +116,7 @@ const ServiceSelector = ({
   const defaultServiceId = getTodaysScheduleId(servicesByOptGroup);
   const selectedServiceId = state.selectedServiceId || defaultServiceId;
   const selectedServiceSchedule =
-    serviceSchedules[selectedServiceId][directionId];
+    serviceSchedules[`${selectedServiceId}-${directionId}`];
 
   return (
     <>

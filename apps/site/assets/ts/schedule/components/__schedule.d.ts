@@ -25,7 +25,7 @@ export interface SchedulePageData {
 }
 
 export interface ServiceSchedule {
-  [key: string]: ServiceScheduleByDirection;
+  [key: string]: ServiceScheduleInfo;
 }
 
 export interface ServiceScheduleByTrip {
@@ -37,11 +37,6 @@ export interface ServiceScheduleInfo {
   trip_order: string[];
 }
 
-export interface ServiceScheduleByDirection {
-  service_id: string;
-  "0": ServiceScheduleInfo;
-  "1": ServiceScheduleInfo;
-}
 export interface ScheduleNote {
   peak_service: string;
   offpeak_service: string;
