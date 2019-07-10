@@ -71,14 +71,15 @@ defmodule SiteWeb.ScheduleController.LineController do
       :timer.tc(fn ->
         services
         |> Enum.map(&{&1.start_date, &1.id})
-        |> Task.async_stream(fn {date, service_id} ->
-          %{
-            service_id: service_id,
-            "0": get_schedules(route_id, date, 0),
-            "1": get_schedules(route_id, date, 1)
-          }
+        |> Enum.flat_map(fn {date, service_id} ->
+          [{date, service_id, 0}, {date, service_id, 1}]
         end)
-        |> Enum.reduce(%{}, fn {:ok, result}, acc -> Map.put(acc, result.service_id, result) end)
+        |> Task.async_stream(fn {date, service_id, direction_id} ->
+          {service_id, direction_id, get_schedules(route_id, date, direction_id)}
+        end)
+        |> Enum.reduce(%{}, fn {:ok, {service_id, direction_id, schedules}}, acc ->
+          Map.put(acc, "#{service_id}-#{direction_id}", schedules)
+        end)
       end)
 
     IO.inspect(time, label: "get schedules_for_service")
