@@ -27,7 +27,6 @@ defmodule Schedules.Repo do
     |> add_optional_param(opts, :stop_ids, :stop)
     |> cache(&all_from_params/1)
     |> filter_by_min_time(Keyword.get(opts, :min_time))
-    |> load_from_other_repos
   end
 
   @spec schedule_for_trip(Schedules.Trip.id_t(), Keyword.t()) :: [Schedule.t()] | {:error, any}
@@ -45,7 +44,6 @@ defmodule Schedules.Repo do
     |> Keyword.put_new_lazy(:date, &Util.service_date/0)
     |> cache(&all_from_params/1)
     |> filter_by_min_time(Keyword.get(opts, :min_time))
-    |> load_from_other_repos
   end
 
   @spec origin_destination(Stop.id_t(), Stop.id_t(), Keyword.t()) ::
@@ -79,7 +77,6 @@ defmodule Schedules.Repo do
     |> add_optional_param(opts, :trip)
     |> cache(&all_from_params/1)
     |> filter_by_min_time(Keyword.get(opts, :min_time))
-    |> load_from_other_repos
   end
 
   @spec trip(String.t(), trip_by_id_fn) :: Schedules.Trip.t() | nil
@@ -147,6 +144,7 @@ defmodule Schedules.Repo do
       |> Stream.map(&Parser.parse/1)
       |> Enum.filter(&has_trip?/1)
       |> Enum.sort_by(&DateTime.to_unix(elem(&1, 3)))
+      |> load_from_other_repos
     end
   end
 
@@ -220,16 +218,8 @@ defmodule Schedules.Repo do
   end
 
   defp filter_by_min_time(schedules, %DateTime{} = min_time) do
-    Enum.filter(schedules, fn {
-                                _route_id,
-                                _trip_id,
-                                _stop_id,
-                                %DateTime{} = schedule_time,
-                                _flag?,
-                                _early_departure?,
-                                _last_stop?,
-                                _stop_sequence,
-                                _pickup_type
+    Enum.filter(schedules, fn %Schedule{
+                                time: schedule_time
                               } ->
       case DateTime.compare(schedule_time, min_time) do
         :gt -> true
