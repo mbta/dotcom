@@ -55,7 +55,7 @@ const services: ServiceWithServiceDate[] = [
   }
 ] as ServiceWithServiceDate[];
 
-const serviceSchedules: ServiceSchedule = serviceData as ServiceSchedule;
+const serviceSchedules: ServiceSchedule = (serviceData as unknown) as ServiceSchedule;
 
 const crServices: ServiceWithServiceDate[] = [
   {
