@@ -181,28 +181,15 @@ defmodule SiteWeb.ProjectController do
   end
 
   @spec get_events_async(integer, :past | :upcoming) :: (() -> [Teaser.t()])
-  def get_events_async(id, :past) do
+  def get_events_async(id, timeframe) do
     fn ->
       Repo.teasers(
         type: :event,
         related_to: id,
         items_per_page: 10,
-        date_op: "<",
+        date_op: (timeframe == :past && "<") || ">=",
         date: [value: "now"],
-        sort_order: "DESC"
-      )
-    end
-  end
-
-  def get_events_async(id, :upcoming) do
-    fn ->
-      Repo.teasers(
-        type: :event,
-        related_to: id,
-        items_per_page: 10,
-        date_op: ">=",
-        date: [value: "now"],
-        sort_order: "ASC"
+        sort_order: (timeframe == :past && "DESC") || "ASC"
       )
     end
   end
