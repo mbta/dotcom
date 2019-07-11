@@ -38,9 +38,11 @@ defmodule Content.CMS.HTTPClient do
   @type param_value :: String.t() | atom() | Keyword.t()
   @type param_list :: [{String.t(), String.t()}]
 
-  # Allow only whitelisted, known, nested params
-  @type safe_key :: :value | :min | :max
-  @safe_keys [:value, :min, :max]
+  # Allow only whitelisted, known, nested params.
+  # Note: when redirecting from CMS, nested params will
+  # be shaped as a Map.t() with String.t() keys and values.
+  @type safe_key :: :value | :min | :max | String.t()
+  @safe_keys [:value, :min, :max, "lattitude", "longitude"]
 
   @spec stringify_params({param_key, param_value}, param_list) :: param_list
   defp stringify_params({key, val}, acc) when is_atom(key) do
@@ -59,7 +61,7 @@ defmodule Content.CMS.HTTPClient do
     [{key, val} | acc]
   end
 
-  defp stringify_params({key, val}, acc) when is_binary(key) and is_list(val) do
+  defp stringify_params({key, val}, acc) when is_binary(key) and (is_map(val) or is_list(val)) do
     val
     # drop original param, add new key/vals for nested params
     |> Enum.reduce(acc, fn nested_param, acc -> list_to_params(key, acc, nested_param) end)
@@ -73,13 +75,13 @@ defmodule Content.CMS.HTTPClient do
   end
 
   # Convert nested key values to their own keys, if whitelisted
-  @spec list_to_params(String.t(), param_list, {safe_key(), String.t()}) :: param_list
+  @spec list_to_params(String.t(), param_list, {safe_key(), String.t()} | map) :: param_list
   defp list_to_params(key, acc, {sub_key, sub_val}) when sub_key in @safe_keys do
     stringify_params({key <> "[#{sub_key}]", sub_val}, acc)
   end
 
+  # Drop entire param (key[subkey]=val) completely
   defp list_to_params(_, acc, _) do
-    # drop invalid param
     acc
   end
 end

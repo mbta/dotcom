@@ -115,7 +115,16 @@ defmodule Content.CMS.HTTPClientTest do
 
     test "certain nested params are allowed, ordered, and keys are replaced by key[nested_key]" do
       with_mock ExternalRequest, process: fn _method, _path, _body, _params -> {:ok, []} end do
-        view("/path", %{"foo" => [bar: "baz", min: :should_be_string, max: "string"]})
+        view(
+          "/path",
+          %{
+            "foo" => [
+              bad_sub_key: "foobar",
+              min: :should_be_string,
+              max: "string"
+            ]
+          }
+        )
 
         assert called(
                  ExternalRequest.process(
@@ -126,6 +135,34 @@ defmodule Content.CMS.HTTPClientTest do
                      {"_format", "json"},
                      {"foo[min]", "should_be_string"},
                      {"foo[max]", "string"}
+                   ]
+                 )
+               )
+      end
+    end
+
+    test "nested and non-nested key values in request work when being redirected by CMS" do
+      with_mock ExternalRequest,
+        process: fn _method, _path, _body, _params -> {:ok, []} end do
+        view(
+          "/redirect",
+          %{
+            "location" => %{"lattitude" => "1234", "longitude" => "5678"},
+            "foo" => %{"bad_sub_key" => "bar"},
+            "fiz" => "baz"
+          }
+        )
+
+        assert called(
+                 ExternalRequest.process(
+                   :get,
+                   "/redirect",
+                   "",
+                   params: [
+                     {"_format", "json"},
+                     {"fiz", "baz"},
+                     {"location[lattitude]", "1234"},
+                     {"location[longitude]", "5678"}
                    ]
                  )
                )
