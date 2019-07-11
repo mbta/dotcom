@@ -1,5 +1,5 @@
 import React, { ReactElement, Dispatch } from "react";
-import { Action } from "../ScheduleDirection";
+import { Action } from "./reducer";
 
 interface Props {
   dispatch: Dispatch<Action>;

@@ -5,19 +5,32 @@ exports[`it renders 1`] = `
   <h5>
     Schedule Direction Component
   </h5>
-  <p>
+  <p
+    id="direction-name"
+  >
     Inbound
   </p>
-  <p>
-    active shape:
-     
-    South Station
+  <p
+    id="active-shape"
+  >
+    Shape 2
   </p>
   <div>
-    Direction Menu: 
-    1
-     items for direction 
-    1
+    <select
+      onChange={[Function]}
+      value="pattern-2"
+    >
+      <option
+        value="pattern-2"
+      >
+        Pattern 2
+      </option>
+    </select>
   </div>
+  <button
+    onClick={[Function]}
+  >
+    Change Direction
+  </button>
 </div>
 `;

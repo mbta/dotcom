@@ -1,7 +1,7 @@
 import React, { ReactElement, Dispatch } from "react";
 import { DirectionId } from "../../../__v3api";
 import { RoutePatternsByDirection, RoutePatternWithShape } from "../__schedule";
-import { Action } from "../ScheduleDirection";
+import { Action } from "./reducer";
 
 interface Props {
   routePatternsByDirection: RoutePatternsByDirection;
@@ -24,7 +24,7 @@ const ScheduleDirectionMenu = ({
           event: "setRoutePattern",
           payload: {
             routePattern: routePatternsByDirection[directionId].filter(
-              routePattern => routePattern.id === e.currentTarget.value
+              routePattern => routePattern.id === e.target.value
             )[0]
           }
         })
