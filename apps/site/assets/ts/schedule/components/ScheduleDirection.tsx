@@ -5,8 +5,8 @@ import {
   RoutePatternsByDirection,
   RoutePatternWithShape
 } from "./__schedule";
-import ScheduleDirectionMenu from "./ScheduleDirectionMenu";
-import ScheduleDirectionButton from "./ScheduleDirectionButton";
+import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
+import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
 
 interface State {
   routePattern: RoutePatternWithShape;
@@ -20,21 +20,33 @@ interface Payload {
   routePattern?: RoutePatternWithShape;
 }
 
-interface Action {
-  event: string;
-  payload: Payload;
+export interface Action {
+  event: "toggleDirection" | "setRoutePattern";
+  payload?: Payload;
 }
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.event) {
     case "toggleDirection":
-      return { ...state, directionId: state.directionId === 0 ? 1 : 0 };
+      return {
+        ...state,
+        directionId: state.directionId === 0 ? 1 : 0,
+        routePattern: state.routePatternsByDirection[
+          state.directionId === 0 ? 1 : 0
+        ].slice(0, 1)[0],
+        shape:
+          state.shapesById[
+            state.routePatternsByDirection[
+              state.directionId === 0 ? 1 : 0
+            ].slice(0, 1)[0].shape_id
+          ]
+      };
 
     case "setRoutePattern":
       return {
         ...state,
-        routePattern: action.payload.routePattern!,
-        shape: state.shapesById[action.payload.routePattern!.shape_id]
+        routePattern: action.payload!.routePattern!,
+        shape: state.shapesById[action.payload!.routePattern!.shape_id]
       };
 
     default:
@@ -73,11 +85,12 @@ const ScheduleDirection = ({
     <div>
       <h5>Schedule Direction Component</h5>
       <p>{route.direction_names[state.directionId]}</p>
-      <p>active shape: {state.shape.name}</p>
+      <p>active shape: {state.shape && state.shape.name}</p>
       <ScheduleDirectionMenu
         directionId={state.directionId}
         routePatternsByDirection={routePatternsByDirection}
         selectedRoutePatternId={state.routePattern.id}
+        dispatch={dispatch}
       />
       <ScheduleDirectionButton dispatch={dispatch} />
     </div>

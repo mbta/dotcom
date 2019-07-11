@@ -10,9 +10,9 @@
     <%= render "_route_disclaimer.html", route: @route, date_time: @date_time %>
     </div>
     <div class="col-xs-12 col-md-7">
-    <% redesign? = Laboratory.enabled?(@conn, :schedule_redesign) %>
+    <% redesign_sidebar? = Laboratory.enabled?(@conn, :schedule_redesign) %>
     <% redesign_direction? = Laboratory.enabled?(@conn, :schedule_direction_redesign) %>
-    <%= if redesign? do %>
+    <%= if redesign_sidebar? do %>
       <div id="react-schedule-note-root">
           <%= if @schedule_page_data.schedule_note do %>
           <%= Site.React.render("ScheduleNote", %{scheduleNote: @schedule_page_data.schedule_note, className: "m-schedule-page__schedule-notes--mobile"}) %>
@@ -24,7 +24,7 @@
     <% else %>
         <h2>Stops</h2>
 
-        <%= if redesign? do %>
+        <%= if redesign_sidebar? do %>
           <div id="react-schedule-finder-root">
             <%= if @route.type !== 0 and @route.type !== 1 do %>
               <%= Site.React.render("ScheduleFinder", %{classModifier: "mobile",
@@ -74,7 +74,7 @@
     </div>
     <% end %>
     <div class="col-xs-12 col-md-5 col-lg-4 col-lg-offset-1">
-      <%= if redesign? do %>
+      <%= if redesign_sidebar? do %>
         <% without_schedules = @schedule_page_data |> Map.put(:service_schedules, %{})%>
         <div id="react-root">
           <%= Site.React.render("SchedulePage", %{schedulePageData: without_schedules}) %>
@@ -83,7 +83,7 @@
         <%= render "_cms_teasers.html", featured_content: @featured_content, news: @news, conn: @conn, teaser_class: "m-schedule-line__teaser", news_class: "m-schedule-line__news" %>
         <%= render "_pdf_schedules.html", assigns %>
       <% end %>
-      <%= if !redesign? do %>
+      <%= if !redesign_sidebar? do %>
         <%= render "_line_connections.html", assigns %>
         <%= render "_fares.html", assigns %>
         <div class="hours">
