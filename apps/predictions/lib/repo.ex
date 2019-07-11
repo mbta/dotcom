@@ -13,6 +13,8 @@ defmodule Predictions.Repo do
   ]
 
   def all(opts) when is_list(opts) and opts != [] do
+    _ = Logger.info("predictions_repo_all_cache=call")
+
     @default_params
     |> add_optional_param(opts, :route)
     |> add_optional_param(opts, :stop)
@@ -31,6 +33,8 @@ defmodule Predictions.Repo do
   end
 
   defp fetch(params) do
+    _ = Logger.info("predictions_repo_all_cache=cache_miss")
+
     case V3Api.Predictions.all(params) do
       {:error, error} ->
         warn_error(params, error)
