@@ -29,6 +29,7 @@ exports[`it renders 1`] = `
   </div>
   <button
     onClick={[Function]}
+    type="button"
   >
     Change Direction
   </button>

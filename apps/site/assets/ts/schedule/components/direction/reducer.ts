@@ -24,10 +24,9 @@ export interface Action {
 
 const toggleDirection = (state: State): State => {
   const nextDirection = state.directionId === 0 ? 1 : 0;
-  const [
-    defaultRoutePatternForDirection,
-    ..._rest
-  ] = state.routePatternsByDirection[nextDirection];
+  const [defaultRoutePatternForDirection] = state.routePatternsByDirection[
+    nextDirection
+  ];
 
   return {
     ...state,
@@ -48,5 +47,8 @@ export const reducer = (state: State, action: Action): State => {
         routePattern: action.payload!.routePattern!,
         shape: state.shapesById[action.payload!.routePattern!.shape_id]
       };
+
+    default:
+      return state;
   }
 };

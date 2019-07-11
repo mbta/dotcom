@@ -9,6 +9,7 @@ const ScheduleDirectionButton = ({
   dispatch
 }: Props): ReactElement<HTMLElement> => (
   <button
+    type="button"
     onClick={() => {
       dispatch({ event: "toggleDirection" });
     }}
