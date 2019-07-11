@@ -26,7 +26,7 @@ defmodule Fares.FormatTest do
     test "returns appropriate media type text based on fare" do
       assert media(%Fare{media: [:charlie_card]}) == "CharlieCard"
       assert media(%Fare{media: [:commuter_ticket]}) == "CharlieTicket"
-      assert media(%Fare{media: [:mticket]}) == "mTicket"
+      assert media(%Fare{media: [:mticket]}) == "mTicket App"
       assert media(%Fare{media: [:cash]}) == "Cash"
       assert media(%Fare{media: [:senior_card]}) == "Senior CharlieCard or TAP ID"
       assert media(%Fare{media: [:student_card]}) == "Student CharlieCard"

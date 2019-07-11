@@ -21,9 +21,11 @@
     _ -> Fares.Format.price(fare)
   end
 
+  mticket_html = content_tag(:span, "mTicket App", class: "no-wrap")
+
   media = case fare do
-    %Fares.Summary{duration: :weekend} -> "CharlieTicket, Cash, or mTicket"
-    %Fares.Summary{} -> "CharlieTicket or mTicket"
+    %Fares.Summary{duration: :weekend} -> ["CharlieTicket, Cash, or ", mticket_html]
+    %Fares.Summary{} -> ["CharlieTicket or ", mticket_html]
     _ -> Fares.Format.media(fare)
   end
 
@@ -49,7 +51,7 @@
     </span>
     <%= if display_duration? do %>
       <span class="c-fare-card__duration">
-        <%= Fares.Format.duration(fare) %>
+        <%= fare |> Map.put(:media, []) |> Fares.Format.duration() %>
       </span>
     <% end %>
   </h3>
@@ -60,7 +62,7 @@
 
   <%= if @fare_card.show_media do %>
     <p class="c-fare-card__media">
-      with a <%= media %>
+      with <%= media %>
     </p>
   <% end %>
 
