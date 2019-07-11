@@ -505,8 +505,8 @@ defmodule SiteWeb.ScheduleControllerTest do
     route_patterns = conn.assigns.route_patterns
     shape_map = conn.assigns.shape_map
 
-    first_route_pattern_0 = List.first(route_patterns[0])
-    first_route_pattern_1 = List.first(route_patterns[1])
+    first_route_pattern_0 = List.first(route_patterns["0"])
+    first_route_pattern_1 = List.first(route_patterns["1"])
     shape = shape_map[first_route_pattern_0.shape_id]
 
     assert first_route_pattern_0.direction_id == 0
