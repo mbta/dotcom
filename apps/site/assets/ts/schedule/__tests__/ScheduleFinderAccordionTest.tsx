@@ -3,7 +3,6 @@ import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import ScheduleFinderAccordion from "../components/ScheduleFinderAccordion";
 import { EnhancedRoute, ServiceWithServiceDate } from "../../__v3api";
-import serviceData from "./serviceData.json";
 import { ServiceSchedule } from "../components/__schedule";
 
 const services: ServiceWithServiceDate[] = [
@@ -53,10 +52,6 @@ const services: ServiceWithServiceDate[] = [
     added_dates: []
   }
 ] as ServiceWithServiceDate[];
-const serviceSchedules: ServiceSchedule = serviceData as ServiceSchedule;
-// the enzyme test was done as one test because there was
-// an issue mounting it more than once due to the focus-trap
-// dependency that the Modal component depends on
 
 /* eslint-disable @typescript-eslint/camelcase */
 const body = '<div id="react-root"></div>';
@@ -101,7 +96,7 @@ it("renders", () => {
         stops={stops}
         directionId={0}
         services={services}
-        serviceSchedules={serviceSchedules}
+        serviceSchedules={{}}
       />
     )
     .toJSON();
