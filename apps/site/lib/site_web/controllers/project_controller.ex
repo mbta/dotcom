@@ -74,6 +74,15 @@ defmodule SiteWeb.ProjectController do
       Breadcrumb.build(project.title)
     ]
 
+    {past_events, upcoming_events} =
+      Enum.split_with(events, &Event.past?(&1, conn.assigns.date_time))
+
+    {sidebar_class, sidebar_right} =
+      case {updates, diversions} do
+        {[], []} -> {"c-cms--no-sidebar", false}
+        {_, _} -> {"c-cms--with-sidebar c-cms--sidebar-right", true}
+      end
+
     conn
     |> put_view(ProjectView)
     |> render("show.html", %{
@@ -82,7 +91,9 @@ defmodule SiteWeb.ProjectController do
       updates: updates,
       past_events: past_events,
       upcoming_events: upcoming_events,
-      diversions: diversions
+      diversions: diversions,
+      sidebar_class: sidebar_class,
+      sidebar_right: sidebar_right
     })
   end
 

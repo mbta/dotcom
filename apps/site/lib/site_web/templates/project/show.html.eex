@@ -1,12 +1,5 @@
-<%
-  {sidebar_class, sidebar_right} = case {@updates, @diversions} do
-    {[], []} -> {"c-cms--no-sidebar", false}
-    {_, _} -> {"c-cms--with-sidebar c-cms--sidebar-right", true}
-  end
-%>
-
 <div class="container">
-  <div class="c-cms <%= sidebar_class %>">
+  <div class="c-cms <%= @sidebar_class %>">
 
     <div class="c-cms__header">
       <div class="c-cms__title">
@@ -82,7 +75,7 @@
 
       <%# End main body column %>
 
-      <%= if sidebar_right do %>
+      <%= if @sidebar_right do %>
         <%= if Enum.empty?(@project.paragraphs) do %>
 
           <%# No paragraphs means use hard-coded sidebar components %>
