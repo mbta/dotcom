@@ -136,7 +136,7 @@ defmodule SiteWeb.ProjectViewTest do
         )
         |> HTML.safe_to_string()
 
-      assert output =~ "About the Project"
+      refute output =~ "About the Project"
       assert output =~ "Project Updates"
     end
   end
