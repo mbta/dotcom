@@ -89,7 +89,6 @@ interface Props {
   selectedOrigin: SelectedOrigin;
   services: ServiceWithServiceDate[];
   stops: SimpleStop[];
-  serviceSchedules: ServiceSchedule;
 }
 
 const ScheduleModalContent = ({
@@ -103,8 +102,7 @@ const ScheduleModalContent = ({
   selectedDirection,
   selectedOrigin,
   services,
-  stops,
-  serviceSchedules
+  stops
 }: Props): ReactElement<HTMLElement> | null => {
   const [state, dispatch] = useReducer(reducer, {
     data: null,
@@ -139,7 +137,6 @@ const ScheduleModalContent = ({
       <UpcomingDepartures state={state} />
       <ServiceSelector
         services={services}
-        serviceSchedules={serviceSchedules}
         directionId={selectedDirection}
       />
     </>

@@ -263,7 +263,6 @@ const ScheduleFinder = ({
                 selectedOrigin={state.selectedOrigin}
                 services={services}
                 stops={stops}
-                serviceSchedules={serviceSchedules}
               />
             )}
           </>

@@ -29,7 +29,6 @@ const optGroupTitles: { [key in ServiceOptGroup]: string } = {
 
 interface Props {
   services: ServiceWithServiceDate[];
-  serviceSchedules: ServiceSchedule;
   directionId: DirectionId;
 }
 
@@ -102,12 +101,11 @@ const getTodaysScheduleId = (
 
 const ServiceSelector = ({
   services,
-  serviceSchedules,
   directionId
 }: Props): ReactElement<HTMLElement> | null => {
   const ref = useRef<HTMLSelectElement>(null);
   const [state, setState] = useState({ selectedServiceId: "" });
-  if (services.length <= 0 || Object.keys(serviceSchedules).length <= 0)
+  if (services.length <= 0)
     return null;
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
@@ -115,8 +113,6 @@ const ServiceSelector = ({
 
   const defaultServiceId = getTodaysScheduleId(servicesByOptGroup);
   const selectedServiceId = state.selectedServiceId || defaultServiceId;
-  const selectedServiceSchedule =
-    serviceSchedules[selectedServiceId][directionId];
 
   return (
     <>
@@ -155,7 +151,6 @@ const ServiceSelector = ({
           </select>
         </SelectContainer>
       </div>
-      <ScheduleTable schedule={selectedServiceSchedule} />
     </>
   );
 };
