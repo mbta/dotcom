@@ -23,6 +23,7 @@ defmodule Content.Teaser do
     text: nil,
     topic: nil,
     date: nil,
+    date_end: nil,
     location: nil,
     routes: []
   ]
@@ -43,6 +44,7 @@ defmodule Content.Teaser do
           text: String.t() | nil,
           topic: String.t() | nil,
           date: Date.t() | DateTime.t() | nil,
+          date_end: DateTime.t() | nil,
           location: location() | nil,
           routes: [CMS.route_term()]
         }
@@ -70,32 +72,34 @@ defmodule Content.Teaser do
       text: content(text),
       topic: content(topic),
       location: data |> location(),
-      date: date(data),
+      date: date(data, "start"),
+      date_end: date(data, "end"),
       routes: routes(route_data)
     }
   end
 
-  @spec date(map) :: Date.t() | nil
+  @spec date(map, String.t()) :: Date.t() | NaiveDateTime.t() | nil
   # news_entry and project_update types share a common "Posted On" date field (both are required).
-  defp date(%{"type" => type, "posted" => date}) when type in ["news_entry", "project_update"] do
+  defp date(%{"type" => type, "posted" => date}, _)
+       when type in ["news_entry", "project_update"] do
     do_date(date)
   end
 
   # project types have a required "Updated On" date field.
-  defp date(%{"type" => "project", "updated" => date}) do
+  defp date(%{"type" => "project", "updated" => date}, _) do
     do_date(date)
   end
 
   # event types have a required "Start Time" date field.
-  defp date(%{"type" => "event", "start" => date}) do
-    do_datetime(date)
+  defp date(%{"type" => "event"} = event, index) do
+    do_datetime(Map.get(event, index))
   end
 
   # Emulate /cms/teasers endpoint and fall back to creation date when:
   # A: :sort_by and :sort_order have not been set OR
   # B: The results are all basic page type content items.
   # *: All content types have this core field date.
-  defp date(%{"created" => date}) do
+  defp date(%{"created" => date}, _) do
     do_date(date)
   end
 
@@ -108,10 +112,10 @@ defmodule Content.Teaser do
   end
 
   # The Event start time includes time and timezone data
-  @spec do_datetime(String.t()) :: DateTime.t() | nil
+  @spec do_datetime(String.t()) :: NaiveDateTime.t() | nil
   defp do_datetime(date) do
-    case DateTime.from_iso8601(date) do
-      {:ok, dt, offset} -> DateTime.add(dt, offset)
+    case NaiveDateTime.from_iso8601(date) do
+      {:ok, date_time} -> date_time
       {:error, _} -> nil
     end
   end

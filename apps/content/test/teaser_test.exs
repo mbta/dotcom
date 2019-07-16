@@ -81,14 +81,15 @@ defmodule Content.TeaserTest do
     assert project_update.date == ~D[2019-02-18]
   end
 
-  test "uses start field as date for events and includes time" do
+  test "uses start and end time fields as NaiveDateTime for events" do
     teaser =
       Static.teaser_event_response()
       |> List.first()
       |> Teaser.from_api()
 
     assert teaser.id == 3911
-    assert teaser.date == Timex.parse!("2019-12-16T12:00:00Z", "{ISO:Extended:Z}")
+    assert teaser.date == ~N[2019-12-16 12:00:00]
+    assert teaser.date_end == ~N[2019-12-16 16:00:00]
   end
 
   test "uses created date for content types without explicit date fields" do
