@@ -1,7 +1,7 @@
 defmodule SiteWeb.ProjectController do
   use SiteWeb, :controller
 
-  alias Content.{Event, Project, ProjectUpdate, Repo, Teaser}
+  alias Content.{Project, ProjectUpdate, Repo, Teaser}
   alias Plug.Conn
   alias SiteWeb.ProjectView
 
@@ -57,10 +57,11 @@ defmodule SiteWeb.ProjectController do
 
   @spec show_project(Conn.t(), Project.t()) :: Conn.t()
   def show_project(conn, project) do
-    [events, updates, diversions] =
+    [past_events, upcoming_events, updates, diversions] =
       Util.async_with_timeout(
         [
-          get_events_async(project.id),
+          get_events_async(project.id, :past),
+          get_events_async(project.id, :upcoming),
           get_updates_async(project.id),
           get_diversions_async(project.id)
         ],
@@ -72,9 +73,6 @@ defmodule SiteWeb.ProjectController do
       Breadcrumb.build(@breadcrumb_base, project_path(conn, :index)),
       Breadcrumb.build(project.title)
     ]
-
-    {past_events, upcoming_events} =
-      Enum.split_with(events, &Event.past?(&1, conn.assigns.date_time))
 
     conn
     |> put_view(ProjectView)
@@ -182,8 +180,19 @@ defmodule SiteWeb.ProjectController do
     end
   end
 
-  @spec get_events_async(integer) :: (() -> [Event.t()])
-  def get_events_async(id), do: fn -> Repo.events(project_id: id) end
+  @spec get_events_async(integer, :past | :upcoming) :: (() -> [Teaser.t()])
+  def get_events_async(id, timeframe) do
+    fn ->
+      Repo.teasers(
+        type: :event,
+        related_to: id,
+        items_per_page: 10,
+        date_op: (timeframe == :past && "<") || ">=",
+        date: [value: "now"],
+        sort_order: (timeframe == :past && "DESC") || "ASC"
+      )
+    end
+  end
 
   @spec get_updates_async(integer) :: (() -> [Teaser.t()])
   def get_updates_async(id) do

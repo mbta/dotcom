@@ -3,14 +3,23 @@
   <%= content_tag(:h2, @title, extra_classes) %>
   <ul class="list-group list-group-flush">
     <%= for event <- @events do %>
+      <%
+        range = case event do
+          %Content.Teaser{} = item -> %{start: item.date, stop: item.date_end}
+          %Content.Event{} = item -> %{start: item.start_time, stop: item.end_time}
+        end
+
+        path_fn = case event do
+          %Content.Teaser{path: path} -> fn -> cms_static_page_path(@conn, path) end
+          %Content.Event{} -> fn -> event_path(@conn, :show, event) end
+        end
+      %>
       <li class="list-group-item">
         <div>
-          <%= render_duration(event.start_time, event.end_time) %>
+          <%= render_duration(range.start, range.stop) %>
         </div>
         <div>
-          <%= link to: event_path(@conn, :show, event) do %>
-            <%= event.title %>
-          <% end %>
+          <%= link event.title, to: path_fn.() %>
         </div>
       </li>
     <% end %>
