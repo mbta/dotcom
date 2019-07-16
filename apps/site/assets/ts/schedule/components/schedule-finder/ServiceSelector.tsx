@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, useRef } from "react";
+import React, { ReactElement, useEffect, useState, useRef } from "react";
 import SelectContainer from "./SelectContainer";
 import {
   ServiceWithServiceDate,
@@ -13,7 +13,8 @@ import {
   ServiceOptGroup,
   ServiceByOptGroup,
   serviceDays,
-  hasMultipleWeekdaySchedules
+  hasMultipleWeekdaySchedules,
+  serviceDate
 } from "../../../helpers/service";
 import { ServiceSchedule, ServiceScheduleInfo } from "../__schedule";
 import { RoutePillSmall } from "./UpcomingDepartures";
@@ -29,6 +30,7 @@ const optGroupTitles: { [key in ServiceOptGroup]: string } = {
 
 interface Props {
   services: ServiceWithServiceDate[];
+  routeId: string;
   directionId: DirectionId;
 }
 
@@ -101,18 +103,50 @@ const getTodaysScheduleId = (
 
 const ServiceSelector = ({
   services,
+  routeId,
   directionId
 }: Props): ReactElement<HTMLElement> | null => {
-  const ref = useRef<HTMLSelectElement>(null);
-  const [state, setState] = useState({ selectedServiceId: "" });
   if (services.length <= 0)
     return null;
+
+  const ref = useRef<HTMLSelectElement>(null);
+
+  const [selectedServiceId, setSelectedServiceId] = useState("");
+  const [isLoading, setIsLoading] = useState(true)
+  const [selectedServiceSchedule, setSelectedServiceSchedule] = useState(null)
+
+  const fetchSchedule = () => {
+    setIsLoading(true)
+
+    var service = services.find((service) => service.id === selectedServiceId)
+    if(!service) { return; }
+
+    window.fetch &&
+      window.fetch(
+        `/schedules/schedule_api?id=${routeId}&date=${service.end_date}&direction_id=${directionId}`
+      )
+      .then(response => {
+        setIsLoading(false)
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(json => setSelectedServiceSchedule(json))
+  }
+
+  useEffect(
+    fetchSchedule,
+    [selectedServiceId]
+  )
+
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
     .reduce(groupByType, { current: [], holiday: [], other: [] });
 
   const defaultServiceId = getTodaysScheduleId(servicesByOptGroup);
-  const selectedServiceId = state.selectedServiceId || defaultServiceId;
+
+  if(!selectedServiceId) {
+    setSelectedServiceId(defaultServiceId)
+  }
 
   return (
     <>
@@ -126,7 +160,7 @@ const ServiceSelector = ({
             defaultValue={defaultServiceId}
             onChange={(): void => {
               if (ref && ref.current) {
-                setState({ selectedServiceId: ref.current.value });
+                setSelectedServiceId(ref.current.value);
               }
             }}
           >
@@ -151,6 +185,10 @@ const ServiceSelector = ({
           </select>
         </SelectContainer>
       </div>
+
+      {!isLoading && selectedServiceSchedule &&
+        <ScheduleTable schedule={selectedServiceSchedule} />
+      }
     </>
   );
 };

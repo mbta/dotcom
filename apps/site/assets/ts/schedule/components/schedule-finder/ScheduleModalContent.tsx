@@ -137,6 +137,7 @@ const ScheduleModalContent = ({
       <UpcomingDepartures state={state} />
       <ServiceSelector
         services={services}
+        routeId={routeId}
         directionId={selectedDirection}
       />
     </>
