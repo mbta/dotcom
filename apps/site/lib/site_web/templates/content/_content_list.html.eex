@@ -3,6 +3,7 @@
 <% end %>
 
 <%= render("_teaser_list.html",
+      list: @content,
       teasers: @content.teasers,
       type: Keyword.get(@content.recipe, :type, :generic),
       conn: @conn) %>

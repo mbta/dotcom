@@ -7,9 +7,13 @@
     %>
 
     <%= link to: cms_static_page_path(@conn, teaser.path), id: teaser.id,
-             class: "c-content-teaser c-content-teaser--#{css_type} c-content-teaser--#{color}" do %>
+            class: "c-content-teaser c-content-teaser--#{css_type} c-content-teaser--#{color}" do %>
       <%= SiteWeb.Content.TeaserView.render("_#{@type}.html", teaser: teaser, conn: @conn) %>
     <% end %>
 
+  <% end %>
+
+  <%= if SiteWeb.Content.TeaserView.list_more_link?(@list, @teasers) do %>
+    <%= link(@list.more_link.title, class: "c-call-to-action", to: @list.more_link.url) %>
   <% end %>
 </div>
