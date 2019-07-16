@@ -74,9 +74,6 @@ defmodule SiteWeb.ProjectController do
       Breadcrumb.build(project.title)
     ]
 
-    {past_events, upcoming_events} =
-      Enum.split_with(events, &Event.past?(&1, conn.assigns.date_time))
-
     {sidebar_class, sidebar_right} =
       case {updates, diversions} do
         {[], []} -> {"c-cms--no-sidebar", false}
