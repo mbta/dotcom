@@ -1,4 +1,11 @@
-import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState, useRef } from "react";
+import React, {
+  Dispatch,
+  ReactElement,
+  SetStateAction,
+  useEffect,
+  useState,
+  useRef
+} from "react";
 import SelectContainer from "./SelectContainer";
 import {
   ServiceWithServiceDate,
@@ -109,41 +116,53 @@ export const fetchSchedule = (
   setIsLoading: Dispatch<SetStateAction<boolean>>,
   setSelectedServiceSchedule: Dispatch<SetStateAction<any>>
 ) => {
-  setIsLoading(true)
+  setIsLoading(true);
 
-  var service = services.find((service) => service.id === selectedServiceId)
-  if(!service) { return; }
+  var service = services.find(service => service.id === selectedServiceId);
+  if (!service) {
+    return;
+  }
 
   window.fetch &&
-    window.fetch(
-      `/schedules/schedule_api?id=${routeId}&date=${service.end_date}&direction_id=${directionId}`
-    )
-    .then(response => {
-      setIsLoading(false)
-      if (response.ok) return response.json();
-      throw new Error(response.statusText);
-    })
-    .then(json => setSelectedServiceSchedule(json))
-}
+    window
+      .fetch(
+        `/schedules/schedule_api?id=${routeId}&date=${
+          service.end_date
+        }&direction_id=${directionId}`
+      )
+      .then(response => {
+        setIsLoading(false);
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(json => setSelectedServiceSchedule(json));
+};
 
 export const ServiceSelector = ({
   services,
   routeId,
   directionId
 }: Props): ReactElement<HTMLElement> | null => {
-  if (services.length <= 0)
-    return null;
+  if (services.length <= 0) return null;
 
   const ref = useRef<HTMLSelectElement>(null);
 
   const [selectedServiceId, setSelectedServiceId] = useState("");
-  const [isLoading, setIsLoading] = useState(true)
-  const [selectedServiceSchedule, setSelectedServiceSchedule] = useState(null)
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedServiceSchedule, setSelectedServiceSchedule] = useState(null);
 
   useEffect(
-    () => fetchSchedule(services, selectedServiceId, routeId, directionId, setIsLoading, setSelectedServiceSchedule),
+    () =>
+      fetchSchedule(
+        services,
+        selectedServiceId,
+        routeId,
+        directionId,
+        setIsLoading,
+        setSelectedServiceSchedule
+      ),
     [selectedServiceId]
-  )
+  );
 
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
@@ -151,8 +170,8 @@ export const ServiceSelector = ({
 
   const defaultServiceId = getTodaysScheduleId(servicesByOptGroup);
 
-  if(!selectedServiceId) {
-    setSelectedServiceId(defaultServiceId)
+  if (!selectedServiceId) {
+    setSelectedServiceId(defaultServiceId);
   }
 
   return (
@@ -196,9 +215,9 @@ export const ServiceSelector = ({
 
       {isLoading && <div className="fake-spinner">SPINNER GOES HERE</div>}
 
-      {!isLoading && selectedServiceSchedule &&
+      {!isLoading && selectedServiceSchedule && (
         <ScheduleTable schedule={selectedServiceSchedule} />
-      }
+      )}
     </>
   );
 };

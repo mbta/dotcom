@@ -2,7 +2,10 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import serviceData from "./serviceData.json";
-import { fetchSchedule, ServiceSelector } from "../components/schedule-finder/ServiceSelector";
+import {
+  fetchSchedule,
+  ServiceSelector
+} from "../components/schedule-finder/ServiceSelector";
 import { ServiceSchedule } from "../components/__schedule.js";
 import { ServiceWithServiceDate } from "../../__v3api";
 
@@ -135,11 +138,7 @@ describe("ServiceSelector", () => {
   it("it renders", () => {
     createReactRoot();
     const tree = renderer.create(
-      <ServiceSelector
-        services={services}
-        directionId={0}
-        routeId={"111"}
-      />
+      <ServiceSelector services={services} directionId={0} routeId={"111"} />
     );
     expect(tree).toMatchSnapshot();
   });
@@ -154,7 +153,7 @@ describe("ServiceSelector", () => {
                 return {
                   by_trip: "by_trip_data",
                   trip_order: "trip_order_data"
-                }
+                };
               },
               ok: true,
               status: 200,
@@ -163,54 +162,76 @@ describe("ServiceSelector", () => {
           )
       );
 
-      var loadingSpy = jest.fn()
-      var serviceScheduleSpy = jest.fn()
+      var loadingSpy = jest.fn();
+      var serviceScheduleSpy = jest.fn();
 
-      await(await fetchSchedule(services, "BUS319-P-Sa-02", "83", 1, loadingSpy, serviceScheduleSpy))
+      await await fetchSchedule(
+        services,
+        "BUS319-P-Sa-02",
+        "83",
+        1,
+        loadingSpy,
+        serviceScheduleSpy
+      );
 
       expect(window.fetch).toHaveBeenCalledWith(
         "/schedules/schedule_api?id=83&date=2019-08-31&direction_id=1"
-      )
-
-      expect(loadingSpy).toHaveBeenCalledTimes(2)
-      expect(loadingSpy).toHaveBeenCalledWith(true)
-      expect(loadingSpy).toHaveBeenLastCalledWith(false)
-
-      expect(serviceScheduleSpy).toHaveBeenCalledTimes(1)
-      expect(serviceScheduleSpy).toHaveBeenCalledWith({by_trip: "by_trip_data", trip_order: "trip_order_data"})
-    }),
-
-    it("fails quietly if called with an invalid service ID", () => {
-      window.fetch = jest.fn()
-      var loadingSpy = jest.fn()
-      var serviceScheduleSpy = jest.fn()
-
-      fetchSchedule(services, "BAD-SERVICE-ID", "83", 1, loadingSpy, serviceScheduleSpy)
-      expect(window.fetch).not.toHaveBeenCalled()
-    }),
-
-    it("throws an error if the fetch fails", async () => {
-      window.fetch = jest.fn().mockImplementation(
-        () =>
-          new Promise((resolve: Function) =>
-            resolve({
-              ok: false,
-              status: 500,
-              statusText: "you broke it"
-            })
-          )
       );
 
-      var loadingSpy = jest.fn()
-      var serviceScheduleSpy = jest.fn()
+      expect(loadingSpy).toHaveBeenCalledTimes(2);
+      expect(loadingSpy).toHaveBeenCalledWith(true);
+      expect(loadingSpy).toHaveBeenLastCalledWith(false);
 
-      await fetchSchedule(services, "BUS319-P-Sa-02", "83", 1, loadingSpy, serviceScheduleSpy)
+      expect(serviceScheduleSpy).toHaveBeenCalledTimes(1);
+      expect(serviceScheduleSpy).toHaveBeenCalledWith({
+        by_trip: "by_trip_data",
+        trip_order: "trip_order_data"
+      });
+    }),
+      it("fails quietly if called with an invalid service ID", () => {
+        window.fetch = jest.fn();
+        var loadingSpy = jest.fn();
+        var serviceScheduleSpy = jest.fn();
 
-      expect(loadingSpy).toHaveBeenCalledTimes(2)
-      expect(loadingSpy).toHaveBeenCalledWith(true)
-      expect(loadingSpy).toHaveBeenLastCalledWith(false)
+        fetchSchedule(
+          services,
+          "BAD-SERVICE-ID",
+          "83",
+          1,
+          loadingSpy,
+          serviceScheduleSpy
+        );
+        expect(window.fetch).not.toHaveBeenCalled();
+      }),
+      it("throws an error if the fetch fails", async () => {
+        window.fetch = jest.fn().mockImplementation(
+          () =>
+            new Promise((resolve: Function) =>
+              resolve({
+                ok: false,
+                status: 500,
+                statusText: "you broke it"
+              })
+            )
+        );
 
-      expect(serviceScheduleSpy).not.toHaveBeenCalled()
-    })
+        var loadingSpy = jest.fn();
+        var serviceScheduleSpy = jest.fn();
+
+        await fetchSchedule(
+          services,
+          "BUS319-P-Sa-02",
+          "83",
+          1,
+          loadingSpy,
+          serviceScheduleSpy
+        );
+
+        expect(loadingSpy).toHaveBeenCalledTimes(2);
+        expect(loadingSpy).toHaveBeenCalledWith(true);
+        expect(loadingSpy).toHaveBeenLastCalledWith(false);
+
+        expect(serviceScheduleSpy).not.toHaveBeenCalled();
+      });
   });
 });
