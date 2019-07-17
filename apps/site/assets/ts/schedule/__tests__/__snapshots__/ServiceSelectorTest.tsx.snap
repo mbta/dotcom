@@ -100,8 +100,12 @@ Array [
     </thead>
     <tbody>
       <tr
+        aria-controls="trip-40606114"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -126,10 +130,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606000"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -154,10 +174,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606168"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -182,10 +218,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606116"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -210,10 +262,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606025"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -238,10 +306,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605998"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -266,10 +350,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606163"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -294,10 +394,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606120"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -322,10 +438,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606069"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -350,10 +482,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606031"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -378,10 +526,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605996"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -406,10 +570,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605982"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -434,10 +614,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606162"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -462,10 +658,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605596"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -490,10 +702,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606118"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -518,10 +746,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605578"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -546,10 +790,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606070"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -574,10 +834,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605577"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -602,10 +878,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606022"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -630,10 +922,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605993"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -658,10 +966,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605591"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -686,10 +1010,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605979"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -714,10 +1054,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605565"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -742,10 +1098,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605867"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -770,10 +1142,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606157"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -798,10 +1186,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605572"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -826,10 +1230,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606109"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -854,10 +1274,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605595"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -882,10 +1318,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606038"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -910,10 +1362,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605569"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -938,10 +1406,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606021"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -966,10 +1450,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605554"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -994,10 +1494,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605986"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1022,10 +1538,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605977"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1050,10 +1582,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605594"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1078,10 +1626,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605865"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1106,10 +1670,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605573"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1134,10 +1714,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606161"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1162,10 +1758,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605553"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1190,10 +1802,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606111"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1218,10 +1846,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606046"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1246,10 +1890,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605593"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1274,10 +1934,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606024"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1302,10 +1978,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605567"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1330,10 +2022,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605987"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1358,10 +2066,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605550"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1386,10 +2110,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605975"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1414,10 +2154,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605863"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1442,10 +2198,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605592"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1470,10 +2242,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606160"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1498,10 +2286,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605571"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1526,10 +2330,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606108"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1554,10 +2374,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606043"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1582,10 +2418,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605552"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1610,10 +2462,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606028"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1638,10 +2506,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605588"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1666,10 +2550,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605991"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1694,10 +2594,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605568"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1722,10 +2638,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605974"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1750,10 +2682,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605548"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1778,10 +2726,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605861"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1806,10 +2770,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605590"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1834,10 +2814,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605570"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1862,10 +2858,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606055"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1890,10 +2902,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605551"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1918,10 +2946,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605990"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1946,10 +2990,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605589"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -1974,10 +3034,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605971"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2002,10 +3078,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605566"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2030,10 +3122,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605549"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2058,10 +3166,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605859"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2086,10 +3210,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606035"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2114,10 +3254,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605969"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2142,10 +3298,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605846"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2170,10 +3342,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606042"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2198,10 +3386,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605966"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2226,10 +3430,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606354"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2254,10 +3474,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606039"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2282,10 +3518,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605773"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2310,10 +3562,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605961"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2338,10 +3606,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606034"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2366,10 +3650,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605962"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2394,10 +3694,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606036"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2422,10 +3738,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606465"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2450,10 +3782,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605964"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2478,10 +3826,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605770"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2506,10 +3870,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606124"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2534,10 +3914,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606087"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2562,10 +3958,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605911"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2590,10 +4002,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605842"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2618,10 +4046,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606146"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2646,10 +4090,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606056"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2674,10 +4134,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605800"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2702,10 +4178,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605950"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2730,10 +4222,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606134"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2758,10 +4266,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606272"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2786,10 +4310,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606077"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2814,10 +4354,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605754"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2842,10 +4398,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605917"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2870,10 +4442,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606128"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2898,10 +4486,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606065"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2926,10 +4530,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605958"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2954,10 +4574,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606143"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -2982,10 +4618,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606076"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3010,10 +4662,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605935"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3038,10 +4706,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606414"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3066,10 +4750,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606153"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3094,10 +4794,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606063"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3122,10 +4838,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605939"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3150,10 +4882,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606148"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3178,10 +4926,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606052"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3206,10 +4970,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605931"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3234,10 +5014,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606131"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3262,10 +5058,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605523"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3290,10 +5102,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605537"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3318,10 +5146,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606049"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3346,10 +5190,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605497"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3374,10 +5234,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605924"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3402,10 +5278,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605522"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3430,10 +5322,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606144"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3458,10 +5366,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605527"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3486,10 +5410,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606058"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3514,10 +5454,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605498"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3542,10 +5498,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606006"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3570,10 +5542,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605525"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3598,10 +5586,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605922"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3626,10 +5630,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605906"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3654,10 +5674,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605528"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3682,10 +5718,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606141"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3710,10 +5762,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605500"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3738,10 +5806,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606099"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3766,10 +5850,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605526"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3794,10 +5894,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606060"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3822,10 +5938,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606300"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3850,10 +5982,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606011"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3878,10 +6026,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605529"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3906,10 +6070,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605926"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3934,10 +6114,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605499"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3962,10 +6158,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605888"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -3990,10 +6202,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605535"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4018,10 +6246,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606127"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4046,10 +6290,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606095"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4074,10 +6334,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605536"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4102,10 +6378,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606057"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4130,10 +6422,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605503"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4158,10 +6466,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606007"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4186,10 +6510,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605534"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4214,10 +6554,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605934"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4242,10 +6598,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605886"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4270,10 +6642,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605533"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4298,10 +6686,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606151"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4326,10 +6730,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605502"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4354,10 +6774,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606093"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4382,10 +6818,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606086"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4410,10 +6862,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605531"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4438,10 +6906,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606010"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4466,10 +6950,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605532"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4494,10 +6994,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605941"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4522,10 +7038,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605873"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4550,10 +7082,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605501"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4578,10 +7126,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606149"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4606,10 +7170,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605530"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4634,10 +7214,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606096"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4662,10 +7258,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606083"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4690,10 +7302,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605524"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4718,10 +7346,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606008"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4746,10 +7390,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605940"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4774,10 +7434,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605900"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4802,10 +7478,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606145"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4830,10 +7522,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606092"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4858,10 +7566,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606078"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4886,10 +7610,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606015"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4914,10 +7654,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605927"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4942,10 +7698,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605889"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4970,10 +7742,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606138"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -4998,10 +7786,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606094"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5026,10 +7830,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606072"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5054,10 +7874,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605803"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5082,10 +7918,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605918"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5110,10 +7962,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605884"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5138,10 +8006,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606091"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5166,10 +8050,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605623"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5194,10 +8094,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606053"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5222,10 +8138,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605923"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5250,10 +8182,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605881"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5278,10 +8226,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606105"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5306,10 +8270,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605957"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5334,10 +8314,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605893"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5362,10 +8358,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605642"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5390,10 +8402,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605929"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5418,10 +8446,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605883"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5446,10 +8490,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605936"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5474,10 +8534,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605877"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5502,10 +8578,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605913"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5530,10 +8622,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606338"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5558,10 +8666,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605899"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5586,10 +8710,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605916"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5614,10 +8754,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40606249"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5642,10 +8798,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605878"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5670,10 +8842,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605952"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5698,10 +8886,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605902"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5726,10 +8930,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605956"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5754,10 +8974,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605905"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5782,10 +9018,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605954"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5810,10 +9062,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605904"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5838,10 +9106,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605910"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5866,10 +9150,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605872"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5894,10 +9194,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605670"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5922,10 +9238,26 @@ Array [
           </div>
           Silver Line Way
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605955"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5950,10 +9282,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605879"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -5978,10 +9326,26 @@ Array [
           </div>
           Drydock
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
+        aria-controls="trip-40605735"
+        aria-expanded={false}
         className="schedule-table__row"
         onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
       >
         <td
           className="schedule-table__td schedule-table__time"
@@ -6005,6 +9369,18 @@ Array [
             </div>
           </div>
           Silver Line Way
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
         </td>
       </tr>
     </tbody>

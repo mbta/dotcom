@@ -1,7 +1,8 @@
 import React, { useState, ReactElement } from "react";
 import { ScheduleWithFare, ScheduleInfo } from "../__schedule";
 import { RoutePillSmall } from "./UpcomingDepartures";
-import { modeIcon } from "../../../helpers/icon";
+import { modeIcon, caret } from "../../../helpers/icon";
+import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 
 const totalMinutes = (schedules: ScheduleInfo): string => schedules.duration;
 
@@ -45,13 +46,20 @@ const BusTableRow = ({
 }): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
   const firstSchedule = schedules.schedules[0];
+  const onClick = (): void => setExpanded(!expanded);
+
   return (
     <>
       <tr
         className={
           expanded ? "schedule-table__row-selected" : "schedule-table__row"
         }
-        onClick={() => setExpanded(!expanded)}
+        aria-controls={`trip-${firstSchedule.trip.id}`}
+        aria-expanded={expanded}
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+        role="button"
+        onClick={onClick}
+        onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
       >
         <td className="schedule-table__td schedule-table__time">
           {firstSchedule.time}
@@ -62,6 +70,12 @@ const BusTableRow = ({
           </div>
           {firstSchedule.trip.headsign}
         </td>
+        <td className="schedule-table__td schedule-table__td--flex-end">
+          {caret(
+            `c-expandable-block__header-caret${expanded ? "--white" : ""}`,
+            expanded
+          )}
+        </td>
       </tr>
       {expanded && (
         <tr className="schedule-table__subtable-container">
@@ -69,7 +83,7 @@ const BusTableRow = ({
             <table className="schedule-table__subtable">
               <thead>
                 <TripInfo schedules={schedules} />
-                <tr className="schedule-table__subtable-row">
+                <tr>
                   <th className="schedule-table__subtable-data">Stops</th>
                   <th className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
                     Arrival
@@ -108,6 +122,7 @@ const CrTableRow = ({
 }): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
   const firstSchedule = schedules.schedules[0];
+  const onClick = (): void => setExpanded(!expanded);
 
   return (
     <>
@@ -115,20 +130,36 @@ const CrTableRow = ({
         className={
           expanded ? "schedule-table__row-selected" : "schedule-table__row"
         }
-        onClick={() => setExpanded(!expanded)}
+        aria-controls={`trip-${firstSchedule.trip.id}`}
+        aria-expanded={expanded}
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
+        role="button"
+        onClick={onClick}
+        onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
       >
         <td className="schedule-table__td">
           <div className="schedule-table__time">{firstSchedule.time}</div>
         </td>
-        <td className="schedule-table__td schedule-table__tab-num">
-          {firstSchedule.trip.name}
-        </td>
+        {firstSchedule.trip.name && (
+          <td className="schedule-table__td schedule-table__tab-num">
+            {firstSchedule.trip.name}
+          </td>
+        )}
         <td className="schedule-table__headsign">
           {modeIcon(firstSchedule.route.id)} {firstSchedule.trip.headsign}
         </td>
+        <td className="schedule-table__td schedule-table__td--flex-end">
+          {caret(
+            `c-expandable-block__header-caret${expanded ? "--white" : ""}`,
+            expanded
+          )}
+        </td>
       </tr>
       {expanded && (
-        <tr className="schedule-table__subtable-container">
+        <tr
+          id={`trip-${firstSchedule.trip.id}`}
+          className="schedule-table__subtable-container"
+        >
           <td className="schedule-table__subtable-td">
             <table className="schedule-table__subtable">
               <thead>
@@ -180,9 +211,9 @@ const TableRow = ({
 }: {
   schedules: ScheduleInfo;
 }): ReactElement<HTMLElement> | null => {
-  if (schedules.schedules[0].route.type === 2)
-    return <CrTableRow schedules={schedules} />;
-  return <BusTableRow schedules={schedules} />;
+  if (schedules.schedules[0].route.type === 3)
+    return <BusTableRow schedules={schedules} />;
+  return <CrTableRow schedules={schedules} />;
 };
 
 export default TableRow;

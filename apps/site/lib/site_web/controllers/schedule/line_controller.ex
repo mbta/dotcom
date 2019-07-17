@@ -6,6 +6,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   alias Services.Service
   alias Site.{BaseFare, ScheduleNote}
   alias SiteWeb.{ScheduleView, ViewHelpers}
+  import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.Plugs.DateInRating)
@@ -95,11 +96,34 @@ defmodule SiteWeb.ScheduleController.LineController do
     %{
       price: route |> BaseFare.base_fare(origin, destination) |> Format.price(),
       fare_link:
-        fare_path(SiteWeb.Endpoint, :show, ViewHelpers.fare_group(route.type), %{
-          origin: origin,
-          destination: destination
-        })
+        fare_link(
+          Route.type_atom(route.type),
+          origin,
+          destination
+        )
     }
+  end
+
+  def fare_link(:bus, _origin, _destination) do
+    cms_static_page_path(SiteWeb.Endpoint, "/fares/bus-fares")
+  end
+
+  def fare_link(:subway, _origin, _destination) do
+    cms_static_page_path(SiteWeb.Endpoint, "/fares/subway-fares")
+  end
+
+  def fare_link(:commuter_rail, origin, destination) do
+    fare_path(SiteWeb.Endpoint, :show, :commuter_rail, %{
+      origin: origin,
+      destination: destination
+    })
+  end
+
+  def fare_link(:ferry, origin, destination) do
+    fare_path(SiteWeb.Endpoint, :show, :ferry, %{
+      origin: origin,
+      destination: destination
+    })
   end
 
   def schedules_for_service(route_id, services) do

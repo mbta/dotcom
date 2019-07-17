@@ -291,6 +291,7 @@
 // Separate class instead of modifier to avoid complicated nth-child selector
 .schedule-table__row-selected {
   background: $brand-primary;
+  border: 1px solid $brand-primary;
   color: $white;
   display: flex;
   padding: $base-spacing / 2;
@@ -313,6 +314,7 @@
 .schedule-table__time {
   font-variant-numeric: tabular-nums;
   text-align: right;
+  white-space: nowrap;
 
   &--delayed {
     font-weight: normal;
@@ -470,3 +472,9 @@
   padding: $base-spacing / 2;
   width: 100%;
 }
+
+.schedule-table__td--flex-end {
+  flex-grow: 1;
+  margin-right: $base-spacing / 2;
+}
+
