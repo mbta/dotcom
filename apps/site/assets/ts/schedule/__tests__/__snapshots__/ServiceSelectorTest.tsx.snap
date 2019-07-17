@@ -72,5 +72,10 @@ Array [
       />
     </div>
   </div>,
+  <div
+    className="fake-spinner"
+  >
+    SPINNER GOES HERE
+  </div>,
 ]
 `;

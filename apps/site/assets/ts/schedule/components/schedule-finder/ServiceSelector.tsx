@@ -194,6 +194,8 @@ export const ServiceSelector = ({
         </SelectContainer>
       </div>
 
+      {isLoading && <div className="fake-spinner">SPINNER GOES HERE</div>}
+
       {!isLoading && selectedServiceSchedule &&
         <ScheduleTable schedule={selectedServiceSchedule} />
       }
