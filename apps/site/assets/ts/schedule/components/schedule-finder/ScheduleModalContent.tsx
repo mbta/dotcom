@@ -2,7 +2,7 @@ import React, { ReactElement, useReducer, useEffect } from "react";
 import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import UpcomingDepartures from "./UpcomingDepartures";
 import { Route, RouteType, ServiceWithServiceDate } from "../../../__v3api";
-import { SimpleStop, StopPrediction, ServiceSchedule } from "../__schedule";
+import { SimpleStop, StopPrediction } from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
 import ServiceSelector from "./ServiceSelector";
 

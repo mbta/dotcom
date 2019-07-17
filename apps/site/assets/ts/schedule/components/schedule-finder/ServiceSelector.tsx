@@ -20,10 +20,9 @@ import {
   ServiceOptGroup,
   ServiceByOptGroup,
   serviceDays,
-  hasMultipleWeekdaySchedules,
-  serviceDate
+  hasMultipleWeekdaySchedules
 } from "../../../helpers/service";
-import { ServiceSchedule, ServiceScheduleInfo } from "../__schedule";
+import { ServiceScheduleInfo } from "../__schedule";
 import { RoutePillSmall } from "./UpcomingDepartures";
 import { modeIcon } from "../../../helpers/icon";
 
@@ -114,20 +113,23 @@ export const fetchSchedule = (
   routeId: string,
   directionId: DirectionId,
   setIsLoading: Dispatch<SetStateAction<boolean>>,
-  setSelectedServiceSchedule: Dispatch<SetStateAction<any>>
-) => {
+  setSelectedServiceSchedule: Dispatch<SetStateAction<null>>
+): void => {
   setIsLoading(true);
 
-  var service = services.find(service => service.id === selectedServiceId);
-  if (!service) {
+  const selectedService = services.find(
+    service => service.id === selectedServiceId
+  );
+
+  if (!selectedService) {
     return;
   }
 
-  window.fetch &&
+  if (window.fetch) {
     window
       .fetch(
         `/schedules/schedule_api?id=${routeId}&date=${
-          service.end_date
+          selectedService.end_date
         }&direction_id=${directionId}`
       )
       .then(response => {
@@ -136,6 +138,7 @@ export const fetchSchedule = (
         throw new Error(response.statusText);
       })
       .then(json => setSelectedServiceSchedule(json));
+  }
 };
 
 export const ServiceSelector = ({
@@ -143,8 +146,6 @@ export const ServiceSelector = ({
   routeId,
   directionId
 }: Props): ReactElement<HTMLElement> | null => {
-  if (services.length <= 0) return null;
-
   const ref = useRef<HTMLSelectElement>(null);
 
   const [selectedServiceId, setSelectedServiceId] = useState("");
@@ -161,8 +162,10 @@ export const ServiceSelector = ({
         setIsLoading,
         setSelectedServiceSchedule
       ),
-    [selectedServiceId]
+    [services, directionId, routeId, selectedServiceId]
   );
+
+  if (services.length <= 0) return null;
 
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
