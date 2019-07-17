@@ -65,6 +65,7 @@ defmodule SiteWeb.ProjectViewTest do
       id: 3
     }
   ]
+  @sidebar_class "c-cms--with-sidebar c-cms--sidebar-right"
 
   describe "show_all_updates_link?" do
     test "returns false if there are 3 items or less" do
@@ -104,7 +105,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -116,6 +119,33 @@ defmodule SiteWeb.ProjectViewTest do
       refute output =~ "Status:"
     end
 
+    test "if right rail paragraphs are present, right sidebar should be comprised of dynamic content" do
+      project =
+        @project
+        |> Map.put(:paragraphs, [
+          %CustomHTML{body: "Paragraph content"},
+          %CustomHTML{body: "Sidebar content", right_rail: true}
+        ])
+
+      output =
+        "show.html"
+        |> ProjectView.render(
+          project: project,
+          updates: @updates,
+          diversions: @diversions,
+          conn: @conn,
+          upcoming_events: @events,
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
+        )
+        |> HTML.safe_to_string()
+
+      assert output =~ "Paragraph content"
+      assert output =~ "Sidebar content"
+      refute output =~ "teaser2"
+    end
+
     test "if paragraphs are not present, show timeline, status" do
       output =
         "show.html"
@@ -125,7 +155,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -147,7 +179,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -166,7 +200,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -184,7 +220,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -202,7 +240,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -220,7 +260,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -238,7 +280,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -256,7 +300,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -274,7 +320,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -292,7 +340,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -310,7 +360,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -328,7 +380,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -346,7 +400,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -366,7 +422,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -383,7 +441,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 
@@ -406,7 +466,9 @@ defmodule SiteWeb.ProjectViewTest do
           diversions: @diversions,
           conn: @conn,
           upcoming_events: @events,
-          past_events: @events
+          past_events: @events,
+          sidebar_class: @sidebar_class,
+          sidebar_right: true
         )
         |> HTML.safe_to_string()
 

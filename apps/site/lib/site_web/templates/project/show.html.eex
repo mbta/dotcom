@@ -1,14 +1,11 @@
 <div class="container">
-  <% sidebar_class = case {@updates, @diversions} do
-    {[], []} -> "c-cms--no-sidebar"
-    {_, _} -> "c-cms--with-sidebar c-cms--sidebar-right"
-    end
-  %>
-  <div class="c-cms <%= sidebar_class %>">
+  <div class="c-cms <%= @sidebar_class %>">
 
     <div class="c-cms__header">
       <div class="c-cms__title">
         <h1 class="c-cms__title-text"><%= @project.title %></h1>
+
+        <%# Always render the Updated on date as the first field %>
         <h2 class="c-cms__meta">Updated on <%= format_full_date(@project.updated_on) %></h2>
       </div>
     </div>
@@ -16,6 +13,8 @@
     <div class="c-cms__content">
       <div class="c-cms__body">
         <div class="page-section project-hero-image">
+
+          <%# Always render the featured image (if present) %>
           <%= if @project.featured_image do %>
             <figure class="c-media c-media--image c-media--wide">
               <div class="c-media__content">
@@ -27,6 +26,8 @@
 
         <%# If there are no paragraphs, use static fields: %>
         <%= if Enum.empty?(@project.paragraphs) do %>
+
+          <%# If there are no paragraphs, use static fields (old layout) %>
           <%= if @project.start_year || @project.status do %>
             <div class="page-section project-summary">
               <%= if @project.start_year do %>
@@ -50,25 +51,48 @@
 
           <%= unless Enum.empty?(@past_events), do: SiteWeb.EventView.render "_event_list.html",
             events: @past_events, title: "Past Meetings", conn: @conn %>
+
         <% else %>
+
+          <%# Only render paragraphs if at least one is present %>
           <%= for paragraph <- @project.paragraphs do %>
             <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
           <% end %>
+
         <% end %>
 
+        <%# Always render the Contact information component %>
         <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
 
-          <%# Project Updates section placement for one-column width: %>
+        <%= if Enum.empty?(@project.paragraphs) do %>
+
+          <%# Project Updates section placement for one-column width (project w/o paragraphs) %>
           <%= unless Enum.empty?(@diversions), do: render("_diversions.html", conn: @conn, teasers: @diversions, class: "c-paragraph--right-rail u-full-bleed") %>
           <%= unless Enum.empty?(@updates), do: render "_updates.html", conn: @conn, updates: @updates, project: @project, class: "c-paragraph--right-rail u-full-bleed" %>
+
+        <% end %>
       </div>
 
-      <%= unless Enum.empty?(@updates) && Enum.empty?(@diversions) do %>
-        <div class="c-cms__sidebar">
-          <%= unless Enum.empty?(@diversions), do: render("_diversions.html", conn: @conn, teasers: @diversions, class: "") %>
-          <%= unless Enum.empty?(@updates), do: render("_updates.html", conn: @conn, updates: @updates, project: @project, class: "") %>
-        </div>
+      <%# End main body column %>
+
+      <%= if @sidebar_right do %>
+        <%= if Enum.empty?(@project.paragraphs) do %>
+
+          <%# No paragraphs means use hard-coded sidebar components %>
+          <div class="c-cms__sidebar">
+            <%= unless Enum.empty?(@diversions), do: render("_diversions.html", conn: @conn, teasers: @diversions, class: "") %>
+            <%= unless Enum.empty?(@updates), do: render("_updates.html", conn: @conn, updates: @updates, project: @project, class: "") %>
+          </div>
+
+        <% else %>
+
+          <%# If paragraphs are present, rely 100% on them for sidebar components %>
+          <%= render(SiteWeb.ContentView, "_sidebar_right.html", page: @project, conn: @conn) %>
+
+        <% end %>
       <% end %>
+
+      <%# End sidebar column %>
     </div>
   </div>
 </div>
