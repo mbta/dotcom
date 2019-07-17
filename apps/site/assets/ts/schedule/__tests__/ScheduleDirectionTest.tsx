@@ -120,7 +120,6 @@ it("can change route pattern", () => {
   const wrapper = mount(component);
   wrapper.find("button").simulate("click");
   expect(wrapper.find("#active-shape").text()).toBe("Shape 1");
-  //console.log(wrapper.find("select").html());
   wrapper.find("select").simulate("change", { target: { value: "pattern-3" } });
   expect(wrapper.find("#active-shape").text()).toBe("Shape 3");
 });
