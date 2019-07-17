@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState, useRef } from "react";
+import React, { Dispatch, ReactElement, SetStateAction, useEffect, useState, useRef } from "react";
 import SelectContainer from "./SelectContainer";
 import {
   ServiceWithServiceDate,
@@ -101,7 +101,32 @@ const getTodaysScheduleId = (
   return todayService ? todayService.service.id : "";
 };
 
-const ServiceSelector = ({
+export const fetchSchedule = (
+  services: ServiceWithServiceDate[],
+  selectedServiceId: string,
+  routeId: string,
+  directionId: DirectionId,
+  setIsLoading: Dispatch<SetStateAction<boolean>>,
+  setSelectedServiceSchedule: Dispatch<SetStateAction<any>>
+) => {
+  setIsLoading(true)
+
+  var service = services.find((service) => service.id === selectedServiceId)
+  if(!service) { return; }
+
+  window.fetch &&
+    window.fetch(
+      `/schedules/schedule_api?id=${routeId}&date=${service.end_date}&direction_id=${directionId}`
+    )
+    .then(response => {
+      setIsLoading(false)
+      if (response.ok) return response.json();
+      throw new Error(response.statusText);
+    })
+    .then(json => setSelectedServiceSchedule(json))
+}
+
+export const ServiceSelector = ({
   services,
   routeId,
   directionId
@@ -115,26 +140,8 @@ const ServiceSelector = ({
   const [isLoading, setIsLoading] = useState(true)
   const [selectedServiceSchedule, setSelectedServiceSchedule] = useState(null)
 
-  const fetchSchedule = () => {
-    setIsLoading(true)
-
-    var service = services.find((service) => service.id === selectedServiceId)
-    if(!service) { return; }
-
-    window.fetch &&
-      window.fetch(
-        `/schedules/schedule_api?id=${routeId}&date=${service.end_date}&direction_id=${directionId}`
-      )
-      .then(response => {
-        setIsLoading(false)
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(json => setSelectedServiceSchedule(json))
-  }
-
   useEffect(
-    fetchSchedule,
+    () => fetchSchedule(services, selectedServiceId, routeId, directionId, setIsLoading, setSelectedServiceSchedule),
     [selectedServiceId]
   )
 
@@ -159,6 +166,7 @@ const ServiceSelector = ({
             className="schedule-finder__select"
             defaultValue={defaultServiceId}
             onChange={(): void => {
+              /* istanbul ignore next */
               if (ref && ref.current) {
                 setSelectedServiceId(ref.current.value);
               }
