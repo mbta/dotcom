@@ -1,10 +1,9 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import serviceData from "./serviceData.json";
-import ServiceSelector from "../components/schedule-finder/ServiceSelector";
-import { ServiceSchedule } from "../components/__schedule.js";
-import { ServiceWithServiceDate } from "../../__v3api";
+import ScheduleFinderAccordion from "../components/ScheduleFinderAccordion";
+import { EnhancedRoute, ServiceWithServiceDate } from "../../__v3api";
+import { ServiceSchedule } from "../components/__schedule";
 
 const services: ServiceWithServiceDate[] = [
   {
@@ -17,19 +16,6 @@ const services: ServiceWithServiceDate[] = [
     removed_dates: ["2019-07-04"],
     name: "Weekday",
     id: "BUS319-O-Wdy-02",
-    end_date: "2019-08-30",
-    description: "Weekday schedule",
-    added_dates_notes: {},
-    added_dates: []
-  },
-  {
-    valid_days: [5],
-    typicality: "typical_service",
-    type: "weekday",
-    start_date: "2019-07-05",
-    service_date: "2019-07-09",
-    name: "Weekday",
-    id: "BUS319-D-Wdy-02",
     end_date: "2019-08-30",
     description: "Weekday schedule",
     added_dates_notes: {},
@@ -66,18 +52,53 @@ const services: ServiceWithServiceDate[] = [
     added_dates: []
   }
 ] as ServiceWithServiceDate[];
-const serviceSchedules: ServiceSchedule = serviceData as ServiceSchedule;
 
-describe("ServiceSelector", () => {
-  it("it renders", () => {
-    createReactRoot();
-    const tree = renderer.create(
-      <ServiceSelector
-        services={services}
+/* eslint-disable @typescript-eslint/camelcase */
+const body = '<div id="react-root"></div>';
+const route: EnhancedRoute = {
+  alert_count: 0,
+  description: "",
+  direction_destinations: { 0: "Oak Grove", 1: "Forest Hills" },
+  direction_names: { 0: "Inbound", 1: "Outbound" },
+  header: "",
+  id: "Orange",
+  long_name: "Orange Line",
+  name: "Orange",
+  type: 1
+};
+const stops = [
+  {
+    name: "SL",
+    id: "741",
+    is_closed: false,
+    zone: "1"
+  },
+  {
+    name: "Abc",
+    id: "123",
+    is_closed: false,
+    zone: null
+  },
+  {
+    name: "Wellington",
+    id: "place-welln",
+    is_closed: true,
+    zone: null
+  }
+];
+
+it("renders", () => {
+  createReactRoot();
+  const tree = renderer
+    .create(
+      <ScheduleFinderAccordion
+        route={route}
+        stops={stops}
         directionId={0}
-        serviceSchedules={serviceSchedules}
+        services={services}
+        serviceSchedules={{}}
       />
-    );
-    expect(tree).toMatchSnapshot();
-  });
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
 });

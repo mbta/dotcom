@@ -105,7 +105,7 @@ defmodule SiteWeb.ScheduleController.Line do
     |> RoutePatternRepo.by_route_id()
     |> Enum.map(&Task.async(fn -> get_route_pattern_shape(&1) end))
     |> Enum.map(&Task.await/1)
-    |> Enum.group_by(& &1.direction_id)
+    |> Enum.group_by(&(&1.direction_id |> Integer.to_string()))
   end
 
   @spec get_route_pattern_shape(RoutePattern.t()) :: map

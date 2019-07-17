@@ -7,9 +7,11 @@ import StopPage from "../assets/ts/stop/components/StopPage";
 import SchedulePage from "../assets/ts/schedule/components/SchedulePage";
 import ScheduleNote from "../assets/ts/schedule/components/ScheduleNote";
 import ScheduleFinder from "../assets/ts/schedule/components/ScheduleFinder";
+import ScheduleDirection from "../assets/ts/schedule/components/ScheduleDirection";
 import TripPlannerResults from "../assets/ts/trip-plan-results/components/TripPlannerResults";
 
 const Components = {
+  ScheduleDirection,
   ScheduleFinder,
   ScheduleNote,
   SchedulePage,
