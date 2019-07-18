@@ -1,9 +1,9 @@
 defmodule SiteWeb.ScheduleController.ScheduleApi do
   use SiteWeb, :controller
 
-  def show(conn, %{"id" => id, "date" => date, "direction_id" => direction_id}) do
+  def show(conn, %{"id" => route_id, "date" => date, "direction_id" => direction_id}) do
     {:ok, date} = Date.from_iso8601(date)
-    schedule_data = get_schedules(id, date, direction_id)
+    schedule_data = get_schedules(route_id, date, direction_id)
 
     json(conn, schedule_data)
   end
