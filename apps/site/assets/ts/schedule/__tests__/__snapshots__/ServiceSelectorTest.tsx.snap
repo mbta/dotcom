@@ -73,9 +73,9 @@ Array [
     </div>
   </div>,
   <div
-    className="fake-spinner"
+    className="schedule-finder__spinner"
   >
-    SPINNER GOES HERE
+    Loading...
   </div>,
 ]
 `;
