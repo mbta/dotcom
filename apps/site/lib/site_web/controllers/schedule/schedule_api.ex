@@ -1,8 +1,12 @@
 defmodule SiteWeb.ScheduleController.ScheduleApi do
+  @moduledoc """
+    API for retrieving schedules by trip for a service defined by date
+  """
   use SiteWeb, :controller
 
-  alias Routes.Route
   alias Fares.Format
+  alias Routes.Route
+  alias Schedules.Repo
   alias Site.{BaseFare}
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
@@ -17,7 +21,7 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
   def get_schedules(route_id, date, direction_id) do
     services =
       [route_id]
-      |> Schedules.Repo.by_route_ids(date: date, direction_id: direction_id)
+      |> Repo.by_route_ids(date: date, direction_id: direction_id)
       |> Enum.map(&Map.update!(&1, :route, fn route -> Route.to_json_safe(route) end))
 
     ordered_trips = services |> Enum.sort_by(& &1.time) |> Enum.map(& &1.trip.id) |> Enum.uniq()
