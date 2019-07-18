@@ -58,8 +58,7 @@ const ScheduleFinder = ({
   hideHeader,
   route,
   services,
-  stops,
-  serviceSchedules
+  stops
 }: Props): ReactElement<HTMLElement> => {
   const {
     direction_destinations: directionDestinations,
@@ -263,7 +262,6 @@ const ScheduleFinder = ({
                 selectedOrigin={state.selectedOrigin}
                 services={services}
                 stops={stops}
-                serviceSchedules={serviceSchedules}
               />
             )}
           </>

@@ -1,4 +1,11 @@
-import React, { ReactElement, useState, useRef } from "react";
+import React, {
+  Dispatch,
+  ReactElement,
+  SetStateAction,
+  useEffect,
+  useState,
+  useRef
+} from "react";
 import SelectContainer from "./SelectContainer";
 import {
   ServiceWithServiceDate,
@@ -15,7 +22,7 @@ import {
   serviceDays,
   hasMultipleWeekdaySchedules
 } from "../../../helpers/service";
-import { ServiceSchedule, ServiceScheduleInfo } from "../__schedule";
+import { ServiceScheduleInfo } from "../__schedule";
 import { RoutePillSmall } from "./UpcomingDepartures";
 import { modeIcon } from "../../../helpers/icon";
 
@@ -29,7 +36,7 @@ const optGroupTitles: { [key in ServiceOptGroup]: string } = {
 
 interface Props {
   services: ServiceWithServiceDate[];
-  serviceSchedules: ServiceSchedule;
+  routeId: string;
   directionId: DirectionId;
 }
 
@@ -100,23 +107,75 @@ const getTodaysScheduleId = (
   return todayService ? todayService.service.id : "";
 };
 
-const ServiceSelector = ({
+export const fetchSchedule = (
+  services: ServiceWithServiceDate[],
+  selectedServiceId: string,
+  routeId: string,
+  directionId: DirectionId,
+  setIsLoading: Dispatch<SetStateAction<boolean>>,
+  setSelectedServiceSchedule: Dispatch<SetStateAction<null>>
+): void => {
+  setIsLoading(true);
+
+  const selectedService = services.find(
+    service => service.id === selectedServiceId
+  );
+
+  if (!selectedService) {
+    return;
+  }
+
+  if (window.fetch) {
+    window
+      .fetch(
+        `/schedules/schedule_api?id=${routeId}&date=${
+          selectedService.end_date
+        }&direction_id=${directionId}`
+      )
+      .then(response => {
+        setIsLoading(false);
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(json => setSelectedServiceSchedule(json));
+  }
+};
+
+export const ServiceSelector = ({
   services,
-  serviceSchedules,
+  routeId,
   directionId
 }: Props): ReactElement<HTMLElement> | null => {
   const ref = useRef<HTMLSelectElement>(null);
-  const [state, setState] = useState({ selectedServiceId: "" });
-  if (services.length <= 0 || Object.keys(serviceSchedules).length <= 0)
-    return null;
+
+  const [selectedServiceId, setSelectedServiceId] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedServiceSchedule, setSelectedServiceSchedule] = useState(null);
+
+  useEffect(
+    () =>
+      fetchSchedule(
+        services,
+        selectedServiceId,
+        routeId,
+        directionId,
+        setIsLoading,
+        setSelectedServiceSchedule
+      ),
+    [services, directionId, routeId, selectedServiceId]
+  );
+
+  if (services.length <= 0) return null;
+
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
     .reduce(groupByType, { current: [], holiday: [], other: [] });
 
   const defaultServiceId = getTodaysScheduleId(servicesByOptGroup);
-  const selectedServiceId = state.selectedServiceId || defaultServiceId;
-  const selectedServiceSchedule =
-    serviceSchedules[selectedServiceId][directionId];
+
+  if (!selectedServiceId) {
+    setSelectedServiceId(defaultServiceId);
+  }
 
   return (
     <>
@@ -129,8 +188,9 @@ const ServiceSelector = ({
             className="schedule-finder__select"
             defaultValue={defaultServiceId}
             onChange={(): void => {
+              /* istanbul ignore next */
               if (ref && ref.current) {
-                setState({ selectedServiceId: ref.current.value });
+                setSelectedServiceId(ref.current.value);
               }
             }}
           >
@@ -155,7 +215,12 @@ const ServiceSelector = ({
           </select>
         </SelectContainer>
       </div>
-      <ScheduleTable schedule={selectedServiceSchedule} />
+
+      {isLoading && <div className="schedule-finder__spinner">Loading...</div>}
+
+      {!isLoading && selectedServiceSchedule && (
+        <ScheduleTable schedule={selectedServiceSchedule} />
+      )}
     </>
   );
 };

@@ -2,7 +2,7 @@ import React, { ReactElement, useReducer, useEffect } from "react";
 import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import UpcomingDepartures from "./UpcomingDepartures";
 import { Route, RouteType, ServiceWithServiceDate } from "../../../__v3api";
-import { SimpleStop, StopPrediction, ServiceSchedule } from "../__schedule";
+import { SimpleStop, StopPrediction } from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
 import ServiceSelector from "./ServiceSelector";
 
@@ -89,7 +89,6 @@ interface Props {
   selectedOrigin: SelectedOrigin;
   services: ServiceWithServiceDate[];
   stops: SimpleStop[];
-  serviceSchedules: ServiceSchedule;
 }
 
 const ScheduleModalContent = ({
@@ -103,8 +102,7 @@ const ScheduleModalContent = ({
   selectedDirection,
   selectedOrigin,
   services,
-  stops,
-  serviceSchedules
+  stops
 }: Props): ReactElement<HTMLElement> | null => {
   const [state, dispatch] = useReducer(reducer, {
     data: null,
@@ -139,7 +137,7 @@ const ScheduleModalContent = ({
       <UpcomingDepartures state={state} />
       <ServiceSelector
         services={services}
-        serviceSchedules={serviceSchedules}
+        routeId={routeId}
         directionId={selectedDirection}
       />
     </>
