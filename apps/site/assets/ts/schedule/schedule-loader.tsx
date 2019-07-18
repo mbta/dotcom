@@ -61,6 +61,12 @@ const renderDirection = (schedulePageData: SchedulePageData): void => {
     shape_map: shapesById,
     route
   } = schedulePageData;
+
+  const root = document.getElementById("react-schedule-direction-root");
+  if (!root) {
+    return;
+  }
+
   ReactDOM.render(
     <ScheduleDirection
       directionId={directionId}
@@ -68,7 +74,7 @@ const renderDirection = (schedulePageData: SchedulePageData): void => {
       routePatternsByDirection={routePatternsByDirection}
       shapesById={shapesById}
     />,
-    document.getElementById("react-schedule-direction-root")
+    root
   );
 };
 
