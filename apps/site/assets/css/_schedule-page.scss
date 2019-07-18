@@ -382,6 +382,10 @@
   padding: $base-spacing / 2;
 }
 
+.schedule-finder__spinner-container {
+  height: 20 * $base-spacing;
+}
+
 .schedule-finder__spinner,
 .schedule-finder__spinner::before,
 .schedule-finder__spinner::after {
@@ -429,6 +433,7 @@
     box-shadow: 0 2.5em 0 0;
   }
 }
+
 .schedule-table__subtable {
   width: 100%;
 }

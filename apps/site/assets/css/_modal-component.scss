@@ -36,6 +36,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 75%;
+    min-height: 50%;
   }
 
   @include media-breakpoint-up(lg) {
@@ -51,6 +52,7 @@
 
 .c-modal__close {
   margin: $base-spacing;
+  padding: $base-spacing / 4;
   position: absolute;
   right: 0;
   top: 0;
