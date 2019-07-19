@@ -17,6 +17,7 @@ exports[`ScheduleTable it renders 1`] = `
       Last Trip
     </div>
     01:02 AM
+     
   </div>
   <table
     className="schedule-table"
@@ -10753,6 +10754,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       Last Trip
     </div>
     10:40 PM
+     
   </div>
   <table
     className="schedule-table"
