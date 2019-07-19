@@ -3,7 +3,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   alias Phoenix.HTML
   alias Routes.{Group, Route}
   alias Services.Service
-  alias Site.{ScheduleNote}
+  alias Site.ScheduleNote
   alias SiteWeb.{ScheduleView, ViewHelpers}
 
   plug(SiteWeb.Plugs.Route)
