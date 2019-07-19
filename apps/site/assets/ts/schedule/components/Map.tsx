@@ -1,4 +1,10 @@
-import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
+import React, {
+  ReactElement,
+  useReducer,
+  useEffect,
+  Dispatch,
+  useRef
+} from "react";
 import initChannel, { SocketEvent } from "./Channel";
 import Map from "../../leaflet/components/Map";
 import getBounds from "../../leaflet/bounds";
@@ -112,11 +118,12 @@ export const reducer = (state: Marker[], action: Action): Marker[] => {
 };
 
 export default ({ data, channel }: Props): ReactElement<HTMLElement> => {
+  const bounds = useRef(getBounds(data.markers));
   const [state, dispatch] = useReducer(reducer, data.markers.map(updateMarker));
   useEffect(() => setupChannels(channel, dispatch), [channel]);
   return (
     <div className="m-schedule__map">
-      <Map bounds={getBounds(state)} mapData={{ ...data, markers: state }} />
+      <Map bounds={bounds.current} mapData={{ ...data, markers: state }} />
     </div>
   );
 };
