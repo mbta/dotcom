@@ -378,22 +378,6 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "Week pass"
     end
 
-    test "does not render empty description lists", %{conn: conn} do
-      paragraph = %DescriptionList{
-        header: %ColumnMultiHeader{
-          text: HTML.raw("<p>Header copy</p>\n")
-        }
-      }
-
-      rendered =
-        paragraph
-        |> render_paragraph(conn)
-        |> HTML.safe_to_string()
-
-      assert rendered =~ "c-paragraph--description-list"
-      refute rendered =~ "Header copy"
-    end
-
     test "renders a ContentList", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{
@@ -417,6 +401,17 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "c-teaser-list--project-update"
       assert rendered =~ "c-content-teaser--project-update"
       assert rendered =~ "Header copy"
+    end
+
+    test "does not render empty content lists", %{conn: conn} do
+      paragraph = %ContentList{
+        header: %ColumnMultiHeader{
+          text: HTML.raw("<p>Header copy</p>\n")
+        },
+        teasers: []
+      }
+
+      assert [] = render_paragraph(paragraph, conn)
     end
 
     test "renders a FareCard", %{conn: conn} do
