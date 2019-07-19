@@ -73,9 +73,13 @@ Array [
     </div>
   </div>,
   <div
-    className="schedule-finder__spinner"
+    className="schedule-finder__spinner-container"
   >
-    Loading...
+    <div
+      className="schedule-finder__spinner"
+    >
+      Loading...
+    </div>
   </div>,
 ]
 `;

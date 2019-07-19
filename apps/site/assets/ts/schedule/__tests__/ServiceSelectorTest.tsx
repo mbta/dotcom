@@ -1,12 +1,10 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import serviceData from "./serviceData.json";
 import {
   fetchSchedule,
   ServiceSelector
 } from "../components/schedule-finder/ServiceSelector";
-import { ServiceSchedule } from "../components/__schedule.js";
 import { ServiceWithServiceDate } from "../../__v3api";
 
 const services: ServiceWithServiceDate[] = [
@@ -69,7 +67,6 @@ const services: ServiceWithServiceDate[] = [
     added_dates: []
   }
 ] as ServiceWithServiceDate[];
-const serviceSchedules: ServiceSchedule = serviceData as ServiceSchedule;
 
 describe("ServiceSelector", () => {
   it("it renders", () => {

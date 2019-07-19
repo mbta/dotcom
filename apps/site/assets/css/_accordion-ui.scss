@@ -108,6 +108,12 @@
   font-family: FontAwesome;
 }
 
+.c-expandable-block__header-caret--white {
+  color: $white;
+  float: right;
+  font-family: FontAwesome;
+}
+
 .c-expandable-block__panel {
   border: 1px solid $gray-lightest;
   padding: $base-spacing $base-spacing / 2;
