@@ -8,7 +8,7 @@ defmodule SiteWeb.ContentView do
 
   alias Content.Field.{File, Image, Link}
   alias Content.Paragraph
-  alias Content.Paragraph.{Callout, ColumnMulti, DescriptionList, FareCard}
+  alias Content.Paragraph.{Callout, ColumnMulti, ContentList, FareCard}
   alias Site.ContentRewriter
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
@@ -26,6 +26,9 @@ defmodule SiteWeb.ContentView do
 
   @doc "Universal wrapper around all paragraph types"
   @spec render_paragraph(Paragraph.t(), Plug.Conn.t()) :: Phoenix.HTML.safe()
+  # Don't render Content List if list has no items
+  def render_paragraph(%ContentList{teasers: []}, _), do: []
+
   def render_paragraph(paragraph, conn) do
     render(
       "_paragraph.html",
@@ -66,11 +69,6 @@ defmodule SiteWeb.ContentView do
       element: fare_card_element(paragraph.link),
       conn: conn
     )
-  end
-
-  def render_content(%DescriptionList{descriptions: []}, _conn) do
-    # don't render header if list has no items
-    ""
   end
 
   def render_content(paragraph, conn) do
