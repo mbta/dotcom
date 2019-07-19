@@ -2,6 +2,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   use SiteWeb, :controller
   alias Phoenix.HTML
   alias Routes.{Group, Route}
+  alias Services.Repo, as: ServicesRepo
   alias Services.Service
   alias Site.ScheduleNote
   alias SiteWeb.{ScheduleView, ViewHelpers}
@@ -45,7 +46,7 @@ defmodule SiteWeb.ScheduleController.LineController do
 
     services =
       conn.assigns.route.id
-      |> Services.Repo.by_route_id()
+      |> ServicesRepo.by_route_id()
       |> dedup_services()
 
     assign(
