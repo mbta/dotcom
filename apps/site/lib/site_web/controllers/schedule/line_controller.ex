@@ -42,7 +42,11 @@ defmodule SiteWeb.ScheduleController.LineController do
 
   def assign_schedule_page_data(conn) do
     service_date = Util.service_date()
-    services = Services.Repo.by_route_id(conn.assigns.route.id)
+
+    services =
+      conn.assigns.route.id
+      |> Services.Repo.by_route_id()
+      |> dedup_services()
 
     assign(
       conn,
@@ -80,6 +84,17 @@ defmodule SiteWeb.ScheduleController.LineController do
         shape_map: conn.assigns.shape_map
       }
     )
+  end
+
+  @spec dedup_services([Service.t()]) :: [Service.t()]
+  def dedup_services(services) do
+    services
+    |> Enum.group_by(fn %{start_date: start_date, end_date: end_date, valid_days: valid_days} ->
+      {start_date, end_date, valid_days}
+    end)
+    |> Enum.map(fn {_key, [service | _rest]} ->
+      service
+    end)
   end
 
   def sort_services_by_date(%Service{typicality: :typical_service, type: :weekday} = service) do

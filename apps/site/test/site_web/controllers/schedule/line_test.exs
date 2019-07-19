@@ -453,4 +453,17 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert connection_ids == subway_cr_ids
     end
   end
+
+  describe "services" do
+    test "remove duplicates", %{conn: conn} do
+      conn =
+        conn
+        |> put_resp_cookie("schedule_redesign", "true")
+        |> get(line_path(conn, :show, "39"))
+
+      services = Services.Repo.by_route_id("39")
+
+      assert length(conn.assigns.schedule_page_data.services) < services
+    end
+  end
 end
