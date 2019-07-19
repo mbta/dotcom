@@ -10,7 +10,7 @@ const ScheduleTable = ({
   if (schedule.trip_order.length === 0) {
     return (
       <div className="callout schedule-table--empty">
-        There are no scheduled departures for this service
+        There is no scheduled service for this time period.
       </div>
     );
   }
