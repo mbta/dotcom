@@ -61,6 +61,8 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     |> Enum.into(%{})
   end
 
+  def fares_for_service([]), do: []
+
   def fares_for_service(schedules) do
     origin = List.first(schedules)
 
@@ -73,11 +75,15 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     )
   end
 
+  def duration_for_service([]), do: []
+
   def duration_for_service(schedules) do
     first = List.first(schedules).time
     last = List.last(schedules).time
     %{schedules: schedules, duration: Timex.diff(last, first, :minutes)}
   end
+
+  def formatted_time([]), do: []
 
   def formatted_time(%{schedules: schedules, duration: duration}) do
     time_formatted_schedules =
