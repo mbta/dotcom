@@ -5,7 +5,7 @@ defmodule SiteWeb.ProjectController do
   alias Plug.Conn
   alias SiteWeb.ProjectView
 
-  @breadcrumb_base "Transforming the T"
+  @breadcrumb_base "MBTA Projects and Programs"
 
   def index(conn, _) do
     project_teasers_fn = fn ->
