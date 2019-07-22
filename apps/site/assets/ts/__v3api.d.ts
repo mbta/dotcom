@@ -245,6 +245,7 @@ export interface Trip {
   headsign: string;
   direction_id: DirectionId;
   shape_id: string;
+  route_pattern_id: string;
   "bikes_allowed?": boolean;
 }
 
