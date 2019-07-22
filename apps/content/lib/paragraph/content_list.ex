@@ -4,17 +4,19 @@ defmodule Content.Paragraph.ContentList do
   This paragraph provides a formula for retreiving a dynamic list of
   content items from the CMS via the `/cms/teasers` API endpoint.
   """
-  import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, content_type: 1]
+  import Content.Helpers,
+    only: [field_value: 2, int_or_string_to_int: 1, content_type: 1, parse_link: 2]
+
   import Content.Paragraph, only: [parse_header: 1]
 
-  alias Content.{Field.Link, Paragraph.ColumnMultiHeader, Repo, Teaser}
+  alias Content.{Paragraph.ColumnMultiHeader, Repo, Teaser}
 
   defstruct header: nil,
             right_rail: false,
             ingredients: %{},
             recipe: [],
             teasers: [],
-            more_link: nil
+            cta: %{}
 
   @type order :: :DESC | :ASC
 
@@ -26,7 +28,7 @@ defmodule Content.Paragraph.ContentList do
           ingredients: map(),
           recipe: Keyword.t(),
           teasers: [Teaser.t()],
-          more_link: Link.t() | nil
+          cta: map()
         }
 
   @spec from_api(map) :: t
@@ -55,22 +57,22 @@ defmodule Content.Paragraph.ContentList do
       sort_order: data |> field_value("field_sorting_logic") |> order()
     }
 
-    recipe = combine(ingredients)
+    cta_link = parse_link(data, "field_cta_link")
 
-    more_link =
-      setup_link(
-        ingredients,
-        field_value(data, "field_more_link_behavior"),
-        field_value(data, "field_more_link"),
-        field_value(data, "field_more_text")
-      )
+    cta = %{
+      behavior: field_value(data, "field_cta_behavior"),
+      text: field_value(data, "field_cta_text"),
+      url: cta_link && Map.get(cta_link, :url)
+    }
+
+    recipe = combine(ingredients)
 
     %__MODULE__{
       header: parse_header(data),
       right_rail: field_value(data, "field_right_rail"),
       ingredients: ingredients,
       recipe: recipe,
-      more_link: more_link
+      cta: cta
     }
   end
 
@@ -224,71 +226,4 @@ defmodule Content.Paragraph.ContentList do
   defp order("ASC"), do: :ASC
   defp order("DESC"), do: :DESC
   defp order(_), do: nil
-
-  @spec setup_link(map(), text_or_nil, text_or_nil, text_or_nil) :: Link.t() | nil
-  defp setup_link(ingredients, "show", nil, nil) do
-    default_link(ingredients)
-  end
-
-  defp setup_link(ingredients, "show", url, title) do
-    custom_link(ingredients, url, title)
-  end
-
-  defp setup_link(_, "hide", _, _) do
-    nil
-  end
-
-  defp setup_link(ingredients, _auto, _, _) do
-    default_link(ingredients)
-  end
-
-  @spec custom_link(map, text_or_nil, text_or_nil) :: Link.t() | nil
-  defp custom_link(ingredients, url, nil) do
-    ingredients
-    |> default_link()
-    |> Map.put(:url, url)
-  end
-
-  defp custom_link(ingredients, nil, title) do
-    ingredients
-    |> default_link()
-    |> Map.put(:title, title)
-  end
-
-  defp custom_link(_, _, _) do
-    nil
-  end
-
-  @spec default_link(map) :: Link.t()
-  defp default_link(%{host_id: id, type: :project_update}) do
-    %Link{
-      title: "View all project updates",
-      url: "/projects/#{id}/updates"
-    }
-  end
-
-  defp default_link(%{type: :event}) do
-    %Link{
-      title: "View all events",
-      url: "/events"
-    }
-  end
-
-  defp default_link(%{type: :news_entry}) do
-    %Link{
-      title: "View all news",
-      url: "/news"
-    }
-  end
-
-  defp default_link(%{type: :project}) do
-    %Link{
-      title: "View all projects",
-      url: "/projects"
-    }
-  end
-
-  defp default_link(_) do
-    nil
-  end
 end

@@ -6,7 +6,6 @@ defmodule SiteWeb.Content.TeaserView do
 
   import SiteWeb.ContentHelpers, only: [cms_route_to_class: 1]
 
-  alias Content.Paragraph.ContentList
   alias Content.Teaser
 
   @spec teaser_color(Teaser.t()) :: String.t()
@@ -30,9 +29,4 @@ defmodule SiteWeb.Content.TeaserView do
     |> Enum.reject(&is_nil/1)
     |> Enum.join(", ")
   end
-
-  @spec list_more_link?(ContentList.t(), [Teaser.t()]) :: boolean()
-  def list_more_link?(_, []), do: false
-  def list_more_link?(%ContentList{more_link: nil}, _), do: false
-  def list_more_link?(_, _), do: true
 end
