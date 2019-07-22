@@ -10,15 +10,20 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
   alias Site.{BaseFare}
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
-  def show(conn, %{"id" => route_id, "date" => date, "direction_id" => direction_id}) do
+  def show(conn, %{
+        "id" => route_id,
+        "date" => date,
+        "direction_id" => direction_id,
+        "stop_id" => stop_id
+      }) do
     {:ok, date} = Date.from_iso8601(date)
-    schedule_data = get_schedules(route_id, date, direction_id)
+    schedule_data = get_schedules(route_id, date, direction_id, stop_id)
 
     json(conn, schedule_data)
   end
 
-  @spec get_schedules(binary, any, any) :: %{by_trip: map, trip_order: [any]}
-  def get_schedules(route_id, date, direction_id) do
+  @spec get_schedules(binary, any, binary, binary) :: %{by_trip: map, trip_order: [String.t()]}
+  def get_schedules(route_id, date, direction_id, stop_id) do
     services =
       [route_id]
       |> Repo.by_route_ids(date: date, direction_id: direction_id)
@@ -29,6 +34,9 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     services_by_trip =
       services
       |> Enum.group_by(& &1.trip.id)
+      |> Enum.map(fn {trip_id, schedules} ->
+        {trip_id, prune_schedules_by_stop(schedules, stop_id)}
+      end)
 
     services_by_trip_with_fare =
       services_by_trip
@@ -38,6 +46,10 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
       |> Enum.into(%{})
 
     %{by_trip: services_by_trip_with_fare, trip_order: ordered_trips}
+  end
+
+  def prune_schedules_by_stop(schedules, stop_id) do
+    schedules |> Enum.drop_while(fn schedule -> schedule.stop.id !== stop_id end)
   end
 
   def fares_for_service(schedules) do

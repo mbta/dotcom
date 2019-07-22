@@ -7,7 +7,7 @@ import React, {
   useRef
 } from "react";
 import SelectContainer from "./SelectContainer";
-import { ServiceWithServiceDate, DirectionId } from "../../../__v3api";
+import { ServiceWithServiceDate, DirectionId, Stop } from "../../../__v3api";
 import {
   ServicesKeyedByGroup,
   groupServiceByDate,
@@ -29,6 +29,7 @@ const optGroupTitles: { [key in ServiceOptGroup]: string } = {
 };
 
 interface Props {
+  stopId: string;
   services: ServiceWithServiceDate[];
   routeId: string;
   directionId: DirectionId;
@@ -66,6 +67,7 @@ export const fetchSchedule = (
   services: ServiceWithServiceDate[],
   selectedServiceId: string,
   routeId: string,
+  stopId: string,
   directionId: DirectionId,
   setIsLoading: Dispatch<SetStateAction<boolean>>,
   setSelectedServiceSchedule: Dispatch<SetStateAction<null>>
@@ -85,7 +87,7 @@ export const fetchSchedule = (
       .fetch(
         `/schedules/schedule_api?id=${routeId}&date=${
           selectedService.end_date
-        }&direction_id=${directionId}`
+        }&direction_id=${directionId}&stop_id=${stopId}`
       )
       .then(response => {
         setIsLoading(false);
@@ -97,6 +99,7 @@ export const fetchSchedule = (
 };
 
 export const ServiceSelector = ({
+  stopId,
   services,
   routeId,
   directionId
@@ -113,6 +116,7 @@ export const ServiceSelector = ({
         services,
         selectedServiceId,
         routeId,
+        stopId,
         directionId,
         setIsLoading,
         setSelectedServiceSchedule
