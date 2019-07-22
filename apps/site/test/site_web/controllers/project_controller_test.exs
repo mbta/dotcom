@@ -8,7 +8,7 @@ defmodule SiteWeb.ProjectControllerTest do
   describe "index" do
     test "renders the list of projects", %{conn: conn} do
       conn = get(conn, project_path(conn, :index))
-      assert html_response(conn, 200) =~ "<h1>Transforming the T</h1>"
+      assert html_response(conn, 200) =~ "<h1>MBTA Projects and Programs</h1>"
     end
   end
 

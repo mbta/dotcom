@@ -1,9 +1,8 @@
 <div class="container">
   <div class="page-section">
-    <h1>Transforming the T</h1>
+    <h1>MBTA Projects and Programs</h1>
 
-    <p>The T is evolving every day—renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system for people of all abilities.</p>
-
+    <p>The T is evolving every day. As part of our $8 billion, 5-year <a href="/cip">capital investment plan</a>, we're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system.</p>
     <p>Take a look at what we're working on to make the MBTA better.</p>
 
     <%= if !Enum.empty?(@featured_project_teasers) do %>
