@@ -24,7 +24,7 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
       |> Repo.by_route_ids(date: date, direction_id: direction_id)
       |> Enum.map(&Map.update!(&1, :route, fn route -> Route.to_json_safe(route) end))
 
-    ordered_trips = services |> Enum.sort_by(& &1.time) |> Enum.map(& &1.trip.id) |> Enum.uniq()
+    ordered_trips = services |> Enum.map(& &1.trip.id) |> Enum.uniq()
 
     services_by_trip =
       services
