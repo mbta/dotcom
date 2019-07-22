@@ -11696,3 +11696,13 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
   </table>
 </ScheduleTable>
 `;
+
+exports[`ScheduleTable it renders an empty message 1`] = `
+<ScheduleTable>
+  <div
+    className="callout schedule-table--empty"
+  >
+    There is no scheduled service for this time period.
+  </div>
+</ScheduleTable>
+`;
