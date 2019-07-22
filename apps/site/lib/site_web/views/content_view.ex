@@ -135,38 +135,37 @@ defmodule SiteWeb.ContentView do
     end
   end
 
-  @spec list_cta?({CMS.type(), map()}, [Teaser.t()], [String.t()]) :: boolean()
+  @spec list_cta?(CMS.type(), map(), [Teaser.t()], [String.t()]) :: boolean()
   # No results
-  def list_cta?(_, [], _) do
+  def list_cta?(_type, _cta, [], _path) do
     false
   end
 
   # Is not requested (hide)
-  def list_cta?({_, %{behavior: "hide"}}, _, _) do
+  def list_cta?(_type, %{behavior: "hide"}, _teasers, _path) do
     false
   end
 
   # Is a list of project updates, AND is sitting on a valid project page
-  def list_cta?({:project_update, _}, _, ["projects", _]) do
+  def list_cta?(:project_update, _cta, _teasers, ["projects", _]) do
     true
   end
 
   # Is requested (auto/overridden) BUT has no default (generic destination) AND user has not provided a link
-  def list_cta?({type, %{url: url, text: text}}, _, _)
+  def list_cta?(type, %{url: url, text: text}, _teasers, _path)
       when type in [:project_update, :diversion, :page] and (is_nil(url) or is_nil(text)) do
     false
   end
 
   # Either has required link values or has a readily available default link path
-  def list_cta?(_, _, _) do
+  def list_cta?(_type, _cta, _teasers, _path) do
     true
   end
 
   @spec setup_list_cta(ContentList.t(), [String.t()]) :: Link.t()
   def setup_list_cta(list, conn_path) do
     current_path =
-      [""]
-      |> Enum.concat(conn_path)
+      ["" | conn_path]
       |> Enum.join("/")
 
     case list.cta do

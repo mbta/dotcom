@@ -7,7 +7,7 @@
       type: Keyword.get(@content.recipe, :type, :generic),
       conn: @conn) %>
 
-<%= if list_cta?({@content.ingredients.type, @content.cta}, @content.teasers, @conn.path_info) do %>
+<%= if list_cta?(@content.ingredients.type, @content.cta, @content.teasers, @conn.path_info) do %>
   <% cta = setup_list_cta(@content, @conn.path_info) %>
 
   <p>
