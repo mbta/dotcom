@@ -121,7 +121,7 @@ export const ServiceSelector = ({
         setIsLoading,
         setSelectedServiceSchedule
       ),
-    [services, directionId, routeId, selectedServiceId]
+    [services, directionId, routeId, selectedServiceId, stopId]
   );
 
   if (services.length <= 0) return null;
