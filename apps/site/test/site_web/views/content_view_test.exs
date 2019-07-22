@@ -896,12 +896,7 @@ defmodule SiteWeb.ContentViewTest do
           cta: %{behavior: "default", text: nil, url: nil}
         })
 
-      rendered =
-        paragraph
-        |> render_paragraph(conn)
-        |> HTML.safe_to_string()
-
-      refute rendered =~ "c-call-to-action"
+      assert [] = render_paragraph(paragraph, conn)
     end
 
     test "does not render CTA if author has selected to hide the CTA", %{conn: conn} do
