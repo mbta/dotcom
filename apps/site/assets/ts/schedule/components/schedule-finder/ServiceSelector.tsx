@@ -19,6 +19,7 @@ import {
   hasMultipleWeekdaySchedules
 } from "../../../helpers/service";
 import ScheduleTable from "./ScheduleTable";
+import { RoutePatternWithShape } from "../__schedule";
 
 const optGroupNames: ServiceOptGroup[] = ["current", "holiday", "other"];
 
@@ -33,6 +34,7 @@ interface Props {
   services: ServiceWithServiceDate[];
   routeId: string;
   directionId: DirectionId;
+  routePatterns: RoutePatternWithShape[];
 }
 
 const serviceDescription = (
@@ -102,7 +104,8 @@ export const ServiceSelector = ({
   stopId,
   services,
   routeId,
-  directionId
+  directionId,
+  routePatterns
 }: Props): ReactElement<HTMLElement> | null => {
   const ref = useRef<HTMLSelectElement>(null);
 
@@ -182,7 +185,10 @@ export const ServiceSelector = ({
       )}
 
       {!isLoading && selectedServiceSchedule && (
-        <ScheduleTable schedule={selectedServiceSchedule!} />
+        <ScheduleTable
+          schedule={selectedServiceSchedule!}
+          routePatterns={routePatterns}
+        />
       )}
     </>
   );

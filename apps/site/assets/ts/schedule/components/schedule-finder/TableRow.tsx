@@ -6,6 +6,11 @@ import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 
 const totalMinutes = (schedules: ScheduleInfo): string => schedules.duration;
 
+interface Props {
+  isSchoolTrip: boolean;
+  schedules: ScheduleInfo;
+}
+
 const TripInfo = ({
   schedules
 }: {
@@ -40,10 +45,9 @@ const TripInfo = ({
 };
 
 const BusTableRow = ({
-  schedules
-}: {
-  schedules: ScheduleInfo;
-}): ReactElement<HTMLElement> => {
+  schedules,
+  isSchoolTrip
+}: Props): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
   const firstSchedule = schedules.schedules[0];
   const onClick = (): void => setExpanded(!expanded);
@@ -61,6 +65,9 @@ const BusTableRow = ({
         onClick={onClick}
         onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
       >
+        <td className="schedule-table__td">
+          <strong>{isSchoolTrip && "S"}</strong>
+        </td>
         <td className="schedule-table__td schedule-table__time">
           {firstSchedule.time}
         </td>
@@ -119,10 +126,9 @@ const BusTableRow = ({
 };
 
 const CrTableRow = ({
-  schedules
-}: {
-  schedules: ScheduleInfo;
-}): ReactElement<HTMLElement> => {
+  schedules,
+  isSchoolTrip
+}: Props): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
   const firstSchedule = schedules.schedules[0];
   const onClick = (): void => setExpanded(!expanded);
@@ -140,6 +146,7 @@ const CrTableRow = ({
         onClick={onClick}
         onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
       >
+        <td className="schedule-table__td">{isSchoolTrip ? "S" : "N"}</td>
         <td className="schedule-table__td">
           <div className="schedule-table__time">{firstSchedule.time}</div>
         </td>
@@ -210,13 +217,12 @@ const CrTableRow = ({
 };
 
 const TableRow = ({
-  schedules
-}: {
-  schedules: ScheduleInfo;
-}): ReactElement<HTMLElement> | null => {
+  schedules,
+  isSchoolTrip
+}: Props): ReactElement<HTMLElement> | null => {
   if (schedules.schedules[0].route.type === 3)
-    return <BusTableRow schedules={schedules} />;
-  return <CrTableRow schedules={schedules} />;
+    return <BusTableRow schedules={schedules} isSchoolTrip={isSchoolTrip} />;
+  return <CrTableRow schedules={schedules} isSchoolTrip={isSchoolTrip} />;
 };
 
 export default TableRow;
