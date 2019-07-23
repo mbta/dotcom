@@ -25,7 +25,6 @@ const SchedulePage = ({
     route,
     schedule_note: scheduleNote,
     services,
-    service_schedules: serviceSchedules,
     stops,
     direction_id: directionId,
     route_patterns: routePatternsByDirection
@@ -45,7 +44,6 @@ const SchedulePage = ({
           services={services}
           stops={stops}
           directionId={directionId}
-          serviceSchedules={serviceSchedules}
           routePatternsByDirection={routePatternsByDirection}
         />
       </div>

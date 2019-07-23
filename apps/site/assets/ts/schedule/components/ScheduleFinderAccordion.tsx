@@ -18,7 +18,6 @@ interface Props {
   route: EnhancedRoute;
   stops: SimpleStop[];
   services: ServiceWithServiceDate[];
-  serviceSchedules: ServiceSchedule;
   routePatternsByDirection: RoutePatternsByDirection;
 }
 
@@ -27,7 +26,6 @@ const ScheduleFinderAccordion = ({
   route,
   stops,
   services,
-  serviceSchedules,
   routePatternsByDirection
 }: Props): ReactElement<HTMLDivElement> => (
   <div className="schedule-finder--mobile">
@@ -43,7 +41,6 @@ const ScheduleFinderAccordion = ({
         route={route}
         stops={stops}
         services={services}
-        serviceSchedules={serviceSchedules}
         routePatternsByDirection={routePatternsByDirection}
       />
     </ExpandableBlock>

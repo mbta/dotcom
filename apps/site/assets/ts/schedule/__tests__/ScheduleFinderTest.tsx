@@ -5,8 +5,9 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 import ScheduleFinder from "../components/ScheduleFinder";
 import ScheduleFinderAccordion from "../components/ScheduleFinderAccordion";
 import { EnhancedRoute, ServiceWithServiceDate } from "../../__v3api";
-import serviceData from "./serviceData.json";
-import { ServiceSchedule } from "../components/__schedule";
+import {
+  RoutePatternsByDirection
+} from "../components/__schedule";
 
 const services: ServiceWithServiceDate[] = [
   {
@@ -55,7 +56,7 @@ const services: ServiceWithServiceDate[] = [
     added_dates: []
   }
 ];
-const serviceSchedules: ServiceSchedule = serviceData as ServiceSchedule;
+
 // the enzyme test was done as one test because there was
 // an issue mounting it more than once due to the focus-trap
 // dependency that the Modal component depends on
@@ -93,6 +94,32 @@ const stops = [
     zone: null
   }
 ];
+const routePatternsByDirection = {
+  "0": [
+    {
+      typicality: 1,
+      time_desc: "School Trip",
+      shape_id: "9840004",
+      route_id: "CR-Fitchburg",
+      representative_trip_id: "CR-Weekday-Spring-19-401",
+      name: "North Station - Wachusett",
+      id: "CR-Fitchburg-0-0",
+      direction_id: 0
+    }
+  ],
+  "1": [
+    {
+      typicality: 1,
+      time_desc: "School Trip",
+      shape_id: "9840003",
+      route_id: "CR-Fitchburg",
+      representative_trip_id: "CR-Weekday-Spring-19-400",
+      name: "Wachusett - North Station",
+      id: "CR-Fitchburg-0-1",
+      direction_id: 1
+    }
+  ]
+} as RoutePatternsByDirection;
 
 it("renders", () => {
   createReactRoot();
@@ -103,7 +130,7 @@ it("renders", () => {
         stops={stops}
         directionId={0}
         services={services}
-        serviceSchedules={serviceSchedules}
+        routePatternsByDirection={routePatternsByDirection}
       />
     )
     .toJSON();
@@ -119,7 +146,7 @@ it("opens modal after displaying error", () => {
       stops={stops}
       directionId={0}
       services={services}
-      serviceSchedules={serviceSchedules}
+      routePatternsByDirection={routePatternsByDirection}
     />
   );
 
@@ -227,7 +254,7 @@ it("modal renders route pill for bus lines", () => {
       route={route}
       directionId={0}
       services={services}
-      serviceSchedules={serviceSchedules}
+      routePatternsByDirection={routePatternsByDirection}
     />
   );
   subwayWrapper
@@ -251,7 +278,7 @@ it("modal renders route pill for bus lines", () => {
       route={busRoute}
       directionId={0}
       services={services}
-      serviceSchedules={serviceSchedules}
+      routePatternsByDirection={routePatternsByDirection}
     />
   );
   busWrapper
@@ -275,7 +302,7 @@ it("modal renders route pill for silver line", () => {
       route={route}
       directionId={0}
       services={services}
-      serviceSchedules={serviceSchedules}
+      routePatternsByDirection={routePatternsByDirection}
     />
   );
   subwayWrapper
@@ -299,7 +326,7 @@ it("modal renders route pill for silver line", () => {
       route={busRoute}
       directionId={0}
       services={services}
-      serviceSchedules={serviceSchedules}
+      routePatternsByDirection={routePatternsByDirection}
     />
   );
   busWrapper
@@ -323,7 +350,7 @@ it("modal renders within ScheduleFinderAccordion", () => {
       route={route}
       directionId={0}
       services={services}
-      serviceSchedules={serviceSchedules}
+      routePatternsByDirection={routePatternsByDirection}
     />
   );
 
@@ -350,7 +377,7 @@ it("modal renders within ScheduleFinderAccordion", () => {
       route={busRoute}
       directionId={0}
       services={services}
-      serviceSchedules={serviceSchedules}
+      routePatternsByDirection={routePatternsByDirection}
     />
   );
   busWrapper
@@ -374,7 +401,7 @@ it("modal renders route pill for silver line", () => {
       route={route}
       directionId={0}
       services={services}
-      serviceSchedules={serviceSchedules}
+      routePatternsByDirection={routePatternsByDirection}
     />
   );
   subwayWrapper
@@ -398,7 +425,7 @@ it("modal renders route pill for silver line", () => {
       route={busRoute}
       directionId={0}
       services={services}
-      serviceSchedules={serviceSchedules}
+      routePatternsByDirection={routePatternsByDirection}
     />
   );
   busWrapper
@@ -421,7 +448,7 @@ it("modal renders route pill for silver line", () => {
       route={route}
       directionId={0}
       services={services}
-      serviceSchedules={serviceSchedules}
+      routePatternsByDirection={routePatternsByDirection}
     />
   );
   subwayWrapper
@@ -445,7 +472,7 @@ it("modal renders route pill for silver line", () => {
       route={busRoute}
       directionId={0}
       services={services}
-      serviceSchedules={serviceSchedules}
+      routePatternsByDirection={routePatternsByDirection}
     />
   );
   busWrapper

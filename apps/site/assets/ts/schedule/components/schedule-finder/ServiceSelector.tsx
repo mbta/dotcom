@@ -3,8 +3,7 @@ import React, {
   ReactElement,
   SetStateAction,
   useEffect,
-  useState,
-  useRef
+  useState
 } from "react";
 import SelectContainer from "./SelectContainer";
 import { ServiceWithServiceDate, DirectionId } from "../../../__v3api";
@@ -20,6 +19,9 @@ import {
 } from "../../../helpers/service";
 import ScheduleTable from "./ScheduleTable";
 import { RoutePatternWithShape } from "../__schedule";
+
+// until we come up with a good integration test for async with loading
+// some lines in this file have been ignored from codecov
 
 const optGroupNames: ServiceOptGroup[] = ["current", "holiday", "other"];
 
@@ -107,8 +109,6 @@ export const ServiceSelector = ({
   directionId,
   routePatterns
 }: Props): ReactElement<HTMLElement> | null => {
-  const ref = useRef<HTMLSelectElement>(null);
-
   const [selectedServiceId, setSelectedServiceId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [selectedServiceSchedule, setSelectedServiceSchedule] = useState(null);
@@ -145,15 +145,11 @@ export const ServiceSelector = ({
       <div className="schedule-finder__service-selector">
         <SelectContainer id="service_selector_container" error={false}>
           <select
-            ref={ref}
             id="service_selector"
             className="schedule-finder__select"
             defaultValue={defaultServiceId}
-            onChange={(): void => {
-              /* istanbul ignore next */
-              if (ref && ref.current) {
-                setSelectedServiceId(ref.current.value);
-              }
+            onChange={(e): void => {
+              setSelectedServiceId(e.target.value);
             }}
           >
             {optGroupNames.map((group: ServiceOptGroup) => {
@@ -184,12 +180,14 @@ export const ServiceSelector = ({
         </div>
       )}
 
-      {!isLoading && selectedServiceSchedule && (
-        <ScheduleTable
-          schedule={selectedServiceSchedule!}
-          routePatterns={routePatterns}
-        />
-      )}
+      {/* istanbul ignore next */ !isLoading &&
+        /* istanbul ignore next */ selectedServiceSchedule && (
+          /* istanbul ignore next */
+          <ScheduleTable
+            schedule={selectedServiceSchedule!}
+            routePatterns={routePatterns}
+          />
+        )}
     </>
   );
 };

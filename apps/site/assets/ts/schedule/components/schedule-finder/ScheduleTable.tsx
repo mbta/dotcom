@@ -35,8 +35,11 @@ const ScheduleTable = ({
   const routePatternId = schedule.by_trip[firstTrip].route_pattern_id;
 
   const isSchoolTrip =
-    (routePatternsById[routePatternId].time_desc || "").match(/school/gi) !==
-    null;
+    (
+      (routePatternsById[routePatternId] &&
+        routePatternsById[routePatternId].time_desc) ||
+      ""
+    ).match(/school/gi) !== null;
 
   return (
     <>
