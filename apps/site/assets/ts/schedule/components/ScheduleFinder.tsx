@@ -6,7 +6,6 @@ import {
 } from "../../__v3api";
 import {
   SimpleStop,
-  ServiceSchedule,
   SimpleStopMap,
   RoutePatternsByDirection
 } from "./__schedule";

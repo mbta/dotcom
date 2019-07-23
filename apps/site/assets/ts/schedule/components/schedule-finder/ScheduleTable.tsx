@@ -7,6 +7,18 @@ interface Props {
   routePatterns: RoutePatternWithShape[];
 }
 
+const isSchoolTrip = (
+  routePatternsById: {
+    [key: string]: RoutePatternWithShape;
+  },
+  routePatternId: string
+): boolean =>
+  (
+    (routePatternsById[routePatternId] &&
+      routePatternsById[routePatternId].time_desc) ||
+    ""
+  ).match(/school/gi) !== null;
+
 const ScheduleTable = ({
   schedule,
   routePatterns
@@ -32,15 +44,6 @@ const ScheduleTable = ({
       ? schedule.trip_order[schedule.trip_order.length - 1]
       : null;
 
-  const routePatternId = schedule.by_trip[firstTrip].route_pattern_id;
-
-  const isSchoolTrip =
-    (
-      (routePatternsById[routePatternId] &&
-        routePatternsById[routePatternId].time_desc) ||
-      ""
-    ).match(/school/gi) !== null;
-
   return (
     <>
       <div className="schedule-finder__first-last-trip">
@@ -56,7 +59,7 @@ const ScheduleTable = ({
       <table className="schedule-table">
         <thead className="schedule-table__header">
           <tr className="schedule-table__row-header">
-            <th className="schedule-table__row-header-label" />
+            <th className="schedule-table__row-header-label--tiny" />
             <th className="schedule-table__row-header-label">Departs</th>
             {schedule.by_trip[firstTrip].schedules[0].route.type === 2 && (
               <th className="schedule-table__row-header-label--small">Train</th>
@@ -69,7 +72,10 @@ const ScheduleTable = ({
             <TableRow
               key={tripId}
               schedules={schedule.by_trip[tripId]}
-              isSchoolTrip={isSchoolTrip}
+              isSchoolTrip={isSchoolTrip(
+                routePatternsById,
+                schedule.by_trip[tripId].route_pattern_id
+              )}
             />
           ))}
         </tbody>

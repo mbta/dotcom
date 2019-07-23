@@ -340,6 +340,10 @@
   margin-right: $base-spacing * 2.5;
 }
 
+.schedule-table__row-header-label--tiny {
+  width: $base-spacing * 2;
+}
+
 .schedule-table__row-route {
   align-items: center;
   display: inline-flex;
@@ -367,6 +371,10 @@
 
 .schedule-table__td {
   margin-right: $base-spacing * 3;
+}
+
+.schedule-table__td--tiny {
+  width: $base-spacing * 2;
 }
 
 .schedule-table__tab-num {

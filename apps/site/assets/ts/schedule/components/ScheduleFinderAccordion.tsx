@@ -7,11 +7,7 @@ import {
   EnhancedRoute,
   ServiceWithServiceDate
 } from "../../__v3api";
-import {
-  SimpleStopMap,
-  ServiceSchedule,
-  RoutePatternsByDirection
-} from "./__schedule";
+import { SimpleStopMap, RoutePatternsByDirection } from "./__schedule";
 
 interface Props {
   directionId: DirectionId;
