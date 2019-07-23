@@ -4,11 +4,7 @@ import {
   DirectionId,
   ServiceWithServiceDate
 } from "../../__v3api";
-import {
-  SimpleStop,
-  ServiceSchedule,
-  RoutePatternsByDirection
-} from "./__schedule";
+import { SimpleStop, RoutePatternsByDirection } from "./__schedule";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 import icon from "../../../static/images/icon-schedule-finder.svg";
 import renderSvg from "../../helpers/render-svg";

@@ -65,7 +65,7 @@ const BusTableRow = ({
         onClick={onClick}
         onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
       >
-        <td className="schedule-table__td">
+        <td className="schedule-table__td--tiny">
           <strong>{isSchoolTrip && "S"}</strong>
         </td>
         <td className="schedule-table__td schedule-table__time">
@@ -146,7 +146,7 @@ const CrTableRow = ({
         onClick={onClick}
         onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
       >
-        <td className="schedule-table__td">{isSchoolTrip ? "S" : "N"}</td>
+        <td className="schedule-table__td--tiny">{isSchoolTrip && "S"}</td>
         <td className="schedule-table__td">
           <div className="schedule-table__time">{firstSchedule.time}</div>
         </td>

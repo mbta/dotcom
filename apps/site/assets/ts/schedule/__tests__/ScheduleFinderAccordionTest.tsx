@@ -3,7 +3,6 @@ import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import ScheduleFinderAccordion from "../components/ScheduleFinderAccordion";
 import { EnhancedRoute, ServiceWithServiceDate } from "../../__v3api";
-import { ServiceSchedule } from "../components/__schedule";
 
 const services: ServiceWithServiceDate[] = [
   {
@@ -96,7 +95,6 @@ it("renders", () => {
         stops={stops}
         directionId={0}
         services={services}
-        serviceSchedules={{}}
         routePatternsByDirection={{}}
       />
     )

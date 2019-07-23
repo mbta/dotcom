@@ -5,9 +5,7 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 import ScheduleFinder from "../components/ScheduleFinder";
 import ScheduleFinderAccordion from "../components/ScheduleFinderAccordion";
 import { EnhancedRoute, ServiceWithServiceDate } from "../../__v3api";
-import {
-  RoutePatternsByDirection
-} from "../components/__schedule";
+import { RoutePatternsByDirection } from "../components/__schedule";
 
 const services: ServiceWithServiceDate[] = [
   {
