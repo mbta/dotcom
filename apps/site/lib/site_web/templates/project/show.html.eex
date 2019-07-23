@@ -4,9 +4,6 @@
     <div class="c-cms__header">
       <div class="c-cms__title">
         <h1 class="c-cms__title-text"><%= @project.title %></h1>
-
-        <%# Always render the Updated on date as the first field %>
-        <h2 class="c-cms__meta">Updated on <%= format_full_date(@project.updated_on) %></h2>
       </div>
     </div>
 
