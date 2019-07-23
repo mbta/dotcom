@@ -34,14 +34,19 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
 
     ordered_trips = services |> Enum.map(& &1.trip.id) |> Enum.uniq()
 
-    services_by_trip =
+    {no_service_trips, services_by_trip} =
       services
       |> Enum.group_by(& &1.trip.id)
       |> Enum.map(fn {trip_id, schedules} ->
         {trip_id, prune_schedules_by_stop(schedules, stop_id)}
       end)
+      |> Enum.split_with(fn {trip_id, schedules} ->
+        Enum.empty?(schedules) || length(schedules) == 1
+      end)
 
+    ordered_trips = ordered_trips -- Enum.map(no_service_trips, &elem(&1, 0))
     services_by_trip_with_fare = enhance_services(services_by_trip)
+
     %{by_trip: services_by_trip_with_fare, trip_order: ordered_trips}
   end
 
@@ -49,9 +54,7 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     Enum.drop_while(schedules, fn schedule -> schedule.stop.id !== stop_id end)
   end
 
-  def enhance_services([]) do
-    []
-  end
+  def enhance_services([]), do: []
 
   def enhance_services(services_by_trip) do
     services_by_trip
@@ -60,8 +63,6 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     |> Stream.map(fn {trip_id, service} -> {trip_id, formatted_time(service)} end)
     |> Enum.into(%{})
   end
-
-  def fares_for_service([]), do: []
 
   def fares_for_service(schedules) do
     origin = List.first(schedules)
@@ -75,15 +76,11 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     )
   end
 
-  def duration_for_service([]), do: []
-
   def duration_for_service(schedules) do
     first = List.first(schedules).time
     last = List.last(schedules).time
     %{schedules: schedules, duration: Timex.diff(last, first, :minutes)}
   end
-
-  def formatted_time([]), do: []
 
   def formatted_time(%{schedules: schedules, duration: duration}) do
     time_formatted_schedules =
