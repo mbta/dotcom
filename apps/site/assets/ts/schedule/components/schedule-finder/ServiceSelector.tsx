@@ -3,8 +3,7 @@ import React, {
   ReactElement,
   SetStateAction,
   useEffect,
-  useState,
-  useRef
+  useState
 } from "react";
 import SelectContainer from "./SelectContainer";
 import { ServiceWithServiceDate } from "../../../__v3api";
@@ -111,8 +110,6 @@ export const ServiceSelector = ({
   directionId,
   routePatterns
 }: Props): ReactElement<HTMLElement> | null => {
-  const ref = useRef<HTMLSelectElement>(null);
-
   const [selectedServiceId, setSelectedServiceId] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [selectedServiceSchedule, setSelectedServiceSchedule] = useState(null);
@@ -149,15 +146,11 @@ export const ServiceSelector = ({
       <div className="schedule-finder__service-selector">
         <SelectContainer id="service_selector_container" error={false}>
           <select
-            ref={ref}
             id="service_selector"
             className="schedule-finder__select"
             defaultValue={defaultServiceId}
-            onChange={(): void => {
-              /* istanbul ignore next */
-              if (ref && ref.current) {
-                setSelectedServiceId(ref.current.value);
-              }
+            onChange={(e): void => {
+              setSelectedServiceId(e.target.value);
             }}
           >
             {optGroupNames.map((group: ServiceOptGroup) => {
@@ -190,7 +183,8 @@ export const ServiceSelector = ({
 
       {/* istanbul ignore next */ !isLoading &&
         /* istanbul ignore next */ selectedServiceSchedule && (
-          /* istanbul ignore next */ <ScheduleTable
+          /* istanbul ignore next */
+          <ScheduleTable
             schedule={selectedServiceSchedule!}
             routePatterns={routePatterns}
           />

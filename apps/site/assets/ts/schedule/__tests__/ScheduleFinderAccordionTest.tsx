@@ -119,6 +119,7 @@ it("renders", () => {
         directionId={0}
         services={services}
         serviceSchedules={{}}
+        routePatternsByDirection={{}}
       />
     )
     .toJSON();

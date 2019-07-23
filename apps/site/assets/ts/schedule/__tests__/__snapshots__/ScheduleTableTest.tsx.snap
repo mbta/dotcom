@@ -29,6 +29,9 @@ exports[`ScheduleTable it renders 1`] = `
       >
         <th
           className="schedule-table__row-header-label"
+        />
+        <th
+          className="schedule-table__row-header-label"
         >
           Departs
         </th>
@@ -50,6 +53,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -126,7 +134,7 @@ exports[`ScheduleTable it renders 1`] = `
                           $2.40
                           <a
                             className="schedule-table__subtable-trip-info-link"
-                            href="/fares/bus_subway?destination=74624&origin=place-sstat"
+                            href="/fares/bus-fares"
                           >
                             View fares
                           </a>
@@ -243,6 +251,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               05:46 AM
@@ -292,6 +305,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -343,6 +361,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               06:03 AM
@@ -392,6 +415,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -443,6 +471,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               06:17 AM
@@ -492,6 +525,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -543,6 +581,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               06:31 AM
@@ -592,6 +635,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -643,6 +691,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               06:43 AM
@@ -692,6 +745,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -743,6 +801,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               06:54 AM
@@ -792,6 +855,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -843,6 +911,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:03 AM
@@ -892,6 +965,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -943,6 +1021,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:09 AM
@@ -992,6 +1075,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -1043,6 +1131,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:13 AM
@@ -1092,6 +1185,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -1143,6 +1241,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:19 AM
@@ -1192,6 +1295,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -1243,6 +1351,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:24 AM
@@ -1292,6 +1405,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -1343,6 +1461,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:27 AM
@@ -1392,6 +1515,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -1443,6 +1571,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:33 AM
@@ -1492,6 +1625,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -1543,6 +1681,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:39 AM
@@ -1592,6 +1735,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -1643,6 +1791,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:44 AM
@@ -1692,6 +1845,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -1743,6 +1901,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:50 AM
@@ -1792,6 +1955,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -1843,6 +2011,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:55 AM
@@ -1892,6 +2065,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -1943,6 +2121,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:59 AM
@@ -1992,6 +2175,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -2043,6 +2231,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:03 AM
@@ -2092,6 +2285,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -2143,6 +2341,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:08 AM
@@ -2192,6 +2395,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -2243,6 +2451,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:15 AM
@@ -2292,6 +2505,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -2343,6 +2561,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:21 AM
@@ -2392,6 +2615,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -2443,6 +2671,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:25 AM
@@ -2492,6 +2725,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -2543,6 +2781,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:31 AM
@@ -2592,6 +2835,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -2643,6 +2891,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:35 AM
@@ -2692,6 +2945,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -2743,6 +3001,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:39 AM
@@ -2792,6 +3055,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -2843,6 +3111,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:45 AM
@@ -2892,6 +3165,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -2943,6 +3221,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:51 AM
@@ -2992,6 +3275,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -3043,6 +3331,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:56 AM
@@ -3092,6 +3385,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -3143,6 +3441,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               09:03 AM
@@ -3192,6 +3495,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -3243,6 +3551,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               09:09 AM
@@ -3292,6 +3605,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -3343,6 +3661,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               09:14 AM
@@ -3392,6 +3715,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -3443,6 +3771,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               09:23 AM
@@ -3492,6 +3825,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -3543,6 +3881,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               09:31 AM
@@ -3592,6 +3935,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -3643,6 +3991,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               09:39 AM
@@ -3692,6 +4045,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -3743,6 +4101,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               09:50 AM
@@ -3792,6 +4155,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -3843,6 +4211,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               10:17 AM
@@ -3892,6 +4265,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -3943,6 +4321,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               10:35 AM
@@ -3992,6 +4375,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -4043,6 +4431,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               10:50 AM
@@ -4092,6 +4485,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -4143,6 +4541,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               11:05 AM
@@ -4192,6 +4595,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -4243,6 +4651,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               11:35 AM
@@ -4292,6 +4705,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -4343,6 +4761,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               11:53 AM
@@ -4392,6 +4815,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -4443,6 +4871,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               12:08 PM
@@ -4492,6 +4925,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -4543,6 +4981,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               12:24 PM
@@ -4592,6 +5035,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -4643,6 +5091,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               12:36 PM
@@ -4692,6 +5145,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -4743,6 +5201,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               12:54 PM
@@ -4792,6 +5255,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -4843,6 +5311,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               01:04 PM
@@ -4892,6 +5365,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -4943,6 +5421,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               01:23 PM
@@ -4992,6 +5475,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -5043,6 +5531,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               01:32 PM
@@ -5092,6 +5585,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -5143,6 +5641,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               01:44 PM
@@ -5192,6 +5695,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -5243,6 +5751,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               02:04 PM
@@ -5292,6 +5805,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -5343,6 +5861,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               02:24 PM
@@ -5392,6 +5915,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -5443,6 +5971,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               02:38 PM
@@ -5492,6 +6025,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -5543,6 +6081,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               02:53 PM
@@ -5592,6 +6135,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -5643,6 +6191,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               03:12 PM
@@ -5692,6 +6245,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -5743,6 +6301,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               03:32 PM
@@ -5792,6 +6355,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -5843,6 +6411,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               03:45 PM
@@ -5892,6 +6465,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -5943,6 +6521,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               03:53 PM
@@ -5992,6 +6575,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -6043,6 +6631,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               04:03 PM
@@ -6092,6 +6685,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -6143,6 +6741,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               04:13 PM
@@ -6192,6 +6795,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -6243,6 +6851,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               04:22 PM
@@ -6292,6 +6905,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -6343,6 +6961,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               04:27 PM
@@ -6392,6 +7015,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -6443,6 +7071,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               04:33 PM
@@ -6492,6 +7125,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -6543,6 +7181,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               04:39 PM
@@ -6592,6 +7235,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -6643,6 +7291,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               04:45 PM
@@ -6692,6 +7345,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -6743,6 +7401,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               04:51 PM
@@ -6792,6 +7455,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -6843,6 +7511,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               04:54 PM
@@ -6892,6 +7565,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -6943,6 +7621,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               05:00 PM
@@ -6992,6 +7675,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -7043,6 +7731,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               05:06 PM
@@ -7092,6 +7785,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -7143,6 +7841,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               05:12 PM
@@ -7192,6 +7895,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -7243,6 +7951,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               05:18 PM
@@ -7292,6 +8005,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -7343,6 +8061,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               05:23 PM
@@ -7392,6 +8115,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -7443,6 +8171,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               05:28 PM
@@ -7492,6 +8225,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -7543,6 +8281,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               05:33 PM
@@ -7592,6 +8335,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -7643,6 +8391,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               05:41 PM
@@ -7692,6 +8445,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -7743,6 +8501,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               05:47 PM
@@ -7792,6 +8555,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -7843,6 +8611,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               05:53 PM
@@ -7892,6 +8665,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -7943,6 +8721,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               05:58 PM
@@ -7992,6 +8775,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -8043,6 +8831,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               06:02 PM
@@ -8092,6 +8885,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -8143,6 +8941,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               06:09 PM
@@ -8192,6 +8995,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -8243,6 +9051,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               06:16 PM
@@ -8292,6 +9105,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -8343,6 +9161,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               06:22 PM
@@ -8392,6 +9215,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -8443,6 +9271,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               06:27 PM
@@ -8492,6 +9325,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -8543,6 +9381,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               06:37 PM
@@ -8592,6 +9435,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -8643,6 +9491,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               06:47 PM
@@ -8692,6 +9545,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -8743,6 +9601,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               06:57 PM
@@ -8792,6 +9655,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -8843,6 +9711,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:06 PM
@@ -8892,6 +9765,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -8943,6 +9821,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:17 PM
@@ -8992,6 +9875,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -9043,6 +9931,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:25 PM
@@ -9092,6 +9985,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -9143,6 +10041,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:38 PM
@@ -9192,6 +10095,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -9243,6 +10151,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:49 PM
@@ -9292,6 +10205,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -9343,6 +10261,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               07:59 PM
@@ -9392,6 +10315,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -9443,6 +10371,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:18 PM
@@ -9492,6 +10425,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -9543,6 +10481,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:38 PM
@@ -9592,6 +10535,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -9643,6 +10591,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               08:51 PM
@@ -9692,6 +10645,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -9743,6 +10701,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               09:17 PM
@@ -9792,6 +10755,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -9843,6 +10811,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               09:43 PM
@@ -9892,6 +10865,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -9943,6 +10921,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               09:56 PM
@@ -9992,6 +10975,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -10043,6 +11031,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               10:12 PM
@@ -10092,6 +11085,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -10143,6 +11141,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               10:35 PM
@@ -10192,6 +11195,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -10243,6 +11251,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               11:01 PM
@@ -10292,6 +11305,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -10343,6 +11361,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               11:29 PM
@@ -10392,6 +11415,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -10443,6 +11471,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               11:59 PM
@@ -10492,6 +11525,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -10543,6 +11581,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               12:24 AM
@@ -10592,6 +11635,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -10643,6 +11691,11 @@ exports[`ScheduleTable it renders 1`] = `
             role="button"
           >
             <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
+            <td
               className="schedule-table__td schedule-table__time"
             >
               12:50 AM
@@ -10692,6 +11745,11 @@ exports[`ScheduleTable it renders 1`] = `
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              <strong />
+            </td>
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -10747,13 +11805,13 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
     >
       First Trip
     </div>
-    07:11 AM
+    06:24 AM
     <div
       className="u-small-caps u-bold"
     >
       Last Trip
     </div>
-    10:40 PM
+    11:00 PM
   </div>
   <table
     className="schedule-table"
@@ -10764,6 +11822,9 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       <tr
         className="schedule-table__row-header"
       >
+        <th
+          className="schedule-table__row-header-label"
+        />
         <th
           className="schedule-table__row-header-label"
         >
@@ -10785,7 +11846,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       <TableRow>
         <CrTableRow>
           <tr
-            aria-controls="trip-CR-Weekday-Spring-19-033"
+            aria-controls="trip-CR-Weekday-Spring-19-751"
             aria-expanded={true}
             className="schedule-table__row-selected"
             onClick={[Function]}
@@ -10795,16 +11856,21 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             <td
               className="schedule-table__td"
             >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
               <div
                 className="schedule-table__time"
               >
-                07:11 AM
+                06:24 AM
               </div>
             </td>
             <td
               className="schedule-table__td schedule-table__tab-num"
             >
-              033
+              751
             </td>
             <td
               className="schedule-table__headsign"
@@ -10819,7 +11885,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 }
               />
                
-              Kingston
+              Readville
             </td>
             <td
               className="schedule-table__td schedule-table__td--flex-end"
@@ -10836,7 +11902,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
           </tr>
           <tr
             className="schedule-table__subtable-container"
-            id="trip-CR-Weekday-Spring-19-033"
+            id="trip-CR-Weekday-Spring-19-751"
           >
             <td
               className="schedule-table__subtable-td"
@@ -10856,9 +11922,9 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                           >
                             Trip length
                           </div>
-                          8
+                          9
                            stops, 
-                          61
+                          30
                            minutes total
                         </div>
                         <div
@@ -10869,10 +11935,10 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                           >
                             Fare
                           </div>
-                          $12.25
+                          $7.00
                           <a
                             className="schedule-table__subtable-trip-info-link"
-                            href="/fares/commuter_rail?destination=place-KB-0351&origin=place-sstat"
+                            href="/fares/commuter_rail?destination=place-DB-0095&origin=place-sstat"
                           >
                             View fares
                           </a>
@@ -10905,7 +11971,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 >
                   <tr
                     className="schedule-table__subtable-row"
-                    key="place-sstat-CR-Weekday-Spring-19-033"
+                    key="place-sstat-CR-Weekday-Spring-19-751"
                   >
                     <td
                       className="schedule-table__subtable-data"
@@ -10922,20 +11988,188 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                     <td
                       className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
                     >
-                      07:11 AM
+                      06:24 AM
                     </td>
                   </tr>
                   <tr
                     className="schedule-table__subtable-row"
-                    key="place-brntn-CR-Weekday-Spring-19-033"
+                    key="place-DB-2265-CR-Weekday-Spring-19-751"
                   >
                     <td
                       className="schedule-table__subtable-data"
                     >
                       <a
-                        href="/stops/place-brntn"
+                        href="/stops/place-DB-2265"
                       >
-                        Braintree
+                        Newmarket
+                      </a>
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      $2.40
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      06:32 AM
+                    </td>
+                  </tr>
+                  <tr
+                    className="schedule-table__subtable-row"
+                    key="place-DB-2258-CR-Weekday-Spring-19-751"
+                  >
+                    <td
+                      className="schedule-table__subtable-data"
+                    >
+                      <a
+                        href="/stops/place-DB-2258"
+                      >
+                        Uphams Corner
+                      </a>
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      $2.40
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      06:34 AM
+                    </td>
+                  </tr>
+                  <tr
+                    className="schedule-table__subtable-row"
+                    key="place-DB-2249-CR-Weekday-Spring-19-751"
+                  >
+                    <td
+                      className="schedule-table__subtable-data"
+                    >
+                      <a
+                        href="/stops/place-DB-2249"
+                      >
+                        Four Corners/Geneva
+                      </a>
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      $2.40
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      06:37 AM
+                    </td>
+                  </tr>
+                  <tr
+                    className="schedule-table__subtable-row"
+                    key="place-DB-2240-CR-Weekday-Spring-19-751"
+                  >
+                    <td
+                      className="schedule-table__subtable-data"
+                    >
+                      <a
+                        href="/stops/place-DB-2240"
+                      >
+                        Talbot Avenue
+                      </a>
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      $2.40
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      06:40 AM
+                    </td>
+                  </tr>
+                  <tr
+                    className="schedule-table__subtable-row"
+                    key="place-DB-2230-CR-Weekday-Spring-19-751"
+                  >
+                    <td
+                      className="schedule-table__subtable-data"
+                    >
+                      <a
+                        href="/stops/place-DB-2230"
+                      >
+                        Morton Street
+                      </a>
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      $2.40
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      06:43 AM
+                    </td>
+                  </tr>
+                  <tr
+                    className="schedule-table__subtable-row"
+                    key="place-DB-2222-CR-Weekday-Spring-19-751"
+                  >
+                    <td
+                      className="schedule-table__subtable-data"
+                    >
+                      <a
+                        href="/stops/place-DB-2222"
+                      >
+                        Blue Hill Avenue
+                      </a>
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      $2.40
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      06:46 AM
+                    </td>
+                  </tr>
+                  <tr
+                    className="schedule-table__subtable-row"
+                    key="place-DB-2205-CR-Weekday-Spring-19-751"
+                  >
+                    <td
+                      className="schedule-table__subtable-data"
+                    >
+                      <a
+                        href="/stops/place-DB-2205"
+                      >
+                        Fairmount
+                      </a>
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      $2.40
+                    </td>
+                    <td
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      06:49 AM
+                    </td>
+                  </tr>
+                  <tr
+                    className="schedule-table__subtable-row"
+                    key="place-DB-0095-CR-Weekday-Spring-19-751"
+                  >
+                    <td
+                      className="schedule-table__subtable-data"
+                    >
+                      <a
+                        href="/stops/place-DB-0095"
+                      >
+                        Readville
                       </a>
                     </td>
                     <td
@@ -10946,151 +12180,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                     <td
                       className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
                     >
-                      07:32 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-PB-0158-CR-Weekday-Spring-19-033"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-PB-0158"
-                      >
-                        South Weymouth
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $8.00
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      07:39 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-PB-0194-CR-Weekday-Spring-19-033"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-PB-0194"
-                      >
-                        Abington
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $8.75
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      07:44 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-PB-0212-CR-Weekday-Spring-19-033"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-PB-0212"
-                      >
-                        Whitman
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $9.75
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      07:47 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-PB-0245-CR-Weekday-Spring-19-033"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-PB-0245"
-                      >
-                        Hanson
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $10.50
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      07:57 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-PB-0281-CR-Weekday-Spring-19-033"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-PB-0281"
-                      >
-                        Halifax
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $11.00
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      08:02 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-KB-0351-CR-Weekday-Spring-19-033"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-KB-0351"
-                      >
-                        Kingston
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $12.25
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      08:12 AM
+                      06:54 AM
                     </td>
                   </tr>
                 </tbody>
@@ -11102,7 +12192,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       <TableRow>
         <CrTableRow>
           <tr
-            aria-controls="trip-CR-Weekday-Spring-19-061"
+            aria-controls="trip-CR-Weekday-Spring-19-753"
             aria-expanded={false}
             className="schedule-table__row"
             onClick={[Function]}
@@ -11112,16 +12202,21 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             <td
               className="schedule-table__td"
             >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
               <div
                 className="schedule-table__time"
               >
-                08:56 AM
+                07:10 AM
               </div>
             </td>
             <td
               className="schedule-table__td schedule-table__tab-num"
             >
-              061
+              753
             </td>
             <td
               className="schedule-table__headsign"
@@ -11136,7 +12231,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 }
               />
                
-              Kingston
+              Readville
             </td>
             <td
               className="schedule-table__td schedule-table__td--flex-end"
@@ -11156,7 +12251,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       <TableRow>
         <CrTableRow>
           <tr
-            aria-controls="trip-CR-Weekday-Spring-19-063"
+            aria-controls="trip-CR-Weekday-Spring-19-755"
             aria-expanded={false}
             className="schedule-table__row"
             onClick={[Function]}
@@ -11166,16 +12261,21 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             <td
               className="schedule-table__td"
             >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
               <div
                 className="schedule-table__time"
               >
-                10:50 AM
+                08:00 AM
               </div>
             </td>
             <td
               className="schedule-table__td schedule-table__tab-num"
             >
-              063
+              755
             </td>
             <td
               className="schedule-table__headsign"
@@ -11190,7 +12290,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 }
               />
                
-              Plymouth
+              Readville
             </td>
             <td
               className="schedule-table__td schedule-table__td--flex-end"
@@ -11210,7 +12310,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       <TableRow>
         <CrTableRow>
           <tr
-            aria-controls="trip-CR-Weekday-Spring-19-065"
+            aria-controls="trip-CR-Weekday-Spring-19-757"
             aria-expanded={false}
             className="schedule-table__row"
             onClick={[Function]}
@@ -11220,16 +12320,21 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             <td
               className="schedule-table__td"
             >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
               <div
                 className="schedule-table__time"
               >
-                12:25 PM
+                08:40 AM
               </div>
             </td>
             <td
               className="schedule-table__td schedule-table__tab-num"
             >
-              065
+              757
             </td>
             <td
               className="schedule-table__headsign"
@@ -11244,7 +12349,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 }
               />
                
-              Plymouth
+              Readville
             </td>
             <td
               className="schedule-table__td schedule-table__td--flex-end"
@@ -11264,7 +12369,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       <TableRow>
         <CrTableRow>
           <tr
-            aria-controls="trip-CR-Weekday-Spring-19-041"
+            aria-controls="trip-CR-Weekday-Spring-19-759"
             aria-expanded={false}
             className="schedule-table__row"
             onClick={[Function]}
@@ -11274,16 +12379,21 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             <td
               className="schedule-table__td"
             >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
               <div
                 className="schedule-table__time"
               >
-                02:47 PM
+                09:45 AM
               </div>
             </td>
             <td
               className="schedule-table__td schedule-table__tab-num"
             >
-              041
+              759
             </td>
             <td
               className="schedule-table__headsign"
@@ -11298,7 +12408,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 }
               />
                
-              Kingston
+              Readville
             </td>
             <td
               className="schedule-table__td schedule-table__td--flex-end"
@@ -11318,7 +12428,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       <TableRow>
         <CrTableRow>
           <tr
-            aria-controls="trip-CR-Weekday-Spring-19-043"
+            aria-controls="trip-CR-Weekday-Spring-19-761"
             aria-expanded={false}
             className="schedule-table__row"
             onClick={[Function]}
@@ -11328,16 +12438,21 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             <td
               className="schedule-table__td"
             >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
               <div
                 className="schedule-table__time"
               >
-                04:20 PM
+                10:45 AM
               </div>
             </td>
             <td
               className="schedule-table__td schedule-table__tab-num"
             >
-              043
+              761
             </td>
             <td
               className="schedule-table__headsign"
@@ -11352,7 +12467,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 }
               />
                
-              Kingston
+              Readville
             </td>
             <td
               className="schedule-table__td schedule-table__td--flex-end"
@@ -11372,13 +12487,372 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       <TableRow>
         <CrTableRow>
           <tr
-            aria-controls="trip-CR-Weekday-Spring-19-045"
+            aria-controls="trip-CR-Weekday-Spring-19-763"
             aria-expanded={false}
             className="schedule-table__row"
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
           >
+            <td
+              className="schedule-table__td"
+            >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
+              <div
+                className="schedule-table__time"
+              >
+                11:45 AM
+              </div>
+            </td>
+            <td
+              className="schedule-table__td schedule-table__tab-num"
+            >
+              763
+            </td>
+            <td
+              className="schedule-table__headsign"
+            >
+              <span
+                aria-hidden="true"
+                className="notranslate c-svg__icon"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+               
+              Readville
+            </td>
+            <td
+              className="schedule-table__td schedule-table__td--flex-end"
+            >
+              <span
+                className="c-expandable-block__header-caret"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#xF107;",
+                  }
+                }
+              />
+            </td>
+          </tr>
+        </CrTableRow>
+      </TableRow>
+      <TableRow>
+        <CrTableRow>
+          <tr
+            aria-controls="trip-CR-Weekday-Spring-19-765"
+            aria-expanded={false}
+            className="schedule-table__row"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+          >
+            <td
+              className="schedule-table__td"
+            >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
+              <div
+                className="schedule-table__time"
+              >
+                12:45 PM
+              </div>
+            </td>
+            <td
+              className="schedule-table__td schedule-table__tab-num"
+            >
+              765
+            </td>
+            <td
+              className="schedule-table__headsign"
+            >
+              <span
+                aria-hidden="true"
+                className="notranslate c-svg__icon"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+               
+              Readville
+            </td>
+            <td
+              className="schedule-table__td schedule-table__td--flex-end"
+            >
+              <span
+                className="c-expandable-block__header-caret"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#xF107;",
+                  }
+                }
+              />
+            </td>
+          </tr>
+        </CrTableRow>
+      </TableRow>
+      <TableRow>
+        <CrTableRow>
+          <tr
+            aria-controls="trip-CR-Weekday-Spring-19-767"
+            aria-expanded={false}
+            className="schedule-table__row"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+          >
+            <td
+              className="schedule-table__td"
+            >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
+              <div
+                className="schedule-table__time"
+              >
+                01:45 PM
+              </div>
+            </td>
+            <td
+              className="schedule-table__td schedule-table__tab-num"
+            >
+              767
+            </td>
+            <td
+              className="schedule-table__headsign"
+            >
+              <span
+                aria-hidden="true"
+                className="notranslate c-svg__icon"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+               
+              Readville
+            </td>
+            <td
+              className="schedule-table__td schedule-table__td--flex-end"
+            >
+              <span
+                className="c-expandable-block__header-caret"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#xF107;",
+                  }
+                }
+              />
+            </td>
+          </tr>
+        </CrTableRow>
+      </TableRow>
+      <TableRow>
+        <CrTableRow>
+          <tr
+            aria-controls="trip-CR-Weekday-Spring-19-769"
+            aria-expanded={false}
+            className="schedule-table__row"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+          >
+            <td
+              className="schedule-table__td"
+            >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
+              <div
+                className="schedule-table__time"
+              >
+                02:45 PM
+              </div>
+            </td>
+            <td
+              className="schedule-table__td schedule-table__tab-num"
+            >
+              769
+            </td>
+            <td
+              className="schedule-table__headsign"
+            >
+              <span
+                aria-hidden="true"
+                className="notranslate c-svg__icon"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+               
+              Readville
+            </td>
+            <td
+              className="schedule-table__td schedule-table__td--flex-end"
+            >
+              <span
+                className="c-expandable-block__header-caret"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#xF107;",
+                  }
+                }
+              />
+            </td>
+          </tr>
+        </CrTableRow>
+      </TableRow>
+      <TableRow>
+        <CrTableRow>
+          <tr
+            aria-controls="trip-CR-Weekday-Spring-19-771"
+            aria-expanded={false}
+            className="schedule-table__row"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+          >
+            <td
+              className="schedule-table__td"
+            >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
+              <div
+                className="schedule-table__time"
+              >
+                03:30 PM
+              </div>
+            </td>
+            <td
+              className="schedule-table__td schedule-table__tab-num"
+            >
+              771
+            </td>
+            <td
+              className="schedule-table__headsign"
+            >
+              <span
+                aria-hidden="true"
+                className="notranslate c-svg__icon"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+               
+              Readville
+            </td>
+            <td
+              className="schedule-table__td schedule-table__td--flex-end"
+            >
+              <span
+                className="c-expandable-block__header-caret"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#xF107;",
+                  }
+                }
+              />
+            </td>
+          </tr>
+        </CrTableRow>
+      </TableRow>
+      <TableRow>
+        <CrTableRow>
+          <tr
+            aria-controls="trip-CR-Weekday-Spring-19-773"
+            aria-expanded={false}
+            className="schedule-table__row"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+          >
+            <td
+              className="schedule-table__td"
+            >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
+              <div
+                className="schedule-table__time"
+              >
+                04:15 PM
+              </div>
+            </td>
+            <td
+              className="schedule-table__td schedule-table__tab-num"
+            >
+              773
+            </td>
+            <td
+              className="schedule-table__headsign"
+            >
+              <span
+                aria-hidden="true"
+                className="notranslate c-svg__icon"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+               
+              Readville
+            </td>
+            <td
+              className="schedule-table__td schedule-table__td--flex-end"
+            >
+              <span
+                className="c-expandable-block__header-caret"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#xF107;",
+                  }
+                }
+              />
+            </td>
+          </tr>
+        </CrTableRow>
+      </TableRow>
+      <TableRow>
+        <CrTableRow>
+          <tr
+            aria-controls="trip-CR-Weekday-Spring-19-775"
+            aria-expanded={false}
+            className="schedule-table__row"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+          >
+            <td
+              className="schedule-table__td"
+            >
+              N
+            </td>
             <td
               className="schedule-table__td"
             >
@@ -11391,7 +12865,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             <td
               className="schedule-table__td schedule-table__tab-num"
             >
-              045
+              775
             </td>
             <td
               className="schedule-table__headsign"
@@ -11406,7 +12880,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 }
               />
                
-              Kingston
+              Readville
             </td>
             <td
               className="schedule-table__td schedule-table__td--flex-end"
@@ -11426,7 +12900,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       <TableRow>
         <CrTableRow>
           <tr
-            aria-controls="trip-CR-Weekday-Spring-19-047"
+            aria-controls="trip-CR-Weekday-Spring-19-777"
             aria-expanded={false}
             className="schedule-table__row"
             onClick={[Function]}
@@ -11436,16 +12910,21 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             <td
               className="schedule-table__td"
             >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
               <div
                 className="schedule-table__time"
               >
-                05:38 PM
+                05:45 PM
               </div>
             </td>
             <td
               className="schedule-table__td schedule-table__tab-num"
             >
-              047
+              777
             </td>
             <td
               className="schedule-table__headsign"
@@ -11460,7 +12939,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 }
               />
                
-              Kingston
+              Readville
             </td>
             <td
               className="schedule-table__td schedule-table__td--flex-end"
@@ -11480,7 +12959,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       <TableRow>
         <CrTableRow>
           <tr
-            aria-controls="trip-CR-Weekday-Spring-19-067"
+            aria-controls="trip-CR-Weekday-Spring-19-779"
             aria-expanded={false}
             className="schedule-table__row"
             onClick={[Function]}
@@ -11490,16 +12969,21 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             <td
               className="schedule-table__td"
             >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
               <div
                 className="schedule-table__time"
               >
-                06:15 PM
+                06:30 PM
               </div>
             </td>
             <td
               className="schedule-table__td schedule-table__tab-num"
             >
-              067
+              779
             </td>
             <td
               className="schedule-table__headsign"
@@ -11514,7 +12998,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 }
               />
                
-              Plymouth
+              Readville
             </td>
             <td
               className="schedule-table__td schedule-table__td--flex-end"
@@ -11534,7 +13018,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       <TableRow>
         <CrTableRow>
           <tr
-            aria-controls="trip-CR-Weekday-Spring-19-051"
+            aria-controls="trip-CR-Weekday-Spring-19-781"
             aria-expanded={false}
             className="schedule-table__row"
             onClick={[Function]}
@@ -11544,16 +13028,21 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             <td
               className="schedule-table__td"
             >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
               <div
                 className="schedule-table__time"
               >
-                07:29 PM
+                07:15 PM
               </div>
             </td>
             <td
               className="schedule-table__td schedule-table__tab-num"
             >
-              051
+              781
             </td>
             <td
               className="schedule-table__headsign"
@@ -11568,7 +13057,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 }
               />
                
-              Kingston
+              Readville
             </td>
             <td
               className="schedule-table__td schedule-table__td--flex-end"
@@ -11588,7 +13077,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       <TableRow>
         <CrTableRow>
           <tr
-            aria-controls="trip-CR-Weekday-Spring-19-055"
+            aria-controls="trip-CR-Weekday-Spring-19-783"
             aria-expanded={false}
             className="schedule-table__row"
             onClick={[Function]}
@@ -11598,16 +13087,21 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             <td
               className="schedule-table__td"
             >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
               <div
                 className="schedule-table__time"
               >
-                09:30 PM
+                08:15 PM
               </div>
             </td>
             <td
               className="schedule-table__td schedule-table__tab-num"
             >
-              055
+              783
             </td>
             <td
               className="schedule-table__headsign"
@@ -11622,7 +13116,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 }
               />
                
-              Kingston
+              Readville
             </td>
             <td
               className="schedule-table__td schedule-table__td--flex-end"
@@ -11642,7 +13136,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       <TableRow>
         <CrTableRow>
           <tr
-            aria-controls="trip-CR-Weekday-Spring-19-057"
+            aria-controls="trip-CR-Weekday-Spring-19-785"
             aria-expanded={false}
             className="schedule-table__row"
             onClick={[Function]}
@@ -11652,16 +13146,21 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             <td
               className="schedule-table__td"
             >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
               <div
                 className="schedule-table__time"
               >
-                10:40 PM
+                09:00 PM
               </div>
             </td>
             <td
               className="schedule-table__td schedule-table__tab-num"
             >
-              057
+              785
             </td>
             <td
               className="schedule-table__headsign"
@@ -11676,7 +13175,125 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 }
               />
                
-              Kingston
+              Readville
+            </td>
+            <td
+              className="schedule-table__td schedule-table__td--flex-end"
+            >
+              <span
+                className="c-expandable-block__header-caret"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#xF107;",
+                  }
+                }
+              />
+            </td>
+          </tr>
+        </CrTableRow>
+      </TableRow>
+      <TableRow>
+        <CrTableRow>
+          <tr
+            aria-controls="trip-CR-Weekday-Spring-19-787"
+            aria-expanded={false}
+            className="schedule-table__row"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+          >
+            <td
+              className="schedule-table__td"
+            >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
+              <div
+                className="schedule-table__time"
+              >
+                10:00 PM
+              </div>
+            </td>
+            <td
+              className="schedule-table__td schedule-table__tab-num"
+            >
+              787
+            </td>
+            <td
+              className="schedule-table__headsign"
+            >
+              <span
+                aria-hidden="true"
+                className="notranslate c-svg__icon"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+               
+              Readville
+            </td>
+            <td
+              className="schedule-table__td schedule-table__td--flex-end"
+            >
+              <span
+                className="c-expandable-block__header-caret"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "&#xF107;",
+                  }
+                }
+              />
+            </td>
+          </tr>
+        </CrTableRow>
+      </TableRow>
+      <TableRow>
+        <CrTableRow>
+          <tr
+            aria-controls="trip-CR-Weekday-Spring-19-789"
+            aria-expanded={false}
+            className="schedule-table__row"
+            onClick={[Function]}
+            onKeyPress={[Function]}
+            role="button"
+          >
+            <td
+              className="schedule-table__td"
+            >
+              N
+            </td>
+            <td
+              className="schedule-table__td"
+            >
+              <div
+                className="schedule-table__time"
+              >
+                11:00 PM
+              </div>
+            </td>
+            <td
+              className="schedule-table__td schedule-table__tab-num"
+            >
+              789
+            </td>
+            <td
+              className="schedule-table__headsign"
+            >
+              <span
+                aria-hidden="true"
+                className="notranslate c-svg__icon"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+               
+              Readville
             </td>
             <td
               className="schedule-table__td schedule-table__td--flex-end"

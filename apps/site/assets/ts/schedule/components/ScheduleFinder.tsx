@@ -25,7 +25,6 @@ interface Props {
   hideHeader?: boolean;
   route: EnhancedRoute;
   stops: SimpleStopMap;
-  serviceSchedules: ServiceSchedule;
   routePatternsByDirection: RoutePatternsByDirection;
 }
 
@@ -63,7 +62,6 @@ const ScheduleFinder = ({
   stops,
   routePatternsByDirection
 }: Props): ReactElement<HTMLElement> => {
-  console.log(JSON.stringify(routePatternsByDirection));
   const {
     direction_destinations: directionDestinations,
     direction_names: directionNames

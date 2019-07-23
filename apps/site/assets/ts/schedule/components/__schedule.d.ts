@@ -33,7 +33,6 @@ export interface SchedulePageData {
   route: EnhancedRoute;
   schedule_note: ScheduleNote | null;
   services: ServiceWithServiceDate[];
-  service_schedules: ServiceSchedule;
   stops: SimpleStopMap;
   direction_id: DirectionId;
   shape_map: ShapesById;
