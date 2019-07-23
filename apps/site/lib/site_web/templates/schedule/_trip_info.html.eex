@@ -51,7 +51,7 @@
             end
           end %>
       <%= Fares.Format.price(base_fare) %>
-      (<%= link("View fares", to: fare_path(@conn, :show, fare_group(@route.type), fare_params(@origin, @destination))) %>)
+      (<%= link("View fares", to: cms_static_page_path(@conn, ["/fares/", @route |> Route.type_atom() |> Atom.to_string() |> String.replace("_", "-"), "-fares"])) %>)
     </div>
     <%= if @route.type === 2 do %>
       <div class="trip-fare">
