@@ -72,7 +72,12 @@ describe("ServiceSelector", () => {
   it("it renders", () => {
     createReactRoot();
     const tree = renderer.create(
-      <ServiceSelector services={services} directionId={0} routeId={"111"} />
+      <ServiceSelector
+        stopId="stopId"
+        services={services}
+        directionId={0}
+        routeId={"111"}
+      />
     );
     expect(tree).toMatchSnapshot();
   });
@@ -103,13 +108,14 @@ describe("ServiceSelector", () => {
         services,
         "BUS319-P-Sa-02",
         "83",
+        "stopId",
         1,
         loadingSpy,
         serviceScheduleSpy
       );
 
       expect(window.fetch).toHaveBeenCalledWith(
-        "/schedules/schedule_api?id=83&date=2019-08-31&direction_id=1"
+        "/schedules/schedule_api?id=83&date=2019-08-31&direction_id=1&stop_id=stopId"
       );
 
       expect(loadingSpy).toHaveBeenCalledTimes(2);
@@ -131,6 +137,7 @@ describe("ServiceSelector", () => {
           services,
           "BAD-SERVICE-ID",
           "83",
+          "stopId",
           1,
           loadingSpy,
           serviceScheduleSpy
@@ -156,6 +163,7 @@ describe("ServiceSelector", () => {
           services,
           "BUS319-P-Sa-02",
           "83",
+          "stopId",
           1,
           loadingSpy,
           serviceScheduleSpy

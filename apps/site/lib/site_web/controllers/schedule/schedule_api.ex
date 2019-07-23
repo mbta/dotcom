@@ -10,15 +10,23 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
   alias Site.{BaseFare}
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
-  def show(conn, %{"id" => route_id, "date" => date, "direction_id" => direction_id}) do
+  def show(conn, %{
+        "id" => route_id,
+        "date" => date,
+        "direction_id" => direction_id,
+        "stop_id" => stop_id
+      }) do
     {:ok, date} = Date.from_iso8601(date)
-    schedule_data = get_schedules(route_id, date, direction_id)
+    schedule_data = get_schedules(route_id, date, direction_id, stop_id)
 
     json(conn, schedule_data)
   end
 
-  @spec get_schedules(binary, any, any) :: %{by_trip: map, trip_order: [any]}
-  def get_schedules(route_id, date, direction_id) do
+  @spec get_schedules(String.t(), Date.t(), String.t(), String.t()) :: %{
+          by_trip: map,
+          trip_order: [String.t()]
+        }
+  def get_schedules(route_id, date, direction_id, stop_id) do
     services =
       [route_id]
       |> Repo.by_route_ids(date: date, direction_id: direction_id)
@@ -26,18 +34,34 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
 
     ordered_trips = services |> Enum.map(& &1.trip.id) |> Enum.uniq()
 
-    services_by_trip =
+    {no_service_trips, services_by_trip} =
       services
       |> Enum.group_by(& &1.trip.id)
+      |> Enum.map(fn {trip_id, schedules} ->
+        {trip_id, prune_schedules_by_stop(schedules, stop_id)}
+      end)
+      |> Enum.split_with(fn {_trip_id, schedules} ->
+        Enum.empty?(schedules) || length(schedules) == 1
+      end)
 
-    services_by_trip_with_fare =
-      services_by_trip
-      |> Stream.map(fn {trip_id, service} -> {trip_id, fares_for_service(service)} end)
-      |> Stream.map(fn {trip_id, service} -> {trip_id, duration_for_service(service)} end)
-      |> Stream.map(fn {trip_id, service} -> {trip_id, formatted_time(service)} end)
-      |> Enum.into(%{})
+    ordered_trips = ordered_trips -- Enum.map(no_service_trips, &elem(&1, 0))
+    services_by_trip_with_fare = enhance_services(services_by_trip)
 
     %{by_trip: services_by_trip_with_fare, trip_order: ordered_trips}
+  end
+
+  def prune_schedules_by_stop(schedules, stop_id) do
+    Enum.drop_while(schedules, fn schedule -> schedule.stop.id !== stop_id end)
+  end
+
+  def enhance_services([]), do: []
+
+  def enhance_services(services_by_trip) do
+    services_by_trip
+    |> Stream.map(fn {trip_id, service} -> {trip_id, fares_for_service(service)} end)
+    |> Stream.map(fn {trip_id, service} -> {trip_id, duration_for_service(service)} end)
+    |> Stream.map(fn {trip_id, service} -> {trip_id, formatted_time(service)} end)
+    |> Enum.into(%{})
   end
 
   def fares_for_service(schedules) do
