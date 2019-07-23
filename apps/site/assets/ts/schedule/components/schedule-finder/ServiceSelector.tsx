@@ -20,6 +20,7 @@ import {
 } from "../../../helpers/service";
 import ScheduleTable from "./ScheduleTable";
 import { SelectedDirection } from "../ScheduleFinder";
+import { RoutePatternWithShape } from "../__schedule";
 
 // until we come up with a good integration test for async with loading
 // some lines in this file have been ignored from codecov
@@ -37,6 +38,7 @@ interface Props {
   services: ServiceWithServiceDate[];
   routeId: string;
   directionId: SelectedDirection;
+  routePatterns: RoutePatternWithShape[];
 }
 
 const serviceDescription = (
@@ -106,7 +108,8 @@ export const ServiceSelector = ({
   stopId,
   services,
   routeId,
-  directionId
+  directionId,
+  routePatterns
 }: Props): ReactElement<HTMLElement> | null => {
   const ref = useRef<HTMLSelectElement>(null);
 
@@ -189,6 +192,7 @@ export const ServiceSelector = ({
         /* istanbul ignore next */ selectedServiceSchedule && (
           /* istanbul ignore next */ <ScheduleTable
             schedule={selectedServiceSchedule!}
+            routePatterns={routePatterns}
           />
         )}
     </>

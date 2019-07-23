@@ -51,6 +51,7 @@ export interface ServiceSchedule {
 export interface ScheduleInfo {
   schedules: ScheduleWithFare[];
   duration: string;
+  route_pattern_id: string;
 }
 
 export interface ScheduleWithFare extends Schedule {

@@ -4,7 +4,12 @@ import {
   DirectionId,
   ServiceWithServiceDate
 } from "../../__v3api";
-import { SimpleStop, ServiceSchedule, SimpleStopMap } from "./__schedule";
+import {
+  SimpleStop,
+  ServiceSchedule,
+  SimpleStopMap,
+  RoutePatternsByDirection
+} from "./__schedule";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 import icon from "../../../static/images/icon-schedule-finder.svg";
 import renderSvg from "../../helpers/render-svg";
@@ -21,6 +26,7 @@ interface Props {
   route: EnhancedRoute;
   stops: SimpleStopMap;
   serviceSchedules: ServiceSchedule;
+  routePatternsByDirection: RoutePatternsByDirection;
 }
 
 export type SelectedDirection = 0 | 1 | null;
@@ -54,8 +60,10 @@ const ScheduleFinder = ({
   hideHeader,
   route,
   services,
-  stops
+  stops,
+  routePatternsByDirection
 }: Props): ReactElement<HTMLElement> => {
+  console.log(JSON.stringify(routePatternsByDirection));
   const {
     direction_destinations: directionDestinations,
     direction_names: directionNames
@@ -258,6 +266,7 @@ const ScheduleFinder = ({
                 selectedOrigin={state.selectedOrigin}
                 services={services}
                 stops={stops[state.selectedDirection!]}
+                routePatternsByDirection={routePatternsByDirection}
               />
             )}
           </>
