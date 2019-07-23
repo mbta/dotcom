@@ -40,7 +40,7 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
       |> Enum.map(fn {trip_id, schedules} ->
         {trip_id, prune_schedules_by_stop(schedules, stop_id)}
       end)
-      |> Enum.split_with(fn {trip_id, schedules} ->
+      |> Enum.split_with(fn {_trip_id, schedules} ->
         Enum.empty?(schedules) || length(schedules) == 1
       end)
 
