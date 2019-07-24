@@ -228,7 +228,7 @@ defmodule Content.RepoTest do
   describe "teasers/1" do
     test "returns only teasers for a project type" do
       types =
-        [type: :project]
+        [type: [:project]]
         |> Repo.teasers()
         |> MapSet.new(& &1.type)
         |> MapSet.to_list()
@@ -238,7 +238,7 @@ defmodule Content.RepoTest do
 
     test "returns all teasers for a type that are sticky" do
       teasers =
-        [type: :project, sticky: 1]
+        [type: [:project], sticky: 1]
         |> Repo.teasers()
 
       assert [%Teaser{}, %Teaser{}, %Teaser{}] = teasers
@@ -309,7 +309,7 @@ defmodule Content.RepoTest do
     end
 
     test "takes a :type option" do
-      teasers = Repo.teasers(route_id: "Red", type: :project, sidebar: 1)
+      teasers = Repo.teasers(route_id: "Red", type: [:project], sidebar: 1)
       assert Enum.all?(teasers, &(&1.type == :project))
     end
 
@@ -317,7 +317,7 @@ defmodule Content.RepoTest do
       all_teasers = Repo.teasers(route_id: "Red", sidebar: 1)
       assert Enum.any?(all_teasers, &(&1.type == :project))
 
-      filtered = Repo.teasers(route_id: "Red", type: :project, type_op: "not in", sidebar: 1)
+      filtered = Repo.teasers(route_id: "Red", type: [:project], type_op: "not in", sidebar: 1)
       refute Enum.empty?(filtered)
       refute Enum.any?(filtered, &(&1.type == :project))
     end
@@ -387,21 +387,21 @@ defmodule Content.RepoTest do
     test "sets correct :sort_by and :sort_order options for project_update and news_entry requests" do
       mock_view = fn
         "/cms/teasers",
-        %{type: :project_update, sort_by: "field_posted_on_value", sort_order: :DESC} ->
+        %{type: [:project_update], sort_by: "field_posted_on_value", sort_order: :DESC} ->
           {:ok, []}
 
         "/cms/teasers",
-        %{type: :news_entry, sort_by: "field_posted_on_value", sort_order: :ASC} ->
+        %{type: [:news_entry], sort_by: "field_posted_on_value", sort_order: :ASC} ->
           {:ok, []}
       end
 
       with_mock Static, view: mock_view do
-        Repo.teasers(type: :project_update)
-        Repo.teasers(type: :news_entry, sort_order: :ASC)
+        Repo.teasers(type: [:project_update])
+        Repo.teasers(type: [:news_entry], sort_order: :ASC)
 
         "/cms/teasers"
         |> Static.view(%{
-          type: :project_update,
+          type: [:project_update],
           sort_by: "field_posted_on_value",
           sort_order: :DESC
         })
@@ -409,7 +409,7 @@ defmodule Content.RepoTest do
 
         "/cms/teasers"
         |> Static.view(%{
-          type: :news_entry,
+          type: [:news_entry],
           sort_by: "field_posted_on_value",
           sort_order: :ASC
         })
@@ -419,45 +419,46 @@ defmodule Content.RepoTest do
 
     test "sets correct :sort_by and :sort_order options for project requests" do
       mock_view = fn
-        "/cms/teasers", %{type: :project, sort_by: "field_updated_on_value", sort_order: :DESC} ->
+        "/cms/teasers",
+        %{type: [:project], sort_by: "field_updated_on_value", sort_order: :DESC} ->
           {:ok, []}
       end
 
       with_mock Static, view: mock_view do
-        Repo.teasers(type: :project)
+        Repo.teasers(type: [:project])
 
         "/cms/teasers"
-        |> Static.view(%{type: :project, sort_by: "field_updated_on_value", sort_order: :DESC})
+        |> Static.view(%{type: [:project], sort_by: "field_updated_on_value", sort_order: :DESC})
         |> assert_called()
       end
     end
 
     test "sets correct :sort_by and :sort_order options for event requests" do
       mock_view = fn
-        "/cms/teasers", %{type: :event, sort_by: "field_start_time_value", sort_order: :DESC} ->
+        "/cms/teasers", %{type: [:event], sort_by: "field_start_time_value", sort_order: :DESC} ->
           {:ok, []}
       end
 
       with_mock Static, view: mock_view do
-        Repo.teasers(type: :event)
+        Repo.teasers(type: [:event])
 
         "/cms/teasers"
-        |> Static.view(%{type: :event, sort_by: "field_start_time_value", sort_order: :DESC})
+        |> Static.view(%{type: [:event], sort_by: "field_start_time_value", sort_order: :DESC})
         |> assert_called()
       end
     end
 
     test "drops :sort_by and :sort_order options for invalid sortable types" do
       mock_view = fn
-        "/cms/teasers", %{type: :page} ->
+        "/cms/teasers", %{type: [:page]} ->
           {:ok, []}
       end
 
       with_mock Static, view: mock_view do
-        Repo.teasers(type: :page, sort_by: :ASC)
+        Repo.teasers(type: [:page], sort_by: :ASC)
 
         "/cms/teasers"
-        |> Static.view(%{type: :page})
+        |> Static.view(%{type: [:page]})
         |> assert_called()
       end
     end

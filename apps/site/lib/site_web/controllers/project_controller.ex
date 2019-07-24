@@ -192,7 +192,7 @@ defmodule SiteWeb.ProjectController do
   def get_events_async(id, timeframe) do
     fn ->
       Repo.teasers(
-        type: :event,
+        type: [:event],
         related_to: id,
         items_per_page: 10,
         date_op: (timeframe == :past && "<") || ">=",

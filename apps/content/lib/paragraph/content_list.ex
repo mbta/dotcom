@@ -202,6 +202,13 @@ defmodule Content.Paragraph.ContentList do
     |> combine()
   end
 
+  # If no types are specified, discard the :type key.
+  defp combine(%{type: [nil]} = ingredients) do
+    ingredients
+    |> Map.drop([:type])
+    |> combine()
+  end
+
   # Ingredients are ready to bake into opts for endpoint call. Discard
   # all nil values and converts remaining ingredients to a list
   defp combine(ingredients) do

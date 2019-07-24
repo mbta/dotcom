@@ -367,15 +367,15 @@ defmodule Content.CMS.Static do
     {:ok, []}
   end
 
-  def view("/cms/teasers", %{type: :project, sticky: 1}) do
+  def view("/cms/teasers", %{type: [:project], sticky: 1}) do
     {:ok, teaser_featured_projects_response()}
   end
 
-  def view("/cms/teasers", %{type: :project}) do
+  def view("/cms/teasers", %{type: [:project]}) do
     {:ok, teaser_project_response()}
   end
 
-  def view("/cms/teasers", %{type: :project_update}) do
+  def view("/cms/teasers", %{type: [:project_update]}) do
     {:ok, teaser_project_update_response()}
   end
 
@@ -383,19 +383,19 @@ defmodule Content.CMS.Static do
     {:ok, teaser_empty_response()}
   end
 
-  def view("/cms/teasers", %{type: :diversion}) do
+  def view("/cms/teasers", %{type: [:diversion]}) do
     {:ok, teaser_diversion_response()}
   end
 
-  def view("/cms/teasers", %{type: :news_entry, except: 3518, items_per_page: 4}) do
+  def view("/cms/teasers", %{type: [:news_entry], except: 3518, items_per_page: 4}) do
     {:ok, teaser_news_entry_response() |> Enum.take(4)}
   end
 
-  def view("/cms/teasers", %{type: :news_entry}) do
+  def view("/cms/teasers", %{type: [:news_entry]}) do
     {:ok, teaser_news_entry_response()}
   end
 
-  def view("/cms/teasers", %{type: :event}) do
+  def view("/cms/teasers", %{type: [:event]}) do
     {:ok, teaser_event_response()}
   end
 
@@ -486,11 +486,11 @@ defmodule Content.CMS.Static do
   def redirect(path, params, code),
     do: redirect(path <> "?" <> URI.encode_query(params), %{}, code)
 
-  defp filter_teasers(teasers, %{type: type, type_op: "not in"}) do
+  defp filter_teasers(teasers, %{type: [type], type_op: "not in"}) do
     Enum.reject(teasers, &filter_teaser?(&1, type))
   end
 
-  defp filter_teasers(teasers, %{type: type}) do
+  defp filter_teasers(teasers, %{type: [type]}) do
     Enum.filter(teasers, &filter_teaser?(&1, type))
   end
 

@@ -60,6 +60,6 @@ defmodule SiteWeb.ScheduleController.CMS do
     %{teaser | path: url}
   end
 
-  defp utm_type([:news_entry]), do: :news
+  defp utm_type(:news_entry), do: :news
   defp utm_type(type), do: type
 end

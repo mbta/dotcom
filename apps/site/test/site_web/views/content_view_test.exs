@@ -384,9 +384,9 @@ defmodule SiteWeb.ContentViewTest do
           header: %ColumnMultiHeader{
             text: HTML.raw("<p>Header copy.</p>\n")
           },
-          ingredients: %{type: :project_update},
+          ingredients: %{type: [:project_update]},
           recipe: [
-            type: :project_update,
+            type: [:project_update],
             date: "now",
             date_op: ">="
           ],
@@ -891,7 +891,7 @@ defmodule SiteWeb.ContentViewTest do
     test "does not render CTA if there are no teaser results", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{
-          ingredients: %{type: :event},
+          ingredients: %{type: [:event]},
           recipe: [promoted: 0],
           cta: %{behavior: "default", text: nil, url: nil}
         })
@@ -902,8 +902,8 @@ defmodule SiteWeb.ContentViewTest do
     test "does not render CTA if author has selected to hide the CTA", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{
-          ingredients: %{type: :project_update},
-          recipe: [type: :project_update],
+          ingredients: %{type: [:project_update]},
+          recipe: [type: [:project_update]],
           cta: %{behavior: "hide", text: nil, url: nil}
         })
 
@@ -920,8 +920,8 @@ defmodule SiteWeb.ContentViewTest do
     test "does not render CTA for project updates list if not on a project", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{
-          ingredients: %{type: :project_update},
-          recipe: [type: :project_update],
+          ingredients: %{type: [:project_update]},
+          recipe: [type: [:project_update]],
           cta: %{behavior: "default", text: nil, url: nil}
         })
 
@@ -938,8 +938,8 @@ defmodule SiteWeb.ContentViewTest do
     test "renders CTA for project updates list on non-project if overridden", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{
-          ingredients: %{type: :project_update},
-          recipe: [type: :project_update],
+          ingredients: %{type: [:project_update]},
+          recipe: [type: [:project_update]],
           cta: %{behavior: "default", text: "Custom CTA", url: "/project/manually-linked/updates"}
         })
 
@@ -958,8 +958,8 @@ defmodule SiteWeb.ContentViewTest do
     test "does not render CTA for types that have no generic destination", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{
-          ingredients: %{type: :diversion},
-          recipe: [type: :diversion],
+          ingredients: %{type: [:diversion]},
+          recipe: [type: [:diversion]],
           cta: %{behavior: "default", text: nil, url: nil}
         })
 
@@ -974,8 +974,8 @@ defmodule SiteWeb.ContentViewTest do
     test "renders CTA for types without generic destination if overridden", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{
-          ingredients: %{type: :diversion},
-          recipe: [type: :diversion],
+          ingredients: %{type: [:diversion]},
+          recipe: [type: [:diversion]],
           cta: %{behavior: "default", text: "Go here!", url: "/news"}
         })
 
@@ -994,8 +994,8 @@ defmodule SiteWeb.ContentViewTest do
     test "renders automatic CTA for news content lists", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{
-          ingredients: %{type: :news_entry},
-          recipe: [type: :news_entry],
+          ingredients: %{type: [:news_entry]},
+          recipe: [type: [:news_entry]],
           cta: %{behavior: "default", text: nil, url: nil}
         })
 
@@ -1012,8 +1012,8 @@ defmodule SiteWeb.ContentViewTest do
     test "renders automatic CTA for event content lists", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{
-          ingredients: %{type: :event},
-          recipe: [type: :event],
+          ingredients: %{type: [:event]},
+          recipe: [type: [:event]],
           cta: %{behavior: "default", text: nil, url: nil}
         })
 
@@ -1030,8 +1030,8 @@ defmodule SiteWeb.ContentViewTest do
     test "renders automatic CTA for project content lists", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{
-          ingredients: %{type: :project},
-          recipe: [type: :project],
+          ingredients: %{type: [:project]},
+          recipe: [type: [:project]],
           cta: %{behavior: "default", text: nil, url: nil}
         })
 
@@ -1048,8 +1048,8 @@ defmodule SiteWeb.ContentViewTest do
     test "renders default CTA url but with overridden CTA text from author", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{
-          ingredients: %{type: :event},
-          recipe: [type: :event],
+          ingredients: %{type: [:event]},
+          recipe: [type: [:event]],
           cta: %{behavior: "default", text: "More where that came from...", url: nil}
         })
 
@@ -1066,8 +1066,8 @@ defmodule SiteWeb.ContentViewTest do
     test "renders default CTA text but with overridden CTA url from author", %{conn: conn} do
       paragraph =
         ContentList.fetch_teasers(%ContentList{
-          ingredients: %{type: :event},
-          recipe: [type: :event],
+          ingredients: %{type: [:event]},
+          recipe: [type: [:event]],
           cta: %{behavior: "default", text: nil, url: "/special-events"}
         })
 

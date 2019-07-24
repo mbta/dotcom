@@ -172,7 +172,7 @@ defmodule Content.Paragraph.ContentListTest do
         sorting_logic: nil
       )
 
-    assert opts == [items_per_page: 5, type: :event]
+    assert opts == [items_per_page: 5, type: [:event]]
   end
 
   defp cms_map(fields) do
