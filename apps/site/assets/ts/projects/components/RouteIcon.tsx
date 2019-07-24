@@ -43,5 +43,5 @@ const tagsToIcons: TagDispatchTable = {
 
 export const RouteIcon = ({tag}: Props): ReactElement<HTMLElement> => {
   const iconFunction = tagsToIcons[tag]
-  return iconFunction('c-svg__icon')
+  return iconFunction('c-svg__icon c-more-projects-table__route-icon')
 }

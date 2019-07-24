@@ -8,16 +8,20 @@ interface Props {
 
 export const MoreProjectsTable = ({projects}: Props): ReactElement<HTMLElement> => {
   return(
-    <table className="responsive-table" aria-label="More Projects">
-      <caption>More Projects</caption>
-      <thead>
+    <table className="c-more-projects-table" aria-label="More Projects">
+      <colgroup>
+        <col className="c-more-projects-table__col-project" />
+        <col className="c-more-projects-table__col-last-updated" />
+        <col className="c-more-projects-table__col-status" />
+      </colgroup>
+      <thead className="c-more-projects-table__thead">
         <tr>
-          <th scope="col">Project</th>
-          <th scope="col">Last Updated</th>
-          <th scope="col">Status</th>
+          <th scope="col" className="c-more-projects-table__th c-more-projects-table__th-project">Project</th>
+          <th scope="col" className="c-more-projects-table__th">Last Updated</th>
+          <th scope="col" className="c-more-projects-table__th">Status</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="c-more-projects-table__tbody">
         {projects.map((project) =>
           <MoreProjectsRow key={project.id} {...project}></MoreProjectsRow>
         )}

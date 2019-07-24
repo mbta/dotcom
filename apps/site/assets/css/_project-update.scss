@@ -44,3 +44,60 @@
 .m-project-updates__title {
   margin-top: 0;
 }
+
+.c-more-projects-table {
+  table-layout: fixed;
+}
+
+.c-more-projects-table__thead {
+  background-color: $brand-primary-light-contrast;
+}
+
+.c-more-projects-table__col-project {
+  width: 60%;
+}
+
+.c-more-projects-table__col-last-updated {
+  width: 20%;
+}
+
+.c-more-projects-table__col-status {
+  width: 10%;
+}
+
+.c-more-projects-table__thumbnail {
+  float: left;
+  padding-right: 0.5rem;
+  width: 15%;
+}
+
+.c-more-projects-table__th-project {
+  padding-left: $grid_gutter_width / 2;
+}
+
+.c-more-projects-table__wrapper {
+  display: inline-block;
+  width: 70%;
+}
+
+.c-more-projects-table__project-link {
+  font-weight: bold;
+  font-size: $font-size-h3;
+}
+
+.c-more-projects-table__tr {
+  &:first-child td {
+    padding-top: 1.5rem;
+  }
+}
+
+.c-more-projects-table__td {
+  vertical-align: top;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: solid $gray-bordered-background 1px;
+}
+
+.c-more-projects-table__route-icon {
+  margin-right: 0.5em;
+}

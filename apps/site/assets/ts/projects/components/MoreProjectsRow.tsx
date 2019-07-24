@@ -80,21 +80,25 @@ export const MoreProjectsRow = ({image, path, title, routes, date}: Project): Re
   }
 
   return(
-    <tr>
-      <td>
+    <tr className="c-more-projects-table__tr">
+      <td className="c-more-projects-table__td c-more-projects-table__td-project">
         {image &&
-          <img src={image.url} alt={image.alt}></img>
+          <img src={image.url} alt={image.alt} className="c-more-projects-table__thumbnail"></img>
         }
-        <a href={path}>{title}</a>
 
-        {routesToTags(routes).map((tag) =>
-          <RouteIcon key={tag} tag={tag}></RouteIcon>
-        )}
+        <div className="c-more-projects-table__wrapper">
+          <a className="c-more-projects-table__project-link" href={path}>{title}</a>
+          <br/>
+
+          {routesToTags(routes).map((tag) =>
+            <RouteIcon key={tag} tag={tag}></RouteIcon>
+          )}
+        </div>
       </td>
 
-      <td>{formattedDate(date)}</td>
+      <td className="c-more-projects-table__td c-more-projects-table__td-last-updated">{formattedDate(date)}</td>
 
-      <td></td>
+      <td className="c-more-projects-table__td"></td>
     </tr>
   )
 }
