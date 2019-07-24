@@ -8,7 +8,7 @@ interface Props {
 
 export const MoreProjectsTable = ({projects}: Props): ReactElement<HTMLElement> => {
   return(
-    <table className="responsive-table">
+    <table className="responsive-table" aria-label="More Projects">
       <caption>More Projects</caption>
       <thead>
         <tr>
