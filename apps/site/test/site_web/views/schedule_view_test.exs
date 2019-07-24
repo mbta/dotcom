@@ -310,7 +310,7 @@ defmodule SiteWeb.ScheduleViewTest do
         )
 
       assert safe_to_string(actual) =~
-               "/fares/commuter_rail?destination=Fitchburg&amp;origin=place-north"
+               "/fares/commuter-rail-fares"
     end
 
     test "the fare description is Round trip fare if it's a round-trip fare", %{conn: conn} do
