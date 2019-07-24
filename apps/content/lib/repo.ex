@@ -187,23 +187,26 @@ defmodule Content.Repo do
   @doc """
   Returns a list of teaser items.
 
-  Opts can include :type, which can be one of:
-    :news_entry
-    :event
-    :project
-    :page
-    :project_update
+  TYPE
 
-  If no type is specified, results can be of mixed types.
+  Opts can include :type, which is a list that can contain one
+  or more of the CMS.type() atoms (ex: [:news_entry, :event]).
+
+  If no types are specified, results can be of mixed types.
 
   To filter by a route include :route_id, for example:
     "/guides/subway" or just "subway"
 
   To fetch all items that are NOT of a specific type,
-  use [type: _type, type_op: "not in"]
+  use [type: [_type], type_op: "not in"]. type_op: "in"
+  is the default value for this filter if not supplied.
+
+  RELATIONSHIPS
 
   To fetch items related to a given ID, use the "related_to"
   parameter with an integer value (usually a content ID).
+
+  ITEMS PER PAGE
 
   Opts can also include :items_per_page, which sets
   the number of items to return. Default is 5 items.
