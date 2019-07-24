@@ -78,7 +78,10 @@ const BusTableRow = ({
         </td>
       </tr>
       {expanded && (
-        <tr className="schedule-table__subtable-container">
+        <tr
+          className="schedule-table__subtable-container"
+          id={`trip-${firstSchedule.trip.id}`}
+        >
           <td className="schedule-table__subtable-td">
             <table className="schedule-table__subtable">
               <thead>
