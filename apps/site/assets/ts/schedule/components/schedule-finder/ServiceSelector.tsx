@@ -19,6 +19,7 @@ import {
   hasMultipleWeekdaySchedules
 } from "../../../helpers/service";
 import ScheduleTable from "./ScheduleTable";
+import { SelectedDirection } from "../ScheduleFinder";
 
 const optGroupNames: ServiceOptGroup[] = ["current", "holiday", "other"];
 
@@ -32,7 +33,7 @@ interface Props {
   stopId: string;
   services: ServiceWithServiceDate[];
   routeId: string;
-  directionId: DirectionId;
+  directionId: SelectedDirection;
 }
 
 const serviceDescription = (
@@ -68,7 +69,7 @@ export const fetchSchedule = (
   selectedServiceId: string,
   routeId: string,
   stopId: string,
-  directionId: DirectionId,
+  directionId: SelectedDirection,
   setIsLoading: Dispatch<SetStateAction<boolean>>,
   setSelectedServiceSchedule: Dispatch<SetStateAction<null>>
 ): void => {

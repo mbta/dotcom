@@ -7,12 +7,12 @@ import {
   EnhancedRoute,
   ServiceWithServiceDate
 } from "../../__v3api";
-import { SimpleStop, ServiceSchedule } from "./__schedule";
+import { SimpleStopMap, ServiceSchedule } from "./__schedule";
 
 interface Props {
   directionId: DirectionId;
   route: EnhancedRoute;
-  stops: SimpleStop[];
+  stops: SimpleStopMap;
   services: ServiceWithServiceDate[];
   serviceSchedules: ServiceSchedule;
 }
