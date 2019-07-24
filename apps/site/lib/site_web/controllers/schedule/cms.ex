@@ -11,8 +11,7 @@ defmodule SiteWeb.ScheduleController.CMS do
   alias Content.{Repo, Teaser}
 
   @featured_opts [
-    type: :news_entry,
-    type_op: "not in",
+    type: [:project, :project_update],
     items_per_page: 1,
     sidebar: 1
   ]
@@ -35,7 +34,7 @@ defmodule SiteWeb.ScheduleController.CMS do
     end
 
     news_fn = fn ->
-      [route_id: route.id, type: :news_entry, sidebar: 1]
+      [route_id: route.id, type: [:news_entry], sidebar: 1]
       |> Repo.teasers()
       |> Enum.map(&set_utm_params(&1, route))
     end
@@ -61,6 +60,6 @@ defmodule SiteWeb.ScheduleController.CMS do
     %{teaser | path: url}
   end
 
-  defp utm_type(:news_entry), do: :news
+  defp utm_type([:news_entry]), do: :news
   defp utm_type(type), do: type
 end
