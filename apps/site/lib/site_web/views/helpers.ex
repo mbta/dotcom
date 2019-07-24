@@ -102,7 +102,7 @@ defmodule SiteWeb.ViewHelpers do
   but at least earmarks them for easy identification or if we need to change our
   frontend<->CMS linking strategy in the future.
   """
-  @spec cms_static_page_path(module | Plug.Conn.t(), iolist()) :: String.t()
+  @spec cms_static_page_path(module | Plug.Conn.t(), String.t() | iolist()) :: String.t()
   def cms_static_page_path(_conn, path), do: path
 
   def google_tag_manager_id do
