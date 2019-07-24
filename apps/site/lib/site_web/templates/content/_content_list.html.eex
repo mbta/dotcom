@@ -6,3 +6,11 @@
       teasers: @content.teasers,
       type: Keyword.get(@content.recipe, :type, :generic),
       conn: @conn) %>
+
+<%= if list_cta?(@content.ingredients.type, @content.cta, @content.teasers, @conn.path_info) do %>
+  <% cta = setup_list_cta(@content, @conn.path_info) %>
+
+  <p>
+    <%= link cta.title, to: cms_static_page_path(@conn, cta.url), class: "c-call-to-action" %>
+  </p>
+<% end %>

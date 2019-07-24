@@ -7,7 +7,7 @@
     %>
 
     <%= link to: cms_static_page_path(@conn, teaser.path), id: teaser.id,
-             class: "c-content-teaser c-content-teaser--#{css_type} c-content-teaser--#{color}" do %>
+            class: "c-content-teaser c-content-teaser--#{css_type} c-content-teaser--#{color}" do %>
       <%= SiteWeb.Content.TeaserView.render("_#{@type}.html", teaser: teaser, conn: @conn) %>
     <% end %>
 

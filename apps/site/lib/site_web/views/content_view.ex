@@ -6,9 +6,12 @@ defmodule SiteWeb.ContentView do
 
   import SiteWeb.TimeHelpers
 
+  alias Content.CMS
   alias Content.Field.{File, Image, Link}
   alias Content.Paragraph
   alias Content.Paragraph.{Callout, ColumnMulti, ContentList, FareCard}
+  alias Content.Teaser
+  alias Plug.Conn
   alias Site.ContentRewriter
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
@@ -25,7 +28,7 @@ defmodule SiteWeb.ContentView do
   end
 
   @doc "Universal wrapper around all paragraph types"
-  @spec render_paragraph(Paragraph.t(), Plug.Conn.t()) :: Phoenix.HTML.safe()
+  @spec render_paragraph(Paragraph.t(), Conn.t()) :: Phoenix.HTML.safe()
   # Don't render Content List if list has no items
   def render_paragraph(%ContentList{teasers: []}, _), do: []
 
@@ -43,7 +46,7 @@ defmodule SiteWeb.ContentView do
   Intelligently choose and render paragraph template based on type, except
   for certain types which either have no template or require special values.
   """
-  @spec render_content(Paragraph.t(), Plug.Conn.t()) :: Phoenix.HTML.safe()
+  @spec render_content(Paragraph.t(), Conn.t()) :: Phoenix.HTML.safe()
   def render_content(paragraph, conn)
 
   def render_content(%ColumnMulti{display_options: "grouped"} = paragraph, conn) do
@@ -132,6 +135,48 @@ defmodule SiteWeb.ContentView do
     end
   end
 
+  @spec list_cta?(CMS.type(), map(), [Teaser.t()], [String.t()]) :: boolean()
+  # No results
+  def list_cta?(_type, _cta, [], _path) do
+    false
+  end
+
+  # Is not requested (hide)
+  def list_cta?(_type, %{behavior: "hide"}, _teasers, _path) do
+    false
+  end
+
+  # Is a list of project updates, AND is sitting on a valid project page
+  def list_cta?(:project_update, _cta, _teasers, ["projects", _]) do
+    true
+  end
+
+  # Is requested (auto/overridden) BUT has no default (generic destination) AND user has not provided a link
+  def list_cta?(type, %{url: url, text: text}, _teasers, _path)
+      when type in [:project_update, :diversion, :page] and (is_nil(url) or is_nil(text)) do
+    false
+  end
+
+  # Either has required link values or has a readily available default link path
+  def list_cta?(_type, _cta, _teasers, _path) do
+    true
+  end
+
+  @spec setup_list_cta(ContentList.t(), [String.t()]) :: Link.t()
+  def setup_list_cta(list, conn_path) do
+    current_path =
+      ["" | conn_path]
+      |> Enum.join("/")
+
+    case list.cta do
+      %{text: nil, url: nil} ->
+        default_list_cta(list.ingredients.type, current_path)
+
+      link_parts ->
+        custom_list_cta(list.ingredients.type, link_parts, current_path)
+    end
+  end
+
   defp maybe_shift_timezone(%NaiveDateTime{} = time) do
     time
   end
@@ -191,4 +236,55 @@ defmodule SiteWeb.ContentView do
   @spec paragraph_classes(Paragraph.t()) :: iodata()
   defp paragraph_classes(%Callout{image: %Image{}}), do: ["c-callout--with-image"]
   defp paragraph_classes(_), do: []
+
+  # Automatically map each list to a destination page based on content type
+  @spec default_list_cta(CMS.type(), String.t()) :: Link.t()
+  defp default_list_cta(:project_update, current_path) do
+    %Link{
+      title: "View all project updates",
+      url: "#{current_path}/updates"
+    }
+  end
+
+  defp default_list_cta(:event, _current_path) do
+    %Link{
+      title: "View all events",
+      url: "/events"
+    }
+  end
+
+  defp default_list_cta(:news_entry, _current_path) do
+    %Link{
+      title: "View all news",
+      url: "/news"
+    }
+  end
+
+  defp default_list_cta(:project, _current_path) do
+    %Link{
+      title: "View all projects",
+      url: "/projects"
+    }
+  end
+
+  # Override one or both of the url/text values for the list CTA
+  @spec custom_list_cta(CMS.type(), map, String.t()) :: Link.t()
+  defp custom_list_cta(type, %{text: nil, url: url}, current_path) do
+    type
+    |> default_list_cta(current_path)
+    |> Map.put(:url, url)
+  end
+
+  defp custom_list_cta(type, %{text: text, url: nil}, current_path) do
+    type
+    |> default_list_cta(current_path)
+    |> Map.put(:title, text)
+  end
+
+  defp custom_list_cta(_type, %{text: text, url: url}, _current_path) do
+    %Link{
+      title: text,
+      url: url
+    }
+  end
 end

@@ -4,7 +4,9 @@ defmodule Content.Paragraph.ContentList do
   This paragraph provides a formula for retreiving a dynamic list of
   content items from the CMS via the `/cms/teasers` API endpoint.
   """
-  import Content.Helpers, only: [field_value: 2, int_or_string_to_int: 1, content_type: 1]
+  import Content.Helpers,
+    only: [field_value: 2, int_or_string_to_int: 1, content_type: 1, parse_link: 2]
+
   import Content.Paragraph, only: [parse_header: 1]
 
   alias Content.{Paragraph.ColumnMultiHeader, Repo, Teaser}
@@ -13,16 +15,20 @@ defmodule Content.Paragraph.ContentList do
             right_rail: false,
             ingredients: %{},
             recipe: [],
-            teasers: []
+            teasers: [],
+            cta: %{}
 
   @type order :: :DESC | :ASC
+
+  @type text_or_nil :: String.t() | nil
 
   @type t :: %__MODULE__{
           header: ColumnMultiHeader.t() | nil,
           right_rail: boolean(),
           ingredients: map(),
           recipe: Keyword.t(),
-          teasers: [Teaser.t()]
+          teasers: [Teaser.t()],
+          cta: map()
         }
 
   @spec from_api(map) :: t
@@ -51,13 +57,22 @@ defmodule Content.Paragraph.ContentList do
       sort_order: data |> field_value("field_sorting_logic") |> order()
     }
 
+    cta_link = parse_link(data, "field_cta_link")
+
+    cta = %{
+      behavior: field_value(data, "field_cta_behavior"),
+      text: field_value(data, "field_cta_text"),
+      url: cta_link && Map.get(cta_link, :url)
+    }
+
     recipe = combine(ingredients)
 
     %__MODULE__{
       header: parse_header(data),
       right_rail: field_value(data, "field_right_rail"),
       ingredients: ingredients,
-      recipe: recipe
+      recipe: recipe,
+      cta: cta
     }
   end
 
@@ -207,7 +222,7 @@ defmodule Content.Paragraph.ContentList do
   end
 
   # Convert order value strings to atoms
-  @spec order(String.t() | nil) :: order()
+  @spec order(text_or_nil) :: order()
   defp order("ASC"), do: :ASC
   defp order("DESC"), do: :DESC
   defp order(_), do: nil

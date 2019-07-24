@@ -70,6 +70,10 @@ defmodule Content.CMS.Static do
     parse_json("cms/teasers_diversion.json")
   end
 
+  def teaser_empty_response do
+    []
+  end
+
   # Repositories of multiple, full-object responses (maximum data)
 
   def news_repo do
@@ -373,6 +377,10 @@ defmodule Content.CMS.Static do
 
   def view("/cms/teasers", %{type: :project_update}) do
     {:ok, teaser_project_update_response()}
+  end
+
+  def view("/cms/teasers", %{promoted: 0}) do
+    {:ok, teaser_empty_response()}
   end
 
   def view("/cms/teasers", %{type: :diversion}) do

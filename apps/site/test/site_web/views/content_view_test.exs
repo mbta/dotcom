@@ -100,7 +100,7 @@ defmodule SiteWeb.ContentViewTest do
     end
 
     test "renders a diversion as a generic page", %{diversion: diversion} do
-      fake_conn = %{request_path: "/"}
+      fake_conn = %{request_path: "/", path_info: ["diversions", "diversion-2"]}
 
       rendered =
         "page.html"
@@ -389,8 +389,11 @@ defmodule SiteWeb.ContentViewTest do
             type: :project_update,
             date: "now",
             date_op: ">="
-          ]
+          ],
+          cta: %{behavior: "default", text: nil, url: nil}
         })
+
+      conn = Map.put(conn, :path_info, ["projects", "a-project"])
 
       rendered =
         paragraph
@@ -401,6 +404,8 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "c-teaser-list--project-update"
       assert rendered =~ "c-content-teaser--project-update"
       assert rendered =~ "Header copy"
+      assert rendered =~ "c-call-to-action"
+      assert rendered =~ "View all project updates"
     end
 
     test "does not render empty content lists", %{conn: conn} do
@@ -879,6 +884,201 @@ defmodule SiteWeb.ContentViewTest do
 
     test "wraps content with nothing if the condition is false" do
       assert extend_width_if(false, :table, do: "foo") == "foo"
+    end
+  end
+
+  describe "list_cta?/3" do
+    test "does not render CTA if there are no teaser results", %{conn: conn} do
+      paragraph =
+        ContentList.fetch_teasers(%ContentList{
+          ingredients: %{type: :event},
+          recipe: [promoted: 0],
+          cta: %{behavior: "default", text: nil, url: nil}
+        })
+
+      assert [] = render_paragraph(paragraph, conn)
+    end
+
+    test "does not render CTA if author has selected to hide the CTA", %{conn: conn} do
+      paragraph =
+        ContentList.fetch_teasers(%ContentList{
+          ingredients: %{type: :project_update},
+          recipe: [type: :project_update],
+          cta: %{behavior: "hide", text: nil, url: nil}
+        })
+
+      conn = Map.put(conn, :path_info, ["projects", "a-project"])
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      refute rendered =~ "c-call-to-action"
+    end
+
+    test "does not render CTA for project updates list if not on a project", %{conn: conn} do
+      paragraph =
+        ContentList.fetch_teasers(%ContentList{
+          ingredients: %{type: :project_update},
+          recipe: [type: :project_update],
+          cta: %{behavior: "default", text: nil, url: nil}
+        })
+
+      conn = Map.put(conn, :path_info, ["not-projects", "not-a-project"])
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      refute rendered =~ "c-call-to-action"
+    end
+
+    test "renders CTA for project updates list on non-project if overridden", %{conn: conn} do
+      paragraph =
+        ContentList.fetch_teasers(%ContentList{
+          ingredients: %{type: :project_update},
+          recipe: [type: :project_update],
+          cta: %{behavior: "default", text: "Custom CTA", url: "/project/manually-linked/updates"}
+        })
+
+      conn = Map.put(conn, :path_info, ["not-projects", "not-a-project"])
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "c-call-to-action"
+      assert rendered =~ "Custom CTA"
+      assert rendered =~ "/project/manually-linked/updates"
+    end
+
+    test "does not render CTA for types that have no generic destination", %{conn: conn} do
+      paragraph =
+        ContentList.fetch_teasers(%ContentList{
+          ingredients: %{type: :diversion},
+          recipe: [type: :diversion],
+          cta: %{behavior: "default", text: nil, url: nil}
+        })
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      refute rendered =~ "c-call-to-action"
+    end
+
+    test "renders CTA for types without generic destination if overridden", %{conn: conn} do
+      paragraph =
+        ContentList.fetch_teasers(%ContentList{
+          ingredients: %{type: :diversion},
+          recipe: [type: :diversion],
+          cta: %{behavior: "default", text: "Go here!", url: "/news"}
+        })
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "c-call-to-action"
+      assert rendered =~ "Go here!"
+      assert rendered =~ "/news"
+    end
+  end
+
+  describe "setup_list_cta/2" do
+    test "renders automatic CTA for news content lists", %{conn: conn} do
+      paragraph =
+        ContentList.fetch_teasers(%ContentList{
+          ingredients: %{type: :news_entry},
+          recipe: [type: :news_entry],
+          cta: %{behavior: "default", text: nil, url: nil}
+        })
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "c-call-to-action"
+      assert rendered =~ "View all news"
+      assert rendered =~ "/news"
+    end
+
+    test "renders automatic CTA for event content lists", %{conn: conn} do
+      paragraph =
+        ContentList.fetch_teasers(%ContentList{
+          ingredients: %{type: :event},
+          recipe: [type: :event],
+          cta: %{behavior: "default", text: nil, url: nil}
+        })
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "c-call-to-action"
+      assert rendered =~ "View all events"
+      assert rendered =~ "/events"
+    end
+
+    test "renders automatic CTA for project content lists", %{conn: conn} do
+      paragraph =
+        ContentList.fetch_teasers(%ContentList{
+          ingredients: %{type: :project},
+          recipe: [type: :project],
+          cta: %{behavior: "default", text: nil, url: nil}
+        })
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "c-call-to-action"
+      assert rendered =~ "View all projects"
+      assert rendered =~ "/projects"
+    end
+
+    test "renders default CTA url but with overridden CTA text from author", %{conn: conn} do
+      paragraph =
+        ContentList.fetch_teasers(%ContentList{
+          ingredients: %{type: :event},
+          recipe: [type: :event],
+          cta: %{behavior: "default", text: "More where that came from...", url: nil}
+        })
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "c-call-to-action"
+      assert rendered =~ "More where that came from..."
+      assert rendered =~ "/events"
+    end
+
+    test "renders default CTA text but with overridden CTA url from author", %{conn: conn} do
+      paragraph =
+        ContentList.fetch_teasers(%ContentList{
+          ingredients: %{type: :event},
+          recipe: [type: :event],
+          cta: %{behavior: "default", text: nil, url: "/special-events"}
+        })
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "c-call-to-action"
+      assert rendered =~ "View all events"
+      assert rendered =~ "/special-events"
     end
   end
 end
