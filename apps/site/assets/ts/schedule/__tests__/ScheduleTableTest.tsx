@@ -63,6 +63,20 @@ describe("ScheduleTable", () => {
     expect(enzymeToJsonWithoutProps(wrapper)).toMatchSnapshot();
   });
 
+  it("it renders with school trips", () => {
+    createReactRoot();
+    const wrapper = mount(
+      <ScheduleTable
+        schedule={schedule}
+        routePatterns={routePatterns.map(routePattern => ({
+          ...routePattern,
+          time_desc: "School Trip"
+        }))}
+      />
+    );
+    expect(enzymeToJsonWithoutProps(wrapper)).toMatchSnapshot();
+  });
+
   it("it renders an empty message", () => {
     createReactRoot();
     const wrapper = mount(
@@ -83,6 +97,20 @@ describe("ScheduleTable", () => {
       .find(".schedule-table__row")
       .first()
       .simulate("click");
+    expect(enzymeToJsonWithoutProps(wrapper)).toMatchSnapshot();
+  });
+
+  it("it renders CR schedules with school trips", () => {
+    createReactRoot();
+    const wrapper = mount(
+      <ScheduleTable
+        schedule={crSchedule}
+        routePatterns={crRoutePatterns.map(routePattern => ({
+          ...routePattern,
+          time_desc: "School Trip"
+        }))}
+      />
+    );
     expect(enzymeToJsonWithoutProps(wrapper)).toMatchSnapshot();
   });
 });

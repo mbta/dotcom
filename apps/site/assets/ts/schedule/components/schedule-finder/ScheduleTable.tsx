@@ -24,8 +24,10 @@ const ScheduleTable = ({
   routePatterns
 }: Props): ReactElement<HTMLElement> => {
   const routePatternsById = routePatterns.reduce(
-    (accumulator, routePattern) =>
-      Object.assign({}, accumulator, { [routePattern.id]: routePattern }),
+    (accumulator, routePattern) => ({
+      ...accumulator,
+      [routePattern.id]: routePattern
+    }),
     {}
   ) as {
     [key: string]: RoutePatternWithShape;
@@ -44,6 +46,11 @@ const ScheduleTable = ({
       ? schedule.trip_order[schedule.trip_order.length - 1]
       : null;
 
+  const anySchoolTrips = Object.values(schedule.by_trip).some(
+    ({ route_pattern_id: routePatternId }) =>
+      isSchoolTrip(routePatternsById, routePatternId)
+  );
+
   return (
     <>
       <div className="schedule-finder__first-last-trip">
@@ -59,7 +66,9 @@ const ScheduleTable = ({
       <table className="schedule-table">
         <thead className="schedule-table__header">
           <tr className="schedule-table__row-header">
-            <th className="schedule-table__row-header-label--tiny" />
+            {anySchoolTrips && (
+              <th className="schedule-table__row-header-label--tiny" />
+            )}
             <th className="schedule-table__row-header-label">Departs</th>
             {schedule.by_trip[firstTrip].schedules[0].route.type === 2 && (
               <th className="schedule-table__row-header-label--small">Train</th>
@@ -76,6 +85,7 @@ const ScheduleTable = ({
                 routePatternsById,
                 schedule.by_trip[tripId].route_pattern_id
               )}
+              anySchoolTrips={anySchoolTrips}
             />
           ))}
         </tbody>
