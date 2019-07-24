@@ -43,7 +43,7 @@ defmodule Content.Paragraph.ContentList do
       terms: terms,
       term_depth: field_value(data, "field_term_depth"),
       items_per_page: field_value(data, "field_number_of_items"),
-      type: data |> field_value("field_content_type") |> content_type(),
+      type: [data |> field_value("field_content_type") |> content_type()],
       type_op: field_value(data, "field_type_logic"),
       promoted: field_value(data, "field_promoted"),
       sticky: field_value(data, "field_sticky"),
@@ -212,7 +212,7 @@ defmodule Content.Paragraph.ContentList do
 
   # Limit amount of teasers when certain types are requested
   @spec limit_count_by_type(map) :: map
-  defp limit_count_by_type(%{type: type} = ingredients)
+  defp limit_count_by_type(%{type: [type]} = ingredients)
        when type in [:project_update, :project, :diversion] do
     Map.put(ingredients, :items_per_page, 2)
   end

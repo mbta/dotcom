@@ -39,8 +39,8 @@ defmodule SiteWeb.Mode.HubBehavior do
   defp render_index(conn, mode_strategy, mode_routes, params) do
     alerts_fn = fn -> alerts(mode_routes, conn.assigns.date_time) end
     guides_fn = fn -> mode_strategy.mode_name() |> guides() end
-    news_fn = fn -> mode_strategy.mode_name() |> teasers(:news_entry) end
-    projects_fn = fn -> mode_strategy.mode_name() |> teasers(:project, 2) end
+    news_fn = fn -> mode_strategy.mode_name() |> teasers([:news_entry]) end
+    projects_fn = fn -> mode_strategy.mode_name() |> teasers([:project], 2) end
 
     conn
     |> filter_recently_visited(mode_strategy.route_type)
@@ -96,7 +96,7 @@ defmodule SiteWeb.Mode.HubBehavior do
 
   @spec guides(String.t()) :: [Teaser.t()]
   defp guides(mode) do
-    Content.Repo.teasers(type: :page, topic: "guides", sidebar: 1, mode: mode_to_param(mode))
+    Content.Repo.teasers(type: [:page], topic: "guides", sidebar: 1, mode: mode_to_param(mode))
   end
 
   @spec mode_to_param(String.t()) :: String.t()

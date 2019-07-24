@@ -9,13 +9,13 @@ defmodule SiteWeb.ProjectController do
 
   def index(conn, _) do
     project_teasers_fn = fn ->
-      [type: :project, items_per_page: 50]
+      [type: [:project], items_per_page: 50]
       |> Repo.teasers()
       |> sort_by_date()
     end
 
     featured_project_teasers_fn = fn ->
-      [type: :project, sticky: 1]
+      [type: [:project], sticky: 1]
       |> Repo.teasers()
       |> sort_by_date()
     end
@@ -117,7 +117,7 @@ defmodule SiteWeb.ProjectController do
           updates:
             teasers_fn.(
               related_to: project.id,
-              type: :project_update,
+              type: [:project_update],
               items_per_page: 50
             )
         })
@@ -204,11 +204,11 @@ defmodule SiteWeb.ProjectController do
 
   @spec get_updates_async(integer) :: (() -> [Teaser.t()])
   def get_updates_async(id) do
-    fn -> Repo.teasers(related_to: id, type: :project_update) end
+    fn -> Repo.teasers(related_to: id, type: [:project_update]) end
   end
 
   @spec get_diversions_async(integer) :: (() -> [Teaser.t()])
   def get_diversions_async(id) do
-    fn -> Repo.teasers(related_to: id, type: :diversion) end
+    fn -> Repo.teasers(related_to: id, type: [:diversion]) end
   end
 end

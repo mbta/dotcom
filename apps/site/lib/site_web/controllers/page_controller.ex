@@ -40,7 +40,7 @@ defmodule SiteWeb.PageController do
 
   @spec news :: [Teaser.t()]
   defp news do
-    [items_per_page: 5, type: :news_entry]
+    [items_per_page: 5, type: [:news_entry]]
     |> Content.Repo.teasers()
     |> Enum.map(&add_utm_url/1)
   end

@@ -230,7 +230,7 @@ defmodule Content.Repo do
 
   @type teaser_filters :: %{
           optional(:sidebar) => integer,
-          optional(:type) => CMS.type(),
+          optional(:type) => [CMS.type()],
           optional(:type_op) => String.t(),
           optional(:related_to) => integer,
           optional(:except) => integer,
@@ -275,7 +275,7 @@ defmodule Content.Repo do
   end
 
   @spec teaser_sort(teaser_filters) :: teaser_filters
-  defp teaser_sort(%{type: type} = params)
+  defp teaser_sort(%{type: [type]} = params)
        when type in [:news_entry, :event, :project_update, :project] do
     order = Map.get(params, :sort_order, :DESC)
 

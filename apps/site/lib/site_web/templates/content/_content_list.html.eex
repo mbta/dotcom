@@ -2,12 +2,13 @@
   <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
 <% end %>
 
-<%= render("_teaser_list.html",
-      teasers: @content.teasers,
-      type: Keyword.get(@content.recipe, :type, :generic),
-      conn: @conn) %>
+<%
+  [type] = Keyword.get(@content.recipe, :type, [:generic])
+%>
 
-<%= if list_cta?(@content.ingredients.type, @content.cta, @content.teasers, @conn.path_info) do %>
+<%= render("_teaser_list.html", teasers: @content.teasers, type: type, conn: @conn) %>
+
+<%= if list_cta?(type, @content.cta, @content.teasers, @conn.path_info) do %>
   <% cta = setup_list_cta(@content, @conn.path_info) %>
 
   <p>

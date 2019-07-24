@@ -238,29 +238,29 @@ defmodule SiteWeb.ContentView do
   defp paragraph_classes(_), do: []
 
   # Automatically map each list to a destination page based on content type
-  @spec default_list_cta(CMS.type(), String.t()) :: Link.t()
-  defp default_list_cta(:project_update, current_path) do
+  @spec default_list_cta([CMS.type()], String.t()) :: Link.t()
+  defp default_list_cta([:project_update], current_path) do
     %Link{
       title: "View all project updates",
       url: "#{current_path}/updates"
     }
   end
 
-  defp default_list_cta(:event, _current_path) do
+  defp default_list_cta([:event], _current_path) do
     %Link{
       title: "View all events",
       url: "/events"
     }
   end
 
-  defp default_list_cta(:news_entry, _current_path) do
+  defp default_list_cta([:news_entry], _current_path) do
     %Link{
       title: "View all news",
       url: "/news"
     }
   end
 
-  defp default_list_cta(:project, _current_path) do
+  defp default_list_cta([:project], _current_path) do
     %Link{
       title: "View all projects",
       url: "/projects"
@@ -268,7 +268,7 @@ defmodule SiteWeb.ContentView do
   end
 
   # Override one or both of the url/text values for the list CTA
-  @spec custom_list_cta(CMS.type(), map, String.t()) :: Link.t()
+  @spec custom_list_cta([CMS.type()], map, String.t()) :: Link.t()
   defp custom_list_cta(type, %{text: nil, url: url}, current_path) do
     type
     |> default_list_cta(current_path)
