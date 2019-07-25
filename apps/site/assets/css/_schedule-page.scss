@@ -382,7 +382,7 @@
 }
 
 .schedule-finder__first-last-trip {
-  border-bottom: 3px solid $gray-lightest;
+  border-top: 3px solid $gray-lightest;
   display: flex;
   justify-content: space-around;
   // scss-lint:disable DuplicateProperty IE11 doesn't support space-evenly

@@ -12172,6 +12172,14 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
     </div>
     11:00 PM
   </div>
+  <p
+    className="text-center"
+  >
+    <strong>
+      S
+    </strong>
+     - Does NOT run on school vacation
+  </p>
   <table
     className="schedule-table"
   >
@@ -12206,8 +12214,8 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
         <CrTableRow>
           <tr
             aria-controls="trip-CR-Weekday-Spring-19-751"
-            aria-expanded={true}
-            className="schedule-table__row-selected"
+            aria-expanded={false}
+            className="schedule-table__row"
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
@@ -12252,300 +12260,13 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__td schedule-table__td--flex-end"
             >
               <span
-                className="c-expandable-block__header-caret--white"
+                className="c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={
                   Object {
-                    "__html": "&#xF106;",
+                    "__html": "&#xF107;",
                   }
                 }
               />
-            </td>
-          </tr>
-          <tr
-            className="schedule-table__subtable-container"
-            id="trip-CR-Weekday-Spring-19-751"
-          >
-            <td
-              className="schedule-table__subtable-td"
-            >
-              <table
-                className="schedule-table__subtable"
-              >
-                <thead>
-                  <TripInfo>
-                    <tr>
-                      <td>
-                        <div
-                          className="schedule-table__subtable-trip-info"
-                        >
-                          <div
-                            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
-                          >
-                            Trip length
-                          </div>
-                          9
-                           stops, 
-                          30
-                           minutes total
-                        </div>
-                        <div
-                          className="schedule-table__subtable-trip-info"
-                        >
-                          <div
-                            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
-                          >
-                            Fare
-                          </div>
-                          $7.00
-                          <a
-                            className="schedule-table__subtable-trip-info-link"
-                            href="/fares/commuter_rail?destination=place-DB-0095&origin=place-sstat"
-                          >
-                            View fares
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
-                  </TripInfo>
-                  <tr
-                    className="schedule-table__subtable-row"
-                  >
-                    <th
-                      className="schedule-table__subtable-data schedule-table__subtable-data--long"
-                    >
-                      Stops
-                    </th>
-                    <th
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      Fare
-                    </th>
-                    <th
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      Arrival
-                    </th>
-                  </tr>
-                </thead>
-                <tbody
-                  className="schedule-table__subtable-tbody"
-                >
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-sstat-CR-Weekday-Spring-19-751"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-sstat"
-                      >
-                        South Station
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    />
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      06:24 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-DB-2265-CR-Weekday-Spring-19-751"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-DB-2265"
-                      >
-                        Newmarket
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $2.40
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      06:32 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-DB-2258-CR-Weekday-Spring-19-751"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-DB-2258"
-                      >
-                        Uphams Corner
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $2.40
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      06:34 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-DB-2249-CR-Weekday-Spring-19-751"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-DB-2249"
-                      >
-                        Four Corners/Geneva
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $2.40
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      06:37 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-DB-2240-CR-Weekday-Spring-19-751"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-DB-2240"
-                      >
-                        Talbot Avenue
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $2.40
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      06:40 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-DB-2230-CR-Weekday-Spring-19-751"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-DB-2230"
-                      >
-                        Morton Street
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $2.40
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      06:43 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-DB-2222-CR-Weekday-Spring-19-751"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-DB-2222"
-                      >
-                        Blue Hill Avenue
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $2.40
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      06:46 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-DB-2205-CR-Weekday-Spring-19-751"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-DB-2205"
-                      >
-                        Fairmount
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $2.40
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      06:49 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-DB-0095-CR-Weekday-Spring-19-751"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-DB-0095"
-                      >
-                        Readville
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      $7.00
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      06:54 AM
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
             </td>
           </tr>
         </CrTableRow>
@@ -13742,6 +13463,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
     </div>
     01:02 AM
   </div>
+  <p
+    className="text-center"
+  >
+    <strong>
+      S
+    </strong>
+     - Does NOT run on school vacation
+  </p>
   <table
     className="schedule-table"
   >
@@ -13771,8 +13500,8 @@ exports[`ScheduleTable it renders with school trips 1`] = `
         <BusTableRow>
           <tr
             aria-controls="trip-40606114"
-            aria-expanded={true}
-            className="schedule-table__row-selected"
+            aria-expanded={false}
+            className="schedule-table__row"
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
@@ -13811,155 +13540,13 @@ exports[`ScheduleTable it renders with school trips 1`] = `
               className="schedule-table__td schedule-table__td--flex-end"
             >
               <span
-                className="c-expandable-block__header-caret--white"
+                className="c-expandable-block__header-caret"
                 dangerouslySetInnerHTML={
                   Object {
-                    "__html": "&#xF106;",
+                    "__html": "&#xF107;",
                   }
                 }
               />
-            </td>
-          </tr>
-          <tr
-            className="schedule-table__subtable-container"
-            id="trip-40606114"
-          >
-            <td
-              className="schedule-table__subtable-td"
-            >
-              <table
-                className="schedule-table__subtable"
-              >
-                <thead>
-                  <TripInfo>
-                    <tr>
-                      <td>
-                        <div
-                          className="schedule-table__subtable-trip-info"
-                        >
-                          <div
-                            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
-                          >
-                            Trip length
-                          </div>
-                          4
-                           stops, 
-                          6
-                           minutes total
-                        </div>
-                        <div
-                          className="schedule-table__subtable-trip-info"
-                        >
-                          <div
-                            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
-                          >
-                            Fare
-                          </div>
-                          $2.40
-                          <a
-                            className="schedule-table__subtable-trip-info-link"
-                            href="/fares/bus-fares"
-                          >
-                            View fares
-                          </a>
-                        </div>
-                      </td>
-                    </tr>
-                  </TripInfo>
-                  <tr>
-                    <th
-                      className="schedule-table__subtable-data"
-                    >
-                      Stops
-                    </th>
-                    <th
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      Arrival
-                    </th>
-                  </tr>
-                </thead>
-                <tbody
-                  className="schedule-table__subtable-tbody"
-                >
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-sstat-40606114"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-sstat"
-                      >
-                        South Station
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      05:36 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-crtst-40606114"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-crtst"
-                      >
-                        Courthouse
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      05:38 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="place-wtcst-40606114"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/place-wtcst"
-                      >
-                        World Trade Center
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      05:40 AM
-                    </td>
-                  </tr>
-                  <tr
-                    className="schedule-table__subtable-row"
-                    key="74624-40606114"
-                  >
-                    <td
-                      className="schedule-table__subtable-data"
-                    >
-                      <a
-                        href="/stops/74624"
-                      >
-                        Silver Line Way after Manulife Building
-                      </a>
-                    </td>
-                    <td
-                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                    >
-                      05:42 AM
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
             </td>
           </tr>
         </BusTableRow>

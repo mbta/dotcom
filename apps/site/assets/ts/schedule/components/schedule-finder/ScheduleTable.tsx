@@ -63,6 +63,11 @@ const ScheduleTable = ({
           </>
         )}
       </div>
+      {anySchoolTrips && (
+        <p className="text-center">
+          <strong>S</strong> - Does NOT run on school vacation
+        </p>
+      )}
       <table className="schedule-table">
         <thead className="schedule-table__header">
           <tr className="schedule-table__row-header">
