@@ -1,6 +1,7 @@
 defmodule SiteWeb.Mode.HubBehavior do
-  alias Content.Teaser
+  alias Content.{CMS, Teaser}
   alias Fares.Summary
+  alias Routes.Route
 
   @moduledoc "Behavior for mode hub pages."
 
@@ -48,7 +49,7 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> async_assign_default(:alerts, alerts_fn, [])
     |> assign(:green_routes, green_routes())
     |> assign(:routes, mode_routes)
-    |> assign(:route_type, mode_strategy.route_type |> Routes.Route.type_atom())
+    |> assign(:route_type, mode_strategy.route_type |> Route.type_atom())
     |> assign(:mode_name, mode_strategy.mode_name())
     |> assign(:mode_icon, mode_strategy.mode_icon())
     |> assign(:fare_description, mode_strategy.fare_description())
@@ -106,14 +107,14 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> String.replace(" ", "-")
   end
 
-  @spec teasers(String.t(), atom, integer) :: [Teaser.t()]
+  @spec teasers(String.t(), [CMS.type()], integer) :: [Teaser.t()]
   defp teasers(mode, content_type, limit \\ 10) do
     mode
     |> mode_to_param()
     |> do_teasers(content_type, limit)
   end
 
-  @spec do_teasers(String.t(), atom, integer) :: [Teaser.t()]
+  @spec do_teasers(String.t(), [CMS.type()], integer) :: [Teaser.t()]
   defp do_teasers(mode, content_type, limit) do
     [mode: mode, type: content_type, sidebar: 1, items_per_page: limit]
     |> Content.Repo.teasers()
