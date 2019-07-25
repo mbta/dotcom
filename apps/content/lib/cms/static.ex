@@ -379,6 +379,10 @@ defmodule Content.CMS.Static do
     {:ok, teaser_project_update_response()}
   end
 
+  def view("/cms/teasers", %{type: [:project, :project_update]}) do
+    {:ok, teaser_project_response() ++ teaser_project_update_response()}
+  end
+
   def view("/cms/teasers", %{promoted: 0}) do
     {:ok, teaser_empty_response()}
   end

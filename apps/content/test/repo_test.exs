@@ -236,6 +236,16 @@ defmodule Content.RepoTest do
       assert types == [:project]
     end
 
+    test "returns teasers for a project and project update type" do
+      types =
+        [type: [:project, :project_update]]
+        |> Repo.teasers()
+        |> MapSet.new(& &1.type)
+        |> MapSet.to_list()
+
+      assert types == [:project, :project_update]
+    end
+
     test "returns all teasers for a type that are sticky" do
       teasers =
         [type: [:project], sticky: 1]
