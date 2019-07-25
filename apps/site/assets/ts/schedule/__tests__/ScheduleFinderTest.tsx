@@ -75,7 +75,7 @@ const route: EnhancedRoute = {
 };
 
 const stops = {
-  "0": [
+  "1": [
     {
       name: "SL",
       id: "741",
@@ -95,7 +95,7 @@ const stops = {
       zone: null
     }
   ],
-  "1": [
+  "0": [
     {
       name: "Wellington",
       id: "place-welln",
@@ -182,6 +182,10 @@ it("opens modal after displaying error", () => {
   wrapper
     .find("#sf_direction_select")
     .simulate("change", { target: { value: "0" } });
+
+  wrapper
+    .find("#sf_origin_select")
+    .simulate("change", { target: { value: "place-welln" } });
 
   wrapper.find("input").simulate("click");
 
