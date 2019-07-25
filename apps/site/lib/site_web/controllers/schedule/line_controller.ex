@@ -25,20 +25,13 @@ defmodule SiteWeb.ScheduleController.LineController do
   plug(:channel_id)
 
   def show(conn, _) do
-    conn =
-      conn
-      |> assign(:meta_description, route_description(conn.assigns.route))
-      |> assign(:disable_turbolinks, true)
-      |> put_view(ScheduleView)
-      |> await_assign_all_default(__MODULE__)
-
-    if Laboratory.enabled?(conn, :schedule_redesign) do
-      conn
-      |> assign_schedule_page_data()
-      |> render("show.html", [])
-    else
-      render(conn, "show.html", [])
-    end
+    conn
+    |> assign(:meta_description, route_description(conn.assigns.route))
+    |> assign(:disable_turbolinks, true)
+    |> put_view(ScheduleView)
+    |> await_assign_all_default(__MODULE__)
+    |> assign_schedule_page_data()
+    |> render("show.html", [])
   end
 
   def assign_schedule_page_data(conn) do

@@ -590,7 +590,7 @@ defmodule SiteWeb.StopListViewTest do
         |> SiteWeb.ScheduleView.render(featured_content: nil, news: [])
         |> safe_to_string()
 
-      assert rendered == "\n"
+      assert rendered == ""
     end
   end
 end

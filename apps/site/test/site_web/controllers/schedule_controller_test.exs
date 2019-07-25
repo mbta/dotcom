@@ -247,7 +247,6 @@ defmodule SiteWeb.ScheduleControllerTest do
     test "renders react content server-side", %{conn: conn} do
       assert [{"div", _, content}] =
                conn
-               |> put_req_cookie("schedule_redesign", "true")
                |> get(line_path(conn, :show, "Red", direction_id: 0))
                |> html_response(200)
                |> Floki.find("#react-root")
