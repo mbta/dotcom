@@ -1,0 +1,98 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<table
+  aria-label="More Projects"
+  className="c-more-projects-table"
+>
+  <colgroup>
+    <col
+      className="c-more-projects-table__col-project"
+    />
+    <col
+      className="c-more-projects-table__col-last-updated"
+    />
+    <col
+      className="c-more-projects-table__col-status"
+    />
+  </colgroup>
+  <thead
+    className="c-more-projects-table__thead"
+  >
+    <tr>
+      <th
+        className="c-more-projects-table__th c-more-projects-table__th-project"
+        scope="col"
+      >
+        Project
+      </th>
+      <th
+        className="c-more-projects-table__th"
+        scope="col"
+      >
+        Last Updated
+      </th>
+      <th
+        className="c-more-projects-table__th"
+        scope="col"
+      >
+        Status
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    className="c-more-projects-table__tbody"
+  >
+    <tr
+      className="c-more-projects-table__tr"
+    >
+      <td
+        className="c-more-projects-table__td c-more-projects-table__td-project"
+      >
+        <img
+          alt="Photo of stuff"
+          className="c-more-projects-table__thumbnail"
+          src="http://www.example.com/some.gif"
+        />
+        <div
+          className="c-more-projects-table__wrapper"
+        >
+          <a
+            className="c-more-projects-table__project-link"
+            href="http://www.mbta.com/awesome_project"
+          >
+            The Awesome Project
+          </a>
+          <br />
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon c-more-projects-table__route-icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon c-more-projects-table__route-icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </div>
+      </td>
+      <td
+        className="c-more-projects-table__td c-more-projects-table__td-last-updated"
+      >
+        2018 M06 2
+      </td>
+      <td
+        className="c-more-projects-table__td"
+      />
+    </tr>
+  </tbody>
+</table>
+`;
