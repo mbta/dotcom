@@ -50,7 +50,7 @@ config :sentry,
   included_environments: [:prod],
   json_library: Poison
 
-config :site, :former_mbta_site, host: "http://old.mbta.com"
+config :site, :former_mbta_site, host: "https://old.mbta.com"
 config :site, tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com"
 
 config :site, OldSiteFileController,
