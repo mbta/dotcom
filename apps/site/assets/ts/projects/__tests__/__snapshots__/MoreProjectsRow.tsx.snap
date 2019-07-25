@@ -1,0 +1,162 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders with route icons 1`] = `
+<tr
+  className="c-more-projects-table__tr"
+>
+  <td
+    className="c-more-projects-table__td c-more-projects-table__td-project"
+  >
+    <img
+      alt="Picture of the new Mauve Line train"
+      className="c-more-projects-table__thumbnail"
+      src="http://cloudfront.com/mbta_pic.gif"
+    />
+    <div
+      className="c-more-projects-table__wrapper"
+    >
+      <a
+        className="c-more-projects-table__project-link"
+        href="http://www.mbta.com/new_mauve_line"
+      >
+        New Mauve Line trains
+      </a>
+      <br />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+    </div>
+  </td>
+  <td
+    className="c-more-projects-table__td c-more-projects-table__td-last-updated"
+  >
+    2018 M05 1
+  </td>
+  <td
+    className="c-more-projects-table__td"
+  />
+</tr>
+`;
