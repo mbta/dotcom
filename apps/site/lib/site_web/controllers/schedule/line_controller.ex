@@ -107,12 +107,10 @@ defmodule SiteWeb.ScheduleController.LineController do
     {2, Date.to_string(service.start_date)}
   end
 
-  @spec simple_stop_map(%Conn{}) :: [
-          %{id: String.t(), name: String.t()}
-        ]
+  @spec simple_stop_map(%Conn{}) :: map
   defp simple_stop_map(conn) do
     current_direction = Integer.to_string(conn.assigns.direction_id)
-    opposite_direction = flip_direction(current_direction)
+    opposite_direction = reverse_direction(current_direction)
 
     Map.new()
     |> Map.put(current_direction, simple_stop_list(conn.assigns.all_stops))
@@ -127,8 +125,8 @@ defmodule SiteWeb.ScheduleController.LineController do
   end
 
   # Must be strings for mapping to JSON
-  def flip_direction("0"), do: "1"
-  def flip_direction("1"), do: "0"
+  def reverse_direction("0"), do: "1"
+  def reverse_direction("1"), do: "0"
 
   def simple_stop_list(all_stops) do
     Enum.map(all_stops, &simple_stop/1)

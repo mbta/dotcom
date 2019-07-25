@@ -7,7 +7,7 @@ import React, {
   useRef
 } from "react";
 import SelectContainer from "./SelectContainer";
-import { ServiceWithServiceDate, DirectionId } from "../../../__v3api";
+import { ServiceWithServiceDate } from "../../../__v3api";
 import {
   ServicesKeyedByGroup,
   groupServiceByDate,

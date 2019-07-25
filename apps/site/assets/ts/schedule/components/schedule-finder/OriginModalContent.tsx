@@ -1,10 +1,6 @@
 import React, { ReactElement, ChangeEvent } from "react";
 import { SimpleStop } from "../__schedule";
-import {
-  SelectedOrigin,
-  SelectedDirection,
-  stopListOrder
-} from "../ScheduleFinder";
+import { SelectedOrigin, SelectedDirection } from "../ScheduleFinder";
 import OriginListItem from "./OriginListItem";
 import { DirectionId } from "../../../__v3api";
 
