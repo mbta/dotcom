@@ -73,26 +73,49 @@ const route: EnhancedRoute = {
   name: "Orange",
   type: 1
 };
-const stops = [
-  {
-    name: "SL",
-    id: "741",
-    is_closed: false,
-    zone: "1"
-  },
-  {
-    name: "Abc",
-    id: "123",
-    is_closed: false,
-    zone: null
-  },
-  {
-    name: "Wellington",
-    id: "place-welln",
-    is_closed: true,
-    zone: null
-  }
-];
+
+const stops = {
+  "0": [
+    {
+      name: "SL",
+      id: "741",
+      is_closed: false,
+      zone: "1"
+    },
+    {
+      name: "Abc",
+      id: "123",
+      is_closed: false,
+      zone: null
+    },
+    {
+      name: "Wellington",
+      id: "place-welln",
+      is_closed: true,
+      zone: null
+    }
+  ],
+  "1": [
+    {
+      name: "Wellington",
+      id: "place-welln",
+      is_closed: true,
+      zone: null
+    },
+    {
+      name: "Abc",
+      id: "123",
+      is_closed: false,
+      zone: null
+    },
+    {
+      name: "SL",
+      id: "741",
+      is_closed: false,
+      zone: "1"
+    }
+  ]
+};
 
 it("renders", () => {
   createReactRoot();

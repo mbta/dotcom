@@ -121,7 +121,9 @@ defmodule SiteWeb.ScheduleController.LineController do
   end
 
   def add_zones_to_stops(stops) do
-    Enum.map(stops, fn stop -> Map.put(stop, :zone, Zones.Repo.get(stop.id)) end)
+    stops
+    |> Enum.map(fn stop -> Map.put(stop, :zone, Zones.Repo.get(stop.id)) end)
+    |> Enum.map(&simple_stop/1)
   end
 
   # Must be strings for mapping to JSON
@@ -130,6 +132,22 @@ defmodule SiteWeb.ScheduleController.LineController do
 
   def simple_stop_list(all_stops) do
     Enum.map(all_stops, &simple_stop/1)
+  end
+
+  def simple_stop(%{
+        id: id,
+        name: name,
+        closed_stop_info: closed_stop_info,
+        zone: zone
+      }) do
+    closed_stop? = if closed_stop_info == nil, do: false, else: true
+
+    %{
+      id: id,
+      name: name,
+      is_closed: closed_stop?,
+      zone: zone
+    }
   end
 
   def simple_stop(
