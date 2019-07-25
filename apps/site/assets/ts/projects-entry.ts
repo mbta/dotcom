@@ -1,3 +1,3 @@
-import {projects} from "./projects/projects-loader"
+import { projects } from "./projects/projects-loader";
 
-projects()
+projects();

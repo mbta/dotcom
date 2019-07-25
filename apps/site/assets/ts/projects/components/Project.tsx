@@ -1,5 +1,5 @@
-import { Image } from "./Image"
-import { Route } from "./Route"
+import { Image } from "./Image";
+import { Route } from "./Route";
 
 export interface Project {
   date: string;
