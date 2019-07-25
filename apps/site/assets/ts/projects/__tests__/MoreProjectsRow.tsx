@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { MoreProjectsRow } from "../components/MoreProjectsRow";
+import MoreProjectsRow from "../components/MoreProjectsRow";
 
 const id = 12345;
 

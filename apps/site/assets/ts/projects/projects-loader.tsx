@@ -1,6 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
-import { MoreProjectsTable } from "./components/MoreProjectsTable";
+import MoreProjectsTable from "./components/MoreProjectsTable";
 
 export const projects = (): void => {
   const moreProjectsDataEl = document.getElementById("js-more-projects-data");

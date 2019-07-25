@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 
 import {
   blueLineIcon,
@@ -27,7 +27,7 @@ interface Props {
 const tagsToIcons: TagDispatchTable = {
   blue: blueLineIcon,
   bus: busIcon,
-  commuter_rail: commuterRailIcon,
+  commuterRail: commuterRailIcon,
   ferry: ferryIcon,
   green: greenLineIcon,
   "green-b": greenBLineIcon,
@@ -41,7 +41,9 @@ const tagsToIcons: TagDispatchTable = {
   subway: silverLineIcon
 };
 
-export const RouteIcon = ({ tag }: Props): ReactElement<HTMLElement> => {
+const RouteIcon = ({ tag }: Props): ReactElement<HTMLElement> => {
   const iconFunction = tagsToIcons[tag];
   return iconFunction("c-svg__icon c-more-projects-table__route-icon");
 };
+
+export { RouteIcon as default };

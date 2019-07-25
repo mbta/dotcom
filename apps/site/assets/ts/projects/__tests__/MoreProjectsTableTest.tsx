@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { MoreProjectsTable } from "../components/MoreProjectsTable";
+import MoreProjectsTable from "../components/MoreProjectsTable";
 import { Project } from "../components/Project";
 
 const projects: Project[] = [
