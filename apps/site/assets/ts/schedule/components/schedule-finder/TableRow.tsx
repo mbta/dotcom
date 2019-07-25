@@ -69,7 +69,7 @@ const BusTableRow = ({
       >
         {anySchoolTrips && (
           <td className="schedule-table__td--tiny">
-            <strong>{isSchoolTrip && "S"}</strong>
+            {isSchoolTrip && <strong>S</strong>}
           </td>
         )}
         <td className="schedule-table__td schedule-table__time">
@@ -153,7 +153,7 @@ const CrTableRow = ({
       >
         {anySchoolTrips && (
           <td className="schedule-table__td--tiny">
-            <strong>{isSchoolTrip && "S"}</strong>
+            {isSchoolTrip && <strong>S</strong>}
           </td>
         )}
         <td className="schedule-table__td">

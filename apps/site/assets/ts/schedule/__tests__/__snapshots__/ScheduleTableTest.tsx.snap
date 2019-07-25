@@ -13508,9 +13508,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -14247,9 +14245,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -14359,9 +14355,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -14471,9 +14465,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -14640,9 +14632,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -14752,9 +14742,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -14921,9 +14909,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -15033,9 +15019,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -15145,9 +15129,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -15257,9 +15239,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -15426,9 +15406,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -15538,9 +15516,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -15650,9 +15626,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -15819,9 +15793,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -15931,9 +15903,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -16043,9 +16013,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -16212,9 +16180,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -16324,9 +16290,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -16493,9 +16457,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -16605,9 +16567,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -16717,9 +16677,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -16829,9 +16787,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -16941,9 +16897,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -16996,9 +16950,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -17108,9 +17060,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -17220,9 +17170,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -17332,9 +17280,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -17387,9 +17333,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -17613,9 +17557,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -17782,9 +17724,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -17894,9 +17834,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -18177,9 +18115,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -18289,9 +18225,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -18515,9 +18449,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -18684,9 +18616,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -18853,9 +18783,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -18965,9 +18893,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -19419,9 +19345,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -19873,9 +19797,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -19928,9 +19850,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -20040,9 +19960,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -20152,9 +20070,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -20264,9 +20180,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -20376,9 +20290,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -20488,9 +20400,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -20657,9 +20567,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -20769,9 +20677,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -20881,9 +20787,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -20993,9 +20897,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -21105,9 +21007,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -21217,9 +21117,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -21329,9 +21227,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -21498,9 +21394,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -21610,9 +21504,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -21722,9 +21614,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -21891,9 +21781,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -22003,9 +21891,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -22172,9 +22058,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -22284,9 +22168,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -22453,9 +22335,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -22565,9 +22445,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -22734,9 +22612,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -23473,9 +23349,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -23699,9 +23573,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -23754,9 +23626,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -23923,9 +23793,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -24092,9 +23960,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -24432,9 +24298,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -24601,9 +24465,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -25169,9 +25031,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
@@ -25338,9 +25198,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
           >
             <td
               className="schedule-table__td--tiny"
-            >
-              <strong />
-            </td>
+            />
             <td
               className="schedule-table__td schedule-table__time"
             >
