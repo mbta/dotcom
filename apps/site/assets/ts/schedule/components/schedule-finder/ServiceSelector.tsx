@@ -21,6 +21,9 @@ import {
 import ScheduleTable from "./ScheduleTable";
 import { SelectedDirection } from "../ScheduleFinder";
 
+// until we come up with a good integration test for async with loading
+// some lines in this file have been ignored from codecov
+
 const optGroupNames: ServiceOptGroup[] = ["current", "holiday", "other"];
 
 const optGroupTitles: { [key in ServiceOptGroup]: string } = {
@@ -182,9 +185,12 @@ export const ServiceSelector = ({
         </div>
       )}
 
-      {!isLoading && selectedServiceSchedule && (
-        <ScheduleTable schedule={selectedServiceSchedule!} />
-      )}
+      {/* istanbul ignore next */ !isLoading &&
+        /* istanbul ignore next */ selectedServiceSchedule && (
+          /* istanbul ignore next */ <ScheduleTable
+            schedule={selectedServiceSchedule!}
+          />
+        )}
     </>
   );
 };
