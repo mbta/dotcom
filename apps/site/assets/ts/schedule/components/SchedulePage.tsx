@@ -25,9 +25,9 @@ const SchedulePage = ({
     route,
     schedule_note: scheduleNote,
     services,
-    service_schedules: serviceSchedules,
     stops,
-    direction_id: directionId
+    direction_id: directionId,
+    route_patterns: routePatternsByDirection
   }
 }: Props): ReactElement<HTMLElement> => (
   <>
@@ -44,7 +44,7 @@ const SchedulePage = ({
           services={services}
           stops={stops}
           directionId={directionId}
-          serviceSchedules={serviceSchedules}
+          routePatternsByDirection={routePatternsByDirection}
         />
       </div>
     )}

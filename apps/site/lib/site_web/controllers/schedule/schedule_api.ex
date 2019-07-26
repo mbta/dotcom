@@ -61,7 +61,12 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     |> Stream.map(fn {trip_id, service} -> {trip_id, fares_for_service(service)} end)
     |> Stream.map(fn {trip_id, service} -> {trip_id, duration_for_service(service)} end)
     |> Stream.map(fn {trip_id, service} -> {trip_id, formatted_time(service)} end)
+    |> Stream.map(fn {trip_id, service} -> {trip_id, route_pattern(service)} end)
     |> Enum.into(%{})
+  end
+
+  def route_pattern(%{schedules: [first_schedule | _]} = service) do
+    Map.put(service, "route_pattern_id", first_schedule.trip.route_pattern_id)
   end
 
   def fares_for_service(schedules) do

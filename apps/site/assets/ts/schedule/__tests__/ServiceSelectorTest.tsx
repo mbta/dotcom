@@ -76,7 +76,8 @@ describe("ServiceSelector", () => {
         stopId="stopId"
         services={services}
         directionId={0}
-        routeId={"111"}
+        routePatterns={[]}
+        routeId="111"
       />
     );
     expect(tree).toMatchSnapshot();
@@ -88,12 +89,10 @@ describe("ServiceSelector", () => {
         () =>
           new Promise((resolve: Function) =>
             resolve({
-              json: () => {
-                return {
-                  by_trip: "by_trip_data",
-                  trip_order: "trip_order_data"
-                };
-              },
+              json: () => ({
+                by_trip: "by_trip_data",
+                trip_order: "trip_order_data"
+              }),
               ok: true,
               status: 200,
               statusText: "OK"
@@ -101,8 +100,8 @@ describe("ServiceSelector", () => {
           )
       );
 
-      var loadingSpy = jest.fn();
-      var serviceScheduleSpy = jest.fn();
+      const loadingSpy = jest.fn();
+      const serviceScheduleSpy = jest.fn();
 
       await await fetchSchedule(
         services,
@@ -130,8 +129,8 @@ describe("ServiceSelector", () => {
     }),
       it("fails quietly if called with an invalid service ID", () => {
         window.fetch = jest.fn();
-        var loadingSpy = jest.fn();
-        var serviceScheduleSpy = jest.fn();
+        const loadingSpy = jest.fn();
+        const serviceScheduleSpy = jest.fn();
 
         fetchSchedule(
           services,
@@ -156,8 +155,8 @@ describe("ServiceSelector", () => {
             )
         );
 
-        var loadingSpy = jest.fn();
-        var serviceScheduleSpy = jest.fn();
+        const loadingSpy = jest.fn();
+        const serviceScheduleSpy = jest.fn();
 
         await fetchSchedule(
           services,

@@ -340,6 +340,10 @@
   margin-right: $base-spacing * 2.5;
 }
 
+.schedule-table__row-header-label--tiny {
+  width: $base-spacing * 2;
+}
+
 .schedule-table__row-route {
   align-items: center;
   display: inline-flex;
@@ -369,12 +373,16 @@
   margin-right: $base-spacing * 3;
 }
 
+.schedule-table__td--tiny {
+  width: $base-spacing * 2;
+}
+
 .schedule-table__tab-num {
   font-variant-numeric: tabular-nums;
 }
 
 .schedule-finder__first-last-trip {
-  border-bottom: 3px solid $gray-lightest;
+  border-top: 3px solid $gray-lightest;
   display: flex;
   justify-content: space-around;
   // scss-lint:disable DuplicateProperty IE11 doesn't support space-evenly

@@ -87,6 +87,7 @@ describe("ScheduleModal", () => {
           selectedOrigin={stops[0].id}
           selectedDirection={0}
           services={[]}
+          routePatternsByDirection={{}}
         />
       );
     });
@@ -104,6 +105,7 @@ describe("ScheduleModal", () => {
           selectedOrigin={null}
           selectedDirection={0}
           services={[]}
+          routePatternsByDirection={{}}
         />
       );
       expect(tree!.toJSON()).toBeNull();
@@ -120,6 +122,7 @@ describe("ScheduleModal", () => {
           selectedOrigin={stops[0].id}
           selectedDirection={null}
           services={[]}
+          routePatternsByDirection={{}}
         />
       );
       expect(tree!.toJSON()).toBeNull();
