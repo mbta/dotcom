@@ -12,6 +12,7 @@ defmodule SiteWeb.ProjectController do
       [type: [:project], items_per_page: 50]
       |> Repo.teasers()
       |> sort_by_date()
+      |> Enum.map(&simplify_teaser/1)
     end
 
     featured_project_teasers_fn = fn ->
@@ -210,5 +211,10 @@ defmodule SiteWeb.ProjectController do
   @spec get_diversions_async(integer) :: (() -> [Teaser.t()])
   def get_diversions_async(id) do
     fn -> Repo.teasers(related_to: id, type: [:diversion]) end
+  end
+
+  @spec simplify_teaser(map()) :: map()
+  defp simplify_teaser(teaser) do
+    Map.take(teaser, ~w(id image path title routes date status)a)
   end
 end
