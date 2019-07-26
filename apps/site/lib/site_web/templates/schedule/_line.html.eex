@@ -1,8 +1,9 @@
-<%= if Laboratory.enabled?(@conn, :schedule_redesign) do %>
-  <script data-for="schedule-page" id="js-schedule-page-data" type="text/plain">
-    <%= raw Poison.encode!(@schedule_page_data) %>
-  </script>
-<% end %>
+<script data-for="schedule-page" id="js-schedule-page-data" type="text/plain">
+  <%= raw Poison.encode!(@schedule_page_data) %>
+</script>
+
+<% redesign_direction? = Laboratory.enabled?(@conn, :schedule_direction_redesign) %>
+
 <div class="page-section m-schedule-line">
   <div class="row">
     <div class="col-md-12">
@@ -10,29 +11,23 @@
     <%= render "_route_disclaimer.html", route: @route, date_time: @date_time %>
     </div>
     <div class="col-xs-12 col-md-7">
-    <% redesign_sidebar? = Laboratory.enabled?(@conn, :schedule_redesign) %>
-    <% redesign_direction? = Laboratory.enabled?(@conn, :schedule_direction_redesign) %>
-    <%= if redesign_sidebar? do %>
       <div id="react-schedule-note-root">
-          <%= if @schedule_page_data.schedule_note do %>
+          <%= if @schedule_page_data[:schedule_note] do %>
           <%= Site.React.render("ScheduleNote", %{scheduleNote: @schedule_page_data.schedule_note, className: "m-schedule-page__schedule-notes--mobile"}) %>
           <% end %>
       </div>
-    <% end %>
     <%= if Enum.empty?(@branches) do %>
       <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
     <% else %>
         <h2>Stops</h2>
 
-        <%= if redesign_sidebar? do %>
-          <div id="react-schedule-finder-root">
-            <%= if @route.type !== 0 and @route.type !== 1 do %>
-              <%= Site.React.render("ScheduleFinder", %{classModifier: "mobile",
-              route: Routes.Route.to_json_safe(@route), stops: @schedule_page_data.stops, directionId: @direction_id}) %>
-            <% end %>
-          </div>
-        <% end %>
-
+        <div id="react-schedule-finder-root">
+          <%= if @route.type !== 0 and @route.type !== 1 do %>
+            <%= Site.React.render("ScheduleFinder", %{classModifier: "mobile",
+            route: Routes.Route.to_json_safe(@route), stops: @schedule_page_data[:stops], directionId: @direction_id}) %>
+          <% end %>
+        </div>
+        
         <%= if redesign_direction? do %>
           <div id="react-schedule-direction-root">
             <%= Site.React.render("ScheduleDirection", %{directionId: @direction_id, shapesById: @schedule_page_data.shape_map, 
@@ -74,26 +69,10 @@
     </div>
     <% end %>
     <div class="col-xs-12 col-md-5 col-lg-4 col-lg-offset-1">
-      <%= if redesign_sidebar? do %>
-        <% without_schedules = @schedule_page_data |> Map.put(:service_schedules, %{})%>
-        <div id="react-root">
-          <%= Site.React.render("SchedulePage", %{schedulePageData: without_schedules}) %>
-        </div>
-      <% else %>
-        <%= render "_cms_teasers.html", featured_content: @featured_content, news: @news, conn: @conn, teaser_class: "m-schedule-line__teaser", news_class: "m-schedule-line__news" %>
-        <%= render "_pdf_schedules.html", assigns %>
-      <% end %>
-      <%= if !redesign_sidebar? do %>
-        <%= render "_line_connections.html", assigns %>
-        <%= render "_fares.html", assigns %>
-        <div class="hours">
-          <%= if assigns[:hours_of_operation] do %>
-          <h2 class="hours-heading">Hours of Operation</h3>
-          <%= render "_hours_of_op.html", assigns %>
-          <% end %>
-        </div>
-        <%= render "_holidays.html", assigns %>
-      <% end %>
+      <% without_schedules = @schedule_page_data |> Map.put(:service_schedules, %{})%>
+      <div id="react-root">
+        <%= Site.React.render("SchedulePage", %{schedulePageData: without_schedules}) %>
+      </div>
       <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
       <%= if Application.get_env(:site, :dev_server?) do %>
         <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/schedule.js" %>"></script>

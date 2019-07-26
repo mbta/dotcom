@@ -21,8 +21,10 @@
 <div class="route-branch-stop-links">
   <%= if direction_id = schedule_link_direction_id(@stop, @reverse_direction_all_stops, @direction_id) do %>
     <% trip_path = trip_view_path(@conn, :show, @route.id, origin: @stop.id, direction_id: direction_id) %>
-    <%= link class: "route-branch-stop-link schedule-link", to: trip_path do %>
-      Schedules from here
+    <%= if @route.type != 1 do %>
+      <%= link class: "route-branch-stop-link schedule-link", to: trip_path do %>
+        Schedules from here
+      <% end %>
     <% end %>
   <% else %>
     <div class="route-branch-stop-link"></div>

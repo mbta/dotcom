@@ -424,41 +424,10 @@ defmodule SiteWeb.ScheduleController.LineTest do
     end
   end
 
-  describe "connections" do
-    test "only shows subway and CR connections", %{conn: conn} do
-      conn = get(conn, line_path(conn, :show, "Red"))
-      refute Enum.empty?(conn.assigns.connections)
-
-      subway_cr_ids =
-        conn.assigns.connections
-        |> Enum.filter(&Enum.member?([0, 1, 2], &1.type))
-        |> Enum.map(& &1.id)
-        |> Enum.sort()
-
-      assert length(conn.assigns.connections) > length(subway_cr_ids)
-
-      connection_ids =
-        conn
-        |> html_response(200)
-        |> Floki.find(".m-schedule-line__connection-line")
-        |> Enum.map(fn {"a", attrs, _} ->
-          attrs
-          |> Map.new()
-          |> Map.get("href")
-          |> String.split("/")
-          |> Enum.at(2)
-        end)
-        |> Enum.sort()
-
-      assert connection_ids == subway_cr_ids
-    end
-  end
-
   describe "services" do
     test "remove duplicates", %{conn: conn} do
       conn =
         conn
-        |> put_resp_cookie("schedule_redesign", "true")
         |> get(line_path(conn, :show, "39"))
 
       services = Services.Repo.by_route_id("39")
