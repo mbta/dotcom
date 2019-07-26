@@ -59,20 +59,48 @@ const route: EnhancedRoute = {
   type: 1
 };
 
-const stops = [
-  {
-    name: "Malden Center",
-    id: "place-mlmnl",
-    is_closed: false,
-    zone: null
-  },
-  {
-    name: "Wellington",
-    id: "place-welln",
-    is_closed: false,
-    zone: null
-  }
-];
+const stops = {
+  "1": [
+    {
+      name: "SL",
+      id: "741",
+      is_closed: false,
+      zone: "1"
+    },
+    {
+      name: "Abc",
+      id: "123",
+      is_closed: false,
+      zone: null
+    },
+    {
+      name: "Wellington",
+      id: "place-welln",
+      is_closed: true,
+      zone: null
+    }
+  ],
+  "0": [
+    {
+      name: "Wellington",
+      id: "place-welln",
+      is_closed: true,
+      zone: null
+    },
+    {
+      name: "Abc",
+      id: "123",
+      is_closed: false,
+      zone: null
+    },
+    {
+      name: "SL",
+      id: "741",
+      is_closed: false,
+      zone: "1"
+    }
+  ]
+};
 
 const service: ServiceWithServiceDate = {
   added_dates: [],

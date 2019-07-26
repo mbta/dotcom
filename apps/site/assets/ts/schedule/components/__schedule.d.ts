@@ -34,10 +34,14 @@ export interface SchedulePageData {
   schedule_note: ScheduleNote | null;
   services: ServiceWithServiceDate[];
   service_schedules: ServiceSchedule;
-  stops: SimpleStop[];
+  stops: SimpleStopMap;
   direction_id: DirectionId;
   shape_map: ShapesById;
   route_patterns: RoutePatternsByDirection;
+}
+
+export interface SimpleStopMap {
+  [key: string]: SimpleStop[];
 }
 
 export interface ServiceSchedule {

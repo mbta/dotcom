@@ -1,10 +1,6 @@
 import React, { ReactElement, ChangeEvent } from "react";
 import { SimpleStop } from "../__schedule";
-import {
-  SelectedOrigin,
-  SelectedDirection,
-  stopListOrder
-} from "../ScheduleFinder";
+import { SelectedOrigin, SelectedDirection } from "../ScheduleFinder";
 import OriginListItem from "./OriginListItem";
 import { DirectionId } from "../../../__v3api";
 
@@ -36,11 +32,9 @@ interface Props {
 const OriginModalContents = ({
   originSearch,
   selectedOrigin,
-  selectedDirection,
   stops,
   handleChangeOrigin,
-  handleUpdateOriginSearch,
-  directionId
+  handleUpdateOriginSearch
 }: Props): ReactElement<HTMLElement> => (
   <>
     <br />
@@ -60,20 +54,13 @@ const OriginModalContents = ({
     </div>
     <p className="schedule-finder__origin-text">Select from the list below.</p>
     <div className="schedule-finder__origin-list">
-      {stopListSearchFilter(
-        stopListOrder(stops, selectedDirection, directionId),
-        originSearch
-      ).map((stop: SimpleStop) => (
+      {stopListSearchFilter(stops, originSearch).map((stop: SimpleStop) => (
         <OriginListItem
           key={stop.id}
           stop={stop}
           changeOrigin={handleChangeOrigin}
           selectedOrigin={selectedOrigin}
-          lastStop={
-            stopListOrder(stops, selectedDirection, directionId)[
-              stops.length - 1
-            ]
-          }
+          lastStop={stops[stops.length - 1]}
         />
       ))}
     </div>

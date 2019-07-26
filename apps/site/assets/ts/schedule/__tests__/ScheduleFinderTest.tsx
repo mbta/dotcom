@@ -73,26 +73,49 @@ const route: EnhancedRoute = {
   name: "Orange",
   type: 1
 };
-const stops = [
-  {
-    name: "SL",
-    id: "741",
-    is_closed: false,
-    zone: "1"
-  },
-  {
-    name: "Abc",
-    id: "123",
-    is_closed: false,
-    zone: null
-  },
-  {
-    name: "Wellington",
-    id: "place-welln",
-    is_closed: true,
-    zone: null
-  }
-];
+
+const stops = {
+  "1": [
+    {
+      name: "SL",
+      id: "741",
+      is_closed: false,
+      zone: "1"
+    },
+    {
+      name: "Abc",
+      id: "123",
+      is_closed: false,
+      zone: null
+    },
+    {
+      name: "Wellington",
+      id: "place-welln",
+      is_closed: true,
+      zone: null
+    }
+  ],
+  "0": [
+    {
+      name: "Wellington",
+      id: "place-welln",
+      is_closed: true,
+      zone: null
+    },
+    {
+      name: "Abc",
+      id: "123",
+      is_closed: false,
+      zone: null
+    },
+    {
+      name: "SL",
+      id: "741",
+      is_closed: false,
+      zone: "1"
+    }
+  ]
+};
 
 it("renders", () => {
   createReactRoot();
@@ -159,6 +182,10 @@ it("opens modal after displaying error", () => {
   wrapper
     .find("#sf_direction_select")
     .simulate("change", { target: { value: "0" } });
+
+  wrapper
+    .find("#sf_origin_select")
+    .simulate("change", { target: { value: "place-welln" } });
 
   wrapper.find("input").simulate("click");
 

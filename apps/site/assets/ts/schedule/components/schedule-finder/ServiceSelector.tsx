@@ -7,7 +7,7 @@ import React, {
   useRef
 } from "react";
 import SelectContainer from "./SelectContainer";
-import { ServiceWithServiceDate, DirectionId } from "../../../__v3api";
+import { ServiceWithServiceDate } from "../../../__v3api";
 import {
   ServicesKeyedByGroup,
   groupServiceByDate,
@@ -19,6 +19,10 @@ import {
   hasMultipleWeekdaySchedules
 } from "../../../helpers/service";
 import ScheduleTable from "./ScheduleTable";
+import { SelectedDirection } from "../ScheduleFinder";
+
+// until we come up with a good integration test for async with loading
+// some lines in this file have been ignored from codecov
 
 const optGroupNames: ServiceOptGroup[] = ["current", "holiday", "other"];
 
@@ -32,7 +36,7 @@ interface Props {
   stopId: string;
   services: ServiceWithServiceDate[];
   routeId: string;
-  directionId: DirectionId;
+  directionId: SelectedDirection;
 }
 
 const serviceDescription = (
@@ -68,7 +72,7 @@ export const fetchSchedule = (
   selectedServiceId: string,
   routeId: string,
   stopId: string,
-  directionId: DirectionId,
+  directionId: SelectedDirection,
   setIsLoading: Dispatch<SetStateAction<boolean>>,
   setSelectedServiceSchedule: Dispatch<SetStateAction<null>>
 ): void => {
@@ -181,9 +185,12 @@ export const ServiceSelector = ({
         </div>
       )}
 
-      {!isLoading && selectedServiceSchedule && (
-        <ScheduleTable schedule={selectedServiceSchedule!} />
-      )}
+      {/* istanbul ignore next */ !isLoading &&
+        /* istanbul ignore next */ selectedServiceSchedule && (
+          /* istanbul ignore next */ <ScheduleTable
+            schedule={selectedServiceSchedule!}
+          />
+        )}
     </>
   );
 };
