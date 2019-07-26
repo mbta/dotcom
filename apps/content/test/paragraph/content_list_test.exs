@@ -7,18 +7,17 @@ defmodule Content.Paragraph.ContentListTest do
 
   use ExUnit.Case, async: true
 
-  alias Content.Helpers
   alias Content.Paragraph.ContentList
 
   describe "from_api/1" do
     test "If type is specified, it should result in a single-item list" do
-      opts = cms_map(type: Helpers.content_type("project_update"))
+      opts = cms_map(content_type: "news_entry")
 
-      assert opts == [type: [:project_update]]
+      assert opts == [type: [:news_entry]]
     end
 
     test "If no type is specified, it should not be present in opts[]" do
-      opts = cms_map(type: Helpers.content_type(""))
+      opts = cms_map(content_type: "")
 
       assert opts == []
     end
