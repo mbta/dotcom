@@ -78,7 +78,7 @@ const formattedDate = (unformatted: string): string => {
 
   // Remember that months in JS are 0-indexed for some reason, hence "month - 1".
   const parsedDate = new Date(year, month - 1, day);
-  return parsedDate.toLocaleDateString("default", {
+  return parsedDate.toLocaleDateString("en-US", {
     year: "numeric",
     month: "long",
     day: "numeric"
