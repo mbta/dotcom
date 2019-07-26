@@ -125,7 +125,7 @@ defmodule SiteWeb.PartialViewTest do
 
   describe "teaser/1" do
     test "renders the title, topic and description for teasers with topic" do
-      assert [teaser | _] = Repo.teasers(type: :project)
+      assert [teaser | _] = Repo.teasers(type: [:project])
       assert %Teaser{topic: "Projects"} = teaser
       rendered = teaser |> PartialView.teaser() |> safe_to_string()
       assert rendered =~ teaser.image.url

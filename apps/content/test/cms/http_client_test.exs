@@ -141,6 +141,35 @@ defmodule Content.CMS.HTTPClientTest do
       end
     end
 
+    test "CMS-style multiple argument params are converted to key[] for each argument" do
+      with_mock ExternalRequest, process: fn _method, _path, _body, _params -> {:ok, []} end do
+        view(
+          "/path",
+          %{
+            "type" => [
+              :project,
+              :project_update,
+              :event
+            ]
+          }
+        )
+
+        assert called(
+                 ExternalRequest.process(
+                   :get,
+                   "/path",
+                   "",
+                   params: [
+                     {"_format", "json"},
+                     {"type[]", "project"},
+                     {"type[]", "project_update"},
+                     {"type[]", "event"}
+                   ]
+                 )
+               )
+      end
+    end
+
     test "nested and non-nested key values in request work when being redirected by CMS" do
       with_mock ExternalRequest,
         process: fn _method, _path, _body, _params -> {:ok, []} end do

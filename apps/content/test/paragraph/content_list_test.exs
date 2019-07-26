@@ -10,6 +10,18 @@ defmodule Content.Paragraph.ContentListTest do
   alias Content.Paragraph.ContentList
 
   describe "from_api/1" do
+    test "If type is specified, it should result in a single-item list" do
+      opts = cms_map(content_type: "news_entry")
+
+      assert opts == [type: [:news_entry]]
+    end
+
+    test "If no type is specified, it should not be present in opts[]" do
+      opts = cms_map(content_type: "")
+
+      assert opts == []
+    end
+
     test "If no relationship data is found, discard all related data" do
       opts =
         cms_map(
@@ -172,7 +184,7 @@ defmodule Content.Paragraph.ContentListTest do
         sorting_logic: nil
       )
 
-    assert opts == [items_per_page: 5, type: :event]
+    assert opts == [items_per_page: 5, type: [:event]]
   end
 
   defp cms_map(fields) do

@@ -303,7 +303,7 @@ defmodule Content.ParagraphTest do
              terms: [],
              term_depth: 4,
              items_per_page: 5,
-             type: :project_update,
+             type: [:project_update],
              type_op: nil,
              promoted: nil,
              sticky: "0",
@@ -324,7 +324,7 @@ defmodule Content.ParagraphTest do
              related_to: 3004,
              sort_order: :DESC,
              sticky: "0",
-             type: :project_update
+             type: [:project_update]
            ] == recipe
   end
 

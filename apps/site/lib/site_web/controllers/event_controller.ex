@@ -17,7 +17,7 @@ defmodule SiteWeb.EventController do
 
     event_teasers_fn = fn ->
       Repo.teasers(
-        type: :event,
+        type: [:event],
         items_per_page: 50,
         date_op: "between",
         date: [min: date_range.start_time_gt, max: date_range.start_time_lt],
