@@ -13,6 +13,7 @@ defmodule CMS.Page.ProjectUpdate do
       parse_date: 2,
       parse_image: 2,
       parse_images: 2,
+      parse_paragraphs: 1,
       path_alias: 1
     ]
 
@@ -24,6 +25,7 @@ defmodule CMS.Page.ProjectUpdate do
     project_url: "",
     body: HTML.raw(""),
     image: nil,
+    paragraphs: [],
     photo_gallery: [],
     posted_on: "",
     teaser: "",
@@ -34,6 +36,7 @@ defmodule CMS.Page.ProjectUpdate do
           id: integer,
           body: HTML.safe(),
           image: Image.t() | nil,
+          paragraphs: [Paragraph.t()],
           photo_gallery: [Image.t()],
           posted_on: Date.t(),
           project_id: integer,
@@ -51,6 +54,7 @@ defmodule CMS.Page.ProjectUpdate do
       id: int_or_string_to_int(field_value(data, "nid")),
       body: parse_body(data),
       image: parse_image(data, "field_image"),
+      paragraphs: parse_paragraphs(data),
       photo_gallery: parse_images(data, "field_photo_gallery"),
       posted_on: parse_date(data, "field_posted_on"),
       project_id: project_id,
