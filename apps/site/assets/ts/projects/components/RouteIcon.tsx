@@ -46,4 +46,4 @@ const RouteIcon = ({ tag }: Props): ReactElement<HTMLElement> => {
   return iconFunction("c-svg__icon c-more-projects-table__route-icon");
 };
 
-export { RouteIcon as default };
+export default RouteIcon;
