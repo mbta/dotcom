@@ -53,15 +53,18 @@
   background-color: $brand-primary-light-contrast;
 }
 
-.c-more-projects-table__th-project, .c-more-projects-table__td-project  {
+.c-more-projects-table__th-project,
+.c-more-projects-table__td-project {
   width: 60%;
 }
 
-.c-more-projects-table__th-last-updated, .c-more-projects-table__td-last-updated  {
+.c-more-projects-table__th-last-updated,
+.c-more-projects-table__td-last-updated {
   width: 20%;
 }
 
-.c-more-projects-table__th-status, .c-more-projects-table__td-status  {
+.c-more-projects-table__th-status,
+.c-more-projects-table__td-status {
   width: 10%;
 }
 
@@ -72,7 +75,7 @@
 }
 
 .c-more-projects-table__th-project {
-  padding-left: $grid_gutter_width / 2;
+  padding-left: $base-spacing / 2;
 }
 
 .c-more-projects-table__wrapper {
@@ -81,8 +84,8 @@
 }
 
 .c-more-projects-table__project-link {
-  font-weight: bold;
   font-size: $font-size-h3;
+  font-weight: bold;
 }
 
 .c-more-projects-table__tr {
@@ -92,12 +95,12 @@
 }
 
 .c-more-projects-table__td {
-  vertical-align: top;
-  padding-top: $base-spacing;
-  padding-bottom: $base-spacing;
   border-bottom: solid $gray-bordered-background 1px;
+  padding-bottom: $base-spacing;
+  padding-top: $base-spacing;
+  vertical-align: top;
 }
 
 .c-more-projects-table__route-icon {
-  margin-right: 0.5em;
+  margin-right: .5em;
 }
