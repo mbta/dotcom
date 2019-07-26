@@ -8,11 +8,6 @@ interface Props {
 
 const MoreProjectsTable = ({ projects }: Props): ReactElement<HTMLElement> => (
   <table className="c-more-projects-table" aria-label="More Projects">
-    <colgroup>
-      <col className="c-more-projects-table__col-project" />
-      <col className="c-more-projects-table__col-last-updated" />
-      <col className="c-more-projects-table__col-status" />
-    </colgroup>
     <thead className="c-more-projects-table__thead">
       <tr>
         <th
@@ -21,10 +16,16 @@ const MoreProjectsTable = ({ projects }: Props): ReactElement<HTMLElement> => (
         >
           Project
         </th>
-        <th scope="col" className="c-more-projects-table__th">
+        <th
+          scope="col"
+          className="c-more-projects-table__th c-more-projects-table__th-last-updated"
+        >
           Last Updated
         </th>
-        <th scope="col" className="c-more-projects-table__th">
+        <th
+          scope="col"
+          className="c-more-projects-table__th c-more-projects-table__th-status"
+        >
           Status
         </th>
       </tr>

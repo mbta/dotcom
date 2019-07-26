@@ -156,7 +156,7 @@ exports[`renders with route icons 1`] = `
     2018 M05 1
   </td>
   <td
-    className="c-more-projects-table__td"
+    className="c-more-projects-table__td c-more-projects-table__td-status"
   />
 </tr>
 `;

@@ -118,7 +118,7 @@ const MoreProjectsRow = ({
       {formattedDate(date)}
     </td>
 
-    <td className="c-more-projects-table__td" />
+    <td className="c-more-projects-table__td c-more-projects-table__td-status" />
   </tr>
 );
 

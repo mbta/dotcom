@@ -5,17 +5,6 @@ exports[`renders 1`] = `
   aria-label="More Projects"
   className="c-more-projects-table"
 >
-  <colgroup>
-    <col
-      className="c-more-projects-table__col-project"
-    />
-    <col
-      className="c-more-projects-table__col-last-updated"
-    />
-    <col
-      className="c-more-projects-table__col-status"
-    />
-  </colgroup>
   <thead
     className="c-more-projects-table__thead"
   >
@@ -27,13 +16,13 @@ exports[`renders 1`] = `
         Project
       </th>
       <th
-        className="c-more-projects-table__th"
+        className="c-more-projects-table__th c-more-projects-table__th-last-updated"
         scope="col"
       >
         Last Updated
       </th>
       <th
-        className="c-more-projects-table__th"
+        className="c-more-projects-table__th c-more-projects-table__th-status"
         scope="col"
       >
         Status
@@ -90,7 +79,7 @@ exports[`renders 1`] = `
         2018 M06 2
       </td>
       <td
-        className="c-more-projects-table__td"
+        className="c-more-projects-table__td c-more-projects-table__td-status"
       />
     </tr>
   </tbody>

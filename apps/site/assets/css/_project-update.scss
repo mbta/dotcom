@@ -53,15 +53,15 @@
   background-color: $brand-primary-light-contrast;
 }
 
-.c-more-projects-table__col-project {
+.c-more-projects-table__th-project, .c-more-projects-table__td-project  {
   width: 60%;
 }
 
-.c-more-projects-table__col-last-updated {
+.c-more-projects-table__th-last-updated, .c-more-projects-table__td-last-updated  {
   width: 20%;
 }
 
-.c-more-projects-table__col-status {
+.c-more-projects-table__th-status, .c-more-projects-table__td-status  {
   width: 10%;
 }
 
