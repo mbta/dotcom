@@ -178,7 +178,7 @@ defmodule Content.Helpers do
     |> Map.get("name", "")
   end
 
-  @spec content_type(String.t()) :: Content.CMS.type()
+  @spec content_type(String.t()) :: Content.CMS.type() | nil
   for atom <- ~w(
     diversion
     event
