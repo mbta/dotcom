@@ -67,7 +67,7 @@
 
 .c-more-projects-table__thumbnail {
   float: left;
-  padding-right: 0.5rem;
+  padding-right: $base-spacing / 2;
   width: 15%;
 }
 
@@ -87,14 +87,14 @@
 
 .c-more-projects-table__tr {
   &:first-child td {
-    padding-top: 1.5rem;
+    padding-top: $base-spacing * 1.5;
   }
 }
 
 .c-more-projects-table__td {
   vertical-align: top;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
+  padding-top: $base-spacing;
+  padding-bottom: $base-spacing;
   border-bottom: solid $gray-bordered-background 1px;
 }
 
