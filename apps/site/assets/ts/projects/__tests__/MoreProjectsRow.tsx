@@ -2,6 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import MoreProjectsRow from "../components/MoreProjectsRow";
+import { shallow } from "enzyme";
 
 const id = 12345;
 
@@ -36,6 +37,8 @@ const routes = [
   { mode: "bus", id: "746", group: "line" }
 ];
 
+const placeholderImageUrl = "https://www.example.com/someimage.gif"
+
 it("renders with route icons", () => {
   createReactRoot();
   const tree = renderer
@@ -49,8 +52,28 @@ it("renders with route icons", () => {
         id={id}
         status={null}
         routes={routes}
+        placeholderImageUrl={placeholderImageUrl}
       />
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
+});
+
+it("renders a placeholder image for a project with no teaser image", () => {
+  const wrapper = shallow(
+    <MoreProjectsRow
+      image={null}
+      path={path}
+      title={title}
+      text={text}
+      date={date}
+      id={id}
+      status={null}
+      routes={routes}
+      placeholderImageUrl={placeholderImageUrl}
+    />
+  );
+
+  const actualSrc = wrapper.find("img").prop('src');
+  expect(actualSrc).toEqual(placeholderImageUrl);
 });
