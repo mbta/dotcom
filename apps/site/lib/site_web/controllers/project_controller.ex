@@ -26,7 +26,7 @@ defmodule SiteWeb.ProjectController do
     |> async_assign_default(:project_teasers, project_teasers_fn, [])
     |> async_assign_default(:featured_project_teasers, featured_project_teasers_fn, [])
     |> assign(:breadcrumbs, [Breadcrumb.build(@breadcrumb_base)])
-    |> assign(:placeholder_image_url, SiteWeb.Endpoint.static_path(@placeholder_image_path))
+    |> assign(:placeholder_image_url, static_url(SiteWeb.Endpoint, @placeholder_image_path))
     |> await_assign_all_default(__MODULE__)
     |> render("index.html")
   end
