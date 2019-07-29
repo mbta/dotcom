@@ -23,7 +23,7 @@ const projects: Project[] = [
 it("renders", () => {
   createReactRoot();
   const tree = renderer
-    .create(<MoreProjectsTable projects={projects} />)
+    .create(<MoreProjectsTable projects={projects} placeholderImageUrl={"https://www.example.com/aphoto.jpg"}/>)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
