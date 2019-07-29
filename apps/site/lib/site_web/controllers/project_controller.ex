@@ -6,6 +6,7 @@ defmodule SiteWeb.ProjectController do
   alias SiteWeb.ProjectView
 
   @breadcrumb_base "MBTA Projects and Programs"
+  @placeholder_image_path "/images/project-image-placeholder.png"
 
   def index(conn, _) do
     project_teasers_fn = fn ->
@@ -25,6 +26,7 @@ defmodule SiteWeb.ProjectController do
     |> async_assign_default(:project_teasers, project_teasers_fn, [])
     |> async_assign_default(:featured_project_teasers, featured_project_teasers_fn, [])
     |> assign(:breadcrumbs, [Breadcrumb.build(@breadcrumb_base)])
+    |> assign(:placeholder_image_url, SiteWeb.Endpoint.static_path(@placeholder_image_path))
     |> await_assign_all_default(__MODULE__)
     |> render("index.html")
   end

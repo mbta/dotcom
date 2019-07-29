@@ -1,10 +1,10 @@
 <h2 className="hidden-sm-down featured-project-subheader">More Projects</h2>
 <script data-for="more_projects" id="js-more-projects-data" type="text/plain">
-  <%= raw Poison.encode!(@projects) %>
+  <%= raw Poison.encode!(%{projects: @projects, placeholderImageUrl: @placeholder_image_url}) %>
 </script>
 
 <div id="react-more-projects-table-root">
-  <%= Site.React.render("MoreProjectsTable", %{projects: @projects}) %>
+  <%= Site.React.render("MoreProjectsTable", %{projects: @projects, placeholderImageUrl: @placeholder_image_url}) %>
 </div>
 
 <%= if Application.get_env(:site, :dev_server?) do %>

@@ -20,6 +20,6 @@
       <hr>
     <% end %>
 
-    <%= render "_all_projects.html", projects: @project_teasers, conn: @conn %>
+    <%= render "_all_projects.html", projects: @project_teasers, placeholder_image_url: @placeholder_image_url, conn: @conn %>
   </div>
 </div>

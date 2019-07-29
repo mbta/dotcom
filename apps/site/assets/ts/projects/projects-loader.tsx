@@ -13,7 +13,7 @@ export const projects = (): void => {
 
   const moreProjectsData = JSON.parse(moreProjectsDataEl.innerText);
 
-  render(<MoreProjectsTable projects={moreProjectsData} />, moreProjectsRootEl);
+  render(<MoreProjectsTable {...moreProjectsData} />, moreProjectsRootEl);
 };
 
 export default projects;

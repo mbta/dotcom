@@ -5,6 +5,10 @@ import { Project } from "./Project";
 import { Route } from "./Route";
 import RouteIcon from "./RouteIcon";
 
+interface Props extends Project {
+  placeholderImageUrl: string;
+}
+
 const busTags = (routes: Route[]): string[] => {
   if (routes.find(route => route.mode === "bus")) {
     return ["bus"];
@@ -90,17 +94,23 @@ const MoreProjectsRow = ({
   path,
   title,
   routes,
-  date
-}: Project): ReactElement<HTMLElement> => (
+  date,
+  placeholderImageUrl
+}: Props): ReactElement<HTMLElement> => (
   <tr className="c-more-projects-table__tr">
     <td className="c-more-projects-table__td c-more-projects-table__td-project">
-      {image && (
+      {(image &&
         <img
           src={image.url}
           alt={image.alt}
           className="hidden-xs-down c-more-projects-table__thumbnail"
+        />) ||
+        <img
+          src={placeholderImageUrl}
+          alt="MBTA logo"
+          className="hidden-xs-down c-more-projects-table__thumbnail"
         />
-      )}
+      }
 
       <div className="c-more-projects-table__wrapper">
         <a className="c-more-projects-table__project-link" href={path}>
