@@ -5,6 +5,7 @@ import {
   busIcon,
   commuterRailIcon,
   ferryIcon,
+  genericSubwayIcon,
   greenLineIcon,
   greenBLineIcon,
   greenCLineIcon,
@@ -38,7 +39,7 @@ const tagsToIcons: TagDispatchTable = {
   orange: orangeLineIcon,
   red: redLineIcon,
   silver: silverLineIcon,
-  subway: silverLineIcon
+  subway: genericSubwayIcon
 };
 
 const RouteIcon = ({ tag }: Props): ReactElement<HTMLElement> => {
