@@ -54,8 +54,8 @@
 }
 
 .c-more-projects-table__th {
-  padding-bottom: 0.75rem;
-  padding-top: 0.75rem;
+  padding-bottom: .75rem;
+  padding-top: .75rem;
 }
 
 .c-more-projects-table__th-project,
@@ -76,7 +76,7 @@
 .c-more-projects-table__thumbnail {
   float: left;
   padding-right: $base-spacing / 2;
-  
+
   @include media-breakpoint-up(lg) {
     height: 64px;
   }

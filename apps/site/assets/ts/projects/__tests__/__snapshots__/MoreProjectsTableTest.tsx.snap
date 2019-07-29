@@ -6,7 +6,7 @@ exports[`renders 1`] = `
   className="c-more-projects-table"
 >
   <thead
-    className="c-more-projects-table__thead"
+    className="c-more-projects-table__thead hidden-md-down"
   >
     <tr>
       <th
@@ -40,7 +40,7 @@ exports[`renders 1`] = `
       >
         <img
           alt="Photo of stuff"
-          className="c-more-projects-table__thumbnail"
+          className="hidden-xs-down c-more-projects-table__thumbnail"
           src="http://www.example.com/some.gif"
         />
         <div
@@ -53,6 +53,21 @@ exports[`renders 1`] = `
             The Awesome Project
           </a>
           <br />
+          <div
+            className="c-more-projects-table__updated-and-status hidden-lg-up"
+          >
+            <div
+              className="c-more-projects-table__last-updated"
+            >
+              <span
+                className="c-more-projects-table__internal-header"
+              >
+                Last updated
+              </span>
+              <br />
+              June 2, 2018
+            </div>
+          </div>
           <span
             aria-hidden="true"
             className="notranslate c-svg__icon c-more-projects-table__route-icon"
@@ -74,12 +89,12 @@ exports[`renders 1`] = `
         </div>
       </td>
       <td
-        className="c-more-projects-table__td c-more-projects-table__td-last-updated"
+        className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down"
       >
-        2018 M06 2
+        June 2, 2018
       </td>
       <td
-        className="c-more-projects-table__td c-more-projects-table__td-status"
+        className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"
       />
     </tr>
   </tbody>
