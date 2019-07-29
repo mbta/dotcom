@@ -16,12 +16,14 @@ exports[`renders with route icons 1`] = `
       className="c-more-projects-table__wrapper"
     >
       <a
-        className="c-more-projects-table__project-link"
         href="http://www.mbta.com/new_mauve_line"
       >
-        New Mauve Line trains
+        <h3
+          className="c-more-projects-table__title"
+        >
+          New Mauve Line trains
+        </h3>
       </a>
-      <br />
       <div
         className="c-more-projects-table__updated-and-status hidden-lg-up"
       >

@@ -47,12 +47,14 @@ exports[`renders 1`] = `
           className="c-more-projects-table__wrapper"
         >
           <a
-            className="c-more-projects-table__project-link"
             href="http://www.mbta.com/awesome_project"
           >
-            The Awesome Project
+            <h3
+              className="c-more-projects-table__title"
+            >
+              The Awesome Project
+            </h3>
           </a>
-          <br />
           <div
             className="c-more-projects-table__updated-and-status hidden-lg-up"
           >

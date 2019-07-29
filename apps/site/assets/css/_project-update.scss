@@ -95,11 +95,6 @@
   width: 70%;
 }
 
-.c-more-projects-table__project-link {
-  font-size: $font-size-h3;
-  font-weight: bold;
-}
-
 .c-more-projects-table__tr {
   @include media-breakpoint-up(lg) {
     &:first-child td {
@@ -123,6 +118,10 @@
   font-size: $font-size-base-sm;
 }
 
-.c-more-projects-table__internal-header-sm-md {
+.c-more-projects-table__internal-header {
   font-weight: bold;
+}
+
+.c-more-projects-table__title {
+  margin-top: 0;
 }

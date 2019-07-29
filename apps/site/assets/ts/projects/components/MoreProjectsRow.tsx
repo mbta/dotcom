@@ -114,10 +114,9 @@ const MoreProjectsRow = ({
       )}
 
       <div className="c-more-projects-table__wrapper">
-        <a className="c-more-projects-table__project-link" href={path}>
-          {title}
+        <a href={path}>
+          <h3 className="c-more-projects-table__title">{title}</h3>
         </a>
-        <br />
 
         <div className="c-more-projects-table__updated-and-status hidden-lg-up">
           <div className="c-more-projects-table__last-updated">
