@@ -155,6 +155,15 @@ defmodule Routes.Repo do
     end
   end
 
+  def by_stop_with_route_pattern(stop_id) do
+    cache({stop_id, [include: "route_patterns"]}, fn {stop_id, _opts} ->
+      [stop: stop_id, include: "route_patterns"]
+      |> Routes.all()
+      |> Map.get(:data, [])
+      |> Enum.map(&parse_route_with_route_pattern/1)
+    end)
+  end
+
   @spec handle_response(JsonApi.t() | {:error, any}) :: {:ok, [Route.t()]} | {:error, any}
   def handle_response({:error, reason}) do
     {:error, reason}

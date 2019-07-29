@@ -15,14 +15,29 @@ defmodule Predictions.Repo do
   def all(opts) when is_list(opts) and opts != [] do
     _ = Logger.info("predictions_repo_all_cache=call")
 
+    opts
+    |> add_all_optional_params()
+    |> cache(&fetch/1)
+    |> filter_by_min_time(Keyword.get(opts, :min_time))
+    |> load_from_other_repos
+  end
+
+  def all_no_cache(opts) when is_list(opts) and opts != [] do
+    opts
+    |> add_all_optional_params()
+    |> fetch()
+    |> load_from_other_repos
+  end
+
+  defp add_all_optional_params(opts) do
     @default_params
     |> add_optional_param(opts, :route)
     |> add_optional_param(opts, :stop)
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :trip)
-    |> cache(&fetch/1)
-    |> filter_by_min_time(Keyword.get(opts, :min_time))
-    |> load_from_other_repos
+    |> add_optional_param(opts, :route_pattern)
+    |> add_optional_param(opts, :"page[limit]")
+    |> add_optional_param(opts, :sort)
   end
 
   defp add_optional_param(params, opts, key) do
