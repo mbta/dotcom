@@ -37,7 +37,7 @@ const routes = [
   { mode: "bus", id: "746", group: "line" }
 ];
 
-const placeholderImageUrl = "https://www.example.com/someimage.gif"
+const placeholderImageUrl = "https://www.example.com/someimage.gif";
 
 it("renders with route icons", () => {
   createReactRoot();
@@ -74,6 +74,6 @@ it("renders a placeholder image for a project with no teaser image", () => {
     />
   );
 
-  const actualSrc = wrapper.find("img").prop('src');
+  const actualSrc = wrapper.find("img").prop("src");
   expect(actualSrc).toEqual(placeholderImageUrl);
 });

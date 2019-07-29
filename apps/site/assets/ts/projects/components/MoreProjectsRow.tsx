@@ -99,18 +99,19 @@ const MoreProjectsRow = ({
 }: Props): ReactElement<HTMLElement> => (
   <tr className="c-more-projects-table__tr">
     <td className="c-more-projects-table__td c-more-projects-table__td-project">
-      {(image &&
+      {(image && (
         <img
           src={image.url}
           alt={image.alt}
           className="hidden-xs-down c-more-projects-table__thumbnail"
-        />) ||
+        />
+      )) || (
         <img
           src={placeholderImageUrl}
           alt="MBTA logo"
           className="hidden-xs-down c-more-projects-table__thumbnail"
         />
-      }
+      )}
 
       <div className="c-more-projects-table__wrapper">
         <a className="c-more-projects-table__project-link" href={path}>
@@ -120,7 +121,10 @@ const MoreProjectsRow = ({
 
         <div className="c-more-projects-table__updated-and-status hidden-lg-up">
           <div className="c-more-projects-table__last-updated">
-            <span className="c-more-projects-table__internal-header">Last updated</span><br/>
+            <span className="c-more-projects-table__internal-header">
+              Last updated
+            </span>
+            <br />
             {formattedDate(date)}
           </div>
         </div>

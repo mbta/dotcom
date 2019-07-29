@@ -7,7 +7,10 @@ interface Props {
   placeholderImageUrl: string;
 }
 
-const MoreProjectsTable = ({ projects, placeholderImageUrl }: Props): ReactElement<HTMLElement> => (
+const MoreProjectsTable = ({
+  projects,
+  placeholderImageUrl
+}: Props): ReactElement<HTMLElement> => (
   <table className="c-more-projects-table" aria-label="More Projects">
     <thead className="c-more-projects-table__thead hidden-md-down">
       <tr>
@@ -33,7 +36,11 @@ const MoreProjectsTable = ({ projects, placeholderImageUrl }: Props): ReactEleme
     </thead>
     <tbody className="c-more-projects-table__tbody">
       {projects.map(project => (
-        <MoreProjectsRow key={project.id} placeholderImageUrl={placeholderImageUrl} {...project} />
+        <MoreProjectsRow
+          key={project.id}
+          placeholderImageUrl={placeholderImageUrl}
+          {...project}
+        />
       ))}
     </tbody>
   </table>
