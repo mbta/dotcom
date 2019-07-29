@@ -98,7 +98,7 @@ const MoreProjectsRow = ({
         <img
           src={image.url}
           alt={image.alt}
-          className="c-more-projects-table__thumbnail"
+          className="hidden-xs-down c-more-projects-table__thumbnail"
         />
       )}
 
