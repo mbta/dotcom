@@ -71,7 +71,14 @@
 .c-more-projects-table__thumbnail {
   float: left;
   padding-right: $base-spacing / 2;
-  width: 15%;
+  
+  @include media-breakpoint-up(lg) {
+    height: 64px;
+  }
+
+  @include media-breakpoint-down(md) {
+    height: 107px;
+  }
 }
 
 .c-more-projects-table__th-project {
@@ -89,8 +96,10 @@
 }
 
 .c-more-projects-table__tr {
-  &:first-child td {
-    padding-top: $base-spacing * 1.5;
+  @include media-breakpoint-up(lg) {
+    &:first-child td {
+      padding-top: $base-spacing * 1.5;
+    }
   }
 }
 
@@ -103,4 +112,12 @@
 
 .c-more-projects-table__route-icon {
   margin-right: .5em;
+}
+
+.c-more-projects-table__updated-and-status {
+  font-size: $font-size-base-sm;
+}
+
+.c-more-projects-table__internal-header {
+  font-weight: bold;
 }

@@ -8,7 +8,7 @@ interface Props {
 
 const MoreProjectsTable = ({ projects }: Props): ReactElement<HTMLElement> => (
   <table className="c-more-projects-table" aria-label="More Projects">
-    <thead className="c-more-projects-table__thead">
+    <thead className="c-more-projects-table__thead hidden-md-down">
       <tr>
         <th
           scope="col"

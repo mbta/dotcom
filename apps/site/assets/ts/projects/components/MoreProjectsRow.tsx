@@ -108,17 +108,24 @@ const MoreProjectsRow = ({
         </a>
         <br />
 
+        <div className="c-more-projects-table__updated-and-status hidden-lg-up">
+          <div className="c-more-projects-table__last-updated">
+            <span className="c-more-projects-table__internal-header">Last updated</span><br/>
+            {formattedDate(date)}
+          </div>
+        </div>
+
         {routesToTags(routes).map(tag => (
           <RouteIcon key={tag} tag={tag} />
         ))}
       </div>
     </td>
 
-    <td className="c-more-projects-table__td c-more-projects-table__td-last-updated">
+    <td className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down">
       {formattedDate(date)}
     </td>
 
-    <td className="c-more-projects-table__td c-more-projects-table__td-status" />
+    <td className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down" />
   </tr>
 );
 
