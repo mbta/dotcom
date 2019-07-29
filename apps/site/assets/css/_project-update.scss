@@ -50,7 +50,12 @@
 }
 
 .c-more-projects-table__thead {
-  background-color: $brand-primary-light-contrast;
+  background-color: $brand-primary-lightest;
+}
+
+.c-more-projects-table__th {
+  padding-bottom: 0.75rem;
+  padding-top: 0.75rem;
 }
 
 .c-more-projects-table__th-project,
@@ -118,6 +123,6 @@
   font-size: $font-size-base-sm;
 }
 
-.c-more-projects-table__internal-header {
+.c-more-projects-table__internal-header-sm-md {
   font-weight: bold;
 }
