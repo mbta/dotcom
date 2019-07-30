@@ -106,10 +106,10 @@ defmodule SiteWeb.ScheduleController.LineController do
     opposite_direction = reverse_direction(current_direction)
 
     Map.new()
-    |> Map.put(current_direction, simple_stop_list(conn.assigns.all_stops_without_date))
+    |> Map.put(current_direction, simple_stop_list(conn.assigns.all_stops_from_shapes))
     |> Map.put(
       opposite_direction,
-      simple_stop_list(conn.assigns.reverse_direction_all_shapes)
+      simple_stop_list(conn.assigns.reverse_direction_all_stops_from_shapes)
     )
   end
 

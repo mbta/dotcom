@@ -52,29 +52,16 @@ defmodule SiteWeb.ScheduleController.Line do
     route_stops = get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
     route_patterns = get_route_patterns(route.id)
     shape_map = get_route_shape_map(route.id)
+
+    active_shapes = get_active_shapes(route_shapes, route, variant)
+    filtered_shapes = filter_route_shapes(route_shapes, active_shapes, route)
+    branches = get_branches(filtered_shapes, route_stops, route, direction_id)
+    map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id)
+
     vehicles = conn.assigns[:vehicle_locations]
     vehicle_tooltips = conn.assigns[:vehicle_tooltips]
     vehicle_polylines = VehicleHelpers.get_vehicle_polylines(vehicles, route_shapes)
-    active_shapes = get_active_shapes(route_shapes, route, variant)
-    shapes = filter_route_shapes(route_shapes, active_shapes, route)
-    branches = get_branches(shapes, route_stops, route, direction_id)
-    map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id)
 
-    # For schedule finder
-    all_reverse_shapes = get_route_shapes(route.id, reverse_direction(direction_id))
-
-    reverse_route_stops =
-      get_route_stops(route.id, reverse_direction(direction_id), deps.stops_by_route_fn)
-
-    reverse_branches =
-      get_branches(
-        all_reverse_shapes,
-        reverse_route_stops,
-        route,
-        reverse_direction(direction_id)
-      )
-
-    # Other stuff
     time_data_by_stop =
       TransitNearMe.time_data_for_route_by_stop(route.id, direction_id,
         now: conn.assigns.date_time
@@ -82,6 +69,20 @@ defmodule SiteWeb.ScheduleController.Line do
 
     {map_img_src, dynamic_map_data} =
       Maps.map_data(route, map_stops, vehicle_polylines, vehicle_tooltips)
+
+    # For <ScheduleFinder />
+    unfiltered_branches = get_branches(route_shapes, route_stops, route, direction_id)
+    reverse_direction_id = reverse_direction(direction_id)
+    reverse_shapes = get_route_shapes(route.id, reverse_direction_id)
+    reverse_route_stops = get_route_stops(route.id, reverse_direction_id, deps.stops_by_route_fn)
+
+    reverse_branches =
+      get_branches(
+        reverse_shapes,
+        reverse_route_stops,
+        route,
+        reverse_direction_id
+      )
 
     conn
     |> assign(:route_patterns, route_patterns)
@@ -94,12 +95,15 @@ defmodule SiteWeb.ScheduleController.Line do
     |> assign(:map_img_src, map_img_src)
     |> assign(:dynamic_map_data, dynamic_map_data)
     |> assign(:expanded, expanded)
-    |> assign(:reverse_direction_all_stops, reverse_direction_all_stops(route.id, direction_id))
     |> assign(
-      :reverse_direction_all_shapes,
-      build_stop_list(reverse_branches, reverse_direction(direction_id))
+      :reverse_direction_all_stops,
+      reverse_direction_all_stops(route.id, reverse_direction_id)
     )
-    |> assign(:all_stops_without_date, build_stop_list(branches, direction_id))
+    |> assign(
+      :reverse_direction_all_stops_from_shapes,
+      build_stop_list(reverse_branches, reverse_direction_id)
+    )
+    |> assign(:all_stops_from_shapes, build_stop_list(unfiltered_branches, direction_id))
     |> assign(:connections, connections(branches))
     |> assign(:time_data_by_stop, time_data_by_stop)
   end
@@ -604,23 +608,16 @@ defmodule SiteWeb.ScheduleController.Line do
   Calculates the list of stops for the reverse direction.
 
   Used by "Schedules from here" to determine whether we should link to the
-  stop going in the opposite direction
-  Used by Schedule Picker so it lists stops regardless of date.
+  stop going in the opposite direction.
 
   """
   @spec reverse_direction_all_stops(Route.id_t(), 0 | 1) :: [Stop.t()]
-  def reverse_direction_all_stops(route_id, direction_id) do
-    reverse_direction_id =
-      case direction_id do
-        1 -> 0
-        0 -> 1
-      end
-
+  def reverse_direction_all_stops(route_id, reverse_direction_id) do
     all_stops_without_date(route_id, reverse_direction_id)
   end
 
   @doc """
-  Calculates the list of stops for the Schedule Picker so it lists stops regardless of date.
+  Calculates the list of stops regardless of date.
 
   """
   @spec all_stops_without_date(Route.id_t(), 0 | 1) :: [Stop.t()]
