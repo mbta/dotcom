@@ -1,4 +1,7 @@
 defmodule CMS.Paragraph.CustomHTML do
+  @moduledoc """
+  Represents a CustomHTML Paragraph in the CMS
+  """
   alias Phoenix.HTML
 
   import CMS.Helpers,

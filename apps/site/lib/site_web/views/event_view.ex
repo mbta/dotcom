@@ -1,11 +1,12 @@
 defmodule SiteWeb.EventView do
+  @moduledoc false
   use SiteWeb, :view
 
   import Site.FontAwesomeHelpers
   import SiteWeb.CMSView, only: [file_description: 1, render_duration: 2]
 
-  alias CMS.Teaser
   alias CMS.Page.Event
+  alias CMS.Teaser
 
   @spec shift_date_range(String.t(), integer) :: String.t()
   def shift_date_range(iso_string, shift_value) do

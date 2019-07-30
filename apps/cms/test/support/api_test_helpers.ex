@@ -1,4 +1,7 @@
 defmodule CMS.APITestHelpers do
+  @moduledoc """
+  Maps values to CMS json responses for testing purposes.
+  """
   def update_api_response(api_response, field, value) do
     %{^field => [old_value]} = api_response
 

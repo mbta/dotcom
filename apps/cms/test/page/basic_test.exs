@@ -1,4 +1,4 @@
-defmodule Page.BasicTest do
+defmodule CMS.Page.BasicTest do
   use ExUnit.Case, async: true
 
   import CMS.APITestHelpers, only: [update_api_response: 3]
