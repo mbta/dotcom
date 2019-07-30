@@ -1,12 +1,12 @@
 export type fetchAction =
   // @ts-ignore should add a generic here
-  | { type: "FETCH_COMPLETE"; payload: any }
+  | { type: "FETCH_COMPLETE"; payload: any } // eslint-disable-line
   | { type: "FETCH_ERROR" }
   | { type: "FETCH_STARTED" };
 
 export interface State {
   // @ts-ignore should add a generic
-  data: any | null;
+  data: any | null; // eslint-disable-line
   isLoading: boolean;
   error: boolean;
 }
