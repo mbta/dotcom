@@ -1,0 +1,24 @@
+<%= if @page.featured_image do %>
+  <div class="page-section project-hero-image">
+    <figure class="c-media c-media--image c-media--wide">
+      <div class="c-media__content">
+        <%= img_tag @page.featured_image.url, alt: @page.featured_image.alt, class: "c-media__element img-fluid" %>
+      </div>
+    </figure>
+  </div>
+<% end %>
+
+<div class="page-section">
+  <%= Site.ContentRewriter.rewrite(@page.body, @conn) %>
+
+  <%= for paragraph <- @page.paragraphs do %>
+    <%= SiteWeb.CMS.ParagraphView.render_paragraph(paragraph, @conn) %>
+  <% end %>
+</div>
+
+<%# DEPRECATED: Render the Contact information component (now served by paragraph) %>
+<%= if Project.contact?(@page) do %>
+  <div class="page-section">
+    <%= render("_contact.html", project: @page) %>
+  </div>
+<% end %>
