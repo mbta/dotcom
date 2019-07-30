@@ -18,6 +18,7 @@ import {
   serviceDays,
   hasMultipleWeekdaySchedules
 } from "../../../helpers/service";
+import { reducer } from "../../../helpers/fetch";
 import ScheduleTable from "./ScheduleTable";
 import { SelectedDirection } from "../ScheduleFinder";
 import { RoutePatternWithShape, ServiceScheduleInfo } from "../__schedule";
@@ -74,19 +75,6 @@ type fetchAction =
   | { type: "FETCH_ERROR" }
   | { type: "FETCH_STARTED" };
 
-export const reducer = (state: State, action: fetchAction): State => {
-  switch (action.type) {
-    case "FETCH_STARTED":
-      return { isLoading: true, error: false, data: null };
-    case "FETCH_COMPLETE":
-      return { data: action.payload, isLoading: false, error: false };
-    case "FETCH_ERROR":
-      return { ...state, error: true, isLoading: false };
-    default:
-      return state;
-  }
-};
-
 export const fetchData = (
   routeId: string,
   stopId: string,
@@ -119,41 +107,6 @@ interface State {
   error: boolean;
 }
 
-export const fetchSchedule = (
-  services: ServiceWithServiceDate[],
-  selectedServiceId: string,
-  routeId: string,
-  stopId: string,
-  directionId: SelectedDirection,
-  setIsLoading: Dispatch<SetStateAction<boolean>>,
-  setSelectedServiceSchedule: Dispatch<SetStateAction<null>>
-): void => {
-  setIsLoading(true);
-
-  const selectedService = services.find(
-    service => service.id === selectedServiceId
-  );
-
-  if (!selectedService) {
-    return;
-  }
-
-  if (window.fetch) {
-    window
-      .fetch(
-        `/schedules/schedule_api?id=${routeId}&date=${
-          selectedService.end_date
-        }&direction_id=${directionId}&stop_id=${stopId}`
-      )
-      .then(response => {
-        setIsLoading(false);
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(json => setSelectedServiceSchedule(json));
-  }
-};
-
 export const ServiceSelector = ({
   stopId,
   services,
@@ -181,23 +134,6 @@ export const ServiceSelector = ({
     },
     [services, routeId, directionId, stopId, selectedServiceId]
   );
-
-  //   const [isLoading, setIsLoading] = useState(true);
-  //   const [selectedServiceSchedule, setSelectedServiceSchedule] = useState(null);
-
-  //   useEffect(
-  //     () =>
-  //       fetchSchedule(
-  //         services,
-  //         selectedServiceId,
-  //         routeId,
-  //         stopId,
-  //         directionId,
-  //         setIsLoading,
-  //         setSelectedServiceSchedule
-  //       ),
-  //     [services, directionId, routeId, selectedServiceId, stopId]
-  //   );
 
   if (services.length <= 0) return null;
 
@@ -254,8 +190,10 @@ export const ServiceSelector = ({
 
       {/* istanbul ignore next */ !state.isLoading &&
         /* istanbul ignore next */ state.data && (
-          /* istanbul ignore next */
-          <ScheduleTable schedule={state.data!} routePatterns={routePatterns} />
+          /* istanbul ignore next */ <ScheduleTable
+            schedule={state.data!}
+            routePatterns={routePatterns}
+          />
         )}
     </>
   );
