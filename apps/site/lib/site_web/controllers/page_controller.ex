@@ -1,9 +1,14 @@
 defmodule SiteWeb.PageController do
   use SiteWeb, :controller
 
-  import SiteWeb.ContentHelpers, only: [cms_route_to_class: 1]
+  import SiteWeb.CMSHelpers, only: [cms_route_to_class: 1]
 
-  alias Content.{Banner, Teaser, WhatsHappeningItem}
+  alias CMS.{
+    Banner,
+    Repo,
+    Teaser,
+    WhatsHappeningItem
+  }
 
   plug(SiteWeb.Plugs.TransitNearMe)
   plug(SiteWeb.Plugs.RecentlyVisited)
@@ -32,7 +37,7 @@ defmodule SiteWeb.PageController do
 
   @spec banner :: Banner.t() | nil
   defp banner do
-    case Content.Repo.banner() do
+    case Repo.banner() do
       nil -> nil
       banner -> add_utm_url(banner)
     end
@@ -41,13 +46,13 @@ defmodule SiteWeb.PageController do
   @spec news :: [Teaser.t()]
   defp news do
     [items_per_page: 5, type: [:news_entry]]
-    |> Content.Repo.teasers()
+    |> Repo.teasers()
     |> Enum.map(&add_utm_url/1)
   end
 
   @spec whats_happening_items :: whats_happening_set
   defp whats_happening_items do
-    Content.Repo.whats_happening()
+    Repo.whats_happening()
     |> split_whats_happening()
     |> split_add_utm_url()
   end

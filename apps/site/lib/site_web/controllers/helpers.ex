@@ -129,8 +129,8 @@ defmodule SiteWeb.ControllerHelpers do
   @spec check_cms_or_404(Conn.t()) :: Conn.t()
   def check_cms_or_404(conn) do
     conn
-    |> Phoenix.Controller.put_view(SiteWeb.ContentView)
-    |> SiteWeb.ContentController.page(%{})
+    |> Phoenix.Controller.put_view(SiteWeb.CMSView)
+    |> SiteWeb.CMSController.page(%{})
   end
 
   @spec unavailable_after_one_year(Conn.t(), Date.t() | DateTime.t()) :: Conn.t()

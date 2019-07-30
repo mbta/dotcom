@@ -3,7 +3,7 @@
     <div class="m-homepage--10-col-sm-only">
       <div class="m-homepage__fares">
         <h2>Standard One-Way Fares</h2>
-        <%= homepage_fare_cards() |> SiteWeb.ContentView.render_paragraph(@conn) %>
+        <%= homepage_fare_cards() |> SiteWeb.CMS.ParagraphView.render_paragraph(@conn) %>
         <p><a href="/fares" class="btn btn-secondary m-homepage__fares-link">See fares overview</a></p>
       </div>
     </div>

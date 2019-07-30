@@ -5,13 +5,13 @@
     <%= for event <- @events do %>
       <%
         range = case event do
-          %Content.Teaser{} = item -> %{start: item.date, stop: item.date_end}
-          %Content.Event{} = item -> %{start: item.start_time, stop: item.end_time}
+          %Teaser{} = item -> %{start: item.date, stop: item.date_end}
+          %Event{} = item -> %{start: item.start_time, stop: item.end_time}
         end
 
         path_fn = case event do
-          %Content.Teaser{path: path} -> fn -> cms_static_page_path(@conn, path) end
-          %Content.Event{} -> fn -> event_path(@conn, :show, event) end
+          %Teaser{path: path} -> fn -> cms_static_page_path(@conn, path) end
+          %Event{} -> fn -> event_path(@conn, :show, event) end
         end
       %>
       <li class="list-group-item">

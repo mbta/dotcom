@@ -1,4 +1,4 @@
-defmodule SiteWeb.ContentHelpers do
+defmodule SiteWeb.CMSHelpers do
   @moduledoc """
   Various helper functions that aid in rendering CMS content.
   """

@@ -1,12 +1,12 @@
-defmodule SiteWeb.Content.TeaserView do
+defmodule SiteWeb.CMS.TeaserView do
   @moduledoc """
   Handles rendering of teaser partials from the CMS.
   """
   use SiteWeb, :view
 
-  import SiteWeb.ContentHelpers, only: [cms_route_to_class: 1]
+  import SiteWeb.CMSHelpers, only: [cms_route_to_class: 1]
 
-  alias Content.Teaser
+  alias CMS.Teaser
 
   @spec teaser_color(Teaser.t()) :: String.t()
   def teaser_color(%Teaser{routes: [route | _]}), do: cms_route_to_class(route)
