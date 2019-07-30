@@ -2,7 +2,7 @@ defmodule SiteWeb.StaticFileControllerTest do
   use SiteWeb.ConnCase
 
   describe "index/2" do
-    test "forwards files from config:content:drupal:root" do
+    test "forwards files from config:cms:drupal:root" do
       bypass = Bypass.open()
       set_drupal_root("http://localhost:#{bypass.port}")
 
@@ -29,7 +29,7 @@ defmodule SiteWeb.StaticFileControllerTest do
   end
 
   defp set_drupal_root(new_domain) do
-    old_config = Application.get_env(:content, :drupal)
+    old_config = Application.get_env(:cms, :drupal)
 
     new_config =
       case old_config do
@@ -37,10 +37,10 @@ defmodule SiteWeb.StaticFileControllerTest do
         keywordlist -> Keyword.put(keywordlist, :root, new_domain)
       end
 
-    Application.put_env(:content, :drupal, new_config)
+    Application.put_env(:cms, :drupal, new_config)
 
     on_exit(fn ->
-      Application.put_env(:content, :drual, old_config)
+      Application.put_env(:cms, :drual, old_config)
     end)
   end
 end

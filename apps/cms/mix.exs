@@ -34,7 +34,7 @@ defmodule CMS.Mixfile do
         :html_sanitize_ex,
         :util
       ],
-      mod: {Content, []}
+      mod: {CMS, []}
     ]
   end
 

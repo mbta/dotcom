@@ -1,12 +1,12 @@
 use Mix.Config
 
-config :content, :drupal,
+config :cms, :drupal,
   root: "http://cms.test",
   static_path: "/sites/default/files"
 
-config :content, :cms_api, Content.CMS.Static
+config :cms, :cms_api, CMS.API.Static
 
-config :content, :mailgun,
+config :cms, :mailgun,
   domain: "https://test-domain.com",
   key: "key-test",
   mode: :test,

@@ -6,7 +6,7 @@ defmodule SiteWeb.ControllerHelpers do
   import Plug.Conn, only: [put_status: 2, halt: 1]
   import Phoenix.Controller, only: [render: 3, put_view: 2]
 
-  @content_http_pool Application.get_env(:content, :http_pool)
+  @content_http_pool Application.get_env(:cms, :http_pool)
 
   @valid_resp_headers [
     "content-type",
