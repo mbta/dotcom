@@ -1,5 +1,5 @@
 defmodule Content.EmailHelpers do
-  @file_path Application.get_env(:content, :mailgun)[:test_file_path]
+  @file_path Application.get_env(:cms, :mailgun)[:test_file_path]
 
   def clear_sent_emails do
     File.rm(@file_path)

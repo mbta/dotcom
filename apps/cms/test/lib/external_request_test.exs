@@ -239,19 +239,19 @@ defmodule Content.ExternaRequestTest do
   end
 
   def bypass_cms do
-    original_drupal_config = Application.get_env(:content, :drupal)
+    original_drupal_config = Application.get_env(:cms, :drupal)
 
     bypass = Bypass.open()
     bypass_url = "http://localhost:#{bypass.port}/"
 
     Application.put_env(
-      :content,
+      :cms,
       :drupal,
       put_in(original_drupal_config[:root], bypass_url)
     )
 
     on_exit(fn ->
-      Application.put_env(:content, :drupal, original_drupal_config)
+      Application.put_env(:cms, :drupal, original_drupal_config)
     end)
 
     bypass

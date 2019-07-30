@@ -1,4 +1,7 @@
 defmodule CMS do
+  @moduledoc """
+  Supervisor for the CMS app
+  """
   use Application
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
