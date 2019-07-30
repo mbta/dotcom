@@ -3,11 +3,13 @@ defmodule SiteWeb.StopListViewTest do
 
   import Phoenix.HTML, only: [safe_to_string: 1]
   import SiteWeb.ScheduleView.StopList
-  alias Stops.{Stop, RouteStop}
+
+  alias CMS.Repo
   alias Routes.Route
   alias Schedules.Departures
   alias Site.StopBubble
   alias SiteWeb.ScheduleView
+  alias Stops.{RouteStop, Stop}
 
   @trip %Schedules.Trip{name: "101", headsign: "Headsign", direction_id: 0, id: "1"}
   @stop %Stops.Stop{id: "stop-id", name: "Stop Name"}
@@ -256,8 +258,7 @@ defmodule SiteWeb.StopListViewTest do
         conn: %{query_params: %{}, request_path: ""}
       }
 
-      rendered =
-        "_stop_list_expand_link.html" |> SiteWeb.ScheduleView.render(assigns) |> safe_to_string()
+      rendered = "_stop_list_expand_link.html" |> ScheduleView.render(assigns) |> safe_to_string()
 
       assert rendered =~ "11"
     end
@@ -275,8 +276,7 @@ defmodule SiteWeb.StopListViewTest do
         conn: %{query_params: %{}, request_path: ""}
       }
 
-      rendered =
-        "_stop_list_expand_link.html" |> SiteWeb.ScheduleView.render(assigns) |> safe_to_string()
+      rendered = "_stop_list_expand_link.html" |> ScheduleView.render(assigns) |> safe_to_string()
 
       assert rendered =~ "Braintree branch"
     end
@@ -294,8 +294,7 @@ defmodule SiteWeb.StopListViewTest do
         conn: %{query_params: %{}, request_path: ""}
       }
 
-      rendered =
-        "_stop_list_expand_link.html" |> SiteWeb.ScheduleView.render(assigns) |> safe_to_string()
+      rendered = "_stop_list_expand_link.html" |> ScheduleView.render(assigns) |> safe_to_string()
 
       branch_stop = Floki.find(rendered, ".route-branch-stop")
 
@@ -436,7 +435,7 @@ defmodule SiteWeb.StopListViewTest do
 
       assert Enum.count(Floki.find(html, ".collapse")) == 1
       assert Enum.count(Floki.find(html, "#branch-braintree")) == 1
-      assert Enum.count(Floki.find(html, "#branch-ashmont")) == 0
+      assert Enum.empty?(Floki.find(html, "#branch-ashmont"))
 
       names =
         html
@@ -455,9 +454,9 @@ defmodule SiteWeb.StopListViewTest do
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary()
 
-      assert Enum.count(Floki.find(html, ".collapse")) == 0
-      assert Enum.count(Floki.find(html, "#branch-braintree")) == 0
-      assert Enum.count(Floki.find(html, "#branch-ashmont")) == 0
+      assert Enum.empty?(Floki.find(html, ".collapse"))
+      assert Enum.empty?(Floki.find(html, "#branch-braintree"))
+      assert Enum.empty?(Floki.find(html, "#branch-ashmont"))
 
       names =
         html
@@ -556,7 +555,7 @@ defmodule SiteWeb.StopListViewTest do
     test "renders featured content and news", %{conn: conn} do
       assert {news, [featured | _]} =
                [route_id: "Red", sidebar: 1]
-               |> CMS.Repo.teasers()
+               |> Repo.teasers()
                |> Enum.split_with(&(&1.type === :news_entry))
 
       refute Enum.empty?(news)
@@ -587,7 +586,7 @@ defmodule SiteWeb.StopListViewTest do
     test "renders nothing when there is no content" do
       rendered =
         "_cms_teasers.html"
-        |> SiteWeb.ScheduleView.render(featured_content: nil, news: [])
+        |> ScheduleView.render(featured_content: nil, news: [])
         |> safe_to_string()
 
       assert rendered == "\n"

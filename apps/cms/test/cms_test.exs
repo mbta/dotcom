@@ -1,4 +1,4 @@
-defmodule ContentTest do
+defmodule CMSTest do
   @moduledoc false
   use ExUnit.Case
 

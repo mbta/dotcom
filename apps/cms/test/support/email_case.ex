@@ -6,6 +6,8 @@ defmodule CMS.EmailCase do
 
   use ExUnit.CaseTemplate
 
+  alias CMS.EmailHelpers
+
   using do
     quote do
       import CMS.EmailHelpers
@@ -13,7 +15,7 @@ defmodule CMS.EmailCase do
   end
 
   setup do
-    CMS.EmailHelpers.clear_sent_emails()
+    EmailHelpers.clear_sent_emails()
     :ok
   end
 end

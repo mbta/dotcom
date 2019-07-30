@@ -1,4 +1,5 @@
 defmodule CMS.SearchResult.File do
+  @moduledoc false
   defstruct title: "",
             url: "",
             mimetype: ""

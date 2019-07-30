@@ -2,12 +2,13 @@ defmodule CMS.WhatsHappeningItem do
   @moduledoc """
   These appear as blocks on the homepage of the website.
   """
-  import CMS.Helpers, only: [
-    field_value: 2,
-    parse_link: 2,
-    parse_image: 2,
-    category: 1
-  ]
+  import CMS.Helpers,
+    only: [
+      field_value: 2,
+      parse_link: 2,
+      parse_image: 2,
+      category: 1
+    ]
 
   alias CMS.Field.{Image, Link}
 

@@ -2,6 +2,8 @@ defmodule CMS.Page.NewsEntryTest do
   use ExUnit.Case
 
   alias CMS.API.Static
+  alias CMS.Page.NewsEntry
+  alias Phoenix.HTML
 
   setup do
     %{
@@ -12,7 +14,7 @@ defmodule CMS.Page.NewsEntryTest do
 
   describe "from_api/1" do
     test "parses api response without path alias", %{api_page_no_path_alias: api_page} do
-      assert %CMS.Page.NewsEntry{
+      assert %NewsEntry{
                id: id,
                title: title,
                body: body,
@@ -24,21 +26,21 @@ defmodule CMS.Page.NewsEntryTest do
                teaser: teaser,
                migration_id: migration_id,
                path_alias: path_alias
-             } = CMS.Page.NewsEntry.from_api(api_page)
+             } = NewsEntry.from_api(api_page)
 
       assert id == 3519
       assert title == "New Early Morning Bus Routes Begin April 1"
 
-      assert Phoenix.HTML.safe_to_string(body) =~
+      assert HTML.safe_to_string(body) =~
                "<p>Beginning Sunday, April 1, the MBTA will begin"
 
       assert media_contact == "MassDOT Press Office"
       assert media_email == "Lisa.Battiston@dot.state.ma.us"
       assert media_phone == "857-368-8500"
-      assert Phoenix.HTML.safe_to_string(more_information) =~ "<p>For more information"
+      assert HTML.safe_to_string(more_information) =~ "<p>For more information"
       assert posted_on == ~D[2018-03-29]
 
-      assert Phoenix.HTML.safe_to_string(teaser) =~
+      assert HTML.safe_to_string(teaser) =~
                "The MBTA will begin a one-year early morning bus service pilot"
 
       assert migration_id == "1234"
@@ -46,9 +48,9 @@ defmodule CMS.Page.NewsEntryTest do
     end
 
     test "parses api response with path alias", %{api_page_path_alias: api_page} do
-      assert %CMS.Page.NewsEntry{
+      assert %NewsEntry{
                path_alias: path_alias
-             } = CMS.Page.NewsEntry.from_api(api_page)
+             } = NewsEntry.from_api(api_page)
 
       assert path_alias == "/news/date/title"
     end

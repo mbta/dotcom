@@ -1,22 +1,26 @@
 defmodule CMS.WhatsHappeningItemTest do
   use ExUnit.Case, async: true
 
+  alias CMS.API.Static
+  alias CMS.Field.{Image, Link}
+  alias CMS.WhatsHappeningItem
+
   setup do
-    api_items = CMS.API.Static.whats_happening_response()
+    api_items = Static.whats_happening_response()
     %{api_items: api_items}
   end
 
-  test "parses an api response into a CMS.WhatsHappeningItem", %{api_items: [item | _]} do
+  test "parses an api response into a WhatsHappeningItem", %{api_items: [item | _]} do
     assert Map.get(item, "field_page_type") == [
              %{"data" => nil, "id" => 248, "name" => "Guides", "vocab" => "page_type"}
            ]
 
-    assert %CMS.WhatsHappeningItem{
+    assert %WhatsHappeningItem{
              blurb: blurb,
              category: category,
-             link: %CMS.Field.Link{url: url},
-             image: %CMS.Field.Image{}
-           } = CMS.WhatsHappeningItem.from_api(item)
+             link: %Link{url: url},
+             image: %Image{}
+           } = WhatsHappeningItem.from_api(item)
 
     assert blurb =~ "Visiting Boston? Find your way around with our new Visitor's Guide to the T."
     assert category == "Guides"
@@ -24,12 +28,12 @@ defmodule CMS.WhatsHappeningItemTest do
   end
 
   test "it uses field_image media image values", %{api_items: [_, item | _]} do
-    assert %CMS.WhatsHappeningItem{
-             image: %CMS.Field.Image{
+    assert %WhatsHappeningItem{
+             image: %Image{
                alt: alt,
                url: url
              }
-           } = CMS.WhatsHappeningItem.from_api(item)
+           } = WhatsHappeningItem.from_api(item)
 
     assert alt == "A bus at night in downtown Boston, Photo by Osman Rana, via Unsplash."
 
@@ -44,8 +48,8 @@ defmodule CMS.WhatsHappeningItemTest do
       | "field_wh_link" => [%{"uri" => "internal:/news/winter", "title" => "", "options" => []}]
     }
 
-    assert %CMS.WhatsHappeningItem{
-             link: %CMS.Field.Link{url: "/news/winter"}
-           } = CMS.WhatsHappeningItem.from_api(item)
+    assert %WhatsHappeningItem{
+             link: %Link{url: "/news/winter"}
+           } = WhatsHappeningItem.from_api(item)
   end
 end

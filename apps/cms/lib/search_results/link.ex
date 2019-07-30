@@ -1,4 +1,5 @@
 defmodule CMS.SearchResult.Link do
+  @moduledoc false
   defstruct title: "",
             url: "",
             description: ""

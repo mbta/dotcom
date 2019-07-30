@@ -1,4 +1,5 @@
 defmodule CMS.SearchResult.Person do
+  @moduledoc false
   defstruct title: "",
             url: "",
             highlights: []
