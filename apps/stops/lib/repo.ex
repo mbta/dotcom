@@ -84,6 +84,9 @@ defmodule Stops.Repo do
 
   @spec by_route(Route.id_t(), 0 | 1, Keyword.t()) :: stops_response
   def by_route(route_id, direction_id, opts \\ []) do
+    # IO.inspect(opts)
+    # IO.inspect(Process.info(self(), :current_stacktrace))
+
     cache({route_id, direction_id, opts}, fn args ->
       with stops when is_list(stops) <- Api.by_route(args) do
         for stop <- stops do

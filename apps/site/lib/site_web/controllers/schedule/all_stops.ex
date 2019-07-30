@@ -29,10 +29,22 @@ defmodule SiteWeb.ScheduleController.AllStops do
          repo_fn
        ) do
     date = get_date(assigns)
+    IO.inspect(date, label: "Stops for date, all stops")
 
-    route_id
-    |> repo_fn.(direction_id, date: date)
-    |> maybe_add_wollaston(route_id, direction_id)
+    with_date =
+      route_id
+      |> repo_fn.(direction_id, date: date)
+      |> maybe_add_wollaston(route_id, direction_id)
+
+    without_date =
+      route_id
+      |> repo_fn.(direction_id, [])
+      |> maybe_add_wollaston(route_id, direction_id)
+
+    IO.inspect(length(with_date), label: "with date")
+    IO.inspect(length(without_date), label: "without date")
+
+    with_date
   end
 
   @spec maybe_add_wollaston(Stops.Repo.stops_response(), Routes.Route.id_t(), 0 | 1) ::

@@ -60,6 +60,21 @@ defmodule SiteWeb.ScheduleController.Line do
     branches = get_branches(shapes, route_stops, route, direction_id)
     map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id)
 
+    # For schedule finder
+    all_reverse_shapes = get_route_shapes(route.id, reverse_direction(direction_id))
+
+    reverse_route_stops =
+      get_route_stops(route.id, reverse_direction(direction_id), deps.stops_by_route_fn)
+
+    reverse_branches =
+      get_branches(
+        all_reverse_shapes,
+        reverse_route_stops,
+        route,
+        reverse_direction(direction_id)
+      )
+
+    # Other stuff
     time_data_by_stop =
       TransitNearMe.time_data_for_route_by_stop(route.id, direction_id,
         now: conn.assigns.date_time
@@ -80,6 +95,11 @@ defmodule SiteWeb.ScheduleController.Line do
     |> assign(:dynamic_map_data, dynamic_map_data)
     |> assign(:expanded, expanded)
     |> assign(:reverse_direction_all_stops, reverse_direction_all_stops(route.id, direction_id))
+    |> assign(
+      :reverse_direction_all_shapes,
+      build_stop_list(reverse_branches, reverse_direction(direction_id))
+    )
+    |> assign(:all_stops_without_date, build_stop_list(branches, direction_id))
     |> assign(:connections, connections(branches))
     |> assign(:time_data_by_stop, time_data_by_stop)
   end
@@ -577,11 +597,15 @@ defmodule SiteWeb.ScheduleController.Line do
   def sort_stop_list(all_stops, 1) when is_list(all_stops), do: Enum.reverse(all_stops)
   def sort_stop_list(all_stops, 0) when is_list(all_stops), do: all_stops
 
+  def reverse_direction(0), do: 1
+  def reverse_direction(1), do: 0
+
   @doc """
   Calculates the list of stops for the reverse direction.
 
   Used by "Schedules from here" to determine whether we should link to the
-  stop going in the opposite direction.
+  stop going in the opposite direction
+  Used by Schedule Picker so it lists stops regardless of date.
 
   """
   @spec reverse_direction_all_stops(Route.id_t(), 0 | 1) :: [Stop.t()]
@@ -592,7 +616,16 @@ defmodule SiteWeb.ScheduleController.Line do
         0 -> 1
       end
 
-    case StopsRepo.by_route(route_id, reverse_direction_id) do
+    all_stops_without_date(route_id, reverse_direction_id)
+  end
+
+  @doc """
+  Calculates the list of stops for the Schedule Picker so it lists stops regardless of date.
+
+  """
+  @spec all_stops_without_date(Route.id_t(), 0 | 1) :: [Stop.t()]
+  def all_stops_without_date(route_id, direction_id) do
+    case StopsRepo.by_route(route_id, direction_id) do
       {:error, _} -> []
       stops -> stops
     end
