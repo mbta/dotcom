@@ -1,10 +1,10 @@
 defmodule SiteWeb.TeaserViewTest do
   use Site.ViewCase, async: true
 
-  import SiteWeb.Content.TeaserView
+  import SiteWeb.CMS.TeaserView
 
-  alias Content.CMS.Static
-  alias Content.Teaser
+  alias CMS.API.Static
+  alias CMS.Teaser
 
   describe "teaser_color/1" do
     test "provides a CSS class for routes found on teaser" do

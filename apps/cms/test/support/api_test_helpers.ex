@@ -1,4 +1,4 @@
-defmodule Content.CMSTestHelpers do
+defmodule CMS.APITestHelpers do
   def update_api_response(api_response, field, value) do
     %{^field => [old_value]} = api_response
 

@@ -1,8 +1,8 @@
-defmodule Content.PageTest do
+defmodule PageTest do
   use ExUnit.Case, async: true
 
-  alias Content.{
-    CMS.Static,
+  alias CMS.{
+    API.Static,
     Page,
     Paragraph.ContentList,
     Teaser
@@ -10,14 +10,14 @@ defmodule Content.PageTest do
 
   describe "from_api/1" do
     test "switches on the node type in the json response and returns the proper page struct" do
-      assert %Content.GenericPage{} = Page.from_api(Static.basic_page_response())
-      assert %Content.Event{} = Page.from_api(List.first(Static.events_response()))
-      assert %Content.LandingPage{} = Page.from_api(Static.landing_page_response())
-      assert %Content.NewsEntry{} = Page.from_api(List.first(Static.news_repo()))
-      assert %Content.Person{} = Page.from_api(Static.person_response())
-      assert %Content.Project{} = Page.from_api(List.first(Static.project_repo()))
-      assert %Content.ProjectUpdate{} = Page.from_api(List.first(Static.project_update_repo()))
-      assert %Content.Redirect{} = Page.from_api(Static.redirect_response())
+      assert %Page.Basic{} = Page.from_api(Static.basic_page_response())
+      assert %Page.Event{} = Page.from_api(List.first(Static.events_response()))
+      assert %Page.Landing{} = Page.from_api(Static.landing_page_response())
+      assert %Page.NewsEntry{} = Page.from_api(List.first(Static.news_repo()))
+      assert %Page.Person{} = Page.from_api(Static.person_response())
+      assert %Page.Project{} = Page.from_api(List.first(Static.project_repo()))
+      assert %Page.ProjectUpdate{} = Page.from_api(List.first(Static.project_update_repo()))
+      assert %Page.Redirect{} = Page.from_api(Static.redirect_response())
     end
 
     test "fetches content list teasers for pages that have them" do

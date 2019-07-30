@@ -24,7 +24,7 @@ defmodule CMS.ExternalRequest do
           {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()},
           map(),
           String.t()
-        ) :: CMS.CMS.response()
+        ) :: CMS.API.response()
   defp handle_response(
          {:ok, %HTTPoison.Response{} = response},
          %{"content-type" => "application/json"},

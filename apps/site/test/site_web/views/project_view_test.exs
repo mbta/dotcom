@@ -1,7 +1,7 @@
 defmodule SiteWeb.ProjectViewTest do
   use SiteWeb.ConnCase, async: true
 
-  alias Content.{Field.Image, Paragraph.CustomHTML, Project, Teaser}
+  alias CMS.{Field.Image, Page.Project, Paragraph.CustomHTML, Teaser}
   alias Phoenix.HTML
   alias Plug.Conn
   alias SiteWeb.ProjectView
@@ -76,7 +76,7 @@ defmodule SiteWeb.ProjectViewTest do
     test "returns true if there are 4 items or more" do
       updates =
         for idx <- 1..5 do
-          %Content.Teaser{
+          %CMS.Teaser{
             id: idx * 1000,
             title: "Update #{idx}",
             type: :project_update,

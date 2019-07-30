@@ -1,6 +1,6 @@
-defmodule Content.BlurbTest do
+defmodule CMS.BlurbTest do
   use ExUnit.Case, async: false
-  alias Content.Blurb
+  alias CMS.Blurb
 
   @suffix_length String.length(Blurb.suffix())
   @suffix_range Range.new(-1 * @suffix_length, -1)

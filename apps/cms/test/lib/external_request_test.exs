@@ -1,8 +1,8 @@
-defmodule Content.ExternaRequestTest do
+defmodule CMS.ExternaRequestTest do
   use ExUnit.Case
   import Mock
-  import Content.ExternalRequest
-  alias Content.CMS.TimeRequest
+  import CMS.ExternalRequest
+  alias CMS.API.TimeRequest
 
   describe "process/4" do
     test "issues a request with the provided information" do

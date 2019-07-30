@@ -7,7 +7,6 @@ defmodule SiteWeb.CMS.PageView do
   import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
 
   alias CMS.Page
-  alias CMS.Page.Project
   alias CMS.Paragraph
   alias Plug.Conn
 
@@ -32,14 +31,6 @@ defmodule SiteWeb.CMS.PageView do
   Intelligently choose and render page template content based on type, except
   for certain types which either have no template or require special values.
   """
-  def render_page_content(%Project{} = page, conn) do
-    render(
-      "_project.html",
-      page: page,
-      conn: conn
-    )
-  end
-
   def render_page_content(page, conn) do
     render(
       "_generic.html",

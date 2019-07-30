@@ -1,4 +1,4 @@
-defmodule Content.EmailCase do
+defmodule CMS.EmailCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require sending emails.
@@ -8,12 +8,12 @@ defmodule Content.EmailCase do
 
   using do
     quote do
-      import Content.EmailHelpers
+      import CMS.EmailHelpers
     end
   end
 
   setup do
-    Content.EmailHelpers.clear_sent_emails()
+    CMS.EmailHelpers.clear_sent_emails()
     :ok
   end
 end

@@ -1,8 +1,8 @@
-defmodule SiteWeb.ContentControllerTest do
+defmodule SiteWeb.CMSControllerTest do
   use SiteWeb.ConnCase, async: false
 
   describe "GET - page" do
-    test "renders a basic page when the CMS returns a Content.GenericPage", %{conn: conn} do
+    test "renders a basic page when the CMS returns a CMS.Page.Basic", %{conn: conn} do
       conn = get(conn, "/basic_page_no_sidebar")
       rendered = html_response(conn, 200)
       assert rendered =~ "Arts on the T"

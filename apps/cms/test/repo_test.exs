@@ -1,26 +1,30 @@
-defmodule Content.RepoTest do
+defmodule CMS.RepoTest do
   use ExUnit.Case, async: true
 
   import ExUnit.CaptureLog, only: [capture_log: 1]
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Mock
 
-  # Content Types
-  alias Content.{
-    Banner,
+  # Page Content
+  alias CMS.Page.{
+    Basic,
     Event,
-    GenericPage,
-    LandingPage,
+    Landing,
     NewsEntry,
     Project,
     ProjectUpdate,
-    Redirect,
+    Redirect
+  }
+
+  # Other Content Types
+  alias CMS.{
+    Banner,
     WhatsHappeningItem
   }
 
   # Misc
-  alias Content.{
-    CMS.Static,
+  alias CMS.{
+    API.Static,
     Paragraph,
     Repo,
     RoutePdf,
@@ -61,13 +65,13 @@ defmodule Content.RepoTest do
       params = %{"preview" => "", "vid" => "112", "nid" => "6"}
       cache_key = {:view_or_preview, path: path, params: params}
       assert ConCache.get(Repo, cache_key) == nil
-      assert %GenericPage{} = Repo.get_page(path, params)
+      assert %Basic{} = Repo.get_page(path, params)
       assert ConCache.get(Repo, cache_key) == nil
     end
 
     test "given the path for a Basic page" do
       result = Repo.get_page("/basic_page_with_sidebar")
-      assert %GenericPage{} = result
+      assert %Basic{} = result
     end
 
     test "returns a NewsEntry" do
@@ -88,12 +92,12 @@ defmodule Content.RepoTest do
 
     test "given the path for a Basic page with tracking params" do
       result = Repo.get_page("/basic_page_with_sidebar", %{"from" => "search"})
-      assert %GenericPage{} = result
+      assert %Basic{} = result
     end
 
     test "given the path for a Landing page" do
       result = Repo.get_page("/landing_page")
-      assert %LandingPage{} = result
+      assert %Landing{} = result
     end
 
     test "given the path for a Redirect page" do
@@ -117,7 +121,7 @@ defmodule Content.RepoTest do
       result =
         Repo.get_page("/basic_page_no_sidebar", %{"preview" => "", "vid" => "112", "nid" => "6"})
 
-      assert %GenericPage{} = result
+      assert %Basic{} = result
       assert result.title == "Arts on the T 112"
     end
 
@@ -129,7 +133,7 @@ defmodule Content.RepoTest do
           "nid" => "6"
         })
 
-      assert %GenericPage{} = result
+      assert %Basic{} = result
       assert result.title == "Arts on the T 113"
     end
   end

@@ -1,8 +1,8 @@
-defmodule Content.RoutePdfTest do
+defmodule CMS.RoutePdfTest do
   use ExUnit.Case
 
-  alias Content.RoutePdf
-  import Content.RoutePdf
+  alias CMS.RoutePdf
+  import CMS.RoutePdf
 
   describe "custom?/1" do
     test "pdfs with nil text are not custom" do

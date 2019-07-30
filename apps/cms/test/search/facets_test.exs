@@ -1,6 +1,6 @@
-defmodule Content.Search.FacetsTest do
+defmodule CMS.Search.FacetsTest do
   use ExUnit.Case, async: true
-  import Content.Search.Facets
+  import CMS.Search.Facets
 
   describe "build/3" do
     test "search results are filtered out" do

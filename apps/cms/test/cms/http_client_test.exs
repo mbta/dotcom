@@ -1,8 +1,8 @@
-defmodule Content.CMS.HTTPClientTest do
+defmodule CMS.API.HTTPClientTest do
   use ExUnit.Case
   import Mock
-  import Content.CMS.HTTPClient
-  alias Content.ExternalRequest
+  import CMS.API.HTTPClient
+  alias CMS.ExternalRequest
 
   describe "preview/2" do
     test "uses alternate path with timeout options" do

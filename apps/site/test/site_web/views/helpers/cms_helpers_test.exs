@@ -1,7 +1,7 @@
-defmodule SiteWeb.ContentHelpersTest do
+defmodule SiteWeb.CMSHelpersTest do
   use ExUnit.Case, async: true
 
-  import SiteWeb.ContentHelpers
+  import SiteWeb.CMSHelpers
 
   describe "cms_route_to_class/1" do
     test "converts cms route terms to class" do

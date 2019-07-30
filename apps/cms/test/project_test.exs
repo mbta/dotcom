@@ -1,13 +1,17 @@
-defmodule Content.ProjectTest do
+defmodule CMS.Page.ProjectTest do
   use ExUnit.Case
 
-  import Content.CMSTestHelpers,
+  import CMS.APITestHelpers,
     only: [
       update_api_response: 3,
       update_api_response_whole_field: 3
     ]
 
-  alias Content.{CMS.Static, Project}
+  alias CMS.API.Static
+  alias CMS.Field.{File, Image}
+  alias CMS.Page.Project
+  alias CMS.Paragraph.CustomHTML
+  alias Phoenix.HTML
 
   setup do
     %{
@@ -20,28 +24,28 @@ defmodule Content.ProjectTest do
     test "maps project api data without path alias to a struct", %{
       api_data_without_path_alias: api_data
     } do
-      assert %Content.Project{
+      assert %Project{
                id: id,
                body: body,
                contact_information: contact_information,
                end_year: end_year,
                featured: featured,
-               featured_image: %Content.Field.Image{},
+               featured_image: %Image{},
                files: [],
                media_email: media_email,
                media_phone: media_phone,
                paragraphs: [paragraph | _],
-               photo_gallery: [%Content.Field.Image{} | _],
+               photo_gallery: [%Image{} | _],
                start_year: start_year,
                status: status,
                teaser: teaser,
                title: title,
                updated_on: updated_on,
                path_alias: path_alias
-             } = Content.Project.from_api(api_data)
+             } = Project.from_api(api_data)
 
       assert id == 3004
-      assert Phoenix.HTML.safe_to_string(body) =~ "<p>Major accessibility improvements,"
+      assert HTML.safe_to_string(body) =~ "<p>Major accessibility improvements,"
       assert contact_information == "MBTA Customer Support"
       assert end_year == "2020"
       assert featured == true
@@ -53,15 +57,15 @@ defmodule Content.ProjectTest do
       assert title == "Wollaston Station Improvements"
       assert updated_on == ~D[2018-04-02]
       assert path_alias == nil
-      assert %Content.Paragraph.CustomHTML{} = paragraph
+      assert %CustomHTML{} = paragraph
     end
 
     test "maps project api data with path alias to a struct", %{
       api_data_with_path_alias: api_data
     } do
-      assert %Content.Project{
+      assert %Project{
                path_alias: path_alias
-             } = Content.Project.from_api(api_data)
+             } = Project.from_api(api_data)
 
       assert path_alias == "/projects/project-name"
     end
@@ -71,9 +75,9 @@ defmodule Content.ProjectTest do
         api_data
         |> update_api_response_whole_field("field_files", file_api_data())
 
-      project = Content.Project.from_api(project_data)
+      project = Project.from_api(project_data)
 
-      assert [%Content.Field.File{}] = project.files
+      assert [%File{}] = project.files
     end
 
     test "when a project is featured", %{api_data_without_path_alias: api_data} do
@@ -82,9 +86,9 @@ defmodule Content.ProjectTest do
         |> update_api_response_whole_field("field_featured_image", image_api_data())
         |> update_api_response("field_featured", true)
 
-      project = Content.Project.from_api(project_data)
+      project = Project.from_api(project_data)
 
-      assert %Content.Field.Image{} = project.featured_image
+      assert %Image{} = project.featured_image
       assert project.featured == true
     end
 
@@ -93,31 +97,31 @@ defmodule Content.ProjectTest do
         api_data
         |> update_api_response_whole_field("field_photo_gallery", image_api_data())
 
-      project = Content.Project.from_api(project_data)
+      project = Project.from_api(project_data)
 
-      assert [%Content.Field.Image{}] = project.photo_gallery
+      assert [%Image{}] = project.photo_gallery
     end
   end
 
   describe "contact?/1" do
     test "when no contact info provided, returns false" do
-      project = %Content.Project{id: 1}
-      refute Content.Project.contact?(project)
+      project = %Project{id: 1}
+      refute Project.contact?(project)
     end
 
     test "when contact_information is provided, returns true" do
-      project = %Content.Project{id: 1, contact_information: "provided"}
-      assert Content.Project.contact?(project)
+      project = %Project{id: 1, contact_information: "provided"}
+      assert Project.contact?(project)
     end
 
     test "when media_email is provided, returns true" do
-      project = %Content.Project{id: 1, media_email: "provided"}
-      assert Content.Project.contact?(project)
+      project = %Project{id: 1, media_email: "provided"}
+      assert Project.contact?(project)
     end
 
     test "when media_phone is provided, returns true" do
-      project = %Content.Project{id: 1, media_phone: "provided"}
-      assert Content.Project.contact?(project)
+      project = %Project{id: 1, media_phone: "provided"}
+      assert Project.contact?(project)
     end
   end
 

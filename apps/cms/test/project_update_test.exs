@@ -1,9 +1,9 @@
-defmodule Content.ProjectUpdateTest do
+defmodule CMS.Page.ProjectUpdateTest do
   use ExUnit.Case
 
-  import Content.CMSTestHelpers, only: [update_api_response_whole_field: 3]
+  import CMS.APITestHelpers, only: [update_api_response_whole_field: 3]
 
-  alias Content.CMS.Static
+  alias CMS.API.Static
 
   setup do
     %{api_data: Static.project_update_repo()}
@@ -11,7 +11,7 @@ defmodule Content.ProjectUpdateTest do
 
   describe "from_api/1" do
     test "maps the project update api data to a struct", %{api_data: api_data} do
-      assert %Content.ProjectUpdate{
+      assert %CMS.Page.ProjectUpdate{
                id: id,
                body: body,
                photo_gallery: [],
@@ -20,7 +20,7 @@ defmodule Content.ProjectUpdateTest do
                teaser: teaser,
                title: title,
                path_alias: path_alias
-             } = Content.ProjectUpdate.from_api(List.first(api_data))
+             } = CMS.Page.ProjectUpdate.from_api(List.first(api_data))
 
       assert id == 3005
       assert Phoenix.HTML.safe_to_string(body) =~ "What's the bus shuttle schedule?</h2>"
@@ -32,14 +32,14 @@ defmodule Content.ProjectUpdateTest do
     end
 
     test "sets project update path_alias accordingly", %{api_data: api_data} do
-      assert %Content.ProjectUpdate{
+      assert %CMS.Page.ProjectUpdate{
                id: id,
                project_id: project_id,
                path_alias: path_alias
              } =
                api_data
                |> Enum.at(1)
-               |> Content.ProjectUpdate.from_api()
+               |> CMS.Page.ProjectUpdate.from_api()
 
       assert id == 3174
       assert project_id == 3004
@@ -52,9 +52,9 @@ defmodule Content.ProjectUpdateTest do
         |> List.first()
         |> update_api_response_whole_field("field_photo_gallery", image_api_data())
 
-      project_update = Content.ProjectUpdate.from_api(project_update_data)
+      project_update = CMS.Page.ProjectUpdate.from_api(project_update_data)
 
-      assert [%Content.Field.Image{}] = project_update.photo_gallery
+      assert [%CMS.Field.Image{}] = project_update.photo_gallery
     end
   end
 

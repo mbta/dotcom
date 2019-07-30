@@ -1,4 +1,4 @@
-defmodule Content.Field.ImageTest do
+defmodule CMS.Field.ImageTest do
   use ExUnit.Case, async: true
 
   describe "from_api/1" do
@@ -15,7 +15,7 @@ defmodule Content.Field.ImageTest do
         "mime_type" => "image/jpeg"
       }
 
-      image = Content.Field.Image.from_api(image_data)
+      image = CMS.Field.Image.from_api(image_data)
 
       assert image.alt == image_data["alt"]
       assert %URI{host: "localhost", path: "/files/purple-train.jpeg"} = URI.parse(image.url)

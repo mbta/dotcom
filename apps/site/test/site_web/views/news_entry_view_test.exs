@@ -116,7 +116,7 @@ defmodule SiteWeb.NewsEntryViewTest do
 
   describe "recent_news.html" do
     test "includes links to recent news entries", %{conn: conn} do
-      recent_news_count = Content.NewsEntry.number_of_recent_news_suggestions()
+      recent_news_count = CMS.Page.NewsEntry.number_of_recent_news_suggestions()
 
       recent_news =
         Enum.map(1..recent_news_count, fn index ->

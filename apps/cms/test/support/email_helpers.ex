@@ -1,4 +1,4 @@
-defmodule Content.EmailHelpers do
+defmodule CMS.EmailHelpers do
   @file_path Application.get_env(:cms, :mailgun)[:test_file_path]
 
   def clear_sent_emails do
