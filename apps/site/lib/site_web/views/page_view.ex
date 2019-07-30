@@ -1,9 +1,10 @@
 defmodule SiteWeb.PageView do
   import Phoenix.HTML.Tag
-  import SiteWeb.ContentHelpers, only: [cms_route_to_class: 1]
+  import SiteWeb.CMSHelpers, only: [cms_route_to_class: 1]
 
-  alias Content.Banner
-  alias Content.Paragraph.ColumnMulti
+  alias CMS.Banner
+  alias CMS.Page.NewsEntry
+  alias CMS.Paragraph.ColumnMulti
   alias SiteWeb.FareView
   alias SiteWeb.PartialView
 
@@ -111,7 +112,7 @@ defmodule SiteWeb.PageView do
     )
   end
 
-  @spec do_render_news_entries({[Content.NewsEntry.t()], 0 | 1}) ::
+  @spec do_render_news_entries({[NewsEntry.t()], 0 | 1}) ::
           Phoenix.HTML.Safe.t()
   defp do_render_news_entries({entries, idx}) when idx in [0, 1] do
     size = if idx == 0, do: :large, else: :small

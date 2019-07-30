@@ -6,13 +6,13 @@ defmodule SiteWeb.ScheduleView do
   import SiteWeb.ScheduleView.Timetable
 
   require Routes.Route
-  alias Content.RoutePdf
+  alias CMS.RoutePdf
   alias Phoenix.HTML.Safe
   alias Plug.Conn
   alias Routes.Route
-  alias Stops.Stop
   alias Site.MapHelpers
   alias SiteWeb.PartialView.{HeaderTab, HeaderTabs, SvgIconWithCircle}
+  alias Stops.Stop
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 

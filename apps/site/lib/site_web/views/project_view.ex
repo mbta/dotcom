@@ -3,7 +3,11 @@ defmodule SiteWeb.ProjectView do
   Project page-related view helpers.
   """
   use SiteWeb, :view
-  alias Content.{Project, Teaser}
+
+  alias CMS.Field.Link
+  alias CMS.Page.Project
+  alias CMS.Paragraph.DescriptiveLink
+  alias CMS.Teaser
 
   @spec show_all_updates_link?([Teaser.t()]) :: boolean()
   def show_all_updates_link?([_, _ | [_ | _]]) do

@@ -1,4 +1,4 @@
 <div class="c-paragraph c-paragraph--content-list <%= @class %>">
   <h2>Diversions</h2>
-  <%= render(SiteWeb.ContentView, "_teaser_list.html", conn: @conn, teasers: @teasers, type: :diversion) %>
+  <%= render(SiteWeb.CMSView, "_teaser_list.html", conn: @conn, teasers: @teasers, type: :diversion) %>
 </div>

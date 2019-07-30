@@ -15,7 +15,7 @@ defmodule SiteWeb.ScheduleController.Pdf do
       [] ->
         render_404(conn)
 
-      [%Content.RoutePdf{path: path} | _] ->
+      [%CMS.RoutePdf{path: path} | _] ->
         redirect(conn, external: static_url(SiteWeb.Endpoint, path))
     end
   end

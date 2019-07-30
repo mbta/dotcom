@@ -1,6 +1,8 @@
 defmodule SiteWeb.StaticFileController do
   use SiteWeb, :controller
 
+  alias CMS.Config
+
   @config Application.get_env(:site, StaticFileController)
   @response_fn @config[:response_fn]
 
@@ -10,7 +12,7 @@ defmodule SiteWeb.StaticFileController do
   end
 
   def send_file(conn) do
-    full_url = Content.Config.url(conn.request_path)
+    full_url = Config.url(conn.request_path)
     forward_static_file(conn, full_url)
   end
 

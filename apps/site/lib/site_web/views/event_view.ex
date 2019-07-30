@@ -2,7 +2,10 @@ defmodule SiteWeb.EventView do
   use SiteWeb, :view
 
   import Site.FontAwesomeHelpers
-  import SiteWeb.ContentView, only: [file_description: 1, render_duration: 2]
+  import SiteWeb.CMSView, only: [file_description: 1, render_duration: 2]
+
+  alias CMS.Teaser
+  alias CMS.Page.Event
 
   @spec shift_date_range(String.t(), integer) :: String.t()
   def shift_date_range(iso_string, shift_value) do
@@ -29,8 +32,8 @@ defmodule SiteWeb.EventView do
   end
 
   @doc "Returns a pretty format for the event's city and state"
-  @spec city_and_state(%Content.Event{}) :: String.t() | nil
-  def city_and_state(%Content.Event{city: city, state: state}) do
+  @spec city_and_state(%Event{}) :: String.t() | nil
+  def city_and_state(%Event{city: city, state: state}) do
     if city && state do
       "#{city}, #{state}"
     end

@@ -1,9 +1,9 @@
 defmodule SiteWeb.FareView do
   use SiteWeb, :view
 
-  alias Content.Field.Link
+  alias CMS.Field.Link
 
-  alias Content.Paragraph.{
+  alias CMS.Paragraph.{
     Column,
     CustomHTML,
     Description,

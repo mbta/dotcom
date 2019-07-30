@@ -1,11 +1,15 @@
 defmodule SiteWeb.SearchController do
   use SiteWeb, :controller
+
   require Logger
+
   import Site.ResponsivePagination, only: [build: 1]
   import SiteWeb.Router.Helpers, only: [search_path: 2]
-  alias Plug.Conn
+
   alias Alerts.Alert
-  alias Content.Search.Facets
+  alias CMS.Search
+  alias CMS.Search.Facets
+  alias Plug.Conn
 
   plug(:breadcrumbs)
   plug(:search_header)
@@ -197,9 +201,9 @@ defmodule SiteWeb.SearchController do
     assign(conn, :pagination, pagination)
   end
 
-  @spec assign_facets(Conn.t(), %Content.Search{content_types: Keyword.t()}, [String.t()]) ::
+  @spec assign_facets(Conn.t(), %Search{content_types: Keyword.t()}, [String.t()]) ::
           Conn.t()
-  def assign_facets(conn, %Content.Search{content_types: response_types}, content_types) do
+  def assign_facets(conn, %Search{content_types: response_types}, content_types) do
     assign(conn, :facets, Facets.build("content_type", response_types, content_types))
   end
 

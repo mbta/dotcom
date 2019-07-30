@@ -1,13 +1,14 @@
 defmodule SiteWeb.PartialView do
   use SiteWeb, :view
 
-  alias Content.{Field.Image, Repo, Teaser}
+  alias CMS.{Field.Image, Repo, Teaser}
   alias Plug.Conn
   alias Routes.Route
   alias SiteWeb.PartialView.SvgIconWithCircle
 
-  import SiteWeb.ContentView, only: [file_description: 1, render_paragraph: 2]
-  import SiteWeb.ContentHelpers, only: [cms_route_to_class: 1]
+  import SiteWeb.CMSView, only: [file_description: 1]
+  import SiteWeb.CMSHelpers, only: [cms_route_to_class: 1]
+  import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 

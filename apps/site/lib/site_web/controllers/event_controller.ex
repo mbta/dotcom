@@ -1,10 +1,8 @@
 defmodule SiteWeb.EventController do
   use SiteWeb, :controller
 
-  alias Content.CMS
-  alias Content.Event
-  alias Content.Page
-  alias Content.Repo
+  alias CMS.{API, Page, Repo}
+  alias CMS.Page.Event
   alias Plug.Conn
   alias Site.IcalendarGenerator
   alias SiteWeb.ControllerHelpers
@@ -85,7 +83,7 @@ defmodule SiteWeb.EventController do
     |> do_icalendar(conn)
   end
 
-  @spec do_icalendar(Page.t() | {:error, CMS.error()}, Conn.t()) :: Conn.t()
+  @spec do_icalendar(Page.t() | {:error, API.error()}, Conn.t()) :: Conn.t()
   defp do_icalendar(%Event{} = event, conn) do
     conn
     |> put_resp_content_type("text/calendar")
