@@ -1,12 +1,13 @@
-defmodule SiteWeb.ContentController do
+defmodule SiteWeb.CMSController do
   @moduledoc """
   Handles rendering of CMS content based on content type.
   """
 
   use SiteWeb, :controller
+
   require Logger
 
-  alias Content.Repo
+  alias CMS.{API, Page, Repo}
   alias Plug.Conn
 
   alias SiteWeb.{
@@ -15,18 +16,18 @@ defmodule SiteWeb.ContentController do
     ProjectController
   }
 
-  @generic_page_types [
-    Content.GenericPage,
-    Content.Person,
-    Content.LandingPage,
-    Content.Redirect
+  @generic [
+    Page.Basic,
+    Page.Person,
+    Page.Landing,
+    Page.Redirect
   ]
 
-  @routed_page_types [
-    Content.Event,
-    Content.NewsEntry,
-    Content.Project,
-    Content.ProjectUpdate
+  @routed [
+    Page.Event,
+    Page.NewsEntry,
+    Page.Project,
+    Page.ProjectUpdate
   ]
 
   @spec page(Conn.t(), map) :: Conn.t()
@@ -38,22 +39,22 @@ defmodule SiteWeb.ContentController do
     |> handle_page_response(conn)
   end
 
-  @spec handle_page_response(Content.Page.t() | {:error, Content.CMS.error()}, Conn.t()) ::
+  @spec handle_page_response(Page.t() | {:error, API.error()}, Conn.t()) ::
           Plug.Conn.t()
   defp handle_page_response(%{__struct__: struct} = page, conn)
-       when struct in @routed_page_types do
+       when struct in @routed do
     # If these content types reach this point with a 200, something is wrong with their path alias
     # (the type-specific route controller is not being invoked due to the path not matching).
     case struct do
-      Content.NewsEntry -> NewsEntryController.show_news_entry(conn, page)
-      Content.Event -> EventController.show_event(conn, page)
-      Content.Project -> ProjectController.show_project(conn, page)
-      Content.ProjectUpdate -> ProjectController.show_project_update(conn, page)
+      Page.NewsEntry -> NewsEntryController.show_news_entry(conn, page)
+      Page.Event -> EventController.show_event(conn, page)
+      Page.Project -> ProjectController.show_project(conn, page)
+      Page.ProjectUpdate -> ProjectController.show_project_update(conn, page)
     end
   end
 
   defp handle_page_response(%{__struct__: struct} = page, conn)
-       when struct in @generic_page_types do
+       when struct in @generic do
     conn
     |> put_layout({SiteWeb.LayoutView, :app})
     |> render_page(page)
@@ -87,28 +88,28 @@ defmodule SiteWeb.ContentController do
     |> render("crash.html", [])
   end
 
-  @spec render_page(Conn.t(), Content.Page.t()) :: Conn.t()
-  defp render_page(conn, %Content.GenericPage{} = page) do
+  @spec render_page(Conn.t(), Page.Basic.t()) :: Conn.t()
+  defp render_page(conn, %Page.Basic{} = page) do
     conn
     |> assign(:breadcrumbs, page.breadcrumbs)
     |> assign(:page, page)
     |> render("page.html", conn: conn)
   end
 
-  defp render_page(conn, %Content.LandingPage{} = page) do
+  defp render_page(conn, %Page.Landing{} = page) do
     conn
     |> assign(:breadcrumbs, page.breadcrumbs)
     |> assign(:page, page)
     |> render("landing_page.html")
   end
 
-  defp render_page(conn, %Content.Person{} = person) do
+  defp render_page(conn, %Page.Person{} = person) do
     conn
     |> assign(:breadcrumbs, [Breadcrumb.build("People"), Breadcrumb.build(person.name)])
     |> render("person.html", person: person)
   end
 
-  defp render_page(conn, %Content.Redirect{link: link}) do
+  defp render_page(conn, %Page.Redirect{link: link}) do
     redirect(conn, external: link.url)
   end
 end
