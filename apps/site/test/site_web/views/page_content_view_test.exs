@@ -7,6 +7,19 @@ defmodule SiteWeb.CMS.PageViewTest do
   alias CMS.Paragraph.CustomHTML
   alias Phoenix.HTML
 
+  describe "render_page/2" do
+    test "renders a CMS.Page.Basic with sub-templates", %{conn: conn} do
+      paragraph = %Basic{body: HTML.raw("<p>Hello</p>")}
+
+      rendered =
+        paragraph
+        |> render_page(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "<p>Hello</p>"
+    end
+  end
+
   describe "sidebar_classes/2" do
     test "returns appropriate classes for a page with a sidebar" do
       assert sidebar_classes(true, false) == "c-cms--with-sidebar c-cms--sidebar-left"

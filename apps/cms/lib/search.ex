@@ -19,7 +19,7 @@ defmodule CMS.Search do
 
   @type result ::
           Event.t()
-          | Landing.t()
+          | LandingPage.t()
           | NewsEntry.t()
           | Page.t()
           | Person.t()
