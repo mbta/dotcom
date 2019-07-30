@@ -3,7 +3,8 @@ import React, {
   ReactElement,
   SetStateAction,
   useEffect,
-  useState
+  useState,
+  useReducer
 } from "react";
 import SelectContainer from "./SelectContainer";
 import { ServiceWithServiceDate } from "../../../__v3api";
@@ -19,7 +20,7 @@ import {
 } from "../../../helpers/service";
 import ScheduleTable from "./ScheduleTable";
 import { SelectedDirection } from "../ScheduleFinder";
-import { RoutePatternWithShape } from "../__schedule";
+import { RoutePatternWithShape, ServiceScheduleInfo } from "../__schedule";
 
 // until we come up with a good integration test for async with loading
 // some lines in this file have been ignored from codecov
@@ -68,6 +69,56 @@ const getTodaysScheduleId = (
   return todayService ? todayService.service.id : "";
 };
 
+type fetchAction =
+  | { type: "FETCH_COMPLETE"; payload: ServiceScheduleInfo }
+  | { type: "FETCH_ERROR" }
+  | { type: "FETCH_STARTED" };
+
+export const reducer = (state: State, action: fetchAction): State => {
+  switch (action.type) {
+    case "FETCH_STARTED":
+      return { isLoading: true, error: false, data: null };
+    case "FETCH_COMPLETE":
+      return { data: action.payload, isLoading: false, error: false };
+    case "FETCH_ERROR":
+      return { ...state, error: true, isLoading: false };
+    default:
+      return state;
+  }
+};
+
+export const fetchData = (
+  routeId: string,
+  stopId: string,
+  selectedService: ServiceWithServiceDate,
+  selectedDirection: SelectedDirection,
+  dispatch: (action: fetchAction) => void
+): Promise<void> => {
+  dispatch({ type: "FETCH_STARTED" });
+  return (
+    window.fetch &&
+    window
+      .fetch(
+        `/schedules/schedule_api?id=${routeId}&date=${
+          selectedService.end_date
+        }&direction_id=${selectedDirection}&stop_id=${stopId}`
+      )
+      .then(response => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
+      // @ts-ignore
+      .catch(() => dispatch({ type: "FETCH_ERROR" }))
+  );
+};
+
+interface State {
+  data: ServiceScheduleInfo | null;
+  isLoading: boolean;
+  error: boolean;
+}
+
 export const fetchSchedule = (
   services: ServiceWithServiceDate[],
   selectedServiceId: string,
@@ -111,22 +162,42 @@ export const ServiceSelector = ({
   routePatterns
 }: Props): ReactElement<HTMLElement> | null => {
   const [selectedServiceId, setSelectedServiceId] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
-  const [selectedServiceSchedule, setSelectedServiceSchedule] = useState(null);
+  const [state, dispatch] = useReducer(reducer, {
+    data: null,
+    isLoading: true,
+    error: false
+  });
 
   useEffect(
-    () =>
-      fetchSchedule(
-        services,
-        selectedServiceId,
-        routeId,
-        stopId,
-        directionId,
-        setIsLoading,
-        setSelectedServiceSchedule
-      ),
-    [services, directionId, routeId, selectedServiceId, stopId]
+    () => {
+      const selectedService = services.find(
+        service => service.id === selectedServiceId
+      );
+
+      if (!selectedService) {
+        return;
+      }
+      fetchData(routeId, stopId, selectedService, directionId, dispatch);
+    },
+    [services, routeId, directionId, stopId, selectedServiceId]
   );
+
+  //   const [isLoading, setIsLoading] = useState(true);
+  //   const [selectedServiceSchedule, setSelectedServiceSchedule] = useState(null);
+
+  //   useEffect(
+  //     () =>
+  //       fetchSchedule(
+  //         services,
+  //         selectedServiceId,
+  //         routeId,
+  //         stopId,
+  //         directionId,
+  //         setIsLoading,
+  //         setSelectedServiceSchedule
+  //       ),
+  //     [services, directionId, routeId, selectedServiceId, stopId]
+  //   );
 
   if (services.length <= 0) return null;
 
@@ -175,19 +246,16 @@ export const ServiceSelector = ({
         </SelectContainer>
       </div>
 
-      {isLoading && (
+      {state.isLoading && (
         <div className="schedule-finder__spinner-container">
           <div className="schedule-finder__spinner">Loading...</div>
         </div>
       )}
 
-      {/* istanbul ignore next */ !isLoading &&
-        /* istanbul ignore next */ selectedServiceSchedule && (
+      {/* istanbul ignore next */ !state.isLoading &&
+        /* istanbul ignore next */ state.data && (
           /* istanbul ignore next */
-          <ScheduleTable
-            schedule={selectedServiceSchedule!}
-            routePatterns={routePatterns}
-          />
+          <ScheduleTable schedule={state.data!} routePatterns={routePatterns} />
         )}
     </>
   );
