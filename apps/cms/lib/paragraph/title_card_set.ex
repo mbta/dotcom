@@ -1,4 +1,7 @@
 defmodule CMS.Paragraph.TitleCardSet do
+  @moduledoc """
+  Represents a collection of Title Cards in the CMS
+  """
   defstruct descriptive_links: []
 
   alias CMS.Paragraph.DescriptiveLink

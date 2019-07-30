@@ -7,11 +7,15 @@
 #
 # Run like:
 #
-    # mix run apps/content/bin/validate_fixtures.exs
+# mix run apps/content/bin/validate_fixtures.exs
 #
 # """
 
 defmodule Drupal do
+  @moduledoc false
+
+  alias CMS.API.HTTPClient
+
   def attributes(route) do
     route
     |> data()
@@ -20,7 +24,7 @@ defmodule Drupal do
   end
 
   defp data(route) do
-    with {:ok, data} <- CMS.API.HTTPClient.view(route, []) do
+    with {:ok, data} <- HTTPClient.view(route, []) do
       data
     else
       _ ->
@@ -31,6 +35,10 @@ defmodule Drupal do
 end
 
 defmodule Fixture do
+  @moduledoc false
+
+  alias Poison.Parser
+
   def attributes(filename) do
     filename
     |> parse_json()
@@ -41,7 +49,7 @@ defmodule Fixture do
   def parse_json(filename) do
     filename
     |> read()
-    |> Poison.Parser.parse!()
+    |> Parser.parse!()
   end
 
   defp read(filename) do
@@ -57,9 +65,11 @@ defmodule Fixture do
 end
 
 defmodule ApiData do
+  @moduledoc false
+
   def individual_item(data) when is_list(data) do
     data
-    |> List.first
+    |> List.first()
     |> individual_item()
   end
 
@@ -67,15 +77,21 @@ defmodule ApiData do
 end
 
 defmodule ComparisonLogger do
+  @moduledoc false
+
   def log_differences(fixture_mapping) do
     {missing_attributes, extra_attributes} = compare_attributes(fixture_mapping)
 
     output = description(fixture_mapping)
-    output = output <> if Enum.empty?(missing_attributes) && Enum.empty?(extra_attributes) do
-      no_differences()
-    else
-      differences({missing_attributes, extra_attributes})
-    end
+
+    output =
+      output <>
+        if Enum.empty?(missing_attributes) && Enum.empty?(extra_attributes) do
+          no_differences()
+        else
+          differences({missing_attributes, extra_attributes})
+        end
+
     output = output <> "\n"
 
     IO.puts(output)
@@ -95,14 +111,16 @@ defmodule ComparisonLogger do
 
   defp no_differences, do: "\tNo differences\n"
 
-  defp differences({missing_attributes, extra_attributes}), do:
-    unless_empty(missing_attributes, &missing/1) <> unless_empty(extra_attributes, &extra/1)
+  defp differences({missing_attributes, extra_attributes}),
+    do: unless_empty(missing_attributes, &missing/1) <> unless_empty(extra_attributes, &extra/1)
 
-  defp missing(missing_attributes), do: "\tMissing: \n\t\t#{missing_attributes |> Enum.join("\n\t\t")}" <> "\n"
+  defp missing(missing_attributes),
+    do: "\tMissing: \n\t\t#{missing_attributes |> Enum.join("\n\t\t")}" <> "\n"
 
-  defp extra(extra_attributes), do: "\tExtra: \n\t\t#{extra_attributes |> Enum.join("\n\t\t")}" <> "\n"
+  defp extra(extra_attributes),
+    do: "\tExtra: \n\t\t#{extra_attributes |> Enum.join("\n\t\t")}" <> "\n"
 
-  defp unless_empty(val, fun), do: if Enum.empty?(val), do: "", else: fun.(val)
+  defp unless_empty(val, fun), do: if(Enum.empty?(val), do: "", else: fun.(val))
 end
 
 fixture_mappings = [

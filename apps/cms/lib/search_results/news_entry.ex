@@ -1,4 +1,5 @@
 defmodule CMS.SearchResult.NewsEntry do
+  @moduledoc false
   defstruct title: "",
             url: "",
             highlights: []

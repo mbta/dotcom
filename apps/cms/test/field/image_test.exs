@@ -1,6 +1,8 @@
 defmodule CMS.Field.ImageTest do
   use ExUnit.Case, async: true
 
+  alias CMS.Field.Image
+
   describe "from_api/1" do
     test "maps image api data to a struct" do
       image_data = %{
@@ -15,7 +17,7 @@ defmodule CMS.Field.ImageTest do
         "mime_type" => "image/jpeg"
       }
 
-      image = CMS.Field.Image.from_api(image_data)
+      image = Image.from_api(image_data)
 
       assert image.alt == image_data["alt"]
       assert %URI{host: "localhost", path: "/files/purple-train.jpeg"} = URI.parse(image.url)

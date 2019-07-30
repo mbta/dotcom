@@ -1,4 +1,6 @@
 defmodule CMS.SearchResult.Event do
+  @moduledoc false
+
   import CMS.Helpers, only: [parse_iso_datetime: 1]
 
   defstruct title: "",

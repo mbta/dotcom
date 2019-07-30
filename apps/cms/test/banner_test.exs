@@ -1,8 +1,12 @@
 defmodule CMS.BannerTest do
   use ExUnit.Case, async: true
 
+  alias CMS.API.Static
+  alias CMS.Banner
+  alias CMS.Field.{Image, Link}
+
   setup do
-    api_notices = CMS.API.Static.banners_response()
+    api_notices = Static.banners_response()
     %{api_notices: api_notices}
   end
 
@@ -18,17 +22,17 @@ defmodule CMS.BannerTest do
     assert Map.get(raw, "field_updated_on") == [%{"value" => "2018-09-25"}]
     assert Map.get(raw, "title") == [%{"value" => "Headline goes here"}]
 
-    assert %CMS.Banner{
+    assert %Banner{
              blurb: blurb,
-             link: %CMS.Field.Link{url: url},
-             thumb: %CMS.Field.Image{},
+             link: %Link{url: url},
+             thumb: %Image{},
              text_position: text_position,
              banner_type: banner_type,
              category: category,
              routes: routes,
              updated_on: updated_on,
              title: title
-           } = CMS.Banner.from_api(raw)
+           } = Banner.from_api(raw)
 
     assert blurb == "Headline goes here"
     assert url == "/"
@@ -52,17 +56,17 @@ defmodule CMS.BannerTest do
     assert Map.get(raw, "field_updated_on") == [%{"value" => "2018-10-01"}]
     assert Map.get(raw, "title") == [%{"value" => "Commuter Rail Guide"}]
 
-    assert %CMS.Banner{
+    assert %Banner{
              blurb: blurb,
-             link: %CMS.Field.Link{url: url},
-             thumb: %CMS.Field.Image{},
+             link: %Link{url: url},
+             thumb: %Image{},
              text_position: text_position,
              banner_type: banner_type,
              category: category,
              routes: routes,
              updated_on: updated_on,
              title: title
-           } = CMS.Banner.from_api(raw)
+           } = Banner.from_api(raw)
 
     assert blurb == "This is the description of the commuter rail guide"
     assert url == "/node/3791"
@@ -75,7 +79,7 @@ defmodule CMS.BannerTest do
   end
 
   test "handles missing values without crashing" do
-    assert %CMS.Banner{
+    assert %Banner{
              blurb: blurb,
              link: nil,
              thumb: nil,
@@ -85,7 +89,7 @@ defmodule CMS.BannerTest do
              routes: routes,
              updated_on: updated_on,
              title: title
-           } = CMS.Banner.from_api(%{})
+           } = Banner.from_api(%{})
 
     assert blurb == ""
     assert text_position == :left
@@ -97,12 +101,12 @@ defmodule CMS.BannerTest do
   end
 
   test "it prefers field_image media image values, if present", %{api_notices: [_, data | _]} do
-    assert %CMS.Banner{
-             thumb: %CMS.Field.Image{
+    assert %Banner{
+             thumb: %Image{
                alt: thumb_alt,
                url: thumb_url
              }
-           } = CMS.Banner.from_api(data)
+           } = Banner.from_api(data)
 
     assert thumb_alt == "Commuter Rail train crossing a bridge in Ashland"
 
