@@ -58,7 +58,7 @@ Array [
           label="Holiday Schedules"
         />
         <optgroup
-          label="Other Schedules"
+          label="Future Schedules"
         />
       </select>
       <span

@@ -24,12 +24,12 @@ import { RoutePatternWithShape } from "../__schedule";
 // until we come up with a good integration test for async with loading
 // some lines in this file have been ignored from codecov
 
-const optGroupNames: ServiceOptGroup[] = ["current", "holiday", "other"];
+const optGroupNames: ServiceOptGroup[] = ["current", "holiday", "future"];
 
 const optGroupTitles: { [key in ServiceOptGroup]: string } = {
   current: "Current Schedules",
   holiday: "Holiday Schedules",
-  other: "Other Schedules"
+  future: "Future Schedules"
 };
 
 interface Props {
@@ -132,7 +132,7 @@ export const ServiceSelector = ({
 
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
-    .reduce(groupByType, { current: [], holiday: [], other: [] });
+    .reduce(groupByType, { current: [], holiday: [], future: [] });
 
   const defaultServiceId = getTodaysScheduleId(servicesByOptGroup);
 
