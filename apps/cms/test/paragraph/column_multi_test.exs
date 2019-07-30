@@ -1,9 +1,9 @@
-defmodule Content.Paragraph.ColumnMultiTest do
+defmodule CMS.Paragraph.ColumnMultiTest do
   @moduledoc false
 
   use ExUnit.Case, async: true
 
-  alias Content.Paragraph.{Column, ColumnMulti, CustomHTML, DescriptiveLink, FareCard}
+  alias CMS.Paragraph.{Column, ColumnMulti, CustomHTML, DescriptiveLink, FareCard}
   alias Phoenix.HTML
 
   test "new/0 creates a new, complete ColumnMulti struct" do

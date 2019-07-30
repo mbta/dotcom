@@ -1,7 +1,7 @@
 defmodule SiteWeb.ScheduleControllerTest do
   use SiteWeb.ConnCase
 
-  alias Content.Teaser
+  alias CMS.Teaser
   alias Plug.Conn
   alias Routes.{Repo, Shape}
   alias Schedules.Sort

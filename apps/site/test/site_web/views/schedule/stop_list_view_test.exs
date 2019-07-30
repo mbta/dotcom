@@ -556,7 +556,7 @@ defmodule SiteWeb.StopListViewTest do
     test "renders featured content and news", %{conn: conn} do
       assert {news, [featured | _]} =
                [route_id: "Red", sidebar: 1]
-               |> Content.Repo.teasers()
+               |> CMS.Repo.teasers()
                |> Enum.split_with(&(&1.type === :news_entry))
 
       refute Enum.empty?(news)

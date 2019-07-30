@@ -1,6 +1,7 @@
-defmodule Content.Factory do
-  alias Content.CMS.Static
-  alias Content.{Event, NewsEntry, Person, Project, ProjectUpdate, Teaser}
+defmodule CMS.Factory do
+  alias CMS.API.Static
+  alias CMS.Page.{Event, NewsEntry, Person, Project, ProjectUpdate}
+  alias CMS.Teaser
 
   @spec event_factory(integer, map) :: Event.t()
   def event_factory(index, opts \\ []) when is_integer(index) do

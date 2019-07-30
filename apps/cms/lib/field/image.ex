@@ -1,7 +1,7 @@
 defmodule CMS.Field.Image do
   @moduledoc """
   Represents an image field in the Drupal CMS. This image field is embedded
-  in other content types like CMS.NewsEntry.
+  in other content types like CMS.Page.NewsEntry.
   """
 
   import CMS.Helpers, only: [rewrite_url: 1]

@@ -1,6 +1,6 @@
-defmodule Content.BreadcrumbsTest do
+defmodule CMS.BreadcrumbsTest do
   use ExUnit.Case, async: true
-  import Content.Breadcrumbs
+  import CMS.Breadcrumbs
 
   describe "build/1" do
     test "returns a list of breadcrumbs" do

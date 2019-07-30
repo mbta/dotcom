@@ -1,7 +1,7 @@
 defmodule SiteWeb.ScheduleViewTest do
   use SiteWeb.ConnCase, async: true
 
-  alias Content.RoutePdf
+  alias CMS.RoutePdf
   alias Plug.Conn
   alias Schedules.Trip
   alias Stops.{Stop, RouteStop}
@@ -842,9 +842,9 @@ defmodule SiteWeb.ScheduleViewTest do
 
     test "shows all PDFs for the route" do
       route_pdfs = [
-        %Content.RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
-        %Content.RoutePdf{path: "/basic-future-url", date_start: ~D[2119-02-01]},
-        %Content.RoutePdf{
+        %CMS.RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
+        %CMS.RoutePdf{path: "/basic-future-url", date_start: ~D[2119-02-01]},
+        %CMS.RoutePdf{
           path: "/custom-url",
           date_start: ~D[2017-12-01],
           link_text_override: "Custom schedule"
@@ -863,8 +863,8 @@ defmodule SiteWeb.ScheduleViewTest do
 
     test "does not specify 'current' when all schedules are current" do
       route_pdfs = [
-        %Content.RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
-        %Content.RoutePdf{
+        %CMS.RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
+        %CMS.RoutePdf{
           path: "/custom-url",
           date_start: ~D[2017-12-01],
           link_text_override: "Custom schedule"
@@ -878,7 +878,7 @@ defmodule SiteWeb.ScheduleViewTest do
     end
 
     test "considers PDFs that start today as current" do
-      route_pdfs = [%Content.RoutePdf{path: "/url", date_start: ~D[2018-01-01]}]
+      route_pdfs = [%CMS.RoutePdf{path: "/url", date_start: ~D[2018-01-01]}]
       route = %Routes.Route{name: "1", type: 3}
       rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
       assert rendered =~ "Route 1 schedule PDF"

@@ -1,7 +1,7 @@
-defmodule Content.NewsEntryTest do
+defmodule CMS.Page.NewsEntryTest do
   use ExUnit.Case
 
-  alias Content.CMS.Static
+  alias CMS.API.Static
 
   setup do
     %{
@@ -12,7 +12,7 @@ defmodule Content.NewsEntryTest do
 
   describe "from_api/1" do
     test "parses api response without path alias", %{api_page_no_path_alias: api_page} do
-      assert %Content.NewsEntry{
+      assert %CMS.Page.NewsEntry{
                id: id,
                title: title,
                body: body,
@@ -24,7 +24,7 @@ defmodule Content.NewsEntryTest do
                teaser: teaser,
                migration_id: migration_id,
                path_alias: path_alias
-             } = Content.NewsEntry.from_api(api_page)
+             } = CMS.Page.NewsEntry.from_api(api_page)
 
       assert id == 3519
       assert title == "New Early Morning Bus Routes Begin April 1"
@@ -46,9 +46,9 @@ defmodule Content.NewsEntryTest do
     end
 
     test "parses api response with path alias", %{api_page_path_alias: api_page} do
-      assert %Content.NewsEntry{
+      assert %CMS.Page.NewsEntry{
                path_alias: path_alias
-             } = Content.NewsEntry.from_api(api_page)
+             } = CMS.Page.NewsEntry.from_api(api_page)
 
       assert path_alias == "/news/date/title"
     end

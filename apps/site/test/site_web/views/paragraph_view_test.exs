@@ -1,14 +1,12 @@
-defmodule SiteWeb.ContentViewTest do
+defmodule SiteWeb.CMS.ParagraphViewTest do
   use Site.ViewCase, async: true
 
-  import Content.Factory, only: [event_factory: 1, person_factory: 0]
-  import SiteWeb.ContentView
+  import CMS.Factory, only: [event_factory: 1, person_factory: 0]
+  import SiteWeb.CMS.ParagraphView
 
-  alias Content.GenericPage
-  alias Content.CMS.Static
-  alias Content.Field.{File, Image, Link}
+  alias CMS.Field.{File, Image, Link}
 
-  alias Content.Paragraph.{
+  alias CMS.Paragraph.{
     Accordion,
     AccordionSection,
     Callout,
@@ -31,89 +29,8 @@ defmodule SiteWeb.ContentViewTest do
 
   alias Phoenix.HTML
 
-  describe "Basic Page" do
-    setup do
-      basic_page = GenericPage.from_api(Static.basic_page_with_sidebar_response())
-      %{basic_page: basic_page}
-    end
-
-    test "renders a sidebar menu", %{basic_page: basic_page} do
-      fake_conn = %{
-        query_params: %{},
-        request_path: basic_page.sidebar_menu.links |> List.first() |> Map.get(:url)
-      }
-
-      rendered =
-        "page.html"
-        |> render(page: basic_page, conn: fake_conn)
-        |> HTML.safe_to_string()
-
-      assert rendered =~ ~s(c-cms--with-sidebar)
-      assert rendered =~ ~s(c-cms--sidebar-left)
-      assert rendered =~ "Logan Airport"
-      assert rendered =~ ~s(<ul class="c-cms__sidebar-links">)
-      assert rendered =~ ~s(c-cms__sidebar)
-      refute rendered =~ "c-cms__right-rail"
-    end
-
-    test "renders a page without a sidebar menu", %{basic_page: basic_page} do
-      basic_page = %{basic_page | sidebar_menu: nil}
-      fake_conn = %{request_path: "/"}
-
-      rendered =
-        "page.html"
-        |> render(page: basic_page, conn: fake_conn)
-        |> HTML.safe_to_string()
-
-      assert rendered =~ ~s(c-cms--no-sidebar)
-      assert rendered =~ "Fenway Park"
-      refute rendered =~ ~s(<ul class="sidebar-menu">)
-      refute rendered =~ "c-cms__right-rail"
-    end
-
-    test "renders a page with a right rail" do
-      page_with_right_rail = %GenericPage{
-        paragraphs: [
-          %CustomHTML{body: HTML.raw("<p>Hello</p>"), right_rail: false},
-          %CustomHTML{body: HTML.raw("<p>world</p>"), right_rail: true}
-        ]
-      }
-
-      fake_conn = %{request_path: "/"}
-
-      rendered =
-        "page.html"
-        |> render(page: page_with_right_rail, conn: fake_conn)
-        |> HTML.safe_to_string()
-
-      assert rendered =~ "c-cms--sidebar-right"
-      assert rendered =~ "Hello"
-      assert rendered =~ "world"
-      assert rendered =~ "c-paragraph--right-rail"
-    end
-  end
-
-  describe "Diversion" do
-    setup do
-      diversion = GenericPage.from_api(Static.diversion_response())
-      %{diversion: diversion}
-    end
-
-    test "renders a diversion as a generic page", %{diversion: diversion} do
-      fake_conn = %{request_path: "/", path_info: ["diversions", "diversion-2"]}
-
-      rendered =
-        "page.html"
-        |> render(page: diversion, conn: fake_conn)
-        |> HTML.safe_to_string()
-
-      assert rendered =~ ~s(<h1 class=\"c-cms__title-text\">\nDiversion Test 2)
-      assert rendered =~ "<p><strong>Start date: January 1, 2020</strong></p>"
-    end
-  end
-
   describe "render_paragraph/2" do
-    test "renders a Content.Paragraph.CustomHTML", %{conn: conn} do
+    test "renders a CMS.Paragraph.CustomHTML", %{conn: conn} do
       paragraph = %CustomHTML{body: HTML.raw("<p>Hello</p>")}
 
       rendered =
@@ -124,7 +41,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "<p>Hello</p>"
     end
 
-    test "renders a Content.Paragraph.CustomHTML with rewritten body", %{conn: conn} do
+    test "renders a CMS.Paragraph.CustomHTML with rewritten body", %{conn: conn} do
       html = "<div><span>Foo</span><table>Foo</table></div>"
       paragraph = %CustomHTML{body: HTML.raw(html)}
 
@@ -138,7 +55,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "responsive-table"
     end
 
-    test "renders a Content.Paragraph.TitleCardSet", %{conn: conn} do
+    test "renders a CMS.Paragraph.TitleCardSet", %{conn: conn} do
       paragraph = %TitleCardSet{
         descriptive_links: [
           %DescriptiveLink{
@@ -172,7 +89,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ ~s( href="https://www.example.com/another/link")
     end
 
-    test "renders a Content.Paragraph.TitleCardSet with content rewritten", %{conn: conn} do
+    test "renders a CMS.Paragraph.TitleCardSet with content rewritten", %{conn: conn} do
       paragraph = %TitleCardSet{
         descriptive_links: [
           %DescriptiveLink{
@@ -192,7 +109,7 @@ defmodule SiteWeb.ContentViewTest do
       refute rendered =~ "mbta-circle-icon"
     end
 
-    test "renders a Content.Paragraph.DescriptiveLink (outside a Title Card Set)", %{conn: conn} do
+    test "renders a CMS.Paragraph.DescriptiveLink (outside a Title Card Set)", %{conn: conn} do
       alone = %DescriptiveLink{
         title: "Card 1",
         body: HTML.raw("<strong>Body 1</strong>"),
@@ -230,7 +147,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered_unlinked =~ ~s(href="")
     end
 
-    test "renders a Content.Paragraph.UpcomingBoardMeetings", %{conn: conn} do
+    test "renders a CMS.Paragraph.UpcomingBoardMeetings", %{conn: conn} do
       event = event_factory(0)
 
       paragraph = %UpcomingBoardMeetings{
@@ -589,7 +506,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ paragraph.title
     end
 
-    test "renders a Content.Paragraph.ColumnMulti with nested paragraphs", %{conn: conn} do
+    test "renders a CMS.Paragraph.ColumnMulti with nested paragraphs", %{conn: conn} do
       header = %ColumnMultiHeader{
         text: HTML.raw("<h4>This is a multi-column header</h4>")
       }
@@ -683,7 +600,7 @@ defmodule SiteWeb.ContentViewTest do
       assert rendered =~ "Column 1"
     end
 
-    test "renders a Content.Paragraph.Accordion", %{conn: conn} do
+    test "renders a CMS.Paragraph.Accordion", %{conn: conn} do
       sections = [
         %AccordionSection{
           title: "{{ icon:subway-red }} Section 1",
@@ -761,81 +678,6 @@ defmodule SiteWeb.ContentViewTest do
         |> HTML.safe_to_string()
 
       assert rendered =~ paragraph.type
-    end
-  end
-
-  describe "file_description/1" do
-    test "returns URL decoded file name if description is nil" do
-      file = %File{url: "/some/path/This%20File%20Is%20Great.pdf", description: nil}
-      assert file_description(file) == "This File Is Great.pdf"
-    end
-
-    test "returns the URL decoded file name if description is an empty string" do
-      file = %File{url: "/some/path/This%20File%20Is%20Great.pdf", description: ""}
-      assert file_description(file) == "This File Is Great.pdf"
-    end
-
-    test "returns the description if present" do
-      file = %File{url: "/some/path/This%20File%20Is%20Great.pdf", description: "Download Now"}
-      assert file_description(file) == "Download Now"
-    end
-  end
-
-  describe "render_duration/2" do
-    test "with no end time, only renders start time" do
-      actual = render_duration(~N[2016-11-15T10:00:00], nil)
-      expected = "November 15, 2016 at 10 AM"
-      assert expected == actual
-    end
-
-    test "with start/end on same day, only renders date once" do
-      actual = render_duration(~N[2016-11-14T12:00:00], ~N[2016-11-14T14:30:00])
-      expected = "November 14, 2016 at 12 PM - 2:30 PM"
-      assert expected == actual
-    end
-
-    test "with start/end on different days, renders both dates" do
-      actual = render_duration(~N[2016-11-14T12:00:00], ~N[2016-12-01T14:30:00])
-      expected = "November 14, 2016 12 PM - December 1, 2016 2:30 PM"
-      assert expected == actual
-    end
-
-    test "with DateTimes, shifts them to America/New_York" do
-      actual =
-        render_duration(
-          Timex.to_datetime(~N[2016-11-05T05:00:00], "Etc/UTC"),
-          Timex.to_datetime(~N[2016-11-06T06:00:00], "Etc/UTC")
-        )
-
-      # could also be November 6th, 1:00 AM (test daylight savings)
-      expected = "November 5, 2016 1 AM - November 6, 2016 2 AM"
-      assert expected == actual
-    end
-  end
-
-  describe "sidebar_classes/1" do
-    test "returns appropriate classes for a page with a sidebar" do
-      sidebar_layout = {true, false}
-
-      assert sidebar_classes(sidebar_layout) == "c-cms--with-sidebar c-cms--sidebar-left"
-    end
-
-    test "returns appropriate classes for a page without a sidebar" do
-      sidebar_layout = {false, false}
-
-      assert sidebar_classes(sidebar_layout) == "c-cms--no-sidebar"
-    end
-
-    test "returns appropriate classes for a page with a right rail" do
-      sidebar_layout = {false, true}
-
-      assert sidebar_classes(sidebar_layout) == "c-cms--with-sidebar c-cms--sidebar-right"
-    end
-
-    test "returns only left-sidebar classes for a page with a both left menu and right rail" do
-      sidebar_layout = {true, true}
-
-      assert sidebar_classes(sidebar_layout) == "c-cms--with-sidebar c-cms--sidebar-left"
     end
   end
 

@@ -1,11 +1,11 @@
-defmodule Content.HelpersTest do
+defmodule CMS.HelpersTest do
   use ExUnit.Case, async: true
-  import Content.Helpers
+  import CMS.Helpers
 
-  alias Content.Helpers
+  alias CMS.Helpers
   alias Phoenix.HTML
 
-  doctest Content.Helpers
+  doctest CMS.Helpers
 
   describe "handle_html/1" do
     test "removes unsafe html tags from safe content" do
@@ -87,7 +87,7 @@ defmodule Content.HelpersTest do
         ]
       }
 
-      assert parse_image(data, "field_my_image") == %Content.Field.Image{
+      assert parse_image(data, "field_my_image") == %CMS.Field.Image{
                alt: "Picture of a barn",
                url: Util.site_path(:static_url, ["/files/barn.jpg"])
              }
@@ -114,11 +114,11 @@ defmodule Content.HelpersTest do
       }
 
       expected_result = [
-        %Content.Field.Image{
+        %CMS.Field.Image{
           alt: "Picture of a barn",
           url: Util.site_path(:static_url, ["/files/barn.jpg"])
         },
-        %Content.Field.Image{
+        %CMS.Field.Image{
           alt: "Picture of a horse",
           url: Util.site_path(:static_url, ["/files/horse.jpg"])
         }
@@ -160,7 +160,7 @@ defmodule Content.HelpersTest do
         ]
       }
 
-      assert %Content.Field.Link{
+      assert %CMS.Field.Link{
                title: "This is the link text",
                url: "/this/is/the/link/url"
              } = parse_link(data, "field_my_link")
@@ -205,17 +205,17 @@ defmodule Content.HelpersTest do
       parsed = parse_paragraphs(api_data)
 
       assert parsed == [
-               %Content.Paragraph.CustomHTML{
+               %CMS.Paragraph.CustomHTML{
                  body: HTML.raw("some HTML"),
                  right_rail: nil
                },
-               %Content.Paragraph.TitleCardSet{
+               %CMS.Paragraph.TitleCardSet{
                  descriptive_links: [
-                   %Content.Paragraph.DescriptiveLink{
+                   %CMS.Paragraph.DescriptiveLink{
                      body: HTML.raw("body"),
                      title: "title",
                      parent: "field_title_cards",
-                     link: %Content.Field.Link{
+                     link: %CMS.Field.Link{
                        url: "/foo/bar"
                      }
                    }
@@ -263,13 +263,13 @@ defmodule Content.HelpersTest do
       parsed_map = parse_paragraphs(map_data)
 
       assert parsed_map == [
-               %Content.Paragraph.CustomHTML{
+               %CMS.Paragraph.CustomHTML{
                  body: HTML.raw("I am published"),
                  right_rail: nil
                },
-               %Content.Paragraph.TitleCardSet{
+               %CMS.Paragraph.TitleCardSet{
                  descriptive_links: [
-                   %Content.Paragraph.DescriptiveLink{
+                   %CMS.Paragraph.DescriptiveLink{
                      body: HTML.raw("I am published"),
                      title: nil,
                      link: nil,
@@ -334,7 +334,7 @@ defmodule Content.HelpersTest do
       parsed_map = parse_paragraphs(map_data)
 
       assert parsed_map == [
-               %Content.Paragraph.CustomHTML{
+               %CMS.Paragraph.CustomHTML{
                  body: HTML.raw("I am published"),
                  right_rail: nil
                }

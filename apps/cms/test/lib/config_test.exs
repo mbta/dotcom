@@ -1,6 +1,6 @@
-defmodule Content.ConfigTest do
+defmodule CMS.ConfigTest do
   use ExUnit.Case
-  alias Content.Config
+  alias CMS.Config
 
   describe "url/1" do
     test "returns a full URL for the given path" do

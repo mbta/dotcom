@@ -1,4 +1,8 @@
-defmodule Content.Blurb do
+defmodule CMS.Blurb do
+  @moduledoc """
+  Deprecated feature for News items.
+  """
+
   def suffix do
     "..."
   end

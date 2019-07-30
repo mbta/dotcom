@@ -1,7 +1,7 @@
-defmodule Content.CMS.TimeRequestTest do
+defmodule CMS.API.TimeRequestTest do
   use ExUnit.Case
 
-  import Content.CMS.TimeRequest
+  import CMS.API.TimeRequest
   import Plug.Conn
   import ExUnit.CaptureLog
 

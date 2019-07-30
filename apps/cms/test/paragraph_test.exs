@@ -1,14 +1,14 @@
-defmodule Content.ParagraphTest do
+defmodule CMS.ParagraphTest do
   use ExUnit.Case, async: true
 
-  import Content.Paragraph
+  import CMS.Paragraph
   import Phoenix.HTML, only: [safe_to_string: 1]
 
-  alias Content.CMS.Static
-  alias Content.Event
-  alias Content.Field.{File, Image, Link}
+  alias CMS.API.Static
+  alias CMS.Page.Event
+  alias CMS.Field.{File, Image, Link}
 
-  alias Content.Paragraph.{
+  alias CMS.Paragraph.{
     Accordion,
     AccordionSection,
     Callout,
@@ -29,7 +29,7 @@ defmodule Content.ParagraphTest do
     UpcomingBoardMeetings
   }
 
-  alias Content.Person
+  alias CMS.Page.Person
 
   describe "from_api/1" do
     test "parses custom html" do
@@ -117,12 +117,12 @@ defmodule Content.ParagraphTest do
                columns: [
                  %Column{
                    paragraphs: [
-                     %Content.Paragraph.CustomHTML{} = column1_paragraph1
+                     %CMS.Paragraph.CustomHTML{} = column1_paragraph1
                    ]
                  },
                  %Column{
                    paragraphs: [
-                     %Content.Paragraph.CustomHTML{} = column2_paragraph1
+                     %CMS.Paragraph.CustomHTML{} = column2_paragraph1
                    ]
                  }
                ],

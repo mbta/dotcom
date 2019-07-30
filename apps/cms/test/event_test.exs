@@ -1,14 +1,14 @@
-defmodule Content.EventTest do
+defmodule CMS.Page.EventTest do
   use ExUnit.Case, async: true
 
-  alias Content.Event
-  import Content.Event
+  alias CMS.Page.Event
+  import CMS.Page.Event
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   setup do
     %{
-      api_event_without_path_alias: Content.CMS.Static.events_response() |> Enum.at(0),
-      api_event_with_path_alias: Content.CMS.Static.events_response() |> Enum.at(1)
+      api_event_without_path_alias: CMS.API.Static.events_response() |> Enum.at(0),
+      api_event_with_path_alias: CMS.API.Static.events_response() |> Enum.at(1)
     }
   end
 

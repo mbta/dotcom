@@ -84,7 +84,7 @@
         <% else %>
 
           <%# If paragraphs are present, rely 100% on them for sidebar components %>
-          <%= render(SiteWeb.CMSView, "_sidebar_right.html", page: @project, conn: @conn) %>
+          <%= SiteWeb.CMSView.render("_sidebar_right.html", page: @project, conn: @conn) %>
 
         <% end %>
       <% end %>

@@ -1,6 +1,6 @@
-defmodule Content.Search.FacetTest do
+defmodule CMS.Search.FacetTest do
   use ExUnit.Case, async: true
-  import Content.Search.Facet
+  import CMS.Search.Facet
 
   describe "build/3" do
     test "facet marked as active if given value is part of input" do

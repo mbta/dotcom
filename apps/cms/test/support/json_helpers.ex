@@ -1,4 +1,4 @@
-defmodule Content.JsonHelpers do
+defmodule CMS.JsonHelpers do
   def parse_json_file("fixtures" <> filename) do
     file_path = [Path.dirname(__ENV__.file), "../fixtures", filename]
     parse_file(file_path)

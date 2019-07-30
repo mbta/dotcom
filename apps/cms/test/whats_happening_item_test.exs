@@ -1,22 +1,22 @@
-defmodule Content.WhatsHappeningItemTest do
+defmodule CMS.WhatsHappeningItemTest do
   use ExUnit.Case, async: true
 
   setup do
-    api_items = Content.CMS.Static.whats_happening_response()
+    api_items = CMS.API.Static.whats_happening_response()
     %{api_items: api_items}
   end
 
-  test "parses an api response into a Content.WhatsHappeningItem", %{api_items: [item | _]} do
+  test "parses an api response into a CMS.WhatsHappeningItem", %{api_items: [item | _]} do
     assert Map.get(item, "field_page_type") == [
              %{"data" => nil, "id" => 248, "name" => "Guides", "vocab" => "page_type"}
            ]
 
-    assert %Content.WhatsHappeningItem{
+    assert %CMS.WhatsHappeningItem{
              blurb: blurb,
              category: category,
-             link: %Content.Field.Link{url: url},
-             image: %Content.Field.Image{}
-           } = Content.WhatsHappeningItem.from_api(item)
+             link: %CMS.Field.Link{url: url},
+             image: %CMS.Field.Image{}
+           } = CMS.WhatsHappeningItem.from_api(item)
 
     assert blurb =~ "Visiting Boston? Find your way around with our new Visitor's Guide to the T."
     assert category == "Guides"
@@ -24,12 +24,12 @@ defmodule Content.WhatsHappeningItemTest do
   end
 
   test "it uses field_image media image values", %{api_items: [_, item | _]} do
-    assert %Content.WhatsHappeningItem{
-             image: %Content.Field.Image{
+    assert %CMS.WhatsHappeningItem{
+             image: %CMS.Field.Image{
                alt: alt,
                url: url
              }
-           } = Content.WhatsHappeningItem.from_api(item)
+           } = CMS.WhatsHappeningItem.from_api(item)
 
     assert alt == "A bus at night in downtown Boston, Photo by Osman Rana, via Unsplash."
 
@@ -44,8 +44,8 @@ defmodule Content.WhatsHappeningItemTest do
       | "field_wh_link" => [%{"uri" => "internal:/news/winter", "title" => "", "options" => []}]
     }
 
-    assert %Content.WhatsHappeningItem{
-             link: %Content.Field.Link{url: "/news/winter"}
-           } = Content.WhatsHappeningItem.from_api(item)
+    assert %CMS.WhatsHappeningItem{
+             link: %CMS.Field.Link{url: "/news/winter"}
+           } = CMS.WhatsHappeningItem.from_api(item)
   end
 end

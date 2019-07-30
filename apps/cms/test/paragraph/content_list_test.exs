@@ -1,4 +1,4 @@
-defmodule Content.Paragraph.ContentListTest do
+defmodule CMS.Paragraph.ContentListTest do
   @moduledoc """
   Tests struct-specific construction logic. Helper functions in this file
   build minimum-viable CMS API response JSON data from the CMS field name
@@ -7,7 +7,7 @@ defmodule Content.Paragraph.ContentListTest do
 
   use ExUnit.Case, async: true
 
-  alias Content.Paragraph.ContentList
+  alias CMS.Paragraph.ContentList
 
   describe "from_api/1" do
     test "If type is specified, it should result in a single-item list" do

@@ -4,12 +4,12 @@ defmodule SiteWeb.PageViewTest do
 
   describe "banners" do
     test "renders _banner.html for important banners" do
-      banner = %Content.Banner{
+      banner = %CMS.Banner{
         title: "Important Banner Title",
         blurb: "Uh oh, this is very important!",
-        link: %Content.Field.Link{url: "http://example.com/important", title: "Call to Action"},
+        link: %CMS.Field.Link{url: "http://example.com/important", title: "Call to Action"},
         utm_url: "http://example.com/important?utm=stuff",
-        thumb: %Content.Field.Image{},
+        thumb: %CMS.Field.Image{},
         banner_type: :important
       }
 
@@ -20,12 +20,12 @@ defmodule SiteWeb.PageViewTest do
     end
 
     test "renders _banner.html for default banners" do
-      banner = %Content.Banner{
+      banner = %CMS.Banner{
         title: "Default Banner Title",
         blurb: "This is not as important.",
-        link: %Content.Field.Link{url: "http://example.com/default", title: "Call to Action"},
+        link: %CMS.Field.Link{url: "http://example.com/default", title: "Call to Action"},
         utm_url: "http://example.com/important?utm=stuff",
-        thumb: %Content.Field.Image{},
+        thumb: %CMS.Field.Image{},
         banner_type: :default
       }
 
@@ -50,7 +50,7 @@ defmodule SiteWeb.PageViewTest do
 
       entries =
         for idx <- 1..5 do
-          %Content.Teaser{
+          %CMS.Teaser{
             id: idx * 1000,
             title: "News Entry #{idx}",
             type: :news_entry,
