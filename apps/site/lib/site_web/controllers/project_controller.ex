@@ -6,7 +6,7 @@ defmodule SiteWeb.ProjectController do
   alias Plug.Conn
   alias SiteWeb.ProjectView
 
-  @breadcrumb_base "MBTA Projects and Programs"
+  @breadcrumb_base "Projects"
   @placeholder_image_path "/images/project-image-placeholder.png"
 
   def index(conn, _) do
