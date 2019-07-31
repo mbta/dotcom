@@ -1,4 +1,4 @@
-defmodule CMS.Search do
+defmodule CMS.Search.Result do
   @moduledoc """
   Represents a complete search result from the Drupal CMS.
   """

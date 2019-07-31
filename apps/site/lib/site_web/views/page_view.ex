@@ -1,10 +1,11 @@
 defmodule SiteWeb.PageView do
+  @moduledoc false
   import Phoenix.HTML.Tag
   import SiteWeb.CMSHelpers, only: [cms_route_to_class: 1]
 
-  alias CMS.Banner
   alias CMS.Page.NewsEntry
   alias CMS.Paragraph.ColumnMulti
+  alias CMS.Partial.Banner
   alias SiteWeb.FareView
   alias SiteWeb.PartialView
 

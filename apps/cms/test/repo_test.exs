@@ -5,6 +5,13 @@ defmodule CMS.RepoTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
   import Mock
 
+  # Misc
+  alias CMS.{
+    API.Static,
+    Paragraph,
+    Repo
+  }
+
   # Page Content
   alias CMS.Page.{
     Basic,
@@ -17,18 +24,11 @@ defmodule CMS.RepoTest do
   }
 
   # Other Content Types
-  alias CMS.{
+  alias CMS.Partial.{
     Banner,
-    WhatsHappeningItem
-  }
-
-  # Misc
-  alias CMS.{
-    API.Static,
-    Paragraph,
-    Repo,
     RoutePdf,
-    Teaser
+    Teaser,
+    WhatsHappeningItem
   }
 
   describe "news_entry_by/1" do

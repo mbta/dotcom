@@ -1,7 +1,7 @@
 defmodule SiteWeb.PartialView do
   use SiteWeb, :view
 
-  alias CMS.{Field.Image, Repo, Teaser}
+  alias CMS.{Field.Image, Partial.Teaser, Repo}
   alias Plug.Conn
   alias Routes.Route
   alias SiteWeb.PartialView.SvgIconWithCircle

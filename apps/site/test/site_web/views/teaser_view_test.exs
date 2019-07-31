@@ -4,7 +4,7 @@ defmodule SiteWeb.TeaserViewTest do
   import SiteWeb.CMS.TeaserView
 
   alias CMS.API.Static
-  alias CMS.Teaser
+  alias CMS.Partial.Teaser
 
   describe "teaser_color/1" do
     test "provides a CSS class for routes found on teaser" do

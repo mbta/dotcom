@@ -2,19 +2,19 @@ defmodule CMS.Search.Facets do
   @moduledoc "Module for interacting with Search Facets"
 
   alias CMS.Repo
-  alias CMS.Search
   alias CMS.Search.Facet
+  alias CMS.Search.Result
 
   @default_opts [search_fn: &Repo.search/3, response_timeout: 5000]
-  @typep search_fn :: (String.t(), integer, [String.t()] -> Search.t())
-  @typep content_response :: {:ok, Search.t()} | :error
+  @typep search_fn :: (String.t(), integer, [String.t()] -> Result.t())
+  @typep content_response :: {:ok, Result.t()} | :error
 
   @doc """
   Returns search performed with and without content_types.
   If no content_types provided, returns base search twice
   """
   @spec facet_responses(String.t(), integer, [String.t()], Keyword.t()) ::
-          {Search.t(), Search.t()} | :error
+          {Result.t(), Result.t()} | :error
   def facet_responses(query, offset, content_types, user_opts \\ []) do
     opts = Keyword.merge(@default_opts, user_opts)
 
@@ -49,7 +49,7 @@ defmodule CMS.Search.Facets do
   end
 
   @spec do_perform_search(String.t(), integer, [String.t()], search_fn) ::
-          {:ok, Search.t()} | :error
+          {:ok, Result.t()} | :error
   defp do_perform_search(query, offset, content_types, search_fn) do
     case search_fn.(query, offset, content_types) do
       {:ok, _response} = result -> result

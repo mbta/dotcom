@@ -1,9 +1,9 @@
 defmodule SiteWeb.Mode.HubBehavior do
-  alias CMS.{API, Repo, Teaser}
+  @moduledoc "Behavior for mode hub pages."
+
+  alias CMS.{API, Partial.Teaser, Repo}
   alias Fares.Summary
   alias Routes.Route
-
-  @moduledoc "Behavior for mode hub pages."
 
   @callback routes() :: [Routes.Route.t()]
   @callback mode_name() :: String.t()

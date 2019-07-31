@@ -6,6 +6,7 @@ defmodule CMS.Page.ProjectUpdateTest do
   alias CMS.API.Static
   alias CMS.Field.Image
   alias CMS.Page.ProjectUpdate
+  alias Phoenix.HTML
 
   setup do
     %{api_data: Static.project_update_repo()}
@@ -25,7 +26,7 @@ defmodule CMS.Page.ProjectUpdateTest do
              } = ProjectUpdate.from_api(List.first(api_data))
 
       assert id == 3005
-      assert Phoenix.HTML.safe_to_string(body) =~ "What's the bus shuttle schedule?</h2>"
+      assert HTML.safe_to_string(body) =~ "What's the bus shuttle schedule?</h2>"
       assert posted_on == ~D[2018-04-02]
       assert project_id == 3004
       assert teaser =~ "On January 8, Wollaston Station on the Red Line closed"

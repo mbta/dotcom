@@ -1,7 +1,7 @@
 defmodule SiteWeb.ProjectController do
   use SiteWeb, :controller
 
-  alias CMS.{Repo, Teaser}
+  alias CMS.{Repo, Partial.Teaser}
   alias CMS.Page.{Project, ProjectUpdate}
   alias Plug.Conn
   alias SiteWeb.ProjectView

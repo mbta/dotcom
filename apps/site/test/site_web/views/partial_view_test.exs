@@ -5,7 +5,7 @@ defmodule SiteWeb.PartialViewTest do
   import SiteWeb.PartialView
   import SiteWeb.PartialView.{HeaderTabs, SvgIconWithCircle}
 
-  alias CMS.{Repo, Teaser}
+  alias CMS.{Repo, Partial.Teaser}
   alias SiteWeb.PartialView
   alias SiteWeb.PartialView.{HeaderTab, HeaderTabBadge, SvgIconWithCircle, FullscreenError}
 

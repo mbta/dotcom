@@ -3,7 +3,7 @@ defmodule CMS.Factory do
 
   alias CMS.API.Static
   alias CMS.Page.{Event, NewsEntry, Person, Project, ProjectUpdate}
-  alias CMS.Teaser
+  alias CMS.Partial.Teaser
 
   @spec event_factory(integer, map) :: Event.t()
   def event_factory(index, opts \\ []) when is_integer(index) do

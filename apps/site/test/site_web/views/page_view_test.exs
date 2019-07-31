@@ -1,15 +1,20 @@
 defmodule SiteWeb.PageViewTest do
   use Site.ViewCase, async: true
+
+  alias CMS.Field.{Image, Link}
+  alias CMS.Partial.Banner
+  alias CMS.Partial.Teaser
+  alias Phoenix.HTML
   alias Plug.Conn
 
   describe "banners" do
     test "renders _banner.html for important banners" do
-      banner = %CMS.Banner{
+      banner = %Banner{
         title: "Important Banner Title",
         blurb: "Uh oh, this is very important!",
-        link: %CMS.Field.Link{url: "http://example.com/important", title: "Call to Action"},
+        link: %Link{url: "http://example.com/important", title: "Call to Action"},
         utm_url: "http://example.com/important?utm=stuff",
-        thumb: %CMS.Field.Image{},
+        thumb: %Image{},
         banner_type: :important
       }
 
@@ -20,12 +25,12 @@ defmodule SiteWeb.PageViewTest do
     end
 
     test "renders _banner.html for default banners" do
-      banner = %CMS.Banner{
+      banner = %Banner{
         title: "Default Banner Title",
         blurb: "This is not as important.",
-        link: %CMS.Field.Link{url: "http://example.com/default", title: "Call to Action"},
+        link: %Link{url: "http://example.com/default", title: "Call to Action"},
         utm_url: "http://example.com/important?utm=stuff",
-        thumb: %CMS.Field.Image{},
+        thumb: %Image{},
         banner_type: :default
       }
 
@@ -38,7 +43,7 @@ defmodule SiteWeb.PageViewTest do
 
   describe "shortcut_icons/0" do
     test "renders shortcut icons" do
-      rendered = SiteWeb.PageView.shortcut_icons() |> Phoenix.HTML.safe_to_string()
+      rendered = SiteWeb.PageView.shortcut_icons() |> HTML.safe_to_string()
       icons = Floki.find(rendered, ".m-homepage__shortcut")
       assert length(icons) == 6
     end
@@ -50,7 +55,7 @@ defmodule SiteWeb.PageViewTest do
 
       entries =
         for idx <- 1..5 do
-          %CMS.Teaser{
+          %Teaser{
             id: idx * 1000,
             title: "News Entry #{idx}",
             type: :news_entry,
@@ -64,7 +69,7 @@ defmodule SiteWeb.PageViewTest do
         conn
         |> assign(:news, entries)
         |> SiteWeb.PageView.render_news_entries()
-        |> Phoenix.HTML.safe_to_string()
+        |> HTML.safe_to_string()
 
       assert rendered |> Floki.find(".c-news-entry") |> Enum.count() == 5
       assert rendered |> Floki.find(".c-news-entry--large") |> Enum.count() == 2

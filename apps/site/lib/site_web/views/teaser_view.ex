@@ -6,7 +6,7 @@ defmodule SiteWeb.CMS.TeaserView do
 
   import SiteWeb.CMSHelpers, only: [cms_route_to_class: 1]
 
-  alias CMS.Teaser
+  alias CMS.Partial.Teaser
 
   @spec teaser_color(Teaser.t()) :: String.t()
   def teaser_color(%Teaser{routes: [route | _]}), do: cms_route_to_class(route)

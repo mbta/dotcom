@@ -1,4 +1,4 @@
-defmodule CMS.MenuLinks do
+defmodule CMS.Partial.MenuLinks do
   @moduledoc """
   Represents a "Menu Links" content type in the Drupal CMS.
   """

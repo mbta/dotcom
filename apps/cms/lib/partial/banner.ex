@@ -1,4 +1,4 @@
-defmodule CMS.Banner do
+defmodule CMS.Partial.Banner do
   @moduledoc """
 
   Represents the "Banner" content type in the CMS. Banners are

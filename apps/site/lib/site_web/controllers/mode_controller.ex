@@ -1,7 +1,8 @@
 defmodule SiteWeb.ModeController do
+  @moduledoc false
   use SiteWeb, :controller
 
-  alias CMS.{Repo, Teaser}
+  alias CMS.{Partial.Teaser, Repo}
   alias Plug.Conn
   alias PredictedSchedule.Display
   alias Site.TransitNearMe

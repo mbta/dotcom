@@ -4,8 +4,8 @@ defmodule CMS.Page.BasicTest do
   import CMS.APITestHelpers, only: [update_api_response: 3]
 
   alias CMS.API.Static
-  alias CMS.MenuLinks
   alias CMS.Page.Basic
+  alias CMS.Partial.MenuLinks
   alias Phoenix.HTML
 
   setup do

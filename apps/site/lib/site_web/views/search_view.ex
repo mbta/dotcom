@@ -49,7 +49,7 @@ defmodule SiteWeb.SearchView do
     ]
   end
 
-  @spec icon(Search.result()) :: Phoenix.HTML.safe() | String.t()
+  @spec icon(Search.Result()) :: Phoenix.HTML.safe() | String.t()
   defp icon(%Event{}), do: fa("calendar")
   defp icon(%NewsEntry{}), do: fa("newspaper-o")
   defp icon(%Person{}), do: fa("user")
@@ -58,7 +58,7 @@ defmodule SiteWeb.SearchView do
   defp icon(%Link{}), do: fa("file-o")
   defp icon(%File{mimetype: mimetype}), do: fa_icon_for_file_type(mimetype)
 
-  @spec fragment(Search.result(), Plug.Conn.t()) :: Phoenix.HTML.safe() | String.t()
+  @spec fragment(Search.Result(), Plug.Conn.t()) :: Phoenix.HTML.safe() | String.t()
   defp fragment(%NewsEntry{highlights: higlights}, conn), do: highlights(higlights, conn)
   defp fragment(%Person{highlights: higlights}, conn), do: highlights(higlights, conn)
   defp fragment(%Page{highlights: higlights}, conn), do: highlights(higlights, conn)

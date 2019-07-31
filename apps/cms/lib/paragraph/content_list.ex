@@ -9,7 +9,7 @@ defmodule CMS.Paragraph.ContentList do
 
   import CMS.Paragraph, only: [parse_header: 1]
 
-  alias CMS.{Paragraph.ColumnMultiHeader, Repo, Teaser}
+  alias CMS.{Paragraph.ColumnMultiHeader, Repo, Partial.Teaser}
 
   defstruct header: nil,
             right_rail: false,

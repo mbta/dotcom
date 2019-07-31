@@ -3,7 +3,7 @@ defmodule Site.RoutePdfsTest do
 
   import Site.RoutePdfs
 
-  alias CMS.RoutePdf
+  alias CMS.Partial.RoutePdf
 
   @date ~D[2018-01-01]
 

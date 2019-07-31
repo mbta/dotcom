@@ -1,11 +1,13 @@
 defmodule SiteWeb.PageController do
+  @moduledoc false
   use SiteWeb, :controller
 
   import SiteWeb.CMSHelpers, only: [cms_route_to_class: 1]
 
-  alias CMS.{
+  alias CMS.Repo
+
+  alias CMS.Partial.{
     Banner,
-    Repo,
     Teaser,
     WhatsHappeningItem
   }

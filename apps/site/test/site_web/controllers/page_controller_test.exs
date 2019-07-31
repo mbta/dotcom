@@ -1,7 +1,13 @@
 defmodule SiteWeb.PageControllerTest do
   use SiteWeb.ConnCase
   import SiteWeb.PageController
-  alias CMS.{Banner, Field.Link, Teaser, WhatsHappeningItem}
+
+  alias CMS.{
+    Field.Link,
+    Partial.Banner,
+    Partial.Teaser,
+    Partial.WhatsHappeningItem
+  }
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")

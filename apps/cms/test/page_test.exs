@@ -5,7 +5,7 @@ defmodule PageTest do
     API.Static,
     Page,
     Paragraph.ContentList,
-    Teaser
+    Partial.Teaser
   }
 
   describe "from_api/1" do

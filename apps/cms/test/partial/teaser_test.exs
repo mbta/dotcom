@@ -1,9 +1,9 @@
-defmodule CMS.TeaserTest do
+defmodule CMS.Partial.TeaserTest do
   use ExUnit.Case, async: true
 
   alias CMS.API.Static
   alias CMS.Field.Image
-  alias CMS.Teaser
+  alias CMS.Partial.Teaser
 
   test "parses a teaser item into %CMS.Teaser{}" do
     [raw | _] = Static.teaser_response()

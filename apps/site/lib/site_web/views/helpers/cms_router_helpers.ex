@@ -17,7 +17,7 @@ defmodule SiteWeb.CmsRouterHelpers do
     ProjectUpdate
   }
 
-  alias CMS.Teaser
+  alias CMS.Partial.Teaser
 
   @spec news_entry_path(
           Conn.t() | nil,

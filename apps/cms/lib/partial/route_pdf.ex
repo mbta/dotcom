@@ -1,4 +1,4 @@
-defmodule CMS.RoutePdf do
+defmodule CMS.Partial.RoutePdf do
   @moduledoc """
   Represents metadata about all the pdfs we have associated with a route.
   """

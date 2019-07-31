@@ -10,11 +10,9 @@ defmodule CMS.Repo do
 
   use RepoCache, ttl: :timer.minutes(1)
 
-  alias CMS.{
-    API,
+  alias CMS.Partial.{
     Banner,
     RoutePdf,
-    Search,
     Teaser,
     WhatsHappeningItem
   }
@@ -23,6 +21,7 @@ defmodule CMS.Repo do
   alias CMS.Page
   alias CMS.Page.{Event, NewsEntry}
   alias CMS.Paragraph
+  alias CMS.Search.Result
 
   alias Routes.Route
 
@@ -117,7 +116,7 @@ defmodule CMS.Repo do
     params = [q: query, page: offset] ++ Enum.map(content_types, &{:"type[]", &1})
 
     with {:ok, api_data} <- @cms_api.view("/cms/search", params) do
-      {:ok, Search.from_api(api_data)}
+      {:ok, Result.from_api(api_data)}
     end
   end
 

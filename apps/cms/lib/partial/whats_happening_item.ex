@@ -1,4 +1,4 @@
-defmodule CMS.WhatsHappeningItem do
+defmodule CMS.Partial.WhatsHappeningItem do
   @moduledoc """
   These appear as blocks on the homepage of the website.
   """

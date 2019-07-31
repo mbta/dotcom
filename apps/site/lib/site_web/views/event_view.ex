@@ -6,7 +6,7 @@ defmodule SiteWeb.EventView do
   import SiteWeb.CMSView, only: [file_description: 1, render_duration: 2]
 
   alias CMS.Page.Event
-  alias CMS.Teaser
+  alias CMS.Partial.Teaser
 
   @spec shift_date_range(String.t(), integer) :: String.t()
   def shift_date_range(iso_string, shift_value) do
