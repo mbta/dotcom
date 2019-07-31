@@ -31,6 +31,7 @@ defmodule SiteWeb.CMS.PageView do
   Intelligently choose and render page template content based on type, except
   for certain types which either have no template or require special values.
   """
+  @spec render_page_content(Page.t(), Conn.t()) :: Phoenix.HTML.safe()
   def render_page_content(page, conn) do
     render(
       "_generic.html",
