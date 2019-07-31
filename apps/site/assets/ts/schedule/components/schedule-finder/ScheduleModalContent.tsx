@@ -8,6 +8,7 @@ import {
   RoutePatternsByDirection
 } from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
+import { reducer } from "../../../helpers/fetch";
 import ServiceSelector from "./ServiceSelector";
 
 const stopInfo = (
@@ -44,19 +45,6 @@ type fetchAction =
   | { type: "FETCH_COMPLETE"; payload: StopPrediction[] }
   | { type: "FETCH_ERROR" }
   | { type: "FETCH_STARTED" };
-
-export const reducer = (state: State, action: fetchAction): State => {
-  switch (action.type) {
-    case "FETCH_STARTED":
-      return { isLoading: true, error: false, data: null };
-    case "FETCH_COMPLETE":
-      return { data: action.payload, isLoading: false, error: false };
-    case "FETCH_ERROR":
-      return { ...state, error: true, isLoading: false };
-    default:
-      return state;
-  }
-};
 
 export const fetchData = (
   routeId: string,

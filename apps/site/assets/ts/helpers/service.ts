@@ -24,7 +24,7 @@ const holidayDate = (service: Service): string => {
   return note || `on ${formattedDate(new Date(service.start_date))}`;
 };
 
-export type ServiceOptGroup = "current" | "holiday" | "other";
+export type ServiceOptGroup = "current" | "holiday" | "future";
 
 export interface ServiceByOptGroup {
   type: ServiceOptGroup;
@@ -120,14 +120,14 @@ export const groupServiceByDate = (
 
   if (serviceDateTime < startDateTime) {
     return {
-      type: "other",
+      type: "future",
       servicePeriod: `starts ${formattedDate(startDateObject)}`,
       service
     };
   }
 
   return {
-    type: "other",
+    type: "future",
     servicePeriod: `${formattedDate(startDateObject)} to ${formattedDate(
       endDateObject
     )}`,

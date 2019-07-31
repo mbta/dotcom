@@ -122,10 +122,10 @@ describe("groupServiceByDate", () => {
     });
   });
 
-  it("groups upcoming schedules as other with proper service period", () => {
+  it("groups upcoming schedules as future with proper service period", () => {
     const groupedService = groupServiceByDate(upcomingService);
     expect(groupedService).toEqual({
-      type: "other",
+      type: "future",
       servicePeriod: "starts July 1",
       service: upcomingService
     });
@@ -142,14 +142,14 @@ describe("groupServiceByDate", () => {
       service: { ...service, service_date: "06-25-19" }
     });
   });
-  it("marks other schedules as others", () => {
+  it("marks future schedules as future", () => {
     const groupedService = groupServiceByDate({
       ...currentService,
       start_date: "2019-01-01",
       end_date: "2019-01-02"
     });
     expect(groupedService).toEqual({
-      type: "other",
+      type: "future",
       servicePeriod: "January 1 to January 2",
       service: {
         ...currentService,
@@ -166,7 +166,7 @@ const groupServices = (services: ServiceWithServiceDate[]) =>
     .reduce(
       (acc: ServicesKeyedByGroup, currService: ServiceByOptGroup) =>
         groupByType(acc, currService),
-      { other: [], current: [], holiday: [] }
+      { future: [], current: [], holiday: [] }
     );
 
 const holidayService = { ...service, service_date: "2019-06-25" };
