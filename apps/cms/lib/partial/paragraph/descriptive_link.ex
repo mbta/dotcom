@@ -1,4 +1,4 @@
-defmodule CMS.Paragraph.DescriptiveLink do
+defmodule CMS.Partial.Paragraph.DescriptiveLink do
   @moduledoc """
 
   Represents an individual "Descriptive Link" paragraph in the CMS. They are normally

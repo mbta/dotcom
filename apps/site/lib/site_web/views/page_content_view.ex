@@ -7,7 +7,7 @@ defmodule SiteWeb.CMS.PageView do
   import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
 
   alias CMS.Page
-  alias CMS.Paragraph
+  alias CMS.Partial.Paragraph
   alias Plug.Conn
 
   @doc "Universal wrapper for CMS page content"

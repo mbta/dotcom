@@ -1,10 +1,10 @@
-defmodule CMS.Paragraph.DescriptionList do
+defmodule CMS.Partial.Paragraph.DescriptionList do
   @moduledoc """
   A description list element (optionally including a header) from the CMS.
   """
-  import CMS.Paragraph, only: [parse_header: 1]
+  import CMS.Partial.Paragraph, only: [parse_header: 1]
 
-  alias CMS.Paragraph.{ColumnMultiHeader, Description}
+  alias CMS.Partial.Paragraph.{ColumnMultiHeader, Description}
 
   defstruct header: nil,
             descriptions: []

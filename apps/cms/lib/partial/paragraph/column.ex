@@ -1,8 +1,8 @@
-defmodule CMS.Paragraph.Column do
+defmodule CMS.Partial.Paragraph.Column do
   @moduledoc """
   An individual column in a ColumnMulti set.
   """
-  alias CMS.Paragraph
+  alias CMS.Partial.Paragraph
 
   defstruct paragraphs: []
 

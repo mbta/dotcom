@@ -1,4 +1,4 @@
-defmodule CMS.Paragraph.Unknown do
+defmodule CMS.Partial.Paragraph.Unknown do
   @moduledoc """
   Represents an unknown paragraph type in the Drupal CMS.
   """

@@ -1,4 +1,4 @@
-defmodule CMS.Paragraph.PeopleGrid do
+defmodule CMS.Partial.Paragraph.PeopleGrid do
   @moduledoc """
   Represents a PeopleGrid paragraph type in the Drupal CMS.
   """

@@ -10,7 +10,7 @@ defmodule CMS.Page.Landing do
 
   alias CMS.Breadcrumbs
   alias CMS.Field.Image
-  alias CMS.Paragraph
+  alias CMS.Partial.Paragraph
 
   @enforce_keys [:id]
   defstruct [

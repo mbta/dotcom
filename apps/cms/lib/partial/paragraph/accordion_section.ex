@@ -1,11 +1,11 @@
-defmodule CMS.Paragraph.AccordionSection do
+defmodule CMS.Partial.Paragraph.AccordionSection do
   @moduledoc """
 
   This paragraph will only ever exist as a sub-paragraph of
-  CMS.Paragraph.Accordion, and contains each of the section items'
+  CMS.Partial.Paragraph.Accordion, and contains each of the section items'
   title, id (for javascript/ARIA targeting purposes), and actual content.
 
-  The content attribute will always be another CMS.Paragraph.t.
+  The content attribute will always be another CMS.Partial.Paragraph.t.
 
   """
 
@@ -15,7 +15,7 @@ defmodule CMS.Paragraph.AccordionSection do
       parse_paragraphs: 2
     ]
 
-  alias CMS.Paragraph
+  alias CMS.Partial.Paragraph
 
   defstruct title: "",
             prefix: "",

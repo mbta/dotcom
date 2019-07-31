@@ -1,4 +1,4 @@
-defmodule CMS.Paragraph.ContentList do
+defmodule CMS.Partial.Paragraph.ContentList do
   @moduledoc """
   A content list paragraph (optionally including a header) from the CMS.
   This paragraph provides a formula for retreiving a dynamic list of
@@ -7,7 +7,7 @@ defmodule CMS.Paragraph.ContentList do
   import CMS.Helpers,
     only: [field_value: 2, int_or_string_to_int: 1, content_type: 1, parse_link: 2]
 
-  import CMS.Paragraph, only: [parse_header: 1]
+  import CMS.Partial.Paragraph, only: [parse_header: 1]
 
   alias CMS.{Paragraph.ColumnMultiHeader, Partial.Teaser, Repo}
 

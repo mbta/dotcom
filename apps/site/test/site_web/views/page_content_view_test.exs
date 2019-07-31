@@ -4,7 +4,7 @@ defmodule SiteWeb.CMS.PageViewTest do
   import SiteWeb.CMS.PageView
 
   alias CMS.Page.Basic
-  alias CMS.Paragraph.CustomHTML
+  alias CMS.Partial.Paragraph.CustomHTML
   alias Phoenix.HTML
 
   describe "render_page/2" do

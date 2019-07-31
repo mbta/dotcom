@@ -6,7 +6,7 @@ defmodule SiteWeb.ProjectView do
 
   alias CMS.Field.Link
   alias CMS.Page.Project
-  alias CMS.Paragraph.DescriptiveLink
+  alias CMS.Partial.Paragraph.DescriptiveLink
   alias CMS.Partial.Teaser
 
   @spec show_all_updates_link?([Teaser.t()]) :: boolean()

@@ -1,4 +1,4 @@
-defmodule CMS.Paragraph.FilesGrid do
+defmodule CMS.Partial.Paragraph.FilesGrid do
   @moduledoc """
   Represents a files grid paragraph type in the Drupal CMS.
   """

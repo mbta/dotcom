@@ -1,4 +1,4 @@
-defmodule CMS.Paragraph.Callout do
+defmodule CMS.Partial.Paragraph.Callout do
   @moduledoc """
   Represents the entity_reference ("Callout") Paragraph type
   in the CMS. There is only one field -- a deeper entity reference

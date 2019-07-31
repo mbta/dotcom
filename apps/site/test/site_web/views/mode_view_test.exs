@@ -5,7 +5,7 @@ defmodule SiteWeb.ModeViewTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   alias Alerts.Alert
-  alias CMS.Paragraph.{Column, ColumnMulti, FareCard}
+  alias CMS.Partial.Paragraph.{Column, ColumnMulti, FareCard}
   alias Routes.Route
   alias SiteWeb.ModeView
 

@@ -1,4 +1,4 @@
-defmodule CMS.Paragraph.Description do
+defmodule CMS.Partial.Paragraph.Description do
   @moduledoc """
   A description term-details pair within a DescriptionList.
   """

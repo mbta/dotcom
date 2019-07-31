@@ -1,4 +1,4 @@
-defmodule CMS.Paragraph.Accordion do
+defmodule CMS.Partial.Paragraph.Accordion do
   @moduledoc """
 
   This paragraph type provides a tabbed user interface. This
@@ -10,7 +10,7 @@ defmodule CMS.Paragraph.Accordion do
   """
 
   import CMS.Helpers, only: [field_value: 2]
-  alias CMS.Paragraph.AccordionSection
+  alias CMS.Partial.Paragraph.AccordionSection
 
   defstruct display: "",
             sections: []

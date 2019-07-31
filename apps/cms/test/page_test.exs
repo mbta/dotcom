@@ -4,7 +4,7 @@ defmodule PageTest do
   alias CMS.{
     API.Static,
     Page,
-    Paragraph.ContentList,
+    Partial.Paragraph.ContentList,
     Partial.Teaser
   }
 

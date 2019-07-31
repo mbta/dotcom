@@ -3,7 +3,7 @@ defmodule SiteWeb.FareView do
 
   alias CMS.Field.Link
 
-  alias CMS.Paragraph.{
+  alias CMS.Partial.Paragraph.{
     Column,
     CustomHTML,
     Description,

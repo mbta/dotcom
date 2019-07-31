@@ -1,4 +1,4 @@
-defmodule CMS.Paragraph.CustomHTML do
+defmodule CMS.Partial.Paragraph.CustomHTML do
   @moduledoc """
   Represents a CustomHTML Paragraph in the CMS
   """

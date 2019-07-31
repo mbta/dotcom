@@ -205,13 +205,13 @@ defmodule CMS.HelpersTest do
       parsed = parse_paragraphs(api_data)
 
       assert parsed == [
-               %CMS.Paragraph.CustomHTML{
+               %CMS.Partial.Paragraph.CustomHTML{
                  body: HTML.raw("some HTML"),
                  right_rail: nil
                },
-               %CMS.Paragraph.TitleCardSet{
+               %CMS.Partial.Paragraph.TitleCardSet{
                  descriptive_links: [
-                   %CMS.Paragraph.DescriptiveLink{
+                   %CMS.Partial.Paragraph.DescriptiveLink{
                      body: HTML.raw("body"),
                      title: "title",
                      parent: "field_title_cards",
@@ -263,13 +263,13 @@ defmodule CMS.HelpersTest do
       parsed_map = parse_paragraphs(map_data)
 
       assert parsed_map == [
-               %CMS.Paragraph.CustomHTML{
+               %CMS.Partial.Paragraph.CustomHTML{
                  body: HTML.raw("I am published"),
                  right_rail: nil
                },
-               %CMS.Paragraph.TitleCardSet{
+               %CMS.Partial.Paragraph.TitleCardSet{
                  descriptive_links: [
-                   %CMS.Paragraph.DescriptiveLink{
+                   %CMS.Partial.Paragraph.DescriptiveLink{
                      body: HTML.raw("I am published"),
                      title: nil,
                      link: nil,
@@ -334,7 +334,7 @@ defmodule CMS.HelpersTest do
       parsed_map = parse_paragraphs(map_data)
 
       assert parsed_map == [
-               %CMS.Paragraph.CustomHTML{
+               %CMS.Partial.Paragraph.CustomHTML{
                  body: HTML.raw("I am published"),
                  right_rail: nil
                }

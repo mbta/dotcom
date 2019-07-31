@@ -1,4 +1,4 @@
-defmodule CMS.Paragraph.ColumnMultiHeader do
+defmodule CMS.Partial.Paragraph.ColumnMultiHeader do
   @moduledoc """
   Header content that can appear above a set of columns.
   """

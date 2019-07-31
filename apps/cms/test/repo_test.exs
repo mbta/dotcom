@@ -8,7 +8,6 @@ defmodule CMS.RepoTest do
   # Misc
   alias CMS.{
     API.Static,
-    Paragraph,
     Repo
   }
 
@@ -26,6 +25,7 @@ defmodule CMS.RepoTest do
   # Other Content Types
   alias CMS.Partial.{
     Banner,
+    Paragraph,
     RoutePdf,
     Teaser,
     WhatsHappeningItem

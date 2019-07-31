@@ -6,7 +6,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
 
   alias CMS.Field.{File, Image, Link}
 
-  alias CMS.Paragraph.{
+  alias CMS.Partial.Paragraph.{
     Accordion,
     AccordionSection,
     Callout,
@@ -30,7 +30,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
   alias Phoenix.HTML
 
   describe "render_paragraph/2" do
-    test "renders a CMS.Paragraph.CustomHTML", %{conn: conn} do
+    test "renders a CMS.Partial.Paragraph.CustomHTML", %{conn: conn} do
       paragraph = %CustomHTML{body: HTML.raw("<p>Hello</p>")}
 
       rendered =
@@ -41,7 +41,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       assert rendered =~ "<p>Hello</p>"
     end
 
-    test "renders a CMS.Paragraph.CustomHTML with rewritten body", %{conn: conn} do
+    test "renders a CMS.Partial.Paragraph.CustomHTML with rewritten body", %{conn: conn} do
       html = "<div><span>Foo</span><table>Foo</table></div>"
       paragraph = %CustomHTML{body: HTML.raw(html)}
 
@@ -55,7 +55,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       assert rendered =~ "responsive-table"
     end
 
-    test "renders a CMS.Paragraph.TitleCardSet", %{conn: conn} do
+    test "renders a CMS.Partial.Paragraph.TitleCardSet", %{conn: conn} do
       paragraph = %TitleCardSet{
         descriptive_links: [
           %DescriptiveLink{
@@ -89,7 +89,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       assert rendered =~ ~s( href="https://www.example.com/another/link")
     end
 
-    test "renders a CMS.Paragraph.TitleCardSet with content rewritten", %{conn: conn} do
+    test "renders a CMS.Partial.Paragraph.TitleCardSet with content rewritten", %{conn: conn} do
       paragraph = %TitleCardSet{
         descriptive_links: [
           %DescriptiveLink{
@@ -109,7 +109,9 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       refute rendered =~ "mbta-circle-icon"
     end
 
-    test "renders a CMS.Paragraph.DescriptiveLink (outside a Title Card Set)", %{conn: conn} do
+    test "renders a CMS.Partial.Paragraph.DescriptiveLink (outside a Title Card Set)", %{
+      conn: conn
+    } do
       alone = %DescriptiveLink{
         title: "Card 1",
         body: HTML.raw("<strong>Body 1</strong>"),
@@ -147,7 +149,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       assert rendered_unlinked =~ ~s(href="")
     end
 
-    test "renders a CMS.Paragraph.UpcomingBoardMeetings", %{conn: conn} do
+    test "renders a CMS.Partial.Paragraph.UpcomingBoardMeetings", %{conn: conn} do
       event = event_factory(0)
 
       paragraph = %UpcomingBoardMeetings{
@@ -506,7 +508,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       assert rendered =~ paragraph.title
     end
 
-    test "renders a CMS.Paragraph.ColumnMulti with nested paragraphs", %{conn: conn} do
+    test "renders a CMS.Partial.Paragraph.ColumnMulti with nested paragraphs", %{conn: conn} do
       header = %ColumnMultiHeader{
         text: HTML.raw("<h4>This is a multi-column header</h4>")
       }
@@ -600,7 +602,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       assert rendered =~ "Column 1"
     end
 
-    test "renders a CMS.Paragraph.Accordion", %{conn: conn} do
+    test "renders a CMS.Partial.Paragraph.Accordion", %{conn: conn} do
       sections = [
         %AccordionSection{
           title: "{{ icon:subway-red }} Section 1",

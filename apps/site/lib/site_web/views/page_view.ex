@@ -4,7 +4,7 @@ defmodule SiteWeb.PageView do
   import SiteWeb.CMSHelpers, only: [cms_route_to_class: 1]
 
   alias CMS.Page.NewsEntry
-  alias CMS.Paragraph.ColumnMulti
+  alias CMS.Partial.Paragraph.ColumnMulti
   alias CMS.Partial.Banner
   alias SiteWeb.FareView
   alias SiteWeb.PartialView

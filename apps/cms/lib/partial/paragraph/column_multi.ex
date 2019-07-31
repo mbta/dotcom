@@ -1,11 +1,11 @@
-defmodule CMS.Paragraph.ColumnMulti do
+defmodule CMS.Partial.Paragraph.ColumnMulti do
   @moduledoc """
   A set of columns to organize layout on the page.
   """
   import CMS.Helpers, only: [field_value: 2]
-  import CMS.Paragraph, only: [parse_header: 1]
+  import CMS.Partial.Paragraph, only: [parse_header: 1]
 
-  alias CMS.Paragraph.{Column, ColumnMultiHeader, DescriptiveLink, FareCard}
+  alias CMS.Partial.Paragraph.{Column, ColumnMultiHeader, DescriptiveLink, FareCard}
 
   defstruct header: nil,
             columns: [],

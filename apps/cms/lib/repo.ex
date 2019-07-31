@@ -20,7 +20,7 @@ defmodule CMS.Repo do
   alias CMS.API
   alias CMS.Page
   alias CMS.Page.{Event, NewsEntry}
-  alias CMS.Paragraph
+  alias CMS.Partial.Paragraph
   alias CMS.Search.Result
 
   alias Routes.Route

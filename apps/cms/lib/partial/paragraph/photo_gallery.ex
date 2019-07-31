@@ -1,4 +1,4 @@
-defmodule CMS.Paragraph.PhotoGallery do
+defmodule CMS.Partial.Paragraph.PhotoGallery do
   @moduledoc """
   Represents the Photo Gallery Paragraph type in the CMS. It
   contains a media reference (image) field with multiple values.

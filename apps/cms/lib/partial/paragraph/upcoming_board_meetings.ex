@@ -1,4 +1,4 @@
-defmodule CMS.Paragraph.UpcomingBoardMeetings do
+defmodule CMS.Partial.Paragraph.UpcomingBoardMeetings do
   @moduledoc """
   Deprecated: Represents an UpcomingBoardMeetings paragraph in the CMS.
   NOTE: Use a ContentList paragraph instead.

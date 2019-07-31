@@ -7,7 +7,7 @@ defmodule CMS.Helpers do
   alias CMS.Config
   alias CMS.CustomHTML5Scrubber
   alias CMS.Field.{File, Image, Link}
-  alias CMS.Paragraph
+  alias CMS.Partial.Paragraph
   alias Phoenix.HTML
 
   @spec field_value(map, String.t()) :: any

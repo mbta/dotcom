@@ -2,7 +2,7 @@ defmodule SiteWeb.ModeView do
   use SiteWeb, :view
 
   alias Alerts.Match
-  alias CMS.Paragraph.ColumnMulti
+  alias CMS.Partial.Paragraph.ColumnMulti
   alias Plug.Conn
   alias Routes.Route
   alias Site.MapHelpers

@@ -9,7 +9,7 @@ defmodule SiteWeb.CMSView do
   import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
 
   alias CMS.Field.File
-  alias CMS.Paragraph
+  alias CMS.Partial.Paragraph
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 

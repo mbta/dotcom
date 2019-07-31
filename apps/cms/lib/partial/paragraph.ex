@@ -1,4 +1,4 @@
-defmodule CMS.Paragraph do
+defmodule CMS.Partial.Paragraph do
   @moduledoc """
 
   This module represents the suite of paragraph types that we support on Drupal.
@@ -10,9 +10,9 @@ defmodule CMS.Paragraph do
     to include this new paragraph.
   * Load /cms/style-guide/paragraphs?_format=json from the CMS and update
     /cms/style-guide/paragraphs.json.
-  * Create a new module, CMS.Paragraph.MyPara in lib/paragraph/my_para.ex.
+  * Create a new module, CMS.Partial.Paragraph.MyPara in lib/paragraph/my_para.ex.
   * Create a _my_para.html.eex partial (filename pattern must match module name)
-  * Add that type to CMS.Paragraph.t here.
+  * Add that type to CMS.Partial.Paragraph.t here.
   * Update this module's from_api/1 function to dispatch to the MyPara.from_api
   * Update CMS.ParagraphTest to ensure it is parsed correctly
   * Update Site.ContentViewTest to ensure it is rendered correctly
@@ -20,7 +20,7 @@ defmodule CMS.Paragraph do
     on the live CMS
   """
 
-  alias CMS.Paragraph.{
+  alias CMS.Partial.Paragraph.{
     Accordion,
     Callout,
     ColumnMulti,

@@ -10,7 +10,7 @@ defmodule CMS.Page.ProjectTest do
   alias CMS.API.Static
   alias CMS.Field.{File, Image}
   alias CMS.Page.Project
-  alias CMS.Paragraph.CustomHTML
+  alias CMS.Partial.Paragraph.CustomHTML
   alias Phoenix.HTML
 
   setup do

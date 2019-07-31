@@ -6,7 +6,7 @@ defmodule SiteWeb.CMSViewTest do
   alias CMS.API.Static
   alias CMS.Field.File
   alias CMS.Page.Basic
-  alias CMS.Paragraph.CustomHTML
+  alias CMS.Partial.Paragraph.CustomHTML
   alias Phoenix.HTML
 
   describe "Basic Page" do

@@ -1,11 +1,11 @@
-defmodule CMS.Paragraph.FareCard do
+defmodule CMS.Partial.Paragraph.FareCard do
   @moduledoc """
   Represents a Fare Card paragraph type from the CMS.
   """
 
   alias CMS.Field.Link
   alias CMS.Helpers
-  alias CMS.Paragraph.CustomHTML
+  alias CMS.Partial.Paragraph.CustomHTML
 
   defstruct fare_token: "",
             note: nil,

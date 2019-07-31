@@ -3,7 +3,7 @@ defmodule CMS.Page do
   Parses the api data to a struct, based on the api data's content type.
   """
 
-  alias CMS.{
+  alias CMS.Partial.{
     Paragraph,
     Paragraph.ContentList
   }
