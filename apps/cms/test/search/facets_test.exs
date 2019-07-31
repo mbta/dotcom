@@ -2,6 +2,8 @@ defmodule CMS.Search.FacetsTest do
   use ExUnit.Case, async: true
   import CMS.Search.Facets
 
+  alias ExUnit.CaptureLog
+
   describe "build/3" do
     test "search results are filtered out" do
       facets =
@@ -38,7 +40,7 @@ defmodule CMS.Search.FacetsTest do
 
     test "timeouts result in an error", %{search_fn: search_fn} do
       log =
-        ExUnit.CaptureLog.capture_log(fn ->
+        CaptureLog.capture_log(fn ->
           opts = [search_fn: search_fn, response_timeout: 0]
           assert facet_responses("timeout", 0, ["page"], opts) == :error
         end)

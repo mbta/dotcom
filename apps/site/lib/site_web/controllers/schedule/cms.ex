@@ -8,7 +8,7 @@ defmodule SiteWeb.ScheduleController.CMS do
   import Util.AsyncAssign, only: [async_assign_default: 4]
 
   alias Routes.Route
-  alias CMS.{Repo, Partial.Teaser}
+  alias CMS.{Partial.Teaser, Repo}
 
   @featured_opts [
     type: [:project, :project_update],

@@ -6,6 +6,7 @@ defmodule SiteWeb.PageViewTest do
   alias CMS.Partial.Teaser
   alias Phoenix.HTML
   alias Plug.Conn
+  alias SiteWeb.PageView
 
   describe "banners" do
     test "renders _banner.html for important banners" do
@@ -18,7 +19,7 @@ defmodule SiteWeb.PageViewTest do
         banner_type: :important
       }
 
-      rendered = render_to_string(SiteWeb.PageView, "_banner.html", banner: banner, conn: %Conn{})
+      rendered = render_to_string(PageView, "_banner.html", banner: banner, conn: %Conn{})
       assert rendered =~ "Important Banner Title"
       assert rendered =~ "Uh oh, this is very important!"
       assert rendered =~ "Call to Action"
@@ -34,7 +35,7 @@ defmodule SiteWeb.PageViewTest do
         banner_type: :default
       }
 
-      rendered = render_to_string(SiteWeb.PageView, "_banner.html", banner: banner, conn: %Conn{})
+      rendered = render_to_string(PageView, "_banner.html", banner: banner, conn: %Conn{})
       assert rendered =~ "Default Banner Title"
       refute rendered =~ "This is not as important."
       refute rendered =~ "Call to Action"
@@ -43,7 +44,7 @@ defmodule SiteWeb.PageViewTest do
 
   describe "shortcut_icons/0" do
     test "renders shortcut icons" do
-      rendered = SiteWeb.PageView.shortcut_icons() |> HTML.safe_to_string()
+      rendered = PageView.shortcut_icons() |> HTML.safe_to_string()
       icons = Floki.find(rendered, ".m-homepage__shortcut")
       assert length(icons) == 6
     end
@@ -68,7 +69,7 @@ defmodule SiteWeb.PageViewTest do
       rendered =
         conn
         |> assign(:news, entries)
-        |> SiteWeb.PageView.render_news_entries()
+        |> PageView.render_news_entries()
         |> HTML.safe_to_string()
 
       assert rendered |> Floki.find(".c-news-entry") |> Enum.count() == 5
