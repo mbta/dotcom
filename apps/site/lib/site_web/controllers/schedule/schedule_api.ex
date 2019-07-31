@@ -51,7 +51,7 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
   end
 
   def prune_schedules_by_stop(schedules, stop_id) do
-    Enum.drop_while(schedules, fn schedule -> schedule.stop.id !== stop_id end)
+    Enum.drop_while(schedules, fn schedule -> schedule.stop && schedule.stop.id !== stop_id end)
   end
 
   def enhance_services([]), do: []
