@@ -1,102 +1,114 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders 1`] = `
-<table
-  aria-label="More Projects"
-  className="c-more-projects-table"
->
-  <thead
-    className="c-more-projects-table__thead hidden-md-down"
+<div>
+  <table
+    aria-label="More Projects"
+    className="c-more-projects-table"
   >
-    <tr>
-      <th
-        className="c-more-projects-table__th c-more-projects-table__th-project"
-        scope="col"
-      >
-        Project
-      </th>
-      <th
-        className="c-more-projects-table__th c-more-projects-table__th-last-updated"
-        scope="col"
-      >
-        Last Updated
-      </th>
-      <th
-        className="c-more-projects-table__th c-more-projects-table__th-status"
-        scope="col"
-      />
-    </tr>
-  </thead>
-  <tbody
-    className="c-more-projects-table__tbody"
-  >
-    <tr
-      className="c-more-projects-table__tr"
+    <thead
+      className="c-more-projects-table__thead hidden-md-down"
     >
-      <td
-        className="c-more-projects-table__td c-more-projects-table__td-project"
-      >
-        <img
-          alt="Photo of stuff"
-          className="hidden-xs-down c-more-projects-table__thumbnail"
-          src="http://www.example.com/some.gif"
-        />
-        <div
-          className="c-more-projects-table__wrapper"
+      <tr>
+        <th
+          className="c-more-projects-table__th c-more-projects-table__th-project"
+          scope="col"
         >
-          <a
-            href="http://www.mbta.com/awesome_project"
-          >
-            <h3
-              className="c-more-projects-table__title"
-            >
-              The Awesome Project
-            </h3>
-          </a>
-          <div
-            className="c-more-projects-table__updated-and-status hidden-lg-up"
-          >
-            <div
-              className="c-more-projects-table__last-updated"
-            >
-              <span
-                className="c-more-projects-table__internal-header"
-              >
-                Last updated
-              </span>
-              <br />
-              June 2, 2018
-            </div>
-          </div>
-          <span
-            aria-hidden="true"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
-          <span
-            aria-hidden="true"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
-        </div>
-      </td>
-      <td
-        className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down"
+          Project
+        </th>
+        <th
+          className="c-more-projects-table__th c-more-projects-table__th-last-updated"
+          scope="col"
+        >
+          Last Updated
+        </th>
+        <th
+          className="c-more-projects-table__th c-more-projects-table__th-status"
+          scope="col"
+        />
+      </tr>
+    </thead>
+    <tbody
+      className="c-more-projects-table__tbody"
+    >
+      <tr
+        className="c-more-projects-table__tr"
       >
-        June 2, 2018
-      </td>
-      <td
-        className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"
-      />
-    </tr>
-  </tbody>
-</table>
+        <td
+          className="c-more-projects-table__td c-more-projects-table__td-project"
+        >
+          <img
+            alt="Photo of stuff"
+            className="hidden-xs-down c-more-projects-table__thumbnail"
+            src="http://www.example.com/some.gif"
+          />
+          <div
+            className="c-more-projects-table__wrapper"
+          >
+            <a
+              href="http://www.mbta.com/awesome_project"
+            >
+              <h3
+                className="c-more-projects-table__title"
+              >
+                The Awesome Project
+              </h3>
+            </a>
+            <div
+              className="c-more-projects-table__updated-and-status hidden-lg-up"
+            >
+              <div
+                className="c-more-projects-table__last-updated"
+              >
+                <span
+                  className="c-more-projects-table__internal-header"
+                >
+                  Last updated
+                </span>
+                <br />
+                June 2, 2018
+              </div>
+            </div>
+            <span
+              aria-hidden="true"
+              className="notranslate c-svg__icon c-more-projects-table__route-icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+            <span
+              aria-hidden="true"
+              className="notranslate c-svg__icon c-more-projects-table__route-icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+          </div>
+        </td>
+        <td
+          className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down"
+        >
+          June 2, 2018
+        </td>
+        <td
+          className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"
+        />
+      </tr>
+    </tbody>
+  </table>
+  <div
+    className="c-more-projects__show-more-button-wrapper"
+  >
+    <button
+      className="btn btn-secondary c-more-projects__show-more-button"
+      type="button"
+    >
+      Show more
+    </button>
+  </div>
+</div>
 `;
