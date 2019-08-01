@@ -4,7 +4,7 @@ defmodule SiteWeb.CMS.PageViewTest do
   import SiteWeb.CMS.PageView
 
   alias CMS.Page.Basic
-  alias CMS.Partial.Paragraph.CustomHTML
+  alias CMS.Partial.Paragraph.{ContentList, CustomHTML}
   alias Phoenix.HTML
 
   describe "render_page/2" do
@@ -55,6 +55,20 @@ defmodule SiteWeb.CMS.PageViewTest do
         paragraphs: [
           %CustomHTML{body: HTML.raw("<p>Hello</p>"), right_rail: false},
           %CustomHTML{body: HTML.raw("<p>world</p>"), right_rail: false}
+        ]
+      }
+
+      refute has_right_rail?(page)
+    end
+
+    test "returns false if ContentList paragraph is right rail, but has no results" do
+      page = %Basic{
+        paragraphs: [
+          %ContentList{
+            header: %CustomHTML{body: HTML.raw("<p>Hello</p>")},
+            right_rail: true,
+            teasers: []
+          }
         ]
       }
 
