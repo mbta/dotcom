@@ -2,8 +2,8 @@ defmodule CMS.Partial.BannerTest do
   use ExUnit.Case, async: true
 
   alias CMS.API.Static
-  alias CMS.Partial.Banner
   alias CMS.Field.{Image, Link}
+  alias CMS.Partial.Banner
 
   setup do
     api_notices = Static.banners_response()

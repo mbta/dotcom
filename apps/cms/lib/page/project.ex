@@ -3,7 +3,7 @@ defmodule CMS.Page.Project do
   Represents the Project content type in the CMS.
   """
 
-  alias CMS.{Field, Paragraph}
+  alias CMS.{Field, Partial.Paragraph}
   alias Field.{File, Image}
   alias Phoenix.HTML
 

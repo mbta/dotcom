@@ -4,7 +4,8 @@ defmodule CMS.Page.Basic do
   content types can use this struct, as defined in CMS.Page.Basic
   """
 
-  alias CMS.{Breadcrumbs, Paragraph, Partial.MenuLinks}
+  alias CMS.Breadcrumbs
+  alias CMS.Partial.{MenuLinks, Paragraph}
   alias Phoenix.HTML
 
   import CMS.Helpers,

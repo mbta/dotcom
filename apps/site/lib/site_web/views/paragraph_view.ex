@@ -6,9 +6,8 @@ defmodule SiteWeb.CMS.ParagraphView do
 
   alias CMS.API
   alias CMS.Field.{Image, Link}
-  alias CMS.Partial.Paragraph
-  alias CMS.Partial.Paragraph.{Callout, ColumnMulti, ContentList, DescriptiveLink, FareCard}
-  alias CMS.Partial.Teaser
+  alias CMS.Partial.{Paragraph, Teaser}
+  alias Paragraph.{Callout, ColumnMulti, ContentList, DescriptiveLink, FareCard}
   alias Plug.Conn
   alias Site.ContentRewriter
 

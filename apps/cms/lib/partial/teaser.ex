@@ -25,7 +25,8 @@ defmodule CMS.Partial.Teaser do
     date: nil,
     date_end: nil,
     location: nil,
-    routes: []
+    routes: [],
+    status: nil
   ]
 
   @type location :: [
@@ -46,7 +47,8 @@ defmodule CMS.Partial.Teaser do
           date: Date.t() | DateTime.t() | nil,
           date_end: DateTime.t() | nil,
           location: location() | nil,
-          routes: [API.route_term()]
+          routes: [API.route_term()],
+          status: String.t() | nil
         }
 
   @spec from_api(map()) :: __MODULE__.t()
