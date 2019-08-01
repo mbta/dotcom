@@ -234,4 +234,9 @@ defmodule SiteWeb.ProjectController do
     |> sort_by_date()
     |> Enum.map(&simplify_teaser/1)
   end
+
+  @spec get_breadcrumb_base :: String.t()
+  def get_breadcrumb_base do
+    @breadcrumb_base
+  end
 end

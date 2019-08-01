@@ -26,8 +26,11 @@ defmodule SiteWeb.CMSController do
   @routed [
     Page.Event,
     Page.NewsEntry,
-    Page.Project,
     Page.ProjectUpdate
+  ]
+
+  @transitional [
+    Page.Project
   ]
 
   @spec page(Conn.t(), map) :: Conn.t()
@@ -48,13 +51,22 @@ defmodule SiteWeb.CMSController do
     case struct do
       Page.NewsEntry -> NewsEntryController.show_news_entry(conn, page)
       Page.Event -> EventController.show_event(conn, page)
-      Page.Project -> ProjectController.show_project(conn, page)
       Page.ProjectUpdate -> ProjectController.show_project_update(conn, page)
     end
   end
 
+  defp handle_page_response(%{__struct__: struct, paragraphs: []} = page, conn)
+       when struct in @transitional do
+    # These content types may or may not have paragraph content. Having at least one paragraph
+    # means we can use a generic CMS content template which expects paragraphs. Otherwise, use
+    # the original controller for that content type.
+    case struct do
+      Page.Project -> ProjectController.show_project(conn, page)
+    end
+  end
+
   defp handle_page_response(%{__struct__: struct} = page, conn)
-       when struct in @generic do
+       when struct in @generic or struct in @transitional do
     conn
     |> put_layout({SiteWeb.LayoutView, :app})
     |> render_page(page)
@@ -89,6 +101,20 @@ defmodule SiteWeb.CMSController do
   end
 
   @spec render_page(Conn.t(), Page.Basic.t()) :: Conn.t()
+  defp render_page(conn, %Page.Project{} = page) do
+    base = ProjectController.get_breadcrumb_base()
+
+    breadcrumbs = [
+      Breadcrumb.build(base, project_path(conn, :index)),
+      Breadcrumb.build(page.title)
+    ]
+
+    conn
+    |> assign(:breadcrumbs, breadcrumbs)
+    |> assign(:page, page)
+    |> render("page.html", conn: conn)
+  end
+
   defp render_page(conn, %Page.Basic{} = page) do
     conn
     |> assign(:breadcrumbs, page.breadcrumbs)

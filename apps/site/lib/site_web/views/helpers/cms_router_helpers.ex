@@ -108,7 +108,7 @@ defmodule SiteWeb.CmsRouterHelpers do
   end
 
   def project_path(conn, :show, value) when is_binary(value) do
-    check_preview(conn, RouterHelpers.project_path(conn, :show, value))
+    check_preview(conn, "/projects/#{value}")
   end
 
   @spec project_update_path(Conn.t(), atom, ProjectUpdate.t() | Teaser.t()) :: String.t()
