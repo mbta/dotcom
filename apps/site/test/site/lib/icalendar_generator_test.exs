@@ -1,6 +1,6 @@
 defmodule IcalendarGeneratorTest do
   use SiteWeb.ConnCase, async: true
-  import Content.Factory
+  import CMS.Factory
   import Phoenix.HTML, only: [raw: 1]
   alias Site.IcalendarGenerator
 

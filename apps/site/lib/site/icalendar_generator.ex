@@ -1,8 +1,10 @@
 defmodule Site.IcalendarGenerator do
   import SiteWeb.CmsRouterHelpers, only: [event_path: 3]
 
-  @spec to_ical(Plug.Conn.t(), Content.Event.t()) :: iodata
-  def to_ical(%Plug.Conn{} = conn, %Content.Event{} = event) do
+  alias CMS.Page.Event
+
+  @spec to_ical(Plug.Conn.t(), Event.t()) :: iodata
+  def to_ical(%Plug.Conn{} = conn, %Event{} = event) do
     [
       "BEGIN:VCALENDAR\n",
       "VERSION:2.0\n",
@@ -59,15 +61,15 @@ defmodule Site.IcalendarGenerator do
     ]
   end
 
-  defp imported_address(%Content.Event{imported_address: {:safe, address}}) do
+  defp imported_address(%Event{imported_address: {:safe, address}}) do
     decode_ampersand_entity(address)
   end
 
-  defp event_summary(%Content.Event{title: title}) do
+  defp event_summary(%Event{title: title}) do
     title
   end
 
-  defp description(%Content.Event{body: {:safe, body}}) do
+  defp description(%Event{body: {:safe, body}}) do
     body
     |> strip_html_tags()
     |> decode_ampersand_entity()
@@ -89,15 +91,15 @@ defmodule Site.IcalendarGenerator do
     Path.join(SiteWeb.Endpoint.url(), event_path(conn, :show, event))
   end
 
-  defp start_time(%Content.Event{start_time: nil}), do: ""
+  defp start_time(%Event{start_time: nil}), do: ""
 
-  defp start_time(%Content.Event{start_time: start_time}) do
+  defp start_time(%Event{start_time: start_time}) do
     start_time |> convert_to_ical_format
   end
 
-  defp end_time(%Content.Event{end_time: nil}), do: ""
+  defp end_time(%Event{end_time: nil}), do: ""
 
-  defp end_time(%Content.Event{end_time: end_time}) do
+  defp end_time(%Event{end_time: end_time}) do
     end_time |> convert_to_ical_format
   end
 

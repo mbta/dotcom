@@ -10,13 +10,14 @@ defmodule SiteWeb.CmsRouterHelpers do
   alias SiteWeb.Router.Helpers, as: RouterHelpers
   alias SiteWeb.ViewHelpers
 
-  alias Content.{
+  alias CMS.Page.{
     Event,
     NewsEntry,
     Project,
-    ProjectUpdate,
-    Teaser
+    ProjectUpdate
   }
+
+  alias CMS.Partial.Teaser
 
   @spec news_entry_path(
           Conn.t() | nil,

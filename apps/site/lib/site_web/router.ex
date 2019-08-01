@@ -203,6 +203,6 @@ defmodule SiteWeb.Router do
   scope "/", SiteWeb do
     pipe_through([:secure, :browser])
 
-    get("/*path", ContentController, :page)
+    get("/*path", CMSController, :page)
   end
 end

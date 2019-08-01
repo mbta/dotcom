@@ -1,12 +1,17 @@
 defmodule SiteWeb.ControllerHelpers do
-  alias Alerts.{Alert, InformedEntity, Match, Repo}
-  alias Plug.Conn
-  alias Routes.Route
-  alias Timex.Format.DateTime.Formatters.Strftime
+  @moduledoc false
+
   import Plug.Conn, only: [put_status: 2, halt: 1]
   import Phoenix.Controller, only: [render: 3, put_view: 2]
 
-  @content_http_pool Application.get_env(:content, :http_pool)
+  alias Alerts.{Alert, InformedEntity, Match, Repo}
+  alias Phoenix.Controller
+  alias Plug.Conn
+  alias Routes.{Group, Route}
+  alias SiteWeb.CMSController
+  alias Timex.Format.DateTime.Formatters.Strftime
+
+  @content_http_pool Application.get_env(:cms, :http_pool)
 
   @valid_resp_headers [
     "content-type",
@@ -38,7 +43,7 @@ defmodule SiteWeb.ControllerHelpers do
     grouped_routes
     |> Enum.map(fn {mode, lines} ->
       if mode in filter_lines do
-        {mode, lines |> Enum.filter(&Routes.Route.key_route?/1)}
+        {mode, lines |> Enum.filter(&Route.key_route?/1)}
       else
         {mode, lines}
       end
@@ -48,7 +53,7 @@ defmodule SiteWeb.ControllerHelpers do
   @spec filtered_grouped_routes([atom]) :: [{atom, [Route.t()]}]
   def filtered_grouped_routes(filters) do
     Routes.Repo.all()
-    |> Routes.Group.group()
+    |> Group.group()
     |> filter_routes(filters)
   end
 
@@ -129,8 +134,8 @@ defmodule SiteWeb.ControllerHelpers do
   @spec check_cms_or_404(Conn.t()) :: Conn.t()
   def check_cms_or_404(conn) do
     conn
-    |> Phoenix.Controller.put_view(SiteWeb.ContentView)
-    |> SiteWeb.ContentController.page(%{})
+    |> Controller.put_view(SiteWeb.CMSView)
+    |> CMSController.page(%{})
   end
 
   @spec unavailable_after_one_year(Conn.t(), Date.t() | DateTime.t()) :: Conn.t()

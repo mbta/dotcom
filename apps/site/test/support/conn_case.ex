@@ -35,7 +35,7 @@ defmodule SiteWeb.ConnCase do
         ]
 
       import SiteWeb.CmsRouterHelpers
-      import Content.Factory
+      import CMS.Factory
 
       # The default endpoint for testing
       @endpoint SiteWeb.Endpoint

@@ -1,8 +1,8 @@
 defmodule SiteWeb.NewsEntryController do
   use SiteWeb, :controller
 
-  alias Content.NewsEntry
-  alias Content.Repo
+  alias CMS.Page.NewsEntry
+  alias CMS.Repo
   alias Plug.Conn
   alias Site.Pagination
   alias SiteWeb.ControllerHelpers

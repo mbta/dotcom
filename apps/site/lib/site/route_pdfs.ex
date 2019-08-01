@@ -3,12 +3,12 @@ defmodule Site.RoutePdfs do
   gets pdfs for a route from the CMS, and chooses which ones to display
   """
 
-  alias Content.RoutePdf
+  alias CMS.{Partial.RoutePdf, Repo}
 
   @spec fetch_and_choose_pdfs(String.t(), Date.t()) :: [RoutePdf.t()]
   def fetch_and_choose_pdfs(route_id, date) do
     route_id
-    |> Content.Repo.get_route_pdfs()
+    |> Repo.get_route_pdfs()
     |> choose_pdfs(date)
   end
 

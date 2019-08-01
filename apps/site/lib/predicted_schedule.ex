@@ -5,8 +5,8 @@ defmodule PredictedSchedule do
   * schedule: The schedule for this trip (optional)
   * prediction: The prediction for this trip (optional)
   """
-  alias Schedules.Schedule
   alias Predictions.Prediction
+  alias Schedules.Schedule
 
   defstruct schedule: nil,
             prediction: nil

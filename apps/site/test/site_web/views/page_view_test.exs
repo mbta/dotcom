@@ -1,35 +1,41 @@
 defmodule SiteWeb.PageViewTest do
   use Site.ViewCase, async: true
+
+  alias CMS.Field.{Image, Link}
+  alias CMS.Partial.Banner
+  alias CMS.Partial.Teaser
+  alias Phoenix.HTML
   alias Plug.Conn
+  alias SiteWeb.PageView
 
   describe "banners" do
     test "renders _banner.html for important banners" do
-      banner = %Content.Banner{
+      banner = %Banner{
         title: "Important Banner Title",
         blurb: "Uh oh, this is very important!",
-        link: %Content.Field.Link{url: "http://example.com/important", title: "Call to Action"},
+        link: %Link{url: "http://example.com/important", title: "Call to Action"},
         utm_url: "http://example.com/important?utm=stuff",
-        thumb: %Content.Field.Image{},
+        thumb: %Image{},
         banner_type: :important
       }
 
-      rendered = render_to_string(SiteWeb.PageView, "_banner.html", banner: banner, conn: %Conn{})
+      rendered = render_to_string(PageView, "_banner.html", banner: banner, conn: %Conn{})
       assert rendered =~ "Important Banner Title"
       assert rendered =~ "Uh oh, this is very important!"
       assert rendered =~ "Call to Action"
     end
 
     test "renders _banner.html for default banners" do
-      banner = %Content.Banner{
+      banner = %Banner{
         title: "Default Banner Title",
         blurb: "This is not as important.",
-        link: %Content.Field.Link{url: "http://example.com/default", title: "Call to Action"},
+        link: %Link{url: "http://example.com/default", title: "Call to Action"},
         utm_url: "http://example.com/important?utm=stuff",
-        thumb: %Content.Field.Image{},
+        thumb: %Image{},
         banner_type: :default
       }
 
-      rendered = render_to_string(SiteWeb.PageView, "_banner.html", banner: banner, conn: %Conn{})
+      rendered = render_to_string(PageView, "_banner.html", banner: banner, conn: %Conn{})
       assert rendered =~ "Default Banner Title"
       refute rendered =~ "This is not as important."
       refute rendered =~ "Call to Action"
@@ -38,7 +44,7 @@ defmodule SiteWeb.PageViewTest do
 
   describe "shortcut_icons/0" do
     test "renders shortcut icons" do
-      rendered = SiteWeb.PageView.shortcut_icons() |> Phoenix.HTML.safe_to_string()
+      rendered = PageView.shortcut_icons() |> HTML.safe_to_string()
       icons = Floki.find(rendered, ".m-homepage__shortcut")
       assert length(icons) == 6
     end
@@ -50,7 +56,7 @@ defmodule SiteWeb.PageViewTest do
 
       entries =
         for idx <- 1..5 do
-          %Content.Teaser{
+          %Teaser{
             id: idx * 1000,
             title: "News Entry #{idx}",
             type: :news_entry,
@@ -63,8 +69,8 @@ defmodule SiteWeb.PageViewTest do
       rendered =
         conn
         |> assign(:news, entries)
-        |> SiteWeb.PageView.render_news_entries()
-        |> Phoenix.HTML.safe_to_string()
+        |> PageView.render_news_entries()
+        |> HTML.safe_to_string()
 
       assert rendered |> Floki.find(".c-news-entry") |> Enum.count() == 5
       assert rendered |> Floki.find(".c-news-entry--large") |> Enum.count() == 2

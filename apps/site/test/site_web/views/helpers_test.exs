@@ -231,11 +231,11 @@ defmodule SiteWeb.ViewHelpersTest do
 
   describe "struct_name_to_string/1" do
     test "turns a module name atom into an underscored string" do
-      assert struct_name_to_string(Content.Paragraph.CustomHTML) == "custom_html"
+      assert struct_name_to_string(CMS.Partial.Paragraph.CustomHTML) == "custom_html"
     end
 
     test "turns a module struct into an underscored string" do
-      assert struct_name_to_string(%Content.Paragraph.CustomHTML{}) == "custom_html"
+      assert struct_name_to_string(%CMS.Partial.Paragraph.CustomHTML{}) == "custom_html"
     end
   end
 

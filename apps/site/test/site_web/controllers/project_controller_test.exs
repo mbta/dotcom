@@ -3,7 +3,8 @@ defmodule SiteWeb.ProjectControllerTest do
 
   import Mock
 
-  alias Content.{CMS.Static, Project}
+  alias CMS.{API.Static, Page.Project, Page.ProjectUpdate, Repo}
+  alias Plug.Conn
 
   describe "index" do
     test "renders the list of projects", %{conn: conn} do
@@ -124,7 +125,7 @@ defmodule SiteWeb.ProjectControllerTest do
       conn = get(conn, project_path(conn, :show, "redirected-project") <> "?preview&vid=999")
       assert conn.status == 301
 
-      assert Plug.Conn.get_resp_header(conn, "location") == [
+      assert Conn.get_resp_header(conn, "location") == [
                "/projects/project-name?preview=&vid=999"
              ]
     end
@@ -304,7 +305,7 @@ defmodule SiteWeb.ProjectControllerTest do
 
       assert conn.status == 301
 
-      assert Plug.Conn.get_resp_header(conn, "location") == [
+      assert Conn.get_resp_header(conn, "location") == [
                "/projects/project-name/update/project-progress?preview=&vid=999"
              ]
     end
@@ -327,12 +328,11 @@ defmodule SiteWeb.ProjectControllerTest do
     test "renders a 404 when project update exists but project does not exist", %{conn: conn} do
       path = project_path(conn, :project_update, "project-deleted", "project-deleted-progress")
 
-      assert %Content.ProjectUpdate{project_url: "/projects/project-deleted"} =
-               Content.Repo.get_page(path)
+      assert %ProjectUpdate{project_url: "/projects/project-deleted"} = Repo.get_page(path)
 
       assert conn
              |> project_path(:show, "project-deleted")
-             |> Content.Repo.get_page() == {:error, :not_found}
+             |> Repo.get_page() == {:error, :not_found}
 
       conn = get(conn, path)
       assert conn.status == 404

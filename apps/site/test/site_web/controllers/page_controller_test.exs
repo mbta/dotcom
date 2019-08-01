@@ -1,7 +1,16 @@
 defmodule SiteWeb.PageControllerTest do
   use SiteWeb.ConnCase
   import SiteWeb.PageController
-  alias Content.{Banner, Field.Link, Teaser, WhatsHappeningItem}
+
+  alias CMS.{
+    Field.Link,
+    Partial.Banner,
+    Partial.Teaser,
+    Partial.WhatsHappeningItem
+  }
+
+  alias Plug.Test
+  alias SiteWeb.Plugs.Cookies
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")
@@ -26,11 +35,11 @@ defmodule SiteWeb.PageControllerTest do
   end
 
   test "renders recommended routes if route cookie has a value", %{conn: conn} do
-    cookie_name = SiteWeb.Plugs.Cookies.route_cookie_name()
+    cookie_name = Cookies.route_cookie_name()
 
     conn =
       conn
-      |> Plug.Test.put_req_cookie(cookie_name, "Red|1|CR-Lowell|Boat-F4")
+      |> Test.put_req_cookie(cookie_name, "Red|1|CR-Lowell|Boat-F4")
       |> get(page_path(conn, :index))
 
     assert Enum.count(conn.assigns.recently_visited) == 4

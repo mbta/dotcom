@@ -53,13 +53,13 @@
 
           <%# Only render paragraphs if at least one is present %>
           <%= for paragraph <- @project.paragraphs do %>
-            <%= SiteWeb.ContentView.render_paragraph(paragraph, @conn) %>
+            <%= SiteWeb.CMS.ParagraphView.render_paragraph(paragraph, @conn) %>
           <% end %>
 
         <% end %>
 
         <%# Always render the Contact information component %>
-        <%= if Content.Project.contact?(@project), do: render "_contact.html", project: @project %>
+        <%= if Project.contact?(@project), do: render "_contact.html", project: @project %>
 
         <%= if Enum.empty?(@project.paragraphs) do %>
 
@@ -84,7 +84,7 @@
         <% else %>
 
           <%# If paragraphs are present, rely 100% on them for sidebar components %>
-          <%= render(SiteWeb.ContentView, "_sidebar_right.html", page: @project, conn: @conn) %>
+          <%= SiteWeb.CMSView.render("_sidebar_right.html", page: @project, conn: @conn) %>
 
         <% end %>
       <% end %>

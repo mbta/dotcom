@@ -6,7 +6,7 @@ defmodule Site.ViewCase do
       use Phoenix.ConnTest
       import Phoenix.View
       import SiteWeb.Router.Helpers
-      import Content.Factory
+      import CMS.Factory
     end
   end
 

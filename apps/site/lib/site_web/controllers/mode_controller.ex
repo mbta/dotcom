@@ -1,12 +1,14 @@
 defmodule SiteWeb.ModeController do
+  @moduledoc false
   use SiteWeb, :controller
 
-  alias Content.Teaser
+  alias CMS.{Partial.Teaser, Repo}
   alias Plug.Conn
   alias PredictedSchedule.Display
   alias Site.TransitNearMe
   alias SiteWeb.{Mode}
   alias Routes.{Route}
+
   plug(SiteWeb.Plugs.RecentlyVisited)
   plug(SiteWeb.Plug.Mticket)
   plug(:require_google_maps)
@@ -93,7 +95,7 @@ defmodule SiteWeb.ModeController do
   @spec guides :: [Teaser.t()]
   defp guides do
     [type: :page, topic: "guides", sidebar: 1]
-    |> Content.Repo.teasers()
+    |> Repo.teasers()
     |> Enum.map(&utm_url/1)
   end
 

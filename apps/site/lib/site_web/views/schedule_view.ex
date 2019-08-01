@@ -1,4 +1,5 @@
 defmodule SiteWeb.ScheduleView do
+  @moduledoc false
   use SiteWeb, :view
 
   import SiteWeb.ScheduleView.StopList
@@ -6,13 +7,14 @@ defmodule SiteWeb.ScheduleView do
   import SiteWeb.ScheduleView.Timetable
 
   require Routes.Route
-  alias Content.RoutePdf
+
+  alias CMS.Partial.RoutePdf
   alias Phoenix.HTML.Safe
   alias Plug.Conn
   alias Routes.Route
-  alias Stops.Stop
   alias Site.MapHelpers
   alias SiteWeb.PartialView.{HeaderTab, HeaderTabs, SvgIconWithCircle}
+  alias Stops.{RouteStop, Stop}
 
   defdelegate update_schedule_url(conn, opts), to: UrlHelpers, as: :update_url
 
@@ -297,11 +299,11 @@ defmodule SiteWeb.ScheduleView do
   end
 
   @spec build_route_stop_from_predicted_schedule(PredictedSchedule.t(), boolean, boolean) ::
-          Stops.RouteStop.t()
+          RouteStop.t()
   defp build_route_stop_from_predicted_schedule(predicted_schedule, first?, last?) do
     stop = PredictedSchedule.stop(predicted_schedule)
     route = PredictedSchedule.route(predicted_schedule)
-    Stops.RouteStop.build_route_stop(stop, route, first?: first?, last?: last?)
+    RouteStop.build_route_stop(stop, route, first?: first?, last?: last?)
   end
 
   @doc "Prefix route name with route for bus lines"
@@ -410,7 +412,7 @@ defmodule SiteWeb.ScheduleView do
   def route_fare_link(route) do
     route_type =
       route
-      |> Routes.Route.type_atom()
+      |> Route.type_atom()
       |> Atom.to_string()
       |> String.replace("_", "-")
 
@@ -422,7 +424,7 @@ defmodule SiteWeb.ScheduleView do
     summary =
       route
       |> to_fare_atom()
-      |> SiteWeb.ViewHelpers.mode_summaries()
+      |> mode_summaries()
       |> Enum.find(fn summary -> summary.duration == :single_trip end)
 
     summary.fares
@@ -438,7 +440,7 @@ defmodule SiteWeb.ScheduleView do
     end
   end
 
-  def to_fare_atom(route), do: Routes.Route.type_atom(route)
+  def to_fare_atom(route), do: Route.type_atom(route)
 
   @spec sort_connections([Route.t()]) :: [Route.t()]
   def sort_connections(routes) do

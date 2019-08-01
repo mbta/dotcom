@@ -1,8 +1,20 @@
 defmodule SiteWeb.SearchView do
   use SiteWeb, :view
-  import SiteWeb.ContentView, only: [render_duration: 2]
+
+  import SiteWeb.CMSView, only: [render_duration: 2]
   import Site.ContentRewriter, only: [rewrite: 2]
-  alias Content.SearchResult.{Event, LandingPage, NewsEntry, Page, Person, File, Link}
+
+  alias CMS.Search.Result
+
+  alias CMS.SearchResult.{
+    Event,
+    File,
+    LandingPage,
+    Link,
+    NewsEntry,
+    Page,
+    Person
+  }
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
@@ -37,7 +49,7 @@ defmodule SiteWeb.SearchView do
     ]
   end
 
-  @spec icon(Content.Search.result()) :: Phoenix.HTML.safe() | String.t()
+  @spec icon(Result.result()) :: Phoenix.HTML.safe() | String.t()
   defp icon(%Event{}), do: fa("calendar")
   defp icon(%NewsEntry{}), do: fa("newspaper-o")
   defp icon(%Person{}), do: fa("user")
@@ -46,7 +58,7 @@ defmodule SiteWeb.SearchView do
   defp icon(%Link{}), do: fa("file-o")
   defp icon(%File{mimetype: mimetype}), do: fa_icon_for_file_type(mimetype)
 
-  @spec fragment(Content.Search.result(), Plug.Conn.t()) :: Phoenix.HTML.safe() | String.t()
+  @spec fragment(Result.result(), Plug.Conn.t()) :: Phoenix.HTML.safe() | String.t()
   defp fragment(%NewsEntry{highlights: higlights}, conn), do: highlights(higlights, conn)
   defp fragment(%Person{highlights: higlights}, conn), do: highlights(higlights, conn)
   defp fragment(%Page{highlights: higlights}, conn), do: highlights(higlights, conn)

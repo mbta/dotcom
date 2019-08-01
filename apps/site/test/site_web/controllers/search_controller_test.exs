@@ -250,7 +250,7 @@ defmodule SiteWeb.SearchControllerTest do
     end
 
     test "search server is returning an error", %{conn: conn} do
-      with_mock Content.Repo, search: fn _, _, _ -> {:error, :error} end do
+      with_mock CMS.Repo, search: fn _, _, _ -> {:error, :error} end do
         conn = get(conn, search_path(conn, :index, @params))
         response = html_response(conn, 200)
         assert response =~ "Whoops"

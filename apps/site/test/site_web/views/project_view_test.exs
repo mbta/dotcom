@@ -1,7 +1,8 @@
 defmodule SiteWeb.ProjectViewTest do
   use SiteWeb.ConnCase, async: true
 
-  alias Content.{Field.Image, Paragraph.CustomHTML, Project, Teaser}
+  alias CMS.{Field.Image, Page.Project}
+  alias CMS.Partial.{Paragraph, Teaser}
   alias Phoenix.HTML
   alias Plug.Conn
   alias SiteWeb.ProjectView
@@ -76,7 +77,7 @@ defmodule SiteWeb.ProjectViewTest do
     test "returns true if there are 4 items or more" do
       updates =
         for idx <- 1..5 do
-          %Content.Teaser{
+          %Teaser{
             id: idx * 1000,
             title: "Update #{idx}",
             type: :project_update,
@@ -95,7 +96,7 @@ defmodule SiteWeb.ProjectViewTest do
     test "if paragraphs are present, hide timeline, status, body, gallery, and download components" do
       project =
         @project
-        |> Map.put(:paragraphs, [%CustomHTML{body: "Paragraph content"}])
+        |> Map.put(:paragraphs, [%Paragraph.CustomHTML{body: "Paragraph content"}])
 
       output =
         "show.html"
@@ -123,8 +124,8 @@ defmodule SiteWeb.ProjectViewTest do
       project =
         @project
         |> Map.put(:paragraphs, [
-          %CustomHTML{body: "Paragraph content"},
-          %CustomHTML{body: "Sidebar content", right_rail: true}
+          %Paragraph.CustomHTML{body: "Paragraph content"},
+          %Paragraph.CustomHTML{body: "Sidebar content", right_rail: true}
         ])
 
       output =

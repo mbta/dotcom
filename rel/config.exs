@@ -34,7 +34,7 @@ release :site do
     applications: [
       :runtime_tools,
       alerts: :permanent,
-      content: :permanent,
+      cms: :permanent,
       fares: :permanent,
       feedback: :permanent,
       google_maps: :permanent,

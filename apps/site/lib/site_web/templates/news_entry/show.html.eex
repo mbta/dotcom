@@ -21,7 +21,7 @@
           </div>
         <% end %>
 
-        <%= if Content.NewsEntry.contact?(@news_entry) do %>
+        <%= if NewsEntry.contact?(@news_entry) do %>
           <div class="page-section">
             <div class="callout">
               <h2 class="h3 callout-heading">Media Contact Information</h2>
