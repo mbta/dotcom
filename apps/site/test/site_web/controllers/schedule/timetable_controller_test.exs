@@ -95,8 +95,20 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
 
   describe "vehicle_schedules/1" do
     test "constructs vehicle data for channel consumption" do
-      vehicles = vehicle_schedules(Enum.concat(@schedules, @odd_schedules))
+      vehicles =
+        vehicle_schedules(
+          %{assigns: %{date: Util.service_date()}},
+          Enum.concat(@schedules, @odd_schedules)
+        )
+
       assert @vehicle_schedules == vehicles
+    end
+
+    test "doesn't constructs vehicle data for channel consumption if the date is not today" do
+      vehicles =
+        vehicle_schedules(%{assigns: %{date: Date.add(Util.service_date(), 1)}}, @schedules)
+
+      assert vehicles == %{}
     end
   end
 
