@@ -148,6 +148,14 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   end
 
   defp construct_vehicle_data(%Schedules.Schedule{
+         stop: nil,
+         stop_sequence: s,
+         trip: %Schedules.Trip{id: ti, headsign: headsign}
+       }) do
+    %{stop_sequence: s, stop_name: headsign, trip_id: ti}
+  end
+
+  defp construct_vehicle_data(%Schedules.Schedule{
          stop: %Stops.Stop{name: sn},
          stop_sequence: s,
          trip: %Schedules.Trip{id: ti}
