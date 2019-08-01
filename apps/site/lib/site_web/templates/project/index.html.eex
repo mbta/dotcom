@@ -1,3 +1,9 @@
+<%= if Application.get_env(:site, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/projects.js" %>"></script>
+<% else %>
+  <script defer src="<%= static_url(@conn, "/js/projects.js") %>"></script>
+<% end %>
+
 <div class="container">
   <div class="page-section">
     <h1>MBTA Projects and Programs</h1>
@@ -14,6 +20,6 @@
       <hr>
     <% end %>
 
-    <%= render "_all_projects.html", projects: @project_teasers, conn: @conn %>
+    <%= render "_all_projects.html", projects: @project_teasers, placeholder_image_url: @placeholder_image_url, conn: @conn %>
   </div>
 </div>

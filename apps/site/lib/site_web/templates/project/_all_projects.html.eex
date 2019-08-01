@@ -1,21 +1,15 @@
-<h2 class="hidden-sm-down featured-project-subheader">All Projects</h2>
+<h2 className="hidden-sm-down featured-project-subheader">More Projects</h2>
+<script data-for="more_projects" id="js-more-projects-data" type="text/plain">
+  <%= raw Poison.encode!(%{projects: @projects, placeholderImageUrl: @placeholder_image_url}) %>
+</script>
 
-<table class="responsive-table">
-  <caption>All T-Projects</caption>
-  <thead>
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Last Updated</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= for project <- @projects do %>
-      <tr>
-        <th>Name</th>
-        <td><%= link project.title, to: project_path(@conn, :show, project) %></td>
-        <th>Last Updated</th>
-        <td><%= format_full_date(project.date) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<div id="react-more-projects-table-root">
+  <%= Site.React.render("MoreProjectsTable", %{projects: @projects, placeholderImageUrl: @placeholder_image_url}) %>
+</div>
+
+<%= if Application.get_env(:site, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/projects.js" %>"></script>
+<% else %>
+  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+  <script defer src="<%= static_url(@conn, "/js/projects.js") %>"></script>
+<% end %>

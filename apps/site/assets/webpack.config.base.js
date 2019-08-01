@@ -16,7 +16,8 @@ module.exports = {
     stop: ["./ts/stop-entry.ts"],
     leaflet: ["./ts/leaflet-entry.ts"],
     schedule: ["./ts/schedule-entry.ts"],
-    tripplanresults: ["./ts/trip-plan-results-entry.ts"]
+    tripplanresults: ["./ts/trip-plan-results-entry.ts"],
+    projects: ["./ts/projects-entry.ts"]
   },
 
   node: {

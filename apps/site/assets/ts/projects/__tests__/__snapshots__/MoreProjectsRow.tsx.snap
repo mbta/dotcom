@@ -1,0 +1,179 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders with route icons 1`] = `
+<tr
+  className="c-more-projects-table__tr"
+>
+  <td
+    className="c-more-projects-table__td c-more-projects-table__td-project"
+  >
+    <img
+      alt="Picture of the new Mauve Line train"
+      className="hidden-xs-down c-more-projects-table__thumbnail"
+      src="http://cloudfront.com/mbta_pic.gif"
+    />
+    <div
+      className="c-more-projects-table__wrapper"
+    >
+      <a
+        href="http://www.mbta.com/new_mauve_line"
+      >
+        <h3
+          className="c-more-projects-table__title"
+        >
+          New Mauve Line trains
+        </h3>
+      </a>
+      <div
+        className="c-more-projects-table__updated-and-status hidden-lg-up"
+      >
+        <div
+          className="c-more-projects-table__last-updated"
+        >
+          <span
+            className="c-more-projects-table__internal-header"
+          >
+            Last updated
+          </span>
+          <br />
+          May 1, 2018
+        </div>
+      </div>
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-more-projects-table__route-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+    </div>
+  </td>
+  <td
+    className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down"
+  >
+    May 1, 2018
+  </td>
+  <td
+    className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"
+  />
+</tr>
+`;
