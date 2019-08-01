@@ -2,9 +2,9 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
   @moduledoc false
   use ExUnit.Case, async: true
   import SiteWeb.ScheduleController.TimetableController
+  alias Routes.Route
   alias Stops.Stop
   alias Schedules.{Schedule, Trip}
-  alias Routes.Route
 
   @stops [
     %Stop{id: "1"},
