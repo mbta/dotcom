@@ -1,5 +1,6 @@
 defmodule SiteWeb.ScheduleController.TimetableController do
   use SiteWeb, :controller
+  alias Plug.Conn
   alias Routes.Route
   alias SiteWeb.ScheduleView
 
@@ -39,7 +40,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   def assign_trip_schedules(conn) do
     timetable_schedules = timetable_schedules(conn)
     header_schedules = header_schedules(timetable_schedules)
-    vehicle_schedules = vehicle_schedules(timetable_schedules)
+    vehicle_schedules = vehicle_schedules(conn, timetable_schedules)
     prior_stops = prior_stops(vehicle_schedules)
 
     %{
@@ -141,8 +142,15 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     |> Enum.map(&List.first/1)
   end
 
-  @spec vehicle_schedules(list) :: map
-  def vehicle_schedules(timetable_schedules) do
+  @spec vehicle_schedules(Conn.t(), list) :: map
+  def vehicle_schedules(%{assigns: %{date: date}}, timetable_schedules) do
+    case Date.compare(date, Util.service_date()) do
+      :eq -> do_vehicle_schedules(timetable_schedules)
+      _ -> %{}
+    end
+  end
+
+  def do_vehicle_schedules(timetable_schedules) do
     timetable_schedules
     |> Enum.map(&construct_vehicle_data/1)
     |> Map.new(&{"#{&1.stop_name}-#{&1.trip_id}", &1})
