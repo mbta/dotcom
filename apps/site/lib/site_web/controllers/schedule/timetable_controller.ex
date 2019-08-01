@@ -1,5 +1,6 @@
 defmodule SiteWeb.ScheduleController.TimetableController do
   use SiteWeb, :controller
+  alias Routes.Route
   alias SiteWeb.ScheduleView
 
   plug(SiteWeb.Plugs.Route)
@@ -148,11 +149,27 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   end
 
   defp construct_vehicle_data(%Schedules.Schedule{
+         stop: nil,
+         stop_sequence: s,
+         trip: %Schedules.Trip{id: ti, headsign: headsign}
+       }) do
+    %{stop_sequence: s, stop_name: headsign, trip_id: ti}
+  end
+
+  defp construct_vehicle_data(%Schedules.Schedule{
          stop: %Stops.Stop{name: sn},
          stop_sequence: s,
          trip: %Schedules.Trip{id: ti}
        }) do
     %{stop_sequence: s, stop_name: sn, trip_id: ti}
+  end
+
+  defp construct_vehicle_data(%Schedules.Schedule{
+         route: %Route{description: :rail_replacement_bus},
+         stop_sequence: s,
+         trip: %Schedules.Trip{id: ti, headsign: headsign}
+       }) do
+    %{stop_sequence: s, stop_name: headsign, trip_id: ti}
   end
 
   @spec prior_stops(map) :: map
