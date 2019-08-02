@@ -1,11 +1,19 @@
 defmodule SiteWeb.CMSControllerTest do
   use SiteWeb.ConnCase, async: false
 
+  alias Plug.Conn
+
   describe "GET - page" do
     test "renders a basic page when the CMS returns a CMS.Page.Basic", %{conn: conn} do
       conn = get(conn, "/basic_page_no_sidebar")
       rendered = html_response(conn, 200)
       assert rendered =~ "Arts on the T"
+    end
+
+    test "renders a project page when the CMS returns a CMS.Page.Project", %{conn: conn} do
+      conn = get(conn, "/projects/project-with-paragraphs")
+      rendered = html_response(conn, 200)
+      assert rendered =~ "page-section project-hero-image"
     end
 
     test "given special preview query params, return certain revision of node", %{conn: conn} do
@@ -128,7 +136,7 @@ defmodule SiteWeb.CMSControllerTest do
     } do
       conn = get(conn, "/redirected-url?preview&vid=latest")
       assert conn.status == 302
-      assert Plug.Conn.get_resp_header(conn, "location") == ["/different-url?preview=&vid="]
+      assert Conn.get_resp_header(conn, "location") == ["/different-url?preview=&vid="]
     end
 
     test "renders a 404 when the CMS does not return any content", %{conn: conn} do

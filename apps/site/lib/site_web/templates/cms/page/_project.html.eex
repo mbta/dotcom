@@ -18,7 +18,25 @@
 
 <%# DEPRECATED: Render the Contact information component (now served by paragraph) %>
 <%= if Project.contact?(@page) do %>
-  <div class="page-section">
-    <%= render("_contact.html", project: @page) %>
+  <div class="page-section project-contact">
+    <div class="callout">
+      <h2 class="h3 callout-heading">Contact Information</h2>
+      <p>For all queries and comments related to <%= @page.title %>, please contact:</p>
+      <%= if @page.contact_information do %>
+        <div class="contact-element-contact">
+          <%= @page.contact_information %>
+        </div>
+      <% end %>
+      <%= if @page.media_email do %>
+        <div class="contact-element-email">
+          <%= link @page.media_email, to: "mailto:#{@page.media_email}" %>
+        </div>
+      <% end %>
+      <%= if @page.media_phone do %>
+        <div class="contact-element-phone">
+          <%= tel_link(@page.media_phone) %>
+        </div>
+      <% end %>
+    </div>
   </div>
 <% end %>

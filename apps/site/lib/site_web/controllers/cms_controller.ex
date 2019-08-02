@@ -20,6 +20,7 @@ defmodule SiteWeb.CMSController do
     Page.Basic,
     Page.Person,
     Page.Landing,
+    Page.Project,
     Page.Redirect
   ]
 
@@ -27,10 +28,6 @@ defmodule SiteWeb.CMSController do
     Page.Event,
     Page.NewsEntry,
     Page.ProjectUpdate
-  ]
-
-  @transitional [
-    Page.Project
   ]
 
   @spec page(Conn.t(), map) :: Conn.t()
@@ -55,18 +52,8 @@ defmodule SiteWeb.CMSController do
     end
   end
 
-  defp handle_page_response(%{__struct__: struct, paragraphs: []} = page, conn)
-       when struct in @transitional do
-    # These content types may or may not have paragraph content. Having at least one paragraph
-    # means we can use a generic CMS content template which expects paragraphs. Otherwise, use
-    # the original controller for that content type.
-    case struct do
-      Page.Project -> ProjectController.show_project(conn, page)
-    end
-  end
-
   defp handle_page_response(%{__struct__: struct} = page, conn)
-       when struct in @generic or struct in @transitional do
+       when struct in @generic do
     conn
     |> put_layout({SiteWeb.LayoutView, :app})
     |> render_page(page)
