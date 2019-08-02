@@ -48,6 +48,20 @@ defmodule SiteWeb.CMS.PageView do
 
   @spec has_right_rail?(Page.t()) :: boolean
   def has_right_rail?(%{paragraphs: paragraphs}) do
-    Enum.any?(paragraphs, &Paragraph.right_rail?(&1))
+    Enum.any?(paragraphs, &right_rail_check(&1))
+  end
+
+  # Checks if any paragraphs have been assigned to the right rail.
+  # If the paragraph is a ContentList.t(), ensure it has teasers.
+  defp right_rail_check(paragraph) do
+    if Paragraph.right_rail?(paragraph) do
+      if Map.has_key?(paragraph, :teasers) do
+        if Enum.empty?(paragraph.teasers), do: false, else: true
+      else
+        true
+      end
+    else
+      false
+    end
   end
 end
