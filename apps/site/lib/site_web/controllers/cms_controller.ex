@@ -109,17 +109,11 @@ defmodule SiteWeb.CMSController do
       Breadcrumb.build(page.title)
     ]
 
-    conn
-    |> assign(:breadcrumbs, breadcrumbs)
-    |> assign(:page, page)
-    |> render("page.html", conn: conn)
+    render_generic(conn, page, breadcrumbs)
   end
 
   defp render_page(conn, %Page.Basic{} = page) do
-    conn
-    |> assign(:breadcrumbs, page.breadcrumbs)
-    |> assign(:page, page)
-    |> render("page.html", conn: conn)
+    render_generic(conn, page, page.breadcrumbs)
   end
 
   defp render_page(conn, %Page.Landing{} = page) do
@@ -137,5 +131,13 @@ defmodule SiteWeb.CMSController do
 
   defp render_page(conn, %Page.Redirect{link: link}) do
     redirect(conn, external: link.url)
+  end
+
+  @spec render_generic(Conn.t(), Page.t(), [any()]) :: Conn.t()
+  defp render_generic(conn, page, breadcrumbs) do
+    conn
+    |> assign(:breadcrumbs, breadcrumbs)
+    |> assign(:page, page)
+    |> render("page.html", conn: conn)
   end
 end
