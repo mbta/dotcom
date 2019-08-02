@@ -105,6 +105,8 @@ exports[`renders 1`] = `
   >
     <button
       className="btn btn-secondary c-more-projects__show-more-button"
+      disabled={false}
+      onClick={[Function]}
       type="button"
     >
       Show more
