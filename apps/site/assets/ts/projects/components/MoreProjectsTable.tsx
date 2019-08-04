@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { Dispatch, ReactElement, useState } from "react";
 import MoreProjectsRow from "./MoreProjectsRow";
 import { Project } from "./__projects";
 
@@ -12,6 +12,34 @@ interface State {
   fetchInProgress: boolean;
 }
 
+export const fetchMoreProjects = (
+  state: State,
+  setState: Dispatch<State>
+): void => {
+  if (window.fetch) {
+    setState({
+      projects: state.projects,
+      fetchInProgress: true
+    });
+
+    const offset = state.projects.length;
+    window
+      .fetch(`/project_api?offset=${offset}`)
+      .then(response => {
+        if (response.ok && response.body) {
+          return response.json();
+        }
+        return [];
+      })
+      .then(newProjects => {
+        setState({
+          projects: state.projects.concat(newProjects),
+          fetchInProgress: false
+        });
+      });
+  }
+};
+
 const MoreProjectsTable = ({
   projects: initialProjects,
   placeholderImageUrl
@@ -20,31 +48,6 @@ const MoreProjectsTable = ({
     projects: initialProjects,
     fetchInProgress: false
   });
-
-  const fetchMoreProjects = (): void => {
-    if (window.fetch) {
-      setState({
-        projects: state.projects,
-        fetchInProgress: true
-      });
-
-      const offset = state.projects.length;
-      window
-        .fetch(`/project_api?offset=${offset}`)
-        .then(response => {
-          if (response.ok && response.body) {
-            return response.json();
-          }
-          return [];
-        })
-        .then(newProjects => {
-          setState({
-            projects: state.projects.concat(newProjects),
-            fetchInProgress: false
-          });
-        });
-    }
-  };
 
   return (
     <div>
@@ -85,7 +88,7 @@ const MoreProjectsTable = ({
           className="btn btn-secondary c-more-projects__show-more-button"
           type="button"
           disabled={state.fetchInProgress}
-          onClick={() => fetchMoreProjects()}
+          onClick={() => fetchMoreProjects(state, setState)}
         >
           Show more
         </button>
