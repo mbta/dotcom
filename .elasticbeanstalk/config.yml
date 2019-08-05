@@ -11,3 +11,10 @@ global:
   default_region: us-east-1
   profile: eb-cli
   sc: git
+files:
+  "/opt/elasticbeanstalk/tasks/taillogs.d/my-app-logs.conf":
+    mode: "000755"
+    owner: root
+    group: root
+    content: |
+      /var/app/current/nodejs.log
