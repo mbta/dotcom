@@ -1,7 +1,3 @@
-import { Image } from "./Image";
-import { Route } from "./Route";
-
-// eslint-disable-next-line import/prefer-default-export
 export interface Project {
   date: string;
   id: number;
@@ -11,4 +7,15 @@ export interface Project {
   status: string | null;
   text: string;
   title: string;
+}
+
+export interface Image {
+  url: string;
+  alt: string;
+}
+
+export interface Route {
+  mode: string;
+  id: string;
+  group: string;
 }
