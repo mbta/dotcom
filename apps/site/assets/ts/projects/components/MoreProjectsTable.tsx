@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import MoreProjectsRow from "./MoreProjectsRow";
-import { Project } from "./Project";
+import { Project } from "./__projects";
 
 interface Props {
   projects: Project[];
