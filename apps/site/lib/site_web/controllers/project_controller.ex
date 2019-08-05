@@ -1,4 +1,7 @@
 defmodule SiteWeb.ProjectController do
+  @moduledoc """
+  Controller for project-related CMS content
+  """
   use SiteWeb, :controller
 
   alias CMS.{Partial.Teaser, Repo}
@@ -23,9 +26,15 @@ defmodule SiteWeb.ProjectController do
       |> sort_by_date()
     end
 
+    project_intro_fn = fn ->
+      "/admin/content/paragraphs/25"
+      |> Repo.get_paragraph()
+    end
+
     conn
     |> async_assign_default(:project_teasers, project_teasers_fn, [])
     |> async_assign_default(:featured_project_teasers, featured_project_teasers_fn, [])
+    |> async_assign_default(:cms_intro, project_intro_fn, [])
     |> assign(:breadcrumbs, [Breadcrumb.build(@breadcrumb_base)])
     |> assign(:placeholder_image_url, static_url(SiteWeb.Endpoint, @placeholder_image_path))
     |> await_assign_all_default(__MODULE__)

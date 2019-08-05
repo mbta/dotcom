@@ -4,6 +4,8 @@ defmodule SiteWeb.ProjectView do
   """
   use SiteWeb, :view
 
+  import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
+
   alias CMS.Field.Link
   alias CMS.Page.Project
   alias CMS.Partial.Paragraph.DescriptiveLink
