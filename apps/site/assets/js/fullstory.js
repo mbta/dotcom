@@ -1,7 +1,7 @@
 import * as Cookies from "./cookies";
 
 export default function fullstory() {
-  const MODULO_SAMPLE = 50;
+  const MODULO_SAMPLE = 25;
   const id = getUniqueId();
 
   // Only execute the fullstory code if the id is a multiple of the selected modulo
