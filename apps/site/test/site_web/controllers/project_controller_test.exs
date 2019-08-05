@@ -338,4 +338,24 @@ defmodule SiteWeb.ProjectControllerTest do
       assert conn.status == 404
     end
   end
+
+  describe "api" do
+    test "returns a list of project structs JSON-encoded", %{conn: conn} do
+      path = project_api_path(conn, :api, %{offset: 0})
+
+      response =
+        conn
+        |> get(path)
+        |> json_response(200)
+
+      assert(length(response) > 0)
+      expected_keys = ~w[date id image path routes status title]
+
+      Enum.each(response, fn project ->
+        Enum.each(expected_keys, fn key ->
+          assert(key in Map.keys(project))
+        end)
+      end)
+    end
+  end
 end
