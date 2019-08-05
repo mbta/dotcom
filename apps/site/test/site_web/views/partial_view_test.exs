@@ -195,11 +195,11 @@ defmodule SiteWeb.PartialViewTest do
   describe "paragraph/2" do
     test "renders a CMS partial (paragraph) directly from API", %{conn: conn} do
       rendered =
-        30
+        "/paragraphs/custom-html/projects-index"
         |> PartialView.paragraph(conn)
         |> safe_to_string()
 
-      assert rendered =~ "<p>library item"
+      assert rendered =~ "<p>The T is evolving every day."
       assert rendered =~ "c-paragraph--custom-html"
       refute rendered =~ "c-paragraph--library-item"
     end

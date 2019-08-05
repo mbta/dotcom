@@ -316,7 +316,7 @@ defmodule CMS.Repo do
   end
 
   @doc """
-  Paragraphs are stand-alone partials from the CMS.
+  Paragraphs are stand-alone partials from the CMS. Supports redirects.
   """
   @spec get_paragraph(String.t(), map) :: Paragraph.t() | {:error, any()}
   def get_paragraph(path, query_params \\ %{}) do

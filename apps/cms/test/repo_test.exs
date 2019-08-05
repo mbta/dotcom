@@ -489,7 +489,12 @@ defmodule CMS.RepoTest do
 
   describe "get_paragraph/1" do
     test "returns a single paragraph item" do
-      paragraph = Repo.get_paragraph(30)
+      paragraph = Repo.get_paragraph("/paragraphs/custom-html/projects-index")
+      assert %Paragraph.CustomHTML{} = paragraph
+    end
+
+    test "returns a single paragraph item which has a newer alias" do
+      paragraph = Repo.get_paragraph("/admin/content/paragraphs/25")
       assert %Paragraph.CustomHTML{} = paragraph
     end
   end

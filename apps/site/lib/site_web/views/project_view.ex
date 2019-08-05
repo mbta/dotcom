@@ -4,12 +4,12 @@ defmodule SiteWeb.ProjectView do
   """
   use SiteWeb, :view
 
-  import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
-
   alias CMS.Field.Link
   alias CMS.Page.Project
   alias CMS.Partial.Paragraph.DescriptiveLink
   alias CMS.Partial.Teaser
+
+  alias SiteWeb.PartialView
 
   @spec show_all_updates_link?([Teaser.t()]) :: boolean()
   def show_all_updates_link?([_, _ | [_ | _]]) do

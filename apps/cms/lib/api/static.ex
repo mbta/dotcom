@@ -417,7 +417,11 @@ defmodule CMS.API.Static do
     end
   end
 
-  def view("/admin/content/paragraphs/" <> _paragraph_id, _) do
+  def view("/admin/content/paragraphs/25", params) do
+    redirect("/paragraphs/custom-html/projects-index", params, 301)
+  end
+
+  def view("/paragraphs/custom-html/projects-index", _) do
     {:ok, paragraph_response()}
   end
 

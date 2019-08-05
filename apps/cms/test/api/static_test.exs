@@ -94,9 +94,16 @@ defmodule CMS.API.StaticTest do
       end
     end
 
-    test "/admin/content/paragraphs/30" do
-      assert {:ok, library_paragraph_item} = view("/admin/content/paragraphs/30", %{})
-      assert %{"id" => [%{"value" => 30}]}
+    test "/admin/content/paragraphs/25" do
+      assert {:error, {:redirect, 301, to: new_location}} =
+               view("/admin/content/paragraphs/25", %{})
+
+      assert "/paragraphs/custom-html/projects-index" = new_location
+    end
+
+    test "/paragraphs/custom-html/projects-index" do
+      assert {:ok, library_paragraph_item} = view("/paragraphs/custom-html/projects-index", %{})
+      assert %{"id" => [%{"value" => 25}]}
       assert %{"paragraphs" => [_]} = library_paragraph_item
     end
   end
