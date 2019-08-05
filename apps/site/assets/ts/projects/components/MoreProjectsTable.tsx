@@ -12,32 +12,24 @@ interface State {
   fetchInProgress: boolean;
 }
 
-export const fetchMoreProjects = (
+export const fetchMoreProjects = async (
   state: State,
   setState: Dispatch<State>
-): void => {
-  if (window.fetch) {
-    setState({
-      projects: state.projects,
-      fetchInProgress: true
-    });
-
-    const offset = state.projects.length;
-    window
-      .fetch(`/project_api?offset=${offset}`)
-      .then(response => {
-        if (response.ok && response.body) {
-          return response.json();
-        }
-        return [];
-      })
-      .then(newProjects => {
-        setState({
-          projects: state.projects.concat(newProjects),
-          fetchInProgress: false
-        });
-      });
+): Promise<void> => {
+  if (!window.fetch) {
+    return;
   }
+
+  setState({ ...state, fetchInProgress: true });
+
+  const offset = state.projects.length;
+  const response = await window.fetch(`/project_api?offset=${offset}`);
+  const projects: Project[] =
+    response.ok && response.body ? Array.from(await response.json()) : [];
+  setState({
+    projects: state.projects.concat(projects),
+    fetchInProgress: false
+  });
 };
 
 const MoreProjectsTable = ({
