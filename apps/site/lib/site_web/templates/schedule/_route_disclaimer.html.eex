@@ -7,7 +7,7 @@
           "Shuttle routes in effect due to Wollaston Station closure. ",
           link(
             "Learn more",
-            to: SiteWeb.ScheduleController.ClosedStops.wollaston_update_link(),
+            to: "#",
             aria_label: "Learn more about how the Wollaston Station closure will affect your trip."
           )
         ]
