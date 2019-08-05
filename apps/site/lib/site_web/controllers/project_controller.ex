@@ -27,7 +27,7 @@ defmodule SiteWeb.ProjectController do
     end
 
     project_intro_fn = fn ->
-      "/admin/content/paragraphs/25"
+      "/paragraphs/custom-html/projects-index"
       |> Repo.get_paragraph()
     end
 
