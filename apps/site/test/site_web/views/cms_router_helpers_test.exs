@@ -74,7 +74,7 @@ defmodule SiteWeb.CmsRouterHelpersTest do
     end
 
     test "handles :show with project name", %{conn: conn} do
-      assert project_path(conn, :show, "title") == "/projects/title"
+      assert project_path(conn, :show, "project-title") == "/projects/project-title"
     end
   end
 
