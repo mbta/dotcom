@@ -1,33 +1,21 @@
 import React, { ReactElement } from "react";
-import { Banner, Route } from "./__projects";
+import { ProjectTeaserWithDate, Route } from "./__projects";
 
 interface Props {
-  banner: Banner;
+  banner: ProjectTeaserWithDate;
 }
 
-const BannerImage = ({
-  banner: { banner_type, thumb }
-}: Props): ReactElement<HTMLElement> => (
-  <div
-    className={`m-banner__image m-banner__image--${banner_type}`}
-    style={{ backgroundImage: `url(${thumb.url}` }}
-  >
-    <div className="sr-only">{thumb.alt}</div>
-  </div>
-);
+const bannerContentClass = (banner: ProjectTeaserWithDate): string =>
+  `m-banner__content m-banner__content--default m-banner__content--left u-bg--${bannerBgClass(
+    banner
+  )}`;
 
-const bannerContentClass = (banner: Banner): string =>
-  `m-banner_content m_banner-content--${banner.banner_type} m-banner__content-${
-    banner.text_position
-  } ${bannerBgClass(banner)}`;
-
-const bannerBgClass = (banner: Banner): string => {
-  if (banner.banner_type === "important") return "";
+const bannerBgClass = (banner: ProjectTeaserWithDate): string => {
   if (banner.routes.length === 0) return "u-bg--unknown";
   return bannerRouteClass(banner);
 };
 
-const bannerRouteClass = ({ routes }: Banner): string => {
+const bannerRouteClass = ({ routes }: ProjectTeaserWithDate): string => {
   return cmsRouteToClass(routes[0]);
 };
 
@@ -44,38 +32,41 @@ const cmsRouteToClass = (route: Route): string => {
   if (route.group === "custom" && route.mode === null) return "unknown";
   if (route.group === "custom") return toCSSClass(route.mode);
   if (route.group === "mode" && route.id !== null) return toCSSClass(route.id);
-  return toCSSClass(route.id);
+  return "unknown";
 };
 
-const bannerCTA = (banner: Banner) => {
-  if (banner.banner_type !== "important" || banner.title === null) return null;
-  return <span className="m-banner__cta">{banner.title}</span>;
+const BannerContent = ({ banner }: Props) => (
+  <div className={bannerContentClass(banner)}>
+    <div className="m-banner__top">
+      <h2 className={`h2 m-banner__title m-banner__title--default`}>
+        {banner.title}
+      </h2>
+    </div>
+    <div className="m-banner__bottom">{bannerUpdated(banner)}</div>
+  </div>
+);
+
+const bannerUpdated = (banner: ProjectTeaserWithDate) => {
+  return <span>updated {banner.formatted_date}</span>;
 };
 
 const Banner = ({ banner }: Props): ReactElement<HTMLElement> => {
   return (
     <a
-      href={banner.utm_url}
-      className={`m-banner m-banner--${banner.banner_type}`}
+      href={banner.path}
+      className="m-banner m-banner--responsive m-banner--default"
     >
-      <BannerImage banner={banner} />
-      <div className="container">
-        <div className={bannerContentClass(banner)}>
-          <div className="m-banner__top">
-            <div className="m-banner__category u-small-caps">
-              {banner.category}
-            </div>
-            <h2
-              className={`h2 m-banner__title m-banner__title--${
-                banner.banner_type
-              }`}
-            >
-              {banner.title}
-            </h2>
-            {banner.banner_type === "important" ? <p>banner.blurb</p> : null}
-          </div>
+      <div
+        className="m-banner__image m-banner__image--responsive m-banner__image--default"
+        style={{ backgroundImage: ` url(${banner.image.url})` }}
+      >
+        <div className="sr-only">{banner.image.alt}</div>
+        <div className="container hidden-xs-down">
+          <BannerContent banner={banner} />
         </div>
-        <div className="m-banner__bottom">{bannerCTA(banner)}</div>
+      </div>
+      <div className="hidden-sm-up">
+        <BannerContent banner={banner} />
       </div>
     </a>
   );

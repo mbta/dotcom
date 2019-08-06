@@ -14,14 +14,16 @@
     <%= if !Enum.empty?(@featured_project_teasers) do %>
       <h2 class="featured-project-subheader">Featured Projects</h2>
     <% end %>
-
-    <%= [banner | rest] = @featured_project_teasers %>
-    <%= render "_banner.html", featured_projects: banner %>
-    <%= for project <- rest do %>
-      <%= render "_featured_project.html", project: project, conn: @conn %>
-      <hr>
-    <% end %>
-
-    <%= render "_all_projects.html", projects: @project_teasers, placeholder_image_url: @placeholder_image_url, conn: @conn %>
   </div>
+</div>
+<% [banner | rest] = @featured_project_teasers %>
+<%= render "_banner.html", featured_projects: banner %>
+<div class="container">
+  <%= for project <- rest do %>
+    <%= render "_featured_project.html", project: project, conn: @conn %>
+    <hr>
+  <% end %>
+</div>
+<div class="container">
+  <%= render "_all_projects.html", projects: @project_teasers, placeholder_image_url: @placeholder_image_url, conn: @conn %>
 </div>

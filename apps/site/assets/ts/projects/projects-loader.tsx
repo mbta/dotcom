@@ -4,9 +4,11 @@ import MoreProjectsTable from "./components/MoreProjectsTable";
 import Banner from "./components/Banner";
 
 export const projects = (): void => {
-  const projectBannerDataEl = document.getElementById("js-project-banner-data");
-  const projectBannerRootEl = document.getElementById(
-    "react-project-banner-root"
+  const projectTeasersDataEl = document.getElementById(
+    "js-project-teasers-data"
+  );
+  const projectTeasersRootEl = document.getElementById(
+    "react-project-teasers-root"
   );
   const moreProjectsDataEl = document.getElementById("js-more-projects-data");
   const moreProjectsRootEl = document.getElementById(
@@ -15,15 +17,15 @@ export const projects = (): void => {
   if (
     !moreProjectsDataEl ||
     !moreProjectsRootEl ||
-    !projectBannerRootEl ||
-    !projectBannerDataEl
+    !projectTeasersRootEl ||
+    !projectTeasersDataEl
   ) {
     return;
   }
 
-  const projectBannerData = JSON.parse(projectBannerDataEl.innerText);
+  const projectTeasersData = JSON.parse(projectTeasersDataEl.innerText);
   const moreProjectsData = JSON.parse(moreProjectsDataEl.innerText);
-  render(<Banner {...projectBannerData} />, projectBannerRootEl);
+  render(<Banner {...projectTeasersData} />, projectTeasersRootEl);
   render(<MoreProjectsTable {...moreProjectsData} />, moreProjectsRootEl);
 };
 

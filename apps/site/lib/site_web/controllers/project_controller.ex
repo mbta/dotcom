@@ -5,7 +5,7 @@ defmodule SiteWeb.ProjectController do
   alias CMS.Page.{Project, ProjectUpdate}
   alias Plug.Conn
   alias SiteWeb.ProjectView
-
+  alias SiteWeb.ViewHelpers
   @breadcrumb_base "Projects"
   @placeholder_image_path "/images/project-image-placeholder.png"
 
@@ -21,6 +21,7 @@ defmodule SiteWeb.ProjectController do
       [type: [:project], sticky: 1]
       |> Repo.teasers()
       |> sort_by_date()
+      |> Enum.map(&simplify_teaser/1)
     end
 
     conn
@@ -218,6 +219,11 @@ defmodule SiteWeb.ProjectController do
 
   @spec simplify_teaser(map()) :: map()
   defp simplify_teaser(teaser) do
-    Map.take(teaser, ~w(id image path title routes date status)a)
+    path = project_path(SiteWeb.Endpoint, :show, teaser)
+    formatted_date = ViewHelpers.format_full_date(teaser.date)
+
+    Map.put(teaser, :path, path)
+    |> Map.put(:formatted_date, formatted_date)
+    |> Map.take(~w(id text image path title routes formatted_date date status)a)
   end
 end

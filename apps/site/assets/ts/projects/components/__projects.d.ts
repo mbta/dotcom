@@ -44,11 +44,15 @@ export interface ProjectTeaser {
   path: string;
   title: string;
   routes: Route[];
-  image: Image | null;
+  image: Image;
   text: string | null;
   topic: string | null;
   date: string | null; // Need to post-process?
   date_end: string | null;
   location: Location | null;
   status: string | null;
+}
+
+export interface ProjectTeaserWithDate extends ProjectTeaser {
+  formatted_date: string;
 }
