@@ -1,0 +1,14 @@
+<script data-for="more_projects" id="js-more-projects-data" type="text/plain">
+  <%= raw Poison.encode!(%{banner: @featured_projects}) %>
+</script>
+
+<div id="react-project-banner-root">
+  <%= Site.React.render("ProjectBanner", %{banner: @featured_projects}) %>
+</div>
+
+<%= if Application.get_env(:site, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/projects.js" %>"></script>
+<% else %>
+  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+  <script defer src="<%= static_url(@conn, "/js/projects.js") %>"></script>
+<% end %>
