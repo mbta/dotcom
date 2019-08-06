@@ -1,6 +1,8 @@
 defmodule SiteWeb.ProjectControllerTest do
   use SiteWeb.ConnCase
 
+  import SiteWeb.ProjectController, only: [get_breadcrumb_base: 0]
+
   alias CMS.{Page.Project, Page.ProjectUpdate, Repo}
   alias Plug.Conn
 
@@ -226,6 +228,12 @@ defmodule SiteWeb.ProjectControllerTest do
           assert(key in Map.keys(project))
         end)
       end)
+    end
+  end
+
+  describe "get_breadcrumb_base" do
+    test "returns the static base breadcrumb for projects" do
+      assert get_breadcrumb_base() == "MBTA Projects and Programs"
     end
   end
 end

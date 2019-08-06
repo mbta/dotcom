@@ -73,6 +73,15 @@ defmodule SiteWeb.CmsRouterHelpersTest do
              }) == "/projects/project-name"
     end
 
+    test "handles :show with teaser", %{conn: conn} do
+      assert project_path(conn, :show, %CMS.Partial.Teaser{
+               id: 12,
+               type: :project,
+               title: "Project Name",
+               path: "/projects/project-name"
+             }) == "/projects/project-name"
+    end
+
     test "handles :show with project name", %{conn: conn} do
       assert project_path(conn, :show, "project-title") == "/projects/project-title"
     end
