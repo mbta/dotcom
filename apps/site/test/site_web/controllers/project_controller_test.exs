@@ -233,7 +233,7 @@ defmodule SiteWeb.ProjectControllerTest do
 
   describe "get_breadcrumb_base" do
     test "returns the static base breadcrumb for projects" do
-      assert get_breadcrumb_base() == "MBTA Projects and Programs"
+      assert get_breadcrumb_base() == "Projects"
     end
   end
 end
