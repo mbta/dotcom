@@ -24,9 +24,9 @@
   mticket_html = content_tag(:span, "mTicket App", class: "no-wrap")
 
   media = case fare do
-    %Fares.Summary{duration: :weekend} -> [Fares.Format.media(:charlieticket), ", Cash, or ", mticket_html]
+    %Fares.Summary{duration: :weekend} -> [Fares.Format.media(:charlie_ticket), ", Cash, or ", mticket_html]
     %Fares.Summary{modes: [:ferry]} -> [mticket_html, " or ", Fares.Format.media(:paper_ferry)]
-    %Fares.Summary{} -> [Fares.Format.media(:charlieticket), " or ", mticket_html]
+    %Fares.Summary{} -> [Fares.Format.media(:charlie_ticket), " or ", mticket_html]
     _ -> Fares.Format.media(fare)
   end
 
