@@ -13,6 +13,7 @@ defmodule Fares.Fare do
           | :mticket
           | :student_card
           | :senior_card
+          | :paper_ferry
   @type reduced :: nil | :student | :senior_disabled | :any
   @type duration :: :single_trip | :round_trip | :day | :week | :weekend | :month | :invalid
   @type t :: %__MODULE__{
