@@ -40,6 +40,12 @@ defmodule SiteWeb.ProjectController do
     end)
   end
 
+  def api(conn, %{"offset" => offset}) do
+    offset = String.to_integer(offset)
+    teasers = fetch_teasers(offset)
+    json(conn, teasers)
+  end
+
   def project_updates(conn, %{"project_alias" => project_alias}) do
     get_page_fn = Map.get(conn.assigns, :get_page_fn, &Repo.get_page/1)
     teasers_fn = Map.get(conn.assigns, :teasers_fn, &Repo.teasers/1)
