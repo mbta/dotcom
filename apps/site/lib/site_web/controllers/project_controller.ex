@@ -219,11 +219,9 @@ defmodule SiteWeb.ProjectController do
 
   @spec simplify_teaser(map()) :: map()
   defp simplify_teaser(teaser) do
-    path = project_path(SiteWeb.Endpoint, :show, teaser)
-    formatted_date = ViewHelpers.format_full_date(teaser.date)
-
-    Map.put(teaser, :path, path)
-    |> Map.put(:formatted_date, formatted_date)
+    teaser
+    |> Map.put(:path, project_path(SiteWeb.Endpoint, :show, teaser))
+    |> Map.put(:formatted_date, ViewHelpers.format_full_date(teaser.date))
     |> Map.take(~w(id text image path title routes formatted_date date status)a)
   end
 end

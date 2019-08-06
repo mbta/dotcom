@@ -15,7 +15,7 @@ export interface Image {
 }
 
 export interface Route {
-  mode: string;
+  mode: string | null;
   id: string;
   group: string;
 }
@@ -39,17 +39,17 @@ export interface Banner {
 }
 
 export interface ProjectTeaser {
-  id: string;
-  type: "project";
+  id: number;
+  type?: "project";
   path: string;
   title: string;
   routes: Route[];
   image: Image;
   text: string | null;
-  topic: string | null;
+  topic?: string | null;
   date: string | null; // Need to post-process?
-  date_end: string | null;
-  location: Location | null;
+  date_end?: string | null;
+  location?: Location | null;
   status: string | null;
 }
 

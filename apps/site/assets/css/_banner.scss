@@ -17,15 +17,20 @@
   }
 
   &--responsive {
-    @include media-breakpoint-up(sm) {
-      margin-bottom: $base-spacing;
-    }
     @include media-breakpoint-only(xxl) {
      // banner content is not full width at xxl,
      // so prevent container from being 100% at that breakpoint.
       margin: $base-spacing * 3 auto 0;
       width: map-get($container-max-widths, xxl);
     }
+
+    @include media-breakpoint-up(sm) {
+      margin-bottom: $base-spacing;
+    }
+  }
+
+  &--small-margin-top {
+    margin-top: $base-spacing;
   }
 }
 
