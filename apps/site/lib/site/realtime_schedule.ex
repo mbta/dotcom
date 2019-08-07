@@ -201,7 +201,7 @@ defmodule Site.RealtimeSchedule do
        predictions |> PredictedSchedule.group(schedules) |> Enum.map(&shrink_predicted_schedule/1)}
     end)
     |> Enum.filter(fn {_name, predicted_schedules} ->
-      !Enum.empty(predicted_schedules)
+      !Enum.empty?(predicted_schedules)
     end)
     |> Enum.into(%{})
   end
