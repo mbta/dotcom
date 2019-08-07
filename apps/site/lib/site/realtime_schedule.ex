@@ -20,6 +20,8 @@ defmodule Site.RealtimeSchedule do
   # the long timeout is to address a worst-case scenario of cold schedule cache
   @long_timeout 15_000
 
+  @predicted_schedules_per_stop 2
+
   @default_opts [
     stops_fn: &StopsRepo.get!/1,
     routes_fn: &RoutesRepo.by_stop_with_route_pattern/1,
@@ -115,7 +117,7 @@ defmodule Site.RealtimeSchedule do
             route_pattern: route_pattern.id,
             min_time: now,
             sort: "time",
-            "page[limit]": 2
+            "page[limit]": @predicted_schedules_per_stop
           ]
           |> predictions_fn.()
 
@@ -149,7 +151,8 @@ defmodule Site.RealtimeSchedule do
     |> Enum.into(
       %{},
       fn {route_pattern_id, schedules} ->
-        {Map.get(route_pattern_dictionary, route_pattern_id), Enum.take(schedules, 2)}
+        {Map.get(route_pattern_dictionary, route_pattern_id),
+         Enum.take(schedules, @predicted_schedules_per_stop)}
       end
     )
   end
@@ -198,10 +201,7 @@ defmodule Site.RealtimeSchedule do
        predictions |> PredictedSchedule.group(schedules) |> Enum.map(&shrink_predicted_schedule/1)}
     end)
     |> Enum.filter(fn {_name, predicted_schedules} ->
-      case predicted_schedules do
-        [] -> false
-        _ -> true
-      end
+      !Enum.empty(predicted_schedules)
     end)
     |> Enum.into(%{})
   end

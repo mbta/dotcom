@@ -23,7 +23,7 @@ defmodule Site.RealtimeScheduleTest do
     type: 1
   }
 
-  @route_with_pattern [
+  @route_with_patterns [
     {@route,
      [
        %RoutePattern{
@@ -126,98 +126,96 @@ defmodule Site.RealtimeScheduleTest do
     }
   ]
 
-  describe "stop_data/3" do
-    test "xxx" do
-      opts = [
-        stops_fn: fn _ -> @stop end,
-        routes_fn: fn _ -> @route_with_pattern end,
-        predictions_fn: fn _ -> @predictions end,
-        schedules_fn: fn _, _ -> @schedules end
-      ]
+  test "stop_data/3" do
+    opts = [
+      stops_fn: fn _ -> @stop end,
+      routes_fn: fn _ -> @route_with_patterns end,
+      predictions_fn: fn _ -> @predictions end,
+      schedules_fn: fn _, _ -> @schedules end
+    ]
 
-      stops = [@stop]
+    stops = [@stop]
 
-      expected = [
-        %{
-          predicted_schedules_by_route_pattern: %{
-            "Forest Hills" => [
-              %{
-                prediction: %{
-                  __struct__: Predictions.Prediction,
-                  departing?: false,
-                  direction_id: 1,
-                  id: "prediction-40709316-70036-190",
-                  schedule_relationship: nil,
-                  status: nil,
-                  stop_sequence: 190,
-                  time: @now,
-                  track: nil
-                },
-                schedule: nil
+    expected = [
+      %{
+        predicted_schedules_by_route_pattern: %{
+          "Forest Hills" => [
+            %{
+              prediction: %{
+                __struct__: Predictions.Prediction,
+                departing?: false,
+                direction_id: 1,
+                id: "prediction-40709316-70036-190",
+                schedule_relationship: nil,
+                status: nil,
+                stop_sequence: 190,
+                time: @now,
+                track: nil
               },
-              %{
-                prediction: %{
-                  __struct__: Predictions.Prediction,
-                  departing?: false,
-                  direction_id: 1,
-                  id: "prediction-40709317-70036-190",
-                  schedule_relationship: nil,
-                  status: nil,
-                  stop_sequence: 190,
-                  time: @now,
-                  track: nil
-                },
-                schedule: nil
-              }
-            ],
-            "Oak Grove" => [
-              %{
-                prediction: %{
-                  __struct__: Predictions.Prediction,
-                  departing?: false,
-                  direction_id: 1,
-                  id: "prediction-40709316-70036-190",
-                  schedule_relationship: nil,
-                  status: nil,
-                  stop_sequence: 190,
-                  time: @now,
-                  track: nil
-                },
-                schedule: nil
+              schedule: nil
+            },
+            %{
+              prediction: %{
+                __struct__: Predictions.Prediction,
+                departing?: false,
+                direction_id: 1,
+                id: "prediction-40709317-70036-190",
+                schedule_relationship: nil,
+                status: nil,
+                stop_sequence: 190,
+                time: @now,
+                track: nil
               },
-              %{
-                prediction: %{
-                  __struct__: Predictions.Prediction,
-                  departing?: false,
-                  direction_id: 1,
-                  id: "prediction-40709317-70036-190",
-                  schedule_relationship: nil,
-                  status: nil,
-                  stop_sequence: 190,
-                  time: @now,
-                  track: nil
-                },
-                schedule: nil
-              }
-            ]
-          },
-          route: %{
-            custom_route?: false,
-            description: :rapid_transit,
-            direction_destinations: %{"0" => "Forest Hills", "1" => "Oak Grove"},
-            direction_names: %{"0" => "Southbound", "1" => "Northbound"},
-            id: "Orange",
-            long_name: "Orange Line",
-            name: "Orange Line",
-            type: 1
-          },
-          stop: %{accessibility: [], address: nil, id: "place-ogmnl", name: nil}
-        }
-      ]
+              schedule: nil
+            }
+          ],
+          "Oak Grove" => [
+            %{
+              prediction: %{
+                __struct__: Predictions.Prediction,
+                departing?: false,
+                direction_id: 1,
+                id: "prediction-40709316-70036-190",
+                schedule_relationship: nil,
+                status: nil,
+                stop_sequence: 190,
+                time: @now,
+                track: nil
+              },
+              schedule: nil
+            },
+            %{
+              prediction: %{
+                __struct__: Predictions.Prediction,
+                departing?: false,
+                direction_id: 1,
+                id: "prediction-40709317-70036-190",
+                schedule_relationship: nil,
+                status: nil,
+                stop_sequence: 190,
+                time: @now,
+                track: nil
+              },
+              schedule: nil
+            }
+          ]
+        },
+        route: %{
+          custom_route?: false,
+          description: :rapid_transit,
+          direction_destinations: %{"0" => "Forest Hills", "1" => "Oak Grove"},
+          direction_names: %{"0" => "Southbound", "1" => "Northbound"},
+          id: "Orange",
+          long_name: "Orange Line",
+          name: "Orange Line",
+          type: 1
+        },
+        stop: %{accessibility: [], address: nil, id: "place-ogmnl", name: nil}
+      }
+    ]
 
-      actual = RealtimeSchedule.stop_data(stops, @now, opts)
+    actual = RealtimeSchedule.stop_data(stops, @now, opts)
 
-      assert actual == expected
-    end
+    assert actual == expected
   end
 end
