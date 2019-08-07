@@ -17,7 +17,7 @@
   </div>
 </div>
 <% [banner | rest] = @featured_project_teasers %>
-<%= render "_banner.html", featured_projects: banner %>
+<%= render "_banner.html", featured_projects: banner, placeholder_image_url: @placeholder_image_url %>
 <div class="container">
   <%= for project <- rest do %>
     <%= render "_featured_project.html", project: project, conn: @conn %>

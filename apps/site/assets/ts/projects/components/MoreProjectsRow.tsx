@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { isSilverLine } from "../../helpers/silver-line";
-
-import { Project, Route } from "./__projects";
+import { formattedDate } from "../../helpers/date";
+import { SimpleProject as Project, Route } from "./__projects";
 import RouteIcon from "./RouteIcon";
 
 interface Props extends Project {
@@ -73,20 +73,6 @@ const routesToTags = (routes: Route[]): string[] =>
     .concat(subwayTags(routes))
     .concat(ferryTags(routes))
     .concat(commuterRailTags(routes));
-
-const formattedDate = (unformatted: string): string => {
-  const [year, month, day] = unformatted
-    .split(/-/)
-    .map(part => Number.parseInt(part, 10));
-
-  // Remember that months in JS are 0-indexed for some reason, hence "month - 1".
-  const parsedDate = new Date(year, month - 1, day);
-  return parsedDate.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric"
-  });
-};
 
 const MoreProjectsRow = ({
   image,

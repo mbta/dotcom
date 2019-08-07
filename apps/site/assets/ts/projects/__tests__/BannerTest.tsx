@@ -5,10 +5,10 @@ import {
   createReactRoot,
   enzymeToJsonWithoutProps
 } from "../../app/helpers/testUtils";
-import { ProjectTeaserWithDate } from "../components/__projects";
+import { SimpleProject } from "../components/__projects";
 import Banner, { cmsRouteToClass } from "../components/Banner";
 
-const bannerTeaser: ProjectTeaserWithDate = {
+const bannerTeaser: SimpleProject = {
   title: "Better Bus Project",
   text:
     "Too many of our bus routes still fail to live up to our own standards. Through the Better Bus Project, we are changing that.",
@@ -97,20 +97,40 @@ const bannerTeaser: ProjectTeaserWithDate = {
     alt: "Better Bus Project: Making transit better together"
   },
   id: 3445,
-  formatted_date: "July 30, 2019",
   date: "2019-07-30"
 };
 
 it("renders", () => {
   createReactRoot();
-  const tree = renderer.create(<Banner banner={bannerTeaser} />).toJSON();
+  const tree = renderer
+    .create(
+      <Banner banner={bannerTeaser} placeholderImageUrl="path-to-some-image" />
+    )
+    .toJSON();
   expect(tree).toMatchSnapshot();
 });
 
+const placeholderImageUrl = "path-to-some-image";
 it("renders with unknown background color if no routes are listed", () => {
-  const wrapper = mount(<Banner banner={{ ...bannerTeaser, routes: [] }} />);
+  const wrapper = mount(
+    <Banner
+      banner={{ ...bannerTeaser, routes: [] }}
+      placeholderImageUrl={placeholderImageUrl}
+    />
+  );
   const actualSrc = wrapper.find(".m-banner__content").first();
   expect(actualSrc.html()).toContain("u-bg--unknown");
+});
+
+it("renders placeholder image if there is no image", () => {
+  const wrapper = mount(
+    <Banner
+      banner={{ ...bannerTeaser, image: null }}
+      placeholderImageUrl={placeholderImageUrl}
+    />
+  );
+  const actualSrc = wrapper.find(".m-banner__image");
+  expect(actualSrc.html()).toContain(placeholderImageUrl);
 });
 
 describe("cmsRouteToClass", () => {
