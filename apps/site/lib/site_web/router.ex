@@ -144,7 +144,6 @@ defmodule SiteWeb.Router do
     get("/style-guide/:section", StyleGuideController, :index)
     get("/style-guide/:section/:subpage", StyleGuideController, :show)
     get("/transit-near-me", TransitNearMeController, :index)
-    get("/transit-near-me/api", TransitNearMeController, :api)
     resources("/alerts", AlertController, only: [:index, :show])
     get("/trip-planner", TripPlanController, :index)
     get("/customer-support", CustomerSupportController, :index)

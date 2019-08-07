@@ -1,6 +1,14 @@
 import * as googleMaps from "../leaflet/state";
-
 import { Mode, RouteWithStopsWithDirections } from "../__v3api";
+import {
+  StopsWithDistances,
+  RealtimeScheduleData,
+  StopWithRoutes
+} from "./components/__tnm";
+import {
+  transformRoutes,
+  transformStops
+} from "./helpers/process-realtime-data";
 
 export type SelectedStopType = string | null;
 
@@ -9,12 +17,15 @@ export const { clickMarkerAction } = googleMaps;
 export const { clickCurrentLocationAction } = googleMaps;
 
 export interface State {
+  pendingFirstData: boolean;
   selectedStopId: SelectedStopType;
   selectedModes: Mode[];
   shouldFilterStopCards: boolean;
   shouldCenterMapOnSelectedStop: boolean;
-  routeSidebarData: RouteWithStopsWithDirections[];
   routesView: boolean;
+  stopsWithDistances: StopsWithDistances;
+  routesWithRealtimeSchedules: RouteWithStopsWithDirections[];
+  stopsWithRoutes: StopWithRoutes[];
 }
 
 export type Dispatch = (action: Action) => void;
@@ -27,7 +38,35 @@ type StopActionType =
 
 type ModeActionType = "CLICK_MODE_FILTER";
 
-type RouteSidebarDataActionType = "UPDATE_ROUTE_SIDEBAR_DATA";
+type RealtimeScheduleDataActionType = "UPDATE_REALTIME_SCHEDULE_DATA";
+
+type FirstDataLoadedType = "FIRST_DATA_LOADED";
+
+export interface RealtimeScheduleDataAction {
+  type: RealtimeScheduleDataActionType;
+  payload: {
+    data: RealtimeScheduleData[];
+  };
+}
+
+export const realtimeScheduleDataAction = (
+  realtimeScheduleData: RealtimeScheduleData[]
+): RealtimeScheduleDataAction => ({
+  type: "UPDATE_REALTIME_SCHEDULE_DATA",
+  payload: {
+    data: realtimeScheduleData
+  }
+});
+
+export interface FirstDataLoadedAction {
+  type: FirstDataLoadedType;
+  payload: object;
+}
+
+export const firstDataLoadedAction = (): FirstDataLoadedAction => ({
+  type: "FIRST_DATA_LOADED",
+  payload: {}
+});
 
 export interface ModeAction {
   type: ModeActionType;
@@ -43,13 +82,6 @@ export interface StopAction {
   };
 }
 
-export interface RouteSidebarDataAction {
-  type: RouteSidebarDataActionType;
-  payload: {
-    data: RouteWithStopsWithDirections[];
-  };
-}
-
 type ResetActionType = "RESET_SHOULD_CENTER_MAP";
 
 export interface ResetAction {
@@ -59,7 +91,12 @@ export interface ResetAction {
   };
 }
 
-type Action = StopAction | ModeAction | RouteSidebarDataAction | ResetAction;
+type Action =
+  | StopAction
+  | ModeAction
+  | ResetAction
+  | RealtimeScheduleDataAction
+  | FirstDataLoadedAction;
 
 export const clickStopCardAction = (stopId: SelectedStopType): StopAction => ({
   type: "CLICK_STOP_CARD",
@@ -86,13 +123,6 @@ export const resetCenterMapOnSelectedStop = (
 ): ResetAction => ({
   type: "RESET_SHOULD_CENTER_MAP",
   payload: { data: stopId }
-});
-
-export const routeSidebarDataAction = (
-  data: RouteWithStopsWithDirections[]
-): RouteSidebarDataAction => ({
-  type: "UPDATE_ROUTE_SIDEBAR_DATA",
-  payload: { data }
 });
 
 const stopReducer = (state: State, action: Action): State => {
@@ -163,12 +193,27 @@ const modeReducer = (state: State, action: Action): State => {
   }
 };
 
-const routeSidebarDataReducer = (state: State, action: Action): State => {
+const realtimeDataReducer = (state: State, action: Action): State => {
   switch (action.type) {
-    case "UPDATE_ROUTE_SIDEBAR_DATA":
+    case "UPDATE_REALTIME_SCHEDULE_DATA":
       return {
         ...state,
-        routeSidebarData: action.payload.data
+        routesWithRealtimeSchedules: transformRoutes(
+          state.stopsWithDistances.distances,
+          state.routesWithRealtimeSchedules,
+          action.payload.data
+        ),
+        stopsWithRoutes: transformStops(
+          state.stopsWithDistances.distances,
+          state.stopsWithRoutes,
+          action.payload.data
+        )
+      };
+
+    case "FIRST_DATA_LOADED":
+      return {
+        ...state,
+        pendingFirstData: false
       };
 
     default:
@@ -177,16 +222,19 @@ const routeSidebarDataReducer = (state: State, action: Action): State => {
 };
 
 export const reducer = (state: State, action: Action): State =>
-  [stopReducer, modeReducer, routeSidebarDataReducer].reduce(
+  [stopReducer, modeReducer, realtimeDataReducer].reduce(
     (accumulator, fn) => fn(accumulator, action),
     state
   );
 
 export const initialState: State = {
+  pendingFirstData: true,
   selectedStopId: null,
   shouldFilterStopCards: false,
   shouldCenterMapOnSelectedStop: false,
-  routeSidebarData: [],
   routesView: true,
-  selectedModes: []
+  selectedModes: [],
+  stopsWithDistances: { stops: [], distances: {} },
+  routesWithRealtimeSchedules: [],
+  stopsWithRoutes: []
 };

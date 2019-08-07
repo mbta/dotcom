@@ -18,7 +18,7 @@ defmodule PredictedSchedule.GroupTest do
 
       result = build_prediction_map([pred1, pred2, pred3], [sched1, sched2], "stop1", nil)
 
-      assert Map.size(result) == 3
+      assert Kernel.map_size(result) == 3
 
       assert result[%Trip{id: "trip1"}] == %{"stop1" => pred1}
       assert result[%Trip{id: "trip2"}] == %{"stop1" => pred2}
@@ -43,7 +43,7 @@ defmodule PredictedSchedule.GroupTest do
           "dest1"
         )
 
-      assert Map.size(result) == 2
+      assert Kernel.map_size(result) == 2
 
       assert result[%Trip{id: "trip1"}] == %{"dest1" => pred1}
       assert result[%Trip{id: "trip2"}] == %{"dest1" => pred2}
@@ -56,7 +56,7 @@ defmodule PredictedSchedule.GroupTest do
 
       result = build_prediction_map([pred1, pred2, pred3], [], "orig1", "dest1")
 
-      assert Map.size(result) == 1
+      assert Kernel.map_size(result) == 1
 
       assert result[%Trip{id: "trip1"}] == %{"orig1" => pred1, "dest1" => pred2}
     end

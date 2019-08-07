@@ -34,21 +34,22 @@ export const onError = (error: PositionError): void => {
 
 const render = (): void => {
   const dataEl = document.getElementById("js-tnm-map-dynamic-data");
-  const routeSidebarDataEl = document.getElementById("js-tnm-sidebar-data");
-  const stopSidebarDataEl = document.getElementById("js-tnm-stop-sidebar-data");
-  if (!dataEl || !routeSidebarDataEl || !stopSidebarDataEl) return;
+  const stopsWithDistancesEl = document.getElementById(
+    "js-tnm-stop-sidebar-data"
+  );
+  if (!dataEl || !stopsWithDistancesEl) return;
   const mapId = dataEl.getAttribute("data-for") as string;
   const mapData = JSON.parse(dataEl.innerHTML) as MapData;
-  const routeSidebarData = JSON.parse(routeSidebarDataEl.innerHTML);
-  const stopSidebarData = JSON.parse(stopSidebarDataEl.innerHTML);
+  const stopsWithDistances = JSON.parse(stopsWithDistancesEl.innerHTML);
   const query = parseQuery(window.location.search, window.decodeURIComponent);
   ReactDOM.render(
     <TransitNearMe
       mapData={mapData}
       mapId={mapId}
       query={query}
-      routeSidebarData={routeSidebarData}
-      stopSidebarData={stopSidebarData}
+      stopsWithDistances={stopsWithDistances}
+      routesWithRealtimeSchedules={[]}
+      stopsWithRoutes={[]}
     />,
     document.getElementById("react-root")
   );

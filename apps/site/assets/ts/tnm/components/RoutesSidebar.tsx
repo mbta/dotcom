@@ -96,14 +96,14 @@ const RoutesSidebar = ({
   selectedStop,
   shouldFilterStopCards,
   emptyMessage
-}: Props): ReactElement<HTMLElement> | null => {
+}: Props): ReactElement<HTMLElement> => {
   const filteredData = filterData(
     data,
     selectedStopId,
     selectedModes,
     shouldFilterStopCards
   );
-  return data.length ? (
+  return (
     <div className="m-tnm-sidebar">
       <div className="m-tnm-sidebar__fixed-header">
         <div className="m-tnm-sidebar__fixed-header-inner">
@@ -133,6 +133,6 @@ const RoutesSidebar = ({
         </div>
       </div>
     </div>
-  ) : null;
+  );
 };
 export default RoutesSidebar;

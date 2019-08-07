@@ -202,10 +202,19 @@ defmodule Site.RealtimeSchedule do
       fn {route_pattern_id, schedules} ->
         {Map.get(route_pattern_dictionary, route_pattern_id),
          schedules
-         |> Enum.take(@predicted_schedules_per_stop)}
+         |> Enum.take(@predicted_schedules_per_stop)
+         |> Enum.map(&copy_train_number/1)}
       end
     )
   end
+
+  @spec copy_train_number(map | nil) :: map | nil
+  defp copy_train_number(nil), do: nil
+
+  defp copy_train_number(%{trip: %{name: name}, route: %{type: 2}} = schedule),
+    do: Map.put(schedule, :train_number, name)
+
+  defp copy_train_number(schedule), do: schedule
 
   @spec route_pattern_key(RoutePattern.t(), String.t()) :: String.t()
   defp route_pattern_key(route_pattern, stop_id) do

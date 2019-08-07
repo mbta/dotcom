@@ -114,12 +114,12 @@ exports[`StopsSidebar it renders 1`] = `
           <a
             className="m-tnm-sidebar__stop-card-name"
           >
-            Charles St S @ Park Plaza
+            Malden Center
           </a>
           <div
             className="m-tnm-sidebar__stop-distance"
           >
-            0.1 mi
+            85 ft
           </div>
         </div>
         <div
@@ -137,132 +137,207 @@ exports[`StopsSidebar it renders 1`] = `
               }
             />
             <span>
+              <a>
+                Orange Line
+              </a>
+              
+            </span>
+          </span>
+        </div>
+        <div
+          className="m-tnm-sidebar__stop-card-description"
+        >
+          <span
+            className="m-tnm-sidebar__stop-route-name"
+          >
+            <span
+              className="m-tnm-sidebar__mode-icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+            <a>
+              Commuter Rail
+            </a>
+          </span>
+        </div>
+        <div
+          className="m-tnm-sidebar__stop-card-description"
+        >
+          <span
+            className="m-tnm-sidebar__stop-route-name"
+          >
+            <span
+              className="m-tnm-sidebar__mode-icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+            <span>
               Bus: 
-              <a
-                href="/schedules/43?origin=1241"
-              >
-                43
+              <a>
+                97
+              </a>
+              , 
+              <a>
+                99
+              </a>
+              , 
+              <a>
+                101
+              </a>
+              , 
+              <a>
+                104
+              </a>
+              , 
+              <a>
+                105
+              </a>
+              , 
+              <a>
+                106
+              </a>
+              , 
+              <a>
+                108
+              </a>
+              , 
+              <a>
+                131
+              </a>
+              , 
+              <a>
+                132
+              </a>
+              , 
+              <a>
+                136
+              </a>
+              , 
+              <a>
+                137
+              </a>
+              , 
+              <a>
+                411
+              </a>
+              , 
+              <a>
+                430
               </a>
               
             </span>
           </span>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`StopsSidebar it returns null when there isn't data 1`] = `
+<div
+  className="m-tnm-sidebar"
+  id="tnm-sidebar-by-stops"
+>
+  <div
+    className="m-tnm-sidebar__fixed-header"
+  >
+    <div
+      className="m-tnm-sidebar__fixed-header-inner"
+    >
       <div
-        className="m-tnm-sidebar__stop-card"
-        onClick={[Function]}
-        onKeyPress={[Function]}
-        role="button"
-        style={
-          Object {
-            "cursor": "pointer",
-          }
-        }
-        tabIndex={0}
+        className="m-tnm-sidebar__filter-bar"
       >
-        <div
-          className="m-tnm-sidebar__stop-card-header"
+        <span
+          className="m-tnm-sidebar__filter-header u-small-caps"
         >
-          <a
-            className="m-tnm-sidebar__stop-card-name"
-          >
-            Stuart St @ Charles St S
-          </a>
-          <div
-            className="m-tnm-sidebar__stop-distance"
-          >
-            46 ft
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__stop-card-description"
+          Filter
+        </span>
+        <button
+          aria-label="add filter by subway"
+          className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+          onClick={[Function]}
+          type="button"
         >
           <span
-            className="m-tnm-sidebar__stop-route-name"
-          >
-            <span
-              className="m-tnm-sidebar__mode-icon"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "SVG",
-                }
+            className="m-tnm-sidebar__mode-icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
               }
-            />
-            <span>
-              Bus: 
-              <a
-                href="/schedules/504?origin=9983"
-              >
-                504
-              </a>
-              , 
-              <a
-                href="/schedules/55?origin=9983"
-              >
-                55
-              </a>
-              , 
-              <a
-                href="/schedules/553?origin=9983"
-              >
-                553
-              </a>
-              
-            </span>
-          </span>
+            }
+          />
+          Subway
+        </button>
+        <button
+          aria-label="add filter by bus"
+          className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="m-tnm-sidebar__mode-icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+          Bus
+        </button>
+        <button
+          aria-label="add filter by commuter_rail"
+          className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="m-tnm-sidebar__mode-icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+          Rail
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    className="m-tnm-sidebar__inner"
+  >
+    <div
+      className="m-tnm-sidebar__header"
+    >
+      <div
+        className="m-tnm-sidebar__header-title"
+      >
+        <h2>
+          Nearby Stops
+        </h2>
+        <div
+          className="m-tnm-sidebar__view-change"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex={0}
+        >
+          Change view
         </div>
       </div>
-      <div
-        className="m-tnm-sidebar__stop-card"
-        onClick={[Function]}
-        onKeyPress={[Function]}
-        role="button"
-        style={
-          Object {
-            "cursor": "pointer",
-          }
-        }
-        tabIndex={0}
-      >
-        <div
-          className="m-tnm-sidebar__stop-card-header"
-        >
-          <a
-            className="m-tnm-sidebar__stop-card-name"
-          >
-            285 Tremont St
-          </a>
-          <div
-            className="m-tnm-sidebar__stop-distance"
-          >
-            .02 mi
-          </div>
-        </div>
-        <div
-          className="m-tnm-sidebar__stop-card-description"
-        >
-          <span
-            className="m-tnm-sidebar__stop-route-name"
-          >
-            <span
-              className="m-tnm-sidebar__mode-icon"
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "SVG",
-                }
-              }
-            />
-            <span>
-              Bus: 
-              <a
-                href="/schedules/43?origin=8281"
-              >
-                43
-              </a>
-              
-            </span>
-          </span>
-        </div>
+    </div>
+    <div
+      className="m-tnm-sidebar__cards"
+    >
+      <div>
+        No data
       </div>
     </div>
   </div>

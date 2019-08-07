@@ -35,6 +35,11 @@ defmodule Site.TransitNearMe do
           schedules: %{Stop.id_t() => schedule_data}
         }
 
+  @type stops_with_distances :: %{
+          stops: [Stop.t()],
+          distances: distance_hash
+        }
+
   @type error :: {:error, :timeout | :no_stops}
 
   @default_opts [
@@ -42,76 +47,20 @@ defmodule Site.TransitNearMe do
     schedules_fn: &Schedules.Repo.schedule_for_stop/2
   ]
 
-  @spec build(Address.t(), Keyword.t()) :: t() | error
+  @spec build(Address.t(), Keyword.t()) :: stops_with_distances
   def build(%Address{} = location, opts) do
     opts = Keyword.merge(@default_opts, opts)
     nearby_fn = Keyword.fetch!(opts, :stops_nearby_fn)
+    stops = nearby_fn.(location)
 
-    with {:stops, [%Stop{} | _] = stops} <- {:stops, nearby_fn.(location)},
-         {:schedules, {:ok, schedules}} <- {:schedules, get_schedules(stops, opts)} do
-      %__MODULE__{
-        stops: stops,
-        schedules: schedules,
-        distances: Map.new(stops, &{&1.id, Distance.haversine(&1, location)})
-      }
-    end
-  end
-
-  @spec get_schedules([Stop.t()], Keyword.t()) ::
-          {:ok, %{Stop.id_t() => [PredictedSchedule.t()]}} | {:error, :timeout}
-  defp get_schedules(stops, opts) do
-    stops
-    |> Task.async_stream(
-      &stream_schedules(&1, opts),
-      ordered: false,
-      on_timeout: :kill_task
-    )
-    |> Enum.reduce_while({:ok, %{}}, &collect_data(&1, &2, :stream_schedules))
-  end
-
-  @spec stream_schedules(Stop.t(), Keyword.t()) ::
-          {Stop.id_t(), [PredictedSchedule.t()]}
-  def stream_schedules(stop, opts) do
-    now = Keyword.fetch!(opts, :now)
-    schedules_fn = Keyword.fetch!(opts, :schedules_fn)
-
-    date =
-      now
-      |> Util.service_date()
-      |> Date.to_string()
-
-    predicted_schedules =
-      stop.id
-      |> schedules_fn.(date: date)
-      |> schedules_or_tomorrow(schedules_fn, stop, now)
-      |> get_predicted_schedules([stop: stop.id], opts)
-
-    {stop.id, predicted_schedules}
-  end
-
-  @spec schedules_or_tomorrow([Schedule.t()], fun(), Stop.t(), DateTime.t()) :: [Schedule.t()]
-  def schedules_or_tomorrow([_ | _] = schedules, _, _, _) do
-    schedules
-  end
-
-  def schedules_or_tomorrow([], schedules_fn, stop, now) do
-    # if there are no schedules left for today, get schedules for tomorrow
-    stop.id
-    |> schedules_fn.(date: Util.tomorrow_date(now))
-    |> Enum.reject(& &1.last_stop?)
-    # exclude buses that are more than 24 hours from now
-    |> Enum.filter(&coming_today_if_bus(&1, &1.route.type, now))
-  end
-
-  @spec coming_today_if_bus(Schedule.t(), 0..4, DateTime.t()) :: boolean
-  defp coming_today_if_bus(schedule, 3, now) do
-    twenty_four_hours_in_seconds = 86_400
-
-    DateTime.diff(schedule.time, now) < twenty_four_hours_in_seconds
-  end
-
-  defp coming_today_if_bus(_schedule, _non_bus_route_type, _now) do
-    true
+    %{
+      stops: stops,
+      distances:
+        Map.new(
+          stops,
+          &{&1.id, &1 |> Distance.haversine(location) |> ViewHelpers.round_distance()}
+        )
+    }
   end
 
   @spec get_predicted_schedules([Schedule.t()], Keyword.t(), Keyword.t()) :: [
@@ -138,42 +87,6 @@ defmodule Site.TransitNearMe do
     end
   end
 
-  def format_min_time(%DateTime{hour: hour, minute: minute}) do
-    format_min_hour(hour) <> ":" <> format_time_integer(minute)
-  end
-
-  defp format_min_hour(hour) when hour in [0, 1, 2] do
-    # use integer > 24 to return times after midnight for the service day
-    Integer.to_string(24 + hour)
-  end
-
-  defp format_min_hour(hour) do
-    format_time_integer(hour)
-  end
-
-  defp format_time_integer(num) when num < 10 do
-    "0" <> Integer.to_string(num)
-  end
-
-  defp format_time_integer(num) do
-    Integer.to_string(num)
-  end
-
-  @spec collect_data({:ok, any} | {:exit, :timeout}, {:ok, map | [any]}, atom) ::
-          {:cont, {:ok, map | [any]}} | {:halt, {:error, :timeout}}
-  defp collect_data({:ok, {key, value}}, {:ok, %{} = acc}, _fn) do
-    {:cont, {:ok, Map.put(acc, key, value)}}
-  end
-
-  defp collect_data({:ok, value}, {:ok, acc}, _fn) when is_list(acc) do
-    {:cont, {:ok, [value | acc]}}
-  end
-
-  defp collect_data({:exit, :timeout}, _, fn_name) do
-    _ = Logger.error("module=#{__MODULE__} error=timeout function=#{fn_name}")
-    {:halt, {:error, :timeout}}
-  end
-
   @spec sort_by_time([{DateTime.t() | nil, any}]) ::
           {DateTime.t() | nil, [any]}
 
@@ -191,25 +104,6 @@ defmodule Site.TransitNearMe do
       |> Enum.unzip()
 
     {closest_time, sorted}
-  end
-
-  @doc """
-  Builds a list of routes that stop at a Stop.
-  """
-  @spec routes_for_stop(t(), Stop.id_t()) :: [Route.t()]
-  def routes_for_stop(%__MODULE__{schedules: schedules}, stop_id) do
-    schedules
-    |> Map.fetch!(stop_id)
-    |> Stream.map(&PredictedSchedule.route/1)
-    |> Enum.uniq()
-  end
-
-  @doc """
-  Returns the distance of a stop from the input location.
-  """
-  @spec distance_for_stop(t(), Stop.id_t()) :: float
-  def distance_for_stop(%__MODULE__{distances: distances}, stop_id) do
-    Map.fetch!(distances, stop_id)
   end
 
   @type simple_prediction :: %{
@@ -306,6 +200,7 @@ defmodule Site.TransitNearMe do
   @spec get_stops_for_route([PredictedSchedule.t()], distance_hash, Keyword.t()) :: [
           stop_with_data
         ]
+
   defp get_stops_for_route(schedules, distances, opts) do
     schedules
     |> Enum.group_by(&PredictedSchedule.stop(&1).id)

@@ -73,10 +73,10 @@ Array [
     </div>
   </div>,
   <div
-    className="schedule-finder__spinner-container"
+    className="c-spinner__container"
   >
     <div
-      className="schedule-finder__spinner"
+      className="c-spinner"
     >
       Loading...
     </div>
