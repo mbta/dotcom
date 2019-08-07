@@ -117,8 +117,10 @@
     }
   }
 
-  @include media-breakpoint-up(sm) {
-    min-height: $base-spacing * 20;
+  &--responsive {
+    @include media-breakpoint-up(sm) {
+      min-height: $base-spacing * 20;
+    }
   }
 }
 

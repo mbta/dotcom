@@ -55,6 +55,9 @@ const BannerContent = ({
 const bannerImageURL = (banner: Project, placeholderImageUrl: string): string =>
   banner.image ? banner.image.url : placeholderImageUrl;
 
+const bannerImageAlt = (banner: Project): string =>
+  banner.image ? banner.image.alt : "MBTA logo";
+
 const Banner = ({
   banner,
   placeholderImageUrl
@@ -66,19 +69,11 @@ const Banner = ({
     <div className="hidden-xs-down">
       <div className="m-banner__image m-banner__image--responsive-side-by-side m-banner__image--default">
         <BannerContent banner={banner} />
-        {(banner.image && (
-          <img
-            className="m-banner__image--by-side"
-            src={banner.image.url}
-            alt={banner.image.alt}
-          />
-        )) || (
-          <img
-            className="m-banner__image--by-side"
-            src={placeholderImageUrl}
-            alt="MBTA logo"
-          />
-        )}
+        <img
+          className="m-banner__image--by-side"
+          src={bannerImageURL(banner, placeholderImageUrl)}
+          alt={bannerImageAlt(banner)}
+        />
       </div>
     </div>
     <div className="hidden-sm-up">
@@ -91,6 +86,7 @@ const Banner = ({
           )})`
         }}
       />
+      <div className="sr-only">{bannerImageAlt(banner)}</div>
       <BannerContent banner={banner} />
     </div>
   </a>
