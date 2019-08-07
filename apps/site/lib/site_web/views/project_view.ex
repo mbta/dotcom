@@ -9,6 +9,8 @@ defmodule SiteWeb.ProjectView do
   alias CMS.Partial.Paragraph.DescriptiveLink
   alias CMS.Partial.Teaser
 
+  alias SiteWeb.PartialView
+
   @spec show_all_updates_link?([Teaser.t()]) :: boolean()
   def show_all_updates_link?([_, _ | [_ | _]]) do
     # only show "view all updates" if there are

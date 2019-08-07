@@ -227,9 +227,9 @@ defmodule SiteWeb.PartialView do
     )
   end
 
-  @spec paragraph(integer(), Conn.t()) :: Phoenix.HTML.Safe.t()
-  def paragraph(id, %Conn{} = conn) do
-    id
+  @spec paragraph(String.t(), Conn.t()) :: Phoenix.HTML.Safe.t()
+  def paragraph(path, %Conn{} = conn) do
+    path
     |> Repo.get_paragraph()
     |> render_paragraph(conn)
   end

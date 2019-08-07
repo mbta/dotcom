@@ -1,4 +1,7 @@
 defmodule SiteWeb.ProjectController do
+  @moduledoc """
+  Controller for project-related CMS content
+  """
   use SiteWeb, :controller
 
   alias CMS.{Partial.Teaser, Repo}

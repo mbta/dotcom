@@ -315,11 +315,20 @@ defmodule CMS.Repo do
     []
   end
 
-  @spec get_paragraph(integer()) :: Paragraph.t() | []
-  def get_paragraph(id) do
-    case @cms_api.view("/admin/content/paragraphs/#{id}", []) do
-      {:ok, api_data} -> Paragraph.from_api(api_data)
-      _ -> []
+  @doc """
+  Paragraphs are stand-alone partials from the CMS. Supports redirects.
+  """
+  @spec get_paragraph(String.t(), map) :: Paragraph.t() | {:error, any()}
+  def get_paragraph(path, query_params \\ %{}) do
+    case view_or_preview(path, query_params) do
+      {:ok, api_data} ->
+        Paragraph.from_api(api_data)
+
+      {:error, {:redirect, _status, to: new_path}} ->
+        get_paragraph(new_path)
+
+      {:error, error} ->
+        {:error, error}
     end
   end
 end

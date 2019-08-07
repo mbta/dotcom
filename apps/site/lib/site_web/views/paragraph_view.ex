@@ -24,6 +24,8 @@ defmodule SiteWeb.CMS.ParagraphView do
 
   @doc "Universal wrapper around all paragraph types"
   @spec render_paragraph(Paragraph.t(), Conn.t()) :: Phoenix.HTML.safe()
+  # Don't render if there is an error locating the partial
+  def render_paragraph({:error, _error}, _), do: []
   # Don't render Content List if list has no items
   def render_paragraph(%ContentList{teasers: []}, _), do: []
 
@@ -42,7 +44,7 @@ defmodule SiteWeb.CMS.ParagraphView do
   for certain types which either have no template or require special values.
   """
   @spec render_paragraph_content(Paragraph.t(), Conn.t()) :: Phoenix.HTML.safe()
-  def render_paragraph_content(page_or_paragraph, conn)
+  def render_paragraph_content(paragraph, conn)
 
   def render_paragraph_content(%ColumnMulti{display_options: "grouped"} = paragraph, conn) do
     fare_cards =
