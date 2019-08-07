@@ -47,6 +47,7 @@
 
 .c-more-projects-table {
   table-layout: fixed;
+  width: 100%;
 }
 
 .c-more-projects-table__thead {
@@ -124,4 +125,31 @@
 
 .c-more-projects-table__title {
   margin-top: 0;
+}
+
+.c-more-projects__show-more-button {
+  @include media-breakpoint-up(lg) {
+    width: $base-spacing * 22;
+  }
+
+  @include media-breakpoint-between(sm, md) {
+    width: $base-spacing * 18;
+  }
+
+  @include media-breakpoint-down(xs) {
+    width: $base-spacing * 21;
+  }
+}
+
+.c-more-projects__show-more-button-wrapper {
+  text-align: center;
+  width: 100%;
+
+  @include media-breakpoint-up(sm) {
+    margin-top: $font-size-base;
+  }
+
+  @include media-breakpoint-down(xs) {
+    margin-top: $font-size-base-xs;
+  }
 }

@@ -7,13 +7,11 @@ defmodule SiteWeb.ProjectController do
   alias SiteWeb.ProjectView
   @breadcrumb_base "Projects"
   @placeholder_image_path "/images/project-image-placeholder.png"
+  @n_projects_per_page 10
 
   def index(conn, _) do
     project_teasers_fn = fn ->
-      [type: [:project], items_per_page: 50]
-      |> Repo.teasers()
-      |> sort_by_date()
-      |> Enum.map(&simplify_teaser/1)
+      fetch_teasers(0)
     end
 
     featured_project_teasers_fn = fn ->
@@ -43,6 +41,12 @@ defmodule SiteWeb.ProjectController do
     conn.request_path
     |> Repo.get_page(conn.query_params)
     |> do_show(conn)
+  end
+
+  def api(conn, %{"offset" => offset}) do
+    offset = String.to_integer(offset)
+    teasers = fetch_teasers(offset)
+    json(conn, teasers)
   end
 
   defp do_show(%Project{} = project, conn) do
@@ -221,5 +225,12 @@ defmodule SiteWeb.ProjectController do
     teaser
     |> Map.put(:path, project_path(SiteWeb.Endpoint, :show, teaser))
     |> Map.take(~w(id text image path title routes date status)a)
+  end
+
+  @spec fetch_teasers(integer) :: [map()]
+  defp fetch_teasers(offset) do
+    Repo.teasers(type: [:project], items_per_page: @n_projects_per_page, offset: offset)
+    |> sort_by_date()
+    |> Enum.map(&simplify_teaser/1)
   end
 end

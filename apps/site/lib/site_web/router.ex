@@ -92,6 +92,7 @@ defmodule SiteWeb.Router do
     get("/news/*path_params", NewsEntryController, :show)
 
     resources("/projects", ProjectController, only: [:index, :show])
+    get("/project_api", ProjectController, :api, as: :project_api)
 
     get("/projects/:project_alias/updates", ProjectController, :project_updates,
       as: :project_updates
@@ -106,6 +107,8 @@ defmodule SiteWeb.Router do
     get("/stops/api", StopController, :api)
     resources("/stops", StopController, only: [:index, :show])
     get("/stops/*path", StopController, :stop_with_slash_redirect)
+
+    get("/api/realtime/stops", RealtimeScheduleApi, :stops)
 
     get("/schedules", ModeController, :index)
     get("/schedules/predictions_api", ModeController, :predictions_api)

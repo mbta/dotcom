@@ -6,10 +6,3 @@
 <div id="react-more-projects-table-root">
   <%= Site.React.render("MoreProjectsTable", %{projects: @projects, placeholderImageUrl: @placeholder_image_url}) %>
 </div>
-
-<%= if Application.get_env(:site, :dev_server?) do %>
-  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/projects.js" %>"></script>
-<% else %>
-  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
-  <script defer src="<%= static_url(@conn, "/js/projects.js") %>"></script>
-<% end %>
