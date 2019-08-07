@@ -6,4 +6,5 @@ defmodule SiteWeb.ProjectView do
 
   alias CMS.Field.Link
   alias CMS.Partial.Paragraph.DescriptiveLink
+  alias SiteWeb.PartialView
 end
