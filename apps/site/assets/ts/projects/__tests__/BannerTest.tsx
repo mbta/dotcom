@@ -151,5 +151,8 @@ describe("cmsRouteToClass", () => {
     expect(
       cmsRouteToClass({ ...route, group: "mode", mode: "bus", id: "some_mode" })
     ).toEqual("some-mode");
+    expect(
+      cmsRouteToClass({ ...route, group: "line", mode: "bus", id: "Orange" })
+    ).toEqual("orange-line");
   });
 });

@@ -16,6 +16,7 @@ export const cmsRouteToClass = (route: Route): string => {
   if (route.group === "custom") return routeToCSSClass(route.mode!);
   if (route.group === "mode" && route.id !== null)
     return routeToCSSClass(route.id);
+  if (route.group === "line") return `${routeToCSSClass(route.id)}-line`;
   return "unknown";
 };
 
