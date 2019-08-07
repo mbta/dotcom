@@ -1,5 +1,6 @@
 defmodule Routes.Parser do
   alias JsonApi.Item
+  alias RoutePatterns.RoutePattern
   alias Routes.{Route, Shape}
 
   @spec parse_route(Item.t()) :: Route.t()
@@ -14,6 +15,16 @@ defmodule Routes.Parser do
       description: parse_gtfs_desc(attributes["description"])
     }
   end
+
+  def parse_route_with_route_pattern(%Item{relationships: relationships} = item) do
+    {parse_route(item), parse_route_patterns(relationships)}
+  end
+
+  defp parse_route_patterns(%{"route_patterns" => route_patterns}) do
+    Enum.map(route_patterns, &RoutePattern.new(&1))
+  end
+
+  defp parse_route_patterns(_), do: []
 
   @spec name(map) :: String.t()
   defp name(%{"type" => 3, "short_name" => short_name}) when short_name != "", do: short_name

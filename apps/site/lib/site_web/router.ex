@@ -108,6 +108,8 @@ defmodule SiteWeb.Router do
     resources("/stops", StopController, only: [:index, :show])
     get("/stops/*path", StopController, :stop_with_slash_redirect)
 
+    get("/api/realtime/stops", RealtimeScheduleApi, :stops)
+
     get("/schedules", ModeController, :index)
     get("/schedules/predictions_api", ModeController, :predictions_api)
     get("/schedules/schedule_api", ScheduleController.ScheduleApi, :show)
