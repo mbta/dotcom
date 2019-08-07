@@ -29,6 +29,15 @@
     }
   }
 
+  &--responsive-lg-margin {
+    @include media-breakpoint-only(lg) {
+      // banner content is not full width at lg,
+      // so prevent container from being 100% at that breakpoint.
+      margin: $base-spacing * 3 auto $base-spacing;
+      width: map-get($container-max-widths, lg);
+    }
+  }
+
   &--small-margin-top {
     margin-top: $base-spacing;
   }

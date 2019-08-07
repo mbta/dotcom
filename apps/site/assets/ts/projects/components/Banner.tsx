@@ -33,7 +33,7 @@ const bannerContentClass = (banner: Project): string =>
   )}`;
 
 const bannerUpdated = (banner: Project): ReactElement<HTMLElement> => (
-  <span>updated {formattedDate(banner.date)}</span>
+  <span>Updated {formattedDate(banner.date)}</span>
 );
 
 const BannerContent = ({
@@ -60,7 +60,7 @@ const Banner = ({
 }: Props): ReactElement<HTMLElement> => (
   <a
     href={banner.path}
-    className="m-banner m-banner--responsive m-banner--small-margin-top m-banner--default"
+    className="m-banner m-banner--responsive m-banner--responsive-lg-margin m-banner--small-margin-top m-banner--default"
   >
     <div
       className="m-banner__image m-banner__image--responsive m-banner__image--default"
