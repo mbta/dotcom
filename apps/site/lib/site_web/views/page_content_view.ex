@@ -8,6 +8,7 @@ defmodule SiteWeb.CMS.PageView do
 
   alias CMS.Page
   alias CMS.Partial.Paragraph
+  alias Page.Project
   alias Plug.Conn
 
   @doc "Universal wrapper for CMS page content"
@@ -32,6 +33,14 @@ defmodule SiteWeb.CMS.PageView do
   for certain types which either have no template or require special values.
   """
   @spec render_page_content(Page.t(), Conn.t()) :: Phoenix.HTML.safe()
+  def render_page_content(%Project{} = page, conn) do
+    render(
+      "_project.html",
+      page: page,
+      conn: conn
+    )
+  end
+
   def render_page_content(page, conn) do
     render(
       "_generic.html",

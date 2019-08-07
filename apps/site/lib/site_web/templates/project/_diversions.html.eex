@@ -1,4 +1,0 @@
-<div class="c-paragraph c-paragraph--content-list <%= @class %>">
-  <h2>Diversions</h2>
-  <%= SiteWeb.CMS.ParagraphView.render("_teaser_list.html", conn: @conn, teasers: @teasers, type: :diversion) %>
-</div>

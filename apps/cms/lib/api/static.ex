@@ -227,6 +227,10 @@ defmodule CMS.API.Static do
     {:ok, Enum.at(project_repo(), 1)}
   end
 
+  def view("/projects/project-with-paragraphs", _) do
+    {:ok, Enum.at(project_repo(), 0)}
+  end
+
   def view("/porjects/project-name", _) do
     {:ok, Enum.at(project_repo(), 1)}
   end

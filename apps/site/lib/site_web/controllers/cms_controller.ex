@@ -20,13 +20,13 @@ defmodule SiteWeb.CMSController do
     Page.Basic,
     Page.Person,
     Page.Landing,
+    Page.Project,
     Page.Redirect
   ]
 
   @routed [
     Page.Event,
     Page.NewsEntry,
-    Page.Project,
     Page.ProjectUpdate
   ]
 
@@ -48,7 +48,6 @@ defmodule SiteWeb.CMSController do
     case struct do
       Page.NewsEntry -> NewsEntryController.show_news_entry(conn, page)
       Page.Event -> EventController.show_event(conn, page)
-      Page.Project -> ProjectController.show_project(conn, page)
       Page.ProjectUpdate -> ProjectController.show_project_update(conn, page)
     end
   end
@@ -89,11 +88,19 @@ defmodule SiteWeb.CMSController do
   end
 
   @spec render_page(Conn.t(), Page.Basic.t()) :: Conn.t()
+  defp render_page(conn, %Page.Project{} = page) do
+    base = ProjectController.get_breadcrumb_base()
+
+    breadcrumbs = [
+      Breadcrumb.build(base, project_path(conn, :index)),
+      Breadcrumb.build(page.title)
+    ]
+
+    render_generic(conn, page, breadcrumbs)
+  end
+
   defp render_page(conn, %Page.Basic{} = page) do
-    conn
-    |> assign(:breadcrumbs, page.breadcrumbs)
-    |> assign(:page, page)
-    |> render("page.html", conn: conn)
+    render_generic(conn, page, page.breadcrumbs)
   end
 
   defp render_page(conn, %Page.Landing{} = page) do
@@ -111,5 +118,13 @@ defmodule SiteWeb.CMSController do
 
   defp render_page(conn, %Page.Redirect{link: link}) do
     redirect(conn, external: link.url)
+  end
+
+  @spec render_generic(Conn.t(), Page.t(), [any()]) :: Conn.t()
+  defp render_generic(conn, page, breadcrumbs) do
+    conn
+    |> assign(:breadcrumbs, breadcrumbs)
+    |> assign(:page, page)
+    |> render("page.html", conn: conn)
   end
 end

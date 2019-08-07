@@ -91,7 +91,7 @@ defmodule SiteWeb.Router do
     get("/news", NewsEntryController, :index)
     get("/news/*path_params", NewsEntryController, :show)
 
-    resources("/projects", ProjectController, only: [:index, :show])
+    get("/projects", ProjectController, :index)
     get("/project_api", ProjectController, :api, as: :project_api)
 
     get("/projects/:project_alias/updates", ProjectController, :project_updates,

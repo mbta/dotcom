@@ -40,69 +40,10 @@ defmodule SiteWeb.ProjectController do
     end)
   end
 
-  def show(%Conn{} = conn, _) do
-    conn.request_path
-    |> Repo.get_page(conn.query_params)
-    |> do_show(conn)
-  end
-
   def api(conn, %{"offset" => offset}) do
     offset = String.to_integer(offset)
     teasers = fetch_teasers(offset)
     json(conn, teasers)
-  end
-
-  defp do_show(%Project{} = project, conn) do
-    show_project(conn, project)
-  end
-
-  defp do_show({:error, {:redirect, status, opts}}, conn) do
-    conn
-    |> put_status(status)
-    |> redirect(opts)
-  end
-
-  defp do_show(_404_or_mismatch, conn) do
-    render_404(conn)
-  end
-
-  @spec show_project(Conn.t(), Project.t()) :: Conn.t()
-  def show_project(conn, project) do
-    [past_events, upcoming_events, updates, diversions] =
-      Util.async_with_timeout(
-        [
-          get_events_async(project.id, :past),
-          get_events_async(project.id, :upcoming),
-          get_updates_async(project.id),
-          get_diversions_async(project.id)
-        ],
-        [],
-        __MODULE__
-      )
-
-    breadcrumbs = [
-      Breadcrumb.build(@breadcrumb_base, project_path(conn, :index)),
-      Breadcrumb.build(project.title)
-    ]
-
-    {sidebar_class, sidebar_right} =
-      case {updates, diversions} do
-        {[], []} -> {"c-cms--no-sidebar", false}
-        {_, _} -> {"c-cms--with-sidebar c-cms--sidebar-right", true}
-      end
-
-    conn
-    |> put_view(ProjectView)
-    |> render("show.html", %{
-      breadcrumbs: breadcrumbs,
-      project: project,
-      updates: updates,
-      past_events: past_events,
-      upcoming_events: upcoming_events,
-      diversions: diversions,
-      sidebar_class: sidebar_class,
-      sidebar_right: sidebar_right
-    })
   end
 
   def project_updates(conn, %{"project_alias" => project_alias}) do
@@ -199,30 +140,6 @@ defmodule SiteWeb.ProjectController do
     end
   end
 
-  @spec get_events_async(integer, :past | :upcoming) :: (() -> [Teaser.t()])
-  def get_events_async(id, timeframe) do
-    fn ->
-      Repo.teasers(
-        type: [:event],
-        related_to: id,
-        items_per_page: 10,
-        date_op: (timeframe == :past && "<") || ">=",
-        date: [value: "now"],
-        sort_order: (timeframe == :past && "DESC") || "ASC"
-      )
-    end
-  end
-
-  @spec get_updates_async(integer) :: (() -> [Teaser.t()])
-  def get_updates_async(id) do
-    fn -> Repo.teasers(related_to: id, type: [:project_update]) end
-  end
-
-  @spec get_diversions_async(integer) :: (() -> [Teaser.t()])
-  def get_diversions_async(id) do
-    fn -> Repo.teasers(related_to: id, type: [:diversion]) end
-  end
-
   @spec simplify_teaser(map()) :: map()
   defp simplify_teaser(teaser) do
     Map.take(teaser, ~w(id image path title routes date status)a)
@@ -233,5 +150,10 @@ defmodule SiteWeb.ProjectController do
     Repo.teasers(type: [:project], items_per_page: @n_projects_per_page, offset: offset)
     |> sort_by_date()
     |> Enum.map(&simplify_teaser/1)
+  end
+
+  @spec get_breadcrumb_base :: String.t()
+  def get_breadcrumb_base do
+    @breadcrumb_base
   end
 end
