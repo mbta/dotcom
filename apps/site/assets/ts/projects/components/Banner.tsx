@@ -28,12 +28,12 @@ const bannerBgClass = (banner: Project): string => {
 };
 
 const bannerContentClass = (banner: Project): string =>
-  `m-banner__content m-banner__content--default m-banner__content--left u-bg--${bannerBgClass(
+  `m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--${bannerBgClass(
     banner
   )}`;
 
 const bannerUpdated = (banner: Project): ReactElement<HTMLElement> => (
-  <span>Updated {formattedDate(banner.date)}</span>
+  <span className="m-banner__date">Updated {formattedDate(banner.date)}</span>
 );
 
 const BannerContent = ({
@@ -62,18 +62,34 @@ const Banner = ({
     href={banner.path}
     className="m-banner m-banner--responsive m-banner--responsive-lg-margin m-banner--small-margin-top m-banner--default"
   >
-    <div
-      className="m-banner__image m-banner__image--responsive m-banner__image--default"
-      style={{
-        backgroundImage: ` url(${bannerImageURL(banner, placeholderImageUrl)})`
-      }}
-    >
-      {banner.image ? <div className="sr-only">{banner.image.alt}</div> : null}
-      <div className="container hidden-xs-down">
+    <div className="hidden-xs-down">
+      <div className="m-banner__image m-banner__image--responsive-side-by-side m-banner__image--default">
         <BannerContent banner={banner} />
+        {(banner.image && (
+          <img
+            className="m-banner__image--by-side"
+            src={banner.image.url}
+            alt={banner.image.alt}
+          />
+        )) || (
+          <img
+            className="m-banner__image--by-side"
+            src={placeholderImageUrl}
+            alt="MBTA logo"
+          />
+        )}
       </div>
     </div>
     <div className="hidden-sm-up">
+      <div
+        className="m-banner__image m-banner__image--responsive m-banner__image--default"
+        style={{
+          backgroundImage: ` url(${bannerImageURL(
+            banner,
+            placeholderImageUrl
+          )})`
+        }}
+      />
       <BannerContent banner={banner} />
     </div>
   </a>

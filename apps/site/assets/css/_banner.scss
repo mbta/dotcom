@@ -60,6 +60,29 @@
       max-width: map-get($container-max-widths, xxl);
     }
   }
+
+  &--responsive-side-by-side {
+    @include media-breakpoint-down(xs) {
+      // content is outside of the image div at xs,
+      // so the div needs a set height for the
+      // background image to be visible
+      height: $base-spacing * 20;
+    }
+
+    @include media-breakpoint-up(sm) {
+      display: flex;
+    }
+
+    @include media-breakpoint-up(lg) {
+      @include make-container();
+      max-width: map-get($container-max-widths, xxl);
+      padding: 0;
+    }
+  }
+
+  &--by-side {
+    width: 62.5%;
+  }
 }
 
 .m-banner__image--important {
@@ -86,6 +109,12 @@
 
   @include media-breakpoint-up(lg) {
     width: $col-width * 4;
+  }
+
+  &--responsive-side-by-side {
+    @include media-breakpoint-up(lg) {
+      width: 37.5%;
+    }
   }
 
   @include media-breakpoint-up(sm) {
@@ -140,4 +169,8 @@
     text-decoration: none;
   }
 
+}
+
+.m-banner__date {
+  font-weight: bold;
 }

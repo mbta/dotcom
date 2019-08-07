@@ -130,7 +130,8 @@ it("renders placeholder image if there is no image", () => {
     />
   );
   const actualSrc = wrapper.find(".m-banner__image");
-  expect(actualSrc.html()).toContain(placeholderImageUrl);
+  expect(actualSrc.first().html()).toContain(placeholderImageUrl);
+  expect(actualSrc.last().html()).toContain(placeholderImageUrl);
 });
 
 describe("cmsRouteToClass", () => {
