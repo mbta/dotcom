@@ -11,6 +11,7 @@ defmodule DetailedStopGroupTest do
         Enum.sort([
           "Fairmount Line",
           "Fitchburg Line",
+          "Foxboro Line",
           "Framingham/Worcester Line",
           "Franklin Line",
           "Greenbush Line",
