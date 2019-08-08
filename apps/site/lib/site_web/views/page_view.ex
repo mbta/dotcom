@@ -133,6 +133,7 @@ defmodule SiteWeb.PageView do
     Enum.join(
       [
         "m-banner__content",
+        "m-banner__content--responsive",
         "m-banner__content--" <> CSSHelpers.atom_to_class(banner.banner_type),
         "m-banner__content--" <> CSSHelpers.atom_to_class(banner.text_position)
         | banner_bg_class(banner)

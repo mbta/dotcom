@@ -85,7 +85,7 @@ defmodule SiteWeb.CmsRouterHelpers do
   end
 
   @spec project_path(
-          Conn.t(),
+          Conn.t() | module,
           atom,
           Keyword.t() | Project.t() | Teaser.t() | String.t()
         ) :: String.t()

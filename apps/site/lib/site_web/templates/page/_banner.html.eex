@@ -1,5 +1,5 @@
-<a href="<%= cms_static_page_path(@conn, @banner.utm_url) %>" class="m-banner m-banner--<%= @banner.banner_type %>">
-  <div class="m-banner__image m-banner__image--<%= @banner.banner_type %>" style="background-image: url(<%= @banner.thumb.url %>)">
+<a href="<%= cms_static_page_path(@conn, @banner.utm_url) %>" class="m-banner m-banner--responsive m-banner--<%= @banner.banner_type %>">
+  <div class="m-banner__image m-banner__image--responsive m-banner__image--<%= @banner.banner_type %>" style="background-image: url(<%= @banner.thumb.url %>)">
     <div class="sr-only">
       <%= @banner.thumb.alt %>
     </div>

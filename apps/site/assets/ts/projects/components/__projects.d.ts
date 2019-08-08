@@ -1,4 +1,4 @@
-export interface Project {
+export interface SimpleProject {
   date: string;
   id: number;
   image: Image | null;
@@ -15,7 +15,7 @@ export interface Image {
 }
 
 export interface Route {
-  mode: string;
+  mode: string | null;
   id: string;
   group: string;
 }

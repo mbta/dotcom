@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { Project } from "../components/__projects";
+import { SimpleProject as Project } from "../components/__projects";
 import MoreProjectsTable, {
   fetchMoreProjects
 } from "../components/MoreProjectsTable";
