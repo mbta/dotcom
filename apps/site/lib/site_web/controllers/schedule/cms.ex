@@ -11,7 +11,7 @@ defmodule SiteWeb.ScheduleController.CMS do
   alias CMS.{Partial.Teaser, Repo}
 
   @featured_opts [
-    type: [:project, :project_update],
+    type: [:project, :project_update, :page],
     items_per_page: 1,
     sidebar: 1
   ]
