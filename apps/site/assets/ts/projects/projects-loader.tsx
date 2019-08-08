@@ -1,5 +1,6 @@
 import React from "react";
 import { render } from "react-dom";
+import FeaturedProjectsList from "./components/FeaturedProjectsList";
 import MoreProjectsTable from "./components/MoreProjectsTable";
 import Banner from "./components/Banner";
 
@@ -10,6 +11,12 @@ export const projects = (): void => {
   const projectTeasersRootEl = document.getElementById(
     "react-project-teasers-root"
   );
+  const featuredProjectsDataEl = document.getElementById(
+    "js-featured-projects-data"
+  );
+  const featuredProjectsRootEl = document.getElementById(
+    "react-featured-projects-root"
+  );
   const moreProjectsDataEl = document.getElementById("js-more-projects-data");
   const moreProjectsRootEl = document.getElementById(
     "react-more-projects-table-root"
@@ -17,6 +24,8 @@ export const projects = (): void => {
   if (
     !moreProjectsDataEl ||
     !moreProjectsRootEl ||
+    !featuredProjectsDataEl ||
+    !featuredProjectsRootEl ||
     !projectTeasersRootEl ||
     !projectTeasersDataEl
   ) {
@@ -24,8 +33,13 @@ export const projects = (): void => {
   }
 
   const projectTeasersData = JSON.parse(projectTeasersDataEl.innerText);
+  const featuredProjectsData = JSON.parse(featuredProjectsDataEl.innerText);
   const moreProjectsData = JSON.parse(moreProjectsDataEl.innerText);
   render(<Banner {...projectTeasersData} />, projectTeasersRootEl);
+  render(
+    <FeaturedProjectsList {...featuredProjectsData} />,
+    featuredProjectsRootEl
+  );
   render(<MoreProjectsTable {...moreProjectsData} />, moreProjectsRootEl);
 };
 

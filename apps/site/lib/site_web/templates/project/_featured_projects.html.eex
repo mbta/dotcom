@@ -1,0 +1,5 @@
+<div id="react-featured-projects-root"></div>
+
+<script data-for="featured-projects" id="js-featured-projects-data" type="text/plain">
+  <%= raw Poison.encode!(%{projects: @projects, placeholderImageUrl: @placeholder_image_url}) %>
+</script>

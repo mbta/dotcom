@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { isSilverLine } from "../../helpers/silver-line";
-import { formattedDate } from "../../helpers/date";
+import formattedDate from "../../helpers/date";
 import { SimpleProject as Project, Route } from "./__projects";
 import RouteIcon from "./RouteIcon";
 
@@ -114,7 +114,11 @@ const MoreProjectsRow = ({
         </div>
 
         {routesToTags(routes).map(tag => (
-          <RouteIcon key={tag} tag={tag} />
+          <RouteIcon
+            key={tag}
+            tag={tag}
+            extraClasses="c-more-projects-table__route-icon"
+          />
         ))}
       </div>
     </td>
