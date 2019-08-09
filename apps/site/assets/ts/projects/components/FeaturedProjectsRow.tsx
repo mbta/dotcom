@@ -7,28 +7,29 @@ interface Props {
   projectPair: Project[];
 }
 
+const projectToComponent = (
+  project: Project,
+  placeholderImageUrl: string
+): JSX.Element => (
+  <FeaturedProject
+    key={`featured-project-${project.id}`}
+    project={project}
+    placeholderImageUrl={placeholderImageUrl}
+  />
+);
+
 const FeaturedProjectsRow = ({
   projectPair,
   placeholderImageUrl
-}: Props): ReactElement<HTMLElement> => {
-  const projectToComponent = (project: Project): JSX.Element => (
-    <FeaturedProject
-      key={`featured-project-${project.id}`}
-      project={project}
-      placeholderImageUrl={placeholderImageUrl}
-    />
-  );
-
-  return (
-    <div className="c-featured-project-list__row">
-      {projectToComponent(projectPair[0])}
-      {projectPair[1] ? (
-        projectToComponent(projectPair[1])
-      ) : (
-        <div className="c-featured-project" />
-      )}
-    </div>
-  );
-};
+}: Props): ReactElement<HTMLElement> => (
+  <div className="c-featured-project-list__row">
+    {projectToComponent(projectPair[0], placeholderImageUrl)}
+    {projectPair[1] ? (
+      projectToComponent(projectPair[1], placeholderImageUrl)
+    ) : (
+      <div className="c-featured-project" />
+    )}
+  </div>
+);
 
 export default FeaturedProjectsRow;
