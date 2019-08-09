@@ -163,7 +163,7 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  padding: 0 $base-spacing / 2 $base-spacing / 2;
+  padding: 0 0 $base-spacing / 2;
 }
 
 .c-featured-project__route-icon {
@@ -175,7 +175,7 @@
 .c-featured-project {
   flex-basis: 0;
   flex-grow: 1;
-  margin: 0 $base-spacing / 2 $base-spacing / 2;
+  margin: 0 0$base-spacing / 2;
 
   @include hover-focus-active {
     .homepage-svg {
@@ -203,6 +203,14 @@
     font-family: $font-family-base;
     font-size: $font-size-h3;
     margin: ($base-spacing / 2) 0 0;
+  }
+
+  &:first-child {
+    margin-right: $base-spacing / 2;
+  }
+
+  &:last-child {
+    margin-left: $base-spacing / 2;
   }
 
   &:hover {
