@@ -3,6 +3,7 @@ defmodule CMS.Page.ProjectUpdate do
   Represents the Project Update content type in the CMS.
   """
   alias CMS.Field.Image
+  alias CMS.Partial.Paragraph
   alias Phoenix.HTML
 
   import CMS.Helpers,
