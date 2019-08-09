@@ -124,7 +124,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   def reverse_direction("1"), do: "0"
 
   def simple_stop_list(all_stops) do
-    Enum.map(all_stops, &simple_stop/1)
+    all_stops |> Enum.map(&simple_stop/1) |> Enum.uniq_by(& &1.id)
   end
 
   def simple_stop(%{
