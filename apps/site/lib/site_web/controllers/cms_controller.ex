@@ -8,6 +8,7 @@ defmodule SiteWeb.CMSController do
   require Logger
 
   alias CMS.{API, Page, Repo}
+  alias CMS.Page.Project
   alias Plug.Conn
 
   alias SiteWeb.{
@@ -26,7 +27,10 @@ defmodule SiteWeb.CMSController do
 
   @routed [
     Page.Event,
-    Page.NewsEntry,
+    Page.NewsEntry
+  ]
+
+  @transitional [
     Page.ProjectUpdate
   ]
 
@@ -48,12 +52,19 @@ defmodule SiteWeb.CMSController do
     case struct do
       Page.NewsEntry -> NewsEntryController.show_news_entry(conn, page)
       Page.Event -> EventController.show_event(conn, page)
+    end
+  end
+
+  defp handle_page_response(%{__struct__: struct, paragraphs: []} = page, conn)
+       when struct in @transitional do
+    # If transitional types are found w/o paragraphs, use the original controller to render.
+    case struct do
       Page.ProjectUpdate -> ProjectController.show_project_update(conn, page)
     end
   end
 
   defp handle_page_response(%{__struct__: struct} = page, conn)
-       when struct in @generic do
+       when struct in @generic or struct in @transitional do
     conn
     |> put_layout({SiteWeb.LayoutView, :app})
     |> render_page(page)
@@ -87,16 +98,41 @@ defmodule SiteWeb.CMSController do
     |> render("crash.html", [])
   end
 
-  @spec render_page(Conn.t(), Page.Basic.t()) :: Conn.t()
-  defp render_page(conn, %Page.Project{} = page) do
+  @spec render_page(Conn.t(), Page.t()) :: Conn.t()
+  defp render_page(conn, %Page.Project{} = project) do
     base = ProjectController.get_breadcrumb_base()
 
     breadcrumbs = [
       Breadcrumb.build(base, project_path(conn, :index)),
-      Breadcrumb.build(page.title)
+      Breadcrumb.build(project.title)
     ]
 
-    render_generic(conn, page, breadcrumbs)
+    render_generic(conn, project, breadcrumbs)
+  end
+
+  defp render_page(conn, %Page.ProjectUpdate{} = update) do
+    base = ProjectController.get_breadcrumb_base()
+
+    case Repo.get_page(update.project_url) do
+      %Page.Project{} = project ->
+        breadcrumbs = [
+          Breadcrumb.build(base, project_path(conn, :index, [])),
+          Breadcrumb.build(project.title, project_path(conn, :show, project)),
+          Breadcrumb.build(
+            "Updates",
+            project_updates_path(conn, :project_updates, Project.alias(project))
+          ),
+          Breadcrumb.build(update.title)
+        ]
+
+        render_generic(conn, update, breadcrumbs)
+
+      {:error, {:redirect, _, [to: path]}} ->
+        render_page(conn, %{update | project_url: path})
+
+      _ ->
+        render_404(conn)
+    end
   end
 
   defp render_page(conn, %Page.Basic{} = page) do
