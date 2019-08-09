@@ -8,6 +8,7 @@ defmodule SiteWeb.ProjectController do
   alias CMS.Page.{Project, ProjectUpdate}
   alias Plug.Conn
   alias SiteWeb.ProjectView
+
   @breadcrumb_base "Projects"
   @placeholder_image_path "/images/project-image-placeholder.png"
   @n_projects_per_page 10

@@ -183,22 +183,23 @@ defmodule SiteWeb.ProjectControllerTest do
     end
 
     test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
-      conn = get(conn, project_path(conn, :project_update, "3004", "3268"))
+      conn = get(conn, project_update_path(conn, :project_update, "3004", "3268"))
       assert conn.status == 404
     end
 
     test "renders a 404 given an invalid id", %{conn: conn} do
-      conn = get(conn, project_path(conn, :project_update, "999", "999"))
+      conn = get(conn, project_update_path(conn, :project_update, "999", "999"))
       assert conn.status == 404
     end
 
     test "renders a 404 given an invalid id when project found", %{conn: conn} do
-      conn = get(conn, project_path(conn, :project_update, "3004", "999"))
+      conn = get(conn, project_update_path(conn, :project_update, "3004", "999"))
       assert conn.status == 404
     end
 
     test "renders a 404 when project update exists but project does not exist", %{conn: conn} do
-      path = project_path(conn, :project_update, "project-deleted", "project-deleted-progress")
+      path =
+        project_update_path(conn, :project_update, "project-deleted", "project-deleted-progress")
 
       assert %ProjectUpdate{project_url: "/projects/project-deleted"} = Repo.get_page(path)
 
