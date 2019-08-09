@@ -7,26 +7,26 @@ interface Props {
   placeholderImageUrl: string;
 }
 
+const doGroupPairwise = (
+  projectsToGroup: Project[],
+  acc: Project[][]
+): Project[][] => {
+  if (projectsToGroup.length === 0) {
+    return acc;
+  }
+
+  const nextPair = projectsToGroup.slice(0, 2);
+  const rest = projectsToGroup.slice(2);
+  return doGroupPairwise(rest, acc.concat([nextPair]));
+};
+
+const groupPairwise = (projectsToGroup: Project[]): Project[][] =>
+  doGroupPairwise(projectsToGroup, []);
+
 const FeaturedProjectsList = ({
   projects,
   placeholderImageUrl
 }: Props): ReactElement<HTMLElement> => {
-  const doGroupPairwise = (
-    projectsToGroup: Project[],
-    acc: Project[][]
-  ): Project[][] => {
-    if (projectsToGroup.length === 0) {
-      return acc;
-    }
-
-    const nextPair = projectsToGroup.slice(0, 2);
-    const rest = projectsToGroup.slice(2);
-    return doGroupPairwise(rest, acc.concat([nextPair]));
-  };
-
-  const groupPairwise = (projectsToGroup: Project[]): Project[][] =>
-    doGroupPairwise(projectsToGroup, []);
-
   const groupedProjects = groupPairwise(projects);
 
   return (
