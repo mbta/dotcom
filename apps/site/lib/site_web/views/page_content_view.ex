@@ -33,9 +33,17 @@ defmodule SiteWeb.CMS.PageView do
   for certain types which either have no template or require special values.
   """
   @spec render_page_content(Page.t(), Conn.t()) :: Phoenix.HTML.safe()
-  def render_page_content(%Project{} = page, conn) do
+  def render_page_content(%Page.Project{} = page, conn) do
     render(
       "_project.html",
+      page: page,
+      conn: conn
+    )
+  end
+
+  def render_page_content(%Page.ProjectUpdate{} = page, conn) do
+    render(
+      "_project_update.html",
       page: page,
       conn: conn
     )
