@@ -113,6 +113,7 @@
     ],
     "field_keywords": [],
     "field_page_type": [],
+    "field_paragraphs": [],
     "field_photo_gallery": [],
     "field_posted_on": [
       {
@@ -254,6 +255,7 @@
     ],
     "field_keywords": [],
     "field_page_type": [],
+    "field_paragraphs": [],
     "field_photo_gallery": [],
     "field_posted_on": [
       {
@@ -395,6 +397,7 @@
     ],
     "field_keywords": [],
     "field_page_type": [],
+    "field_paragraphs": [],
     "field_photo_gallery": [],
     "field_posted_on": [
       {
@@ -536,6 +539,7 @@
     ],
     "field_keywords": [],
     "field_page_type": [],
+    "field_paragraphs": [],
     "field_photo_gallery": [],
     "field_posted_on": [
       {
@@ -677,6 +681,7 @@
     ],
     "field_keywords": [],
     "field_page_type": [],
+    "field_paragraphs": [],
     "field_photo_gallery": [],
     "field_posted_on": [
       {
@@ -695,6 +700,990 @@
     "field_teaser": [
       {
         "value": "A temporary surface sewer line will be placed in the roadway during a relining of an existing sewer line. There will be no interruption of sewer service to homes or businesses in the area."
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 4440
+      }
+    ],
+    "uuid": [
+      {
+        "value": "6adfc6dd-3345-433a-b213-a52eff5a0cdb"
+      }
+    ],
+    "vid": [
+      {
+        "value": 28755
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project_update",
+        "target_type": "node_type",
+        "target_uuid": "5d44d0a5-a17b-409b-b222-58c333623cbd"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1565372651
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 29,
+        "target_type": "user",
+        "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+        "url": "/user/29"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "First Round of Better Bus Changes Start September 1"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1564442347
+      }
+    ],
+    "changed": [
+      {
+        "value": 1565372651
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+      {
+        "alias": "/projects/project-name/update/update-with-paragraphs",
+        "pid": 4482,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<drupal-entity data-embed-button=\"new_media\" data-entity-embed-display=\"view_mode:media.full\" data-entity-embed-display-settings=\"{&quot;link_url&quot;:&quot;&quot;,&quot;linkit_attributes&quot;:{&quot;target&quot;:0}}\" data-entity-type=\"media\" data-entity-uuid=\"f445372d-542a-4777-b092-08b8e400efc3\"></drupal-entity>\r\n\r\n<p>On September 1, 2019, the first round of <a href=\"/projects/better-bus-project\">Better Bus Project</a> service changes will go into effect, with additional changes in the following months.</p>\r\n\r\n<p>We know that making changes to your bus route changes how you get to work, to school, and to the places you need to go in your community—and this year, we've spoken with many of you at your stops and at <a href=\"/projects/better-bus-project/update/mbta-community-meetings\">community meetings</a> to hear how you need service to be better. This first round of changes is the outcome of those conversations, along with the feedback we received from bus drivers, planners, and consultants.</p>\r\n\r\n<p>These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand.</p>\r\n\r\n<p>You can learn more about how your route is changing by finding it in the list below. Click the link under each route to view a map of the change and learn more about how this will improve bus service in your area.</p>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>CT1</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route CT1 will be eliminated. Most CT1 stops are served by the Route 1 bus.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-CT1\">Learn more about changes to Route CT1</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>4</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 4 will bypass stops on Northern Ave. Two new stops will open nearby, at Seaport Blvd and Sleeper St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-4\">Learn more about changes to Route 4</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>5</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 5 will be eliminated. Route 5 riders can take the Route 10 and Route 16 from their current stop or from stops nearby.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-5\">Learn more about changes to Route 5</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>16</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, we're adding weekday and Saturday service on Route 16 to JFK/UMass and McCormack Housing.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-16\">Learn more about changes to Route 16</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>34E</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 34E will bypass stops at Upland Woods and Xaverian Brothers High School.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-34E\">Learn more about changes to Route 34E</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>44</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 44's stops on Dudley St will shift to nearby Malcolm X Blvd.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-44\">Learn more about changes to Route 44</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>59</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 59 will travel on Elliot St only during peak travel times in the peak direction. At other times, buses will serve only the Needham St part of the route.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-59\">Learn more about changes to Route 59</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>89</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 89 will run between Davis and Clarendon Hill only on weekdays before 9 AM, and from 1 PM – 7 PM.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-89\">Learn more about changes to Route 89</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>90</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 90 will no longer make stops beyond Assembly Row to Wellington Station.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-90\">Learn more about changes to Route 90</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>92</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 92 will no longer make stops beyond Sullivan Square to Assembly Row.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-92\">Learn more about changes to Route 92</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>95</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 95 will have new stops on High St and Medford St, between Arlington Center and Medford.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-95\">Learn more about changes to Route 95</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>106</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 106 will no longer provide service to Linwood Ave or Franklin Square. Inbound service will run via Forest St and Sylvan St on weekdays until 6 PM and on weekends until 9 PM.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-106\">Learn more about changes to Route 106</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>111</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 111 will begin and end at Washington Ave @ Park Ave. Route 110 service will still serve all stops on Park Ave.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-111\">Learn more about changes to Route 111</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>120</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 120 will no longer stop at Liberty Plaza in East Boston, and it will begin and end at Jeffries Point on Maverick St, instead of at Maverick Station.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-120\">Learn more about changes to Route 120</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>134</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 134 will bypass the stop on Commercial St @ Mystic Valley.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-134\">Learn more about changes to Route 134</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>411</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, weekday Route 411 service between Kennedy Drive and Jack Satter house will operate from 9:30 AM – 5:30 PM.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-411\">Learn more about changes to Route 411</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>424</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 424 will begin and end at Wonderland, and will no longer provide service to Haymarket. All VFW Parkway service will shift to Revere St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-424\">Learn more about changes to Route 424</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>428</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 428 will begin and end at Main St @ Lynn Fells Parkway, and will no longer provide service north of Lynn Fells Parkway.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-428\">Learn more about changes to Route 428</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>435</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 435 will no longer make stops in Pine Hill, instead traveling on Euclid Ave, Chestnut St, and Boston St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-435\">Learn more about changes to Route 435</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>441, 442, 448, and 449</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Routes 448 and 449 are being eliminated, and will be replaced by additional service on Routes 441 and 442.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-440s\">Learn more about changes to Routes 441, 442, 448, and 449</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>455 and 459</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 459 is being eliminated, and will be replaced by additional Route 455 service. In Revere, service will shift from VFW Parkway to Revere St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-455-459\">Learn more about changes to Route 455 and 459</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>501, 502, 503, and 504</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Routes 502 and 504 will no longer stop in Newton Corner on outbound trips during PM peak service. Routes 501 and 503 will stop at Newton Corner.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-500s\">Learn more about changes to Routes 501, 502, 503 and 504</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />",
+        "format": "full_html",
+        "processed": "<div class=\"embedded-entity\">    <div class=\"media media--type-image media--view-mode-full\"><div class=\"media-content\">  <img src=\"/sites/default/files/styles/max_2600x2600/public/projects/early-morning-bus/parked-buses-angled.jpg?itok=foX35aZZ\" width=\"2000\" height=\"1333\" alt=\"Buses parked in a garage, sunlight streaming in\" typeof=\"foaf:Image\" class=\"image-style-max-2600x2600\" /></div></div>\n</div>\n<p>On September 1, 2019, the first round of <a href=\"/projects/better-bus-project\">Better Bus Project</a> service changes will go into effect, with additional changes in the following months.</p>\n\n<p>We know that making changes to your bus route changes how you get to work, to school, and to the places you need to go in your community—and this year, we've spoken with many of you at your stops and at <a href=\"/projects/better-bus-project/update/mbta-community-meetings\">community meetings</a> to hear how you need service to be better. This first round of changes is the outcome of those conversations, along with the feedback we received from bus drivers, planners, and consultants.</p>\n\n<p>These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand.</p>\n\n<p>You can learn more about how your route is changing by finding it in the list below. Click the link under each route to view a map of the change and learn more about how this will improve bus service in your area.</p>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>CT1</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route CT1 will be eliminated. Most CT1 stops are served by the Route 1 bus.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-CT1\">Learn more about changes to Route CT1</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>4</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 4 will bypass stops on Northern Ave. Two new stops will open nearby, at Seaport Blvd and Sleeper St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-4\">Learn more about changes to Route 4</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>5</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 5 will be eliminated. Route 5 riders can take the Route 10 and Route 16 from their current stop or from stops nearby.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-5\">Learn more about changes to Route 5</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>16</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, we're adding weekday and Saturday service on Route 16 to JFK/UMass and McCormack Housing.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-16\">Learn more about changes to Route 16</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>34E</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 34E will bypass stops at Upland Woods and Xaverian Brothers High School.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-34E\">Learn more about changes to Route 34E</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>44</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 44's stops on Dudley St will shift to nearby Malcolm X Blvd.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-44\">Learn more about changes to Route 44</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>59</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 59 will travel on Elliot St only during peak travel times in the peak direction. At other times, buses will serve only the Needham St part of the route.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-59\">Learn more about changes to Route 59</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>89</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 89 will run between Davis and Clarendon Hill only on weekdays before 9 AM, and from 1 PM – 7 PM.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-89\">Learn more about changes to Route 89</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>90</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 90 will no longer make stops beyond Assembly Row to Wellington Station.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-90\">Learn more about changes to Route 90</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>92</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 92 will no longer make stops beyond Sullivan Square to Assembly Row.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-92\">Learn more about changes to Route 92</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>95</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 95 will have new stops on High St and Medford St, between Arlington Center and Medford.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-95\">Learn more about changes to Route 95</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>106</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 106 will no longer provide service to Linwood Ave or Franklin Square. Inbound service will run via Forest St and Sylvan St on weekdays until 6 PM and on weekends until 9 PM.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-106\">Learn more about changes to Route 106</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>111</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 111 will begin and end at Washington Ave @ Park Ave. Route 110 service will still serve all stops on Park Ave.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-111\">Learn more about changes to Route 111</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>120</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 120 will no longer stop at Liberty Plaza in East Boston, and it will begin and end at Jeffries Point on Maverick St, instead of at Maverick Station.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-120\">Learn more about changes to Route 120</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>134</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 134 will bypass the stop on Commercial St @ Mystic Valley.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-134\">Learn more about changes to Route 134</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>411</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, weekday Route 411 service between Kennedy Drive and Jack Satter house will operate from 9:30 AM – 5:30 PM.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-411\">Learn more about changes to Route 411</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>424</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 424 will begin and end at Wonderland, and will no longer provide service to Haymarket. All VFW Parkway service will shift to Revere St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-424\">Learn more about changes to Route 424</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>428</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 428 will begin and end at Main St @ Lynn Fells Parkway, and will no longer provide service north of Lynn Fells Parkway.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-428\">Learn more about changes to Route 428</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>435</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 435 will no longer make stops in Pine Hill, instead traveling on Euclid Ave, Chestnut St, and Boston St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-435\">Learn more about changes to Route 435</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>441, 442, 448, and 449</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Routes 448 and 449 are being eliminated, and will be replaced by additional service on Routes 441 and 442.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-440s\">Learn more about changes to Routes 441, 442, 448, and 449</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>455 and 459</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 459 is being eliminated, and will be replaced by additional Route 455 service. In Revere, service will shift from VFW Parkway to Revere St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-455-459\">Learn more about changes to Route 455 and 459</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>501, 502, 503, and 504</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Routes 502 and 504 will no longer stop in Newton Corner on outbound trips during PM peak service. Routes 501 and 503 will stop at Newton Corner.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-500s\">Learn more about changes to Routes 501, 502, 503 and 504</a></p>\n</div>\n</div>\n\n<hr />",
+        "summary": "Learn how your route is affected. These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand."
+      }
+    ],
+    "field_image": [
+      {
+        "alt": "Buses parked in a garage, sunlight streaming in",
+        "url": "https://mbta.lndo.site/sites/default/files/styles/max_650x650/public/projects/early-morning-bus/parked-buses-angled.jpg?itok=N7O7yLos"
+      }
+    ],
+    "field_keywords": [],
+    "field_page_type": [
+      {
+        "id": 19,
+        "name": "Projects",
+        "vocab": "page_type",
+        "data": null
+      }
+    ],
+    "field_paragraphs": [
+      {
+        "target_id": 9010,
+        "target_revision_id": 174878,
+        "id": [
+          {
+            "value": 9010
+          }
+        ],
+        "uuid": [
+          {
+            "value": "e57475e3-416c-44ba-a5cd-17ed7a806276"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 174878
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "type": [
+          {
+            "target_id": "custom_html",
+            "target_type": "paragraphs_type",
+            "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1565371995
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "4440"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": []
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "field_custom_html_body": [
+          {
+            "value": "<p>Here is a custom HTML para.</p>\r\n",
+            "format": "full_html",
+            "processed": "<p>Here is a custom HTML para.</p>\n"
+          }
+        ],
+        "field_right_rail": [
+          {
+            "value": true
+          }
+        ]
+      },
+      {
+        "target_id": 9012,
+        "target_revision_id": 174882,
+        "id": [
+          {
+            "value": 9012
+          }
+        ],
+        "uuid": [
+          {
+            "value": "95d739e1-c90a-440f-b157-1ca454c4d4dc"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 174882
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "type": [
+          {
+            "target_id": "content_list",
+            "target_type": "paragraphs_type",
+            "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1565372607
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "4440"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": []
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "field_content_logic": [],
+        "field_content_reference": [
+          {
+            "target_id": 3445,
+            "target_type": "node",
+            "target_uuid": "20fa23fd-5470-4bed-8c34-f84252d71871",
+            "url": "/projects/better-bus-project"
+          }
+        ],
+        "field_content_type": [
+          {
+            "value": "project"
+          }
+        ],
+        "field_cta_behavior": [],
+        "field_cta_link": [],
+        "field_cta_text": [],
+        "field_date": [],
+        "field_date_logic": [],
+        "field_date_max": [],
+        "field_multi_column_header": [
+          {
+            "target_id": 9011,
+            "target_revision_id": 174881,
+            "id": [
+              {
+                "value": 9011
+              }
+            ],
+            "uuid": [
+              {
+                "value": "eca691e5-a66b-46bc-9e4f-178ba338a4f3"
+              }
+            ],
+            "revision_id": [
+              {
+                "value": 174881
+              }
+            ],
+            "langcode": [
+              {
+                "value": "en"
+              }
+            ],
+            "type": [
+              {
+                "target_id": "multi_column_header",
+                "target_type": "paragraphs_type",
+                "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+              }
+            ],
+            "status": [
+              {
+                "value": true
+              }
+            ],
+            "created": [
+              {
+                "value": 1565372611
+              }
+            ],
+            "parent_id": [
+              {
+                "value": "9012"
+              }
+            ],
+            "parent_type": [
+              {
+                "value": "paragraph"
+              }
+            ],
+            "parent_field_name": [
+              {
+                "value": "field_multi_column_header"
+              }
+            ],
+            "behavior_settings": [
+              {
+                "value": []
+              }
+            ],
+            "default_langcode": [
+              {
+                "value": true
+              }
+            ],
+            "revision_translation_affected": [],
+            "field_header_text": [
+              {
+                "value": "<h2>Parent Project</h2>\r\n",
+                "format": "full_html",
+                "processed": "<h2>Parent Project</h2>\n"
+              }
+            ]
+          }
+        ],
+        "field_number_of_items": [
+          {
+            "value": 5
+          }
+        ],
+        "field_promoted": [],
+        "field_relationship": [
+          {
+            "value": "only"
+          }
+        ],
+        "field_right_rail": [
+          {
+            "value": true
+          }
+        ],
+        "field_sorting": [],
+        "field_sorting_logic": [],
+        "field_sticky": [],
+        "field_term_depth": [
+          {
+            "value": 4
+          }
+        ],
+        "field_terms": [],
+        "field_type_logic": []
+      }
+    ],
+    "field_photo_gallery": [],
+    "field_posted_on": [
+      {
+        "value": "2019-07-29"
+      }
+    ],
+    "field_project": [
+      {
+        "target_id": 3445,
+        "target_type": "node",
+        "target_uuid": "20fa23fd-5470-4bed-8c34-f84252d71871",
+        "url": "/projects/project-name"
+      }
+    ],
+    "field_related_transit": [
+      {
+        "id": 194,
+        "name": "701",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "701",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 27,
+        "name": "5",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "5",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "limited_service",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 35,
+        "name": "16",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "16",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 52,
+        "name": "34E",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "34E",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "late_night",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 64,
+        "name": "44",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "44",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 72,
+        "name": "59",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "59",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 100,
+        "name": "89",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "89",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "limited_service",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 101,
+        "name": "90",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "90",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 103,
+        "name": "92",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "92",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 106,
+        "name": "95",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "95",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 115,
+        "name": "106",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "106",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 118,
+        "name": "111",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "111",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "key_bus_routes",
+              "misc",
+              "late_night"
+            ]
+          }
+        }
+      },
+      {
+        "id": 123,
+        "name": "120",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "120",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 128,
+        "name": "134",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "134",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 156,
+        "name": "411",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "411",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 157,
+        "name": "424",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "424",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "inner_express",
+              "express"
+            ]
+          }
+        }
+      },
+      {
+        "id": 161,
+        "name": "428",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "428",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "inner_express",
+              "express"
+            ]
+          }
+        }
+      },
+      {
+        "id": 166,
+        "name": "435",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "435",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 169,
+        "name": "441",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "441",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "limited_service",
+              "misc"
+            ]
+          }
+        }
+      },
+      {
+        "id": 170,
+        "name": "442",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "442",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus",
+              "late_night",
+              "misc",
+              "limited_service"
+            ]
+          }
+        }
+      },
+      {
+        "id": 172,
+        "name": "449",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "449",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "inner_express",
+              "express"
+            ]
+          }
+        }
+      },
+      {
+        "id": 171,
+        "name": "448",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "448",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "inner_express",
+              "express"
+            ]
+          }
+        }
+      },
+      {
+        "id": 173,
+        "name": "455",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "455",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "local_bus"
+            ]
+          }
+        }
+      },
+      {
+        "id": 174,
+        "name": "459",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "459",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "inner_express",
+              "express"
+            ]
+          }
+        }
+      },
+      {
+        "id": 181,
+        "name": "501",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "501",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "inner_express",
+              "express"
+            ]
+          }
+        }
+      },
+      {
+        "id": 183,
+        "name": "502",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "502",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "inner_express",
+              "express"
+            ]
+          }
+        }
+      },
+      {
+        "id": 182,
+        "name": "503",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "503",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "inner_express",
+              "express"
+            ]
+          }
+        }
+      },
+      {
+        "id": 184,
+        "name": "504",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "504",
+          "gtfs_group": "route",
+          "gtfs_ancestry": {
+            "mode": [
+              "bus"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": [
+              "inner_express",
+              "express"
+            ]
+          }
+        }
+      }
+    ],
+    "field_teaser": [
+      {
+        "value": "Learn how your route is affected. These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand."
       }
     ]
   }

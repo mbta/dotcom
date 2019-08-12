@@ -16,6 +16,13 @@ defmodule SiteWeb.CMSControllerTest do
       assert rendered =~ "page-section project-hero-image"
     end
 
+    test "renders an update page when the CMS returns a CMS.Page.ProjectUpdate with paragraphs",
+         %{conn: conn} do
+      conn = get(conn, "/projects/project-name/update/update-with-paragraphs")
+      rendered = html_response(conn, 200)
+      assert rendered =~ "<p>Here is a custom HTML para.</p>"
+    end
+
     test "given special preview query params, return certain revision of node", %{conn: conn} do
       conn = get(conn, "/basic_page_no_sidebar?preview&vid=112&nid=6")
       assert html_response(conn, 200) =~ "Arts on the T 112"

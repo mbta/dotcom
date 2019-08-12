@@ -247,6 +247,10 @@ defmodule CMS.API.Static do
     {:ok, Enum.at(project_update_repo(), 1)}
   end
 
+  def view("/projects/project-name/update/update-with-paragraphs", _) do
+    {:ok, Enum.at(project_update_repo(), 5)}
+  end
+
   def view("/projects/project-deleted/update/project-deleted-progress", _) do
     project_info = %{
       "field_project" => [
