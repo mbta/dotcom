@@ -23,6 +23,13 @@ defmodule SiteWeb.CMSControllerTest do
       assert rendered =~ "<p>Here is a custom HTML para.</p>"
     end
 
+    test "renders an update page even when host project is redirected (update with paragraphs)",
+         %{conn: conn} do
+      conn = get(conn, "/projects/redirected-project/update/update-with-paragraphs")
+      rendered = html_response(conn, 200)
+      assert rendered =~ "<p>Here is a custom HTML para.</p>"
+    end
+
     test "redirects with correct status code when CMS returns a native redirect for an update",
          %{conn: conn} do
       conn = get(conn, "/projects/project-name/update/redirected-update-with-paragraphs")

@@ -251,6 +251,10 @@ defmodule CMS.API.Static do
     {:ok, Enum.at(project_update_repo(), 5)}
   end
 
+  def view("/projects/redirected-project/update/update-with-paragraphs", _) do
+    {:ok, Enum.at(project_update_repo(), 7)}
+  end
+
   def view("/projects/project-name/update/redirected-update-with-paragraphs", params) do
     redirect("/projects/project-name/update/update-with-paragraphs", params, 301)
   end
