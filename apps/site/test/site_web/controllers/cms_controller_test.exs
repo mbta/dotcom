@@ -23,6 +23,23 @@ defmodule SiteWeb.CMSControllerTest do
       assert rendered =~ "<p>Here is a custom HTML para.</p>"
     end
 
+    test "redirects with correct status code when CMS returns a native redirect for an update",
+         %{conn: conn} do
+      conn = get(conn, "/projects/project-name/update/redirected-update-with-paragraphs")
+      assert conn.status == 301
+
+      assert Conn.get_resp_header(conn, "location") == [
+               "/projects/project-name/update/update-with-paragraphs"
+             ]
+    end
+
+    test "renders a 404 when project update exists but project does not exist", %{conn: conn} do
+      path = "/projects/DNE/update/update-no-project-with-paragraphs"
+
+      conn = get(conn, path)
+      assert conn.status == 404
+    end
+
     test "given special preview query params, return certain revision of node", %{conn: conn} do
       conn = get(conn, "/basic_page_no_sidebar?preview&vid=112&nid=6")
       assert html_response(conn, 200) =~ "Arts on the T 112"

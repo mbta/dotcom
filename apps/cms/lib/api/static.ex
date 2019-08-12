@@ -251,6 +251,14 @@ defmodule CMS.API.Static do
     {:ok, Enum.at(project_update_repo(), 5)}
   end
 
+  def view("/projects/project-name/update/redirected-update-with-paragraphs", params) do
+    redirect("/projects/project-name/update/update-with-paragraphs", params, 301)
+  end
+
+  def view("/projects/DNE/update/update-no-project-with-paragraphs", _) do
+    {:ok, Enum.at(project_update_repo(), 6)}
+  end
+
   def view("/projects/project-deleted/update/project-deleted-progress", _) do
     project_info = %{
       "field_project" => [
