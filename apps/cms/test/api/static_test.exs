@@ -34,6 +34,9 @@ defmodule CMS.API.StaticTest do
       assert {:error, {:redirect, 301, _}} =
                view("/projects/project-name/update/redirected-update", %{})
 
+      assert {:error, {:redirect, 301, _}} =
+               view("/projects/project-name/update/redirected-update-with-paragraphs", %{})
+
       assert {:error, {:redirect, 301, _}} = view("/node/3518", %{})
       assert {:error, {:redirect, 301, _}} = view("/node/3458", %{})
       assert {:error, {:redirect, 301, _}} = view("/node/3480", %{})
