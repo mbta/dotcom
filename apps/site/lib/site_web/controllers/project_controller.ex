@@ -92,26 +92,6 @@ defmodule SiteWeb.ProjectController do
     end
   end
 
-  def project_update(%Conn{} = conn, _params) do
-    conn.request_path
-    |> Repo.get_page(conn.query_params)
-    |> do_project_update(conn)
-  end
-
-  defp do_project_update(%ProjectUpdate{} = update, conn) do
-    show_project_update(conn, update)
-  end
-
-  defp do_project_update({:error, {:redirect, status, opts}}, conn) do
-    conn
-    |> put_status(status)
-    |> redirect(opts)
-  end
-
-  defp do_project_update(_404_or_mismatch, conn) do
-    render_404(conn)
-  end
-
   @spec show_project_update(Conn.t(), ProjectUpdate.t()) :: Conn.t()
   def show_project_update(%Conn{} = conn, %ProjectUpdate{} = update) do
     case Repo.get_page(update.project_url) do
