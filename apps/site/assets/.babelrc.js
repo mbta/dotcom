@@ -7,5 +7,7 @@ module.exports = {
         corejs: 2
       }
     ]
-  ]
+  ],
+
+  plugins: ["@babel/plugin-transform-async-to-generator"]
 };
