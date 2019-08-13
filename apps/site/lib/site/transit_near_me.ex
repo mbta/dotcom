@@ -290,10 +290,12 @@ defmodule Site.TransitNearMe do
       ) do
     route = PredictedSchedule.route(ps)
 
+    alert_count = get_alert_count_for_route(route, alerts)
+    route = JsonHelpers.stringified_route(route) |> Map.put(:alert_count, alert_count)
+
     %{
-      route: JsonHelpers.stringified_route(route),
-      stops_with_directions: get_stops_for_route(schedules, distances, opts),
-      alert_count: get_alert_count_for_route(route, alerts)
+      route: route,
+      stops_with_directions: get_stops_for_route(schedules, distances, opts)
     }
   end
 
