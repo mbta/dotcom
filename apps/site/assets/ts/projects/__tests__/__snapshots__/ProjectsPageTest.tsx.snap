@@ -256,7 +256,9 @@ Array [
             <th
               className="c-more-projects-table__th c-more-projects-table__th-status"
               scope="col"
-            />
+            >
+              Status
+            </th>
           </tr>
         </thead>
         <tbody
@@ -327,7 +329,11 @@ Array [
             </td>
             <td
               className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"
-            />
+            >
+              <span
+                className="c-more-projects-table__status-wrapper"
+              />
+            </td>
           </tr>
         </tbody>
       </table>

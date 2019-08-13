@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders with route icons 1`] = `
+exports[`renders with route icons and status 1`] = `
 <tr
   className="c-more-projects-table__tr"
 >
@@ -37,6 +37,25 @@ exports[`renders with route icons 1`] = `
           </span>
           <br />
           May 1, 2018
+        </div>
+        <div
+          className="c-more-projects-table__status"
+        >
+          <span
+            className="c-more-projects-table__internal-header"
+          >
+            Status
+          </span>
+          <br />
+          <i
+            className="fa c-more-projects-table__status-icon c-more-projects-table__status-icon--contract-awarded"
+          />
+           
+          <span
+            className="c-more-projects-table__status-text c-more-projects-table__status-text--contract-awarded"
+          >
+            Contract awarded
+          </span>
         </div>
       </div>
       <span
@@ -174,6 +193,20 @@ exports[`renders with route icons 1`] = `
   </td>
   <td
     className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"
-  />
+  >
+    <span
+      className="c-more-projects-table__status-wrapper"
+    >
+      <i
+        className="fa c-more-projects-table__status-icon c-more-projects-table__status-icon--contract-awarded"
+      />
+       
+      <span
+        className="c-more-projects-table__status-text c-more-projects-table__status-text--contract-awarded"
+      >
+        Contract awarded
+      </span>
+    </span>
+  </td>
 </tr>
 `;
