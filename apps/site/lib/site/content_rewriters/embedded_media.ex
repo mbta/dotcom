@@ -12,7 +12,8 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
     "livestream.com",
     "mbtace.com/shuttle-tracker",
     "youtube.com",
-    "youtu.be"
+    "youtu.be",
+    "cdn.knightlab.com"
   ]
 
   defstruct alignment: :none,
