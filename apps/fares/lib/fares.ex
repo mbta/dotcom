@@ -5,7 +5,7 @@ defmodule Fares do
   @silver_line_rapid_transit ~w(741 742 743 746)
   @silver_line_rapid_transit_set MapSet.new(@silver_line_rapid_transit)
 
-  @inner_express_routes ~w(170 325 326 351 424 426 428 434 448 449 450 459 501 502 503 504 553 554 556 558)
+  @inner_express_routes ~w(170 325 326 351 426 428 434 448 449 450 459 501 502 503 504 553 554 556 558)
   @inner_express_route_set MapSet.new(@inner_express_routes)
 
   @outer_express_routes ~w(352 354 505)
