@@ -8,6 +8,7 @@ defmodule SiteWeb.ProjectController do
   alias CMS.Page.{Project, ProjectUpdate}
   alias Plug.Conn
   alias SiteWeb.ProjectView
+
   @breadcrumb_base "Projects"
   @placeholder_image_path "/images/project-image-placeholder.png"
   @n_projects_per_page 10
@@ -89,26 +90,6 @@ defmodule SiteWeb.ProjectController do
         |> render("crash.html", [])
         |> halt()
     end
-  end
-
-  def project_update(%Conn{} = conn, _params) do
-    conn.request_path
-    |> Repo.get_page(conn.query_params)
-    |> do_project_update(conn)
-  end
-
-  defp do_project_update(%ProjectUpdate{} = update, conn) do
-    show_project_update(conn, update)
-  end
-
-  defp do_project_update({:error, {:redirect, status, opts}}, conn) do
-    conn
-    |> put_status(status)
-    |> redirect(opts)
-  end
-
-  defp do_project_update(_404_or_mismatch, conn) do
-    render_404(conn)
   end
 
   @spec show_project_update(Conn.t(), ProjectUpdate.t()) :: Conn.t()

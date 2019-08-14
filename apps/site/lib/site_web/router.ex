@@ -98,8 +98,6 @@ defmodule SiteWeb.Router do
       as: :project_updates
     )
 
-    get("/projects/:project_id/update/:update_id", ProjectController, :project_update)
-
     get("/redirect/*path", RedirectController, :show)
 
     # stop redirects
