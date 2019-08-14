@@ -138,79 +138,87 @@ defmodule Site.RealtimeScheduleTest do
 
     expected = [
       %{
+        stop: %{accessibility: [], address: nil, id: "place-ogmnl", name: nil},
         predicted_schedules_by_route_pattern: %{
-          "Forest Hills" => [
-            %{
-              prediction: %{
-                __struct__: Predictions.Prediction,
-                departing?: false,
-                direction_id: 1,
-                id: "prediction-40709316-70036-190",
-                schedule_relationship: nil,
-                status: nil,
-                stop_sequence: 190,
-                time: @now,
-                track: nil
+          "Forest Hills" => %{
+            direction_id: 0,
+            predicted_schedules: [
+              %{
+                prediction: %{
+                  __struct__: Predictions.Prediction,
+                  departing?: false,
+                  direction_id: 1,
+                  id: "prediction-40709316-70036-190",
+                  schedule_relationship: nil,
+                  status: nil,
+                  stop_sequence: 190,
+                  time: ["arriving"],
+                  track: nil
+                },
+                schedule: nil
               },
-              schedule: nil
-            },
-            %{
-              prediction: %{
-                __struct__: Predictions.Prediction,
-                departing?: false,
-                direction_id: 1,
-                id: "prediction-40709317-70036-190",
-                schedule_relationship: nil,
-                status: nil,
-                stop_sequence: 190,
-                time: @now,
-                track: nil
+              %{
+                prediction: %{
+                  __struct__: Predictions.Prediction,
+                  departing?: false,
+                  direction_id: 1,
+                  id: "prediction-40709317-70036-190",
+                  schedule_relationship: nil,
+                  status: nil,
+                  stop_sequence: 190,
+                  time: ["arriving"],
+                  track: nil
+                },
+                schedule: nil
+              }
+            ]
+          },
+          "Oak Grove" => %{
+            direction_id: 1,
+            predicted_schedules: [
+              %{
+                prediction: %{
+                  __struct__: Predictions.Prediction,
+                  departing?: false,
+                  direction_id: 1,
+                  id: "prediction-40709316-70036-190",
+                  schedule_relationship: nil,
+                  status: nil,
+                  stop_sequence: 190,
+                  time: ["arriving"],
+                  track: nil
+                },
+                schedule: nil
               },
-              schedule: nil
-            }
-          ],
-          "Oak Grove" => [
-            %{
-              prediction: %{
-                __struct__: Predictions.Prediction,
-                departing?: false,
-                direction_id: 1,
-                id: "prediction-40709316-70036-190",
-                schedule_relationship: nil,
-                status: nil,
-                stop_sequence: 190,
-                time: @now,
-                track: nil
-              },
-              schedule: nil
-            },
-            %{
-              prediction: %{
-                __struct__: Predictions.Prediction,
-                departing?: false,
-                direction_id: 1,
-                id: "prediction-40709317-70036-190",
-                schedule_relationship: nil,
-                status: nil,
-                stop_sequence: 190,
-                time: @now,
-                track: nil
-              },
-              schedule: nil
-            }
-          ]
+              %{
+                prediction: %{
+                  __struct__: Predictions.Prediction,
+                  departing?: false,
+                  direction_id: 1,
+                  id: "prediction-40709317-70036-190",
+                  schedule_relationship: nil,
+                  status: nil,
+                  stop_sequence: 190,
+                  time: ["arriving"],
+                  track: nil
+                },
+                schedule: nil
+              }
+            ]
+          }
         },
         route: %{
+          __struct__: Routes.Route,
           custom_route?: false,
           description: :rapid_transit,
           direction_destinations: %{"0" => "Forest Hills", "1" => "Oak Grove"},
           direction_names: %{"0" => "Southbound", "1" => "Northbound"},
+          header: "Orange Line",
           id: "Orange",
           long_name: "Orange Line",
           name: "Orange Line",
           type: 1
-        },
-        stop: %{accessibility: [], address: nil, id: "place-ogmnl", name: nil}
+        }
       }
     ]
 

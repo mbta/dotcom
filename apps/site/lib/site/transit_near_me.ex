@@ -617,24 +617,24 @@ defmodule Site.TransitNearMe do
 
   @spec format_prediction_time(DateTime.t(), DateTime.t(), atom, integer) ::
           [String.t()] | String.t()
-  defp format_prediction_time(%DateTime{} = time, _now, :commuter_rail, _) do
+  def format_prediction_time(%DateTime{} = time, _now, :commuter_rail, _) do
     format_time(time)
   end
 
-  defp format_prediction_time(%DateTime{} = time, now, :subway, seconds) when seconds > 30 do
+  def format_prediction_time(%DateTime{} = time, now, :subway, seconds) when seconds > 30 do
     Display.do_time_difference(time, now, &format_time/1, 120)
   end
 
-  defp format_prediction_time(_, _, :subway, _), do: ["arriving"]
+  def format_prediction_time(_, _, :subway, _), do: ["arriving"]
 
-  defp format_prediction_time(%DateTime{} = time, now, :bus, seconds) when seconds > 60 do
+  def format_prediction_time(%DateTime{} = time, now, :bus, seconds) when seconds > 60 do
     Display.do_time_difference(time, now, &format_time/1, 120)
   end
 
-  defp format_prediction_time(_, _, :bus, _), do: ["arriving"]
+  def format_prediction_time(_, _, :bus, _), do: ["arriving"]
 
   @spec format_time(DateTime.t()) :: [String.t()]
-  defp format_time(time) do
+  def format_time(time) do
     [time, am_pm] =
       time
       |> Timex.format!("{h12}:{m} {AM}")
