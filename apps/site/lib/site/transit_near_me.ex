@@ -246,8 +246,7 @@ defmodule Site.TransitNearMe do
   @type route_data :: %{
           # route is a Route struct with an additional `header` attribute
           required(:route) => map,
-          required(:stops_with_directions) => [stop_with_data],
-          required(:alert_count) => integer
+          required(:stops_with_directions) => [stop_with_data]
         }
 
   @doc """
