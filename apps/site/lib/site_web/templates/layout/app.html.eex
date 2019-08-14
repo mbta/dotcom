@@ -27,9 +27,11 @@
     <%= if Application.get_env(:site, :dev_server?) do %>
       <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/core.js" %>" data-turbolinks-track="reload" ></script>
       <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/app.js" %>" data-turbolinks-track="reload" ></script>
+      <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/polyfill.js" %>" data-turbolinks-track="reload" ></script>
     <% else %>
       <script defer src="<%= static_url(@conn, "/js/vendors.js") %>" data-turbolinks-track="reload"></script>
       <script defer src="<%= static_url(@conn, "/js/app.js") %>" data-turbolinks-track="reload"></script>
+      <script defer src="<%= static_url(@conn, "/js/polyfill.js") %>" data-turbolinks-track="reload"></script>
     <% end %>
 
     <%= if assigns[:requires_google_maps?] do %>
