@@ -14,6 +14,8 @@ defmodule Site.RealtimeSchedule do
   alias Routes.Route
   alias Schedules.Repo, as: SchedulesRepo
   alias Schedules.Schedule
+  alias Site.JsonHelpers
+  alias Site.TransitNearMe
   alias Stops.Repo, as: StopsRepo
   alias Stops.Stop
 
@@ -59,7 +61,7 @@ defmodule Site.RealtimeSchedule do
     [predictions, schedules] =
       Enum.map([predictions_task, schedules_task], &Task.await(&1, @long_timeout))
 
-    build_output(stops, route_with_patterns, schedules, predictions)
+    build_output(stops, route_with_patterns, schedules, predictions, now)
   end
 
   @spec get_stops([Stop.id_t()], fun()) :: map
@@ -81,7 +83,7 @@ defmodule Site.RealtimeSchedule do
         &1
         |> routes_fn.()
         |> Enum.map(fn {route, route_patterns} ->
-          {&1, Route.to_json_safe(route), route_patterns}
+          {&1, JsonHelpers.stringified_route(route), route_patterns}
         end)
       end)
     )
@@ -152,7 +154,8 @@ defmodule Site.RealtimeSchedule do
       %{},
       fn {route_pattern_id, schedules} ->
         {Map.get(route_pattern_dictionary, route_pattern_id),
-         Enum.take(schedules, @predicted_schedules_per_stop)}
+         schedules
+         |> Enum.take(@predicted_schedules_per_stop)}
       end
     )
   end
@@ -162,8 +165,8 @@ defmodule Site.RealtimeSchedule do
     Enum.into(route_patterns, %{}, fn route_pattern -> {route_pattern.id, route_pattern.name} end)
   end
 
-  @spec build_output(map, [route_with_patterns_t], map, map) :: [map]
-  defp build_output(stops, route_with_patterns, schedules, predictions) do
+  @spec build_output(map, [route_with_patterns_t], map, map, DateTime.t()) :: [map]
+  defp build_output(stops, route_with_patterns, schedules, predictions, now) do
     route_with_patterns
     |> Enum.map(fn {stop_id, route, route_patterns} ->
       unique_route_patterns = make_route_patterns_unique(route_patterns)
@@ -175,7 +178,8 @@ defmodule Site.RealtimeSchedule do
           build_predicted_schedules_by_route_pattern(
             unique_route_patterns,
             schedules,
-            predictions
+            predictions,
+            now
           )
       }
     end)
@@ -186,31 +190,40 @@ defmodule Site.RealtimeSchedule do
     Enum.uniq_by(route_patterns, & &1.name)
   end
 
-  @spec build_predicted_schedules_by_route_pattern([RoutePattern.t()], map, map) :: map
+  @spec build_predicted_schedules_by_route_pattern([RoutePattern.t()], map, map, DateTime.t()) ::
+          map
   defp build_predicted_schedules_by_route_pattern(
          route_patterns,
          schedules_by_route_pattern,
-         predictions_by_route_pattern
+         predictions_by_route_pattern,
+         now
        ) do
     route_patterns
-    |> Enum.map(fn %{name: name} ->
+    |> Enum.map(fn %{name: name, direction_id: direction_id} ->
       schedules = Map.get(schedules_by_route_pattern, name, [])
       predictions = Map.get(predictions_by_route_pattern, name, [])
 
-      {name,
-       predictions |> PredictedSchedule.group(schedules) |> Enum.map(&shrink_predicted_schedule/1)}
+      {name, direction_id,
+       predictions
+       |> PredictedSchedule.group(schedules)
+       |> Enum.map(&shrink_predicted_schedule(&1, now))}
     end)
-    |> Enum.filter(fn {_name, predicted_schedules} ->
+    |> Enum.filter(fn {_name, _direction_id, predicted_schedules} ->
       !Enum.empty?(predicted_schedules)
     end)
-    |> Enum.into(%{})
+    |> Enum.into(%{}, fn {name, direction_id, predicted_schedules} ->
+      {name, %{direction_id: direction_id, predicted_schedules: predicted_schedules}}
+    end)
   end
 
-  @spec shrink_predicted_schedule(PredictedSchedule.t()) :: map
-  defp shrink_predicted_schedule(%{schedule: schedule, prediction: prediction}) do
+  @spec shrink_predicted_schedule(PredictedSchedule.t(), DateTime.t()) :: map
+  defp shrink_predicted_schedule(%{schedule: schedule, prediction: prediction}, now) do
     %{
-      prediction: do_shrink_predicted_schedule(prediction),
-      schedule: do_shrink_predicted_schedule(schedule)
+      prediction:
+        prediction
+        |> format_prediction_time(now)
+        |> do_shrink_predicted_schedule(),
+      schedule: schedule |> format_schedule_time() |> do_shrink_predicted_schedule()
     }
   end
 
@@ -219,4 +232,23 @@ defmodule Site.RealtimeSchedule do
 
   defp do_shrink_predicted_schedule(prediction_or_schedule),
     do: Map.drop(prediction_or_schedule, [:stop, :trip, :route])
+
+  @spec format_prediction_time(map | nil, DateTime.t()) :: map | nil
+  defp format_prediction_time(nil, _), do: nil
+
+  defp format_prediction_time(prediction, now) do
+    seconds = DateTime.diff(prediction.time, now)
+    route_type = Route.type_atom(prediction.route)
+
+    %{
+      prediction
+      | time: TransitNearMe.format_prediction_time(prediction.time, now, route_type, seconds)
+    }
+  end
+
+  @spec format_schedule_time(map | nil) :: map | nil
+  defp format_schedule_time(nil), do: nil
+
+  defp format_schedule_time(%{time: time} = schedule),
+    do: %{schedule | time: TransitNearMe.format_time(time)}
 end
