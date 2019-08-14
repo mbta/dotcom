@@ -20,7 +20,7 @@ defmodule CMS.Helpers do
     end
   end
 
-  @spec handle_html(String.t() | nil) :: Phoenix.HTML.safe()
+  @spec handle_html(String.t() | nil) :: HTML.safe()
   def handle_html(html) do
     (html || "")
     |> CustomHTML5Scrubber.html5()

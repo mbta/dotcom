@@ -14,7 +14,7 @@
               </div>
             <% end %>
             <div class="m-whats-happening-_description">
-              <div class="m-whats-happening__category u-small-caps"><a href="#cat"><%= item.category %></a></div>
+              <div class="m-whats-happening__category u-small-caps"><%= linked_category(item.category)%></div>
               <h3 class="m-whats-happening__title"><%= link item.title, to: cms_static_page_path(@conn, (item.utm_url)) || "/" %></h3>
               <%= if @promoted do %>
                 <div><%= item.blurb %></div>

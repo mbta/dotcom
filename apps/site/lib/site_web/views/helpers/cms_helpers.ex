@@ -5,6 +5,7 @@ defmodule SiteWeb.CMSHelpers do
 
   import SiteWeb.ViewHelpers, only: [route_to_class: 1]
   import CSSHelpers, only: [string_to_class: 1]
+  import Phoenix.HTML.Link
 
   alias CMS.API
   alias Routes.Repo
@@ -25,4 +26,12 @@ defmodule SiteWeb.CMSHelpers do
   def cms_route_to_class(%{group: "custom", mode: mode}), do: string_to_class(mode)
   def cms_route_to_class(%{group: "mode", id: mode}), do: string_to_class(mode)
   def cms_route_to_class(%{id: id}), do: id |> Repo.get() |> route_to_class()
+
+  @doc """
+  Map certain CMS content categories to index pages of that content.
+  If no match is found, simply output the original string category.
+  """
+  @spec linked_category(String.t()) :: String.t() | Phoenix.HTML.safe()
+  def linked_category("Projects"), do: link("Projects", to: "/projects")
+  def linked_category(category), do: category
 end
