@@ -45,9 +45,10 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
       end)
 
     ordered_trips = ordered_trips -- Enum.map(no_service_trips, &elem(&1, 0))
+    ordered_trips_by_stop = sort_trips_by_stop(ordered_trips, Enum.into(services_by_trip, %{}))
     services_by_trip_with_fare = enhance_services(services_by_trip)
 
-    %{by_trip: services_by_trip_with_fare, trip_order: ordered_trips}
+    %{by_trip: services_by_trip_with_fare, trip_order: ordered_trips_by_stop}
   end
 
   def prune_schedules_by_stop(schedules, stop_id) do
@@ -63,6 +64,26 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     |> Stream.map(fn {trip_id, service} -> {trip_id, formatted_time(service)} end)
     |> Stream.map(fn {trip_id, service} -> {trip_id, route_pattern(service)} end)
     |> Enum.into(%{})
+  end
+
+  def sort_trips_by_stop(ordered_trips, services_by_trip) do
+    Enum.sort_by(
+      ordered_trips,
+      fn trip_id ->
+        services_by_trip[trip_id]
+        |> List.first()
+        |> (fn sched -> sched.time end).()
+      end,
+      &date_sorter/2
+    )
+  end
+
+  def date_sorter(date1, date2) do
+    case DateTime.compare(date1, date2) do
+      :lt -> true
+      :eq -> true
+      :gt -> false
+    end
   end
 
   def route_pattern(%{schedules: [first_schedule | _]} = service) do
