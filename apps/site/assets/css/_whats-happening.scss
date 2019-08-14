@@ -36,21 +36,27 @@
 .m-whats-happening__category {
   font-weight: bold;
   margin-top: $base-spacing / 2;
+
+  a {
+    left: -$base-spacing / 2;
+    padding: $base-spacing / 2;
+    position: relative;
+    z-index: 1;
+  }
 }
 
 .m-whats-happening__item {
   flex-basis: 0;
   flex-grow: 1;
   margin: 0 $base-spacing / 2 $base-spacing / 2;
+  position: relative;
 
   a {
     color: $black;
     text-decoration: none;
 
     @include hover-focus-active {
-      .about-link {
-        text-decoration: inherit;
-      }
+      color: $brand-primary;
     }
   }
 
@@ -58,11 +64,14 @@
     font-family: $font-family-base;
     font-size: $font-size-h3;
     margin: 0;
-  }
 
-  &:hover {
-    .m-whats-happening__title {
-      color: $brand-primary;
+    a::after {
+      bottom: 0;
+      content: '';
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
     }
   }
 }
