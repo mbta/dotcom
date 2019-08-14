@@ -11,6 +11,7 @@ import ScheduleDirection from "../assets/ts/schedule/components/ScheduleDirectio
 import TripPlannerResults from "../assets/ts/trip-plan-results/components/TripPlannerResults";
 import MoreProjectsTable from "../assets/ts/projects/components/MoreProjectsTable";
 import ProjectBanner from "../assets/ts/projects/components/Banner.tsx";
+import FeaturedProjectsList from "../assets/ts/projects/components/FeaturedProjectsList";
 
 const Components = {
   ScheduleDirection,
@@ -21,7 +22,8 @@ const Components = {
   TransitNearMe,
   TripPlannerResults,
   MoreProjectsTable,
-  ProjectBanner
+  ProjectBanner,
+  FeaturedProjectsList
 };
 
 const encodeZeroWidthSpaceAsHtml = str => str.replace(/​/g, "&#8203;");
