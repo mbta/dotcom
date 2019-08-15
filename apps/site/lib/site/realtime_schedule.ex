@@ -143,6 +143,7 @@ defmodule Site.RealtimeSchedule do
             "page[limit]": @predicted_schedules_per_stop
           ]
           |> predictions_fn.()
+          |> Enum.filter(& &1.time)
 
         {key, next_two_predictions}
       end)
