@@ -134,7 +134,7 @@ defmodule Site.RealtimeScheduleTest do
       schedules_fn: fn _, _ -> @schedules end
     ]
 
-    stops = [@stop]
+    stops = [@stop.id]
 
     expected = [
       %{
