@@ -1,6 +1,9 @@
 defmodule Site.RealtimeScheduleTest do
   use ExUnit.Case
 
+  alias Alerts.Alert
+  alias Alerts.InformedEntity, as: IE
+  alias Alerts.InformedEntitySet, as: IESet
   alias Predictions.Prediction
   alias RoutePatterns.RoutePattern
   alias Routes.Route
@@ -126,12 +129,38 @@ defmodule Site.RealtimeScheduleTest do
     }
   ]
 
+  @alerts [
+    %Alert{
+      id: "1234",
+      active_period: [{@now, @now}],
+      priority: :high,
+      informed_entity: %IESet{
+        entities: [
+          %IE{route: "Orange"},
+          %IE{route: "70"}
+        ]
+      }
+    },
+    %Alert{
+      id: "2345",
+      active_period: [{@now, @now}],
+      priority: :high,
+      informed_entity: %IESet{
+        entities: [
+          %IE{route: "Orange"},
+          %IE{route: "Red"}
+        ]
+      }
+    }
+  ]
+
   test "stop_data/3" do
     opts = [
       stops_fn: fn _ -> @stop end,
       routes_fn: fn _ -> @route_with_patterns end,
       predictions_fn: fn _ -> @predictions end,
-      schedules_fn: fn _, _ -> @schedules end
+      schedules_fn: fn _, _ -> @schedules end,
+      alerts_fn: fn _, _ -> @alerts end
     ]
 
     stops = [@stop.id]
@@ -209,6 +238,7 @@ defmodule Site.RealtimeScheduleTest do
         },
         route: %{
           __struct__: Routes.Route,
+          alert_count: 2,
           custom_route?: false,
           description: :rapid_transit,
           direction_destinations: %{"0" => "Forest Hills", "1" => "Oak Grove"},

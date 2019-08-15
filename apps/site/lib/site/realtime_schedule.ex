@@ -28,7 +28,8 @@ defmodule Site.RealtimeSchedule do
     stops_fn: &StopsRepo.get!/1,
     routes_fn: &RoutesRepo.by_stop_with_route_pattern/1,
     predictions_fn: &PredictionsRepo.all_no_cache/1,
-    schedules_fn: &SchedulesRepo.by_route_ids/2
+    schedules_fn: &SchedulesRepo.by_route_ids/2,
+    alerts_fn: &Alerts.Repo.by_route_ids/2
   ]
 
   @type route_with_patterns_t :: {
@@ -46,21 +47,28 @@ defmodule Site.RealtimeSchedule do
     routes_fn = Keyword.fetch!(opts, :routes_fn)
     predictions_fn = Keyword.fetch!(opts, :predictions_fn)
     schedules_fn = Keyword.fetch!(opts, :schedules_fn)
+    alerts_fn = Keyword.fetch!(opts, :alerts_fn)
 
     # stage 1, get stops and routes
     stops_task = Task.async(fn -> get_stops(stop_ids, stops_fn) end)
     routes_task = Task.async(fn -> get_routes(stop_ids, routes_fn) end)
     [stops, route_with_patterns] = Enum.map([stops_task, routes_task], &Task.await/1)
 
-    # stage 2, get predictions and schedules
+    # stage 2, get predictions, schedules, and alerts
     predictions_task = Task.async(fn -> get_predictions(route_with_patterns, predictions_fn) end)
 
     schedules_task = Task.async(fn -> get_schedules(route_with_patterns, now, schedules_fn) end)
 
-    [predictions, schedules] =
-      Enum.map([predictions_task, schedules_task], &Task.await(&1, @long_timeout))
+    alert_counts_task =
+      Task.async(fn -> get_alert_counts(route_with_patterns, now, alerts_fn) end)
 
-    build_output(stops, route_with_patterns, schedules, predictions, now)
+    [predictions, schedules, alert_counts] =
+      Enum.map(
+        [predictions_task, schedules_task, alert_counts_task],
+        &Task.await(&1, @long_timeout)
+      )
+
+    build_output(stops, route_with_patterns, schedules, predictions, alert_counts, now)
   end
 
   @spec get_stops([Stop.id_t()], fun()) :: map
@@ -88,6 +96,21 @@ defmodule Site.RealtimeSchedule do
     )
     |> Enum.map(&Task.await/1)
     |> List.flatten()
+  end
+
+  defp get_alert_counts(route_with_patterns, now, alerts_fn) do
+    route_with_patterns
+    |> Enum.map(fn {_stop_id, route, _patterns} ->
+      {route.id,
+       Task.async(fn -> get_high_priority_alert_count_for_route(route.id, now, alerts_fn) end)}
+    end)
+    |> Enum.into(%{}, fn {route_id, task} -> {route_id, Task.await(task)} end)
+  end
+
+  defp get_high_priority_alert_count_for_route(route_id, now, alerts_fn) do
+    alerts_fn.([route_id], now)
+    |> Enum.filter(&(&1.priority == :high))
+    |> length
   end
 
   @spec get_predictions([route_with_patterns_t], fun()) :: map
@@ -193,15 +216,16 @@ defmodule Site.RealtimeSchedule do
     Enum.into(route_patterns, %{}, &{&1.id, route_pattern_key(&1, stop_id)})
   end
 
-  @spec build_output(map, [route_with_patterns_t], map, map, DateTime.t()) :: [map]
-  defp build_output(stops, route_with_patterns, schedules, predictions, now) do
+  @spec build_output(map, [route_with_patterns_t], map, map, map, DateTime.t()) :: [map]
+  defp build_output(stops, route_with_patterns, schedules, predictions, alert_counts, now) do
     route_with_patterns
     |> Enum.map(fn {stop_id, route, route_patterns} ->
       unique_route_patterns = make_route_patterns_unique(route_patterns, stop_id)
+      alert_count = Map.get(alert_counts, route.id, 0)
 
       %{
         stop: stops[stop_id],
-        route: route,
+        route: route |> Map.put(:alert_count, alert_count),
         predicted_schedules_by_route_pattern:
           build_predicted_schedules_by_route_pattern(
             stop_id,
