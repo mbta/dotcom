@@ -53,8 +53,7 @@ defmodule Site.RealtimeSchedule do
     [stops, route_with_patterns] = Enum.map([stops_task, routes_task], &Task.await/1)
 
     # stage 2, get predictions and schedules
-    predictions_task =
-      Task.async(fn -> get_predictions(route_with_patterns, now, predictions_fn) end)
+    predictions_task = Task.async(fn -> get_predictions(route_with_patterns, predictions_fn) end)
 
     schedules_task = Task.async(fn -> get_schedules(route_with_patterns, now, schedules_fn) end)
 
@@ -91,39 +90,61 @@ defmodule Site.RealtimeSchedule do
     |> List.flatten()
   end
 
-  @spec get_predictions([route_with_patterns_t], DateTime.t(), fun()) :: map
-  defp get_predictions(route_with_patterns, now, predictions_fn) do
+  @spec get_predictions([route_with_patterns_t], fun()) :: map
+  defp get_predictions(route_with_patterns, predictions_fn) do
     route_with_patterns
     |> Enum.map(fn {stop_id, _route, route_patterns} ->
       Task.async(fn ->
-        do_get_predictions(stop_id, route_patterns, now, predictions_fn)
+        do_get_predictions(stop_id, route_patterns, predictions_fn)
       end)
     end)
     |> Enum.flat_map(&Task.await/1)
-    |> Enum.into(%{})
+    |> Enum.reduce(%{}, fn {route_key, predictions}, accumulator ->
+      data =
+        if Map.has_key?(accumulator, route_key) do
+          accumulator
+          |> Map.get(route_key)
+          |> Enum.concat(predictions)
+          |> Enum.sort_by(& &1.time, &date_sorter/2)
+        else
+          predictions
+        end
+
+      Map.put(accumulator, route_key, data)
+    end)
   end
 
-  @spec do_get_predictions(Stop.id_t(), [RoutePattern.t()], DateTime.t(), fun()) :: [
+  @spec date_sorter(DateTime.t(), DateTime.t()) :: boolean
+  defp date_sorter(date1, date2) do
+    case DateTime.compare(date1, date2) do
+      :lt -> true
+      :eq -> true
+      :gt -> false
+    end
+  end
+
+  @spec do_get_predictions(Stop.id_t(), [RoutePattern.t()], fun()) :: [
           {
             route_pattern_name_t,
             [Prediction.t()]
           }
         ]
-  defp do_get_predictions(stop_id, route_patterns, now, predictions_fn) do
+  defp do_get_predictions(stop_id, route_patterns, predictions_fn) do
     route_patterns
     |> Enum.map(fn route_pattern ->
+      key = route_pattern_key(route_pattern, stop_id)
+
       Task.async(fn ->
         next_two_predictions =
           [
             stop: stop_id,
             route_pattern: route_pattern.id,
-            min_time: now,
             sort: "time",
             "page[limit]": @predicted_schedules_per_stop
           ]
           |> predictions_fn.()
 
-        {route_pattern.name, next_two_predictions}
+        {key, next_two_predictions}
       end)
     end)
     |> Enum.map(&Task.await/1)
@@ -132,6 +153,7 @@ defmodule Site.RealtimeSchedule do
   @spec get_schedules([route_with_patterns_t], DateTime.t(), fun()) :: map
   defp get_schedules(route_with_patterns, now, schedules_fn) do
     route_with_patterns
+    |> Enum.reject(fn {_stop_id, route, _route_patterns} -> route.type == 0 || route.type == 1 end)
     |> Enum.map(fn {stop_id, route, route_patterns} ->
       Task.async(fn ->
         do_get_schedules(route.id, stop_id, route_patterns, now, schedules_fn)
@@ -144,7 +166,7 @@ defmodule Site.RealtimeSchedule do
   @spec do_get_schedules(String.t(), Stop.id_t(), [route_with_patterns_t], DateTime.t(), fun()) ::
           map
   defp do_get_schedules(route_id, stop_id, route_patterns, now, schedules_fn) do
-    route_pattern_dictionary = make_route_pattern_dictionary(route_patterns)
+    route_pattern_dictionary = make_route_pattern_dictionary(route_patterns, stop_id)
 
     [route_id]
     |> schedules_fn.(min_time: now)
@@ -160,22 +182,28 @@ defmodule Site.RealtimeSchedule do
     )
   end
 
-  @spec make_route_pattern_dictionary([RoutePattern.t()]) :: map
-  defp make_route_pattern_dictionary(route_patterns) do
-    Enum.into(route_patterns, %{}, fn route_pattern -> {route_pattern.id, route_pattern.name} end)
+  @spec route_pattern_key(RoutePattern.t(), String.t()) :: String.t()
+  defp route_pattern_key(route_pattern, stop_id) do
+    "#{route_pattern.route_id}-#{stop_id}-#{route_pattern.name}"
+  end
+
+  @spec make_route_pattern_dictionary([RoutePattern.t()], String.t()) :: map
+  defp make_route_pattern_dictionary(route_patterns, stop_id) do
+    Enum.into(route_patterns, %{}, &{&1.id, route_pattern_key(&1, stop_id)})
   end
 
   @spec build_output(map, [route_with_patterns_t], map, map, DateTime.t()) :: [map]
   defp build_output(stops, route_with_patterns, schedules, predictions, now) do
     route_with_patterns
     |> Enum.map(fn {stop_id, route, route_patterns} ->
-      unique_route_patterns = make_route_patterns_unique(route_patterns)
+      unique_route_patterns = make_route_patterns_unique(route_patterns, stop_id)
 
       %{
         stop: stops[stop_id],
         route: route,
         predicted_schedules_by_route_pattern:
           build_predicted_schedules_by_route_pattern(
+            stop_id,
             unique_route_patterns,
             schedules,
             predictions,
@@ -185,27 +213,36 @@ defmodule Site.RealtimeSchedule do
     end)
   end
 
-  @spec make_route_patterns_unique([RoutePattern.t()]) :: [RoutePattern.t()]
-  defp make_route_patterns_unique(route_patterns) do
-    Enum.uniq_by(route_patterns, & &1.name)
+  @spec make_route_patterns_unique([RoutePattern.t()], String.t()) :: [RoutePattern.t()]
+  defp make_route_patterns_unique(route_patterns, stop_id) do
+    Enum.uniq_by(route_patterns, &route_pattern_key(&1, stop_id))
   end
 
-  @spec build_predicted_schedules_by_route_pattern([RoutePattern.t()], map, map, DateTime.t()) ::
+  @spec build_predicted_schedules_by_route_pattern(
+          String.t(),
+          [RoutePattern.t()],
+          map,
+          map,
+          DateTime.t()
+        ) ::
           map
   defp build_predicted_schedules_by_route_pattern(
+         stop_id,
          route_patterns,
          schedules_by_route_pattern,
          predictions_by_route_pattern,
          now
        ) do
     route_patterns
-    |> Enum.map(fn %{name: name, direction_id: direction_id} ->
-      schedules = Map.get(schedules_by_route_pattern, name, [])
-      predictions = Map.get(predictions_by_route_pattern, name, [])
+    |> Enum.map(fn %{name: name, direction_id: direction_id} = route_pattern ->
+      key = route_pattern_key(route_pattern, stop_id)
+      schedules = Map.get(schedules_by_route_pattern, key, [])
+      predictions = Map.get(predictions_by_route_pattern, key, [])
 
       {name, direction_id,
        predictions
        |> PredictedSchedule.group(schedules)
+       |> Enum.slice(0, 2)
        |> Enum.map(&shrink_predicted_schedule(&1, now))}
     end)
     |> Enum.filter(fn {_name, _direction_id, predicted_schedules} ->
