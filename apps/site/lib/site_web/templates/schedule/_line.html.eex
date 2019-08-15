@@ -8,7 +8,6 @@
   <div class="row">
     <div class="col-md-12">
     <%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high) %>
-    <%= render "_route_disclaimer.html", route: @route, date_time: @date_time %>
     </div>
     <div class="col-xs-12 col-md-7">
       <div id="react-schedule-note-root">

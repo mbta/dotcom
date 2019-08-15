@@ -2,7 +2,6 @@ defmodule SiteWeb.ScheduleController.AllStops do
   @moduledoc "Fetch all the stops on a route and assign them as @all_stops"
   @behaviour Plug
   import Plug.Conn, only: [assign: 3]
-  import SiteWeb.ScheduleController.ClosedStops, only: [add_wollaston: 4]
 
   @impl true
   def init([]), do: []
@@ -32,17 +31,6 @@ defmodule SiteWeb.ScheduleController.AllStops do
 
     route_id
     |> repo_fn.(direction_id, date: date)
-    |> maybe_add_wollaston(route_id, direction_id)
-  end
-
-  @spec maybe_add_wollaston(Stops.Repo.stops_response(), Routes.Route.id_t(), 0 | 1) ::
-          Stops.Repo.stops_response()
-  defp maybe_add_wollaston(stops, "Red", direction) when is_list(stops) do
-    add_wollaston(stops, direction, & &1, fn _elem, stop -> stop end)
-  end
-
-  defp maybe_add_wollaston(stops, _, _) do
-    stops
   end
 
   defp assign_all_stops(conn, stops) when is_list(stops) do

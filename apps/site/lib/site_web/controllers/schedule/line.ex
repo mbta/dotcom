@@ -1,7 +1,6 @@
 defmodule SiteWeb.ScheduleController.Line do
   @behaviour Plug
   import Plug.Conn, only: [assign: 3]
-  import SiteWeb.ScheduleController.ClosedStops, only: [add_wollaston: 4]
 
   alias Plug.Conn
   alias RoutePatterns.Repo, as: RoutePatternRepo
@@ -453,25 +452,8 @@ defmodule SiteWeb.ScheduleController.Line do
       branch_stops
       |> EnumHelpers.with_first_last()
       |> Enum.reduce(all_stops, &build_branched_stop(&1, &2, {current_branch, branch_names}))
-      |> add_wollaston_on_red_line(current_branch)
 
     {stop_list, branch_names}
-  end
-
-  defp extract_fn({_bubbles, stop}), do: stop
-
-  defp build_fn({bubbles, _stop}, new_stop), do: {bubbles, new_stop}
-
-  @spec add_wollaston_on_red_line([RouteStops.t()], Route.branch_name()) :: [RouteStops.t()]
-  defp add_wollaston_on_red_line(
-         [{_, %RouteStop{route: %Route{id: "Red"}}} | _tail] = stop_list,
-         nil
-       ) do
-    add_wollaston(stop_list, 0, &extract_fn/1, &build_fn/2)
-  end
-
-  defp add_wollaston_on_red_line(stop_list, _current_branch) do
-    stop_list
   end
 
   @doc """
