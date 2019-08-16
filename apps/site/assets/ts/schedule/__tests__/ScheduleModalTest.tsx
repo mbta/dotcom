@@ -1,12 +1,7 @@
 import React from "react";
 import renderer, { act } from "react-test-renderer";
-import {
-  EnhancedRoute,
-  RouteType,
-  ServiceWithServiceDate
-} from "../../__v3api";
+import { EnhancedRoute, RouteType } from "../../__v3api";
 import ScheduleModalContent, {
-  reducer,
   fetchData
 } from "../components/schedule-finder/ScheduleModalContent";
 import { SimpleStop } from "../components/__schedule";
@@ -80,44 +75,6 @@ export const payload = [
   }
 ];
 
-const service: ServiceWithServiceDate = {
-  added_dates: [],
-  added_dates_notes: {},
-  description: "Weekday schedule",
-  end_date: "2019-08-25",
-  id: "BUS319-D-Wdy-02",
-  removed_dates: [],
-  removed_dates_notes: {},
-  start_date: "2019-06-25",
-  type: "weekday",
-  typicality: "typical_service",
-  valid_days: [1, 2, 3, 4, 5],
-  service_date: "2019-06-26"
-};
-
-const holidayService: ServiceWithServiceDate = {
-  ...service,
-  id: "2",
-  typicality: "holiday_service",
-  description: "Holiday schedule",
-  valid_days: [3],
-  end_date: "2019-06-25"
-};
-
-const upcomingService: ServiceWithServiceDate = {
-  ...service,
-  id: "3",
-  valid_days: [4, 5],
-  start_date: "2019-07-05"
-};
-
-const upcomingServiceTwo: ServiceWithServiceDate = {
-  ...service,
-  id: "4",
-  valid_days: [1, 2, 3],
-  start_date: "2019-07-05"
-};
-
 describe("ScheduleModal", () => {
   it("it renders", () => {
     let tree;
@@ -128,12 +85,8 @@ describe("ScheduleModal", () => {
           stops={stops}
           selectedOrigin={stops[0].id}
           selectedDirection={0}
-          services={[
-            service,
-            holidayService,
-            upcomingService,
-            upcomingServiceTwo
-          ]}
+          services={[]}
+          routePatternsByDirection={{}}
         />
       );
     });
@@ -150,7 +103,8 @@ describe("ScheduleModal", () => {
           stops={stops}
           selectedOrigin={null}
           selectedDirection={0}
-          services={[service]}
+          services={[]}
+          routePatternsByDirection={{}}
         />
       );
       expect(tree!.toJSON()).toBeNull();
@@ -166,7 +120,8 @@ describe("ScheduleModal", () => {
           stops={stops}
           selectedOrigin={stops[0].id}
           selectedDirection={null}
-          services={[service]}
+          services={[]}
+          routePatternsByDirection={{}}
         />
       );
       expect(tree!.toJSON()).toBeNull();
@@ -227,33 +182,6 @@ describe("ScheduleModal", () => {
           type: "FETCH_ERROR"
         });
       });
-    });
-  });
-
-  describe("reducer", () => {
-    it("handles a fetch complete action", () => {
-      const newState = reducer(
-        { error: false, isLoading: true, data: null },
-        { type: "FETCH_COMPLETE", payload: [] }
-      );
-      expect(newState).toEqual({ data: [], isLoading: false, error: false });
-    });
-
-    it("handles a fetch error action", () => {
-      const newState = reducer(
-        { error: false, isLoading: true, data: null },
-        { type: "FETCH_ERROR" }
-      );
-      expect(newState).toEqual({ data: null, isLoading: false, error: true });
-    });
-
-    it("handles an unknown action", () => {
-      const newState = reducer(
-        { error: false, isLoading: true, data: null },
-        // @ts-ignore
-        { type: "UNKNOWN" }
-      );
-      expect(newState).toEqual({ data: null, isLoading: true, error: false });
     });
   });
 });

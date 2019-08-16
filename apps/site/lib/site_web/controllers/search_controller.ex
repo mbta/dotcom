@@ -1,11 +1,16 @@
 defmodule SiteWeb.SearchController do
+  @moduledoc false
   use SiteWeb, :controller
+
   require Logger
+
   import Site.ResponsivePagination, only: [build: 1]
   import SiteWeb.Router.Helpers, only: [search_path: 2]
+
+  alias Alerts.{Alert, Repo}
+  alias Algolia.{Analytics, Api, Query}
+  alias CMS.Search.{Facets, Result}
   alias Plug.Conn
-  alias Alerts.Alert
-  alias Content.Search.Facets
 
   plug(:breadcrumbs)
   plug(:search_header)
@@ -48,13 +53,13 @@ defmodule SiteWeb.SearchController do
 
   @spec query(Conn.t(), map) :: Conn.t()
   def query(%Conn{} = conn, params) do
-    %Algolia.Api{
+    %Api{
       host: conn.assigns[:algolia_host],
       index: "*",
       action: "queries",
-      body: Algolia.Query.build(params)
+      body: Query.build(params)
     }
-    |> Algolia.Api.post()
+    |> Api.post()
     |> do_query(conn)
   end
 
@@ -94,7 +99,7 @@ defmodule SiteWeb.SearchController do
   @spec click(Conn.t(), map) :: Conn.t()
   def click(conn, params) do
     response =
-      case Algolia.Analytics.click(params) do
+      case Analytics.click(params) do
         :ok ->
           %{message: "success"}
 
@@ -140,7 +145,7 @@ defmodule SiteWeb.SearchController do
   end
 
   @spec get_alert_ids(DateTime.t(), (DateTime.t() -> [Alert.t()])) :: id_map
-  def get_alert_ids(%DateTime{} = dt, alerts_repo_fn \\ &Alerts.Repo.all/1) do
+  def get_alert_ids(%DateTime{} = dt, alerts_repo_fn \\ &Repo.all/1) do
     dt
     |> alerts_repo_fn.()
     |> Enum.reject(&(&1.priority == :low))
@@ -197,9 +202,9 @@ defmodule SiteWeb.SearchController do
     assign(conn, :pagination, pagination)
   end
 
-  @spec assign_facets(Conn.t(), %Content.Search{content_types: Keyword.t()}, [String.t()]) ::
+  @spec assign_facets(Conn.t(), %Result{content_types: Keyword.t()}, [String.t()]) ::
           Conn.t()
-  def assign_facets(conn, %Content.Search{content_types: response_types}, content_types) do
+  def assign_facets(conn, %Result{content_types: response_types}, content_types) do
     assign(conn, :facets, Facets.build("content_type", response_types, content_types))
   end
 

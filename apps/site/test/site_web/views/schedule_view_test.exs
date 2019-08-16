@@ -1,12 +1,12 @@
 defmodule SiteWeb.ScheduleViewTest do
   use SiteWeb.ConnCase, async: true
 
-  alias Content.RoutePdf
+  alias CMS.Partial.RoutePdf
   alias Plug.Conn
-  alias Schedules.Trip
-  alias Stops.{Stop, RouteStop}
   alias Routes.Route
+  alias Schedules.Trip
   alias SiteWeb.ScheduleView
+  alias Stops.{RouteStop, Stop}
 
   import SiteWeb.ScheduleView
   import Phoenix.HTML.Tag, only: [content_tag: 3]
@@ -43,6 +43,85 @@ defmodule SiteWeb.ScheduleViewTest do
   }
   @after_july_1_2019 1_561_953_601
   @before_july_1_2019 1_561_953_599
+  @schedule_page_data %{
+    connections: [],
+    direction_id: 1,
+    fare_link: "/fares/bus-fares",
+    fares: [
+      %{price: "$4.25", title: "CharlieCard"},
+      %{price: "$5.25", title: ["CharlieTicket", " or ", "Cash"]}
+    ],
+    holidays: [
+      %Holiday{date: "September 2, 2019", name: "Labor Day"},
+      %Holiday{date: "November 28, 2019", name: "Thanksgiving Day"},
+      %Holiday{date: "December 25, 2019", name: "Christmas Day"}
+    ],
+    hours: "<div>Hours of Operation</div>",
+    pdfs: [],
+    route: %{
+      custom_route?: false,
+      description: :commuter_bus,
+      direction_destinations: %{"0" => "Brighton", "1" => "Copley"},
+      direction_names: %{"0" => "Outbound", "1" => "Inbound"},
+      id: "503",
+      long_name: "Brighton - Copley",
+      name: "503",
+      type: 3
+    },
+    route_patterns: %{
+      "0" => [
+        %{
+          __struct__: RoutePatterns.RoutePattern,
+          direction_id: 0,
+          id: "503-_-0",
+          name: "Brighton Center via Massachusetts Turnpike and Cambridge Street (Express)",
+          representative_trip_id: "40641632",
+          route_id: "503",
+          shape_id: "5030026",
+          time_desc: "AM peak hours only",
+          typicality: 1
+        }
+      ],
+      "1" => [
+        %{
+          __struct__: RoutePatterns.RoutePattern,
+          direction_id: 1,
+          id: "503-_-1",
+          name: "Copley Square via Oak Square and Massachusetts Turnpike (Express)",
+          representative_trip_id: "40641624",
+          route_id: "503",
+          shape_id: "5030025",
+          time_desc: "Weekdays only",
+          typicality: 1
+        }
+      ]
+    },
+    schedule_note: nil,
+    services: [
+      %{
+        __struct__: Services.Service,
+        added_dates: [],
+        added_dates_notes: %{},
+        description: "Weekday schedule",
+        end_date: ~D[2019-08-30],
+        id: "BUS319-1-Wdy-02",
+        name: "Weekday",
+        removed_dates: [],
+        removed_dates_notes: %{},
+        service_date: ~D[2019-07-26],
+        start_date: ~D[2019-07-19],
+        type: :weekday,
+        typicality: :typical_service,
+        valid_days: [1, 2, 3, 4, 5]
+      }
+    ],
+    shape_map: %{},
+    stops: %{
+      "0" => [],
+      "1" => []
+    },
+    teasers: "<div>teasers</div>"
+  }
 
   describe "display_direction/1" do
     test "given no schedules, returns no content" do
@@ -232,7 +311,7 @@ defmodule SiteWeb.ScheduleViewTest do
           conn: conn,
           route: route,
           expanded: nil,
-          schedule_page_data: %{pdfs: []}
+          schedule_page_data: @schedule_page_data
         )
 
       assert safe_to_string(actual) =~ "30 minutes"
@@ -258,7 +337,7 @@ defmodule SiteWeb.ScheduleViewTest do
           conn: conn,
           route: route,
           expanded: nil,
-          schedule_page_data: %{pdfs: []}
+          schedule_page_data: @schedule_page_data
         )
 
       refute safe_to_string(actual) =~ "minutes"
@@ -283,7 +362,7 @@ defmodule SiteWeb.ScheduleViewTest do
           conn: conn,
           route: route,
           expanded: nil,
-          schedule_page_data: %{pdfs: []}
+          schedule_page_data: @schedule_page_data
         )
 
       expected = trip_info |> TripInfo.full_status() |> IO.iodata_to_binary()
@@ -306,11 +385,11 @@ defmodule SiteWeb.ScheduleViewTest do
           route: route,
           conn: conn,
           expanded: nil,
-          schedule_page_data: %{pdfs: []}
+          schedule_page_data: @schedule_page_data
         )
 
       assert safe_to_string(actual) =~
-               "/fares/commuter_rail?destination=Fitchburg&amp;origin=place-north"
+               "/fares/commuter-rail-fares"
     end
 
     test "the fare description is Round trip fare if it's a round-trip fare", %{conn: conn} do
@@ -329,7 +408,7 @@ defmodule SiteWeb.ScheduleViewTest do
           route: route,
           conn: conn,
           expanded: nil,
-          schedule_page_data: %{pdfs: []}
+          schedule_page_data: @schedule_page_data
         )
 
       assert safe_to_string(actual) =~ "Round trip fare:"
@@ -351,7 +430,7 @@ defmodule SiteWeb.ScheduleViewTest do
           route: route,
           conn: conn,
           expanded: nil,
-          schedule_page_data: %{pdfs: []}
+          schedule_page_data: @schedule_page_data
         )
 
       rendered = safe_to_string(actual)
@@ -374,7 +453,7 @@ defmodule SiteWeb.ScheduleViewTest do
           route: route,
           conn: conn,
           expanded: "Franklin Line",
-          schedule_page_data: %{pdfs: []}
+          schedule_page_data: @schedule_page_data
         )
 
       rendered = safe_to_string(actual)
@@ -469,38 +548,6 @@ defmodule SiteWeb.ScheduleViewTest do
 
   describe "_line.html" do
     @shape %Routes.Shape{id: "test", name: "test", stop_ids: [], direction_id: 0}
-    @hours_of_operation %{
-      saturday: %{
-        0 => %Schedules.Departures{
-          first_departure: ~D[2017-01-01],
-          last_departure: ~D[2017-01-01]
-        },
-        1 => %Schedules.Departures{
-          first_departure: ~D[2017-01-01],
-          last_departure: ~D[2017-01-01]
-        }
-      },
-      sunday: %{
-        0 => %Schedules.Departures{
-          first_departure: ~D[2017-01-01],
-          last_departure: ~D[2017-01-01]
-        },
-        1 => %Schedules.Departures{
-          first_departure: ~D[2017-01-01],
-          last_departure: ~D[2017-01-01]
-        }
-      },
-      week: %{
-        0 => %Schedules.Departures{
-          first_departure: ~D[2017-01-01],
-          last_departure: ~D[2017-01-01]
-        },
-        1 => %Schedules.Departures{
-          first_departure: ~D[2017-01-01],
-          last_departure: ~D[2017-01-01]
-        }
-      }
-    }
 
     test "Bus line with variant filter", %{conn: conn} do
       route_stop_1 = %RouteStop{
@@ -536,7 +583,6 @@ defmodule SiteWeb.ScheduleViewTest do
           expanded: nil,
           show_variant_selector: true,
           map_img_src: nil,
-          hours_of_operation: @hours_of_operation,
           holidays: [],
           branches: [%Stops.RouteStops{branch: nil, stops: [route_stop_1, route_stop_2]}],
           origin: nil,
@@ -553,7 +599,7 @@ defmodule SiteWeb.ScheduleViewTest do
           featured_content: nil,
           news: [],
           dynamic_map_data: %{},
-          schedule_page_data: %{pdfs: []}
+          schedule_page_data: @schedule_page_data
         )
 
       assert safe_to_string(output) =~ "shape-filter"
@@ -593,7 +639,6 @@ defmodule SiteWeb.ScheduleViewTest do
           expanded: nil,
           active_shape: nil,
           map_img_src: nil,
-          hours_of_operation: @hours_of_operation,
           holidays: [],
           branches: [%Stops.RouteStops{branch: nil, stops: [route_stop_1, route_stop_2]}],
           route: %Routes.Route{type: 3, direction_destinations: %{1 => "End"}},
@@ -609,48 +654,10 @@ defmodule SiteWeb.ScheduleViewTest do
           featured_content: nil,
           news: [],
           dynamic_map_data: %{},
-          schedule_page_data: %{pdfs: []}
+          schedule_page_data: @schedule_page_data
         )
 
       refute safe_to_string(output) =~ "shape-filter"
-    end
-
-    test "does not crash if hours of operation isn't set", %{conn: conn} do
-      output =
-        ScheduleView.render(
-          "_line.html",
-          conn:
-            conn
-            |> Conn.fetch_query_params()
-            |> put_private(:phoenix_endpoint, SiteWeb.Endpoint),
-          stop_list_template: "_stop_list.html",
-          all_stops: [],
-          alerts: [],
-          connections: [],
-          channel: "vehicles:1:1",
-          route_shapes: [],
-          expanded: nil,
-          active_shape: nil,
-          map_img_src: nil,
-          holidays: [],
-          branches: [],
-          route: %Routes.Route{type: 3},
-          date: ~D[2017-01-01],
-          date_time: ~N[2017-03-01T07:29:00],
-          destination: nil,
-          origin: nil,
-          direction_id: 1,
-          reverse_direction_all_stops: [],
-          show_date_select?: false,
-          headsigns: %{0 => [], 1 => []},
-          vehicle_tooltips: %{},
-          featured_content: nil,
-          news: [],
-          dynamic_map_data: %{},
-          schedule_page_data: %{pdfs: []}
-        )
-
-      refute safe_to_string(output) =~ "Hours of Operation"
     end
 
     test "Displays error message when there are no trips in selected direction", %{conn: conn} do
@@ -685,7 +692,7 @@ defmodule SiteWeb.ScheduleViewTest do
           featured_content: nil,
           news: [],
           dynamic_map_data: %{},
-          schedule_page_data: %{pdfs: []}
+          schedule_page_data: @schedule_page_data
         )
 
       assert safe_to_string(output) =~ "There are no scheduled"
@@ -721,7 +728,6 @@ defmodule SiteWeb.ScheduleViewTest do
           expanded: nil,
           active_shape: nil,
           map_img_src: nil,
-          hours_of_operation: @hours_of_operation,
           holidays: [],
           branches: [%Stops.RouteStops{branch: nil, stops: [route_stop]}],
           route: route,
@@ -737,7 +743,7 @@ defmodule SiteWeb.ScheduleViewTest do
           featured_content: nil,
           news: [],
           dynamic_map_data: %{},
-          schedule_page_data: %{pdfs: []}
+          schedule_page_data: @schedule_page_data
         )
 
       refute safe_to_string(output) =~
@@ -836,9 +842,9 @@ defmodule SiteWeb.ScheduleViewTest do
 
     test "shows all PDFs for the route" do
       route_pdfs = [
-        %Content.RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
-        %Content.RoutePdf{path: "/basic-future-url", date_start: ~D[2119-02-01]},
-        %Content.RoutePdf{
+        %RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
+        %RoutePdf{path: "/basic-future-url", date_start: ~D[2119-02-01]},
+        %RoutePdf{
           path: "/custom-url",
           date_start: ~D[2017-12-01],
           link_text_override: "Custom schedule"
@@ -857,8 +863,8 @@ defmodule SiteWeb.ScheduleViewTest do
 
     test "does not specify 'current' when all schedules are current" do
       route_pdfs = [
-        %Content.RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
-        %Content.RoutePdf{
+        %RoutePdf{path: "/basic-current-url", date_start: ~D[2017-12-01]},
+        %RoutePdf{
           path: "/custom-url",
           date_start: ~D[2017-12-01],
           link_text_override: "Custom schedule"
@@ -872,7 +878,7 @@ defmodule SiteWeb.ScheduleViewTest do
     end
 
     test "considers PDFs that start today as current" do
-      route_pdfs = [%Content.RoutePdf{path: "/url", date_start: ~D[2018-01-01]}]
+      route_pdfs = [%RoutePdf{path: "/url", date_start: ~D[2018-01-01]}]
       route = %Routes.Route{name: "1", type: 3}
       rendered = safe_to_string(route_pdf_link(route_pdfs, route, ~D[2018-01-01]))
       assert rendered =~ "Route 1 schedule PDF"

@@ -1,7 +1,9 @@
 defmodule SiteWeb.ScheduleController.LineController do
   use SiteWeb, :controller
   alias Phoenix.HTML
+  alias Plug.Conn
   alias Routes.{Group, Route}
+  alias Services.Repo, as: ServicesRepo
   alias Services.Service
   alias Site.ScheduleNote
   alias SiteWeb.{ScheduleView, ViewHelpers}
@@ -24,20 +26,22 @@ defmodule SiteWeb.ScheduleController.LineController do
   plug(:channel_id)
 
   def show(conn, _) do
-    conn =
-      conn
-      |> assign(:meta_description, route_description(conn.assigns.route))
-      |> assign(:disable_turbolinks, true)
-      |> put_view(ScheduleView)
-      |> await_assign_all_default(__MODULE__)
-
     conn
+    |> assign(:meta_description, route_description(conn.assigns.route))
+    |> assign(:disable_turbolinks, true)
+    |> put_view(ScheduleView)
+    |> await_assign_all_default(__MODULE__)
     |> assign_schedule_page_data()
     |> render("show.html", [])
   end
 
   def assign_schedule_page_data(conn) do
     service_date = Util.service_date()
+
+    services =
+      conn.assigns.route.id
+      |> ServicesRepo.by_route_id()
+      |> dedup_services()
 
     assign(
       conn,
@@ -65,15 +69,27 @@ defmodule SiteWeb.ScheduleController.LineController do
         holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
         services:
-          conn.assigns.route.id
-          |> Services.Repo.by_route_id()
+          services
           |> Enum.sort_by(&sort_services_by_date/1)
           |> Enum.map(&Map.put(&1, :service_date, service_date)),
         schedule_note: ScheduleNote.new(conn.assigns.route),
-        stops: simple_stop_list(conn.assigns.all_stops),
-        direction_id: conn.assigns.direction_id
+        stops: simple_stop_map(conn),
+        direction_id: conn.assigns.direction_id,
+        route_patterns: conn.assigns.route_patterns,
+        shape_map: conn.assigns.shape_map
       }
     )
+  end
+
+  @spec dedup_services([Service.t()]) :: [Service.t()]
+  def dedup_services(services) do
+    services
+    |> Enum.group_by(fn %{start_date: start_date, end_date: end_date, valid_days: valid_days} ->
+      {start_date, end_date, valid_days}
+    end)
+    |> Enum.map(fn {_key, [service | _rest]} ->
+      service
+    end)
   end
 
   def sort_services_by_date(%Service{typicality: :typical_service, type: :weekday} = service) do
@@ -84,26 +100,68 @@ defmodule SiteWeb.ScheduleController.LineController do
     {2, Date.to_string(service.start_date)}
   end
 
-  @spec simple_stop_list(Stops.Repo.stops_response()) :: [%{id: String.t(), name: String.t()}]
-  defp simple_stop_list(all_stops) do
-    Enum.map(all_stops, fn {_,
-                            %{
-                              id: id,
-                              name: name,
-                              closed_stop_info: closed_stop_info,
-                              zone: zone,
-                              route: %{type: type}
-                            }} ->
-      closed_stop? = if closed_stop_info == nil, do: false, else: true
-      zone = if type == 2, do: zone, else: nil
+  @spec simple_stop_map(%Conn{}) :: map
+  defp simple_stop_map(conn) do
+    current_direction = Integer.to_string(conn.assigns.direction_id)
+    opposite_direction = reverse_direction(current_direction)
 
-      %{
+    Map.new()
+    |> Map.put(current_direction, simple_stop_list(conn.assigns.all_stops_from_shapes))
+    |> Map.put(
+      opposite_direction,
+      simple_stop_list(conn.assigns.reverse_direction_all_stops_from_shapes)
+    )
+  end
+
+  def add_zones_to_stops(stops) do
+    stops
+    |> Enum.map(fn stop -> Map.put(stop, :zone, Zones.Repo.get(stop.id)) end)
+    |> Enum.map(&simple_stop/1)
+  end
+
+  # Must be strings for mapping to JSON
+  def reverse_direction("0"), do: "1"
+  def reverse_direction("1"), do: "0"
+
+  def simple_stop_list(all_stops) do
+    all_stops |> Enum.map(&simple_stop/1) |> Enum.uniq_by(& &1.id)
+  end
+
+  def simple_stop(%{
         id: id,
         name: name,
-        is_closed: closed_stop?,
+        closed_stop_info: closed_stop_info,
         zone: zone
-      }
-    end)
+      }) do
+    closed_stop? = if closed_stop_info == nil, do: false, else: true
+
+    %{
+      id: id,
+      name: name,
+      is_closed: closed_stop?,
+      zone: zone
+    }
+  end
+
+  def simple_stop(
+        {_,
+         %{
+           id: id,
+           name: name,
+           closed_stop_info: closed_stop_info,
+           zone: zone,
+           route: %{type: type}
+         }}
+      ) do
+    closed_stop? = if closed_stop_info == nil, do: false, else: true
+    zone = if type == 2, do: zone, else: nil
+
+    %{
+      id: id,
+      name: name,
+      is_closed: closed_stop?,
+      zone: zone
+    }
   end
 
   defp tab_name(conn, _), do: assign(conn, :tab, "line")

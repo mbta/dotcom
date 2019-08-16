@@ -17,11 +17,11 @@
           ], to: update.path, class: "m-project-updates__teaser c-content-teaser row")
         end %>
         <%= if Enum.empty?(@updates) do content_tag(:div, "There are no updates at this time.") end %>
-        <%= SiteWeb.ContentView.render_paragraph(%Content.Paragraph.DescriptiveLink{
+        <%= SiteWeb.CMS.ParagraphView.render_paragraph(%DescriptiveLink{
           parent: "field_paragraphs",
           title: @project.title,
           body: content_tag(:p, "Learn more about this project"),
-          link: %Content.Field.Link{url: project_path(@conn, :show, @project)}
+          link: %Link{url: project_path(@conn, :show, @project)}
         }, @conn) %>
       </div>
     </div>

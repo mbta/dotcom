@@ -14,14 +14,15 @@ The new face of https://www.mbta.com/
   - [Additional documentation](#additional-documentation)
 ## Getting Started
 
-1. Request a V3 API key at https://api-v3.mbta.com/
+1. Request a V3 API key at https://api-v3.mbta.com/. Note that, at any given time, the site may not be compatible with the
+very latest API version. As of this writing, the site is compatible with API version 2019-04-05.
 
-2. Install [Homebrew](https://docs.brew.sh/Installation.html):
+1. Install [Homebrew](https://docs.brew.sh/Installation.html):
     ```
     /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
     ```
 
-3. Install [asdf package version manager](https://github.com/asdf-vm/asdf)
+1. Install [asdf package version manager](https://github.com/asdf-vm/asdf)
    * Follow the instructions on https://github.com/asdf-vm/asdf
    * Install the necessary tools to set up asdf plugins:
 
@@ -35,8 +36,8 @@ The new face of https://www.mbta.com/
      ```
      asdf plugin-add erlang
      asdf plugin-add elixir
-     asdf plugin-add ruby
      asdf plugin-add nodejs
+     asdf plugin-add ruby
      ```
      
      You can verify the plugins were installed with `asdf plugin-list`
@@ -72,43 +73,38 @@ The new face of https://www.mbta.com/
      
      If you are missing any versions, you should re-run `asdf install`. Related [Github issue about asdf-erlang](https://github.com/asdf-vm/asdf-erlang/issues/57)
 
-4. Install Sass:
-    ```
-    gem install sass
-    ```
-
-5. Install chromedriver (for Elixir acceptance tests using Wallaby)
+1. Install chromedriver (for Elixir acceptance tests using Wallaby)
     ```
     brew tap caskroom/cask
     brew cask install chromedriver
     ```
 
-6. Install our Elixir dependencies. From the root of this repo:
+1. Install our Elixir dependencies. From the root of this repo:
     ```
     mix deps.get
     ```
 
-7. Install npm globally
+1. Install npm globally
    ```
    npm install -g npm@6.7.0
    ```
 
-8. Install our Node dependencies. From the root of this repo:
+1. Install our Node dependencies. From the root of this repo:
     ```
     npm run install
     ```
 
-9. Setup serverside rendering for React:
+1. Setup serverside rendering for React:
     ```
     npm run react:setup && npm run react:build
     ```
 
-10. Build the assets:
+1.  Build the assets:
     ```
     npm run webpack:build
     ```
 
-11. Set up the following environment variables (see [Environment Variables](#environment-variables) section)
+1. Set up the following environment variables (see [Environment Variables](#environment-variables) section)
 
     Required:
     * `V3_API_KEY`

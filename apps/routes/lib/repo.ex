@@ -47,11 +47,13 @@ defmodule Routes.Repo do
     end
   end
 
-  @spec get_shapes(String.t(), 0 | 1, boolean) :: [Shape.t()]
-  def get_shapes(route_id, direction_id, filter_negative_priority? \\ true) do
+  @spec get_shapes(String.t(), Keyword.t(), boolean) :: [Shape.t()]
+  def get_shapes(route_id, opts, filter_negative_priority? \\ true) do
+    opts = Keyword.put(opts, :route, route_id)
+
     shapes =
-      cache({route_id, direction_id}, fn _ ->
-        case Shapes.all(route: route_id, direction_id: direction_id) do
+      cache(Enum.sort(opts), fn _ ->
+        case Shapes.all(opts) do
           {:error, _} ->
             []
 
@@ -151,6 +153,15 @@ defmodule Routes.Repo do
       {:ok, routes} -> routes
       {:error, _} -> []
     end
+  end
+
+  def by_stop_with_route_pattern(stop_id) do
+    cache({stop_id, [include: "route_patterns"]}, fn {stop_id, _opts} ->
+      [stop: stop_id, include: "route_patterns"]
+      |> Routes.all()
+      |> Map.get(:data, [])
+      |> Enum.map(&parse_route_with_route_pattern/1)
+    end)
   end
 
   @spec handle_response(JsonApi.t() | {:error, any}) :: {:ok, [Route.t()]} | {:error, any}

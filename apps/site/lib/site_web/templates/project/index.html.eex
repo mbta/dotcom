@@ -1,20 +1,25 @@
+<%= if Application.get_env(:site, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/projects.js" %>"></script>
+<% else %>
+  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+  <script defer src="<%= static_url(@conn, "/js/projects.js") %>"></script>
+<% end %>
+
 <div class="container">
   <div class="page-section">
-    <h1>Transforming the T</h1>
-
-    <p>The T is evolving every day—renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system for people of all abilities.</p>
-
-    <p>Take a look at what we're working on to make the MBTA better.</p>
+    <%= PartialView.paragraph("paragraphs/custom-html/projects-index", @conn) %>
 
     <%= if !Enum.empty?(@featured_project_teasers) do %>
       <h2 class="featured-project-subheader">Featured Projects</h2>
     <% end %>
-
-    <%= for project <- @featured_project_teasers do %>
-      <%= render "_featured_project.html", project: project, conn: @conn %>
-      <hr>
-    <% end %>
-
-    <%= render "_all_projects.html", projects: @project_teasers, conn: @conn %>
   </div>
+</div>
+
+<% [banner | rest] = @featured_project_teasers %>
+<%= render "_banner.html", featured_projects: banner, placeholder_image_url: @placeholder_image_url %>
+<div class="container">
+  <%= render "_featured_projects.html", projects: rest, placeholder_image_url: @placeholder_image_url %>
+</div>
+<div class="container">
+  <%= render "_all_projects.html", projects: @project_teasers, placeholder_image_url: @placeholder_image_url, conn: @conn %>
 </div>

@@ -4,13 +4,16 @@ defmodule V3Api.HeadersTest do
   use ExUnit.Case
 
   test "always adds api header" do
-    assert Headers.build("API_KEY", use_cache?: false) == [
-             {"x-api-key", "API_KEY"}
-           ]
+    key_tuple =
+      Headers.build("API_KEY", use_cache?: false) |> Enum.find(fn {k, _} -> k == "x-api-key" end)
 
-    assert Headers.build("API_KEY", params: [], url: "url") == [
-             {"x-api-key", "API_KEY"}
-           ]
+    assert key_tuple == {"x-api-key", "API_KEY"}
+
+    key_tuple =
+      Headers.build("API_KEY", params: [], url: "url")
+      |> Enum.find(fn {k, _} -> k == "x-api-key" end)
+
+    assert key_tuple == {"x-api-key", "API_KEY"}
   end
 
   test "adds wiremock proxy header if env var is set" do
@@ -41,9 +44,14 @@ defmodule V3Api.HeadersTest do
       cache_headers_fn: fn "URL", [] -> [{"if-modified-since", "LAST_MODIFIED"}] end
     ]
 
-    assert Headers.build("API_KEY", opts) == [
-             {"if-modified-since", "LAST_MODIFIED"},
-             {"x-api-key", "API_KEY"}
-           ]
+    actual_opts =
+      Headers.build("API_KEY", opts)
+      |> Keyword.take(["if-modified-since", "x-api-key"])
+
+    assert actual_opts ==
+             [
+               {"if-modified-since", "LAST_MODIFIED"},
+               {"x-api-key", "API_KEY"}
+             ]
   end
 end

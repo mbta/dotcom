@@ -45,7 +45,7 @@ defmodule Site.Mixfile do
       :feedback,
       :zones,
       :fares,
-      :content,
+      :cms,
       :holiday,
       :parallel_stream,
       :vehicles,
@@ -56,7 +56,8 @@ defmodule Site.Mixfile do
       :polyline,
       :util,
       :trip_plan,
-      :services
+      :services,
+      :route_patterns
     ]
 
     apps =
@@ -118,13 +119,14 @@ defmodule Site.Mixfile do
       {:feedback, in_umbrella: true},
       {:zones, in_umbrella: true},
       {:fares, in_umbrella: true},
-      {:content, in_umbrella: true},
+      {:cms, in_umbrella: true},
       {:vehicles, in_umbrella: true},
       {:google_maps, in_umbrella: true},
       {:util, in_umbrella: true},
       {:predictions, in_umbrella: true},
       {:trip_plan, in_umbrella: true},
-      {:services, in_umbrella: true}
+      {:services, in_umbrella: true},
+      {:route_patterns, in_umbrella: true}
     ]
   end
 end

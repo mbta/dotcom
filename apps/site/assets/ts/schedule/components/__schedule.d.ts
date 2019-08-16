@@ -4,8 +4,23 @@ import {
   PredictedOrScheduledTime,
   EnhancedRoute,
   DirectionId,
-  ServiceWithServiceDate
+  ServiceWithServiceDate,
+  Schedule,
+  RoutePattern,
+  Shape
 } from "../../__v3api";
+
+export interface RoutePatternWithShape extends RoutePattern {
+  shape_id: string;
+}
+
+export interface ShapesById {
+  [key: string]: Shape;
+}
+
+export interface RoutePatternsByDirection {
+  [key: string]: RoutePatternWithShape[];
+}
 
 export interface SchedulePageData {
   connections: TypedRoutes[];
@@ -18,8 +33,38 @@ export interface SchedulePageData {
   route: EnhancedRoute;
   schedule_note: ScheduleNote | null;
   services: ServiceWithServiceDate[];
-  stops: SimpleStop[];
+  stops: SimpleStopMap;
   direction_id: DirectionId;
+  shape_map: ShapesById;
+  route_patterns: RoutePatternsByDirection;
+}
+
+export interface SimpleStopMap {
+  [key: string]: SimpleStop[];
+}
+
+export interface ServiceSchedule {
+  [key: string]: ServiceScheduleInfo;
+}
+
+export interface ScheduleInfo {
+  schedules: ScheduleWithFare[];
+  duration: string;
+  route_pattern_id: string;
+}
+
+export interface ScheduleWithFare extends Schedule {
+  price: string;
+  fare_link: string;
+}
+
+export interface ServiceScheduleByTrip {
+  [key: string]: ScheduleInfo;
+}
+
+export interface ServiceScheduleInfo {
+  by_trip: ServiceScheduleByTrip;
+  trip_order: string[];
 }
 
 export interface ScheduleNote {

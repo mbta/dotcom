@@ -3,13 +3,6 @@
   display: block;
   margin-top: $base-spacing * 3;
 
-  @include media-breakpoint-only(xxl) {
-    // banner content is not full width at xxl,
-    // so prevent container from being 100% at that breakpoint.
-    margin: $base-spacing * 3 auto 0;
-    width: map-get($container-max-widths, xxl);
-  }
-
   &:hover {
     color: inherit;
     text-decoration: none;
@@ -22,22 +15,73 @@
       background: $brand-primary-lightest;
     }
   }
+
+  &--responsive {
+    @include media-breakpoint-only(xxl) {
+     // banner content is not full width at xxl,
+     // so prevent container from being 100% at that breakpoint.
+      margin: $base-spacing * 3 auto 0;
+      width: map-get($container-max-widths, xxl);
+    }
+
+    @include media-breakpoint-up(sm) {
+      margin-bottom: $base-spacing;
+    }
+  }
+
+  &--responsive-lg-margin {
+    @include media-breakpoint-only(lg) {
+      // banner content is not full width at lg,
+      // so prevent container from being 100% at that breakpoint.
+      margin: $base-spacing * 3 auto $base-spacing;
+      width: map-get($container-max-widths, lg);
+    }
+  }
+
+  &--small-margin-top {
+    margin-top: $base-spacing;
+  }
 }
 
 .m-banner__image {
   background-position: center;
   background-size: cover;
 
-  @include media-breakpoint-down(xs) {
-    // content is outside of the image div at xs,
-    // so the div needs a set height for the
-    // background image to be visible
-    height: $base-spacing * 20;
+  &--responsive {
+    @include media-breakpoint-down(xs) {
+      // content is outside of the image div at xs,
+      // so the div needs a set height for the
+      // background image to be visible
+      height: $base-spacing * 20;
+    }
+
+    @include media-breakpoint-only(xxl) {
+      @include make-container();
+      max-width: map-get($container-max-widths, xxl);
+    }
   }
 
-  @include media-breakpoint-only(xxl) {
-    @include make-container();
-    max-width: map-get($container-max-widths, xxl);
+  &--responsive-side-by-side {
+    @include media-breakpoint-down(xs) {
+      // content is outside of the image div at xs,
+      // so the div needs a set height for the
+      // background image to be visible
+      height: $base-spacing * 20;
+    }
+
+    @include media-breakpoint-up(sm) {
+      display: flex;
+    }
+
+    @include media-breakpoint-up(lg) {
+      @include make-container();
+      max-width: map-get($container-max-widths, xxl);
+      padding: 0;
+    }
+  }
+
+  &--by-side {
+    width: 62.5%;
   }
 }
 
@@ -67,8 +111,16 @@
     width: $col-width * 4;
   }
 
-  @include media-breakpoint-up(sm) {
-    min-height: $base-spacing * 20;
+  &--responsive-side-by-side {
+    @include media-breakpoint-up(lg) {
+      width: 37.5%;
+    }
+  }
+
+  &--responsive {
+    @include media-breakpoint-up(sm) {
+      min-height: $base-spacing * 20;
+    }
   }
 }
 
@@ -119,4 +171,8 @@
     text-decoration: none;
   }
 
+}
+
+.m-banner__date {
+  font-weight: bold;
 }

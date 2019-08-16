@@ -1,0 +1,181 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div
+  className="schedule-finder--mobile"
+>
+  <h3
+    aria-controls="panel-schedule-finder-mobile"
+    aria-expanded={false}
+    className="c-expandable-block__header"
+    id="header-schedule-finder-mobile"
+    onClick={[Function]}
+    onKeyPress={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    <span
+      aria-hidden="true"
+      className="notranslate c-expandable-block__header-icon"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+    <div
+      className="c-expandable-block__header-text"
+    >
+      Schedule Finder
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF107;",
+          }
+        }
+      />
+    </div>
+  </h3>
+  <noscript>
+    <style>
+      #header-schedule-finder-mobile { display: none; }
+    </style>
+    <h3
+      className="c-expandable-block__header"
+    >
+      <span
+        aria-hidden="true"
+        className="notranslate c-expandable-block__header-icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      Schedule Finder
+      <span
+        className="c-expandable-block__header-caret"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "&#xF106;",
+          }
+        }
+      />
+    </h3>
+    <div
+      className="c-expandable-block__panel"
+      role="region"
+    >
+      <div
+        className="schedule-finder"
+      >
+        <div>
+          Choose a stop to get schedule information and real-time departure predictions.
+        </div>
+        <div
+          className="schedule-finder__select-container "
+          id="sf_direction_select_container"
+          onClick={[Function]}
+          onKeyUp={[Function]}
+          role="button"
+          tabIndex={0}
+        >
+          <select
+            className="schedule-finder__select"
+            id="sf_direction_select"
+            onChange={[Function]}
+            onKeyUp={[Function]}
+            value=""
+          >
+            <option
+              value=""
+            >
+              Choose a direction
+            </option>
+            <option
+              value="0"
+            >
+              INBOUND
+               
+              Oak Grove
+            </option>
+            <option
+              value="1"
+            >
+              OUTBOUND
+               
+              Forest Hills
+            </option>
+          </select>
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon schedule-finder__arrow"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </div>
+        <div
+          className="schedule-finder__select-container "
+          id="sf_origin_select_container"
+          onClick={[Function]}
+          onKeyUp={[Function]}
+          role="button"
+          tabIndex={0}
+        >
+          <select
+            className="schedule-finder__select schedule-finder__select--noclick"
+            id="sf_origin_select"
+            onChange={[Function]}
+            onKeyUp={[Function]}
+            value=""
+          >
+            <option
+              value=""
+            >
+              Choose an origin stop
+            </option>
+            <option
+              value="place-welln"
+            >
+              Wellington
+            </option>
+            <option
+              value="123"
+            >
+              Abc
+            </option>
+            <option
+              value="741"
+            >
+              SL
+            </option>
+          </select>
+          <span
+            aria-hidden="true"
+            className="notranslate c-svg__icon schedule-finder__arrow"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </div>
+        <div
+          className="text-right"
+        >
+          <input
+            className="btn btn-primary"
+            onClick={[Function]}
+            type="submit"
+            value="Get schedules"
+          />
+        </div>
+      </div>
+    </div>
+  </noscript>
+</div>
+`;

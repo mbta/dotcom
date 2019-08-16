@@ -5,9 +5,9 @@ defmodule SiteWeb.PartialViewTest do
   import SiteWeb.PartialView
   import SiteWeb.PartialView.{HeaderTabs, SvgIconWithCircle}
 
-  alias Content.{Repo, Teaser}
+  alias CMS.{Partial.Teaser, Repo}
   alias SiteWeb.PartialView
-  alias SiteWeb.PartialView.{HeaderTab, HeaderTabBadge, SvgIconWithCircle, FullscreenError}
+  alias SiteWeb.PartialView.{FullscreenError, HeaderTab, HeaderTabBadge, SvgIconWithCircle}
 
   describe "stop_selector_suffix/2" do
     test "returns zones for commuter rail", %{conn: conn} do
@@ -125,7 +125,7 @@ defmodule SiteWeb.PartialViewTest do
 
   describe "teaser/1" do
     test "renders the title, topic and description for teasers with topic" do
-      assert [teaser | _] = Repo.teasers(type: :project)
+      assert [teaser | _] = Repo.teasers(type: [:project])
       assert %Teaser{topic: "Projects"} = teaser
       rendered = teaser |> PartialView.teaser() |> safe_to_string()
       assert rendered =~ teaser.image.url
@@ -195,11 +195,11 @@ defmodule SiteWeb.PartialViewTest do
   describe "paragraph/2" do
     test "renders a CMS partial (paragraph) directly from API", %{conn: conn} do
       rendered =
-        30
+        "/paragraphs/custom-html/projects-index"
         |> PartialView.paragraph(conn)
         |> safe_to_string()
 
-      assert rendered =~ "<p>library item"
+      assert rendered =~ "<p>The T is evolving every day."
       assert rendered =~ "c-paragraph--custom-html"
       refute rendered =~ "c-paragraph--library-item"
     end

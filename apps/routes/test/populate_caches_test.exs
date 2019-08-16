@@ -51,8 +51,8 @@ defmodule Routes.PopulateCachesTest do
 
       # get the calls that were made
       set = Agent.get(FakeRepo, & &1)
-      assert MapSet.member?(set, {:get_shapes, "1", 0})
-      assert MapSet.member?(set, {:get_shapes, "1", 1})
+      assert MapSet.member?(set, {:get_shapes, "1", [direction_id: 0]})
+      assert MapSet.member?(set, {:get_shapes, "1", [direction_id: 1]})
     end
 
     @tag :capture_log

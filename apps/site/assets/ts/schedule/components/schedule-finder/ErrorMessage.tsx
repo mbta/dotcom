@@ -13,12 +13,12 @@ const ErrorMessage = ({
     return null;
   }
 
-  let message = "an origin and destination";
+  let message = "an origin and direction";
   if (!directionError && originError) {
     message = "an origin";
   }
   if (directionError && !originError) {
-    message = "a destination";
+    message = "a direction";
   }
 
   return (

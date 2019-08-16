@@ -1,8 +1,9 @@
 defmodule SiteWeb.Mode.HubBehavior do
-  alias Content.Teaser
-  alias Fares.Summary
-
   @moduledoc "Behavior for mode hub pages."
+
+  alias CMS.{API, Partial.Teaser, Repo}
+  alias Fares.Summary
+  alias Routes.Route
 
   @callback routes() :: [Routes.Route.t()]
   @callback mode_name() :: String.t()
@@ -39,8 +40,8 @@ defmodule SiteWeb.Mode.HubBehavior do
   defp render_index(conn, mode_strategy, mode_routes, params) do
     alerts_fn = fn -> alerts(mode_routes, conn.assigns.date_time) end
     guides_fn = fn -> mode_strategy.mode_name() |> guides() end
-    news_fn = fn -> mode_strategy.mode_name() |> teasers(:news_entry) end
-    projects_fn = fn -> mode_strategy.mode_name() |> teasers(:project, 2) end
+    news_fn = fn -> mode_strategy.mode_name() |> teasers([:news_entry]) end
+    projects_fn = fn -> mode_strategy.mode_name() |> teasers([:project], 2) end
 
     conn
     |> filter_recently_visited(mode_strategy.route_type)
@@ -48,7 +49,7 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> async_assign_default(:alerts, alerts_fn, [])
     |> assign(:green_routes, green_routes())
     |> assign(:routes, mode_routes)
-    |> assign(:route_type, mode_strategy.route_type |> Routes.Route.type_atom())
+    |> assign(:route_type, mode_strategy.route_type |> Route.type_atom())
     |> assign(:mode_name, mode_strategy.mode_name())
     |> assign(:mode_icon, mode_strategy.mode_icon())
     |> assign(:fare_description, mode_strategy.fare_description())
@@ -96,7 +97,7 @@ defmodule SiteWeb.Mode.HubBehavior do
 
   @spec guides(String.t()) :: [Teaser.t()]
   defp guides(mode) do
-    Content.Repo.teasers(type: :page, topic: "guides", sidebar: 1, mode: mode_to_param(mode))
+    Repo.teasers(type: [:page], topic: "guides", sidebar: 1, mode: mode_to_param(mode))
   end
 
   @spec mode_to_param(String.t()) :: String.t()
@@ -106,17 +107,17 @@ defmodule SiteWeb.Mode.HubBehavior do
     |> String.replace(" ", "-")
   end
 
-  @spec teasers(String.t(), atom, integer) :: [Teaser.t()]
+  @spec teasers(String.t(), [API.type()], integer) :: [Teaser.t()]
   defp teasers(mode, content_type, limit \\ 10) do
     mode
     |> mode_to_param()
     |> do_teasers(content_type, limit)
   end
 
-  @spec do_teasers(String.t(), atom, integer) :: [Teaser.t()]
+  @spec do_teasers(String.t(), [API.type()], integer) :: [Teaser.t()]
   defp do_teasers(mode, content_type, limit) do
     [mode: mode, type: content_type, sidebar: 1, items_per_page: limit]
-    |> Content.Repo.teasers()
+    |> Repo.teasers()
     |> Enum.map(&teaser_url(&1, mode))
   end
 

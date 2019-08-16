@@ -8,6 +8,8 @@ defmodule SiteWeb.ScheduleController.Pdf do
 
   use SiteWeb, :controller
 
+  alias CMS.Partial.RoutePdf
+
   plug(SiteWeb.ScheduleController.RoutePdfs)
 
   def pdf(%Plug.Conn{assigns: %{route_pdfs: pdfs}} = conn, _params) do
@@ -15,7 +17,7 @@ defmodule SiteWeb.ScheduleController.Pdf do
       [] ->
         render_404(conn)
 
-      [%Content.RoutePdf{path: path} | _] ->
+      [%RoutePdf{path: path} | _] ->
         redirect(conn, external: static_url(SiteWeb.Endpoint, path))
     end
   end

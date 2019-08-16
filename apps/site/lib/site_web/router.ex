@@ -91,13 +91,12 @@ defmodule SiteWeb.Router do
     get("/news", NewsEntryController, :index)
     get("/news/*path_params", NewsEntryController, :show)
 
-    resources("/projects", ProjectController, only: [:index, :show])
+    get("/projects", ProjectController, :index)
+    get("/project_api", ProjectController, :api, as: :project_api)
 
     get("/projects/:project_alias/updates", ProjectController, :project_updates,
       as: :project_updates
     )
-
-    get("/projects/:project_id/update/:update_id", ProjectController, :project_update)
 
     get("/redirect/*path", RedirectController, :show)
 
@@ -107,8 +106,11 @@ defmodule SiteWeb.Router do
     resources("/stops", StopController, only: [:index, :show])
     get("/stops/*path", StopController, :stop_with_slash_redirect)
 
+    get("/api/realtime/stops", RealtimeScheduleApi, :stops)
+
     get("/schedules", ModeController, :index)
     get("/schedules/predictions_api", ModeController, :predictions_api)
+    get("/schedules/schedule_api", ScheduleController.ScheduleApi, :show)
     get("/schedules/subway", ModeController, :subway)
     get("/schedules/bus", ModeController, :bus)
     get("/schedules/ferry", ModeController, :ferry)
@@ -202,6 +204,6 @@ defmodule SiteWeb.Router do
   scope "/", SiteWeb do
     pipe_through([:secure, :browser])
 
-    get("/*path", ContentController, :page)
+    get("/*path", CMSController, :page)
   end
 end

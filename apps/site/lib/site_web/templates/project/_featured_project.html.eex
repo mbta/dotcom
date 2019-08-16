@@ -6,7 +6,7 @@
   </div>
   <div class="col-sm-8">
     <div class="featured-project-title">
-      <%= link @project.title, to: project_path(@conn, :show, @project) %>
+      <%= link @project.title, to: @project.path %>
     </div>
     <div class="featured-project-updated-on">
       Updated on <%= @project.date && format_full_date(@project.date) %>

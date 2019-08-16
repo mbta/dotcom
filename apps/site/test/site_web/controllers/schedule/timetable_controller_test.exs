@@ -2,6 +2,7 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
   @moduledoc false
   use ExUnit.Case, async: true
   import SiteWeb.ScheduleController.TimetableController
+  alias Routes.Route
   alias Stops.Stop
   alias Schedules.{Schedule, Trip}
 
@@ -31,6 +32,21 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
     }
   ]
 
+  @odd_schedules [
+    %Schedule{
+      stop_sequence: 4,
+      time: DateTime.from_unix!(50_000),
+      stop: nil,
+      trip: %Trip{id: "trip-4", headsign: "shuttle", name: "789"}
+    },
+    %Schedule{
+      stop_sequence: 5,
+      time: DateTime.from_unix!(50_000),
+      route: %Route{description: :rail_replacement_bus},
+      stop: %Stop{id: "5", name: "name3"},
+      trip: %Trip{id: "trip-5", headsign: "shuttle", name: "789"}
+    }
+  ]
   @vehicle_schedules %{
     "name1-trip-1" => %{
       stop_name: "name1",
@@ -46,7 +62,9 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
       stop_name: "name3",
       stop_sequence: 3,
       trip_id: "trip-3"
-    }
+    },
+    "name3-trip-5" => %{stop_name: "name3", stop_sequence: 5, trip_id: "trip-5"},
+    "shuttle-trip-4" => %{stop_name: "shuttle", stop_sequence: 4, trip_id: "trip-4"}
   }
 
   describe "build_timetable/2" do
@@ -77,8 +95,20 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
 
   describe "vehicle_schedules/1" do
     test "constructs vehicle data for channel consumption" do
-      vehicles = vehicle_schedules(@schedules)
+      vehicles =
+        vehicle_schedules(
+          %{assigns: %{date: Util.service_date()}},
+          Enum.concat(@schedules, @odd_schedules)
+        )
+
       assert @vehicle_schedules == vehicles
+    end
+
+    test "doesn't constructs vehicle data for channel consumption if the date is not today" do
+      vehicles =
+        vehicle_schedules(%{assigns: %{date: Date.add(Util.service_date(), 1)}}, @schedules)
+
+      assert vehicles == %{}
     end
   end
 
@@ -89,8 +119,11 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
       assert %{
                "trip-1-1" => "name1-trip-1",
                "trip-2-2" => "name2-trip-2",
-               "trip-3-3" => "name3-trip-3"
-             } == stops
+               "trip-3-3" => "name3-trip-3",
+               "trip-4-4" => "shuttle-trip-4",
+               "trip-5-5" => "name3-trip-5"
+             } ==
+               stops
     end
   end
 end

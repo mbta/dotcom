@@ -1,117 +1,15 @@
 defmodule SiteWeb.ProjectControllerTest do
   use SiteWeb.ConnCase
 
-  import Mock
+  import SiteWeb.ProjectController, only: [get_breadcrumb_base: 0]
 
-  alias Content.{CMS.Static, Project}
+  alias CMS.{Page.Project, Page.ProjectUpdate, Repo}
+  alias Plug.Conn
 
   describe "index" do
     test "renders the list of projects", %{conn: conn} do
       conn = get(conn, project_path(conn, :index))
-      assert html_response(conn, 200) =~ "<h1>Transforming the T</h1>"
-    end
-  end
-
-  describe "show" do
-    test "project calls all secondary endpoints correctly", %{conn: conn} do
-      project = Static.project_repo() |> List.first()
-      assert %{"nid" => [%{"value" => 3004}]} = project
-
-      mock_view = fn
-        "/node/3004", %{} ->
-          {:ok, project}
-
-        "/cms/teasers",
-        %{
-          related_to: 3004,
-          sort_by: "field_posted_on_value",
-          sort_order: :DESC,
-          type: :project_update
-        } ->
-          {:ok, []}
-
-        "/cms/teasers",
-        %{
-          related_to: 3004,
-          type: :diversion
-        } ->
-          {:ok, []}
-
-        "/cms/events", [project_id: 3004] ->
-          {:ok, []}
-      end
-
-      with_mock Static, view: mock_view do
-        conn = conn |> get("/node/3004")
-        assert html_response(conn, 200) =~ "Wollaston Station Improvements"
-
-        "/cms/teasers"
-        |> Static.view(%{
-          related_to: 3004,
-          sort_by: "field_posted_on_value",
-          sort_order: :DESC,
-          type: :project_update
-        })
-        |> assert_called()
-
-        "/cms/teasers"
-        |> Static.view(%{
-          related_to: 3004,
-          type: :diversion
-        })
-        |> assert_called()
-
-        "/cms/events"
-        |> Static.view(project_id: 3004)
-        |> assert_called()
-      end
-    end
-
-    test "renders and does not rewrite an unaliased project response", %{conn: conn} do
-      project = project_factory(0)
-      assert project.path_alias == nil
-      assert project.title == "Wollaston Station Improvements"
-      path = project_path(conn, :show, project)
-      assert path == "/node/3004"
-
-      conn = get(conn, path)
-      assert html_response(conn, 200) =~ "Wollaston Station Improvements"
-    end
-
-    test "renders a project with a path alias", %{conn: conn} do
-      project = project_factory(1)
-
-      assert project.path_alias == "/projects/project-name"
-
-      conn = get(conn, project_path(conn, :show, project))
-      assert html_response(conn, 200) =~ "<h2>What is the SL3?</h2>"
-    end
-
-    test "renders a preview of the requested project", %{conn: conn} do
-      project = project_factory(1)
-      conn = get(conn, project_path(conn, :show, project) <> "?preview&vid=112&nid=3480")
-      assert html_response(conn, 200) =~ "Silver Line 3 Chelsea (SL3) 112"
-      assert %{"preview" => nil, "vid" => "112", "nid" => "3480"} == conn.query_params
-    end
-
-    test "retains params and redirects with correct status code when CMS returns a native redirect",
-         %{conn: conn} do
-      conn = get(conn, project_path(conn, :show, "redirected-project") <> "?preview&vid=999")
-      assert conn.status == 301
-
-      assert Plug.Conn.get_resp_header(conn, "location") == [
-               "/projects/project-name?preview=&vid=999"
-             ]
-    end
-
-    test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
-      conn = get(conn, project_path(conn, :show, "3268"))
-      assert conn.status == 404
-    end
-
-    test "renders a 404 given an invalid id", %{conn: conn} do
-      conn = get(conn, project_path(conn, :show, "this-does-not-exist"))
-      assert conn.status == 404
+      assert html_response(conn, 200) =~ "Featured Projects</h2>"
     end
   end
 
@@ -122,7 +20,7 @@ defmodule SiteWeb.ProjectControllerTest do
 
       teaser = teaser_factory(:project_updates, 0)
 
-      teasers_fn = fn [related_to: ^project_id, type: :project_update, items_per_page: 50] ->
+      teasers_fn = fn [related_to: ^project_id, type: [:project_update], items_per_page: 50] ->
         [teaser]
       end
 
@@ -148,7 +46,7 @@ defmodule SiteWeb.ProjectControllerTest do
       project = project_factory(0)
       project_id = project.id
 
-      teasers_fn = fn [related_to: ^project_id, type: :project_update, items_per_page: 50] ->
+      teasers_fn = fn [related_to: ^project_id, type: [:project_update], items_per_page: 50] ->
         []
       end
 
@@ -279,38 +177,64 @@ defmodule SiteWeb.ProjectControllerTest do
 
       assert conn.status == 301
 
-      assert Plug.Conn.get_resp_header(conn, "location") == [
+      assert Conn.get_resp_header(conn, "location") == [
                "/projects/project-name/update/project-progress?preview=&vid=999"
              ]
     end
 
     test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
-      conn = get(conn, project_path(conn, :project_update, "3004", "3268"))
+      conn = get(conn, project_update_path(conn, :project_update, "3004", "3268"))
       assert conn.status == 404
     end
 
     test "renders a 404 given an invalid id", %{conn: conn} do
-      conn = get(conn, project_path(conn, :project_update, "999", "999"))
+      conn = get(conn, project_update_path(conn, :project_update, "999", "999"))
       assert conn.status == 404
     end
 
     test "renders a 404 given an invalid id when project found", %{conn: conn} do
-      conn = get(conn, project_path(conn, :project_update, "3004", "999"))
+      conn = get(conn, project_update_path(conn, :project_update, "3004", "999"))
       assert conn.status == 404
     end
 
     test "renders a 404 when project update exists but project does not exist", %{conn: conn} do
-      path = project_path(conn, :project_update, "project-deleted", "project-deleted-progress")
+      path =
+        project_update_path(conn, :project_update, "project-deleted", "project-deleted-progress")
 
-      assert %Content.ProjectUpdate{project_url: "/projects/project-deleted"} =
-               Content.Repo.get_page(path)
+      assert %ProjectUpdate{project_url: "/projects/project-deleted"} = Repo.get_page(path)
 
       assert conn
              |> project_path(:show, "project-deleted")
-             |> Content.Repo.get_page() == {:error, :not_found}
+             |> Repo.get_page() == {:error, :not_found}
 
       conn = get(conn, path)
       assert conn.status == 404
+    end
+  end
+
+  describe "api" do
+    test "returns a list of project structs JSON-encoded", %{conn: conn} do
+      path = project_api_path(conn, :api, %{offset: 0})
+
+      response =
+        conn
+        |> get(path)
+        |> json_response(200)
+
+      assert(length(response) > 0)
+      expected_keys = ~w[date id image path routes status title]
+
+      Enum.each(response, fn project ->
+        Enum.each(expected_keys, fn key ->
+          assert(key in Map.keys(project))
+        end)
+      end)
+    end
+  end
+
+  describe "get_breadcrumb_base" do
+    test "returns the static base breadcrumb for projects" do
+      assert get_breadcrumb_base() == "Projects"
     end
   end
 end

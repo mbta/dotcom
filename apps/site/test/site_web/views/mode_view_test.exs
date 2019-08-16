@@ -5,7 +5,7 @@ defmodule SiteWeb.ModeViewTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   alias Alerts.Alert
-  alias Content.Paragraph.{Column, ColumnMulti, FareCard}
+  alias CMS.Partial.Paragraph.{Column, ColumnMulti, FareCard}
   alias Routes.Route
   alias SiteWeb.ModeView
 
@@ -55,7 +55,7 @@ defmodule SiteWeb.ModeViewTest do
 
         assert header
                |> Floki.find(".m-mode__name")
-               |> Floki.text()
+               |> Floki.text(deep: false)
                |> String.trim() == text
 
         assert header

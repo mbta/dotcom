@@ -4,7 +4,11 @@ import {
   DirectionId,
   ServiceWithServiceDate
 } from "../../__v3api";
-import { SimpleStop } from "./__schedule";
+import {
+  SimpleStop,
+  SimpleStopMap,
+  RoutePatternsByDirection
+} from "./__schedule";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 import icon from "../../../static/images/icon-schedule-finder.svg";
 import renderSvg from "../../helpers/render-svg";
@@ -19,7 +23,8 @@ interface Props {
   directionId: DirectionId;
   hideHeader?: boolean;
   route: EnhancedRoute;
-  stops: SimpleStop[];
+  stops: SimpleStopMap;
+  routePatternsByDirection: RoutePatternsByDirection;
 }
 
 export type SelectedDirection = 0 | 1 | null;
@@ -36,28 +41,25 @@ interface State {
   selectedService: string | null;
 }
 
-const parseSelectedDirection = (value: string): 0 | 1 => {
+const parseSelectedDirection = (value: string): SelectedDirection => {
   if (value === "0") return 0;
   return 1;
 };
 
 export const stopListOrder = (
-  stops: SimpleStop[],
+  stops: SimpleStopMap,
   selectedDirection: SelectedDirection,
   directionId: DirectionId
-): SimpleStop[] => {
-  if (selectedDirection !== directionId) {
-    return [...stops].reverse();
-  }
-  return stops;
-};
+): SimpleStop[] =>
+  selectedDirection !== null ? stops[selectedDirection] : stops[directionId];
 
 const ScheduleFinder = ({
   directionId,
   hideHeader,
   route,
   services,
-  stops
+  stops,
+  routePatternsByDirection
 }: Props): ReactElement<HTMLElement> => {
   const {
     direction_destinations: directionDestinations,
@@ -105,7 +107,7 @@ const ScheduleFinder = ({
   };
 
   const handleChangeDirection = (direction: SelectedDirection): void => {
-    setState({ ...state, selectedDirection: direction });
+    setState({ ...state, selectedDirection: direction, selectedOrigin: null });
   };
 
   const handleChangeOrigin = (
@@ -248,7 +250,7 @@ const ScheduleFinder = ({
                 selectedDirection={state.selectedDirection}
                 selectedOrigin={state.selectedOrigin}
                 originSearch={state.originSearch}
-                stops={stops}
+                stops={stops[state.selectedDirection!] || []}
                 handleChangeOrigin={handleChangeOrigin}
                 handleUpdateOriginSearch={handleUpdateOriginSearch}
                 directionId={directionId}
@@ -260,7 +262,8 @@ const ScheduleFinder = ({
                 selectedDirection={state.selectedDirection}
                 selectedOrigin={state.selectedOrigin}
                 services={services}
-                stops={stops}
+                stops={stops[state.selectedDirection!]}
+                routePatternsByDirection={routePatternsByDirection}
               />
             )}
           </>

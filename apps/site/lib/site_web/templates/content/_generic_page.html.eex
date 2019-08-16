@@ -1,9 +1,0 @@
-<div class="c-cms__body">
-  <div class="page-section">
-    <%= Site.ContentRewriter.rewrite(@page.body, @conn) %>
-
-    <%= for paragraph <- @page.paragraphs do %>
-      <%= render_paragraph(paragraph, @conn) %>
-    <% end %>
-  </div>
-</div>

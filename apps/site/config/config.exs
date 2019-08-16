@@ -26,7 +26,7 @@ config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE
 
 config :laboratory,
   features: [
-    {:schedule_redesign, "Schedule redesign", ""}
+    {:schedule_direction_redesign, "Schedule direction_redesign", ""}
   ],
   cookie: [
     # one month,
@@ -49,7 +49,7 @@ config :sentry,
   included_environments: [:prod],
   json_library: Poison
 
-config :site, :former_mbta_site, host: "http://old.mbta.com"
+config :site, :former_mbta_site, host: "https://old.mbta.com"
 config :site, tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com"
 
 config :site, OldSiteFileController,

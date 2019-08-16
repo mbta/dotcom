@@ -2,8 +2,13 @@ import React, { ReactElement, useReducer, useEffect } from "react";
 import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import UpcomingDepartures from "./UpcomingDepartures";
 import { Route, RouteType, ServiceWithServiceDate } from "../../../__v3api";
-import { SimpleStop, StopPrediction } from "../__schedule";
+import {
+  SimpleStop,
+  StopPrediction,
+  RoutePatternsByDirection
+} from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
+import { reducer } from "../../../helpers/fetch";
 import ServiceSelector from "./ServiceSelector";
 
 const stopInfo = (
@@ -41,19 +46,6 @@ type fetchAction =
   | { type: "FETCH_ERROR" }
   | { type: "FETCH_STARTED" };
 
-export const reducer = (state: State, action: fetchAction): State => {
-  switch (action.type) {
-    case "FETCH_STARTED":
-      return { isLoading: true, error: false, data: null };
-    case "FETCH_COMPLETE":
-      return { data: action.payload, isLoading: false, error: false };
-    case "FETCH_ERROR":
-      return { ...state, error: true, isLoading: false };
-    default:
-      return state;
-  }
-};
-
 export const fetchData = (
   routeId: string,
   selectedOrigin: SelectedOrigin,
@@ -89,6 +81,7 @@ interface Props {
   selectedOrigin: SelectedOrigin;
   services: ServiceWithServiceDate[];
   stops: SimpleStop[];
+  routePatternsByDirection: RoutePatternsByDirection;
 }
 
 const ScheduleModalContent = ({
@@ -102,7 +95,8 @@ const ScheduleModalContent = ({
   selectedDirection,
   selectedOrigin,
   services,
-  stops
+  stops,
+  routePatternsByDirection
 }: Props): ReactElement<HTMLElement> | null => {
   const [state, dispatch] = useReducer(reducer, {
     data: null,
@@ -135,7 +129,13 @@ const ScheduleModalContent = ({
       </div>
       <div>from {stopNameLink(selectedOrigin, stops)}</div>
       <UpcomingDepartures state={state} />
-      <ServiceSelector services={services} />
+      <ServiceSelector
+        stopId={selectedOrigin}
+        services={services}
+        routeId={routeId}
+        directionId={selectedDirection}
+        routePatterns={routePatternsByDirection[selectedDirection]}
+      />
     </>
   );
 };

@@ -16,10 +16,6 @@ RUN mix local.hex --force && \
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
   apt-get install -y nodejs
 
-# Install Sass
-RUN apt-get install -y rubygems ruby2.3-dev && \
-  gem install sass
-
 # Clean up
 RUN apt-get clean
 

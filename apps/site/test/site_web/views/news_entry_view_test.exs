@@ -4,12 +4,15 @@ defmodule SiteWeb.NewsEntryViewTest do
 
   import Site.PageHelpers, only: [refute_text_visible?: 2]
 
+  alias CMS.Page.NewsEntry
+  alias SiteWeb.NewsEntryView
+
   describe "index.html" do
     test "does not display a Next link when additional content is not available", %{conn: conn} do
       news_entry = teaser_factory(:news, 0)
 
       body =
-        SiteWeb.NewsEntryView
+        NewsEntryView
         |> render_to_string(
           "index.html",
           conn: conn,
@@ -26,7 +29,7 @@ defmodule SiteWeb.NewsEntryViewTest do
       news_entry = teaser_factory(:news, 0)
 
       body =
-        SiteWeb.NewsEntryView
+        NewsEntryView
         |> render_to_string(
           "index.html",
           conn: conn,
@@ -46,7 +49,7 @@ defmodule SiteWeb.NewsEntryViewTest do
       news_titles = ["News 1", "News 2"]
       recent_news = Enum.map(news_titles, fn title -> news_entry_factory(0, title: title) end)
 
-      SiteWeb.NewsEntryView
+      NewsEntryView
       |> render_to_string(
         "show.html",
         conn: conn,
@@ -61,7 +64,7 @@ defmodule SiteWeb.NewsEntryViewTest do
     } do
       news_entry = news_entry_factory(0, more_information: nil)
 
-      SiteWeb.NewsEntryView
+      NewsEntryView
       |> render_to_string("show.html", conn: conn, news_entry: news_entry, recent_news: [])
       |> refute_text_visible?("More Information")
     end
@@ -80,7 +83,7 @@ defmodule SiteWeb.NewsEntryViewTest do
 
         rendered =
           render_to_string(
-            SiteWeb.NewsEntryView,
+            NewsEntryView,
             "show.html",
             conn: conn,
             news_entry: news_entry,
@@ -116,7 +119,7 @@ defmodule SiteWeb.NewsEntryViewTest do
 
   describe "recent_news.html" do
     test "includes links to recent news entries", %{conn: conn} do
-      recent_news_count = Content.NewsEntry.number_of_recent_news_suggestions()
+      recent_news_count = NewsEntry.number_of_recent_news_suggestions()
 
       recent_news =
         Enum.map(1..recent_news_count, fn index ->
@@ -125,7 +128,7 @@ defmodule SiteWeb.NewsEntryViewTest do
 
       rendered =
         render_to_string(
-          SiteWeb.NewsEntryView,
+          NewsEntryView,
           "_recent_news.html",
           conn: conn,
           recent_news: recent_news

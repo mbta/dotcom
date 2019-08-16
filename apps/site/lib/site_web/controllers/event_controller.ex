@@ -1,10 +1,8 @@
 defmodule SiteWeb.EventController do
   use SiteWeb, :controller
 
-  alias Content.CMS
-  alias Content.Event
-  alias Content.Page
-  alias Content.Repo
+  alias CMS.{API, Page, Repo}
+  alias CMS.Page.Event
   alias Plug.Conn
   alias Site.IcalendarGenerator
   alias SiteWeb.ControllerHelpers
@@ -15,15 +13,19 @@ defmodule SiteWeb.EventController do
     {:ok, current_month} = Date.new(Util.today().year, Util.today().month, 1)
     date_range = EventDateRange.build(params, current_month)
 
-    events_fn = fn ->
-      date_range
-      |> Enum.into([])
-      |> Repo.events()
+    event_teasers_fn = fn ->
+      Repo.teasers(
+        type: [:event],
+        items_per_page: 50,
+        date_op: "between",
+        date: [min: date_range.start_time_gt, max: date_range.start_time_lt],
+        sort_order: "ASC"
+      )
     end
 
     conn
     |> assign(:month, date_range.start_time_gt)
-    |> async_assign_default(:events, events_fn, [])
+    |> async_assign_default(:events, event_teasers_fn, [])
     |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
     |> await_assign_all_default(__MODULE__)
     |> render("index.html", conn: conn)
@@ -81,7 +83,7 @@ defmodule SiteWeb.EventController do
     |> do_icalendar(conn)
   end
 
-  @spec do_icalendar(Page.t() | {:error, CMS.error()}, Conn.t()) :: Conn.t()
+  @spec do_icalendar(Page.t() | {:error, API.error()}, Conn.t()) :: Conn.t()
   defp do_icalendar(%Event{} = event, conn) do
     conn
     |> put_resp_content_type("text/calendar")

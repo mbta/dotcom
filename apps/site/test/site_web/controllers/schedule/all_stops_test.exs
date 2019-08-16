@@ -17,23 +17,6 @@ defmodule SiteWeb.ScheduleController.AllStopsTest do
     assert conn.assigns.all_stops == stops_by_route("Blue", 1, date: Util.service_date())
   end
 
-  test "gets all Red line stops and adds wollaston", %{conn: conn} do
-    conn =
-      conn
-      |> assign(:date, Util.service_date())
-      |> assign(:date_in_rating?, true)
-      |> assign(:direction_id, 1)
-      |> assign(:route, %Routes.Route{id: "Red"})
-      |> AllStops.call(repo_fn: &stops_by_route/3)
-
-    all_stops = conn.assigns[:all_stops]
-    refute conn.assigns.all_stops == stops_by_route("Red", 1, date: Util.service_date())
-
-    assert length(all_stops) > 0
-    assert length(all_stops) == length(Enum.uniq_by(all_stops, & &1.id))
-    assert Enum.find(all_stops, fn s -> s.id == "place-wstn" end)
-  end
-
   test "still fetches stops if provided date is outside of the rating", %{conn: conn} do
     date =
       Schedules.Repo.end_of_rating()

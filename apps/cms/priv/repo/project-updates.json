@@ -1,0 +1,1990 @@
+[
+  {
+    "nid": [
+      {
+        "value": 3005
+      }
+    ],
+    "uuid": [
+      {
+        "value": "68ea8337-75cc-4168-8628-a0160a7e72ae"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10114
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project_update",
+        "target_type": "node_type",
+        "target_uuid": "5d44d0a5-a17b-409b-b222-58c333623cbd"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522675637
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "How the Wollaston Station Closure Affects Your Trip"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 17,
+        "target_type": "user",
+        "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+        "url": "/user/17"
+      }
+    ],
+    "created": [
+      {
+        "value": 1506604056
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522675637
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": false
+      }
+    ],
+    "path": [],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<h2 id=\"top\">What's the bus shuttle schedule?</h2>\r\n\r\n<table>\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th scope=\"col\">Days</th>\r\n\t\t\t<th scope=\"col\">Shuttle Service</th>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>April 2 – May 3</td>\r\n\t\t\t<td>All day: <a href=\"#wollaston-shuttle\">Wollaston Shuttle</a></td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>May 4</td>\r\n\t\t\t<td>Before 9pm: <a href=\"#wollaston-shuttle\">Wollaston Shuttle</a><br />\r\n\t\t\tAfter 9pm: <a href=\"#braintree-branch-shuttle\">Braintree Branch Shuttle</a></td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>May 5 – 6</td>\r\n\t\t\t<td>All day: <a href=\"#braintree-branch-shuttle\">Braintree Branch Shuttle</a></td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>May 7 – 17</td>\r\n\t\t\t<td>All day: <a href=\"#wollaston-shuttle\">Wollaston Shuttle</a></td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>May 18</td>\r\n\t\t\t<td>Before 9pm: <a href=\"#wollaston-shuttle\">Wollaston Shuttle</a><br />\r\n\t\t\tAfter 9pm: <a href=\"#braintree-branch-shuttle\">Braintree Branch Shuttle</a></td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>May 19 – 20</td>\r\n\t\t\t<td>All day: <a href=\"#braintree-branch-shuttle\">Braintree Branch Shuttle</a></td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<h2>Where are the shuttles right now?</h2>\r\n\r\n<p><a href=\"/wollaston-shuttles\" target=\"_blank\">{{ fa \"search-plus\" }} View larger map</a></p>\r\n\r\n<p><iframe class=\"shuttlemap iframe-full-width\" src=\"https://cdn.mbtace.com/shuttle-tracker/?hide_header=true\"></iframe></p>\r\n\r\n<h2 id=\"shuttle-stops\">Where are the shuttle stops around Wollaston?</h2>\r\n\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<p><a href=\"https://www.google.com/maps/d/viewer?mid=15NlZkIkL7FZwLn22DvCUXUThtyYjdwdB&amp;ll=42.266796910884416%2C-71.01874031573874&amp;z=17\" target=\"_blank\">{{ fa \"search-plus\" }} View larger map</a></p>\r\n\r\n<p><iframe src=\"https://www.google.com/maps/d/embed?mid=15NlZkIkL7FZwLn22DvCUXUThtyYjdwdB\"></iframe></p>\r\n\r\n<p>Download an informational flyer:</p>\r\n\r\n<p><a href=\"/sites/default/files/2017-12/wollaston-diversion-english.pdf\">{{fa \"file-pdf-o\"}} English</a></p>\r\n\r\n<p><a href=\"/sites/default/files/2017-12/wollaston-diversion-simplified-chinese.pdf\">{{fa \"file-pdf-o\"}} Simplified Chinese (汉语)</a></p>\r\n\r\n<p><a href=\"/sites/default/files/2017-12/wollaston-diversion-traditional-chinese.pdf\">{{fa \"file-pdf-o\"}} Traditional Chinese (漢語)</a></p>\r\n\r\n<p><a href=\"/sites/default/files/2017-12/wollaston-diversion-vietnamese.pdf\">{{fa \"file-pdf-o\"}} Vietnamese (Tiếng Việt)</a></p>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<p>There are 4 shuttle stops around Wollaston Station.</p>\r\n\r\n<p>The Wollaston Branch Library stop serves both inbound and outbound directions<span class=\"st\">, </span>so for many customers, it's the fastest way to reach the Red Line.</p>\r\n\r\n<h4>Shuttle stops inbound to North Quincy:</h4>\r\n\r\n<ul>\r\n\t<li>Wollaston Branch Library</li>\r\n\t<li>Wollaston Station</li>\r\n</ul>\r\n\r\n<h4>Shuttle stops outbound to Quincy Center:</h4>\r\n\r\n<ul>\r\n\t<li>Wollaston Branch Library</li>\r\n\t<li>Hancock St at Woodbine St</li>\r\n\t<li>Newport Ave at Beale St</li>\r\n</ul>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<h2 id=\"weekdays\">When will bus shuttles replace Red Line service?</h2>\r\n\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<p><img alt=\"A white Yankee coach on the right, along the sidewalk by a bus shelter. An MBTA worker in a neon vest stands nearby.\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1000\" src=\"/sites/default/files/projects/wollaston-bus-shuttle-yankee.jpg\" width=\"1348\" /></p>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<p><img alt=\"New bus shelter with snow in the background.\" data-entity-type=\"\" data-entity-uuid=\"\" src=\"/sites/default/files/projects/wollaston-bus-shelter.jpg\" width=\"100%\" /></p>\r\n</div>\r\n</div>\r\n\r\n<p>All shuttles are free and accessible to people with disabilities.</p>\r\n\r\n<h3 id=\"wollaston-shuttle\">Wollaston Shuttle</h3>\r\n\r\n<p><img alt=\"Diversion graphic showing the Red Line, with Wollaston omitted and shown along a black dotted line underneath the Red Line, signifying bus shuttles running from North Quincy and Quincy Center Stations, stopping at Wollaston.\" data-entity-type=\"\" data-entity-uuid=\"\" src=\"/sites/default/files/projects/wollaston-diversion.jpg\" width=\"100%\" /></p>\r\n\r\n<p><strong>Please note: </strong>Red Line trains will bypass Wollaston Station but will continue to make stops at all stations on the Braintree branch.</p>\r\n\r\n<p>Bus shuttles will operate between North Quincy, Wollaston, and Quincy Center stations.</p>\r\n\r\n<p>Shuttles will run:</p>\r\n\r\n<ul>\r\n\t<li>Every 10 minutes during weekday rush-hour service</li>\r\n\t<li>Every 15 minutes during weekday non-rush-hour service and on weekends</li>\r\n</ul>\r\n\r\n<p>View live locations of shuttles at <strong> <a href=\"/wollaston-shuttles\">mbta.com/wollaston-shuttles</a></strong>.</p>\r\n\r\n<p><a href=\"/wollaston#top\">Return to top</a></p>\r\n\r\n<p><a id=\"nights-weekends\"></a></p>\r\n\r\n<h3 id=\"braintree-branch-shuttle\">Braintree Branch Shuttle</h3>\r\n\r\n<p><img alt=\"Diversion graphic showing the Red Line stopping at North Quincy station, following by a black dotted line to signify bus shuttles running from North Quincy to Braintree.\" data-entity-type=\"\" data-entity-uuid=\"\" src=\"/sites/default/files/projects/wollaston-shuttle-north-quincy-to-braintree.jpg\" width=\"100%\" /></p>\r\n\r\n<p>Bus shuttles will replace Red Line train service between North Quincy and Braintree stations some weeknights after 9 PM and some weekends.</p>\r\n\r\n<p>Shuttles will run every 15 minutes.</p>\r\n\r\n<p>View live locations of shuttles at <strong> <a href=\"/wollaston-shuttles\">mbta.com/wollaston-shuttles</a></strong>.</p>\r\n\r\n<p><a href=\"/wollaston#top\">Return to top</a></p>\r\n\r\n<h2 id=\"commuter-rail\">When will bus shuttles replace Commuter Rail service?</h2>\r\n\r\n<p><img alt=\"wollaston-commuter-rail-graphic.png\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"806\" src=\"/sites/default/files/projects/wollaston/wollaston-commuter-rail-graphic.png\" width=\"2513\" /></p>\r\n\r\n<h4>{{ mbta-circle-icon \"commuter-rail\" }} Greenbush, Kingston/Plymouth, Middleborough/Lakeville Lines</h4>\r\n\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<p>Bus shuttles will replace Commuter Rail service between Braintree and South Station, connecting with the Red Line at North Quincy Station, during some weekends.</p>\r\n\r\n<p>Cape Flyer service will not be affected.</p>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<p>Currently scheduled weekends are:</p>\r\n\r\n<ul>\r\n\t<li>May 5 – 6</li>\r\n\t<li>May 19 – 20</li>\r\n\t<li>September 8 – 9</li>\r\n\t<li>September 15 – 16</li>\r\n\t<li>September 22 – 23</li>\r\n</ul>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<h2>Where can I find parking?</h2>\r\n\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<h3>Cars</h3>\r\n\r\n<p>423 parking spaces will be available at Wollaston Station during the closure.</p>\r\n\r\n<p>125 additional parking spaces are available at North Quincy Station in the Newport Ave parking lot. <a href=\"https://www.google.com/maps/dir/Wollaston+Station,+Woodbine+St,+Quincy,+MA/42.2758095,-71.0310517/@42.2723719,-71.0298326,16.36z/am=t/data=!4m10!4m9!1m5!1m1!1s0x89e37ca6d19cb111:0x428f738144b41f5d!2m2!1d-71.0196415!2d42.2668041!1m0!3e0!5i1\" target=\"_blank\">See directions from Wollaston Station to the Newport Ave. parking lot</a>.</p>\r\n\r\n<p>Parking availability at Quincy Adams and Braintree stations will be tweeted every 30 minutes weekdays between 6 AM and 8 AM. Follow <a href=\"https://www.twitter.com/MBTA\">@MBTA</a> for updates.</p>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<h3>Bikes</h3>\r\n\r\n<p>Additional bike parking will be available at Quincy Center Station and the West Squantum St entrance of North Quincy Station as space permits.</p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<h2>Are there any alternate transportation options?</h2>\r\n\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<h3>Commuter Rail</h3>\r\n\r\n<p>For the cost of a subway fare, you can take the Commuter Rail between Quincy Center Station and South Station. Subway and <strong>Zone 1A </strong>monthly passes are accepted. Just show your CharlieCard or CharlieTicket to the conductor.</p>\r\n\r\n<p><strong>Please note: </strong>If you are taking the Commuter Rail from Quincy Center outbound to Greenbush, Quincy Center is <strong>Zone 1</strong>. This ensures you get the <a href=\"/fares/commuter-rail/zone\">lowest interzone fare</a>.</p>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<h3><strong>Local Bus</strong></h3>\r\n\r\n<p>The <a href=\"https://www.mbta.com/schedules/210/line\">210</a>, <a href=\"https://www.mbta.com/schedules/211/line\">211</a>, and <a href=\"https://www.mbta.com/schedules/212/line\">212</a> run different routes between Quincy Center and North Quincy stations.</p>\r\n\r\n<p>The <a href=\"https://www.mbta.com/schedules/217/line\">217</a> runs between Quincy Center, North Quincy, and Ashmont stations.</p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<h2>What's happening at Wollaston Station?</h2>\r\n\r\n<p>On January 8, 2018, Wollaston Station on the Red Line closed to undergo improvements to make it a fully accessible, modern, and code-compliant station.</p>\r\n\r\n<p><a href=\"https://www.mbta.com/projects/wollaston-station-improvements\">Learn more about the Wollaston Station Improvements project {{ fa \"arrow-right\" }}</a></p>\r\n\r\n<p><a href=\"https://www.mbta.com/wollaston-email-updates\" target=\"_blank\">Sign up for email updates {{ fa \"arrow-right\" }}</a></p>\r\n",
+        "format": "full_html",
+        "processed": "<h2 id=\"top\">What's the bus shuttle schedule?</h2>\n\n<table><thead><tr><th scope=\"col\">Days</th>\n\t\t\t<th scope=\"col\">Shuttle Service</th>\n\t\t</tr></thead><tbody><tr><td>April 2 – May 3</td>\n\t\t\t<td>All day: <a href=\"#wollaston-shuttle\">Wollaston Shuttle</a></td>\n\t\t</tr><tr><td>May 4</td>\n\t\t\t<td>Before 9pm: <a href=\"#wollaston-shuttle\">Wollaston Shuttle</a><br />\n\t\t\tAfter 9pm: <a href=\"#braintree-branch-shuttle\">Braintree Branch Shuttle</a></td>\n\t\t</tr><tr><td>May 5 – 6</td>\n\t\t\t<td>All day: <a href=\"#braintree-branch-shuttle\">Braintree Branch Shuttle</a></td>\n\t\t</tr><tr><td>May 7 – 17</td>\n\t\t\t<td>All day: <a href=\"#wollaston-shuttle\">Wollaston Shuttle</a></td>\n\t\t</tr><tr><td>May 18</td>\n\t\t\t<td>Before 9pm: <a href=\"#wollaston-shuttle\">Wollaston Shuttle</a><br />\n\t\t\tAfter 9pm: <a href=\"#braintree-branch-shuttle\">Braintree Branch Shuttle</a></td>\n\t\t</tr><tr><td>May 19 – 20</td>\n\t\t\t<td>All day: <a href=\"#braintree-branch-shuttle\">Braintree Branch Shuttle</a></td>\n\t\t</tr></tbody></table><h2>Where are the shuttles right now?</h2>\n\n<p><a href=\"/wollaston-shuttles\" target=\"_blank\">{{ fa \"search-plus\" }} View larger map</a></p>\n\n<p><iframe class=\"shuttlemap iframe-full-width\" src=\"https://cdn.mbtace.com/shuttle-tracker/?hide_header=true\"></iframe></p>\n\n<h2 id=\"shuttle-stops\">Where are the shuttle stops around Wollaston?</h2>\n\n<div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<p><a href=\"https://www.google.com/maps/d/viewer?mid=15NlZkIkL7FZwLn22DvCUXUThtyYjdwdB&amp;ll=42.266796910884416%2C-71.01874031573874&amp;z=17\" target=\"_blank\">{{ fa \"search-plus\" }} View larger map</a></p>\n\n<p><iframe src=\"https://www.google.com/maps/d/embed?mid=15NlZkIkL7FZwLn22DvCUXUThtyYjdwdB\"></iframe></p>\n\n<p>Download an informational flyer:</p>\n\n<p><a href=\"/sites/default/files/2017-12/wollaston-diversion-english.pdf\">{{fa \"file-pdf-o\"}} English</a></p>\n\n<p><a href=\"/sites/default/files/2017-12/wollaston-diversion-simplified-chinese.pdf\">{{fa \"file-pdf-o\"}} Simplified Chinese (汉语)</a></p>\n\n<p><a href=\"/sites/default/files/2017-12/wollaston-diversion-traditional-chinese.pdf\">{{fa \"file-pdf-o\"}} Traditional Chinese (漢語)</a></p>\n\n<p><a href=\"/sites/default/files/2017-12/wollaston-diversion-vietnamese.pdf\">{{fa \"file-pdf-o\"}} Vietnamese (Tiếng Việt)</a></p>\n</div>\n\n<div class=\"col-md-6 col-2\">\n<p>There are 4 shuttle stops around Wollaston Station.</p>\n\n<p>The Wollaston Branch Library stop serves both inbound and outbound directions<span class=\"st\">, </span>so for many customers, it's the fastest way to reach the Red Line.</p>\n\n<h4>Shuttle stops inbound to North Quincy:</h4>\n\n<ul><li>Wollaston Branch Library</li>\n\t<li>Wollaston Station</li>\n</ul><h4>Shuttle stops outbound to Quincy Center:</h4>\n\n<ul><li>Wollaston Branch Library</li>\n\t<li>Hancock St at Woodbine St</li>\n\t<li>Newport Ave at Beale St</li>\n</ul></div>\n</div>\n\n<hr /><h2 id=\"weekdays\">When will bus shuttles replace Red Line service?</h2>\n\n<div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<p><img alt=\"A white Yankee coach on the right, along the sidewalk by a bus shelter. An MBTA worker in a neon vest stands nearby.\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"1000\" src=\"/sites/default/files/projects/wollaston-bus-shuttle-yankee.jpg\" width=\"1348\" /></p>\n</div>\n\n<div class=\"col-md-6 col-2\">\n<p><img alt=\"New bus shelter with snow in the background.\" data-entity-type=\"\" data-entity-uuid=\"\" src=\"/sites/default/files/projects/wollaston-bus-shelter.jpg\" width=\"100%\" /></p>\n</div>\n</div>\n\n<p>All shuttles are free and accessible to people with disabilities.</p>\n\n<h3 id=\"wollaston-shuttle\">Wollaston Shuttle</h3>\n\n<p><img alt=\"Diversion graphic showing the Red Line, with Wollaston omitted and shown along a black dotted line underneath the Red Line, signifying bus shuttles running from North Quincy and Quincy Center Stations, stopping at Wollaston.\" data-entity-type=\"\" data-entity-uuid=\"\" src=\"/sites/default/files/projects/wollaston-diversion.jpg\" width=\"100%\" /></p>\n\n<p><strong>Please note: </strong>Red Line trains will bypass Wollaston Station but will continue to make stops at all stations on the Braintree branch.</p>\n\n<p>Bus shuttles will operate between North Quincy, Wollaston, and Quincy Center stations.</p>\n\n<p>Shuttles will run:</p>\n\n<ul><li>Every 10 minutes during weekday rush-hour service</li>\n\t<li>Every 15 minutes during weekday non-rush-hour service and on weekends</li>\n</ul><p>View live locations of shuttles at <strong> <a href=\"/wollaston-shuttles\">mbta.com/wollaston-shuttles</a></strong>.</p>\n\n<p><a href=\"/wollaston#top\">Return to top</a></p>\n\n<p><a id=\"nights-weekends\"></a></p>\n\n<h3 id=\"braintree-branch-shuttle\">Braintree Branch Shuttle</h3>\n\n<p><img alt=\"Diversion graphic showing the Red Line stopping at North Quincy station, following by a black dotted line to signify bus shuttles running from North Quincy to Braintree.\" data-entity-type=\"\" data-entity-uuid=\"\" src=\"/sites/default/files/projects/wollaston-shuttle-north-quincy-to-braintree.jpg\" width=\"100%\" /></p>\n\n<p>Bus shuttles will replace Red Line train service between North Quincy and Braintree stations some weeknights after 9 PM and some weekends.</p>\n\n<p>Shuttles will run every 15 minutes.</p>\n\n<p>View live locations of shuttles at <strong> <a href=\"/wollaston-shuttles\">mbta.com/wollaston-shuttles</a></strong>.</p>\n\n<p><a href=\"/wollaston#top\">Return to top</a></p>\n\n<h2 id=\"commuter-rail\">When will bus shuttles replace Commuter Rail service?</h2>\n\n<p><img alt=\"wollaston-commuter-rail-graphic.png\" data-entity-type=\"\" data-entity-uuid=\"\" height=\"806\" src=\"/sites/default/files/projects/wollaston/wollaston-commuter-rail-graphic.png\" width=\"2513\" /></p>\n\n<h4>{{ mbta-circle-icon \"commuter-rail\" }} Greenbush, Kingston/Plymouth, Middleborough/Lakeville Lines</h4>\n\n<div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<p>Bus shuttles will replace Commuter Rail service between Braintree and South Station, connecting with the Red Line at North Quincy Station, during some weekends.</p>\n\n<p>Cape Flyer service will not be affected.</p>\n</div>\n\n<div class=\"col-md-6 col-2\">\n<p>Currently scheduled weekends are:</p>\n\n<ul><li>May 5 – 6</li>\n\t<li>May 19 – 20</li>\n\t<li>September 8 – 9</li>\n\t<li>September 15 – 16</li>\n\t<li>September 22 – 23</li>\n</ul></div>\n</div>\n\n<hr /><h2>Where can I find parking?</h2>\n\n<div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<h3>Cars</h3>\n\n<p>423 parking spaces will be available at Wollaston Station during the closure.</p>\n\n<p>125 additional parking spaces are available at North Quincy Station in the Newport Ave parking lot. <a href=\"https://www.google.com/maps/dir/Wollaston+Station,+Woodbine+St,+Quincy,+MA/42.2758095,-71.0310517/@42.2723719,-71.0298326,16.36z/am=t/data=!4m10!4m9!1m5!1m1!1s0x89e37ca6d19cb111:0x428f738144b41f5d!2m2!1d-71.0196415!2d42.2668041!1m0!3e0!5i1\" target=\"_blank\">See directions from Wollaston Station to the Newport Ave. parking lot</a>.</p>\n\n<p>Parking availability at Quincy Adams and Braintree stations will be tweeted every 30 minutes weekdays between 6 AM and 8 AM. Follow <a href=\"https://www.twitter.com/MBTA\">@MBTA</a> for updates.</p>\n</div>\n\n<div class=\"col-md-6 col-2\">\n<h3>Bikes</h3>\n\n<p>Additional bike parking will be available at Quincy Center Station and the West Squantum St entrance of North Quincy Station as space permits.</p>\n</div>\n</div>\n\n<hr /><h2>Are there any alternate transportation options?</h2>\n\n<div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<h3>Commuter Rail</h3>\n\n<p>For the cost of a subway fare, you can take the Commuter Rail between Quincy Center Station and South Station. Subway and <strong>Zone 1A </strong>monthly passes are accepted. Just show your CharlieCard or CharlieTicket to the conductor.</p>\n\n<p><strong>Please note: </strong>If you are taking the Commuter Rail from Quincy Center outbound to Greenbush, Quincy Center is <strong>Zone 1</strong>. This ensures you get the <a href=\"/fares/commuter-rail/zone\">lowest interzone fare</a>.</p>\n</div>\n\n<div class=\"col-md-6 col-2\">\n<h3><strong>Local Bus</strong></h3>\n\n<p>The <a href=\"https://www.mbta.com/schedules/210/line\">210</a>, <a href=\"https://www.mbta.com/schedules/211/line\">211</a>, and <a href=\"https://www.mbta.com/schedules/212/line\">212</a> run different routes between Quincy Center and North Quincy stations.</p>\n\n<p>The <a href=\"https://www.mbta.com/schedules/217/line\">217</a> runs between Quincy Center, North Quincy, and Ashmont stations.</p>\n</div>\n</div>\n\n<hr /><h2>What's happening at Wollaston Station?</h2>\n\n<p>On January 8, 2018, Wollaston Station on the Red Line closed to undergo improvements to make it a fully accessible, modern, and code-compliant station.</p>\n\n<p><a href=\"https://www.mbta.com/projects/wollaston-station-improvements\">Learn more about the Wollaston Station Improvements project {{ fa \"arrow-right\" }}</a></p>\n\n<p><a href=\"https://www.mbta.com/wollaston-email-updates\" target=\"_blank\">Sign up for email updates {{ fa \"arrow-right\" }}</a></p>\n",
+        "summary": ""
+      }
+    ],
+    "field_keywords": [],
+    "field_page_type": [],
+    "field_paragraphs": [],
+    "field_photo_gallery": [],
+    "field_posted_on": [
+      {
+        "value": "2018-04-02"
+      }
+    ],
+    "field_project": [
+      {
+        "target_id": 3004,
+        "target_type": "node",
+        "target_uuid": "6c72a458-6158-4080-9282-52387841237e",
+        "url": "/node/3004"
+      }
+    ],
+    "field_related_transit": [],
+    "field_teaser": [
+      {
+        "value": "On January 8, Wollaston Station on the Red Line closed to undergo improvements to make it a fully accessible, modern, and code-compliant station. Bus shuttle service is running."
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3174
+      }
+    ],
+    "uuid": [
+      {
+        "value": "be7206d4-626d-4fb3-8937-8a95ec90004b"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10111
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project_update",
+        "target_type": "node_type",
+        "target_uuid": "5d44d0a5-a17b-409b-b222-58c333623cbd"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522673723
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Construction 1-Week Look Ahead"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1512411500
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522179779
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": false
+      }
+    ],
+    "path": [
+      {
+        "alias": "/projects/project-name/update/project-progress",
+        "pid": 3344,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p><img alt=\"Wollaston Station with a banner that says, 'The New Wollaston Station Arriving 2019.' Fencing blocks off the station to passengers. There is also a smaller sign that says 'Closed for Renovation.'\" data-entity-type=\"\" data-entity-uuid=\"\" src=\"/sites/default/files/projects/wollaston-station-construction.jpg\" width=\"100%\" /></p>\r\n\r\n<h2>Overview</h2>\r\n\r\n<p>Wollaston Station on the Red Line closed for renovation on Monday, January 8, 2018.</p>\r\n\r\n<p><a href=\"https://www.mbta.com/projects/wollaston-station/project-updates/how-the-wollaston-station-improvements-affect-your-trip\">Find out how the Wollaston Station closure will affect your trip {{ fa \"arrow-right }}</a></p>\r\n\r\n<h2>Construction Activities: April 2 – 6</h2>\r\n\r\n<p>The MBTA's contractor, <a href=\"http://www.lmheavycivil.com/\" target=\"_blank\">LM Heavy Civil Construction</a>, is working at Wollaston and Quincy Center stations in 2 shifts:</p>\r\n\r\n<ul>\r\n\t<li><strong>Day shift:</strong> 7 AM – 3:30 PM</li>\r\n\t<li><strong>Night shift:</strong> 9 PM – 5 AM</li>\r\n</ul>\r\n\r\n<hr />\r\n<h3>Wollaston</h3>\r\n\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<h4>Day Shift</h4>\r\n\r\n<ul>\r\n\t<li>Watermain pressure testing and valve work</li>\r\n\t<li>Stockpile and remove soils</li>\r\n\t<li>Waterproofing of escalator and elevator pits</li>\r\n\t<li>Continue slab demolition</li>\r\n\t<li>Complete sewer and storm drain work</li>\r\n\t<li>Station platform footings and carpentry</li>\r\n\t<li>On Newport Ave drill mini-piles/traffic set-ups as needed</li>\r\n\t<li>Mobilize drill rigs at headhouse</li>\r\n\t<li>Install mini-piles/drilling and grouting near headhouse</li>\r\n\t<li>Underpinning (strengthening the foundation) at Stair 6</li>\r\n\t<li>Cut site structures to sub-grade elevation</li>\r\n</ul>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<h4>Night Shift</h4>\r\n\r\n<p>None</p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<h3>Quincy Center</h3>\r\n\r\n<div class=\"row two-col\">\r\n<div class=\"col-md-6 col-1\">\r\n<h4>Day Shift</h4>\r\n\r\n<ul>\r\n\t<li>Continue to realign temporary busway/transfer buses to new busway</li>\r\n\t<li>Set-up construction work zone around garage building</li>\r\n\t<li>Mobilize large crane</li>\r\n\t<li>Continue to install shielding system around garage building to protect public from demolition debris</li>\r\n\t<li>Plumbing and standpipe work</li>\r\n\t<li>Electrical work, including lighting, security cameras, wire start booth and busway</li>\r\n\t<li>Elevator Control Room masonry work</li>\r\n\t<li>Continue concrete repairs</li>\r\n\t<li>Continue Burgin Parkway work zone activities for protective shielding system</li>\r\n\t<li>Mobilize for new accessible walkway</li>\r\n\t<li>See <a href=\"/wollaston-station-improvements/update/construction-update-demolition-quincy-center-garage\">Construction Update: Demolition of Quincy Center Garage</a></li>\r\n</ul>\r\n</div>\r\n\r\n<div class=\"col-md-6 col-2\">\r\n<h4>Night Shift</h4>\r\n\r\n<p>The following activities will create noise and may be disruptive. Please email <a href=\"mailto:wollaston@mbta.com\">wollaston@mbta.com</a> with any concerns.</p>\r\n\r\n<ul>\r\n\t<li>Demolish existing bus canopy</li>\r\n\t<li>Erect a protective canopy at Burgin Pkwy and Hancock St pedestrian entrances to the station</li>\r\n</ul>\r\n</div>\r\n</div>\r\n",
+        "format": "full_html",
+        "processed": "<p><img alt=\"Wollaston Station with a banner that says, 'The New Wollaston Station Arriving 2019.' Fencing blocks off the station to passengers. There is also a smaller sign that says 'Closed for Renovation.'\" data-entity-type=\"\" data-entity-uuid=\"\" src=\"/sites/default/files/projects/wollaston-station-construction.jpg\" width=\"100%\" /></p>\n\n<h2>Overview</h2>\n\n<p>Wollaston Station on the Red Line closed for renovation on Monday, January 8, 2018.</p>\n\n<p><a href=\"https://www.mbta.com/projects/wollaston-station/project-updates/how-the-wollaston-station-improvements-affect-your-trip\">Find out how the Wollaston Station closure will affect your trip {{ fa \"arrow-right }}</a></p>\n\n<h2>Construction Activities: April 2 – 6</h2>\n\n<p>The MBTA's contractor, <a href=\"http://www.lmheavycivil.com/\" target=\"_blank\">LM Heavy Civil Construction</a>, is working at Wollaston and Quincy Center stations in 2 shifts:</p>\n\n<ul><li><strong>Day shift:</strong> 7 AM – 3:30 PM</li>\n\t<li><strong>Night shift:</strong> 9 PM – 5 AM</li>\n</ul><hr /><h3>Wollaston</h3>\n\n<div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<h4>Day Shift</h4>\n\n<ul><li>Watermain pressure testing and valve work</li>\n\t<li>Stockpile and remove soils</li>\n\t<li>Waterproofing of escalator and elevator pits</li>\n\t<li>Continue slab demolition</li>\n\t<li>Complete sewer and storm drain work</li>\n\t<li>Station platform footings and carpentry</li>\n\t<li>On Newport Ave drill mini-piles/traffic set-ups as needed</li>\n\t<li>Mobilize drill rigs at headhouse</li>\n\t<li>Install mini-piles/drilling and grouting near headhouse</li>\n\t<li>Underpinning (strengthening the foundation) at Stair 6</li>\n\t<li>Cut site structures to sub-grade elevation</li>\n</ul></div>\n\n<div class=\"col-md-6 col-2\">\n<h4>Night Shift</h4>\n\n<p>None</p>\n</div>\n</div>\n\n<hr /><h3>Quincy Center</h3>\n\n<div class=\"row two-col\">\n<div class=\"col-md-6 col-1\">\n<h4>Day Shift</h4>\n\n<ul><li>Continue to realign temporary busway/transfer buses to new busway</li>\n\t<li>Set-up construction work zone around garage building</li>\n\t<li>Mobilize large crane</li>\n\t<li>Continue to install shielding system around garage building to protect public from demolition debris</li>\n\t<li>Plumbing and standpipe work</li>\n\t<li>Electrical work, including lighting, security cameras, wire start booth and busway</li>\n\t<li>Elevator Control Room masonry work</li>\n\t<li>Continue concrete repairs</li>\n\t<li>Continue Burgin Parkway work zone activities for protective shielding system</li>\n\t<li>Mobilize for new accessible walkway</li>\n\t<li>See <a href=\"/wollaston-station-improvements/update/construction-update-demolition-quincy-center-garage\">Construction Update: Demolition of Quincy Center Garage</a></li>\n</ul></div>\n\n<div class=\"col-md-6 col-2\">\n<h4>Night Shift</h4>\n\n<p>The following activities will create noise and may be disruptive. Please email <a href=\"mailto:wollaston@mbta.com\">wollaston@mbta.com</a> with any concerns.</p>\n\n<ul><li>Demolish existing bus canopy</li>\n\t<li>Erect a protective canopy at Burgin Pkwy and Hancock St pedestrian entrances to the station</li>\n</ul></div>\n</div>\n",
+        "summary": ""
+      }
+    ],
+    "field_keywords": [],
+    "field_page_type": [],
+    "field_paragraphs": [],
+    "field_photo_gallery": [],
+    "field_posted_on": [
+      {
+        "value": "2018-03-31"
+      }
+    ],
+    "field_project": [
+      {
+        "target_id": 3004,
+        "target_type": "node",
+        "target_uuid": "6c72a458-6158-4080-9282-52387841237e",
+        "url": "/node/3004"
+      }
+    ],
+    "field_related_transit": [],
+    "field_teaser": [
+      {
+        "value": "The MBTA's contractor, LM Heavy Civil Construction, is working at Wollaston and Quincy Center Stations."
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3465
+      }
+    ],
+    "uuid": [
+      {
+        "value": "9eb2cc5f-c828-47cc-9ee3-baac9ef72c18"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10100
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project_update",
+        "target_type": "node_type",
+        "target_uuid": "5d44d0a5-a17b-409b-b222-58c333623cbd"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522433993
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Construction Update: Demolition of Quincy Center Garage Underway"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1520460188
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522433993
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": false
+      }
+    ],
+    "path": [
+      {
+        "alias": "/projects/wollaston-station-improvements/update/construction-update-demolition-quincy-center-garage",
+        "pid": 3517,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p><iframe src=\"https://www.google.com/maps/d/embed?mid=1B9KTA4ze2EdYqpgiiPU6PwMkAZff902O\"></iframe></p>\r\n\r\n<p><a href=\"https://www.google.com/maps/d/viewer?mid=1B9KTA4ze2EdYqpgiiPU6PwMkAZff902O&amp;usp=sharing\" target=\"_blank\">{{fa \"search-plus\"}} View larger map</a></p>\r\n\r\n<p>Temporary relocation of the busway, including new bus shelters adjacent to Quincy Center Station, signal the start of the long-awaited demolition phase of the Quincy Center Garage. Built in 1971, the 5-story reinforced concrete parking structure was closed in 2012.</p>\r\n\r\n<h2>Work Shifts</h2>\r\n\r\n<p>Construction activities will occur in 3 shifts and are expected to continue for 3 months:</p>\r\n\r\n<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\">\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th scope=\"col\">Shift</th>\r\n\t\t\t<th scope=\"col\">Time Period</th>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td>Day shift</td>\r\n\t\t\t<td>Monday – Friday, 7 AM – 3:30 PM</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>Night shift</td>\r\n\t\t\t<td>Sunday – Friday, 9 PM – 5 AM</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td>Weekend shift</td>\r\n\t\t\t<td>Friday 9 PM – Sunday 4 AM</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n\r\n<h2>Public Safety</h2>\r\n\r\n<p>MBTA Contractors have begun to install a shielding system (including new steel header beams, hardwood timber, and shipping containers—some double stacked) to protect the public from debris.</p>\r\n\r\n<p>During daytime demolition work, Quincy Center MBTA and Commuter Rail Stations will remain open to passengers, with clearly designated work zones to ensure public safety.</p>\r\n\r\n<p>To safely demolish parts of the structure closest to the railroad right-of-way, night and weekend work is expected to occur during the following dates:</p>\r\n\r\n<ul>\r\n\t<li>Night work: April 3 – 13</li>\r\n\t<li>Weekend work: May 5 – 6 and May 19 – 20</li>\r\n</ul>\r\n\r\n<p>During these nights and weekends, the station will be fully closed, and <a href=\"/projects/wollaston-station-improvements/update/how-the-wollaston-station-closure-affects-your-trip\">bus shuttle service</a> will be in operation.</p>\r\n\r\n<h2>Noise</h2>\r\n\r\n<p>Demolition work requires the use of large construction equipment, including cranes, dump trucks, pile driving machines, and mechanical hammers.</p>\r\n\r\n<p>The project team is aware that construction noise is an issue for the immediate neighbors and have worked with the contractors on noise mitigation measures, such as:</p>\r\n\r\n<ul>\r\n\t<li>Disarming back-up alarms and substituting the alarms with staff to safely move equipment on the site during the night shift</li>\r\n\t<li>Identifying newer equipment and procedures that should reduce the noise and vibration generated from our work</li>\r\n</ul>\r\n\r\n<h2>Contact</h2>\r\n\r\n<p>We understand this garage demolition will be difficult for abutters and a disruption to passengers. We apologize for the adverse but temporary impacts as we work to bring much needed Red Line improvements to Quincy.</p>\r\n\r\n<p>If you have questions or concerns, please contact the project team at <a href=\"mailto:wollaston@mbta.com\">wollaston@mbta.com</a>.</p>\r\n\r\n<h2>Downloads</h2>\r\n\r\n<p>Download a PDF version of the above information:</p>\r\n\r\n<p><a href=\"/sites/default/files/projects/wollaston/quincy-center-demolition-english.pdf\">{{fa \"file-pdf-o\"}} English</a></p>\r\n\r\n<p><a href=\"/sites/default/files/projects/wollaston/quincy-center-demolition-simplified-chinese.pdf\">{{fa \"file-pdf-o\"}} Simplified Chinese (汉语)</a></p>\r\n\r\n<p><a href=\"/sites/default/files/projects/wollaston/quincy-center-demolition-traditional-chinese.pdf\">{{fa \"file-pdf-o\"}} Traditional Chinese (漢語)</a></p>\r\n\r\n<p><a href=\"/sites/default/files/projects/wollaston/quincy-center-demolition-vietnamese.pdf\">{{fa \"file-pdf-o\"}} Vietnamese (Tiếng Việt)</a></p>\r\n",
+        "format": "full_html",
+        "processed": "<p><iframe src=\"https://www.google.com/maps/d/embed?mid=1B9KTA4ze2EdYqpgiiPU6PwMkAZff902O\"></iframe></p>\n\n<p><a href=\"https://www.google.com/maps/d/viewer?mid=1B9KTA4ze2EdYqpgiiPU6PwMkAZff902O&amp;usp=sharing\" target=\"_blank\">{{fa \"search-plus\"}} View larger map</a></p>\n\n<p>Temporary relocation of the busway, including new bus shelters adjacent to Quincy Center Station, signal the start of the long-awaited demolition phase of the Quincy Center Garage. Built in 1971, the 5-story reinforced concrete parking structure was closed in 2012.</p>\n\n<h2>Work Shifts</h2>\n\n<p>Construction activities will occur in 3 shifts and are expected to continue for 3 months:</p>\n\n<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\"><thead><tr><th scope=\"col\">Shift</th>\n\t\t\t<th scope=\"col\">Time Period</th>\n\t\t</tr></thead><tbody><tr><td>Day shift</td>\n\t\t\t<td>Monday – Friday, 7 AM – 3:30 PM</td>\n\t\t</tr><tr><td>Night shift</td>\n\t\t\t<td>Sunday – Friday, 9 PM – 5 AM</td>\n\t\t</tr><tr><td>Weekend shift</td>\n\t\t\t<td>Friday 9 PM – Sunday 4 AM</td>\n\t\t</tr></tbody></table><h2>Public Safety</h2>\n\n<p>MBTA Contractors have begun to install a shielding system (including new steel header beams, hardwood timber, and shipping containers—some double stacked) to protect the public from debris.</p>\n\n<p>During daytime demolition work, Quincy Center MBTA and Commuter Rail Stations will remain open to passengers, with clearly designated work zones to ensure public safety.</p>\n\n<p>To safely demolish parts of the structure closest to the railroad right-of-way, night and weekend work is expected to occur during the following dates:</p>\n\n<ul><li>Night work: April 3 – 13</li>\n\t<li>Weekend work: May 5 – 6 and May 19 – 20</li>\n</ul><p>During these nights and weekends, the station will be fully closed, and <a href=\"/projects/wollaston-station-improvements/update/how-the-wollaston-station-closure-affects-your-trip\">bus shuttle service</a> will be in operation.</p>\n\n<h2>Noise</h2>\n\n<p>Demolition work requires the use of large construction equipment, including cranes, dump trucks, pile driving machines, and mechanical hammers.</p>\n\n<p>The project team is aware that construction noise is an issue for the immediate neighbors and have worked with the contractors on noise mitigation measures, such as:</p>\n\n<ul><li>Disarming back-up alarms and substituting the alarms with staff to safely move equipment on the site during the night shift</li>\n\t<li>Identifying newer equipment and procedures that should reduce the noise and vibration generated from our work</li>\n</ul><h2>Contact</h2>\n\n<p>We understand this garage demolition will be difficult for abutters and a disruption to passengers. We apologize for the adverse but temporary impacts as we work to bring much needed Red Line improvements to Quincy.</p>\n\n<p>If you have questions or concerns, please contact the project team at <a href=\"mailto:wollaston@mbta.com\">wollaston@mbta.com</a>.</p>\n\n<h2>Downloads</h2>\n\n<p>Download a PDF version of the above information:</p>\n\n<p><a href=\"/sites/default/files/projects/wollaston/quincy-center-demolition-english.pdf\">{{fa \"file-pdf-o\"}} English</a></p>\n\n<p><a href=\"/sites/default/files/projects/wollaston/quincy-center-demolition-simplified-chinese.pdf\">{{fa \"file-pdf-o\"}} Simplified Chinese (汉语)</a></p>\n\n<p><a href=\"/sites/default/files/projects/wollaston/quincy-center-demolition-traditional-chinese.pdf\">{{fa \"file-pdf-o\"}} Traditional Chinese (漢語)</a></p>\n\n<p><a href=\"/sites/default/files/projects/wollaston/quincy-center-demolition-vietnamese.pdf\">{{fa \"file-pdf-o\"}} Vietnamese (Tiếng Việt)</a></p>\n",
+        "summary": ""
+      }
+    ],
+    "field_keywords": [],
+    "field_page_type": [],
+    "field_paragraphs": [],
+    "field_photo_gallery": [],
+    "field_posted_on": [
+      {
+        "value": "2018-03-30"
+      }
+    ],
+    "field_project": [
+      {
+        "target_id": 3480,
+        "target_type": "node",
+        "target_uuid": "6c72a458-6158-4080-9282-52387841237e",
+        "url": "/node/3480"
+      }
+    ],
+    "field_related_transit": [],
+    "field_teaser": [
+      {
+        "value": "Construction activities are expected to continue for 3 months. During demolition, Quincy Center MBTA and Commuter Rail Stations will remain open to passengers with clearly designated work zones to ensure public safety."
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3065
+      }
+    ],
+    "uuid": [
+      {
+        "value": "11396e1c-d64b-48f6-b086-42044285790f"
+      }
+    ],
+    "vid": [
+      {
+        "value": 10080
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project_update",
+        "target_type": "node_type",
+        "target_uuid": "5d44d0a5-a17b-409b-b222-58c333623cbd"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1522358588
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "PTC Program Updates"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 17,
+        "target_type": "user",
+        "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+        "url": "/user/17"
+      }
+    ],
+    "created": [
+      {
+        "value": 1508749823
+      }
+    ],
+    "changed": [
+      {
+        "value": 1522358588
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": false
+      }
+    ],
+    "path": [
+      {
+        "alias": "/projects/commuter-rail-positive-train-control-ptc/update/ptc-program-updates",
+        "pid": 3305,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p>All activities along the commuter rail lines listed below are within the MBTA right-of-way. This schedule is a projection for planned PTC activities in the weeks ahead and is subject to change.</p>\r\n\r\n<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\">\r\n\t<thead>\r\n\t\t<tr>\r\n\t\t\t<th scope=\"col\">Commuter Rail Line</th>\r\n\t\t\t<th scope=\"col\">Ongoing PTC Activities</th>\r\n\t\t</tr>\r\n\t</thead>\r\n\t<tbody>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Fairmount\">Fairmount</a></td>\r\n\t\t\t<td>None</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Fitchburg\">Fitchburg</a></td>\r\n\t\t\t<td>Day and night operations</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Worcester\">Framingham/Worcester</a></td>\r\n\t\t\t<td>Day operations</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Franklin\">Franklin</a></td>\r\n\t\t\t<td>Day and night operations</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Greenbush\">Greenbush</a></td>\r\n\t\t\t<td>Day operations; rock drilling rescheduled for April 4 in East Braintree</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Haverhill\">Haverhill</a></td>\r\n\t\t\t<td>None</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Kingston\">Kingston/Plymouth</a></td>\r\n\t\t\t<td>None</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Lowell\">Lowell</a></td>\r\n\t\t\t<td>Night operations; overnight test trains will run Sunday through Thursday</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Middleborough\">Middleborough/Lakeville</a></td>\r\n\t\t\t<td>None</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Needham\">Needham</a></td>\r\n\t\t\t<td>Day operations</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Newburyport\">Newburyport/Rockport</a></td>\r\n\t\t\t<td>Day operations</td>\r\n\t\t</tr>\r\n\t\t<tr>\r\n\t\t\t<td><a href=\"/schedules/CR-Providence\">Providence/Stoughton</a></td>\r\n\t\t\t<td>Day and night operations; test trains will run on the Stoughton branch on Saturday, March 31 during the dayime</td>\r\n\t\t</tr>\r\n\t</tbody>\r\n</table>\r\n",
+        "format": "full_html",
+        "processed": "<p>All activities along the commuter rail lines listed below are within the MBTA right-of-way. This schedule is a projection for planned PTC activities in the weeks ahead and is subject to change.</p>\n\n<table border=\"1\" cellpadding=\"1\" cellspacing=\"1\" style=\"width: 500px;\"><thead><tr><th scope=\"col\">Commuter Rail Line</th>\n\t\t\t<th scope=\"col\">Ongoing PTC Activities</th>\n\t\t</tr></thead><tbody><tr><td><a href=\"/schedules/CR-Fairmount\">Fairmount</a></td>\n\t\t\t<td>None</td>\n\t\t</tr><tr><td><a href=\"/schedules/CR-Fitchburg\">Fitchburg</a></td>\n\t\t\t<td>Day and night operations</td>\n\t\t</tr><tr><td><a href=\"/schedules/CR-Worcester\">Framingham/Worcester</a></td>\n\t\t\t<td>Day operations</td>\n\t\t</tr><tr><td><a href=\"/schedules/CR-Franklin\">Franklin</a></td>\n\t\t\t<td>Day and night operations</td>\n\t\t</tr><tr><td><a href=\"/schedules/CR-Greenbush\">Greenbush</a></td>\n\t\t\t<td>Day operations; rock drilling rescheduled for April 4 in East Braintree</td>\n\t\t</tr><tr><td><a href=\"/schedules/CR-Haverhill\">Haverhill</a></td>\n\t\t\t<td>None</td>\n\t\t</tr><tr><td><a href=\"/schedules/CR-Kingston\">Kingston/Plymouth</a></td>\n\t\t\t<td>None</td>\n\t\t</tr><tr><td><a href=\"/schedules/CR-Lowell\">Lowell</a></td>\n\t\t\t<td>Night operations; overnight test trains will run Sunday through Thursday</td>\n\t\t</tr><tr><td><a href=\"/schedules/CR-Middleborough\">Middleborough/Lakeville</a></td>\n\t\t\t<td>None</td>\n\t\t</tr><tr><td><a href=\"/schedules/CR-Needham\">Needham</a></td>\n\t\t\t<td>Day operations</td>\n\t\t</tr><tr><td><a href=\"/schedules/CR-Newburyport\">Newburyport/Rockport</a></td>\n\t\t\t<td>Day operations</td>\n\t\t</tr><tr><td><a href=\"/schedules/CR-Providence\">Providence/Stoughton</a></td>\n\t\t\t<td>Day and night operations; test trains will run on the Stoughton branch on Saturday, March 31 during the dayime</td>\n\t\t</tr></tbody></table>",
+        "summary": ""
+      }
+    ],
+    "field_keywords": [],
+    "field_page_type": [],
+    "field_paragraphs": [],
+    "field_photo_gallery": [],
+    "field_posted_on": [
+      {
+        "value": "2018-03-29"
+      }
+    ],
+    "field_project": [
+      {
+        "target_id": 3064,
+        "target_type": "node",
+        "target_uuid": "800556bb-2f92-4b9f-a5cb-d0ea0969b770",
+        "url": "/projects/commuter-rail-positive-train-control-ptc"
+      }
+    ],
+    "field_related_transit": [],
+    "field_teaser": [
+      {
+        "value": "Several lines are affected by day and night operations."
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 3412
+      }
+    ],
+    "uuid": [
+      {
+        "value": "1ac4376d-7ab1-46d7-b079-9c50d0403aed"
+      }
+    ],
+    "vid": [
+      {
+        "value": 9818
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project_update",
+        "target_type": "node_type",
+        "target_uuid": "5d44d0a5-a17b-409b-b222-58c333623cbd"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1521733484
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "Sewer Work Construction Activities"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1517857273
+      }
+    ],
+    "changed": [
+      {
+        "value": 1521733484
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [
+      {
+        "value": true
+      }
+    ],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": false
+      }
+    ],
+    "path": [
+      {
+        "alias": "/projects/wollaston-station-improvements/update/sewer-work-construction-activities",
+        "pid": 3468,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<p><iframe height=\"480\" src=\"https://www.google.com/maps/d/u/0/embed?mid=13iE_uolL4GKK07o-PhAYGp1I-PhKRLKk\" width=\"640\"></iframe></p>\r\n\r\n<h2>Overview</h2>\r\n\r\n<p>As part of the <a href=\"/projects/wollaston-station-improvements\">Wollaston Station Improvement Project</a>, a temporary surface sewer line will be placed in the roadway during a relining of an existing sewer line that runs along Brook St, across Newport Ave, and under the existing Wollaston Red Line Station.</p>\r\n\r\n<p>The sewer work is expected to take 2 weeks and is scheduled for February, as weather allows. <strong>There will be no interruption of sewer service to homes or businesses in the area.</strong></p>\r\n\r\n<p>The anticipated schedule for<strong> March 26 – 31</strong> is:</p>\r\n\r\n<ul>\r\n\t<li>The contractor will place surface pipes along the route shown in <strong>dark red</strong> on the map.</li>\r\n\t<li>The temporary by-pass pipes will be laid in the street along the curb in some locations, like Newport Ave. The pipes will be placed in a trench and covered.</li>\r\n\t<li>For safety reasons, a pedestrian security fence will be placed on the first block of Brook St. on the north side of the street, shown in <strong>orange</strong> on the map.</li>\r\n\t<li>The contractor will set up 2 large diesel pumps at the corner of Brook St and Arlington St, using 3 parking spaces.</li>\r\n\t<li>Access to the sewer will be through existing manholes on Newport Ave, Brook St, and in the Wollaston parking lot, east of the station.</li>\r\n\t<li>Traffic lanes will be redirected around the manholes on Newport Ave and Brook St while the liner is being installed.</li>\r\n\t<li>Once the heating of the fiberglass liner begins, the process must continue until the pipe is cured. This takes 24 – 36 hours.</li>\r\n</ul>\r\n\r\n<h2>What to Expect</h2>\r\n\r\n<p>Neighbors can expect construction noise from the generators, and there may be some odors from heated resin or sewerage.</p>\r\n\r\n<p>The lining process is scheduled for <strong>Wednesday night, March 28 to Friday, March 30</strong>, but the date may change. Once the work is complete, the by-pass pipes, pumps, and other construction materials will be removed from the area.</p>\r\n\r\n<p>We apologize in advance for the disruption and thank you for your patience. If you have questions or concerns, please contact the project team at <a href=\"mailto:wollaston@mbta.com\">wollaston@mbta.com</a>.</p>\r\n\r\n<h2>Downloads</h2>\r\n\r\n<p><a href=\"/sites/default/files/projects/wollaston-sewer-bypass-advisory-feb2018-english.pdf\">{{ fa \"file-pdf-o\" }} English</a></p>\r\n\r\n<p><a href=\"/sites/default/files/projects/wollaston-sewer-bypass-advisory-feb2018-chinese-simplified.pdf\">{{ fa \"file-pdf-o\" }} Simplified Chinese (汉语)</a></p>\r\n\r\n<p><a href=\"/sites/default/files/projects/wollaston-sewer-bypass-advisory-feb2018-chinese-traditional.pdf\">{{ fa \"file-pdf-o\" }} Traditional Chinese (漢語)</a></p>\r\n\r\n<p><a href=\"/sites/default/files/projects/wollaston-sewer-bypass-advisory-feb2018-vietnamese.pdf\">{{ fa \"file-pdf-o\" }} Vietnamese (Tiếng Việt)</a></p>\r\n",
+        "format": "full_html",
+        "processed": "<p><iframe height=\"480\" src=\"https://www.google.com/maps/d/u/0/embed?mid=13iE_uolL4GKK07o-PhAYGp1I-PhKRLKk\" width=\"640\"></iframe></p>\n\n<h2>Overview</h2>\n\n<p>As part of the <a href=\"/projects/wollaston-station-improvements\">Wollaston Station Improvement Project</a>, a temporary surface sewer line will be placed in the roadway during a relining of an existing sewer line that runs along Brook St, across Newport Ave, and under the existing Wollaston Red Line Station.</p>\n\n<p>The sewer work is expected to take 2 weeks and is scheduled for February, as weather allows. <strong>There will be no interruption of sewer service to homes or businesses in the area.</strong></p>\n\n<p>The anticipated schedule for<strong> March 26 – 31</strong> is:</p>\n\n<ul><li>The contractor will place surface pipes along the route shown in <strong>dark red</strong> on the map.</li>\n\t<li>The temporary by-pass pipes will be laid in the street along the curb in some locations, like Newport Ave. The pipes will be placed in a trench and covered.</li>\n\t<li>For safety reasons, a pedestrian security fence will be placed on the first block of Brook St. on the north side of the street, shown in <strong>orange</strong> on the map.</li>\n\t<li>The contractor will set up 2 large diesel pumps at the corner of Brook St and Arlington St, using 3 parking spaces.</li>\n\t<li>Access to the sewer will be through existing manholes on Newport Ave, Brook St, and in the Wollaston parking lot, east of the station.</li>\n\t<li>Traffic lanes will be redirected around the manholes on Newport Ave and Brook St while the liner is being installed.</li>\n\t<li>Once the heating of the fiberglass liner begins, the process must continue until the pipe is cured. This takes 24 – 36 hours.</li>\n</ul><h2>What to Expect</h2>\n\n<p>Neighbors can expect construction noise from the generators, and there may be some odors from heated resin or sewerage.</p>\n\n<p>The lining process is scheduled for <strong>Wednesday night, March 28 to Friday, March 30</strong>, but the date may change. Once the work is complete, the by-pass pipes, pumps, and other construction materials will be removed from the area.</p>\n\n<p>We apologize in advance for the disruption and thank you for your patience. If you have questions or concerns, please contact the project team at <a href=\"mailto:wollaston@mbta.com\">wollaston@mbta.com</a>.</p>\n\n<h2>Downloads</h2>\n\n<p><a href=\"/sites/default/files/projects/wollaston-sewer-bypass-advisory-feb2018-english.pdf\">{{ fa \"file-pdf-o\" }} English</a></p>\n\n<p><a href=\"/sites/default/files/projects/wollaston-sewer-bypass-advisory-feb2018-chinese-simplified.pdf\">{{ fa \"file-pdf-o\" }} Simplified Chinese (汉语)</a></p>\n\n<p><a href=\"/sites/default/files/projects/wollaston-sewer-bypass-advisory-feb2018-chinese-traditional.pdf\">{{ fa \"file-pdf-o\" }} Traditional Chinese (漢語)</a></p>\n\n<p><a href=\"/sites/default/files/projects/wollaston-sewer-bypass-advisory-feb2018-vietnamese.pdf\">{{ fa \"file-pdf-o\" }} Vietnamese (Tiếng Việt)</a></p>\n",
+        "summary": ""
+      }
+    ],
+    "field_keywords": [],
+    "field_page_type": [],
+    "field_paragraphs": [],
+    "field_photo_gallery": [],
+    "field_posted_on": [
+      {
+        "value": "2018-03-22"
+      }
+    ],
+    "field_project": [
+      {
+        "target_id": 3004,
+        "target_type": "node",
+        "target_uuid": "6c72a458-6158-4080-9282-52387841237e",
+        "url": "/projects/wollaston-station-improvements"
+      }
+    ],
+    "field_related_transit": [],
+    "field_teaser": [
+      {
+        "value": "A temporary surface sewer line will be placed in the roadway during a relining of an existing sewer line. There will be no interruption of sewer service to homes or businesses in the area."
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 4440
+      }
+    ],
+    "uuid": [
+      {
+        "value": "6adfc6dd-3345-433a-b213-a52eff5a0cdb"
+      }
+    ],
+    "vid": [
+      {
+        "value": 28755
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project_update",
+        "target_type": "node_type",
+        "target_uuid": "5d44d0a5-a17b-409b-b222-58c333623cbd"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1565372651
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 29,
+        "target_type": "user",
+        "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+        "url": "/user/29"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "First Round of Better Bus Changes Start September 1"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1564442347
+      }
+    ],
+    "changed": [
+      {
+        "value": 1565372651
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+      {
+        "alias": "/projects/project-name/update/update-with-paragraphs",
+        "pid": 4482,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<drupal-entity data-embed-button=\"new_media\" data-entity-embed-display=\"view_mode:media.full\" data-entity-embed-display-settings=\"{&quot;link_url&quot;:&quot;&quot;,&quot;linkit_attributes&quot;:{&quot;target&quot;:0}}\" data-entity-type=\"media\" data-entity-uuid=\"f445372d-542a-4777-b092-08b8e400efc3\"></drupal-entity>\r\n\r\n<p>On September 1, 2019, the first round of <a href=\"/projects/better-bus-project\">Better Bus Project</a> service changes will go into effect, with additional changes in the following months.</p>\r\n\r\n<p>We know that making changes to your bus route changes how you get to work, to school, and to the places you need to go in your community—and this year, we've spoken with many of you at your stops and at <a href=\"/projects/better-bus-project/update/mbta-community-meetings\">community meetings</a> to hear how you need service to be better. This first round of changes is the outcome of those conversations, along with the feedback we received from bus drivers, planners, and consultants.</p>\r\n\r\n<p>These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand.</p>\r\n\r\n<p>You can learn more about how your route is changing by finding it in the list below. Click the link under each route to view a map of the change and learn more about how this will improve bus service in your area.</p>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>CT1</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route CT1 will be eliminated. Most CT1 stops are served by the Route 1 bus.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-CT1\">Learn more about changes to Route CT1</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>4</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 4 will bypass stops on Northern Ave. Two new stops will open nearby, at Seaport Blvd and Sleeper St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-4\">Learn more about changes to Route 4</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>5</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 5 will be eliminated. Route 5 riders can take the Route 10 and Route 16 from their current stop or from stops nearby.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-5\">Learn more about changes to Route 5</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>16</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, we're adding weekday and Saturday service on Route 16 to JFK/UMass and McCormack Housing.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-16\">Learn more about changes to Route 16</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>34E</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 34E will bypass stops at Upland Woods and Xaverian Brothers High School.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-34E\">Learn more about changes to Route 34E</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>44</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 44's stops on Dudley St will shift to nearby Malcolm X Blvd.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-44\">Learn more about changes to Route 44</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>59</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 59 will travel on Elliot St only during peak travel times in the peak direction. At other times, buses will serve only the Needham St part of the route.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-59\">Learn more about changes to Route 59</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>89</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 89 will run between Davis and Clarendon Hill only on weekdays before 9 AM, and from 1 PM – 7 PM.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-89\">Learn more about changes to Route 89</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>90</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 90 will no longer make stops beyond Assembly Row to Wellington Station.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-90\">Learn more about changes to Route 90</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>92</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 92 will no longer make stops beyond Sullivan Square to Assembly Row.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-92\">Learn more about changes to Route 92</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>95</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 95 will have new stops on High St and Medford St, between Arlington Center and Medford.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-95\">Learn more about changes to Route 95</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>106</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 106 will no longer provide service to Linwood Ave or Franklin Square. Inbound service will run via Forest St and Sylvan St on weekdays until 6 PM and on weekends until 9 PM.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-106\">Learn more about changes to Route 106</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>111</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 111 will begin and end at Washington Ave @ Park Ave. Route 110 service will still serve all stops on Park Ave.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-111\">Learn more about changes to Route 111</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>120</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 120 will no longer stop at Liberty Plaza in East Boston, and it will begin and end at Jeffries Point on Maverick St, instead of at Maverick Station.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-120\">Learn more about changes to Route 120</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>134</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 134 will bypass the stop on Commercial St @ Mystic Valley.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-134\">Learn more about changes to Route 134</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>411</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, weekday Route 411 service between Kennedy Drive and Jack Satter house will operate from 9:30 AM – 5:30 PM.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-411\">Learn more about changes to Route 411</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>424</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 424 will begin and end at Wonderland, and will no longer provide service to Haymarket. All VFW Parkway service will shift to Revere St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-424\">Learn more about changes to Route 424</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>428</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 428 will begin and end at Main St @ Lynn Fells Parkway, and will no longer provide service north of Lynn Fells Parkway.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-428\">Learn more about changes to Route 428</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>435</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 435 will no longer make stops in Pine Hill, instead traveling on Euclid Ave, Chestnut St, and Boston St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-435\">Learn more about changes to Route 435</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>441, 442, 448, and 449</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Routes 448 and 449 are being eliminated, and will be replaced by additional service on Routes 441 and 442.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-440s\">Learn more about changes to Routes 441, 442, 448, and 449</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>455 and 459</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 459 is being eliminated, and will be replaced by additional Route 455 service. In Revere, service will shift from VFW Parkway to Revere St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-455-459\">Learn more about changes to Route 455 and 459</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>501, 502, 503, and 504</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Routes 502 and 504 will no longer stop in Newton Corner on outbound trips during PM peak service. Routes 501 and 503 will stop at Newton Corner.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-500s\">Learn more about changes to Routes 501, 502, 503 and 504</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />",
+        "format": "full_html",
+        "processed": "<div class=\"embedded-entity\">    <div class=\"media media--type-image media--view-mode-full\"><div class=\"media-content\">  <img src=\"/sites/default/files/styles/max_2600x2600/public/projects/early-morning-bus/parked-buses-angled.jpg?itok=foX35aZZ\" width=\"2000\" height=\"1333\" alt=\"Buses parked in a garage, sunlight streaming in\" typeof=\"foaf:Image\" class=\"image-style-max-2600x2600\" /></div></div>\n</div>\n<p>On September 1, 2019, the first round of <a href=\"/projects/better-bus-project\">Better Bus Project</a> service changes will go into effect, with additional changes in the following months.</p>\n\n<p>We know that making changes to your bus route changes how you get to work, to school, and to the places you need to go in your community—and this year, we've spoken with many of you at your stops and at <a href=\"/projects/better-bus-project/update/mbta-community-meetings\">community meetings</a> to hear how you need service to be better. This first round of changes is the outcome of those conversations, along with the feedback we received from bus drivers, planners, and consultants.</p>\n\n<p>These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand.</p>\n\n<p>You can learn more about how your route is changing by finding it in the list below. Click the link under each route to view a map of the change and learn more about how this will improve bus service in your area.</p>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>CT1</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route CT1 will be eliminated. Most CT1 stops are served by the Route 1 bus.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-CT1\">Learn more about changes to Route CT1</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>4</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 4 will bypass stops on Northern Ave. Two new stops will open nearby, at Seaport Blvd and Sleeper St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-4\">Learn more about changes to Route 4</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>5</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 5 will be eliminated. Route 5 riders can take the Route 10 and Route 16 from their current stop or from stops nearby.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-5\">Learn more about changes to Route 5</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>16</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, we're adding weekday and Saturday service on Route 16 to JFK/UMass and McCormack Housing.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-16\">Learn more about changes to Route 16</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>34E</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 34E will bypass stops at Upland Woods and Xaverian Brothers High School.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-34E\">Learn more about changes to Route 34E</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>44</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 44's stops on Dudley St will shift to nearby Malcolm X Blvd.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-44\">Learn more about changes to Route 44</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>59</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 59 will travel on Elliot St only during peak travel times in the peak direction. At other times, buses will serve only the Needham St part of the route.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-59\">Learn more about changes to Route 59</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>89</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 89 will run between Davis and Clarendon Hill only on weekdays before 9 AM, and from 1 PM – 7 PM.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-89\">Learn more about changes to Route 89</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>90</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 90 will no longer make stops beyond Assembly Row to Wellington Station.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-90\">Learn more about changes to Route 90</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>92</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 92 will no longer make stops beyond Sullivan Square to Assembly Row.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-92\">Learn more about changes to Route 92</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>95</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 95 will have new stops on High St and Medford St, between Arlington Center and Medford.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-95\">Learn more about changes to Route 95</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>106</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 106 will no longer provide service to Linwood Ave or Franklin Square. Inbound service will run via Forest St and Sylvan St on weekdays until 6 PM and on weekends until 9 PM.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-106\">Learn more about changes to Route 106</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>111</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 111 will begin and end at Washington Ave @ Park Ave. Route 110 service will still serve all stops on Park Ave.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-111\">Learn more about changes to Route 111</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>120</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 120 will no longer stop at Liberty Plaza in East Boston, and it will begin and end at Jeffries Point on Maverick St, instead of at Maverick Station.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-120\">Learn more about changes to Route 120</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>134</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 134 will bypass the stop on Commercial St @ Mystic Valley.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-134\">Learn more about changes to Route 134</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>411</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, weekday Route 411 service between Kennedy Drive and Jack Satter house will operate from 9:30 AM – 5:30 PM.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-411\">Learn more about changes to Route 411</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>424</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 424 will begin and end at Wonderland, and will no longer provide service to Haymarket. All VFW Parkway service will shift to Revere St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-424\">Learn more about changes to Route 424</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>428</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 428 will begin and end at Main St @ Lynn Fells Parkway, and will no longer provide service north of Lynn Fells Parkway.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-428\">Learn more about changes to Route 428</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>435</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 435 will no longer make stops in Pine Hill, instead traveling on Euclid Ave, Chestnut St, and Boston St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-435\">Learn more about changes to Route 435</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>441, 442, 448, and 449</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Routes 448 and 449 are being eliminated, and will be replaced by additional service on Routes 441 and 442.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-440s\">Learn more about changes to Routes 441, 442, 448, and 449</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>455 and 459</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 459 is being eliminated, and will be replaced by additional Route 455 service. In Revere, service will shift from VFW Parkway to Revere St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-455-459\">Learn more about changes to Route 455 and 459</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>501, 502, 503, and 504</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Routes 502 and 504 will no longer stop in Newton Corner on outbound trips during PM peak service. Routes 501 and 503 will stop at Newton Corner.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-500s\">Learn more about changes to Routes 501, 502, 503 and 504</a></p>\n</div>\n</div>\n\n<hr />",
+        "summary": "Learn how your route is affected. These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand."
+      }
+    ],
+    "field_image": [
+      {
+        "alt": "Buses parked in a garage, sunlight streaming in",
+        "url": "https://mbta.lndo.site/sites/default/files/styles/max_650x650/public/projects/early-morning-bus/parked-buses-angled.jpg?itok=N7O7yLos"
+      }
+    ],
+    "field_keywords": [],
+    "field_page_type": [
+      {
+        "id": 19,
+        "name": "Projects",
+        "vocab": "page_type",
+        "data": null
+      }
+    ],
+    "field_paragraphs": [
+      {
+        "target_id": 9010,
+        "target_revision_id": 174878,
+        "id": [
+          {
+            "value": 9010
+          }
+        ],
+        "uuid": [
+          {
+            "value": "e57475e3-416c-44ba-a5cd-17ed7a806276"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 174878
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "type": [
+          {
+            "target_id": "custom_html",
+            "target_type": "paragraphs_type",
+            "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1565371995
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "4440"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": []
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "field_custom_html_body": [
+          {
+            "value": "<p>Here is a custom HTML para.</p>\r\n",
+            "format": "full_html",
+            "processed": "<p>Here is a custom HTML para.</p>\n"
+          }
+        ],
+        "field_right_rail": [
+          {
+            "value": true
+          }
+        ]
+      },
+      {
+        "target_id": 9012,
+        "target_revision_id": 174882,
+        "id": [
+          {
+            "value": 9012
+          }
+        ],
+        "uuid": [
+          {
+            "value": "95d739e1-c90a-440f-b157-1ca454c4d4dc"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 174882
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "type": [
+          {
+            "target_id": "content_list",
+            "target_type": "paragraphs_type",
+            "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1565372607
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "4440"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": []
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "field_content_logic": [],
+        "field_content_reference": [
+          {
+            "target_id": 3445,
+            "target_type": "node",
+            "target_uuid": "20fa23fd-5470-4bed-8c34-f84252d71871",
+            "url": "/projects/better-bus-project"
+          }
+        ],
+        "field_content_type": [
+          {
+            "value": "project"
+          }
+        ],
+        "field_cta_behavior": [],
+        "field_cta_link": [],
+        "field_cta_text": [],
+        "field_date": [],
+        "field_date_logic": [],
+        "field_date_max": [],
+        "field_multi_column_header": [
+          {
+            "target_id": 9011,
+            "target_revision_id": 174881,
+            "id": [
+              {
+                "value": 9011
+              }
+            ],
+            "uuid": [
+              {
+                "value": "eca691e5-a66b-46bc-9e4f-178ba338a4f3"
+              }
+            ],
+            "revision_id": [
+              {
+                "value": 174881
+              }
+            ],
+            "langcode": [
+              {
+                "value": "en"
+              }
+            ],
+            "type": [
+              {
+                "target_id": "multi_column_header",
+                "target_type": "paragraphs_type",
+                "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+              }
+            ],
+            "status": [
+              {
+                "value": true
+              }
+            ],
+            "created": [
+              {
+                "value": 1565372611
+              }
+            ],
+            "parent_id": [
+              {
+                "value": "9012"
+              }
+            ],
+            "parent_type": [
+              {
+                "value": "paragraph"
+              }
+            ],
+            "parent_field_name": [
+              {
+                "value": "field_multi_column_header"
+              }
+            ],
+            "behavior_settings": [
+              {
+                "value": []
+              }
+            ],
+            "default_langcode": [
+              {
+                "value": true
+              }
+            ],
+            "revision_translation_affected": [],
+            "field_header_text": [
+              {
+                "value": "<h2>Parent Project</h2>\r\n",
+                "format": "full_html",
+                "processed": "<h2>Parent Project</h2>\n"
+              }
+            ]
+          }
+        ],
+        "field_number_of_items": [
+          {
+            "value": 5
+          }
+        ],
+        "field_promoted": [],
+        "field_relationship": [
+          {
+            "value": "only"
+          }
+        ],
+        "field_right_rail": [
+          {
+            "value": true
+          }
+        ],
+        "field_sorting": [],
+        "field_sorting_logic": [],
+        "field_sticky": [],
+        "field_term_depth": [
+          {
+            "value": 4
+          }
+        ],
+        "field_terms": [],
+        "field_type_logic": []
+      }
+    ],
+    "field_photo_gallery": [],
+    "field_posted_on": [
+      {
+        "value": "2019-07-29"
+      }
+    ],
+    "field_project": [
+      {
+        "target_id": 3445,
+        "target_type": "node",
+        "target_uuid": "20fa23fd-5470-4bed-8c34-f84252d71871",
+        "url": "/projects/project-name"
+      }
+    ],
+    "field_related_transit": [],
+    "field_teaser": [
+      {
+        "value": "Learn how your route is affected. These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand."
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 4449
+      }
+    ],
+    "uuid": [
+      {
+        "value": "6adfc6dd-3345-433a-b213-a52eff5a0cdb"
+      }
+    ],
+    "vid": [
+      {
+        "value": 28755
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project_update",
+        "target_type": "node_type",
+        "target_uuid": "5d44d0a5-a17b-409b-b222-58c333623cbd"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1565372651
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 29,
+        "target_type": "user",
+        "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+        "url": "/user/29"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "First Round of Better Bus Changes Start September 1"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1564442347
+      }
+    ],
+    "changed": [
+      {
+        "value": 1565372651
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+      {
+        "alias": "/projects/project-name/update/update-with-paragraphs",
+        "pid": 4482,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<drupal-entity data-embed-button=\"new_media\" data-entity-embed-display=\"view_mode:media.full\" data-entity-embed-display-settings=\"{&quot;link_url&quot;:&quot;&quot;,&quot;linkit_attributes&quot;:{&quot;target&quot;:0}}\" data-entity-type=\"media\" data-entity-uuid=\"f445372d-542a-4777-b092-08b8e400efc3\"></drupal-entity>\r\n\r\n<p>On September 1, 2019, the first round of <a href=\"/projects/better-bus-project\">Better Bus Project</a> service changes will go into effect, with additional changes in the following months.</p>\r\n\r\n<p>We know that making changes to your bus route changes how you get to work, to school, and to the places you need to go in your community—and this year, we've spoken with many of you at your stops and at <a href=\"/projects/better-bus-project/update/mbta-community-meetings\">community meetings</a> to hear how you need service to be better. This first round of changes is the outcome of those conversations, along with the feedback we received from bus drivers, planners, and consultants.</p>\r\n\r\n<p>These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand.</p>\r\n\r\n<p>You can learn more about how your route is changing by finding it in the list below. Click the link under each route to view a map of the change and learn more about how this will improve bus service in your area.</p>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>CT1</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route CT1 will be eliminated. Most CT1 stops are served by the Route 1 bus.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-CT1\">Learn more about changes to Route CT1</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>4</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 4 will bypass stops on Northern Ave. Two new stops will open nearby, at Seaport Blvd and Sleeper St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-4\">Learn more about changes to Route 4</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>5</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 5 will be eliminated. Route 5 riders can take the Route 10 and Route 16 from their current stop or from stops nearby.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-5\">Learn more about changes to Route 5</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>16</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, we're adding weekday and Saturday service on Route 16 to JFK/UMass and McCormack Housing.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-16\">Learn more about changes to Route 16</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>34E</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 34E will bypass stops at Upland Woods and Xaverian Brothers High School.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-34E\">Learn more about changes to Route 34E</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>44</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 44's stops on Dudley St will shift to nearby Malcolm X Blvd.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-44\">Learn more about changes to Route 44</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>59</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 59 will travel on Elliot St only during peak travel times in the peak direction. At other times, buses will serve only the Needham St part of the route.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-59\">Learn more about changes to Route 59</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>89</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 89 will run between Davis and Clarendon Hill only on weekdays before 9 AM, and from 1 PM – 7 PM.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-89\">Learn more about changes to Route 89</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>90</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 90 will no longer make stops beyond Assembly Row to Wellington Station.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-90\">Learn more about changes to Route 90</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>92</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 92 will no longer make stops beyond Sullivan Square to Assembly Row.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-92\">Learn more about changes to Route 92</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>95</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 95 will have new stops on High St and Medford St, between Arlington Center and Medford.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-95\">Learn more about changes to Route 95</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>106</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 106 will no longer provide service to Linwood Ave or Franklin Square. Inbound service will run via Forest St and Sylvan St on weekdays until 6 PM and on weekends until 9 PM.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-106\">Learn more about changes to Route 106</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>111</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 111 will begin and end at Washington Ave @ Park Ave. Route 110 service will still serve all stops on Park Ave.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-111\">Learn more about changes to Route 111</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>120</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 120 will no longer stop at Liberty Plaza in East Boston, and it will begin and end at Jeffries Point on Maverick St, instead of at Maverick Station.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-120\">Learn more about changes to Route 120</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>134</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 134 will bypass the stop on Commercial St @ Mystic Valley.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-134\">Learn more about changes to Route 134</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>411</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, weekday Route 411 service between Kennedy Drive and Jack Satter house will operate from 9:30 AM – 5:30 PM.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-411\">Learn more about changes to Route 411</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>424</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 424 will begin and end at Wonderland, and will no longer provide service to Haymarket. All VFW Parkway service will shift to Revere St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-424\">Learn more about changes to Route 424</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>428</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 428 will begin and end at Main St @ Lynn Fells Parkway, and will no longer provide service north of Lynn Fells Parkway.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-428\">Learn more about changes to Route 428</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>435</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 435 will no longer make stops in Pine Hill, instead traveling on Euclid Ave, Chestnut St, and Boston St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-435\">Learn more about changes to Route 435</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>441, 442, 448, and 449</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Routes 448 and 449 are being eliminated, and will be replaced by additional service on Routes 441 and 442.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-440s\">Learn more about changes to Routes 441, 442, 448, and 449</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>455 and 459</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 459 is being eliminated, and will be replaced by additional Route 455 service. In Revere, service will shift from VFW Parkway to Revere St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-455-459\">Learn more about changes to Route 455 and 459</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>501, 502, 503, and 504</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Routes 502 and 504 will no longer stop in Newton Corner on outbound trips during PM peak service. Routes 501 and 503 will stop at Newton Corner.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-500s\">Learn more about changes to Routes 501, 502, 503 and 504</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />",
+        "format": "full_html",
+        "processed": "<div class=\"embedded-entity\">    <div class=\"media media--type-image media--view-mode-full\"><div class=\"media-content\">  <img src=\"/sites/default/files/styles/max_2600x2600/public/projects/early-morning-bus/parked-buses-angled.jpg?itok=foX35aZZ\" width=\"2000\" height=\"1333\" alt=\"Buses parked in a garage, sunlight streaming in\" typeof=\"foaf:Image\" class=\"image-style-max-2600x2600\" /></div></div>\n</div>\n<p>On September 1, 2019, the first round of <a href=\"/projects/better-bus-project\">Better Bus Project</a> service changes will go into effect, with additional changes in the following months.</p>\n\n<p>We know that making changes to your bus route changes how you get to work, to school, and to the places you need to go in your community—and this year, we've spoken with many of you at your stops and at <a href=\"/projects/better-bus-project/update/mbta-community-meetings\">community meetings</a> to hear how you need service to be better. This first round of changes is the outcome of those conversations, along with the feedback we received from bus drivers, planners, and consultants.</p>\n\n<p>These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand.</p>\n\n<p>You can learn more about how your route is changing by finding it in the list below. Click the link under each route to view a map of the change and learn more about how this will improve bus service in your area.</p>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>CT1</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route CT1 will be eliminated. Most CT1 stops are served by the Route 1 bus.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-CT1\">Learn more about changes to Route CT1</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>4</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 4 will bypass stops on Northern Ave. Two new stops will open nearby, at Seaport Blvd and Sleeper St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-4\">Learn more about changes to Route 4</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>5</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 5 will be eliminated. Route 5 riders can take the Route 10 and Route 16 from their current stop or from stops nearby.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-5\">Learn more about changes to Route 5</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>16</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, we're adding weekday and Saturday service on Route 16 to JFK/UMass and McCormack Housing.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-16\">Learn more about changes to Route 16</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>34E</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 34E will bypass stops at Upland Woods and Xaverian Brothers High School.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-34E\">Learn more about changes to Route 34E</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>44</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 44's stops on Dudley St will shift to nearby Malcolm X Blvd.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-44\">Learn more about changes to Route 44</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>59</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 59 will travel on Elliot St only during peak travel times in the peak direction. At other times, buses will serve only the Needham St part of the route.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-59\">Learn more about changes to Route 59</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>89</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 89 will run between Davis and Clarendon Hill only on weekdays before 9 AM, and from 1 PM – 7 PM.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-89\">Learn more about changes to Route 89</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>90</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 90 will no longer make stops beyond Assembly Row to Wellington Station.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-90\">Learn more about changes to Route 90</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>92</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 92 will no longer make stops beyond Sullivan Square to Assembly Row.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-92\">Learn more about changes to Route 92</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>95</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 95 will have new stops on High St and Medford St, between Arlington Center and Medford.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-95\">Learn more about changes to Route 95</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>106</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 106 will no longer provide service to Linwood Ave or Franklin Square. Inbound service will run via Forest St and Sylvan St on weekdays until 6 PM and on weekends until 9 PM.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-106\">Learn more about changes to Route 106</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>111</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 111 will begin and end at Washington Ave @ Park Ave. Route 110 service will still serve all stops on Park Ave.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-111\">Learn more about changes to Route 111</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>120</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 120 will no longer stop at Liberty Plaza in East Boston, and it will begin and end at Jeffries Point on Maverick St, instead of at Maverick Station.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-120\">Learn more about changes to Route 120</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>134</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 134 will bypass the stop on Commercial St @ Mystic Valley.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-134\">Learn more about changes to Route 134</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>411</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, weekday Route 411 service between Kennedy Drive and Jack Satter house will operate from 9:30 AM – 5:30 PM.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-411\">Learn more about changes to Route 411</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>424</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 424 will begin and end at Wonderland, and will no longer provide service to Haymarket. All VFW Parkway service will shift to Revere St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-424\">Learn more about changes to Route 424</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>428</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 428 will begin and end at Main St @ Lynn Fells Parkway, and will no longer provide service north of Lynn Fells Parkway.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-428\">Learn more about changes to Route 428</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>435</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 435 will no longer make stops in Pine Hill, instead traveling on Euclid Ave, Chestnut St, and Boston St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-435\">Learn more about changes to Route 435</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>441, 442, 448, and 449</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Routes 448 and 449 are being eliminated, and will be replaced by additional service on Routes 441 and 442.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-440s\">Learn more about changes to Routes 441, 442, 448, and 449</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>455 and 459</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 459 is being eliminated, and will be replaced by additional Route 455 service. In Revere, service will shift from VFW Parkway to Revere St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-455-459\">Learn more about changes to Route 455 and 459</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>501, 502, 503, and 504</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Routes 502 and 504 will no longer stop in Newton Corner on outbound trips during PM peak service. Routes 501 and 503 will stop at Newton Corner.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-500s\">Learn more about changes to Routes 501, 502, 503 and 504</a></p>\n</div>\n</div>\n\n<hr />",
+        "summary": "Learn how your route is affected. These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand."
+      }
+    ],
+    "field_image": [
+      {
+        "alt": "Buses parked in a garage, sunlight streaming in",
+        "url": "https://mbta.lndo.site/sites/default/files/styles/max_650x650/public/projects/early-morning-bus/parked-buses-angled.jpg?itok=N7O7yLos"
+      }
+    ],
+    "field_keywords": [],
+    "field_page_type": [
+      {
+        "id": 19,
+        "name": "Projects",
+        "vocab": "page_type",
+        "data": null
+      }
+    ],
+    "field_paragraphs": [
+      {
+        "target_id": 9010,
+        "target_revision_id": 174878,
+        "id": [
+          {
+            "value": 9010
+          }
+        ],
+        "uuid": [
+          {
+            "value": "e57475e3-416c-44ba-a5cd-17ed7a806276"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 174878
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "type": [
+          {
+            "target_id": "custom_html",
+            "target_type": "paragraphs_type",
+            "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1565371995
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "4440"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": []
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "field_custom_html_body": [
+          {
+            "value": "<p>Here is a custom HTML para.</p>\r\n",
+            "format": "full_html",
+            "processed": "<p>Here is a custom HTML para.</p>\n"
+          }
+        ],
+        "field_right_rail": [
+          {
+            "value": true
+          }
+        ]
+      },
+      {
+        "target_id": 9012,
+        "target_revision_id": 174882,
+        "id": [
+          {
+            "value": 9012
+          }
+        ],
+        "uuid": [
+          {
+            "value": "95d739e1-c90a-440f-b157-1ca454c4d4dc"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 174882
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "type": [
+          {
+            "target_id": "content_list",
+            "target_type": "paragraphs_type",
+            "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1565372607
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "4440"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": []
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "field_content_logic": [],
+        "field_content_reference": [
+          {
+            "target_id": 3445,
+            "target_type": "node",
+            "target_uuid": "20fa23fd-5470-4bed-8c34-f84252d71871",
+            "url": "/projects/better-bus-project"
+          }
+        ],
+        "field_content_type": [
+          {
+            "value": "project"
+          }
+        ],
+        "field_cta_behavior": [],
+        "field_cta_link": [],
+        "field_cta_text": [],
+        "field_date": [],
+        "field_date_logic": [],
+        "field_date_max": [],
+        "field_multi_column_header": [
+          {
+            "target_id": 9011,
+            "target_revision_id": 174881,
+            "id": [
+              {
+                "value": 9011
+              }
+            ],
+            "uuid": [
+              {
+                "value": "eca691e5-a66b-46bc-9e4f-178ba338a4f3"
+              }
+            ],
+            "revision_id": [
+              {
+                "value": 174881
+              }
+            ],
+            "langcode": [
+              {
+                "value": "en"
+              }
+            ],
+            "type": [
+              {
+                "target_id": "multi_column_header",
+                "target_type": "paragraphs_type",
+                "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+              }
+            ],
+            "status": [
+              {
+                "value": true
+              }
+            ],
+            "created": [
+              {
+                "value": 1565372611
+              }
+            ],
+            "parent_id": [
+              {
+                "value": "9012"
+              }
+            ],
+            "parent_type": [
+              {
+                "value": "paragraph"
+              }
+            ],
+            "parent_field_name": [
+              {
+                "value": "field_multi_column_header"
+              }
+            ],
+            "behavior_settings": [
+              {
+                "value": []
+              }
+            ],
+            "default_langcode": [
+              {
+                "value": true
+              }
+            ],
+            "revision_translation_affected": [],
+            "field_header_text": [
+              {
+                "value": "<h2>Parent Project</h2>\r\n",
+                "format": "full_html",
+                "processed": "<h2>Parent Project</h2>\n"
+              }
+            ]
+          }
+        ],
+        "field_number_of_items": [
+          {
+            "value": 5
+          }
+        ],
+        "field_promoted": [],
+        "field_relationship": [
+          {
+            "value": "only"
+          }
+        ],
+        "field_right_rail": [
+          {
+            "value": true
+          }
+        ],
+        "field_sorting": [],
+        "field_sorting_logic": [],
+        "field_sticky": [],
+        "field_term_depth": [
+          {
+            "value": 4
+          }
+        ],
+        "field_terms": [],
+        "field_type_logic": []
+      }
+    ],
+    "field_photo_gallery": [],
+    "field_posted_on": [
+      {
+        "value": "2019-07-29"
+      }
+    ],
+    "field_project": [
+      {
+        "target_id": 3445,
+        "target_type": "node",
+        "target_uuid": "20fa23fd-5470-4bed-8c34-f84252d71871",
+        "url": "/projects/DNE"
+      }
+    ],
+    "field_related_transit": [],
+    "field_teaser": [
+      {
+        "value": "Learn how your route is affected. These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand."
+      }
+    ]
+  },
+  {
+    "nid": [
+      {
+        "value": 4449
+      }
+    ],
+    "uuid": [
+      {
+        "value": "6adfc6dd-3345-433a-b213-a52eff5a0cdb"
+      }
+    ],
+    "vid": [
+      {
+        "value": 28755
+      }
+    ],
+    "langcode": [
+      {
+        "value": "en"
+      }
+    ],
+    "type": [
+      {
+        "target_id": "project_update",
+        "target_type": "node_type",
+        "target_uuid": "5d44d0a5-a17b-409b-b222-58c333623cbd"
+      }
+    ],
+    "revision_timestamp": [
+      {
+        "value": 1565372651
+      }
+    ],
+    "revision_uid": [
+      {
+        "target_id": 29,
+        "target_type": "user",
+        "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+        "url": "/user/29"
+      }
+    ],
+    "revision_log": [],
+    "status": [
+      {
+        "value": true
+      }
+    ],
+    "title": [
+      {
+        "value": "First Round of Better Bus Changes Start September 1"
+      }
+    ],
+    "uid": [
+      {
+        "target_id": 24,
+        "target_type": "user",
+        "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+        "url": "/user/24"
+      }
+    ],
+    "created": [
+      {
+        "value": 1564442347
+      }
+    ],
+    "changed": [
+      {
+        "value": 1565372651
+      }
+    ],
+    "promote": [
+      {
+        "value": false
+      }
+    ],
+    "sticky": [
+      {
+        "value": false
+      }
+    ],
+    "default_langcode": [
+      {
+        "value": true
+      }
+    ],
+    "revision_translation_affected": [],
+    "moderation_state": [
+      {
+        "value": "published"
+      }
+    ],
+    "sidebar": [
+      {
+        "value": true
+      }
+    ],
+    "path": [
+      {
+        "alias": "/projects/redirected-project/update/update-with-paragraphs",
+        "pid": 4482,
+        "langcode": "en"
+      }
+    ],
+    "publish_on": [],
+    "unpublish_on": [],
+    "menu_link": [],
+    "body": [
+      {
+        "value": "<drupal-entity data-embed-button=\"new_media\" data-entity-embed-display=\"view_mode:media.full\" data-entity-embed-display-settings=\"{&quot;link_url&quot;:&quot;&quot;,&quot;linkit_attributes&quot;:{&quot;target&quot;:0}}\" data-entity-type=\"media\" data-entity-uuid=\"f445372d-542a-4777-b092-08b8e400efc3\"></drupal-entity>\r\n\r\n<p>On September 1, 2019, the first round of <a href=\"/projects/better-bus-project\">Better Bus Project</a> service changes will go into effect, with additional changes in the following months.</p>\r\n\r\n<p>We know that making changes to your bus route changes how you get to work, to school, and to the places you need to go in your community—and this year, we've spoken with many of you at your stops and at <a href=\"/projects/better-bus-project/update/mbta-community-meetings\">community meetings</a> to hear how you need service to be better. This first round of changes is the outcome of those conversations, along with the feedback we received from bus drivers, planners, and consultants.</p>\r\n\r\n<p>These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand.</p>\r\n\r\n<p>You can learn more about how your route is changing by finding it in the list below. Click the link under each route to view a map of the change and learn more about how this will improve bus service in your area.</p>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>CT1</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route CT1 will be eliminated. Most CT1 stops are served by the Route 1 bus.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-CT1\">Learn more about changes to Route CT1</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>4</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 4 will bypass stops on Northern Ave. Two new stops will open nearby, at Seaport Blvd and Sleeper St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-4\">Learn more about changes to Route 4</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>5</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 5 will be eliminated. Route 5 riders can take the Route 10 and Route 16 from their current stop or from stops nearby.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-5\">Learn more about changes to Route 5</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>16</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, we're adding weekday and Saturday service on Route 16 to JFK/UMass and McCormack Housing.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-16\">Learn more about changes to Route 16</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>34E</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 34E will bypass stops at Upland Woods and Xaverian Brothers High School.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-34E\">Learn more about changes to Route 34E</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>44</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 44's stops on Dudley St will shift to nearby Malcolm X Blvd.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-44\">Learn more about changes to Route 44</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>59</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 59 will travel on Elliot St only during peak travel times in the peak direction. At other times, buses will serve only the Needham St part of the route.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-59\">Learn more about changes to Route 59</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>89</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 89 will run between Davis and Clarendon Hill only on weekdays before 9 AM, and from 1 PM – 7 PM.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-89\">Learn more about changes to Route 89</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>90</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 90 will no longer make stops beyond Assembly Row to Wellington Station.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-90\">Learn more about changes to Route 90</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>92</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 92 will no longer make stops beyond Sullivan Square to Assembly Row.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-92\">Learn more about changes to Route 92</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>95</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 95 will have new stops on High St and Medford St, between Arlington Center and Medford.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-95\">Learn more about changes to Route 95</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>106</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 106 will no longer provide service to Linwood Ave or Franklin Square. Inbound service will run via Forest St and Sylvan St on weekdays until 6 PM and on weekends until 9 PM.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-106\">Learn more about changes to Route 106</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>111</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 111 will begin and end at Washington Ave @ Park Ave. Route 110 service will still serve all stops on Park Ave.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-111\">Learn more about changes to Route 111</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>120</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 120 will no longer stop at Liberty Plaza in East Boston, and it will begin and end at Jeffries Point on Maverick St, instead of at Maverick Station.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-120\">Learn more about changes to Route 120</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>134</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 134 will bypass the stop on Commercial St @ Mystic Valley.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-134\">Learn more about changes to Route 134</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>411</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, weekday Route 411 service between Kennedy Drive and Jack Satter house will operate from 9:30 AM – 5:30 PM.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-411\">Learn more about changes to Route 411</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>424</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 424 will begin and end at Wonderland, and will no longer provide service to Haymarket. All VFW Parkway service will shift to Revere St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-424\">Learn more about changes to Route 424</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>428</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 428 will begin and end at Main St @ Lynn Fells Parkway, and will no longer provide service north of Lynn Fells Parkway.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-428\">Learn more about changes to Route 428</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>435</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 435 will no longer make stops in Pine Hill, instead traveling on Euclid Ave, Chestnut St, and Boston St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-435\">Learn more about changes to Route 435</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>441, 442, 448, and 449</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Routes 448 and 449 are being eliminated, and will be replaced by additional service on Routes 441 and 442.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-440s\">Learn more about changes to Routes 441, 442, 448, and 449</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>455 and 459</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Route 459 is being eliminated, and will be replaced by additional Route 455 service. In Revere, service will shift from VFW Parkway to Revere St.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-455-459\">Learn more about changes to Route 455 and 459</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />\r\n<div class=\"row two-col-left\">\r\n<div class=\"col-md-3 col-sidebar\">\r\n<h2>501, 502, 503, and 504</h2>\r\n</div>\r\n\r\n<div class=\"col-md-9 col-main\">\r\n<p>Starting September 1, 2019, Routes 502 and 504 will no longer stop in Newton Corner on outbound trips during PM peak service. Routes 501 and 503 will stop at Newton Corner.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/betterbus-500s\">Learn more about changes to Routes 501, 502, 503 and 504</a></p>\r\n</div>\r\n</div>\r\n\r\n<hr />",
+        "format": "full_html",
+        "processed": "<div class=\"embedded-entity\">    <div class=\"media media--type-image media--view-mode-full\"><div class=\"media-content\">  <img src=\"/sites/default/files/styles/max_2600x2600/public/projects/early-morning-bus/parked-buses-angled.jpg?itok=foX35aZZ\" width=\"2000\" height=\"1333\" alt=\"Buses parked in a garage, sunlight streaming in\" typeof=\"foaf:Image\" class=\"image-style-max-2600x2600\" /></div></div>\n</div>\n<p>On September 1, 2019, the first round of <a href=\"/projects/better-bus-project\">Better Bus Project</a> service changes will go into effect, with additional changes in the following months.</p>\n\n<p>We know that making changes to your bus route changes how you get to work, to school, and to the places you need to go in your community—and this year, we've spoken with many of you at your stops and at <a href=\"/projects/better-bus-project/update/mbta-community-meetings\">community meetings</a> to hear how you need service to be better. This first round of changes is the outcome of those conversations, along with the feedback we received from bus drivers, planners, and consultants.</p>\n\n<p>These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand.</p>\n\n<p>You can learn more about how your route is changing by finding it in the list below. Click the link under each route to view a map of the change and learn more about how this will improve bus service in your area.</p>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>CT1</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route CT1 will be eliminated. Most CT1 stops are served by the Route 1 bus.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-CT1\">Learn more about changes to Route CT1</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>4</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 4 will bypass stops on Northern Ave. Two new stops will open nearby, at Seaport Blvd and Sleeper St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-4\">Learn more about changes to Route 4</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>5</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 5 will be eliminated. Route 5 riders can take the Route 10 and Route 16 from their current stop or from stops nearby.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-5\">Learn more about changes to Route 5</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>16</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, we're adding weekday and Saturday service on Route 16 to JFK/UMass and McCormack Housing.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-16\">Learn more about changes to Route 16</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>34E</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 34E will bypass stops at Upland Woods and Xaverian Brothers High School.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-34E\">Learn more about changes to Route 34E</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>44</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 44's stops on Dudley St will shift to nearby Malcolm X Blvd.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-44\">Learn more about changes to Route 44</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>59</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 59 will travel on Elliot St only during peak travel times in the peak direction. At other times, buses will serve only the Needham St part of the route.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-59\">Learn more about changes to Route 59</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>89</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 89 will run between Davis and Clarendon Hill only on weekdays before 9 AM, and from 1 PM – 7 PM.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-89\">Learn more about changes to Route 89</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>90</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 90 will no longer make stops beyond Assembly Row to Wellington Station.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-90\">Learn more about changes to Route 90</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>92</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 92 will no longer make stops beyond Sullivan Square to Assembly Row.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-92\">Learn more about changes to Route 92</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>95</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 95 will have new stops on High St and Medford St, between Arlington Center and Medford.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-95\">Learn more about changes to Route 95</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>106</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 106 will no longer provide service to Linwood Ave or Franklin Square. Inbound service will run via Forest St and Sylvan St on weekdays until 6 PM and on weekends until 9 PM.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-106\">Learn more about changes to Route 106</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>111</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 111 will begin and end at Washington Ave @ Park Ave. Route 110 service will still serve all stops on Park Ave.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-111\">Learn more about changes to Route 111</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>120</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 120 will no longer stop at Liberty Plaza in East Boston, and it will begin and end at Jeffries Point on Maverick St, instead of at Maverick Station.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-120\">Learn more about changes to Route 120</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>134</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 134 will bypass the stop on Commercial St @ Mystic Valley.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-134\">Learn more about changes to Route 134</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>411</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, weekday Route 411 service between Kennedy Drive and Jack Satter house will operate from 9:30 AM – 5:30 PM.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-411\">Learn more about changes to Route 411</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>424</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 424 will begin and end at Wonderland, and will no longer provide service to Haymarket. All VFW Parkway service will shift to Revere St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-424\">Learn more about changes to Route 424</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>428</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 428 will begin and end at Main St @ Lynn Fells Parkway, and will no longer provide service north of Lynn Fells Parkway.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-428\">Learn more about changes to Route 428</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>435</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 435 will no longer make stops in Pine Hill, instead traveling on Euclid Ave, Chestnut St, and Boston St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-435\">Learn more about changes to Route 435</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>441, 442, 448, and 449</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Routes 448 and 449 are being eliminated, and will be replaced by additional service on Routes 441 and 442.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-440s\">Learn more about changes to Routes 441, 442, 448, and 449</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>455 and 459</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Route 459 is being eliminated, and will be replaced by additional Route 455 service. In Revere, service will shift from VFW Parkway to Revere St.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-455-459\">Learn more about changes to Route 455 and 459</a></p>\n</div>\n</div>\n\n<hr /><div class=\"row two-col-left\">\n<div class=\"col-md-3 col-sidebar\">\n<h2>501, 502, 503, and 504</h2>\n</div>\n\n<div class=\"col-md-9 col-main\">\n<p>Starting September 1, 2019, Routes 502 and 504 will no longer stop in Newton Corner on outbound trips during PM peak service. Routes 501 and 503 will stop at Newton Corner.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/betterbus-500s\">Learn more about changes to Routes 501, 502, 503 and 504</a></p>\n</div>\n</div>\n\n<hr />",
+        "summary": "Learn how your route is affected. These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand."
+      }
+    ],
+    "field_image": [
+      {
+        "alt": "Buses parked in a garage, sunlight streaming in",
+        "url": "https://mbta.lndo.site/sites/default/files/styles/max_650x650/public/projects/early-morning-bus/parked-buses-angled.jpg?itok=N7O7yLos"
+      }
+    ],
+    "field_keywords": [],
+    "field_page_type": [
+      {
+        "id": 19,
+        "name": "Projects",
+        "vocab": "page_type",
+        "data": null
+      }
+    ],
+    "field_paragraphs": [
+      {
+        "target_id": 9010,
+        "target_revision_id": 174878,
+        "id": [
+          {
+            "value": 9010
+          }
+        ],
+        "uuid": [
+          {
+            "value": "e57475e3-416c-44ba-a5cd-17ed7a806276"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 174878
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "type": [
+          {
+            "target_id": "custom_html",
+            "target_type": "paragraphs_type",
+            "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1565371995
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "4440"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": []
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "field_custom_html_body": [
+          {
+            "value": "<p>Here is a custom HTML para.</p>\r\n",
+            "format": "full_html",
+            "processed": "<p>Here is a custom HTML para.</p>\n"
+          }
+        ],
+        "field_right_rail": [
+          {
+            "value": true
+          }
+        ]
+      },
+      {
+        "target_id": 9012,
+        "target_revision_id": 174882,
+        "id": [
+          {
+            "value": 9012
+          }
+        ],
+        "uuid": [
+          {
+            "value": "95d739e1-c90a-440f-b157-1ca454c4d4dc"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 174882
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "type": [
+          {
+            "target_id": "content_list",
+            "target_type": "paragraphs_type",
+            "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1565372607
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "4440"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": []
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "field_content_logic": [],
+        "field_content_reference": [
+          {
+            "target_id": 3445,
+            "target_type": "node",
+            "target_uuid": "20fa23fd-5470-4bed-8c34-f84252d71871",
+            "url": "/projects/better-bus-project"
+          }
+        ],
+        "field_content_type": [
+          {
+            "value": "project"
+          }
+        ],
+        "field_cta_behavior": [],
+        "field_cta_link": [],
+        "field_cta_text": [],
+        "field_date": [],
+        "field_date_logic": [],
+        "field_date_max": [],
+        "field_multi_column_header": [
+          {
+            "target_id": 9011,
+            "target_revision_id": 174881,
+            "id": [
+              {
+                "value": 9011
+              }
+            ],
+            "uuid": [
+              {
+                "value": "eca691e5-a66b-46bc-9e4f-178ba338a4f3"
+              }
+            ],
+            "revision_id": [
+              {
+                "value": 174881
+              }
+            ],
+            "langcode": [
+              {
+                "value": "en"
+              }
+            ],
+            "type": [
+              {
+                "target_id": "multi_column_header",
+                "target_type": "paragraphs_type",
+                "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+              }
+            ],
+            "status": [
+              {
+                "value": true
+              }
+            ],
+            "created": [
+              {
+                "value": 1565372611
+              }
+            ],
+            "parent_id": [
+              {
+                "value": "9012"
+              }
+            ],
+            "parent_type": [
+              {
+                "value": "paragraph"
+              }
+            ],
+            "parent_field_name": [
+              {
+                "value": "field_multi_column_header"
+              }
+            ],
+            "behavior_settings": [
+              {
+                "value": []
+              }
+            ],
+            "default_langcode": [
+              {
+                "value": true
+              }
+            ],
+            "revision_translation_affected": [],
+            "field_header_text": [
+              {
+                "value": "<h2>Parent Project</h2>\r\n",
+                "format": "full_html",
+                "processed": "<h2>Parent Project</h2>\n"
+              }
+            ]
+          }
+        ],
+        "field_number_of_items": [
+          {
+            "value": 5
+          }
+        ],
+        "field_promoted": [],
+        "field_relationship": [
+          {
+            "value": "only"
+          }
+        ],
+        "field_right_rail": [
+          {
+            "value": true
+          }
+        ],
+        "field_sorting": [],
+        "field_sorting_logic": [],
+        "field_sticky": [],
+        "field_term_depth": [
+          {
+            "value": 4
+          }
+        ],
+        "field_terms": [],
+        "field_type_logic": []
+      }
+    ],
+    "field_photo_gallery": [],
+    "field_posted_on": [
+      {
+        "value": "2019-07-29"
+      }
+    ],
+    "field_project": [
+      {
+        "target_id": 3445,
+        "target_type": "node",
+        "target_uuid": "20fa23fd-5470-4bed-8c34-f84252d71871",
+        "url": "/projects/redirected-project"
+      }
+    ],
+    "field_related_transit": [],
+    "field_teaser": [
+      {
+        "value": "Learn how your route is affected. These updates will make our bus system more reliable, improve frequency, and make routes easier for riders to understand."
+      }
+    ]
+  }
+]

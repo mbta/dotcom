@@ -208,12 +208,12 @@ defmodule Site.TransitNearMeTest do
       data = TransitNearMe.build(@address, date: @date, now: Util.now())
       routes = TransitNearMe.routes_for_stop(data, "place-pktrm")
 
-      assert Enum.map(routes, & &1.name) == [
-               "Red Line",
+      assert Enum.sort(Enum.map(routes, & &1.name)) == [
                "Green Line B",
                "Green Line C",
+               "Green Line D",
                "Green Line E",
-               "Green Line D"
+               "Red Line"
              ]
     end
   end
@@ -237,7 +237,6 @@ defmodule Site.TransitNearMeTest do
       assert [route_with_stops_with_directions | _] = routes
 
       assert route_with_stops_with_directions |> Map.keys() |> Enum.sort() == [
-               :alert_count,
                :route,
                :stops_with_directions
              ]
@@ -247,7 +246,8 @@ defmodule Site.TransitNearMeTest do
       assert %{stops_with_directions: [stop_with_directions | _]} =
                route_with_stops_with_directions
 
-      assert %{alert_count: 1} = Enum.find(routes, &(&1.route.id == "Orange"))
+      assert %{alert_count: 1} =
+               Enum.find(routes, &(&1.route.id == "Orange")) |> Map.fetch!(:route)
 
       stop = stop_with_directions.stop
       assert %Stop{} = stop

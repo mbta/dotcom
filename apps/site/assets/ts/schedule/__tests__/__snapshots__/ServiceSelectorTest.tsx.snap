@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ServiceSelector it renders 1`] = `
+Array [
+  <h3>
+    Daily Schedule
+  </h3>,
+  <div
+    className="schedule-finder__service-selector"
+  >
+    <div
+      className="schedule-finder__select-container "
+      id="service_selector_container"
+      onClick={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <select
+        className="schedule-finder__select"
+        defaultValue="BUS319-O-Wdy-02"
+        id="service_selector"
+        onChange={[Function]}
+      >
+        <optgroup
+          label="Current Schedules"
+        >
+          <option
+            value="BUS319-O-Wdy-02"
+          >
+            Monday - Friday schedule
+            , 
+            ends August 30
+          </option>
+          <option
+            value="BUS319-D-Wdy-02"
+          >
+            Friday schedule
+            , 
+            ends August 30
+          </option>
+          <option
+            value="BUS319-P-Sa-02"
+          >
+            Saturday schedule
+            , 
+            ends August 31
+          </option>
+          <option
+            value="BUS319-Q-Su-02"
+          >
+            Sunday schedule
+            , 
+            ends August 25
+          </option>
+        </optgroup>
+        <optgroup
+          label="Holiday Schedules"
+        />
+        <optgroup
+          label="Future Schedules"
+        />
+      </select>
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon schedule-finder__arrow"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+    </div>
+  </div>,
+  <div
+    className="schedule-finder__spinner-container"
+  >
+    <div
+      className="schedule-finder__spinner"
+    >
+      Loading...
+    </div>
+  </div>,
+]
+`;

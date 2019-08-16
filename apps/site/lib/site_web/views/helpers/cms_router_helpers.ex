@@ -10,13 +10,14 @@ defmodule SiteWeb.CmsRouterHelpers do
   alias SiteWeb.Router.Helpers, as: RouterHelpers
   alias SiteWeb.ViewHelpers
 
-  alias Content.{
+  alias CMS.Page.{
     Event,
     NewsEntry,
     Project,
-    ProjectUpdate,
-    Teaser
+    ProjectUpdate
   }
+
+  alias CMS.Partial.Teaser
 
   @spec news_entry_path(
           Conn.t() | nil,
@@ -84,7 +85,7 @@ defmodule SiteWeb.CmsRouterHelpers do
   end
 
   @spec project_path(
-          Conn.t(),
+          Conn.t() | module,
           atom,
           Keyword.t() | Project.t() | Teaser.t() | String.t()
         ) :: String.t()
@@ -107,7 +108,7 @@ defmodule SiteWeb.CmsRouterHelpers do
   end
 
   def project_path(conn, :show, value) when is_binary(value) do
-    check_preview(conn, RouterHelpers.project_path(conn, :show, value))
+    check_preview(conn, "/projects/#{value}")
   end
 
   @spec project_update_path(Conn.t(), atom, ProjectUpdate.t() | Teaser.t()) :: String.t()

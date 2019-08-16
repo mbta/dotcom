@@ -27,17 +27,25 @@ defmodule RoutePatterns.RoutePattern do
     :name,
     :representative_trip_id,
     :route_id,
-    :sort_order,
     :time_desc,
     :typicality
   ]
+
+  @type t :: %__MODULE__{
+          direction_id: 0 | 1,
+          id: String.t(),
+          name: String.t(),
+          representative_trip_id: String.t(),
+          route_id: String.t(),
+          time_desc: String.t(),
+          typicality: 0 | 1 | 2 | 3 | 4
+        }
 
   def new(%Item{
         id: id,
         attributes: %{
           "direction_id" => direction_id,
           "name" => name,
-          "sort_order" => sort_order,
           "time_desc" => time_desc,
           "typicality" => typicality
         },
@@ -52,7 +60,6 @@ defmodule RoutePatterns.RoutePattern do
       name: name,
       representative_trip_id: representative_trip_id,
       route_id: route_id,
-      sort_order: sort_order,
       time_desc: time_desc,
       typicality: typicality
     }

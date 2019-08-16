@@ -61,15 +61,15 @@ defmodule SiteWeb.TransitNearMeController.StopsWithRoutesTest do
       assert distance == 0.04083664794103045
 
       expected_routes = [
-        red_line: [@subway],
-        mattapan_trolley: [@mattapan],
-        green_line: [Route.to_naive(@green_branch)],
         bus: [@bus],
         commuter_rail: [@cr],
-        ferry: [@ferry]
+        ferry: [@ferry],
+        green_line: [Route.to_naive(@green_branch)],
+        mattapan_trolley: [@mattapan],
+        red_line: [@subway]
       ]
 
-      assert routes == expected_routes
+      assert Enum.sort(routes) == expected_routes
     end
   end
 

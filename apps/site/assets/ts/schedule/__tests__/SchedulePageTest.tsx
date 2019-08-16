@@ -4,7 +4,7 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 import SchedulePage from "../components/SchedulePage";
 import { TypedRoutes } from "../../stop/components/__stop";
 import ScheduleNote from "../components/ScheduleNote";
-import { EnhancedRoute, Service, ServiceWithServiceDate } from "../../__v3api";
+import { EnhancedRoute, ServiceWithServiceDate } from "../../__v3api";
 
 const pdfs = [
   {
@@ -59,20 +59,48 @@ const route: EnhancedRoute = {
   type: 1
 };
 
-const stops = [
-  {
-    name: "Malden Center",
-    id: "place-mlmnl",
-    is_closed: false,
-    zone: null
-  },
-  {
-    name: "Wellington",
-    id: "place-welln",
-    is_closed: false,
-    zone: null
-  }
-];
+const stops = {
+  "1": [
+    {
+      name: "SL",
+      id: "741",
+      is_closed: false,
+      zone: "1"
+    },
+    {
+      name: "Abc",
+      id: "123",
+      is_closed: false,
+      zone: null
+    },
+    {
+      name: "Wellington",
+      id: "place-welln",
+      is_closed: true,
+      zone: null
+    }
+  ],
+  "0": [
+    {
+      name: "Wellington",
+      id: "place-welln",
+      is_closed: true,
+      zone: null
+    },
+    {
+      name: "Abc",
+      id: "123",
+      is_closed: false,
+      zone: null
+    },
+    {
+      name: "SL",
+      id: "741",
+      is_closed: false,
+      zone: "1"
+    }
+  ]
+};
 
 const service: ServiceWithServiceDate = {
   added_dates: [],
@@ -86,7 +114,8 @@ const service: ServiceWithServiceDate = {
   type: "weekday",
   typicality: "typical_service",
   valid_days: [1, 2, 3, 4, 5],
-  service_date: "2019-06-26"
+  service_date: "2019-06-26",
+  name: "weekday"
 };
 
 const services = [service];
@@ -108,7 +137,9 @@ it("it renders", () => {
           route,
           services,
           stops,
-          direction_id: 0
+          direction_id: 0,
+          shape_map: {},
+          route_patterns: {}
         }}
       />
     )
@@ -140,7 +171,9 @@ it("it renders with conditional components", () => {
         route,
         services,
         stops,
-        direction_id: 0
+        direction_id: 0,
+        shape_map: {},
+        route_patterns: {}
       }}
     />
   );

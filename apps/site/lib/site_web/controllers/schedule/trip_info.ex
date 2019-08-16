@@ -10,7 +10,6 @@ defmodule SiteWeb.ScheduleController.TripInfo do
   import Plug.Conn, only: [assign: 3, halt: 1]
   import Phoenix.Controller, only: [redirect: 2]
   import UrlHelpers, only: [update_url: 2]
-  import SiteWeb.ScheduleController.ClosedStops, only: [add_wollaston: 4]
 
   require Routes.Route
   alias Routes.Route
@@ -88,31 +87,8 @@ defmodule SiteWeb.ScheduleController.TripInfo do
         possibly_remove_trip_query(conn)
 
       info ->
-        assign_trip_info(conn, info)
+        assign(conn, :trip_info, info)
     end
-  end
-
-  defp assign_trip_info(%{assigns: %{route: %{id: "Red"}}} = conn, %{times: times} = info) do
-    assign(conn, :trip_info, %{
-      info
-      | times:
-          add_wollaston(
-            times,
-            direction_id(times),
-            &PredictedSchedule.stop/1,
-            &PredictedSchedule.put_stop/2
-          )
-    })
-  end
-
-  defp assign_trip_info(conn, info) do
-    assign(conn, :trip_info, info)
-  end
-
-  defp direction_id(times) do
-    times
-    |> List.first()
-    |> PredictedSchedule.direction_id()
   end
 
   defp possibly_remove_trip_query(%{query_params: %{"trip" => _}} = conn) do

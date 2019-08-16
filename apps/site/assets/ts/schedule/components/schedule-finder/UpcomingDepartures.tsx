@@ -24,7 +24,7 @@ const hasPredictions = (stopPredictions: StopPrediction[]): boolean =>
     stopPrediction => stopPrediction.prediction.prediction !== null
   ).length > 0;
 
-const RoutePillSmall = ({
+export const RoutePillSmall = ({
   route
 }: {
   route: Route;
@@ -44,15 +44,13 @@ const TableRow = ({
   if (prediction.route.type === 2)
     return <CrTableRow prediction={prediction} />;
   return (
-    <tr className="schedule-table__row">
+    <tr className="schedule-table__row schedule-table__row--stretch">
       <td>
         <div className="schedule-table__row-route">
-          <RoutePillSmall route={prediction.route} />
-          {"   "}
-          {prediction.headsign}
+          <RoutePillSmall route={prediction.route} /> {prediction.headsign}
         </div>
       </td>
-      <td className="schedule-table__time">
+      <td className="schedule-table__time u-bold">
         {prediction.prediction.prediction.time}
       </td>
     </tr>
@@ -68,15 +66,16 @@ const CrTableRow = ({
     : "";
   const predictedSchedule = prediction.prediction;
   return (
-    <tr className="schedule-table__row">
+    <tr className="schedule-table__row schedule-table__row--stretch">
       <td className="schedule-table__headsign">
-        {modeIcon(prediction.route.id)}
-        {"   "}
-        {prediction.headsign}
+        {modeIcon(prediction.route.id)} {prediction.headsign}
       </td>
       <td>
         <div className="schedule-table__time-container">
-          {timeForCommuterRail(predictedSchedule, "schedule-table__time")}
+          {timeForCommuterRail(
+            predictedSchedule,
+            "schedule-table__time u-bold"
+          )}
         </div>
         <div className="u-nowrap text-right">
           {trainNumber}

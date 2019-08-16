@@ -1,8 +1,8 @@
 defmodule SiteWeb.NewsEntryController do
   use SiteWeb, :controller
 
-  alias Content.NewsEntry
-  alias Content.Repo
+  alias CMS.Page.NewsEntry
+  alias CMS.Repo
   alias Plug.Conn
   alias Site.Pagination
   alias SiteWeb.ControllerHelpers
@@ -15,7 +15,7 @@ defmodule SiteWeb.NewsEntryController do
 
     news_entry_teasers_fn = fn ->
       Repo.teasers(
-        type: :news_entry,
+        type: [:news_entry],
         items_per_page: items_per_page,
         offset: items_per_page * zero_based_current_page
       )
@@ -23,7 +23,7 @@ defmodule SiteWeb.NewsEntryController do
 
     upcoming_news_entry_teasers_fn = fn ->
       Repo.teasers(
-        type: :news_entry,
+        type: [:news_entry],
         items_per_page: items_per_page,
         offset: items_per_page * zero_based_next_page
       )
@@ -56,7 +56,7 @@ defmodule SiteWeb.NewsEntryController do
 
   @spec show_news_entry(Conn.t(), NewsEntry.t()) :: Conn.t()
   def show_news_entry(conn, %NewsEntry{posted_on: posted_on} = news_entry) do
-    recent_news = Repo.teasers(type: :news_entry, except: news_entry.id, items_per_page: 4)
+    recent_news = Repo.teasers(type: [:news_entry], except: news_entry.id, items_per_page: 4)
 
     conn
     |> ControllerHelpers.unavailable_after_one_year(posted_on)

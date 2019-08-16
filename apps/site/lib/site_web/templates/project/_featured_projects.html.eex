@@ -1,0 +1,7 @@
+<div id="react-featured-projects-root">
+  <%= Site.React.render("FeaturedProjectsList", %{projects: @projects, placeholderImageUrl: @placeholder_image_url}) %>
+</div>
+
+<script data-for="featured-projects" id="js-featured-projects-data" type="text/plain">
+  <%= raw Poison.encode!(%{projects: @projects, placeholderImageUrl: @placeholder_image_url}) %>
+</script>

@@ -1,0 +1,249 @@
+[
+  {
+    "nid": "3661",
+    "title": "Green Line D Track and Signal Replacement",
+    "type": "project",
+    "topic": "",
+    "path": "/projects/green-line-d-track-and-signal-replacement",
+    "image_uri": "http://agm-sandbox-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/projects/green-line-d-track-signal/green-line-d-track.jpg?itok=4rxx8CZ-",
+    "image_alt": "Tracks at Riverside",
+    "text": "This project is part of the MBTA initiative to bring the Green Line track and signal systems into a state of good repair.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-10-10",
+    "posted": "",
+    "created": "2018-06-21",
+    "changed": "2018-10-10",
+    "field_related_transit": [
+      {
+        "id": 223,
+        "name": "Green-D",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Green-D",
+          "gtfs_group": "branch",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": [
+              "Green"
+            ],
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3064",
+    "title": "Commuter Rail Positive Train Control (PTC)",
+    "type": "project",
+    "topic": "",
+    "path": "/projects/commuter-rail-positive-train-control-ptc",
+    "image_uri": "http://agm-sandbox-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/projects/commuter-rail-train-in-station.jpg?itok=2P9YmIiY",
+    "image_alt": "Commuter rail train at a station platform.",
+    "text": "Positive Train Control (PTC) technology will improve safety and reduce human error on the Commuter Rail. It is a federally mandated system that can automatically reduce train speeds or even stop a train to avoid a collision or derailment.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "",
+    "created": "2017-10-23",
+    "changed": "2018-10-04",
+    "field_related_transit": [
+      {
+        "id": 210,
+        "name": "CR-Lowell",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Lowell",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      },
+      {
+        "id": 999,
+        "name": "CR-Providence",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "CR-Providence",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "commuter_rail"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3169",
+    "title": "Quincy Center Station Improvements",
+    "type": "project",
+    "topic": "",
+    "path": "/projects/quincy-center-station-improvements",
+    "image_uri": "http://agm-sandbox-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/projects/quincy-center-garage/construction-photos/2018-06-05-quincy-center-garage-demolition.jpg?itok=sa7C8N6u",
+    "image_alt": "Demolition of Quincy Center Garage",
+    "text": "The Quincy Center Garage will undergo a number of repairs to improve accessibility and safety.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-10-03",
+    "posted": "",
+    "created": "2017-11-30",
+    "changed": "2018-10-03",
+    "field_related_transit": [
+      {
+        "id": 219,
+        "name": "Red",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Red",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3602",
+    "title": "$10 Weekends on Commuter Rail",
+    "type": "project",
+    "topic": "",
+    "path": "/projects/10-weekends-commuter-rail",
+    "image_uri": "http://agm-sandbox-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/2018-09/commuter-rail-train-ashland-crossing-bridge-original.jpg?itok=75Ab7Se9",
+    "image_alt": "Commuter Rail train crossing a bridge in Ashland",
+    "text": "The $10 special fare is valid on all Commuter Rail lines and all zones on weekends, June 9 – December 9, 2018.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-09-27",
+    "posted": "",
+    "created": "2018-05-30",
+    "changed": "2018-09-27",
+    "field_related_transit": []
+  },
+  {
+    "nid": "3787",
+    "title": "New Green Line Vehicles",
+    "type": "project",
+    "topic": "",
+    "path": "/projects/new-green-line-vehicles",
+    "image_uri": "http://agm-sandbox-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/projects/green-line-cars/2018-07-18-new-GL-car-profile-door.jpg?itok=rbeXC7X0",
+    "image_alt": "Side view of new Green Line car.",
+    "text": "24 new Green Line vehicles are being added to the fleet between the fall of 2018 and summer of 2019.",
+    "start": "",
+    "location": "|||",
+    "updated": "2018-09-26",
+    "posted": "",
+    "created": "2018-09-18",
+    "changed": "2018-09-26",
+    "field_related_transit": [
+      {
+        "id": 225,
+        "name": "Green",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Green",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3809",
+    "title": "MBTA Awards Signal Upgrade Contract for Red and Orange Lines",
+    "type": "news_entry",
+    "topic": "",
+    "path": "/news/2018-10-01/mbta-awards-signal-upgrade-contract-red-and-orange-lines",
+    "image_uri": "",
+    "image_alt": "",
+    "text": "Once complete, the new signal systems on both lines are expected to substantially improve service reliability and improve peak hour headways.",
+    "start": "",
+    "location": "|||",
+    "updated": "",
+    "posted": "2018-10-01",
+    "created": "2018-10-02",
+    "changed": "2018-10-11",
+    "field_related_transit": [
+      {
+        "id": 219,
+        "name": "Red",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "Red",
+          "gtfs_group": "line",
+          "gtfs_ancestry": {
+            "mode": [
+              "subway"
+            ],
+            "line": null,
+            "branch": null,
+            "custom": null
+          }
+        }
+      }
+    ]
+  },
+  {
+    "nid": "3617",
+    "title": "Better Bus Project Street Team (Mattapan Station)",
+    "type": "event",
+    "topic": "",
+    "path": "/events/2018-05-22/better-bus-project-street-team-mattapan-station",
+    "image_uri": "https://agm-sandbox-mbta.pantheonsite.io/sites/default/files/styles/max_650x650/public/projects/betterbus/betterbus-banner-large.png?itok=wCYeXOL2",
+    "image_alt": "Better Bus Project: Making transit better together",
+    "text": "We're talking to riders at bus stops and stations across the MBTA system. Our goal is to talk to riders of almost all…",
+    "start": "2018-05-22T06:00:00-04:00",
+    "end": "",
+    "location": "Mattapan Station|River St and Blue Hill Ave|Boston|MA",
+    "updated": "",
+    "posted": "",
+    "created": "2018-06-06",
+    "changed": "2018-10-11",
+    "field_related_transit": [
+      {
+        "id": 256,
+        "name": "Late Night",
+        "vocab": "route",
+        "data": {
+          "gtfs_id": "late_night",
+          "gtfs_group": "custom",
+          "gtfs_ancestry": {
+            "mode": null,
+            "line": null,
+            "branch": null,
+            "custom": [
+              "misc"
+            ]
+          }
+        }
+      }
+    ]
+  }
+]

@@ -24,10 +24,11 @@ defmodule Fares.Format do
   def media(:charlie_card), do: "CharlieCard"
   def media(:charlie_ticket), do: "CharlieTicket"
   def media(:commuter_ticket), do: "CharlieTicket"
-  def media(:mticket), do: "mTicket"
+  def media(:mticket), do: "mTicket App"
   def media(:cash), do: "Cash"
   def media(:senior_card), do: "Senior CharlieCard or TAP ID"
   def media(:student_card), do: "Student CharlieCard"
+  def media(:paper_ferry), do: "Paper Ferry Ticket"
 
   @doc "Formats the customers that are served by the given fare based on reduced type"
   @spec customers(Fare.t() | Fare.reduced()) :: String.t()

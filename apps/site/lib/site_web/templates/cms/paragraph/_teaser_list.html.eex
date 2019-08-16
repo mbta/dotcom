@@ -1,0 +1,15 @@
+<div class="c-teaser-list c-teaser-list--<%= CSSHelpers.atom_to_class(@type) %>">
+  <%= for teaser <- @teasers do %>
+
+    <%
+      css_type = CSSHelpers.atom_to_class(teaser.type)
+      color = SiteWeb.CMS.TeaserView.teaser_color(teaser)
+    %>
+
+    <%= link to: cms_static_page_path(@conn, teaser.path), id: teaser.id,
+            class: "c-content-teaser c-content-teaser--#{css_type} c-content-teaser--#{color}" do %>
+      <%= SiteWeb.CMS.TeaserView.render("_#{@type}.html", teaser: teaser, conn: @conn) %>
+    <% end %>
+
+  <% end %>
+</div>

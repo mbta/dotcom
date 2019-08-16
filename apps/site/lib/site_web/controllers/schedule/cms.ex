@@ -8,11 +8,10 @@ defmodule SiteWeb.ScheduleController.CMS do
   import Util.AsyncAssign, only: [async_assign_default: 4]
 
   alias Routes.Route
-  alias Content.{Repo, Teaser}
+  alias CMS.{Partial.Teaser, Repo}
 
   @featured_opts [
-    type: :news_entry,
-    type_op: "not in",
+    type: [:project, :project_update, :page],
     items_per_page: 1,
     sidebar: 1
   ]
@@ -35,7 +34,7 @@ defmodule SiteWeb.ScheduleController.CMS do
     end
 
     news_fn = fn ->
-      [route_id: route.id, type: :news_entry, sidebar: 1]
+      [route_id: route.id, type: [:news_entry], sidebar: 1]
       |> Repo.teasers()
       |> Enum.map(&set_utm_params(&1, route))
     end

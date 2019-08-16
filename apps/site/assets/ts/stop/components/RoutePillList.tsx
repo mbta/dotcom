@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { EnhancedRoute, Route } from "../../__v3api";
 import { TypedRoutes } from "./__stop";
 import { breakTextAtSlash } from "../../helpers/text";
+import { routeToCSSClass } from "../../helpers/css";
 
 interface RoutePillListProps {
   routes: TypedRoutes[];
@@ -12,9 +13,6 @@ interface RoutePillProps {
   route: Route | EnhancedRoute;
 }
 
-const routeToClass = (name: string): string =>
-  name.toLowerCase().replace(" ", "-");
-
 const busName = (name: string): string =>
   name.startsWith("SL") ? "silver-line" : "bus";
 
@@ -22,7 +20,7 @@ const modeNameForBg = ({ name, type }: EnhancedRoute | Route): string => {
   switch (type) {
     case 0:
     case 1:
-      return routeToClass(name);
+      return routeToCSSClass(name);
     case 2:
       return "commuter-rail";
     case 4:
