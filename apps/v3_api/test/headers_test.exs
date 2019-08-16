@@ -1,7 +1,7 @@
 defmodule V3Api.HeadersTest do
   alias V3Api.Headers
 
-  use ExUnit.Case, async: true
+  use ExUnit.Case
 
   test "always adds api header" do
     key_tuple =
@@ -17,15 +17,22 @@ defmodule V3Api.HeadersTest do
   end
 
   test "adds wiremock proxy header if env var is set" do
+    original_env = System.get_env()
     System.put_env("WIREMOCK_PROXY", "true")
+    System.put_env("WIREMOCK_PROXY_URL", "proxy_url")
 
     assert Headers.build("API_KEY", use_cache?: false) == [
-             {"X-WM-Proxy-Url", "https://dev.api.mbtace.com"},
+             {"X-WM-Proxy-Url", "proxy_url"},
              {"x-api-key", "API_KEY"}
            ]
 
     on_exit(fn ->
       System.delete_env("WIREMOCK_PROXY")
+      System.delete_env("WIREMOCK_PROXY_URL")
+
+      for {key, value} <- original_env do
+        System.put_env(key, value)
+      end
     end)
   end
 
