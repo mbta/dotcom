@@ -146,3 +146,38 @@
                  10vw 0 $brand-primary-lightest-contrast;
   }
 }
+
+.u-linked-card {
+  position: relative;
+
+  &__primary-link {
+    display: inline-block;
+
+    &::after {
+      bottom: 0;
+      content: '';
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+
+  &__secondary-link {
+    left: -$base-spacing / 2;
+    padding: $base-spacing / 2;
+    position: relative;
+    z-index: 1;
+
+    &:hover::after {
+      // scss-lint:disable DuplicateProperty PropertySortOrder
+      content: ' ' attr(title);
+      opacity: .5;
+      white-space: pre;
+
+      // Grayscale/desaturated
+      filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' ><filter id='gray'><feColorMatrix in='SourceGraphic' type='saturate' values='0' /></filter></svg>#gray");
+      filter: grayscale(100%);
+    }
+  }
+}

@@ -32,6 +32,14 @@ defmodule SiteWeb.CMSHelpers do
   If no match is found, simply output the original string category.
   """
   @spec link_category(String.t()) :: String.t() | Phoenix.HTML.safe()
-  def link_category("Projects" = cat), do: link(cat, to: "/projects", title: "View all #{cat}")
-  def link_category(category), do: category
+  def link_category("Projects" = text) do
+    link(
+      text,
+      to: "/projects",
+      title: "View all #{text}",
+      class: "u-linked-card__secondary-link"
+    )
+  end
+
+  def link_category(text), do: text
 end

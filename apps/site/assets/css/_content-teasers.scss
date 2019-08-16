@@ -45,17 +45,6 @@
     }
   }
 
-  .c-content-teaser__title {
-    a::after {
-      bottom: 0;
-      content: '';
-      left: 0;
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
-  }
-
   &:nth-child(odd) {
     clear: both;
   }
@@ -122,21 +111,6 @@
 .c-content-teaser__date,
 .c-content-teaser__topic {
   font-weight: 700;
-}
-
-.c-content-teaser__topic {
-  a {
-    left: -$base-spacing / 2;
-    padding: $base-spacing / 2;
-    position: relative;
-    z-index: 1;
-
-    &:hover::after {
-      color: $gray-lighter;
-      content: ' ' attr(title);
-      white-space: pre;
-    }
-  }
 }
 
 .c-content-teaser__title {

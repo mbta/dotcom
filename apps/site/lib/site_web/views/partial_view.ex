@@ -96,7 +96,8 @@ defmodule SiteWeb.PartialView do
     Enum.join(
       [
         Keyword.get(opts, :class, ""),
-        "c-content-teaser"
+        "c-content-teaser",
+        "u-linked-card"
       ],
       " "
     )
@@ -149,7 +150,9 @@ defmodule SiteWeb.PartialView do
     ]
   end
 
-  defp teaser_title(teaser), do: link(teaser.title, to: teaser.path)
+  defp teaser_title(teaser) do
+    link(teaser.title, to: teaser.path, class: "u-linked-card__primary-link")
+  end
 
   defp teaser_topic(teaser), do: link_category(teaser.topic)
 
