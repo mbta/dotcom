@@ -14,8 +14,12 @@
               </div>
             <% end %>
             <div class="m-whats-happening-_description">
-              <div class="m-whats-happening__category u-small-caps"><%= link_category(item.category)%></div>
-              <h3 class="m-whats-happening__title"><%= link item.title, to: cms_static_page_path(@conn, (item.utm_url)) || "/" %></h3>
+              <div class="m-whats-happening__category u-small-caps">
+                <%= link_category(item.category)%>
+              </div>
+              <h3 class="m-whats-happening__title">
+                <%= link item.title, to: cms_static_page_path(@conn, (item.utm_url)) || "/" %>
+              </h3>
               <%= if @promoted do %>
                 <div><%= item.blurb %></div>
               <% end %>

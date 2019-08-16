@@ -2,6 +2,7 @@
   color: inherit;
   display: block;
   margin-top: $base-spacing * 3;
+  position: relative;
 
   &:hover {
     color: inherit;
@@ -97,10 +98,10 @@
   padding: $base-spacing;
 
   @include media-breakpoint-down(xs) {
+    margin-bottom: $base-spacing * 5;
     margin-left: $base-spacing * 2;
     margin-right: $base-spacing * 2;
-    position: relative;
-    top: -$base-spacing * 4;
+    margin-top: -$base-spacing * 4;
   }
 
   @include media-breakpoint-up(sm) {
@@ -158,6 +159,38 @@
 
 .m-banner__category {
   font-weight: bold;
+
+  a {
+    left: -$base-spacing / 2;
+    padding: $base-spacing / 2;
+    position: relative;
+    z-index: 1;
+
+    @include hover-focus-active {
+      text-decoration: none;
+    }
+
+    &:hover::after {
+      content: ' ' attr(title);
+      opacity: .5;
+      white-space: pre;
+    }
+  }
+}
+
+.m-banner__title {
+  a {
+    display: inline-block;
+
+    &::after {
+      bottom: 0;
+      content: '';
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
 }
 
 .m-banner__cta {
