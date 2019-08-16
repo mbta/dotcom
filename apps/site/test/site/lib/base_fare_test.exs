@@ -238,6 +238,18 @@ defmodule BaseFareTest do
       assert %Fares.Fare{cents: 401} = base_fare(route, origin_id, destination_id, fare_fn)
     end
 
+    test "returns the appropriate fare for Foxboro" do
+      route = %Route{type: 2}
+      south_station_id = "place-sstat"
+      foxboro_id = "place-FS-0049"
+
+      assert %Fares.Fare{cents: 2000, duration: :round_trip} =
+               base_fare(route, south_station_id, foxboro_id)
+
+      assert %Fares.Fare{cents: 2000, duration: :round_trip} =
+               base_fare(route, foxboro_id, south_station_id)
+    end
+
     test "returns nil if no matching fares found" do
       route = %Route{type: 2, id: "CapeFlyer"}
       origin_id = "place-sstat"
