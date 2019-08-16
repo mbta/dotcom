@@ -31,7 +31,7 @@ defmodule SiteWeb.CMSHelpers do
   Map certain CMS content categories to index pages of that content.
   If no match is found, simply output the original string category.
   """
-  @spec linked_category(String.t()) :: String.t() | Phoenix.HTML.safe()
-  def linked_category("Projects"), do: link("Projects", to: "/projects")
-  def linked_category(category), do: category
+  @spec link_category(String.t()) :: String.t() | Phoenix.HTML.safe()
+  def link_category("Projects" = cat), do: link(cat, to: "/projects", title: "View all #{cat}")
+  def link_category(category), do: category
 end
