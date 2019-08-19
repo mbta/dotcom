@@ -2,6 +2,7 @@ defmodule SiteWeb.CMSViewTest do
   use Site.ViewCase, async: true
 
   import SiteWeb.CMSView
+  import CMS.Helpers, only: [parse_iso_datetime: 1]
 
   alias CMS.API.Static
   alias CMS.Field.File
@@ -135,6 +136,17 @@ defmodule SiteWeb.CMSViewTest do
 
       # could also be November 6th, 1:00 AM (test daylight savings)
       expected = "November 5, 2016 1 AM - November 6, 2016 2 AM"
+      assert expected == actual
+    end
+
+    test "with ISO:Extended DateTimes, does not shift timezone" do
+      actual =
+        render_duration(
+          parse_iso_datetime("2016-11-06T01:00:00-04:00"),
+          parse_iso_datetime("2016-11-06T02:00:00-04:00")
+        )
+
+      expected = "November 6, 2016 at 1 AM - 2 AM"
       assert expected == actual
     end
   end
