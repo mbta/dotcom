@@ -27,28 +27,57 @@ defmodule Site.React.Worker do
 
     response =
       ""
-      |> receive_response()
-      |> Poison.decode!()
+      |> receive_response(&handle_json/1)
 
-    if Map.get(response, "error", nil) do
-      {:reply, {:error, response}, state}
-    else
-      {:reply, {:ok, response}, state}
+    case response do
+      %{data: %{"error" => nil} = data} ->
+        {:reply, {:ok, data}, state}
+
+      %{data: %{"error" => _error} = data} ->
+        {:reply, {:error, data}, state}
+
+      _ ->
+        {:noreply, state}
     end
   end
 
-  defp receive_response(prev_responses) do
+  defp receive_response(prev_responses, handle_fn) do
     receive do
       {_, {:data, data}} ->
         str = to_string(data)
-        new_resp = prev_responses <> str
-
-        if String.ends_with?(str, "\n") do
-          new_resp
-        else
-          receive_response(new_resp)
-        end
+        resp = prev_responses <> str
+        handle_response(resp, handle_fn)
     end
+  end
+
+  def handle_response(resp, handle_fn) do
+    # Split and keep delimiter
+    ~r/(?<=\n)/
+    |> Regex.split(resp, trim: true)
+    |> Enum.map(&handle_data(&1, handle_fn))
+    |> Enum.find(&Map.has_key?(&1, :data))
+  end
+
+  def handle_data(str, handle_fn) do
+    if String.ends_with?(str, "\n") do
+      if String.starts_with?(str, "node_logging") do
+        handle_logging(str)
+      else
+        handle_fn.(str)
+      end
+    else
+      receive_response(str, handle_fn)
+    end
+  end
+
+  def handle_json(msg) do
+    json = Poison.decode!(msg)
+    %{data: json}
+  end
+
+  def handle_logging(msg) do
+    _ = Logger.warn(inspect(msg))
+    %{}
   end
 
   def handle_info(msg, state) do

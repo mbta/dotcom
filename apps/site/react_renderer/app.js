@@ -13,21 +13,16 @@ import MoreProjectsTable from "../assets/ts/projects/components/MoreProjectsTabl
 import ProjectBanner from "../assets/ts/projects/components/Banner.tsx";
 import FeaturedProjectsList from "../assets/ts/projects/components/FeaturedProjectsList";
 
-// create a stream for logging
-const log = fs.createWriteStream("nodejs.log", { flags: "a" });
-
-// use this stream for stderr output
-process.stderr.pipe(log);
-
 // log the process id when a process is started
-log.write(`node_process process=${process.pid}\n`);
+process.stdout.write(`node_logging node_process process=${process.pid}\n`);
 
 // log the memory usage each minute
 const memoryUsage = () => {
   const used = process.memoryUsage().heapUsed / 1024 / 1024;
-  log.write(
-    `node_memory process=${process.pid} memory_in_mb=${Math.round(used * 100) /
-      100}\n`
+  process.stdout.write(
+    `node_logging node_memory process=${process.pid} memory_in_mb=${Math.round(
+      used * 100
+    ) / 100}\n`
   );
 };
 setInterval(memoryUsage, 60000);
@@ -96,5 +91,7 @@ readline
     const hrend = process.hrtime(hrstart);
 
     // log request time
-    log.write(`node_req_time milliseconds=${hrend[1] / 1000000}\n`);
+    process.stdout.write(
+      `node_logging req_time milliseconds=${hrend[1] / 1000000}\n`
+    );
   });
