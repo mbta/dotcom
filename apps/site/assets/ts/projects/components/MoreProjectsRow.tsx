@@ -120,6 +120,14 @@ const MoreProjectsRow = ({
               </span>
               <br />
               {formattedDate(date)}
+              <br />
+              {routesToTags(routes).map(tag => (
+                <RouteIcon
+                  key={tag}
+                  tag={tag}
+                  extraClasses="c-more-projects-table__route-icon hidden-lg-up"
+                />
+              ))}
             </div>
 
             {status && (
@@ -144,7 +152,7 @@ const MoreProjectsRow = ({
             <RouteIcon
               key={tag}
               tag={tag}
-              extraClasses="c-more-projects-table__route-icon"
+              extraClasses="c-more-projects-table__route-icon hidden-md-down"
             />
           ))}
         </div>

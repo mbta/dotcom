@@ -300,11 +300,30 @@ Array [
                     </span>
                     <br />
                     June 2, 2018
+                    <br />
+                    <span
+                      aria-hidden="false"
+                      className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "SVG",
+                        }
+                      }
+                    />
+                    <span
+                      aria-hidden="false"
+                      className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "SVG",
+                        }
+                      }
+                    />
                   </div>
                 </div>
                 <span
                   aria-hidden="false"
-                  className="notranslate c-svg__icon c-more-projects-table__route-icon"
+                  className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "SVG",
@@ -313,7 +332,7 @@ Array [
                 />
                 <span
                   aria-hidden="false"
-                  className="notranslate c-svg__icon c-more-projects-table__route-icon"
+                  className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "SVG",
