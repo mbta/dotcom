@@ -65,7 +65,7 @@ defmodule CMS.Partial.Teaser do
           "field_related_transit" => route_data
         } = data
       ) do
-    status = Map.get(data, "status")
+    status = Map.get(data, "field_project_status")
 
     %__MODULE__{
       id: int_or_string_to_int(id),
