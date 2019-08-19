@@ -53,7 +53,7 @@
       <%= Fares.Format.price(base_fare) %>
       (<%= link("View fares", to: cms_static_page_path(@conn, ["/fares/", @route |> Route.type_atom() |> Atom.to_string() |> String.replace("_", "-"), "-fares"])) %>)
     </div>
-    <%= if @route.type === 2 do %>
+    <%= if @route.type === 2 && @route.id != "CR-Foxboro" do %>
       <div class="trip-fare">
         <strong>Unlimited Weekends:</strong>
         $10

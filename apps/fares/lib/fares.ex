@@ -11,6 +11,8 @@ defmodule Fares do
   @outer_express_routes ~w(352 354 505)
   @outer_express_route_set MapSet.new(@outer_express_routes)
 
+  @foxboro_place_id "place-FS-0049"
+
   @type ferry_name ::
           :ferry_cross_harbor
           | :ferry_inner_harbor
@@ -24,7 +26,7 @@ defmodule Fares do
   def fare_for_stops(route_type_atom, origin_id, destination_id)
 
   def fare_for_stops(:commuter_rail, origin, destination)
-      when origin == "Foxboro" or destination == "Foxboro" do
+      when origin == @foxboro_place_id or destination == @foxboro_place_id do
     {:ok, :foxboro}
   end
 

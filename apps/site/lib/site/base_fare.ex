@@ -12,6 +12,7 @@ defmodule Site.BaseFare do
   alias Routes.Route
 
   @default_filters [reduced: nil, duration: :single_trip]
+  @default_foxboro_filters [reduced: nil, duration: :round_trip]
 
   @spec base_fare(
           Route.t() | map,
@@ -29,7 +30,14 @@ defmodule Site.BaseFare do
       |> Route.type_atom()
       |> name_or_mode_filter(route, origin_id, destination_id)
 
-    @default_filters
+    default_filters =
+      if {:name, :foxboro} in route_filters do
+        @default_foxboro_filters
+      else
+        @default_filters
+      end
+
+    default_filters
     |> Keyword.merge(route_filters)
     |> fare_fn.()
     |> Enum.min_by(& &1.cents, fn -> nil end)
