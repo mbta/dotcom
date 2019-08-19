@@ -68,12 +68,30 @@ defmodule CMS.Helpers do
   end
 
   @spec parse_iso_datetime(String.t()) :: DateTime.t() | nil
+  def parse_iso_datetime(nil) do
+    nil
+  end
+
   def parse_iso_datetime(time) do
-    case Timex.parse(time, "{ISOdate}T{ISOtime}") do
-      {:ok, dt} -> Timex.to_datetime(dt, "Etc/UTC")
-      _ -> nil
+    case String.split(time, ":") do
+      [_date_hr, _min, _sec] ->
+        time
+        |> Timex.parse("{ISOdate}T{ISOtime}")
+        |> do_parse_iso_datetime(:deprecated)
+
+      [_date_hr, _min, _sec, _tz] ->
+        time
+        |> Timex.parse("{ISO:Extended}")
+        |> do_parse_iso_datetime(:extended)
+
+      _ ->
+        nil
     end
   end
+
+  defp do_parse_iso_datetime({:ok, dt}, :deprecated), do: Timex.to_datetime(dt, "Etc/UTC")
+  defp do_parse_iso_datetime({:ok, dt}, :extended), do: dt
+  defp do_parse_iso_datetime(_, _), do: nil
 
   @spec parse_date(map, String.t()) :: Date.t() | nil
   def parse_date(data, field) do
