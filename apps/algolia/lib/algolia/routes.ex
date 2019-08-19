@@ -26,7 +26,11 @@ defmodule Algolia.Routes do
   def filter_stations(stops, 3), do: Enum.filter(stops, & &1.station?)
   def filter_stations(stops, _), do: stops
 
-  @spec headsigns(String.t()) :: [String.t()]
+  @spec headsigns(String.t()) :: [String.t()] | nil
+  def headsigns("Green") do
+    nil
+  end
+
   def headsigns(id) do
     id
     |> @repo.get()
