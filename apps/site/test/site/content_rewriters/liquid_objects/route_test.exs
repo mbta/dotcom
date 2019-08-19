@@ -3,7 +3,7 @@ defmodule Site.ContentRewriters.LiquidObjects.RouteTest do
 
   import Site.ContentRewriters.LiquidObjects.Route
 
-  alias Routes.{Repo, Route}
+  alias Routes.Repo
 
   describe "route_request/1" do
     test "it handles route requests for a valid/existing route ID" do
