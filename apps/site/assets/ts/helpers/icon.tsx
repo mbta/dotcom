@@ -22,7 +22,7 @@ export const accessibleIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, accessibleIconSvg, "Accessible");
 
 export const alertIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, alertIconSvg);
+  renderSvg(className, alertIconSvg, "Service alert or delay");
 
 export const blueLineIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, blueLineIconSvg, "Blue Line");

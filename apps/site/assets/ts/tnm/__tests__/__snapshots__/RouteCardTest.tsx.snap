@@ -22,7 +22,7 @@ exports[`it renders a stop card 1`] = `
           "__html": "SVG",
         }
       }
-      data-original-title=""
+      data-original-title="Service alert or delay"
       data-toggle="tooltip"
       title=""
     />
@@ -152,7 +152,7 @@ exports[`it renders a stop card for the silver line 1`] = `
           "__html": "SVG",
         }
       }
-      data-original-title=""
+      data-original-title="Service alert or delay"
       data-toggle="tooltip"
       title=""
     />
