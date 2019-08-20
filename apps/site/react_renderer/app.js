@@ -13,19 +13,44 @@ import MoreProjectsTable from "../assets/ts/projects/components/MoreProjectsTabl
 import ProjectBanner from "../assets/ts/projects/components/Banner.tsx";
 import FeaturedProjectsList from "../assets/ts/projects/components/FeaturedProjectsList";
 
+const log = text => {
+  process.stdout.write(`node_logging ${text}\n`);
+};
+
 // log the process id when a process is started
-process.stdout.write(`node_logging node_process process=${process.pid}\n`);
+log(`node_process process=${process.pid}`);
 
 // log the memory usage each minute
 const memoryUsage = () => {
   const used = process.memoryUsage().heapUsed / 1024 / 1024;
-  process.stdout.write(
-    `node_logging node_memory process=${process.pid} memory_in_mb=${Math.round(
-      used * 100
-    ) / 100}\n`
+  log(
+    `node_memory process=${process.pid} memory_in_mb=${Math.round(used * 100) /
+      100}`
   );
 };
-setInterval(memoryUsage, 60000);
+
+const epipeBomb = (stream, callback) => {
+  if (stream == null) stream = process.stdout;
+  if (callback == null) callback = process.exit;
+
+  function epipeFilter(err) {
+    if (err.code === "EPIPE") return callback();
+
+    // If there's more than one error handler (ie, us),
+    // then the error won't be bubbled up anyway
+    if (stream.listeners("error").length <= 1) {
+      stream.removeAllListeners(); // Pretend we were never here
+      stream.emit("error", err); // Then emit as if we were never here
+      stream.on("error", epipeFilter); // Then reattach, ready for the next error!
+    }
+  }
+
+  stream.on("error", epipeFilter);
+};
+
+epipeBomb();
+
+const logMemoryUsage = setInterval(memoryUsage, 60000);
 
 const Components = {
   ScheduleDirection,
@@ -69,10 +94,6 @@ const makeHtml = ({ name, props }) => {
   }
 };
 
-process.stdin.on("end", () => {
-  process.exit();
-});
-
 readline
   .createInterface({
     input: process.stdin,
@@ -80,7 +101,6 @@ readline
     terminal: false
   })
   .on("line", line => {
-    const hrstart = process.hrtime();
     const input = JSON.parse(line);
     const result = makeHtml(input);
     const jsonResult = JSON.stringify(result) + "\n";
@@ -88,10 +108,8 @@ readline
     // otherwise they are getting corrupted somewhere between here and Elixir
     const encodedJsonResult = encodeZeroWidthSpaceAsHtml(jsonResult);
     process.stdout.write(encodedJsonResult);
-    const hrend = process.hrtime(hrstart);
-
-    // log request time
-    process.stdout.write(
-      `node_logging req_time milliseconds=${hrend[1] / 1000000}\n`
-    );
+  })
+  .on("close", () => {
+    clearInterval(logMemoryUsage);
+    process.exit();
   });

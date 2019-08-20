@@ -29,15 +29,14 @@ defmodule Site.React.Worker do
       ""
       |> receive_response(&handle_json/1)
 
-    case response do
-      %{data: %{"error" => nil} = data} ->
-        {:reply, {:ok, data}, state}
-
-      %{data: %{"error" => _error} = data} ->
-        {:reply, {:error, data}, state}
-
-      _ ->
-        {:noreply, state}
+    if get_in(response, [:data]) do
+      if get_in(response, [:data, "error"]) do
+        {:reply, {:error, response.data}, state}
+      else
+        {:reply, {:ok, response.data}, state}
+      end
+    else
+      {:noreply, state}
     end
   end
 
@@ -51,11 +50,17 @@ defmodule Site.React.Worker do
   end
 
   def handle_response(resp, handle_fn) do
-    # Split and keep delimiter
-    ~r/(?<=\n)/
-    |> Regex.split(resp, trim: true)
-    |> Enum.map(&handle_data(&1, handle_fn))
-    |> Enum.find(&Map.has_key?(&1, :data))
+    {time, result} =
+      :timer.tc(fn ->
+        # Split and keep delimiter
+        ~r/(?<=\n)/
+        |> Regex.split(resp, trim: true)
+        |> Enum.map(&handle_data(&1, handle_fn))
+        |> Enum.find(&(!is_nil(&1)))
+      end)
+
+    _ = Logger.warn("node_logging req_time milliseconds=#{time / 1_000}")
+    result
   end
 
   def handle_data(str, handle_fn) do
@@ -77,7 +82,7 @@ defmodule Site.React.Worker do
 
   def handle_logging(msg) do
     _ = Logger.warn(inspect(msg))
-    %{}
+    nil
   end
 
   def handle_info(msg, state) do
