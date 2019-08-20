@@ -19,7 +19,11 @@
   background-color: $brand-orange-line;
 }
 
-.u-bg--green-line {
+.u-bg--green-line,
+.u-bg--green-line-b,
+.u-bg--green-line-c,
+.u-bg--green-line-d,
+.u-bg--green-line-e {
   @include bg-text($white);
   background-color: $brand-green-line;
 }
