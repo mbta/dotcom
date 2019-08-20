@@ -25,13 +25,16 @@ exports[`it renders 1`] = `
               className="c-alert-item__icon"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon-alerts-triangle"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title=""
+                data-toggle="tooltip"
+                title=""
               />
             </div>
             <div

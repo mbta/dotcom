@@ -10810,13 +10810,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11151,13 +11154,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11205,13 +11211,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11259,13 +11268,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11313,13 +11325,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11367,13 +11382,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11421,13 +11439,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11475,13 +11496,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11529,13 +11553,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11583,13 +11610,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11637,13 +11667,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11691,13 +11724,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11745,13 +11781,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11799,13 +11838,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11853,13 +11895,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11907,13 +11952,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -11961,13 +12009,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12015,13 +12066,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12069,13 +12123,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12123,13 +12180,16 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12245,13 +12305,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12306,13 +12369,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12367,13 +12433,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12428,13 +12497,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12489,13 +12561,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12550,13 +12625,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12611,13 +12689,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12672,13 +12753,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12733,13 +12817,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12794,13 +12881,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12855,13 +12945,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12916,13 +13009,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -12977,13 +13073,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -13038,13 +13137,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -13099,13 +13201,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -13160,13 +13265,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -13221,13 +13329,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -13282,13 +13393,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -13343,13 +13457,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville
@@ -13404,13 +13521,16 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
               className="schedule-table__headsign"
             >
               <span
-                aria-hidden="true"
+                aria-hidden="false"
                 className="notranslate c-svg__icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
+                data-original-title="Commuter Rail"
+                data-toggle="tooltip"
+                title=""
               />
                
               Readville

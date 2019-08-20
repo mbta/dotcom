@@ -201,13 +201,16 @@ Array [
           className="schedule-table__headsign"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Commuter Rail"
+            data-toggle="tooltip"
+            title=""
           />
            
           Framingham
@@ -238,13 +241,16 @@ Array [
           className="schedule-table__headsign"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Commuter Rail"
+            data-toggle="tooltip"
+            title=""
           />
            
           Framingham
@@ -275,13 +281,16 @@ Array [
           className="schedule-table__headsign"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Commuter Rail"
+            data-toggle="tooltip"
+            title=""
           />
            
           Framingham

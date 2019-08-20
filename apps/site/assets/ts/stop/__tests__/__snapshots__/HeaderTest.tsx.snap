@@ -24,13 +24,16 @@ exports[`renders 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Red Line"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -43,13 +46,16 @@ exports[`renders 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Silver Line"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -62,13 +68,16 @@ exports[`renders 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Commuter Rail"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -92,13 +101,16 @@ exports[`renders 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-accessible-default"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Accessible"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -111,13 +123,16 @@ exports[`renders 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-parking-default"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Parking"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -190,13 +205,16 @@ exports[`renders a ferry route 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Ferry"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -220,13 +238,16 @@ exports[`renders a ferry route 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-accessible-default"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Accessible"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -239,13 +260,16 @@ exports[`renders a ferry route 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-parking-default"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Parking"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -318,13 +342,16 @@ exports[`renders all subway routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Red Line"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -337,13 +364,16 @@ exports[`renders all subway routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Orange Line"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -356,13 +386,16 @@ exports[`renders all subway routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Blue Line"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -375,13 +408,16 @@ exports[`renders all subway routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Mattapan Trolley"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -405,13 +441,16 @@ exports[`renders all subway routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-accessible-default"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Accessible"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -424,13 +463,16 @@ exports[`renders all subway routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-parking-default"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Parking"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -503,13 +545,16 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Green Line"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -522,13 +567,16 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Green Line B"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -541,13 +589,16 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Green Line C"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -560,13 +611,16 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Green Line D"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -579,13 +633,16 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Green Line E"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -609,13 +666,16 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-accessible-default"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Accessible"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>
@@ -628,13 +688,16 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-parking-default"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
+            data-original-title="Parking"
+            data-toggle="tooltip"
+            title=""
           />
         </span>
       </a>

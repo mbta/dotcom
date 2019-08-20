@@ -47,13 +47,16 @@ Array [
       target="_blank"
     >
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate c-svg__icon-pdf"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
+        data-original-title=""
+        data-toggle="tooltip"
+        title=""
       />
       Route 1 schedule PDF
     </a>
@@ -86,13 +89,16 @@ Array [
         target="_blank"
       >
         <span
-          aria-hidden="true"
+          aria-hidden="false"
           className="notranslate c-svg__icon-pdf"
           dangerouslySetInnerHTML={
             Object {
               "__html": "SVG",
             }
           }
+          data-original-title=""
+          data-toggle="tooltip"
+          title=""
         />
         Route 1 schedule PDF
       </a>

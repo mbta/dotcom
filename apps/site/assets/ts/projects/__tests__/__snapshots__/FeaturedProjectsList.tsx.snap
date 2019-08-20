@@ -40,13 +40,16 @@ exports[`renders 1`] = `
             className="m-route-pills"
           >
             <span
-              aria-hidden="true"
+              aria-hidden="false"
               className="notranslate c-svg__icon c-featured-project__route-icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
                 }
               }
+              data-original-title="Bus"
+              data-toggle="tooltip"
+              title=""
             />
             <span
               className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--commuter-rail"

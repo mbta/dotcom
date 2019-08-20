@@ -8,13 +8,16 @@ exports[`renders 1`] = `
     className="h3 schedule-finder__heading"
   >
     <span
-      aria-hidden="true"
+      aria-hidden="false"
       className="notranslate c-svg__icon"
       dangerouslySetInnerHTML={
         Object {
           "__html": "SVG",
         }
       }
+      data-original-title=""
+      data-toggle="tooltip"
+      title=""
     />
      Schedule Finder
   </h2>
@@ -57,13 +60,16 @@ exports[`renders 1`] = `
       </option>
     </select>
     <span
-      aria-hidden="true"
+      aria-hidden="false"
       className="notranslate c-svg__icon schedule-finder__arrow"
       dangerouslySetInnerHTML={
         Object {
           "__html": "SVG",
         }
       }
+      data-original-title=""
+      data-toggle="tooltip"
+      title=""
     />
   </div>
   <div
@@ -103,13 +109,16 @@ exports[`renders 1`] = `
       </option>
     </select>
     <span
-      aria-hidden="true"
+      aria-hidden="false"
       className="notranslate c-svg__icon schedule-finder__arrow"
       dangerouslySetInnerHTML={
         Object {
           "__html": "SVG",
         }
       }
+      data-original-title=""
+      data-toggle="tooltip"
+      title=""
     />
   </div>
   <div

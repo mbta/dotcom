@@ -132,13 +132,16 @@ exports[`it renders 1`] = `
               >
                 Charles St S @ Park Plaza
                 <span
-                  aria-hidden="true"
+                  aria-hidden="false"
                   className="notranslate m-tnm-sidebar__stop-accessible"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "SVG",
                     }
                   }
+                  data-original-title="Accessible"
+                  data-toggle="tooltip"
+                  title=""
                 />
               </a>
               <div
@@ -234,13 +237,16 @@ exports[`it renders 1`] = `
               >
                 285 Tremont St
                 <span
-                  aria-hidden="true"
+                  aria-hidden="false"
                   className="notranslate m-tnm-sidebar__stop-accessible"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "SVG",
                     }
                   }
+                  data-original-title="Accessible"
+                  data-toggle="tooltip"
+                  title=""
                 />
               </a>
               <div
@@ -351,13 +357,16 @@ exports[`it renders 1`] = `
               >
                 Stuart St @ Charles St S
                 <span
-                  aria-hidden="true"
+                  aria-hidden="false"
                   className="notranslate m-tnm-sidebar__stop-accessible"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "SVG",
                     }
                   }
+                  data-original-title="Accessible"
+                  data-toggle="tooltip"
+                  title=""
                 />
               </a>
               <div
@@ -458,13 +467,16 @@ exports[`it renders 1`] = `
               >
                 Saint James Ave @ Arlington St
                 <span
-                  aria-hidden="true"
+                  aria-hidden="false"
                   className="notranslate m-tnm-sidebar__stop-accessible"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "SVG",
                     }
                   }
+                  data-original-title="Accessible"
+                  data-toggle="tooltip"
+                  title=""
                 />
               </a>
               <div
@@ -580,13 +592,16 @@ exports[`it renders 1`] = `
               >
                 Stuart St @ Charles St S
                 <span
-                  aria-hidden="true"
+                  aria-hidden="false"
                   className="notranslate m-tnm-sidebar__stop-accessible"
                   dangerouslySetInnerHTML={
                     Object {
                       "__html": "SVG",
                     }
                   }
+                  data-original-title="Accessible"
+                  data-toggle="tooltip"
+                  title=""
                 />
               </a>
               <div

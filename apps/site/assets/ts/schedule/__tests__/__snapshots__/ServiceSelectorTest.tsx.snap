@@ -62,13 +62,16 @@ Array [
         />
       </select>
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate c-svg__icon schedule-finder__arrow"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
+        data-original-title=""
+        data-toggle="tooltip"
+        title=""
       />
     </div>
   </div>,
