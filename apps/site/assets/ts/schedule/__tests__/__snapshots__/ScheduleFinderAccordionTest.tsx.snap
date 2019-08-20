@@ -15,16 +15,13 @@ exports[`renders 1`] = `
     tabIndex={0}
   >
     <span
-      aria-hidden="false"
+      aria-hidden="true"
       className="notranslate c-expandable-block__header-icon"
       dangerouslySetInnerHTML={
         Object {
           "__html": "SVG",
         }
       }
-      data-original-title=""
-      data-toggle="tooltip"
-      title=""
     />
     <div
       className="c-expandable-block__header-text"
@@ -48,16 +45,13 @@ exports[`renders 1`] = `
       className="c-expandable-block__header"
     >
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-expandable-block__header-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title=""
-        data-toggle="tooltip"
-        title=""
       />
       Schedule Finder
       <span
@@ -115,16 +109,13 @@ exports[`renders 1`] = `
             </option>
           </select>
           <span
-            aria-hidden="false"
+            aria-hidden="true"
             className="notranslate c-svg__icon schedule-finder__arrow"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
-            data-original-title=""
-            data-toggle="tooltip"
-            title=""
           />
         </div>
         <div
@@ -164,16 +155,13 @@ exports[`renders 1`] = `
             </option>
           </select>
           <span
-            aria-hidden="false"
+            aria-hidden="true"
             className="notranslate c-svg__icon schedule-finder__arrow"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
               }
             }
-            data-original-title=""
-            data-toggle="tooltip"
-            title=""
           />
         </div>
         <div

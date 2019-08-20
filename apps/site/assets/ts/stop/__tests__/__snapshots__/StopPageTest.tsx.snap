@@ -58,16 +58,13 @@ Array [
             className="m-stop-page__icon"
           >
             <span
-              aria-hidden="false"
+              aria-hidden="true"
               className="notranslate c-svg__icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
                 }
               }
-              data-original-title="Red Line"
-              data-toggle="tooltip"
-              title=""
             />
           </span>
         </a>
@@ -80,16 +77,13 @@ Array [
             className="m-stop-page__icon"
           >
             <span
-              aria-hidden="false"
+              aria-hidden="true"
               className="notranslate c-svg__icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
                 }
               }
-              data-original-title="Silver Line"
-              data-toggle="tooltip"
-              title=""
             />
           </span>
         </a>
@@ -102,16 +96,13 @@ Array [
             className="m-stop-page__icon"
           >
             <span
-              aria-hidden="false"
+              aria-hidden="true"
               className="notranslate c-svg__icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
                 }
               }
-              data-original-title="Commuter Rail"
-              data-toggle="tooltip"
-              title=""
             />
           </span>
         </a>
@@ -135,16 +126,13 @@ Array [
             className="m-stop-page__icon"
           >
             <span
-              aria-hidden="false"
+              aria-hidden="true"
               className="notranslate c-svg__icon-accessible-default"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
                 }
               }
-              data-original-title="Accessible"
-              data-toggle="tooltip"
-              title=""
             />
           </span>
         </a>
@@ -157,16 +145,13 @@ Array [
             className="m-stop-page__icon"
           >
             <span
-              aria-hidden="false"
+              aria-hidden="true"
               className="notranslate c-svg__icon-parking-default"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
                 }
               }
-              data-original-title="Parking"
-              data-toggle="tooltip"
-              title=""
             />
           </span>
         </a>
@@ -332,16 +317,13 @@ Array [
                   target="_blank"
                 >
                   <span
-                    aria-hidden="false"
+                    aria-hidden="true"
                     className="notranslate c-svg__icon-street-view m-stop-page__street-view-icon"
                     dangerouslySetInnerHTML={
                       Object {
                         "__html": "SVG",
                       }
                     }
-                    data-original-title=""
-                    data-toggle="tooltip"
-                    title=""
                   />
                   Street View
                 </a>
@@ -2484,16 +2466,13 @@ Array [
                     className="m-stop-page__icon"
                   >
                     <span
-                      aria-hidden="false"
+                      aria-hidden="true"
                       className="notranslate c-svg__icon-accessible-default"
                       dangerouslySetInnerHTML={
                         Object {
                           "__html": "SVG",
                         }
                       }
-                      data-original-title="Accessible"
-                      data-toggle="tooltip"
-                      title=""
                     />
                   </span>
                 </a>
@@ -2537,16 +2516,13 @@ Array [
                     className="m-stop-page__icon"
                   >
                     <span
-                      aria-hidden="false"
+                      aria-hidden="true"
                       className="notranslate c-svg__icon-accessible-default"
                       dangerouslySetInnerHTML={
                         Object {
                           "__html": "SVG",
                         }
                       }
-                      data-original-title="Accessible"
-                      data-toggle="tooltip"
-                      title=""
                     />
                   </span>
                 </a>
@@ -2635,16 +2611,13 @@ Array [
                     className="m-stop-page__icon"
                   >
                     <span
-                      aria-hidden="false"
+                      aria-hidden="true"
                       className="notranslate c-svg__icon-accessible-default"
                       dangerouslySetInnerHTML={
                         Object {
                           "__html": "SVG",
                         }
                       }
-                      data-original-title="Accessible"
-                      data-toggle="tooltip"
-                      title=""
                     />
                   </span>
                 </a>
@@ -2896,16 +2869,13 @@ Array [
             tabIndex={0}
           >
             <span
-              aria-hidden="false"
+              aria-hidden="true"
               className="notranslate c-expandable-block__header-icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
                 }
               }
-              data-original-title=""
-              data-toggle="tooltip"
-              title=""
             />
             <div
               className="c-expandable-block__header-text"
@@ -2983,16 +2953,13 @@ Array [
               className="c-expandable-block__header"
             >
               <span
-                aria-hidden="false"
+                aria-hidden="true"
                 className="notranslate c-expandable-block__header-icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
-                data-original-title=""
-                data-toggle="tooltip"
-                title=""
               />
               Accessibility
               <span
@@ -3067,16 +3034,13 @@ Array [
             tabIndex={0}
           >
             <span
-              aria-hidden="false"
+              aria-hidden="true"
               className="notranslate c-expandable-block__header-icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
                 }
               }
-              data-original-title=""
-              data-toggle="tooltip"
-              title=""
             />
             <div
               className="c-expandable-block__header-text"
@@ -3100,16 +3064,13 @@ Array [
               className="c-expandable-block__header"
             >
               <span
-                aria-hidden="false"
+                aria-hidden="true"
                 className="notranslate c-expandable-block__header-icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
-                data-original-title=""
-                data-toggle="tooltip"
-                title=""
               />
               Parking
               <span
@@ -3262,16 +3223,13 @@ Array [
             tabIndex={0}
           >
             <span
-              aria-hidden="false"
+              aria-hidden="true"
               className="notranslate c-expandable-block__header-icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
                 }
               }
-              data-original-title=""
-              data-toggle="tooltip"
-              title=""
             />
             <div
               className="c-expandable-block__header-text"
@@ -3295,16 +3253,13 @@ Array [
               className="c-expandable-block__header"
             >
               <span
-                aria-hidden="false"
+                aria-hidden="true"
                 className="notranslate c-expandable-block__header-icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
-                data-original-title=""
-                data-toggle="tooltip"
-                title=""
               />
               Bikes
               <span
@@ -3365,16 +3320,13 @@ Array [
             tabIndex={0}
           >
             <span
-              aria-hidden="false"
+              aria-hidden="true"
               className="notranslate c-expandable-block__header-icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
                 }
               }
-              data-original-title=""
-              data-toggle="tooltip"
-              title=""
             />
             <div
               className="c-expandable-block__header-text"
@@ -3398,16 +3350,13 @@ Array [
               className="c-expandable-block__header"
             >
               <span
-                aria-hidden="false"
+                aria-hidden="true"
                 className="notranslate c-expandable-block__header-icon"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
                   }
                 }
-                data-original-title=""
-                data-toggle="tooltip"
-                title=""
               />
               Fare Sales
               <span

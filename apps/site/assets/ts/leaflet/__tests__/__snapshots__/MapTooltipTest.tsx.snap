@@ -19,16 +19,13 @@ exports[`it renders 1`] = `
       className="m-stop-page__icon"
     >
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon-accessible-default"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Accessible"
-        data-toggle="tooltip"
-        title=""
       />
     </span>
   </a>
@@ -36,16 +33,13 @@ exports[`it renders 1`] = `
     className="c-stop-card__route"
   >
     <span
-      aria-hidden="false"
+      aria-hidden="true"
       className="notranslate c-svg__icon"
       dangerouslySetInnerHTML={
         Object {
           "__html": "SVG",
         }
       }
-      data-original-title="Orange Line"
-      data-toggle="tooltip"
-      title=""
     />
     <a
       className="c-stop-card__route-link"
@@ -81,16 +75,13 @@ exports[`it renders with distance formatted 1`] = `
       className="m-stop-page__icon"
     >
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon-accessible-default"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Accessible"
-        data-toggle="tooltip"
-        title=""
       />
     </span>
   </a>
@@ -98,16 +89,13 @@ exports[`it renders with distance formatted 1`] = `
     className="c-stop-card__route"
   >
     <span
-      aria-hidden="false"
+      aria-hidden="true"
       className="notranslate c-svg__icon"
       dangerouslySetInnerHTML={
         Object {
           "__html": "SVG",
         }
       }
-      data-original-title="Orange Line"
-      data-toggle="tooltip"
-      title=""
     />
     <a
       className="c-stop-card__route-link"

@@ -40,172 +40,130 @@ exports[`renders with route icons 1`] = `
         </div>
       </div>
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Bus"
-        data-toggle="tooltip"
-        title=""
       />
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Blue Line"
-        data-toggle="tooltip"
-        title=""
       />
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Green Line"
-        data-toggle="tooltip"
-        title=""
       />
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Green Line B"
-        data-toggle="tooltip"
-        title=""
       />
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Green Line C"
-        data-toggle="tooltip"
-        title=""
       />
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Green Line D"
-        data-toggle="tooltip"
-        title=""
       />
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Green Line E"
-        data-toggle="tooltip"
-        title=""
       />
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Subway"
-        data-toggle="tooltip"
-        title=""
       />
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Mattapan Trolley"
-        data-toggle="tooltip"
-        title=""
       />
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Orange Line"
-        data-toggle="tooltip"
-        title=""
       />
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Red Line"
-        data-toggle="tooltip"
-        title=""
       />
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Silver Line"
-        data-toggle="tooltip"
-        title=""
       />
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Ferry"
-        data-toggle="tooltip"
-        title=""
       />
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-svg__icon c-more-projects-table__route-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Commuter Rail"
-        data-toggle="tooltip"
-        title=""
       />
     </div>
   </td>

@@ -15,16 +15,13 @@ exports[`it renders a stop card 1`] = `
       Route Header
     </span>
     <span
-      aria-hidden="false"
+      aria-hidden="true"
       className="notranslate m-tnm-sidebar__route-alert"
       dangerouslySetInnerHTML={
         Object {
           "__html": "SVG",
         }
       }
-      data-original-title=""
-      data-toggle="tooltip"
-      title=""
     />
   </a>
   <div
@@ -47,29 +44,23 @@ exports[`it renders a stop card 1`] = `
         href="/stops/stop-id"
       >
         <span
-          aria-hidden="false"
+          aria-hidden="true"
           className="notranslate m-tnm-sidebar__stop-marker"
           dangerouslySetInnerHTML={
             Object {
               "__html": "SVG",
             }
           }
-          data-original-title=""
-          data-toggle="tooltip"
-          title=""
         />
         Stop Name
         <span
-          aria-hidden="false"
+          aria-hidden="true"
           className="notranslate m-tnm-sidebar__stop-accessible"
           dangerouslySetInnerHTML={
             Object {
               "__html": "SVG",
             }
           }
-          data-original-title="Accessible"
-          data-toggle="tooltip"
-          title=""
         />
       </a>
       <div
@@ -145,16 +136,13 @@ exports[`it renders a stop card for the silver line 1`] = `
       Route Header
     </span>
     <span
-      aria-hidden="false"
+      aria-hidden="true"
       className="notranslate m-tnm-sidebar__route-alert"
       dangerouslySetInnerHTML={
         Object {
           "__html": "SVG",
         }
       }
-      data-original-title=""
-      data-toggle="tooltip"
-      title=""
     />
   </a>
   <div
@@ -177,29 +165,23 @@ exports[`it renders a stop card for the silver line 1`] = `
         href="/stops/stop-id"
       >
         <span
-          aria-hidden="false"
+          aria-hidden="true"
           className="notranslate m-tnm-sidebar__stop-marker"
           dangerouslySetInnerHTML={
             Object {
               "__html": "SVG",
             }
           }
-          data-original-title=""
-          data-toggle="tooltip"
-          title=""
         />
         Stop Name
         <span
-          aria-hidden="false"
+          aria-hidden="true"
           className="notranslate m-tnm-sidebar__stop-accessible"
           dangerouslySetInnerHTML={
             Object {
               "__html": "SVG",
             }
           }
-          data-original-title="Accessible"
-          data-toggle="tooltip"
-          title=""
         />
       </a>
       <div

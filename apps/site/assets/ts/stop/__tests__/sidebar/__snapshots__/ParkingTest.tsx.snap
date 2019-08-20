@@ -13,16 +13,13 @@ Array [
     tabIndex={0}
   >
     <span
-      aria-hidden="false"
+      aria-hidden="true"
       className="notranslate c-expandable-block__header-icon"
       dangerouslySetInnerHTML={
         Object {
           "__html": "SVG",
         }
       }
-      data-original-title=""
-      data-toggle="tooltip"
-      title=""
     />
     <div
       className="c-expandable-block__header-text"
@@ -46,16 +43,13 @@ Array [
       className="c-expandable-block__header"
     >
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-expandable-block__header-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title=""
-        data-toggle="tooltip"
-        title=""
       />
       Parking
       <span
@@ -237,16 +231,13 @@ exports[`Parking via enzyme-to-json it displays parking info when opened and inn
       tabIndex={0}
     >
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate c-expandable-block__header-icon"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title=""
-        data-toggle="tooltip"
-        title=""
       />
       <div
         className="c-expandable-block__header-text"

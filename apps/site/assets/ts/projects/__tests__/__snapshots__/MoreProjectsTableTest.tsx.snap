@@ -70,28 +70,22 @@ exports[`renders 1`] = `
               </div>
             </div>
             <span
-              aria-hidden="false"
+              aria-hidden="true"
               className="notranslate c-svg__icon c-more-projects-table__route-icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
                 }
               }
-              data-original-title="Bus"
-              data-toggle="tooltip"
-              title=""
             />
             <span
-              aria-hidden="false"
+              aria-hidden="true"
               className="notranslate c-svg__icon c-more-projects-table__route-icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
                 }
               }
-              data-original-title="Red Line"
-              data-toggle="tooltip"
-              title=""
             />
           </div>
         </td>

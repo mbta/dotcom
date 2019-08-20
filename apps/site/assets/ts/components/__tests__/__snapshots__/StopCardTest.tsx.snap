@@ -21,29 +21,23 @@ exports[`it renders a stop card 1`] = `
       href="/stops/stop-id"
     >
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate m-tnm-sidebar__stop-marker"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title=""
-        data-toggle="tooltip"
-        title=""
       />
       Stop Name
       <span
-        aria-hidden="false"
+        aria-hidden="true"
         className="notranslate m-tnm-sidebar__stop-accessible"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
           }
         }
-        data-original-title="Accessible"
-        data-toggle="tooltip"
-        title=""
       />
     </a>
     <div
