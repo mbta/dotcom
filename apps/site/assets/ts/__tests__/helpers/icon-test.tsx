@@ -23,10 +23,7 @@ describe("accessibleIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Accessible"
-        title=""
+        aria-hidden="true"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -42,10 +39,7 @@ describe("accessibleIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Accessible"
-        title=""
+        aria-hidden="true"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -65,10 +59,7 @@ describe("blueLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Blue Line"
-        title=""
+        aria-hidden="true"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -84,10 +75,7 @@ describe("blueLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Blue Line"
-        title=""
+        aria-hidden="true"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -107,10 +95,7 @@ describe("busIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Bus"
-        title=""
+        aria-hidden="true"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -126,10 +111,7 @@ describe("busIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Bus"
-        title=""
+        aria-hidden="true"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -149,10 +131,7 @@ describe("commuterRailIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Commuter Rail"
-        title=""
+        aria-hidden="true"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -168,10 +147,7 @@ describe("commuterRailIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Commuter Rail"
-        title=""
+        aria-hidden="true"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -191,10 +167,7 @@ describe("greenLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Green Line"
-        title=""
+        aria-hidden="true"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -210,10 +183,7 @@ describe("greenLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Green Line"
-        title=""
+        aria-hidden="true"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -233,10 +203,7 @@ describe("greenBLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Green Line B"
-        title=""
+        aria-hidden="true"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -252,10 +219,7 @@ describe("greenBLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Green Line B"
-        title=""
+        aria-hidden="true"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -275,10 +239,7 @@ describe("greenCLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Green Line C"
-        title=""
+        aria-hidden="true"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -294,10 +255,7 @@ describe("greenCLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Green Line C"
-        title=""
+        aria-hidden="true"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -317,10 +275,7 @@ describe("greenDLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Green Line D"
-        title=""
+        aria-hidden="true"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -336,10 +291,7 @@ describe("greenDLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Green Line D"
-        title=""
+        aria-hidden="true"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -359,10 +311,7 @@ describe("greenELineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Green Line E"
-        title=""
+        aria-hidden="true"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -378,10 +327,7 @@ describe("greenELineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Green Line E"
-        title=""
+        aria-hidden="true"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -401,10 +347,7 @@ describe("mattapanLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Mattapan Trolley"
-        title=""
+        aria-hidden="true"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -420,10 +363,7 @@ describe("mattapanLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Mattapan Trolley"
-        title=""
+        aria-hidden="true"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -443,10 +383,7 @@ describe("orangeLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Orange Line"
-        title=""
+        aria-hidden="true"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -462,10 +399,7 @@ describe("orangeLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Orange Line"
-        title=""
+        aria-hidden="true"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -485,10 +419,7 @@ describe("parkingIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Parking"
-        title=""
+        aria-hidden="true"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -504,10 +435,7 @@ describe("parkingIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Parking"
-        title=""
+        aria-hidden="true"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -527,10 +455,7 @@ describe("redLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Red Line"
-        title=""
+        aria-hidden="true"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -546,10 +471,7 @@ describe("redLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="false"
-        data-toggle="tooltip"
-        data-original-title="Red Line"
-        title=""
+        aria-hidden="true"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
