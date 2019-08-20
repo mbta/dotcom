@@ -19,55 +19,55 @@ import redLineIconSvg from "../../static/images/icon-red-line-small.svg";
 import silverLineIconSvg from "../../static/images/icon-silver-line-small.svg";
 
 export const accessibleIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, accessibleIconSvg);
+  renderSvg(className, accessibleIconSvg, "Accessible");
 
 export const alertIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, alertIconSvg);
 
 export const blueLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, blueLineIconSvg);
+  renderSvg(className, blueLineIconSvg, "Blue Line");
 
 export const busIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, busIconSvg);
+  renderSvg(className, busIconSvg, "Bus");
 
 export const commuterRailIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, commuterRailIconSvg);
+  renderSvg(className, commuterRailIconSvg, "Commuter Rail");
 
 export const ferryIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, ferryIconSvg);
+  renderSvg(className, ferryIconSvg, "Ferry");
 
 export const genericSubwayIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, genericSubwayIconSvg);
+  renderSvg(className, genericSubwayIconSvg, "Subway");
 
 export const greenLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, greenLineIconSvg);
+  renderSvg(className, greenLineIconSvg, "Green Line");
 
 export const greenBLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, greenBLineIconSvg);
+  renderSvg(className, greenBLineIconSvg, "Green Line B");
 
 export const greenCLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, greenCLineIconSvg);
+  renderSvg(className, greenCLineIconSvg, "Green Line C");
 
 export const greenDLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, greenDLineIconSvg);
+  renderSvg(className, greenDLineIconSvg, "Green Line D");
 
 export const greenELineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, greenELineIconSvg);
+  renderSvg(className, greenELineIconSvg, "Green Line E");
 
 export const mattapanLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, mattapanLineIconSvg);
+  renderSvg(className, mattapanLineIconSvg, "Mattapan Trolley");
 
 export const orangeLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, orangeLineIconSvg);
+  renderSvg(className, orangeLineIconSvg, "Orange Line");
 
 export const parkingIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, parkingIconSvg);
+  renderSvg(className, parkingIconSvg, "Parking");
 
 export const redLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, redLineIconSvg);
+  renderSvg(className, redLineIconSvg, "Red Line");
 
 export const silverLineIcon = (className: string = ""): JSX.Element =>
-  renderSvg(className, silverLineIconSvg);
+  renderSvg(className, silverLineIconSvg, "Silver Line");
 
 const isSilverRoute = (routeId: string): boolean =>
   routeId === "741" ||
