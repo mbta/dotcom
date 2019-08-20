@@ -24,7 +24,7 @@ exports[`renders 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -43,7 +43,7 @@ exports[`renders 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -62,7 +62,7 @@ exports[`renders 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -92,7 +92,7 @@ exports[`renders 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-accessible-default"
             dangerouslySetInnerHTML={
               Object {
@@ -111,7 +111,7 @@ exports[`renders 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-parking-default"
             dangerouslySetInnerHTML={
               Object {
@@ -190,7 +190,7 @@ exports[`renders a ferry route 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -220,7 +220,7 @@ exports[`renders a ferry route 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-accessible-default"
             dangerouslySetInnerHTML={
               Object {
@@ -239,7 +239,7 @@ exports[`renders a ferry route 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-parking-default"
             dangerouslySetInnerHTML={
               Object {
@@ -318,7 +318,7 @@ exports[`renders all subway routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -337,7 +337,7 @@ exports[`renders all subway routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -356,7 +356,7 @@ exports[`renders all subway routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -375,7 +375,7 @@ exports[`renders all subway routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -405,7 +405,7 @@ exports[`renders all subway routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-accessible-default"
             dangerouslySetInnerHTML={
               Object {
@@ -424,7 +424,7 @@ exports[`renders all subway routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-parking-default"
             dangerouslySetInnerHTML={
               Object {
@@ -503,7 +503,7 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -522,7 +522,7 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -541,7 +541,7 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -560,7 +560,7 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -579,7 +579,7 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -609,7 +609,7 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-accessible-default"
             dangerouslySetInnerHTML={
               Object {
@@ -628,7 +628,7 @@ exports[`renders with green line routes 1`] = `
           className="m-stop-page__icon"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon-parking-default"
             dangerouslySetInnerHTML={
               Object {

@@ -15,7 +15,7 @@ exports[`it renders a stop card 1`] = `
       Route Header
     </span>
     <span
-      aria-hidden="true"
+      aria-hidden="false"
       className="notranslate m-tnm-sidebar__route-alert"
       dangerouslySetInnerHTML={
         Object {
@@ -54,7 +54,7 @@ exports[`it renders a stop card 1`] = `
         />
         Stop Name
         <span
-          aria-hidden="true"
+          aria-hidden="false"
           className="notranslate m-tnm-sidebar__stop-accessible"
           dangerouslySetInnerHTML={
             Object {
@@ -136,7 +136,7 @@ exports[`it renders a stop card for the silver line 1`] = `
       Route Header
     </span>
     <span
-      aria-hidden="true"
+      aria-hidden="false"
       className="notranslate m-tnm-sidebar__route-alert"
       dangerouslySetInnerHTML={
         Object {
@@ -175,7 +175,7 @@ exports[`it renders a stop card for the silver line 1`] = `
         />
         Stop Name
         <span
-          aria-hidden="true"
+          aria-hidden="false"
           className="notranslate m-tnm-sidebar__stop-accessible"
           dangerouslySetInnerHTML={
             Object {

@@ -40,7 +40,7 @@ exports[`renders 1`] = `
             className="m-route-pills"
           >
             <span
-              aria-hidden="true"
+              aria-hidden="false"
               className="notranslate c-svg__icon c-featured-project__route-icon"
               dangerouslySetInnerHTML={
                 Object {
