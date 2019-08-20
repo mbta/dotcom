@@ -1,12 +1,9 @@
 import React from "react";
 
-export default (className: string, svgText: string, iconName: string = ""): JSX.Element => (
+export default (className: string, svgText: string): JSX.Element => (
   <span
     className={className ? `notranslate ${className}` : "notranslate"}
-    aria-hidden="false"
-    data-toggle="tooltip"
-    data-original-title={iconName}
-    title=""
+    aria-hidden="true"
     // eslint-disable-next-line react/no-danger
     dangerouslySetInnerHTML={{ __html: svgText }}
   />
