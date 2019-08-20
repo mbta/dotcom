@@ -13,20 +13,24 @@ import MoreProjectsTable from "../assets/ts/projects/components/MoreProjectsTabl
 import ProjectBanner from "../assets/ts/projects/components/Banner.tsx";
 import FeaturedProjectsList from "../assets/ts/projects/components/FeaturedProjectsList";
 
-const log = text => {
-  process.stdout.write(`node_logging ${text}\n`);
+const log = (title, obj) => {
+  process.stdout.write(
+    `node_logging ${title} ${Object.keys(obj).map(
+      key => `${key}=${obj[key]}`
+    )}\n`
+  );
 };
 
 // log the process id when a process is started
-log(`node_process process=${process.pid}`);
+log(`node_process`, { process: process.pid });
 
 // log the memory usage each minute
 const memoryUsage = () => {
   const used = process.memoryUsage().heapUsed / 1024 / 1024;
-  log(
-    `node_memory process=${process.pid} memory_in_mb=${Math.round(used * 100) /
-      100}`
-  );
+  log(`node_memory`, {
+    process: process.pid,
+    memory_in_mb: Math.round(used * 100) / 100
+  });
 };
 
 const epipeBomb = (stream, callback) => {
