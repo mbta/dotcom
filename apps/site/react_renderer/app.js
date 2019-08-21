@@ -9,9 +9,7 @@ import ScheduleNote from "../assets/ts/schedule/components/ScheduleNote";
 import ScheduleFinder from "../assets/ts/schedule/components/ScheduleFinder";
 import ScheduleDirection from "../assets/ts/schedule/components/ScheduleDirection";
 import TripPlannerResults from "../assets/ts/trip-plan-results/components/TripPlannerResults";
-import MoreProjectsTable from "../assets/ts/projects/components/MoreProjectsTable";
-import ProjectBanner from "../assets/ts/projects/components/Banner.tsx";
-import FeaturedProjectsList from "../assets/ts/projects/components/FeaturedProjectsList";
+import ProjectsPage from "../assets/ts/projects/components/ProjectsPage";
 
 const log = (title, obj) => {
   process.stdout.write(
@@ -64,9 +62,7 @@ const Components = {
   StopPage,
   TransitNearMe,
   TripPlannerResults,
-  MoreProjectsTable,
-  ProjectBanner,
-  FeaturedProjectsList
+  ProjectsPage
 };
 
 const encodeZeroWidthSpaceAsHtml = str => str.replace(/​/g, "&#8203;");

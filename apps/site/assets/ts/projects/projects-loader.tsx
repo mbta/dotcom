@@ -1,46 +1,31 @@
 import React from "react";
 import { render } from "react-dom";
-import FeaturedProjectsList from "./components/FeaturedProjectsList";
-import MoreProjectsTable from "./components/MoreProjectsTable";
-import Banner from "./components/Banner";
+import ProjectsPage from "./components/ProjectsPage";
 
-export const projects = (): void => {
-  const projectTeasersDataEl = document.getElementById(
-    "js-project-teasers-data"
-  );
-  const projectTeasersRootEl = document.getElementById(
-    "react-project-teasers-root"
-  );
-  const featuredProjectsDataEl = document.getElementById(
-    "js-featured-projects-data"
-  );
-  const featuredProjectsRootEl = document.getElementById(
-    "react-featured-projects-root"
-  );
-  const moreProjectsDataEl = document.getElementById("js-more-projects-data");
-  const moreProjectsRootEl = document.getElementById(
-    "react-more-projects-table-root"
-  );
-  if (
-    !moreProjectsDataEl ||
-    !moreProjectsRootEl ||
-    !featuredProjectsDataEl ||
-    !featuredProjectsRootEl ||
-    !projectTeasersRootEl ||
-    !projectTeasersDataEl
-  ) {
+export const projectsLoader = (): void => {
+  const projectDataEl = document.getElementById("js-projects-data");
+  const projectsRootEl = document.getElementById("react-projects-root");
+
+  if (!projectDataEl || !projectsRootEl) {
     return;
   }
 
-  const projectTeasersData = JSON.parse(projectTeasersDataEl.innerText);
-  const featuredProjectsData = JSON.parse(featuredProjectsDataEl.innerText);
-  const moreProjectsData = JSON.parse(moreProjectsDataEl.innerText);
-  render(<Banner {...projectTeasersData} />, projectTeasersRootEl);
+  const projectsData = JSON.parse(projectDataEl.innerText);
+  const {
+    placeholderImageUrl,
+    banner,
+    featuredProjects,
+    projects
+  } = projectsData;
   render(
-    <FeaturedProjectsList {...featuredProjectsData} />,
-    featuredProjectsRootEl
+    <ProjectsPage
+      banner={banner}
+      featuredProjects={featuredProjects}
+      projects={projects}
+      placeholderImageUrl={placeholderImageUrl}
+    />,
+    projectsRootEl
   );
-  render(<MoreProjectsTable {...moreProjectsData} />, moreProjectsRootEl);
 };
 
-export default projects;
+export default projectsLoader;
