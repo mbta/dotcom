@@ -187,8 +187,10 @@
 }
 
 .c-more-projects-table__wrapper {
-  display: inline-block;
-  width: 70%;
+  @include media-breakpoint-up(lg) {
+    display: inline-block;
+    width: 70%;
+  }
 }
 
 .c-more-projects-table__tr {
@@ -216,7 +218,7 @@
 
 .c-more-projects-table__last-updated {
   float: left;
-  width: $base-spacing * 12;
+  width: $base-spacing * 9;
 }
 
 .c-more-projects-table__internal-header {
