@@ -172,7 +172,7 @@
     &:hover::after {
       // scss-lint:disable DuplicateProperty PropertySortOrder
       content: ' ' attr(title);
-      opacity: .5;
+      opacity: .65;
       white-space: pre;
 
       // Grayscale/desaturated
