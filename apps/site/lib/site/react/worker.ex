@@ -27,28 +27,62 @@ defmodule Site.React.Worker do
 
     response =
       ""
-      |> receive_response()
-      |> Poison.decode!()
+      |> receive_response(&handle_json/1)
 
-    if Map.get(response, "error", nil) do
-      {:reply, {:error, response}, state}
+    if get_in(response, [:data]) do
+      if get_in(response, [:data, "error"]) do
+        {:reply, {:error, response.data}, state}
+      else
+        {:reply, {:ok, response.data}, state}
+      end
     else
-      {:reply, {:ok, response}, state}
+      {:noreply, state}
     end
   end
 
-  defp receive_response(prev_responses) do
+  defp receive_response(prev_responses, handle_fn) do
     receive do
       {_, {:data, data}} ->
         str = to_string(data)
-        new_resp = prev_responses <> str
-
-        if String.ends_with?(str, "\n") do
-          new_resp
-        else
-          receive_response(new_resp)
-        end
+        resp = prev_responses <> str
+        handle_response(resp, handle_fn)
     end
+  end
+
+  def handle_response(resp, handle_fn) do
+    {time, result} =
+      :timer.tc(fn ->
+        # Split and keep delimiter
+        ~r/(?<=\n)/
+        |> Regex.split(resp, trim: true)
+        |> Enum.map(&handle_data(&1, handle_fn))
+        |> Enum.find(&(!is_nil(&1)))
+      end)
+
+    _ = Logger.warn("node_logging req_time milliseconds=#{time / 1_000}")
+    result
+  end
+
+  def handle_data(str, handle_fn) do
+    if String.ends_with?(str, "\n") do
+      if String.starts_with?(str, "node_logging") do
+        handle_logging(str)
+      else
+        handle_fn.(str)
+      end
+    else
+      receive_response(str, handle_fn)
+    end
+  end
+
+  def handle_json(msg) do
+    json = Poison.decode!(msg)
+    %{data: json}
+  end
+
+  def handle_logging(msg) do
+    _ = Logger.warn(inspect(msg))
+    nil
   end
 
   def handle_info(msg, state) do

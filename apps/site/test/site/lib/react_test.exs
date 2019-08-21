@@ -43,17 +43,36 @@ defmodule Site.ReactTest do
       assert body =~ "m-tnm-sidebar"
     end
 
+    test "logs node performance",
+         %{
+           route_sidebar_data: route_sidebar_data,
+           stop_sidebar_data: stop_sidebar_data
+         } do
+      log =
+        CaptureLog.capture_log(fn ->
+          React.render("TransitNearMe", %{
+            query: %{},
+            mapId: "map-id",
+            mapData: %{markers: []},
+            routeSidebarData: route_sidebar_data,
+            stopSidebarData: stop_sidebar_data
+          })
+        end)
+
+      assert log =~
+               "node_logging"
+    end
+
     test "fails with unknown component" do
       log =
         CaptureLog.capture_log(fn ->
-          assert "" ==
-                   React.render("TransitNearMeError", %{
-                     query: %{},
-                     mapId: "map-id",
-                     mapData: %{markers: []},
-                     routeSidebarData: [],
-                     stopSidebarData: []
-                   })
+          React.render("TransitNearMeError", %{
+            query: %{},
+            mapId: "map-id",
+            mapData: %{markers: []},
+            routeSidebarData: [],
+            stopSidebarData: []
+          })
         end)
 
       assert log =~
@@ -63,14 +82,13 @@ defmodule Site.ReactTest do
     test "fails with bad data" do
       log =
         CaptureLog.capture_log(fn ->
-          assert "" ==
-                   React.render("TransitNearMe", %{
-                     query: %{},
-                     mapId: "map-id",
-                     mapData: %{markers: []},
-                     routeSidebarData: "crash",
-                     stopSidebarData: []
-                   })
+          React.render("TransitNearMe", %{
+            query: %{},
+            mapId: "map-id",
+            mapData: %{markers: []},
+            routeSidebarData: "crash",
+            stopSidebarData: []
+          })
         end)
 
       assert log =~ ~r/react_renderer component=TransitNearMe.* is not a function/

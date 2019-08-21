@@ -1,7 +1,7 @@
 import ReactServer from "react-dom/server";
 import React from "react";
 import readline from "readline";
-
+import fs from "fs";
 import TransitNearMe from "../assets/ts/tnm/components/TransitNearMe";
 import StopPage from "../assets/ts/stop/components/StopPage";
 import SchedulePage from "../assets/ts/schedule/components/SchedulePage";
@@ -12,6 +12,49 @@ import TripPlannerResults from "../assets/ts/trip-plan-results/components/TripPl
 import MoreProjectsTable from "../assets/ts/projects/components/MoreProjectsTable";
 import ProjectBanner from "../assets/ts/projects/components/Banner.tsx";
 import FeaturedProjectsList from "../assets/ts/projects/components/FeaturedProjectsList";
+
+const log = (title, obj) => {
+  process.stdout.write(
+    `node_logging ${title} ${Object.keys(obj).map(
+      key => `${key}=${obj[key]}`
+    )}\n`
+  );
+};
+
+// log the process id when a process is started
+log(`node_process`, { process: process.pid });
+
+// log the memory usage each minute
+const memoryUsage = () => {
+  const used = process.memoryUsage().heapUsed / 1024 / 1024;
+  log(`node_memory`, {
+    process: process.pid,
+    memory_in_mb: Math.round(used * 100) / 100
+  });
+};
+
+const epipeBomb = (stream, callback) => {
+  if (stream == null) stream = process.stdout;
+  if (callback == null) callback = process.exit;
+
+  function epipeFilter(err) {
+    if (err.code === "EPIPE") return callback();
+
+    // If there's more than one error handler (ie, us),
+    // then the error won't be bubbled up anyway
+    if (stream.listeners("error").length <= 1) {
+      stream.removeAllListeners(); // Pretend we were never here
+      stream.emit("error", err); // Then emit as if we were never here
+      stream.on("error", epipeFilter); // Then reattach, ready for the next error!
+    }
+  }
+
+  stream.on("error", epipeFilter);
+};
+
+epipeBomb();
+
+const logMemoryUsage = setInterval(memoryUsage, 60000);
 
 const Components = {
   ScheduleDirection,
@@ -55,10 +98,6 @@ const makeHtml = ({ name, props }) => {
   }
 };
 
-process.stdin.on("end", () => {
-  process.exit();
-});
-
 readline
   .createInterface({
     input: process.stdin,
@@ -73,4 +112,8 @@ readline
     // otherwise they are getting corrupted somewhere between here and Elixir
     const encodedJsonResult = encodeZeroWidthSpaceAsHtml(jsonResult);
     process.stdout.write(encodedJsonResult);
+  })
+  .on("close", () => {
+    clearInterval(logMemoryUsage);
+    process.exit();
   });
