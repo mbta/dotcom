@@ -397,7 +397,7 @@ a {
 
 .schedule-selected,
 .schedule-today {
-  @extend %button-selected-color;
+  @include button-selected-color;
 }
 
 .schedule-next-month {
