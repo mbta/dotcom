@@ -259,6 +259,20 @@ defmodule BaseFareTest do
 
       assert base_fare(route, origin_id, destination_id, fare_fn) == nil
     end
+
+    test "returns a free fare for any bus shuttle rail replacements" do
+      route = %Route{
+        description: :rail_replacement_bus,
+        id: "Shuttle-BallardvaleMaldenCenter",
+        name: "Haverhill Line Shuttle",
+        type: 3
+      }
+
+      origin_id = "place-mlmnl"
+      destination_id = "place-WR-0099"
+
+      assert %Fares.Fare{cents: 0, name: :free_fare} = base_fare(route, origin_id, destination_id)
+    end
   end
 
   describe "ferry" do

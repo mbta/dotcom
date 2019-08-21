@@ -8,7 +8,7 @@ defmodule Site.BaseFare do
   the express fare is always returned.
   """
 
-  alias Fares.Fare
+  alias Fares.{Fare, Repo}
   alias Routes.Route
 
   @default_filters [reduced: nil, duration: :single_trip]
@@ -21,7 +21,7 @@ defmodule Site.BaseFare do
           (Keyword.t() -> [Fare.t()])
         ) ::
           String.t() | nil
-  def base_fare(route, origin_id, destination_id, fare_fn \\ &Fares.Repo.all/1)
+  def base_fare(route, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def base_fare(nil, _, _, _), do: nil
 
   def base_fare(route, origin_id, destination_id, fare_fn) do
@@ -45,6 +45,10 @@ defmodule Site.BaseFare do
 
   defp name_or_mode_filter(:subway, _route, _origin_id, _destination_id) do
     [mode: :subway]
+  end
+
+  defp name_or_mode_filter(_, %{description: :rail_replacement_bus}, _, _) do
+    [name: :free_fare]
   end
 
   defp name_or_mode_filter(:bus, %{id: route_id}, origin_id, _destination_id) do
