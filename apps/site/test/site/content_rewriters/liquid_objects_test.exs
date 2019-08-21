@@ -8,6 +8,7 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
 
   alias SiteWeb.PartialView.SvgIconWithCircle
   alias Fares.{Format, Repo}
+  alias Routes
 
   describe "replace/1" do
     test "it replaces fa- prefixed objects" do
@@ -65,6 +66,10 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
 
       assert replace(~s(fare:cash)) ==
                ~s({{ <span class="text-danger">missing mode/name</span> fare:cash }})
+    end
+
+    test "it handles route requests" do
+      assert replace(~s(route:83)) == "83" |> Routes.Repo.get() |> Map.get(:long_name)
     end
 
     test "it returns a liquid object when not otherwise handled" do
