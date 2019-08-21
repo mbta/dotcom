@@ -396,6 +396,7 @@ a {
 }
 
 .schedule-selected,
+.schedule-weekend.schedule-selected,
 .schedule-today {
   @extend %button-selected-color;
 }
