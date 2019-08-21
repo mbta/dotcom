@@ -23,7 +23,7 @@ describe("accessibleIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -39,7 +39,7 @@ describe("accessibleIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -59,7 +59,7 @@ describe("blueLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -75,7 +75,7 @@ describe("blueLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -95,7 +95,7 @@ describe("busIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -111,7 +111,7 @@ describe("busIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -131,7 +131,7 @@ describe("commuterRailIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -147,7 +147,7 @@ describe("commuterRailIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -167,7 +167,7 @@ describe("greenLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -183,7 +183,7 @@ describe("greenLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -203,7 +203,7 @@ describe("greenBLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -219,7 +219,7 @@ describe("greenBLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -239,7 +239,7 @@ describe("greenCLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -255,7 +255,7 @@ describe("greenCLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -275,7 +275,7 @@ describe("greenDLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -291,7 +291,7 @@ describe("greenDLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -311,7 +311,7 @@ describe("greenELineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -327,7 +327,7 @@ describe("greenELineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -347,7 +347,7 @@ describe("mattapanLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -363,7 +363,7 @@ describe("mattapanLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -383,7 +383,7 @@ describe("orangeLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -399,7 +399,7 @@ describe("orangeLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -419,7 +419,7 @@ describe("parkingIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -435,7 +435,7 @@ describe("parkingIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -455,7 +455,7 @@ describe("redLineIcon", () => {
 
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className={`notranslate ${className}`}
         dangerouslySetInnerHTML={{
           __html: "SVG"
@@ -471,7 +471,7 @@ describe("redLineIcon", () => {
   it("renders without a class name", () => {
     const expected = (
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate"
         dangerouslySetInnerHTML={{
           __html: "SVG"

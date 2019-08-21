@@ -201,7 +201,7 @@ Array [
           className="schedule-table__headsign"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -238,7 +238,7 @@ Array [
           className="schedule-table__headsign"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {
@@ -275,7 +275,7 @@ Array [
           className="schedule-table__headsign"
         >
           <span
-            aria-hidden="true"
+            aria-hidden="false"
             className="notranslate c-svg__icon"
             dangerouslySetInnerHTML={
               Object {

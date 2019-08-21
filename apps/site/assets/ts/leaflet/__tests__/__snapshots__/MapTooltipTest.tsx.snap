@@ -19,7 +19,7 @@ exports[`it renders 1`] = `
       className="m-stop-page__icon"
     >
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate c-svg__icon-accessible-default"
         dangerouslySetInnerHTML={
           Object {
@@ -33,7 +33,7 @@ exports[`it renders 1`] = `
     className="c-stop-card__route"
   >
     <span
-      aria-hidden="true"
+      aria-hidden="false"
       className="notranslate c-svg__icon"
       dangerouslySetInnerHTML={
         Object {
@@ -75,7 +75,7 @@ exports[`it renders with distance formatted 1`] = `
       className="m-stop-page__icon"
     >
       <span
-        aria-hidden="true"
+        aria-hidden="false"
         className="notranslate c-svg__icon-accessible-default"
         dangerouslySetInnerHTML={
           Object {
@@ -89,7 +89,7 @@ exports[`it renders with distance formatted 1`] = `
     className="c-stop-card__route"
   >
     <span
-      aria-hidden="true"
+      aria-hidden="false"
       className="notranslate c-svg__icon"
       dangerouslySetInnerHTML={
         Object {

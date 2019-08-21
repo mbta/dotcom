@@ -1,5 +1,5 @@
 plugins:
-  - removeTitle: true
+  - removeTitle: false
   - removeAttrs:
       attrs:
         - 'id'
