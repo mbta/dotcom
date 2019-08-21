@@ -7,11 +7,7 @@ defmodule Site.ContentRewriters.LiquidObjects.RouteTest do
 
   describe "route_request/1" do
     test "it handles route requests for a valid/existing route ID" do
-      assert "83"
-             |> Repo.get()
-             |> Map.get(:long_name) == "Rindge Avenue - Central Square, Cambridge"
-
-      assert route_request("83") == {:ok, "Rindge Avenue - Central Square, Cambridge"}
+      assert route_request("83") == {:ok, "83" |> Repo.get() |> Map.get(:long_name)}
     end
 
     test "it reports when there are no results (valid request, but no repo matches)" do
