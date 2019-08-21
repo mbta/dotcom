@@ -10,9 +10,11 @@ defmodule Site.ContentRewriters.LiquidObjects do
   import Phoenix.HTML, only: [raw: 1, safe_to_string: 1]
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import SiteWeb.PartialView.SvgIconWithCircle, only: [svg_icon_with_circle: 1]
+  import SiteWeb.ViewHelpers, only: [fa: 1, svg: 1]
 
   # "Plugins" for other Elixir apps
   import __MODULE__.Fare, only: [fare_request: 1]
+  import __MODULE__.Route, only: [route_request: 1]
 
   alias SiteWeb.PartialView.SvgIconWithCircle
 
@@ -36,7 +38,11 @@ defmodule Site.ContentRewriters.LiquidObjects do
   end
 
   def replace("fare:" <> tokens, _opts) do
-    tokens |> fare_request() |> fare_replace(tokens)
+    tokens |> fare_request() |> do_replacement(:fare, tokens)
+  end
+
+  def replace("route:" <> route, _opts) do
+    route |> route_request() |> do_replacement(:route, route)
   end
 
   def replace(unmatched, _opts) do
@@ -46,7 +52,7 @@ defmodule Site.ContentRewriters.LiquidObjects do
   defp font_awesome_replace(icon) do
     icon
     |> get_arg
-    |> SiteWeb.ViewHelpers.fa()
+    |> fa()
     |> safe_to_string
   end
 
@@ -125,19 +131,25 @@ defmodule Site.ContentRewriters.LiquidObjects do
   defp icon_size(opts),
     do: if(Keyword.get(opts, :use_small_icon?, false), do: :small, else: :default)
 
-  defp app_svg_badge("apple"), do: SiteWeb.ViewHelpers.svg("badge-apple-store.svg")
-  defp app_svg_badge("google"), do: SiteWeb.ViewHelpers.svg("badge-google-play.svg")
+  defp app_svg_badge("apple"), do: svg("badge-apple-store.svg")
+  defp app_svg_badge("google"), do: svg("badge-google-play.svg")
   defp app_svg_badge(unknown), do: raw(~s({{ unknown app badge "#{unknown}" }}))
 
-  defp fare_replace({:ok, fare}, _), do: fare
+  defp do_replacement({:ok, replacement}, _, _) do
+    replacement
+  end
 
-  defp fare_replace({:error, {:invalid, token}}, input),
-    do: "{{ fare:" <> replacement_error(input, token) <> " }}"
+  defp do_replacement({:error, {:invalid, token}}, type, input) do
+    "{{ #{type}:" <> replacement_error(input, token) <> " }}"
+  end
 
-  defp fare_replace({:error, {_, details}}, input),
-    do: "{{ " <> replacement_error(details) <> " fare:#{input} }}"
+  defp do_replacement({:error, {_, details}}, type, input) do
+    "{{ " <> replacement_error(details) <> " #{type}:#{input} }}"
+  end
 
-  defp replacement_error(text), do: safe_to_string(content_tag(:span, text, class: "text-danger"))
+  defp replacement_error(text) do
+    safe_to_string(content_tag(:span, text, class: "text-danger"))
+  end
 
   defp replacement_error(text, target) do
     highlight = content_tag(:span, target, class: "text-danger")
