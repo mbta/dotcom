@@ -1,7 +1,0 @@
-<script data-for="project-teasers" id="js-project-teasers-data" type="text/plain">
-  <%= raw Poison.encode!(%{banner: @featured_projects, placeholderImageUrl: @placeholder_image_url}) %>
-</script>
-
-<div id="react-project-teasers-root">
-  <%= Site.React.render("ProjectBanner", %{banner: @featured_projects, placeholderImageUrl: @placeholder_image_url}) %>
-</div>

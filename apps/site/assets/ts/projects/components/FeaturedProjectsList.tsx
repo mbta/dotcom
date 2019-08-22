@@ -30,21 +30,23 @@ const FeaturedProjectsList = ({
   const groupedProjects = groupPairwise(projects);
 
   return (
-    <div className="c-featured-project-list">
-      <div className="container page-section">
-        {groupedProjects.map(projectPair => {
-          const secondProjectId = projectPair[1] ? projectPair[1].id : "none";
-          const key = `featured-projects-row-${
-            projectPair[0].id
-          }_${secondProjectId}`;
-          return (
-            <FeaturedProjectsRow
-              key={key}
-              placeholderImageUrl={placeholderImageUrl}
-              projectPair={projectPair}
-            />
-          );
-        })}
+    <div className="container">
+      <div className="c-featured-project-list">
+        <div className="container page-section">
+          {groupedProjects.map(projectPair => {
+            const secondProjectId = projectPair[1] ? projectPair[1].id : "none";
+            const key = `featured-projects-row-${
+              projectPair[0].id
+            }_${secondProjectId}`;
+            return (
+              <FeaturedProjectsRow
+                key={key}
+                placeholderImageUrl={placeholderImageUrl}
+                projectPair={projectPair}
+              />
+            );
+          })}
+        </div>
       </div>
     </div>
   );
