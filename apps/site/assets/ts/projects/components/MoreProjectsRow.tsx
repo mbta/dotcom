@@ -80,55 +80,106 @@ const MoreProjectsRow = ({
   title,
   routes,
   date,
-  placeholderImageUrl
-}: Props): ReactElement<HTMLElement> => (
-  <tr className="c-more-projects-table__tr">
-    <td className="c-more-projects-table__td c-more-projects-table__td-project">
-      {(image && (
-        <img
-          src={image.url}
-          alt={image.alt}
-          className="hidden-xs-down c-more-projects-table__thumbnail"
-        />
-      )) || (
-        <img
-          src={placeholderImageUrl}
-          alt="MBTA logo"
-          className="hidden-xs-down c-more-projects-table__thumbnail"
-        />
-      )}
+  placeholderImageUrl,
+  status
+}: Props): ReactElement<HTMLElement> => {
+  const normalizedStatus = status ? status.toLowerCase().replace(/ /, "-") : "";
+  const statusTextClassName = status
+    ? `c-more-projects-table__status-text--${normalizedStatus}`
+    : "";
+  const statusIconClassName = status
+    ? `c-more-projects-table__status-icon--${normalizedStatus}`
+    : "";
 
-      <div className="c-more-projects-table__wrapper">
-        <a href={path}>
-          <h3 className="c-more-projects-table__title">{title}</h3>
-        </a>
-
-        <div className="c-more-projects-table__updated-and-status hidden-lg-up">
-          <div className="c-more-projects-table__last-updated">
-            <span className="c-more-projects-table__internal-header">
-              Last updated
-            </span>
-            <br />
-            {formattedDate(date)}
-          </div>
-        </div>
-
-        {routesToTags(routes).map(tag => (
-          <RouteIcon
-            key={tag}
-            tag={tag}
-            extraClasses="c-more-projects-table__route-icon"
+  return (
+    <tr className="c-more-projects-table__tr">
+      <td className="c-more-projects-table__td c-more-projects-table__td-project">
+        {(image && (
+          <img
+            src={image.url}
+            alt={image.alt}
+            className="hidden-xs-down c-more-projects-table__thumbnail"
           />
-        ))}
-      </div>
-    </td>
+        )) || (
+          <img
+            src={placeholderImageUrl}
+            alt="MBTA logo"
+            className="hidden-xs-down c-more-projects-table__thumbnail"
+          />
+        )}
 
-    <td className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down">
-      {formattedDate(date)}
-    </td>
+        <div className="c-more-projects-table__wrapper">
+          <a href={path}>
+            <h3 className="c-more-projects-table__title">{title}</h3>
+          </a>
 
-    <td className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down" />
-  </tr>
-);
+          <div className="c-more-projects-table__updated-and-status hidden-lg-up">
+            <div className="c-more-projects-table__last-updated">
+              <span className="c-more-projects-table__internal-header">
+                Last updated
+              </span>
+              <br />
+              {formattedDate(date)}
+              <br />
+              {routesToTags(routes).map(tag => (
+                <RouteIcon
+                  key={tag}
+                  tag={tag}
+                  extraClasses="c-more-projects-table__route-icon hidden-lg-up"
+                />
+              ))}
+            </div>
+
+            {status && (
+              <div className="c-more-projects-table__status">
+                <span className="c-more-projects-table__internal-header">
+                  Status
+                </span>
+                <br />
+                <i
+                  className={`fa c-more-projects-table__status-icon ${statusIconClassName}`}
+                />{" "}
+                <span
+                  className={`c-more-projects-table__status-text ${statusTextClassName}`}
+                >
+                  {status}
+                </span>
+              </div>
+            )}
+          </div>
+
+          {routesToTags(routes).map(tag => (
+            <RouteIcon
+              key={tag}
+              tag={tag}
+              extraClasses="c-more-projects-table__route-icon hidden-md-down"
+            />
+          ))}
+        </div>
+      </td>
+
+      <td className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down">
+        {formattedDate(date)}
+      </td>
+
+      <td className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down">
+        <span className="c-more-projects-table__status-wrapper">
+          {status && (
+            <>
+              <i
+                className={`fa c-more-projects-table__status-icon ${statusIconClassName}`}
+              />{" "}
+              <span
+                className={`c-more-projects-table__status-text ${statusTextClassName}`}
+              >
+                {status}
+              </span>
+            </>
+          )}
+        </span>
+      </td>
+    </tr>
+  );
+};
 
 export default MoreProjectsRow;

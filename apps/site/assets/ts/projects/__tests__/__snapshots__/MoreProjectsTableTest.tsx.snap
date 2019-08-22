@@ -31,7 +31,9 @@ exports[`renders 1`] = `
           <th
             className="c-more-projects-table__th c-more-projects-table__th-status"
             scope="col"
-          />
+          >
+            Status
+          </th>
         </tr>
       </thead>
       <tbody
@@ -73,11 +75,30 @@ exports[`renders 1`] = `
                   </span>
                   <br />
                   June 2, 2018
+                  <br />
+                  <span
+                    aria-hidden="false"
+                    className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "SVG",
+                      }
+                    }
+                  />
+                  <span
+                    aria-hidden="false"
+                    className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "SVG",
+                      }
+                    }
+                  />
                 </div>
               </div>
               <span
                 aria-hidden="false"
-                className="notranslate c-svg__icon c-more-projects-table__route-icon"
+                className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
@@ -86,7 +107,7 @@ exports[`renders 1`] = `
               />
               <span
                 aria-hidden="false"
-                className="notranslate c-svg__icon c-more-projects-table__route-icon"
+                className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
@@ -102,7 +123,11 @@ exports[`renders 1`] = `
           </td>
           <td
             className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"
-          />
+          >
+            <span
+              className="c-more-projects-table__status-wrapper"
+            />
+          </td>
         </tr>
       </tbody>
     </table>

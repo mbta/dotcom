@@ -20,6 +20,8 @@ const text =
 
 const date = "2018-05-01";
 
+const status = "Contract awarded";
+
 const routes = [
   { mode: "bus", id: "123", group: "route" },
   { mode: "commuter_rail", id: "CR-Anyplace", group: "line" },
@@ -39,7 +41,7 @@ const routes = [
 
 const placeholderImageUrl = "https://www.example.com/someimage.gif";
 
-it("renders with route icons", () => {
+it("renders with route icons and status", () => {
   createReactRoot();
   const tree = renderer
     .create(
@@ -50,7 +52,7 @@ it("renders with route icons", () => {
         text={text}
         date={date}
         id={id}
-        status={null}
+        status={status}
         routes={routes}
         placeholderImageUrl={placeholderImageUrl}
       />

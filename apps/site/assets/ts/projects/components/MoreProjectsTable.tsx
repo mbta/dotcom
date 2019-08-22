@@ -62,7 +62,9 @@ const MoreProjectsTable = ({
               <th
                 scope="col"
                 className="c-more-projects-table__th c-more-projects-table__th-status"
-              />
+              >
+                Status
+              </th>
             </tr>
           </thead>
           <tbody className="c-more-projects-table__tbody">

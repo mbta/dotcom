@@ -45,115 +45,6 @@
   margin-top: 0;
 }
 
-.c-more-projects-table {
-  table-layout: fixed;
-  width: 100%;
-}
-
-.c-more-projects-table__thead {
-  background-color: $brand-primary-lightest;
-}
-
-.c-more-projects-table__th {
-  padding-bottom: .75rem;
-  padding-top: .75rem;
-}
-
-.c-more-projects-table__th-project,
-.c-more-projects-table__td-project {
-  width: 60%;
-}
-
-.c-more-projects-table__th-last-updated,
-.c-more-projects-table__td-last-updated {
-  width: 20%;
-}
-
-.c-more-projects-table__th-status,
-.c-more-projects-table__td-status {
-  width: 10%;
-}
-
-.c-more-projects-table__thumbnail {
-  float: left;
-  padding-right: $base-spacing / 2;
-
-  @include media-breakpoint-up(lg) {
-    height: 64px;
-  }
-
-  @include media-breakpoint-down(md) {
-    height: 107px;
-  }
-}
-
-.c-more-projects-table__th-project {
-  padding-left: $base-spacing / 2;
-}
-
-.c-more-projects-table__wrapper {
-  display: inline-block;
-  width: 70%;
-}
-
-.c-more-projects-table__tr {
-  @include media-breakpoint-up(lg) {
-    &:first-child td {
-      padding-top: $base-spacing * 1.5;
-    }
-  }
-}
-
-.c-more-projects-table__td {
-  border-bottom: solid $gray-bordered-background 1px;
-  padding-bottom: $base-spacing;
-  padding-top: $base-spacing;
-  vertical-align: top;
-}
-
-.c-more-projects-table__route-icon {
-  margin-right: .5em;
-}
-
-.c-more-projects-table__updated-and-status {
-  font-size: $font-size-base-sm;
-}
-
-.c-more-projects-table__internal-header {
-  font-weight: bold;
-}
-
-.c-more-projects-table__title {
-  margin-top: 0;
-}
-
-.c-more-projects__show-more-button {
-  @include media-breakpoint-up(lg) {
-    width: $base-spacing * 22;
-  }
-
-  @include media-breakpoint-between(sm, md) {
-    width: $base-spacing * 18;
-  }
-
-  @include media-breakpoint-down(xs) {
-    width: $base-spacing * 21;
-  }
-}
-
-.c-more-projects__show-more-button-wrapper {
-  text-align: center;
-  width: 100%;
-
-  @include media-breakpoint-up(sm) {
-    margin-top: $font-size-base;
-  }
-
-  @include media-breakpoint-down(xs) {
-    margin-top: $font-size-base-xs;
-  }
-}
-
 .c-featured-project-list {
   margin-bottom: $base-spacing;
   width: 100%;
@@ -234,7 +125,6 @@
   img {
     width: 100%;
   }
-
 }
 
 .c-featured-project__image {
@@ -248,4 +138,162 @@
 
 .c-featured-project__date {
   font-weight: bold;
+}
+
+.c-more-projects-table {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.c-more-projects-table__thead {
+  background-color: $brand-primary-lightest;
+}
+
+.c-more-projects-table__th {
+  padding-bottom: .75rem;
+  padding-top: .75rem;
+}
+
+.c-more-projects-table__th-project,
+.c-more-projects-table__td-project {
+  width: 50%;
+}
+
+.c-more-projects-table__th-last-updated,
+.c-more-projects-table__td-last-updated {
+  width: 25%;
+}
+
+.c-more-projects-table__th-status,
+.c-more-projects-table__td-status {
+  width: 25%;
+}
+
+.c-more-projects-table__thumbnail {
+  float: left;
+  padding-right: $base-spacing / 2;
+
+  @include media-breakpoint-up(lg) {
+    height: 64px;
+  }
+
+  @include media-breakpoint-down(md) {
+    height: 107px;
+  }
+}
+
+.c-more-projects-table__th-project {
+  padding-left: $base-spacing / 2;
+}
+
+.c-more-projects-table__wrapper {
+  @include media-breakpoint-up(lg) {
+    display: inline-block;
+    width: 70%;
+  }
+}
+
+.c-more-projects-table__tr {
+  @include media-breakpoint-up(lg) {
+    &:first-child td {
+      padding-top: $base-spacing * 1.5;
+    }
+  }
+}
+
+.c-more-projects-table__td {
+  border-bottom: solid $gray-bordered-background 1px;
+  padding-bottom: $base-spacing;
+  padding-top: $base-spacing;
+  vertical-align: top;
+}
+
+.c-more-projects-table__route-icon {
+  margin-right: .5em;
+}
+
+.c-more-projects-table__updated-and-status {
+  font-size: $font-size-base-sm;
+}
+
+.c-more-projects-table__last-updated {
+  float: left;
+  width: $base-spacing * 9;
+}
+
+.c-more-projects-table__internal-header {
+  font-weight: bold;
+}
+
+.c-more-projects-table__title {
+  margin-top: 0;
+}
+
+.c-more-projects__show-more-button {
+  @include media-breakpoint-up(lg) {
+    width: $base-spacing * 22;
+  }
+
+  @include media-breakpoint-between(sm, md) {
+    width: $base-spacing * 18;
+  }
+
+  @include media-breakpoint-down(xs) {
+    width: $base-spacing * 21;
+  }
+}
+
+.c-more-projects__show-more-button-wrapper {
+  text-align: center;
+  width: 100%;
+
+  @include media-breakpoint-up(sm) {
+    margin-top: $font-size-base;
+  }
+
+  @include media-breakpoint-down(xs) {
+    margin-top: $font-size-base-xs;
+  }
+}
+
+.c-more-projects-table__status-wrapper {
+  vertical-align: top;
+}
+
+.c-more-projects-table__status-text {
+  vertical-align: top;
+}
+
+.c-more-projects-table__status-text--complete {
+  color: $brand-success;
+}
+
+.c-more-projects-table__status-icon {
+  @include media-breakpoint-up(lg) {
+    font-size: $font-size-base * 1.5;
+  }
+}
+
+.c-more-projects-table__status-icon--contract-awarded {
+  color: $brand-primary;
+
+  &::before {
+    content: $fa-var-plus-circle;
+  }
+}
+
+.c-more-projects-table__status-icon--in-progress {
+  color: $brand-primary-light;
+
+  &::before {
+    content: $fa-var-circle;
+  }
+}
+
+.c-more-projects-table__status-icon--complete {
+  color: $brand-success;
+
+  &::before {
+    content: $fa-var-check-circle;
+  }
 }

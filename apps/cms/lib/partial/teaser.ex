@@ -65,6 +65,8 @@ defmodule CMS.Partial.Teaser do
           "field_related_transit" => route_data
         } = data
       ) do
+    status = Map.get(data, "field_project_status")
+
     %__MODULE__{
       id: int_or_string_to_int(id),
       type: content_type(type),
@@ -76,7 +78,8 @@ defmodule CMS.Partial.Teaser do
       location: data |> location(),
       date: date(data, "start"),
       date_end: date(data, "end"),
-      routes: routes(route_data)
+      routes: routes(route_data),
+      status: content(status)
     }
   end
 
