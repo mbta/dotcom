@@ -158,18 +158,6 @@
 
 .m-banner__category {
   font-weight: bold;
-
-  a {
-    @include hover-focus-active {
-      text-decoration: none;
-    }
-  }
-}
-
-.m-banner__title {
-  a {
-    display: inline-block;
-  }
 }
 
 .m-banner__cta {
@@ -182,7 +170,6 @@
     background: $brand-primary-lightest;
     text-decoration: none;
   }
-
 }
 
 .m-banner__date {

@@ -168,16 +168,5 @@
     padding: $base-spacing / 2;
     position: relative;
     z-index: 1;
-
-    &:hover::after {
-      // scss-lint:disable DuplicateProperty PropertySortOrder
-      content: ' ' attr(title);
-      opacity: .65;
-      white-space: pre;
-
-      // Grayscale/desaturated
-      filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' ><filter id='gray'><feColorMatrix in='SourceGraphic' type='saturate' values='0' /></filter></svg>#gray");
-      filter: grayscale(100%);
-    }
   }
 }
