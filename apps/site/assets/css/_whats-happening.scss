@@ -48,9 +48,7 @@
     text-decoration: none;
 
     @include hover-focus-active {
-      .about-link {
-        text-decoration: inherit;
-      }
+      color: $brand-primary;
     }
   }
 
@@ -58,12 +56,6 @@
     font-family: $font-family-base;
     font-size: $font-size-h3;
     margin: 0;
-  }
-
-  &:hover {
-    .m-whats-happening__title {
-      color: $brand-primary;
-    }
   }
 }
 

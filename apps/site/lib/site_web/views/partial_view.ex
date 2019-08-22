@@ -7,7 +7,7 @@ defmodule SiteWeb.PartialView do
   alias SiteWeb.PartialView.SvgIconWithCircle
 
   import SiteWeb.CMSView, only: [file_description: 1]
-  import SiteWeb.CMSHelpers, only: [cms_route_to_class: 1]
+  import SiteWeb.CMSHelpers
   import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
@@ -81,9 +81,12 @@ defmodule SiteWeb.PartialView do
   """
   @spec teaser(Teaser.t()) :: Phoenix.HTML.Safe.t()
   def teaser(%Teaser{} = teaser, opts \\ []) do
-    link(
-      teaser_link_content(teaser),
-      to: teaser.path,
+    content_tag(
+      :div,
+      [
+        render_teaser_image(teaser),
+        teaser_text(teaser)
+      ],
       class: teaser_class(opts)
     )
   end
@@ -93,18 +96,11 @@ defmodule SiteWeb.PartialView do
     Enum.join(
       [
         Keyword.get(opts, :class, ""),
-        "c-content-teaser"
+        "c-content-teaser",
+        "u-linked-card"
       ],
       " "
     )
-  end
-
-  @spec teaser_link_content(Teaser.t()) :: Phoenix.HTML.Safe.t() | [Phoenix.HTML.Safe.t()]
-  defp teaser_link_content(%Teaser{} = teaser) do
-    [
-      render_teaser_image(teaser),
-      teaser_text(teaser)
-    ]
   end
 
   def render_teaser_image(%Teaser{image: nil}) do
@@ -141,18 +137,24 @@ defmodule SiteWeb.PartialView do
 
   defp teaser_text(%Teaser{topic: nil} = teaser) do
     [
-      content_tag(:h3, [teaser.title], class: "h3 c-content-teaser__title"),
+      content_tag(:h3, [teaser_title(teaser)], class: "h3 c-content-teaser__title"),
       content_tag(:div, [teaser.text], class: "c-content-teaser__text")
     ]
   end
 
   defp teaser_text(teaser) do
     [
-      content_tag(:div, [teaser.topic], class: "c-content-teaser__topic u-small-caps"),
-      content_tag(:h3, [teaser.title], class: "h3 c-content-teaser__title"),
+      content_tag(:div, [teaser_topic(teaser)], class: "c-content-teaser__topic u-small-caps"),
+      content_tag(:h3, [teaser_title(teaser)], class: "h3 c-content-teaser__title"),
       content_tag(:div, [teaser.text], class: "c-content-teaser__text")
     ]
   end
+
+  defp teaser_title(teaser) do
+    link(teaser.title, to: teaser.path, class: "u-linked-card__primary-link")
+  end
+
+  defp teaser_topic(teaser), do: link_category(teaser.topic)
 
   @doc """
   Renders a news entry. Take two options:
