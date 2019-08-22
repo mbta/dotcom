@@ -224,7 +224,7 @@ defmodule CMS.Partial.Paragraph.ContentList do
   # Limit amount of teasers when certain types are requested
   @spec limit_count_by_type(map) :: map
   defp limit_count_by_type(%{type: [type]} = ingredients)
-       when type in [:project_update, :project, :diversion] do
+       when type in [:project_update, :project] do
     Map.put(ingredients, :items_per_page, 2)
   end
 
