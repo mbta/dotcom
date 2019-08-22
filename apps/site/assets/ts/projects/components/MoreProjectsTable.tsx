@@ -42,9 +42,7 @@ const MoreProjectsTable = ({
 
   return (
     <div className="container">
-      <h2 className="hidden-sm-down featured-project-subheader">
-        More Projects
-      </h2>
+      <h2>More Projects</h2>
       <div>
         <table className="c-more-projects-table" aria-label="More Projects">
           <thead className="c-more-projects-table__thead hidden-md-down">
