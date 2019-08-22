@@ -1,11 +1,10 @@
-import React, { ReactElement, useState, Dispatch, SetStateAction } from "react";
+import React, { ReactElement } from "react";
 import deepEqual from "fast-deep-equal";
 import {
   Icon,
   LatLngBounds,
   Marker as LeafletMarker,
-  MarkerOptions,
-  LeafletEvent
+  MarkerOptions
 } from "leaflet";
 import Leaflet from "react-leaflet";
 import { MapData, MapMarker, IconOpts } from "./__mapdata";
@@ -48,12 +47,6 @@ const rotateMarker = (
   markerEl.setRotationAngle(angle);
 };
 
-export const setZoom = (
-  setStateZoom: Dispatch<SetStateAction<number | undefined>>
-): ((ev: LeafletEvent) => void) => (ev: LeafletEvent) =>
-  // eslint-disable-next-line no-underscore-dangle
-  setStateZoom(ev.target._zoom);
-
 const Component = ({
   bounds,
   boundsByMarkers,
@@ -65,7 +58,6 @@ const Component = ({
     zoom
   }
 }: Props): ReactElement<HTMLElement> | null => {
-  const [stateZoom, setStateZoom] = useState(zoom === null ? undefined : zoom);
   if (typeof window !== "undefined" && tileServerUrl !== "") {
     /* eslint-disable */
     const leaflet: typeof Leaflet = require("react-leaflet");
@@ -80,12 +72,12 @@ const Component = ({
     const { Map, Marker, Polyline, Popup, TileLayer } = leaflet;
     const boundsOrByMarkers = bounds || (boundsByMarkers && getBounds(markers));
     const position = mapCenter(markers, defaultCenter);
+    const nonNullZoom = zoom === null ? undefined : zoom;
     return (
       <Map
         bounds={boundsOrByMarkers}
         center={position}
-        zoom={stateZoom}
-        onZoom={setZoom(setStateZoom)}
+        zoom={nonNullZoom}
         {...defaultZoomOpts}
       >
         <TileLayer
