@@ -76,12 +76,27 @@ it("it renders using the default center position", () => {
 });
 
 it("sets zoom state on zoom", () => {
-  const dispatch = jest.fn();
+  const zoomDispatch = jest.fn();
+  const centerDispatch = jest.fn();
+
   const zoomEvent: LeafletEvent = {
     type: "zoom",
-    target: { _zoom: 10 }
+    target: { getCenter: () => null, getZoom: () => 10 }
   };
-  setZoom(dispatch)(zoomEvent);
-  expect(dispatch).toHaveBeenCalledWith(10);
+  setZoom(zoomDispatch, null, centerDispatch)(zoomEvent);
+  expect(zoomDispatch).toHaveBeenCalledWith(10);
+});
+
+it("sets center state on zoom", () => {
+  const zoomDispatch = jest.fn();
+  const centerDispatch = jest.fn();
+
+  const zoomEvent: LeafletEvent = {
+    type: "zoom",
+    target: { getCenter: () => [2, 3], getZoom: () => null }
+  };
+
+  setZoom(zoomDispatch, null, centerDispatch)(zoomEvent);
+  expect(centerDispatch).toHaveBeenCalledWith([2, 3]);
 });
 /* eslint-disable @typescript-eslint/camelcase */

@@ -2,6 +2,7 @@ import React, { ReactElement, useState, Dispatch, SetStateAction } from "react";
 import deepEqual from "fast-deep-equal";
 import {
   Icon,
+  LatLng,
   LatLngBounds,
   Marker as LeafletMarker,
   MarkerOptions,
@@ -31,11 +32,19 @@ interface Props {
 }
 
 const mapCenter = (
+  stateCenter: LatLng | null,
   markers: MapMarker[],
-  { latitude, longitude }: { latitude: number; longitude: number }
+  {
+    latitude: defaultLatitude,
+    longitude: defaultLongitude
+  }: { latitude: number; longitude: number }
 ): [number, number] | undefined => {
+  if (stateCenter) {
+    return [stateCenter.lat, stateCenter.lng];
+  }
+
   if (markers.length === 1) return [markers[0].latitude, markers[0].longitude];
-  return [latitude, longitude];
+  return [defaultLatitude, defaultLongitude];
 };
 
 const rotateMarker = (
@@ -49,10 +58,15 @@ const rotateMarker = (
 };
 
 export const setZoom = (
-  setStateZoom: Dispatch<SetStateAction<number | undefined>>
-): ((ev: LeafletEvent) => void) => (ev: LeafletEvent) =>
-  // eslint-disable-next-line no-underscore-dangle
-  setStateZoom(ev.target._zoom);
+  setStateZoom: Dispatch<SetStateAction<number | undefined>>,
+  stateCenter: LatLng | null,
+  setStateCenter: Dispatch<SetStateAction<LatLng | null>>
+): ((ev: LeafletEvent) => void) => (ev: LeafletEvent) => {
+  if (stateCenter === null) {
+    setStateCenter(ev.target.getCenter());
+  }
+  setStateZoom(ev.target.getZoom());
+};
 
 const Component = ({
   bounds,
@@ -66,6 +80,8 @@ const Component = ({
   }
 }: Props): ReactElement<HTMLElement> | null => {
   const [stateZoom, setStateZoom] = useState(zoom === null ? undefined : zoom);
+  const [stateCenter, setStateCenter] = useState<LatLng | null>(null);
+
   if (typeof window !== "undefined" && tileServerUrl !== "") {
     /* eslint-disable */
     const leaflet: typeof Leaflet = require("react-leaflet");
@@ -79,13 +95,13 @@ const Component = ({
     /* eslint-enable */
     const { Map, Marker, Polyline, Popup, TileLayer } = leaflet;
     const boundsOrByMarkers = bounds || (boundsByMarkers && getBounds(markers));
-    const position = mapCenter(markers, defaultCenter);
+    const position = mapCenter(stateCenter, markers, defaultCenter);
     return (
       <Map
         bounds={boundsOrByMarkers}
-        center={position}
+        center={bounds ? undefined : position}
         zoom={stateZoom}
-        onZoom={setZoom(setStateZoom)}
+        onZoom={setZoom(setStateZoom, stateCenter, setStateCenter)}
         {...defaultZoomOpts}
       >
         <TileLayer
