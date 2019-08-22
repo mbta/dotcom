@@ -36,7 +36,7 @@ exports[`renders 1`] = `
               className="c-featured-project__date"
             >
               Updated on 
-              April 30, 2018
+              May 1, 2018
             </div>
             We bought new trains. Choo choo!
             <div
@@ -82,7 +82,7 @@ exports[`renders 1`] = `
               className="c-featured-project__date"
             >
               Updated on 
-              March 31, 2018
+              April 1, 2018
             </div>
             We're fixing the track. It needs it.
             <div

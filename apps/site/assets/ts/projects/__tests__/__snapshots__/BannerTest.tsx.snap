@@ -30,7 +30,7 @@ exports[`renders 1`] = `
             className="m-banner__date"
           >
             Updated 
-            July 29, 2019
+            July 30, 2019
           </span>
         </div>
       </div>
@@ -76,7 +76,7 @@ exports[`renders 1`] = `
           className="m-banner__date"
         >
           Updated 
-          July 29, 2019
+          July 30, 2019
         </span>
       </div>
     </div>

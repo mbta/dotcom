@@ -31,7 +31,7 @@ Array [
               className="m-banner__date"
             >
               Updated 
-              July 29, 2019
+              July 30, 2019
             </span>
           </div>
         </div>
@@ -77,7 +77,7 @@ Array [
             className="m-banner__date"
           >
             Updated 
-            July 29, 2019
+            July 30, 2019
           </span>
         </div>
       </div>
@@ -118,7 +118,7 @@ Array [
                 className="c-featured-project__date"
               >
                 Updated on 
-                April 30, 2018
+                May 1, 2018
               </div>
               We bought new trains. Choo choo!
               <div
@@ -164,7 +164,7 @@ Array [
                 className="c-featured-project__date"
               >
                 Updated on 
-                March 31, 2018
+                April 1, 2018
               </div>
               We're fixing the track. It needs it.
               <div
@@ -297,7 +297,7 @@ Array [
                       Last updated
                     </span>
                     <br />
-                    June 1, 2018
+                    June 2, 2018
                   </div>
                 </div>
                 <span
@@ -323,7 +323,7 @@ Array [
             <td
               className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down"
             >
-              June 1, 2018
+              June 2, 2018
             </td>
             <td
               className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"

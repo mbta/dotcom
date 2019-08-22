@@ -36,7 +36,7 @@ exports[`renders with route icons 1`] = `
             Last updated
           </span>
           <br />
-          April 30, 2018
+          May 1, 2018
         </div>
       </div>
       <span
@@ -170,7 +170,7 @@ exports[`renders with route icons 1`] = `
   <td
     className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down"
   >
-    April 30, 2018
+    May 1, 2018
   </td>
   <td
     className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"

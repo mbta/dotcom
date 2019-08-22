@@ -72,7 +72,7 @@ exports[`renders 1`] = `
                     Last updated
                   </span>
                   <br />
-                  June 1, 2018
+                  June 2, 2018
                 </div>
               </div>
               <span
@@ -98,7 +98,7 @@ exports[`renders 1`] = `
           <td
             className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down"
           >
-            June 1, 2018
+            June 2, 2018
           </td>
           <td
             className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"
