@@ -108,10 +108,42 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     %{schedules: schedules, duration: Timex.diff(last, first, :minutes)}
   end
 
+  def format_time(time) do
+    hour =
+      cond do
+        time.hour == 0 -> 12
+        time.hour > 12 -> time.hour - 12
+        true -> time.hour
+      end
+
+    hour_string =
+      if hour < 10 do
+        "0#{hour}"
+      else
+        Integer.to_string(hour)
+      end
+
+    minute_string =
+      if time.minute < 10 do
+        "0#{time.minute}"
+      else
+        Integer.to_string(time.minute)
+      end
+
+    meridian_string =
+      if time.hour < 12 do
+        "AM"
+      else
+        "PM"
+      end
+
+    "#{hour_string}:#{minute_string} #{meridian_string}"
+  end
+
   def formatted_time(%{schedules: schedules, duration: duration}) do
     time_formatted_schedules =
       schedules
-      |> Enum.map(&Map.update!(&1, :time, fn time -> Timex.format!(time, "{0h12}:{m} {AM}") end))
+      |> Enum.map(&Map.update!(&1, :time, fn time -> format_time(time) end))
 
     %{schedules: time_formatted_schedules, duration: duration}
   end
