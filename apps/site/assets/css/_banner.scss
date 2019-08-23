@@ -29,17 +29,21 @@
     }
   }
 
-  &--responsive-lg-margin {
-    @include media-breakpoint-only(lg) {
-      // banner content is not full width at lg,
-      // so prevent container from being 100% at that breakpoint.
+  &--responsive-no-margin {
+    @include media-breakpoint-down(md) {
+      // Break out of container
       margin: $base-spacing * 3 auto $base-spacing;
-      width: map-get($container-max-widths, lg);
     }
   }
 
   &--small-margin-top {
     margin-top: $base-spacing;
+  }
+
+  &--lg-9 {
+    @include media-breakpoint-up(lg) {
+      width: 100%;
+    }
   }
 }
 
@@ -74,8 +78,6 @@
     }
 
     @include media-breakpoint-up(lg) {
-      @include make-container();
-      max-width: map-get($container-max-widths, xxl);
       padding: 0;
     }
   }
@@ -107,21 +109,16 @@
     width: $col-width * 5;
   }
 
-  @include media-breakpoint-up(lg) {
-    width: $col-width * 4;
-  }
-
-  &--responsive-side-by-side {
-    @include media-breakpoint-up(lg) {
-      width: 37.5%;
-    }
-  }
 
   &--responsive {
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-down(md) {
       min-height: $base-spacing * 20;
     }
-  }
+
+    @include media-breakpoint-up(lg) {
+      width: $col-width * 4;
+    }
+ }
 }
 
 .m-banner__content--right {
@@ -174,4 +171,16 @@
 
 .m-banner__date {
   font-weight: bold;
+}
+
+.m-banner__container {
+  @include media-breakpoint-up(lg) {
+    @include make-container();
+    max-width: map-get($container-max-widths, lg);
+    padding: 0;
+  }
+
+  @include media-breakpoint-only(xxl) {
+    max-width: map-get($container-max-widths, xxl);
+  }
 }

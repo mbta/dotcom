@@ -8,33 +8,71 @@
   }
 }
 
-.c-project-update {
-  color: inherit;
-  display: block;
-  margin-bottom: 1.5 * $base-spacing;
-  text-decoration: none;
+.c-project-update-list__row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+
+  @include media-breakpoint-down(md) {
+    flex-flow: nowrap;
+    overflow-x: auto;
+  }
+
+  a {
+    color: $black;
+    text-decoration: none;
+  }
+
+}
+
+.c-project-update-list__subheader {
+  @include h2();
+  font-size: $font-size-h3;
+  margin-bottom: 1em;
+  margin-top: $base-spacing * 1.75;
+}
+
+.c-project-update-list {
+  @include media-breakpoint-down(md) {
+    display: flex;
+  }
+}
+
+.c-project-update-list__item {
+  @include media-breakpoint-down(md) {
+    flex: 0 0 auto;
+    margin-right: $base-spacing;
+    width: 40%;
+  }
+
+  @include media-breakpoint-only(xs) {
+    width: 60%;
+  }
 
   &:hover {
-    color: inherit;
-    text-decoration: none;
-
     .c-project-update__title {
       color: $brand-primary;
     }
   }
+
+  > .m-route-pills {
+    margin-bottom: $base-spacing;
+  }
+}
+
+.c-project-update__title {
+  margin: 0 auto;
 }
 
 .c-project-update__photo {
+  max-height: 100%;
   max-width: 100%;
+  position: relative;
 }
 
 .c-project-update__date {
   font-weight: 700;
   margin-top: $base-spacing / 2;
-}
-
-.c-project-update__title {
-  margin-top: 0;
 }
 
 .m-project-updates__teaser {
@@ -43,6 +81,10 @@
 
 .m-project-updates__title {
   margin-top: 0;
+}
+
+.c-featured-projects__subheader {
+  margin-top: $base-spacing-lg;
 }
 
 .c-featured-project-list {
@@ -54,7 +96,10 @@
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  padding: 0 0 $base-spacing / 2;
+
+  @include media-breakpoint-down(md) {
+    padding: 0 0 $base-spacing / 2;
+ }
 }
 
 .c-featured-project__route-icon {

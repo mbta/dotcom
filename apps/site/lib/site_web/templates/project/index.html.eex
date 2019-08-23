@@ -8,12 +8,8 @@
 <div class="container">
   <div class="page-section">
     <%= PartialView.paragraph("paragraphs/custom-html/projects-index", @conn) %>
-
-    <%= if !Enum.empty?(@featured_project_teasers) do %>
-      <h2 class="featured-project-subheader">Featured Projects</h2>
-    <% end %>
   </div>
 </div>
 
 <% [banner | featured] = @featured_project_teasers %>
-<%= render "_all_projects.html", banner: banner, projects: @project_teasers, featured_projects: featured, placeholder_image_url: @placeholder_image_url %>
+<%= render "_all_projects.html", banner: banner, projects: @project_teasers, featured_projects: featured, project_updates: @project_update_teasers, placeholder_image_url: @placeholder_image_url %>
