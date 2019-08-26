@@ -2,14 +2,14 @@
 
 exports[`renders 1`] = `
 <a
-  className="m-banner m-banner--responsive m-banner--responsive-lg-margin m-banner--small-margin-top m-banner--default"
+  className="m-banner m-banner--responsive m-banner--lg-9 m-banner--small-margin-top m-banner--default"
   href="/projects/better-bus-project"
 >
   <div
     className="hidden-xs-down"
   >
     <div
-      className="m-banner__image m-banner__image--responsive-side-by-side m-banner__image--default"
+      className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default"
     >
       <div
         className="m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--unknown"

@@ -13,8 +13,8 @@ const ProjectUpdateList = ({
   placeholderImageUrl
 }: Props): ReactElement<HTMLElement> => (
   <div className="c-project-update-list__row">
-    {projectUpdates.map(({ image, path, title, routes, date }: Project) => (
-      <a href={path} className="c-project-update-list__item">
+    {projectUpdates.map(({ image, path, title, routes, date, id }: Project) => (
+      <a href={path} className="c-project-update-list__item" key={id}>
         <div>
           {image ? (
             <img

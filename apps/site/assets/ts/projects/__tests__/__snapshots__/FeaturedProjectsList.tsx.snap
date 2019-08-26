@@ -2,145 +2,141 @@
 
 exports[`renders 1`] = `
 <div
-  className="container"
+  className="container c-featured-project-list"
 >
   <div
-    className="c-featured-project-list"
+    className="page-section"
   >
     <div
-      className="container page-section"
+      className="c-featured-project-list__row"
     >
       <div
-        className="c-featured-project-list__row"
+        className="c-featured-project"
       >
-        <div
-          className="c-featured-project"
+        <a
+          href="/choo-choo"
         >
-          <a
-            href="/choo-choo"
+          <div
+            className="c-featured-project__image"
           >
-            <div
-              className="c-featured-project__image"
-            >
-              <img
-                alt="Picture of a train. Choo choo!"
-                src="https://www.imagehost.com/pictureofatrain.jpg"
-              />
-            </div>
-            <h3
-              className="c-featured-project__title"
-            >
-              New choo-choos!
-            </h3>
-            <div
-              className="c-featured-project__date"
-            >
-              Updated on 
-              May 1, 2018
-            </div>
-            We bought new trains. Choo choo!
-            <div
-              className="m-route-pills"
-            >
-              <span
-                aria-hidden="false"
-                className="notranslate c-svg__icon c-featured-project__route-icon"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "SVG",
-                  }
+            <img
+              alt="Picture of a train. Choo choo!"
+              src="https://www.imagehost.com/pictureofatrain.jpg"
+            />
+          </div>
+          <h3
+            className="c-featured-project__title"
+          >
+            New choo-choos!
+          </h3>
+          <div
+            className="c-featured-project__date"
+          >
+            Updated on 
+            May 1, 2018
+          </div>
+          We bought new trains. Choo choo!
+          <div
+            className="m-route-pills"
+          >
+            <span
+              aria-hidden="false"
+              className="notranslate c-svg__icon c-featured-project__route-icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
                 }
-              />
-              <span
-                className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--commuter-rail"
-              >
-                Commuter Rail
-              </span>
-            </div>
-          </a>
-        </div>
-        <div
-          className="c-featured-project"
-        >
-          <a
-            href="/fixing-track"
-          >
-            <div
-              className="c-featured-project__image"
+              }
+            />
+            <span
+              className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--commuter-rail"
             >
-              <img
-                alt="People fixing track or something"
-                src="https://www.imagehost.com/pictureofworkers.jpg"
-              />
-            </div>
-            <h3
-              className="c-featured-project__title"
-            >
-              Track fixing
-            </h3>
-            <div
-              className="c-featured-project__date"
-            >
-              Updated on 
-              April 1, 2018
-            </div>
-            We're fixing the track. It needs it.
-            <div
-              className="m-route-pills"
-            >
-              <span
-                className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--blue-line"
-              >
-                Blue Line
-              </span>
-            </div>
-          </a>
-        </div>
+              Commuter Rail
+            </span>
+          </div>
+        </a>
       </div>
       <div
-        className="c-featured-project-list__row"
+        className="c-featured-project"
       >
-        <div
-          className="c-featured-project"
+        <a
+          href="/fixing-track"
         >
-          <a
-            href="/east-station"
+          <div
+            className="c-featured-project__image"
           >
-            <div
-              className="c-featured-project__image"
+            <img
+              alt="People fixing track or something"
+              src="https://www.imagehost.com/pictureofworkers.jpg"
+            />
+          </div>
+          <h3
+            className="c-featured-project__title"
+          >
+            Track fixing
+          </h3>
+          <div
+            className="c-featured-project__date"
+          >
+            Updated on 
+            April 1, 2018
+          </div>
+          We're fixing the track. It needs it.
+          <div
+            className="m-route-pills"
+          >
+            <span
+              className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--blue-line"
             >
-              <img
-                alt="Facade of East Station"
-                src="https://www.imagehost.com/pictureofastation.jpg"
-              />
-            </div>
-            <h3
-              className="c-featured-project__title"
-            >
-              East Station opening
-            </h3>
-            <div
-              className="c-featured-project__date"
-            >
-              Updated on 
-              March 1, 2018
-            </div>
-            We opened East Station, even though it's on the harbor floor.
-            <div
-              className="m-route-pills"
-            >
-              <span
-                className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--red-line"
-              >
-                Red Line
-              </span>
-            </div>
-          </a>
-        </div>
-        <div
-          className="c-featured-project"
-        />
+              Blue Line
+            </span>
+          </div>
+        </a>
       </div>
+    </div>
+    <div
+      className="c-featured-project-list__row"
+    >
+      <div
+        className="c-featured-project"
+      >
+        <a
+          href="/east-station"
+        >
+          <div
+            className="c-featured-project__image"
+          >
+            <img
+              alt="Facade of East Station"
+              src="https://www.imagehost.com/pictureofastation.jpg"
+            />
+          </div>
+          <h3
+            className="c-featured-project__title"
+          >
+            East Station opening
+          </h3>
+          <div
+            className="c-featured-project__date"
+          >
+            Updated on 
+            March 1, 2018
+          </div>
+          We opened East Station, even though it's on the harbor floor.
+          <div
+            className="m-route-pills"
+          >
+            <span
+              className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--red-line"
+            >
+              Red Line
+            </span>
+          </div>
+        </a>
+      </div>
+      <div
+        className="c-featured-project"
+      />
     </div>
   </div>
 </div>
