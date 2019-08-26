@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import Banner from "./Banner";
 import FeaturedProjectsList from "./FeaturedProjectsList";
 import FeaturedProjectsTitle from "./FeaturedProjectsTitle";
+import FilterAndSearch from "./FilterAndSearch";
 import MoreProjectsTable from "./MoreProjectsTable";
 import ProjectUpdateList from "./ProjectUpdateList";
 import { SimpleProject as Project } from "./__projects";
@@ -22,6 +23,7 @@ const ProjectsPage = ({
   placeholderImageUrl
 }: Props): ReactElement<HTMLElement> => (
   <>
+    <FilterAndSearch />
     <div className="m-project-page__top-container">
       <div className="row">
         <div className="col-12 col-lg-8">
