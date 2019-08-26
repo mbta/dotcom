@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import Banner from "./Banner";
 import FeaturedProjectsList from "./FeaturedProjectsList";
+import FeaturedProjectsTitle from "./FeaturedProjectsTitle";
 import MoreProjectsTable from "./MoreProjectsTable";
 import ProjectUpdateList from "./ProjectUpdateList";
 import { SimpleProject as Project } from "./__projects";
@@ -24,9 +25,7 @@ const ProjectsPage = ({
     <div className="m-project-page__top-container">
       <div className="row">
         <div className="col-12 col-lg-8">
-          <h2 className="container c-projects-header__subheader">
-            Featured Projects
-          </h2>
+          <FeaturedProjectsTitle banner={banner} />
           <Banner banner={banner} placeholderImageUrl={placeholderImageUrl} />
           <FeaturedProjectsList
             projects={featuredProjects}
