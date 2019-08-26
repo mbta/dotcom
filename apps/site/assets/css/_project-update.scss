@@ -113,26 +113,14 @@
   flex-grow: 1;
   margin: 0 0$base-spacing / 2;
 
-  @include hover-focus-active {
-    .homepage-svg {
-      background-color: $btn-primary-focus-bg;
-    }
-  }
-
   @include media-breakpoint-only(xs) {
     flex: 0 0 auto;
-    width: 80%;
+    width: 100%;
   }
 
   a {
     color: $black;
     text-decoration: none;
-
-    @include hover-focus-active {
-      .about-link {
-        text-decoration: inherit;
-      }
-    }
   }
 
   .c-featured-project__title {
@@ -157,14 +145,6 @@
 
   * {
     text-decoration: inherit;
-  }
-
-  &.light {
-    color: $white;
-  }
-
-  .about-title {
-    padding: $space-12 0;
   }
 
   img {
