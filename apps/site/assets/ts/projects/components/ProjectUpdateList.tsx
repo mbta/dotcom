@@ -11,33 +11,39 @@ interface Props {
 const ProjectUpdateList = ({
   projectUpdates,
   placeholderImageUrl
-}: Props): ReactElement<HTMLElement> => (
-  <div className="c-project-update-list__row">
-    {projectUpdates.map(({ image, path, title, routes, date, id }: Project) => (
-      <a href={path} className="c-project-update-list__item" key={id}>
-        <div>
-          {image ? (
-            <img
-              className="c-project-update__photo"
-              src={image.url}
-              alt={image.alt}
-            />
-          ) : (
-            <img
-              className="c-project-update__photo"
-              src={placeholderImageUrl}
-              alt="MBTA logo"
-            />
-          )}
-        </div>
-        <div className="c-project-update__date u-small-caps">
-          {formattedDate(date)}
-        </div>
-        <h3 className="c-project-update__title">{title}</h3>
-        <RoutePillList routes={routes} />
-      </a>
-    ))}
-  </div>
-);
+}: Props): ReactElement<HTMLElement> | null =>
+  projectUpdates.length > 0 ? (
+    <>
+      <h3 className="c-project-update-list__subheader">Project Updates</h3>
+      <div className="c-project-update-list__row">
+        {projectUpdates.map(
+          ({ image, path, title, routes, date, id }: Project) => (
+            <a href={path} className="c-project-update-list__item" key={id}>
+              <div>
+                {image ? (
+                  <img
+                    className="c-project-update__photo"
+                    src={image.url}
+                    alt={image.alt}
+                  />
+                ) : (
+                  <img
+                    className="c-project-update__photo"
+                    src={placeholderImageUrl}
+                    alt="MBTA logo"
+                  />
+                )}
+              </div>
+              <div className="c-project-update__date u-small-caps">
+                {formattedDate(date)}
+              </div>
+              <h3 className="c-project-update__title">{title}</h3>
+              <RoutePillList routes={routes} />
+            </a>
+          )
+        )}
+      </div>
+    </>
+  ) : null;
 
 export default ProjectUpdateList;

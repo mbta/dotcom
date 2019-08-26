@@ -242,16 +242,7 @@ Array [
       >
         <div
           className="container"
-        >
-          <h3
-            className="c-project-update-list__subheader"
-          >
-            Project Updates
-          </h3>
-          <div
-            className="c-project-update-list__row"
-          />
-        </div>
+        />
       </div>
     </div>
   </div>,

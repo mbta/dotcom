@@ -35,9 +35,6 @@ const ProjectsPage = ({
         </div>
         <div className="c-project-update-list__container col-12 col-lg-4">
           <div className="container">
-            <h3 className="c-project-update-list__subheader">
-              Project Updates
-            </h3>
             <ProjectUpdateList
               projectUpdates={projectUpdates}
               placeholderImageUrl={placeholderImageUrl}
