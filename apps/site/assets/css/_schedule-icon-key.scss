@@ -1,7 +1,12 @@
 .m-schedule-icon-key-container {
   @include icon-size-inline(1.5em);
 
+  .c-accordion-ui__title {
+    display: flex;
+  }
+
   [class*=c-svg__icon] {
     margin-right: $base-spacing;
+    top: auto;
   }
 }
