@@ -4,7 +4,7 @@ import { formattedDate } from "../../helpers/date";
 import { routeToCSSClass } from "../../helpers/css";
 
 interface Props {
-  banner: Project;
+  banner: Project | null;
   placeholderImageUrl: string;
 }
 
@@ -61,7 +61,12 @@ const bannerImageAlt = (banner: Project): string =>
 const Banner = ({
   banner,
   placeholderImageUrl
-}: Props): ReactElement<HTMLElement> => (
+}: Props): ReactElement<HTMLElement> => {
+  if(!banner) {
+    return (<div />);
+  }
+
+  return (
   <a
     href={banner.path}
     className="m-banner m-banner--responsive m-banner--lg-9 m-banner--no-margin-top m-banner--default"
@@ -74,22 +79,11 @@ const Banner = ({
           src={bannerImageURL(banner, placeholderImageUrl)}
           alt={bannerImageAlt(banner)}
         />
+        <div className="sr-only">{bannerImageAlt(banner)}</div>
       </div>
     </div>
-    <div className="hidden-sm-up">
-      <div
-        className="m-banner__image m-banner__image--responsive m-banner__image--default"
-        style={{
-          backgroundImage: ` url(${bannerImageURL(
-            banner,
-            placeholderImageUrl
-          )})`
-        }}
-      />
-      <div className="sr-only">{bannerImageAlt(banner)}</div>
-      <BannerContent banner={banner} />
-    </div>
-  </a>
-);
+    </a>
+  );
+};
 
 export default Banner;

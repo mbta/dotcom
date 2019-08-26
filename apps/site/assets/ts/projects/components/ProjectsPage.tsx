@@ -6,7 +6,7 @@ import ProjectUpdateList from "./ProjectUpdateList";
 import { SimpleProject as Project } from "./__projects";
 
 interface Props {
-  banner: Project;
+  banner: Project | null;
   featuredProjects: Project[];
   projects: Project[];
   projectUpdates: Project[];
