@@ -21,7 +21,7 @@ const ProjectsPage = ({
   placeholderImageUrl
 }: Props): ReactElement<HTMLElement> => (
   <>
-    <div className="m-banner__container">
+    <div className="m-project-page__top-container">
       <div className="row">
         <div className="col-12 col-lg-8">
           <h2 className="container c-featured-projects__subheader">
@@ -33,7 +33,7 @@ const ProjectsPage = ({
             placeholderImageUrl={placeholderImageUrl}
           />
         </div>
-        <div className="c-project-update-list__container col-12 col-lg-4">
+        <div className="col-12 col-lg-4">
           <div className="container">
             <ProjectUpdateList
               projectUpdates={projectUpdates}

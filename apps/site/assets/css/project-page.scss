@@ -1,3 +1,15 @@
+.m-project-page__top-container {
+  @include media-breakpoint-up(lg) {
+    @include make-container();
+    max-width: map-get($container-max-widths, lg);
+    padding: 0;
+  }
+
+  @include media-breakpoint-only(xxl) {
+    max-width: map-get($container-max-widths, xxl);
+  }
+}
+
 .c-project-updates-list {
   background-color: $brand-primary-lightest-contrast;
 
@@ -22,7 +34,6 @@
     color: $black;
     text-decoration: none;
   }
-
 }
 
 .c-project-update-list__subheader {
@@ -73,14 +84,6 @@
 .c-project-update__date {
   font-weight: 700;
   margin-top: $base-spacing / 2;
-}
-
-.m-project-updates__teaser {
-  margin-bottom: $base-spacing * 2;
-}
-
-.m-project-updates__title {
-  margin-top: 0;
 }
 
 .c-featured-projects__subheader {

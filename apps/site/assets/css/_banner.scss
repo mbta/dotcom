@@ -173,14 +173,3 @@
   font-weight: bold;
 }
 
-.m-banner__container {
-  @include media-breakpoint-up(lg) {
-    @include make-container();
-    max-width: map-get($container-max-widths, lg);
-    padding: 0;
-  }
-
-  @include media-breakpoint-only(xxl) {
-    max-width: map-get($container-max-widths, xxl);
-  }
-}
