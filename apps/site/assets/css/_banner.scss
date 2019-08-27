@@ -111,7 +111,7 @@
 
 
   &--responsive {
-    @include media-breakpoint-down(md) {
+    @include media-breakpoint-up(sm) {
       min-height: $base-spacing * 20;
     }
 
