@@ -37,3 +37,15 @@ $form-check-input-margin-y: .25rem !default;
   margin-left: 0;
   margin-right: 0;
 }
+
+.col-lg-3-and-a-half {
+  @include media-breakpoint-up(lg) {
+    width: 29%;
+  }
+}
+
+.col-lg-offset-half-left {
+  @include media-breakpoint-up(lg) {
+    margin-left: 4%;
+  }
+}

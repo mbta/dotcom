@@ -6,8 +6,12 @@
 <% end %>
 
 <div class="container">
-  <div class="page-section">
-    <%= PartialView.paragraph("paragraphs/custom-html/projects-index", @conn) %>
+  <div class="row">
+    <div class="col-lg-8">
+      <div class="page-section">
+        <%= PartialView.paragraph("paragraphs/custom-html/projects-index", @conn) %>
+      </div>
+    </div>
   </div>
 </div>
 

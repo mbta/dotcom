@@ -24,7 +24,7 @@ const ProjectsPage = ({
     <div className="m-project-page__top-container">
       <div className="row">
         <div className="col-12 col-lg-8">
-          <h2 className="container c-featured-projects__subheader">
+          <h2 className="container c-projects-header__subheader">
             Featured Projects
           </h2>
           <Banner banner={banner} placeholderImageUrl={placeholderImageUrl} />
@@ -33,7 +33,7 @@ const ProjectsPage = ({
             placeholderImageUrl={placeholderImageUrl}
           />
         </div>
-        <div className="col-12 col-lg-4">
+        <div className="col-12 col-lg-offset-half-left col-lg-4 col-lg-3-and-a-half">
           <div className="container">
             <ProjectUpdateList
               projectUpdates={projectUpdates}

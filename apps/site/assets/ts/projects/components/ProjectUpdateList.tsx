@@ -14,7 +14,7 @@ const ProjectUpdateList = ({
 }: Props): ReactElement<HTMLElement> | null =>
   projectUpdates.length > 0 ? (
     <>
-      <h3 className="c-project-update-list__subheader">Project Updates</h3>
+      <h2 className="c-projects-header__subheader">Project Updates</h2>
       <div className="c-project-update-list__row">
         {projectUpdates.map(
           ({ image, path, title, routes, date, id }: Project) => (

@@ -37,8 +37,6 @@
 }
 
 .c-project-update-list__subheader {
-  @include h2();
-  font-size: $font-size-h3;
   margin-bottom: 1em;
   margin-top: $base-spacing * 1.75;
 }
@@ -86,13 +84,17 @@
   margin-top: $base-spacing / 2;
 }
 
-.c-featured-projects__subheader {
+.c-projects-header__subheader {
   margin-top: $base-spacing-lg;
 }
 
 .c-featured-project-list {
   margin-bottom: $base-spacing;
   width: 100%;
+
+  @include media-breakpoint-only(xs) {
+    margin-top: -4 * $base-spacing;
+  }
 }
 
 .c-featured-project-list__row {
@@ -100,8 +102,12 @@
   flex-flow: row wrap;
   justify-content: space-between;
 
+  @include media-breakpoint-up(lg) {
+    margin-top: 2 * $base-spacing;
+  }
+
   @include media-breakpoint-down(md) {
-    padding: 0 0 $base-spacing / 2;
+    margin-bottom: $base-spacing / 2;
  }
 }
 
@@ -114,7 +120,7 @@
 .c-featured-project {
   flex-basis: 0;
   flex-grow: 1;
-  margin: 0 0$base-spacing / 2;
+  margin: 0;
 
   @include media-breakpoint-only(xs) {
     flex: 0 0 auto;
@@ -134,10 +140,21 @@
 
   &:first-child {
     margin-right: $base-spacing / 2;
+    margin-bottom: $base-spacing / 2;
+
+    @include media-breakpoint-up(lg) {
+      margin-right: $base-spacing;
+    }
   }
 
   &:last-child {
-    margin-left: $base-spacing / 2;
+    @include media-breakpoint-up(sm) {
+      margin-left: $base-spacing / 2;
+   }
+
+    @include media-breakpoint-up(lg) {
+      margin-left: $base-spacing;
+    }
   }
 
   &:hover {
@@ -194,7 +211,7 @@
 
 .c-more-projects-table__th-status,
 .c-more-projects-table__td-status {
-  width: 25%;
+  width: 29%;
 }
 
 .c-more-projects-table__thumbnail {
