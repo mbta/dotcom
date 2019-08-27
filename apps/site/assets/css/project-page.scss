@@ -109,6 +109,10 @@
   @include media-breakpoint-down(md) {
     margin-bottom: $base-spacing / 2;
  }
+
+  &:first-child {
+    margin-top: $base-spacing;
+  }
 }
 
 .c-featured-project__route-icon {
@@ -143,6 +147,7 @@
     margin-right: $base-spacing / 2;
 
     @include media-breakpoint-up(lg) {
+      margin-bottom: 0;
       margin-right: $base-spacing;
     }
   }
