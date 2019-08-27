@@ -2,7 +2,7 @@
 
 exports[`renders 1`] = `
 <a
-  className="m-banner m-banner--responsive m-banner--lg-9 m-banner--small-margin-top m-banner--default"
+  className="m-banner m-banner--responsive m-banner--lg-9 m-banner--no-margin-top m-banner--default"
   href="/projects/better-bus-project"
 >
   <div

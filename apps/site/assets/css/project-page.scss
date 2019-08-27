@@ -139,8 +139,8 @@
   }
 
   &:first-child {
-    margin-right: $base-spacing / 2;
     margin-bottom: $base-spacing / 2;
+    margin-right: $base-spacing / 2;
 
     @include media-breakpoint-up(lg) {
       margin-right: $base-spacing;

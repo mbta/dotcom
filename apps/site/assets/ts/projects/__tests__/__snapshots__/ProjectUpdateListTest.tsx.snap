@@ -2,11 +2,11 @@
 
 exports[`renders 1`] = `
 Array [
-  <h3
-    className="c-project-update-list__subheader"
+  <h2
+    className="c-projects-header__subheader"
   >
     Project Updates
-  </h3>,
+  </h2>,
   <div
     className="c-project-update-list__row"
   >
