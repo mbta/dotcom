@@ -2,16 +2,26 @@ import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import Algolia from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
 import AlgoliaAutocompleteWithGeo from "./algolia-autocomplete-with-geo";
+import { AlgoliaAutocomplete } from "./algolia-autocomplete";
 import * as QueryHelpers from "../ts/helpers/query";
 
 import {
   PAGE_IDS,
+  PAGE_IDS_WITHOUT_GOOGLE,
   FACET_MAP,
   buildOptions
 } from "./algolia-embedded-search-options";
 
 export class AlgoliaEmbeddedSearch {
-  constructor({ pageId, selectors, params, indices, locationParams }) {
+  constructor({
+    pageId,
+    withGoogle,
+    selectors,
+    params,
+    indices,
+    locationParams
+  }) {
+    this.withGoogle = withGoogle;
     this.pageId = pageId;
     this.selectors = selectors;
     this.params = params;
@@ -37,14 +47,24 @@ export class AlgoliaEmbeddedSearch {
   init() {
     this.input.value = "";
     this.controller = new Algolia(this.indices, this.params);
-    this.autocomplete = new AlgoliaAutocompleteWithGeo({
-      id: this.pageId,
-      selectors: this.selectors,
-      indices: Object.keys(this.indices),
-      locationParams: this.locationParams,
-      popular: [],
-      parent: this
-    });
+    this.autocomplete = this.withGoogle
+      ? new AlgoliaAutocompleteWithGeo({
+          id: this.pageId,
+          selectors: this.selectors,
+          indices: Object.keys(this.indices),
+          locationParams: this.locationParams,
+          popular: [],
+          parent: this
+        })
+      : new AlgoliaAutocomplete({
+          id: this.pageId,
+          searchType: "projects",
+          selectors: this.selectors,
+          indices: Object.keys(this.indices),
+          locationParams: this.locationParams,
+          popular: [],
+          parent: this
+        });
     this.autocomplete.renderFooterTemplate =
       AlgoliaEmbeddedSearch.renderFooterTemplate;
     this.addEventListeners();
@@ -96,14 +116,34 @@ export class AlgoliaEmbeddedSearch {
   }
 }
 
-export function init() {
-  PAGE_IDS.forEach(pageId => {
+export const initWithoutGoogle = () => {
+  PAGE_IDS_WITHOUT_GOOGLE.forEach(pageId => {
     const { selectors, params, indices } = buildOptions(pageId);
 
+    new AlgoliaEmbeddedSearch({
+      pageId,
+      selectors,
+      params,
+      indices,
+      withGoogle: false
+    });
+  });
+};
+
+export const init = () => {
+  PAGE_IDS.forEach(pageId => {
+    const { selectors, params, indices } = buildOptions(pageId);
     document.addEventListener("turbolinks:load", () => {
       doWhenGoogleMapsIsReady(
-        () => new AlgoliaEmbeddedSearch({ pageId, selectors, params, indices })
+        () =>
+          new AlgoliaEmbeddedSearch({
+            pageId,
+            selectors,
+            params,
+            indices,
+            withGoogle: true
+          })
       );
     });
   });
-}
+};

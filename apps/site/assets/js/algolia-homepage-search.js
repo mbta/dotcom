@@ -75,7 +75,8 @@ export const doInit = () => {
       indices: INDICES,
       params: PARAMS,
       selectors: SELECTORS,
-      locationParams: LOCATION_PARAMS
+      locationParams: LOCATION_PARAMS,
+      withGoogle: true
     });
 
     search.buildSearchParams = () =>

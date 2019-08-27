@@ -25,7 +25,8 @@ export const addFilterParam = (params, path) => {
 
 class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   constructor({ id, selectors, indices, locationParams, popular, parent }) {
-    super(id, selectors, indices, parent);
+    super({ id, selectors, indices, parent });
+    this.searchType = undefined;
     this.sessionToken = null;
     this.debounceInterval = 250;
     if (!this._parent.getParams) {

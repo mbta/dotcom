@@ -28,6 +28,27 @@ export const TEMPLATES = {
       <i aria-hidden="true" id="search-result__loading-indicator" class="fa fa-cog fa-spin c-search-result__loading-indicator"></i>
     </a>
   `),
+  projects: hogan.compile(`
+    {{#hasDate}}
+    <div class="c-search-result__hit--vertical">
+    {{/hasDate}}
+    {{#id}}
+    <a id="hit-{{id}}" class="${
+      SELECTORS.result
+    } c-search-result__link" href="{{hitUrl}}">
+    {{/id}}
+    {{^id}}
+    <a class="${
+      SELECTORS.result
+    } c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
+    {{/id}}
+      <span>{{{hitIcon}}}</span>
+      <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
+    </a>
+    {{#hasDate}}
+    </div>
+    {{/hasDate}}
+  `),
   default: hogan.compile(`
     {{#hasDate}}
     <div class="c-search-result__hit--vertical">
@@ -56,30 +77,47 @@ export const TEMPLATES = {
   `)
 };
 
-export function renderResult(hit, type) {
-  if (TEMPLATES[type]) {
-    return TEMPLATES[type].render(parseResult(hit, type));
+export function renderResult(hit, index, searchType) {
+  if (searchType) {
+    return TEMPLATES[searchType].render(parseResult(hit, index, searchType));
   }
-  return TEMPLATES.default.render(parseResult(hit, type));
+  if (TEMPLATES[index]) {
+    return TEMPLATES[index].render(parseResult(hit, index));
+  }
+  return TEMPLATES.default.render(parseResult(hit, index));
 }
 
-export function parseResult(hit, type) {
+export function parseResult(hit, index, searchType) {
   return Object.assign(hit, {
-    hitIcon: getIcon(hit, type),
-    hitUrl: getUrl(hit, type),
-    hitTitle: getTitle(hit, type),
+    hitIcon: getIcon(hit, index, searchType),
+    hitUrl: getUrl(hit, index),
+    hitTitle: getTitle(hit, index),
     hasDate:
-      type == "events" ||
-      type == "news" ||
-      type == "pages" ||
-      type == "documents" ||
+      index == "events" ||
+      index == "news" ||
+      index == "pages" ||
+      index == "documents" ||
       null,
-    hitFeatureIcons: getFeatureIcons(hit, type),
+    hitFeatureIcons: getFeatureIcons(hit, index),
     id: hit.place_id || null
   });
 }
 
-export function getIcon(hit, type) {
+export function getIcon(hit, type, searchType) {
+  if (searchType) {
+    if (searchType === "projects") {
+      console.log(hit.related_transit_gtfs_id, "related transit id");
+      console.log(hit.related_transit_gtfs_ancestry, "related ancestry");
+      const icons = iconFromGTFS(
+        hit.related_transit_gtfs_id,
+        hit.related_transit_gtfs_ancestry
+      );
+      if (Array.isArray(icons)) {
+        return icons.join(" ");
+      }
+      return icons;
+    }
+  }
   switch (type) {
     case "locations":
       hit._content_type = "locations";
@@ -168,6 +206,7 @@ function _subwayRouteIcon(routeId) {
   }
 
   const mapper = {
+    Green: "green_line",
     Red: "red_line",
     Orange: "orange_line",
     Blue: "blue_line",
@@ -175,6 +214,54 @@ function _subwayRouteIcon(routeId) {
   };
 
   return mapper[routeId];
+}
+
+export function iconFromGTFS(id, ancestry) {
+  if (!id) {
+    return TEMPLATES.fontAwesomeIcon.render({ icon: "fa-info" });
+  }
+  let icons = iconsFromGTFSIds(id);
+  if (ancestry) {
+    icons = [...new Set([...icons, ...iconsFromGTFSAncestry(ancestry)])];
+  }
+  return icons;
+}
+
+function iconsFromGTFSAncestry(ancestry) {
+  if (Array.isArray(ancestry)) {
+    return iconsFromGTFSAncestries(ancestry);
+  }
+  return iconsFromGTFSAncestries([ancestry]);
+}
+
+function iconsFromGTFSAncestries(ancestries) {
+  return ancestries
+    .map(anc => anc.toLowerCase())
+    .filter(anc => anc !== "subway")
+    .map(anc => Icons.getFeatureIcon(anc));
+}
+
+function iconsFromGTFSIds(id) {
+  if (Array.isArray(id)) {
+    return id.map(icon => iconFromGTFSId(icon));
+  } else {
+    return [iconFromGTFSId(id)];
+  }
+}
+
+function iconFromGTFSId(id) {
+  const toSubway = _subwayRouteIcon(id);
+  if (toSubway) {
+    return Icons.getFeatureIcon(toSubway);
+  }
+  if (id === "Silver Line") return Icons.getFeatureIcon("bus");
+  if (id in ["commuter_rail", "bus", "ferry"]) {
+    return Icons.getFeatureIcon(id);
+  }
+  if (id.includes("CR-")) {
+    return Icons.getFeatureIcon("commuter_rail");
+  }
+  return Icons.getFeatureIcon(id);
 }
 
 function _iconFromRoute(route) {

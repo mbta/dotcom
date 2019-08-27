@@ -7,13 +7,16 @@ export const PAGE_IDS = [
   "search-route--ferry"
 ];
 
+export const PAGE_IDS_WITHOUT_GOOGLE = ["search-projects"];
+
 export const FACET_MAP = {
   "search-stop": "stations,stops,locations",
   "search-route": "subway,commuter-rail,bus,ferry,locations",
   "search-route--subway": "subway,stations,stops,locations",
   "search-route--commuter_rail": "commuter-rail,stations,stops,locations",
   "search-route--bus": "bus,stations,stops,locations",
-  "search-route--ferry": "ferry,stations,stops,locations"
+  "search-route--ferry": "ferry,stations,stops,locations",
+  "search-projects": "_content_type"
 };
 
 const FACET_FILTER_MAP = {
@@ -22,7 +25,8 @@ const FACET_FILTER_MAP = {
   "search-route--subway": ["route.type:0", "route.type:1"],
   "search-route--commuter_rail": ["route.type:2"],
   "search-route--bus": ["route.type:3"],
-  "search-route--ferry": ["route.type:4"]
+  "search-route--ferry": ["route.type:4"],
+  "search-projects": ["_content_type:project", "_content_type:project_update"]
 };
 
 export const buildOptions = pageId => {
@@ -39,7 +43,10 @@ export const buildOptions = pageId => {
 
   const indices = {};
 
-  const index = pageId === "search-stop" ? "stops" : "routes";
+  const isStopSearch = pageId === "search-stop";
+  const isProjectsSearch = pageId === "search-projects";
+
+  const index = isStopSearch ? "stops" : isProjectsSearch ? "drupal" : "routes";
 
   params[index] = {
     hitsPerPage: 5,

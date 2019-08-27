@@ -21,7 +21,8 @@ function setup(idx) {
     pageId: id,
     selectors,
     params,
-    indices
+    indices,
+    withGoogle: true
   });
 }
 

@@ -2,11 +2,12 @@ import * as AlgoliaResult from "./algolia-result";
 import * as QueryHelpers from "../ts/helpers/query";
 
 export class AlgoliaAutocomplete {
-  constructor(id, selectors, indices, parent) {
+  constructor({ id, selectors, indices, parent, searchType }) {
     if (typeof id !== "string") {
       throw new window.Error("autocomplete must have an id");
     }
     this.id = id;
+    this.searchType = searchType;
     this._parent = parent;
     this.error = null;
     this._selectors = Object.assign(selectors, {
@@ -374,7 +375,7 @@ export class AlgoliaAutocomplete {
   }
 
   renderResult(index) {
-    return hit => AlgoliaResult.renderResult(hit, index);
+    return hit => AlgoliaResult.renderResult(hit, index, this.searchType);
   }
 
   setValue(value) {
