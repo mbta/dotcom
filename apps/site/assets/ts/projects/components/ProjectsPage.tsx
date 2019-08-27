@@ -1,10 +1,11 @@
-import React, { ReactElement } from "react";
+import React, { Dispatch, ReactElement, SetStateAction, useState } from "react";
 import Banner from "./Banner";
 import FeaturedProjectsList from "./FeaturedProjectsList";
 import FeaturedProjectsTitle from "./FeaturedProjectsTitle";
 import FilterAndSearch from "./FilterAndSearch";
 import MoreProjectsTable from "./MoreProjectsTable";
 import ProjectUpdateList from "./ProjectUpdateList";
+import { Mode } from "../../__v3api";
 import { SimpleProject as Project } from "./__projects";
 
 interface Props {
@@ -13,6 +14,15 @@ interface Props {
   projects: Project[];
   projectUpdates: Project[];
   placeholderImageUrl: string;
+  initialSelectedMode?: Mode;
+}
+
+export type SetSelectedMode = Dispatch<SetStateAction<Mode | undefined>>;
+export type UpdateSelectedMode = ((setSelectedMode: SetSelectedMode, newMode: Mode, currentMode?: Mode | undefined) => void);
+
+const updateSelectedMode: UpdateSelectedMode = (setSelectedMode: SetSelectedMode, newMode: Mode, currentMode?: Mode): void => {
+  const newSelectedMode = (newMode === currentMode) ? undefined : newMode;
+  setSelectedMode(newSelectedMode);
 }
 
 const ProjectsPage = ({
@@ -20,10 +30,14 @@ const ProjectsPage = ({
   featuredProjects,
   projects,
   projectUpdates,
-  placeholderImageUrl
-}: Props): ReactElement<HTMLElement> => (
+  placeholderImageUrl,
+  initialSelectedMode
+}: Props): ReactElement<HTMLElement> => {
+  const [selectedMode, setSelectedMode] = useState<Mode | undefined>(initialSelectedMode);
+
+  return (
   <>
-    <FilterAndSearch />
+    <FilterAndSearch selectedMode={selectedMode} setSelectedMode={setSelectedMode} updateSelectedMode={updateSelectedMode} />
     <div className="m-project-page__top-container">
       <div className="row">
         <div className="col-12 col-lg-8">
@@ -49,6 +63,6 @@ const ProjectsPage = ({
       placeholderImageUrl={placeholderImageUrl}
     />
   </>
-);
-
+  )
+};
 export default ProjectsPage;
