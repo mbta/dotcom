@@ -12,7 +12,6 @@ erl_crash.dump
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*
-!.elasticbeanstalk/config.yml
 /site-build.zip
 /apps/site/test/backstop_data/bitmaps_test
 /apps/site/test/backstop_data/html_report
