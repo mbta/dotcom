@@ -20,10 +20,10 @@ export const projectsLoader = (): void => {
   } = projectsData;
   render(
     <ProjectsPage
-      banner={banner}
-      featuredProjects={featuredProjects}
-      projects={projects}
-      projectUpdates={projectUpdates}
+      initialBanner={banner}
+      initialFeaturedProjects={featuredProjects}
+      initialProjects={projects}
+      initialProjectUpdates={projectUpdates}
       placeholderImageUrl={placeholderImageUrl}
     />,
     projectsRootEl

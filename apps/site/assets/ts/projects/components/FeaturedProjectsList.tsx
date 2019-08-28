@@ -27,6 +27,10 @@ const FeaturedProjectsList = ({
   projects,
   placeholderImageUrl
 }: Props): ReactElement<HTMLElement> => {
+  if (projects.length === 0) {
+    return <div />;
+  }
+
   const groupedProjects = groupPairwise(projects);
 
   return (

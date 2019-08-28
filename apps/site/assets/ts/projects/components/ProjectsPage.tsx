@@ -9,49 +9,132 @@ import { Mode } from "../../__v3api";
 import { SimpleProject as Project } from "./__projects";
 
 interface Props {
+  initialBanner: Project | null;
+  initialFeaturedProjects: Project[];
+  initialProjects: Project[];
+  initialProjectUpdates: Project[];
+  placeholderImageUrl: string;
+}
+
+export interface State {
   banner: Project | null;
   featuredProjects: Project[];
+  fetchInProgress: boolean;
   projects: Project[];
+  currentMode?: Mode;
   projectUpdates: Project[];
-  placeholderImageUrl: string;
-  initialSelectedMode?: Mode;
 }
 
-export type SetSelectedMode = Dispatch<SetStateAction<Mode | undefined>>;
-export type UpdateSelectedMode = ((setSelectedMode: SetSelectedMode, newMode: Mode, currentMode?: Mode | undefined) => void);
+export type SetState = Dispatch<SetStateAction<State>>;
+export type FetchProjects = (state: State, setState: SetState) => void;
+export type UpdateSelectedMode = ((
+  state: State,
+  newMode: Mode,
+  setState: SetState
+) => void);
 
-const updateSelectedMode: UpdateSelectedMode = (setSelectedMode: SetSelectedMode, newMode: Mode, currentMode?: Mode): void => {
-  const newSelectedMode = (newMode === currentMode) ? undefined : newMode;
-  setSelectedMode(newSelectedMode);
-}
+const fetchMoreProjects: FetchProjects = (
+  state: State,
+  setState: SetState
+): void => {
+  if (!window.fetch) {
+    return;
+  }
+
+  setState({ ...state, fetchInProgress: true });
+
+  const offset = state.projects.length;
+  const fetchUrl = `/project_api?offset=${offset}&filter[mode]=${state.currentMode}`;
+
+  window.fetch(fetchUrl)
+    .then(response => {
+      if (response.ok) return response.json();
+      throw new Error(response.statusText);
+    })
+    .then(projects => {
+      const newProjects = state.projects.concat(projects);
+
+      setState({
+        ...state,
+        projects: newProjects,
+        fetchInProgress: false
+      })
+    });
+};
+
+const updateSelectedMode: UpdateSelectedMode = (
+  state: State,
+  newMode: Mode,
+  setState: SetState
+): void => {
+  if (!window.fetch) {
+    return;
+  }
+
+  const newSelectedMode = newMode === state.currentMode ? undefined : newMode;
+  const newSelectedModeStr = newSelectedMode || "undefined";
+
+  setState({ ...state, fetchInProgress: true });
+
+  window
+    .fetch(`/project_api?filter[mode]=${newSelectedModeStr}`)
+    .then(response => {
+      if (response.ok) return response.json();
+      throw new Error(response.statusText);
+    })
+    .then(json => {
+      const banner = json.featuredProjects[0];
+      const featuredProjects = json.featuredProjects.slice(1);
+
+      setState({
+        ...state,
+        banner: banner,
+        featuredProjects: featuredProjects,
+        projects: json.projects,
+        projectUpdates: json.projectUpdates,
+        currentMode: newSelectedMode,
+        fetchInProgress: false
+      });
+    });
+};
 
 const ProjectsPage = ({
-  banner,
-  featuredProjects,
-  projects,
-  projectUpdates,
+  initialProjectUpdates,
   placeholderImageUrl,
-  initialSelectedMode
+  initialBanner,
+  initialFeaturedProjects,
+  initialProjects
 }: Props): ReactElement<HTMLElement> => {
-  const [selectedMode, setSelectedMode] = useState<Mode | undefined>(initialSelectedMode);
+  const [state, setState] = useState<State>({
+    featuredProjects: initialFeaturedProjects,
+    projects: initialProjects,
+    projectUpdates: initialProjectUpdates,
+    banner: initialBanner,
+    fetchInProgress: false
+  });
 
   return (
   <>
-    <FilterAndSearch selectedMode={selectedMode} setSelectedMode={setSelectedMode} updateSelectedMode={updateSelectedMode} />
+    <FilterAndSearch
+        state={state}
+        setState={setState}
+        updateSelectedMode={updateSelectedMode}
+      />
+
     <div className="m-project-page__top-container">
       <div className="row">
         <div className="col-12 col-lg-8">
-          <FeaturedProjectsTitle banner={banner} />
-          <Banner banner={banner} placeholderImageUrl={placeholderImageUrl} />
+          <FeaturedProjectsTitle banner={state.banner} />
+          <Banner banner={state.banner} placeholderImageUrl={placeholderImageUrl} />
           <FeaturedProjectsList
-            projects={featuredProjects}
+            projects={state.featuredProjects}
             placeholderImageUrl={placeholderImageUrl}
           />
         </div>
         <div className="col-12 col-lg-offset-half-left col-lg-4 col-lg-3-and-a-half">
           <div className="container">
             <ProjectUpdateList
-              projectUpdates={projectUpdates}
+              projectUpdates={state.projectUpdates}
               placeholderImageUrl={placeholderImageUrl}
             />
           </div>
@@ -59,8 +142,10 @@ const ProjectsPage = ({
       </div>
     </div>
     <MoreProjectsTable
-      projects={projects}
       placeholderImageUrl={placeholderImageUrl}
+      state={state}
+      fetchMoreProjects={fetchMoreProjects}
+      setState={setState}
     />
   </>
   )

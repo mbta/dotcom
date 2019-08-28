@@ -1,48 +1,24 @@
-import React, { Dispatch, ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import MoreProjectsRow from "./MoreProjectsRow";
 import { SimpleProject as Project } from "./__projects";
+import { FetchProjects, State, SetState } from "./ProjectsPage";
 
 interface Props {
-  projects: Project[];
   placeholderImageUrl: string;
+  fetchMoreProjects: FetchProjects;
+  state: State;
+  setState: SetState;
 }
-
-interface State {
-  projects: Project[];
-  fetchInProgress: boolean;
-}
-
-export const fetchMoreProjects = async (
-  state: State,
-  setState: Dispatch<State>
-): Promise<void> => {
-  if (!window.fetch) {
-    return;
-  }
-
-  setState({ ...state, fetchInProgress: true });
-
-  const offset = state.projects.length;
-  const response = await window.fetch(`/project_api?offset=${offset}`);
-  const projects: Project[] = response.ok ? await response.json() : [];
-  setState({
-    projects: state.projects.concat(projects),
-    fetchInProgress: false
-  });
-};
 
 const MoreProjectsTable = ({
-  projects: initialProjects,
-  placeholderImageUrl
+  placeholderImageUrl,
+  state,
+  setState,
+  fetchMoreProjects
 }: Props): ReactElement<HTMLElement> => {
-  const [state, setState] = useState<State>({
-    projects: initialProjects,
-    fetchInProgress: false
-  });
-
   return (
     <div className="container">
-      <h2>More Projects</h2>
+      {(state.banner && <h2>More Projects</h2>) || <h2>Projects</h2>}
       <div>
         <table className="c-more-projects-table" aria-label="More Projects">
           <thead className="c-more-projects-table__thead hidden-md-down">

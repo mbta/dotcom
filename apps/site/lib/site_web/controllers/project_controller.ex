@@ -20,10 +20,7 @@ defmodule SiteWeb.ProjectController do
     end
 
     featured_project_teasers_fn = fn ->
-      [type: [:project], sticky: 1]
-      |> Repo.teasers()
-      |> sort_by_date()
-      |> Enum.map(&simplify_teaser/1)
+      fetch_featured_teasers()
     end
 
     project_update_teasers_fn = fn ->
@@ -47,10 +44,40 @@ defmodule SiteWeb.ProjectController do
     end)
   end
 
-  def api(conn, %{"offset" => offset}) do
+  def api(conn, %{"offset" => offset, "filter" => %{"mode" => mode}}) do
+    mode = translate_mode(mode)
     offset = String.to_integer(offset)
-    teasers = fetch_teasers(offset)
+    teasers = fetch_teasers(offset, mode)
     json(conn, teasers)
+  end
+
+  def api(conn, %{"filter" => %{"mode" => mode}}) do
+    mode = translate_mode(mode)
+
+    project_teasers_fn = fn ->
+      fetch_teasers(0, mode)
+    end
+
+    featured_project_teasers_fn = fn ->
+      fetch_featured_teasers(mode)
+    end
+
+    project_update_teasers_fn = fn ->
+      fetch_update_teasers(0, mode)
+    end
+
+    project_teasers_task = Task.async(project_teasers_fn)
+    featured_project_teasers_task = Task.async(featured_project_teasers_fn)
+    project_update_teasers_task = Task.async(project_update_teasers_fn)
+    project_teasers = Task.await(project_teasers_task)
+    featured_project_teasers = Task.await(featured_project_teasers_task)
+    project_update_teasers = Task.await(project_update_teasers_task)
+
+    json(conn, %{
+      "projects" => project_teasers,
+      "featuredProjects" => featured_project_teasers,
+      "projectUpdates" => project_update_teasers
+    })
   end
 
   def project_updates(conn, %{"project_alias" => project_alias}) do
@@ -134,20 +161,57 @@ defmodule SiteWeb.ProjectController do
     |> Map.take(~w(id text image path title routes date status)a)
   end
 
-  @spec fetch_teasers(integer) :: [map()]
-  defp fetch_teasers(offset) do
-    Repo.teasers(type: [:project], items_per_page: @n_projects_per_page, offset: offset)
+  @spec fetch_featured_teasers(String.t()) :: [map()]
+  defp fetch_featured_teasers(mode \\ nil) do
+    api_params = [type: [:project], sticky: 1]
+
+    api_params =
+      if mode do
+        Keyword.merge(api_params, mode: translate_mode(mode))
+      else
+        api_params
+      end
+
+    api_params
+    |> Repo.teasers()
     |> sort_by_date()
     |> Enum.map(&simplify_teaser/1)
   end
 
-  @spec fetch_update_teasers(integer) :: [map()]
-  defp fetch_update_teasers(offset) do
-    Repo.teasers(
+  @spec fetch_teasers(integer, String.t()) :: [map()]
+  defp fetch_teasers(offset, mode \\ nil) do
+    api_params = [type: [:project], items_per_page: @n_projects_per_page, offset: offset]
+
+    api_params =
+      if mode do
+        Keyword.merge(api_params, mode: translate_mode(mode))
+      else
+        api_params
+      end
+
+    Repo.teasers(api_params)
+    |> sort_by_date()
+    |> Enum.map(&simplify_teaser/1)
+  end
+
+  @spec fetch_update_teasers(integer, String.t()) :: [map()]
+  defp fetch_update_teasers(offset, mode \\ nil) do
+    mode = translate_mode(mode)
+
+    api_params = [
       type: [:project_update],
       items_per_page: @n_project_updates_per_page,
       offset: offset
-    )
+    ]
+
+    api_params =
+      if mode do
+        Keyword.merge(api_params, mode: translate_mode(mode))
+      else
+        api_params
+      end
+
+    Repo.teasers(api_params)
     |> sort_by_date()
     |> Enum.map(&simplify_teaser/1)
   end
@@ -155,5 +219,14 @@ defmodule SiteWeb.ProjectController do
   @spec get_breadcrumb_base :: String.t()
   def get_breadcrumb_base do
     @breadcrumb_base
+  end
+
+  @spec translate_mode(String.t()) :: String.t()
+  def translate_mode(mode) do
+    case mode do
+      "undefined" -> nil
+      "commuter_rail" -> "commuter-rail"
+      _ -> mode
+    end
   end
 end

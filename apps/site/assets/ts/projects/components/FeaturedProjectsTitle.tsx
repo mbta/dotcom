@@ -5,9 +5,11 @@ interface Props {
   banner: Project | null;
 }
 
-const FeaturedProjectsTitle = ({banner}: Props): ReactElement<HTMLElement> => {
-  if(!banner) {
-    <div/>
+const FeaturedProjectsTitle = ({
+  banner
+}: Props): ReactElement<HTMLElement> => {
+  if (!banner) {
+    return <div />;
   }
 
   return(

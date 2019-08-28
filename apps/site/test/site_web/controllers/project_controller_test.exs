@@ -207,7 +207,7 @@ defmodule SiteWeb.ProjectControllerTest do
 
   describe "api" do
     test "returns a list of project structs JSON-encoded", %{conn: conn} do
-      path = project_api_path(conn, :api, %{offset: 0})
+      path = project_api_path(conn, :api, %{offset: 0, filter: %{mode: "undefined"}})
 
       response =
         conn

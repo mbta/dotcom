@@ -57,17 +57,17 @@ const shouldShowModeButton = (
   mode: string,
   modeButtonsToShow?: string[]
 ): boolean => {
-  if(modeButtonsToShow) {
+  if (modeButtonsToShow) {
     return modeButtonsToShow.includes(mode);
   }
 
   // By default, show all available modes except ferry.
 
-  if(mode == "ferry") {
+  if (mode == "ferry") {
     return false;
   }
   return true;
-}
+};
 
 export const ModeFilter = ({
   isModeSelected,
