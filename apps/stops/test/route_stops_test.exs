@@ -159,13 +159,11 @@ defmodule Stops.RouteStopsTest do
       [wickford, stoughton, core] = route_stops
 
       assert %Stops.RouteStops{
-               branch: "Wickford Junction",
-               stops: [%Stops.RouteStop{branch: "Wickford Junction"} | _]
+               stops: [%Stops.RouteStop{id: "place-NEC-1659"} | _]
              } = wickford
 
       assert %Stops.RouteStops{
-               branch: "Stoughton",
-               stops: [%Stops.RouteStop{branch: "Stoughton"} | _]
+               stops: [%Stops.RouteStop{id: "place-SB-0189"} | _]
              } = stoughton
 
       assert %Stops.RouteStops{
@@ -179,11 +177,11 @@ defmodule Stops.RouteStopsTest do
       shapes = Routes.Repo.get_shapes("1", direction_id: 0)
       route = %Routes.Route{id: "1", type: 3}
 
-      [%Stops.RouteStops{branch: "Harvard Square", stops: outbound}] =
+      [%Stops.RouteStops{branch: "Dudley Station - Harvard Square", stops: outbound}] =
         RouteStops.by_direction(stops, shapes, route, 0)
 
       assert is_list(outbound)
-      assert Enum.all?(outbound, &(&1.branch == "Harvard Square"))
+      assert Enum.all?(outbound, &(&1.branch == "Dudley Station - Harvard Square"))
       assert outbound |> List.first() |> Map.get(:is_terminus?) == true
       assert outbound |> Enum.slice(1..-2) |> Enum.all?(&(&1.is_terminus? == false))
 
@@ -191,10 +189,10 @@ defmodule Stops.RouteStopsTest do
       shapes = Routes.Repo.get_shapes("1", direction_id: 1)
       route = %Routes.Route{id: "1", type: 3}
 
-      [%Stops.RouteStops{branch: "Dudley Station", stops: inbound}] =
+      [%Stops.RouteStops{branch: "Harvard Square - Dudley Station", stops: inbound}] =
         RouteStops.by_direction(stops, shapes, route, 1)
 
-      assert Enum.all?(inbound, &(&1.branch == "Dudley Station"))
+      assert Enum.all?(inbound, &(&1.branch == "Harvard Square - Dudley Station"))
       assert inbound |> List.first() |> Map.get(:is_terminus?) == true
     end
 
