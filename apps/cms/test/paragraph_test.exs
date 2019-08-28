@@ -5,7 +5,6 @@ defmodule CMS.ParagraphTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   alias CMS.API.Static
-  alias CMS.Page.Event
   alias CMS.Field.{File, Image, Link}
 
   alias CMS.Partial.Paragraph.{
@@ -25,8 +24,7 @@ defmodule CMS.ParagraphTest do
     PeopleGrid,
     PhotoGallery,
     TitleCardSet,
-    Unknown,
-    UpcomingBoardMeetings
+    Unknown
   }
 
   alias CMS.Page.Person
@@ -255,19 +253,6 @@ defmodule CMS.ParagraphTest do
 
       assert link.url == "/summer-visitors-guide"
       assert link.title == "Check out our Visitor's Guide"
-    end
-
-    test "parses upcoming board meetings" do
-      api_data = api_paragraph("upcoming_board_meetings")
-
-      assert %UpcomingBoardMeetings{
-               events: [
-                 %Event{id: 3269},
-                 %Event{id: 3318},
-                 %Event{id: 3306},
-                 %Event{id: 3291}
-               ]
-             } = from_api(api_data)
     end
 
     test "parses a reusable paragraph" do

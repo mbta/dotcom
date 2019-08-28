@@ -2,24 +2,17 @@
 <div class="page-section event-listing">
   <%= content_tag(:h2, @title, extra_classes) %>
   <ul class="list-group list-group-flush">
-    <%= for event <- @events do %>
+    <%= for event_teaser <- @events do %>
       <%
-        range = case event do
-          %Teaser{} = item -> %{start: item.date, stop: item.date_end}
-          %Event{} = item -> %{start: item.start_time, stop: item.end_time}
-        end
-
-        path_fn = case event do
-          %Teaser{path: path} -> fn -> cms_static_page_path(@conn, path) end
-          %Event{} -> fn -> event_path(@conn, :show, event) end
-        end
+        range = %{start: event_teaser.date, stop: event_teaser.date_end}
+        path_fn = fn -> cms_static_page_path(@conn, event_teaser.path) end
       %>
       <li class="list-group-item">
         <div>
           <%= render_duration(range.start, range.stop) %>
         </div>
         <div>
-          <%= link event.title, to: path_fn.() %>
+          <%= link event_teaser.title, to: path_fn.() %>
         </div>
       </li>
     <% end %>

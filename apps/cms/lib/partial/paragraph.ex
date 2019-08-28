@@ -34,8 +34,7 @@ defmodule CMS.Partial.Paragraph do
     PeopleGrid,
     PhotoGallery,
     TitleCardSet,
-    Unknown,
-    UpcomingBoardMeetings
+    Unknown
   }
 
   @types [
@@ -51,8 +50,7 @@ defmodule CMS.Partial.Paragraph do
     PeopleGrid,
     PhotoGallery,
     TitleCardSet,
-    Unknown,
-    UpcomingBoardMeetings
+    Unknown
   ]
 
   @type t ::
@@ -70,7 +68,6 @@ defmodule CMS.Partial.Paragraph do
           | PhotoGallery.t()
           | TitleCardSet.t()
           | Unknown.t()
-          | UpcomingBoardMeetings.t()
 
   @type name ::
           Accordion
@@ -86,7 +83,6 @@ defmodule CMS.Partial.Paragraph do
           | PhotoGallery
           | TitleCardSet
           | Unknown
-          | UpcomingBoardMeetings
 
   @spec from_api(map) :: t
   def from_api(%{"type" => [%{"target_id" => "entity_reference"}]} = para) do
@@ -135,10 +131,6 @@ defmodule CMS.Partial.Paragraph do
 
   def from_api(%{"type" => [%{"target_id" => "title_card_set"}]} = para) do
     TitleCardSet.from_api(para)
-  end
-
-  def from_api(%{"type" => [%{"target_id" => "upcoming_board_meetings"}]} = para) do
-    UpcomingBoardMeetings.from_api(para)
   end
 
   @doc "This ¶ type has a single paragraph reference within. Get the nested paragraph."

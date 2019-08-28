@@ -1,7 +1,7 @@
 defmodule SiteWeb.CMS.ParagraphViewTest do
   use Site.ViewCase, async: true
 
-  import CMS.Factory, only: [event_factory: 1, person_factory: 0]
+  import CMS.Factory, only: [person_factory: 0]
   import SiteWeb.CMS.ParagraphView
 
   alias CMS.Field.{File, Image, Link}
@@ -23,8 +23,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
     PeopleGrid,
     PhotoGallery,
     TitleCardSet,
-    Unknown,
-    UpcomingBoardMeetings
+    Unknown
   }
 
   alias Phoenix.HTML
@@ -147,28 +146,6 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       refute rendered_in_mc =~ "c-media__element"
 
       assert rendered_unlinked =~ ~s(href="")
-    end
-
-    test "renders a CMS.Partial.Paragraph.UpcomingBoardMeetings", %{conn: conn} do
-      event = event_factory(0)
-
-      paragraph = %UpcomingBoardMeetings{
-        events: [event]
-      }
-
-      rendered =
-        paragraph
-        |> render_paragraph(conn)
-        |> HTML.safe_to_string()
-
-      rendered_title =
-        event.title
-        |> HTML.html_escape()
-        |> HTML.safe_to_string()
-
-      assert rendered =~ "c-paragraph--upcoming-board-meetings"
-      assert rendered =~ rendered_title
-      assert rendered =~ "View all upcoming meetings"
     end
 
     test "renders a TitleCardSet when it doesn't have a link", %{conn: conn} do
