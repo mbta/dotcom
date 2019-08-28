@@ -33,7 +33,7 @@ export type UpdateSelectedMode = ((
   setState: SetState
 ) => void);
 
-const fetchMoreProjects: FetchProjects = (
+export const fetchMoreProjects: FetchProjects = (
   state: State,
   setState: SetState
 ): void => {
@@ -62,7 +62,7 @@ const fetchMoreProjects: FetchProjects = (
     });
 };
 
-const updateSelectedMode: UpdateSelectedMode = (
+export const updateSelectedMode: UpdateSelectedMode = (
   state: State,
   newMode: Mode,
   setState: SetState

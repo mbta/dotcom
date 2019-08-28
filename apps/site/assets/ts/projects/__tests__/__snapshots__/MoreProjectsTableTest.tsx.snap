@@ -5,7 +5,7 @@ exports[`renders 1`] = `
   className="container"
 >
   <h2>
-    More Projects
+    Projects
   </h2>
   <div>
     <table
@@ -38,98 +38,7 @@ exports[`renders 1`] = `
       </thead>
       <tbody
         className="c-more-projects-table__tbody"
-      >
-        <tr
-          className="c-more-projects-table__tr"
-        >
-          <td
-            className="c-more-projects-table__td c-more-projects-table__td-project"
-          >
-            <img
-              alt="Photo of stuff"
-              className="hidden-xs-down c-more-projects-table__thumbnail"
-              src="http://www.example.com/some.gif"
-            />
-            <div
-              className="c-more-projects-table__wrapper"
-            >
-              <a
-                href="http://www.mbta.com/awesome_project"
-              >
-                <h3
-                  className="c-more-projects-table__title"
-                >
-                  The Awesome Project
-                </h3>
-              </a>
-              <div
-                className="c-more-projects-table__updated-and-status hidden-lg-up"
-              >
-                <div
-                  className="c-more-projects-table__last-updated"
-                >
-                  <span
-                    className="c-more-projects-table__internal-header"
-                  >
-                    Last updated
-                  </span>
-                  <br />
-                  June 2, 2018
-                  <br />
-                  <span
-                    aria-hidden="false"
-                    className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "SVG",
-                      }
-                    }
-                  />
-                  <span
-                    aria-hidden="false"
-                    className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "SVG",
-                      }
-                    }
-                  />
-                </div>
-              </div>
-              <span
-                aria-hidden="false"
-                className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "SVG",
-                  }
-                }
-              />
-              <span
-                aria-hidden="false"
-                className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "SVG",
-                  }
-                }
-              />
-            </div>
-          </td>
-          <td
-            className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down"
-          >
-            June 2, 2018
-          </td>
-          <td
-            className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"
-          >
-            <span
-              className="c-more-projects-table__status-wrapper"
-            />
-          </td>
-        </tr>
-      </tbody>
+      />
     </table>
     <div
       className="c-more-projects__show-more-button-wrapper"

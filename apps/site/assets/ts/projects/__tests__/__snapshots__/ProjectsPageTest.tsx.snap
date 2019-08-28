@@ -3,6 +3,99 @@
 exports[`renders 1`] = `
 Array [
   <div
+    className="filter-and-search"
+  >
+    <div
+      className="filter-and-search__wrapper"
+    >
+      <div
+        className="filter-and-search__filter-buttons"
+      >
+        <div
+          className="m-tnm-sidebar__filter-bar"
+        >
+          <span
+            className="m-tnm-sidebar__filter-header u-small-caps"
+          >
+            Filter
+          </span>
+          <div
+            className="m-tnm-sidebar__filter-btn-group"
+          >
+            <button
+              aria-label="add filter by subway"
+              className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+              onClick={[Function]}
+              type="button"
+            >
+              <span
+                className="m-tnm-sidebar__mode-icon"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+              Subway
+            </button>
+            <button
+              aria-label="add filter by bus"
+              className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+              onClick={[Function]}
+              type="button"
+            >
+              <span
+                className="m-tnm-sidebar__mode-icon"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+              Bus
+            </button>
+          </div>
+          <div
+            className="m-tnm-sidebar__filter-btn-group"
+          >
+            <button
+              aria-label="add filter by commuter_rail"
+              className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+              onClick={[Function]}
+              type="button"
+            >
+              <span
+                className="m-tnm-sidebar__mode-icon"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+              Rail
+            </button>
+            <button
+              aria-label="add filter by ferry"
+              className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+              onClick={[Function]}
+              type="button"
+            >
+              <span
+                className="m-tnm-sidebar__mode-icon"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+              Ferry
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
     className="m-project-page__top-container"
   >
     <div
@@ -54,45 +147,10 @@ Array [
                 className="m-banner__image--by-side"
                 src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq"
               />
-            </div>
-          </div>
-          <div
-            className="hidden-sm-up"
-          >
-            <div
-              className="m-banner__image m-banner__image--responsive m-banner__image--default"
-              style={
-                Object {
-                  "backgroundImage": " url(https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq)",
-                }
-              }
-            />
-            <div
-              className="sr-only"
-            >
-              Better Bus Project: Making transit better together
-            </div>
-            <div
-              className="m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--unknown"
-            >
               <div
-                className="m-banner__top"
+                className="sr-only"
               >
-                <h2
-                  className="h2 m-banner__title m-banner__title--default"
-                >
-                  Better Bus Project
-                </h2>
-              </div>
-              <div
-                className="m-banner__bottom"
-              >
-                <span
-                  className="m-banner__date"
-                >
-                  Updated 
-                  July 30, 2019
-                </span>
+                Better Bus Project: Making transit better together
               </div>
             </div>
           </div>

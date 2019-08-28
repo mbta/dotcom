@@ -3,6 +3,7 @@ import renderer, { act } from "react-test-renderer";
 import { SimpleProject as Project } from "../components/__projects";
 import FeaturedProjectsList from "../components/FeaturedProjectsList";
 import { createReactRoot } from "../../app/helpers/testUtils";
+import { mount } from "enzyme";
 
 const projects = [
   {
@@ -62,4 +63,14 @@ it("renders", () => {
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
+});
+
+it("renders a blank div if no projects present", () => {
+  const wrapper = mount(
+    <FeaturedProjectsList
+      projects={[]}
+      placeholderImageUrl={placeholderImageUrl}
+    />
+  );
+  expect(wrapper.html()).toEqual("<div></div>");
 });

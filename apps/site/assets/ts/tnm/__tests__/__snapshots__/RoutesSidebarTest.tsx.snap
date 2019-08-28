@@ -18,54 +18,62 @@ exports[`render it renders 1`] = `
         >
           Filter
         </span>
-        <button
-          aria-label="add filter by subway"
-          className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
-          onClick={[Function]}
-          type="button"
+        <div
+          className="m-tnm-sidebar__filter-btn-group"
         >
-          <span
-            className="m-tnm-sidebar__mode-icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
+          <button
+            aria-label="add filter by subway"
+            className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+            onClick={[Function]}
+            type="button"
+          >
+            <span
+              className="m-tnm-sidebar__mode-icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
               }
-            }
-          />
-          Subway
-        </button>
-        <button
-          aria-label="add filter by bus"
-          className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
-          onClick={[Function]}
-          type="button"
+            />
+            Subway
+          </button>
+          <button
+            aria-label="add filter by bus"
+            className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+            onClick={[Function]}
+            type="button"
+          >
+            <span
+              className="m-tnm-sidebar__mode-icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+            Bus
+          </button>
+        </div>
+        <div
+          className="m-tnm-sidebar__filter-btn-group"
         >
-          <span
-            className="m-tnm-sidebar__mode-icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
+          <button
+            aria-label="add filter by commuter_rail"
+            className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+            onClick={[Function]}
+            type="button"
+          >
+            <span
+              className="m-tnm-sidebar__mode-icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
               }
-            }
-          />
-          Bus
-        </button>
-        <button
-          aria-label="add filter by commuter_rail"
-          className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
-          onClick={[Function]}
-          type="button"
-        >
-          <span
-            className="m-tnm-sidebar__mode-icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
-          Rail
-        </button>
+            />
+            Rail
+          </button>
+        </div>
       </div>
     </div>
   </div>
