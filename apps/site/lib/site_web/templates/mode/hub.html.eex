@@ -42,7 +42,7 @@
         <%= map_buttons(@maps) %>
 
         <h2 class="h2">Fares</h2>
-        <%= mode |> mode_fare_card() |> SiteWeb.CMS.ParagraphView.render_paragraph(@conn) %>
+        <%= mode |> mode_fare_card() |> PartialView.paragraph(@conn) %>
 
         <%= SiteWeb.FareView.fare_finder_link(mode, @conn) %>
 

@@ -5,8 +5,6 @@ defmodule SiteWeb.PageView do
 
   alias CMS.Page.NewsEntry
   alias CMS.Partial.Banner
-  alias CMS.Partial.Paragraph.ColumnMulti
-  alias SiteWeb.FareView
   alias SiteWeb.PartialView
 
   use SiteWeb, :view
@@ -154,17 +152,5 @@ defmodule SiteWeb.PageView do
 
   defp banner_cta(%Banner{}) do
     ""
-  end
-
-  @spec homepage_fare_cards :: ColumnMulti.t()
-  def homepage_fare_cards do
-    ColumnMulti.new(
-      columns: [
-        FareView.fare_card(:subway),
-        FareView.fare_card(:bus),
-        FareView.fare_card(:commuter_rail),
-        FareView.fare_card(:ferry)
-      ]
-    )
   end
 end

@@ -4,14 +4,11 @@ defmodule SiteWeb.FareView do
   alias CMS.Field.Link
 
   alias CMS.Partial.Paragraph.{
-    Column,
-    CustomHTML,
     Description,
-    DescriptionList,
-    FareCard
+    DescriptionList
   }
 
-  alias Fares.{Fare, Format, Summary}
+  alias Fares.{Fare, Summary}
   alias Phoenix.HTML
   alias Plug.Conn
   alias Routes.Route
@@ -245,117 +242,6 @@ defmodule SiteWeb.FareView do
     )
   end
 
-  @spec fare_card(Route.gtfs_route_type()) :: Column.t()
-  def fare_card(:subway) do
-    %Column{
-      paragraphs: [
-        %FareCard{
-          fare_token: "subway:charlie_card",
-          note: %CustomHTML{
-            body: content_tag(:p, "#{fare_price("subway:cash")} with a CharlieTicket or cash")
-          },
-          link: %Link{url: "/fares/subway-fares"}
-        }
-      ]
-    }
-  end
-
-  def fare_card(:bus) do
-    %Column{
-      paragraphs: [
-        %FareCard{
-          fare_token: "local_bus:charlie_card",
-          note: %CustomHTML{
-            body: content_tag(:p, "#{fare_price("local_bus:cash")} with a CharlieTicket or cash")
-          },
-          link: %Link{url: "/fares/bus-fares"}
-        }
-      ]
-    }
-  end
-
-  def fare_card(:commuter_rail) do
-    %Column{
-      paragraphs: [
-        %FareCard{
-          fare_token: "commuter_rail",
-          note: %CustomHTML{body: content_tag(:p, "Price based on distance traveled")},
-          link: %Link{url: "/fares/commuter-rail-fares"}
-        }
-      ]
-    }
-  end
-
-  def fare_card(:ferry) do
-    %Column{
-      paragraphs: [
-        %FareCard{
-          fare_token: "ferry",
-          note: %CustomHTML{body: content_tag(:p, "Price based on route taken")},
-          link: %Link{url: "/fares/ferry-fares"}
-        }
-      ]
-    }
-  end
-
-  @spec fare_card_double(:subway | :bus) :: [Column.t()]
-  def fare_card_double(:subway) do
-    [
-      %Column{
-        paragraphs: [
-          %FareCard{
-            fare_token: "subway:charlie_card",
-            link: %Link{url: "/fares/subway-fares"},
-            note: %CustomHTML{
-              body: content_tag(:p, "1 free transfer to Local Bus within 2 hours"),
-              right_rail: nil
-            }
-          }
-        ]
-      },
-      %Column{
-        paragraphs: [
-          %FareCard{
-            fare_token: "subway:cash",
-            link: nil,
-            note: %CustomHTML{
-              body: content_tag(:p, "Limited transfers"),
-              right_rail: nil
-            }
-          }
-        ]
-      }
-    ]
-  end
-
-  def fare_card_double(:bus) do
-    [
-      %Column{
-        paragraphs: [
-          %FareCard{
-            fare_token: "local_bus:charlie_card",
-            link: %Link{url: "/fares/bus-fares"},
-            note: %CustomHTML{
-              body: content_tag(:p, "1 free transfer to Local Bus within 2 hours"),
-              right_rail: nil
-            }
-          }
-        ]
-      },
-      %Column{
-        paragraphs: [
-          %FareCard{
-            fare_token: "local_bus:cash",
-            link: nil,
-            note: %CustomHTML{
-              body: content_tag(:p, "Limited transfers")
-            }
-          }
-        ]
-      }
-    ]
-  end
-
   @spec fare_passes(Route.gtfs_route_type()) :: DescriptionList.t()
   def fare_passes(:subway) do
     %DescriptionList{
@@ -457,12 +343,5 @@ defmodule SiteWeb.FareView do
         ),
       class: "c-call-to-action"
     )
-  end
-
-  defp fare_price(token) do
-    token
-    |> String.replace_prefix("fare:", "")
-    |> fare_from_token()
-    |> Format.price()
   end
 end
