@@ -13,11 +13,17 @@
   card_classes =
     ["c-fare-card", "grouped", CSSHelpers.atom_to_class(group_fare.mode), link_class]
     |> Enum.intersperse(" c-fare-card--")
+
+  card_title = [
+    content_tag(:span, Fares.Format.name(group_fare), class: "c-fare-card__mode"), " ",
+    content_tag(:span, Fares.Format.duration(group_fare), class: "c-fare-card__duration")
+  ]
+
 %>
 
 <%= extend_width :cards do %>
 
-  <%= content_tag @element.tag, Keyword.put(@element.attrs, :class, card_classes) do %>
+  <%= content_tag :div, class: card_classes do %>
 
     <div class="c-fare-card__header">
       <div class="c-fare-card__icon">
@@ -25,12 +31,11 @@
       </div>
 
       <h3 class="c-fare-card__name">
-        <span class="c-fare-card__mode">
-          <%= Fares.Format.name(group_fare) %>
-        </span>
-        <span class="c-fare-card__duration">
-          <%= Fares.Format.duration(group_fare) %>
-        </span>
+        <%= if group_fare_card.link do %>
+          <%= link card_title, to: group_fare_card.link.url, class: "u-linked-card__primary-link" %>
+        <% else %>
+          <%= card_title %>
+        <% end %>
       </h3>
     </div>
 

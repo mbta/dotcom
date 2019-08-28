@@ -52,12 +52,9 @@ defmodule SiteWeb.CMS.ParagraphView do
       |> nested_paragraphs()
       |> grouped_fare_card_data()
 
-    group_fare = List.first(fare_cards)
-
     render(
       "_grouped_fare_card.html",
       fare_cards: fare_cards,
-      element: fare_card_element(group_fare.link),
       conn: conn
     )
   end
@@ -66,7 +63,6 @@ defmodule SiteWeb.CMS.ParagraphView do
     render(
       "_fare_card.html",
       fare_card: paragraph,
-      element: fare_card_element(paragraph.link),
       conn: conn
     )
   end
@@ -161,10 +157,6 @@ defmodule SiteWeb.CMS.ParagraphView do
   defp grouped_fare_card_data(_) do
     nil
   end
-
-  @spec fare_card_element(Link.t() | nil) :: map
-  defp fare_card_element(%Link{url: url}), do: %{tag: :a, attrs: [href: url]}
-  defp fare_card_element(nil), do: %{tag: :div, attrs: []}
 
   @spec paragraph_classes(Paragraph.t()) :: iodata()
   defp paragraph_classes(%Callout{image: %Image{}}), do: ["c-callout--with-image"]

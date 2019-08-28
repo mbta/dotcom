@@ -43,8 +43,11 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
 
   &--linked {
     @extend %button-focus-color;
-    color: $black;
-    display: block;
+
+    .u-linked-card__primary-link {
+      color: $black;
+      text-decoration: none;
+    }
   }
 
   &--subway {
@@ -130,4 +133,11 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
 .c-fare-pass__price {
   float: left;
   margin: 0 0 $base-spacing;
+}
+
+.c-fare-card__note {
+  .c-fare-card--linked & a {
+    position: relative;
+    z-index: 2;
+  }
 }
