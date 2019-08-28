@@ -134,10 +134,3 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
   float: left;
   margin: 0 0 $base-spacing;
 }
-
-.c-fare-card__note {
-  .c-fare-card--linked & a {
-    position: relative;
-    z-index: 2;
-  }
-}
