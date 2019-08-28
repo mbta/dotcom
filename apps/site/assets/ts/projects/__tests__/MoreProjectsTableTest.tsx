@@ -35,8 +35,8 @@ it("renders", () => {
       <MoreProjectsTable
         state={state}
         placeholderImageUrl={"https://www.example.com/aphoto.jpg"}
-        setState={(f) => f}
-        fetchMoreProjects={(f) => f}
+        setState={f => f}
+        fetchMoreProjects={f => f}
       />
     )
     .toJSON();

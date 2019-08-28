@@ -2,7 +2,10 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { SimpleProject as Project } from "../components/__projects";
-import ProjectsPage, { fetchMoreProjects, updateSelectedMode } from "../components/ProjectsPage";
+import ProjectsPage, {
+  fetchMoreProjects,
+  updateSelectedMode
+} from "../components/ProjectsPage";
 
 const bannerTeaser: Project = {
   title: "Better Bus Project",

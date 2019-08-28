@@ -112,10 +112,7 @@ it("renders", () => {
 
 it("renders a blank div if no banner project", () => {
   const wrapper = mount(
-    <Banner
-      banner={null}
-      placeholderImageUrl={placeholderImageUrl}
-    />
+    <Banner banner={null} placeholderImageUrl={placeholderImageUrl} />
   );
   expect(wrapper.html()).toEqual("<div></div>");
 });

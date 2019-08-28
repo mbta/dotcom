@@ -63,7 +63,7 @@ const shouldShowModeButton = (
 
   // By default, show all available modes except ferry.
 
-  if (mode == "ferry") {
+  if (mode === "ferry") {
     return false;
   }
   return true;

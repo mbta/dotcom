@@ -44,9 +44,12 @@ export const fetchMoreProjects: FetchProjects = (
   setState({ ...state, fetchInProgress: true });
 
   const offset = state.projects.length;
-  const fetchUrl = `/project_api?offset=${offset}&filter[mode]=${state.currentMode}`;
+  const fetchUrl = `/project_api?offset=${offset}&filter[mode]=${
+    state.currentMode
+  }`;
 
-  window.fetch(fetchUrl)
+  window
+    .fetch(fetchUrl)
     .then(response => {
       if (response.ok) return response.json();
       throw new Error(response.statusText);
@@ -58,7 +61,7 @@ export const fetchMoreProjects: FetchProjects = (
         ...state,
         projects: newProjects,
         fetchInProgress: false
-      })
+      });
     });
 };
 
@@ -88,8 +91,8 @@ export const updateSelectedMode: UpdateSelectedMode = (
 
       setState({
         ...state,
-        banner: banner,
-        featuredProjects: featuredProjects,
+        banner,
+        featuredProjects,
         projects: json.projects,
         projectUpdates: json.projectUpdates,
         currentMode: newSelectedMode,
@@ -114,40 +117,43 @@ const ProjectsPage = ({
   });
 
   return (
-  <>
-    <FilterAndSearch
+    <>
+      <FilterAndSearch
         state={state}
         setState={setState}
         updateSelectedMode={updateSelectedMode}
       />
 
-    <div className="m-project-page__top-container">
-      <div className="row">
-        <div className="col-12 col-lg-8">
-          <FeaturedProjectsTitle banner={state.banner} />
-          <Banner banner={state.banner} placeholderImageUrl={placeholderImageUrl} />
-          <FeaturedProjectsList
-            projects={state.featuredProjects}
-            placeholderImageUrl={placeholderImageUrl}
-          />
-        </div>
-        <div className="col-12 col-lg-offset-half-left col-lg-4 col-lg-3-and-a-half">
-          <div className="container">
-            <ProjectUpdateList
-              projectUpdates={state.projectUpdates}
+      <div className="m-project-page__top-container">
+        <div className="row">
+          <div className="col-12 col-lg-8">
+            <FeaturedProjectsTitle banner={state.banner} />
+            <Banner
+              banner={state.banner}
+              placeholderImageUrl={placeholderImageUrl}
+            />
+            <FeaturedProjectsList
+              projects={state.featuredProjects}
               placeholderImageUrl={placeholderImageUrl}
             />
           </div>
+          <div className="col-12 col-lg-offset-half-left col-lg-4 col-lg-3-and-a-half">
+            <div className="container">
+              <ProjectUpdateList
+                projectUpdates={state.projectUpdates}
+                placeholderImageUrl={placeholderImageUrl}
+              />
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <MoreProjectsTable
-      placeholderImageUrl={placeholderImageUrl}
-      state={state}
-      fetchMoreProjects={fetchMoreProjects}
-      setState={setState}
-    />
-  </>
-  )
+      <MoreProjectsTable
+        placeholderImageUrl={placeholderImageUrl}
+        state={state}
+        fetchMoreProjects={fetchMoreProjects}
+        setState={setState}
+      />
+    </>
+  );
 };
 export default ProjectsPage;

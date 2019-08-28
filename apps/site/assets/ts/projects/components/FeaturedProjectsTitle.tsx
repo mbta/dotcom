@@ -12,8 +12,10 @@ const FeaturedProjectsTitle = ({
     return <div />;
   }
 
-  return(
-    <h2 className="container c-projects-header__subheader">Featured Projects</h2>
+  return (
+    <h2 className="container c-projects-header__subheader">
+      Featured Projects
+    </h2>
   );
 };
 
