@@ -1,3 +1,15 @@
+.m-project-page__top-container {
+  @include media-breakpoint-up(lg) {
+    @include make-container();
+    max-width: map-get($container-max-widths, lg);
+    padding: 0;
+  }
+
+  @include media-breakpoint-only(xxl) {
+    max-width: map-get($container-max-widths, xxl);
+  }
+}
+
 .c-project-updates-list {
   background-color: $brand-primary-lightest-contrast;
 
@@ -8,24 +20,63 @@
   }
 }
 
-.c-project-update {
-  color: inherit;
-  display: block;
-  margin-bottom: 1.5 * $base-spacing;
-  text-decoration: none;
+.c-project-update-list__row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+
+  @include media-breakpoint-down(md) {
+    flex-flow: nowrap;
+    overflow-x: auto;
+  }
+
+  a {
+    color: $black;
+    text-decoration: none;
+  }
+}
+
+.c-project-update-list__subheader {
+  margin-bottom: 1em;
+  margin-top: $base-spacing * 1.75;
+}
+
+.c-project-update-list {
+  @include media-breakpoint-down(md) {
+    display: flex;
+  }
+}
+
+.c-project-update-list__item {
+  @include media-breakpoint-down(md) {
+    flex: 0 0 auto;
+    margin-right: $base-spacing;
+    width: 40%;
+  }
+
+  @include media-breakpoint-only(xs) {
+    width: 60%;
+  }
 
   &:hover {
-    color: inherit;
-    text-decoration: none;
-
     .c-project-update__title {
       color: $brand-primary;
     }
   }
+
+  > .m-route-pills {
+    margin-bottom: $base-spacing;
+  }
+}
+
+.c-project-update__title {
+  margin: 0 auto;
 }
 
 .c-project-update__photo {
+  max-height: 100%;
   max-width: 100%;
+  position: relative;
 }
 
 .c-project-update__date {
@@ -33,28 +84,35 @@
   margin-top: $base-spacing / 2;
 }
 
-.c-project-update__title {
-  margin-top: 0;
-}
-
-.m-project-updates__teaser {
-  margin-bottom: $base-spacing * 2;
-}
-
-.m-project-updates__title {
-  margin-top: 0;
+.c-projects-header__subheader {
+  margin-top: $base-spacing-lg;
 }
 
 .c-featured-project-list {
   margin-bottom: $base-spacing;
   width: 100%;
+
+  @include media-breakpoint-only(xs) {
+    margin-top: -4 * $base-spacing;
+  }
 }
 
 .c-featured-project-list__row {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  padding: 0 0 $base-spacing / 2;
+
+  @include media-breakpoint-up(lg) {
+    margin-top: 2 * $base-spacing;
+  }
+
+  @include media-breakpoint-down(md) {
+    margin-bottom: $base-spacing / 2;
+ }
+
+  &:first-child {
+    margin-top: $base-spacing;
+  }
 }
 
 .c-featured-project__route-icon {
@@ -66,28 +124,16 @@
 .c-featured-project {
   flex-basis: 0;
   flex-grow: 1;
-  margin: 0 0$base-spacing / 2;
-
-  @include hover-focus-active {
-    .homepage-svg {
-      background-color: $btn-primary-focus-bg;
-    }
-  }
+  margin: 0;
 
   @include media-breakpoint-only(xs) {
     flex: 0 0 auto;
-    width: 80%;
+    width: 100%;
   }
 
   a {
     color: $black;
     text-decoration: none;
-
-    @include hover-focus-active {
-      .about-link {
-        text-decoration: inherit;
-      }
-    }
   }
 
   .c-featured-project__title {
@@ -97,11 +143,23 @@
   }
 
   &:first-child {
+    margin-bottom: $base-spacing / 2;
     margin-right: $base-spacing / 2;
+
+    @include media-breakpoint-up(lg) {
+      margin-bottom: 0;
+      margin-right: $base-spacing;
+    }
   }
 
   &:last-child {
-    margin-left: $base-spacing / 2;
+    @include media-breakpoint-up(sm) {
+      margin-left: $base-spacing / 2;
+   }
+
+    @include media-breakpoint-up(lg) {
+      margin-left: $base-spacing;
+    }
   }
 
   &:hover {
@@ -112,14 +170,6 @@
 
   * {
     text-decoration: inherit;
-  }
-
-  &.light {
-    color: $white;
-  }
-
-  .about-title {
-    padding: $space-12 0;
   }
 
   img {
@@ -166,7 +216,7 @@
 
 .c-more-projects-table__th-status,
 .c-more-projects-table__td-status {
-  width: 25%;
+  width: 29%;
 }
 
 .c-more-projects-table__thumbnail {

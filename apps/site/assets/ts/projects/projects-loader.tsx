@@ -15,13 +15,15 @@ export const projectsLoader = (): void => {
     placeholderImageUrl,
     banner,
     featuredProjects,
-    projects
+    projects,
+    projectUpdates
   } = projectsData;
   render(
     <ProjectsPage
       banner={banner}
       featuredProjects={featuredProjects}
       projects={projects}
+      projectUpdates={projectUpdates}
       placeholderImageUrl={placeholderImageUrl}
     />,
     projectsRootEl

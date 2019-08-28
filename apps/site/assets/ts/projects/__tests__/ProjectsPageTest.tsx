@@ -2,7 +2,6 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { SimpleProject as Project } from "../components/__projects";
-import Banner from "../components/Banner";
 import ProjectsPage from "../components/ProjectsPage";
 
 const bannerTeaser: Project = {
@@ -100,6 +99,7 @@ it("renders", () => {
       <ProjectsPage
         banner={bannerTeaser}
         featuredProjects={featuredProjects}
+        projectUpdates={[]}
         projects={projects}
         placeholderImageUrl="path-to-some-image"
       />

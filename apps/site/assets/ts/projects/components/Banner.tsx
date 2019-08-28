@@ -64,10 +64,10 @@ const Banner = ({
 }: Props): ReactElement<HTMLElement> => (
   <a
     href={banner.path}
-    className="m-banner m-banner--responsive m-banner--responsive-lg-margin m-banner--small-margin-top m-banner--default"
+    className="m-banner m-banner--responsive m-banner--lg-9 m-banner--no-margin-top m-banner--default"
   >
     <div className="hidden-xs-down">
-      <div className="m-banner__image m-banner__image--responsive-side-by-side m-banner__image--default">
+      <div className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default">
         <BannerContent banner={banner} />
         <img
           className="m-banner__image--by-side"

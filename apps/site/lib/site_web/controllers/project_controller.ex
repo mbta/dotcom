@@ -12,6 +12,7 @@ defmodule SiteWeb.ProjectController do
   @breadcrumb_base "Projects"
   @placeholder_image_path "/images/project-image-placeholder.png"
   @n_projects_per_page 10
+  @n_project_updates_per_page 4
 
   def index(conn, _) do
     project_teasers_fn = fn ->
@@ -25,9 +26,14 @@ defmodule SiteWeb.ProjectController do
       |> Enum.map(&simplify_teaser/1)
     end
 
+    project_update_teasers_fn = fn ->
+      fetch_update_teasers(0)
+    end
+
     conn
     |> async_assign_default(:project_teasers, project_teasers_fn, [])
     |> async_assign_default(:featured_project_teasers, featured_project_teasers_fn, [])
+    |> async_assign_default(:project_update_teasers, project_update_teasers_fn, [])
     |> assign(:breadcrumbs, [Breadcrumb.build(@breadcrumb_base)])
     |> assign(:placeholder_image_url, static_url(SiteWeb.Endpoint, @placeholder_image_path))
     |> await_assign_all_default(__MODULE__)
@@ -131,6 +137,17 @@ defmodule SiteWeb.ProjectController do
   @spec fetch_teasers(integer) :: [map()]
   defp fetch_teasers(offset) do
     Repo.teasers(type: [:project], items_per_page: @n_projects_per_page, offset: offset)
+    |> sort_by_date()
+    |> Enum.map(&simplify_teaser/1)
+  end
+
+  @spec fetch_update_teasers(integer) :: [map()]
+  defp fetch_update_teasers(offset) do
+    Repo.teasers(
+      type: [:project_update],
+      items_per_page: @n_project_updates_per_page,
+      offset: offset
+    )
     |> sort_by_date()
     |> Enum.map(&simplify_teaser/1)
   end
