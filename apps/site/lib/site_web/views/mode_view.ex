@@ -216,7 +216,7 @@ defmodule SiteWeb.ModeView do
 
   @spec mode_fare_card(Route.gtfs_route_type()) :: String.t()
   def mode_fare_card(:commuter_rail) do
-    "paragraphs/multi-column/commuter-rail-fares-one-way-and-weekend"
+    "paragraphs/multi-column/commuter-rail-fares"
   end
 
   def mode_fare_card(:ferry) do
@@ -224,10 +224,10 @@ defmodule SiteWeb.ModeView do
   end
 
   def mode_fare_card(:subway) do
-    "paragraphs/multi-column/subway-one-way-grouped"
+    "paragraphs/multi-column/subway-fares"
   end
 
   def mode_fare_card(:bus) do
-    "paragraphs/multi-column/local-bus-one-way-grouped"
+    "paragraphs/multi-column/bus-fares"
   end
 end
