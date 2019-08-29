@@ -10,7 +10,7 @@ exports[`render renders 1`] = `
     Filter
   </span>
   <div
-    className="m-tnm-sidebar__filter-btn-group"
+    className="c-mode-filter__filter-btn-group"
   >
     <button
       aria-label="remove filter by subway"
@@ -46,7 +46,7 @@ exports[`render renders 1`] = `
     </button>
   </div>
   <div
-    className="m-tnm-sidebar__filter-btn-group"
+    className="c-mode-filter__filter-btn-group"
   >
     <button
       aria-label="remove filter by commuter_rail"

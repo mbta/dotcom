@@ -77,7 +77,7 @@ export const ModeFilter = ({
   <div className="m-tnm-sidebar__filter-bar">
     <span className="m-tnm-sidebar__filter-header u-small-caps">Filter</span>
 
-    <div className="m-tnm-sidebar__filter-btn-group">
+    <div className="c-mode-filter__filter-btn-group">
       {shouldShowModeButton("subway", modeButtonsToShow) && (
         <ModeButton
           mode="subway"
@@ -98,7 +98,7 @@ export const ModeFilter = ({
       )}
     </div>
 
-    <div className="m-tnm-sidebar__filter-btn-group">
+    <div className="c-mode-filter__filter-btn-group">
       {shouldShowModeButton("commuter_rail", modeButtonsToShow) && (
         <ModeButton
           mode="commuter_rail"

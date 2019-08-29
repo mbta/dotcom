@@ -20,7 +20,7 @@ Array [
             Filter
           </span>
           <div
-            className="m-tnm-sidebar__filter-btn-group"
+            className="c-mode-filter__filter-btn-group"
           >
             <button
               aria-label="add filter by subway"
@@ -56,7 +56,7 @@ Array [
             </button>
           </div>
           <div
-            className="m-tnm-sidebar__filter-btn-group"
+            className="c-mode-filter__filter-btn-group"
           >
             <button
               aria-label="add filter by commuter_rail"

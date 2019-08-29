@@ -19,7 +19,7 @@ exports[`it renders 1`] = `
         Filter
       </span>
       <div
-        className="m-tnm-sidebar__filter-btn-group"
+        className="c-mode-filter__filter-btn-group"
       >
         <button
           aria-label="add filter by subway"
@@ -55,7 +55,7 @@ exports[`it renders 1`] = `
         </button>
       </div>
       <div
-        className="m-tnm-sidebar__filter-btn-group"
+        className="c-mode-filter__filter-btn-group"
       >
         <button
           aria-label="add filter by commuter_rail"
@@ -1987,7 +1987,7 @@ exports[`it renders filtered data 1`] = `
         Filter
       </span>
       <div
-        className="m-tnm-sidebar__filter-btn-group"
+        className="c-mode-filter__filter-btn-group"
       >
         <button
           aria-label="remove filter by subway"
@@ -2023,7 +2023,7 @@ exports[`it renders filtered data 1`] = `
         </button>
       </div>
       <div
-        className="m-tnm-sidebar__filter-btn-group"
+        className="c-mode-filter__filter-btn-group"
       >
         <button
           aria-label="add filter by commuter_rail"
