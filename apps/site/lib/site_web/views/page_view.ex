@@ -2,6 +2,7 @@ defmodule SiteWeb.PageView do
   @moduledoc false
   import Phoenix.HTML.Tag
   import SiteWeb.CMSHelpers
+  import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
 
   alias CMS.Page.NewsEntry
   alias CMS.Partial.Banner
