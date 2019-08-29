@@ -9,6 +9,18 @@ interface Props {
   setState: SetState;
 }
 
+const tableHeaderText = (state: State): string => {
+  switch(state.currentMode) {
+    case(undefined): {
+      return(state.banner ? "More" : "");
+    }
+    case("bus"): return("Bus");
+    case("commuter_rail"): return("Commuter Rail");
+    case("ferry"): return("Ferry");
+    case("subway"): return("Subway");
+  }
+}
+
 const MoreProjectsTable = ({
   placeholderImageUrl,
   state,
@@ -16,7 +28,7 @@ const MoreProjectsTable = ({
   fetchMoreProjects
 }: Props): ReactElement<HTMLElement> => (
   <div className="container">
-    {(state.banner && <h2>More Projects</h2>) || <h2>Projects</h2>}
+    <h2>{tableHeaderText(state)} Projects</h2>
     <div>
       <table className="c-more-projects-table" aria-label="More Projects">
         <thead className="c-more-projects-table__thead hidden-md-down">
