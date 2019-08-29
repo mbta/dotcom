@@ -372,19 +372,19 @@
   }
 
   .m-tnm-sidebar__filter-btn-group {
-    &:last-of-type {
-      @include media-breakpoint-only(xs) {
-        margin-left: 0;
-        margin-top: $base-spacing * .25;
-      }
-    }
-
     @include media-breakpoint-only(xs) {
       display: block;
     }
 
     @include media-breakpoint-up(sm) {
       display: inline;
+    }
+
+    &:last-of-type {
+      @include media-breakpoint-only(xs) {
+        margin-left: 0;
+        margin-top: $base-spacing * .25;
+      }
     }
   }
 
