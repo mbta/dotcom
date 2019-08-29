@@ -65,12 +65,12 @@ it("renders", () => {
   expect(tree).toMatchSnapshot();
 });
 
-it("renders a blank div if no projects present", () => {
+it("returns null if no projects present", () => {
   const wrapper = mount(
     <FeaturedProjectsList
       projects={[]}
       placeholderImageUrl={placeholderImageUrl}
     />
   );
-  expect(wrapper.html()).toEqual("<div></div>");
+  expect(wrapper.html()).toEqual(null);
 });

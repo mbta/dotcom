@@ -110,11 +110,11 @@ it("renders", () => {
   expect(tree).toMatchSnapshot();
 });
 
-it("renders a blank div if no banner project", () => {
+it("returns null if no banner project", () => {
   const wrapper = mount(
     <Banner banner={null} placeholderImageUrl={placeholderImageUrl} />
   );
-  expect(wrapper.html()).toEqual("<div></div>");
+  expect(wrapper.html()).toEqual(null);
 });
 
 const placeholderImageUrl = "path-to-some-image";
