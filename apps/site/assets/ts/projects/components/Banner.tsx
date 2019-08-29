@@ -61,9 +61,9 @@ const bannerImageAlt = (banner: Project): string =>
 const Banner = ({
   banner,
   placeholderImageUrl
-}: Props): ReactElement<HTMLElement> => {
+}: Props): ReactElement<HTMLElement> | null => {
   if (!banner) {
-    return <div />;
+    return null;
   }
 
   return (
