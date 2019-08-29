@@ -161,7 +161,7 @@ defmodule SiteWeb.ProjectController do
     |> Map.take(~w(id text image path title routes date status)a)
   end
 
-  @spec fetch_featured_teasers(String.t()) :: [map()]
+  @spec fetch_featured_teasers(String.t() | nil) :: [map()]
   defp fetch_featured_teasers(mode \\ nil) do
     api_params = [type: [:project], sticky: 1]
 
@@ -178,7 +178,7 @@ defmodule SiteWeb.ProjectController do
     |> Enum.map(&simplify_teaser/1)
   end
 
-  @spec fetch_teasers(integer, String.t()) :: [map()]
+  @spec fetch_teasers(integer, String.t() | nil) :: [map()]
   defp fetch_teasers(offset, mode \\ nil) do
     api_params = [type: [:project], items_per_page: @n_projects_per_page, offset: offset]
 
@@ -194,7 +194,7 @@ defmodule SiteWeb.ProjectController do
     |> Enum.map(&simplify_teaser/1)
   end
 
-  @spec fetch_update_teasers(integer, String.t()) :: [map()]
+  @spec fetch_update_teasers(integer, String.t() | nil) :: [map()]
   defp fetch_update_teasers(offset, mode \\ nil) do
     mode = translate_mode(mode)
 
@@ -221,7 +221,7 @@ defmodule SiteWeb.ProjectController do
     @breadcrumb_base
   end
 
-  @spec translate_mode(String.t()) :: String.t()
+  @spec translate_mode(String.t() | nil) :: String.t() | nil
   def translate_mode(mode) do
     case mode do
       "undefined" -> nil
