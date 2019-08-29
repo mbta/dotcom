@@ -2,9 +2,9 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { SimpleProject as Project } from "../components/__projects";
-import MoreProjectsTable from "../components/MoreProjectsTable";
+import MoreProjectsTable, { tableHeaderText} from "../components/MoreProjectsTable";
 
-const projects: Project[] = [
+const project: Project = 
   {
     date: "2018-06-02",
     id: 1234,
@@ -17,8 +17,9 @@ const projects: Project[] = [
     status: null,
     text: "This project will make everything perfect forever.",
     title: "The Awesome Project"
-  }
-];
+  };
+
+const projects: Project[] = [project];
 
 it("renders", () => {
   const state = {
@@ -41,4 +42,19 @@ it("renders", () => {
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
+});
+
+it("has the right header text", () => {
+  const state = {
+    banner: project,
+    featuredProjects: [],
+    fetchInProgress: false,
+    projects: [],
+    projectUpdates: []
+  };
+
+  expect(tableHeaderText({...state, currentMode: "bus"})).toEqual("Bus");
+  expect(tableHeaderText({...state, currentMode: "commuter_rail"})).toEqual("Commuter Rail");
+  expect(tableHeaderText({...state, currentMode: "ferry"})).toEqual("Ferry");
+  expect(tableHeaderText({...state, currentMode: "subway"})).toEqual("Subway");
 });

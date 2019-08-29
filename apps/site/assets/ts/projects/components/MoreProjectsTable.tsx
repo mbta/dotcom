@@ -9,7 +9,7 @@ interface Props {
   setState: SetState;
 }
 
-const tableHeaderText = (state: State): string => {
+export const tableHeaderText = (state: State): string => {
   switch(state.currentMode) {
     case(undefined): {
       return(state.banner ? "More" : "");
