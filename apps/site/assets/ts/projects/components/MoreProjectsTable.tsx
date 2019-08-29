@@ -10,16 +10,22 @@ interface Props {
 }
 
 export const tableHeaderText = (state: State): string => {
-  switch(state.currentMode) {
-    case(undefined): {
-      return(state.banner ? "More" : "");
+  switch (state.currentMode) {
+    case undefined: {
+      return state.banner ? "More" : "";
     }
-    case("bus"): return("Bus");
-    case("commuter_rail"): return("Commuter Rail");
-    case("ferry"): return("Ferry");
-    case("subway"): return("Subway");
+    case "bus":
+      return "Bus";
+    case "commuter_rail":
+      return "Commuter Rail";
+    case "ferry":
+      return "Ferry";
+    case "subway":
+      return "Subway";
+    default:
+      throw new Error(`Invalid mode ${state.currentMode}`);
   }
-}
+};
 
 const MoreProjectsTable = ({
   placeholderImageUrl,
