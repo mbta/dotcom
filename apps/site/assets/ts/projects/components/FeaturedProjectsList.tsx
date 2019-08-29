@@ -3,6 +3,7 @@ import { SimpleProject as Project } from "./__projects";
 import FeaturedProjectsRow from "./FeaturedProjectsRow";
 
 interface Props {
+  banner: Project | null;
   projects: Project[];
   placeholderImageUrl: string;
 }
@@ -25,7 +26,8 @@ const groupPairwise = (projectsToGroup: Project[]): Project[][] =>
 
 const FeaturedProjectsList = ({
   projects,
-  placeholderImageUrl
+  placeholderImageUrl,
+  banner
 }: Props): ReactElement<HTMLElement> | null => {
   if (projects.length === 0) {
     return null;
@@ -36,6 +38,16 @@ const FeaturedProjectsList = ({
   return (
     <div className="container c-featured-project-list">
       <div className="page-section">
+        {banner && 
+          <div className="hidden-sm-up">
+            <FeaturedProjectsRow
+              key="featured-projects-row-banner"
+              placeholderImageUrl={placeholderImageUrl}
+              projectPair={[banner]}
+            />
+          </div>
+        }
+
         {groupedProjects.map(projectPair => {
           const secondProjectId = projectPair[1] ? projectPair[1].id : "none";
           const key = `featured-projects-row-${

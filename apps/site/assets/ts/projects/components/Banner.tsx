@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import FeaturedProjectsRow from "./FeaturedProjectsRow";
 import { SimpleProject as Project, Route } from "./__projects";
 import { formattedDate } from "../../helpers/date";
 import { routeToCSSClass } from "../../helpers/css";
