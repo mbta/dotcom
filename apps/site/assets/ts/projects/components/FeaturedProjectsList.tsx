@@ -38,7 +38,7 @@ const FeaturedProjectsList = ({
   return (
     <div className="container c-featured-project-list">
       <div className="page-section">
-        {banner && 
+        {banner && (
           <div className="hidden-sm-up">
             <FeaturedProjectsRow
               key="featured-projects-row-banner"
@@ -46,7 +46,7 @@ const FeaturedProjectsList = ({
               projectPair={[banner]}
             />
           </div>
-        }
+        )}
 
         {groupedProjects.map(projectPair => {
           const secondProjectId = projectPair[1] ? projectPair[1].id : "none";

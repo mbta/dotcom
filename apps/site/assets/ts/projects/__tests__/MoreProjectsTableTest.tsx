@@ -28,7 +28,8 @@ it("renders", () => {
     featuredProjects: [],
     fetchInProgress: false,
     projects: [],
-    projectUpdates: []
+    projectUpdates: [],
+    offsetStart: 0
   };
 
   createReactRoot();
@@ -51,7 +52,8 @@ it("has the right header text", () => {
     featuredProjects: [],
     fetchInProgress: false,
     projects: [],
-    projectUpdates: []
+    projectUpdates: [],
+    offsetStart: 0
   };
 
   expect(tableHeaderText({ ...state, currentMode: "bus" })).toEqual("Bus");

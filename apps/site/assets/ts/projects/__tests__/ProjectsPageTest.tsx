@@ -182,7 +182,8 @@ it("paginates", async () => {
     fetchInProgress: false,
     banner: null,
     featuredProjects: [],
-    projectUpdates: []
+    projectUpdates: [],
+    offsetStart: 0
   };
   const dispatchSpy = jest.fn();
 
@@ -208,7 +209,8 @@ it("filters", async () => {
           json: () => ({
             featuredProjects: featuredProjects.slice(1),
             projects: projects,
-            projectUpdates: projectUpdates
+            projectUpdates: projectUpdates,
+            offsetStart: 0
           }),
           ok: true,
           status: 200,
@@ -222,7 +224,8 @@ it("filters", async () => {
     fetchInProgress: false,
     banner: null,
     featuredProjects: [],
-    projectUpdates: []
+    projectUpdates: [],
+    offsetStart: 0
   };
   const dispatchSpy = jest.fn();
 
@@ -251,7 +254,8 @@ it("fails gracefully if for some reason window.fetch is not defined", () => {
     fetchInProgress: false,
     banner: null,
     featuredProjects: [],
-    projectUpdates: []
+    projectUpdates: [],
+    offsetStart: 0
   };
   const setState = jest.fn();
 
