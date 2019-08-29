@@ -240,7 +240,7 @@ defmodule SiteWeb.ProjectController do
   end
 
   def promote_regular_teasers_to_featured(params, featured_project_teasers, project_teasers) do
-    mode = Map.get(params, "filter", %{}) |> Map.get("mode", "undefined")
+    mode = params |> Map.get("filter", %{}) |> Map.get("mode", "undefined")
     mode_present = mode != "undefined"
 
     if mode_present && length(featured_project_teasers) < @n_featured_projects_per_page do
