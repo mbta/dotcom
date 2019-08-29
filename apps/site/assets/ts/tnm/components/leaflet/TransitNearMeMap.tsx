@@ -67,8 +67,8 @@ export const buildStopsForMarkers = (
 ): StopsForMarkers => {
   const emptyObject: StopsForMarkers = {};
   return stopData.reduce((acc, { stop, routes, distance }) => {
-    acc[stop.stop.id] = {
-      stop: stop.stop,
+    acc[stop.id] = {
+      stop,
       routes: routes
         .map(r => r.routes)
         .reduce((accFlat, routeList) => accFlat.concat(routeList), []),
@@ -97,7 +97,7 @@ const Component = ({
     const visibleMarkers = stopData.length
       ? initialMarkers.filter(m =>
           isMarkerVisible(
-            stopData.find(stop => stop.stop.stop.id === m.id),
+            stopData.find(stop => stop.stop.id === m.id),
             shouldFilterMarkers,
             selectedModes
           )

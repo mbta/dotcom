@@ -5,7 +5,6 @@ defmodule Site.ReactTest do
   alias GoogleMaps.Geocode.Address
   alias Site.{React, TransitNearMe}
   alias Site.React.Worker
-  alias SiteWeb.TransitNearMeController.StopsWithRoutes
 
   @address %Address{
     latitude: 42.352271,
@@ -20,33 +19,28 @@ defmodule Site.ReactTest do
 
       data = TransitNearMe.build(@address, date: @date, now: now)
 
-      route_sidebar_data = TransitNearMe.schedules_for_routes(data, [], now: now)
-
-      stop_sidebar_data = StopsWithRoutes.stops_with_routes(data)
-
-      {:ok, %{route_sidebar_data: route_sidebar_data, stop_sidebar_data: stop_sidebar_data}}
+      {:ok, %{stopsWithDistances: data}}
     end
 
     test "renders a component, even when the component has a lot of data", %{
-      route_sidebar_data: route_sidebar_data,
-      stop_sidebar_data: stop_sidebar_data
+      stopsWithDistances: stopsWithDistances
     } do
       assert {:safe, body} =
                React.render("TransitNearMe", %{
                  query: %{},
                  mapId: "map-id",
                  mapData: %{markers: []},
-                 routeSidebarData: route_sidebar_data,
-                 stopSidebarData: stop_sidebar_data
+                 stopsWithDistances: stopsWithDistances,
+                 routesWithRealtimeSchedules: [],
+                 stopsWithRoutes: []
                })
 
-      assert body =~ "m-tnm-sidebar"
+      assert body =~ "m-tnm"
     end
 
     test "logs node performance",
          %{
-           route_sidebar_data: route_sidebar_data,
-           stop_sidebar_data: stop_sidebar_data
+           stopsWithDistances: stopsWithDistances
          } do
       log =
         CaptureLog.capture_log(fn ->
@@ -54,8 +48,9 @@ defmodule Site.ReactTest do
             query: %{},
             mapId: "map-id",
             mapData: %{markers: []},
-            routeSidebarData: route_sidebar_data,
-            stopSidebarData: stop_sidebar_data
+            stopsWithDistances: stopsWithDistances,
+            routesWithRealtimeSchedules: [],
+            stopsWithRoutes: []
           })
         end)
 
@@ -66,13 +61,15 @@ defmodule Site.ReactTest do
     test "fails with unknown component" do
       log =
         CaptureLog.capture_log(fn ->
-          React.render("TransitNearMeError", %{
-            query: %{},
-            mapId: "map-id",
-            mapData: %{markers: []},
-            routeSidebarData: [],
-            stopSidebarData: []
-          })
+          assert "" ==
+                   React.render("TransitNearMeError", %{
+                     query: %{},
+                     mapId: "map-id",
+                     mapData: %{markers: []},
+                     stopsWithDistances: %{stops: [], distances: %{}},
+                     routesWithRealtimeSchedules: [],
+                     stopsWithRoutes: []
+                   })
         end)
 
       assert log =~
@@ -82,38 +79,12 @@ defmodule Site.ReactTest do
     test "fails with bad data" do
       log =
         CaptureLog.capture_log(fn ->
-          React.render("TransitNearMe", %{
-            query: %{},
-            mapId: "map-id",
-            mapData: %{markers: []},
-            routeSidebarData: "crash",
-            stopSidebarData: []
-          })
+          assert "" ==
+                   React.render("TransitNearMe", %{})
         end)
 
-      assert log =~ ~r/react_renderer component=TransitNearMe.* is not a function/
-    end
-
-    test "it translates zero-width space HTML entities into UTF-8 characters", %{
-      route_sidebar_data: route_sidebar_data,
-      stop_sidebar_data: stop_sidebar_data
-    } do
-      # There's something between the quotes, really.
-      zero_width_space = "​"
-
-      # Demonstrate that the data going in includes a zero-width space
-      assert Poison.encode!(route_sidebar_data) =~ zero_width_space
-
-      assert {:safe, body} =
-               React.render("TransitNearMe", %{
-                 query: %{},
-                 mapId: "map-id",
-                 mapData: %{markers: []},
-                 routeSidebarData: route_sidebar_data,
-                 stopSidebarData: stop_sidebar_data
-               })
-
-      assert body =~ zero_width_space
+      assert log =~
+               ~r/react_renderer component=TransitNearMe Cannot read property 'filter' of undefined/
     end
   end
 

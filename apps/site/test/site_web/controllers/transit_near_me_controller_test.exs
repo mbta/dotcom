@@ -3,8 +3,6 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
   alias GoogleMaps.{Geocode.Address}
   alias Leaflet.{MapData, MapData.Marker}
-  alias Routes.Route
-  alias Schedules.Schedule
   alias Site.TransitNearMe
   alias SiteWeb.TransitNearMeController, as: TNMController
   alias Stops.Stop
@@ -60,35 +58,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
   @data %TransitNearMe{
     distances: %{"place-bbsta" => 0.52934802},
-    stops: [@back_bay],
-    schedules: %{
-      "place-bbsta" => [
-        %PredictedSchedule{
-          schedule: %Schedule{stop: @back_bay, route: struct(Route, @orange_line)}
-        },
-        %PredictedSchedule{
-          schedule: %Schedule{stop: @back_bay, route: struct(Route, @cr_worcester)}
-        },
-        %PredictedSchedule{
-          schedule: %Schedule{stop: @back_bay, route: struct(Route, @cr_franklin)}
-        },
-        %PredictedSchedule{
-          schedule: %Schedule{stop: @back_bay, route: struct(Route, @cr_needham)}
-        },
-        %PredictedSchedule{
-          schedule: %Schedule{stop: @back_bay, route: struct(Route, @cr_providence)}
-        },
-        %PredictedSchedule{
-          schedule: %Schedule{stop: @back_bay, route: struct(Route, @bus_10)}
-        },
-        %PredictedSchedule{
-          schedule: %Schedule{stop: @back_bay, route: struct(Route, @bus_39)}
-        },
-        %PredictedSchedule{
-          schedule: %Schedule{stop: @back_bay, route: struct(Route, @bus_170)}
-        }
-      ]
-    }
+    stops: [@back_bay]
   }
 
   @stop_with_routes %{
@@ -148,26 +118,20 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
   def data_fn(
         %Address{formatted: "10 Park Plaza, Boston, MA, 02116"},
-        date: %Date{},
-        now: %DateTime{}
+        _opts
       ) do
     send(self(), :data_fn)
     @data
   end
 
-  def data_fn(%Address{formatted: "no_stops"}, date: %Date{}, now: %DateTime{}) do
+  def data_fn(%Address{formatted: "no_stops"}, _opts) do
     send(self(), :data_fn)
     %TransitNearMe{}
   end
 
-  def data_fn(%Address{formatted: "timeout_schedules"}, date: %Date{}, now: %DateTime{}) do
+  def data_fn(%Address{formatted: "timeout_schedules"}, _opts) do
     send(self(), :data_fn)
-    {:schedules, {:error, :timeout}}
-  end
-
-  def to_json_fn(%TransitNearMe{}, [], now: %DateTime{}) do
-    send(self(), :to_json_fn)
-    []
+    {:stops, {:error, :timeout}}
   end
 
   setup do
@@ -175,7 +139,6 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       build_conn()
       |> assign(:location_fn, &location_fn/2)
       |> assign(:data_fn, &data_fn/2)
-      |> assign(:to_json_fn, &to_json_fn/3)
 
     {:ok, conn: conn}
   end
@@ -190,8 +153,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       refute_receive :data_fn
 
       assert conn.assigns.location == :no_address
-      assert conn.assigns.routes_json == []
-      assert conn.assigns.stops_json == []
+      assert conn.assigns.stops_json == %{stops: []}
       assert get_flash(conn) == %{}
     end
   end
@@ -206,13 +168,9 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
       assert_receive :location_fn
       assert_receive :data_fn
-      assert_receive :to_json_fn
 
       assert {:ok, [%Address{formatted: "10 Park Plaza, Boston, MA, 02116"}]} =
                conn.assigns.location
-
-      assert conn.assigns.routes_json ==
-               to_json_fn(%TransitNearMe{}, [], now: conn.assigns.date_time)
 
       assert conn.assigns.stops_json
       assert %MapData{} = conn.assigns.map_data
@@ -230,7 +188,6 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
       conn =
         conn
-        |> put_req_cookie("transit_near_me_redesign", "true")
         |> get(transit_near_me_path(conn, :index, params))
 
       assert conn.status == 200
@@ -239,8 +196,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       assert_receive :data_fn
 
       assert {:ok, [%Address{formatted: "no_stops"}]} = conn.assigns.location
-      assert conn.assigns.routes_json == []
-      assert conn.assigns.stops_json == []
+      assert conn.assigns.stops_json.stops == []
 
       assert get_flash(conn) == %{
                "info" => %SiteWeb.PartialView.FullscreenError{
@@ -258,7 +214,6 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
       conn =
         conn
-        |> put_req_cookie("transit_near_me_redesign", "true")
         |> get(transit_near_me_path(conn, :index, params))
 
       assert conn.status == 200
@@ -267,8 +222,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       refute_receive :data_fn
 
       assert conn.assigns.location == {:error, :zero_results}
-      assert conn.assigns.routes_json == []
-      assert conn.assigns.stops_json == []
+      assert conn.assigns.stops_json.stops == []
 
       assert get_flash(conn) == %{
                "info" => %SiteWeb.PartialView.FullscreenError{
@@ -283,7 +237,6 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
       conn =
         conn
-        |> put_req_cookie("transit_near_me_redesign", "true")
         |> get(transit_near_me_path(conn, :index, params))
 
       assert conn.status == 200
@@ -292,8 +245,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
       refute_receive :data_fn
 
       assert conn.assigns.location == {:error, :internal_error}
-      assert conn.assigns.stops_json == []
-      assert conn.assigns.routes_json == []
+      assert conn.assigns.stops_json == %{stops: []}
 
       assert get_flash(conn) == %{
                "info" => %SiteWeb.PartialView.FullscreenError{
@@ -308,7 +260,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     test "initializes a map with no markers", %{conn: conn} do
       conn =
         conn
-        |> assign(:stops_json, [])
+        |> assign(:stops_json, %{stops: []})
         |> assign(:location, nil)
         |> TNMController.assign_map_data()
 
@@ -319,7 +271,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     test "assigns a marker for all stops", %{conn: conn} do
       conn =
         conn
-        |> assign(:stops_json, [@stop_with_routes])
+        |> assign(:stops_json, %{stops: [@stop_with_routes]})
         |> assign(:location, nil)
         |> TNMController.assign_map_data()
 
@@ -381,7 +333,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
       conn =
         conn
-        |> assign(:stops_json, [@stop_with_routes, bus_stop_with_routes])
+        |> assign(:stops_json, %{stops: [@stop_with_routes, bus_stop_with_routes]})
         |> assign(:location, nil)
         |> TNMController.assign_map_data()
 
@@ -408,7 +360,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
       conn =
         conn
-        |> assign(:stops_json, [@stop_with_routes, bus_stop_with_routes])
+        |> assign(:stops_json, %{stops: [@stop_with_routes, bus_stop_with_routes]})
         |> assign(:location, nil)
         |> TNMController.assign_map_data()
 
@@ -422,7 +374,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
     test "assigns a marker for the provided location", %{conn: conn} do
       conn =
         conn
-        |> assign(:stops_json, [])
+        |> assign(:stops_json, %{stops: []})
         |> assign(
           :location,
           {:ok,
@@ -452,52 +404,6 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
       assert_receive :location_fn
       assert_receive :data_fn
-      refute_receive :to_json_fn
-    end
-  end
-
-  describe "api" do
-    test "returns json with departure data", %{conn: conn} do
-      path =
-        transit_near_me_path(conn, :api,
-          address: [
-            latitude: "valid",
-            longitude: "valid"
-          ]
-        )
-
-      assert path ==
-               "/transit-near-me/api" <>
-                 "?address[latitude]=valid" <>
-                 "&address[longitude]=valid"
-
-      response =
-        conn
-        |> get(path)
-        |> json_response(200)
-
-      assert_receive :location_fn
-      assert_receive :data_fn
-      assert_receive :to_json_fn
-
-      assert response == []
-    end
-
-    test "handles timeouts without crashing", %{conn: conn} do
-      params = %{
-        "address" => %{"latitude" => "timeout_schedules", "longitude" => "timeout_schedules"}
-      }
-
-      response =
-        conn
-        |> get(transit_near_me_path(conn, :api, params))
-        |> json_response(500)
-
-      assert_receive :location_fn
-      assert_receive :data_fn
-      refute_receive :to_json_fn
-
-      assert response == %{"error" => "timeout"}
     end
   end
 end

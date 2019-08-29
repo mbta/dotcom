@@ -1,24 +1,19 @@
 defmodule SiteWeb.TransitNearMeController do
   use SiteWeb, :controller
-  alias Alerts.Repo
   alias GoogleMaps.Geocode
   alias Leaflet.{MapData, MapData.Marker}
   alias Plug.Conn
   alias Site.TransitNearMe
   alias SiteWeb.PartialView.{FullscreenError}
+  alias SiteWeb.TransitNearMeController.Location
   alias Stops.Stop
-
-  alias SiteWeb.TransitNearMeController.{
-    Location,
-    StopsWithRoutes
-  }
 
   def index(conn, _params) do
     conn
     |> assign(:requires_google_maps?, true)
     |> assign(:disable_turbolinks, true)
     |> assign_location()
-    |> assign_stops_and_routes()
+    |> assign_stops()
     |> assign_map_data()
     |> flash_if_error()
     |> case do
@@ -33,21 +28,6 @@ defmodule SiteWeb.TransitNearMeController do
     end
   end
 
-  def api(conn, _) do
-    conn
-    |> assign_location()
-    |> assign_stops_and_routes()
-    |> case do
-      :error ->
-        conn
-        |> put_status(:internal_server_error)
-        |> json(%{error: :timeout})
-
-      %Conn{assigns: %{routes_json: routes}} ->
-        json(conn, routes)
-    end
-  end
-
   defp assign_location(conn) do
     location_fn = Map.get(conn.assigns, :location_fn, &Location.get/2)
 
@@ -56,35 +36,19 @@ defmodule SiteWeb.TransitNearMeController do
     assign(conn, :location, location)
   end
 
-  defp assign_stops_and_routes(%{assigns: %{location: {:ok, [location | _]}}} = conn) do
+  defp assign_stops(%{assigns: %{location: {:ok, [location | _]}}} = conn) do
     data_fn = Map.get(conn.assigns, :data_fn, &TransitNearMe.build/2)
 
-    # only concerned with high priority alerts
-    alerts = Repo.by_priority(conn.assigns.date_time, :high)
+    data = data_fn.(location, [])
 
-    data = data_fn.(location, date: conn.assigns.date, now: conn.assigns.date_time)
-
-    do_assign_stops_and_routes(conn, data, alerts)
+    case data do
+      {:stops, {:error, _}} -> :error
+      _ -> assign(conn, :stops_json, data)
+    end
   end
 
-  defp assign_stops_and_routes(conn), do: do_assign_stops_and_routes(conn, {:stops, []}, nil)
-
-  defp do_assign_stops_and_routes(%Conn{}, {_, {:error, _}}, _alerts) do
-    :error
-  end
-
-  defp do_assign_stops_and_routes(conn, {:stops, []}, _alerts) do
-    conn
-    |> assign(:stops_json, [])
-    |> assign(:routes_json, [])
-  end
-
-  defp do_assign_stops_and_routes(conn, %TransitNearMe{} = data, alerts) do
-    to_json_fn = Map.get(conn.assigns, :to_json_fn, &TransitNearMe.schedules_for_routes/3)
-
-    conn
-    |> assign(:stops_json, StopsWithRoutes.stops_with_routes(data))
-    |> assign(:routes_json, to_json_fn.(data, alerts, now: conn.assigns.date_time))
+  defp assign_stops(conn) do
+    assign(conn, :stops_json, %{stops: []})
   end
 
   def assign_map_data(:error) do
@@ -93,7 +57,7 @@ defmodule SiteWeb.TransitNearMeController do
 
   def assign_map_data(conn) do
     markers =
-      conn.assigns.stops_json
+      conn.assigns.stops_json.stops
       |> Enum.map(&build_stop_marker(&1))
 
     map_data =
@@ -106,14 +70,12 @@ defmodule SiteWeb.TransitNearMeController do
     assign(conn, :map_data, map_data)
   end
 
-  def build_stop_marker(
-        %{stop: %{stop: %Stop{id: id, latitude: latitude, longitude: longitude}}} = marker
-      ) do
+  def build_stop_marker(%Stop{id: id, latitude: latitude, longitude: longitude} = stop) do
     Marker.new(
       latitude,
       longitude,
       id: id,
-      icon: marker_for_routes(marker.routes),
+      icon: marker_for_routes(stop.type),
       tooltip: nil
     )
   end
@@ -123,7 +85,7 @@ defmodule SiteWeb.TransitNearMeController do
       marker.stop.latitude,
       marker.stop.longitude,
       id: marker.stop.id,
-      icon: marker_for_routes(marker.routes),
+      icon: marker_for_routes(marker.stop.type),
       tooltip: nil
     )
   end
@@ -131,18 +93,9 @@ defmodule SiteWeb.TransitNearMeController do
   @doc """
   Use a stop marker for bus-only stops, station marker otherwise
   """
-  @spec marker_for_routes([map]) :: String.t() | nil
-  def marker_for_routes([]) do
-    "map-stop-marker"
-  end
-
-  def marker_for_routes(routes) do
-    if List.first(routes).group_name == :bus do
-      "map-stop-marker"
-    else
-      "map-station-marker"
-    end
-  end
+  @spec marker_for_routes(atom) :: String.t()
+  def marker_for_routes(:station), do: "map-station-marker"
+  def marker_for_routes(_), do: "map-stop-marker"
 
   def add_location_marker(map_data, %{location: {:ok, [%Geocode.Address{} | _]}} = assigns) do
     {:ok, [%{latitude: latitude, longitude: longitude, formatted: formatted} | _]} =
@@ -170,7 +123,7 @@ defmodule SiteWeb.TransitNearMeController do
     :error
   end
 
-  def flash_if_error(%Conn{assigns: %{stops_json: [], location: {:ok, _}}} = conn) do
+  def flash_if_error(%Conn{assigns: %{stops_json: %{stops: []}, location: {:ok, _}}} = conn) do
     put_flash(
       conn,
       :info,

@@ -176,8 +176,8 @@ export const ServiceSelector = ({
       </div>
 
       {state.isLoading && (
-        <div className="schedule-finder__spinner-container">
-          <div className="schedule-finder__spinner">Loading...</div>
+        <div className="c-spinner__container">
+          <div className="c-spinner">Loading...</div>
         </div>
       )}
 

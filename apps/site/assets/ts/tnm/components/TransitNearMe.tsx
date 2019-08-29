@@ -2,8 +2,12 @@ import React, { useReducer, ReactElement, useRef, useEffect } from "react";
 import TransitNearMeMap from "./leaflet/TransitNearMeMap";
 import RoutesSidebar from "./RoutesSidebar";
 import StopsSidebar from "./StopsSidebar";
-import { Stop, RouteWithStopsWithDirections, Mode } from "../../__v3api";
-import { StopWithRoutes } from "./__tnm";
+import { Stop, Mode, RouteWithStopsWithDirections } from "../../__v3api";
+import {
+  StopWithRoutes,
+  StopsWithDistances,
+  RealtimeScheduleData
+} from "./__tnm";
 import { MapData } from "../../leaflet/components/__mapdata";
 import useInterval from "../../helpers/use-interval";
 import {
@@ -12,26 +16,29 @@ import {
   SelectedStopType,
   State,
   Dispatch,
-  routeSidebarDataAction
+  realtimeScheduleDataAction,
+  firstDataLoadedAction
 } from "../state";
-import { QueryParams, paramsToString } from "../../helpers/query";
+import { QueryParams } from "../../helpers/query";
 
 interface Props {
   mapData: MapData;
   mapId: string;
   query: QueryParams;
-  routeSidebarData: RouteWithStopsWithDirections[];
-  stopSidebarData: StopWithRoutes[];
+  stopsWithDistances: StopsWithDistances;
+  routesWithRealtimeSchedules: RouteWithStopsWithDirections[];
+  stopsWithRoutes: StopWithRoutes[];
+  selectedStopId?: string | null;
 }
 
 export const getSelectedStop = (
-  stopSidebarData: StopWithRoutes[],
+  stopsWithRoutes: StopWithRoutes[],
   selectedStopId: SelectedStopType
 ): Stop | undefined => {
-  const stopWithRoute = stopSidebarData.find(
-    stopWithRoutes => stopWithRoutes.stop.stop.id === selectedStopId
+  const stopWithRoute = stopsWithRoutes.find(
+    stopWithRoutes => stopWithRoutes.stop.id === selectedStopId
   );
-  return stopWithRoute ? stopWithRoute.stop.stop : undefined;
+  return stopWithRoute ? stopWithRoute.stop : undefined;
 };
 
 const validateModeFilter = (acc: Mode[], mode: string): Mode[] =>
@@ -42,70 +49,107 @@ const validateModeFilter = (acc: Mode[], mode: string): Mode[] =>
 export const modesFromQuery = (query: QueryParams): Mode[] =>
   query.filter ? query.filter.split(",").reduce(validateModeFilter, []) : [];
 
-export const fetchData = (
-  query: QueryParams,
+export const fetchRealtimeSchedules = async (
+  stopIds: string[],
   dispatch: Dispatch
 ): Promise<void> => {
-  if (
-    (query.latitude || query["location[latitude]"]) &&
-    (query.longitude || query["location[longitude]"]) &&
-    window.fetch
-  ) {
-    return window
-      .fetch(
-        `/transit-near-me/api${paramsToString(
-          query,
-          window.encodeURIComponent
-        )}`
-      )
-      .then((response: Response) => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then((routes: RouteWithStopsWithDirections[]) =>
-        dispatch(routeSidebarDataAction(routes))
-      )
-      .catch(() => {});
-  }
+  const responses = await Promise.all(
+    stopIds.map(async stopId =>
+      window.fetch(`/api/realtime/stops/?stops=${stopId}`)
+    )
+  );
 
-  return new Promise(resolve => resolve());
+  const json = await Promise.all(
+    responses
+      .filter(response => response && response.ok)
+      .map(async response => {
+        const { payload } = await response.json();
+        return payload;
+      })
+  );
+
+  json.forEach(jsonData => {
+    const data = jsonData.filter(
+      ({
+        predicted_schedules_by_route_pattern: predictedSchedulesByRoutePattern
+      }: RealtimeScheduleData) =>
+        Object.keys(predictedSchedulesByRoutePattern).length > 0
+    );
+    dispatch(realtimeScheduleDataAction(data));
+  });
+
+  dispatch(firstDataLoadedAction());
 };
 
-const emptyMessage = (
+const emptyMessage = (pendingFirstData: boolean): ReactElement<HTMLElement> => (
   <div className="m-tnm-sidebar__empty">
-    {`We're sorry, there are no nearby routes or stops matching your filters and
-    location.`}
+    {pendingFirstData === true ? (
+      <div className="c-spinner__container">
+        <div className="c-spinner">Loading...</div>
+      </div>
+    ) : (
+      "We’re sorry, there are no nearby routes or stops matching your filters and location."
+    )}
   </div>
 );
 
 const TransitNearMe = ({
   mapData,
   mapId,
-  routeSidebarData,
   query,
-  stopSidebarData
+  stopsWithDistances,
+  routesWithRealtimeSchedules,
+  stopsWithRoutes,
+  selectedStopId = null
 }: Props): ReactElement<HTMLElement> => {
   const selectedModes = modesFromQuery(query);
   const initialStateWithModes: State = {
     ...initialState,
     selectedModes,
-    routeSidebarData,
-    shouldFilterStopCards: selectedModes.length > 0
+    stopsWithDistances,
+    shouldFilterStopCards: selectedModes.length > 0,
+    routesWithRealtimeSchedules,
+    stopsWithRoutes,
+    selectedStopId
   };
   const [state, dispatch] = useReducer(reducer, initialStateWithModes);
   const mapRef = useRef(null);
   useEffect(
     () => {
       if (mapRef && mapRef.current && mapData.markers.length > 0) {
+        /* istanbul ignore next */
         // @ts-ignore
         mapRef.current!.scrollIntoView();
       }
     },
-    [mapData.markers.length]
+    [mapData.markers.length, state.stopsWithRoutes.length]
   );
-  const selectedStop = getSelectedStop(stopSidebarData, state.selectedStopId);
+  const selectedStop = getSelectedStop(
+    state.stopsWithRoutes,
+    state.selectedStopId
+  );
 
-  useInterval(() => fetchData(query, dispatch), 15000);
+  // call once on initial load
+  useEffect(
+    () => {
+      fetchRealtimeSchedules(
+        stopsWithDistances.stops.map(stop => stop.id),
+        dispatch
+      );
+    },
+    [stopsWithDistances]
+  );
+
+  // call event 15 seconds subsequently
+  /* istanbul ignore next */
+  useInterval(
+    () =>
+      fetchRealtimeSchedules(
+        stopsWithDistances.stops.map(stop => stop.id),
+        dispatch
+      ),
+    15000
+  );
 
   return (
     <div className="m-tnm">
@@ -115,9 +159,9 @@ const TransitNearMe = ({
           selectedModes={state.selectedModes}
           selectedStopId={state.selectedStopId}
           dispatch={dispatch}
-          data={state.routeSidebarData}
+          data={state.routesWithRealtimeSchedules}
           shouldFilterStopCards={state.shouldFilterStopCards}
-          emptyMessage={emptyMessage}
+          emptyMessage={emptyMessage(state.pendingFirstData)}
         />
       ) : (
         <StopsSidebar
@@ -125,9 +169,9 @@ const TransitNearMe = ({
           selectedModes={state.selectedModes}
           selectedStopId={state.selectedStopId}
           dispatch={dispatch}
-          data={stopSidebarData}
+          data={state.stopsWithRoutes}
           shouldFilterStopCards={state.shouldFilterStopCards}
-          emptyMessage={emptyMessage}
+          emptyMessage={emptyMessage(state.pendingFirstData)}
         />
       )}
       <h3 className="sr-only">Map</h3>
@@ -143,7 +187,7 @@ const TransitNearMe = ({
           dispatch={dispatch}
           initialData={mapData}
           selectedModes={state.selectedModes}
-          stopData={stopSidebarData}
+          stopData={state.stopsWithRoutes}
           shouldFilterMarkers={state.shouldFilterStopCards}
           shouldCenterMapOnSelectedStop={state.shouldCenterMapOnSelectedStop}
         />

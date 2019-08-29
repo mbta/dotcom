@@ -16,6 +16,6 @@ const stopIncludesModes = (stop: StopWithRoutes, modes: Mode[]): boolean =>
   // if there are no selections or all selections, do not filter
   modes.length === 0 ||
   modes.length === 3 ||
-  modes.reduce((acc, mode) => reducer(stop, acc, mode), false);
+  modes.reduce((acc: boolean, mode: Mode) => reducer(stop, acc, mode), false);
 
 export default stopIncludesModes;

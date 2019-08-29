@@ -1,0 +1,51 @@
+.c-spinner__container {
+  height: 20 * $base-spacing;
+}
+
+.c-spinner,
+.c-spinner::before,
+.c-spinner::after {
+  animation: load7 1.8s infinite ease-in-out;
+  animation-fill-mode: both;
+  border-radius: 50%;
+  height: 2.5em;
+  width: 2.5em;
+}
+
+.c-spinner {
+  animation-delay: -.16s;
+  color: $brand-primary;
+  font-size: 10px;
+  margin: 80px auto;
+  position: relative;
+  text-indent: -9999em;
+  transform: translateZ(0);
+}
+
+.c-spinner::before,
+.c-spinner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+
+.c-spinner::before {
+  animation-delay: -.32s;
+  left: -3.5em;
+}
+
+.c-spinner::after {
+  left: 3.5em;
+}
+
+@keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}

@@ -253,12 +253,13 @@ export interface Schedule {
   route: Route;
   trip: Trip;
   stop: Stop;
-  time: string;
+  time: string[];
   "flag?": boolean;
   "early_departure?": boolean;
   "last_stop?": boolean;
   stop_sequence: number;
   pickup_type: number;
+  train_number?: string;
 }
 
 export interface Shape {

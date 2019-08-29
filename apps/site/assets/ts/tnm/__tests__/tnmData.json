@@ -1,2960 +1,546 @@
-[
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Charles St S @ Park Plaza",
-          "longitude": -71.067101,
-          "latitude": 42.351748,
-          "is_child?": false,
-          "id": "1241",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/1241",
-        "distance": "115 ft",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["1:07", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["18", " ", "min"],
-                      "status": null
-                    },
-                    "delay": -3
-                  },
-                  {
-                    "scheduled_time": ["1:37", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["51", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "Park St & Tremont St"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "285 Tremont St",
-          "longitude": -71.065439,
-          "latitude": 42.349606,
-          "is_child?": false,
-          "id": "8281",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/8281",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:50", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["6", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 2
-                  },
-                  {
-                    "scheduled_time": ["1:18", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["42", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 10
-                  }
-                ],
-                "name": "Ruggles"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Tremont St @ Boylston Station",
-          "longitude": -71.064353,
-          "latitude": 42.353247,
-          "is_child?": false,
-          "id": "8279",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["unknown"]
-        },
-        "href": "/stops/8279",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:49", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["3", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  },
-                  {
-                    "scheduled_time": ["1:17", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["40", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 8
-                  }
-                ],
-                "name": "Ruggles"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 3,
-      "name": "43",
-      "long_name": "Ruggles - Downtown Boston",
-      "id": "43",
-      "header": "43",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": { "1": "Downtown Boston", "0": "Ruggles" },
-      "description": "local_bus",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Stuart St @ Charles St S",
-          "longitude": -71.066798,
-          "latitude": 42.351039,
-          "is_child?": false,
-          "id": "9983",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/9983",
-        "distance": "199 ft",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:54", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["7", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  },
-                  {
-                    "scheduled_time": ["1:29", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["42", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "Watertown via Copley (Express)"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Saint James Ave @ Arlington St",
-          "longitude": -71.070502,
-          "latitude": 42.351039,
-          "is_child?": false,
-          "id": "177",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/177",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:56", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["10", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  },
-                  {
-                    "scheduled_time": ["1:31", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["44", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "Watertown via Copley (Express)"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Kneeland St @ Washington St",
-          "longitude": -71.062868,
-          "latitude": 42.350845,
-          "is_child?": false,
-          "id": "6542",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/6542",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["1:04", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["15", " ", "min"],
-                      "status": null
-                    },
-                    "delay": -2
-                  },
-                  {
-                    "scheduled_time": ["1:39", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["52", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "Downtown via Copley (Express)"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 3,
-      "name": "504",
-      "long_name": "Watertown Yard - Downtown Boston",
-      "id": "504",
-      "header": "504",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": {
-        "1": "Downtown Boston",
-        "0": "Watertown Yard"
-      },
-      "description": "commuter_bus",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Stuart St @ Charles St S",
-          "longitude": -71.066798,
-          "latitude": 42.351039,
-          "is_child?": false,
-          "id": "9983",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/9983",
-        "distance": "199 ft",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:58", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["19", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 7
-                  },
-                  {
-                    "scheduled_time": ["1:58", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["2:00", " ", "PM"],
-                      "status": null
-                    },
-                    "delay": 2
-                  }
-                ],
-                "name": "Queensberry St"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Tremont St @ Boylston Station",
-          "longitude": -71.064353,
-          "latitude": 42.353247,
-          "is_child?": false,
-          "id": "8279",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["unknown"]
-        },
-        "href": "/stops/8279",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:56", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["16", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 5
-                  },
-                  {
-                    "scheduled_time": ["1:56", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["1:57", " ", "PM"],
-                      "status": null
-                    },
-                    "delay": 1
-                  }
-                ],
-                "name": "Queensberry St"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Saint James Ave @ Arlington St",
-          "longitude": -71.070502,
-          "latitude": 42.351039,
-          "is_child?": false,
-          "id": "177",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/177",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["1:00", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["21", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 6
-                  },
-                  {
-                    "scheduled_time": ["2:00", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["2:02", " ", "PM"],
-                      "status": null
-                    },
-                    "delay": 2
-                  }
-                ],
-                "name": "Queensberry St"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 3,
-      "name": "55",
-      "long_name": "Jersey Street & Queensberry Street - Downtown Boston",
-      "id": "55",
-      "header": "55",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": {
-        "1": "Downtown Boston",
-        "0": "Jersey Street & Queensberry Street"
-      },
-      "description": "local_bus",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Stuart St @ Charles St S",
-          "longitude": -71.066798,
-          "latitude": 42.351039,
-          "is_child?": false,
-          "id": "9983",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/9983",
-        "distance": "199 ft",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["7:07", " ", "PM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "Waltham via Copley (Express)"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Saint James Ave @ Arlington St",
-          "longitude": -71.070502,
-          "latitude": 42.351039,
-          "is_child?": false,
-          "id": "177",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/177",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["7:08", " ", "PM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "Waltham via Copley (Express)"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Kneeland St @ Washington St",
-          "longitude": -71.062868,
-          "latitude": 42.350845,
-          "is_child?": false,
-          "id": "6542",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/6542",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["8:24", " ", "PM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "Downtown via Copley (Express)"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 3,
-      "name": "553",
-      "long_name": "Roberts - Downtown Boston",
-      "id": "553",
-      "header": "553",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": { "1": "Downtown Boston", "0": "Roberts" },
-      "description": "local_bus",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Boylston",
-          "longitude": -71.06459,
-          "latitude": 42.35302,
-          "is_child?": false,
-          "id": "place-boyls",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": ["fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "Boylston St and Tremont St, Boston, MA",
-          "accessibility": []
-        },
-        "href": "/stops/place-boyls",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["2", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["7", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Boston College"
-              }
-            ],
-            "direction_id": 0
+{
+  "stops": [
+    {
+      "type": "station",
+      "station?": true,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [
+        {
+          "utilization": {
+            "typical": 195,
+            "arrive_before": null
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["4", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["9", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Park Street"
-              }
+          "payment": {
+            "monthly_rate": "$131.25",
+            "mobile_app": {
+              "url": "https://www.paybyphone.com/",
+              "name": "PayByPhone",
+              "id": 4398
+            },
+            "methods": [
+              "Mobile App",
+              "Invoice"
             ],
-            "direction_id": 1
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Park Street",
-          "longitude": -71.062424,
-          "latitude": 42.356395,
-          "is_child?": false,
-          "id": "place-pktrm",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": true,
-          "fare_facilities": ["fare_media_assistant", "fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "Tremont St and Winter St, Boston, MA 02108",
-          "accessibility": [
-            "accessible",
-            "escalator_up",
-            "elevator",
-            "portable_boarding_lift"
-          ]
-        },
-        "href": "/stops/place-pktrm",
-        "distance": "0.4 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "2",
-                      "time": ["17", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "2",
-                      "time": ["12", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Boston College"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 0,
-      "name": "Green Line B",
-      "long_name": "Green Line B",
-      "id": "Green-B",
-      "header": "Green Line B",
-      "direction_names": { "1": "Eastbound", "0": "Westbound" },
-      "direction_destinations": { "1": "Park Street", "0": "Boston College" },
-      "description": "rapid_transit",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Boylston",
-          "longitude": -71.06459,
-          "latitude": 42.35302,
-          "is_child?": false,
-          "id": "place-boyls",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": ["fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "Boylston St and Tremont St, Boston, MA",
-          "accessibility": []
-        },
-        "href": "/stops/place-boyls",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["6", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["12", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Cleveland Circle"
-              }
-            ],
-            "direction_id": 0
+            "daily_rate": "Mon-Fri: $7.50 | Sat-Sun: $3"
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["6", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["15", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "North Station"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
           "note": null,
-          "name": "Park Street",
-          "longitude": -71.062424,
-          "latitude": 42.356395,
-          "is_child?": false,
-          "id": "place-pktrm",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": true,
-          "fare_facilities": ["fare_media_assistant", "fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "Tremont St and Winter St, Boston, MA 02108",
-          "accessibility": [
-            "accessible",
-            "escalator_up",
-            "elevator",
-            "portable_boarding_lift"
-          ]
-        },
-        "href": "/stops/place-pktrm",
-        "distance": "0.4 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "4",
-                      "time": ["1", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "4",
-                      "time": ["8", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "North Station"
-              }
-            ],
-            "direction_id": 1
+          "name": "Malden Center Parking Lot",
+          "manager": {
+            "url": "http://www.parkmbta.com/",
+            "phone": "617-222-3200",
+            "name": "Republic Parking System",
+            "contact": "MBTA Customer Support"
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "1",
-                      "time": ["4", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "1",
-                      "time": ["11", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Cleveland Circle"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 0,
-      "name": "Green Line C",
-      "long_name": "Green Line C",
-      "id": "Green-C",
-      "header": "Green Line C",
-      "direction_names": { "1": "Eastbound", "0": "Westbound" },
-      "direction_destinations": {
-        "1": "North Station",
-        "0": "Cleveland Circle"
-      },
-      "description": "rapid_transit",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Boylston",
-          "longitude": -71.06459,
-          "latitude": 42.35302,
-          "is_child?": false,
-          "id": "place-boyls",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": ["fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "Boylston St and Tremont St, Boston, MA",
-          "accessibility": []
-        },
-        "href": "/stops/place-boyls",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["4", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["4", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Riverside"
-              }
-            ],
-            "direction_id": 0
+          "longitude": -71.075305,
+          "latitude": 42.42683,
+          "capacity": {
+            "type": "Surface Lot",
+            "total": 195,
+            "accessible": 6
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["10", " ", "min"],
-                      "status": "Stopped 5 stops away"
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["14", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Government Center"
-              }
+          "address": null
+        }
+      ],
+      "parent_id": null,
+      "note": null,
+      "name": "Malden Center",
+      "longitude": -71.07411,
+      "latitude": 42.426632,
+      "is_child?": false,
+      "id": "place-mlmnl",
+      "has_fare_machine?": true,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [
+        "fare_vending_machine"
+      ],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [
+        "5072",
+        "5327",
+        "53270",
+        "70034",
+        "70035",
+        "Malden Center",
+        "door-mlmnl-commercial",
+        "door-mlmnl-pleasant",
+        "door-mlmnl-ramp",
+        "node-311-lobby",
+        "node-311-platform",
+        "node-312-lobby",
+        "node-312-platform",
+        "node-944-lobby",
+        "node-944-platform",
+        "node-945-lobby",
+        "node-945-platform",
+        "node-mlmnl-commstair-bus",
+        "node-mlmnl-commstair-lobby",
+        "node-mlmnl-crstairs-lobby",
+        "node-mlmnl-crstairs-platform",
+        "node-mlmnl-exitfarepaid",
+        "node-mlmnl-exitfareunpaid",
+        "node-mlmnl-exitstair-lobby",
+        "node-mlmnl-exitstair-platform",
+        "node-mlmnl-farepaid",
+        "node-mlmnl-fareunpaid",
+        "node-mlmnl-olstairs-lobby",
+        "node-mlmnl-olstairs-platform",
+        "node-mlmnl-ramptop"
+      ],
+      "bike_storage": [
+        "bike_storage_cage"
+      ],
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    {
+      "type": "stop",
+      "station?": false,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [],
+      "parent_id": null,
+      "note": null,
+      "name": "14 Summer St",
+      "longitude": -71.074151,
+      "latitude": 42.427777,
+      "is_child?": false,
+      "id": "5070",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [],
+      "bike_storage": [],
+      "address": null,
+      "accessibility": [
+        "accessible"
+      ]
+    },
+    {
+      "type": "stop",
+      "station?": false,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [],
+      "parent_id": null,
+      "note": null,
+      "name": "Centre St @ Pearl St",
+      "longitude": -71.07644,
+      "latitude": 42.426682,
+      "is_child?": false,
+      "id": "5338",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [],
+      "bike_storage": [],
+      "address": null,
+      "accessibility": [
+        "accessible"
+      ]
+    },
+    {
+      "type": "stop",
+      "station?": false,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [],
+      "parent_id": null,
+      "note": null,
+      "name": "Pleasant St @ Elm St",
+      "longitude": -71.076625,
+      "latitude": 42.427157,
+      "is_child?": false,
+      "id": "5328",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [],
+      "bike_storage": [],
+      "address": null,
+      "accessibility": [
+        "accessible"
+      ]
+    },
+    {
+      "type": "stop",
+      "station?": false,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [],
+      "parent_id": null,
+      "note": null,
+      "name": "Florence St @ Washington St",
+      "longitude": -71.071159,
+      "latitude": 42.42865,
+      "is_child?": false,
+      "id": "5369",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [],
+      "bike_storage": [],
+      "address": null,
+      "accessibility": [
+        "unknown"
+      ]
+    },
+    {
+      "type": "stop",
+      "station?": false,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [],
+      "parent_id": null,
+      "note": null,
+      "name": "Centre St @ Jackson St",
+      "longitude": -71.070337,
+      "latitude": 42.425461,
+      "is_child?": false,
+      "id": "15431",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [],
+      "bike_storage": [],
+      "address": null,
+      "accessibility": [
+        "unknown"
+      ]
+    },
+    {
+      "type": "stop",
+      "station?": false,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [],
+      "parent_id": null,
+      "note": null,
+      "name": "Centre St @ Stop & Shop",
+      "longitude": -71.070368,
+      "latitude": 42.42525,
+      "is_child?": false,
+      "id": "5289",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [],
+      "bike_storage": [],
+      "address": null,
+      "accessibility": [
+        "accessible"
+      ]
+    },
+    {
+      "type": "stop",
+      "station?": false,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [],
+      "parent_id": null,
+      "note": null,
+      "name": "Summer St @ Lincoln St",
+      "longitude": -71.074265,
+      "latitude": 42.430107,
+      "is_child?": false,
+      "id": "5074",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [],
+      "bike_storage": [],
+      "address": null,
+      "accessibility": [
+        "accessible"
+      ]
+    },
+    {
+      "type": "stop",
+      "station?": false,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [],
+      "parent_id": null,
+      "note": null,
+      "name": "Commercial St @ Charles St",
+      "longitude": -71.07471,
+      "latitude": 42.423378,
+      "is_child?": false,
+      "id": "45417",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [],
+      "bike_storage": [],
+      "address": null,
+      "accessibility": [
+        "unknown"
+      ]
+    },
+    {
+      "type": "station",
+      "station?": true,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [
+        {
+          "utilization": null,
+          "payment": {
+            "monthly_rate": "$95",
+            "mobile_app": null,
+            "methods": [
+              "Credit/Debit Card",
+              "Cash"
             ],
-            "direction_id": 1
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Park Street",
-          "longitude": -71.062424,
-          "latitude": 42.356395,
-          "is_child?": false,
-          "id": "place-pktrm",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": true,
-          "fare_facilities": ["fare_media_assistant", "fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "Tremont St and Winter St, Boston, MA 02108",
-          "accessibility": [
-            "accessible",
-            "escalator_up",
-            "elevator",
-            "portable_boarding_lift"
-          ]
-        },
-        "href": "/stops/place-pktrm",
-        "distance": "0.4 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "2",
-                      "time": ["3", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "2",
-                      "time": ["3", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Riverside"
-              }
-            ],
-            "direction_id": 0
+            "daily_rate": "$5"
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "4",
-                      "time": ["12", " ", "min"],
-                      "status": "Stopped 6 stops away"
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "4",
-                      "time": ["16", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Government Center"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 0,
-      "name": "Green Line D",
-      "long_name": "Green Line D",
-      "id": "Green-D",
-      "header": "Green Line D",
-      "direction_names": { "1": "Eastbound", "0": "Westbound" },
-      "direction_destinations": { "1": "Government Center", "0": "Riverside" },
-      "description": "rapid_transit",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Boylston",
-          "longitude": -71.06459,
-          "latitude": 42.35302,
-          "is_child?": false,
-          "id": "place-boyls",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": ["fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "Boylston St and Tremont St, Boston, MA",
-          "accessibility": []
-        },
-        "href": "/stops/place-boyls",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["3", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["11", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Lechmere"
-              }
-            ],
-            "direction_id": 1
+          "note": "MBTA spaces are located on levels 6 through 8.",
+          "name": "Wellington Station Landing Garage",
+          "manager": {
+            "url": "http://www.pilgrimparking.com/boston-parking-garages/station-landing-garage.htm",
+            "phone": "781-393-8140",
+            "name": "Pilgrim Parking",
+            "contact": "Pilgrim Parking"
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["3", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["11", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Heath Street"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Park Street",
-          "longitude": -71.062424,
-          "latitude": 42.356395,
-          "is_child?": false,
-          "id": "place-pktrm",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": true,
-          "fare_facilities": ["fare_media_assistant", "fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "Tremont St and Winter St, Boston, MA 02108",
-          "accessibility": [
-            "accessible",
-            "escalator_up",
-            "elevator",
-            "portable_boarding_lift"
-          ]
-        },
-        "href": "/stops/place-pktrm",
-        "distance": "0.4 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "1",
-                      "time": ["1", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "1",
-                      "time": ["10", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Heath Street"
-              }
-            ],
-            "direction_id": 0
+          "longitude": -71.080735,
+          "latitude": 42.401856,
+          "capacity": {
+            "type": "Garage",
+            "total": 700,
+            "accessible": 14
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "4",
-                      "time": ["5", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "4",
-                      "time": ["13", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Lechmere"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 0,
-      "name": "Green Line E",
-      "long_name": "Green Line E",
-      "id": "Green-E",
-      "header": "Green Line E",
-      "direction_names": { "1": "Eastbound", "0": "Westbound" },
-      "direction_destinations": { "1": "Lechmere", "0": "Heath Street" },
-      "description": "rapid_transit",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Tremont St @ Boylston Station",
-          "longitude": -71.064353,
-          "latitude": 42.353247,
-          "is_child?": false,
-          "id": "8279",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["unknown"]
+          "address": null
         },
-        "href": "/stops/8279",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["2:05", " ", "AM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "Mattapan via Dudley & Fields Corner"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Tufts Medical Center",
-          "longitude": -71.063917,
-          "latitude": 42.349662,
-          "is_child?": false,
-          "id": "place-tumnl",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": ["fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "750 Washington St, Boston, MA",
-          "accessibility": ["accessible", "escalator_up", "elevator"]
-        },
-        "href": "/stops/place-tumnl",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["1:52", " ", "AM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "Haymarket via Dudley & Fields Corner"
-              }
-            ],
-            "direction_id": 1
+        {
+          "utilization": {
+            "typical": 1263,
+            "arrive_before": null
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["2:07", " ", "AM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "Mattapan via Dudley & Fields Corner"
-              }
+          "payment": {
+            "monthly_rate": "$157.50",
+            "mobile_app": {
+              "url": "https://www.paybyphone.com/",
+              "name": "PayByPhone",
+              "id": 4392
+            },
+            "methods": [
+              "Mobile App",
+              "Invoice"
             ],
-            "direction_id": 0
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Washington St @ Essex St",
-          "longitude": -71.062581,
-          "latitude": 42.352288,
-          "is_child?": false,
-          "id": "6537",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/6537",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["1:53", " ", "AM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "Haymarket via Dudley & Fields Corner"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 3,
-      "name": "15",
-      "long_name": "Kane Square - Ruggles",
-      "id": "15",
-      "header": "15",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": { "1": "Ruggles", "0": "Kane Square" },
-      "description": "key_bus_route",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Tremont St @ Boylston Station",
-          "longitude": -71.064353,
-          "latitude": 42.353247,
-          "is_child?": false,
-          "id": "8279",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["unknown"]
-        },
-        "href": "/stops/8279",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:45", " ", "PM"],
-                    "prediction": null,
-                    "delay": 0
-                  },
-                  {
-                    "scheduled_time": ["12:55", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["7", " ", "min"],
-                      "status": null
-                    },
-                    "delay": -2
-                  }
-                ],
-                "name": "Dudley"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Tufts Medical Center",
-          "longitude": -71.063917,
-          "latitude": 42.349662,
-          "is_child?": false,
-          "id": "place-tumnl",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": ["fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "750 Washington St, Boston, MA",
-          "accessibility": ["accessible", "escalator_up", "elevator"]
-        },
-        "href": "/stops/place-tumnl",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:48", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["1", " ", "min"],
-                      "status": null
-                    },
-                    "delay": -1
-                  },
-                  {
-                    "scheduled_time": ["12:58", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["10", " ", "min"],
-                      "status": null
-                    },
-                    "delay": -2
-                  }
-                ],
-                "name": "Dudley"
-              }
-            ],
-            "direction_id": 0
+            "daily_rate": "Mon-Fri: $9 | Sat-Sun: $4"
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:54", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["13", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 5
-                  },
-                  {
-                    "scheduled_time": ["1:04", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["16", " ", "min"],
-                      "status": null
-                    },
-                    "delay": -2
-                  }
-                ],
-                "name": "Downtown"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 3,
-      "name": "SL5",
-      "long_name": "Dudley - Downtown Crossing",
-      "id": "749",
-      "header": "Silver Line SL5",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": { "1": "Downtown Crossing", "0": "Dudley" },
-      "description": "key_bus_route",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
           "note": null,
-          "name": "Arlington St @ Saint James Ave",
-          "longitude": -71.070442,
-          "latitude": 42.351105,
-          "is_child?": false,
-          "id": "145",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/145",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:58", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["12", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  },
-                  {
-                    "scheduled_time": ["1:18", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["32", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "City Point"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 3,
-      "name": "9",
-      "long_name": "City Point - Copley via Broadway Station",
-      "id": "9",
-      "header": "9",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": { "1": "Copley", "0": "City Point" },
-      "description": "local_bus",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Tufts Medical Center",
-          "longitude": -71.063917,
-          "latitude": 42.349662,
-          "is_child?": false,
-          "id": "place-tumnl",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": ["fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "750 Washington St, Boston, MA",
-          "accessibility": ["accessible", "escalator_up", "elevator"]
-        },
-        "href": "/stops/place-tumnl",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["1:08", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["22", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  },
-                  {
-                    "scheduled_time": ["1:33", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["47", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "Downtown"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Washington St @ Essex St",
-          "longitude": -71.062581,
-          "latitude": 42.352288,
-          "is_child?": false,
-          "id": "6537",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/6537",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:47", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["11", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 9
-                  },
-                  {
-                    "scheduled_time": ["1:12", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["26", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "Downtown"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 3,
-      "name": "11",
-      "long_name": "City Point - Downtown Boston",
-      "id": "11",
-      "header": "11",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": { "1": "Downtown Boston", "0": "City Point" },
-      "description": "local_bus",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Tufts Medical Center",
-          "longitude": -71.063917,
-          "latitude": 42.349662,
-          "is_child?": false,
-          "id": "place-tumnl",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": ["fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "750 Washington St, Boston, MA",
-          "accessibility": ["accessible", "escalator_up", "elevator"]
-        },
-        "href": "/stops/place-tumnl",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:56", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["10", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  },
-                  {
-                    "scheduled_time": ["1:12", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["20", " ", "min"],
-                      "status": null
-                    },
-                    "delay": -6
-                  }
-                ],
-                "name": "South Station"
-              }
-            ],
-            "direction_id": 1
+          "name": "Wellington Parking Lot",
+          "manager": {
+            "url": "http://www.parkmbta.com/",
+            "phone": "617-222-3200",
+            "name": "Republic Parking System",
+            "contact": "MBTA Customer Support"
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:58", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["13", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 1
-                  },
-                  {
-                    "scheduled_time": ["1:14", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["23", " ", "min"],
-                      "status": null
-                    },
-                    "delay": -4
-                  }
-                ],
-                "name": "Dudley"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": false,
-          "parking_lots": [],
-          "note": null,
-          "name": "Washington St @ Essex St",
-          "longitude": -71.062581,
-          "latitude": 42.352288,
-          "is_child?": false,
-          "id": "6537",
-          "has_fare_machine?": false,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": [],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": null,
-          "accessibility": ["accessible"]
-        },
-        "href": "/stops/6537",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:58", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["14", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 1
-                  },
-                  {
-                    "scheduled_time": ["1:14", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["22", " ", "min"],
-                      "status": null
-                    },
-                    "delay": -6
-                  }
-                ],
-                "name": "South Station"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 3,
-      "name": "SL4",
-      "long_name": "Dudley - South Station",
-      "id": "751",
-      "header": "Silver Line SL4",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": { "1": "South Station", "0": "Dudley" },
-      "description": "key_bus_route",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Tufts Medical Center",
-          "longitude": -71.063917,
-          "latitude": 42.349662,
-          "is_child?": false,
-          "id": "place-tumnl",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": false,
-          "fare_facilities": ["fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "750 Washington St, Boston, MA",
-          "accessibility": ["accessible", "escalator_up", "elevator"]
-        },
-        "href": "/stops/place-tumnl",
-        "distance": "0.2 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["2", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["9", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Oak Grove"
-              }
-            ],
-            "direction_id": 1
+          "longitude": -71.076043,
+          "latitude": 42.402231,
+          "capacity": {
+            "type": "Surface Lot",
+            "total": 1335,
+            "accessible": 29
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["2", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["9", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Forest Hills"
-              }
+          "address": null
+        }
+      ],
+      "parent_id": null,
+      "note": null,
+      "name": "Wellington",
+      "longitude": -71.077082,
+      "latitude": 42.40237,
+      "is_child?": false,
+      "id": "place-welln",
+      "has_fare_machine?": true,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [
+        "fare_vending_machine"
+      ],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [
+        "5271",
+        "70032",
+        "70033",
+        "door-welln-busway",
+        "door-welln-garage",
+        "node-309-lobby",
+        "node-309-platform",
+        "node-310-lobby",
+        "node-310-platform",
+        "node-864-lobby",
+        "node-864-platform",
+        "node-865-lobby",
+        "node-865-platform",
+        "node-welln-busramp-lobby",
+        "node-welln-busstair-lobby",
+        "node-welln-farepaid",
+        "node-welln-fareunpaid",
+        "node-welln-fhstair-lobby",
+        "node-welln-fhstair-platform",
+        "node-welln-ogstair-lobby",
+        "node-welln-ogstair-platform",
+        "node-welln-skyelev-bridge",
+        "node-welln-skyentry",
+        "node-welln-skystairs-bridge"
+      ],
+      "bike_storage": [
+        "bike_storage_rack_covered"
+      ],
+      "address": "Revere Beach Pkwy and Rivers Edge Dr, Medford, MA 02155",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "ramp"
+      ]
+    },
+    {
+      "type": "station",
+      "station?": true,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [
+        {
+          "utilization": null,
+          "payment": {
+            "monthly_rate": null,
+            "mobile_app": null,
+            "methods": [
+              "Credit/Debit Card"
             ],
-            "direction_id": 0
-          }
-        ]
-      },
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Back Bay",
-          "longitude": -71.075727,
-          "latitude": 42.34735,
-          "is_child?": false,
-          "id": "place-bbsta",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": true,
-          "fare_facilities": [
-            "fare_media_assistant",
-            "fare_vending_machine",
-            "ticket_window"
-          ],
-          "closed_stop_info": null,
-          "bike_storage": ["bike_storage_cage"],
-          "address": "145 Dartmouth St Boston, MA 02116",
-          "accessibility": [
-            "accessible",
-            "escalator_both",
-            "elevated_subplatform",
-            "elevator",
-            "fully_elevated_platform"
-          ]
-        },
-        "href": "/stops/place-bbsta",
-        "distance": "0.5 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["1", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["7", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Oak Grove"
-              }
-            ],
-            "direction_id": 1
+            "daily_rate": "Mon-Fri before 12 PM: $3  | Mon-Fri after 12 PM: Free | Sat-Sun: Free"
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["4", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": null,
-                      "time": ["11", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Forest Hills"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 1,
-      "name": "Orange Line",
-      "long_name": "Orange Line",
-      "id": "Orange",
-      "header": "Orange Line",
-      "direction_names": { "1": "Northbound", "0": "Southbound" },
-      "direction_destinations": { "1": "Oak Grove", "0": "Forest Hills" },
-      "description": "rapid_transit",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Park Street",
-          "longitude": -71.062424,
-          "latitude": 42.356395,
-          "is_child?": false,
-          "id": "place-pktrm",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": true,
-          "fare_facilities": ["fare_media_assistant", "fare_vending_machine"],
-          "closed_stop_info": null,
-          "bike_storage": [],
-          "address": "Tremont St and Winter St, Boston, MA 02108",
-          "accessibility": [
-            "accessible",
-            "escalator_up",
-            "elevator",
-            "portable_boarding_lift"
-          ]
-        },
-        "href": "/stops/place-pktrm",
-        "distance": "0.4 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "5",
-                      "time": ["2", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "5",
-                      "time": ["16", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Ashmont"
-              },
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "5",
-                      "time": ["7", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "5",
-                      "time": ["21", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Braintree"
-              }
-            ],
-            "direction_id": 0
+          "note": "City of Melrose is responsible for parking maintenance, payments, and snow removal.",
+          "name": "Wyoming Hill Parking Lot",
+          "manager": {
+            "url": "https://www.cityofmelrose.org/parking-office",
+            "phone": "781-979-4144",
+            "name": "City of Melrose",
+            "contact": "City of Melrose, Office of the Parking Clerk"
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "6",
-                      "time": ["6", " ", "min"],
-                      "status": null
-                    }
-                  },
-                  {
-                    "scheduled_time": null,
-                    "prediction": {
-                      "track": "6",
-                      "time": ["15", " ", "min"],
-                      "status": null
-                    }
-                  }
-                ],
-                "name": "Alewife"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 1,
-      "name": "Red Line",
-      "long_name": "Red Line",
-      "id": "Red",
-      "header": "Red Line",
-      "direction_names": { "1": "Northbound", "0": "Southbound" },
-      "direction_destinations": { "1": "Alewife", "0": "Ashmont/Braintree" },
-      "description": "rapid_transit",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Back Bay",
-          "longitude": -71.075727,
-          "latitude": 42.34735,
-          "is_child?": false,
-          "id": "place-bbsta",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": true,
-          "fare_facilities": [
-            "fare_media_assistant",
-            "fare_vending_machine",
-            "ticket_window"
-          ],
-          "closed_stop_info": null,
-          "bike_storage": ["bike_storage_cage"],
-          "address": "145 Dartmouth St Boston, MA 02116",
-          "accessibility": [
-            "accessible",
-            "escalator_both",
-            "elevated_subplatform",
-            "elevator",
-            "fully_elevated_platform"
-          ]
-        },
-        "href": "/stops/place-bbsta",
-        "distance": "0.5 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:47", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["1", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  },
-                  {
-                    "scheduled_time": ["1:27", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["39", " ", "min"],
-                      "status": null
-                    },
-                    "delay": -1
-                  }
-                ],
-                "name": "City Point via South Bay Center"
-              },
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["11:06", " ", "PM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "City Point"
-              }
-            ],
-            "direction_id": 0
+          "longitude": -71.069641,
+          "latitude": 42.451536,
+          "capacity": {
+            "type": "Surface Lot",
+            "total": 30,
+            "accessible": 1
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["1:07", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["20", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  },
-                  {
-                    "scheduled_time": ["1:47", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["54", " ", "min"],
-                      "status": null
-                    },
-                    "delay": -7
-                  }
-                ],
-                "name": "Copley via South Bay Center"
-              },
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["10:56", " ", "PM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "Copley"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 3,
-      "name": "10",
-      "long_name": "City Point - Copley via Boston Medical Center",
-      "id": "10",
-      "header": "10",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": { "1": "Copley", "0": "City Point" },
-      "description": "local_bus",
-      "custom_route?": false
+          "address": null
+        }
+      ],
+      "parent_id": null,
+      "note": null,
+      "name": "Wyoming Hill",
+      "longitude": -71.069379,
+      "latitude": 42.451731,
+      "is_child?": false,
+      "id": "place-WR-0062",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [
+        "Wyoming Hill",
+        "Wyoming Hill-S"
+      ],
+      "bike_storage": [],
+      "address": "40 W Wyoming Ave, Melrose, MA 02176",
+      "accessibility": []
     },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Back Bay",
-          "longitude": -71.075727,
-          "latitude": 42.34735,
-          "is_child?": false,
-          "id": "place-bbsta",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": true,
-          "fare_facilities": [
-            "fare_media_assistant",
-            "fare_vending_machine",
-            "ticket_window"
-          ],
-          "closed_stop_info": null,
-          "bike_storage": ["bike_storage_cage"],
-          "address": "145 Dartmouth St Boston, MA 02116",
-          "accessibility": [
-            "accessible",
-            "escalator_both",
-            "elevated_subplatform",
-            "elevator",
-            "fully_elevated_platform"
-          ]
-        },
-        "href": "/stops/place-bbsta",
-        "distance": "0.5 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["4:50", " ", "PM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "Dudley (Express)"
-              }
+    {
+      "type": "station",
+      "station?": true,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [
+        {
+          "utilization": null,
+          "payment": {
+            "monthly_rate": null,
+            "mobile_app": null,
+            "methods": [
+              "Credit/Debit Card"
             ],
-            "direction_id": 1
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 3,
-      "name": "170",
-      "long_name": "Waltham - Dudley",
-      "id": "170",
-      "header": "170",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": { "1": "Dudley", "0": "Waltham" },
-      "description": "commuter_bus",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Back Bay",
-          "longitude": -71.075727,
-          "latitude": 42.34735,
-          "is_child?": false,
-          "id": "place-bbsta",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": true,
-          "fare_facilities": [
-            "fare_media_assistant",
-            "fare_vending_machine",
-            "ticket_window"
-          ],
-          "closed_stop_info": null,
-          "bike_storage": ["bike_storage_cage"],
-          "address": "145 Dartmouth St Boston, MA 02116",
-          "accessibility": [
-            "accessible",
-            "escalator_both",
-            "elevated_subplatform",
-            "elevator",
-            "fully_elevated_platform"
-          ]
-        },
-        "href": "/stops/place-bbsta",
-        "distance": "0.5 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "",
-                "times": [
-                  {
-                    "scheduled_time": ["12:56", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["10", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  },
-                  {
-                    "scheduled_time": ["1:11", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["25", " ", "min"],
-                      "status": null
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "Forest Hills"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 3,
-      "name": "39",
-      "long_name": "Forest Hills - Back Bay Station",
-      "id": "39",
-      "header": "39",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": {
-        "1": "Back Bay Station",
-        "0": "Forest Hills"
-      },
-      "description": "key_bus_route",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Back Bay",
-          "longitude": -71.075727,
-          "latitude": 42.34735,
-          "is_child?": false,
-          "id": "place-bbsta",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": true,
-          "fare_facilities": [
-            "fare_media_assistant",
-            "fare_vending_machine",
-            "ticket_window"
-          ],
-          "closed_stop_info": null,
-          "bike_storage": ["bike_storage_cage"],
-          "address": "145 Dartmouth St Boston, MA 02116",
-          "accessibility": [
-            "accessible",
-            "escalator_both",
-            "elevated_subplatform",
-            "elevator",
-            "fully_elevated_platform"
-          ]
-        },
-        "href": "/stops/place-bbsta",
-        "distance": "0.5 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "714",
-                "times": [
-                  {
-                    "scheduled_time": ["1:14", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["1:14", " ", "PM"],
-                      "status": "On time"
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "South Station"
-              }
-            ],
-            "direction_id": 1
+            "daily_rate": "$3 (free after 12 PM and on weekends)"
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "711",
-                "times": [
-                  {
-                    "scheduled_time": ["1:40", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["1:41", " ", "PM"],
-                      "status": "On time"
-                    },
-                    "delay": 1
-                  }
-                ],
-                "name": "Forge Park/​495"
-              },
-              {
-                "train_number": "743",
-                "times": [
-                  {
-                    "scheduled_time": ["4:20", " ", "PM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "Norwood Central"
-              },
-              {
-                "train_number": "745",
-                "times": [
-                  {
-                    "scheduled_time": ["5:07", " ", "PM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "Walpole"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 2,
-      "name": "Franklin Line",
-      "long_name": "Franklin Line",
-      "id": "CR-Franklin",
-      "header": "Franklin",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": { "1": "South Station", "0": "Forge Park/495" },
-      "description": "commuter_rail",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Back Bay",
-          "longitude": -71.075727,
-          "latitude": 42.34735,
-          "is_child?": false,
-          "id": "place-bbsta",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": true,
-          "fare_facilities": [
-            "fare_media_assistant",
-            "fare_vending_machine",
-            "ticket_window"
-          ],
-          "closed_stop_info": null,
-          "bike_storage": ["bike_storage_cage"],
-          "address": "145 Dartmouth St Boston, MA 02116",
-          "accessibility": [
-            "accessible",
-            "escalator_both",
-            "elevated_subplatform",
-            "elevator",
-            "fully_elevated_platform"
-          ]
-        },
-        "href": "/stops/place-bbsta",
-        "distance": "0.5 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "614",
-                "times": [
-                  {
-                    "scheduled_time": ["1:25", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["1:25", " ", "PM"],
-                      "status": "On time"
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "South Station"
-              }
-            ],
-            "direction_id": 1
+          "note": "City of Melrose is responsible for parking maintenance, payments, and snow removal.",
+          "name": "Melrose Cedar Park Parking Lot",
+          "manager": {
+            "url": "https://www.cityofmelrose.org/parking-office",
+            "phone": "781-665-0142",
+            "name": "City of Melrose",
+            "contact": "City of Melrose, Parking Office"
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "611",
-                "times": [
-                  {
-                    "scheduled_time": ["1:57", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["1:57", " ", "PM"],
-                      "status": "On time"
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "Needham Heights"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 2,
-      "name": "Needham Line",
-      "long_name": "Needham Line",
-      "id": "CR-Needham",
-      "header": "Needham",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": {
-        "1": "South Station",
-        "0": "Needham Heights"
-      },
-      "description": "commuter_rail",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Back Bay",
-          "longitude": -71.075727,
-          "latitude": 42.34735,
-          "is_child?": false,
-          "id": "place-bbsta",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": true,
-          "fare_facilities": [
-            "fare_media_assistant",
-            "fare_vending_machine",
-            "ticket_window"
-          ],
-          "closed_stop_info": null,
-          "bike_storage": ["bike_storage_cage"],
-          "address": "145 Dartmouth St Boston, MA 02116",
-          "accessibility": [
-            "accessible",
-            "escalator_both",
-            "elevated_subplatform",
-            "elevator",
-            "fully_elevated_platform"
-          ]
-        },
-        "href": "/stops/place-bbsta",
-        "distance": "0.5 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "911",
-                "times": [
-                  {
-                    "scheduled_time": ["1:25", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["1:27", " ", "PM"],
-                      "status": "On time"
-                    },
-                    "delay": 2
-                  }
-                ],
-                "name": "Stoughton"
-              },
-              {
-                "train_number": "813",
-                "times": [
-                  {
-                    "scheduled_time": ["1:48", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["1:48", " ", "PM"],
-                      "status": "On time"
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "Providence"
-              },
-              {
-                "train_number": "817",
-                "times": [
-                  {
-                    "scheduled_time": ["3:30", " ", "PM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "Wickford Junction"
-              }
-            ],
-            "direction_id": 0
+          "longitude": -71.069985,
+          "latitude": 42.458648,
+          "capacity": {
+            "type": "Surface Lot",
+            "total": 82,
+            "accessible": 3
           },
-          {
-            "headsigns": [
-              {
-                "train_number": "820",
-                "times": [
-                  {
-                    "scheduled_time": ["2:15", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["2:15", " ", "PM"],
-                      "status": "On time"
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "South Station"
-              }
-            ],
-            "direction_id": 1
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 2,
-      "name": "Providence/Stoughton Line",
-      "long_name": "Providence/Stoughton Line",
-      "id": "CR-Providence",
-      "header": "Providence/​​Stoughton",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": {
-        "1": "South Station",
-        "0": "Wickford Junction"
-      },
-      "description": "commuter_rail",
-      "custom_route?": false
-    },
-    "alert_count": 0
-  },
-  {
-    "stops_with_directions": [
-      {
-        "stop": {
-          "station?": true,
-          "parking_lots": [],
-          "note": null,
-          "name": "Back Bay",
-          "longitude": -71.075727,
-          "latitude": 42.34735,
-          "is_child?": false,
-          "id": "place-bbsta",
-          "has_fare_machine?": true,
-          "has_charlie_card_vendor?": true,
-          "fare_facilities": [
-            "fare_media_assistant",
-            "fare_vending_machine",
-            "ticket_window"
-          ],
-          "closed_stop_info": null,
-          "bike_storage": ["bike_storage_cage"],
-          "address": "145 Dartmouth St Boston, MA 02116",
-          "accessibility": [
-            "accessible",
-            "escalator_both",
-            "elevated_subplatform",
-            "elevator",
-            "fully_elevated_platform"
-          ]
-        },
-        "href": "/stops/place-bbsta",
-        "distance": "0.5 mi",
-        "directions": [
-          {
-            "headsigns": [
-              {
-                "train_number": "516",
-                "times": [
-                  {
-                    "scheduled_time": ["1:33", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["1:33", " ", "PM"],
-                      "status": "On time"
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "South Station"
-              }
-            ],
-            "direction_id": 1
-          },
-          {
-            "headsigns": [
-              {
-                "train_number": "515",
-                "times": [
-                  {
-                    "scheduled_time": ["2:01", " ", "PM"],
-                    "prediction": {
-                      "track": null,
-                      "time": ["2:01", " ", "PM"],
-                      "status": "On time"
-                    },
-                    "delay": 0
-                  }
-                ],
-                "name": "Worcester"
-              },
-              {
-                "train_number": "591",
-                "times": [
-                  {
-                    "scheduled_time": ["4:36", " ", "PM"],
-                    "prediction": null,
-                    "delay": 0
-                  }
-                ],
-                "name": "Framingham"
-              }
-            ],
-            "direction_id": 0
-          }
-        ]
-      }
-    ],
-    "route": {
-      "type": 2,
-      "name": "Framingham/Worcester Line",
-      "long_name": "Framingham/Worcester Line",
-      "id": "CR-Worcester",
-      "header": "Framingham/​​Worcester",
-      "direction_names": { "1": "Inbound", "0": "Outbound" },
-      "direction_destinations": { "1": "South Station", "0": "Worcester" },
-      "description": "commuter_rail",
-      "custom_route?": false
-    },
-    "alert_count": 0
+          "address": null
+        }
+      ],
+      "parent_id": null,
+      "note": null,
+      "name": "Melrose Cedar Park",
+      "longitude": -71.069789,
+      "latitude": 42.458768,
+      "is_child?": false,
+      "id": "place-WR-0067",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [
+        "Melrose Cedar Park",
+        "Melrose Cedar Park-S"
+      ],
+      "bike_storage": [],
+      "address": "Cedar Park and W Emerson St, Melrose, MA 02176",
+      "accessibility": []
+    }
+  ],
+  "distances": {
+    "5070": "402 ft",
+    "5074": "0.2 mi",
+    "5289": "0.2 mi",
+    "5328": "0.1 mi",
+    "5338": "0.1 mi",
+    "5369": "0.2 mi",
+    "15431": "0.2 mi",
+    "45417": "0.2 mi",
+    "place-welln": "1.7 mi",
+    "place-mlmnl": "85 ft",
+    "place-WR-0067": "2.2 mi",
+    "place-WR-0062": "1.7 mi"
   }
-]
+}

@@ -1,0 +1,2515 @@
+[
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 1,
+      "name": "Orange Line",
+      "long_name": "Orange Line",
+      "id": "Orange",
+      "header": "Orange Line",
+      "direction_names": {
+        "0": "Southbound",
+        "1": "Northbound"
+      },
+      "direction_destinations": {
+        "0": "Forest Hills",
+        "1": "Oak Grove"
+      },
+      "description": "rapid_transit",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Oak Grove": {
+        "predicted_schedules": [
+          {
+            "schedule": null,
+            "prediction": {
+              "track": null,
+              "time": [
+                "6",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 180,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40709247-20:15-OakGroveWellington-70035-180",
+              "direction_id": 1,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": null,
+            "prediction": {
+              "track": null,
+              "time": [
+                "11",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 180,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40709244-20:15-OakGroveWellington-70035-180",
+              "direction_id": 1,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 1
+      },
+      "Forest Hills": {
+        "predicted_schedules": [
+          {
+            "schedule": null,
+            "prediction": {
+              "track": null,
+              "time": [
+                "1",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 10,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40709505-20:15-OakGroveWellington-70034-10",
+              "direction_id": 0,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": null,
+            "prediction": {
+              "track": null,
+              "time": [
+                "14",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 10,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40709258-20:15-OakGroveWellington-70034-10",
+              "direction_id": 0,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 0
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 2,
+      "name": "Haverhill Line",
+      "long_name": "Haverhill Line",
+      "id": "CR-Haverhill",
+      "header": "Haverhill",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Haverhill",
+        "1": "North Station"
+      },
+      "description": "commuter_rail",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "predicted_schedules_by_route_pattern": {
+      "North Station - Haverhill via Reading": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "train_number": "211",
+              "time": [
+                "3:26",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 2,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          },
+          {
+            "schedule": {
+              "train_number": "291",
+              "time": [
+                "4:01",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 2,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 0
+      },
+      "Haverhill - North Station via Reading": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "train_number": "292",
+              "time": [
+                "5:06",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 7,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": null
+          },
+          {
+            "schedule": {
+              "train_number": "294",
+              "time": [
+                "5:54",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 7,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 1
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 3,
+      "name": "97",
+      "long_name": "Malden Center - Wellington",
+      "id": "97",
+      "header": "97",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Malden Center",
+        "1": "Wellington"
+      },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 1
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Wellington Station - Malden Center Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:59",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 22,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "49",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 22,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764108-5327-22",
+              "direction_id": 0,
+              "departing?": false
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "1:09",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 22,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "117",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 22,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764110-5327-22",
+              "direction_id": 0,
+              "departing?": false
+            }
+          }
+        ],
+        "direction_id": 0
+      },
+      "Malden Center Station - Wellington Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "12:10",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "60",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764109-5327-1",
+              "direction_id": 1,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "1:20",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 1
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 3,
+      "name": "99",
+      "long_name": "Woodland Road, Stoneham - Wellington",
+      "id": "99",
+      "header": "99",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Woodland Road, Stoneham",
+        "1": "Wellington"
+      },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Woodland Rd - Wellington Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:42",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 20,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "35",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 20,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764147-5327-20",
+              "direction_id": 1,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:52",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 20,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "102",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 20,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764149-5327-20",
+              "direction_id": 1,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 1
+      },
+      "Wellington Station - Woodland Rd": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:13",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 22,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": {
+              "track": null,
+              "time": [
+                "8",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 22,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764146-5072-22",
+              "direction_id": 0,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:22",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 22,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": {
+              "track": null,
+              "time": [
+                "69",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 22,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764148-5072-22",
+              "direction_id": 0,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 0
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 3,
+      "name": "101",
+      "long_name": "Malden Center - Sullivan via Winter Hill",
+      "id": "101",
+      "header": "101",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Malden Center",
+        "1": "Sullivan"
+      },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 1
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Sullivan Square Station - Malden Center Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:30",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 41,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "10",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 41,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40818294-5327-41",
+              "direction_id": 0,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "11:32",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 42,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": null,
+              "time": [
+                "10",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 42,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40818294-5072-42",
+              "direction_id": 0,
+              "departing?": false
+            }
+          }
+        ],
+        "direction_id": 0
+      },
+      "Malden Center Station - Sullivan Square Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:14",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": null,
+              "time": [
+                "4",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40818242-5072-1",
+              "direction_id": 1,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "11:43",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": null,
+              "time": [
+                "33",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40818243-5072-1",
+              "direction_id": 1,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 1
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 3,
+      "name": "104",
+      "long_name": "Malden Center - Sullivan via Ferry Street",
+      "id": "104",
+      "header": "104",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Malden Center",
+        "1": "Sullivan"
+      },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Sullivan Square Station - Malden Center Station": {
+        "predicted_schedules": [
+          {
+            "schedule": null,
+            "prediction": {
+              "track": "1",
+              "time": [
+                "2",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 32,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40818349-53270-32",
+              "direction_id": 0,
+              "departing?": false
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "11:50",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 32,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "34",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 32,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40818345-53270-32",
+              "direction_id": 0,
+              "departing?": false
+            }
+          }
+        ],
+        "direction_id": 0
+      },
+      "Malden Center Station - Sullivan Square Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:20",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "10",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40818412-53270-1",
+              "direction_id": 1,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:00",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "50",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40818339-53270-1",
+              "direction_id": 1,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 1
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 3,
+      "name": "105",
+      "long_name": "Malden Center - Sullivan via Newland Street Housing",
+      "id": "105",
+      "header": "105",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Malden Center",
+        "1": "Sullivan"
+      },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Sullivan Square Station - Malden Center Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:59",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 43,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "45",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 43,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764176-53270-43",
+              "direction_id": 0,
+              "departing?": false
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "1:15",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 43,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 0
+      },
+      "Malden Center Station - Sullivan Square Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "12:05",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "55",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764177-53270-1",
+              "direction_id": 1,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "1:20",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 1
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 3,
+      "name": "106",
+      "long_name": "Lebanon Street, Malden - Wellington",
+      "id": "106",
+      "header": "106",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Lebanon Street, Malden",
+        "1": "Wellington"
+      },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Wellington Station - Linwood Ave & Lynde St": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "6:58",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 19,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 0
+      },
+      "Wellington Station - Lebanon Loop": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "3:45",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 19,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": null
+          },
+          {
+            "schedule": {
+              "time": [
+                "4:15",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 19,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 0
+      },
+      "Wellington Station - Franklin Square via Sylvan St": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:16",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 19,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "4",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 19,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764246-53270-19",
+              "direction_id": 0,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:10",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 19,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "62",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 19,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764215-53270-19",
+              "direction_id": 0,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 0
+      },
+      "Malden Center Station - Linwood Ave & Lynde St": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "3:30",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          },
+          {
+            "schedule": {
+              "time": [
+                "4:00",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 0
+      },
+      "Malden Center Station - Lebanon Loop": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "1:05",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 0
+      },
+      "Lebanon Loop - Wellington Station via Sylvan St": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "4:31",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 19,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": null
+          },
+          {
+            "schedule": {
+              "time": [
+                "4:56",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 19,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 1
+      },
+      "Lebanon Loop - Wellington Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "7:11",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 15,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": null
+          },
+          {
+            "schedule": {
+              "time": [
+                "7:41",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 15,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 1
+      },
+      "Lebanon Loop - Malden Center Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "6:47",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 15,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 1
+      },
+      "Franklin Square - Wellington Station via Sylvan St": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:28",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 31,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "20",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 31,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764207-53270-31",
+              "direction_id": 1,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:14",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 31,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "60",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 31,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764238-53270-31",
+              "direction_id": 1,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 1
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 3,
+      "name": "108",
+      "long_name": "Linden Square - Wellington",
+      "id": "108",
+      "header": "108",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Linden Square",
+        "1": "Wellington"
+      },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Wellington Station - Linden Square": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:33",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 21,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "21",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 21,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764292-53270-21",
+              "direction_id": 0,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:13",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 21,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "63",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 21,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764293-53270-21",
+              "direction_id": 0,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 0
+      },
+      "Linden Square - Wellington Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:33",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 20,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": {
+              "track": null,
+              "time": [
+                "24",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 20,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764263-5072-20",
+              "direction_id": 1,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:18",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 20,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": true
+            },
+            "prediction": {
+              "track": null,
+              "time": [
+                "66",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 20,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764264-5072-20",
+              "direction_id": 1,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 1
+      },
+      "Linden Square - Malden Center Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "2:40",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 20,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 1
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 3,
+      "name": "131",
+      "long_name": "Melrose Highlands - Oak Grove",
+      "id": "131",
+      "header": "131",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Melrose Highlands",
+        "1": "Oak Grove"
+      },
+      "description": "commuter_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Melrose Highlands Station - Malden Center via East Side": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "12:40",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 47,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "90",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 47,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40763895-5327-47",
+              "direction_id": 1,
+              "departing?": false
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "1:43",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 47,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 1
+      },
+      "Melrose Highlands Station - Malden Center Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "7:14",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 29,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          },
+          {
+            "schedule": {
+              "time": [
+                "7:34",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 29,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 1
+      },
+      "Malden Center - Melrose Highlands Station via East Side": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:45",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "36",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40763894-5327-1",
+              "direction_id": 0,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:45",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "95",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40763896-5327-1",
+              "direction_id": 0,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 0
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 3,
+      "name": "132",
+      "long_name": "Redstone Shopping Center - Malden Center",
+      "id": "132",
+      "header": "132",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Redstone Shopping Center",
+        "1": "Malden Center"
+      },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Redstone Shopping Center - Malden Center Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:24",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 32,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": null,
+              "time": [
+                "25",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 32,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764044-5072-32",
+              "direction_id": 1,
+              "departing?": false
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:24",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 32,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": null,
+              "time": [
+                "83",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 32,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40763872-5072-32",
+              "direction_id": 1,
+              "departing?": false
+            }
+          }
+        ],
+        "direction_id": 1
+      },
+      "Malden Center Station - Redstone Shopping Center": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:30",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": null,
+              "time": [
+                "20",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40763871-5072-1",
+              "direction_id": 0,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:30",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": null,
+              "time": [
+                "84",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764049-5072-1",
+              "direction_id": 0,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 0
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 3,
+      "name": "136",
+      "long_name": "Reading Depot - Malden Center via Lowell Street",
+      "id": "136",
+      "header": "136",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Reading Depot",
+        "1": "Malden Center"
+      },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 1
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Reading Depot - Malden Center Station": {
+        "predicted_schedules": [
+          {
+            "schedule": null,
+            "prediction": {
+              "track": "2",
+              "time": [
+                "4",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 66,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764330-5327-66",
+              "direction_id": 1,
+              "departing?": false
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:13",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 66,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "53",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 66,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764316-5327-66",
+              "direction_id": 1,
+              "departing?": false
+            }
+          }
+        ],
+        "direction_id": 1
+      },
+      "Malden Center Station - Reading Depot": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:40",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "30",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764331-5327-1",
+              "direction_id": 0,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:50",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "100",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764317-5327-1",
+              "direction_id": 0,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 0
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 3,
+      "name": "137",
+      "long_name": "Reading Depot - Malden Center via North Avenue",
+      "id": "137",
+      "header": "137",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Reading Depot",
+        "1": "Malden Center"
+      },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 1
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Reading Depot - Malden Center Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:37",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 50,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "35",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 50,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764349-5327-50",
+              "direction_id": 1,
+              "departing?": false
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:46",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 50,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "90",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 50,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764363-5327-50",
+              "direction_id": 1,
+              "departing?": false
+            }
+          }
+        ],
+        "direction_id": 1
+      },
+      "Malden Center Station - Reading Depot": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "12:15",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "2",
+              "time": [
+                "65",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40764350-5327-1",
+              "direction_id": 0,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "1:25",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 0
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 3,
+      "name": "411",
+      "long_name": "Jack Satter House, Revere - Malden Center",
+      "id": "411",
+      "header": "411",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Jack Satter House, Revere",
+        "1": "Malden Center"
+      },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Malden Center Station - Kennedy Dr": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "6:05",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          },
+          {
+            "schedule": {
+              "time": [
+                "8:00",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 0
+      },
+      "Malden Center Station - Jack Satter House": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:15",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "5",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40763943-53270-1",
+              "direction_id": 0,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:20",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "70",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40763981-53270-1",
+              "direction_id": 0,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 0
+      },
+      "Kennedy Dr - Malden Center Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "6:39",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 23,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 1
+      },
+      "Jack Satter House - Malden Center Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "11:45",
+                " ",
+                "AM"
+              ],
+              "stop_sequence": 60,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "38",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 60,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40763970-53270-60",
+              "direction_id": 1,
+              "departing?": false
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "12:52",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 60,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "97",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 60,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40763944-53270-60",
+              "direction_id": 1,
+              "departing?": false
+            }
+          }
+        ],
+        "direction_id": 1
+      }
+    }
+  },
+  {
+    "stop": {
+      "name": "Malden Center",
+      "id": "place-mlmnl",
+      "address": "Commercial St and Pleasant St, Malden, MA 02148",
+      "accessibility": [
+        "accessible",
+        "escalator_up",
+        "elevator",
+        "fully_elevated_platform"
+      ]
+    },
+    "route": {
+      "type": 3,
+      "name": "430",
+      "long_name": "Saugus Center - Malden Center",
+      "id": "430",
+      "header": "430",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Saugus Center",
+        "1": "Malden Center"
+      },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "predicted_schedules_by_route_pattern": {
+      "Saugus Center - Malden Center Station via Kennedy Dr": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "9:30",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 59,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          },
+          {
+            "schedule": {
+              "time": [
+                "10:48",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 59,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 1
+      },
+      "Saugus Center - Malden Center Station": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "12:09",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 51,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "58",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 51,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40763980-53270-51",
+              "direction_id": 1,
+              "departing?": false
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "1:15",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 51,
+              "pickup_type": 1,
+              "last_stop?": true,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 1
+      },
+      "Malden Center Station - Saugus Center via Kennedy Dr": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "8:20",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          },
+          {
+            "schedule": {
+              "time": [
+                "9:45",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": null
+          }
+        ],
+        "direction_id": 0
+      },
+      "Malden Center Station - Saugus Center": {
+        "predicted_schedules": [
+          {
+            "schedule": {
+              "time": [
+                "12:00",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "50",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40763971-53270-1",
+              "direction_id": 0,
+              "departing?": true
+            }
+          },
+          {
+            "schedule": {
+              "time": [
+                "1:05",
+                " ",
+                "PM"
+              ],
+              "stop_sequence": 1,
+              "pickup_type": 0,
+              "last_stop?": false,
+              "flag?": false,
+              "early_departure?": false
+            },
+            "prediction": {
+              "track": "1",
+              "time": [
+                "115",
+                " ",
+                "min"
+              ],
+              "stop_sequence": 1,
+              "status": null,
+              "schedule_relationship": null,
+              "id": "prediction-40763945-53270-1",
+              "direction_id": 0,
+              "departing?": true
+            }
+          }
+        ],
+        "direction_id": 0
+      }
+    }
+  }
+]

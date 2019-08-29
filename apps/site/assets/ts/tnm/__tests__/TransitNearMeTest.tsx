@@ -2,41 +2,70 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import TransitNearMe, {
-  getSelectedStop,
-  fetchData,
+  fetchRealtimeSchedules,
   modesFromQuery
 } from "../components/TransitNearMe";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { importData, importStopData } from "./helpers/testUtils";
+import { importData, importRealtimeResponse } from "./helpers/testUtils";
 import { MapData } from "../../leaflet/components/__mapdata";
+import {
+  transformRoutes,
+  transformStops
+} from "../helpers/process-realtime-data";
+
+/* eslint-disable @typescript-eslint/camelcase */
+const mapData: MapData = {
+  zoom: 14,
+  width: 630,
+  polylines: [],
+  markers: [],
+  default_center: { latitude: 0, longitude: 0 },
+  height: 500,
+  tile_server_url: ""
+};
+const mapId = "test";
+const realtimeData = importRealtimeResponse();
+const stopsWithDistances = importData();
+const routesWithRealtimeSchedules = transformRoutes(
+  stopsWithDistances.distances,
+  [],
+  realtimeData
+);
+const stopsWithRoutes = transformStops(
+  stopsWithDistances.distances,
+  [],
+  realtimeData
+);
 
 it("it renders", () => {
-  /* eslint-disable @typescript-eslint/camelcase */
-  const mapData: MapData = {
-    zoom: 14,
-    width: 630,
-    polylines: [],
-    markers: [],
-    default_center: { latitude: 0, longitude: 0 },
-    height: 500,
-    tile_server_url: ""
-  };
-  /* eslint-enable typescript/camelcase */
-
-  const mapId = "test";
-  const routeSidebarData = importData().slice(0, 3);
-  const stopSidebarData = importStopData();
-
   createReactRoot();
-
   const tree = renderer
     .create(
       <TransitNearMe
         query={{}}
         mapData={mapData}
         mapId={mapId}
-        routeSidebarData={routeSidebarData}
-        stopSidebarData={stopSidebarData}
+        stopsWithDistances={stopsWithDistances}
+        routesWithRealtimeSchedules={[]}
+        stopsWithRoutes={[]}
+      />
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+it("it filters by selected stop id", () => {
+  createReactRoot();
+  const tree = renderer
+    .create(
+      <TransitNearMe
+        query={{}}
+        mapData={mapData}
+        mapId={mapId}
+        stopsWithDistances={stopsWithDistances}
+        routesWithRealtimeSchedules={[]}
+        stopsWithRoutes={stopsWithRoutes}
+        selectedStopId={"place-mlmnl"}
       />
     )
     .toJSON();
@@ -44,31 +73,15 @@ it("it renders", () => {
 });
 
 it("it switches view on click", () => {
-  /* eslint-disable @typescript-eslint/camelcase */
-  const mapData: MapData = {
-    zoom: 14,
-    width: 630,
-    polylines: [],
-    markers: [],
-    default_center: { latitude: 0, longitude: 0 },
-    height: 500,
-    tile_server_url: ""
-  };
-  /* eslint-enable typescript/camelcase */
-
-  const mapId = "test";
-  const routeSidebarData = importData().slice(0, 3);
-  const stopSidebarData = importStopData();
-
   createReactRoot();
-
   const wrapper = mount(
     <TransitNearMe
       query={{}}
       mapData={mapData}
       mapId={mapId}
-      routeSidebarData={routeSidebarData}
-      stopSidebarData={stopSidebarData}
+      stopsWithDistances={stopsWithDistances}
+      routesWithRealtimeSchedules={routesWithRealtimeSchedules}
+      stopsWithRoutes={stopsWithRoutes}
     />
   );
   wrapper.find(".m-tnm-sidebar__view-change").simulate("click");
@@ -76,60 +89,37 @@ it("it switches view on click", () => {
 });
 
 it("sets mode filters based on query", () => {
-  /* eslint-disable @typescript-eslint/camelcase */
-  const mapData: MapData = {
-    zoom: 14,
-    width: 630,
-    polylines: [],
-    markers: [],
-    default_center: { latitude: 0, longitude: 0 },
-    height: 500,
-    tile_server_url: ""
-  };
-  /* eslint-enable typescript/camelcase */
-
-  const mapId = "test";
-  const routeSidebarData = importData();
-  const stopSidebarData = importStopData();
-
   createReactRoot();
-
   const noFilter = mount(
     <TransitNearMe
       query={{}}
       mapData={mapData}
       mapId={mapId}
-      routeSidebarData={routeSidebarData}
-      stopSidebarData={stopSidebarData}
+      stopsWithDistances={stopsWithDistances}
+      routesWithRealtimeSchedules={routesWithRealtimeSchedules}
+      stopsWithRoutes={stopsWithRoutes}
     />
   );
   const allModes = noFilter
     .find(".m-tnm-sidebar__route")
     .map(card => card.prop("data-mode"));
-  expect(allModes).toHaveLength(22);
+  expect(allModes).toHaveLength(15);
   expect(allModes).toEqual([
-    "bus",
-    "bus",
-    "bus",
-    "bus",
     "subway",
-    "subway",
-    "subway",
-    "subway",
-    "bus",
-    "bus",
-    "bus",
-    "bus",
-    "bus",
-    "subway",
-    "subway",
-    "bus",
-    "bus",
-    "bus",
     "commuter_rail",
-    "commuter_rail",
-    "commuter_rail",
-    "commuter_rail"
+    "bus",
+    "bus",
+    "bus",
+    "bus",
+    "bus",
+    "bus",
+    "bus",
+    "bus",
+    "bus",
+    "bus",
+    "bus",
+    "bus",
+    "bus"
   ]);
 
   const withFilter = mount(
@@ -137,8 +127,9 @@ it("sets mode filters based on query", () => {
       query={{ filter: "commuter_rail" }}
       mapData={mapData}
       mapId={mapId}
-      routeSidebarData={routeSidebarData}
-      stopSidebarData={stopSidebarData}
+      stopsWithDistances={stopsWithDistances}
+      routesWithRealtimeSchedules={routesWithRealtimeSchedules}
+      stopsWithRoutes={stopsWithRoutes}
     />
   );
 
@@ -146,37 +137,20 @@ it("sets mode filters based on query", () => {
     .find(".m-tnm-sidebar__route")
     .map(card => card.prop("data-mode"));
 
-  expect(rail).toEqual([
-    "commuter_rail",
-    "commuter_rail",
-    "commuter_rail",
-    "commuter_rail"
-  ]);
+  expect(rail).toEqual(["commuter_rail"]);
 });
 
 it("ignores modes that aren't specified", () => {
   expect(modesFromQuery({ filter: "madeup" })).toEqual([]);
 });
 
-it("getSelectedStop returns the stop if found", () => {
-  const data = importStopData();
-  expect(getSelectedStop(data, data[0].stop.stop.id)).toEqual(
-    data[0].stop.stop
-  );
-});
-
-it("getSelectedStop returns undefined if not found", () => {
-  const data = importStopData();
-  expect(getSelectedStop(data, "unknown")).toEqual(undefined);
-});
-
-describe("fetchData", () => {
+describe("fetchRealtimeSchedules", () => {
   it("fetches data", () => {
     window.fetch = jest.fn().mockImplementation(
       () =>
         new Promise((resolve: Function) =>
           resolve({
-            json: () => [],
+            json: () => ({ payload: realtimeData }),
             ok: true,
             status: 200,
             statusText: "OK"
@@ -185,13 +159,13 @@ describe("fetchData", () => {
     );
 
     const spy = jest.fn();
-    return fetchData({ latitude: "41.0", longitude: "-71.0" }, spy).then(() => {
+    return fetchRealtimeSchedules(["place-mlmnl"], spy).then(() => {
       expect(window.fetch).toHaveBeenCalledWith(
-        "/transit-near-me/api?latitude=41.0&longitude=-71.0"
+        "/api/realtime/stops/?stops=place-mlmnl"
       );
       expect(spy).toHaveBeenCalledWith({
-        payload: { data: [] },
-        type: "UPDATE_ROUTE_SIDEBAR_DATA"
+        payload: { data: realtimeData },
+        type: "UPDATE_REALTIME_SCHEDULE_DATA"
       });
     });
   });
@@ -210,41 +184,11 @@ describe("fetchData", () => {
     );
 
     const spy = jest.fn();
-    return fetchData({ latitude: "41.0", longitude: "-71.0" }, spy).then(() => {
-      expect(spy).not.toHaveBeenCalled();
-    });
-  });
-  it("fetches data with Phoenix form param structure", () => {
-    window.fetch = jest.fn().mockImplementation(
-      () =>
-        new Promise((resolve: Function) =>
-          resolve({
-            json: () => [],
-            ok: true,
-            status: 200,
-            statusText: "OK"
-          })
-        )
-    );
-    const spy = jest.fn();
-    return fetchData(
-      { "location[latitude]": "41.0", "location[longitude]": "-71.0" },
-      spy
-    ).then(() => {
-      expect(window.fetch).toHaveBeenCalledWith(
-        "/transit-near-me/api?location[latitude]=41.0&location[longitude]=-71.0"
-      );
+    return fetchRealtimeSchedules(["place-mlmnl"], spy).then(() => {
       expect(spy).toHaveBeenCalledWith({
-        payload: { data: [] },
-        type: "UPDATE_ROUTE_SIDEBAR_DATA"
+        payload: {},
+        type: "FIRST_DATA_LOADED"
       });
-    });
-  });
-
-  it("does not fetch data if query doesn't have lat/lng", () => {
-    const spy = jest.fn();
-    return fetchData({}, spy).then(() => {
-      expect(spy).not.toHaveBeenCalled();
     });
   });
 });

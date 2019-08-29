@@ -156,7 +156,7 @@ const routes: EnhancedRoute[] = [
 ];
 
 const stopData: StopWithRoutes = {
-  stop: { stop, directions: [], distance: "0ft" },
+  stop,
   // eslint-disable-next-line @typescript-eslint/camelcase
   routes: [{ group_name: "subway", routes }],
   distance: "3ft"

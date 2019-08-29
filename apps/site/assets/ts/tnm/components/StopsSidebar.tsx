@@ -29,7 +29,7 @@ const filterDataByStopId = (
   if (stopId === null) {
     return data;
   }
-  const stopWithRoutes = data.find(d => d.stop.stop.id === stopId);
+  const stopWithRoutes = data.find(d => d.stop.id === stopId);
   return stopWithRoutes ? [stopWithRoutes] : data;
 };
 
@@ -66,14 +66,14 @@ const StopsSidebar = ({
   selectedModes,
   shouldFilterStopCards,
   emptyMessage
-}: Props): ReactElement<HTMLElement> | null => {
+}: Props): ReactElement<HTMLElement> => {
   const filteredData = filterData(
     data,
     selectedStopId,
     selectedModes,
     shouldFilterStopCards
   );
-  return data.length ? (
+  return (
     <div className="m-tnm-sidebar" id="tnm-sidebar-by-stops">
       <div className="m-tnm-sidebar__fixed-header">
         <div className="m-tnm-sidebar__fixed-header-inner">
@@ -89,8 +89,8 @@ const StopsSidebar = ({
           {filteredData.length > 0
             ? filteredData.map(({ stop, routes, distance }) => (
                 <StopWithRoutesCard
-                  key={stop.stop.id}
-                  stop={stop.stop}
+                  key={stop.id}
+                  stop={stop}
                   routes={routes}
                   dispatch={dispatch}
                   distance={distance}
@@ -100,7 +100,7 @@ const StopsSidebar = ({
         </div>
       </div>
     </div>
-  ) : null;
+  );
 };
 
 export default StopsSidebar;
