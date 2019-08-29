@@ -13,6 +13,7 @@ defmodule SiteWeb.ProjectController do
   @placeholder_image_path "/images/project-image-placeholder.png"
   @n_projects_per_page 10
   @n_project_updates_per_page 4
+  @n_featured_projects_per_page 5
 
   def index(conn, _) do
     project_teasers_fn = fn ->
@@ -51,7 +52,7 @@ defmodule SiteWeb.ProjectController do
     json(conn, teasers)
   end
 
-  def api(conn, %{"filter" => %{"mode" => mode}}) do
+  def api(conn, %{"filter" => %{"mode" => mode}} = params) do
     mode = translate_mode(mode)
 
     project_teasers_fn = fn ->
@@ -73,10 +74,18 @@ defmodule SiteWeb.ProjectController do
     featured_project_teasers = Task.await(featured_project_teasers_task)
     project_update_teasers = Task.await(project_update_teasers_task)
 
+    {featured_project_teasers, project_teasers, offset_start} =
+      promote_regular_teasers_to_featured(
+        params,
+        featured_project_teasers,
+        project_teasers
+      )
+
     json(conn, %{
       "projects" => project_teasers,
       "featuredProjects" => featured_project_teasers,
-      "projectUpdates" => project_update_teasers
+      "projectUpdates" => project_update_teasers,
+      "offsetStart" => offset_start
     })
   end
 
@@ -163,7 +172,7 @@ defmodule SiteWeb.ProjectController do
 
   @spec fetch_featured_teasers(String.t() | nil) :: [map()]
   defp fetch_featured_teasers(mode \\ nil) do
-    api_params = [type: [:project], sticky: 1]
+    api_params = [type: [:project], sticky: 1, items_per_page: @n_featured_projects_per_page]
 
     api_params =
       if mode do
@@ -178,9 +187,9 @@ defmodule SiteWeb.ProjectController do
     |> Enum.map(&simplify_teaser/1)
   end
 
-  @spec fetch_teasers(integer, String.t() | nil) :: [map()]
-  defp fetch_teasers(offset, mode \\ nil) do
-    api_params = [type: [:project], items_per_page: @n_projects_per_page, offset: offset]
+  @spec fetch_teasers(integer, String.t() | nil, integer | nil) :: [map()]
+  defp fetch_teasers(offset, mode \\ nil, n_to_fetch \\ @n_projects_per_page) do
+    api_params = [type: [:project], items_per_page: n_to_fetch, offset: offset]
 
     api_params =
       if mode do
@@ -227,6 +236,29 @@ defmodule SiteWeb.ProjectController do
       "undefined" -> nil
       "commuter_rail" -> "commuter-rail"
       _ -> mode
+    end
+  end
+
+  def promote_regular_teasers_to_featured(params, featured_project_teasers, project_teasers) do
+    mode = Map.get(params, "filter", %{}) |> Map.get("mode", "undefined")
+    mode_present = mode != "undefined"
+
+    if mode_present && length(featured_project_teasers) < @n_featured_projects_per_page do
+      n_features_to_promote = @n_featured_projects_per_page - length(featured_project_teasers)
+      features_to_promote = Enum.take(project_teasers, n_features_to_promote)
+      offset_start = length(features_to_promote)
+
+      project_teasers =
+        if offset_start > 0 do
+          Enum.concat(project_teasers, fetch_teasers(length(project_teasers), mode, offset_start))
+        else
+          project_teasers
+        end
+
+      {Enum.concat(featured_project_teasers, features_to_promote),
+       Enum.drop(project_teasers, n_features_to_promote), offset_start}
+    else
+      {featured_project_teasers, project_teasers, 0}
     end
   end
 end

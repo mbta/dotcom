@@ -22,6 +22,7 @@ export interface State {
   projects: Project[];
   currentMode?: Mode;
   projectUpdates: Project[];
+  offsetStart: number;
 }
 
 export type SetState = Dispatch<SetStateAction<State>>;
@@ -42,7 +43,7 @@ export const fetchMoreProjects: FetchProjects = (
 
   setState({ ...state, fetchInProgress: true });
 
-  const offset = state.projects.length;
+  const offset = state.projects.length + state.offsetStart;
   const fetchUrl = `/project_api?offset=${offset}&filter[mode]=${
     state.currentMode
   }`;
@@ -95,7 +96,8 @@ export const updateSelectedMode: UpdateSelectedMode = (
         projects: json.projects,
         projectUpdates: json.projectUpdates,
         currentMode: newSelectedMode,
-        fetchInProgress: false
+        fetchInProgress: false,
+        offsetStart: json.offsetStart
       });
     });
 };
@@ -112,7 +114,8 @@ const ProjectsPage = ({
     projects: initialProjects,
     projectUpdates: initialProjectUpdates,
     banner: initialBanner,
-    fetchInProgress: false
+    fetchInProgress: false,
+    offsetStart: 0
   });
 
   return (
