@@ -162,6 +162,58 @@ Array [
             className="page-section"
           >
             <div
+              className="hidden-sm-up"
+            >
+              <div
+                className="c-featured-project-list__row"
+              >
+                <div
+                  className="c-featured-project"
+                >
+                  <a
+                    href="/projects/better-bus-project"
+                  >
+                    <div
+                      className="c-featured-project__image"
+                    >
+                      <img
+                        alt="Better Bus Project: Making transit better together"
+                        src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq"
+                      />
+                    </div>
+                    <h3
+                      className="c-featured-project__title"
+                    >
+                      Better Bus Project
+                    </h3>
+                    <div
+                      className="c-featured-project__date"
+                    >
+                      Updated on 
+                      July 30, 2019
+                    </div>
+                    Too many of our bus routes still fail to live up to our own standards. Through the Better Bus Project, we are changing that.
+                    <div
+                      className="m-route-pills"
+                    >
+                      <span
+                        aria-hidden="false"
+                        className="notranslate c-svg__icon c-featured-project__route-icon"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "SVG",
+                          }
+                        }
+                      />
+                    </div>
+                  </a>
+                </div>
+                <div
+                  className="c-featured-project"
+                />
+              </div>
+            </div>
+            <div
               className="c-featured-project-list__row"
             >
               <div
