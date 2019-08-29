@@ -1,7 +1,6 @@
 import React, { Dispatch, ReactElement, SetStateAction, useState } from "react";
 import Banner from "./Banner";
 import FeaturedProjectsList from "./FeaturedProjectsList";
-import FeaturedProjectsTitle from "./FeaturedProjectsTitle";
 import FilterAndSearch from "./FilterAndSearch";
 import MoreProjectsTable from "./MoreProjectsTable";
 import ProjectUpdateList from "./ProjectUpdateList";
@@ -127,7 +126,6 @@ const ProjectsPage = ({
       <div className="m-project-page__top-container">
         <div className="row">
           <div className="col-12 col-lg-8">
-            <FeaturedProjectsTitle banner={state.banner} />
             <Banner
               banner={state.banner}
               placeholderImageUrl={placeholderImageUrl}
