@@ -25,6 +25,11 @@ defmodule Schedules.Schedule do
 end
 
 defmodule Schedules.ScheduleCondensed do
+  @moduledoc """
+
+  Light weight alternate to Schedule.t()
+
+  """
   defstruct stop_id: nil,
             time: nil,
             trip_id: nil,

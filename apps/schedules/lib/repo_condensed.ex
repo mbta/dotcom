@@ -1,10 +1,16 @@
 defmodule Schedules.RepoCondensed do
+  @moduledoc """
+
+  An alternate way to fetch schedules that is more light weight and easier to cache.
+
+  """
   import Kernel, except: [to_string: 1]
   use RepoCache, ttl: :timer.hours(1)
 
+  alias Routes.Route
   alias Schedules.{Parser, Repo, ScheduleCondensed}
   alias Stops.Repo, as: StopsRepo
-  alias Routes.Route
+  alias V3Api.Schedules, as(SchedulesApi)
 
   @default_params [
     include: "trip",
@@ -18,7 +24,7 @@ defmodule Schedules.RepoCondensed do
 
     @default_params
     |> Keyword.put(:route, Enum.join(route_ids, ","))
-    |> Keyword.put(:date, Keyword.fetch!(opts, :date) |> to_string())
+    |> Keyword.put(:date, opts |> Keyword.fetch!(:date) |> to_string())
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :stop_sequences, :stop_sequence)
     |> add_optional_param(opts, :stop_ids, :stop)
@@ -28,7 +34,7 @@ defmodule Schedules.RepoCondensed do
 
   @spec all_from_params(Keyword.t()) :: [Parser.record()] | {:error, any}
   defp all_from_params(params) do
-    with %JsonApi{data: data} <- V3Api.Schedules.all(params) do
+    with %JsonApi{data: data} <- SchedulesApi.all(params) do
       data = Enum.filter(data, &valid?/1)
       Repo.insert_trips_into_cache(data)
 
