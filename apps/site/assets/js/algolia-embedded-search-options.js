@@ -16,7 +16,7 @@ export const FACET_MAP = {
   "search-route--commuter_rail": "commuter-rail,stations,stops,locations",
   "search-route--bus": "bus,stations,stops,locations",
   "search-route--ferry": "ferry,stations,stops,locations",
-  "search-projects": "_content_type"
+  "search-projects": "page"
 };
 
 const FACET_FILTER_MAP = {
