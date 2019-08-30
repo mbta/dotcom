@@ -7,7 +7,8 @@ defmodule Schedules do
     import Supervisor.Spec, warn: false
 
     children = [
-      Schedules.Repo
+      Schedules.Repo,
+      Schedules.RepoCondensed
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

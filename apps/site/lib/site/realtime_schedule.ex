@@ -12,8 +12,8 @@ defmodule Site.RealtimeSchedule do
   alias RoutePatterns.RoutePattern
   alias Routes.Repo, as: RoutesRepo
   alias Routes.Route
-  alias Schedules.Repo, as: SchedulesRepo
-  alias Schedules.Schedule
+  alias Schedules.RepoCondensed, as: SchedulesRepo
+  alias Schedules.ScheduleCondensed
   alias Site.JsonHelpers
   alias Site.TransitNearMe
   alias Stops.Repo, as: StopsRepo
@@ -178,7 +178,9 @@ defmodule Site.RealtimeSchedule do
   @spec get_schedules([route_with_patterns_t], DateTime.t(), fun()) :: map
   defp get_schedules(route_with_patterns, now, schedules_fn) do
     route_with_patterns
-    |> Enum.reject(fn {_stop_id, route, _route_patterns} -> route.type == 0 || route.type == 1 end)
+    |> Enum.reject(fn {_stop_id, route, _route_patterns} ->
+      route.type == 0 || route.type == 1
+    end)
     |> Enum.map(fn {stop_id, route, route_patterns} ->
       Task.async(fn ->
         do_get_schedules(route.id, stop_id, route_patterns, now, schedules_fn)
@@ -195,26 +197,16 @@ defmodule Site.RealtimeSchedule do
 
     [route_id]
     |> schedules_fn.(min_time: now)
-    |> Enum.filter(&(&1.stop.id == stop_id))
-    |> Enum.group_by(& &1.trip.route_pattern_id)
+    |> Enum.filter(&(&1.stop_id == stop_id))
+    |> Enum.group_by(& &1.route_pattern_id)
     |> Enum.into(
       %{},
       fn {route_pattern_id, schedules} ->
         {Map.get(route_pattern_dictionary, route_pattern_id),
-         schedules
-         |> Enum.take(@predicted_schedules_per_stop)
-         |> Enum.map(&copy_train_number/1)}
+         Enum.take(schedules, @predicted_schedules_per_stop)}
       end
     )
   end
-
-  @spec copy_train_number(map | nil) :: map | nil
-  defp copy_train_number(nil), do: nil
-
-  defp copy_train_number(%{trip: %{name: name}, route: %{type: 2}} = schedule),
-    do: Map.put(schedule, :train_number, name)
-
-  defp copy_train_number(schedule), do: schedule
 
   @spec route_pattern_key(RoutePattern.t(), String.t()) :: String.t()
   defp route_pattern_key(route_pattern, stop_id) do
@@ -299,11 +291,11 @@ defmodule Site.RealtimeSchedule do
     }
   end
 
-  @spec do_shrink_predicted_schedule(Prediction.t() | Schedule.t() | nil) :: map | nil
+  @spec do_shrink_predicted_schedule(Prediction.t() | ScheduleCondensed.t() | nil) :: map | nil
   defp do_shrink_predicted_schedule(nil), do: nil
 
   defp do_shrink_predicted_schedule(prediction_or_schedule),
-    do: Map.drop(prediction_or_schedule, [:stop, :trip, :route])
+    do: Map.drop(prediction_or_schedule, [:stop, :trip, :route, :stop_id, :trip_id])
 
   @spec format_prediction_time(map | nil, DateTime.t()) :: map | nil
   defp format_prediction_time(nil, _), do: nil
