@@ -6,13 +6,13 @@ defmodule PredictedSchedule do
   * prediction: The prediction for this trip (optional)
   """
   alias Predictions.Prediction
-  alias Schedules.Schedule
+  alias Schedules.{Schedule, ScheduleCondensed}
 
   defstruct schedule: nil,
             prediction: nil
 
   @type t :: %__MODULE__{
-          schedule: Schedule.t() | nil,
+          schedule: Schedule.t() | ScheduleCondensed.t() | nil,
           prediction: Prediction.t() | nil
         }
 
@@ -78,10 +78,18 @@ defmodule PredictedSchedule do
     Map.new(predictions_or_schedules, &group_transform/1)
   end
 
-  @spec group_transform(Schedule.t() | Prediction.t()) ::
+  @spec group_transform(Schedule.t() | ScheduleCondensed.t() | Prediction.t()) ::
           {{String.t(), String.t(), non_neg_integer}, Schedule.t() | Prediction.t()}
   defp group_transform(%{trip: nil} = ps) do
     {{ps.id, ps.stop.id, ps.stop_sequence}, ps}
+  end
+
+  defp group_transform(%{trip_id: nil} = ps) do
+    {{ps.id, ps.stop.id, ps.stop_sequence}, ps}
+  end
+
+  defp group_transform(%{trip_id: trip_id, stop_id: stop_id, stop_sequence: stop_sequence} = ps) do
+    {{trip_id, stop_id, stop_sequence}, ps}
   end
 
   defp group_transform(ps) do

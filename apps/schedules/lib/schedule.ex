@@ -24,6 +24,24 @@ defmodule Schedules.Schedule do
   def flag?(%Schedules.Schedule{flag?: value}), do: value
 end
 
+defmodule Schedules.ScheduleCondensed do
+  defstruct stop_id: nil,
+            time: nil,
+            trip_id: nil,
+            route_pattern_id: nil,
+            train_number: nil,
+            stop_sequence: 0
+
+  @type t :: %Schedules.ScheduleCondensed{
+          stop_id: String.t(),
+          time: DateTime.t(),
+          trip_id: String.t(),
+          route_pattern_id: String.t() | nil,
+          train_number: String.t() | nil,
+          stop_sequence: non_neg_integer
+        }
+end
+
 defmodule Schedules.Trip do
   defstruct [
     :id,
@@ -43,7 +61,7 @@ defmodule Schedules.Trip do
           headsign: headsign,
           direction_id: 0 | 1,
           shape_id: String.t() | nil,
-          route_pattern_id: String.t(),
+          route_pattern_id: String.t() | nil,
           bikes_allowed?: boolean
         }
 end
