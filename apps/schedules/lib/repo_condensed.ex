@@ -3,6 +3,9 @@ defmodule Schedules.RepoCondensed do
 
   An alternate way to fetch schedules that is more light weight and easier to cache.
 
+  This uses a longer than usual timeout for initial caching as sometime (especially in dev)
+  it may take a long time to warm the cache.
+
   """
   import Kernel, except: [to_string: 1]
   use RepoCache, ttl: :timer.hours(1)
@@ -28,7 +31,7 @@ defmodule Schedules.RepoCondensed do
     |> add_optional_param(opts, :direction_id)
     |> add_optional_param(opts, :stop_sequences, :stop_sequence)
     |> add_optional_param(opts, :stop_ids, :stop)
-    |> cache(&all_from_params/1)
+    |> cache(&all_from_params/1, timeout: 10_000)
     |> filter_by_min_time(Keyword.get(opts, :min_time))
   end
 
