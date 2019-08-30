@@ -10,7 +10,7 @@ defmodule Schedules.RepoCondensed do
   alias Routes.Route
   alias Schedules.{Parser, Repo, ScheduleCondensed}
   alias Stops.Repo, as: StopsRepo
-  alias V3Api.Schedules, as(SchedulesApi)
+  alias V3Api.Schedules, as: SchedulesApi
 
   @default_params [
     include: "trip",
