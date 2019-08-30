@@ -122,7 +122,7 @@ defmodule Site.RealtimeSchedule do
         do_get_predictions(stop_id, route_patterns, predictions_fn)
       end)
     end)
-    |> Enum.flat_map(&Task.await/1)
+    |> Enum.flat_map(&Task.await(&1, @long_timeout))
     |> Enum.reduce(%{}, fn {route_key, predictions}, accumulator ->
       data =
         if Map.has_key?(accumulator, route_key) do
@@ -172,7 +172,7 @@ defmodule Site.RealtimeSchedule do
         {key, next_two_predictions}
       end)
     end)
-    |> Enum.map(&Task.await/1)
+    |> Enum.map(&Task.await(&1, @long_timeout))
   end
 
   @spec get_schedules([route_with_patterns_t], DateTime.t(), fun()) :: map
