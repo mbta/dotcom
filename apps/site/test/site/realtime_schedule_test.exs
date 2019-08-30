@@ -14,7 +14,6 @@ defmodule Site.RealtimeScheduleTest do
   @now DateTime.from_naive!(~N[2030-02-19T12:00:00], "Etc/UTC")
 
   @stop %Stop{id: "place-ogmnl"}
-  @cr_stop %Stop{id: "place-mlmnl"}
 
   @route %Route{
     custom_route?: false,
@@ -25,17 +24,6 @@ defmodule Site.RealtimeScheduleTest do
     long_name: "Orange Line",
     name: "Orange Line",
     type: 1
-  }
-
-  @cr_route %Route{
-    custom_route?: false,
-    description: :rapid_transit,
-    direction_destinations: %{0 => "North Station", 1 => "Haverhill"},
-    direction_names: %{0 => "Southbound", 1 => "Northbound"},
-    id: "CR-Haverhill",
-    long_name: "Haverhill",
-    name: "Haverhill",
-    type: 2
   }
 
   @route_with_patterns [
@@ -71,30 +59,6 @@ defmodule Site.RealtimeScheduleTest do
      ]}
   ]
 
-  @cr_route_with_patterns [
-    {@cr_route,
-     [
-       %RoutePattern{
-         direction_id: 0,
-         id: "CR-Haverhill-0-0",
-         name: "North Station",
-         representative_trip_id: "x",
-         route_id: "CR-Haverhill",
-         time_desc: nil,
-         typicality: 1
-       },
-       %RoutePattern{
-         direction_id: 1,
-         id: "CR-Haverhill-0-1",
-         name: "Haverhill",
-         representative_trip_id: "y",
-         route_id: "CR-Haverhill",
-         time_desc: nil,
-         typicality: 1
-       }
-     ]}
-  ]
-
   @trip %Trip{
     bikes_allowed?: false,
     direction_id: 1,
@@ -103,16 +67,6 @@ defmodule Site.RealtimeScheduleTest do
     name: "",
     route_pattern_id: "Orange-3-1",
     shape_id: "903_0017"
-  }
-
-  @cr_trip %Trip{
-    bikes_allowed?: false,
-    direction_id: 1,
-    headsign: "North Station",
-    id: "x",
-    name: "Train Number",
-    route_pattern_id: "CR-Haverhill-0-0",
-    shape_id: "x"
   }
 
   @predictions [
@@ -172,20 +126,6 @@ defmodule Site.RealtimeScheduleTest do
       stop_sequence: 1,
       time: @now,
       trip: @trip
-    }
-  ]
-
-  @cr_schedules [
-    %Schedule{
-      early_departure?: true,
-      flag?: false,
-      last_stop?: false,
-      pickup_type: 0,
-      route: @cr_route,
-      stop: @cr_stop,
-      stop_sequence: 1,
-      time: @now,
-      trip: @cr_trip
     }
   ]
 
@@ -315,27 +255,5 @@ defmodule Site.RealtimeScheduleTest do
     actual = RealtimeSchedule.stop_data(stops, @now, opts)
 
     assert actual == expected
-  end
-
-  test "copy_train_number/1" do
-    opts = [
-      stops_fn: fn _ -> @cr_stop end,
-      routes_fn: fn _ -> @cr_route_with_patterns end,
-      predictions_fn: fn _ -> [] end,
-      schedules_fn: fn _, _ -> @cr_schedules end,
-      alerts_fn: fn _, _ -> [] end
-    ]
-
-    stops = [@cr_stop.id]
-
-    assert [
-             %{
-               predicted_schedules_by_route_pattern: %{
-                 "North Station" => %{
-                   predicted_schedules: [%{schedule: %{train_number: "Train Number"}}]
-                 }
-               }
-             }
-           ] = RealtimeSchedule.stop_data(stops, @now, opts)
   end
 end
