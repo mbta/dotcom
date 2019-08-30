@@ -6,7 +6,6 @@ defmodule Schedules.RepoCondensed do
   This uses a longer than usual timeout for initial caching as sometime (especially in dev)
   it may take a long time to warm the cache.
 
-
   """
   import Kernel, except: [to_string: 1]
   use RepoCache, ttl: :timer.hours(1)
