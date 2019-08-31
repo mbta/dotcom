@@ -74,12 +74,26 @@ defmodule SiteWeb.Router do
     get("/schedules/SL5", Redirector, to: "/schedules/749")
     get("/schedules/sl5", Redirector, to: "/schedules/749")
 
-    get("/schedules/CT1", Redirector, to: "/schedules/701")
-    get("/schedules/ct1", Redirector, to: "/schedules/701")
     get("/schedules/CT2", Redirector, to: "/schedules/747")
     get("/schedules/ct2", Redirector, to: "/schedules/747")
     get("/schedules/CT3", Redirector, to: "/schedules/708")
     get("/schedules/ct3", Redirector, to: "/schedules/708")
+
+    # bus routes eliminated by Better Bus Project
+    get("/schedules/CT1", Redirector, to: "/betterbus-CT1")
+    get("/schedules/CT1/*path_params", Redirector, to: "/betterbus-CT1")
+    get("/schedules/ct1", Redirector, to: "/betterbus-CT1")
+    get("/schedules/ct1/*path_params", Redirector, to: "/betterbus-CT1")
+    get("/schedules/701", Redirector, to: "/betterbus-CT1")
+    get("/schedules/701/*path_params", Redirector, to: "/betterbus-CT1")
+    get("/schedules/5", Redirector, to: "/betterbus-5")
+    get("/schedules/5/*path_params", Redirector, to: "/betterbus-5")
+    get("/schedules/459", Redirector, to: "/betterbus-455-459")
+    get("/schedules/459/*path_params", Redirector, to: "/betterbus-455-459")
+    get("/schedules/448", Redirector, to: "/betterbus-440s")
+    get("/schedules/448/*path_params", Redirector, to: "/betterbus-440s")
+    get("/schedules/449", Redirector, to: "/betterbus-440s")
+    get("/schedules/449/*path_params", Redirector, to: "/betterbus-440s")
 
     get("/", PageController, :index)
 
