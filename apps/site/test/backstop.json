@@ -39,8 +39,10 @@
   "scenarios": [
     {
       "label": "Header Getting Around",
-      "url": "http://host.docker.internal:8082/?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "selectors": ["#gettingAround"],
+      "url": "http://host.docker.internal:8082/?date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "selectors": [
+        "#gettingAround"
+      ],
       "readyEvent": null,
       "delay": 1000,
       "misMatchThreshold": 0.03,
@@ -48,8 +50,10 @@
     },
     {
       "label": "Header Fares",
-      "url": "http://host.docker.internal:8082/?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "selectors": ["#fares"],
+      "url": "http://host.docker.internal:8082/?date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "selectors": [
+        "#fares"
+      ],
       "readyEvent": null,
       "delay": 1000,
       "misMatchThreshold": 0.03,
@@ -57,8 +61,10 @@
     },
     {
       "label": "Header Contact Us",
-      "url": "http://host.docker.internal:8082/?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "selectors": ["#contactUs"],
+      "url": "http://host.docker.internal:8082/?date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "selectors": [
+        "#contactUs"
+      ],
       "readyEvent": null,
       "delay": 1000,
       "misMatchThreshold": 0.03,
@@ -66,8 +72,10 @@
     },
     {
       "label": "Header More",
-      "url": "http://host.docker.internal:8082/?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "selectors": ["#more"],
+      "url": "http://host.docker.internal:8082/?date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "selectors": [
+        "#more"
+      ],
       "readyEvent": null,
       "delay": 1000,
       "misMatchThreshold": 0.03,
@@ -75,59 +83,91 @@
     },
     {
       "label": "Commuter Rail Fares",
-      "url": "http://host.docker.internal:8082/fares/commuter-rail?destination=place-WML-0214&fare_type=adult&origin=place-sstat&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "selectors": ["main"],
-      "hideSelectors": ["iframe.commuter-rail-photo-video"],
+      "url": "http://host.docker.internal:8082/fares/commuter-rail?destination=place-WML-0214&fare_type=adult&origin=place-sstat&date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "selectors": [
+        "main"
+      ],
+      "hideSelectors": [
+        "iframe.commuter-rail-photo-video"
+      ],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Bus Schedule",
-      "url": "http://host.docker.internal:8082/schedules/1/schedule?direction_id=0&trip=&origin=102&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "hideSelectors": [".animate"],
-      "removeSelectors": [".pdf-links"],
-      "selectors": ["main"],
+      "url": "http://host.docker.internal:8082/schedules/1/schedule?direction_id=0&trip=&origin=102&date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "hideSelectors": [
+        ".animate"
+      ],
+      "removeSelectors": [
+        ".pdf-links"
+      ],
+      "selectors": [
+        "main"
+      ],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Bus Schedule",
-      "url": "http://host.docker.internal:8082/schedules/1/schedule?direction_id=0&trip=&origin=102&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "hideSelectors": [".animate"],
-      "removeSelectors": [".pdf-links"],
-      "selectors": [".schedule__header"],
+      "url": "http://host.docker.internal:8082/schedules/1/schedule?direction_id=0&trip=&origin=102&date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "hideSelectors": [
+        ".animate"
+      ],
+      "removeSelectors": [
+        ".pdf-links"
+      ],
+      "selectors": [
+        ".schedule__header"
+      ],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Bus Map & Info",
-      "url": "http://host.docker.internal:8082/schedules/1/line?direction_id=0&trip=&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "removeSelectors": [".pdf-links"],
-      "selectors": ["main"],
+      "url": "http://host.docker.internal:8082/schedules/1/line?direction_id=0&trip=&date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "removeSelectors": [
+        ".pdf-links"
+      ],
+      "selectors": [
+        "main"
+      ],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Subway Schedule",
-      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-08-30T15:00:00-05:00",
-      "removeSelectors": [".pdf-links"],
-      "selectors": ["main"],
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-12-20T15:00:00-05:00",
+      "removeSelectors": [
+        ".pdf-links"
+      ],
+      "selectors": [
+        "main"
+      ],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Subway Schedule",
-      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-08-30T15:00:00-05:00",
-      "removeSelectors": [".pdf-links"],
-      "selectors": [".schedule__header"],
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-12-20T15:00:00-05:00",
+      "removeSelectors": [
+        ".pdf-links"
+      ],
+      "selectors": [
+        ".schedule__header"
+      ],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Subway Schedule Stop List",
-      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "selectors": [".modal-body"],
-      "removeSelectors": [".pdf-links"],
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "selectors": [
+        ".modal-body"
+      ],
+      "removeSelectors": [
+        ".pdf-links"
+      ],
       "readyEvent": null,
       "onReadyScript": "stop-list.js",
       "delay": 1000,
@@ -135,62 +175,91 @@
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/timetable?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "removeSelectors": [".pdf-links"],
-      "selectors": [".schedule__header"],
+      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/timetable?direction_id=0&date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "removeSelectors": [
+        ".pdf-links"
+      ],
+      "selectors": [
+        ".schedule__header"
+      ],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/timetable?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "removeSelectors": [".pdf-links"],
-      "selectors": [".scheduleview > main > .container"],
+      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/timetable?direction_id=0&date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "removeSelectors": [
+        ".pdf-links"
+      ],
+      "selectors": [
+        ".scheduleview > main > .container"
+      ],
       "delay": 8000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Stops List Subway",
-      "url": "http://host.docker.internal:8082/stops/subway?&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "selectors": ["main"],
+      "url": "http://host.docker.internal:8082/stops/subway?&date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "selectors": [
+        "main"
+      ],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Stops List Commuter Rail",
-      "url": "http://host.docker.internal:8082/stops/commuter-rail?&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "selectors": ["main"],
+      "url": "http://host.docker.internal:8082/stops/commuter-rail?&date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "selectors": [
+        "main"
+      ],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
-      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/line?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "selectors": [".schedule__header"],
-      "removeSelectors": [".pdf-links", ".leaflet-container"],
+      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/line?direction_id=0&date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "selectors": [
+        ".schedule__header"
+      ],
+      "removeSelectors": [
+        ".pdf-links",
+        ".leaflet-container"
+      ],
       "delay": 1000,
       "misMatchThreshold": 0.01
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
-      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/line?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "selectors": ["main"],
-      "removeSelectors": [".pdf-links", ".leaflet-container"],
+      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/line?direction_id=0&date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "selectors": [
+        "main"
+      ],
+      "removeSelectors": [
+        ".pdf-links",
+        ".leaflet-container"
+      ],
       "delay": 1000,
       "misMatchThreshold": 0.01
     },
     {
       "label": "Retail Sales Locations",
-      "url": "http://host.docker.internal:8082/fares/retail-sales-locations?latitude=42.3491637&longitude=-71.0663166&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "selectors": ["main"],
-      "hideSelectors": ["#address-search-input"],
+      "url": "http://host.docker.internal:8082/fares/retail-sales-locations?latitude=42.3491637&longitude=-71.0663166&date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "selectors": [
+        "main"
+      ],
+      "hideSelectors": [
+        "#address-search-input"
+      ],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Search",
-      "url": "http://host.docker.internal:8082/search?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
-      "hideSelectors": ["footer", "#animated-input-placeholder"],
+      "url": "http://host.docker.internal:8082/search?date=2019-12-20&date_time=2019-12-20T15:00:00-05:00",
+      "hideSelectors": [
+        "footer",
+        "#animated-input-placeholder"
+      ],
       "readyEvent": null,
       "onReadyScript": "toggle-search-facets.js",
       "delay": 1000,
@@ -199,8 +268,13 @@
     {
       "label": "Trip Planner Results",
       "url": "http://host.docker.internal:8082/trip-planner?_utf8=✓&plan[from]=Boston+Children's+Museum,+Congress+Street,+Boston,+MA,+USA&plan[from_latitude]=42.3518682&plan[from_longitude]=-71.04999250000003&plan[to]=Government+Center&plan[to_latitude]=42.359705&plan[to_longitude]=-71.059215&plan[time]=depart&plan[date_time][hour]=11&plan[date_time][minute]=35&plan[date_time][am_pm]=AM&plan[date_time][month]=8&plan[date_time][day]=30&plan[date_time][year]=2019&plan[modes][subway]=false&plan[modes][subway]=true&plan[modes][commuter_rail]=false&plan[modes][commuter_rail]=true&plan[modes][bus]=false&plan[modes][bus]=true&plan[modes][ferry]=false&plan[modes][ferry]=true&plan[optimize_for]=best_route#plan_result_focus",
-      "hideSelectors": [".map", "footer"],
-      "selectors": ["document"],
+      "hideSelectors": [
+        ".map",
+        "footer"
+      ],
+      "selectors": [
+        "document"
+      ],
       "readyEvent": null,
       "onReadyScript": "trip-planner-results.js",
       "delay": 1000,
@@ -220,10 +294,14 @@
   "fileNameTemplate": "{scenarioLabel}_{selectorLabel}_{viewportIndex}_{viewportLabel}",
   "engine": "puppet",
   "dockerCommandTemplate": "docker run --net=host --rm -it --mount type=bind,source=\"{cwd}\",target=/src backstopjs/backstopjs:{version} {backstopCommand} {args}",
-  "report": ["browser"],
+  "report": [
+    "browser"
+  ],
   "debug": false,
   "port": 3001,
   "engineOptions": {
-    "args": ["--no-sandbox"]
+    "args": [
+      "--no-sandbox"
+    ]
   }
 }
