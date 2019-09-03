@@ -33,12 +33,7 @@ defmodule SiteWeb.CMSHelpers do
   """
   @spec link_category(String.t()) :: String.t() | Phoenix.HTML.safe()
   def link_category("Projects" = text) do
-    link(
-      text,
-      to: "/projects",
-      title: "View all #{text}",
-      class: "u-linked-card__secondary-link"
-    )
+    link(text, to: "/projects", title: "View all #{text}")
   end
 
   def link_category(text), do: text

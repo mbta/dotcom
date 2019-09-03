@@ -11,9 +11,11 @@
     _ -> Fares.Format.name(fare)
   end
 
-  display_duration? = case fare do
-    %Fares.Summary{} -> false
-    _ -> true
+  duration_fn = fn f -> f |> Map.put(:media, []) |> Fares.Format.duration() end
+
+  duration = case fare do
+    %Fares.Summary{} -> []
+    _ -> [" ", content_tag(:span, duration_fn.(fare), class: "c-fare-card__duration")]
   end
 
   price = case fare do
@@ -38,22 +40,21 @@
   card_classes =
     ["c-fare-card", "single", CSSHelpers.atom_to_class(mode), link_class]
     |> Enum.intersperse(" c-fare-card--")
+
+  card_title = [content_tag(:span, name, class: "c-fare-card__mode"), duration]
 %>
 
-<%= content_tag @element.tag, Keyword.put(@element.attrs, :class, card_classes) do %>
+<%= content_tag :div, class: card_classes do %>
 
   <div class="c-fare-card__icon">
     <%= mode_icon(mode, :default) %>
   </div>
 
   <h3 class="c-fare-card__name">
-    <span class="c-fare-card__mode">
-      <%= name %>
-    </span>
-    <%= if display_duration? do %>
-      <span class="c-fare-card__duration">
-        <%= fare |> Map.put(:media, []) |> Fares.Format.duration() %>
-      </span>
+    <%= if @fare_card.link do %>
+      <%= link card_title, to: @fare_card.link.url, class: "u-linked-card__primary-link" %>
+    <% else %>
+      <%= card_title %>
     <% end %>
   </h3>
 

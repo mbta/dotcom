@@ -3,8 +3,9 @@ defmodule CMS.Partial.Paragraph.FareCard do
   Represents a Fare Card paragraph type from the CMS.
   """
 
+  import CMS.Helpers, only: [field_value: 2, parse_link: 2]
+
   alias CMS.Field.Link
-  alias CMS.Helpers
   alias CMS.Partial.Paragraph.CustomHTML
 
   defstruct fare_token: "",
@@ -26,15 +27,15 @@ defmodule CMS.Partial.Paragraph.FareCard do
       %__MODULE__{
         fare_token: fare_token,
         note: note,
-        link: nil,
-        show_media: Helpers.field_value(data, "field_fare_media")
+        link: parse_link(data, "field_card_link"),
+        show_media: field_value(data, "field_fare_media")
       }
     end
   end
 
   defp fare_token(data) do
     data
-    |> Helpers.field_value("field_fare_request")
+    |> field_value("field_fare_request")
     |> parse_token()
   end
 
