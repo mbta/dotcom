@@ -1,0 +1,25 @@
+{
+  "id" : "730a5ab3-342a-3be4-8db2-34f8b855368e",
+  "request" : {
+    "url" : "/shapes/?route=CR-Middleborough&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-skV4R.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 00:36:29 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:12:25 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6889",
+      "x-ratelimit-reset" : "1567557420",
+      "x-request-id" : "FcEVI_JeyYV98lcADnoB"
+    }
+  },
+  "uuid" : "730a5ab3-342a-3be4-8db2-34f8b855368e"
+}

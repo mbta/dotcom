@@ -1,0 +1,25 @@
+{
+  "id" : "e25e2087-84e7-36b2-9455-82717c3a1add",
+  "request" : {
+    "url" : "/schedules/?stop=102&direction_id=0&date=2019-12-20&route=1&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-Dz9Tp.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 00:39:10 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:10:50 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6788",
+      "x-ratelimit-reset" : "1567557600",
+      "x-request-id" : "FcEVSWEDGU-VAhMADqth"
+    }
+  },
+  "uuid" : "e25e2087-84e7-36b2-9455-82717c3a1add"
+}

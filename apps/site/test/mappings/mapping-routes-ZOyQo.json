@@ -1,0 +1,25 @@
+{
+  "id" : "4e140f23-ed75-3165-8b5f-bf77e6056e3f",
+  "request" : {
+    "url" : "/routes/?stop=place-PB-0281",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-ZOyQo.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 00:40:45 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6801",
+      "x-ratelimit-reset" : "1567557660",
+      "x-request-id" : "FcEVX5CE7T291PYADsSh"
+    }
+  },
+  "uuid" : "4e140f23-ed75-3165-8b5f-bf77e6056e3f"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "de8010e3-b4b6-3bd8-a7ac-22505ba36519",
+  "request" : {
+    "url" : "/routes/?stop=place-ER-0115",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-IMgiU.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 00:40:46 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6711",
+      "x-ratelimit-reset" : "1567557660",
+      "x-request-id" : "FcEVX87ej849VcMADsrB"
+    }
+  },
+  "uuid" : "de8010e3-b4b6-3bd8-a7ac-22505ba36519"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "b3f23715-2feb-3132-b1d4-6dd35afaa257",
+  "request" : {
+    "url" : "/routes/?stop=place-ER-0208",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-20Kgd.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 00:40:46 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6697",
+      "x-ratelimit-reset" : "1567557660",
+      "x-request-id" : "FcEVX9ZgKy0yDpEADssh"
+    }
+  },
+  "uuid" : "b3f23715-2feb-3132-b1d4-6dd35afaa257"
+}

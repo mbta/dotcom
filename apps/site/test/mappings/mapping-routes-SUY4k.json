@@ -1,0 +1,25 @@
+{
+  "id" : "bcae52d0-0a5f-39bf-8149-fd042c5fbdb6",
+  "request" : {
+    "url" : "/routes/?stop=place-NB-0072",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-SUY4k.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 00:40:46 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6737",
+      "x-ratelimit-reset" : "1567557660",
+      "x-request-id" : "FcEVX8Pqfl3uxo4ADskB"
+    }
+  },
+  "uuid" : "bcae52d0-0a5f-39bf-8149-fd042c5fbdb6"
+}
