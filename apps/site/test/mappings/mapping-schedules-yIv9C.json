@@ -1,0 +1,25 @@
+{
+  "id" : "8442bb65-37dd-31e8-b01c-b0b862689ba7",
+  "request" : {
+    "url" : "/schedules/?stop=place-sstat&direction_id=1&date=2019-12-20&route=Red&include=trip&fields%5Bschedule%5D=departure_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-yIv9C.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:26:27 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:10:50 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6938",
+      "x-ratelimit-reset" : "1567603620",
+      "x-request-id" : "FcE_KFed5NT5bDgAKThB"
+    }
+  },
+  "uuid" : "8442bb65-37dd-31e8-b01c-b0b862689ba7"
+}

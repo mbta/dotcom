@@ -1,0 +1,25 @@
+{
+  "id" : "568330f6-33ea-3a0d-a271-2c4ba32c4d34",
+  "request" : {
+    "url" : "/predictions/?direction_id=0&stop=102&route=1&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-KGRwA.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:25:01 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 04 Sep 2019 13:25:00 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6941",
+      "x-ratelimit-reset" : "1567603560",
+      "x-request-id" : "FcE_FFRpKz4mmAkAKSMh"
+    }
+  },
+  "uuid" : "568330f6-33ea-3a0d-a271-2c4ba32c4d34"
+}

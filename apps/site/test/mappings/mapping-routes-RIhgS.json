@@ -1,0 +1,25 @@
+{
+  "id" : "62b80845-ee85-3f42-8e05-ab9ece89ae09",
+  "request" : {
+    "url" : "/routes/?stop=place-buwst",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-RIhgS.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:27:09 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6735",
+      "x-ratelimit-reset" : "1567603680",
+      "x-request-id" : "FcE_MglA5sjqGvkAAZlk"
+    }
+  },
+  "uuid" : "62b80845-ee85-3f42-8e05-ab9ece89ae09"
+}

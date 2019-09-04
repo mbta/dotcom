@@ -1,0 +1,25 @@
+{
+  "id" : "9a13f389-7b74-3e65-90a0-33fde3f55dc4",
+  "request" : {
+    "url" : "/routes/?stop=place-portr",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-iK4NJ.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:27:08 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6893",
+      "x-ratelimit-reset" : "1567603680",
+      "x-request-id" : "FcE_MdVXEHTd1i4AAsfj"
+    }
+  },
+  "uuid" : "9a13f389-7b74-3e65-90a0-33fde3f55dc4"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "0b5631f3-439c-3193-9ae8-8619535131d5",
+  "request" : {
+    "url" : "/routes/?stop=place-sstat",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Odxgq.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:24:50 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6795",
+      "x-ratelimit-reset" : "1567603500",
+      "x-request-id" : "FcE_Eaq-m5isTtAAKSGB"
+    }
+  },
+  "uuid" : "0b5631f3-439c-3193-9ae8-8619535131d5"
+}

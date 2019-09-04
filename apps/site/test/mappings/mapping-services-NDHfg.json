@@ -1,0 +1,25 @@
+{
+  "id" : "62616178-4297-34d6-969c-034aa175abf7",
+  "request" : {
+    "url" : "/services/?route=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-services-NDHfg.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:25:38 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:34 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6866",
+      "x-ratelimit-reset" : "1567603560",
+      "x-request-id" : "FcE_HN-Jj0IsnC0AAZRE"
+    }
+  },
+  "uuid" : "62616178-4297-34d6-969c-034aa175abf7"
+}

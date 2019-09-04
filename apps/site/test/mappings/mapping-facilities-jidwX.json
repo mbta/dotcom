@@ -1,0 +1,25 @@
+{
+  "id" : "ba10129b-3940-3c10-b5f6-706e997c2e3a",
+  "request" : {
+    "url" : "/facilities/?filter%5Btype%5D=FARE_VENDING_RETAILER",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-facilities-jidwX.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:28:38 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6919",
+      "x-ratelimit-reset" : "1567603740",
+      "x-request-id" : "FcE_RsZrrUJzABMAKVjB"
+    }
+  },
+  "uuid" : "ba10129b-3940-3c10-b5f6-706e997c2e3a"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "9bbd8a49-79d0-337f-bddc-fafdcd69f556",
+  "request" : {
+    "url" : "/routes/?stop=66",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-LkpTE.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:25:38 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6890",
+      "x-ratelimit-reset" : "1567603560",
+      "x-request-id" : "FcE_HNLFIyh5CkcAKTBB"
+    }
+  },
+  "uuid" : "9bbd8a49-79d0-337f-bddc-fafdcd69f556"
+}

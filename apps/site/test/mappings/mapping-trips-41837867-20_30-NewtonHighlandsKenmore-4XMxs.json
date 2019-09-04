@@ -1,0 +1,25 @@
+{
+  "id" : "9e443fa0-61e7-3946-a2c8-7b7e8e1b4c42",
+  "request" : {
+    "url" : "/trips/41837867-20:30-NewtonHighlandsKenmore",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-41837867-20_30-NewtonHighlandsKenmore-4XMxs.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:29:05 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 04 Sep 2019 13:28:52 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6939",
+      "x-ratelimit-reset" : "1567603800",
+      "x-request-id" : "FcE_TP-iFVb3wcgAKVwB"
+    }
+  },
+  "uuid" : "9e443fa0-61e7-3946-a2c8-7b7e8e1b4c42"
+}

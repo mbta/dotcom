@@ -1,0 +1,25 @@
+{
+  "id" : "2a27b1a5-0cbf-34c1-830c-f8530bf6fae2",
+  "request" : {
+    "url" : "/routes/?stop=109",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-GEo9S.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:25:36 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6898",
+      "x-ratelimit-reset" : "1567603560",
+      "x-request-id" : "FcE_HGytpYnED3kAKS9h"
+    }
+  },
+  "uuid" : "2a27b1a5-0cbf-34c1-830c-f8530bf6fae2"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "08f2fa76-5e62-3a9e-8391-7ad581f67aa0",
+  "request" : {
+    "url" : "/stops/place-NEC-1768?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-place-NEC-1768-Il6R6.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:24:49 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:36 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6817",
+      "x-ratelimit-reset" : "1567603500",
+      "x-request-id" : "FcE_EX9JP6JoV84AKR7B"
+    }
+  },
+  "uuid" : "08f2fa76-5e62-3a9e-8391-7ad581f67aa0"
+}

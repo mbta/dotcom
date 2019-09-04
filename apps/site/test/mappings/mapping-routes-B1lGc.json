@@ -1,0 +1,25 @@
+{
+  "id" : "e779bdc0-a985-35df-9f99-c5ce7d04ad92",
+  "request" : {
+    "url" : "/routes/?stop=place-brntn",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-B1lGc.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:27:08 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6847",
+      "x-ratelimit-reset" : "1567603680",
+      "x-request-id" : "FcE_MeRLaCs5YGEAAspD"
+    }
+  },
+  "uuid" : "e779bdc0-a985-35df-9f99-c5ce7d04ad92"
+}

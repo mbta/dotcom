@@ -1,0 +1,25 @@
+{
+  "id" : "e4f5de8b-a50d-3f3b-80aa-539d74679413",
+  "request" : {
+    "url" : "/routes/?stop=place-miltt",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-L1NGR.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:27:09 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6764",
+      "x-ratelimit-reset" : "1567603680",
+      "x-request-id" : "FcE_Mf2b7SpM5UQAAs1D"
+    }
+  },
+  "uuid" : "e4f5de8b-a50d-3f3b-80aa-539d74679413"
+}

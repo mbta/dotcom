@@ -1,0 +1,25 @@
+{
+  "id" : "b7148f8c-273b-3b1d-93bf-b3ad2b4e59ec",
+  "request" : {
+    "url" : "/shapes/?route=708&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-oAvya.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:23:26 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:12:25 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6921",
+      "x-ratelimit-reset" : "1567603440",
+      "x-request-id" : "FcE-_hoj74ihHT8AKO9h"
+    }
+  },
+  "uuid" : "b7148f8c-273b-3b1d-93bf-b3ad2b4e59ec"
+}

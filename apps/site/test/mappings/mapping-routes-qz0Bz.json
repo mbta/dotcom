@@ -1,0 +1,25 @@
+{
+  "id" : "1b727d40-0113-37e1-94d0-b6e32274ec0a",
+  "request" : {
+    "url" : "/routes/?stop=place-alsgr",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-qz0Bz.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:27:09 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6790",
+      "x-ratelimit-reset" : "1567603680",
+      "x-request-id" : "FcE_MfOoorZoILYAAsvD"
+    }
+  },
+  "uuid" : "1b727d40-0113-37e1-94d0-b6e32274ec0a"
+}

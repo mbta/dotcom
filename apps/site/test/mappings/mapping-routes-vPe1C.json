@@ -1,0 +1,25 @@
+{
+  "id" : "5d82fc1d-2e5e-340b-90cd-a73145c0d82e",
+  "request" : {
+    "url" : "/routes/?stop=place-capst",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-vPe1C.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:27:09 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6787",
+      "x-ratelimit-reset" : "1567603680",
+      "x-request-id" : "FcE_MfTPsCW7IS8AAswj"
+    }
+  },
+  "uuid" : "5d82fc1d-2e5e-340b-90cd-a73145c0d82e"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "e9a5215b-3d88-3117-9036-fe62e773cb98",
+  "request" : {
+    "url" : "/shapes/?route=CR-Greenbush&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-FCN1r.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:23:26 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:12:25 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6857",
+      "x-ratelimit-reset" : "1567603440",
+      "x-request-id" : "FcE-_jzFAZK3KtUAAYmk"
+    }
+  },
+  "uuid" : "e9a5215b-3d88-3117-9036-fe62e773cb98"
+}

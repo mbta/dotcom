@@ -1,0 +1,25 @@
+{
+  "id" : "15450473-cd2d-3cbf-b109-020e322de8a0",
+  "request" : {
+    "url" : "/routes/?stop=59",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-OhHGp.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:25:38 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 03 Sep 2019 18:09:35 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6873",
+      "x-ratelimit-reset" : "1567603560",
+      "x-request-id" : "FcE_HNmE5nlc2agAKTFh"
+    }
+  },
+  "uuid" : "15450473-cd2d-3cbf-b109-020e322de8a0"
+}

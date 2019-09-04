@@ -1,0 +1,25 @@
+{
+  "id" : "c484064e-ee0c-348e-9dae-b5bfaf6d991b",
+  "request" : {
+    "url" : "/alerts/",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-alerts-02Ax8.json",
+    "headers" : {
+      "Date" : "Wed, 04 Sep 2019 13:23:29 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "Server" : "nginx/1.14.1",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 04 Sep 2019 13:23:11 GMT",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6549",
+      "x-ratelimit-reset" : "1567603440",
+      "x-request-id" : "FcE-_rLImKmMU2UAKQSB"
+    }
+  },
+  "uuid" : "c484064e-ee0c-348e-9dae-b5bfaf6d991b"
+}
