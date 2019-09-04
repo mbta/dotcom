@@ -7,6 +7,8 @@ defmodule Site.RealtimeSchedule do
       are considering route patterns with the same name to be effectively the same
   """
 
+  use RepoCache, ttl: :timer.seconds(30)
+
   alias Predictions.Prediction
   alias Predictions.Repo, as: PredictionsRepo
   alias RoutePatterns.RoutePattern
@@ -42,6 +44,13 @@ defmodule Site.RealtimeSchedule do
 
   @spec stop_data([Stop.id_t()], DateTime.t(), Keyword.t()) :: [map]
   def stop_data(stop_ids, now, opts \\ []) do
+    cache(stop_ids, fn _ ->
+      do_stop_data(stop_ids, now, opts)
+    end)
+  end
+
+  @spec do_stop_data([Stop.id_t()], DateTime.t(), Keyword.t()) :: [map]
+  defp do_stop_data(stop_ids, now, opts) do
     opts = Keyword.merge(@default_opts, opts)
     stops_fn = Keyword.fetch!(opts, :stops_fn)
     routes_fn = Keyword.fetch!(opts, :routes_fn)
