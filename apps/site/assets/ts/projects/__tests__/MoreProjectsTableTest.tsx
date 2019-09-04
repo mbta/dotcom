@@ -1,10 +1,14 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import { mount } from "enzyme";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { SimpleProject as Project } from "../components/__projects";
 import MoreProjectsTable, {
   tableHeaderText
 } from "../components/MoreProjectsTable";
+
+/* eslint-disable @typescript-eslint/camelcase */
+const body = '<div id="react-root"></div>';
 
 const project: Project = {
   date: "2018-06-02",
@@ -20,14 +24,12 @@ const project: Project = {
   title: "The Awesome Project"
 };
 
-const projects: Project[] = [project];
-
 it("renders", () => {
   const state = {
     banner: null,
     featuredProjects: [],
     fetchInProgress: false,
-    projects: [],
+    projects: [project],
     projectUpdates: [],
     offsetStart: 0
   };
@@ -64,4 +66,31 @@ it("has the right header text", () => {
   expect(tableHeaderText({ ...state, currentMode: "subway" })).toEqual(
     "Subway"
   );
+});
+
+it("triggers event when clicked", () => {
+  document.body.innerHTML = body;
+
+  const spy = jest.fn();
+
+  const state = {
+    banner: null,
+    featuredProjects: [],
+    fetchInProgress: false,
+    projects: [],
+    projectUpdates: [],
+    offsetStart: 0
+  };
+
+  const wrapper = mount(
+    <MoreProjectsTable
+      state={state}
+      placeholderImageUrl={"https://www.example.com/aphoto.jpg"}
+      setState={f => f}
+      fetchMoreProjects={spy}
+    />
+  );
+
+  wrapper.find(".c-more-projects__show-more-button").simulate("click");
+  expect(spy).toHaveBeenCalled();
 });

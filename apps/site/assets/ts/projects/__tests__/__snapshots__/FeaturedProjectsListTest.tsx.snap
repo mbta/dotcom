@@ -184,7 +184,41 @@ exports[`renders 1`] = `
       </div>
       <div
         className="c-featured-project"
-      />
+      >
+        <a
+          href="/east-station"
+        >
+          <div
+            className="c-featured-project__image"
+          >
+            <img
+              alt="MBTA logo"
+              src="https://www.example.com/someimage.png"
+            />
+          </div>
+          <h3
+            className="c-featured-project__title"
+          >
+            East Station opening
+          </h3>
+          <div
+            className="c-featured-project__date"
+          >
+            Updated on 
+            March 1, 2018
+          </div>
+          We opened East Station, even though it's on the harbor floor.
+          <div
+            className="m-route-pills"
+          >
+            <span
+              className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--red-line"
+            >
+              Red Line
+            </span>
+          </div>
+        </a>
+      </div>
     </div>
   </div>
 </div>

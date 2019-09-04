@@ -15,6 +15,7 @@ exports[`render renders 1`] = `
     <button
       aria-label="remove filter by subway"
       className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn active"
+      id="mode-button__subway"
       onClick={[Function]}
       type="button"
     >
@@ -31,6 +32,7 @@ exports[`render renders 1`] = `
     <button
       aria-label="remove filter by bus"
       className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn active"
+      id="mode-button__bus"
       onClick={[Function]}
       type="button"
     >
@@ -51,6 +53,7 @@ exports[`render renders 1`] = `
     <button
       aria-label="remove filter by commuter_rail"
       className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn active"
+      id="mode-button__commuter_rail"
       onClick={[Function]}
       type="button"
     >

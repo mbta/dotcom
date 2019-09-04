@@ -22,8 +22,6 @@ export const tableHeaderText = (state: State): string => {
       return "Ferry";
     case "subway":
       return "Subway";
-    default:
-      throw new Error(`Invalid mode ${state.currentMode}`);
   }
 };
 

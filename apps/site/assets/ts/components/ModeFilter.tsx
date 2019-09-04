@@ -40,6 +40,7 @@ const ModeButton = ({
     className={`btn btn-secondary btn-sm m-tnm-sidebar__filter-btn ${
       isModeSelected(mode) ? "active" : "inactive"
     }`}
+    id={`mode-button__${mode}`}
     onClick={onClick(mode)}
     type="button"
     aria-label={

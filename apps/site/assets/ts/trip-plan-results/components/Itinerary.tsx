@@ -51,6 +51,7 @@ const ItineraryBody = (itinerary: Itinerary): ReactElement<HTMLElement> => {
   useEffect(() => {
     addAlertItemEventHandlers();
     addToggleAlertHandlers();
+    /* istanbul ignore next */
     return () => {
       removeAlertItemEventHandlers();
       removeToggleAlertHandlers();

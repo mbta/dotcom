@@ -1,6 +1,5 @@
 import React from "react";
-import renderer, { act } from "react-test-renderer";
-import { SimpleProject as Project } from "../components/__projects";
+import renderer from "react-test-renderer";
 import FeaturedProjectsList from "../components/FeaturedProjectsList";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { mount } from "enzyme";
@@ -42,6 +41,16 @@ const projects = [
       url: "https://www.imagehost.com/pictureofastation.jpg",
       alt: "Facade of East Station"
     },
+    path: "/east-station",
+    routes: [{ mode: "subway", id: "Red", group: "line" }],
+    title: "East Station opening",
+    text: "We opened East Station, even though it's on the harbor floor.",
+    status: null
+  },
+  {
+    date: "2018-03-01",
+    id: 3457,
+    image: null,
     path: "/east-station",
     routes: [{ mode: "subway", id: "Red", group: "line" }],
     title: "East Station opening",

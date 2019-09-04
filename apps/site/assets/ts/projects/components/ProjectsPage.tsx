@@ -37,10 +37,6 @@ export const fetchMoreProjects: FetchProjects = (
   state: State,
   setState: SetState
 ): void => {
-  if (!window.fetch) {
-    return;
-  }
-
   setState({ ...state, fetchInProgress: true });
 
   const offset = state.projects.length + state.offsetStart;
@@ -52,6 +48,7 @@ export const fetchMoreProjects: FetchProjects = (
     .fetch(fetchUrl)
     .then(response => {
       if (response.ok) return response.json();
+      /* istanbul ignore next */
       throw new Error(response.statusText);
     })
     .then(projects => {
@@ -70,10 +67,6 @@ export const updateSelectedMode: UpdateSelectedMode = (
   newMode: Mode,
   setState: SetState
 ): void => {
-  if (!window.fetch) {
-    return;
-  }
-
   const newSelectedMode = newMode === state.currentMode ? undefined : newMode;
   const newSelectedModeStr = newSelectedMode || "undefined";
 
@@ -83,6 +76,7 @@ export const updateSelectedMode: UpdateSelectedMode = (
     .fetch(`/project_api?filter[mode]=${newSelectedModeStr}`)
     .then(response => {
       if (response.ok) return response.json();
+      /* istanbul ignore next */
       throw new Error(response.statusText);
     })
     .then(json => {

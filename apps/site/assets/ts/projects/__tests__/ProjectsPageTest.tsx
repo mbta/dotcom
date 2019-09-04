@@ -245,21 +245,3 @@ it("filters", async () => {
     fetchInProgress: false
   });
 });
-
-it("fails gracefully if for some reason window.fetch is not defined", () => {
-  delete window.fetch;
-
-  const state = {
-    projects: [],
-    fetchInProgress: false,
-    banner: null,
-    featuredProjects: [],
-    projectUpdates: [],
-    offsetStart: 0
-  };
-  const setState = jest.fn();
-
-  // No explicit expectation needed, it's enough to make sure this doesn't throw an error.
-  fetchMoreProjects(state, setState);
-  updateSelectedMode(state, "subway", setState);
-});
