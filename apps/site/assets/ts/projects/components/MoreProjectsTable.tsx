@@ -22,6 +22,8 @@ export const tableHeaderText = (state: State): string => {
       return "Ferry";
     case "subway":
       return "Subway";
+    default:
+      return "";
   }
 };
 
