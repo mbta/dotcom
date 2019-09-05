@@ -18,7 +18,8 @@ defmodule Site.Application do
       supervisor(SiteWeb.Endpoint, []),
       supervisor(Site.GreenLine.Supervisor, []),
       supervisor(Site.Stream.Vehicles, []),
-      supervisor(Site.React, [])
+      supervisor(Site.React, []),
+      supervisor(Site.RealtimeSchedule, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

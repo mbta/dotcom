@@ -148,7 +148,7 @@ const TransitNearMe = ({
         stopsWithDistances.stops.map(stop => stop.id),
         dispatch
       ),
-    45000
+    30000
   );
 
   return (

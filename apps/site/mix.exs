@@ -126,7 +126,8 @@ defmodule Site.Mixfile do
       {:predictions, in_umbrella: true},
       {:trip_plan, in_umbrella: true},
       {:services, in_umbrella: true},
-      {:route_patterns, in_umbrella: true}
+      {:route_patterns, in_umbrella: true},
+      {:repo_cache, in_umbrella: true}
     ]
   end
 end

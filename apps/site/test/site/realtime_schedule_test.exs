@@ -252,6 +252,7 @@ defmodule Site.RealtimeScheduleTest do
       }
     ]
 
+    RealtimeSchedule.clear_cache()
     actual = RealtimeSchedule.stop_data(stops, @now, opts)
 
     assert actual == expected
