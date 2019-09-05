@@ -1,10 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { shallow, mount } from "enzyme";
-import {
-  createReactRoot,
-  enzymeToJsonWithoutProps
-} from "../../app/helpers/testUtils";
+import { mount } from "enzyme";
+import { createReactRoot } from "../../app/helpers/testUtils";
 import { SimpleProject } from "../components/__projects";
 import Banner, { cmsRouteToClass } from "../components/Banner";
 
@@ -108,6 +105,13 @@ it("renders", () => {
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
+});
+
+it("returns null if no banner project", () => {
+  const wrapper = mount(
+    <Banner banner={null} placeholderImageUrl={placeholderImageUrl} />
+  );
+  expect(wrapper.html()).toEqual(null);
 });
 
 const placeholderImageUrl = "path-to-some-image";

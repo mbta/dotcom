@@ -277,6 +277,14 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   margin-top: $base-spacing / 4;
 }
 
+.c-mode-filter__filter-btn-group {
+  display: inline;
+
+  &:last-of-type {
+    margin-left: $base-spacing * .5;
+  }
+}
+
 .m-tnm-sidebar__via {
   font-weight: $font-weight-medium;
   line-height: 1;

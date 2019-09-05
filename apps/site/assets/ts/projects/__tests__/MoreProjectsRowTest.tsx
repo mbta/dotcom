@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import MoreProjectsRow from "../components/MoreProjectsRow";
+import MoreProjectsRow, { routesToTags } from "../components/MoreProjectsRow";
 import { shallow } from "enzyme";
 
 const id = 12345;
@@ -78,4 +78,8 @@ it("renders a placeholder image for a project with no teaser image", () => {
 
   const actualSrc = wrapper.find("img").prop("src");
   expect(actualSrc).toEqual(placeholderImageUrl);
+});
+
+it("returns an empty list of tags if no routes given", () => {
+  expect(routesToTags([])).toEqual([]);
 });

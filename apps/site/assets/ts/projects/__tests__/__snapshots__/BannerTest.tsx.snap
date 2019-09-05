@@ -1,16 +1,74 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders 1`] = `
-<a
-  className="m-banner m-banner--responsive m-banner--lg-9 m-banner--no-margin-top m-banner--default"
-  href="/projects/better-bus-project"
->
-  <div
-    className="hidden-xs-down"
+Array [
+  <h2
+    className="container c-projects-header__subheader"
+  >
+    Featured Projects
+  </h2>,
+  <a
+    className="m-banner m-banner--responsive m-banner--lg-9 m-banner--no-margin-top m-banner--default"
+    href="/projects/better-bus-project"
   >
     <div
-      className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default"
+      className="hidden-xs-down"
     >
+      <div
+        className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default"
+      >
+        <div
+          className="m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--unknown"
+        >
+          <div
+            className="m-banner__top"
+          >
+            <h2
+              className="h2 m-banner__title m-banner__title--default"
+            >
+              Better Bus Project
+            </h2>
+          </div>
+          <div
+            className="m-banner__bottom"
+          >
+            <span
+              className="m-banner__date"
+            >
+              Updated 
+              July 30, 2019
+            </span>
+          </div>
+        </div>
+        <img
+          alt="Better Bus Project: Making transit better together"
+          className="m-banner__image--by-side"
+          src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq"
+        />
+        <div
+          className="sr-only"
+        >
+          Better Bus Project: Making transit better together
+        </div>
+      </div>
+    </div>
+    <div
+      className="hidden-sm-up"
+    >
+      <div
+        className="m-banner__image m-banner__image--responsive m-banner__image--default"
+        style={
+          Object {
+            "backgroundImage": "url(https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq)",
+          }
+        }
+      >
+        <div
+          className="sr-only"
+        >
+          Better Bus Project: Making transit better together
+        </div>
+      </div>
       <div
         className="m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--unknown"
       >
@@ -34,52 +92,7 @@ exports[`renders 1`] = `
           </span>
         </div>
       </div>
-      <img
-        alt="Better Bus Project: Making transit better together"
-        className="m-banner__image--by-side"
-        src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq"
-      />
     </div>
-  </div>
-  <div
-    className="hidden-sm-up"
-  >
-    <div
-      className="m-banner__image m-banner__image--responsive m-banner__image--default"
-      style={
-        Object {
-          "backgroundImage": " url(https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq)",
-        }
-      }
-    />
-    <div
-      className="sr-only"
-    >
-      Better Bus Project: Making transit better together
-    </div>
-    <div
-      className="m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--unknown"
-    >
-      <div
-        className="m-banner__top"
-      >
-        <h2
-          className="h2 m-banner__title m-banner__title--default"
-        >
-          Better Bus Project
-        </h2>
-      </div>
-      <div
-        className="m-banner__bottom"
-      >
-        <span
-          className="m-banner__date"
-        >
-          Updated 
-          July 30, 2019
-        </span>
-      </div>
-    </div>
-  </div>
-</a>
+  </a>,
+]
 `;

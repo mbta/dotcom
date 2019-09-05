@@ -68,14 +68,6 @@ const RoutePillList = ({ routes }: Props): ReactElement<HTMLElement> => {
                 <RoutePill modeName="silver-line" />
               </span>
             );
-          case "subway-line":
-            return (
-              <RouteIcon
-                key="route-pill-subway"
-                tag="subway"
-                extraClasses="c-featured-project__route-icon"
-              />
-            );
           default:
             return (
               <RoutePill key={`route-pill-${modeName}`} modeName={modeName} />

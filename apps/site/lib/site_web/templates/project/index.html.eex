@@ -15,5 +15,5 @@
   </div>
 </div>
 
-<% [banner | featured] = @featured_project_teasers %>
+<% [banner | featured] = if Enum.empty?(@featured_project_teasers) do [nil] else @featured_project_teasers end %>
 <%= render "_all_projects.html", banner: banner, projects: @project_teasers, featured_projects: featured, project_updates: @project_update_teasers, placeholder_image_url: @placeholder_image_url %>

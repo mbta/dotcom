@@ -40,6 +40,7 @@ const ModeButton = ({
     className={`btn btn-secondary btn-sm m-tnm-sidebar__filter-btn ${
       isModeSelected(mode) ? "active" : "inactive"
     }`}
+    id={`mode-button__${mode}`}
     onClick={onClick(mode)}
     type="button"
     aria-label={
@@ -56,8 +57,18 @@ const ModeButton = ({
 const shouldShowModeButton = (
   mode: string,
   modeButtonsToShow?: string[]
-): boolean =>
-  modeButtonsToShow === undefined || modeButtonsToShow.includes(mode);
+): boolean => {
+  if (modeButtonsToShow) {
+    return modeButtonsToShow.includes(mode);
+  }
+
+  // By default, show all available modes except ferry.
+
+  if (mode === "ferry") {
+    return false;
+  }
+  return true;
+};
 
 export const ModeFilter = ({
   isModeSelected,
@@ -67,32 +78,46 @@ export const ModeFilter = ({
   <div className="m-tnm-sidebar__filter-bar">
     <span className="m-tnm-sidebar__filter-header u-small-caps">Filter</span>
 
-    {shouldShowModeButton("subway", modeButtonsToShow) && (
-      <ModeButton
-        mode="subway"
-        icon="subway"
-        name="Subway"
-        isModeSelected={isModeSelected}
-        onClick={mode => () => onModeClickAction(mode)}
-      />
-    )}
-    {shouldShowModeButton("bus", modeButtonsToShow) && (
-      <ModeButton
-        mode="bus"
-        icon="bus"
-        name="Bus"
-        isModeSelected={isModeSelected}
-        onClick={mode => () => onModeClickAction(mode)}
-      />
-    )}
-    {shouldShowModeButton("commuter_rail", modeButtonsToShow) && (
-      <ModeButton
-        mode="commuter_rail"
-        icon="commuter_rail"
-        name="Rail"
-        isModeSelected={isModeSelected}
-        onClick={mode => () => onModeClickAction(mode)}
-      />
-    )}
+    <div className="c-mode-filter__filter-btn-group">
+      {shouldShowModeButton("subway", modeButtonsToShow) && (
+        <ModeButton
+          mode="subway"
+          icon="subway"
+          name="Subway"
+          isModeSelected={isModeSelected}
+          onClick={mode => () => onModeClickAction(mode)}
+        />
+      )}
+      {shouldShowModeButton("bus", modeButtonsToShow) && (
+        <ModeButton
+          mode="bus"
+          icon="bus"
+          name="Bus"
+          isModeSelected={isModeSelected}
+          onClick={mode => () => onModeClickAction(mode)}
+        />
+      )}
+    </div>
+
+    <div className="c-mode-filter__filter-btn-group">
+      {shouldShowModeButton("commuter_rail", modeButtonsToShow) && (
+        <ModeButton
+          mode="commuter_rail"
+          icon="commuter_rail"
+          name="Rail"
+          isModeSelected={isModeSelected}
+          onClick={mode => () => onModeClickAction(mode)}
+        />
+      )}
+      {shouldShowModeButton("ferry", modeButtonsToShow) && (
+        <ModeButton
+          mode="ferry"
+          icon="ferry"
+          name="Ferry"
+          isModeSelected={isModeSelected}
+          onClick={mode => () => onModeClickAction(mode)}
+        />
+      )}
+    </div>
   </div>
 );

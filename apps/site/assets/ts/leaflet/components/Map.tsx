@@ -70,6 +70,7 @@ const Component = ({
     const getBounds = require("../bounds").default;
     /* eslint-enable */
     const { Map, Marker, Polyline, Popup, TileLayer } = leaflet;
+    /* istanbul ignore next */
     const boundsOrByMarkers = bounds || (boundsByMarkers && getBounds(markers));
     const position = mapCenter(markers, defaultCenter);
     const nonNullZoom = zoom === null ? undefined : zoom;
@@ -84,18 +85,28 @@ const Component = ({
           attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url={`${tileServerUrl}/osm_tiles/{z}/{x}/{y}.png`}
         />
-        {polylines.map(polyline => (
-          <Polyline
-            key={polyline.id || `polyline-${Math.floor(Math.random() * 1000)}`}
-            positions={polyline.positions}
-            color={polyline.color}
-            weight={polyline.weight}
-          />
-        ))}
+        {polylines.map(
+          /* istanbul ignore next */
+          polyline => (
+            <Polyline
+              key={
+                polyline.id || `polyline-${Math.floor(Math.random() * 1000)}`
+              }
+              positions={polyline.positions}
+              color={polyline.color}
+              weight={polyline.weight}
+            />
+          )
+        )}
         {markers.map(marker => (
           <Marker
             icon={buildIcon(marker.icon, marker.icon_opts)}
-            key={marker.id || `marker-${Math.floor(Math.random() * 1000)}`}
+            key={
+              marker.id ||
+              /* istanbul ignore next */ `marker-${Math.floor(
+                Math.random() * 1000
+              )}`
+            }
             position={[marker.latitude, marker.longitude]}
             ref={ref => ref && rotateMarker(ref.leafletElement, marker)}
             zIndexOffset={marker.z_index}

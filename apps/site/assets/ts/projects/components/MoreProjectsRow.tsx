@@ -68,7 +68,7 @@ const subwayTags = (routes: Route[]): string[] => {
   return result;
 };
 
-const routesToTags = (routes: Route[]): string[] =>
+export const routesToTags = (routes: Route[]): string[] =>
   busTags(routes)
     .concat(subwayTags(routes))
     .concat(ferryTags(routes))

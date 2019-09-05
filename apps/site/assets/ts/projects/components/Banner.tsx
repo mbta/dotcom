@@ -4,7 +4,7 @@ import { formattedDate } from "../../helpers/date";
 import { routeToCSSClass } from "../../helpers/css";
 
 interface Props {
-  banner: Project;
+  banner: Project | null;
   placeholderImageUrl: string;
 }
 
@@ -61,35 +61,49 @@ const bannerImageAlt = (banner: Project): string =>
 const Banner = ({
   banner,
   placeholderImageUrl
-}: Props): ReactElement<HTMLElement> => (
-  <a
-    href={banner.path}
-    className="m-banner m-banner--responsive m-banner--lg-9 m-banner--no-margin-top m-banner--default"
-  >
-    <div className="hidden-xs-down">
-      <div className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default">
-        <BannerContent banner={banner} />
-        <img
-          className="m-banner__image--by-side"
-          src={bannerImageURL(banner, placeholderImageUrl)}
-          alt={bannerImageAlt(banner)}
-        />
-      </div>
-    </div>
-    <div className="hidden-sm-up">
-      <div
-        className="m-banner__image m-banner__image--responsive m-banner__image--default"
-        style={{
-          backgroundImage: ` url(${bannerImageURL(
-            banner,
-            placeholderImageUrl
-          )})`
-        }}
-      />
-      <div className="sr-only">{bannerImageAlt(banner)}</div>
-      <BannerContent banner={banner} />
-    </div>
-  </a>
-);
+}: Props): ReactElement<HTMLElement> | null => {
+  if (!banner) {
+    return null;
+  }
+
+  return (
+    <>
+      <h2 className="container c-projects-header__subheader">
+        Featured Projects
+      </h2>
+      <a
+        href={banner.path}
+        className="m-banner m-banner--responsive m-banner--lg-9 m-banner--no-margin-top m-banner--default"
+      >
+        <div className="hidden-xs-down">
+          <div className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default">
+            <BannerContent banner={banner} />
+            <img
+              className="m-banner__image--by-side"
+              src={bannerImageURL(banner, placeholderImageUrl)}
+              alt={bannerImageAlt(banner)}
+            />
+            <div className="sr-only">{bannerImageAlt(banner)}</div>
+          </div>
+        </div>
+
+        <div className="hidden-sm-up">
+          <div
+            className="m-banner__image m-banner__image--responsive m-banner__image--default"
+            style={{
+              backgroundImage: `url(${bannerImageURL(
+                banner,
+                placeholderImageUrl
+              )})`
+            }}
+          >
+            <div className="sr-only">{bannerImageAlt(banner)}</div>
+          </div>
+          <BannerContent banner={banner} />
+        </div>
+      </a>
+    </>
+  );
+};
 
 export default Banner;

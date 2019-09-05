@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component renders 1`] = `
+<div
+  className="m-route-pills"
+>
+  <span>
+    <span
+      aria-hidden="false"
+      className="notranslate c-svg__icon c-featured-project__route-icon"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+    <span
+      className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--silver-line"
+    >
+      Silver Line
+    </span>
+  </span>
+  <span
+    className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--orange-line"
+  >
+    Orange Line
+  </span>
+</div>
+`;

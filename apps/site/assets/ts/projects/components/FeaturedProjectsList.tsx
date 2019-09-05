@@ -26,7 +26,11 @@ const groupPairwise = (projectsToGroup: Project[]): Project[][] =>
 const FeaturedProjectsList = ({
   projects,
   placeholderImageUrl
-}: Props): ReactElement<HTMLElement> => {
+}: Props): ReactElement<HTMLElement> | null => {
+  if (projects.length === 0) {
+    return null;
+  }
+
   const groupedProjects = groupPairwise(projects);
 
   return (

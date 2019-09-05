@@ -49,3 +49,8 @@ test("dismiss fullscreen error with a key stroke", () => {
 
   expect(containerEl.getAttribute("style")).toEqual("display: none");
 });
+
+test("handle case where the element is not available", () => {
+  document.body.innerHTML = `<div></div>`;
+  registerDismissFullscreenError();
+});

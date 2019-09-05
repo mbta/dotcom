@@ -1,5 +1,10 @@
+import React from "react";
 import renderer from "react-test-renderer";
-import { routeToModeName } from "../components/RoutePillList";
+import { createReactRoot } from "../../app/helpers/testUtils";
+import {
+  routeToModeName,
+  default as RoutePillList
+} from "../components/RoutePillList";
 
 describe("routeToModeName", () => {
   it("returns the correct name for ferries", () => {
@@ -32,5 +37,28 @@ describe("routeToModeName", () => {
     };
 
     expect(routeToModeName(greenLineBranchRoute)).toEqual("green-line");
+  });
+});
+
+describe("component", () => {
+  it("renders", () => {
+    createReactRoot();
+
+    const silverLineRoute = {
+      mode: "bus",
+      id: "741",
+      group: "line"
+    };
+
+    const subwayRoute = {
+      mode: "subway",
+      id: "Orange",
+      group: "line"
+    };
+
+    const tree = renderer
+      .create(<RoutePillList routes={[silverLineRoute, subwayRoute]} />)
+      .toJSON();
+    expect(tree).toMatchSnapshot();
   });
 });
