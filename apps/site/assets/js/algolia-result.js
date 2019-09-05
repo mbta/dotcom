@@ -42,9 +42,9 @@ export const TEMPLATES = {
       SELECTORS.result
     } c-search-result__link u-no-underline" href="{{hitUrl}}" data-queryid="{{analyticsData.queryID}}" data-hit-position="{{analyticsData.position}}" data-objectid="{{analyticsData.objectID}}">
     {{/id}}
-      <span>{{{hitIcon}}}</span>
       <span class="c-search-result__hit-name">{{{hitTitle}}}</span>
     </a>
+    <span>{{{hitIcon}}}</span>
     {{#hasDate}}
     </div>
     {{/hasDate}}
@@ -106,8 +106,9 @@ export function parseResult(hit, index, searchType) {
 export function getIcon(hit, type, searchType) {
   if (searchType) {
     if (searchType === "projects") {
-      console.log(hit.related_transit_gtfs_id, "related transit id");
-      console.log(hit.related_transit_gtfs_ancestry, "related ancestry");
+      if (hit.related_transit_gtfs_id === null && hit.related_transit_gtfs_ancestry == null) {
+        return "";
+      }
       const icons = iconFromGTFS(
         hit.related_transit_gtfs_id,
         hit.related_transit_gtfs_ancestry
