@@ -260,9 +260,9 @@ defmodule CMS.Repo do
       case Enum.into(opts, %{}) do
         %{route_id: route_id, topic: topic} -> "/#{topic}/#{route_id}"
         %{mode: mode, topic: topic} -> "/#{topic}/#{mode}"
-        %{topic: topic} -> "/#{topic}"
-        %{mode: mode} -> "/#{mode}"
-        %{route_id: route_id} -> "/#{route_id}"
+        %{topic: topic} -> "/#{topic}/any"
+        %{mode: mode} -> "/any/#{mode}"
+        %{route_id: route_id} -> "/any/#{route_id}"
         %{args: args} -> "/" <> Enum.join(args, "/")
         _ -> nil
       end
