@@ -8,6 +8,7 @@ defmodule SiteWeb.PageController do
 
   alias CMS.Partial.{
     Banner,
+    Paragraph,
     Teaser,
     WhatsHappeningItem
   }
@@ -21,6 +22,7 @@ defmodule SiteWeb.PageController do
   def index(conn, _params) do
     {promoted, remainder} = whats_happening_items()
     banner = banner()
+    fares = fares()
 
     conn
     |> assign(
@@ -30,11 +32,20 @@ defmodule SiteWeb.PageController do
     )
     |> async_assign_default(:news, &news/0, [])
     |> async_assign_default(:banner, fn -> banner end)
+    |> async_assign_default(:homepage_fares, fn -> fares end)
     |> async_assign_default(:promoted_items, fn -> promoted end)
     |> async_assign_default(:whats_happening_items, fn -> remainder end)
     |> async_assign_default(:alerts, fn -> Alerts.Repo.all(conn.assigns.date_time) end)
     |> await_assign_all_default(__MODULE__)
     |> render("index.html")
+  end
+
+  @spec fares :: Paragraph.t() | nil
+  defp fares do
+    case Repo.get_paragraph("paragraphs/multi-column/homepage-fares") do
+      {:error, _} -> nil
+      result -> result
+    end
   end
 
   @spec banner :: Banner.t() | nil

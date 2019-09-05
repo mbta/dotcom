@@ -14,14 +14,10 @@
                                                                 header_class: "h3") %>
     </div>
   </div>
-  <%=
-    if assigns[:banner] do
-      render SiteWeb.PageView, "_banner.html", conn: @conn, banner: assigns[:banner]
-    end
-  %>
+  <%= if assigns[:banner], do: render SiteWeb.PageView, "_banner.html", conn: @conn, banner: @banner %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @promoted_items, promoted: true %>
   <%= render SiteWeb.PageView, "_news_and_updates.html", conn: @conn, news: @news %>
   <%= render SiteWeb.PageView, "_whats_happening.html", conn: @conn, whats_happening_items: @whats_happening_items, promoted: false %>
-  <%= render SiteWeb.PageView, "_fares_passes.html", conn: @conn, common_fare_summaries: @common_fare_summaries %>
+  <%= if assigns[:homepage_fares], do: render SiteWeb.PageView, "_fares_passes.html", conn: @conn, homepage_fares: @homepage_fares %>
   <%= render SiteWeb.PageView, "_important_links.html", conn: @conn %>
 </div>

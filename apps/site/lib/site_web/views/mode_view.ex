@@ -2,11 +2,10 @@ defmodule SiteWeb.ModeView do
   use SiteWeb, :view
 
   alias Alerts.Match
-  alias CMS.Partial.Paragraph.ColumnMulti
   alias Plug.Conn
   alias Routes.Route
   alias Site.MapHelpers
-  alias SiteWeb.FareView
+  alias SiteWeb.PartialView
   alias SiteWeb.PartialView.SvgIconWithCircle
 
   def get_route_group(:commuter_rail = route_type, route_groups) do
@@ -215,27 +214,20 @@ defmodule SiteWeb.ModeView do
   defp in_range?(first, last, value) when value >= first and value <= last, do: true
   defp in_range?(_, _, _), do: false
 
-  @spec hub_fare_cards :: [ColumnMulti.t()]
-  def hub_fare_cards do
-    [
-      ColumnMulti.new(columns: [FareView.fare_card(:subway), FareView.fare_card(:bus)]),
-      ColumnMulti.new(columns: [FareView.fare_card(:commuter_rail), FareView.fare_card(:ferry)])
-    ]
-  end
-
-  @spec mode_fare_card(Route.gtfs_route_type()) :: ColumnMulti.t()
+  @spec mode_fare_card(Route.gtfs_route_type()) :: String.t()
   def mode_fare_card(:commuter_rail) do
-    ColumnMulti.new(columns: [FareView.fare_card(:commuter_rail)])
+    "paragraphs/multi-column/commuter-rail-fares"
   end
 
   def mode_fare_card(:ferry) do
-    ColumnMulti.new(columns: [FareView.fare_card(:ferry)])
+    "paragraphs/multi-column/ferry-fares"
   end
 
-  def mode_fare_card(mode) do
-    ColumnMulti.new(
-      columns: FareView.fare_card_double(mode),
-      display_options: "grouped"
-    )
+  def mode_fare_card(:subway) do
+    "paragraphs/multi-column/subway-fares"
+  end
+
+  def mode_fare_card(:bus) do
+    "paragraphs/multi-column/bus-fares"
   end
 end

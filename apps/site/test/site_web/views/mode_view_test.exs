@@ -5,7 +5,6 @@ defmodule SiteWeb.ModeViewTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
 
   alias Alerts.Alert
-  alias CMS.Partial.Paragraph.{Column, ColumnMulti, FareCard}
   alias Routes.Route
   alias SiteWeb.ModeView
 
@@ -122,25 +121,6 @@ defmodule SiteWeb.ModeViewTest do
     test "Numeric bus route" do
       assert [%Route{name: "99"}] == Enum.filter(@bus_routes, ModeView.bus_filter_range(1, 100))
       assert [] == Enum.filter(@bus_routes, ModeView.bus_filter_range(200, 299))
-    end
-  end
-
-  describe "hub_fare_cards" do
-    test "returns grouped fare card data" do
-      assert [
-               %ColumnMulti{
-                 columns: [
-                   %Column{paragraphs: [%FareCard{fare_token: "subway:charlie_card"}]},
-                   %Column{paragraphs: [%FareCard{fare_token: "local_bus:charlie_card"}]}
-                 ]
-               },
-               %ColumnMulti{
-                 columns: [
-                   %Column{paragraphs: [%FareCard{fare_token: "commuter_rail"}]},
-                   %Column{paragraphs: [%FareCard{fare_token: "ferry"}]}
-                 ]
-               }
-             ] = ModeView.hub_fare_cards()
     end
   end
 end
