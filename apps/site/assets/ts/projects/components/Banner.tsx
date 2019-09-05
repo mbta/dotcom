@@ -86,6 +86,21 @@ const Banner = ({
             <div className="sr-only">{bannerImageAlt(banner)}</div>
           </div>
         </div>
+
+        <div className="hidden-sm-up">
+          <div
+            className="m-banner__image m-banner__image--responsive m-banner__image--default"
+            style={{
+              backgroundImage: `url(${bannerImageURL(
+                banner,
+                placeholderImageUrl
+              )})`
+            }}
+          >
+            <div className="sr-only">{bannerImageAlt(banner)}</div>
+          </div>
+          <BannerContent banner={banner} />
+        </div>
       </a>
     </>
   );

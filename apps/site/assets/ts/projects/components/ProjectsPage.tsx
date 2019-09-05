@@ -128,7 +128,6 @@ const ProjectsPage = ({
               placeholderImageUrl={placeholderImageUrl}
             />
             <FeaturedProjectsList
-              banner={state.banner}
               projects={state.featuredProjects}
               placeholderImageUrl={placeholderImageUrl}
             />

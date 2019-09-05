@@ -158,6 +158,47 @@ Array [
               </div>
             </div>
           </div>
+          <div
+            className="hidden-sm-up"
+          >
+            <div
+              className="m-banner__image m-banner__image--responsive m-banner__image--default"
+              style={
+                Object {
+                  "backgroundImage": "url(https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq)",
+                }
+              }
+            >
+              <div
+                className="sr-only"
+              >
+                Better Bus Project: Making transit better together
+              </div>
+            </div>
+            <div
+              className="m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--unknown"
+            >
+              <div
+                className="m-banner__top"
+              >
+                <h2
+                  className="h2 m-banner__title m-banner__title--default"
+                >
+                  Better Bus Project
+                </h2>
+              </div>
+              <div
+                className="m-banner__bottom"
+              >
+                <span
+                  className="m-banner__date"
+                >
+                  Updated 
+                  July 30, 2019
+                </span>
+              </div>
+            </div>
+          </div>
         </a>
         <div
           className="container c-featured-project-list"
@@ -165,58 +206,6 @@ Array [
           <div
             className="page-section"
           >
-            <div
-              className="hidden-sm-up"
-            >
-              <div
-                className="c-featured-project-list__row"
-              >
-                <div
-                  className="c-featured-project"
-                >
-                  <a
-                    href="/projects/better-bus-project"
-                  >
-                    <div
-                      className="c-featured-project__image"
-                    >
-                      <img
-                        alt="Better Bus Project: Making transit better together"
-                        src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq"
-                      />
-                    </div>
-                    <h3
-                      className="c-featured-project__title"
-                    >
-                      Better Bus Project
-                    </h3>
-                    <div
-                      className="c-featured-project__date"
-                    >
-                      Updated on 
-                      July 30, 2019
-                    </div>
-                    Too many of our bus routes still fail to live up to our own standards. Through the Better Bus Project, we are changing that.
-                    <div
-                      className="m-route-pills"
-                    >
-                      <span
-                        aria-hidden="false"
-                        className="notranslate c-svg__icon c-featured-project__route-icon"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "SVG",
-                          }
-                        }
-                      />
-                    </div>
-                  </a>
-                </div>
-                <div
-                  className="c-featured-project"
-                />
-              </div>
-            </div>
             <div
               className="c-featured-project-list__row"
             >

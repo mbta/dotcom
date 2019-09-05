@@ -8,54 +8,6 @@ exports[`renders 1`] = `
     className="page-section"
   >
     <div
-      className="hidden-sm-up"
-    >
-      <div
-        className="c-featured-project-list__row"
-      >
-        <div
-          className="c-featured-project"
-        >
-          <a
-            href="/some-banner"
-          >
-            <div
-              className="c-featured-project__image"
-            >
-              <img
-                alt="Big banner image"
-                src="https://www.imagehost.com/banner.jpg"
-              />
-            </div>
-            <h3
-              className="c-featured-project__title"
-            >
-              Something bannery
-            </h3>
-            <div
-              className="c-featured-project__date"
-            >
-              Updated on 
-              March 2, 2018
-            </div>
-            This project is important enough to get a banner.
-            <div
-              className="m-route-pills"
-            >
-              <span
-                className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--orange-line"
-              >
-                Orange Line
-              </span>
-            </div>
-          </a>
-        </div>
-        <div
-          className="c-featured-project"
-        />
-      </div>
-    </div>
-    <div
       className="c-featured-project-list__row"
     >
       <div

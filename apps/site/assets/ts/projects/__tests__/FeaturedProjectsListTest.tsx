@@ -59,20 +59,6 @@ const projects = [
   }
 ];
 
-const banner = {
-  date: "2018-03-02",
-  id: 9999,
-  image: {
-    url: "https://www.imagehost.com/banner.jpg",
-    alt: "Big banner image"
-  },
-  path: "/some-banner",
-  routes: [{ mode: "subway", id: "Orange", group: "line" }],
-  title: "Something bannery",
-  text: "This project is important enough to get a banner.",
-  status: null
-};
-
 const placeholderImageUrl = "https://www.example.com/someimage.png";
 
 it("renders", () => {
@@ -82,7 +68,6 @@ it("renders", () => {
       <FeaturedProjectsList
         projects={projects}
         placeholderImageUrl={placeholderImageUrl}
-        banner={banner}
       />
     )
     .toJSON();
@@ -94,7 +79,6 @@ it("returns null if no projects present", () => {
     <FeaturedProjectsList
       projects={[]}
       placeholderImageUrl={placeholderImageUrl}
-      banner={banner}
     />
   );
   expect(wrapper.html()).toEqual(null);

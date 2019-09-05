@@ -77,7 +77,7 @@ it("triggers event when clicked", () => {
     banner: null,
     featuredProjects: [],
     fetchInProgress: false,
-    projects: [],
+    projects: [project],
     projectUpdates: [],
     offsetStart: 0
   };
