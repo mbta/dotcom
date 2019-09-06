@@ -1,16 +1,21 @@
 import * as AlgoliaResult from "./algolia-result";
+// eslint-disable-next-line import/no-unresolved
 import * as QueryHelpers from "../ts/helpers/query";
 
-export class AlgoliaAutocomplete {
-  constructor(id, selectors, indices, parent) {
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable class-methods-use-this */
+
+export default class AlgoliaAutocomplete {
+  constructor({ id, selectors, indices, parent, searchType }) {
     if (typeof id !== "string") {
       throw new window.Error("autocomplete must have an id");
     }
     this.id = id;
+    this.searchType = searchType;
     this._parent = parent;
     this.error = null;
     this._selectors = Object.assign(selectors, {
-      resultsContainer: selectors.input + "-autocomplete-results"
+      resultsContainer: `${selectors.input}-autocomplete-results`
     });
     this._input = document.getElementById(this._selectors.input);
     this._resultsContainer = document.getElementById(
@@ -59,32 +64,23 @@ export class AlgoliaAutocomplete {
   init(client) {
     this._client = client;
 
-    if (!this._input) {
-      console.error(
-        `could not find autocomplete input: ${this._selectors.input}`
-      );
-      return false;
-    }
+    if (!this._input) return;
 
-    if (!this._resetButton) {
-      console.error(
-        `could not find reset button: ${this._selectors.resetButton}`
-      );
-      return false;
-    }
+    if (!this._resetButton) return;
 
     this._addResultsContainer();
 
     this._resultsContainer.innerHTML = "";
 
-    this._datasets = this._indices.reduce((acc, index) => {
-      return this._buildDataset(index, acc);
-    }, []);
+    this._datasets = this._indices.reduce(
+      (acc, index) => this._buildDataset(index, acc),
+      []
+    );
 
     this._autocomplete = window.autocomplete(
       this._input,
       {
-        appendTo: "#" + this._selectors.resultsContainer,
+        appendTo: `#${this._selectors.resultsContainer}`,
         debug: false,
         autoselectOnBlur: false,
         openOnFocus: true,
@@ -116,28 +112,28 @@ export class AlgoliaAutocomplete {
       .jQuery(document)
       .on(
         "autocomplete:cursorchanged",
-        "#" + this._selectors.input,
+        `#${this._selectors.input}`,
         this.onCursorChanged
       );
     window
       .jQuery(document)
       .on(
         "autocomplete:cursorremoved",
-        "#" + this._selectors.input,
+        `#${this._selectors.input}`,
         this.onCursorRemoved
       );
     window
       .jQuery(document)
       .on(
         "autocomplete:selected",
-        "#" + this._selectors.input,
+        `#${this._selectors.input}`,
         this.onHitSelected
       );
     window
       .jQuery(document)
-      .on("autocomplete:shown", "#" + this._selectors.input, this.onOpen);
+      .on("autocomplete:shown", `#${this._selectors.input}`, this.onOpen);
 
-    window.jQuery(document).on("keyup", "#" + this._input.id, this.onKeyup);
+    window.jQuery(document).on("keyup", `#${this._input.id}`, this.onKeyup);
 
     window.addEventListener("resize", this.onOpen);
 
@@ -156,28 +152,28 @@ export class AlgoliaAutocomplete {
         .jQuery(document)
         .off(
           "autocomplete:cursorchanged",
-          "#" + this._selectors.input,
+          `#${this._selectors.input}`,
           this.onCursorChanged
         );
       window
         .jQuery(document)
         .off(
           "autocomplete:cursorremoved",
-          "#" + this._selectors.input,
+          `#${this._selectors.input}`,
           this.onCursorRemoved
         );
       window
         .jQuery(document)
         .off(
           "autocomplete:selected",
-          "#" + this._selectors.input,
+          `#${this._selectors.input}`,
           this.onHitSelected
         );
       window
         .jQuery(document)
-        .off("autocomplete:shown", "#" + this._selectors.input, this.onOpen);
+        .off("autocomplete:shown", `#${this._selectors.input}`, this.onOpen);
       window.removeEventListener("resize", this.onOpen);
-      window.jQuery(document).off("keyup", "#" + this._input.id, this.onKeyup);
+      window.jQuery(document).off("keyup", `#${this._input.id}`, this.onKeyup);
       window
         .jQuery(document)
         .off("click", ".c-search-bar__-suggestion", this.onClickSuggestion);
@@ -206,7 +202,7 @@ export class AlgoliaAutocomplete {
     this._client.errorContainer = errorMsg;
   }
 
-  onKeyup(ev) {
+  onKeyup() {
     this._toggleResetButton(this._autocomplete.autocomplete.getVal() !== "");
   }
 
@@ -222,21 +218,22 @@ export class AlgoliaAutocomplete {
 
   positionDropdown(acDialog) {
     const borderWidth = parseInt(
-      $(`#${this._selectors.container}`).css("border-left-width")
+      $(`#${this._selectors.container}`).css("border-left-width"),
+      10
     );
-    const offsetLeft = document.getElementById(`${this._selectors.input}`)
-      .offsetLeft;
-    const offsetTop = document.getElementById(`${this._selectors.input}`)
-      .offsetTop;
+    const { offsetLeft } = document.getElementById(`${this._selectors.input}`);
+    const { offsetTop } = document.getElementById(`${this._selectors.input}`);
 
+    /* eslint-disable no-param-reassign */
     acDialog.style.width = `${this._searchContainer.offsetWidth}px`;
     acDialog.style.marginLeft = `${-borderWidth + -offsetLeft}px`;
     acDialog.style.marginTop = `${borderWidth + offsetTop}px`;
+    /* eslint-enable no-param-reassign */
   }
 
   announceResults(dialog) {
     const count = Array.from(dialog.querySelectorAll("a")).reduce(
-      (acc, $el) => acc + 1,
+      acc => acc + 1,
       0
     );
     const s = count === 1 ? "" : "s";
@@ -257,12 +254,12 @@ export class AlgoliaAutocomplete {
     }
   }) {
     this._highlightedHit = {
-      hit: hit,
-      index: index
+      hit,
+      index
     };
   }
 
-  onCursorRemoved(ev) {
+  onCursorRemoved() {
     this._highlightedHit = null;
   }
 
@@ -278,9 +275,9 @@ export class AlgoliaAutocomplete {
   }
 
   clickFirstResult() {
-    const firstIndex = this._indices.find(index => {
-      return this._results[index] && this._results[index].hits.length > 0;
-    });
+    const firstIndex = this._indices.find(
+      index => this._results[index] && this._results[index].hits.length > 0
+    );
     if (firstIndex) {
       return this.onHitSelected({
         originalEvent: {
@@ -335,15 +332,15 @@ export class AlgoliaAutocomplete {
     return acc;
   }
 
-  minLength(indexName) {
+  minLength() {
     return 1;
   }
 
-  maxLength(indexName) {
+  maxLength() {
     return null;
   }
 
-  renderFooterTemplate(_indexName) {
+  renderFooterTemplate() {
     // Does not render a footer template by default.
     // To render a footer template, override this method.
     return null;
@@ -353,18 +350,17 @@ export class AlgoliaAutocomplete {
     return (query, callback) => {
       this._client.reset();
       return this._client
-        .search({ query: query })
-        .then(results => this._onResults(callback, index, results))
-        .catch(err => console.error(err));
+        .search({ query })
+        .then(results => this._onResults(callback, index, results));
     };
   }
 
-  _emptySearchSource(_index) {
+  _emptySearchSource() {
     return (query, callback) => callback([{ data: "" }]);
   }
 
   _onResults(callback, index, results) {
-    if (results["error"]) {
+    if (results.error) {
       return;
     }
     if (results[index] && results[index].hits) {
@@ -374,7 +370,7 @@ export class AlgoliaAutocomplete {
   }
 
   renderResult(index) {
-    return hit => AlgoliaResult.renderResult(hit, index);
+    return hit => AlgoliaResult.renderResult(hit, index, this.searchType);
   }
 
   setValue(value) {

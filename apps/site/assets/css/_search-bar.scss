@@ -22,6 +22,12 @@
   }
 }
 
+.c-search-bar--embedded-large {
+  @include media-breakpoint-up(md) {
+    width: 60%;
+  }
+}
+
 .c-search-bar__empty {
   display: flex;
   justify-content: space-between;

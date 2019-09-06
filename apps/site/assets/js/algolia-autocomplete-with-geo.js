@@ -1,8 +1,11 @@
-import { AlgoliaAutocomplete } from "./algolia-autocomplete";
+import AlgoliaAutocomplete from "./algolia-autocomplete";
 import * as GoogleMapsHelpers from "./google-maps-helpers";
+// eslint-disable-next-line
 import * as QueryHelpers from "../ts/helpers/query";
 import geolocationPromise from "./geolocation-promise";
 import debounce from "../ts/helpers/debounce.ts";
+
+/* eslint-disable no-underscore-dangle */
 
 export const addFilterParam = (params, path) => {
   switch (path) {
@@ -25,13 +28,12 @@ export const addFilterParam = (params, path) => {
 
 class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   constructor({ id, selectors, indices, locationParams, popular, parent }) {
-    super(id, selectors, indices, parent);
+    super({ id, selectors, indices, parent });
+    this.searchType = undefined;
     this.sessionToken = null;
     this.debounceInterval = 250;
     if (!this._parent.getParams) {
-      this._parent.getParams = () => {
-        return {};
-      };
+      this._parent.getParams = () => ({});
     }
     this._popular = popular;
     this._loadingIndicator = document.getElementById(
@@ -101,9 +103,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
         input,
         sessionToken: this.sessionToken,
         hitLimit: this._locationParams.hitLimit
-      })
-        .then(results => this._onResults(callback, index, results))
-        .catch(err => console.error(err));
+      }).then(results => this._onResults(callback, index, results));
   }
 
   _popularSource() {
@@ -120,6 +120,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
   minLength(index) {
     switch (index) {
       case "usemylocation":
@@ -130,6 +131,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
   maxLength(index) {
     switch (index) {
       case "usemylocation":
@@ -177,11 +179,9 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   _doLocationSearch(placeId) {
-    return GoogleMapsHelpers.lookupPlace(placeId)
-      .then(result => this._onLocationSearchResult(result))
-      .catch(err =>
-        console.error("Error looking up place_id from Google Maps.", err)
-      );
+    return GoogleMapsHelpers.lookupPlace(placeId).then(result =>
+      this._onLocationSearchResult(result)
+    );
   }
 
   _onLocationSearchResult(result) {
@@ -193,9 +193,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
     return GoogleMapsHelpers.reverseGeocode(
       parseFloat(latitude),
       parseFloat(longitude)
-    )
-      .then(result => this.onReverseGeocodeResults(result, latitude, longitude))
-      .catch(err => console.error(err));
+    ).then(result => this.onReverseGeocodeResults(result, latitude, longitude));
   }
 
   onReverseGeocodeResults(result, latitude, longitude) {

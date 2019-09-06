@@ -1,5 +1,4 @@
-document.body.className = document.body.className.replace("no-js", "js");
-
+/* eslint-disable */
 import "../vendor/fixedsticky";
 import "../vendor/accessible-date-picker";
 import "bootstrap/dist/js/umd/collapse";
@@ -34,7 +33,7 @@ import * as TripPlannerLocationControls from "./trip-planner-location-controls";
 import stopBubbles from "./stop-bubbles";
 import search from "./search";
 import photoGallery from "./photo-gallery";
-import * as embeddedSearch from "./algolia-embedded-search";
+import { init as embeddedSearchInit } from "./algolia-embedded-search";
 import * as homepageSearch from "./algolia-homepage-search";
 import * as globalSearch from "./algolia-global-search";
 import AlgoliaResults from "./algolia-results";
@@ -44,6 +43,8 @@ import channels from "./channels";
 import CRTrains from "./cr-timetable-trains";
 import { onload as alertItemLoad } from "./alert-item";
 import dismissFullscreenError from "../ts/app/dismiss-fullscreen-error";
+
+document.body.className = document.body.className.replace("no-js", "js");
 
 // Extra steps for non-modular javascript
 Turbolinks.start();
@@ -264,15 +265,15 @@ if (!Array.prototype.find) {
 
 // Source: https://github.com/jserz/js_piece/blob/master/DOM/NonDocumentTypeChildNode/nextElementSibling/nextElementSibling.md
 (function(arr) {
-  arr.forEach(function(item) {
+  arr.forEach(item => {
     if (item.hasOwnProperty("nextElementSibling")) {
       return;
     }
     Object.defineProperty(item, "nextElementSibling", {
       configurable: true,
       enumerable: true,
-      get: function() {
-        var el = this;
+      get() {
+        let el = this;
         while ((el = el.nextSibling)) {
           if (el.nodeType === 1) {
             return el;
@@ -331,7 +332,7 @@ photoGallery();
 stickyTooltip();
 globalSearch.init();
 homepageSearch.init();
-embeddedSearch.init();
+embeddedSearchInit();
 TripPlannerLocationControls.init();
 TripPlannerTimeControls.init();
 fullstory();

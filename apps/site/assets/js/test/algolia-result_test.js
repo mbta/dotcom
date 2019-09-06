@@ -2,6 +2,8 @@ import jsdom from "mocha-jsdom";
 import { expect, assert } from "chai";
 import * as AlgoliaResult from "../algolia-result";
 
+/* eslint-disable no-underscore-dangle */
+
 describe("AlgoliaResult", () => {
   const drupalHits = {
     searchResult: {
@@ -295,6 +297,38 @@ describe("AlgoliaResult", () => {
     }
   };
 
+  const projectHits = {
+    bus: {
+      related_transit_gtfs_id: "1",
+      related_transit_gtfs_ancestry: "bus"
+    },
+    subway: {
+      related_transit_gtfs_id: ["Red", "Orange", "Green-B", "Green-C", "Green"],
+      related_transit_gtfs_ancestry: [
+        "Subway",
+        "Subway",
+        "Green",
+        "Subway",
+        "Green",
+        "Subway",
+        "Subway"
+      ]
+    },
+    green: {
+      related_transit_gtfs_id: "Green",
+      related_transit_gtfs_ancestry: "Subway"
+    },
+    red: {
+      related_transit_gtfs_id: "Red",
+      related_transit_gtfs_ancestry: "Subway"
+    },
+    cr: {
+      related_transit_gtfs_id: "CR-Lowell",
+      related_transit_gtfs_ancestry: "Commuter Rail"
+    },
+    none: { related_transit_gtfs_id: null, related_transit_gtfs_ancestry: null }
+  };
+
   jsdom();
   before(() => {
     document.body.innerHTML = `
@@ -304,6 +338,8 @@ describe("AlgoliaResult", () => {
       <div id="icon-feature-red_line"><span>red line icon</span></div>
       <div id="icon-feature-blue_line"><span>blue line icon</span></div>
       <div id="icon-feature-orange_line"><span>orange line icon</span></div>
+      <div id="icon-feature-green_line"><span>green line icon</span></div>
+      <div id="icon-feature-green_line_b"><span>green line b icon</span></div>
       <div id="icon-feature-green_line_c"><span>green line C icon</span></div>
       <div id="icon-feature-mattapan_line"><span>mattapan line icon</span></div>
       <div id="icon-feature-stop"><span>stop icon</span></div>
@@ -313,6 +349,7 @@ describe("AlgoliaResult", () => {
       <div id="routes-with-alerts" data-routes-with-alerts=""></div>
     `;
   });
+
   describe("getIcon", () => {
     it("renders correct icon for Drupal results", () => {
       assert.include(
@@ -403,6 +440,49 @@ describe("AlgoliaResult", () => {
         "<span>stop icon</span>"
       );
     });
+
+    it("renders correct icon for Drupal results for project searches", () => {
+      assert.include(
+        AlgoliaResult.getIcon(projectHits.none, "drupal", "projects"),
+        ""
+      );
+      assert.include(
+        AlgoliaResult.getIcon(projectHits.bus, "drupal", "projects"),
+        "bus"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(projectHits.red, "drupal", "projects"),
+        "red line"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(projectHits.green, "drupal", "projects"),
+        "green line"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(projectHits.cr, "drupal", "projects"),
+        "commuter rail"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(projectHits.subway, "drupal", "projects"),
+        "green line"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(projectHits.subway, "drupal", "projects"),
+        "red line"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(projectHits.subway, "drupal", "projects"),
+        "orange line"
+      );
+      assert.include(
+        AlgoliaResult.getIcon(projectHits.subway, "drupal", "projects"),
+        "green line b"
+      );
+      assert.notInclude(
+        AlgoliaResult.getIcon(projectHits.subway, "drupal", "projects"),
+        "subway"
+      );
+    });
   });
 
   describe("getTitle", () => {
@@ -417,7 +497,7 @@ describe("AlgoliaResult", () => {
       });
     });
 
-    describe("for locations", function() {
+    describe("for locations", () => {
       it("properly highlights search results from google locations", () => {
         expect(
           AlgoliaResult.getTitle(locationHits.bostonCommon, "locations")
