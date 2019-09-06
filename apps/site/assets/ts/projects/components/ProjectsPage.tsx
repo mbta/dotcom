@@ -21,6 +21,7 @@ export interface State {
   fetchInProgress: boolean;
   projects: Project[];
   currentMode?: Mode;
+  currentLine?: SubwayLine;
   projectUpdates: Project[];
   offsetStart: number;
 }
@@ -32,6 +33,7 @@ export type UpdateSelectedMode = ((
   newMode: Mode,
   setState: SetState
 ) => void);
+export type SubwayLine = "red" | "orange" | "blue" | "green" | "mattapan";
 
 export const fetchMoreProjects: FetchProjects = (
   state: State,

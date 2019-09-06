@@ -1,51 +1,54 @@
 import React, { ReactElement } from "react";
 import FilterButton from "../../components/FilterButton";
 import ModeIcon from "../../tnm/components/ModeIcon";
+import { SubwayLine } from "./ProjectsPage";
 
-const SubwayFilter = (): ReactElement<HTMLElement> => (
-  <div className="subway-filter">
-    <div className="c-mode-filter__filter-btn-group">
-      <FilterButton
-        identifier={"red"}
-        icon={<ModeIcon type="red_line" />}
-        name={"Red Line"}
-        isSelected={f => false}
-        onClick={f => () => console.log(f)}
-      />
-      <FilterButton
-        identifier={"orange"}
-        icon={<ModeIcon type="orange_line" />}
-        name={"Orange Line"}
-        isSelected={f => false}
-        onClick={f => () => console.log(f)}
-      />
+interface Props {
+  currentMode?: string;
+  currentLine?: SubwayLine;
+}
+
+interface LineButtonProps {
+  line: SubwayLine;
+}
+
+const LineButton = ({ line }: LineButtonProps): ReactElement<HTMLElement> => {
+  const iconType = `${line}_line`;
+  const name = line[0].toUpperCase() + line.slice(1) + " Line";
+
+  return (
+    <FilterButton
+      identifier={line}
+      icon={<ModeIcon type={iconType} />}
+      name={name}
+      isSelected={f => false}
+      onClick={f => () => console.log(f)}
+    />
+  );
+};
+
+const SubwayFilter = ({
+  currentMode
+}: Props): ReactElement<HTMLElement> | null => {
+  if (currentMode != "subway") {
+    return null;
+  }
+
+  return (
+    <div className="subway-filter">
+      <div className="c-mode-filter__filter-btn-group">
+        <LineButton line="red" />
+        <LineButton line="orange" />
+      </div>
+      <div className="c-mode-filter__filter-btn-group">
+        <LineButton line="blue" />
+        <LineButton line="green" />
+      </div>
+      <div className="c-mode-filter__filter-btn-group">
+        <LineButton line="mattapan" />
+      </div>
     </div>
-    <div className="c-mode-filter__filter-btn-group">
-      <FilterButton
-        identifier={"blue"}
-        icon={<ModeIcon type="blue_line" />}
-        name={"Blue Line"}
-        isSelected={f => false}
-        onClick={f => () => console.log(f)}
-      />
-      <FilterButton
-        identifier={"green"}
-        icon={<ModeIcon type="green_line" />}
-        name={"Green Line"}
-        isSelected={f => false}
-        onClick={f => () => console.log(f)}
-      />
-    </div>
-    <div className="c-mode-filter__filter-btn-group">
-      <FilterButton
-        identifier={"mattapan"}
-        icon={<ModeIcon type="mattapan_line" />}
-        name={"Mattapan Line"}
-        isSelected={f => false}
-        onClick={f => () => f}
-      />
-    </div>
-  </div>
-);
+  );
+};
 
 export default SubwayFilter;

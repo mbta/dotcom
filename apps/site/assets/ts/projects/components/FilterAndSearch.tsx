@@ -24,7 +24,10 @@ const FilterAndSearch = ({
           }
           modeButtonsToShow={["subway", "bus", "commuter_rail", "ferry"]}
         />
-        <SubwayFilter />
+        <SubwayFilter
+          currentMode={state.currentMode}
+          currentLine={state.currentLine}
+        />
       </div>
     </div>
   </div>
