@@ -285,7 +285,7 @@ defmodule CMS.ParagraphTest do
     assert %ColumnMultiHeader{} = header
 
     assert %{
-             terms: [],
+             terms: [nil, nil],
              term_depth: 4,
              items_per_page: 5,
              type: [:project_update],

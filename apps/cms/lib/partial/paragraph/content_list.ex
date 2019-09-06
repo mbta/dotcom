@@ -35,12 +35,6 @@ defmodule CMS.Partial.Paragraph.ContentList do
 
   @spec from_api(map) :: t
   def from_api(data) do
-    terms =
-      data
-      |> Map.get("field_terms", [])
-      |> Enum.map(& &1["target_id"])
-      |> Enum.reject(&is_nil(&1))
-
     type =
       data
       |> field_value("field_content_type")
@@ -52,7 +46,7 @@ defmodule CMS.Partial.Paragraph.ContentList do
 
     ingredients = %{
       type: type,
-      terms: terms,
+      terms: [field_value(data, "field_terms"), field_value(data, "field_routes")],
       term_depth: field_value(data, "field_term_depth"),
       items_per_page: field_value(data, "field_number_of_items"),
       type_op: field_value(data, "field_type_logic"),
@@ -142,28 +136,19 @@ defmodule CMS.Partial.Paragraph.ContentList do
     |> combine()
   end
 
-  # If no terms are found, discard term and depth data
-  defp combine(%{terms: []} = ingredients) do
+  # If no terms are present, drop all term arguments
+  defp combine(%{terms: [nil, nil]} = ingredients) do
     ingredients
     |> Map.drop([:terms, :term_depth])
     |> combine()
   end
 
-  # If the default term depth is found, discard depth and compose arguments
-  defp combine(%{terms: terms, term_depth: 4} = ingredients) do
-    ingredients
-    |> Map.drop([:terms, :term_depth])
-    |> Map.put(:args, terms)
-    |> combine()
-  end
-
-  # If we are using a non-standard depth, all arguments must be set if terms are present
+  # Compose arguments and term depth, setting defaults where needed
   defp combine(%{terms: terms, term_depth: depth} = ingredients) do
     args_with_depth =
-      case terms do
-        [a] -> [a, "any", depth]
-        [a, b] -> [a, b, depth]
-      end
+      terms
+      |> Enum.map(fn x -> (is_nil(x) && "any") || x end)
+      |> List.insert_at(-1, depth)
 
     ingredients
     |> Map.drop([:terms, :term_depth])

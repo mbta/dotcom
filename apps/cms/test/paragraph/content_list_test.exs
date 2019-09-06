@@ -81,30 +81,21 @@ defmodule CMS.Partial.Paragraph.ContentListTest do
       opts =
         cms_map(
           terms: nil,
+          routes: nil,
           term_depth: 4
         )
 
       assert opts == []
     end
 
-    test "If the default term depth is found, discard depth and compose arguments" do
-      opts =
-        cms_map(
-          terms: [123, 321],
-          term_depth: 4
-        )
+    test "All arguments must be set if terms are present" do
+      tag_only = cms_map(terms: 123, routes: nil, term_depth: 3)
+      route_only = cms_map(terms: nil, routes: 321, term_depth: 3)
+      both_terms = cms_map(terms: 123, routes: 321, term_depth: 3)
 
-      assert opts == [args: [123, 321]]
-    end
-
-    test "If we are using a non-standard depth, all arguments must be set if terms are present" do
-      no_terms = cms_map(terms: nil, term_depth: 3)
-      one_term = cms_map(terms: [123], term_depth: 3)
-      two_terms = cms_map(terms: [123, 321], term_depth: 3)
-
-      assert no_terms == []
-      assert one_term == [args: [123, "any", 3]]
-      assert two_terms == [args: [123, 321, 3]]
+      assert tag_only == [args: [123, "any", 3]]
+      assert route_only == [args: ["any", 321, 3]]
+      assert both_terms == [args: [123, 321, 3]]
     end
   end
 
@@ -167,6 +158,7 @@ defmodule CMS.Partial.Paragraph.ContentListTest do
     opts =
       cms_map(
         terms: nil,
+        routes: nil,
         term_depth: 4,
         number_of_items: 5,
         content_type: "event",
@@ -206,8 +198,8 @@ defmodule CMS.Partial.Paragraph.ContentListTest do
     {"#{k}", [%{"value" => v}]}
   end
 
-  defp cms_field({:terms = k, terms}) do
-    {"field_#{k}", Enum.map(terms, &%{"target_id" => &1})}
+  defp cms_field({k, term}) when k in [:terms, :routes] do
+    {"field_#{k}", [%{"target_id" => term}]}
   end
 
   defp cms_field({k, v}) do
