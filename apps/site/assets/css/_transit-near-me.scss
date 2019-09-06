@@ -280,7 +280,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 .c-mode-filter__filter-btn-group {
   display: inline;
 
-  &:last-of-type {
+  &:not(:first-of-type) {
     margin-left: $base-spacing * .5;
   }
 }

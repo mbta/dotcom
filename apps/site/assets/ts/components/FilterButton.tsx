@@ -4,7 +4,7 @@ type IsSelectedFunction<T> = (identifier: T) => boolean;
 
 interface Props<T> {
   identifier: T;
-  icon: ReactElement<HTMLElement>;
+  icon: ReactElement<HTMLElement> | string | null;
   name: string;
   isSelected: IsSelectedFunction<T>;
   onClick: (identifier: T) => () => void;

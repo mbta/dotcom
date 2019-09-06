@@ -357,17 +357,15 @@
     padding-right: 0;
   }
 
-  .m-tnm-sidebar__filter-btn {
+  .m-tnm-sidebar__filter-bar .m-tnm-sidebar__filter-btn {
     @include media-breakpoint-only(xs) {
       width: 48%;
     }
+  }
 
-    @include media-breakpoint-only(sm) {
-      width: 124px;
-    }
-
-    @include media-breakpoint-up(md) {
-      width: 130px;
+  .subway-filter .m-tnm-sidebar__filter-btn {
+    @include media-breakpoint-only(xs) {
+      width: 48%;
     }
   }
 
@@ -380,7 +378,7 @@
       display: inline;
     }
 
-    &:last-of-type {
+    &:not(:first-of-type) {
       @include media-breakpoint-only(xs) {
         margin-left: 0;
         margin-top: $base-spacing * .25;
@@ -425,5 +423,9 @@
 }
 
 .filter-and-search__filter-buttons {
+  margin-top: $base-spacing * .25;
+}
+
+.subway-filter {
   margin-top: $base-spacing * .25;
 }

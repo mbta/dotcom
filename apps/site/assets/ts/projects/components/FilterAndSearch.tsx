@@ -1,4 +1,5 @@
 import React, { ReactElement } from "react";
+import SubwayFilter from "./SubwayFilter";
 import { ModeFilter } from "../../components/ModeFilter";
 import { State, SetState, UpdateSelectedMode } from "./ProjectsPage";
 
@@ -23,6 +24,7 @@ const FilterAndSearch = ({
           }
           modeButtonsToShow={["subway", "bus", "commuter_rail", "ferry"]}
         />
+        <SubwayFilter />
       </div>
     </div>
   </div>
