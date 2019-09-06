@@ -1,8 +1,10 @@
 import { expect } from "chai";
 import jsdom from "mocha-jsdom";
 import sinon from "sinon";
-import { AlgoliaAutocomplete } from "../algolia-autocomplete";
+import AlgoliaAutocomplete from "../algolia-autocomplete";
 import Algolia from "../algolia-search";
+
+/* eslint-disable no-underscore-dangle */
 
 describe("AlgoliaAutocomplete", () => {
   jsdom();
@@ -25,12 +27,10 @@ describe("AlgoliaAutocomplete", () => {
     }
   };
   const parent = {
-    getParams: () => {
-      return {
-        from: "stop-search",
-        query: ""
-      };
-    }
+    getParams: () => ({
+      from: "stop-search",
+      query: ""
+    })
   };
 
   beforeEach(() => {
@@ -44,9 +44,8 @@ describe("AlgoliaAutocomplete", () => {
     window.Turbolinks = {
       visit: sinon.spy()
     };
-    window.encodeURIComponent = string => {
-      return string.replace(/\s/g, "%20").replace(/\&/g, "%26");
-    };
+    window.encodeURIComponent = string =>
+      string.replace(/\s/g, "%20").replace(/&/g, "%26");
   });
   it("constructor does not initialize autocomplete", () => {
     const ac = new AlgoliaAutocomplete({
@@ -56,7 +55,7 @@ describe("AlgoliaAutocomplete", () => {
       parent
     });
     expect(ac._selectors.resultsContainer).to.equal(
-      selectors.input + "-autocomplete-results"
+      `${selectors.input}-autocomplete-results`
     );
     expect(ac._indices).to.equal(indices);
     expect(ac._autocomplete).to.equal(null);
@@ -97,9 +96,9 @@ describe("AlgoliaAutocomplete", () => {
           hits: ["fail1", "fail2", "fail3"]
         }
       };
-      expect(callback.called).to.be.false;
+      expect(callback.called).to.equal(false);
       ac._onResults(callback, "stops", results);
-      expect(callback.called).to.be.true;
+      expect(callback.called).to.equal(true);
       expect(callback.args[0][0]).to.eql(["success"]);
     });
   });
@@ -172,9 +171,9 @@ describe("AlgoliaAutocomplete", () => {
             ]
           }
         };
-        expect(window.Turbolinks.visit.called).to.be.false;
+        expect(window.Turbolinks.visit.called).to.equal(false);
         ac.clickFirstResult();
-        expect(window.Turbolinks.visit.called).to.be.true;
+        expect(window.Turbolinks.visit.called).to.equal(true);
         expect(window.Turbolinks.visit.args[0][0]).to.equal(
           "/stops/123?from=stop-search&query="
         );
@@ -202,9 +201,9 @@ describe("AlgoliaAutocomplete", () => {
             ]
           }
         };
-        expect(window.Turbolinks.visit.called).to.be.false;
+        expect(window.Turbolinks.visit.called).to.equal(false);
         ac.clickFirstResult();
-        expect(window.Turbolinks.visit.called).to.be.true;
+        expect(window.Turbolinks.visit.called).to.equal(true);
         expect(window.Turbolinks.visit.args[0][0]).to.equal(
           "/schedules/123?from=stop-search&query="
         );
@@ -226,9 +225,9 @@ describe("AlgoliaAutocomplete", () => {
             hits: []
           }
         };
-        expect(window.Turbolinks.visit.called).to.be.false;
+        expect(window.Turbolinks.visit.called).to.equal(false);
         ac.clickFirstResult();
-        expect(window.Turbolinks.visit.called).to.be.false;
+        expect(window.Turbolinks.visit.called).to.equal(false);
       });
     });
 
@@ -242,9 +241,9 @@ describe("AlgoliaAutocomplete", () => {
         });
         ac.init({});
         expect(Object.keys(ac._results)).to.have.members([]);
-        expect(window.Turbolinks.visit.called).to.be.false;
+        expect(window.Turbolinks.visit.called).to.equal(false);
         ac.clickFirstResult();
-        expect(window.Turbolinks.visit.called).to.be.false;
+        expect(window.Turbolinks.visit.called).to.equal(false);
       });
     });
   });
@@ -267,9 +266,9 @@ describe("AlgoliaAutocomplete", () => {
             }
           }
         };
-        expect(window.Turbolinks.visit.called).to.be.false;
+        expect(window.Turbolinks.visit.called).to.equal(false);
         ac.clickHighlightedOrFirstResult();
-        expect(window.Turbolinks.visit.called).to.be.true;
+        expect(window.Turbolinks.visit.called).to.equal(true);
         expect(window.Turbolinks.visit.args[0][0]).to.equal(
           "/stops/123?from=stop-search&query="
         );
@@ -305,9 +304,9 @@ describe("AlgoliaAutocomplete", () => {
             }
           };
           expect(ac._highlightedHit).to.equal(null);
-          expect(window.Turbolinks.visit.called).to.be.false;
+          expect(window.Turbolinks.visit.called).to.equal(false);
           ac.clickHighlightedOrFirstResult();
-          expect(window.Turbolinks.visit.called).to.be.true;
+          expect(window.Turbolinks.visit.called).to.equal(true);
           expect(window.Turbolinks.visit.args[0][0]).to.equal(
             "/stops/123?from=stop-search&query="
           );
@@ -326,9 +325,9 @@ describe("AlgoliaAutocomplete", () => {
         ac.init({});
         expect(Object.keys(ac._results)).to.have.members([]);
         expect(ac._highlightedHit).to.equal(null);
-        expect(window.Turbolinks.visit.called).to.be.false;
+        expect(window.Turbolinks.visit.called).to.equal(false);
         ac.clickHighlightedOrFirstResult();
-        expect(window.Turbolinks.visit.called).to.be.false;
+        expect(window.Turbolinks.visit.called).to.equal(false);
       });
     });
   });
@@ -352,9 +351,9 @@ describe("AlgoliaAutocomplete", () => {
       const callback = sinon.spy();
       const returned = ac._datasetSource("stops")("search query", callback);
       expect(returned).to.be.an.instanceOf(Promise);
-      Promise.resolve(returned).then(result => {
+      Promise.resolve(returned).then(() => {
         expect(ac._results.stops.hits).to.have.members([]);
-        expect(callback.called).to.be.true;
+        expect(callback.called).to.equal(true);
         expect(callback.args[0][0]).to.be.an("array");
         expect(callback.args[0][0]).to.have.members([]);
         done();

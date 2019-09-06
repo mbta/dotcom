@@ -1,6 +1,8 @@
 import hogan from "hogan.js";
 import * as Icons from "./icons";
 
+/* eslint-disable no-underscore-dangle */
+
 export const SELECTORS = {
   result: "js-search-result"
 };
@@ -77,85 +79,67 @@ export const TEMPLATES = {
   `)
 };
 
-export function renderResult(hit, index, searchType) {
-  if (searchType) {
-    return TEMPLATES[searchType].render(parseResult(hit, index, searchType));
-  }
-  if (TEMPLATES[index]) {
-    return TEMPLATES[index].render(parseResult(hit, index));
-  }
-  return TEMPLATES.default.render(parseResult(hit, index));
+function iconsFromGTFSAncestries(ancestries) {
+  return ancestries
+    .map(anc => anc.toLowerCase())
+    .filter(anc => anc !== "subway")
+    .map(anc => Icons.getFeatureIcon(anc));
 }
 
-export function parseResult(hit, index, searchType) {
-  return Object.assign(hit, {
-    hitIcon: getIcon(hit, index, searchType),
-    hitUrl: getUrl(hit, index),
-    hitTitle: getTitle(hit, index),
-    hasDate:
-      index == "events" ||
-      index == "news" ||
-      index == "pages" ||
-      index == "documents" ||
-      null,
-    hitFeatureIcons: getFeatureIcons(hit, index),
-    id: hit.place_id || null
-  });
+function iconsFromGTFSAncestry(ancestry) {
+  if (Array.isArray(ancestry)) {
+    return iconsFromGTFSAncestries(ancestry);
+  }
+  return iconsFromGTFSAncestries([ancestry]);
 }
 
-export function getIcon(hit, type, searchType) {
-  if (searchType) {
-    if (searchType === "projects") {
-      if (hit.related_transit_gtfs_id === null && hit.related_transit_gtfs_ancestry == null) {
-        return "";
-      }
-      const icons = iconFromGTFS(
-        hit.related_transit_gtfs_id,
-        hit.related_transit_gtfs_ancestry
-      );
-      if (Array.isArray(icons)) {
-        return icons.join(" ");
-      }
-      return icons;
-    }
+function _subwayRouteIcon(routeId) {
+  if (routeId.includes("Green-")) {
+    return routeId.toLowerCase().replace("-", "_line_");
   }
-  switch (type) {
-    case "locations":
-      hit._content_type = "locations";
-      return _contentIcon(hit);
-    case "stops":
-      return _getStopOrStationIcon(hit);
 
-    case "routes":
-      const iconName = _iconFromRoute(hit.route);
-      return Icons.getFeatureIcon(iconName);
+  const mapper = {
+    Green: "green_line",
+    Red: "red_line",
+    Orange: "orange_line",
+    Blue: "blue_line",
+    Mattapan: "mattapan_line"
+  };
 
-    case "popular":
-      return getPopularIcon(hit.icon);
-
-    case "drupal":
-    case "pages":
-    case "documents":
-    case "events":
-    case "news":
-      return _contentIcon(hit);
-
-    case "usemylocation":
-      return "";
-
-    default:
-      console.error(`AlgoliaResult.getIcon not implemented for index: ${type}`);
-      return "";
-  }
+  return mapper[routeId];
 }
 
-function getPopularIcon(icon) {
-  switch (icon) {
-    case "airplane":
-      return TEMPLATES.fontAwesomeIcon.render({ icon: "fa-plane" });
-    default:
-      return Icons.getFeatureIcon(icon);
+function iconFromGTFSId(id) {
+  const toSubway = _subwayRouteIcon(id);
+  if (toSubway) {
+    return Icons.getFeatureIcon(toSubway);
   }
+  if (id === "Silver Line") return Icons.getFeatureIcon("bus");
+  if (id in ["commuter_rail", "bus", "ferry"]) {
+    return Icons.getFeatureIcon(id);
+  }
+  if (id.includes("CR-")) {
+    return Icons.getFeatureIcon("commuter_rail");
+  }
+  return Icons.getFeatureIcon(id);
+}
+
+function iconsFromGTFSIds(id) {
+  if (Array.isArray(id)) {
+    return id.map(icon => iconFromGTFSId(icon));
+  }
+  return [iconFromGTFSId(id)];
+}
+
+export function iconFromGTFS(id, ancestry) {
+  if (!id) {
+    return TEMPLATES.fontAwesomeIcon.render({ icon: "fa-info" });
+  }
+  let icons = iconsFromGTFSIds(id);
+  if (ancestry) {
+    icons = [...new Set([...icons, ...iconsFromGTFSAncestry(ancestry)])];
+  }
+  return icons;
 }
 
 function _fileIcon(hit) {
@@ -198,71 +182,14 @@ function _contentIcon(hit) {
     icon = iconMapper[hit._content_type] || "fa-info";
   }
 
-  return TEMPLATES.fontAwesomeIcon.render({ icon: icon });
+  return TEMPLATES.fontAwesomeIcon.render({ icon });
 }
 
-function _subwayRouteIcon(routeId) {
-  if (routeId.includes("Green-")) {
-    return routeId.toLowerCase().replace("-", "_line_");
+function _getStopOrStationIcon(hit) {
+  if (hit.stop["station?"]) {
+    return Icons.getFeatureIcon("station");
   }
-
-  const mapper = {
-    Green: "green_line",
-    Red: "red_line",
-    Orange: "orange_line",
-    Blue: "blue_line",
-    Mattapan: "mattapan_line"
-  };
-
-  return mapper[routeId];
-}
-
-export function iconFromGTFS(id, ancestry) {
-  if (!id) {
-    return TEMPLATES.fontAwesomeIcon.render({ icon: "fa-info" });
-  }
-  let icons = iconsFromGTFSIds(id);
-  if (ancestry) {
-    icons = [...new Set([...icons, ...iconsFromGTFSAncestry(ancestry)])];
-  }
-  return icons;
-}
-
-function iconsFromGTFSAncestry(ancestry) {
-  if (Array.isArray(ancestry)) {
-    return iconsFromGTFSAncestries(ancestry);
-  }
-  return iconsFromGTFSAncestries([ancestry]);
-}
-
-function iconsFromGTFSAncestries(ancestries) {
-  return ancestries
-    .map(anc => anc.toLowerCase())
-    .filter(anc => anc !== "subway")
-    .map(anc => Icons.getFeatureIcon(anc));
-}
-
-function iconsFromGTFSIds(id) {
-  if (Array.isArray(id)) {
-    return id.map(icon => iconFromGTFSId(icon));
-  } else {
-    return [iconFromGTFSId(id)];
-  }
-}
-
-function iconFromGTFSId(id) {
-  const toSubway = _subwayRouteIcon(id);
-  if (toSubway) {
-    return Icons.getFeatureIcon(toSubway);
-  }
-  if (id === "Silver Line") return Icons.getFeatureIcon("bus");
-  if (id in ["commuter_rail", "bus", "ferry"]) {
-    return Icons.getFeatureIcon(id);
-  }
-  if (id.includes("CR-")) {
-    return Icons.getFeatureIcon("commuter_rail");
-  }
-  return Icons.getFeatureIcon(id);
+  return Icons.getFeatureIcon("stop");
 }
 
 function _iconFromRoute(route) {
@@ -281,65 +208,69 @@ function _iconFromRoute(route) {
   }
 }
 
-function getRouteTitle(hit) {
-  const name = hit._highlightResult.route.name.value;
-  switch (hit.route.type) {
-    case 3:
-      return `${name} <span class="c-search-result__long-name">${
-        hit._highlightResult.route.long_name.value
-      }</span>`;
+function getPopularIcon(icon) {
+  switch (icon) {
+    case "airplane":
+      return TEMPLATES.fontAwesomeIcon.render({ icon: "fa-plane" });
     default:
-      return name;
+      return Icons.getFeatureIcon(icon);
   }
 }
 
-export function getTitle(hit, type) {
+export function getIcon(hit, type, searchType) {
+  if (searchType) {
+    if (searchType === "projects") {
+      if (
+        hit.related_transit_gtfs_id === null &&
+        hit.related_transit_gtfs_ancestry == null
+      ) {
+        return "";
+      }
+      const icons = iconFromGTFS(
+        hit.related_transit_gtfs_id,
+        hit.related_transit_gtfs_ancestry
+      );
+      if (Array.isArray(icons)) {
+        return icons.join(" ");
+      }
+      return icons;
+    }
+  }
   switch (type) {
     case "locations":
-      const orig = hit.description.split("");
-      hit.matched_substrings.forEach(match => {
-        orig[match.offset] = "<em>" + orig[match.offset];
-        if (match.offset + match.length < orig.length) {
-          orig[match.offset + match.length] =
-            "</em>" + orig[match.offset + match.length];
-        }
-      });
-      return orig.join("");
+      return _contentIcon({ ...hit, content_type: "locations" });
     case "stops":
-      return hit._highlightResult.stop.name.value;
+      return _getStopOrStationIcon(hit);
 
     case "routes":
-      return getRouteTitle(hit);
+      return Icons.getFeatureIcon(_iconFromRoute(hit.route));
 
     case "popular":
-      return hit.name;
+      return getPopularIcon(hit.icon);
 
     case "drupal":
     case "pages":
     case "documents":
     case "events":
     case "news":
-      return _contentTitle(hit);
+      return _contentIcon(hit);
 
     case "usemylocation":
       return "";
 
     default:
-      console.error(
-        `AlgoliaResult.getTitle not implemented for index: ${type}`
-      );
       return "";
   }
 }
 
-function _contentTitle(hit) {
-  if (hit._content_type === "search_result") {
-    return hit._highlightResult.search_result_title.value;
-  } else if (hit.search_api_datasource === "entity:file") {
-    return hit._highlightResult.file_name_raw.value;
-  } else {
-    return hit._highlightResult.content_title.value;
+function _contentUrl(hit) {
+  if (hit.search_api_datasource === "entity:file") {
+    return `/sites/default/files/${hit._file_uri.replace(/public:\/\//, "")}`;
   }
+  if (hit._content_type === "search_result") {
+    return hit._search_result_url.replace(/internal:/, "");
+  }
+  return hit._content_url;
 }
 
 export function getUrl(hit, type) {
@@ -366,45 +297,85 @@ export function getUrl(hit, type) {
       return "#";
 
     default:
-      console.error(`AlgoliaResult.getUrl not implemented for index: ${type}`);
       return "#";
   }
 }
 
-function _contentUrl(hit) {
-  if (hit.search_api_datasource === "entity:file") {
-    return "/sites/default/files/" + hit._file_uri.replace(/public:\/\//, "");
-  } else if (hit._content_type == "search_result") {
-    return hit._search_result_url.replace(/internal:/, "");
-  } else {
-    return hit._content_url;
+function getRouteTitle(hit) {
+  const name = hit._highlightResult.route.name.value;
+  switch (hit.route.type) {
+    case 3:
+      return `${name} <span class="c-search-result__long-name">${
+        hit._highlightResult.route.long_name.value
+      }</span>`;
+    default:
+      return name;
   }
 }
 
-function _getCommuterRailZone(hit) {
-  if (hit.zone) {
-    return [`<span class="c-icon__cr-zone">Zone ${hit.zone}</span>`];
-  } else {
-    return [];
+function _contentTitle(hit) {
+  if (hit._content_type === "search_result") {
+    return hit._highlightResult.search_result_title.value;
+  }
+  if (hit.search_api_datasource === "entity:file") {
+    return hit._highlightResult.file_name_raw.value;
+  }
+  return hit._highlightResult.content_title.value;
+}
+
+export function getTitle(hit, type) {
+  let orig;
+  switch (type) {
+    case "locations":
+      orig = hit.description.split("");
+      hit.matched_substrings.forEach(match => {
+        orig[match.offset] = `<em>${orig[match.offset]}`;
+        if (match.offset + match.length < orig.length) {
+          orig[match.offset + match.length] = `</em>${
+            orig[match.offset + match.length]
+          }`;
+        }
+      });
+      return orig.join("");
+    case "stops":
+      return hit._highlightResult.stop.name.value;
+
+    case "routes":
+      return getRouteTitle(hit);
+
+    case "popular":
+      return hit.name;
+
+    case "drupal":
+    case "pages":
+    case "documents":
+    case "events":
+    case "news":
+      return _contentTitle(hit);
+
+    case "usemylocation":
+      return "";
+
+    default:
+      return "";
   }
 }
 
 function _stopsWithAlerts() {
   const stopsWithAlertsDiv = document.getElementById("stops-with-alerts");
-  let stopsWithAlerts = "";
-  if (stopsWithAlertsDiv) {
-    stopsWithAlerts = stopsWithAlertsDiv.dataset.stopsWithAlerts;
-  }
+  if (!stopsWithAlertsDiv) return "";
+  const {
+    dataset: { stopsWithAlerts }
+  } = stopsWithAlertsDiv;
   return stopsWithAlerts;
 }
 
 function _routesWithAlerts() {
   const routesWithAlertsDiv = document.getElementById("routes-with-alerts");
-  let routesWithAlerts = "";
-  if (routesWithAlertsDiv) {
-    routesWithAlerts = routesWithAlertsDiv.dataset.routesWithAlerts;
-  }
-
+  if (!routesWithAlertsDiv) return "";
+  const {
+    dataset: { routesWithAlerts }
+  } = routesWithAlertsDiv;
   return routesWithAlerts;
 }
 
@@ -418,15 +389,12 @@ function _getAlertIcon(hit, type) {
     case "routes":
       hasAlert = _routesWithAlerts().includes(hit.route.id);
       break;
+
+    default:
+      hasAlert = false;
   }
 
   return hasAlert ? ["alert"] : [];
-}
-
-function _featuresToIcons(features) {
-  return features.map(feature => {
-    return Icons.getFeatureIcon(_standardizeFeatureName(feature));
-  });
 }
 
 function _standardizeFeatureName(feature) {
@@ -447,6 +415,12 @@ function _standardizeFeatureName(feature) {
   }
 }
 
+function _featuresToIcons(features) {
+  return features.map(feature =>
+    Icons.getFeatureIcon(_standardizeFeatureName(feature))
+  );
+}
+
 function _sortFeatures(features) {
   const featuresWithoutBranches = features.filter(
     feature => !feature.includes("Green-")
@@ -459,8 +433,57 @@ function _sortFeatures(features) {
 
     featuresWithoutBranches.splice(greenLinePosition + 1, 0, ...branches);
     return featuresWithoutBranches;
-  } else {
-    return features;
+  }
+  return features;
+}
+
+function _getCommuterRailZone(hit) {
+  if (hit.zone) {
+    return [`<span class="c-icon__cr-zone">Zone ${hit.zone}</span>`];
+  }
+  return [];
+}
+
+function _stopIcons(hit, type) {
+  const filteredFeatures = hit.features.filter(
+    feature => feature !== "access" && feature !== "parking_lot"
+  );
+
+  const alertFeature = _getAlertIcon(hit, type);
+  const allFeatures = alertFeature.concat(filteredFeatures);
+  const allFeaturesSorted = _sortFeatures(allFeatures);
+  const allIcons = _featuresToIcons(allFeaturesSorted);
+
+  const zoneIcon = _getCommuterRailZone(hit);
+
+  return allIcons.concat(zoneIcon);
+}
+
+function _formatDate(date) {
+  const formattedDate = date.toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  });
+  return TEMPLATES.formattedDate.render({ date: formattedDate });
+}
+
+function pagesdocumentsDate(hit) {
+  if (hit._file_created !== undefined) {
+    const date = new Date(hit._file_created * 1000);
+    return [_formatDate(date)];
+  }
+  return [];
+}
+
+function _contentDate(hit) {
+  const dateString = hit._content_url.split("/")[2];
+  try {
+    const dateStringWithTime = `${dateString}T01:00:00`;
+    const date = new Date(dateStringWithTime);
+    return [_formatDate(date)];
+  } catch (err) {
+    return [];
   }
 }
 
@@ -486,56 +509,28 @@ export function getFeatureIcons(hit, type) {
   }
 }
 
-function _stopIcons(hit, type) {
-  const filteredFeatures = hit.features.filter(
-    feature => feature != "access" && feature != "parking_lot"
-  );
-
-  const alertFeature = _getAlertIcon(hit, type);
-  const allFeatures = alertFeature.concat(filteredFeatures);
-  const allFeaturesSorted = _sortFeatures(allFeatures);
-  const allIcons = _featuresToIcons(allFeaturesSorted);
-
-  const zoneIcon = _getCommuterRailZone(hit);
-
-  return allIcons.concat(zoneIcon);
-}
-
-function pagesdocumentsDate(hit) {
-  if (hit._file_created !== undefined) {
-    const date = new Date(hit._file_created * 1000);
-    return [_formatDate(date)];
-  }
-  return [];
-}
-
-function _contentDate(hit) {
-  const dateString = hit._content_url.split("/")[2];
-  try {
-    const dateStringWithTime = `${dateString}T01:00:00`;
-    const date = new Date(dateStringWithTime);
-    return [_formatDate(date)];
-  } catch (err) {
-    console.error(
-      `Invalid date detected in AlgoliaResult.getFeatureIcons (${dateString})`
-    );
-    return [];
-  }
-}
-
-function _formatDate(date) {
-  const formattedDate = date.toLocaleDateString("en-US", {
-    year: "numeric",
-    month: "short",
-    day: "numeric"
+export function parseResult(hit, index, searchType) {
+  return Object.assign(hit, {
+    hitIcon: getIcon(hit, index, searchType),
+    hitUrl: getUrl(hit, index),
+    hitTitle: getTitle(hit, index),
+    hasDate:
+      index === "events" ||
+      index === "news" ||
+      index === "pages" ||
+      index === "documents" ||
+      null,
+    hitFeatureIcons: getFeatureIcons(hit, index),
+    id: hit.place_id || null
   });
-  return TEMPLATES.formattedDate.render({ date: formattedDate });
 }
 
-function _getStopOrStationIcon(hit) {
-  if (hit.stop["station?"]) {
-    return Icons.getFeatureIcon("station");
-  } else {
-    return Icons.getFeatureIcon("stop");
+export function renderResult(hit, index, searchType) {
+  if (searchType) {
+    return TEMPLATES[searchType].render(parseResult(hit, index, searchType));
   }
+  if (TEMPLATES[index]) {
+    return TEMPLATES[index].render(parseResult(hit, index));
+  }
+  return TEMPLATES.default.render(parseResult(hit, index));
 }

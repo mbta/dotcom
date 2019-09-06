@@ -2,6 +2,8 @@ import jsdom from "mocha-jsdom";
 import { expect, assert } from "chai";
 import * as AlgoliaResult from "../algolia-result";
 
+/* eslint-disable no-underscore-dangle */
+
 describe("AlgoliaResult", () => {
   const drupalHits = {
     searchResult: {
@@ -442,7 +444,7 @@ describe("AlgoliaResult", () => {
     it("renders correct icon for Drupal results for project searches", () => {
       assert.include(
         AlgoliaResult.getIcon(projectHits.none, "drupal", "projects"),
-        "fa-info"
+        ""
       );
       assert.include(
         AlgoliaResult.getIcon(projectHits.bus, "drupal", "projects"),
@@ -495,7 +497,7 @@ describe("AlgoliaResult", () => {
       });
     });
 
-    describe("for locations", function() {
+    describe("for locations", () => {
       it("properly highlights search results from google locations", () => {
         expect(
           AlgoliaResult.getTitle(locationHits.bostonCommon, "locations")

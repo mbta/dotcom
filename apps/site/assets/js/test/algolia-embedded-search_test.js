@@ -3,7 +3,7 @@ import sinon from "sinon";
 import { expect } from "chai";
 import Algolia from "../algolia-search";
 import { AlgoliaEmbeddedSearch } from "../algolia-embedded-search";
-import { AlgoliaAutocomplete } from "../algolia-autocomplete";
+import AlgoliaAutocomplete from "../algolia-autocomplete";
 import { PAGE_IDS, buildOptions } from "../algolia-embedded-search-options";
 
 function setup(idx) {
@@ -40,7 +40,7 @@ describe("AlgoliaEmbeddedSearch", () => {
   describe("constructor", () => {
     it("initializes autocomplete if input exists", () => {
       const pageId = PAGE_IDS[0];
-      const { selectors, params, indices } = buildOptions(pageId);
+      buildOptions(pageId);
       const ac = setup(0);
       expect(ac.input).to.be.an.instanceOf(window.HTMLInputElement);
       expect(ac.controller).to.be.an.instanceOf(Algolia);
@@ -77,7 +77,7 @@ describe("AlgoliaEmbeddedSearch", () => {
       expect($goBtn.length).to.equal(1);
 
       $goBtn.click();
-      expect(window.Turbolinks.visit.called).to.be.true;
+      expect(window.Turbolinks.visit.called).to.equal(true);
       expect(window.Turbolinks.visit.args[0][0]).to.equal(
         "/search?query=&facets=stations,stops,locations&showmore=stops"
       );
@@ -89,7 +89,7 @@ describe("AlgoliaEmbeddedSearch", () => {
       const ac = setup(0);
 
       window.encodeURIComponent = string =>
-        string.replace(/\s/g, "%20").replace(/\&/g, "%26");
+        string.replace(/\s/g, "%20").replace(/&/g, "%26");
 
       ac.input.value = "Park Plaza";
       ac.autocomplete.showLocation(

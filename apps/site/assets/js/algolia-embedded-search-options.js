@@ -29,6 +29,12 @@ const FACET_FILTER_MAP = {
   "search-projects": ["_content_type:project", "_content_type:project_update"]
 };
 
+const determineIndex = (isStopSearch, isProjectsSearch) => {
+  if (isStopSearch) return "stops";
+  if (isProjectsSearch) return "drupal";
+  return "routes";
+};
+
 export const buildOptions = pageId => {
   const selectors = {
     input: `${pageId}__input`,
@@ -46,7 +52,7 @@ export const buildOptions = pageId => {
   const isStopSearch = pageId === "search-stop";
   const isProjectsSearch = pageId === "search-projects";
 
-  const index = isStopSearch ? "stops" : isProjectsSearch ? "drupal" : "routes";
+  const index = determineIndex(isStopSearch, isProjectsSearch);
 
   params[index] = {
     hitsPerPage: 5,

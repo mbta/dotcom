@@ -1,5 +1,6 @@
 import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import { AlgoliaEmbeddedSearch } from "./algolia-embedded-search";
+// eslint-disable-next-line import/no-unresolved
 import * as QueryHelpers from "../ts/helpers/query";
 
 const INDICES = {
@@ -62,33 +63,32 @@ const LOCATION_PARAMS = {
 // exported for testing
 export const doInit = () => {
   const input = document.getElementById(SELECTORS.input);
-  if (input) {
-    // The global search page expects the query param to be ?query=foo, but
-    // the &Phoenix.HTML.Form.text_input/3 helper that builds this input
-    // requires the input's name to be a nested value (i.e. name="query[input]"),
-    // Fixing this at the source would require more refactoring than we could
-    // justify; hence, this dirty hack. -kh
-    input.setAttribute("name", "query");
+  if (!input) return null;
+  // The global search page expects the query param to be ?query=foo, but
+  // the &Phoenix.HTML.Form.text_input/3 helper that builds this input
+  // requires the input's name to be a nested value (i.e. name="query[input]"),
+  // Fixing this at the source would require more refactoring than we could
+  // justify; hence, this dirty hack. -kh
+  input.setAttribute("name", "query");
 
-    const search = new AlgoliaEmbeddedSearch({
-      pageId: "search-homepage",
-      indices: INDICES,
-      params: PARAMS,
-      selectors: SELECTORS,
-      locationParams: LOCATION_PARAMS,
-      withGoogle: true
-    });
+  const search = new AlgoliaEmbeddedSearch({
+    pageId: "search-homepage",
+    indices: INDICES,
+    params: PARAMS,
+    selectors: SELECTORS,
+    locationParams: LOCATION_PARAMS,
+    withGoogle: true
+  });
 
-    search.buildSearchParams = () =>
-      QueryHelpers.paramsToString(
-        {
-          query: search.input.value
-        },
-        window.encodeURIComponent
-      );
+  search.buildSearchParams = () =>
+    QueryHelpers.paramsToString(
+      {
+        query: search.input.value
+      },
+      window.encodeURIComponent
+    );
 
-    return search;
-  }
+  return search;
 };
 
 export function init() {

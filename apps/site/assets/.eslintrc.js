@@ -15,10 +15,12 @@ const baseConfig = {
   },
   env: {
     browser: true,
-    jest: true
+    jest: true,
+    mocha: true
   },
   globals: {
-    google: "readonly"
+    google: "readonly",
+    $: true
   }
 };
 

@@ -2,7 +2,8 @@ import { doWhenGoogleMapsIsReady } from "./google-maps-loaded";
 import Algolia from "./algolia-search";
 import * as AlgoliaResult from "./algolia-result";
 import AlgoliaAutocompleteWithGeo from "./algolia-autocomplete-with-geo";
-import { AlgoliaAutocomplete } from "./algolia-autocomplete";
+import AlgoliaAutocomplete from "./algolia-autocomplete";
+// eslint-disable-next-line import/no-unresolved
 import * as QueryHelpers from "../ts/helpers/query";
 
 import {
@@ -120,6 +121,7 @@ export const initWithoutGoogle = () => {
   PAGE_IDS_WITHOUT_GOOGLE.forEach(pageId => {
     const { selectors, params, indices } = buildOptions(pageId);
 
+    /* eslint-disable no-new */
     new AlgoliaEmbeddedSearch({
       pageId,
       selectors,
