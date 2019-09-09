@@ -14,9 +14,8 @@ const busName = (id: string): string =>
 export const routeToModeName = ({ mode, id }: Route): string => {
   switch (mode) {
     case "subway":
-      if (id.toLowerCase().match(/^green/)) {
-        return "green-line";
-      }
+      if (id.toLowerCase().match(/^green/)) return "green-line";
+      if (id === "subway") return "subway";
       return id
         .toLowerCase()
         .replace(" ", "-")
