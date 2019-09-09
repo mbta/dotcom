@@ -55,9 +55,12 @@ export const fetchMoreProjects: FetchProjects = (
   setState({ ...state, fetchInProgress: true });
 
   const offset = state.projects.length + state.offsetStart;
-  const fetchUrl = `/project_api?offset=${offset}&filter[mode]=${
+  let fetchUrl = `/project_api?offset=${offset}&filter[mode]=${
     state.currentMode
   }`;
+  if (state.currentLine) {
+    fetchUrl = fetchUrl.concat(`&filter[line]=${state.currentLine}`);
+  }
 
   window
     .fetch(fetchUrl)
