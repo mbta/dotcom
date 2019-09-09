@@ -6,7 +6,7 @@ import { State } from "../components/ProjectsPage";
 /* eslint-disable @typescript-eslint/camelcase */
 const body = '<div id="react-root"></div>';
 
-it("click mode", () => {
+it("allows filtering by mode", () => {
   document.body.innerHTML = body;
 
   const modeSpy = jest.fn();
