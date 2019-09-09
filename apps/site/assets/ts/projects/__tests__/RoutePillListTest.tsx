@@ -38,6 +38,16 @@ describe("routeToModeName", () => {
 
     expect(routeToModeName(greenLineBranchRoute)).toEqual("green-line");
   });
+
+  it("returns the correct name for all subway line indicator", () => {
+    expect(
+      routeToModeName({
+        mode: "subway",
+        id: "subway",
+        group: "line"
+      })
+    ).toEqual("subway");
+  });
 });
 
 describe("component", () => {
