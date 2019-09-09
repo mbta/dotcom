@@ -1,18 +1,22 @@
 import React, { ReactElement } from "react";
 import FilterButton from "../../components/FilterButton";
 import ModeIcon from "../../tnm/components/ModeIcon";
-import { SubwayLine } from "./ProjectsPage";
+import { SetState, State, SubwayLine, UpdateSelectedLine } from "./ProjectsPage";
 
 interface Props {
-  currentMode?: string;
-  currentLine?: SubwayLine;
+  state: State;
+  setState: SetState;
+  updateSelectedLine: UpdateSelectedLine;
 }
 
 interface LineButtonProps {
   line: SubwayLine;
+  updateSelectedLine: UpdateSelectedLine;
+  state: State;
+  setState: SetState;
 }
 
-const LineButton = ({ line }: LineButtonProps): ReactElement<HTMLElement> => {
+const LineButton = ({ line, updateSelectedLine, state, setState }: LineButtonProps): ReactElement<HTMLElement> => {
   const iconType = `${line}_line`;
   const name = line[0].toUpperCase() + line.slice(1) + " Line";
 
@@ -21,31 +25,33 @@ const LineButton = ({ line }: LineButtonProps): ReactElement<HTMLElement> => {
       identifier={line}
       icon={<ModeIcon type={iconType} />}
       name={name}
-      isSelected={f => false}
-      onClick={f => () => console.log(f)}
+      isSelected={f => line === state.currentLine}
+      onClick={(line) => () => updateSelectedLine(state, line, setState)}
     />
   );
 };
 
 const SubwayFilter = ({
-  currentMode
+  state,
+  setState,
+  updateSelectedLine
 }: Props): ReactElement<HTMLElement> | null => {
-  if (currentMode != "subway") {
+  if (state.currentMode != "subway") {
     return null;
   }
 
   return (
     <div className="subway-filter">
       <div className="c-mode-filter__filter-btn-group">
-        <LineButton line="red" />
-        <LineButton line="orange" />
+        <LineButton line="red" updateSelectedLine={updateSelectedLine} state={state} setState={setState} />
+        <LineButton line="orange" updateSelectedLine={updateSelectedLine} state={state} setState={setState} />
       </div>
       <div className="c-mode-filter__filter-btn-group">
-        <LineButton line="blue" />
-        <LineButton line="green" />
+        <LineButton line="blue" updateSelectedLine={updateSelectedLine} state={state} setState={setState} />
+        <LineButton line="green" updateSelectedLine={updateSelectedLine} state={state} setState={setState} />
       </div>
       <div className="c-mode-filter__filter-btn-group">
-        <LineButton line="mattapan" />
+        <LineButton line="mattapan" updateSelectedLine={updateSelectedLine} state={state} setState={setState} />
       </div>
     </div>
   );

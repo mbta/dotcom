@@ -1,17 +1,19 @@
 import React, { ReactElement } from "react";
 import SubwayFilter from "./SubwayFilter";
 import { ModeFilter } from "../../components/ModeFilter";
-import { State, SetState, UpdateSelectedMode } from "./ProjectsPage";
+import { State, SetState, UpdateSelectedLine, UpdateSelectedMode } from "./ProjectsPage";
 
 interface Props {
   state: State;
   setState: SetState;
+  updateSelectedLine: UpdateSelectedLine;
   updateSelectedMode: UpdateSelectedMode;
 }
 
 const FilterAndSearch = ({
   state,
   setState,
+  updateSelectedLine,
   updateSelectedMode
 }: Props): ReactElement<HTMLElement> => (
   <div className="filter-and-search">
@@ -25,8 +27,9 @@ const FilterAndSearch = ({
           modeButtonsToShow={["subway", "bus", "commuter_rail", "ferry"]}
         />
         <SubwayFilter
-          currentMode={state.currentMode}
-          currentLine={state.currentLine}
+          state={state}
+          setState={setState}
+          updateSelectedLine={updateSelectedLine}
         />
       </div>
     </div>
