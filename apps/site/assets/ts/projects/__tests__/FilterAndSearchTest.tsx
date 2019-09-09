@@ -9,7 +9,8 @@ const body = '<div id="react-root"></div>';
 it("click mode", () => {
   document.body.innerHTML = body;
 
-  const spy = jest.fn();
+  const modeSpy = jest.fn();
+  const lineSpy = jest.fn();
 
   const state: State = {
     featuredProjects: [],
@@ -24,10 +25,11 @@ it("click mode", () => {
     <FilterAndSearch
       state={state}
       setState={() => {}}
-      updateSelectedMode={spy}
+      updateSelectedLine={lineSpy}
+      updateSelectedMode={modeSpy}
     />
   );
 
   wrapper.find("#mode-button__subway").simulate("click");
-  expect(spy).toHaveBeenCalled();
+  expect(modeSpy).toHaveBeenCalled();
 });
