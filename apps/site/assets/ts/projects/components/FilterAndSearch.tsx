@@ -1,7 +1,12 @@
 import React, { ReactElement } from "react";
 import SubwayFilter from "./SubwayFilter";
 import { ModeFilter } from "../../components/ModeFilter";
-import { State, SetState, UpdateSelectedLine, UpdateSelectedMode } from "./ProjectsPage";
+import {
+  State,
+  SetState,
+  UpdateSelectedLine,
+  UpdateSelectedMode
+} from "./ProjectsPage";
 
 interface Props {
   state: State;

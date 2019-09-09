@@ -104,44 +104,6 @@ const resetStateFromApiResponse = <NewCurrentKey extends keyof State>(
   setState(newState);
 };
 
-export const updateSelectedMode: UpdateSelectedMode = (
-  state: State,
-  newMode: Mode,
-  setState: SetState
-): void => {
-  const newSelectedMode = newMode === state.currentMode ? undefined : newMode;
-  const newSelectedModeStr = newSelectedMode || "undefined";
-  const queryParams = `filter[mode]=${newSelectedModeStr}`;
-
-  const newSelectedKey = "currentMode";
-  const newSelectedValue = newSelectedMode;
-
-  fetchFilteredProjects(
-    state,
-    queryParams,
-    "currentMode",
-    newSelectedMode,
-    setState
-  );
-};
-
-export const updateSelectedLine = (state: State, newLine: SubwayLine, setState: SetState): void => {
-  const newSelectedLine = newLine === state.currentLine ? undefined : newLine;
-  const newSelectedLineStr = newSelectedLine || "undefined";
-  const queryParams = `filter[mode]=subway&filter[line]=${newSelectedLineStr}`;
-
-  const newSelectedKey = "currentLine";
-  const newSelectedValue = newSelectedLine;
-
-  fetchFilteredProjects(
-    state,
-    queryParams,
-    "currentLine",
-    newSelectedLine,
-    setState
-  );
-}
-
 const fetchFilteredProjects = <NewSelectedKey extends keyof State>(
   state: State,
   queryParams: string,
@@ -167,6 +129,42 @@ const fetchFilteredProjects = <NewSelectedKey extends keyof State>(
         setState
       )
     );
+};
+
+export const updateSelectedMode: UpdateSelectedMode = (
+  state: State,
+  newMode: Mode,
+  setState: SetState
+): void => {
+  const newSelectedMode = newMode === state.currentMode ? undefined : newMode;
+  const newSelectedModeStr = newSelectedMode || "undefined";
+  const queryParams = `filter[mode]=${newSelectedModeStr}`;
+
+  fetchFilteredProjects(
+    state,
+    queryParams,
+    "currentMode",
+    newSelectedMode,
+    setState
+  );
+};
+
+export const updateSelectedLine = (
+  state: State,
+  newLine: SubwayLine,
+  setState: SetState
+): void => {
+  const newSelectedLine = newLine === state.currentLine ? undefined : newLine;
+  const newSelectedLineStr = newSelectedLine || "undefined";
+  const queryParams = `filter[mode]=subway&filter[line]=${newSelectedLineStr}`;
+
+  fetchFilteredProjects(
+    state,
+    queryParams,
+    "currentLine",
+    newSelectedLine,
+    setState
+  );
 };
 
 const ProjectsPage = ({
