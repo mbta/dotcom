@@ -7,23 +7,23 @@
   }
 }
 
-.body-wrapper {
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  height: 100%;
-  max-width: 100%;
-  overflow: visible;
-  width: 100%;
+// .body-wrapper {
+//   display: flex;
+//   flex: 0 0 auto;
+//   flex-direction: column;
+//   height: 100%;
+//   max-width: 100%;
+//   overflow: visible;
+//   width: 100%;
 
-  @media print {
-    display: block;
-  }
+//   @media print {
+//     display: block;
+//   }
 
-  &.modal-open {
-    overflow: hidden;
-  }
-}
+//   &.modal-open {
+//     overflow: hidden;
+//   }
+// }
 
 .header {
   @media print {
