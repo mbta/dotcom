@@ -84,7 +84,7 @@ defmodule Site.RealtimeSchedule do
     stop_ids
     |> Enum.map(
       &Task.async(fn ->
-        {&1, &1 |> stops_fn.() |> stop_fields}
+        {&1, &1 |> stops_fn.() |> stop_fields()}
       end)
     )
     |> Enum.into(%{}, &Task.await/1)
