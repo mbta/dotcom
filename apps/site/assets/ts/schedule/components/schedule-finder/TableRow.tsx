@@ -20,7 +20,7 @@ const TripInfo = ({
   const lastTrip = schedules.schedules[schedules.schedules.length - 1];
   return (
     <tr>
-      <td>
+      <td colSpan="3">
         <div className="schedule-table__subtable-trip-info">
           <div className="schedule-table__subtable-trip-info-title u-small-caps u-bold">
             Trip length
@@ -79,7 +79,9 @@ const BusTableRow = ({
           <div className="schedule-table__row-route">
             <RoutePillSmall route={firstSchedule.route} />
           </div>
-          {firstSchedule.trip.headsign}
+          <span className="schedule-table__headsign">
+            {firstSchedule.trip.headsign}
+          </span>
         </td>
         <td className="schedule-table__td schedule-table__td--flex-end">
           {caret(
