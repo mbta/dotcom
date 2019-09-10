@@ -131,7 +131,8 @@ ol a {
   font-weight: $font-weight-medium;
 }
 
-input {
+input,
+select {
   // prevents page from zooming when user taps on input on mobile
   // https://techstacker.com/html-disable-auto-zoom-input-element-ios/rexPaNAgaJG7xRYRk
   @include media-breakpoint-down(sm) {
