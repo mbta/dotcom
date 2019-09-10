@@ -15,6 +15,9 @@ defmodule Schedules.RepoCondensed do
   alias Stops.Repo, as: StopsRepo
   alias V3Api.Schedules, as: SchedulesApi
 
+  # the long timeout is to address a worst-case scenario of cold schedule cache
+  @long_timeout 15_000
+
   @default_params [
     include: "trip",
     "fields[schedule]": "departure_time,drop_off_type,pickup_type,stop_sequence,timepoint",
@@ -133,6 +136,6 @@ defmodule Schedules.RepoCondensed do
         }
       end)
     end)
-    |> Enum.map(&Task.await/1)
+    |> Enum.map(&Task.await(&1, @long_timeout))
   end
 end
