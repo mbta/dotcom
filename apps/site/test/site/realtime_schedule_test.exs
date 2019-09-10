@@ -154,7 +154,7 @@ defmodule Site.RealtimeScheduleTest do
     }
   ]
 
-  test "stop_data/3" do
+  test "stop_data/3 returns stop" do
     opts = [
       stops_fn: fn _ -> @stop end,
       routes_fn: fn _ -> @route_with_patterns end,
@@ -251,6 +251,25 @@ defmodule Site.RealtimeScheduleTest do
         }
       }
     ]
+
+    RealtimeSchedule.clear_cache()
+    actual = RealtimeSchedule.stop_data(stops, @now, opts)
+
+    assert actual == expected
+  end
+
+  test "stop_data/3 returns nil" do
+    opts = [
+      stops_fn: fn _ -> nil end,
+      routes_fn: fn _ -> [] end,
+      predictions_fn: fn _ -> [] end,
+      schedules_fn: fn _, _ -> [] end,
+      alerts_fn: fn _, _ -> [] end
+    ]
+
+    stops = [@stop.id]
+
+    expected = []
 
     RealtimeSchedule.clear_cache()
     actual = RealtimeSchedule.stop_data(stops, @now, opts)

@@ -27,7 +27,7 @@ defmodule Site.RealtimeSchedule do
   @predicted_schedules_per_stop 2
 
   @default_opts [
-    stops_fn: &StopsRepo.get!/1,
+    stops_fn: &StopsRepo.get/1,
     routes_fn: &RoutesRepo.by_stop_with_route_pattern/1,
     predictions_fn: &PredictionsRepo.all_no_cache/1,
     schedules_fn: &SchedulesRepo.by_route_ids/2,
@@ -84,10 +84,19 @@ defmodule Site.RealtimeSchedule do
     stop_ids
     |> Enum.map(
       &Task.async(fn ->
-        {&1, &1 |> stops_fn.() |> Map.take([:id, :name, :accessibility, :address])}
+        {&1, &1 |> stops_fn.() |> stop_fields}
       end)
     )
     |> Enum.into(%{}, &Task.await/1)
+  end
+
+  @spec stop_fields(Stop.t() | nil) :: map
+  defp stop_fields(nil) do
+    %{}
+  end
+
+  defp stop_fields(stop) do
+    Map.take(stop, [:id, :name, :accessibility, :address])
   end
 
   @spec get_routes([Stop.id_t()], fun()) :: [route_with_patterns_t]
@@ -227,6 +236,10 @@ defmodule Site.RealtimeSchedule do
   end
 
   @spec build_output(map, [route_with_patterns_t], map, map, map, DateTime.t()) :: [map]
+  defp build_output(%{message: message}, _, _, _, _, _) do
+    IO.inspect(message)
+  end
+
   defp build_output(stops, route_with_patterns, schedules, predictions, alert_counts, now) do
     route_with_patterns
     |> Enum.map(fn {stop_id, route, route_patterns} ->
