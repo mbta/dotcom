@@ -236,10 +236,6 @@ defmodule Site.RealtimeSchedule do
   end
 
   @spec build_output(map, [route_with_patterns_t], map, map, map, DateTime.t()) :: [map]
-  defp build_output(%{message: _message}, _, _, _, _, _) do
-    %{}
-  end
-
   defp build_output(stops, route_with_patterns, schedules, predictions, alert_counts, now) do
     route_with_patterns
     |> Enum.map(fn {stop_id, route, route_patterns} ->
