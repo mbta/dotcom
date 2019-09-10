@@ -117,7 +117,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   padding: $base-spacing / 2;
   position: sticky;
   top: 0;
-  z-index: 2;
+  z-index: $z-index-tnm-filter-header;
 
   @include media-breakpoint-down(sm) {
     padding: $base-spacing / 2;
