@@ -1,105 +1,115 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`renders 1`] = `
-<div
-  className="subway-filter"
->
+Array [
   <div
-    className="c-mode-filter__filter-btn-group"
+    className="subway-filter__top-hairline"
+  />,
+  <span
+    className="m-tnm-sidebar__filter-header u-small-caps"
   >
-    <button
-      aria-label="add filter by red"
-      className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
-      id="mode-button__red"
-      onClick={[Function]}
-      type="button"
-    >
-      <span
-        className="m-tnm-sidebar__mode-icon"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "SVG",
-          }
-        }
-      />
-      Red Line
-    </button>
-    <button
-      aria-label="add filter by orange"
-      className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
-      id="mode-button__orange"
-      onClick={[Function]}
-      type="button"
-    >
-      <span
-        className="m-tnm-sidebar__mode-icon"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "SVG",
-          }
-        }
-      />
-      Orange Line
-    </button>
-  </div>
+    Subway Lines
+  </span>,
   <div
-    className="c-mode-filter__filter-btn-group"
+    className="subway-filter"
   >
-    <button
-      aria-label="add filter by blue"
-      className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
-      id="mode-button__blue"
-      onClick={[Function]}
-      type="button"
+    <div
+      className="c-mode-filter__filter-btn-group"
     >
-      <span
-        className="m-tnm-sidebar__mode-icon"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "SVG",
+      <button
+        aria-label="add filter by red"
+        className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+        id="mode-button__red"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="m-tnm-sidebar__mode-icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
           }
-        }
-      />
-      Blue Line
-    </button>
-    <button
-      aria-label="add filter by green"
-      className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
-      id="mode-button__green"
-      onClick={[Function]}
-      type="button"
+        />
+        Red
+      </button>
+      <button
+        aria-label="add filter by orange"
+        className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+        id="mode-button__orange"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="m-tnm-sidebar__mode-icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Orange
+      </button>
+    </div>
+    <div
+      className="c-mode-filter__filter-btn-group"
     >
-      <span
-        className="m-tnm-sidebar__mode-icon"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "SVG",
+      <button
+        aria-label="add filter by blue"
+        className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+        id="mode-button__blue"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="m-tnm-sidebar__mode-icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
           }
-        }
-      />
-      Green Line
-    </button>
-  </div>
-  <div
-    className="c-mode-filter__filter-btn-group"
-  >
-    <button
-      aria-label="add filter by mattapan"
-      className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
-      id="mode-button__mattapan"
-      onClick={[Function]}
-      type="button"
+        />
+        Blue
+      </button>
+      <button
+        aria-label="add filter by green"
+        className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+        id="mode-button__green"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="m-tnm-sidebar__mode-icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Green
+      </button>
+    </div>
+    <div
+      className="c-mode-filter__filter-btn-group"
     >
-      <span
-        className="m-tnm-sidebar__mode-icon"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "SVG",
+      <button
+        aria-label="add filter by mattapan"
+        className="btn btn-secondary btn-sm m-tnm-sidebar__filter-btn inactive"
+        id="mode-button__mattapan"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          className="m-tnm-sidebar__mode-icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
           }
-        }
-      />
-      Mattapan Line
-    </button>
-  </div>
-</div>
+        />
+        Mattapan
+      </button>
+    </div>
+  </div>,
+]
 `;

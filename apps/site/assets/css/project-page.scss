@@ -349,7 +349,7 @@
 }
 
 .filter-and-search {
-  background-color: $gray-lightest;
+  background-color: $gray-bordered-background;
   padding: $base-spacing $base-spacing * .9375;
 
   @include media-breakpoint-up(md) {
@@ -366,6 +366,10 @@
   .subway-filter .m-tnm-sidebar__filter-btn {
     @include media-breakpoint-only(xs) {
       width: 48%;
+    }
+
+    @include media-breakpoint-up(lg) {
+      width: 165px;
     }
   }
 
@@ -428,4 +432,10 @@
 
 .subway-filter {
   margin-top: $base-spacing * .25;
+}
+
+.subway-filter__top-hairline {
+  border-bottom: solid $gray-lightest 1px;
+  margin: $base-spacing 0;
+  width: 100%;
 }
