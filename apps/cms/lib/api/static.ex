@@ -379,7 +379,7 @@ defmodule CMS.API.Static do
     {:ok, []}
   end
 
-  def view("/cms/teasers/guides", _) do
+  def view("/cms/teasers/guides" <> _, _) do
     {:ok, teaser_basic_page_response()}
   end
 
@@ -423,7 +423,7 @@ defmodule CMS.API.Static do
     {:ok, teaser_event_response()}
   end
 
-  def view("/cms/teasers/" <> route_id, params) when route_id != "NotFound" do
+  def view("/cms/teasers/" <> arguments, params) when arguments != "any/NotFound" do
     filtered =
       teaser_response()
       |> filter_teasers(params)
