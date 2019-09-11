@@ -34,7 +34,7 @@ const FeaturedProjectsList = ({
   const groupedProjects = groupPairwise(projects);
 
   return (
-    <div className="container c-featured-project-list">
+    <div className="c-featured-project-list">
       <div className="page-section">
         {groupedProjects.map(projectPair => {
           const secondProjectId = projectPair[1] ? projectPair[1].id : "none";

@@ -121,33 +121,33 @@ const ProjectsPage = ({
       />
 
       <div className="m-project-page__top-container">
-        <div className="row">
-          <div className="col-12 col-lg-8">
-            <Banner
-              banner={state.banner}
+        <div className="col-12 col-lg-8 m-project-page__col--no-padding-lg-left">
+          <Banner
+            banner={state.banner}
+            placeholderImageUrl={placeholderImageUrl}
+          />
+          <FeaturedProjectsList
+            projects={state.featuredProjects}
+            placeholderImageUrl={placeholderImageUrl}
+          />
+        </div>
+        <div className="col-12 col-lg-offset-half-left col-lg-4 col-lg-3-and-a-half m-project-page__col--no-padding-lg-right">
+          <div>
+            <ProjectUpdateList
+              projectUpdates={state.projectUpdates}
               placeholderImageUrl={placeholderImageUrl}
             />
-            <FeaturedProjectsList
-              projects={state.featuredProjects}
-              placeholderImageUrl={placeholderImageUrl}
-            />
-          </div>
-          <div className="col-12 col-lg-offset-half-left col-lg-4 col-lg-3-and-a-half">
-            <div className="container">
-              <ProjectUpdateList
-                projectUpdates={state.projectUpdates}
-                placeholderImageUrl={placeholderImageUrl}
-              />
-            </div>
           </div>
         </div>
+        <div className="col-lg-12 m-project-page__col--no-padding-lg-right m-project-page__col--no-padding-lg-left">
+          <MoreProjectsTable
+            placeholderImageUrl={placeholderImageUrl}
+            state={state}
+            fetchMoreProjects={fetchMoreProjects}
+            setState={setState}
+          />
+        </div>
       </div>
-      <MoreProjectsTable
-        placeholderImageUrl={placeholderImageUrl}
-        state={state}
-        fetchMoreProjects={fetchMoreProjects}
-        setState={setState}
-      />
     </>
   );
 };

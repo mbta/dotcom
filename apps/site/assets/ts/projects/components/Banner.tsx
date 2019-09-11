@@ -58,6 +58,78 @@ const bannerImageURL = (banner: Project, placeholderImageUrl: string): string =>
 const bannerImageAlt = (banner: Project): string =>
   banner.image ? banner.image.alt : "MBTA logo";
 
+const BannerXS = ({
+  banner,
+  placeholderImageUrl
+}: {
+  banner: Project;
+  placeholderImageUrl: string;
+}): ReactElement<HTMLElement> => (
+  <div className="hidden-sm-up">
+    <div className="row">
+      <div
+        className="m-banner__image m-banner__image--responsive m-banner__image--default"
+        style={{
+          backgroundImage: `url(${bannerImageURL(banner, placeholderImageUrl)})`
+        }}
+      >
+        <div className="sr-only">{bannerImageAlt(banner)}</div>
+      </div>
+      <BannerContent banner={banner} />
+    </div>
+  </div>
+);
+
+const BannerSideBySide = ({
+  banner,
+  placeholderImageUrl
+}: {
+  banner: Project;
+  placeholderImageUrl: string;
+}): ReactElement<HTMLElement> => (
+  <div className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default">
+    <BannerContent banner={banner} />
+    <img
+      className="m-banner__image--by-side"
+      src={bannerImageURL(banner, placeholderImageUrl)}
+      alt={bannerImageAlt(banner)}
+    />
+    <div className="sr-only">{bannerImageAlt(banner)}</div>
+  </div>
+);
+
+const BannerSMUp = ({
+  banner,
+  placeholderImageUrl
+}: {
+  banner: Project;
+  placeholderImageUrl: string;
+}): ReactElement<HTMLElement> => (
+  <div className="hidden-xs-down hidden-lg-up">
+    <div className="row">
+      <BannerSideBySide
+        banner={banner}
+        placeholderImageUrl={placeholderImageUrl}
+      />
+    </div>
+  </div>
+);
+
+const BannerLGUp = ({
+  banner,
+  placeholderImageUrl
+}: {
+  banner: Project;
+  placeholderImageUrl: string;
+}): ReactElement<HTMLElement> => (
+  <div className="hidden-md-down">
+    <BannerSideBySide
+      banner={banner}
+      placeholderImageUrl={placeholderImageUrl}
+    />
+  </div>
+);
+
 const Banner = ({
   banner,
   placeholderImageUrl
@@ -68,39 +140,14 @@ const Banner = ({
 
   return (
     <>
-      <h2 className="container c-projects-header__subheader">
-        Featured Projects
-      </h2>
+      <h2 className="c-projects-header__subheader">Featured Projects</h2>
       <a
         href={banner.path}
         className="m-banner m-banner--responsive m-banner--lg-9 m-banner--no-margin-top m-banner--default"
       >
-        <div className="hidden-xs-down">
-          <div className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default">
-            <BannerContent banner={banner} />
-            <img
-              className="m-banner__image--by-side"
-              src={bannerImageURL(banner, placeholderImageUrl)}
-              alt={bannerImageAlt(banner)}
-            />
-            <div className="sr-only">{bannerImageAlt(banner)}</div>
-          </div>
-        </div>
-
-        <div className="hidden-sm-up">
-          <div
-            className="m-banner__image m-banner__image--responsive m-banner__image--default"
-            style={{
-              backgroundImage: `url(${bannerImageURL(
-                banner,
-                placeholderImageUrl
-              )})`
-            }}
-          >
-            <div className="sr-only">{bannerImageAlt(banner)}</div>
-          </div>
-          <BannerContent banner={banner} />
-        </div>
+        <BannerXS banner={banner} placeholderImageUrl={placeholderImageUrl} />
+        <BannerSMUp banner={banner} placeholderImageUrl={placeholderImageUrl} />
+        <BannerLGUp banner={banner} placeholderImageUrl={placeholderImageUrl} />
       </a>
     </>
   );
