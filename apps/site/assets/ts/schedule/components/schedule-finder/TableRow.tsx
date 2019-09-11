@@ -79,9 +79,7 @@ const BusTableRow = ({
           <div className="schedule-table__row-route">
             <RoutePillSmall route={firstSchedule.route} />
           </div>
-          <span className="schedule-table__headsign">
-            {firstSchedule.trip.headsign}
-          </span>
+          {firstSchedule.trip.headsign}
         </td>
         <td className="schedule-table__td schedule-table__td--flex-end">
           {caret(
