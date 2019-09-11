@@ -150,8 +150,14 @@
 .u-linked-card {
   position: relative;
 
-  &__primary-link {
+  a {
+    position: relative;
+    z-index: 2;
+  }
+
+  .u-linked-card__primary-link {
     display: inline-block;
+    position: static;
 
     &::after {
       bottom: 0;
@@ -162,10 +168,5 @@
       top: 0;
       z-index: 1;
     }
-  }
-
-  a:not(&__primary-link) {
-    position: relative;
-    z-index: 2;
   }
 }
