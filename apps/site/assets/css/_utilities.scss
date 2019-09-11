@@ -152,6 +152,7 @@
 
   &__primary-link {
     display: inline-block;
+    position: static;
 
     &::after {
       bottom: 0;
@@ -164,7 +165,7 @@
     }
   }
 
-  a:not(&__primary-link) {
+  a {
     position: relative;
     z-index: 2;
   }
