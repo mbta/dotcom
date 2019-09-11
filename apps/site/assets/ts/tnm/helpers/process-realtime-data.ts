@@ -105,35 +105,44 @@ const getFirstTrainNumber = (
 const buildHeadsign = (
   headsign: string,
   predictedSchedulesByHeadsign: PredictedScheduleByHeadsign
-): Headsign => ({
-  name: headsign,
-  times: predictedSchedulesByHeadsign[headsign].predicted_schedules.map(
-    ({ prediction, schedule }): PredictedOrScheduledTime => {
-      const shortPrediction: Prediction | null = prediction
-        ? {
-            track: prediction.track,
-            time: prediction.time,
-            status: null
-          }
-        : null;
-      const scheduledTime = schedule ? schedule.time : null;
-      const delay = 0;
+): Headsign => {
+  const headsignNameFromSchedule = predictedSchedulesByHeadsign[
+    headsign
+  ].predicted_schedules.find(({ schedule }) => !!schedule);
+  const headsignDisplayName = headsignNameFromSchedule
+    ? headsignNameFromSchedule.schedule.headsign
+    : headsign;
+  return {
+    name: headsign,
+    headsign: headsignDisplayName,
+    times: predictedSchedulesByHeadsign[headsign].predicted_schedules.map(
+      ({ prediction, schedule }): PredictedOrScheduledTime => {
+        const shortPrediction: Prediction | null = prediction
+          ? {
+              track: prediction.track,
+              time: prediction.time,
+              status: null
+            }
+          : null;
+        const scheduledTime = schedule ? schedule.time : null;
+        const delay = 0;
 
-      return {
-        prediction: shortPrediction,
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        scheduled_time: scheduledTime,
-        delay
-      };
-    }
-  ),
+        return {
+          prediction: shortPrediction,
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          scheduled_time: scheduledTime,
+          delay
+        };
+      }
+    ),
 
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  train_number:
-    getFirstTrainNumber(
-      predictedSchedulesByHeadsign[headsign].predicted_schedules
-    ) || null
-});
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    train_number:
+      getFirstTrainNumber(
+        predictedSchedulesByHeadsign[headsign].predicted_schedules
+      ) || null
+  };
+};
 
 const setHeadsigns = (
   data: RouteWithStopsWithDirections[],

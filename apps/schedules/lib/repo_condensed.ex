@@ -129,6 +129,7 @@ defmodule Schedules.RepoCondensed do
         %ScheduleCondensed{
           time: time,
           trip_id: trip_id,
+          headsign: trip.headsign,
           route_pattern_id: trip.route_pattern_id,
           stop_id: stop.parent_id || stop.id,
           train_number: trip.name,
