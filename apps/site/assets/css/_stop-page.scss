@@ -144,8 +144,28 @@
   padding: .75 * $base-spacing;
   position: relative;
 
+  @include media-breakpoint-only(xs) {
+
+    .m-tnm-sidebar__filter-header {
+      display: block;
+    }
+
+    .c-mode-filter__filter-btn-group:last-of-type {
+      margin: 0;
+    }
+
+    .m-tnm-sidebar__filter-btn {
+      margin: $base-spacing / 4 $base-spacing / 2;
+      margin-left: 0;
+    }
+  }
+
   .m-tnm-sidebar__filter-header {
     display: inline;
+
+    @include media-breakpoint-only(xs) {
+      display: block;
+    }
   }
 }
 
