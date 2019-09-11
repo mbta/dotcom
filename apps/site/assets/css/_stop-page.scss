@@ -155,7 +155,8 @@
     }
 
     .m-tnm-sidebar__filter-btn {
-      margin: .25rem .5rem .25rem 0;
+      margin: $base-spacing / 4 $base-spacing / 2;
+      margin-left: 0;
     }
   }
 
