@@ -20,7 +20,7 @@ const TripInfo = ({
   const lastTrip = schedules.schedules[schedules.schedules.length - 1];
   return (
     <tr>
-      <td colSpan="3">
+      <td colSpan={3}>
         <div className="schedule-table__subtable-trip-info">
           <div className="schedule-table__subtable-trip-info-title u-small-caps u-bold">
             Trip length
