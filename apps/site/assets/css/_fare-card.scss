@@ -44,6 +44,11 @@ $fare-card-icon-offset: 1.375 * $base-spacing;
   &--linked {
     @extend %button-focus-color;
 
+    p a {  
+      position: relative;
+      z-index: 2;
+    }
+
     .u-linked-card__primary-link {
       color: $black;
       text-decoration: none;
