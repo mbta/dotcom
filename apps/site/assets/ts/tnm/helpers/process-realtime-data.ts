@@ -28,7 +28,6 @@ const findStop = (
   routeIndex: number,
   stopId: string
 ): [string, number] => {
-  console.log(data[routeIndex].stops_with_directions);
   const index = data[routeIndex].stops_with_directions.findIndex(
     ({ stop }) => stop.id === stopId
   );

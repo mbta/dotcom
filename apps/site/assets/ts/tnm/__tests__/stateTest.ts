@@ -230,6 +230,7 @@ describe("reducer", () => {
       realtimeScheduleDataAction(realtimeData)
     );
 
+    console.log("here");
     expect(newState).toEqual(expectedState);
   });
 
