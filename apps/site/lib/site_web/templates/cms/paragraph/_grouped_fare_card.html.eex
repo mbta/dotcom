@@ -14,6 +14,11 @@
     ["c-fare-card", "grouped", CSSHelpers.atom_to_class(group_fare.mode), link_class]
     |> Enum.intersperse(" c-fare-card--")
 
+  card_classes = case group_fare_card.link do
+    nil -> card_classes
+    _ -> ["u-linked-card " | card_classes]
+  end
+
   card_title = [
     content_tag(:span, Fares.Format.name(group_fare), class: "c-fare-card__mode"), " ",
     content_tag(:span, Fares.Format.duration(group_fare), class: "c-fare-card__duration")
