@@ -157,6 +157,7 @@ defmodule SiteWeb.PartialViewTest do
 
       assert rendered =~ teaser.image.url
       assert rendered =~ teaser.image.alt
+      assert rendered =~ teaser.path
 
       assert Floki.find(rendered, ".sr-only") == [
                {"span", [{"class", "sr-only"}], [teaser.title]}

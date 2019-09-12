@@ -1,7 +1,7 @@
 defmodule SiteWeb.PartialView do
   use SiteWeb, :view
 
-  alias CMS.{Field.Image, Partial.Teaser, Repo}
+  alias CMS.{Partial.Teaser, Repo}
   alias Plug.Conn
   alias Routes.Route
   alias SiteWeb.PartialView.SvgIconWithCircle
@@ -76,8 +76,8 @@ defmodule SiteWeb.PartialView do
 
   @doc """
   Renders a CMS content teaser, typically shown on a page's sidebar.
-  Guides only show their image; other content types display the
-  content's title.
+  Guides only show their teaser image; other content types display
+  the content's topic and title below the teaser image.
   """
   @spec teaser(Teaser.t()) :: Phoenix.HTML.Safe.t()
   def teaser(%Teaser{} = teaser, opts \\ []) do
@@ -107,10 +107,16 @@ defmodule SiteWeb.PartialView do
     []
   end
 
-  def render_teaser_image(%Teaser{image: %Image{}} = teaser) do
-    [
-      img_tag(teaser.image.url, alt: teaser.image.alt, class: teaser_image_class(teaser))
-    ]
+  def render_teaser_image(%Teaser{topic: "Guides"} = teaser) do
+    link(do_render_teaser_image(teaser), to: teaser.path)
+  end
+
+  def render_teaser_image(teaser) do
+    do_render_teaser_image(teaser)
+  end
+
+  defp do_render_teaser_image(teaser) do
+    img_tag(teaser.image.url, alt: teaser.image.alt, class: teaser_image_class(teaser))
   end
 
   @spec teaser_image_class(Teaser.t()) :: String.t()
