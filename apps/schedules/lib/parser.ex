@@ -7,7 +7,7 @@ defmodule Schedules.Parser do
           route_id :: Route.id_t(),
           trip_id :: String.t(),
           stop_id :: Stop.id_t(),
-          time :: DateTime.t(),
+          time :: DateTime.t() | nil,
           flag? :: boolean,
           early_departure? :: boolean,
           last_stop? :: boolean,

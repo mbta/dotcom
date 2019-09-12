@@ -10,8 +10,9 @@ import {
   Shape
 } from "../../__v3api";
 
-export interface RoutePatternWithShape extends RoutePattern {
+export interface EnhancedRoutePattern extends RoutePattern {
   shape_id: string;
+  headsign: string;
 }
 
 export interface ShapesById {
@@ -19,7 +20,7 @@ export interface ShapesById {
 }
 
 export interface RoutePatternsByDirection {
-  [key: string]: RoutePatternWithShape[];
+  [key: string]: EnhancedRoutePattern[];
 }
 
 export interface SchedulePageData {

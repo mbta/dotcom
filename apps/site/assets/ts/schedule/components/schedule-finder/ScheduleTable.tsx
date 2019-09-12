@@ -1,15 +1,15 @@
 import React, { ReactElement } from "react";
-import { ServiceScheduleInfo, RoutePatternWithShape } from "../__schedule";
+import { ServiceScheduleInfo, EnhancedRoutePattern } from "../__schedule";
 import TableRow from "./TableRow";
 
 interface Props {
   schedule: ServiceScheduleInfo;
-  routePatterns: RoutePatternWithShape[];
+  routePatterns: EnhancedRoutePattern[];
 }
 
 const isSchoolTrip = (
   routePatternsById: {
-    [key: string]: RoutePatternWithShape;
+    [key: string]: EnhancedRoutePattern;
   },
   routePatternId: string
 ): boolean =>
@@ -30,7 +30,7 @@ const ScheduleTable = ({
     }),
     {}
   ) as {
-    [key: string]: RoutePatternWithShape;
+    [key: string]: EnhancedRoutePattern;
   };
 
   if (schedule.trip_order.length === 0) {

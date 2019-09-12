@@ -167,7 +167,7 @@ const ScheduleFinder = ({
       >
         <select
           id="sf_direction_select"
-          className="schedule-finder__select"
+          className="c-select-custom"
           value={
             state.selectedDirection !== null ? state.selectedDirection : ""
           }
@@ -200,7 +200,7 @@ const ScheduleFinder = ({
       >
         <select
           id="sf_origin_select"
-          className="schedule-finder__select schedule-finder__select--noclick"
+          className="c-select-custom c-select-custom--noclick"
           value={state.selectedOrigin || ""}
           onChange={e =>
             handleChangeOrigin(e.target.value ? e.target.value : null, false)

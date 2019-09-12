@@ -12,7 +12,7 @@ defmodule RoutePatterns.Repo do
       nil -> [route: route_id]
       direction_id -> [route: route_id, direction_id: direction_id]
     end
-    |> Keyword.put(:sort, "sort_order")
+    |> Keyword.put(:sort, "typicality,sort_order")
     |> cache(&api_all/1)
   end
 

@@ -28,18 +28,25 @@ const ScheduleDirection = ({
     shape: shapesById[defaultRoutePattern.shape_id],
     directionId,
     shapesById,
-    routePatternsByDirection
+    routePatternsByDirection,
+    routePatternMenuOpen: false,
+    routePatternMenuAll: false,
+    itemFocus: null
   });
 
   return (
-    <div>
-      <h5>Schedule Direction Component</h5>
-      <p id="direction-name">{route.direction_names[state.directionId]}</p>
-      <p id="active-shape">{state.shape && state.shape.name}</p>
+    <div className="m-schedule-direction">
+      <div id="direction-name" className="m-schedule-direction__direction">
+        {route.direction_names[state.directionId]}
+      </div>
       <ScheduleDirectionMenu
+        route={route}
         directionId={state.directionId}
         routePatternsByDirection={routePatternsByDirection}
         selectedRoutePatternId={state.routePattern.id}
+        menuOpen={state.routePatternMenuOpen}
+        showAllRoutePatterns={state.routePatternMenuAll}
+        itemFocus={state.itemFocus}
         dispatch={dispatch}
       />
       <ScheduleDirectionButton dispatch={dispatch} />

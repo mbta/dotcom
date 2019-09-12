@@ -133,15 +133,20 @@ defmodule SiteWeb.ScheduleController.Line do
 
   @spec get_route_pattern_shape(RoutePattern.t()) :: map
   defp get_route_pattern_shape(route_pattern) do
-    shape_id =
+    {shape_id, headsign} =
       route_pattern.representative_trip_id
       |> SchedulesRepo.trip()
       |> case do
-        nil -> nil
-        trip -> trip.shape_id
+        nil ->
+          {nil, nil}
+
+        %{shape_id: shape_id, headsign: headsign} ->
+          {shape_id, headsign}
       end
 
-    Map.put(route_pattern, :shape_id, shape_id)
+    route_pattern
+    |> Map.put(:shape_id, shape_id)
+    |> Map.put(:headsign, headsign)
   end
 
   @spec get_route_shape_map(Route.id_t()) :: map

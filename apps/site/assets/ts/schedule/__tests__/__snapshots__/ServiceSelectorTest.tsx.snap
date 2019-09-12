@@ -9,7 +9,7 @@ Array [
     className="schedule-finder__service-selector"
   >
     <div
-      className="schedule-finder__select-container "
+      className="c-select-custom__container "
       id="service_selector_container"
       onClick={[Function]}
       onKeyUp={[Function]}
@@ -17,7 +17,7 @@ Array [
       tabIndex={0}
     >
       <select
-        className="schedule-finder__select"
+        className="c-select-custom"
         defaultValue="BUS319-O-Wdy-02"
         id="service_selector"
         onChange={[Function]}
@@ -63,7 +63,7 @@ Array [
       </select>
       <span
         aria-hidden="true"
-        className="notranslate c-svg__icon schedule-finder__arrow"
+        className="notranslate c-svg__icon c-select-custom__arrow"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
