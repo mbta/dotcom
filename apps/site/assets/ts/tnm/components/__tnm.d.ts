@@ -29,7 +29,7 @@ export interface RouteGroup {
 
 export interface PredictedSchedule {
   schedule: Schedule & { headsign: string };
-  prediction: Prediction;
+  prediction: Prediction & { headsign: string };
 }
 
 export interface PredictionScheduleWithDirection {

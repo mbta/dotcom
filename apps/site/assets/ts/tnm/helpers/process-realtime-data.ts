@@ -28,6 +28,7 @@ const findStop = (
   routeIndex: number,
   stopId: string
 ): [string, number] => {
+  console.log(data[routeIndex].stops_with_directions);
   const index = data[routeIndex].stops_with_directions.findIndex(
     ({ stop }) => stop.id === stopId
   );
@@ -108,10 +109,13 @@ const buildHeadsign = (
 ): Headsign => {
   const headsignNameFromSchedule = predictedSchedulesByHeadsign[
     headsign
-  ].predicted_schedules.find(({ schedule }) => !!schedule);
-  const headsignDisplayName = headsignNameFromSchedule
-    ? headsignNameFromSchedule.schedule.headsign
-    : headsign;
+  ].predicted_schedules.map(
+    ({ prediction, schedule }) => prediction || schedule
+  );
+  const headsignDisplayName =
+    headsignNameFromSchedule.length > 0
+      ? headsignNameFromSchedule[0].headsign
+      : headsign;
   return {
     name: headsign,
     headsign: headsignDisplayName,

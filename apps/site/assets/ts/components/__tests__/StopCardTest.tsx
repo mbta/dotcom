@@ -21,6 +21,7 @@ const time: PredictedOrScheduledTime = {
 
 const headsign: Headsign = {
   name: "Headsign",
+  headsign: "Headsign",
   times: [time],
   train_number: null
 };

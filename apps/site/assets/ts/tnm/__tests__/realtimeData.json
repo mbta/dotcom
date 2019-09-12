@@ -1,2515 +1,3572 @@
 [
   {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
     "route": {
       "type": 1,
       "name": "Orange Line",
       "long_name": "Orange Line",
       "id": "Orange",
       "header": "Orange Line",
-      "direction_names": {
-        "0": "Southbound",
-        "1": "Northbound"
+      "direction_names": { "0": "Southbound", "1": "Northbound" },
+      "direction_destinations": { "0": "Forest Hills", "1": "Oak Grove" },
+      "description": "rapid_transit",
+      "custom_route?": false,
+      "alert_count": 1
+    },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "North Station",
+          "id": "place-north",
+          "address": "135 Causeway St, Boston MA 02114",
+          "accessibility": [
+            "accessible",
+            "escalator_both",
+            "elevator",
+            "fully_elevated_platform",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0 ft",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Forest Hills",
+                "headsign": "Forest Hills",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["3", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["15", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Oak Grove",
+                "headsign": "Oak Grove",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["7", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
       },
+      {
+        "stop": {
+          "name": "Haymarket",
+          "id": "place-haecl",
+          "address": "136 Blackstone St, Boston, MA 02109",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Forest Hills",
+                "headsign": "Forest Hills",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": "3",
+                      "time": ["5", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": "3",
+                      "time": ["17", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Oak Grove",
+                "headsign": "Oak Grove",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": "4",
+                      "time": ["arriving"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": "4",
+                      "time": ["5", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": {
+      "type": 0,
+      "name": "Green Line C",
+      "long_name": "Green Line C",
+      "id": "Green-C",
+      "header": "Green Line C",
+      "direction_names": { "0": "Westbound", "1": "Eastbound" },
       "direction_destinations": {
-        "0": "Forest Hills",
-        "1": "Oak Grove"
+        "0": "Cleveland Circle",
+        "1": "North Station"
       },
       "description": "rapid_transit",
       "custom_route?": false,
       "alert_count": 0
     },
-    "predicted_schedules_by_route_pattern": {
-      "Oak Grove": {
-        "predicted_schedules": [
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "North Station",
+          "id": "place-north",
+          "address": "135 Causeway St, Boston MA 02114",
+          "accessibility": [
+            "accessible",
+            "escalator_both",
+            "elevator",
+            "fully_elevated_platform",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0 ft",
+        "directions": [
           {
-            "schedule": null,
-            "prediction": {
-              "track": null,
-              "time": [
-                "6",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 180,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40709247-20:15-OakGroveWellington-70035-180",
-              "direction_id": 1,
-              "departing?": true
-            }
+            "headsigns": [
+              {
+                "name": "Cleveland Circle",
+                "headsign": "Cleveland Circle",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["9", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
           },
           {
-            "schedule": null,
-            "prediction": {
-              "track": null,
-              "time": [
-                "11",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 180,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40709244-20:15-OakGroveWellington-70035-180",
-              "direction_id": 1,
-              "departing?": true
-            }
+            "headsigns": [
+              {
+                "name": "North Station",
+                "headsign": "North Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["13", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
           }
-        ],
-        "direction_id": 1
+        ]
       },
-      "Forest Hills": {
-        "predicted_schedules": [
+      {
+        "stop": {
+          "name": "Haymarket",
+          "id": "place-haecl",
+          "address": "136 Blackstone St, Boston, MA 02109",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.2 mi",
+        "directions": [
           {
-            "schedule": null,
-            "prediction": {
-              "track": null,
-              "time": [
-                "1",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 10,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40709505-20:15-OakGroveWellington-70034-10",
-              "direction_id": 0,
-              "departing?": true
-            }
+            "headsigns": [
+              {
+                "name": "Cleveland Circle",
+                "headsign": "Cleveland Circle",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": "1",
+                      "time": ["7", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": "1",
+                      "time": ["11", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
           },
           {
-            "schedule": null,
-            "prediction": {
-              "track": null,
-              "time": [
-                "14",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 10,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40709258-20:15-OakGroveWellington-70034-10",
-              "direction_id": 0,
-              "departing?": true
-            }
+            "headsigns": [
+              {
+                "name": "North Station",
+                "headsign": "North Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": "2",
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": "2",
+                      "time": ["12", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
           }
-        ],
-        "direction_id": 0
+        ]
+      },
+      {
+        "stop": {
+          "name": "Government Center",
+          "id": "place-gover",
+          "address": "Cambridge St and Court St, Boston, MA",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.4 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Cleveland Circle",
+                "headsign": "Cleveland Circle",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["arriving"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["9", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "North Station",
+                "headsign": "North Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["10", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["15", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
       }
-    }
+    ]
   },
   {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
+    "route": {
+      "type": 0,
+      "name": "Green Line E",
+      "long_name": "Green Line E",
+      "id": "Green-E",
+      "header": "Green Line E",
+      "direction_names": { "0": "Westbound", "1": "Eastbound" },
+      "direction_destinations": { "0": "Heath Street", "1": "Lechmere" },
+      "description": "rapid_transit",
+      "custom_route?": false,
+      "alert_count": 0
     },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "North Station",
+          "id": "place-north",
+          "address": "135 Causeway St, Boston MA 02114",
+          "accessibility": [
+            "accessible",
+            "escalator_both",
+            "elevator",
+            "fully_elevated_platform",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0 ft",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Heath Street",
+                "headsign": "Heath Street",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["3", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["13", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Lechmere",
+                "headsign": "Lechmere",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["11", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["15", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Haymarket",
+          "id": "place-haecl",
+          "address": "136 Blackstone St, Boston, MA 02109",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Heath Street",
+                "headsign": "Heath Street",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": "1",
+                      "time": ["6", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": "1",
+                      "time": ["16", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Lechmere",
+                "headsign": "Lechmere",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": "2",
+                      "time": ["9", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": "2",
+                      "time": ["13", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Government Center",
+          "id": "place-gover",
+          "address": "Cambridge St and Court St, Boston, MA",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.4 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Heath Street",
+                "headsign": "Heath Street",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["8", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["18", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Lechmere",
+                "headsign": "Lechmere",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["6", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["10", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": {
+      "type": 2,
+      "name": "Fitchburg Line",
+      "long_name": "Fitchburg Line",
+      "id": "CR-Fitchburg",
+      "header": "Fitchburg",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
+      "direction_destinations": { "0": "Wachusett", "1": "North Station" },
+      "description": "commuter_rail",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "North Station",
+          "id": "place-north",
+          "address": "135 Causeway St, Boston MA 02114",
+          "accessibility": [
+            "accessible",
+            "escalator_both",
+            "elevator",
+            "fully_elevated_platform",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0 ft",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "North Station - Wachusett",
+                "headsign": "Littleton/Rte 495",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["3:59", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:59", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4:30", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:30", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": "493"
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Wachusett - North Station",
+                "headsign": "North Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4:20", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:22", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["5:40", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:40", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": "420"
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
     "route": {
       "type": 2,
       "name": "Haverhill Line",
       "long_name": "Haverhill Line",
       "id": "CR-Haverhill",
       "header": "Haverhill",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
-      },
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
+      "direction_destinations": { "0": "Haverhill", "1": "North Station" },
+      "description": "commuter_rail",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "North Station",
+          "id": "place-north",
+          "address": "135 Causeway St, Boston MA 02114",
+          "accessibility": [
+            "accessible",
+            "escalator_both",
+            "elevator",
+            "fully_elevated_platform",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0 ft",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "North Station - Haverhill via Reading",
+                "headsign": "Reading",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": "4",
+                      "time": ["3:50", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:50", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4:30", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:30", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": "291"
+              },
+              {
+                "name": "North Station - Haverhill via Anderson/Woburn",
+                "headsign": "Haverhill",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["6:55", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": "221"
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Haverhill - North Station via Reading",
+                "headsign": "North Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["5:17", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:17", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["6:05", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["6:05", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": "292"
+              },
+              {
+                "name": "Haverhill - North Station via Anderson/Woburn",
+                "headsign": "North Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4:22", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:23", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["5:45", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:45", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": "218"
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": {
+      "type": 2,
+      "name": "Lowell Line",
+      "long_name": "Lowell Line",
+      "id": "CR-Lowell",
+      "header": "Lowell",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
+      "direction_destinations": { "0": "Lowell", "1": "North Station" },
+      "description": "commuter_rail",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "North Station",
+          "id": "place-north",
+          "address": "135 Causeway St, Boston MA 02114",
+          "accessibility": [
+            "accessible",
+            "escalator_both",
+            "elevator",
+            "fully_elevated_platform",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0 ft",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "North Station - Lowell",
+                "headsign": "Lowell",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4:15", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:15", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4:40", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:40", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": "327"
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Lowell - North Station",
+                "headsign": "North Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["3:56", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:56", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4:42", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:45", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": "328"
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": {
+      "type": 2,
+      "name": "Newburyport/Rockport Line",
+      "long_name": "Newburyport/Rockport Line",
+      "id": "CR-Newburyport",
+      "header": "Newburyport/​​Rockport",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
       "direction_destinations": {
-        "0": "Haverhill",
+        "0": "Newburyport or Rockport",
         "1": "North Station"
       },
       "description": "commuter_rail",
       "custom_route?": false,
       "alert_count": 0
     },
-    "predicted_schedules_by_route_pattern": {
-      "North Station - Haverhill via Reading": {
-        "predicted_schedules": [
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "North Station",
+          "id": "place-north",
+          "address": "135 Causeway St, Boston MA 02114",
+          "accessibility": [
+            "accessible",
+            "escalator_both",
+            "elevator",
+            "fully_elevated_platform",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0 ft",
+        "directions": [
           {
-            "schedule": {
-              "train_number": "211",
-              "time": [
-                "3:26",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 2,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
+            "headsigns": [
+              {
+                "name": "North Station - Rockport",
+                "headsign": "Rockport",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4:15", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:15", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["5:00", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:00", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": "115"
+              },
+              {
+                "name": "North Station - Newburyport",
+                "headsign": "Newburyport",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4:30", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:30", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4:40", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:40", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": "167"
+              }
+            ],
+            "direction_id": 0
           },
           {
-            "schedule": {
-              "train_number": "291",
-              "time": [
-                "4:01",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 2,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
+            "headsigns": [
+              {
+                "name": "Rockport - North Station",
+                "headsign": "North Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["6:02", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["6:02", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4:44", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:45", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": "194"
+              },
+              {
+                "name": "Newburyport - North Station",
+                "headsign": "North Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["3:59", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:59", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["5:50", " ", "PM"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:50", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": "170"
+              }
+            ],
+            "direction_id": 1
           }
-        ],
-        "direction_id": 0
-      },
-      "Haverhill - North Station via Reading": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "train_number": "292",
-              "time": [
-                "5:06",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 7,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": null
-          },
-          {
-            "schedule": {
-              "train_number": "294",
-              "time": [
-                "5:54",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 7,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 1
+        ]
       }
-    }
+    ]
   },
   {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
     "route": {
       "type": 3,
-      "name": "97",
-      "long_name": "Malden Center - Wellington",
-      "id": "97",
-      "header": "97",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
+      "name": "4",
+      "long_name": "North Station - Tide Street",
+      "id": "4",
+      "header": "4",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
+      "direction_destinations": { "0": "North Station", "1": "Tide Street" },
+      "description": "commuter_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "North Station",
+          "id": "place-north",
+          "address": "135 Causeway St, Boston MA 02114",
+          "accessibility": [
+            "accessible",
+            "escalator_both",
+            "elevator",
+            "fully_elevated_platform",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0 ft",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Tide St - North Station",
+                "headsign": "North Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["arriving"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["34", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:12", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "North Station - Tide St via South Station",
+                "headsign": "Tide St via South Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["arriving"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["35", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:17", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
       },
+      {
+        "stop": {
+          "name": "Causeway St @ Medford St",
+          "id": "118",
+          "address": null,
+          "accessibility": ["unknown"]
+        },
+        "distance": "0.1 mi",
+        "directions": [
+          { "headsigns": [], "direction_id": 0 },
+          {
+            "headsigns": [
+              {
+                "name": "North Station - Tide St via South Station",
+                "headsign": "Tide St via South Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:45", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["39", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:19", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Congress St @ Haymarket Sta",
+          "id": "117",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.3 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Tide St - North Station",
+                "headsign": "North Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["29", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:09", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["49", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:32", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Congress St @ North St",
+          "id": "191",
+          "address": null,
+          "accessibility": ["unknown"]
+        },
+        "distance": "0.4 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Tide St - North Station",
+                "headsign": "North Station",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["27", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:07", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["47", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:30", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ]
+      }
+    ]
+  },
+  {
+    "route": {
+      "type": 3,
+      "name": "92",
+      "long_name": "Sullivan - Downtown Boston",
+      "id": "92",
+      "header": "92",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
+      "direction_destinations": { "0": "Sullivan", "1": "Downtown Boston" },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "N Washington St @ Medford St",
+          "id": "2829",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.1 mi",
+        "directions": [
+          { "headsigns": [], "direction_id": 0 },
+          {
+            "headsigns": [
+              {
+                "name": "Sullivan Square Station - Haymarket Station",
+                "headsign": "Haymarket",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:08", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:48", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Sullivan Square Station - Downtown",
+                "headsign": "Downtown",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:46", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["31", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:17", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "N Washington St @ Thacher St",
+          "id": "2832",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Haymarket Station - Sullivan Square Station",
+                "headsign": "Sullivan",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:17", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:57", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Downtown - Sullivan Square Station",
+                "headsign": "Sullivan",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["37", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:13", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["62", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:45", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Haymarket",
+          "id": "place-haecl",
+          "address": "136 Blackstone St, Boston, MA 02109",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.2 mi",
+        "directions": [
+          { "headsigns": [], "direction_id": 0 },
+          {
+            "headsigns": [
+              {
+                "name": "Sullivan Square Station - Haymarket Station",
+                "headsign": "Haymarket",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:09", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:49", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Congress St @ Haymarket Sta",
+          "id": "117",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.3 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Haymarket Station - Sullivan Square Station",
+                "headsign": "Sullivan",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:15", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:55", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Downtown - Sullivan Square Station",
+                "headsign": "Sullivan",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["32", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:10", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["58", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:42", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Sullivan Square Station - Haymarket Station",
+                "headsign": "Haymarket",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:12", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:52", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Congress St @ North St",
+          "id": "191",
+          "address": null,
+          "accessibility": ["unknown"]
+        },
+        "distance": "0.4 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Downtown - Sullivan Square Station",
+                "headsign": "Sullivan",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["29", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:09", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["57", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:41", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Sullivan Square Station - Haymarket Station",
+                "headsign": "Haymarket",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:11", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:51", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": {
+      "type": 3,
+      "name": "93",
+      "long_name": "Sullivan - Downtown Boston",
+      "id": "93",
+      "header": "93",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
+      "direction_destinations": { "0": "Sullivan", "1": "Downtown Boston" },
+      "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "N Washington St @ Medford St",
+          "id": "2829",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.1 mi",
+        "directions": [
+          { "headsigns": [], "direction_id": 0 },
+          {
+            "headsigns": [
+              {
+                "name": "Sullivan Square Station - Haymarket Station",
+                "headsign": "Haymarket",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["7:56", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:31", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Sullivan Square Station - Downtown via Navy Yard",
+                "headsign": "Downtown via Navy Yard",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["15", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:58", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["41", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:23", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Sullivan Square Station - Downtown",
+                "headsign": "Downtown",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["23", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:11", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "N Washington St @ Thacher St",
+          "id": "2832",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Haymarket Station - Sullivan Square Station",
+                "headsign": "Sullivan",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:04", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:39", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Downtown - Sullivan Square Station via Navy Yard",
+                "headsign": "Sullivan via Navy Yard",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["45", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:30", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["89", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:09", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Downtown - Sullivan Square Station",
+                "headsign": "Sullivan",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["10", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:56", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["31", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:12", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Haymarket",
+          "id": "place-haecl",
+          "address": "136 Blackstone St, Boston, MA 02109",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.2 mi",
+        "directions": [
+          { "headsigns": [], "direction_id": 0 },
+          {
+            "headsigns": [
+              {
+                "name": "Sullivan Square Station - Haymarket Station",
+                "headsign": "Haymarket",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["7:58", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:32", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Congress St @ Haymarket Sta",
+          "id": "117",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.3 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Haymarket Station - Sullivan Square Station",
+                "headsign": "Sullivan",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:03", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:38", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Downtown - Sullivan Square Station via Navy Yard",
+                "headsign": "Sullivan via Navy Yard",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["41", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:28", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["83", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:07", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Downtown - Sullivan Square Station",
+                "headsign": "Sullivan",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["6", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:54", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["28", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:10", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Sullivan Square Station - Haymarket Station",
+                "headsign": "Haymarket",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:01", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:35", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Congress St @ North St",
+          "id": "191",
+          "address": null,
+          "accessibility": ["unknown"]
+        },
+        "distance": "0.4 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Downtown - Sullivan Square Station via Navy Yard",
+                "headsign": "Sullivan via Navy Yard",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["39", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:27", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["82", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:05", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Downtown - Sullivan Square Station",
+                "headsign": "Sullivan",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["6", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:53", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["27", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:09", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Sullivan Square Station - Haymarket Station",
+                "headsign": "Haymarket",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:00", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["8:34", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": {
+      "type": 3,
+      "name": "111",
+      "long_name": "Woodlawn - Haymarket",
+      "id": "111",
+      "header": "111",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
+      "direction_destinations": { "0": "Woodlawn", "1": "Haymarket" },
+      "description": "key_bus_route",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "N Washington St @ Medford St",
+          "id": "2829",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.1 mi",
+        "directions": [
+          { "headsigns": [], "direction_id": 0 },
+          {
+            "headsigns": [
+              {
+                "name": "Woodlawn - Haymarket Station",
+                "headsign": "Haymarket",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["3", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:45", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["13", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:53", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Cary Square - Haymarket Station",
+                "headsign": "Haymarket",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["arriving"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["3", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:51", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "N Washington St @ Thacher St",
+          "id": "2832",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Haymarket Station - Woodlawn",
+                "headsign": "Woodlawn",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["3", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:47", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["12", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:55", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Haymarket Station - Cary Square",
+                "headsign": "Cary Square",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:45", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:50", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          { "headsigns": [], "direction_id": 1 }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Haymarket",
+          "id": "place-haecl",
+          "address": "136 Blackstone St, Boston, MA 02109",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Haymarket Station - Woodlawn",
+                "headsign": "Woodlawn",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["6", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:51", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["14", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:59", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Haymarket Station - Cary Square",
+                "headsign": "Cary Square",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:46", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["10", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:55", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Woodlawn - Haymarket Station",
+                "headsign": "Haymarket",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:48", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["13", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:56", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Cary Square - Haymarket Station",
+                "headsign": "Haymarket",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:45", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:54", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": {
+      "type": 3,
+      "name": "426",
+      "long_name": "Central Square, Lynn - Haymarket or Wonderland via Cliftondale Square",
+      "id": "426",
+      "header": "426",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
       "direction_destinations": {
-        "0": "Malden Center",
-        "1": "Wellington"
+        "0": "Central Square, Lynn",
+        "1": "Haymarket or Wonderland"
       },
       "description": "local_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "N Washington St @ Medford St",
+          "id": "2829",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.1 mi",
+        "directions": [
+          { "headsigns": [], "direction_id": 0 },
+          {
+            "headsigns": [
+              {
+                "name": "Central Square, Lynn - Haymarket Station",
+                "headsign": "Haymarket via Cliftondale",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:46", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["31", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:26", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Haymarket",
+          "id": "place-haecl",
+          "address": "136 Blackstone St, Boston, MA 02109",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.2 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Haymarket Station - West Lynn",
+                "headsign": "West Lynn via Cliftondale",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["107", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:32", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Haymarket Station - Central Square, Lynn via Bell Cir",
+                "headsign": "Central Square via Cliftondale",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["1:09", " ", "AM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Haymarket Station - Central Square, Lynn",
+                "headsign": "Central Square via Cliftondale",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["15", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:00", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["80", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:05", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Central Square, Lynn - Haymarket Station",
+                "headsign": "Haymarket via Cliftondale",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["2", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:47", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["32", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:27", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": {
+      "type": 3,
+      "name": "117",
+      "long_name": "Wonderland - Maverick via Beach Street",
+      "id": "117",
+      "header": "117",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
+      "direction_destinations": { "0": "Wonderland", "1": "Maverick" },
+      "description": "key_bus_route",
       "custom_route?": false,
       "alert_count": 1
     },
-    "predicted_schedules_by_route_pattern": {
-      "Wellington Station - Malden Center Station": {
-        "predicted_schedules": [
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "Haymarket",
+          "id": "place-haecl",
+          "address": "136 Blackstone St, Boston, MA 02109",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.2 mi",
+        "directions": [
           {
-            "schedule": {
-              "time": [
-                "11:59",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 22,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "49",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 22,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764108-5327-22",
-              "direction_id": 0,
-              "departing?": false
-            }
+            "headsigns": [
+              {
+                "name": "Haymarket Station - Wonderland Station",
+                "headsign": "Wonderland via Maverick",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["1:11", " ", "AM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
           },
-          {
-            "schedule": {
-              "time": [
-                "1:09",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 22,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "117",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 22,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764110-5327-22",
-              "direction_id": 0,
-              "departing?": false
-            }
-          }
-        ],
-        "direction_id": 0
-      },
-      "Malden Center Station - Wellington Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "12:10",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "60",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764109-5327-1",
-              "direction_id": 1,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "1:20",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 1
+          { "headsigns": [], "direction_id": 1 }
+        ]
       }
-    }
+    ]
   },
   {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
     "route": {
       "type": 3,
-      "name": "99",
-      "long_name": "Woodland Road, Stoneham - Wellington",
-      "id": "99",
-      "header": "99",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
-      },
-      "direction_destinations": {
-        "0": "Woodland Road, Stoneham",
-        "1": "Wellington"
-      },
-      "description": "local_bus",
+      "name": "428",
+      "long_name": "Oaklandvale - Haymarket",
+      "id": "428",
+      "header": "428",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
+      "direction_destinations": { "0": "Oaklandvale", "1": "Haymarket" },
+      "description": "commuter_bus",
       "custom_route?": false,
       "alert_count": 0
     },
-    "predicted_schedules_by_route_pattern": {
-      "Woodland Rd - Wellington Station": {
-        "predicted_schedules": [
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "Haymarket",
+          "id": "place-haecl",
+          "address": "136 Blackstone St, Boston, MA 02109",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.2 mi",
+        "directions": [
           {
-            "schedule": {
-              "time": [
-                "11:42",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 20,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "35",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 20,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764147-5327-20",
-              "direction_id": 1,
-              "departing?": true
-            }
+            "headsigns": [
+              {
+                "name": "Haymarket Station - Oaklandvale",
+                "headsign": "Oaklandvale via Cliftondale (Express)",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["65", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:50", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["95", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:20", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
           },
-          {
-            "schedule": {
-              "time": [
-                "12:52",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 20,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "102",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 20,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764149-5327-20",
-              "direction_id": 1,
-              "departing?": true
-            }
-          }
-        ],
-        "direction_id": 1
-      },
-      "Wellington Station - Woodland Rd": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:13",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 22,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": {
-              "track": null,
-              "time": [
-                "8",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 22,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764146-5072-22",
-              "direction_id": 0,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "12:22",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 22,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": {
-              "track": null,
-              "time": [
-                "69",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 22,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764148-5072-22",
-              "direction_id": 0,
-              "departing?": true
-            }
-          }
-        ],
-        "direction_id": 0
+          { "headsigns": [], "direction_id": 1 }
+        ]
       }
-    }
+    ]
   },
   {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
     "route": {
       "type": 3,
-      "name": "101",
-      "long_name": "Malden Center - Sullivan via Winter Hill",
-      "id": "101",
-      "header": "101",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
-      },
+      "name": "434",
+      "long_name": "Main Street, Peabody - Haymarket via Goodwin Circle",
+      "id": "434",
+      "header": "434",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
       "direction_destinations": {
-        "0": "Malden Center",
-        "1": "Sullivan"
-      },
-      "description": "local_bus",
-      "custom_route?": false,
-      "alert_count": 1
-    },
-    "predicted_schedules_by_route_pattern": {
-      "Sullivan Square Station - Malden Center Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:30",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 41,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "10",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 41,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40818294-5327-41",
-              "direction_id": 0,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "11:32",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 42,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": null,
-              "time": [
-                "10",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 42,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40818294-5072-42",
-              "direction_id": 0,
-              "departing?": false
-            }
-          }
-        ],
-        "direction_id": 0
-      },
-      "Malden Center Station - Sullivan Square Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:14",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": null,
-              "time": [
-                "4",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40818242-5072-1",
-              "direction_id": 1,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "11:43",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": null,
-              "time": [
-                "33",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40818243-5072-1",
-              "direction_id": 1,
-              "departing?": true
-            }
-          }
-        ],
-        "direction_id": 1
-      }
-    }
-  },
-  {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
-    "route": {
-      "type": 3,
-      "name": "104",
-      "long_name": "Malden Center - Sullivan via Ferry Street",
-      "id": "104",
-      "header": "104",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
-      },
-      "direction_destinations": {
-        "0": "Malden Center",
-        "1": "Sullivan"
-      },
-      "description": "local_bus",
-      "custom_route?": false,
-      "alert_count": 0
-    },
-    "predicted_schedules_by_route_pattern": {
-      "Sullivan Square Station - Malden Center Station": {
-        "predicted_schedules": [
-          {
-            "schedule": null,
-            "prediction": {
-              "track": "1",
-              "time": [
-                "2",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 32,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40818349-53270-32",
-              "direction_id": 0,
-              "departing?": false
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "11:50",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 32,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "34",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 32,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40818345-53270-32",
-              "direction_id": 0,
-              "departing?": false
-            }
-          }
-        ],
-        "direction_id": 0
-      },
-      "Malden Center Station - Sullivan Square Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:20",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "10",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40818412-53270-1",
-              "direction_id": 1,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "12:00",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "50",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40818339-53270-1",
-              "direction_id": 1,
-              "departing?": true
-            }
-          }
-        ],
-        "direction_id": 1
-      }
-    }
-  },
-  {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
-    "route": {
-      "type": 3,
-      "name": "105",
-      "long_name": "Malden Center - Sullivan via Newland Street Housing",
-      "id": "105",
-      "header": "105",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
-      },
-      "direction_destinations": {
-        "0": "Malden Center",
-        "1": "Sullivan"
-      },
-      "description": "local_bus",
-      "custom_route?": false,
-      "alert_count": 0
-    },
-    "predicted_schedules_by_route_pattern": {
-      "Sullivan Square Station - Malden Center Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:59",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 43,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "45",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 43,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764176-53270-43",
-              "direction_id": 0,
-              "departing?": false
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "1:15",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 43,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 0
-      },
-      "Malden Center Station - Sullivan Square Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "12:05",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "55",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764177-53270-1",
-              "direction_id": 1,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "1:20",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 1
-      }
-    }
-  },
-  {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
-    "route": {
-      "type": 3,
-      "name": "106",
-      "long_name": "Lebanon Street, Malden - Wellington",
-      "id": "106",
-      "header": "106",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
-      },
-      "direction_destinations": {
-        "0": "Lebanon Street, Malden",
-        "1": "Wellington"
-      },
-      "description": "local_bus",
-      "custom_route?": false,
-      "alert_count": 0
-    },
-    "predicted_schedules_by_route_pattern": {
-      "Wellington Station - Linwood Ave & Lynde St": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "6:58",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 19,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 0
-      },
-      "Wellington Station - Lebanon Loop": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "3:45",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 19,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": null
-          },
-          {
-            "schedule": {
-              "time": [
-                "4:15",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 19,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 0
-      },
-      "Wellington Station - Franklin Square via Sylvan St": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:16",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 19,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "4",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 19,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764246-53270-19",
-              "direction_id": 0,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "12:10",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 19,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "62",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 19,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764215-53270-19",
-              "direction_id": 0,
-              "departing?": true
-            }
-          }
-        ],
-        "direction_id": 0
-      },
-      "Malden Center Station - Linwood Ave & Lynde St": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "3:30",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          },
-          {
-            "schedule": {
-              "time": [
-                "4:00",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 0
-      },
-      "Malden Center Station - Lebanon Loop": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "1:05",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 0
-      },
-      "Lebanon Loop - Wellington Station via Sylvan St": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "4:31",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 19,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": null
-          },
-          {
-            "schedule": {
-              "time": [
-                "4:56",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 19,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 1
-      },
-      "Lebanon Loop - Wellington Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "7:11",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 15,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": null
-          },
-          {
-            "schedule": {
-              "time": [
-                "7:41",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 15,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 1
-      },
-      "Lebanon Loop - Malden Center Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "6:47",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 15,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 1
-      },
-      "Franklin Square - Wellington Station via Sylvan St": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:28",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 31,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "20",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 31,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764207-53270-31",
-              "direction_id": 1,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "12:14",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 31,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "60",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 31,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764238-53270-31",
-              "direction_id": 1,
-              "departing?": true
-            }
-          }
-        ],
-        "direction_id": 1
-      }
-    }
-  },
-  {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
-    "route": {
-      "type": 3,
-      "name": "108",
-      "long_name": "Linden Square - Wellington",
-      "id": "108",
-      "header": "108",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
-      },
-      "direction_destinations": {
-        "0": "Linden Square",
-        "1": "Wellington"
-      },
-      "description": "local_bus",
-      "custom_route?": false,
-      "alert_count": 0
-    },
-    "predicted_schedules_by_route_pattern": {
-      "Wellington Station - Linden Square": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:33",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 21,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "21",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 21,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764292-53270-21",
-              "direction_id": 0,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "12:13",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 21,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "63",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 21,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764293-53270-21",
-              "direction_id": 0,
-              "departing?": true
-            }
-          }
-        ],
-        "direction_id": 0
-      },
-      "Linden Square - Wellington Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:33",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 20,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": {
-              "track": null,
-              "time": [
-                "24",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 20,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764263-5072-20",
-              "direction_id": 1,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "12:18",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 20,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": true
-            },
-            "prediction": {
-              "track": null,
-              "time": [
-                "66",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 20,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764264-5072-20",
-              "direction_id": 1,
-              "departing?": true
-            }
-          }
-        ],
-        "direction_id": 1
-      },
-      "Linden Square - Malden Center Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "2:40",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 20,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 1
-      }
-    }
-  },
-  {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
-    "route": {
-      "type": 3,
-      "name": "131",
-      "long_name": "Melrose Highlands - Oak Grove",
-      "id": "131",
-      "header": "131",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
-      },
-      "direction_destinations": {
-        "0": "Melrose Highlands",
-        "1": "Oak Grove"
+        "0": "Main Street, Peabody",
+        "1": "Haymarket"
       },
       "description": "commuter_bus",
       "custom_route?": false,
       "alert_count": 0
     },
-    "predicted_schedules_by_route_pattern": {
-      "Melrose Highlands Station - Malden Center via East Side": {
-        "predicted_schedules": [
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "Haymarket",
+          "id": "place-haecl",
+          "address": "136 Blackstone St, Boston, MA 02109",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.2 mi",
+        "directions": [
           {
-            "schedule": {
-              "time": [
-                "12:40",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 47,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "90",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 47,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40763895-5327-47",
-              "direction_id": 1,
-              "departing?": false
-            }
+            "headsigns": [
+              {
+                "name": "Haymarket Station - Main St, Peabody",
+                "headsign": "Peabody Square via Western Ave & Goodwins Circle (Express)",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["95", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:20", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
           },
-          {
-            "schedule": {
-              "time": [
-                "1:43",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 47,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 1
-      },
-      "Melrose Highlands Station - Malden Center Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "7:14",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 29,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          },
-          {
-            "schedule": {
-              "time": [
-                "7:34",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 29,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 1
-      },
-      "Malden Center - Melrose Highlands Station via East Side": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:45",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "36",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40763894-5327-1",
-              "direction_id": 0,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "12:45",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "95",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40763896-5327-1",
-              "direction_id": 0,
-              "departing?": true
-            }
-          }
-        ],
-        "direction_id": 0
+          { "headsigns": [], "direction_id": 1 }
+        ]
       }
-    }
+    ]
   },
   {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
     "route": {
       "type": 3,
-      "name": "132",
-      "long_name": "Redstone Shopping Center - Malden Center",
-      "id": "132",
-      "header": "132",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
-      },
+      "name": "450",
+      "long_name": "Salem Depot - Haymarket or Wonderland",
+      "id": "450",
+      "header": "450",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
       "direction_destinations": {
-        "0": "Redstone Shopping Center",
-        "1": "Malden Center"
+        "0": "Salem Depot",
+        "1": "Haymarket or Wonderland"
       },
       "description": "local_bus",
       "custom_route?": false,
       "alert_count": 0
     },
-    "predicted_schedules_by_route_pattern": {
-      "Redstone Shopping Center - Malden Center Station": {
-        "predicted_schedules": [
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "Haymarket",
+          "id": "place-haecl",
+          "address": "136 Blackstone St, Boston, MA 02109",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.2 mi",
+        "directions": [
           {
-            "schedule": {
-              "time": [
-                "11:24",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 32,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": null,
-              "time": [
-                "25",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 32,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764044-5072-32",
-              "direction_id": 1,
-              "departing?": false
-            }
+            "headsigns": [
+              {
+                "name": "Haymarket Station - Salem Depot",
+                "headsign": "Salem Depot",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["8", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:53", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["45", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:30", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
           },
           {
-            "schedule": {
-              "time": [
-                "12:24",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 32,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": null,
-              "time": [
-                "83",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 32,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40763872-5072-32",
-              "direction_id": 1,
-              "departing?": false
-            }
+            "headsigns": [
+              {
+                "name": "Salem Depot - Haymarket Station",
+                "headsign": "Haymarket",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["49", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:43", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["6:05", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
           }
-        ],
-        "direction_id": 1
-      },
-      "Malden Center Station - Redstone Shopping Center": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:30",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": null,
-              "time": [
-                "20",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40763871-5072-1",
-              "direction_id": 0,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "12:30",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": null,
-              "time": [
-                "84",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764049-5072-1",
-              "direction_id": 0,
-              "departing?": true
-            }
-          }
-        ],
-        "direction_id": 0
+        ]
       }
-    }
+    ]
   },
   {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
     "route": {
       "type": 3,
-      "name": "136",
-      "long_name": "Reading Depot - Malden Center via Lowell Street",
-      "id": "136",
-      "header": "136",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
-      },
+      "name": "352",
+      "long_name": "North Burlington - Downtown Boston",
+      "id": "352",
+      "header": "352",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
       "direction_destinations": {
-        "0": "Reading Depot",
-        "1": "Malden Center"
+        "0": "North Burlington",
+        "1": "Downtown Boston"
       },
-      "description": "local_bus",
-      "custom_route?": false,
-      "alert_count": 1
-    },
-    "predicted_schedules_by_route_pattern": {
-      "Reading Depot - Malden Center Station": {
-        "predicted_schedules": [
-          {
-            "schedule": null,
-            "prediction": {
-              "track": "2",
-              "time": [
-                "4",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 66,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764330-5327-66",
-              "direction_id": 1,
-              "departing?": false
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "12:13",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 66,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "53",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 66,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764316-5327-66",
-              "direction_id": 1,
-              "departing?": false
-            }
-          }
-        ],
-        "direction_id": 1
-      },
-      "Malden Center Station - Reading Depot": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:40",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "30",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764331-5327-1",
-              "direction_id": 0,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "12:50",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "100",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764317-5327-1",
-              "direction_id": 0,
-              "departing?": true
-            }
-          }
-        ],
-        "direction_id": 0
-      }
-    }
-  },
-  {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
-    "route": {
-      "type": 3,
-      "name": "137",
-      "long_name": "Reading Depot - Malden Center via North Avenue",
-      "id": "137",
-      "header": "137",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
-      },
-      "direction_destinations": {
-        "0": "Reading Depot",
-        "1": "Malden Center"
-      },
-      "description": "local_bus",
-      "custom_route?": false,
-      "alert_count": 1
-    },
-    "predicted_schedules_by_route_pattern": {
-      "Reading Depot - Malden Center Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:37",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 50,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "35",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 50,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764349-5327-50",
-              "direction_id": 1,
-              "departing?": false
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "12:46",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 50,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "90",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 50,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764363-5327-50",
-              "direction_id": 1,
-              "departing?": false
-            }
-          }
-        ],
-        "direction_id": 1
-      },
-      "Malden Center Station - Reading Depot": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "12:15",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "2",
-              "time": [
-                "65",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40764350-5327-1",
-              "direction_id": 0,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "1:25",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 0
-      }
-    }
-  },
-  {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
-    "route": {
-      "type": 3,
-      "name": "411",
-      "long_name": "Jack Satter House, Revere - Malden Center",
-      "id": "411",
-      "header": "411",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
-      },
-      "direction_destinations": {
-        "0": "Jack Satter House, Revere",
-        "1": "Malden Center"
-      },
-      "description": "local_bus",
+      "description": "commuter_bus",
       "custom_route?": false,
       "alert_count": 0
     },
-    "predicted_schedules_by_route_pattern": {
-      "Malden Center Station - Kennedy Dr": {
-        "predicted_schedules": [
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "New Sudbury @ Congress St",
+          "id": "4511",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.3 mi",
+        "directions": [
           {
-            "schedule": {
-              "time": [
-                "6:05",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
+            "headsigns": [
+              {
+                "name": "State St, Boston - Burlington",
+                "headsign": "Burlington (Express)",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["9", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:51", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["35", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:16", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
           },
-          {
-            "schedule": {
-              "time": [
-                "8:00",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 0
+          { "headsigns": [], "direction_id": 1 }
+        ]
       },
-      "Malden Center Station - Jack Satter House": {
-        "predicted_schedules": [
+      {
+        "stop": {
+          "name": "Government Center",
+          "id": "place-gover",
+          "address": "Cambridge St and Court St, Boston, MA",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.4 mi",
+        "directions": [
           {
-            "schedule": {
-              "time": [
-                "11:15",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "5",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40763943-53270-1",
-              "direction_id": 0,
-              "departing?": true
-            }
+            "headsigns": [
+              {
+                "name": "State St, Boston - Burlington",
+                "headsign": "Burlington (Express)",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["7", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:50", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["33", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:15", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
           },
-          {
-            "schedule": {
-              "time": [
-                "12:20",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "70",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40763981-53270-1",
-              "direction_id": 0,
-              "departing?": true
-            }
-          }
-        ],
-        "direction_id": 0
-      },
-      "Kennedy Dr - Malden Center Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "6:39",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 23,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 1
-      },
-      "Jack Satter House - Malden Center Station": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "11:45",
-                " ",
-                "AM"
-              ],
-              "stop_sequence": 60,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "38",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 60,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40763970-53270-60",
-              "direction_id": 1,
-              "departing?": false
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "12:52",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 60,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "97",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 60,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40763944-53270-60",
-              "direction_id": 1,
-              "departing?": false
-            }
-          }
-        ],
-        "direction_id": 1
+          { "headsigns": [], "direction_id": 1 }
+        ]
       }
-    }
+    ]
   },
   {
-    "stop": {
-      "name": "Malden Center",
-      "id": "place-mlmnl",
-      "address": "Commercial St and Pleasant St, Malden, MA 02148",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "fully_elevated_platform"
-      ]
-    },
     "route": {
       "type": 3,
-      "name": "430",
-      "long_name": "Saugus Center - Malden Center",
-      "id": "430",
-      "header": "430",
-      "direction_names": {
-        "0": "Outbound",
-        "1": "Inbound"
-      },
-      "direction_destinations": {
-        "0": "Saugus Center",
-        "1": "Malden Center"
-      },
-      "description": "local_bus",
+      "name": "354",
+      "long_name": "Burlington - Downtown Boston",
+      "id": "354",
+      "header": "354",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
+      "direction_destinations": { "0": "Burlington", "1": "Downtown Boston" },
+      "description": "commuter_bus",
       "custom_route?": false,
       "alert_count": 0
     },
-    "predicted_schedules_by_route_pattern": {
-      "Saugus Center - Malden Center Station via Kennedy Dr": {
-        "predicted_schedules": [
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "New Sudbury @ Congress St",
+          "id": "4511",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.3 mi",
+        "directions": [
           {
-            "schedule": {
-              "time": [
-                "9:30",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 59,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
+            "headsigns": [
+              {
+                "name": "State St, Boston - Woburn",
+                "headsign": "Woburn (Express)",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["18", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:01", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["50", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:26", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "State St, Boston - North Burlington",
+                "headsign": "Burlington (Express)",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["6:16", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["6:32", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
           },
-          {
-            "schedule": {
-              "time": [
-                "10:48",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 59,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 1
+          { "headsigns": [], "direction_id": 1 }
+        ]
       },
-      "Saugus Center - Malden Center Station": {
-        "predicted_schedules": [
+      {
+        "stop": {
+          "name": "Government Center",
+          "id": "place-gover",
+          "address": "Cambridge St and Court St, Boston, MA",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.4 mi",
+        "directions": [
           {
-            "schedule": {
-              "time": [
-                "12:09",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 51,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "58",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 51,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40763980-53270-51",
-              "direction_id": 1,
-              "departing?": false
-            }
+            "headsigns": [
+              {
+                "name": "State St, Boston - Woburn",
+                "headsign": "Woburn (Express)",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["16", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:00", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["47", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:25", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "State St, Boston - North Burlington",
+                "headsign": "Burlington (Express)",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["6:15", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["6:31", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
           },
-          {
-            "schedule": {
-              "time": [
-                "1:15",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 51,
-              "pickup_type": 1,
-              "last_stop?": true,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 1
-      },
-      "Malden Center Station - Saugus Center via Kennedy Dr": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "8:20",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          },
-          {
-            "schedule": {
-              "time": [
-                "9:45",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": null
-          }
-        ],
-        "direction_id": 0
-      },
-      "Malden Center Station - Saugus Center": {
-        "predicted_schedules": [
-          {
-            "schedule": {
-              "time": [
-                "12:00",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "50",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40763971-53270-1",
-              "direction_id": 0,
-              "departing?": true
-            }
-          },
-          {
-            "schedule": {
-              "time": [
-                "1:05",
-                " ",
-                "PM"
-              ],
-              "stop_sequence": 1,
-              "pickup_type": 0,
-              "last_stop?": false,
-              "flag?": false,
-              "early_departure?": false
-            },
-            "prediction": {
-              "track": "1",
-              "time": [
-                "115",
-                " ",
-                "min"
-              ],
-              "stop_sequence": 1,
-              "status": null,
-              "schedule_relationship": null,
-              "id": "prediction-40763945-53270-1",
-              "direction_id": 0,
-              "departing?": true
-            }
-          }
-        ],
-        "direction_id": 0
+          { "headsigns": [], "direction_id": 1 }
+        ]
       }
-    }
+    ]
+  },
+  {
+    "route": {
+      "type": 1,
+      "name": "Blue Line",
+      "long_name": "Blue Line",
+      "id": "Blue",
+      "header": "Blue Line",
+      "direction_names": { "0": "Westbound", "1": "Eastbound" },
+      "direction_destinations": { "0": "Bowdoin", "1": "Wonderland" },
+      "description": "rapid_transit",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "Bowdoin",
+          "id": "place-bomnl",
+          "address": "Cambridge St and New Chardon St/Bowdoin St, Boston, MA 02114",
+          "accessibility": ["escalator_up"]
+        },
+        "distance": "0.3 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Bowdoin",
+                "headsign": "Bowdoin",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["3", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Wonderland",
+                "headsign": "Wonderland",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["4", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Government Center",
+          "id": "place-gover",
+          "address": "Cambridge St and Court St, Boston, MA",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.4 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Bowdoin",
+                "headsign": "Bowdoin",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["1", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["3", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Wonderland",
+                "headsign": "Wonderland",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["2", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["5", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": {
+      "type": 3,
+      "name": "325",
+      "long_name": "Elm Street - Haymarket",
+      "id": "325",
+      "header": "325",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
+      "direction_destinations": { "0": "Elm Street", "1": "Haymarket" },
+      "description": "commuter_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "Congress St @ Haymarket Sta",
+          "id": "117",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.3 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Haymarket Station - Roosevelt Circle",
+                "headsign": "Roosevelt Circle (Express)",
+                "times": [
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["5:58", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": null,
+                    "scheduled_time": ["6:14", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Haymarket Station - Redstone Shopping Center",
+                "headsign": "Redstone via Medford (Express)",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["117", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:42", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              },
+              {
+                "name": "Haymarket Station - Fellsway (PM Route)",
+                "headsign": "Elm St Medford (Express)",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["arriving"],
+                      "status": null
+                    },
+                    "scheduled_time": ["3:45", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["24", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:09", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Fellsway - Haymarket Station (PM Route)",
+                "headsign": "Haymarket (Express)",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["62", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:54", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["83", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:16", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Congress St @ North St",
+          "id": "191",
+          "address": null,
+          "accessibility": ["unknown"]
+        },
+        "distance": "0.4 mi",
+        "directions": [
+          { "headsigns": [], "direction_id": 0 },
+          {
+            "headsigns": [
+              {
+                "name": "Fellsway - Haymarket Station (PM Route)",
+                "headsign": "Haymarket (Express)",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["61", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:54", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["83", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:16", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": {
+      "type": 3,
+      "name": "326",
+      "long_name": "West Medford - Haymarket",
+      "id": "326",
+      "header": "326",
+      "direction_names": { "0": "Outbound", "1": "Inbound" },
+      "direction_destinations": { "0": "West Medford", "1": "Haymarket" },
+      "description": "commuter_bus",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "Congress St @ Haymarket Sta",
+          "id": "117",
+          "address": null,
+          "accessibility": ["accessible"]
+        },
+        "distance": "0.3 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Haymarket Station - West Medford (PM Route)",
+                "headsign": "West Medford (Express)",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["21", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:06", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["44", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["4:29", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "West Medford - Haymarket Station (PM Route)",
+                "headsign": "Haymarket (Express)",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["76", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:10", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["100", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:33", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      },
+      {
+        "stop": {
+          "name": "Congress St @ North St",
+          "id": "191",
+          "address": null,
+          "accessibility": ["unknown"]
+        },
+        "distance": "0.4 mi",
+        "directions": [
+          { "headsigns": [], "direction_id": 0 },
+          {
+            "headsigns": [
+              {
+                "name": "West Medford - Haymarket Station (PM Route)",
+                "headsign": "Haymarket (Express)",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["75", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:10", " ", "PM"],
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["100", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": ["5:33", " ", "PM"],
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "route": {
+      "type": 0,
+      "name": "Green Line D",
+      "long_name": "Green Line D",
+      "id": "Green-D",
+      "header": "Green Line D",
+      "direction_names": { "0": "Westbound", "1": "Eastbound" },
+      "direction_destinations": { "0": "Riverside", "1": "Government Center" },
+      "description": "rapid_transit",
+      "custom_route?": false,
+      "alert_count": 0
+    },
+    "stops_with_directions": [
+      {
+        "stop": {
+          "name": "Government Center",
+          "id": "place-gover",
+          "address": "Cambridge St and Court St, Boston, MA",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "portable_boarding_lift"
+          ]
+        },
+        "distance": "0.4 mi",
+        "directions": [
+          {
+            "headsigns": [
+              {
+                "name": "Riverside",
+                "headsign": "Riverside",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["15", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["21", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 0
+          },
+          {
+            "headsigns": [
+              {
+                "name": "Government Center",
+                "headsign": "Government Center",
+                "times": [
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["10", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  },
+                  {
+                    "prediction": {
+                      "track": null,
+                      "time": ["11", " ", "min"],
+                      "status": null
+                    },
+                    "scheduled_time": null,
+                    "delay": 0
+                  }
+                ],
+                "train_number": null
+              }
+            ],
+            "direction_id": 1
+          }
+        ]
+      }
+    ]
   }
 ]

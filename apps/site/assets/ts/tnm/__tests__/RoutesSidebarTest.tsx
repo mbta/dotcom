@@ -103,6 +103,7 @@ describe("filterData", () => {
               {
                 headsigns: [
                   {
+                    headsign: "Forest Hills",
                     name: "Forest Hills",
                     times: [
                       {
@@ -132,6 +133,7 @@ describe("filterData", () => {
               {
                 headsigns: [
                   {
+                    headsign: "Oak Grove",
                     name: "Oak Grove",
                     times: [
                       {
