@@ -9,6 +9,7 @@ import { Headsign } from "../../__v3api";
 it("it renders 2 predictions", () => {
   const headsign: Headsign = {
     name: "Watertown",
+    headsign: "Watertown",
     times: [
       {
         delay: 0,
@@ -44,6 +45,7 @@ it("it renders 2 predictions", () => {
 it("it renders scheduled time when prediction is null", () => {
   const headsign: Headsign = {
     name: "Watertown",
+    headsign: "Watertown",
     times: [
       {
         delay: 0,
@@ -66,6 +68,7 @@ it("it renders scheduled time when prediction is null", () => {
 it("it splits the headsign name when it contains 'via' ", () => {
   const headsign: Headsign = {
     name: "Watertown via Harvard Square",
+    headsign: "Watertown via Harvard Square",
     times: [
       {
         delay: 0,
@@ -101,6 +104,7 @@ it("it splits the headsign name when it contains 'via' ", () => {
 it("it renders a status and train name for Commuter Rail", () => {
   const headsign: Headsign = {
     name: "Framingham",
+    headsign: "Framingham",
     times: [
       {
         delay: 0,
@@ -127,6 +131,7 @@ it("it renders a status and train name for Commuter Rail", () => {
 it("it renders a status and train name for Commuter Rail with track number if available", () => {
   const headsign: Headsign = {
     name: "Framingham",
+    headsign: "Framingham",
     times: [
       {
         delay: 0,
@@ -153,6 +158,7 @@ it("it renders a status and train name for Commuter Rail with track number if av
 it("it renders uncondensed bus headsign name as --small", () => {
   const headsign: Headsign = {
     name: "Watertown via Copley (Express)",
+    headsign: "Watertown via Copley (Express)",
     times: [
       {
         delay: 0,
@@ -188,6 +194,7 @@ it("it renders uncondensed bus headsign name as --small", () => {
 it("it displays delayed status for CR", () => {
   const headsign: Headsign = {
     name: "Delayed Train",
+    headsign: "Delayed Train",
     train_number: "404",
     times: [
       {
