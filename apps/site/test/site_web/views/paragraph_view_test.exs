@@ -315,7 +315,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       assert [] = render_paragraph(paragraph, conn)
     end
 
-    test "renders a FareCard", %{conn: conn} do
+    test "renders FareCard paragraphs", %{conn: conn} do
       paragraph = %ColumnMulti{
         columns: [
           %Column{
@@ -325,6 +325,10 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
                 show_media: true,
                 note: %CustomHTML{
                   body: {:safe, "<p>{{ fare:subway:cash }} with CharlieTicket</p>\n"}
+                },
+                link: %Link{
+                  title: "",
+                  url: "/fares/subway"
                 }
               }
             ]
@@ -336,7 +340,8 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
                 show_media: false,
                 note: %CustomHTML{
                   body: {:safe, "<p>{{ fare:local_bus:charlie_card }} with a CharlieCard</p>\n"}
-                }
+                },
+                link: nil
               }
             ]
           }
@@ -349,15 +354,48 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
         |> HTML.safe_to_string()
 
       assert rendered =~ "c-paragraph--ungrouped c-paragraph--with-cards c-paragraph--with-fares"
+      assert rendered =~ "u-linked-card"
+      assert rendered =~ "fare-card--linked"
+
       assert rendered =~ "Subway"
       assert rendered =~ "One-Way"
       assert rendered =~ "$2.40"
       assert rendered =~ "with a CharlieCard"
       assert rendered =~ "$2.90 with CharlieTicket"
+      assert rendered =~ "/fares/subway"
+
       assert rendered =~ "Local Bus"
       assert rendered =~ "$2.00"
       assert rendered =~ "$1.70 with a CharlieCard"
       refute rendered =~ "with a CharlieTicket or Cash"
+    end
+
+    test "renders an unlinked FareCard", %{conn: conn} do
+      paragraph = %ColumnMulti{
+        columns: [
+          %Column{
+            paragraphs: [
+              %FareCard{
+                fare_token: "subway:charlie_card",
+                show_media: true,
+                note: %CustomHTML{
+                  body: {:safe, "<p>{{ fare:subway:cash }} with CharlieTicket</p>\n"}
+                },
+                link: nil
+              }
+            ]
+          }
+        ]
+      }
+
+      rendered =
+        paragraph
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "c-paragraph--ungrouped c-paragraph--with-cards c-paragraph--with-fares"
+      refute rendered =~ "u-linked-card"
+      refute rendered =~ "fare-card--linked"
     end
 
     test "renders a grouped FareCard", %{conn: conn} do
@@ -370,6 +408,10 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
                 show_media: true,
                 note: %CustomHTML{
                   body: {:safe, "<p>1 free transfer to Local Bus within 2 hours</p>\n"}
+                },
+                link: %Link{
+                  title: "",
+                  url: "/fares/bus-fares"
                 }
               }
             ]
@@ -381,7 +423,8 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
                 show_media: false,
                 note: %CustomHTML{
                   body: {:safe, "<p>a href='/schedules/bus'>Limited transfers</a></p>\n"}
-                }
+                },
+                link: nil
               }
             ]
           }
@@ -395,7 +438,10 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
         |> HTML.safe_to_string()
 
       assert rendered =~ "c-paragraph--grouped c-paragraph--with-cards c-paragraph--with-fares"
+      assert rendered =~ "u-linked-card"
+      assert rendered =~ "fare-card--linked"
       assert rendered =~ "fare-card--grouped"
+
       assert rendered =~ "Local Bus"
       assert rendered =~ "One-Way"
       assert rendered =~ "$1.70"
@@ -404,6 +450,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       assert rendered =~ "$2.00"
       refute rendered =~ "with CharlieTicket or Cash"
       assert rendered =~ "Limited transfers"
+      assert rendered =~ "/fares/bus-fare"
     end
 
     test "renders an error message for a grouped FareCard with bad data", %{conn: conn} do
