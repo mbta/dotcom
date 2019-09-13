@@ -488,519 +488,6 @@
   "routesWithRealtimeSchedules": [
     {
       "route": {
-        "type": 3,
-        "name": "99",
-        "long_name": "Woodland Road, Stoneham - Wellington",
-        "id": "99",
-        "header": "99",
-        "direction_names": { "0": "Outbound", "1": "Inbound" },
-        "direction_destinations": {
-          "0": "Woodland Road, Stoneham",
-          "1": "Wellington"
-        },
-        "description": "local_bus",
-        "custom_route?": false,
-        "alert_count": 0
-      },
-      "stops_with_directions": [
-        {
-          "stop": {
-            "name": "14 Summer St",
-            "id": "5070",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "176 ft",
-          "directions": [
-            { "headsigns": [], "direction_id": 0 },
-            {
-              "headsigns": [
-                {
-                  "name": "Woodland Rd - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["arriving"],
-                        "status": null
-                      },
-                      "scheduled_time": null,
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["35", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:47", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Malden Center",
-            "id": "place-mlmnl",
-            "address": "Commercial St and Pleasant St, Malden, MA 02148",
-            "accessibility": [
-              "accessible",
-              "escalator_up",
-              "elevator",
-              "fully_elevated_platform"
-            ]
-          },
-          "distance": "288 ft",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Woodland Rd",
-                  "headsign": "Woodland Rd",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["11", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:15", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["48", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:59", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Woodland Rd - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": "2",
-                        "time": ["1", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:10", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": "2",
-                        "time": ["36", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:48", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Florence St @ Washington St",
-            "id": "5369",
-            "address": null,
-            "accessibility": ["unknown"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Woodland Rd",
-                  "headsign": "Woodland Rd",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["7", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:12", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["46", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:56", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            { "headsigns": [], "direction_id": 1 }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Summer St @ Lincoln St",
-            "id": "5074",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Woodland Rd",
-                  "headsign": "Woodland Rd",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["12", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:16", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["49", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:00", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            { "headsigns": [], "direction_id": 1 }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Stop & Shop",
-            "id": "5289",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            { "headsigns": [], "direction_id": 0 },
-            {
-              "headsigns": [
-                {
-                  "name": "Woodland Rd - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["3", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:12", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["39", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:50", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Wellington",
-            "id": "place-welln",
-            "address": "Revere Beach Pkwy and Rivers Edge Dr, Medford, MA 02155",
-            "accessibility": ["accessible", "escalator_up", "elevator", "ramp"]
-          },
-          "distance": "1.7 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Woodland Rd",
-                  "headsign": "Woodland Rd",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["27", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:37", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["61", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:11", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Woodland Rd - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["19", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:29", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["53", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:06", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "route": {
-        "type": 3,
-        "name": "132",
-        "long_name": "Redstone Shopping Center - Malden Center",
-        "id": "132",
-        "header": "132",
-        "direction_names": { "0": "Outbound", "1": "Inbound" },
-        "direction_destinations": {
-          "0": "Redstone Shopping Center",
-          "1": "Malden Center"
-        },
-        "description": "local_bus",
-        "custom_route?": false,
-        "alert_count": 0
-      },
-      "stops_with_directions": [
-        {
-          "stop": {
-            "name": "14 Summer St",
-            "id": "5070",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "176 ft",
-          "directions": [
-            { "headsigns": [], "direction_id": 0 },
-            {
-              "headsigns": [
-                {
-                  "name": "Redstone Shopping Center - Malden Center Station",
-                  "headsign": "Malden",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["31", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:41", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["67", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:15", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Malden Center",
-            "id": "place-mlmnl",
-            "address": "Commercial St and Pleasant St, Malden, MA 02148",
-            "accessibility": [
-              "accessible",
-              "escalator_up",
-              "elevator",
-              "fully_elevated_platform"
-            ]
-          },
-          "distance": "288 ft",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Malden Center Station - Redstone Shopping Center",
-                  "headsign": "Redstone",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["11", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:20", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["43", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:52", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Redstone Shopping Center - Malden Center Station",
-                  "headsign": "Malden",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["3", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": null,
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["34", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:43", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Summer St @ Lincoln St",
-            "id": "5074",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Malden Center Station - Redstone Shopping Center",
-                  "headsign": "Redstone",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["11", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:21", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["44", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:53", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            { "headsigns": [], "direction_id": 1 }
-          ]
-        }
-      ]
-    },
-    {
-      "route": {
         "type": 1,
         "name": "Orange Line",
         "long_name": "Orange Line",
@@ -1045,7 +532,7 @@
                     {
                       "prediction": {
                         "track": null,
-                        "time": ["8", " ", "min"],
+                        "time": ["14", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": null,
@@ -1066,87 +553,16 @@
                     {
                       "prediction": {
                         "track": null,
-                        "time": ["10", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": null,
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["18", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": null,
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Wellington",
-            "id": "place-welln",
-            "address": "Revere Beach Pkwy and Rivers Edge Dr, Medford, MA 02155",
-            "accessibility": ["accessible", "escalator_up", "elevator", "ramp"]
-          },
-          "distance": "1.7 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Forest Hills",
-                  "headsign": "Forest Hills",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": "1",
-                        "time": ["1", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": null,
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": "1",
                         "time": ["5", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": null,
                       "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Oak Grove",
-                  "headsign": "Oak Grove",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": "2",
-                        "time": ["2", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": null,
-                      "delay": 0
                     },
                     {
                       "prediction": {
-                        "track": "2",
-                        "time": ["10", " ", "min"],
+                        "track": null,
+                        "time": ["26", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": null,
@@ -1247,140 +663,6 @@
               "direction_id": 1
             }
           ]
-        },
-        {
-          "stop": {
-            "name": "Wyoming Hill",
-            "id": "place-WR-0062",
-            "address": "40 W Wyoming Ave, Melrose, MA 02176",
-            "accessibility": []
-          },
-          "distance": "1.7 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "North Station - Haverhill via Reading",
-                  "headsign": "Haverhill",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["5:50", " ", "PM"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:50", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["6:20", " ", "PM"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:20", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": "217"
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Haverhill - North Station via Reading",
-                  "headsign": "North Station",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["5:51", " ", "PM"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:51", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": null,
-                      "scheduled_time": ["7:08", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": "294"
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Melrose Cedar Park",
-            "id": "place-WR-0067",
-            "address": "Cedar Park and W Emerson St, Melrose, MA 02176",
-            "accessibility": []
-          },
-          "distance": "2.2 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "North Station - Haverhill via Reading",
-                  "headsign": "Haverhill",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["5:52", " ", "PM"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:52", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["6:22", " ", "PM"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:22", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": "217"
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Haverhill - North Station via Reading",
-                  "headsign": "North Station",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["5:48", " ", "PM"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:48", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": null,
-                      "scheduled_time": ["7:06", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": "294"
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
         }
       ]
     },
@@ -1421,7 +703,7 @@
                     {
                       "prediction": {
                         "track": "2",
-                        "time": ["18", " ", "min"],
+                        "time": ["10", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:22", " ", "PM"],
@@ -1430,7 +712,7 @@
                     {
                       "prediction": {
                         "track": "2",
-                        "time": ["59", " ", "min"],
+                        "time": ["50", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:57", " ", "PM"],
@@ -1451,7 +733,7 @@
                     {
                       "prediction": {
                         "track": "2",
-                        "time": ["21", " ", "min"],
+                        "time": ["12", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:30", " ", "PM"],
@@ -1460,7 +742,7 @@
                     {
                       "prediction": {
                         "track": "2",
-                        "time": ["61", " ", "min"],
+                        "time": ["52", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["6:10", " ", "PM"],
@@ -1473,80 +755,62 @@
               "direction_id": 1
             }
           ]
+        }
+      ]
+    },
+    {
+      "route": {
+        "type": 3,
+        "name": "99",
+        "long_name": "Woodland Road, Stoneham - Wellington",
+        "id": "99",
+        "header": "99",
+        "direction_names": { "0": "Outbound", "1": "Inbound" },
+        "direction_destinations": {
+          "0": "Woodland Road, Stoneham",
+          "1": "Wellington"
         },
+        "description": "local_bus",
+        "custom_route?": false,
+        "alert_count": 0
+      },
+      "stops_with_directions": [
         {
           "stop": {
-            "name": "Commercial St @ Charles St",
-            "id": "45417",
-            "address": null,
-            "accessibility": ["unknown"]
+            "name": "Malden Center",
+            "id": "place-mlmnl",
+            "address": "Commercial St and Pleasant St, Malden, MA 02148",
+            "accessibility": [
+              "accessible",
+              "escalator_up",
+              "elevator",
+              "fully_elevated_platform"
+            ]
           },
-          "distance": "0.3 mi",
+          "distance": "288 ft",
           "directions": [
             {
               "headsigns": [
                 {
-                  "name": "Wellington Station - Malden Center Station",
-                  "headsign": "Malden",
+                  "name": "Wellington Station - Woodland Rd",
+                  "headsign": "Woodland Rd",
                   "times": [
                     {
                       "prediction": {
                         "track": null,
-                        "time": ["16", " ", "min"],
+                        "time": ["3", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": ["5:20", " ", "PM"],
+                      "scheduled_time": null,
                       "delay": 0
                     },
                     {
                       "prediction": {
                         "track": null,
-                        "time": ["56", " ", "min"],
+                        "time": ["39", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": ["5:55", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            { "headsigns": [], "direction_id": 1 }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Wellington",
-            "id": "place-welln",
-            "address": "Revere Beach Pkwy and Rivers Edge Dr, Medford, MA 02155",
-            "accessibility": ["accessible", "escalator_up", "elevator", "ramp"]
-          },
-          "distance": "1.7 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Malden Center Station",
-                  "headsign": "Malden",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["21", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:30", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["55", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:05", " ", "PM"],
+                      "scheduled_time": ["5:59", " ", "PM"],
                       "delay": 0
                     }
                   ],
@@ -1558,25 +822,25 @@
             {
               "headsigns": [
                 {
-                  "name": "Malden Center Station - Wellington Station",
+                  "name": "Woodland Rd - Wellington Station",
                   "headsign": "Wellington",
                   "times": [
                     {
                       "prediction": {
-                        "track": null,
-                        "time": ["20", " ", "min"],
+                        "track": "2",
+                        "time": ["27", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": ["5:21", " ", "PM"],
+                      "scheduled_time": ["5:48", " ", "PM"],
                       "delay": 0
                     },
                     {
                       "prediction": {
-                        "track": null,
-                        "time": ["52", " ", "min"],
+                        "track": "2",
+                        "time": ["71", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": ["5:56", " ", "PM"],
+                      "scheduled_time": ["6:28", " ", "PM"],
                       "delay": 0
                     }
                   ],
@@ -1629,7 +893,7 @@
                         "time": ["7", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": ["5:09", " ", "PM"],
+                      "scheduled_time": ["5:19", " ", "PM"],
                       "delay": 0
                     },
                     {
@@ -1638,7 +902,7 @@
                         "time": ["8", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": ["5:10", " ", "PM"],
+                      "scheduled_time": ["5:20", " ", "PM"],
                       "delay": 0
                     }
                   ],
@@ -1656,48 +920,7 @@
                     {
                       "prediction": {
                         "track": null,
-                        "time": ["9", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:16", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["17", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:26", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Pearl St",
-            "id": "5338",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.1 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Sullivan Square Station - Malden Center Station",
-                  "headsign": "Malden",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["4", " ", "min"],
+                        "time": ["arriving"],
                         "status": null
                       },
                       "scheduled_time": null,
@@ -1706,53 +929,10 @@
                     {
                       "prediction": {
                         "track": null,
-                        "time": ["12", " ", "min"],
+                        "time": ["9", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": ["5:16", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            { "headsigns": [], "direction_id": 1 }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Pleasant St @ Elm St",
-            "id": "5328",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.1 mi",
-          "directions": [
-            { "headsigns": [], "direction_id": 0 },
-            {
-              "headsigns": [
-                {
-                  "name": "Malden Center Station - Sullivan Square Station",
-                  "headsign": "Sullivan",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["10", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:17", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["18", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:27", " ", "PM"],
+                      "scheduled_time": ["5:26", " ", "PM"],
                       "delay": 0
                     }
                   ],
@@ -1802,20 +982,20 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["3", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": null,
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": "1",
-                        "time": ["22", " ", "min"],
+                        "time": ["15", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:25", " ", "PM"],
                       "delay": 0
+                    },
+                    {
+                      "prediction": {
+                        "track": "1",
+                        "time": ["45", " ", "min"],
+                        "status": null
+                      },
+                      "scheduled_time": ["5:44", " ", "PM"],
+                      "delay": 0
                     }
                   ],
                   "train_number": null
@@ -1832,103 +1012,19 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["4", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:11", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": "1",
-                        "time": ["23", " ", "min"],
+                        "time": ["16", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:30", " ", "PM"],
                       "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Florence St @ Washington St",
-            "id": "5369",
-            "address": null,
-            "accessibility": ["unknown"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Sullivan Square Station - Malden Center Station",
-                  "headsign": "Malden",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["2", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": null,
-                      "delay": 0
                     },
                     {
                       "prediction": {
-                        "track": null,
-                        "time": ["21", " ", "min"],
+                        "track": "1",
+                        "time": ["46", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": ["5:23", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            { "headsigns": [], "direction_id": 1 }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Stop & Shop",
-            "id": "5289",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            { "headsigns": [], "direction_id": 0 },
-            {
-              "headsigns": [
-                {
-                  "name": "Malden Center Station - Sullivan Square Station",
-                  "headsign": "Sullivan",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["10", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:13", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["26", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:32", " ", "PM"],
+                      "scheduled_time": ["5:50", " ", "PM"],
                       "delay": 0
                     }
                   ],
@@ -1978,7 +1074,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["26", " ", "min"],
+                        "time": ["17", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": null,
@@ -1987,7 +1083,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["44", " ", "min"],
+                        "time": ["35", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:45", " ", "PM"],
@@ -2008,48 +1104,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["27", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:10", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": "1",
-                        "time": ["45", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:50", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Florence St @ Washington St",
-            "id": "5369",
-            "address": null,
-            "accessibility": ["unknown"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Sullivan Square Station - Malden Center Station",
-                  "headsign": "Malden",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["24", " ", "min"],
+                        "time": ["18", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": null,
@@ -2057,54 +1112,11 @@
                     },
                     {
                       "prediction": {
-                        "track": null,
-                        "time": ["42", " ", "min"],
+                        "track": "1",
+                        "time": ["36", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": ["5:43", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            { "headsigns": [], "direction_id": 1 }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Stop & Shop",
-            "id": "5289",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            { "headsigns": [], "direction_id": 0 },
-            {
-              "headsigns": [
-                {
-                  "name": "Malden Center Station - Sullivan Square Station",
-                  "headsign": "Sullivan",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["28", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:11", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["48", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:51", " ", "PM"],
+                      "scheduled_time": ["5:50", " ", "PM"],
                       "delay": 0
                     }
                   ],
@@ -2157,7 +1169,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["26", " ", "min"],
+                        "time": ["16", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:31", " ", "PM"],
@@ -2166,7 +1178,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["38", " ", "min"],
+                        "time": ["29", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:50", " ", "PM"],
@@ -2199,19 +1211,19 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["4", " ", "min"],
+                        "time": ["15", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": null,
+                      "scheduled_time": ["5:29", " ", "PM"],
                       "delay": 0
                     },
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["23", " ", "min"],
+                        "time": ["31", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": ["5:29", " ", "PM"],
+                      "scheduled_time": ["5:49", " ", "PM"],
                       "delay": 0
                     }
                   ],
@@ -2224,7 +1236,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["79", " ", "min"],
+                        "time": ["70", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["6:31", " ", "PM"],
@@ -2233,310 +1245,10 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["101", " ", "min"],
+                        "time": ["92", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["6:51", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Jackson St",
-            "id": "15431",
-            "address": null,
-            "accessibility": ["unknown"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Lebanon Loop",
-                  "headsign": "Lebanon Loop",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["24", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:28", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["35", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:47", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Lebanon Loop - Wellington Station via Sylvan St",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["1", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": null,
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["19", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:27", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "Lebanon Loop - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["76", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:28", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["97", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:48", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Stop & Shop",
-            "id": "5289",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Lebanon Loop",
-                  "headsign": "Lebanon Loop",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["arriving"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:11", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["29", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:34", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "Malden Center Station - Lebanon Loop",
-                  "headsign": "Lebanon Loop",
-                  "times": [
-                    {
-                      "prediction": null,
-                      "scheduled_time": ["1:06", " ", "AM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Lebanon Loop - Wellington Station via Sylvan St",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["5", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": null,
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["24", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:31", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "Lebanon Loop - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["80", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:32", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["103", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:52", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Wellington",
-            "id": "place-welln",
-            "address": "Revere Beach Pkwy and Rivers Edge Dr, Medford, MA 02155",
-            "accessibility": ["accessible", "escalator_up", "elevator", "ramp"]
-          },
-          "distance": "1.7 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Lebanon Loop",
-                  "headsign": "Lebanon Loop",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["1", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:11", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["20", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:30", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Lebanon Loop - Wellington Station via Sylvan St",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["18", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:25", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["40", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:50", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "Lebanon Loop - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["95", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:46", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["117", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["7:06", " ", "PM"],
                       "delay": 0
                     }
                   ],
@@ -2586,16 +1298,16 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["10", " ", "min"],
+                        "time": ["2", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": ["5:16", " ", "PM"],
+                      "scheduled_time": null,
                       "delay": 0
                     },
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["32", " ", "min"],
+                        "time": ["23", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:38", " ", "PM"],
@@ -2616,7 +1328,7 @@
                     {
                       "prediction": {
                         "track": null,
-                        "time": ["17", " ", "min"],
+                        "time": ["4", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:19", " ", "PM"],
@@ -2625,249 +1337,10 @@
                     {
                       "prediction": {
                         "track": null,
-                        "time": ["32", " ", "min"],
+                        "time": ["23", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:41", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Pearl St",
-            "id": "5338",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.1 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Linden Square",
-                  "headsign": "Linden Square",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["8", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:14", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["29", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:36", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            { "headsigns": [], "direction_id": 1 }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Pleasant St @ Elm St",
-            "id": "5328",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.1 mi",
-          "directions": [
-            { "headsigns": [], "direction_id": 0 },
-            {
-              "headsigns": [
-                {
-                  "name": "Linden Square - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["18", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:20", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["33", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:42", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Jackson St",
-            "id": "15431",
-            "address": null,
-            "accessibility": ["unknown"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            { "headsigns": [], "direction_id": 0 },
-            {
-              "headsigns": [
-                {
-                  "name": "Linden Square - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["15", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:17", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["30", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:39", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Stop & Shop",
-            "id": "5289",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Linden Square",
-                  "headsign": "Linden Square",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["14", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:20", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["33", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:42", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            { "headsigns": [], "direction_id": 1 }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Wellington",
-            "id": "place-welln",
-            "address": "Revere Beach Pkwy and Rivers Edge Dr, Medford, MA 02155",
-            "accessibility": ["accessible", "escalator_up", "elevator", "ramp"]
-          },
-          "distance": "1.7 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Linden Square",
-                  "headsign": "Linden Square",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["10", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:20", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["34", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:44", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Linden Square - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["9", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:16", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["31", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:38", " ", "PM"],
                       "delay": 0
                     }
                   ],
@@ -2935,31 +1408,92 @@
               "direction_id": 1
             }
           ]
+        }
+      ]
+    },
+    {
+      "route": {
+        "type": 3,
+        "name": "132",
+        "long_name": "Redstone Shopping Center - Malden Center",
+        "id": "132",
+        "header": "132",
+        "direction_names": { "0": "Outbound", "1": "Inbound" },
+        "direction_destinations": {
+          "0": "Redstone Shopping Center",
+          "1": "Malden Center"
         },
+        "description": "local_bus",
+        "custom_route?": false,
+        "alert_count": 0
+      },
+      "stops_with_directions": [
         {
           "stop": {
-            "name": "Centre St @ Jackson St",
-            "id": "15431",
-            "address": null,
-            "accessibility": ["unknown"]
+            "name": "Malden Center",
+            "id": "place-mlmnl",
+            "address": "Commercial St and Pleasant St, Malden, MA 02148",
+            "accessibility": [
+              "accessible",
+              "escalator_up",
+              "elevator",
+              "fully_elevated_platform"
+            ]
           },
-          "distance": "0.2 mi",
+          "distance": "288 ft",
           "directions": [
-            { "headsigns": [], "direction_id": 0 },
             {
               "headsigns": [
                 {
-                  "name": "Melrose Highlands Station - Malden Center Station",
-                  "headsign": "Malden",
+                  "name": "Malden Center Station - Redstone Shopping Center",
+                  "headsign": "Redstone",
                   "times": [
                     {
-                      "prediction": null,
-                      "scheduled_time": ["7:13", " ", "PM"],
+                      "prediction": {
+                        "track": null,
+                        "time": ["2", " ", "min"],
+                        "status": null
+                      },
+                      "scheduled_time": ["5:20", " ", "PM"],
                       "delay": 0
                     },
                     {
-                      "prediction": null,
-                      "scheduled_time": ["7:33", " ", "PM"],
+                      "prediction": {
+                        "track": null,
+                        "time": ["34", " ", "min"],
+                        "status": null
+                      },
+                      "scheduled_time": ["5:52", " ", "PM"],
+                      "delay": 0
+                    }
+                  ],
+                  "train_number": null
+                }
+              ],
+              "direction_id": 0
+            },
+            {
+              "headsigns": [
+                {
+                  "name": "Redstone Shopping Center - Malden Center Station",
+                  "headsign": "Malden",
+                  "times": [
+                    {
+                      "prediction": {
+                        "track": null,
+                        "time": ["25", " ", "min"],
+                        "status": null
+                      },
+                      "scheduled_time": ["5:43", " ", "PM"],
+                      "delay": 0
+                    },
+                    {
+                      "prediction": {
+                        "track": null,
+                        "time": ["61", " ", "min"],
+                        "status": null
+                      },
+                      "scheduled_time": ["6:17", " ", "PM"],
                       "delay": 0
                     }
                   ],
@@ -3012,7 +1546,7 @@
                     {
                       "prediction": {
                         "track": "2",
-                        "time": ["81", " ", "min"],
+                        "time": ["72", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["6:30", " ", "PM"],
@@ -3033,7 +1567,7 @@
                     {
                       "prediction": {
                         "track": "2",
-                        "time": ["49", " ", "min"],
+                        "time": ["44", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["6:00", " ", "PM"],
@@ -3042,7 +1576,7 @@
                     {
                       "prediction": {
                         "track": "2",
-                        "time": ["85", " ", "min"],
+                        "time": ["77", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["6:37", " ", "PM"],
@@ -3054,81 +1588,6 @@
               ],
               "direction_id": 1
             }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Jackson St",
-            "id": "15431",
-            "address": null,
-            "accessibility": ["unknown"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            { "headsigns": [], "direction_id": 0 },
-            {
-              "headsigns": [
-                {
-                  "name": "Reading Depot - Malden Center Station",
-                  "headsign": "Malden",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["46", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:58", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["84", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:35", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Stop & Shop",
-            "id": "5289",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Malden Center Station - Reading Depot",
-                  "headsign": "Reading Depot",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["82", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:31", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            { "headsigns": [], "direction_id": 1 }
           ]
         }
       ]
@@ -3173,19 +1632,19 @@
                     {
                       "prediction": {
                         "track": "2",
-                        "time": ["6", " ", "min"],
+                        "time": ["47", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": ["5:15", " ", "PM"],
+                      "scheduled_time": ["6:05", " ", "PM"],
                       "delay": 0
                     },
                     {
                       "prediction": {
                         "track": "2",
-                        "time": ["56", " ", "min"],
+                        "time": ["107", " ", "min"],
                         "status": null
                       },
-                      "scheduled_time": ["6:05", " ", "PM"],
+                      "scheduled_time": ["7:05", " ", "PM"],
                       "delay": 0
                     }
                   ],
@@ -3203,7 +1662,7 @@
                     {
                       "prediction": {
                         "track": "2",
-                        "time": ["14", " ", "min"],
+                        "time": ["8", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:28", " ", "PM"],
@@ -3212,7 +1671,7 @@
                     {
                       "prediction": {
                         "track": "2",
-                        "time": ["111", " ", "min"],
+                        "time": ["102", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["7:01", " ", "PM"],
@@ -3224,90 +1683,6 @@
               ],
               "direction_id": 1
             }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Jackson St",
-            "id": "15431",
-            "address": null,
-            "accessibility": ["unknown"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            { "headsigns": [], "direction_id": 0 },
-            {
-              "headsigns": [
-                {
-                  "name": "Reading Depot - Malden Center Station",
-                  "headsign": "Malden",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["11", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:26", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["108", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:59", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Stop & Shop",
-            "id": "5289",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Malden Center Station - Reading Depot",
-                  "headsign": "Reading Depot",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["9", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:17", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["63", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:06", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            { "headsigns": [], "direction_id": 1 }
           ]
         }
       ]
@@ -3352,7 +1727,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["33", " ", "min"],
+                        "time": ["24", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:42", " ", "PM"],
@@ -3361,7 +1736,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["78", " ", "min"],
+                        "time": ["69", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["6:27", " ", "PM"],
@@ -3382,7 +1757,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["71", " ", "min"],
+                        "time": ["62", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["6:23", " ", "PM"],
@@ -3391,7 +1766,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["116", " ", "min"],
+                        "time": ["107", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["7:07", " ", "PM"],
@@ -3407,7 +1782,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["9", " ", "min"],
+                        "time": ["1", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:29", " ", "PM"],
@@ -3416,7 +1791,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["77", " ", "min"],
+                        "time": ["68", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["6:24", " ", "PM"],
@@ -3428,115 +1803,6 @@
               ],
               "direction_id": 1
             }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Jackson St",
-            "id": "15431",
-            "address": null,
-            "accessibility": ["unknown"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            { "headsigns": [], "direction_id": 0 },
-            {
-              "headsigns": [
-                {
-                  "name": "Kennedy Dr - Malden Center Station",
-                  "headsign": "Malden",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["68", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:21", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["114", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["7:05", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "Jack Satter House - Malden Center Station",
-                  "headsign": "Malden",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["7", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:27", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["74", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:22", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Stop & Shop",
-            "id": "5289",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Malden Center Station - Kennedy Dr",
-                  "headsign": "Kennedy Dr",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["35", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:44", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["79", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:29", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            { "headsigns": [], "direction_id": 1 }
           ]
         }
       ]
@@ -3598,7 +1864,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["17", " ", "min"],
+                        "time": ["8", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["5:26", " ", "PM"],
@@ -3607,7 +1873,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["67", " ", "min"],
+                        "time": ["66", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": ["6:10", " ", "PM"],
@@ -3645,336 +1911,7 @@
                     {
                       "prediction": {
                         "track": "1",
-                        "time": ["8", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:18", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": "1",
-                        "time": ["66", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:01", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Jackson St",
-            "id": "15431",
-            "address": null,
-            "accessibility": ["unknown"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            { "headsigns": [], "direction_id": 0 },
-            {
-              "headsigns": [
-                {
-                  "name": "Saugus Center - Malden Center Station via Kennedy Dr",
-                  "headsign": "Malden via Square One Mall & Kennedy Dr",
-                  "times": [
-                    {
-                      "prediction": null,
-                      "scheduled_time": ["9:28", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": null,
-                      "scheduled_time": ["10:46", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "Saugus Center - Malden Center Station",
-                  "headsign": "Malden via Square One Mall",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["6", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:14", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["64", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:57", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        },
-        {
-          "stop": {
-            "name": "Centre St @ Stop & Shop",
-            "id": "5289",
-            "address": null,
-            "accessibility": ["accessible"]
-          },
-          "distance": "0.2 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Malden Center Station - Saugus Center via Kennedy Dr",
-                  "headsign": "Saugus Center via Kennedy Dr & Square One Mall",
-                  "times": [
-                    {
-                      "prediction": null,
-                      "scheduled_time": ["8:21", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": null,
-                      "scheduled_time": ["9:46", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "Malden Center Station - Saugus Center",
-                  "headsign": "Saugus Center via Square One Mall",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["25", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:27", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["67", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:11", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            { "headsigns": [], "direction_id": 1 }
-          ]
-        }
-      ]
-    },
-    {
-      "route": {
-        "type": 3,
-        "name": "100",
-        "long_name": "Elm Street - Wellington",
-        "id": "100",
-        "header": "100",
-        "direction_names": { "0": "Outbound", "1": "Inbound" },
-        "direction_destinations": { "0": "Elm Street", "1": "Wellington" },
-        "description": "local_bus",
-        "custom_route?": false,
-        "alert_count": 0
-      },
-      "stops_with_directions": [
-        {
-          "stop": {
-            "name": "Wellington",
-            "id": "place-welln",
-            "address": "Revere Beach Pkwy and Rivers Edge Dr, Medford, MA 02155",
-            "accessibility": ["accessible", "escalator_up", "elevator", "ramp"]
-          },
-          "distance": "1.7 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Elm St",
-                  "headsign": "Elm St",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["15", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:25", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["35", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:45", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Elm St - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["9", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:19", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["32", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:39", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "route": {
-        "type": 3,
-        "name": "110",
-        "long_name": "Wonderland - Wellington",
-        "id": "110",
-        "header": "110",
-        "direction_names": { "0": "Outbound", "1": "Inbound" },
-        "direction_destinations": { "0": "Wonderland", "1": "Wellington" },
-        "description": "local_bus",
-        "custom_route?": false,
-        "alert_count": 1
-      },
-      "stops_with_directions": [
-        {
-          "stop": {
-            "name": "Wellington",
-            "id": "place-welln",
-            "address": "Revere Beach Pkwy and Rivers Edge Dr, Medford, MA 02155",
-            "accessibility": ["accessible", "escalator_up", "elevator", "ramp"]
-          },
-          "distance": "1.7 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Woodlawn",
-                  "headsign": "Woodlawn",
-                  "times": [
-                    {
-                      "prediction": null,
-                      "scheduled_time": ["1:00", " ", "AM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "Wellington Station - Wonderland Station",
-                  "headsign": "Wonderland",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["19", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:29", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["43", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:53", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "Wellington Station - Broadway & Park Ave",
-                  "headsign": "Broadway & Park",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["10", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:17", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["31", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:41", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Wonderland Station - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["9", " ", "min"],
+                        "time": ["62", " ", "min"],
                         "status": null
                       },
                       "scheduled_time": null,
@@ -3982,351 +1919,11 @@
                     },
                     {
                       "prediction": {
-                        "track": null,
-                        "time": ["30", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:37", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "Broadway & Park Ave - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["15", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:21", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["35", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:46", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "route": {
-        "type": 3,
-        "name": "112",
-        "long_name": "Wellington - Wood Island",
-        "id": "112",
-        "header": "112",
-        "direction_names": { "0": "Outbound", "1": "Inbound" },
-        "direction_destinations": { "0": "Wellington", "1": "Wood Island" },
-        "description": "local_bus",
-        "custom_route?": false,
-        "alert_count": 0
-      },
-      "stops_with_directions": [
-        {
-          "stop": {
-            "name": "Wellington",
-            "id": "place-welln",
-            "address": "Revere Beach Pkwy and Rivers Edge Dr, Medford, MA 02155",
-            "accessibility": ["accessible", "escalator_up", "elevator", "ramp"]
-          },
-          "distance": "1.7 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wood Island Station - Wellington Station via Mystic Mall",
-                  "headsign": "Wellington via Admiral's Hill & Market Basket",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["22", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:11", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["38", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:56", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Wood Island Station via Mystic Mall",
-                  "headsign": "Wood Island via Market Basket & Admiral's Hill",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["23", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:25", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["60", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:10", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "route": {
-        "type": 3,
-        "name": "134",
-        "long_name": "North Woburn - Wellington",
-        "id": "134",
-        "header": "134",
-        "direction_names": { "0": "Outbound", "1": "Inbound" },
-        "direction_destinations": { "0": "North Woburn", "1": "Wellington" },
-        "description": "local_bus",
-        "custom_route?": false,
-        "alert_count": 0
-      },
-      "stops_with_directions": [
-        {
-          "stop": {
-            "name": "Wellington",
-            "id": "place-welln",
-            "address": "Revere Beach Pkwy and Rivers Edge Dr, Medford, MA 02155",
-            "accessibility": ["accessible", "escalator_up", "elevator", "ramp"]
-          },
-          "distance": "1.7 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - Winthrop St & Playstead Rd",
-                  "headsign": "Winthrop St",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["53", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:03", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": null,
-                      "scheduled_time": ["7:12", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "Wellington Station - North Woburn via Trade Center",
-                  "headsign": "North Woburn",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["20", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:30", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "Wellington Station - North Woburn",
-                  "headsign": "North Woburn",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["92", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:42", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "Winthrop St & Playstead Rd - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["44", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["5:57", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["112", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["7:07", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "North Woburn - Wellington Station via Trade Center",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["13", " ", "min"],
+                        "track": "1",
+                        "time": ["arriving"],
                         "status": null
                       },
                       "scheduled_time": ["5:18", " ", "PM"],
-                      "delay": 0
-                    },
-                    {
-                      "prediction": {
-                        "track": null,
-                        "time": ["75", " ", "min"],
-                        "status": null
-                      },
-                      "scheduled_time": ["6:33", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "North Woburn - Wellington Station",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": null,
-                      "scheduled_time": ["8:22", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "route": {
-        "type": 3,
-        "name": "710",
-        "long_name": "North Medford - Medford Square, Meadow Glen Mall, or Wellington",
-        "id": "710",
-        "header": "710",
-        "direction_names": { "0": "Outbound", "1": "Inbound" },
-        "direction_destinations": {
-          "0": "North Medford",
-          "1": "Medford Square, Meadow Glen Mall, or Wellington"
-        },
-        "description": "local_bus",
-        "custom_route?": false,
-        "alert_count": 0
-      },
-      "stops_with_directions": [
-        {
-          "stop": {
-            "name": "Wellington",
-            "id": "place-welln",
-            "address": "Revere Beach Pkwy and Rivers Edge Dr, Medford, MA 02155",
-            "accessibility": ["accessible", "escalator_up", "elevator", "ramp"]
-          },
-          "distance": "1.7 mi",
-          "directions": [
-            {
-              "headsigns": [
-                {
-                  "name": "Wellington Station - North Medford",
-                  "headsign": "Highland & Doonan via Meadow Glen Mall",
-                  "times": [
-                    {
-                      "prediction": null,
-                      "scheduled_time": ["6:00", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                }
-              ],
-              "direction_id": 0
-            },
-            {
-              "headsigns": [
-                {
-                  "name": "North Medford - Wellington Station (Omits Meadow Glen Mall)",
-                  "headsign": "Wellington",
-                  "times": [
-                    {
-                      "prediction": null,
-                      "scheduled_time": ["7:00", " ", "PM"],
-                      "delay": 0
-                    }
-                  ],
-                  "train_number": null
-                },
-                {
-                  "name": "North Medford - Wellington Station",
-                  "headsign": "Wellington via Meadow Glen Mall",
-                  "times": [
-                    {
-                      "prediction": null,
-                      "scheduled_time": ["6:00", " ", "PM"],
                       "delay": 0
                     }
                   ],
@@ -4341,52 +1938,6 @@
     }
   ],
   "stopsWithRoutes": [
-    {
-      "stop": {
-        "name": "14 Summer St",
-        "id": "5070",
-        "address": null,
-        "accessibility": ["accessible"]
-      },
-      "routes": [
-        {
-          "group_name": "bus",
-          "routes": [
-            {
-              "type": 3,
-              "name": "99",
-              "long_name": "Woodland Road, Stoneham - Wellington",
-              "id": "99",
-              "header": "99",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Woodland Road, Stoneham",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "132",
-              "long_name": "Redstone Shopping Center - Malden Center",
-              "id": "132",
-              "header": "132",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Redstone Shopping Center",
-                "1": "Malden Center"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            }
-          ]
-        }
-      ],
-      "distance": "176 ft"
-    },
     {
       "stop": {
         "name": "Malden Center",
@@ -4642,741 +2193,6 @@
         }
       ],
       "distance": "288 ft"
-    },
-    {
-      "stop": {
-        "name": "Centre St @ Pearl St",
-        "id": "5338",
-        "address": null,
-        "accessibility": ["accessible"]
-      },
-      "routes": [
-        {
-          "group_name": "bus",
-          "routes": [
-            {
-              "type": 3,
-              "name": "101",
-              "long_name": "Malden Center - Sullivan via Winter Hill",
-              "id": "101",
-              "header": "101",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Malden Center",
-                "1": "Sullivan"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "108",
-              "long_name": "Linden Square - Wellington",
-              "id": "108",
-              "header": "108",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Linden Square",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            }
-          ]
-        }
-      ],
-      "distance": "0.1 mi"
-    },
-    {
-      "stop": {
-        "name": "Pleasant St @ Elm St",
-        "id": "5328",
-        "address": null,
-        "accessibility": ["accessible"]
-      },
-      "routes": [
-        {
-          "group_name": "bus",
-          "routes": [
-            {
-              "type": 3,
-              "name": "101",
-              "long_name": "Malden Center - Sullivan via Winter Hill",
-              "id": "101",
-              "header": "101",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Malden Center",
-                "1": "Sullivan"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "108",
-              "long_name": "Linden Square - Wellington",
-              "id": "108",
-              "header": "108",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Linden Square",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            }
-          ]
-        }
-      ],
-      "distance": "0.1 mi"
-    },
-    {
-      "stop": {
-        "name": "Florence St @ Washington St",
-        "id": "5369",
-        "address": null,
-        "accessibility": ["unknown"]
-      },
-      "routes": [
-        {
-          "group_name": "bus",
-          "routes": [
-            {
-              "type": 3,
-              "name": "99",
-              "long_name": "Woodland Road, Stoneham - Wellington",
-              "id": "99",
-              "header": "99",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Woodland Road, Stoneham",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "104",
-              "long_name": "Malden Center - Sullivan via Ferry Street",
-              "id": "104",
-              "header": "104",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Malden Center",
-                "1": "Sullivan"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 1
-            },
-            {
-              "type": 3,
-              "name": "105",
-              "long_name": "Malden Center - Sullivan via Newland Street Housing",
-              "id": "105",
-              "header": "105",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Malden Center",
-                "1": "Sullivan"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 1
-            }
-          ]
-        }
-      ],
-      "distance": "0.2 mi"
-    },
-    {
-      "stop": {
-        "name": "Summer St @ Lincoln St",
-        "id": "5074",
-        "address": null,
-        "accessibility": ["accessible"]
-      },
-      "routes": [
-        {
-          "group_name": "bus",
-          "routes": [
-            {
-              "type": 3,
-              "name": "99",
-              "long_name": "Woodland Road, Stoneham - Wellington",
-              "id": "99",
-              "header": "99",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Woodland Road, Stoneham",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "132",
-              "long_name": "Redstone Shopping Center - Malden Center",
-              "id": "132",
-              "header": "132",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Redstone Shopping Center",
-                "1": "Malden Center"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            }
-          ]
-        }
-      ],
-      "distance": "0.2 mi"
-    },
-    {
-      "stop": {
-        "name": "Centre St @ Jackson St",
-        "id": "15431",
-        "address": null,
-        "accessibility": ["unknown"]
-      },
-      "routes": [
-        {
-          "group_name": "bus",
-          "routes": [
-            {
-              "type": 3,
-              "name": "106",
-              "long_name": "Lebanon Street, Malden - Wellington",
-              "id": "106",
-              "header": "106",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Lebanon Street, Malden",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "108",
-              "long_name": "Linden Square - Wellington",
-              "id": "108",
-              "header": "108",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Linden Square",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "131",
-              "long_name": "Melrose Highlands - Oak Grove",
-              "id": "131",
-              "header": "131",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Melrose Highlands",
-                "1": "Oak Grove"
-              },
-              "description": "commuter_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "136",
-              "long_name": "Reading Depot - Malden Center via Lowell Street",
-              "id": "136",
-              "header": "136",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Reading Depot",
-                "1": "Malden Center"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "137",
-              "long_name": "Reading Depot - Malden Center via North Avenue",
-              "id": "137",
-              "header": "137",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Reading Depot",
-                "1": "Malden Center"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "411",
-              "long_name": "Kennedy Drive or Jack Satter House - Malden Center",
-              "id": "411",
-              "header": "411",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Kennedy Drive or Jack Satter House",
-                "1": "Malden Center"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "430",
-              "long_name": "Saugus Center - Malden Center",
-              "id": "430",
-              "header": "430",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Saugus Center",
-                "1": "Malden Center"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            }
-          ]
-        }
-      ],
-      "distance": "0.2 mi"
-    },
-    {
-      "stop": {
-        "name": "Centre St @ Stop & Shop",
-        "id": "5289",
-        "address": null,
-        "accessibility": ["accessible"]
-      },
-      "routes": [
-        {
-          "group_name": "bus",
-          "routes": [
-            {
-              "type": 3,
-              "name": "99",
-              "long_name": "Woodland Road, Stoneham - Wellington",
-              "id": "99",
-              "header": "99",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Woodland Road, Stoneham",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "104",
-              "long_name": "Malden Center - Sullivan via Ferry Street",
-              "id": "104",
-              "header": "104",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Malden Center",
-                "1": "Sullivan"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 1
-            },
-            {
-              "type": 3,
-              "name": "105",
-              "long_name": "Malden Center - Sullivan via Newland Street Housing",
-              "id": "105",
-              "header": "105",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Malden Center",
-                "1": "Sullivan"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 1
-            },
-            {
-              "type": 3,
-              "name": "106",
-              "long_name": "Lebanon Street, Malden - Wellington",
-              "id": "106",
-              "header": "106",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Lebanon Street, Malden",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "108",
-              "long_name": "Linden Square - Wellington",
-              "id": "108",
-              "header": "108",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Linden Square",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "136",
-              "long_name": "Reading Depot - Malden Center via Lowell Street",
-              "id": "136",
-              "header": "136",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Reading Depot",
-                "1": "Malden Center"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "137",
-              "long_name": "Reading Depot - Malden Center via North Avenue",
-              "id": "137",
-              "header": "137",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Reading Depot",
-                "1": "Malden Center"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "411",
-              "long_name": "Kennedy Drive or Jack Satter House - Malden Center",
-              "id": "411",
-              "header": "411",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Kennedy Drive or Jack Satter House",
-                "1": "Malden Center"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "430",
-              "long_name": "Saugus Center - Malden Center",
-              "id": "430",
-              "header": "430",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Saugus Center",
-                "1": "Malden Center"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            }
-          ]
-        }
-      ],
-      "distance": "0.2 mi"
-    },
-    {
-      "stop": {
-        "name": "Commercial St @ Charles St",
-        "id": "45417",
-        "address": null,
-        "accessibility": ["unknown"]
-      },
-      "routes": [
-        {
-          "group_name": "bus",
-          "routes": [
-            {
-              "type": 3,
-              "name": "97",
-              "long_name": "Malden Center - Wellington",
-              "id": "97",
-              "header": "97",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Malden Center",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            }
-          ]
-        }
-      ],
-      "distance": "0.3 mi"
-    },
-    {
-      "stop": {
-        "name": "Wyoming Hill",
-        "id": "place-WR-0062",
-        "address": "40 W Wyoming Ave, Melrose, MA 02176",
-        "accessibility": []
-      },
-      "routes": [
-        {
-          "group_name": "commuter_rail",
-          "routes": [
-            {
-              "type": 2,
-              "name": "Haverhill Line",
-              "long_name": "Haverhill Line",
-              "id": "CR-Haverhill",
-              "header": "Haverhill",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Haverhill",
-                "1": "North Station"
-              },
-              "description": "commuter_rail",
-              "custom_route?": false,
-              "alert_count": 0
-            }
-          ]
-        }
-      ],
-      "distance": "1.7 mi"
-    },
-    {
-      "stop": {
-        "name": "Wellington",
-        "id": "place-welln",
-        "address": "Revere Beach Pkwy and Rivers Edge Dr, Medford, MA 02155",
-        "accessibility": ["accessible", "escalator_up", "elevator", "ramp"]
-      },
-      "routes": [
-        {
-          "group_name": "orange_line",
-          "routes": [
-            {
-              "type": 1,
-              "name": "Orange Line",
-              "long_name": "Orange Line",
-              "id": "Orange",
-              "header": "Orange Line",
-              "direction_names": { "0": "Southbound", "1": "Northbound" },
-              "direction_destinations": {
-                "0": "Forest Hills",
-                "1": "Oak Grove"
-              },
-              "description": "rapid_transit",
-              "custom_route?": false,
-              "alert_count": 1
-            }
-          ]
-        },
-        {
-          "group_name": "bus",
-          "routes": [
-            {
-              "type": 3,
-              "name": "97",
-              "long_name": "Malden Center - Wellington",
-              "id": "97",
-              "header": "97",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Malden Center",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "99",
-              "long_name": "Woodland Road, Stoneham - Wellington",
-              "id": "99",
-              "header": "99",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Woodland Road, Stoneham",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "100",
-              "long_name": "Elm Street - Wellington",
-              "id": "100",
-              "header": "100",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Elm Street",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "106",
-              "long_name": "Lebanon Street, Malden - Wellington",
-              "id": "106",
-              "header": "106",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Lebanon Street, Malden",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "108",
-              "long_name": "Linden Square - Wellington",
-              "id": "108",
-              "header": "108",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Linden Square",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "110",
-              "long_name": "Wonderland - Wellington",
-              "id": "110",
-              "header": "110",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Wonderland",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 1
-            },
-            {
-              "type": 3,
-              "name": "112",
-              "long_name": "Wellington - Wood Island",
-              "id": "112",
-              "header": "112",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Wellington",
-                "1": "Wood Island"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "134",
-              "long_name": "North Woburn - Wellington",
-              "id": "134",
-              "header": "134",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "North Woburn",
-                "1": "Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            },
-            {
-              "type": 3,
-              "name": "710",
-              "long_name": "North Medford - Medford Square, Meadow Glen Mall, or Wellington",
-              "id": "710",
-              "header": "710",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "North Medford",
-                "1": "Medford Square, Meadow Glen Mall, or Wellington"
-              },
-              "description": "local_bus",
-              "custom_route?": false,
-              "alert_count": 0
-            }
-          ]
-        }
-      ],
-      "distance": "1.7 mi"
-    },
-    {
-      "stop": {
-        "name": "Melrose Cedar Park",
-        "id": "place-WR-0067",
-        "address": "Cedar Park and W Emerson St, Melrose, MA 02176",
-        "accessibility": []
-      },
-      "routes": [
-        {
-          "group_name": "commuter_rail",
-          "routes": [
-            {
-              "type": 2,
-              "name": "Haverhill Line",
-              "long_name": "Haverhill Line",
-              "id": "CR-Haverhill",
-              "header": "Haverhill",
-              "direction_names": { "0": "Outbound", "1": "Inbound" },
-              "direction_destinations": {
-                "0": "Haverhill",
-                "1": "North Station"
-              },
-              "description": "commuter_rail",
-              "custom_route?": false,
-              "alert_count": 0
-            }
-          ]
-        }
-      ],
-      "distance": "2.2 mi"
     }
   ]
 }

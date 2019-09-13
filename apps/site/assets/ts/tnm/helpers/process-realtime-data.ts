@@ -111,10 +111,7 @@ const buildHeadsign = (
   ].predicted_schedules.map(
     ({ prediction, schedule }) => prediction || schedule
   );
-  const headsignDisplayName =
-    headsignNameFromSchedule.length > 0
-      ? headsignNameFromSchedule[0].headsign
-      : headsign;
+  const headsignDisplayName = headsignNameFromSchedule[0].headsign;
   return {
     name: headsign,
     headsign: headsignDisplayName,
