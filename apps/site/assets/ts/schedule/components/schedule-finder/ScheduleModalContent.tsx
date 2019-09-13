@@ -10,6 +10,7 @@ import {
 import isSilverLine from "../../../helpers/silver-line";
 import { reducer } from "../../../helpers/fetch";
 import ServiceSelector from "./ServiceSelector";
+import { breakTextAtSlash } from "../../../helpers/text";
 
 const stopInfo = (
   selectedOrigin: string,
@@ -34,7 +35,7 @@ const routePill = (
       <div
         className={`h1 schedule-finder__modal-route-pill u-bg--${
           isSilverLine(id) ? "silver-line" : "bus"
-        }`}
+          }`}
       >
         {name}
       </div>
@@ -123,7 +124,7 @@ const ScheduleModalContent = ({
             {directionNames[selectedDirection]}
           </div>
           <h2 className="h2" style={{ margin: 0 }}>
-            {destination}
+            {breakTextAtSlash(destination)}
           </h2>
         </div>
       </div>

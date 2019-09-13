@@ -417,6 +417,7 @@
   padding: $base-spacing / 4 0;
 
   &--right-adjusted {
+    padding-left: $base-spacing / 2;
     text-align: right;
     vertical-align: top;
     white-space: pre;
