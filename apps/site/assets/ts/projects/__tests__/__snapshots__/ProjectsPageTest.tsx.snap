@@ -103,63 +103,22 @@ Array [
     className="m-project-page__top-container"
   >
     <div
-      className="row"
+      className="col-12 col-lg-8 m-project-page__col--no-padding-lg-left"
     >
-      <div
-        className="col-12 col-lg-8"
+      <h2
+        className="c-projects-header__subheader"
       >
-        <h2
-          className="container c-projects-header__subheader"
-        >
-          Featured Projects
-        </h2>
-        <a
-          className="m-banner m-banner--responsive m-banner--lg-9 m-banner--no-margin-top m-banner--default"
-          href="/projects/better-bus-project"
+        Featured Projects
+      </h2>
+      <a
+        className="m-banner m-banner--responsive m-banner--lg-9 m-banner--no-margin-top m-banner--default"
+        href="/projects/better-bus-project"
+      >
+        <div
+          className="hidden-sm-up"
         >
           <div
-            className="hidden-xs-down"
-          >
-            <div
-              className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default"
-            >
-              <div
-                className="m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--unknown"
-              >
-                <div
-                  className="m-banner__top"
-                >
-                  <h2
-                    className="h2 m-banner__title m-banner__title--default"
-                  >
-                    Better Bus Project
-                  </h2>
-                </div>
-                <div
-                  className="m-banner__bottom"
-                >
-                  <span
-                    className="m-banner__date"
-                  >
-                    Updated 
-                    July 30, 2019
-                  </span>
-                </div>
-              </div>
-              <img
-                alt="Better Bus Project: Making transit better together"
-                className="m-banner__image--by-side"
-                src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq"
-              />
-              <div
-                className="sr-only"
-              >
-                Better Bus Project: Making transit better together
-              </div>
-            </div>
-          </div>
-          <div
-            className="hidden-sm-up"
+            className="row"
           >
             <div
               className="m-banner__image m-banner__image--responsive m-banner__image--default"
@@ -199,298 +158,382 @@ Array [
               </div>
             </div>
           </div>
-        </a>
+        </div>
         <div
-          className="container c-featured-project-list"
+          className="hidden-xs-down hidden-lg-up"
         >
           <div
-            className="page-section"
+            className="row"
           >
             <div
-              className="c-featured-project-list__row"
+              className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default"
             >
               <div
-                className="c-featured-project"
+                className="m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--unknown"
               >
-                <a
-                  href="/choo-choo"
+                <div
+                  className="m-banner__top"
                 >
-                  <div
-                    className="c-featured-project__image"
+                  <h2
+                    className="h2 m-banner__title m-banner__title--default"
                   >
-                    <img
-                      alt="Picture of a train. Choo choo!"
-                      src="https://www.imagehost.com/pictureofatrain.jpg"
-                    />
-                  </div>
-                  <h3
-                    className="c-featured-project__title"
-                  >
-                    New choo-choos!
-                  </h3>
-                  <div
-                    className="c-featured-project__date"
-                  >
-                    Updated on 
-                    May 1, 2018
-                  </div>
-                  We bought new trains. Choo choo!
-                  <div
-                    className="m-route-pills"
-                  >
-                    <span
-                      aria-hidden="false"
-                      className="notranslate c-svg__icon c-featured-project__route-icon"
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "SVG",
-                        }
-                      }
-                    />
-                    <span
-                      className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--commuter-rail"
-                    >
-                      Commuter Rail
-                    </span>
-                  </div>
-                </a>
-              </div>
-              <div
-                className="c-featured-project"
-              >
-                <a
-                  href="/fixing-track"
+                    Better Bus Project
+                  </h2>
+                </div>
+                <div
+                  className="m-banner__bottom"
                 >
-                  <div
-                    className="c-featured-project__image"
+                  <span
+                    className="m-banner__date"
                   >
-                    <img
-                      alt="People fixing track or something"
-                      src="https://www.imagehost.com/pictureofworkers.jpg"
-                    />
-                  </div>
-                  <h3
-                    className="c-featured-project__title"
-                  >
-                    Track fixing
-                  </h3>
-                  <div
-                    className="c-featured-project__date"
-                  >
-                    Updated on 
-                    April 1, 2018
-                  </div>
-                  We're fixing the track. It needs it.
-                  <div
-                    className="m-route-pills"
-                  >
-                    <span
-                      className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--blue-line"
-                    >
-                      Blue Line
-                    </span>
-                  </div>
-                </a>
+                    Updated 
+                    July 30, 2019
+                  </span>
+                </div>
               </div>
-            </div>
-            <div
-              className="c-featured-project-list__row"
-            >
-              <div
-                className="c-featured-project"
-              >
-                <a
-                  href="/east-station"
-                >
-                  <div
-                    className="c-featured-project__image"
-                  >
-                    <img
-                      alt="Facade of East Station"
-                      src="https://www.imagehost.com/pictureofastation.jpg"
-                    />
-                  </div>
-                  <h3
-                    className="c-featured-project__title"
-                  >
-                    East Station opening
-                  </h3>
-                  <div
-                    className="c-featured-project__date"
-                  >
-                    Updated on 
-                    March 1, 2018
-                  </div>
-                  We opened East Station, even though it's on the harbor floor.
-                  <div
-                    className="m-route-pills"
-                  >
-                    <span
-                      className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--red-line"
-                    >
-                      Red Line
-                    </span>
-                  </div>
-                </a>
-              </div>
-              <div
-                className="c-featured-project"
+              <img
+                alt="Better Bus Project: Making transit better together"
+                className="m-banner__image--by-side"
+                src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq"
               />
+              <div
+                className="sr-only"
+              >
+                Better Bus Project: Making transit better together
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        <div
+          className="hidden-md-down"
+        >
+          <div
+            className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default"
+          >
+            <div
+              className="m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--unknown"
+            >
+              <div
+                className="m-banner__top"
+              >
+                <h2
+                  className="h2 m-banner__title m-banner__title--default"
+                >
+                  Better Bus Project
+                </h2>
+              </div>
+              <div
+                className="m-banner__bottom"
+              >
+                <span
+                  className="m-banner__date"
+                >
+                  Updated 
+                  July 30, 2019
+                </span>
+              </div>
+            </div>
+            <img
+              alt="Better Bus Project: Making transit better together"
+              className="m-banner__image--by-side"
+              src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq"
+            />
+            <div
+              className="sr-only"
+            >
+              Better Bus Project: Making transit better together
+            </div>
+          </div>
+        </div>
+      </a>
       <div
-        className="col-12 col-lg-offset-half-left col-lg-4 col-lg-3-and-a-half"
+        className="c-featured-project-list"
       >
         <div
-          className="container"
-        />
+          className="page-section"
+        >
+          <div
+            className="c-featured-project-list__row"
+          >
+            <div
+              className="c-featured-project"
+            >
+              <a
+                href="/choo-choo"
+              >
+                <div
+                  className="c-featured-project__image"
+                >
+                  <img
+                    alt="Picture of a train. Choo choo!"
+                    src="https://www.imagehost.com/pictureofatrain.jpg"
+                  />
+                </div>
+                <h3
+                  className="c-featured-project__title"
+                >
+                  New choo-choos!
+                </h3>
+                <div
+                  className="c-featured-project__date"
+                >
+                  Updated on 
+                  May 1, 2018
+                </div>
+                We bought new trains. Choo choo!
+                <div
+                  className="m-route-pills"
+                >
+                  <span
+                    aria-hidden="false"
+                    className="notranslate c-svg__icon c-featured-project__route-icon"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "SVG",
+                      }
+                    }
+                  />
+                  <span
+                    className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--commuter-rail"
+                  >
+                    Commuter Rail
+                  </span>
+                </div>
+              </a>
+            </div>
+            <div
+              className="c-featured-project"
+            >
+              <a
+                href="/fixing-track"
+              >
+                <div
+                  className="c-featured-project__image"
+                >
+                  <img
+                    alt="People fixing track or something"
+                    src="https://www.imagehost.com/pictureofworkers.jpg"
+                  />
+                </div>
+                <h3
+                  className="c-featured-project__title"
+                >
+                  Track fixing
+                </h3>
+                <div
+                  className="c-featured-project__date"
+                >
+                  Updated on 
+                  April 1, 2018
+                </div>
+                We're fixing the track. It needs it.
+                <div
+                  className="m-route-pills"
+                >
+                  <span
+                    className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--blue-line"
+                  >
+                    Blue Line
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div
+            className="c-featured-project-list__row"
+          >
+            <div
+              className="c-featured-project"
+            >
+              <a
+                href="/east-station"
+              >
+                <div
+                  className="c-featured-project__image"
+                >
+                  <img
+                    alt="Facade of East Station"
+                    src="https://www.imagehost.com/pictureofastation.jpg"
+                  />
+                </div>
+                <h3
+                  className="c-featured-project__title"
+                >
+                  East Station opening
+                </h3>
+                <div
+                  className="c-featured-project__date"
+                >
+                  Updated on 
+                  March 1, 2018
+                </div>
+                We opened East Station, even though it's on the harbor floor.
+                <div
+                  className="m-route-pills"
+                >
+                  <span
+                    className="m-stop-page__header-feature m-stop-page__header-description u-small-caps u-bg--red-line"
+                  >
+                    Red Line
+                  </span>
+                </div>
+              </a>
+            </div>
+            <div
+              className="c-featured-project"
+            />
+          </div>
+        </div>
       </div>
     </div>
-  </div>,
-  <div
-    className="container"
-  >
-    <h2>
-      More
-       Projects
-    </h2>
-    <div>
-      <table
-        aria-label="More Projects"
-        className="c-more-projects-table"
-      >
-        <thead
-          className="c-more-projects-table__thead hidden-md-down"
+    <div
+      className="col-12 col-lg-offset-half-left col-lg-4 col-lg-3-and-a-half m-project-page__col--no-padding-lg-right"
+    >
+      <div />
+    </div>
+    <div
+      className="col-lg-12 m-project-page__col--no-padding-lg-right m-project-page__col--no-padding-lg-left"
+    >
+      <h2>
+        More
+         Projects
+      </h2>
+      <div>
+        <table
+          aria-label="More Projects"
+          className="c-more-projects-table"
         >
-          <tr>
-            <th
-              className="c-more-projects-table__th c-more-projects-table__th-project"
-              scope="col"
-            >
-              Project
-            </th>
-            <th
-              className="c-more-projects-table__th c-more-projects-table__th-last-updated"
-              scope="col"
-            >
-              Last Updated
-            </th>
-            <th
-              className="c-more-projects-table__th c-more-projects-table__th-status"
-              scope="col"
-            >
-              Status
-            </th>
-          </tr>
-        </thead>
-        <tbody
-          className="c-more-projects-table__tbody"
-        >
-          <tr
-            className="c-more-projects-table__tr"
+          <thead
+            className="c-more-projects-table__thead hidden-md-down"
           >
-            <td
-              className="c-more-projects-table__td c-more-projects-table__td-project"
-            >
-              <img
-                alt="Photo of stuff"
-                className="hidden-xs-down c-more-projects-table__thumbnail"
-                src="http://www.example.com/some.gif"
-              />
-              <div
-                className="c-more-projects-table__wrapper"
+            <tr>
+              <th
+                className="c-more-projects-table__th c-more-projects-table__th-project"
+                scope="col"
               >
-                <a
-                  href="http://www.mbta.com/awesome_project"
-                >
-                  <h3
-                    className="c-more-projects-table__title"
-                  >
-                    The Awesome Project
-                  </h3>
-                </a>
+                Project
+              </th>
+              <th
+                className="c-more-projects-table__th c-more-projects-table__th-last-updated"
+                scope="col"
+              >
+                Last Updated
+              </th>
+              <th
+                className="c-more-projects-table__th c-more-projects-table__th-status"
+                scope="col"
+              >
+                Status
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            className="c-more-projects-table__tbody"
+          >
+            <tr
+              className="c-more-projects-table__tr"
+            >
+              <td
+                className="c-more-projects-table__td c-more-projects-table__td-project"
+              >
+                <img
+                  alt="Photo of stuff"
+                  className="hidden-xs-down c-more-projects-table__thumbnail"
+                  src="http://www.example.com/some.gif"
+                />
                 <div
-                  className="c-more-projects-table__updated-and-status hidden-lg-up"
+                  className="c-more-projects-table__wrapper"
                 >
-                  <div
-                    className="c-more-projects-table__last-updated"
+                  <a
+                    href="http://www.mbta.com/awesome_project"
                   >
-                    <span
-                      className="c-more-projects-table__internal-header"
+                    <h3
+                      className="c-more-projects-table__title"
                     >
-                      Last updated
-                    </span>
-                    <br />
-                    June 2, 2018
-                    <br />
-                    <span
-                      aria-hidden="false"
-                      className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "SVG",
+                      The Awesome Project
+                    </h3>
+                  </a>
+                  <div
+                    className="c-more-projects-table__updated-and-status hidden-lg-up"
+                  >
+                    <div
+                      className="c-more-projects-table__last-updated"
+                    >
+                      <span
+                        className="c-more-projects-table__internal-header"
+                      >
+                        Last updated
+                      </span>
+                      <br />
+                      June 2, 2018
+                      <br />
+                      <span
+                        aria-hidden="false"
+                        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "SVG",
+                          }
                         }
-                      }
-                    />
-                    <span
-                      aria-hidden="false"
-                      className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
-                      dangerouslySetInnerHTML={
-                        Object {
-                          "__html": "SVG",
+                      />
+                      <span
+                        aria-hidden="false"
+                        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "SVG",
+                          }
                         }
-                      }
-                    />
+                      />
+                    </div>
                   </div>
+                  <span
+                    aria-hidden="false"
+                    className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "SVG",
+                      }
+                    }
+                  />
+                  <span
+                    aria-hidden="false"
+                    className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+                    dangerouslySetInnerHTML={
+                      Object {
+                        "__html": "SVG",
+                      }
+                    }
+                  />
                 </div>
+              </td>
+              <td
+                className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down"
+              >
+                June 2, 2018
+              </td>
+              <td
+                className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"
+              >
                 <span
-                  aria-hidden="false"
-                  className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "SVG",
-                    }
-                  }
+                  className="c-more-projects-table__status-wrapper"
                 />
-                <span
-                  aria-hidden="false"
-                  className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
-                  dangerouslySetInnerHTML={
-                    Object {
-                      "__html": "SVG",
-                    }
-                  }
-                />
-              </div>
-            </td>
-            <td
-              className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down"
-            >
-              June 2, 2018
-            </td>
-            <td
-              className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"
-            >
-              <span
-                className="c-more-projects-table__status-wrapper"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div
-        className="c-more-projects__show-more-button-wrapper"
-      >
-        <button
-          className="btn btn-secondary c-more-projects__show-more-button"
-          disabled={false}
-          onClick={[Function]}
-          type="button"
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div
+          className="c-more-projects__show-more-button-wrapper"
         >
-          Show more
-        </button>
+          <button
+            className="btn btn-secondary c-more-projects__show-more-button"
+            disabled={false}
+            onClick={[Function]}
+            type="button"
+          >
+            Show more
+          </button>
+        </div>
       </div>
     </div>
   </div>,

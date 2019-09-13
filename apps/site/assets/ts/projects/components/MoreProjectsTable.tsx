@@ -38,7 +38,7 @@ const MoreProjectsTable = ({
   }
 
   return (
-    <div className="container">
+    <>
       <h2>{tableHeaderText(state)} Projects</h2>
       <div>
         <table className="c-more-projects-table" aria-label="More Projects">
@@ -86,7 +86,7 @@ const MoreProjectsTable = ({
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

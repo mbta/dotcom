@@ -10,6 +10,18 @@
   }
 }
 
+.m-project-page__col--no-padding-lg {
+  @include media-breakpoint-up(lg) {
+    &-left {
+      padding-left: 0;
+    }
+
+    &-right {
+      padding-right: 0;
+    }
+  }
+}
+
 .c-project-updates-list {
   background-color: $brand-primary-lightest-contrast;
 
