@@ -119,6 +119,15 @@ exports[`render it renders 1`] = `
           >
             Orange Line
           </span>
+          <span
+            aria-hidden="false"
+            className="notranslate m-tnm-sidebar__route-alert"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
         </a>
         <div
           className="m-tnm-sidebar__route-stop"
@@ -152,7 +161,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -256,7 +265,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        6
+                        5
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -274,7 +283,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        11
+                        26
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -335,7 +344,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -358,17 +367,12 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    North Station - Haverhill
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__via"
-                  >
-                    via Reading
+                    Haverhill
                   </div>
                   <div
                     className="m-tnm-sidebar__headsign-train"
                   >
-                    Train 211
+                    Train 215
                   </div>
                 </div>
                 <div
@@ -383,7 +387,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        3:26 PM
+                        5:26 PM
                       </div>
                       <div
                         className="m-tnm-sidebar__status"
@@ -401,7 +405,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        4:01 PM
+                        5:46 PM
                       </div>
                       <div
                         className="m-tnm-sidebar__status"
@@ -434,17 +438,12 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Haverhill - North Station
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__via"
-                  >
-                    via Reading
+                    North Station
                   </div>
                   <div
                     className="m-tnm-sidebar__headsign-train"
                   >
-                    Train 292
+                    Train 294
                   </div>
                 </div>
                 <div
@@ -459,7 +458,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        5:06 PM
+                        5:53 PM
                       </div>
                       <div
                         className="m-tnm-sidebar__status"
@@ -477,7 +476,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        5:54 PM
+                        7:11 PM
                       </div>
                       <div
                         className="m-tnm-sidebar__status"
@@ -505,15 +504,6 @@ exports[`render it renders 1`] = `
           >
             97
           </span>
-          <span
-            aria-hidden="false"
-            className="notranslate m-tnm-sidebar__route-alert"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
         </a>
         <div
           className="m-tnm-sidebar__route-stop"
@@ -547,7 +537,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -570,7 +560,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Wellington Station - Malden Center Station
+                    Malden
                   </div>
                 </div>
                 <div
@@ -585,7 +575,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        49
+                        10
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -603,7 +593,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        117
+                        50
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -636,7 +626,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Malden Center Station - Wellington Station
+                    Wellington
                   </div>
                 </div>
                 <div
@@ -651,7 +641,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        60
+                        12
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -664,17 +654,17 @@ exports[`render it renders 1`] = `
                     className="m-tnm-sidebar__schedule"
                   >
                     <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
+                      className="m-tnm-sidebar__time "
                     >
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        1:20
+                        52
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
                       >
-                        PM
+                        min
                       </div>
                     </div>
                   </div>
@@ -730,7 +720,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -753,7 +743,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Wellington Station - Woodland Rd
+                    Woodland Rd
                   </div>
                 </div>
                 <div
@@ -768,7 +758,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        8
+                        3
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -786,7 +776,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        69
+                        39
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -819,7 +809,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Woodland Rd - Wellington Station
+                    Wellington
                   </div>
                 </div>
                 <div
@@ -834,7 +824,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        35
+                        27
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -852,7 +842,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        102
+                        71
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -879,6 +869,187 @@ exports[`render it renders 1`] = `
             className="bus-route-sign"
           >
             101
+          </span>
+        </a>
+        <div
+          className="m-tnm-sidebar__route-stop"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          style={
+            Object {
+              "cursor": "pointer",
+            }
+          }
+          tabIndex={0}
+        >
+          <div
+            className="m-tnm-sidebar__stop-info"
+          >
+            <a
+              className="m-tnm-sidebar__stop-name"
+            >
+              Malden Center
+              <span
+                aria-hidden="false"
+                className="notranslate m-tnm-sidebar__stop-accessible"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+            </a>
+            <div
+              className="m-tnm-sidebar__stop-distance"
+            >
+              288 ft
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__direction"
+          >
+            <div
+              className="m-tnm-sidebar__direction-name u-small-caps"
+            >
+              Outbound
+            </div>
+            <div
+              className="m-tnm-sidebar__direction-headsigns"
+            >
+              <div
+                className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+              >
+                <div
+                  className="m-tnm-sidebar__headsign"
+                >
+                  <div
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  >
+                    Malden
+                  </div>
+                </div>
+                <div
+                  className="m-tnm-sidebar__schedules"
+                >
+                  <div
+                    className="m-tnm-sidebar__schedule"
+                  >
+                    <div
+                      className="m-tnm-sidebar__time "
+                    >
+                      <div
+                        className="m-tnm-sidebar__time-number"
+                      >
+                        7
+                      </div>
+                      <div
+                        className="m-tnm-sidebar__time-mins"
+                      >
+                        min
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__schedule"
+                  >
+                    <div
+                      className="m-tnm-sidebar__time "
+                    >
+                      <div
+                        className="m-tnm-sidebar__time-number"
+                      >
+                        8
+                      </div>
+                      <div
+                        className="m-tnm-sidebar__time-mins"
+                      >
+                        min
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="m-tnm-sidebar__direction"
+          >
+            <div
+              className="m-tnm-sidebar__direction-name u-small-caps"
+            >
+              Inbound
+            </div>
+            <div
+              className="m-tnm-sidebar__direction-headsigns"
+            >
+              <div
+                className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
+              >
+                <div
+                  className="m-tnm-sidebar__headsign"
+                >
+                  <div
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
+                  >
+                    Sullivan
+                  </div>
+                </div>
+                <div
+                  className="m-tnm-sidebar__schedules"
+                >
+                  <div
+                    className="m-tnm-sidebar__schedule"
+                  >
+                    <div
+                      className="m-tnm-sidebar__time "
+                    >
+                      <div
+                        className="m-tnm-sidebar__time-number"
+                      >
+                        arriving
+                      </div>
+                      <div
+                        className="m-tnm-sidebar__time-mins"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__schedule"
+                  >
+                    <div
+                      className="m-tnm-sidebar__time "
+                    >
+                      <div
+                        className="m-tnm-sidebar__time-number"
+                      >
+                        9
+                      </div>
+                      <div
+                        className="m-tnm-sidebar__time-mins"
+                      >
+                        min
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        className="m-tnm-sidebar__route"
+        data-mode="bus"
+      >
+        <a
+          className="h3 m-tnm-sidebar__route-name u-bg--bus"
+          href="/schedules/104"
+        >
+          <span
+            className="bus-route-sign"
+          >
+            104
           </span>
           <span
             aria-hidden="false"
@@ -922,7 +1093,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -945,7 +1116,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Sullivan Square Station - Malden Center Station
+                    Malden
                   </div>
                 </div>
                 <div
@@ -960,7 +1131,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        10
+                        15
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -978,7 +1149,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        10
+                        45
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -1011,7 +1182,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Malden Center Station - Sullivan Square Station
+                    Sullivan
                   </div>
                 </div>
                 <div
@@ -1026,7 +1197,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        4
+                        16
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -1044,190 +1215,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        33
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        min
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div
-        className="m-tnm-sidebar__route"
-        data-mode="bus"
-      >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/104"
-        >
-          <span
-            className="bus-route-sign"
-          >
-            104
-          </span>
-        </a>
-        <div
-          className="m-tnm-sidebar__route-stop"
-          onClick={[Function]}
-          onKeyPress={[Function]}
-          role="button"
-          style={
-            Object {
-              "cursor": "pointer",
-            }
-          }
-          tabIndex={0}
-        >
-          <div
-            className="m-tnm-sidebar__stop-info"
-          >
-            <a
-              className="m-tnm-sidebar__stop-name"
-            >
-              Malden Center
-              <span
-                aria-hidden="false"
-                className="notranslate m-tnm-sidebar__stop-accessible"
-                dangerouslySetInnerHTML={
-                  Object {
-                    "__html": "SVG",
-                  }
-                }
-              />
-            </a>
-            <div
-              className="m-tnm-sidebar__stop-distance"
-            >
-              85 ft
-            </div>
-          </div>
-          <div
-            className="m-tnm-sidebar__direction"
-          >
-            <div
-              className="m-tnm-sidebar__direction-name u-small-caps"
-            >
-              Outbound
-            </div>
-            <div
-              className="m-tnm-sidebar__direction-headsigns"
-            >
-              <div
-                className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
-              >
-                <div
-                  className="m-tnm-sidebar__headsign"
-                >
-                  <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
-                  >
-                    Sullivan Square Station - Malden Center Station
-                  </div>
-                </div>
-                <div
-                  className="m-tnm-sidebar__schedules"
-                >
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time "
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        2
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        min
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time "
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        34
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        min
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="m-tnm-sidebar__direction"
-          >
-            <div
-              className="m-tnm-sidebar__direction-name u-small-caps"
-            >
-              Inbound
-            </div>
-            <div
-              className="m-tnm-sidebar__direction-headsigns"
-            >
-              <div
-                className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
-              >
-                <div
-                  className="m-tnm-sidebar__headsign"
-                >
-                  <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
-                  >
-                    Malden Center Station - Sullivan Square Station
-                  </div>
-                </div>
-                <div
-                  className="m-tnm-sidebar__schedules"
-                >
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time "
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        10
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        min
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time "
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        50
+                        46
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -1255,6 +1243,15 @@ exports[`render it renders 1`] = `
           >
             105
           </span>
+          <span
+            aria-hidden="false"
+            className="notranslate m-tnm-sidebar__route-alert"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
         </a>
         <div
           className="m-tnm-sidebar__route-stop"
@@ -1288,7 +1285,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -1311,7 +1308,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Sullivan Square Station - Malden Center Station
+                    Malden
                   </div>
                 </div>
                 <div
@@ -1326,7 +1323,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        45
+                        17
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -1339,17 +1336,17 @@ exports[`render it renders 1`] = `
                     className="m-tnm-sidebar__schedule"
                   >
                     <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
+                      className="m-tnm-sidebar__time "
                     >
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        1:15
+                        35
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
                       >
-                        PM
+                        min
                       </div>
                     </div>
                   </div>
@@ -1377,7 +1374,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Malden Center Station - Sullivan Square Station
+                    Sullivan
                   </div>
                 </div>
                 <div
@@ -1392,7 +1389,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        55
+                        18
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -1405,17 +1402,17 @@ exports[`render it renders 1`] = `
                     className="m-tnm-sidebar__schedule"
                   >
                     <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
+                      className="m-tnm-sidebar__time "
                     >
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        1:20
+                        36
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
                       >
-                        PM
+                        min
                       </div>
                     </div>
                   </div>
@@ -1471,7 +1468,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -1499,100 +1496,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
                   >
-                    Wellington Station - Linwood Ave & Lynde St
-                  </div>
-                </div>
-                <div
-                  className="m-tnm-sidebar__schedules"
-                >
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        6:58
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="m-tnm-sidebar__headsign-schedule"
-              >
-                <div
-                  className="m-tnm-sidebar__headsign"
-                >
-                  <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
-                  >
-                    Wellington Station - Lebanon Loop
-                  </div>
-                </div>
-                <div
-                  className="m-tnm-sidebar__schedules"
-                >
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        3:45
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        4:15
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="m-tnm-sidebar__headsign-schedule"
-              >
-                <div
-                  className="m-tnm-sidebar__headsign"
-                >
-                  <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
-                  >
-                    Wellington Station - Franklin Square
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__via"
-                  >
-                    via Sylvan St
+                    Lebanon Loop
                   </div>
                 </div>
                 <div
@@ -1607,7 +1511,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        4
+                        16
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -1625,7 +1529,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        62
+                        29
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -1645,60 +1549,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
                   >
-                    Malden Center Station - Linwood Ave & Lynde St
-                  </div>
-                </div>
-                <div
-                  className="m-tnm-sidebar__schedules"
-                >
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        3:30
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        4:00
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="m-tnm-sidebar__headsign-schedule"
-              >
-                <div
-                  className="m-tnm-sidebar__headsign"
-                >
-                  <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
-                  >
-                    Malden Center Station - Lebanon Loop
+                    Lebanon Loop
                   </div>
                 </div>
                 <div
@@ -1751,158 +1602,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
                   >
-                    Lebanon Loop - Wellington Station
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__via"
-                  >
-                    via Sylvan St
-                  </div>
-                </div>
-                <div
-                  className="m-tnm-sidebar__schedules"
-                >
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        4:31
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        4:56
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="m-tnm-sidebar__headsign-schedule"
-              >
-                <div
-                  className="m-tnm-sidebar__headsign"
-                >
-                  <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
-                  >
-                    Lebanon Loop - Wellington Station
-                  </div>
-                </div>
-                <div
-                  className="m-tnm-sidebar__schedules"
-                >
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        7:11
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        7:41
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="m-tnm-sidebar__headsign-schedule"
-              >
-                <div
-                  className="m-tnm-sidebar__headsign"
-                >
-                  <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
-                  >
-                    Lebanon Loop - Malden Center Station
-                  </div>
-                </div>
-                <div
-                  className="m-tnm-sidebar__schedules"
-                >
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        6:47
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="m-tnm-sidebar__headsign-schedule"
-              >
-                <div
-                  className="m-tnm-sidebar__headsign"
-                >
-                  <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
-                  >
-                    Franklin Square - Wellington Station
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__via"
-                  >
-                    via Sylvan St
+                    Wellington
                   </div>
                 </div>
                 <div
@@ -1917,7 +1617,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        20
+                        15
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -1935,7 +1635,60 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        60
+                        31
+                      </div>
+                      <div
+                        className="m-tnm-sidebar__time-mins"
+                      >
+                        min
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="m-tnm-sidebar__headsign-schedule"
+              >
+                <div
+                  className="m-tnm-sidebar__headsign"
+                >
+                  <div
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                  >
+                    Wellington
+                  </div>
+                </div>
+                <div
+                  className="m-tnm-sidebar__schedules"
+                >
+                  <div
+                    className="m-tnm-sidebar__schedule"
+                  >
+                    <div
+                      className="m-tnm-sidebar__time "
+                    >
+                      <div
+                        className="m-tnm-sidebar__time-number"
+                      >
+                        70
+                      </div>
+                      <div
+                        className="m-tnm-sidebar__time-mins"
+                      >
+                        min
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__schedule"
+                  >
+                    <div
+                      className="m-tnm-sidebar__time "
+                    >
+                      <div
+                        className="m-tnm-sidebar__time-number"
+                      >
+                        92
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -1996,7 +1749,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -2019,7 +1772,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Wellington Station - Linden Square
+                    Linden Square
                   </div>
                 </div>
                 <div
@@ -2034,7 +1787,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        21
+                        2
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -2052,7 +1805,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        63
+                        23
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -2074,23 +1827,18 @@ exports[`render it renders 1`] = `
               Inbound
             </div>
             <div
-              className="m-tnm-sidebar__direction-destination"
-            >
-              Wellington
-            </div>
-            <div
               className="m-tnm-sidebar__direction-headsigns"
             >
               <div
-                className="m-tnm-sidebar__headsign-schedule"
+                className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
               >
                 <div
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Linden Square - Wellington Station
+                    Wellington
                   </div>
                 </div>
                 <div
@@ -2105,7 +1853,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        24
+                        4
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -2123,47 +1871,12 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        66
+                        23
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
                       >
                         min
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="m-tnm-sidebar__headsign-schedule"
-              >
-                <div
-                  className="m-tnm-sidebar__headsign"
-                >
-                  <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
-                  >
-                    Linden Square - Malden Center Station
-                  </div>
-                </div>
-                <div
-                  className="m-tnm-sidebar__schedules"
-                >
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        2:40
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        AM
                       </div>
                     </div>
                   </div>
@@ -2219,7 +1932,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -2228,7 +1941,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__direction-name u-small-caps"
             >
-              Outbound
+              Inbound
             </div>
             <div
               className="m-tnm-sidebar__direction-headsigns"
@@ -2242,141 +1955,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Malden Center - Melrose Highlands Station
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__via"
-                  >
-                    via East Side
-                  </div>
-                </div>
-                <div
-                  className="m-tnm-sidebar__schedules"
-                >
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time "
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        36
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        min
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time "
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        95
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        min
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="m-tnm-sidebar__direction"
-          >
-            <div
-              className="m-tnm-sidebar__direction-name u-small-caps"
-            >
-              Inbound
-            </div>
-            <div
-              className="m-tnm-sidebar__direction-destination"
-            >
-              Oak Grove
-            </div>
-            <div
-              className="m-tnm-sidebar__direction-headsigns"
-            >
-              <div
-                className="m-tnm-sidebar__headsign-schedule"
-              >
-                <div
-                  className="m-tnm-sidebar__headsign"
-                >
-                  <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
-                  >
-                    Melrose Highlands Station - Malden Center
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__via"
-                  >
-                    via East Side
-                  </div>
-                </div>
-                <div
-                  className="m-tnm-sidebar__schedules"
-                >
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time "
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        90
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        min
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        1:43
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="m-tnm-sidebar__headsign-schedule"
-              >
-                <div
-                  className="m-tnm-sidebar__headsign"
-                >
-                  <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
-                  >
-                    Melrose Highlands Station - Malden Center Station
+                    Malden
                   </div>
                 </div>
                 <div
@@ -2470,7 +2049,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -2493,7 +2072,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Malden Center Station - Redstone Shopping Center
+                    Redstone
                   </div>
                 </div>
                 <div
@@ -2508,7 +2087,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        20
+                        2
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -2526,7 +2105,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        84
+                        34
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -2559,7 +2138,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Redstone Shopping Center - Malden Center Station
+                    Malden
                   </div>
                 </div>
                 <div
@@ -2592,7 +2171,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        83
+                        61
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -2620,15 +2199,6 @@ exports[`render it renders 1`] = `
           >
             136
           </span>
-          <span
-            aria-hidden="false"
-            className="notranslate m-tnm-sidebar__route-alert"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
         </a>
         <div
           className="m-tnm-sidebar__route-stop"
@@ -2662,7 +2232,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -2685,7 +2255,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Malden Center Station - Reading Depot
+                    Reading Depot
                   </div>
                 </div>
                 <div
@@ -2700,25 +2270,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        30
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        min
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time "
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        100
+                        72
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -2751,7 +2303,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Reading Depot - Malden Center Station
+                    Malden
                   </div>
                 </div>
                 <div
@@ -2766,7 +2318,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        4
+                        44
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -2784,7 +2336,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        53
+                        77
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -2812,15 +2364,6 @@ exports[`render it renders 1`] = `
           >
             137
           </span>
-          <span
-            aria-hidden="false"
-            className="notranslate m-tnm-sidebar__route-alert"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
         </a>
         <div
           className="m-tnm-sidebar__route-stop"
@@ -2854,7 +2397,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -2877,7 +2420,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Malden Center Station - Reading Depot
+                    Reading Depot
                   </div>
                 </div>
                 <div
@@ -2892,7 +2435,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        65
+                        47
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -2905,17 +2448,17 @@ exports[`render it renders 1`] = `
                     className="m-tnm-sidebar__schedule"
                   >
                     <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
+                      className="m-tnm-sidebar__time "
                     >
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        1:25
+                        107
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
                       >
-                        PM
+                        min
                       </div>
                     </div>
                   </div>
@@ -2943,7 +2486,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Reading Depot - Malden Center Station
+                    Malden
                   </div>
                 </div>
                 <div
@@ -2958,7 +2501,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        35
+                        8
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -2976,7 +2519,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        90
+                        102
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -3037,7 +2580,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -3049,76 +2592,18 @@ exports[`render it renders 1`] = `
               Outbound
             </div>
             <div
-              className="m-tnm-sidebar__direction-destination"
-            >
-              Jack Satter House, Revere
-            </div>
-            <div
               className="m-tnm-sidebar__direction-headsigns"
             >
               <div
-                className="m-tnm-sidebar__headsign-schedule"
+                className="m-tnm-sidebar__headsign-schedule m-tnm-sidebar__headsign-schedule--condensed"
               >
                 <div
                   className="m-tnm-sidebar__headsign"
                 >
                   <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--large"
                   >
-                    Malden Center Station - Kennedy Dr
-                  </div>
-                </div>
-                <div
-                  className="m-tnm-sidebar__schedules"
-                >
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        6:05
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        8:00
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="m-tnm-sidebar__headsign-schedule"
-              >
-                <div
-                  className="m-tnm-sidebar__headsign"
-                >
-                  <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
-                  >
-                    Malden Center Station - Jack Satter House
+                    Kennedy Dr
                   </div>
                 </div>
                 <div
@@ -3133,7 +2618,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        5
+                        24
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -3151,7 +2636,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        70
+                        69
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -3189,42 +2674,7 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
                   >
-                    Kennedy Dr - Malden Center Station
-                  </div>
-                </div>
-                <div
-                  className="m-tnm-sidebar__schedules"
-                >
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number"
-                      >
-                        6:39
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div
-                className="m-tnm-sidebar__headsign-schedule"
-              >
-                <div
-                  className="m-tnm-sidebar__headsign"
-                >
-                  <div
-                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
-                  >
-                    Jack Satter House - Malden Center Station
+                    Malden
                   </div>
                 </div>
                 <div
@@ -3239,7 +2689,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        38
+                        62
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -3257,7 +2707,60 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        97
+                        107
+                      </div>
+                      <div
+                        className="m-tnm-sidebar__time-mins"
+                      >
+                        min
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                className="m-tnm-sidebar__headsign-schedule"
+              >
+                <div
+                  className="m-tnm-sidebar__headsign"
+                >
+                  <div
+                    className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
+                  >
+                    Malden
+                  </div>
+                </div>
+                <div
+                  className="m-tnm-sidebar__schedules"
+                >
+                  <div
+                    className="m-tnm-sidebar__schedule"
+                  >
+                    <div
+                      className="m-tnm-sidebar__time "
+                    >
+                      <div
+                        className="m-tnm-sidebar__time-number"
+                      >
+                        1
+                      </div>
+                      <div
+                        className="m-tnm-sidebar__time-mins"
+                      >
+                        min
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__schedule"
+                  >
+                    <div
+                      className="m-tnm-sidebar__time "
+                    >
+                      <div
+                        className="m-tnm-sidebar__time-number"
+                      >
+                        68
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -3318,7 +2821,7 @@ exports[`render it renders 1`] = `
             <div
               className="m-tnm-sidebar__stop-distance"
             >
-              85 ft
+              288 ft
             </div>
           </div>
           <div
@@ -3346,12 +2849,12 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
                   >
-                    Malden Center Station - Saugus Center
+                    Saugus Center
                   </div>
                   <div
                     className="m-tnm-sidebar__via"
                   >
-                    via Kennedy Dr
+                    via Kennedy Dr & Square One Mall
                   </div>
                 </div>
                 <div
@@ -3404,7 +2907,12 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
                   >
-                    Malden Center Station - Saugus Center
+                    Saugus Center
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__via"
+                  >
+                    via Square One Mall
                   </div>
                 </div>
                 <div
@@ -3419,7 +2927,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        50
+                        8
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -3437,7 +2945,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        115
+                        66
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -3475,12 +2983,12 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
                   >
-                    Saugus Center - Malden Center Station
+                    Malden
                   </div>
                   <div
                     className="m-tnm-sidebar__via"
                   >
-                    via Kennedy Dr
+                    via Square One Mall & Kennedy Dr
                   </div>
                 </div>
                 <div
@@ -3533,7 +3041,12 @@ exports[`render it renders 1`] = `
                   <div
                     className="m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--small"
                   >
-                    Saugus Center - Malden Center Station
+                    Malden
+                  </div>
+                  <div
+                    className="m-tnm-sidebar__via"
+                  >
+                    via Square One Mall
                   </div>
                 </div>
                 <div
@@ -3548,7 +3061,7 @@ exports[`render it renders 1`] = `
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        58
+                        62
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
@@ -3561,18 +3074,16 @@ exports[`render it renders 1`] = `
                     className="m-tnm-sidebar__schedule"
                   >
                     <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--schedule"
+                      className="m-tnm-sidebar__time "
                     >
                       <div
                         className="m-tnm-sidebar__time-number"
                       >
-                        1:15
+                        arriving
                       </div>
                       <div
                         className="m-tnm-sidebar__time-mins"
-                      >
-                        PM
-                      </div>
+                      />
                     </div>
                   </div>
                 </div>

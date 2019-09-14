@@ -28,8 +28,8 @@ const renderHeadsignName = ({
 
   const headsignNameClass = `m-tnm-sidebar__headsign-name m-tnm-sidebar__headsign-name--${modifier}`;
 
-  if (headsign.name && headsign.name.includes(" via ")) {
-    const split = headsign.name.split(" via ");
+  if (headsign.headsign && headsign.headsign.includes(" via ")) {
+    const split = headsign.headsign.split(" via ");
     return (
       <>
         <div className={headsignNameClass}>{split[0]}</div>
@@ -37,7 +37,7 @@ const renderHeadsignName = ({
       </>
     );
   }
-  return <div className={headsignNameClass}>{headsign.name}</div>;
+  return <div className={headsignNameClass}>{headsign.headsign}</div>;
 };
 
 const renderTrainName = (trainName: string): ReactElement<HTMLElement> => (

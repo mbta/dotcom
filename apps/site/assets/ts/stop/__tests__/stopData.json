@@ -109,7 +109,8 @@
                       }
                     }
                   ],
-                  "name": "Ashmont"
+                  "name": "Ashmont",
+                  "headsign": "Ashmont"
                 },
                 {
                   "train_number": "",
@@ -131,7 +132,8 @@
                       }
                     }
                   ],
-                  "name": "Braintree"
+                  "name": "Braintree",
+                  "headsign": "Braintree"
                 }
               ],
               "direction_id": 0
@@ -158,7 +160,8 @@
                       }
                     }
                   ],
-                  "name": "Alewife"
+                  "name": "Alewife",
+                  "headsign": "Alewife"
                 }
               ],
               "direction_id": 1
@@ -196,7 +199,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "South Station"
+                  "name": "South Station",
+                  "headsign": "South Station"
                 }
               ],
               "direction_id": 1
@@ -212,7 +216,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Silver Line Way"
+                  "name": "Silver Line Way",
+                  "headsign": "Silver Line Way"
                 },
                 {
                   "train_number": "",
@@ -223,7 +228,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Logan Airport"
+                  "name": "Logan Airport",
+                  "headsign": "Logan Airport"
                 }
               ],
               "direction_id": 0
@@ -256,7 +262,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "South Station"
+                  "name": "South Station",
+                  "headsign": "South Station"
                 }
               ],
               "direction_id": 1
@@ -272,7 +279,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Silver Line Way"
+                  "name": "Silver Line Way",
+                  "headsign": "Silver Line Way"
                 },
                 {
                   "train_number": "",
@@ -283,7 +291,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Drydock"
+                  "name": "Drydock",
+                  "headsign": "Drydock"
                 }
               ],
               "direction_id": 0
@@ -313,7 +322,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "South Station"
+                  "name": "South Station",
+                  "headsign": "South Station"
                 }
               ],
               "direction_id": 1
@@ -329,7 +339,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Chelsea"
+                  "name": "Chelsea",
+                  "headsign": "Chelsea"
                 },
                 {
                   "train_number": "",
@@ -340,7 +351,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Silver Line Way"
+                  "name": "Silver Line Way",
+                  "headsign": "Silver Line Way"
                 }
               ],
               "direction_id": 0
@@ -378,7 +390,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "South Station"
+                  "name": "South Station",
+                  "headsign": "South Station"
                 }
               ],
               "direction_id": 1
@@ -394,7 +407,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Readville"
+                  "name": "Readville",
+                  "headsign": "Readville"
                 }
               ],
               "direction_id": 0
@@ -427,7 +441,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Worcester"
+                  "name": "Worcester",
+                  "headsign": "Worcester"
                 },
                 {
                   "train_number": "583",
@@ -438,7 +453,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Framingham"
+                  "name": "Framingham",
+                  "headsign": "Framingham"
                 },
                 {
                   "train_number": "589",
@@ -449,7 +465,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Ashland"
+                  "name": "Ashland",
+                  "headsign": "Ashland"
                 }
               ],
               "direction_id": 0
@@ -465,7 +482,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "South Station"
+                  "name": "South Station",
+                  "headsign": "South Station"
                 }
               ],
               "direction_id": 1
@@ -498,7 +516,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Forge Park/​495"
+                  "name": "Forge Park/​495",
+                  "headsign": "Forge Park/​495"
                 },
                 {
                   "train_number": "741",
@@ -509,7 +528,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Walpole"
+                  "name": "Walpole",
+                  "headsign": "Walpole"
                 },
                 {
                   "train_number": "743",
@@ -524,7 +544,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Norwood Central"
+                  "name": "Norwood Central",
+                  "headsign": "Norwood Central"
                 }
               ],
               "direction_id": 0
@@ -540,7 +561,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "South Station"
+                  "name": "South Station",
+                  "headsign": "South Station"
                 }
               ],
               "direction_id": 1
@@ -573,7 +595,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "South Station"
+                  "name": "South Station",
+                  "headsign": "South Station"
                 }
               ],
               "direction_id": 1
@@ -589,7 +612,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Greenbush"
+                  "name": "Greenbush",
+                  "headsign": "Greenbush"
                 }
               ],
               "direction_id": 0
@@ -622,7 +646,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "South Station"
+                  "name": "South Station",
+                  "headsign": "South Station"
                 }
               ],
               "direction_id": 1
@@ -638,7 +663,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Kingston"
+                  "name": "Kingston",
+                  "headsign": "Kingston"
                 },
                 {
                   "train_number": "063",
@@ -649,7 +675,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Plymouth"
+                  "name": "Plymouth",
+                  "headsign": "Plymouth"
                 }
               ],
               "direction_id": 0
@@ -682,7 +709,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "South Station"
+                  "name": "South Station",
+                  "headsign": "South Station"
                 }
               ],
               "direction_id": 1
@@ -698,7 +726,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Middleborough/​Lakeville"
+                  "name": "Middleborough/​Lakeville",
+                  "headsign": "Middleborough/​Lakeville"
                 }
               ],
               "direction_id": 0
@@ -731,7 +760,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "South Station"
+                  "name": "South Station",
+                  "headsign": "South Station"
                 }
               ],
               "direction_id": 1
@@ -747,7 +777,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Needham Heights"
+                  "name": "Needham Heights",
+                  "headsign": "Needham Heights"
                 }
               ],
               "direction_id": 0
@@ -780,7 +811,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "South Station"
+                  "name": "South Station",
+                  "headsign": "South Station"
                 }
               ],
               "direction_id": 1
@@ -796,7 +828,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Wickford Junction"
+                  "name": "Wickford Junction",
+                  "headsign": "Wickford Junction"
                 },
                 {
                   "train_number": "803",
@@ -807,7 +840,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Providence"
+                  "name": "Providence",
+                  "headsign": "Providence"
                 },
                 {
                   "train_number": "903",
@@ -818,7 +852,8 @@
                       "delay": 0
                     }
                   ],
-                  "name": "Stoughton"
+                  "name": "Stoughton",
+                  "headsign": "Stoughton"
                 }
               ],
               "direction_id": 0

@@ -17,7 +17,8 @@ const time: PredictedOrScheduledTime = {
 };
 
 const headsign: Headsign = {
-  name: "Headsign",
+  headsign: "Headsign",
+  name: "Headsign - Extra infos",
   times: [time],
   train_number: null
 };
@@ -46,7 +47,11 @@ it("it renders", () => {
       <Direction
         direction={{
           ...direction,
-          headsigns: [1, 2].map(i => ({ ...headsign, name: `Headsign ${i}` }))
+          headsigns: [1, 2].map(i => ({
+            ...headsign,
+            name: `Headsign ${i}`,
+            headsign: `Headsign ${i}`
+          }))
         }}
         route={route}
         stopId="stop-id"
@@ -74,6 +79,7 @@ it("it does not display the route direction for commuter rail", () => {
   createReactRoot();
   const headsigns = [1, 2].map(i => ({
     ...headsign,
+    headsign: `Headsign ${i}`,
     name: `Headsign ${i}`,
     train_number: `59${i}`
   }));

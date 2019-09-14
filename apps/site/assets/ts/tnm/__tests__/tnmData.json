@@ -1,16 +1,36 @@
 {
   "stops": [
     {
+      "type": "stop",
+      "station?": false,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [],
+      "parent_id": null,
+      "note": null,
+      "name": "14 Summer St",
+      "longitude": -71.074151,
+      "latitude": 42.427777,
+      "is_child?": false,
+      "id": "5070",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [],
+      "bike_storage": [],
+      "address": null,
+      "accessibility": ["accessible"]
+    },
+    {
       "type": "station",
       "station?": true,
       "platform_name": null,
       "platform_code": null,
       "parking_lots": [
         {
-          "utilization": {
-            "typical": 195,
-            "arrive_before": null
-          },
+          "utilization": { "typical": 195, "arrive_before": null },
           "payment": {
             "monthly_rate": "$131.25",
             "mobile_app": {
@@ -18,10 +38,7 @@
               "name": "PayByPhone",
               "id": 4398
             },
-            "methods": [
-              "Mobile App",
-              "Invoice"
-            ],
+            "methods": ["Mobile App", "Invoice"],
             "daily_rate": "Mon-Fri: $7.50 | Sat-Sun: $3"
           },
           "note": null,
@@ -34,11 +51,7 @@
           },
           "longitude": -71.075305,
           "latitude": 42.42683,
-          "capacity": {
-            "type": "Surface Lot",
-            "total": 195,
-            "accessible": 6
-          },
+          "capacity": { "type": "Surface Lot", "total": 195, "accessible": 6 },
           "address": null
         }
       ],
@@ -51,9 +64,7 @@
       "id": "place-mlmnl",
       "has_fare_machine?": true,
       "has_charlie_card_vendor?": false,
-      "fare_facilities": [
-        "fare_vending_machine"
-      ],
+      "fare_facilities": ["fare_vending_machine"],
       "description": null,
       "closed_stop_info": null,
       "child_ids": [
@@ -88,40 +99,13 @@
         "node-mlmnl-olstairs-platform",
         "node-mlmnl-ramptop"
       ],
-      "bike_storage": [
-        "bike_storage_cage"
-      ],
+      "bike_storage": ["bike_storage_cage"],
       "address": "Commercial St and Pleasant St, Malden, MA 02148",
       "accessibility": [
         "accessible",
         "escalator_up",
         "elevator",
         "fully_elevated_platform"
-      ]
-    },
-    {
-      "type": "stop",
-      "station?": false,
-      "platform_name": null,
-      "platform_code": null,
-      "parking_lots": [],
-      "parent_id": null,
-      "note": null,
-      "name": "14 Summer St",
-      "longitude": -71.074151,
-      "latitude": 42.427777,
-      "is_child?": false,
-      "id": "5070",
-      "has_fare_machine?": false,
-      "has_charlie_card_vendor?": false,
-      "fare_facilities": [],
-      "description": null,
-      "closed_stop_info": null,
-      "child_ids": [],
-      "bike_storage": [],
-      "address": null,
-      "accessibility": [
-        "accessible"
       ]
     },
     {
@@ -145,9 +129,7 @@
       "child_ids": [],
       "bike_storage": [],
       "address": null,
-      "accessibility": [
-        "accessible"
-      ]
+      "accessibility": ["accessible"]
     },
     {
       "type": "stop",
@@ -170,9 +152,7 @@
       "child_ids": [],
       "bike_storage": [],
       "address": null,
-      "accessibility": [
-        "accessible"
-      ]
+      "accessibility": ["accessible"]
     },
     {
       "type": "stop",
@@ -195,59 +175,7 @@
       "child_ids": [],
       "bike_storage": [],
       "address": null,
-      "accessibility": [
-        "unknown"
-      ]
-    },
-    {
-      "type": "stop",
-      "station?": false,
-      "platform_name": null,
-      "platform_code": null,
-      "parking_lots": [],
-      "parent_id": null,
-      "note": null,
-      "name": "Centre St @ Jackson St",
-      "longitude": -71.070337,
-      "latitude": 42.425461,
-      "is_child?": false,
-      "id": "15431",
-      "has_fare_machine?": false,
-      "has_charlie_card_vendor?": false,
-      "fare_facilities": [],
-      "description": null,
-      "closed_stop_info": null,
-      "child_ids": [],
-      "bike_storage": [],
-      "address": null,
-      "accessibility": [
-        "unknown"
-      ]
-    },
-    {
-      "type": "stop",
-      "station?": false,
-      "platform_name": null,
-      "platform_code": null,
-      "parking_lots": [],
-      "parent_id": null,
-      "note": null,
-      "name": "Centre St @ Stop & Shop",
-      "longitude": -71.070368,
-      "latitude": 42.42525,
-      "is_child?": false,
-      "id": "5289",
-      "has_fare_machine?": false,
-      "has_charlie_card_vendor?": false,
-      "fare_facilities": [],
-      "description": null,
-      "closed_stop_info": null,
-      "child_ids": [],
-      "bike_storage": [],
-      "address": null,
-      "accessibility": [
-        "accessible"
-      ]
+      "accessibility": ["unknown"]
     },
     {
       "type": "stop",
@@ -270,9 +198,53 @@
       "child_ids": [],
       "bike_storage": [],
       "address": null,
-      "accessibility": [
-        "accessible"
-      ]
+      "accessibility": ["accessible"]
+    },
+    {
+      "type": "stop",
+      "station?": false,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [],
+      "parent_id": null,
+      "note": null,
+      "name": "Centre St @ Jackson St",
+      "longitude": -71.070337,
+      "latitude": 42.425461,
+      "is_child?": false,
+      "id": "15431",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [],
+      "bike_storage": [],
+      "address": null,
+      "accessibility": ["unknown"]
+    },
+    {
+      "type": "stop",
+      "station?": false,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [],
+      "parent_id": null,
+      "note": null,
+      "name": "Centre St @ Stop & Shop",
+      "longitude": -71.070368,
+      "latitude": 42.42525,
+      "is_child?": false,
+      "id": "5289",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": [],
+      "bike_storage": [],
+      "address": null,
+      "accessibility": ["accessible"]
     },
     {
       "type": "stop",
@@ -295,9 +267,52 @@
       "child_ids": [],
       "bike_storage": [],
       "address": null,
-      "accessibility": [
-        "unknown"
-      ]
+      "accessibility": ["unknown"]
+    },
+    {
+      "type": "station",
+      "station?": true,
+      "platform_name": null,
+      "platform_code": null,
+      "parking_lots": [
+        {
+          "utilization": null,
+          "payment": {
+            "monthly_rate": null,
+            "mobile_app": null,
+            "methods": ["Credit/Debit Card"],
+            "daily_rate": "Mon-Fri before 12 PM: $3  | Mon-Fri after 12 PM: Free | Sat-Sun: Free"
+          },
+          "note": "City of Melrose is responsible for parking maintenance, payments, and snow removal.",
+          "name": "Wyoming Hill Parking Lot",
+          "manager": {
+            "url": "https://www.cityofmelrose.org/parking-office",
+            "phone": "781-979-4144",
+            "name": "City of Melrose",
+            "contact": "City of Melrose, Office of the Parking Clerk"
+          },
+          "longitude": -71.069641,
+          "latitude": 42.451536,
+          "capacity": { "type": "Surface Lot", "total": 30, "accessible": 1 },
+          "address": null
+        }
+      ],
+      "parent_id": null,
+      "note": null,
+      "name": "Wyoming Hill",
+      "longitude": -71.069379,
+      "latitude": 42.451731,
+      "is_child?": false,
+      "id": "place-WR-0062",
+      "has_fare_machine?": false,
+      "has_charlie_card_vendor?": false,
+      "fare_facilities": [],
+      "description": null,
+      "closed_stop_info": null,
+      "child_ids": ["Wyoming Hill", "Wyoming Hill-S"],
+      "bike_storage": [],
+      "address": "40 W Wyoming Ave, Melrose, MA 02176",
+      "accessibility": []
     },
     {
       "type": "station",
@@ -310,10 +325,7 @@
           "payment": {
             "monthly_rate": "$95",
             "mobile_app": null,
-            "methods": [
-              "Credit/Debit Card",
-              "Cash"
-            ],
+            "methods": ["Credit/Debit Card", "Cash"],
             "daily_rate": "$5"
           },
           "note": "MBTA spaces are located on levels 6 through 8.",
@@ -326,18 +338,11 @@
           },
           "longitude": -71.080735,
           "latitude": 42.401856,
-          "capacity": {
-            "type": "Garage",
-            "total": 700,
-            "accessible": 14
-          },
+          "capacity": { "type": "Garage", "total": 700, "accessible": 14 },
           "address": null
         },
         {
-          "utilization": {
-            "typical": 1263,
-            "arrive_before": null
-          },
+          "utilization": { "typical": 1263, "arrive_before": null },
           "payment": {
             "monthly_rate": "$157.50",
             "mobile_app": {
@@ -345,10 +350,7 @@
               "name": "PayByPhone",
               "id": 4392
             },
-            "methods": [
-              "Mobile App",
-              "Invoice"
-            ],
+            "methods": ["Mobile App", "Invoice"],
             "daily_rate": "Mon-Fri: $9 | Sat-Sun: $4"
           },
           "note": null,
@@ -378,9 +380,7 @@
       "id": "place-welln",
       "has_fare_machine?": true,
       "has_charlie_card_vendor?": false,
-      "fare_facilities": [
-        "fare_vending_machine"
-      ],
+      "fare_facilities": ["fare_vending_machine"],
       "description": null,
       "closed_stop_info": null,
       "child_ids": [
@@ -409,16 +409,9 @@
         "node-welln-skyentry",
         "node-welln-skystairs-bridge"
       ],
-      "bike_storage": [
-        "bike_storage_rack_covered"
-      ],
+      "bike_storage": ["bike_storage_rack_covered"],
       "address": "Revere Beach Pkwy and Rivers Edge Dr, Medford, MA 02155",
-      "accessibility": [
-        "accessible",
-        "escalator_up",
-        "elevator",
-        "ramp"
-      ]
+      "accessibility": ["accessible", "escalator_up", "elevator", "ramp"]
     },
     {
       "type": "station",
@@ -431,63 +424,7 @@
           "payment": {
             "monthly_rate": null,
             "mobile_app": null,
-            "methods": [
-              "Credit/Debit Card"
-            ],
-            "daily_rate": "Mon-Fri before 12 PM: $3  | Mon-Fri after 12 PM: Free | Sat-Sun: Free"
-          },
-          "note": "City of Melrose is responsible for parking maintenance, payments, and snow removal.",
-          "name": "Wyoming Hill Parking Lot",
-          "manager": {
-            "url": "https://www.cityofmelrose.org/parking-office",
-            "phone": "781-979-4144",
-            "name": "City of Melrose",
-            "contact": "City of Melrose, Office of the Parking Clerk"
-          },
-          "longitude": -71.069641,
-          "latitude": 42.451536,
-          "capacity": {
-            "type": "Surface Lot",
-            "total": 30,
-            "accessible": 1
-          },
-          "address": null
-        }
-      ],
-      "parent_id": null,
-      "note": null,
-      "name": "Wyoming Hill",
-      "longitude": -71.069379,
-      "latitude": 42.451731,
-      "is_child?": false,
-      "id": "place-WR-0062",
-      "has_fare_machine?": false,
-      "has_charlie_card_vendor?": false,
-      "fare_facilities": [],
-      "description": null,
-      "closed_stop_info": null,
-      "child_ids": [
-        "Wyoming Hill",
-        "Wyoming Hill-S"
-      ],
-      "bike_storage": [],
-      "address": "40 W Wyoming Ave, Melrose, MA 02176",
-      "accessibility": []
-    },
-    {
-      "type": "station",
-      "station?": true,
-      "platform_name": null,
-      "platform_code": null,
-      "parking_lots": [
-        {
-          "utilization": null,
-          "payment": {
-            "monthly_rate": null,
-            "mobile_app": null,
-            "methods": [
-              "Credit/Debit Card"
-            ],
+            "methods": ["Credit/Debit Card"],
             "daily_rate": "$3 (free after 12 PM and on weekends)"
           },
           "note": "City of Melrose is responsible for parking maintenance, payments, and snow removal.",
@@ -500,11 +437,7 @@
           },
           "longitude": -71.069985,
           "latitude": 42.458648,
-          "capacity": {
-            "type": "Surface Lot",
-            "total": 82,
-            "accessible": 3
-          },
+          "capacity": { "type": "Surface Lot", "total": 82, "accessible": 3 },
           "address": null
         }
       ],
@@ -520,26 +453,23 @@
       "fare_facilities": [],
       "description": null,
       "closed_stop_info": null,
-      "child_ids": [
-        "Melrose Cedar Park",
-        "Melrose Cedar Park-S"
-      ],
+      "child_ids": ["Melrose Cedar Park", "Melrose Cedar Park-S"],
       "bike_storage": [],
       "address": "Cedar Park and W Emerson St, Melrose, MA 02176",
       "accessibility": []
     }
   ],
   "distances": {
-    "5070": "402 ft",
+    "5070": "176 ft",
     "5074": "0.2 mi",
     "5289": "0.2 mi",
     "5328": "0.1 mi",
     "5338": "0.1 mi",
     "5369": "0.2 mi",
     "15431": "0.2 mi",
-    "45417": "0.2 mi",
+    "45417": "0.3 mi",
     "place-welln": "1.7 mi",
-    "place-mlmnl": "85 ft",
+    "place-mlmnl": "288 ft",
     "place-WR-0067": "2.2 mi",
     "place-WR-0062": "1.7 mi"
   }

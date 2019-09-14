@@ -182,7 +182,8 @@ defmodule Site.RealtimeScheduleTest do
                   status: nil,
                   stop_sequence: 190,
                   time: ["arriving"],
-                  track: nil
+                  track: nil,
+                  headsign: "Oak Grove"
                 },
                 schedule: nil
               },
@@ -196,7 +197,8 @@ defmodule Site.RealtimeScheduleTest do
                   status: nil,
                   stop_sequence: 190,
                   time: ["arriving"],
-                  track: nil
+                  track: nil,
+                  headsign: "Oak Grove"
                 },
                 schedule: nil
               }
@@ -215,7 +217,8 @@ defmodule Site.RealtimeScheduleTest do
                   status: nil,
                   stop_sequence: 190,
                   time: ["arriving"],
-                  track: nil
+                  track: nil,
+                  headsign: "Oak Grove"
                 },
                 schedule: nil
               },
@@ -229,7 +232,8 @@ defmodule Site.RealtimeScheduleTest do
                   status: nil,
                   stop_sequence: 190,
                   time: ["arriving"],
-                  track: nil
+                  track: nil,
+                  headsign: "Oak Grove"
                 },
                 schedule: nil
               }
@@ -254,7 +258,6 @@ defmodule Site.RealtimeScheduleTest do
 
     RealtimeSchedule.clear_cache()
     actual = RealtimeSchedule.stop_data(stops, @now, opts)
-
     assert actual == expected
   end
 

@@ -6,7 +6,6 @@ defmodule Site.RealtimeSchedule do
     - predictions and schedules are indexed by route pattern name because we
       are considering route patterns with the same name to be effectively the same
   """
-
   use RepoCache, ttl: :timer.seconds(30)
 
   alias Predictions.Prediction
@@ -303,9 +302,17 @@ defmodule Site.RealtimeSchedule do
       prediction:
         prediction
         |> format_prediction_time(now)
+        |> add_trip_headsign()
         |> do_shrink_predicted_schedule(),
       schedule: schedule |> format_schedule_time() |> do_shrink_predicted_schedule()
     }
+  end
+
+  @spec add_trip_headsign(map) :: map | nil
+  defp add_trip_headsign(nil), do: nil
+
+  defp add_trip_headsign(%{trip: trip} = prediction) do
+    Map.put(prediction, :headsign, trip.headsign)
   end
 
   @spec do_shrink_predicted_schedule(Prediction.t() | ScheduleCondensed.t() | nil) :: map | nil
