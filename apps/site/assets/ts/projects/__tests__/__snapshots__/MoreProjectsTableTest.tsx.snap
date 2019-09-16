@@ -9,26 +9,26 @@ Array [
   <div>
     <table
       aria-label="More Projects"
-      className="c-more-projects-table"
+      className="m-more-projects-table"
     >
       <thead
-        className="c-more-projects-table__thead hidden-md-down"
+        className="m-more-projects-table__thead hidden-md-down"
       >
         <tr>
           <th
-            className="c-more-projects-table__th c-more-projects-table__th-project"
+            className="m-more-projects-table__th m-more-projects-table__th-project"
             scope="col"
           >
             Project
           </th>
           <th
-            className="c-more-projects-table__th c-more-projects-table__th-last-updated"
+            className="m-more-projects-table__th m-more-projects-table__th-last-updated"
             scope="col"
           >
             Last Updated
           </th>
           <th
-            className="c-more-projects-table__th c-more-projects-table__th-status"
+            className="m-more-projects-table__th m-more-projects-table__th-status"
             scope="col"
           >
             Status
@@ -36,39 +36,39 @@ Array [
         </tr>
       </thead>
       <tbody
-        className="c-more-projects-table__tbody"
+        className="m-more-projects-table__tbody"
       >
         <tr
-          className="c-more-projects-table__tr"
+          className="m-more-projects-table__tr"
         >
           <td
-            className="c-more-projects-table__td c-more-projects-table__td-project"
+            className="m-more-projects-table__td m-more-projects-table__td-project"
           >
             <img
               alt="Photo of stuff"
-              className="hidden-xs-down c-more-projects-table__thumbnail"
+              className="hidden-xs-down m-more-projects-table__thumbnail"
               src="http://www.example.com/some.gif"
             />
             <div
-              className="c-more-projects-table__wrapper"
+              className="m-more-projects-table__wrapper"
             >
               <a
                 href="http://www.mbta.com/awesome_project"
               >
                 <h3
-                  className="c-more-projects-table__title"
+                  className="m-more-projects-table__title"
                 >
                   The Awesome Project
                 </h3>
               </a>
               <div
-                className="c-more-projects-table__updated-and-status hidden-lg-up"
+                className="m-more-projects-table__updated-and-status hidden-lg-up"
               >
                 <div
-                  className="c-more-projects-table__last-updated"
+                  className="m-more-projects-table__last-updated"
                 >
                   <span
-                    className="c-more-projects-table__internal-header"
+                    className="m-more-projects-table__internal-header"
                   >
                     Last updated
                   </span>
@@ -77,7 +77,7 @@ Array [
                   <br />
                   <span
                     aria-hidden="false"
-                    className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+                    className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
                     dangerouslySetInnerHTML={
                       Object {
                         "__html": "SVG",
@@ -86,7 +86,7 @@ Array [
                   />
                   <span
                     aria-hidden="false"
-                    className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+                    className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
                     dangerouslySetInnerHTML={
                       Object {
                         "__html": "SVG",
@@ -97,7 +97,7 @@ Array [
               </div>
               <span
                 aria-hidden="false"
-                className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+                className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
@@ -106,7 +106,7 @@ Array [
               />
               <span
                 aria-hidden="false"
-                className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+                className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
                 dangerouslySetInnerHTML={
                   Object {
                     "__html": "SVG",
@@ -116,25 +116,25 @@ Array [
             </div>
           </td>
           <td
-            className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down"
+            className="m-more-projects-table__td m-more-projects-table__td-last-updated hidden-md-down"
           >
             June 2, 2018
           </td>
           <td
-            className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"
+            className="m-more-projects-table__td m-more-projects-table__td-status hidden-md-down"
           >
             <span
-              className="c-more-projects-table__status-wrapper"
+              className="m-more-projects-table__status-wrapper"
             />
           </td>
         </tr>
       </tbody>
     </table>
     <div
-      className="c-more-projects__show-more-button-wrapper"
+      className="m-more-projects__show-more-button-wrapper"
     >
       <button
-        className="btn btn-secondary c-more-projects__show-more-button"
+        className="btn btn-secondary m-more-projects__show-more-button"
         disabled={false}
         onClick={[Function]}
         type="button"

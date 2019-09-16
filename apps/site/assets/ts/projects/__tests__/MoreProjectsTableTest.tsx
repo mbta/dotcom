@@ -91,6 +91,6 @@ it("triggers event when clicked", () => {
     />
   );
 
-  wrapper.find(".c-more-projects__show-more-button").simulate("click");
+  wrapper.find(".m-more-projects__show-more-button").simulate("click");
   expect(spy).toHaveBeenCalled();
 });

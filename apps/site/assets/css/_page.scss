@@ -17,7 +17,6 @@
   color: $white;
 }
 
-
 .pre-container-header {
   @include media-breakpoint-only(xs) {
     display: none;
@@ -55,7 +54,7 @@
   }
 
   @include media-breakpoint-down(xs) {
-    // cover space created by .m-banner__content positioning
+    // cover space created by .c-banner__content positioning
     margin-top: -$base-spacing * 2;
   }
 }

@@ -1,4 +1,4 @@
-.m-banner {
+.c-banner {
   color: inherit;
   display: block;
   margin-top: $base-spacing * 3;
@@ -7,19 +7,19 @@
     color: inherit;
     text-decoration: none;
 
-    .m-banner__title--default {
+    .c-banner__title--default {
       text-decoration: underline;
     }
 
-    .m-banner__cta {
+    .c-banner__cta {
       background: $brand-primary-lightest;
     }
   }
 
   &--responsive {
     @include media-breakpoint-only(xxl) {
-     // banner content is not full width at xxl,
-     // so prevent container from being 100% at that breakpoint.
+      // banner content is not full width at xxl,
+      // so prevent container from being 100% at that breakpoint.
       margin: $base-spacing * 3 auto 0;
       width: map-get($container-max-widths, xxl);
     }
@@ -47,7 +47,7 @@
   }
 }
 
-.m-banner__image {
+.c-banner__image {
   background-position: center;
   background-size: cover;
 
@@ -87,11 +87,11 @@
   }
 }
 
-.m-banner__image--important {
+.c-banner__image--important {
   padding: $base-spacing * 3;
 }
 
-.m-banner__content {
+.c-banner__content {
   background-color: $white;
   display: flex;
   flex-direction: column;
@@ -109,7 +109,6 @@
     width: $col-width * 5;
   }
 
-
   &--responsive {
     @include media-breakpoint-up(sm) {
       min-height: $base-spacing * 20;
@@ -118,17 +117,17 @@
     @include media-breakpoint-up(lg) {
       width: $col-width * 4;
     }
- }
+  }
 }
 
-.m-banner__content--right {
+.c-banner__content--right {
   @include media-breakpoint-up(sm) {
     float: right;
     margin-right: $col-width;
   }
 }
 
-.m-banner__content--default {
+.c-banner__content--default {
   @include media-breakpoint-only(sm) {
     margin-left: $col-width;
   }
@@ -138,7 +137,7 @@
   }
 }
 
-.m-banner__content--important {
+.c-banner__content--important {
   border: $border;
   float: none;
   text-align: center;
@@ -153,11 +152,11 @@
   }
 }
 
-.m-banner__category {
+.c-banner__category {
   font-weight: bold;
 }
 
-.m-banner__cta {
+.c-banner__cta {
   border: 1px solid $brand-primary;
   border-radius: $border-radius;
   display: block;
@@ -169,7 +168,6 @@
   }
 }
 
-.m-banner__date {
+.c-banner__date {
   font-weight: bold;
 }
-

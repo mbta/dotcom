@@ -131,10 +131,10 @@ defmodule SiteWeb.PageView do
   defp banner_content_class(%Banner{} = banner) do
     Enum.join(
       [
-        "m-banner__content",
-        "m-banner__content--responsive",
-        "m-banner__content--" <> CSSHelpers.atom_to_class(banner.banner_type),
-        "m-banner__content--" <> CSSHelpers.atom_to_class(banner.text_position)
+        "c-banner__content",
+        "c-banner__content--responsive",
+        "c-banner__content--" <> CSSHelpers.atom_to_class(banner.banner_type),
+        "c-banner__content--" <> CSSHelpers.atom_to_class(banner.text_position)
         | banner_bg_class(banner)
       ],
       " "
@@ -148,7 +148,7 @@ defmodule SiteWeb.PageView do
 
   @spec banner_cta(Banner.t()) :: Phoenix.HTML.Safe.t()
   defp banner_cta(%Banner{banner_type: :important, link: %{title: title}}) do
-    content_tag(:span, title, class: "m-banner__cta")
+    content_tag(:span, title, class: "c-banner__cta")
   end
 
   defp banner_cta(%Banner{}) do

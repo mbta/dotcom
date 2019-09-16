@@ -3,31 +3,31 @@
 exports[`renders 1`] = `
 Array [
   <h2
-    className="c-projects-header__subheader"
+    className="m-projects-header__subheader"
   >
     Project Updates
   </h2>,
   <div
-    className="c-project-update-list__row"
+    className="m-project-update-list__row"
   >
     <a
-      className="c-project-update-list__item"
+      className="m-project-update-list__item"
       href="/projects/commuter-rail-positive-train-control-ptc/update/ptc-weekly-activities"
     >
       <div>
         <img
           alt="A Commuter Rail train with machinery by its side, the track ties being replaced"
-          className="c-project-update__photo"
+          className="m-project-update__photo"
           src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/media/2018-11/commuter-rail-ashland-tie-replacement.jpg?itok=pVKP8vAv"
         />
       </div>
       <div
-        className="c-project-update__date u-small-caps"
+        className="m-project-update__date u-small-caps"
       >
         August 26, 2019
       </div>
       <h3
-        className="c-project-update__title"
+        className="m-project-update__title"
       >
         PTC Weekly Activities
       </h3>
@@ -42,23 +42,23 @@ Array [
       </div>
     </a>
     <a
-      className="c-project-update-list__item"
+      className="m-project-update-list__item"
       href="/projects/wollaston-station-improvements/update/shuttle-service-ends-after-wollaston-reopening"
     >
       <div>
         <img
           alt="Yankee bus shuttle during Wollaston&#039;s renovation"
-          className="c-project-update__photo"
+          className="m-project-update__photo"
           src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/wollaston-bus-shuttle-yankee.jpg?itok=kv8lwpvB"
         />
       </div>
       <div
-        className="c-project-update__date u-small-caps"
+        className="m-project-update__date u-small-caps"
       >
         August 24, 2019
       </div>
       <h3
-        className="c-project-update__title"
+        className="m-project-update__title"
       >
         Shuttle Service Ends After Wollaston Reopening
       </h3>
@@ -73,23 +73,23 @@ Array [
       </div>
     </a>
     <a
-      className="c-project-update-list__item"
+      className="m-project-update-list__item"
       href="/projects/early-morning-and-late-night-bus-service-pilots/update/early-morning-and-late-night"
     >
       <div>
         <img
           alt="A bus pulled up to a bus shelter late at night, with a rider walking away, and an ad for late night bus service on the shelter wall, which reads, &quot;Late-night buses. If you&#039;re working late, so are we. Extended bus hours are here for you.&quot;."
-          className="c-project-update__photo"
+          className="m-project-update__photo"
           src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/media/2019-08/Bus_Late%20Night%20Bus%20Shelters_2019-6213.jpg?itok=VvFzWkH4"
         />
       </div>
       <div
-        className="c-project-update__date u-small-caps"
+        className="m-project-update__date u-small-caps"
       >
         August 23, 2019
       </div>
       <h3
-        className="c-project-update__title"
+        className="m-project-update__title"
       >
         Early Morning and Late Night Service Becomes Permanent
       </h3>
@@ -108,23 +108,23 @@ Array [
       </div>
     </a>
     <a
-      className="c-project-update-list__item"
+      className="m-project-update-list__item"
       href="/projects/bus-transit-priority/update/brighton-ave-bus-lane"
     >
       <div>
         <img
           alt="A 57 bus travels in a dedicated bus lane on Brighton Ave in Allston, with &quot;Bus Bike Only&quot; prominently stenciled in the dark red lane."
-          className="c-project-update__photo"
+          className="m-project-update__photo"
           src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/media/2019-08/Bus_Allston_Dedicated_Lane_2019-4908.jpg?itok=dP6bWBYi"
         />
       </div>
       <div
-        className="c-project-update__date u-small-caps"
+        className="m-project-update__date u-small-caps"
       >
         August 20, 2019
       </div>
       <h3
-        className="c-project-update__title"
+        className="m-project-update__title"
       >
         Brighton Ave Bus Lane
       </h3>

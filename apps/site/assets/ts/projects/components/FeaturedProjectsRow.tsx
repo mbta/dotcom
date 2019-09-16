@@ -22,12 +22,12 @@ const FeaturedProjectsRow = ({
   projectPair,
   placeholderImageUrl
 }: Props): ReactElement<HTMLElement> => (
-  <div className="c-featured-project-list__row">
+  <div className="m-featured-project-list__row">
     {projectToComponent(projectPair[0], placeholderImageUrl)}
     {projectPair[1] ? (
       projectToComponent(projectPair[1], placeholderImageUrl)
     ) : (
-      <div className="c-featured-project" />
+      <div className="m-featured-project" />
     )}
   </div>
 );
