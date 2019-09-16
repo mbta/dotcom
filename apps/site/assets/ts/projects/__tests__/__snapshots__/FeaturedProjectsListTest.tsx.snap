@@ -2,22 +2,22 @@
 
 exports[`renders 1`] = `
 <div
-  className="c-featured-project-list"
+  className="m-featured-project-list"
 >
   <div
     className="page-section"
   >
     <div
-      className="c-featured-project-list__row"
+      className="m-featured-project-list__row"
     >
       <div
-        className="c-featured-project"
+        className="m-featured-project"
       >
         <a
           href="/choo-choo"
         >
           <div
-            className="c-featured-project__image"
+            className="m-featured-project__image"
           >
             <img
               alt="Picture of a train. Choo choo!"
@@ -25,12 +25,12 @@ exports[`renders 1`] = `
             />
           </div>
           <h3
-            className="c-featured-project__title"
+            className="m-featured-project__title"
           >
             New choo-choos!
           </h3>
           <div
-            className="c-featured-project__date"
+            className="m-featured-project__date"
           >
             Updated on 
             May 1, 2018
@@ -57,13 +57,13 @@ exports[`renders 1`] = `
         </a>
       </div>
       <div
-        className="c-featured-project"
+        className="m-featured-project"
       >
         <a
           href="/fixing-track"
         >
           <div
-            className="c-featured-project__image"
+            className="m-featured-project__image"
           >
             <img
               alt="People fixing track or something"
@@ -71,12 +71,12 @@ exports[`renders 1`] = `
             />
           </div>
           <h3
-            className="c-featured-project__title"
+            className="m-featured-project__title"
           >
             Track fixing
           </h3>
           <div
-            className="c-featured-project__date"
+            className="m-featured-project__date"
           >
             Updated on 
             April 1, 2018
@@ -95,16 +95,16 @@ exports[`renders 1`] = `
       </div>
     </div>
     <div
-      className="c-featured-project-list__row"
+      className="m-featured-project-list__row"
     >
       <div
-        className="c-featured-project"
+        className="m-featured-project"
       >
         <a
           href="/east-station"
         >
           <div
-            className="c-featured-project__image"
+            className="m-featured-project__image"
           >
             <img
               alt="Facade of East Station"
@@ -112,12 +112,12 @@ exports[`renders 1`] = `
             />
           </div>
           <h3
-            className="c-featured-project__title"
+            className="m-featured-project__title"
           >
             East Station opening
           </h3>
           <div
-            className="c-featured-project__date"
+            className="m-featured-project__date"
           >
             Updated on 
             March 1, 2018
@@ -135,13 +135,13 @@ exports[`renders 1`] = `
         </a>
       </div>
       <div
-        className="c-featured-project"
+        className="m-featured-project"
       >
         <a
           href="/east-station"
         >
           <div
-            className="c-featured-project__image"
+            className="m-featured-project__image"
           >
             <img
               alt="MBTA logo"
@@ -149,12 +149,12 @@ exports[`renders 1`] = `
             />
           </div>
           <h3
-            className="c-featured-project__title"
+            className="m-featured-project__title"
           >
             East Station opening
           </h3>
           <div
-            className="c-featured-project__date"
+            className="m-featured-project__date"
           >
             Updated on 
             March 1, 2018

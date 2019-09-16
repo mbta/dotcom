@@ -122,7 +122,7 @@ it("renders with unknown background color if no routes are listed", () => {
       placeholderImageUrl={placeholderImageUrl}
     />
   );
-  const actualSrc = wrapper.find(".m-banner__content").first();
+  const actualSrc = wrapper.find(".c-banner__content").first();
   expect(actualSrc.html()).toContain("u-bg--unknown");
 });
 
@@ -133,7 +133,7 @@ it("renders placeholder image if there is no image", () => {
       placeholderImageUrl={placeholderImageUrl}
     />
   );
-  const actualSrc = wrapper.find(".m-banner__image");
+  const actualSrc = wrapper.find(".c-banner__image");
   expect(actualSrc.first().html()).toContain(placeholderImageUrl);
   expect(actualSrc.last().html()).toContain(placeholderImageUrl);
 });

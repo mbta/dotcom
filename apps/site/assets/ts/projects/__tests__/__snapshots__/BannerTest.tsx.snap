@@ -8,7 +8,7 @@ Array [
     Featured Projects
   </h2>,
   <a
-    className="m-banner m-banner--responsive m-banner--lg-9 m-banner--no-margin-top m-banner--default"
+    className="c-banner c-banner--responsive c-banner--lg-9 c-banner--no-margin-top c-banner--default"
     href="/projects/better-bus-project"
   >
     <div
@@ -18,7 +18,7 @@ Array [
         className="row"
       >
         <div
-          className="m-banner__image m-banner__image--responsive m-banner__image--default"
+          className="c-banner__image c-banner__image--responsive c-banner__image--default"
           style={
             Object {
               "backgroundImage": "url(https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq)",
@@ -32,22 +32,22 @@ Array [
           </div>
         </div>
         <div
-          className="m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--unknown"
+          className="c-banner__content c-banner__content--responsive-side-by-side c-banner__content--left u-bg--unknown"
         >
           <div
-            className="m-banner__top"
+            className="c-banner__top"
           >
             <h2
-              className="h2 m-banner__title m-banner__title--default"
+              className="h2 c-banner__title c-banner__title--default"
             >
               Better Bus Project
             </h2>
           </div>
           <div
-            className="m-banner__bottom"
+            className="c-banner__bottom"
           >
             <span
-              className="m-banner__date"
+              className="c-banner__date"
             >
               Updated 
               July 30, 2019
@@ -63,25 +63,25 @@ Array [
         className="row"
       >
         <div
-          className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default"
+          className="c-banner__image c-banner__image--responsive-side-by-side c-banner--responsive-no-margin c-banner__image--default"
         >
           <div
-            className="m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--unknown"
+            className="c-banner__content c-banner__content--responsive-side-by-side c-banner__content--left u-bg--unknown"
           >
             <div
-              className="m-banner__top"
+              className="c-banner__top"
             >
               <h2
-                className="h2 m-banner__title m-banner__title--default"
+                className="h2 c-banner__title c-banner__title--default"
               >
                 Better Bus Project
               </h2>
             </div>
             <div
-              className="m-banner__bottom"
+              className="c-banner__bottom"
             >
               <span
-                className="m-banner__date"
+                className="c-banner__date"
               >
                 Updated 
                 July 30, 2019
@@ -90,7 +90,7 @@ Array [
           </div>
           <img
             alt="Better Bus Project: Making transit better together"
-            className="m-banner__image--by-side"
+            className="c-banner__image--by-side"
             src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq"
           />
           <div
@@ -105,25 +105,25 @@ Array [
       className="hidden-md-down"
     >
       <div
-        className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default"
+        className="c-banner__image c-banner__image--responsive-side-by-side c-banner--responsive-no-margin c-banner__image--default"
       >
         <div
-          className="m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--unknown"
+          className="c-banner__content c-banner__content--responsive-side-by-side c-banner__content--left u-bg--unknown"
         >
           <div
-            className="m-banner__top"
+            className="c-banner__top"
           >
             <h2
-              className="h2 m-banner__title m-banner__title--default"
+              className="h2 c-banner__title c-banner__title--default"
             >
               Better Bus Project
             </h2>
           </div>
           <div
-            className="m-banner__bottom"
+            className="c-banner__bottom"
           >
             <span
-              className="m-banner__date"
+              className="c-banner__date"
             >
               Updated 
               July 30, 2019
@@ -132,7 +132,7 @@ Array [
         </div>
         <img
           alt="Better Bus Project: Making transit better together"
-          className="m-banner__image--by-side"
+          className="c-banner__image--by-side"
           src="https://live-mbta.pantheonsite.io/sites/default/files/styles/teaser/public/projects/betterbus/betterbus-banner-large.png?itok=qWyWNEZq"
         />
         <div

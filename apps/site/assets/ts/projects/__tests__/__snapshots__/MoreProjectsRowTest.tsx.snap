@@ -2,36 +2,36 @@
 
 exports[`renders with route icons and status 1`] = `
 <tr
-  className="c-more-projects-table__tr"
+  className="m-more-projects-table__tr"
 >
   <td
-    className="c-more-projects-table__td c-more-projects-table__td-project"
+    className="m-more-projects-table__td m-more-projects-table__td-project"
   >
     <img
       alt="Picture of the new Mauve Line train"
-      className="hidden-xs-down c-more-projects-table__thumbnail"
+      className="hidden-xs-down m-more-projects-table__thumbnail"
       src="http://cloudfront.com/mbta_pic.gif"
     />
     <div
-      className="c-more-projects-table__wrapper"
+      className="m-more-projects-table__wrapper"
     >
       <a
         href="http://www.mbta.com/new_mauve_line"
       >
         <h3
-          className="c-more-projects-table__title"
+          className="m-more-projects-table__title"
         >
           New Mauve Line trains
         </h3>
       </a>
       <div
-        className="c-more-projects-table__updated-and-status hidden-lg-up"
+        className="m-more-projects-table__updated-and-status hidden-lg-up"
       >
         <div
-          className="c-more-projects-table__last-updated"
+          className="m-more-projects-table__last-updated"
         >
           <span
-            className="c-more-projects-table__internal-header"
+            className="m-more-projects-table__internal-header"
           >
             Last updated
           </span>
@@ -40,7 +40,7 @@ exports[`renders with route icons and status 1`] = `
           <br />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -49,7 +49,7 @@ exports[`renders with route icons and status 1`] = `
           />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -58,7 +58,7 @@ exports[`renders with route icons and status 1`] = `
           />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -67,7 +67,7 @@ exports[`renders with route icons and status 1`] = `
           />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -76,7 +76,7 @@ exports[`renders with route icons and status 1`] = `
           />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -85,7 +85,7 @@ exports[`renders with route icons and status 1`] = `
           />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -94,7 +94,7 @@ exports[`renders with route icons and status 1`] = `
           />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -103,7 +103,7 @@ exports[`renders with route icons and status 1`] = `
           />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -112,7 +112,7 @@ exports[`renders with route icons and status 1`] = `
           />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -121,7 +121,7 @@ exports[`renders with route icons and status 1`] = `
           />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -130,7 +130,7 @@ exports[`renders with route icons and status 1`] = `
           />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -139,7 +139,7 @@ exports[`renders with route icons and status 1`] = `
           />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -148,7 +148,7 @@ exports[`renders with route icons and status 1`] = `
           />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -157,7 +157,7 @@ exports[`renders with route icons and status 1`] = `
           />
           <span
             aria-hidden="false"
-            className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-lg-up"
+            className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-lg-up"
             dangerouslySetInnerHTML={
               Object {
                 "__html": "SVG",
@@ -166,20 +166,20 @@ exports[`renders with route icons and status 1`] = `
           />
         </div>
         <div
-          className="c-more-projects-table__status"
+          className="m-more-projects-table__status"
         >
           <span
-            className="c-more-projects-table__internal-header"
+            className="m-more-projects-table__internal-header"
           >
             Status
           </span>
           <br />
           <i
-            className="fa c-more-projects-table__status-icon c-more-projects-table__status-icon--contract-awarded"
+            className="fa m-more-projects-table__status-icon m-more-projects-table__status-icon--contract-awarded"
           />
            
           <span
-            className="c-more-projects-table__status-text c-more-projects-table__status-text--contract-awarded"
+            className="m-more-projects-table__status-text m-more-projects-table__status-text--contract-awarded"
           >
             Contract awarded
           </span>
@@ -187,7 +187,7 @@ exports[`renders with route icons and status 1`] = `
       </div>
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -196,7 +196,7 @@ exports[`renders with route icons and status 1`] = `
       />
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -205,7 +205,7 @@ exports[`renders with route icons and status 1`] = `
       />
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -214,7 +214,7 @@ exports[`renders with route icons and status 1`] = `
       />
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -223,7 +223,7 @@ exports[`renders with route icons and status 1`] = `
       />
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -232,7 +232,7 @@ exports[`renders with route icons and status 1`] = `
       />
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -241,7 +241,7 @@ exports[`renders with route icons and status 1`] = `
       />
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -250,7 +250,7 @@ exports[`renders with route icons and status 1`] = `
       />
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -259,7 +259,7 @@ exports[`renders with route icons and status 1`] = `
       />
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -268,7 +268,7 @@ exports[`renders with route icons and status 1`] = `
       />
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -277,7 +277,7 @@ exports[`renders with route icons and status 1`] = `
       />
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -286,7 +286,7 @@ exports[`renders with route icons and status 1`] = `
       />
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -295,7 +295,7 @@ exports[`renders with route icons and status 1`] = `
       />
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -304,7 +304,7 @@ exports[`renders with route icons and status 1`] = `
       />
       <span
         aria-hidden="false"
-        className="notranslate c-svg__icon c-more-projects-table__route-icon hidden-md-down"
+        className="notranslate c-svg__icon m-more-projects-table__route-icon hidden-md-down"
         dangerouslySetInnerHTML={
           Object {
             "__html": "SVG",
@@ -314,22 +314,22 @@ exports[`renders with route icons and status 1`] = `
     </div>
   </td>
   <td
-    className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down"
+    className="m-more-projects-table__td m-more-projects-table__td-last-updated hidden-md-down"
   >
     May 1, 2018
   </td>
   <td
-    className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down"
+    className="m-more-projects-table__td m-more-projects-table__td-status hidden-md-down"
   >
     <span
-      className="c-more-projects-table__status-wrapper"
+      className="m-more-projects-table__status-wrapper"
     >
       <i
-        className="fa c-more-projects-table__status-icon c-more-projects-table__status-icon--contract-awarded"
+        className="fa m-more-projects-table__status-icon m-more-projects-table__status-icon--contract-awarded"
       />
        
       <span
-        className="c-more-projects-table__status-text c-more-projects-table__status-text--contract-awarded"
+        className="m-more-projects-table__status-text m-more-projects-table__status-text--contract-awarded"
       >
         Contract awarded
       </span>
