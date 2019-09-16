@@ -22,17 +22,7 @@
   }
 }
 
-.c-project-updates-list {
-  background-color: $brand-primary-lightest-contrast;
-
-  &.u-full-bleed {
-    @include media-breakpoint-up(md) {
-      box-shadow: none;
-    }
-  }
-}
-
-.c-project-update-list__row {
+.m-project-update-list__row {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
