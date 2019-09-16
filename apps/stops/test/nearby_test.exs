@@ -190,7 +190,7 @@ defmodule Stops.NearbyTest do
 
     test "returns one direction of stops if that's all there is" do
       actual = %{id: "46"} |> keys |> Enum.sort()
-      expected = [{"10", 1}, {"5", 1}]
+      expected = [{"10", 1}]
 
       assert expected == actual
     end
