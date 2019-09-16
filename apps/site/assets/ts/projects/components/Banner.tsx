@@ -29,12 +29,12 @@ const bannerBgClass = (banner: Project): string => {
 };
 
 const bannerContentClass = (banner: Project): string =>
-  `m-banner__content m-banner__content--responsive-side-by-side m-banner__content--left u-bg--${bannerBgClass(
+  `c-banner__content c-banner__content--responsive-side-by-side c-banner__content--left u-bg--${bannerBgClass(
     banner
   )}`;
 
 const bannerUpdated = (banner: Project): ReactElement<HTMLElement> => (
-  <span className="m-banner__date">Updated {formattedDate(banner.date)}</span>
+  <span className="c-banner__date">Updated {formattedDate(banner.date)}</span>
 );
 
 const BannerContent = ({
@@ -43,12 +43,12 @@ const BannerContent = ({
   banner: Project;
 }): ReactElement<HTMLElement> => (
   <div className={bannerContentClass(banner)}>
-    <div className="m-banner__top">
-      <h2 className="h2 m-banner__title m-banner__title--default">
+    <div className="c-banner__top">
+      <h2 className="h2 c-banner__title c-banner__title--default">
         {banner.title}
       </h2>
     </div>
-    <div className="m-banner__bottom">{bannerUpdated(banner)}</div>
+    <div className="c-banner__bottom">{bannerUpdated(banner)}</div>
   </div>
 );
 
@@ -68,7 +68,7 @@ const BannerXS = ({
   <div className="hidden-sm-up">
     <div className="row">
       <div
-        className="m-banner__image m-banner__image--responsive m-banner__image--default"
+        className="c-banner__image c-banner__image--responsive c-banner__image--default"
         style={{
           backgroundImage: `url(${bannerImageURL(banner, placeholderImageUrl)})`
         }}
@@ -87,10 +87,10 @@ const BannerSideBySide = ({
   banner: Project;
   placeholderImageUrl: string;
 }): ReactElement<HTMLElement> => (
-  <div className="m-banner__image m-banner__image--responsive-side-by-side m-banner--responsive-no-margin m-banner__image--default">
+  <div className="c-banner__image c-banner__image--responsive-side-by-side c-banner--responsive-no-margin c-banner__image--default">
     <BannerContent banner={banner} />
     <img
-      className="m-banner__image--by-side"
+      className="c-banner__image--by-side"
       src={bannerImageURL(banner, placeholderImageUrl)}
       alt={bannerImageAlt(banner)}
     />
@@ -143,7 +143,7 @@ const Banner = ({
       <h2 className="c-projects-header__subheader">Featured Projects</h2>
       <a
         href={banner.path}
-        className="m-banner m-banner--responsive m-banner--lg-9 m-banner--no-margin-top m-banner--default"
+        className="c-banner c-banner--responsive c-banner--lg-9 c-banner--no-margin-top c-banner--default"
       >
         <BannerXS banner={banner} placeholderImageUrl={placeholderImageUrl} />
         <BannerSMUp banner={banner} placeholderImageUrl={placeholderImageUrl} />
