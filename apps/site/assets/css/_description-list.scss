@@ -17,12 +17,12 @@
   border-top: 1px solid $gray-light;
   padding-top: 1rem;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(sm) {
     border-top: 1px solid $gray-light;
     padding-left: 0;
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-only(xs) {
     @include make-col-span(12);
     padding-left: 0;
     padding-right: 0;
@@ -35,12 +35,12 @@
   margin-bottom: 0;
   padding-top: 1rem;
 
-  @include media-breakpoint-up(md) {
+  @include media-breakpoint-up(sm) {
     border-top: 1px solid $gray-light;
     padding-right: 0;
   }
 
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(xs) {
     @include make-col-span(12);
     padding: 0;
   }
