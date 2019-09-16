@@ -13,7 +13,7 @@
 
 .dt {
   @include make-col();
-  @include make-col-span(3);
+  @include make-col-span(4);
   border-top: 1px solid $gray-light;
   padding-top: 1rem;
 
@@ -31,7 +31,7 @@
 
 .dd {
   @include make-col();
-  @include make-col-span(9);
+  @include make-col-span(8);
   margin-bottom: 0;
   padding-top: 1rem;
 
