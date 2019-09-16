@@ -227,6 +227,10 @@ defmodule CMS.Repo do
   using the :sort_order and :sort_by filters. Other content types
   like Basic Page (:page) default to creation date, descending.
 
+  If neither :sort_order nor :sort_by are provided, Elixir will
+  attempt to fill-in these values according to content :type.
+  Otherwise, the values provided will be used and passed on.
+
   :sort_by is set automatically when :type requires it.
   :sort_order is DESC by default; only used with :sort_by.
   """
@@ -278,6 +282,10 @@ defmodule CMS.Repo do
   end
 
   @spec teaser_sort(teaser_filters) :: teaser_filters
+  defp teaser_sort(%{sort_by: _, sort_order: _} = params) do
+    params
+  end
+
   defp teaser_sort(%{type: [type]} = params)
        when type in [:news_entry, :event, :project_update, :project] do
     order = Map.get(params, :sort_order, :DESC)
