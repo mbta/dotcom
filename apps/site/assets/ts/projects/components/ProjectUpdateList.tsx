@@ -14,30 +14,30 @@ const ProjectUpdateList = ({
 }: Props): ReactElement<HTMLElement> | null =>
   projectUpdates.length > 0 ? (
     <>
-      <h2 className="c-projects-header__subheader">Project Updates</h2>
-      <div className="c-project-update-list__row">
+      <h2 className="m-projects-header__subheader">Project Updates</h2>
+      <div className="m-project-update-list__row">
         {projectUpdates.map(
           ({ image, path, title, routes, date, id }: Project) => (
-            <a href={path} className="c-project-update-list__item" key={id}>
+            <a href={path} className="m-project-update-list__item" key={id}>
               <div>
                 {image ? (
                   <img
-                    className="c-project-update__photo"
+                    className="m-project-update__photo"
                     src={image.url}
                     alt={image.alt}
                   />
                 ) : (
                   <img
-                    className="c-project-update__photo"
+                    className="m-project-update__photo"
                     src={placeholderImageUrl}
                     alt="MBTA logo"
                   />
                 )}
               </div>
-              <div className="c-project-update__date u-small-caps">
+              <div className="m-project-update__date u-small-caps">
                 {formattedDate(date)}
               </div>
-              <h3 className="c-project-update__title">{title}</h3>
+              <h3 className="m-project-update__title">{title}</h3>
               <RoutePillList routes={routes} />
             </a>
           )

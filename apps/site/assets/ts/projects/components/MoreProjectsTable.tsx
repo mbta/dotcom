@@ -41,30 +41,30 @@ const MoreProjectsTable = ({
     <>
       <h2>{tableHeaderText(state)} Projects</h2>
       <div>
-        <table className="c-more-projects-table" aria-label="More Projects">
-          <thead className="c-more-projects-table__thead hidden-md-down">
+        <table className="m-more-projects-table" aria-label="More Projects">
+          <thead className="m-more-projects-table__thead hidden-md-down">
             <tr>
               <th
                 scope="col"
-                className="c-more-projects-table__th c-more-projects-table__th-project"
+                className="m-more-projects-table__th m-more-projects-table__th-project"
               >
                 Project
               </th>
               <th
                 scope="col"
-                className="c-more-projects-table__th c-more-projects-table__th-last-updated"
+                className="m-more-projects-table__th m-more-projects-table__th-last-updated"
               >
                 Last Updated
               </th>
               <th
                 scope="col"
-                className="c-more-projects-table__th c-more-projects-table__th-status"
+                className="m-more-projects-table__th m-more-projects-table__th-status"
               >
                 Status
               </th>
             </tr>
           </thead>
-          <tbody className="c-more-projects-table__tbody">
+          <tbody className="m-more-projects-table__tbody">
             {state.projects.map(project => (
               <MoreProjectsRow
                 key={project.id}
@@ -75,9 +75,9 @@ const MoreProjectsTable = ({
           </tbody>
         </table>
 
-        <div className="c-more-projects__show-more-button-wrapper">
+        <div className="m-more-projects__show-more-button-wrapper">
           <button
-            className="btn btn-secondary c-more-projects__show-more-button"
+            className="btn btn-secondary m-more-projects__show-more-button"
             type="button"
             disabled={state.fetchInProgress}
             onClick={() => fetchMoreProjects(state, setState)}

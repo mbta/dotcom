@@ -85,37 +85,37 @@ const MoreProjectsRow = ({
 }: Props): ReactElement<HTMLElement> => {
   const normalizedStatus = status ? status.toLowerCase().replace(/ /, "-") : "";
   const statusTextClassName = status
-    ? `c-more-projects-table__status-text--${normalizedStatus}`
+    ? `m-more-projects-table__status-text--${normalizedStatus}`
     : "";
   const statusIconClassName = status
-    ? `c-more-projects-table__status-icon--${normalizedStatus}`
+    ? `m-more-projects-table__status-icon--${normalizedStatus}`
     : "";
 
   return (
-    <tr className="c-more-projects-table__tr">
-      <td className="c-more-projects-table__td c-more-projects-table__td-project">
+    <tr className="m-more-projects-table__tr">
+      <td className="m-more-projects-table__td m-more-projects-table__td-project">
         {(image && (
           <img
             src={image.url}
             alt={image.alt}
-            className="hidden-xs-down c-more-projects-table__thumbnail"
+            className="hidden-xs-down m-more-projects-table__thumbnail"
           />
         )) || (
           <img
             src={placeholderImageUrl}
             alt="MBTA logo"
-            className="hidden-xs-down c-more-projects-table__thumbnail"
+            className="hidden-xs-down m-more-projects-table__thumbnail"
           />
         )}
 
-        <div className="c-more-projects-table__wrapper">
+        <div className="m-more-projects-table__wrapper">
           <a href={path}>
-            <h3 className="c-more-projects-table__title">{title}</h3>
+            <h3 className="m-more-projects-table__title">{title}</h3>
           </a>
 
-          <div className="c-more-projects-table__updated-and-status hidden-lg-up">
-            <div className="c-more-projects-table__last-updated">
-              <span className="c-more-projects-table__internal-header">
+          <div className="m-more-projects-table__updated-and-status hidden-lg-up">
+            <div className="m-more-projects-table__last-updated">
+              <span className="m-more-projects-table__internal-header">
                 Last updated
               </span>
               <br />
@@ -125,22 +125,22 @@ const MoreProjectsRow = ({
                 <RouteIcon
                   key={tag}
                   tag={tag}
-                  extraClasses="c-more-projects-table__route-icon hidden-lg-up"
+                  extraClasses="m-more-projects-table__route-icon hidden-lg-up"
                 />
               ))}
             </div>
 
             {status && (
-              <div className="c-more-projects-table__status">
-                <span className="c-more-projects-table__internal-header">
+              <div className="m-more-projects-table__status">
+                <span className="m-more-projects-table__internal-header">
                   Status
                 </span>
                 <br />
                 <i
-                  className={`fa c-more-projects-table__status-icon ${statusIconClassName}`}
+                  className={`fa m-more-projects-table__status-icon ${statusIconClassName}`}
                 />{" "}
                 <span
-                  className={`c-more-projects-table__status-text ${statusTextClassName}`}
+                  className={`m-more-projects-table__status-text ${statusTextClassName}`}
                 >
                   {status}
                 </span>
@@ -152,25 +152,25 @@ const MoreProjectsRow = ({
             <RouteIcon
               key={tag}
               tag={tag}
-              extraClasses="c-more-projects-table__route-icon hidden-md-down"
+              extraClasses="m-more-projects-table__route-icon hidden-md-down"
             />
           ))}
         </div>
       </td>
 
-      <td className="c-more-projects-table__td c-more-projects-table__td-last-updated hidden-md-down">
+      <td className="m-more-projects-table__td m-more-projects-table__td-last-updated hidden-md-down">
         {formattedDate(date)}
       </td>
 
-      <td className="c-more-projects-table__td c-more-projects-table__td-status hidden-md-down">
-        <span className="c-more-projects-table__status-wrapper">
+      <td className="m-more-projects-table__td m-more-projects-table__td-status hidden-md-down">
+        <span className="m-more-projects-table__status-wrapper">
           {status && (
             <>
               <i
-                className={`fa c-more-projects-table__status-icon ${statusIconClassName}`}
+                className={`fa m-more-projects-table__status-icon ${statusIconClassName}`}
               />{" "}
               <span
-                className={`c-more-projects-table__status-text ${statusTextClassName}`}
+                className={`m-more-projects-table__status-text ${statusTextClassName}`}
               >
                 {status}
               </span>

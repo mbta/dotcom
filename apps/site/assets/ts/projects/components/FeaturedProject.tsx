@@ -15,17 +15,17 @@ const FeaturedProject = ({
   const { path, image, title, text, date, routes } = project;
 
   return (
-    <div className="c-featured-project">
+    <div className="m-featured-project">
       <a href={path}>
-        <div className="c-featured-project__image">
+        <div className="m-featured-project__image">
           {(image && <img src={image.url} alt={image.alt} />) || (
             <img src={placeholderImageUrl} alt="MBTA logo" />
           )}
         </div>
 
-        <h3 className="c-featured-project__title">{title}</h3>
+        <h3 className="m-featured-project__title">{title}</h3>
 
-        <div className="c-featured-project__date">
+        <div className="m-featured-project__date">
           Updated on {formattedDate(date)}
         </div>
 
