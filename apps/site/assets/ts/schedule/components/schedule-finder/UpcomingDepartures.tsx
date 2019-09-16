@@ -30,10 +30,10 @@ export const RoutePillSmall = ({
 }: {
   route: Route;
 }): ReactElement<HTMLElement> | null => (
-    <div className="schedule-table__row-route-pill m-route-pills">
-      <div className={modeBgClass(route)}>{route.name}</div>
-    </div>
-  );
+  <div className="schedule-table__row-route-pill m-route-pills">
+    <div className={modeBgClass(route)}>{route.name}</div>
+  </div>
+);
 interface TableRowProps {
   prediction: StopPrediction;
 }

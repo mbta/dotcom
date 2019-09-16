@@ -166,7 +166,8 @@ const CrTableRow = ({
           </td>
         )}
         <td className="schedule-table__headsign">
-          {modeIcon(firstSchedule.route.id)} {breakTextAtSlash(firstSchedule.trip.headsign)}
+          {modeIcon(firstSchedule.route.id)}{" "}
+          {breakTextAtSlash(firstSchedule.trip.headsign)}
         </td>
         <td className="schedule-table__td schedule-table__td--flex-end">
           {caret(

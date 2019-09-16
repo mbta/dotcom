@@ -35,7 +35,7 @@ const routePill = (
       <div
         className={`h1 schedule-finder__modal-route-pill u-bg--${
           isSilverLine(id) ? "silver-line" : "bus"
-          }`}
+        }`}
       >
         {name}
       </div>
