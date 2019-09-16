@@ -101,7 +101,9 @@ exports[`ScheduleTable it renders 1`] = `
                 <thead>
                   <TripInfo>
                     <tr>
-                      <td>
+                      <td
+                        colSpan={3}
+                      >
                         <div
                           className="schedule-table__subtable-trip-info"
                         >
@@ -10847,7 +10849,9 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 <thead>
                   <TripInfo>
                     <tr>
-                      <td>
+                      <td
+                        colSpan={3}
+                      >
                         <div
                           className="schedule-table__subtable-trip-info"
                         >
@@ -10983,7 +10987,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                       <a
                         href="/stops/place-DB-2249"
                       >
-                        Four Corners/Geneva
+                        Four Corners/​Geneva
                       </a>
                     </td>
                     <td

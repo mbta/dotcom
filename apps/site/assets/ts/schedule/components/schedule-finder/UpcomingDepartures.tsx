@@ -8,6 +8,7 @@ import { modeIcon } from "../../../helpers/icon";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
 import { Route } from "../../../__v3api";
 import { StopPrediction } from "../__schedule";
+import { breakTextAtSlash } from "../../../helpers/text";
 
 interface State {
   data: StopPrediction[] | null;
@@ -68,7 +69,7 @@ const CrTableRow = ({
   return (
     <tr className="schedule-table__row schedule-table__row--stretch">
       <td className="schedule-table__headsign">
-        {modeIcon(prediction.route.id)} {prediction.headsign}
+        {modeIcon(prediction.route.id)} {breakTextAtSlash(prediction.headsign)}
       </td>
       <td>
         <div className="schedule-table__time-container">

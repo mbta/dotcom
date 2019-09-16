@@ -3,6 +3,7 @@ import { ScheduleWithFare, ScheduleInfo } from "../__schedule";
 import { RoutePillSmall } from "./UpcomingDepartures";
 import { modeIcon, caret } from "../../../helpers/icon";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
+import { breakTextAtSlash } from "../../../helpers/text";
 
 const totalMinutes = (schedules: ScheduleInfo): string => schedules.duration;
 
@@ -20,7 +21,7 @@ const TripInfo = ({
   const lastTrip = schedules.schedules[schedules.schedules.length - 1];
   return (
     <tr>
-      <td>
+      <td colSpan={3}>
         <div className="schedule-table__subtable-trip-info">
           <div className="schedule-table__subtable-trip-info-title u-small-caps u-bold">
             Trip length
@@ -79,7 +80,7 @@ const BusTableRow = ({
           <div className="schedule-table__row-route">
             <RoutePillSmall route={firstSchedule.route} />
           </div>
-          {firstSchedule.trip.headsign}
+          {breakTextAtSlash(firstSchedule.trip.headsign)}
         </td>
         <td className="schedule-table__td schedule-table__td--flex-end">
           {caret(
@@ -112,7 +113,7 @@ const BusTableRow = ({
                   >
                     <td className="schedule-table__subtable-data">
                       <a href={`/stops/${schedule.stop.id}`}>
-                        {schedule.stop.name}
+                        {breakTextAtSlash(schedule.stop.name)}
                       </a>
                     </td>
                     <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
@@ -165,7 +166,8 @@ const CrTableRow = ({
           </td>
         )}
         <td className="schedule-table__headsign">
-          {modeIcon(firstSchedule.route.id)} {firstSchedule.trip.headsign}
+          {modeIcon(firstSchedule.route.id)}{" "}
+          {breakTextAtSlash(firstSchedule.trip.headsign)}
         </td>
         <td className="schedule-table__td schedule-table__td--flex-end">
           {caret(
@@ -204,7 +206,7 @@ const CrTableRow = ({
                     >
                       <td className="schedule-table__subtable-data">
                         <a href={`/stops/${schedule.stop.id}`}>
-                          {schedule.stop.name}
+                          {breakTextAtSlash(schedule.stop.name)}
                         </a>
                       </td>
                       <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">

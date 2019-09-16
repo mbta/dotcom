@@ -10,6 +10,7 @@ import {
 import isSilverLine from "../../../helpers/silver-line";
 import { reducer } from "../../../helpers/fetch";
 import ServiceSelector from "./ServiceSelector";
+import { breakTextAtSlash } from "../../../helpers/text";
 
 const stopInfo = (
   selectedOrigin: string,
@@ -123,7 +124,7 @@ const ScheduleModalContent = ({
             {directionNames[selectedDirection]}
           </div>
           <h2 className="h2" style={{ margin: 0 }}>
-            {destination}
+            {breakTextAtSlash(destination)}
           </h2>
         </div>
       </div>
