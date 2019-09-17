@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { Mode } from "../__v3api";
+import FilterButton from "./FilterButton";
 import ModeIcon from "../tnm/components/ModeIcon";
 
 type IsModeSelectedFunction = (mode: Mode) => boolean;
@@ -36,22 +37,13 @@ const ModeButton = ({
   isModeSelected,
   onClick
 }: ModeButtonProps): ReactElement<HTMLElement> => (
-  <button
-    className={`btn btn-secondary btn-sm m-tnm-sidebar__filter-btn ${
-      isModeSelected(mode) ? "active" : "inactive"
-    }`}
-    id={`mode-button__${mode}`}
-    onClick={onClick(mode)}
-    type="button"
-    aria-label={
-      isModeSelected(mode)
-        ? `remove filter by ${mode}`
-        : `add filter by ${mode}`
-    }
-  >
-    <ModeIcon type={icon} />
-    {name}
-  </button>
+  <FilterButton
+    identifier={mode}
+    icon={<ModeIcon type={icon} />}
+    name={name}
+    isSelected={isModeSelected}
+    onClick={onClick}
+  />
 );
 
 const shouldShowModeButton = (

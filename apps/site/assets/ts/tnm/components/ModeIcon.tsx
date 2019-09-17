@@ -3,6 +3,7 @@ import GreenLineIconSmall from "../../../static/images/icon-green-line-small.svg
 import RedLineIconSmall from "../../../static/images/icon-red-line-small.svg";
 import OrangeLineIconSmall from "../../../static/images/icon-orange-line-small.svg";
 import BlueLineIconSmall from "../../../static/images/icon-blue-line-small.svg";
+import MattapanSmall from "../../../static/images/icon-mattapan-line-small.svg";
 import CommuterRailIconSmall from "../../../static/images/icon-mode-commuter-rail-small.svg";
 import BusIconSmall from "../../../static/images/icon-mode-bus-small.svg";
 import FerryIconSmall from "../../../static/images/icon-mode-ferry-small.svg";
@@ -18,6 +19,7 @@ const icons = {
   "red_line-small": RedLineIconSmall,
   "orange_line-small": OrangeLineIconSmall,
   "blue_line-small": BlueLineIconSmall,
+  "mattapan_line-small": MattapanSmall,
   "commuter_rail-small": CommuterRailIconSmall,
   "bus-small": BusIconSmall,
   "ferry-small": FerryIconSmall,

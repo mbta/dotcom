@@ -39,7 +39,7 @@
   "scenarios": [
     {
       "label": "Header Getting Around",
-      "url": "http://host.docker.internal:8082/?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/?date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "selectors": ["#gettingAround"],
       "readyEvent": null,
       "delay": 1000,
@@ -48,7 +48,7 @@
     },
     {
       "label": "Header Fares",
-      "url": "http://host.docker.internal:8082/?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/?date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "selectors": ["#fares"],
       "readyEvent": null,
       "delay": 1000,
@@ -57,7 +57,7 @@
     },
     {
       "label": "Header Contact Us",
-      "url": "http://host.docker.internal:8082/?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/?date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "selectors": ["#contactUs"],
       "readyEvent": null,
       "delay": 1000,
@@ -66,7 +66,7 @@
     },
     {
       "label": "Header More",
-      "url": "http://host.docker.internal:8082/?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/?date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "selectors": ["#more"],
       "readyEvent": null,
       "delay": 1000,
@@ -75,7 +75,7 @@
     },
     {
       "label": "Commuter Rail Fares",
-      "url": "http://host.docker.internal:8082/fares/commuter-rail?destination=place-WML-0214&fare_type=adult&origin=place-sstat&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/fares/commuter-rail?destination=place-WML-0214&fare_type=adult&origin=place-sstat&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "selectors": ["main"],
       "hideSelectors": ["iframe.commuter-rail-photo-video"],
       "delay": 1000,
@@ -83,7 +83,7 @@
     },
     {
       "label": "Bus Schedule",
-      "url": "http://host.docker.internal:8082/schedules/1/schedule?direction_id=0&trip=&origin=102&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/1/schedule?direction_id=0&trip=&origin=102&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "hideSelectors": [".animate"],
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
@@ -92,7 +92,7 @@
     },
     {
       "label": "Bus Schedule",
-      "url": "http://host.docker.internal:8082/schedules/1/schedule?direction_id=0&trip=&origin=102&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/1/schedule?direction_id=0&trip=&origin=102&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "hideSelectors": [".animate"],
       "removeSelectors": [".pdf-links"],
       "selectors": [".schedule__header"],
@@ -101,7 +101,7 @@
     },
     {
       "label": "Bus Map & Info",
-      "url": "http://host.docker.internal:8082/schedules/1/line?direction_id=0&trip=&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/1/line?direction_id=0&trip=&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
       "delay": 1000,
@@ -109,7 +109,7 @@
     },
     {
       "label": "Subway Schedule",
-      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-12-21T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
       "delay": 1000,
@@ -117,7 +117,7 @@
     },
     {
       "label": "Subway Schedule",
-      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-12-21T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": [".schedule__header"],
       "delay": 1000,
@@ -125,7 +125,7 @@
     },
     {
       "label": "Subway Schedule Stop List",
-      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "selectors": [".modal-body"],
       "removeSelectors": [".pdf-links"],
       "readyEvent": null,
@@ -135,7 +135,7 @@
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/timetable?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/timetable?direction_id=0&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": [".schedule__header"],
       "delay": 1000,
@@ -143,7 +143,7 @@
     },
     {
       "label": "Commuter Rail Schedule",
-      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/timetable?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/timetable?direction_id=0&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": [".scheduleview > main > .container"],
       "delay": 8000,
@@ -151,21 +151,21 @@
     },
     {
       "label": "Stops List Subway",
-      "url": "http://host.docker.internal:8082/stops/subway?&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/stops/subway?&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "selectors": ["main"],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Stops List Commuter Rail",
-      "url": "http://host.docker.internal:8082/stops/commuter-rail?&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/stops/commuter-rail?&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "selectors": ["main"],
       "delay": 1000,
       "misMatchThreshold": 0.03
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
-      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/line?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/line?direction_id=0&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "selectors": [".schedule__header"],
       "removeSelectors": [".pdf-links", ".leaflet-container"],
       "delay": 1000,
@@ -173,7 +173,7 @@
     },
     {
       "label": "Commuter Rail Maps and Info Worcester",
-      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/line?direction_id=0&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/CR-Kingston/line?direction_id=0&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "selectors": ["main"],
       "removeSelectors": [".pdf-links", ".leaflet-container"],
       "delay": 1000,
@@ -181,7 +181,7 @@
     },
     {
       "label": "Retail Sales Locations",
-      "url": "http://host.docker.internal:8082/fares/retail-sales-locations?latitude=42.3491637&longitude=-71.0663166&date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/fares/retail-sales-locations?latitude=42.3491637&longitude=-71.0663166&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "selectors": ["main"],
       "hideSelectors": ["#address-search-input"],
       "delay": 1000,
@@ -189,7 +189,7 @@
     },
     {
       "label": "Search",
-      "url": "http://host.docker.internal:8082/search?date=2019-08-30&date_time=2019-08-30T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/search?date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "hideSelectors": ["footer", "#animated-input-placeholder"],
       "readyEvent": null,
       "onReadyScript": "toggle-search-facets.js",

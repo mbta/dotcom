@@ -21,15 +21,30 @@ export interface State {
   fetchInProgress: boolean;
   projects: Project[];
   currentMode?: Mode;
+  currentLine?: SubwayLine;
   projectUpdates: Project[];
   offsetStart: number;
 }
+
+interface ApiResponse {
+  featuredProjects: Project[];
+  projects: Project[];
+  projectUpdates: Project[];
+  offsetStart: number;
+}
+
+export type SubwayLine = "red" | "orange" | "blue" | "green" | "mattapan";
 
 export type SetState = Dispatch<SetStateAction<State>>;
 export type FetchProjects = (state: State, setState: SetState) => void;
 export type UpdateSelectedMode = ((
   state: State,
   newMode: Mode,
+  setState: SetState
+) => void);
+export type UpdateSelectedLine = ((
+  state: State,
+  newLine: SubwayLine,
   setState: SetState
 ) => void);
 
@@ -40,9 +55,12 @@ export const fetchMoreProjects: FetchProjects = (
   setState({ ...state, fetchInProgress: true });
 
   const offset = state.projects.length + state.offsetStart;
-  const fetchUrl = `/project_api?offset=${offset}&filter[mode]=${
+  let fetchUrl = `/project_api?offset=${offset}&filter[mode]=${
     state.currentMode
   }`;
+  if (state.currentLine) {
+    fetchUrl = fetchUrl.concat(`&filter[line]=${state.currentLine}`);
+  }
 
   window
     .fetch(fetchUrl)
@@ -62,6 +80,57 @@ export const fetchMoreProjects: FetchProjects = (
     });
 };
 
+const resetStateFromApiResponse = <NewCurrentKey extends keyof State>(
+  json: ApiResponse,
+  state: State,
+  newCurrentKey: NewCurrentKey,
+  newCurrentValue: State[NewCurrentKey],
+  setState: SetState
+): void => {
+  const banner = json.featuredProjects[0];
+  const featuredProjects = json.featuredProjects.slice(1);
+
+  const newState: State = {
+    ...state,
+    banner,
+    featuredProjects,
+    projects: json.projects,
+    projectUpdates: json.projectUpdates,
+    fetchInProgress: false,
+    offsetStart: json.offsetStart
+  };
+  newState[newCurrentKey] = newCurrentValue;
+
+  setState(newState);
+};
+
+const fetchFilteredProjects = <NewSelectedKey extends keyof State>(
+  state: State,
+  queryParams: string,
+  newSelectedKey: NewSelectedKey,
+  newSelectedValue: State[NewSelectedKey],
+  setState: SetState
+): void => {
+  setState({ ...state, fetchInProgress: true });
+
+  window
+    .fetch(`/project_api?${queryParams}`)
+    .then(response => {
+      if (response.ok) return response.json();
+      /* istanbul ignore next */
+      throw new Error(response.statusText);
+    })
+    .then(json =>
+      resetStateFromApiResponse(
+        json,
+        state,
+        newSelectedKey,
+        newSelectedValue,
+        setState
+      )
+    );
+};
+
 export const updateSelectedMode: UpdateSelectedMode = (
   state: State,
   newMode: Mode,
@@ -69,31 +138,33 @@ export const updateSelectedMode: UpdateSelectedMode = (
 ): void => {
   const newSelectedMode = newMode === state.currentMode ? undefined : newMode;
   const newSelectedModeStr = newSelectedMode || "undefined";
+  const queryParams = `filter[mode]=${newSelectedModeStr}`;
 
-  setState({ ...state, fetchInProgress: true });
+  fetchFilteredProjects(
+    state,
+    queryParams,
+    "currentMode",
+    newSelectedMode,
+    setState
+  );
+};
 
-  window
-    .fetch(`/project_api?filter[mode]=${newSelectedModeStr}`)
-    .then(response => {
-      if (response.ok) return response.json();
-      /* istanbul ignore next */
-      throw new Error(response.statusText);
-    })
-    .then(json => {
-      const banner = json.featuredProjects[0];
-      const featuredProjects = json.featuredProjects.slice(1);
+export const updateSelectedLine = (
+  state: State,
+  newLine: SubwayLine,
+  setState: SetState
+): void => {
+  const newSelectedLine = newLine === state.currentLine ? undefined : newLine;
+  const newSelectedLineStr = newSelectedLine || "undefined";
+  const queryParams = `filter[mode]=subway&filter[line]=${newSelectedLineStr}`;
 
-      setState({
-        ...state,
-        banner,
-        featuredProjects,
-        projects: json.projects,
-        projectUpdates: json.projectUpdates,
-        currentMode: newSelectedMode,
-        fetchInProgress: false,
-        offsetStart: json.offsetStart
-      });
-    });
+  fetchFilteredProjects(
+    state,
+    queryParams,
+    "currentLine",
+    newSelectedLine,
+    setState
+  );
 };
 
 const ProjectsPage = ({
@@ -117,6 +188,7 @@ const ProjectsPage = ({
       <FilterAndSearch
         state={state}
         setState={setState}
+        updateSelectedLine={updateSelectedLine}
         updateSelectedMode={updateSelectedMode}
       />
 
