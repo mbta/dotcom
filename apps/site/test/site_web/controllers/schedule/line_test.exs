@@ -435,4 +435,14 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert length(conn.assigns.schedule_page_data.services) < services
     end
   end
+
+  describe "line diagram endpoint" do
+    test "renders", %{conn: conn} do
+      conn =
+        conn
+        |> get(line_path(conn, :line_diagram_api, "39"))
+
+      assert html_response(conn, 200) =~ "Forest Hills"
+    end
+  end
 end
