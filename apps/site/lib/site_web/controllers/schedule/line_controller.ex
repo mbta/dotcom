@@ -35,6 +35,12 @@ defmodule SiteWeb.ScheduleController.LineController do
     |> render("show.html", [])
   end
 
+  def line_diagram_api(conn, _) do
+    conn
+    |> put_view(ScheduleView)
+    |> render("_stop_list.html", layout: false)
+  end
+
   def assign_schedule_page_data(conn) do
     service_date = Util.service_date()
 
