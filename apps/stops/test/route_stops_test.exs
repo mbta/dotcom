@@ -156,20 +156,16 @@ defmodule Stops.RouteStopsTest do
       shapes = Routes.Repo.get_shapes("CR-Providence", direction_id: 1)
       stops = Stops.Repo.by_route("CR-Providence", 1)
       route_stops = RouteStops.by_direction(stops, shapes, route, 1)
-      [wickford, stoughton, core] = route_stops
+
+      [wickford, canton] = route_stops
 
       assert %Stops.RouteStops{
                stops: [%Stops.RouteStop{id: "place-NEC-1659"} | _]
              } = wickford
 
       assert %Stops.RouteStops{
-               stops: [%Stops.RouteStop{id: "place-SB-0189"} | _]
-             } = stoughton
-
-      assert %Stops.RouteStops{
-               branch: nil,
-               stops: [_, _, _, _, _, %Stops.RouteStop{id: "place-sstat"}]
-             } = core
+               stops: [%Stops.RouteStop{id: "place-NEC-2139"} | _]
+             } = canton
     end
 
     test "works for bus routes" do
