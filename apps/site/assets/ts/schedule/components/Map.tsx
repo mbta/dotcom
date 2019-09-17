@@ -16,6 +16,7 @@ import {
 interface Props {
   channel: string;
   data: MapData;
+  shapeId?: string;
 }
 
 interface EventData {
@@ -24,10 +25,23 @@ interface EventData {
 
 type Action = SocketEvent<EventData[]>;
 
-const setupChannels = (channel: string, dispatch: Dispatch<Action>): void => {
-  initChannel<EventData[]>(channel, (action: Action) => dispatch(action));
+interface ActionWithChannel {
+  action: Action;
+  channel: string;
+}
+
+const setupChannels = (
+  channel: string,
+  dispatch: Dispatch<ActionWithChannel>
+): void => {
+  dispatch({ action: { event: "setChannel", data: [] }, channel });
+  /* istanbul ignore next */
+  initChannel<EventData[]>(channel, (action: Action) =>
+    dispatch({ action, channel })
+  );
+  /* istanbul ignore next */
   initChannel<EventData[]>("vehicles:remove", (action: Action) =>
-    dispatch(action)
+    dispatch({ action, channel })
   );
 };
 
@@ -71,6 +85,16 @@ const updateMarker = (marker: Marker): Marker => ({
 const isVehicleMarker = (marker: Marker): boolean =>
   marker.icon ? marker.icon.includes("vehicle") : false;
 
+const isVehicleForShape = (
+  marker: Marker,
+  currentShapeId: string | undefined
+): boolean => {
+  if (marker.shape_id && currentShapeId) {
+    return marker.shape_id === currentShapeId;
+  }
+  return true;
+};
+
 interface IdHash {
   [id: string]: true;
 }
@@ -78,52 +102,104 @@ interface IdHash {
 const shouldRemoveMarker = (id: string | null, idHash: IdHash): boolean =>
   id !== null && idHash[id] === true;
 
-export const reducer = (state: Marker[], action: Action): Marker[] => {
+interface State {
+  channel: string;
+  markers: Marker[];
+  shapeId?: string;
+}
+
+export const reducer = (
+  state: State,
+  actionWithChannel: ActionWithChannel
+): State => {
+  const { action, channel } = actionWithChannel;
+  const { shapeId } = state;
+  if (channel !== state.channel && action.event !== "setChannel") return state;
   switch (action.event) {
+    case "setChannel":
+      return { ...state, channel, markers: [] };
     case "reset":
-      return state
-        .filter(marker => !isVehicleMarker(marker))
-        .concat(action.data.map(({ marker }) => updateMarker(marker)));
+      const newMarkersForShape = action.data.filter(({ marker }: EventData) =>
+        isVehicleForShape(marker, shapeId)
+      );
+      return {
+        ...state,
+        markers: state.markers
+          .filter(marker => !isVehicleMarker(marker))
+          .concat(
+            newMarkersForShape.map(({ marker }: EventData) =>
+              updateMarker(marker)
+            )
+          )
+      };
 
     case "add":
-      return state.concat(
-        action.data.map(({ marker }) => updateMarker(marker))
-      );
+      return {
+        ...state,
+        markers: state.markers.concat(
+          action.data
+            .filter(({ marker }) => isVehicleForShape(marker, shapeId))
+            .map(({ marker }) => updateMarker(marker))
+        )
+      };
 
     case "update":
       if (action.data.length === 0) {
         return state;
       }
+      if (!isVehicleForShape(action.data[0].marker, shapeId)) return state;
       // Filter out the existing marker if necessary, always add new marker
-      return [
-        updateMarker(action.data[0].marker),
-        ...state.filter(marker => marker.id !== action.data[0].marker.id)
-      ];
-    case "remove":
-      return state.filter(
-        marker =>
-          !shouldRemoveMarker(
-            marker.id,
-            action.data.reduce((acc: IdHash, id: string) => {
-              acc[id] = true;
-              return acc;
-            }, {})
+      return {
+        ...state,
+        markers: [
+          updateMarker(action.data[0].marker),
+          ...state.markers.filter(
+            marker => marker.id !== action.data[0].marker.id
           )
-      );
-
+        ]
+      };
+    case "remove":
+      return {
+        ...state,
+        markers: state.markers.filter(
+          marker =>
+            !shouldRemoveMarker(
+              marker.id,
+              action.data.reduce((acc: IdHash, id: string) => {
+                acc[id] = true;
+                return acc;
+              }, {})
+            )
+        )
+      };
     default:
-      // @ts-ignore
-      throw new Error(`unexpected event: ${action.event}`);
+      /* istanbul ignore next */
+      throw new Error(`unexpected event: ${action}`);
   }
 };
 
-export default ({ data, channel }: Props): ReactElement<HTMLElement> => {
+export default ({
+  data,
+  channel,
+  shapeId
+}: Props): ReactElement<HTMLElement> | null => {
   const bounds = useRef(getBounds(data.markers));
-  const [state, dispatch] = useReducer(reducer, data.markers.map(updateMarker));
+  const [state, dispatch] = useReducer(reducer, {
+    channel,
+    markers: data.markers,
+    shapeId
+  });
   useEffect(() => setupChannels(channel, dispatch), [channel]);
+  const stopMarkers = data.stop_markers
+    ? data.stop_markers.map(marker => updateMarker(marker))
+    : [];
+  const mapData = {
+    ...data,
+    markers: state.markers.concat(stopMarkers)
+  };
   return (
     <div className="m-schedule__map">
-      <Map bounds={bounds.current} mapData={{ ...data, markers: state }} />
+      <Map bounds={bounds.current} mapData={mapData} />
     </div>
   );
 };

@@ -22,6 +22,7 @@ export interface MapMarker {
   tooltip: ReactElement<HTMLElement> | null;
   tooltip_text?: string | null;
   z_index?: number;
+  shape_id?: string;
 }
 
 export interface Polyline {
@@ -40,6 +41,7 @@ export interface MapData {
   };
   height: number;
   markers: MapMarker[];
+  stop_markers?: MapMarker[];
   polylines: Polyline[];
   tile_server_url: TileServerUrl;
   width: number;

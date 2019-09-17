@@ -6,7 +6,7 @@ import React, {
 } from "react";
 import { DirectionId, EnhancedRoute } from "../../../__v3api";
 import { RoutePatternsByDirection, EnhancedRoutePattern } from "../__schedule";
-import { Action } from "./reducer";
+import { MenuAction } from "./reducer";
 import renderSvg from "../../../helpers/render-svg";
 import arrowIcon from "../../../../static/images/icon-down-arrow.svg";
 import checkIcon from "../../../../static/images/icon-checkmark.svg";
@@ -23,7 +23,7 @@ interface Props {
   menuOpen: boolean;
   showAllRoutePatterns: boolean;
   itemFocus: string | null;
-  dispatch: Dispatch<Action>;
+  dispatch: Dispatch<MenuAction>;
 }
 
 interface ExpandedMenuProps {
@@ -31,7 +31,7 @@ interface ExpandedMenuProps {
   selectedRoutePatternId: string;
   showAllRoutePatterns: boolean;
   itemFocus: string | null;
-  dispatch: Dispatch<Action>;
+  dispatch: Dispatch<MenuAction>;
 }
 
 interface RoutePatternItem {
@@ -40,7 +40,7 @@ interface RoutePatternItem {
   selected: boolean;
   focused: boolean;
   duplicated: boolean;
-  dispatch: Dispatch<Action>;
+  dispatch: Dispatch<MenuAction>;
 }
 
 const nextRoutePatternIndex = (
@@ -128,7 +128,7 @@ const RoutePatternItem = ({
   ) : null;
   const handleClick = (): void =>
     dispatch({
-      event: "setRoutePattern",
+      type: "setRoutePattern",
       payload: { routePattern }
     });
   return (
@@ -197,7 +197,7 @@ const ExpandedMenu = ({
   const filterRule = (routePattern: EnhancedRoutePattern): boolean =>
     showAllRoutePatterns ? true : routePattern.typicality < 3;
   const handleClick = (): void =>
-    dispatch({ event: "showAllRoutePatterns", payload: {} });
+    dispatch({ type: "showAllRoutePatterns", payload: {} });
   const focusIndex = determineFocusIndex(itemFocus, routePatterns);
   const toggleButtonIds =
     hasMoreRoutePatterns(routePatterns) && showAllRoutePatterns === false
@@ -262,14 +262,14 @@ const routePatternNameById = (
   )!.headsign;
 
 /* istanbul ignore next */
-const externalCloseEvent = (dispatch: Dispatch<Action>): void => {
+const externalCloseEvent = (dispatch: Dispatch<MenuAction>): void => {
   document.addEventListener(
     "click",
     (event: Event): void => {
       if (!event.target) return;
       const element = event.target as HTMLElement;
       if (element.closest(".js-m-schedule-click-boundary")) return;
-      dispatch({ event: "closeRoutePatternMenu", payload: {} });
+      dispatch({ type: "closeRoutePatternMenu", payload: {} });
     },
     true
   );
@@ -278,7 +278,7 @@ const externalCloseEvent = (dispatch: Dispatch<Action>): void => {
     "keydown",
     (event: KeyboardEvent): void => {
       handleNativeEscapeKeyPress(event, () => {
-        dispatch({ event: "closeRoutePatternMenu", payload: {} });
+        dispatch({ type: "closeRoutePatternMenu", payload: {} });
       });
     }
   );
@@ -298,7 +298,7 @@ const ScheduleDirectionMenu = ({
 
   const handleClick = clickableMenu
     ? () => {
-        dispatch({ event: "toggleRoutePatternMenu", payload: {} });
+        dispatch({ type: "toggleRoutePatternMenu", payload: {} });
       }
     : /* istanbul ignore next */
       () => {};

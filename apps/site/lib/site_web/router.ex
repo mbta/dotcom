@@ -125,6 +125,7 @@ defmodule SiteWeb.Router do
     get("/schedules", ModeController, :index)
     get("/schedules/predictions_api", ModeController, :predictions_api)
     get("/schedules/schedule_api", ScheduleController.ScheduleApi, :show)
+    get("/schedules/map_api", ScheduleController.MapApi, :show)
     get("/schedules/subway", ModeController, :subway)
     get("/schedules/bus", ModeController, :bus)
     get("/schedules/ferry", ModeController, :ferry)

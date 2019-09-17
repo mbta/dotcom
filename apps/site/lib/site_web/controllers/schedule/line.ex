@@ -51,7 +51,6 @@ defmodule SiteWeb.ScheduleController.Line do
     route_stops = get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
     route_patterns = get_route_patterns(route.id)
     shape_map = get_route_shape_map(route.id)
-
     active_shapes = get_active_shapes(route_shapes, route, variant)
     filtered_shapes = filter_route_shapes(route_shapes, active_shapes, route)
     branches = get_branches(filtered_shapes, route_stops, route, direction_id)
@@ -152,23 +151,23 @@ defmodule SiteWeb.ScheduleController.Line do
   @spec get_route_shape_map(Route.id_t()) :: map
   def get_route_shape_map(route_id) do
     route_id
-    |> get_route_shapes()
+    |> get_route_shapes(nil, false)
     |> Map.new(fn shape -> {shape.id, shape} end)
   end
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
   @spec get_route_shapes(Route.id_t(), direction_id | nil) :: [Shape.t()]
-  def get_route_shapes(route_id, direction_id \\ nil)
+  def get_route_shapes(route_id, direction_id \\ nil, filter_by_priority \\ true)
 
-  def get_route_shapes("Green", direction_id) do
+  def get_route_shapes("Green", direction_id, filter_by_priority) do
     GreenLine.branch_ids()
     |> Enum.join(",")
-    |> get_route_shapes(direction_id)
+    |> get_route_shapes(direction_id, filter_by_priority)
   end
 
-  def get_route_shapes(route_id, direction_id) do
+  def get_route_shapes(route_id, direction_id, filter_by_priority) do
     opts = if direction_id == nil, do: [], else: [direction_id: direction_id]
-    RoutesRepo.get_shapes(route_id, opts)
+    RoutesRepo.get_shapes(route_id, opts, filter_by_priority)
   end
 
   @spec get_route_stops(Route.id_t(), direction_id, StopsRepo.stop_by_route()) ::

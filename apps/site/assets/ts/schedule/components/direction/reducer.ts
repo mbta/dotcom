@@ -4,6 +4,7 @@ import {
   RoutePatternsByDirection,
   EnhancedRoutePattern
 } from "../__schedule";
+import { MapData } from "../../../leaflet/components/__mapdata";
 
 export interface State {
   routePattern: EnhancedRoutePattern;
@@ -20,8 +21,8 @@ export interface Payload {
   routePattern?: EnhancedRoutePattern;
 }
 
-export interface Action {
-  event:
+export interface MenuAction {
+  type:
     | "toggleDirection"
     | "setRoutePattern"
     | "toggleRoutePatternMenu"
@@ -29,6 +30,14 @@ export interface Action {
     | "showAllRoutePatterns";
   payload?: Payload;
 }
+// export type MenuAction =
+//   | { type: "toggleDirection"; payload?: Payload }
+//   | { type: "setRoutePattern"; payload: Payload };
+
+export type FetchAction =
+  | { type: "FETCH_COMPLETE"; payload: MapData[] }
+  | { type: "FETCH_ERROR" }
+  | { type: "FETCH_STARTED" };
 
 const toggleDirection = (state: State): State => {
   const nextDirection = state.directionId === 0 ? 1 : 0;
@@ -57,8 +66,8 @@ const showAllRoutePatterns = (state: State): State => ({
   itemFocus: "first-uncommon"
 });
 
-export const reducer = (state: State, action: Action): State => {
-  switch (action.event) {
+export const menuReducer = (state: State, action: MenuAction): State => {
+  switch (action.type) {
     case "toggleDirection":
       return toggleDirection(state);
 

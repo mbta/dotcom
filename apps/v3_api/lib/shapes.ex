@@ -1,7 +1,7 @@
 defmodule V3Api.Shapes do
   @moduledoc """
 
-  Responsible for fetching Stop data from the V3 API.
+  Responsible for fetching Shape data from the V3 API.
 
   """
   import V3Api
