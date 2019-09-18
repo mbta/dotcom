@@ -20,7 +20,7 @@ defmodule CMS.Partial.Paragraph.ContentList do
             teasers: [],
             cta: %{}
 
-  @type order :: :DESC | :ASC
+  @type order :: :DESC | :ASC | nil
 
   @type text_or_nil :: String.t() | nil
 
@@ -59,6 +59,7 @@ defmodule CMS.Partial.Paragraph.ContentList do
       date_op: field_value(data, "field_date_logic"),
       date_min: field_value(data, "field_date"),
       date_max: field_value(data, "field_date_max"),
+      sort_by: data |> field_value("field_sorting"),
       sort_order: data |> field_value("field_sorting_logic") |> order()
     }
 

@@ -398,6 +398,21 @@ defmodule CMS.RepoTest do
       end
     end
 
+    test "accepts and passes through given :sort_order and :sort_by options" do
+      mock_view = fn
+        "/cms/teasers", %{type: [:page], sort_by: "changed", sort_order: :ASC} ->
+          {:ok, []}
+      end
+
+      with_mock Static, view: mock_view do
+        Repo.teasers(type: [:page], sort_by: "changed", sort_order: :ASC)
+
+        "/cms/teasers"
+        |> Static.view(%{type: [:page], sort_by: "changed", sort_order: :ASC})
+        |> assert_called()
+      end
+    end
+
     test "sets correct :sort_by and :sort_order options for project_update and news_entry requests" do
       mock_view = fn
         "/cms/teasers",
@@ -462,7 +477,7 @@ defmodule CMS.RepoTest do
       end
     end
 
-    test "drops :sort_by and :sort_order options for invalid sortable types" do
+    test "drops :sort_by and :sort_order options when either option is missing" do
       mock_view = fn
         "/cms/teasers", %{type: [:page]} ->
           {:ok, []}

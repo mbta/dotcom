@@ -299,6 +299,7 @@ defmodule CMS.ParagraphTest do
              date_op: "<",
              date_min: nil,
              date_max: nil,
+             sort_by: "field_updated_on_value",
              sort_order: :DESC
            } == ingredients
 
@@ -307,6 +308,7 @@ defmodule CMS.ParagraphTest do
              date_op: "<",
              items_per_page: 2,
              related_to: 3004,
+             sort_by: "field_updated_on_value",
              sort_order: :DESC,
              sticky: "0",
              type: [:project_update]
