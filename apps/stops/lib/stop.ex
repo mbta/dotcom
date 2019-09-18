@@ -167,11 +167,12 @@ defmodule Stops.Stop.ParkingLot.Capacity do
   :accessible - capacity-accessible
   :type - enclosed
   """
-  defstruct [:total, :accessible, :type]
+  defstruct [:total, :accessible, :overnight, :type]
 
   @type t :: %__MODULE__{
           total: integer | nil,
           accessible: integer | nil,
+          overnight: String.t() | nil,
           type: String.t() | nil
         }
 
@@ -180,6 +181,7 @@ defmodule Stops.Stop.ParkingLot.Capacity do
     %__MODULE__{
       total: Map.get(props, "capacity"),
       accessible: Map.get(props, "capacity-accessible"),
+      overnight: Map.get(props, "overnight-allowed"),
       type: pretty_parking_type(Map.get(props, "enclosed"))
     }
   end
