@@ -12,7 +12,7 @@ interface DirectionInfo {
 
 export interface Headsign {
   name: string;
-  headsign: string;
+  headsign?: string;
   times: PredictedOrScheduledTime[];
   train_number: string | null;
 }
