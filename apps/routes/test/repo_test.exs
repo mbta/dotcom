@@ -110,18 +110,15 @@ defmodule Routes.RepoTest do
 
   describe "by_stop/1" do
     test "returns stops from different lines" do
-      # Beachmont
-      assert [
-               %Route{id: "Blue", type: 1},
-               %Route{id: "119", type: 3}
-             ] = Repo.by_stop("place-bmmnl")
+      # Kenmore Square
+      route_ids = Repo.by_stop("place-kencl") |> Enum.map(& &1.id)
+      assert "Green-B" in route_ids
+      assert "19" in route_ids
     end
 
     test "can specify type as param" do
-      # Beachmont
-      assert [
-               %Route{id: "119", type: 3}
-             ] = Repo.by_stop("place-bmmnl", type: 3)
+      # Kenmore Square
+      assert "19" in (Repo.by_stop("place-kencl", type: 3) |> Enum.map(& &1.id))
     end
 
     test "returns empty list if no routes of that type serve that stop" do
@@ -135,11 +132,11 @@ defmodule Routes.RepoTest do
 
   describe "by_stop_and_direction/2" do
     test "fetching routes for the same stop, but different direction" do
-      oakgrove_outbound_routes = Repo.by_stop_and_direction("place-ogmnl", 0)
-      oakgrove_inbound_routes = Repo.by_stop_and_direction("place-ogmnl", 1)
+      kenmore_outbound_routes = Repo.by_stop_and_direction("place-kencl", 0)
+      kenmore_inbound_routes = Repo.by_stop_and_direction("place-kencl", 1)
 
-      assert Enum.any?(oakgrove_outbound_routes, &(&1.id == "132"))
-      refute Enum.any?(oakgrove_inbound_routes, &(&1.id == "132"))
+      refute Enum.any?(kenmore_outbound_routes, &(&1.id == "9"))
+      assert Enum.any?(kenmore_inbound_routes, &(&1.id == "9"))
     end
   end
 

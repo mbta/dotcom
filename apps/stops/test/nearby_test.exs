@@ -172,17 +172,28 @@ defmodule Stops.NearbyTest do
 
   describe "keys/1" do
     test "returns a list of {route_id, direction_id} tuples" do
-      actual = %{id: "place-brdwy"} |> keys |> Enum.sort()
+      actual = %{id: "place-kencl"} |> keys |> Enum.sort()
 
       expected = [
-        {"11", 0},
-        {"11", 1},
-        {"47", 0},
-        {"47", 1},
-        {"9", 0},
+        {"19", 0},
+        {"19", 1},
+        {"57", 0},
+        {"57", 1},
+        {"57A", 0},
+        {"57A", 1},
+        {"60", 0},
+        {"60", 1},
+        {"65", 0},
+        {"65", 1},
+        {"8", 0},
+        {"8", 1},
         {"9", 1},
-        {"Red", 0},
-        {"Red", 1}
+        {"Green-B", 0},
+        {"Green-B", 1},
+        {"Green-C", 0},
+        {"Green-C", 1},
+        {"Green-D", 0},
+        {"Green-D", 1}
       ]
 
       assert expected == actual
