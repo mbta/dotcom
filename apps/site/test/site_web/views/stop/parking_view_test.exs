@@ -10,6 +10,7 @@ defmodule SiteWeb.Stop.ParkingViewTest do
     capacity: %ParkingLot.Capacity{
       total: 24,
       accessible: 2,
+      overnight: "Available",
       type: "Garage"
     },
     payment: %ParkingLot.Payment{
