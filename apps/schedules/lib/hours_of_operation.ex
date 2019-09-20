@@ -57,7 +57,7 @@ defmodule Schedules.HoursOfOperation do
         date: date,
         direction_id: direction_id,
         stop_sequence: "first,last",
-        "fields[schedule]": "departure_time"
+        "fields[schedule]": "departure_time,arrival_time"
       ]
     end
   end
@@ -193,6 +193,9 @@ defmodule Schedules.HoursOfOperation do
     }
   end
 
+  defp time(%{"departure_time" => nil, "arrival_time" => time}), do: time
+  defp time(%{"departure_time" => time}), do: time
+
   defp departure(%JsonApi{data: data}) do
     {:ok, departure(data)}
   end
@@ -212,7 +215,7 @@ defmodule Schedules.HoursOfOperation do
   defp departure(data) do
     {min, max} =
       data
-      |> Stream.map(&Timex.parse!(&1.attributes["departure_time"], "{ISO:Extended}"))
+      |> Stream.map(&Timex.parse!(time(&1.attributes), "{ISO:Extended}"))
       |> Enum.min_max_by(&DateTime.to_unix(&1, :nanosecond))
 
     %Departures{
