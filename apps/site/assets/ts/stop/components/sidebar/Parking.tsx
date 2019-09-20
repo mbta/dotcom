@@ -32,17 +32,6 @@ const renderUtilization = (
 const renderCapacity = (lot: ParkingLot): ReactElement<HTMLElement> => {
   if (lot.capacity) {
     const { total, accessible, overnight, type } = lot.capacity;
-    let overnight_message;
-    switch (overnight) {
-      case "no":
-        overnight_message = "Not allowed";
-        break;
-      case "yes":
-        overnight_message = "Allowed";
-        break;
-      default:
-        overnight_message = "Allowed, except during a snow emergency";
-    }
     return (
       <div id="parking-capacity">
         <div className="u-small-caps">Capacity</div>
@@ -57,7 +46,7 @@ const renderCapacity = (lot: ParkingLot): ReactElement<HTMLElement> => {
           </li>
           <li>
             <strong>Overnight Parking: </strong>
-            {overnight_message}
+            {overnight}
           </li>
           <li>
             <strong>Type: </strong>
