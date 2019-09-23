@@ -165,13 +165,16 @@ defmodule Stops.Stop.ParkingLot.Capacity do
   GTFS Property Mappings:
   :capacity - capacity
   :accessible - capacity-accessible
+  :overnight - overnight-allowed
   :type - enclosed
   """
-  defstruct [:total, :accessible, :type]
+
+  defstruct [:total, :accessible, :overnight, :type]
 
   @type t :: %__MODULE__{
           total: integer | nil,
           accessible: integer | nil,
+          overnight: String.t(),
           type: String.t() | nil
         }
 
@@ -180,6 +183,7 @@ defmodule Stops.Stop.ParkingLot.Capacity do
     %__MODULE__{
       total: Map.get(props, "capacity"),
       accessible: Map.get(props, "capacity-accessible"),
+      overnight: pretty_overnight_msg(Map.get(props, "overnight-allowed")),
       type: pretty_parking_type(Map.get(props, "enclosed"))
     }
   end
@@ -190,6 +194,17 @@ defmodule Stops.Stop.ParkingLot.Capacity do
   defp pretty_parking_type(0), do: nil
   defp pretty_parking_type(1), do: "Garage"
   defp pretty_parking_type(2), do: "Surface Lot"
+
+  @spec pretty_overnight_msg(String.t() | nil) :: String.t()
+  defp pretty_overnight_msg("no"), do: "Not available"
+  defp pretty_overnight_msg("yes"), do: "Available"
+  defp pretty_overnight_msg("yes-except-snow"), do: "Available, except during snow emergencies"
+  defp pretty_overnight_msg("no-except-snow"), do: "Not available, except during snow emergencies"
+
+  defp pretty_overnight_msg("yes-snow-unknown"),
+    do: "Available. During snow emergencies, check posted signs."
+
+  defp pretty_overnight_msg(_), do: "Unknown"
 end
 
 defmodule Stops.Stop.ParkingLot.Manager do

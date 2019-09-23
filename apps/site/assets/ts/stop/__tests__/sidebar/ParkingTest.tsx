@@ -48,7 +48,8 @@ const manager: ParkingLotManager = {
 const capacity: ParkingLotCapacity = {
   type: "Garage",
   total: 210,
-  accessible: 4
+  accessible: 4,
+  overnight: "Available"
 };
 
 const parkingLot: ParkingLot = {

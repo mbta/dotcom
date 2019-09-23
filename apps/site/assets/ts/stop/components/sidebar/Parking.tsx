@@ -31,7 +31,7 @@ const renderUtilization = (
 
 const renderCapacity = (lot: ParkingLot): ReactElement<HTMLElement> => {
   if (lot.capacity) {
-    const { total, accessible, type } = lot.capacity;
+    const { total, accessible, overnight, type } = lot.capacity;
     return (
       <div id="parking-capacity">
         <div className="u-small-caps">Capacity</div>
@@ -43,6 +43,10 @@ const renderCapacity = (lot: ParkingLot): ReactElement<HTMLElement> => {
           <li>
             <strong>Accessible spaces: </strong>
             {accessible}
+          </li>
+          <li>
+            <strong>Overnight Parking: </strong>
+            {overnight}
           </li>
           <li>
             <strong>Type: </strong>
