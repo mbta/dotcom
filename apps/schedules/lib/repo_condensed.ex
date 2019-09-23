@@ -20,7 +20,8 @@ defmodule Schedules.RepoCondensed do
 
   @default_params [
     include: "trip",
-    "fields[schedule]": "departure_time,drop_off_type,pickup_type,stop_sequence,timepoint",
+    "fields[schedule]":
+      "departure_time,arrival_time,drop_off_type,pickup_type,stop_sequence,timepoint",
     "fields[trip]": "name,headsign,direction_id,bikes_allowed"
   ]
 
