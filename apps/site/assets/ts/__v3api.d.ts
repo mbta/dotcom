@@ -34,7 +34,7 @@ export interface ParkingLot {
 export interface ParkingLotCapacity {
   total?: number;
   accessible?: number;
-  overnight?: string;
+  overnight: string;
   type?: string;
 }
 

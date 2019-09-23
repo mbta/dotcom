@@ -111,6 +111,7 @@ Array [
               <strong>
                 Overnight Parking: 
               </strong>
+              Available
             </li>
             <li>
               <strong>
@@ -312,6 +313,7 @@ exports[`Parking via enzyme-to-json it displays parking info when opened and inn
                 <strong>
                   Overnight Parking: 
                 </strong>
+                Available
               </li>
               <li>
                 <strong>
