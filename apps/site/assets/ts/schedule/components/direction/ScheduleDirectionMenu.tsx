@@ -153,7 +153,7 @@ const RoutePatternItem = ({
         {routePattern.headsign}
       </div>
       <div className="m-schedule-direction__menu-item-description">
-        {duplicated && `from ${routePattern.name.split(" - ")[0]} `}
+        {duplicated && `from ${routePattern.name.split(" - ")[0]}, `}
         {routePattern.time_desc ||
           typicalityDefaultText(routePattern.typicality)}
       </div>
