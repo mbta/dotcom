@@ -227,6 +227,7 @@ const ExpandedMenu = ({
           id="route-pattern_uncommon"
           role="menuitem"
           tabIndex={0}
+          aria-label="click for additional routes"
           className="m-schedule-direction__menu-item"
           onClick={handleClick}
           onKeyUp={(e: ReactKeyboardEvent) =>
