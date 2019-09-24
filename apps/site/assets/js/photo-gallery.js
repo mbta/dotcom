@@ -191,21 +191,21 @@ function renderImages(images, firstImage, id) {
         data-gallery="${id}"
         id="${id + (firstImage + offset)}"
         role="navigation"
-        title="change photo to ${$(image)
-          .find("img")
-          .first()
-          .attr("alt")}"
+        title="change photo to ${image
+          .querySelectorAll("img")
+          .item(0)
+          .getAttribute("alt")}"
         data-offset="${firstImage + offset}">
           <img
             class="c-photo-gallery__thumbnail"
-            alt="${$(image)
-              .find("img")
-              .first()
-              .attr("alt")}"
-            src="${$(image)
-              .find("img")
-              .first()
-              .attr("src")}"></a>`
+            alt="${image
+              .querySelectorAll("img")
+              .item(0)
+              .getAttribute("alt")}"
+            src="${image
+              .querySelectorAll("img")
+              .item(0)
+              .getAttribute("src")}"></a>`
     )
     .join("");
 }
@@ -215,20 +215,19 @@ function replaceActiveImage(id, image) {
   const activeImageName = document.getElementById(`${id}name`);
   activeImage.setAttribute(
     "src",
-    $(image)
-      .find("img")
-      .first()
-      .attr("src")
+    image
+      .querySelectorAll("img")
+      .item(0)
+      .getAttribute("src")
   );
   activeImage.setAttribute(
     "alt",
-    $(image)
-      .find("img")
-      .first()
-      .attr("alt")
+    image
+      .querySelectorAll("img")
+      .item(0)
+      .getAttribute("alt")
   );
-  activeImageName.innerHTML = $(image)
-    .find("figcaption")
-    .first()
-    .html();
+  activeImageName.innerHTML = image
+    .querySelectorAll("figcaption")
+    .item(0).innerHTML;
 }
