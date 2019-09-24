@@ -48,6 +48,7 @@ defmodule Alerts.Sort do
 
   defp sort_key(alert, now) do
     {
+      -high_severity(alert),
       priority(alert),
       effect_index(alert.effect),
       lifecycle_index(alert.lifecycle),
@@ -73,6 +74,12 @@ defmodule Alerts.Sort do
 
   # fallback
   defp effect_index(_), do: unquote(length(@effect_order))
+
+  defp high_severity(%{severity: severity}) when severity >= 7 do
+    severity
+  end
+
+  defp high_severity(_), do: 0
 
   defp updated_at_date(dt) do
     dt
