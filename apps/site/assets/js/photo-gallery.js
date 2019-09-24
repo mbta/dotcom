@@ -17,8 +17,10 @@ export default function photoGallery($) {
 
 /* DATA FUNCTIONS */
 function initializeData($) {
-  let output = {};
-  let $galleryEl, galleryId, images;
+  const output = {};
+  let $galleryEl;
+  let galleryId;
+  let images;
 
   $('[data-component="photo-gallery"]').each((_offset, el) => {
     $galleryEl = $(el);
@@ -39,7 +41,7 @@ function initializeData($) {
 
 const makeGallery = ($el, images) => ({
   el: $el,
-  images: images,
+  images,
   imageOffset: 0,
   pageOffset: 0,
   lastPage: calculateLastPage(images.length)
@@ -91,7 +93,7 @@ function handleClickNavigation(ev) {
   const id = ev.currentTarget.getAttribute("data-gallery");
   const increment = parseInt(ev.currentTarget.getAttribute("data-increment"));
   const focusEl = increment === 1 ? "next" : "prev";
-  const isDesktop = isVisible(id + "images");
+  const isDesktop = isVisible(`${id}images`);
 
   // when on desktop: navigate between sets of images
   // when on mobile: navigate between images
@@ -118,13 +120,9 @@ function render(id, focusId) {
     .filter((_el, offset) => offset == galleries[id].imageOffset)
     .pop();
 
-  const mainImage = $(main)
-    .find("img")
-    .first();
+  const mainImage = main.querySelectorAll("img").item(0);
 
-  const mainCaption = $(main)
-    .find("figcaption")
-    .first();
+  const mainCaption = main.querySelectorAll("figcaption").item(0);
 
   // get pages of images
   const firstImage = galleries[id].pageOffset * PAGE_SIZE;
@@ -140,16 +138,16 @@ function render(id, focusId) {
       <figure>
         <div class="c-photo-gallery__main-window">
           <img class="c-photo-gallery__main-image"
-            id="${id + "primary"}"
-            alt="${mainImage.attr("alt")}"
-            src="${mainImage.attr("src")}">
+            id="${`${id}primary`}"
+            alt="${mainImage.getAttribute("alt")}"
+            src="${mainImage.getAttribute("src")}">
         </div>
-        <figcaption id="${id +
-          "name"}" class="c-photo-gallery__main-title">${mainCaption.html()}</figcaption>
+        <figcaption id="${`${id}name`}" class="c-photo-gallery__main-title">${
+    mainCaption.innerHTML
+  }</figcaption>
       </figure>
     </div>
-    <div id="${id +
-      "images"}" class="c-photo-gallery__thumbnails c-thumbnail-count--${
+    <div id="${`${id}images`}" class="c-photo-gallery__thumbnails c-thumbnail-count--${
     images.length
   }">
       ${renderImages(images, firstImage, id)}
@@ -170,14 +168,14 @@ function renderNavigation(id, pagination) {
       <a href="#gallery-previous"
         title="previous photos"
         role="navigation"
-        id="${id + "prev"}"
+        id="${`${id}prev`}"
         data-gallery="${id}"
         data-image="navigation"
         data-increment="-1"><i class="fa fa-caret-left" aria-hidden="true"></i> Previous</a>
       <a href="#gallery-next"
         title="next photos"
         role="navigation"
-        id="${id + "next"}"
+        id="${`${id}next`}"
         data-gallery="${id}"
         data-image="navigation"
         data-increment="1">Next <i class="fa fa-caret-right" aria-hidden="true"></i></a>
@@ -213,8 +211,8 @@ function renderImages(images, firstImage, id) {
 }
 
 function replaceActiveImage(id, image) {
-  const activeImage = document.getElementById(id + "primary");
-  const activeImageName = document.getElementById(id + "name");
+  const activeImage = document.getElementById(`${id}primary`);
+  const activeImageName = document.getElementById(`${id}name`);
   activeImage.setAttribute(
     "src",
     $(image)
