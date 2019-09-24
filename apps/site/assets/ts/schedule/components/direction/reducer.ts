@@ -30,9 +30,6 @@ export interface MenuAction {
     | "showAllRoutePatterns";
   payload?: Payload;
 }
-// export type MenuAction =
-//   | { type: "toggleDirection"; payload?: Payload }
-//   | { type: "setRoutePattern"; payload: Payload };
 
 export type FetchAction =
   | { type: "FETCH_COMPLETE"; payload: MapData[] }

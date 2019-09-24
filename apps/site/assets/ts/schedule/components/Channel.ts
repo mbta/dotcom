@@ -1,4 +1,4 @@
-import { Socket, Channel, Push } from "phoenix";
+import { Socket, Channel } from "phoenix";
 
 declare global {
   interface Window {

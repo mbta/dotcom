@@ -119,17 +119,16 @@ export const reducer = (
     case "setChannel":
       return { ...state, channel, markers: [] };
     case "reset":
-      const newMarkersForShape = action.data.filter(({ marker }: EventData) =>
-        isVehicleForShape(marker, shapeId)
-      );
       return {
         ...state,
         markers: state.markers
           .filter(marker => !isVehicleMarker(marker))
           .concat(
-            newMarkersForShape.map(({ marker }: EventData) =>
-              updateMarker(marker)
-            )
+            action.data
+              .filter(({ marker }: EventData) =>
+                isVehicleForShape(marker, shapeId)
+              )
+              .map(({ marker }: EventData) => updateMarker(marker))
           )
       };
 
