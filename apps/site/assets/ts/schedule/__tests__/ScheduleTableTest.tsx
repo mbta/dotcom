@@ -45,6 +45,7 @@ const crRoutePatterns = [
     route_id: "CR-Fairmount",
     representative_trip_id: "CR-Weekday-Spring-19-751",
     name: "South Station - Readville via Fairmount",
+    headsign: "South Station",
     id: "CR-Fairmount-0-0",
     direction_id: 0
   }
