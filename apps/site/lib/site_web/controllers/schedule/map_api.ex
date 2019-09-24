@@ -19,18 +19,19 @@ defmodule SiteWeb.ScheduleController.MapApi do
         "direction_id" => direction_id
       }) do
     map_data =
-      get_map_data(conn, RoutesRepo.get(route_id), String.to_integer(direction_id), %{
+      get_map_data(conn, route_id, String.to_integer(direction_id), %{
         stops_by_route_fn: &StopsRepo.by_route/3
       })
 
     json(conn, map_data)
   end
 
-  def get_map_data(conn, route, direction_id, deps) do
+  def get_map_data(conn, route_id, direction_id, deps) do
+    route = get_route(route_id)
     variant = conn.query_params["variant"]
     route_shapes = get_route_shapes(route.id, direction_id)
     route_stops = get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
-
+    IO.inspect(route_stops, label: "Route stops")
     active_shapes = get_active_shapes(route_shapes, route, variant)
     filtered_shapes = filter_route_shapes(route_shapes, active_shapes, route)
     branches = get_branches(filtered_shapes, route_stops, route, direction_id)
@@ -38,6 +39,14 @@ defmodule SiteWeb.ScheduleController.MapApi do
 
     {_map_img_src, dynamic_map_data} = Maps.map_data(route, map_stops, [], [])
     dynamic_map_data
+  end
+
+  def get_route("Green") do
+    RoutesRepo.green_line()
+  end
+
+  def get_route(route_id) do
+    RoutesRepo.get(route_id)
   end
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
@@ -117,12 +126,54 @@ defmodule SiteWeb.ScheduleController.MapApi do
         ]
   def get_branches(_, stops, _, _) when stops == %{}, do: []
 
-  # To be implemented as a separate task
-  def get_branches(_shapes, _stops, %Route{id: "Green"}, _direction_id) do
-    []
+  def get_branches(shapes, stops, %Route{id: "Green"}, direction_id) do
+    GreenLine.branch_ids()
+    |> Enum.map(&get_green_branch(&1, stops[&1], shapes, direction_id))
+    |> Enum.reverse()
   end
 
   def get_branches(shapes, stops, route, direction_id) do
     RouteStops.by_direction(stops[route.id], shapes, route, direction_id)
   end
+
+  @spec get_green_branch(
+          GreenLine.branch_name(),
+          [Stop.t()],
+          [Shape.t()],
+          direction_id
+        ) :: RouteStops.t()
+  defp get_green_branch(branch_id, stops, shapes, direction_id) do
+    headsign =
+      branch_id
+      |> RoutesRepo.get()
+      |> Map.get(:direction_destinations)
+      |> Map.get(direction_id)
+
+    branch =
+      shapes
+      |> Enum.reject(&is_nil(&1.name))
+      |> Enum.filter(&(&1.name =~ headsign))
+      |> get_branches(%{branch_id => stops}, %Route{id: branch_id, type: 0}, direction_id)
+      |> List.first()
+
+    %{
+      branch
+      | branch: branch_id,
+        stops: Enum.map(branch.stops, &update_green_branch_stop(&1, branch_id))
+    }
+  end
+
+  @spec update_green_branch_stop(RouteStop.t(), GreenLine.branch_name()) :: RouteStop.t()
+  defp update_green_branch_stop(stop, branch_id) do
+    # Green line shapes use the headway as their name, so each RouteStop comes back from the repo with their
+    # branch set to "Heath St." etc. We change the stop's branch name to nil if the stop is shared, or to the branch
+    # id if it's not shared.
+    GreenLine.shared_stops()
+    |> Enum.member?(stop.id)
+    |> do_update_green_branch_stop(stop, branch_id)
+  end
+
+  @spec do_update_green_branch_stop(boolean, RouteStop.t(), Route.branch_name()) :: RouteStop.t()
+  defp do_update_green_branch_stop(true, stop, _branch_id), do: %{stop | branch: nil}
+  defp do_update_green_branch_stop(false, stop, branch_id), do: %{stop | branch: branch_id}
 end
