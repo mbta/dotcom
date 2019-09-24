@@ -73,21 +73,23 @@ const ScheduleDirection = ({
   );
 
   return (
-    <div className="m-schedule-direction">
-      <div id="direction-name" className="m-schedule-direction__direction">
-        {route.direction_names[state.directionId]}
+    <>
+      <div className="m-schedule-direction">
+        <div id="direction-name" className="m-schedule-direction__direction">
+          {route.direction_names[state.directionId]}
+        </div>
+        <ScheduleDirectionMenu
+          route={route}
+          directionId={state.directionId}
+          routePatternsByDirection={routePatternsByDirection}
+          selectedRoutePatternId={state.routePattern.id}
+          menuOpen={state.routePatternMenuOpen}
+          showAllRoutePatterns={state.routePatternMenuAll}
+          itemFocus={state.itemFocus}
+          dispatch={dispatch}
+        />
+        <ScheduleDirectionButton dispatch={dispatch} />
       </div>
-      <ScheduleDirectionMenu
-        route={route}
-        directionId={state.directionId}
-        routePatternsByDirection={routePatternsByDirection}
-        selectedRoutePatternId={state.routePattern.id}
-        menuOpen={state.routePatternMenuOpen}
-        showAllRoutePatterns={state.routePatternMenuAll}
-        itemFocus={state.itemFocus}
-        dispatch={dispatch}
-      />
-      <ScheduleDirectionButton dispatch={dispatch} />
       {mapState.data && (
         <Map
           channel={`vehicles:${route.id}:${state.directionId}`}
@@ -95,7 +97,7 @@ const ScheduleDirection = ({
           shapeId={shapeId}
         />
       )}
-    </div>
+    </>
   );
 };
 

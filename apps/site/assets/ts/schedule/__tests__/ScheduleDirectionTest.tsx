@@ -5,7 +5,11 @@ import {
   enzymeToJsonWithoutProps
 } from "../../app/helpers/testUtils";
 import { mount } from "enzyme";
-import { reducer, State, Action } from "../components/direction/reducer";
+import {
+  menuReducer as reducer,
+  State,
+  MenuAction as Action
+} from "../components/direction/reducer";
 import ScheduleDirection, { fetchData } from "../components/ScheduleDirection";
 import { EnhancedRoute } from "../../__v3api";
 import { MapData } from "../../leaflet/components/__mapdata";
@@ -278,7 +282,7 @@ it("can change route pattern for bus mode (accessible)", () => {
 it("reducer can change state correctly for closeRoutePatternMenu", () => {
   const previousState = { ...state, routePatternMenuOpen: true } as State;
 
-  const action = { event: "closeRoutePatternMenu", payload: {} } as Action;
+  const action = { type: "closeRoutePatternMenu", payload: {} } as Action;
 
   const nextState = reducer(previousState, action);
 
@@ -288,7 +292,7 @@ it("reducer can change state correctly for closeRoutePatternMenu", () => {
 it("reducer can change state correctly for showAllRoutePatterns", () => {
   const previousState = { ...state, routePatternMenuAll: false } as State;
 
-  const action = { event: "showAllRoutePatterns", payload: {} } as Action;
+  const action = { type: "showAllRoutePatterns", payload: {} } as Action;
 
   const nextState = reducer(previousState, action);
 

@@ -8,7 +8,7 @@ defmodule SiteWeb.ScheduleController.MapApi do
   alias Routes.{Route, Shape}
   alias SiteWeb.ScheduleController.Line.Maps
   alias Stops.Repo, as: StopsRepo
-  alias Stops.{RouteStops, Stop}
+  alias Stops.{RouteStops, RouteStop, Stop}
 
   @type query_param :: String.t() | nil
   @type direction_id :: 0 | 1
@@ -31,7 +31,6 @@ defmodule SiteWeb.ScheduleController.MapApi do
     variant = conn.query_params["variant"]
     route_shapes = get_route_shapes(route.id, direction_id)
     route_stops = get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
-    IO.inspect(route_stops, label: "Route stops")
     active_shapes = get_active_shapes(route_shapes, route, variant)
     filtered_shapes = filter_route_shapes(route_shapes, active_shapes, route)
     branches = get_branches(filtered_shapes, route_stops, route, direction_id)
