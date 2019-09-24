@@ -133,6 +133,7 @@ const RoutePatternItem = ({
     });
   return (
     <div
+      aria-current={selected ? "page" : undefined}
       id={`route-pattern_${routePattern.id}`}
       tabIndex={0}
       role="menuitem"
