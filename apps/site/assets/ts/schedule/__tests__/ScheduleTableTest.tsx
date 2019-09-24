@@ -4,7 +4,7 @@ import serviceData from "./serviceData.json";
 import crServiceData from "./crServiceData.json";
 import ScheduleTable from "../components/schedule-finder/ScheduleTable";
 import { ServiceScheduleInfo } from "../components/__schedule.js";
-import { RoutePatternWithShape } from "../components/__schedule";
+import { EnhancedRoutePattern } from "../components/__schedule";
 import {
   createReactRoot,
   enzymeToJsonWithoutProps
@@ -20,6 +20,7 @@ const routePatterns = [
     route_id: "742",
     representative_trip_id: "40606000",
     name: "Drydock",
+    headsign: "Drydock",
     id: "742-1-0",
     direction_id: 0
   },
@@ -30,10 +31,11 @@ const routePatterns = [
     route_id: "742",
     representative_trip_id: "40606124",
     name: "Drydock",
+    headsign: "Drydock",
     id: "742-_-0",
     direction_id: 0
   }
-] as RoutePatternWithShape[];
+] as EnhancedRoutePattern[];
 
 const crRoutePatterns = [
   {
@@ -43,10 +45,11 @@ const crRoutePatterns = [
     route_id: "CR-Fairmount",
     representative_trip_id: "CR-Weekday-Spring-19-751",
     name: "South Station - Readville via Fairmount",
+    headsign: "South Station",
     id: "CR-Fairmount-0-0",
     direction_id: 0
   }
-] as RoutePatternWithShape[];
+] as EnhancedRoutePattern[];
 
 const crSchedule: ServiceScheduleInfo = crServiceData as ServiceScheduleInfo;
 

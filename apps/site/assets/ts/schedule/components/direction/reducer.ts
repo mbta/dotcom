@@ -2,23 +2,31 @@ import { DirectionId, Shape } from "../../../__v3api";
 import {
   ShapesById,
   RoutePatternsByDirection,
-  RoutePatternWithShape
+  EnhancedRoutePattern
 } from "../__schedule";
 
 export interface State {
-  routePattern: RoutePatternWithShape;
+  routePattern: EnhancedRoutePattern;
   shape: Shape;
   directionId: DirectionId;
   shapesById: ShapesById;
   routePatternsByDirection: RoutePatternsByDirection;
+  routePatternMenuOpen: boolean;
+  routePatternMenuAll: boolean;
+  itemFocus: string | null;
 }
 
 export interface Payload {
-  routePattern?: RoutePatternWithShape;
+  routePattern?: EnhancedRoutePattern;
 }
 
 export interface Action {
-  event: "toggleDirection" | "setRoutePattern";
+  event:
+    | "toggleDirection"
+    | "setRoutePattern"
+    | "toggleRoutePatternMenu"
+    | "closeRoutePatternMenu"
+    | "showAllRoutePatterns";
   payload?: Payload;
 }
 
@@ -32,22 +40,51 @@ const toggleDirection = (state: State): State => {
     ...state,
     directionId: nextDirection,
     routePattern: defaultRoutePatternForDirection,
-    shape: state.shapesById[defaultRoutePatternForDirection.shape_id]
+    shape: state.shapesById[defaultRoutePatternForDirection.shape_id],
+    itemFocus: "first"
   };
 };
+
+const toggleRoutePatternMenu = (state: State): State => ({
+  ...state,
+  routePatternMenuOpen: !state.routePatternMenuOpen,
+  itemFocus: "first"
+});
+
+const showAllRoutePatterns = (state: State): State => ({
+  ...state,
+  routePatternMenuAll: true,
+  itemFocus: "first-uncommon"
+});
 
 export const reducer = (state: State, action: Action): State => {
   switch (action.event) {
     case "toggleDirection":
       return toggleDirection(state);
 
+    case "toggleRoutePatternMenu":
+      return toggleRoutePatternMenu(state);
+
+    case "showAllRoutePatterns":
+      return showAllRoutePatterns(state);
+
+    case "closeRoutePatternMenu":
+      return {
+        ...state,
+        routePatternMenuOpen: false,
+        itemFocus: null
+      };
+
     case "setRoutePattern":
       return {
         ...state,
         routePattern: action.payload!.routePattern!,
-        shape: state.shapesById[action.payload!.routePattern!.shape_id]
+        shape: state.shapesById[action.payload!.routePattern!.shape_id],
+        routePatternMenuOpen: false,
+        itemFocus: null
       };
 
+    /* istanbul ignore next */
     default:
       return state;
   }

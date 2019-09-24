@@ -1,36 +1,79 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`it renders 1`] = `
-<div>
-  <h5>
-    Schedule Direction Component
-  </h5>
-  <p
+exports[`it renders a bus component 1`] = `
+<div
+  className="m-schedule-direction"
+>
+  <div
+    className="m-schedule-direction__direction"
     id="direction-name"
   >
     Inbound
-  </p>
-  <p
-    id="active-shape"
+  </div>
+  <div
+    className="js-m-schedule-click-boundary"
   >
-    Shape 2
-  </p>
-  <div>
-    <select
-      onChange={[Function]}
-      value="pattern-2"
+    <div
+      className="m-schedule-direction__route-pattern"
+      onClick={[Function]}
+      onKeyUp={[Function]}
     >
-      <option
-        value="pattern-2"
-      >
-        Pattern 2
-      </option>
-    </select>
+      Pattern 2
+       
+    </div>
   </div>
   <button
+    className="m-schedule-direction__button btn btn-primary"
     onClick={[Function]}
     type="button"
   >
+    <span
+      aria-hidden="true"
+      className="notranslate m-schedule-direction__icon"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+    Change Direction
+  </button>
+</div>
+`;
+
+exports[`it renders a subway component 1`] = `
+<div
+  className="m-schedule-direction"
+>
+  <div
+    className="m-schedule-direction__direction"
+    id="direction-name"
+  >
+    Inbound
+  </div>
+  <div
+    className="js-m-schedule-click-boundary"
+  >
+    <div
+      className="m-schedule-direction__route-pattern"
+    >
+      End
+    </div>
+  </div>
+  <button
+    className="m-schedule-direction__button btn btn-primary"
+    onClick={[Function]}
+    type="button"
+  >
+    <span
+      aria-hidden="true"
+      className="notranslate m-schedule-direction__icon"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
     Change Direction
   </button>
 </div>

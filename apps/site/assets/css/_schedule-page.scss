@@ -109,6 +109,10 @@
     @include media-breakpoint-up(md) {
       display: none;
     }
+
+    @include media-breakpoint-down(sm) {
+      margin-bottom: $base-spacing;
+    }
   }
 
   &--accordion {
@@ -121,45 +125,6 @@
 .schedule-finder__heading {
   color: $brand-primary;
   margin-top: 0;
-}
-
-.schedule-finder__select-container {
-  background-color: $white;
-  border: solid $border-width $brand-primary-dark;
-  border-radius: $border-radius;
-  margin: $base-spacing / 2 0;
-  padding: $base-spacing / 2;
-  position: relative;
-
-  &.error {
-    border: solid 2px $error-text;
-  }
-}
-
-.schedule-finder__select {
-  appearance: none;
-  background-color: $white;
-  border: 0;
-  overflow: hidden;
-  padding-right: $base-spacing * 2;
-  white-space: nowrap;
-  width: 100%;
-
-  // hide arrow in IE11 because it does not support appearance:none
-  &::-ms-expand {
-    display: none;
-  }
-}
-
-.schedule-finder__select--noclick {
-  pointer-events: none;
-}
-
-.schedule-finder__arrow {
-  pointer-events: none;
-  position: absolute;
-  right: $base-spacing / 2;
-  top: $base-spacing / 2;
 }
 
 .schedule-finder__modal-header {

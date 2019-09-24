@@ -19,7 +19,7 @@ const SelectContainer = ({
   <div
     id={id}
     tabIndex={0}
-    className={`schedule-finder__select-container ${error ? "error" : ""}`}
+    className={`c-select-custom__container ${error ? "error" : ""}`}
     role="button"
     onClick={e => {
       if (handleClick) {
@@ -35,7 +35,7 @@ const SelectContainer = ({
     }
   >
     {children}
-    {renderSvg("c-svg__icon schedule-finder__arrow", arrowIcon)}
+    {renderSvg("c-svg__icon c-select-custom__arrow", arrowIcon)}
   </div>
 );
 

@@ -1,0 +1,38 @@
+.c-select-custom {
+  appearance: none;
+  background-color: $white;
+  border: 0;
+  overflow: hidden;
+  padding-right: $base-spacing * 2;
+  white-space: nowrap;
+  width: 100%;
+
+  // hide arrow in IE11 because it does not support appearance:none
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+.c-select-custom__container {
+  background-color: $white;
+  border: solid $border-width $brand-primary-dark;
+  border-radius: $border-radius;
+  margin: $base-spacing / 2 0;
+  padding: $base-spacing * .6; // match button height
+  position: relative;
+
+  &.error {
+    border: solid 2px $error-text;
+  }
+}
+
+.c-select-custom--noclick {
+  pointer-events: none;
+}
+
+.c-select-custom__arrow {
+  pointer-events: none;
+  position: absolute;
+  right: $base-spacing / 2;
+  top: $base-spacing / 2;
+}

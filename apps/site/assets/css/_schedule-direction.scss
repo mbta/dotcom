@@ -1,0 +1,136 @@
+.m-schedule-direction {
+  border: solid $border-width $brand-primary-dark;
+  padding: $base-spacing;
+  position: relative;
+}
+
+.m-schedule-direction__direction {
+  font-family: $headings-font-family;
+  font-size: $font-size-base-sm;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.m-schedule-direction__button {
+  margin: $base-spacing / 2 0 0;
+  width: 100%;
+
+  @include media-breakpoint-up(lg) {
+    bottom: 0;
+    margin: 0 $base-spacing $base-spacing 0;
+    position: absolute;
+    right: 0;
+    width: auto;
+  }
+}
+
+.m-schedule-direction__route-pattern {
+  align-items: center;
+  display: flex;
+  font-size: $font-size-h3;
+  font-weight: bold;
+
+  @include media-breakpoint-only(xxl) {
+    width: 65%;
+  }
+
+  @include media-breakpoint-only(lg) {
+    width: 60%;
+  }
+}
+
+.m-schedule-direction__route-pattern--clickable {
+  cursor: pointer;
+}
+
+.m-schedule-direction__route-pattern-arrow path {
+  fill: $brand-primary-dark;
+}
+
+.m-schedule-direction__menu {
+  border-radius: $border-radius;
+  box-shadow: 0 0 $space-4 $space-2 $drop-shadow-color;
+  min-width: 60%;
+  position: absolute;
+  z-index: $z-index-above-leaflet;
+
+  @include media-breakpoint-down(md) {
+    left: $base-spacing;
+    width: calc(100% - 2rem);
+  }
+
+  :first-child {
+    border-radius: $border-radius $border-radius 0 0;
+  }
+
+  :last-child {
+    border-radius: 0 0 $border-radius $border-radius;
+  }
+}
+
+.m-schedule-direction__icon {
+  svg {
+    fill: $white;
+    height: $base-spacing;
+    transform: translateX($base-spacing / 2 * -1);
+    width: $base-spacing;
+  }
+}
+
+.m-schedule-direction__checkmark {
+  left: $base-spacing;
+  position: absolute;
+  top: $base-spacing / 1.5;
+
+  svg {
+    fill: $white;
+    height: $base-spacing;
+  }
+}
+
+.m-schedule-direction__menu-item {
+  background-color: $white;
+  cursor: pointer;
+  padding: $base-spacing / 2 $base-spacing * 2.5;
+  position: relative;
+
+  @include hover-focus-active {
+    background-color: $btn-primary-focus-bg;
+
+    .m-schedule-direction__menu-item-description {
+      color: $gray;
+    }
+  }
+}
+
+.m-schedule-direction__menu-item-description {
+  color: $gray-light;
+  font-size: $font-size-sm;
+}
+
+.m-schedule-direction__menu--selected {
+  background-color: $brand-primary;
+  color: $brand-primary-lightest-contrast;
+
+  @include hover-focus-active {
+    background-color: $brand-primary-darkest;
+
+    .m-schedule-direction__menu-item-description {
+      color: $white;
+    }
+  }
+
+  .m-schedule-direction__menu-item-description {
+    color: $white;
+  }
+}
+
+.m-schedule-direction__menu-item-headsign {
+  font-size: $font-size-h5;
+  font-weight: $font-weight-medium;
+}
+
+.m-schedule-direction__menu-item-more {
+  align-items: center;
+  display: flex;
+}

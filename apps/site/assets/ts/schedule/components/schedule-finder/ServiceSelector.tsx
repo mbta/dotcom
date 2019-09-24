@@ -14,7 +14,7 @@ import {
 import { reducer } from "../../../helpers/fetch";
 import ScheduleTable from "./ScheduleTable";
 import { SelectedDirection } from "../ScheduleFinder";
-import { RoutePatternWithShape, ServiceScheduleInfo } from "../__schedule";
+import { EnhancedRoutePattern, ServiceScheduleInfo } from "../__schedule";
 
 // until we come up with a good integration test for async with loading
 // some lines in this file have been ignored from codecov
@@ -32,7 +32,7 @@ interface Props {
   services: ServiceWithServiceDate[];
   routeId: string;
   directionId: SelectedDirection;
-  routePatterns: RoutePatternWithShape[];
+  routePatterns: EnhancedRoutePattern[];
 }
 
 const serviceDescription = (
@@ -147,7 +147,7 @@ export const ServiceSelector = ({
         <SelectContainer id="service_selector_container" error={false}>
           <select
             id="service_selector"
-            className="schedule-finder__select"
+            className="c-select-custom"
             defaultValue={defaultServiceId}
             onChange={(e): void => {
               setSelectedServiceId(e.target.value);

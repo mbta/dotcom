@@ -22,7 +22,7 @@ exports[`renders 1`] = `
     Choose a stop to get schedule information and real-time departure predictions.
   </div>
   <div
-    className="schedule-finder__select-container "
+    className="c-select-custom__container "
     id="sf_direction_select_container"
     onClick={[Function]}
     onKeyUp={[Function]}
@@ -30,7 +30,7 @@ exports[`renders 1`] = `
     tabIndex={0}
   >
     <select
-      className="schedule-finder__select"
+      className="c-select-custom"
       id="sf_direction_select"
       onChange={[Function]}
       onKeyUp={[Function]}
@@ -58,7 +58,7 @@ exports[`renders 1`] = `
     </select>
     <span
       aria-hidden="true"
-      className="notranslate c-svg__icon schedule-finder__arrow"
+      className="notranslate c-svg__icon c-select-custom__arrow"
       dangerouslySetInnerHTML={
         Object {
           "__html": "SVG",
@@ -67,7 +67,7 @@ exports[`renders 1`] = `
     />
   </div>
   <div
-    className="schedule-finder__select-container "
+    className="c-select-custom__container "
     id="sf_origin_select_container"
     onClick={[Function]}
     onKeyUp={[Function]}
@@ -75,7 +75,7 @@ exports[`renders 1`] = `
     tabIndex={0}
   >
     <select
-      className="schedule-finder__select schedule-finder__select--noclick"
+      className="c-select-custom c-select-custom--noclick"
       id="sf_origin_select"
       onChange={[Function]}
       onKeyUp={[Function]}
@@ -104,7 +104,7 @@ exports[`renders 1`] = `
     </select>
     <span
       aria-hidden="true"
-      className="notranslate c-svg__icon schedule-finder__arrow"
+      className="notranslate c-svg__icon c-select-custom__arrow"
       dangerouslySetInnerHTML={
         Object {
           "__html": "SVG",

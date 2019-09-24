@@ -18,7 +18,7 @@
     <%= if Enum.empty?(@branches) do %>
       <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
     <% else %>
-        <h2>Stops</h2>
+        <h2>Info &amp; Maps</h2>
 
         <div id="react-schedule-finder-root">
           <%= if @route.type !== 0 and @route.type !== 1 do %>

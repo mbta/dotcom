@@ -125,6 +125,7 @@ const routePatternsByDirection = {
       route_id: "CR-Fitchburg",
       representative_trip_id: "CR-Weekday-Spring-19-401",
       name: "North Station - Wachusett",
+      headsign: "Wachusett",
       id: "CR-Fitchburg-0-0",
       direction_id: 0
     }
@@ -137,6 +138,7 @@ const routePatternsByDirection = {
       route_id: "CR-Fitchburg",
       representative_trip_id: "CR-Weekday-Spring-19-400",
       name: "Wachusett - North Station",
+      headsign: "North Station",
       id: "CR-Fitchburg-0-1",
       direction_id: 1
     }
