@@ -298,6 +298,26 @@ if ("outerHTML" in SVGElement.prototype) {
   });
 }
 
+// Element.closest() support for older browsers
+// https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
+if (!Element.prototype.matches) {
+  Element.prototype.matches =
+    Element.prototype.msMatchesSelector ||
+    Element.prototype.webkitMatchesSelector;
+}
+
+if (!Element.prototype.closest) {
+  Element.prototype.closest = function(s) {
+    var el = this;
+
+    do {
+      if (el.matches(s)) return el;
+      el = el.parentElement || el.parentNode;
+    } while (el !== null && el.nodeType === 1);
+    return null;
+  };
+}
+
 // breakpoints defined in assets/css/_variables.scss
 const breakpoints = { xs: 0, sm: 544, md: 800, lg: 1088, xxl: 1344 };
 
