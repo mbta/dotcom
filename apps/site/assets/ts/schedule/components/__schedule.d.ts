@@ -40,10 +40,10 @@ export interface SchedulePageData {
   direction_id: DirectionId;
   shape_map: ShapesById;
   route_patterns: RoutePatternsByDirection;
-  line_diagram: LineDiagram;
+  line_diagram: LineDiagramStop[];
 }
 
-export interface LineDiagram {
+export interface LineDiagramStop {
   stop_data: {
     branch: string | null;
     type: string | null;

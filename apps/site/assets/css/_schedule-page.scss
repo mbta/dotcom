@@ -410,3 +410,27 @@
   text-align: center;
 }
 
+.m-schedule-line-diagram__stop {
+  border: $border;
+  display: flex;
+  padding: $base-spacing;
+}
+
+.m-schedule-line-diagram__stop-name {
+  font-weight: bold;
+}
+
+.m-schedule-line-diagram__connections {
+  display: inline-flex;
+  justify-content: center;
+}
+
+.m-schedule-line-diagram__features {
+  align-items: center;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.m-schedule-line-diagram__card-left {
+  flex-grow: 1;
+}
