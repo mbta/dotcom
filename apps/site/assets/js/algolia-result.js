@@ -249,6 +249,7 @@ export function getIcon(hit, type, searchType) {
       return getPopularIcon(hit.icon);
 
     case "drupal":
+    case "projects":
     case "pages":
     case "documents":
     case "events":
@@ -285,6 +286,7 @@ export function getUrl(hit, type) {
       return hit.url;
 
     case "drupal":
+    case "projects":
     case "pages":
     case "documents":
     case "events":
@@ -347,6 +349,7 @@ export function getTitle(hit, type) {
       return hit.name;
 
     case "drupal":
+    case "projects":
     case "pages":
     case "documents":
     case "events":
@@ -476,6 +479,17 @@ function pagesdocumentsDate(hit) {
   return [];
 }
 
+function projectsDate(hit) {
+  const dateString = hit._content_url.split("/")[2];
+  try {
+    const dateStringWithTime = `${dateString}T01:00:00`;
+    const date = new Date(dateStringWithTime);
+    return [_formatDate(date)];
+  } catch (err) {
+    return [];
+  }
+}
+
 function _contentDate(hit) {
   const dateString = hit._content_url.split("/")[2];
   try {
@@ -496,6 +510,9 @@ export function getFeatureIcons(hit, type) {
 
     case "routes":
       return _featuresToIcons(alertFeature);
+
+    case "projects":
+      return projectsDate(hit);
 
     case "pages":
     case "documents":
@@ -519,6 +536,7 @@ export function parseResult(hit, index, searchType) {
       index === "news" ||
       index === "pages" ||
       index === "documents" ||
+      index === "projects" ||
       null,
     hitFeatureIcons: getFeatureIcons(hit, index),
     id: hit.place_id || null

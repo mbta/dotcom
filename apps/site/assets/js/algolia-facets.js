@@ -75,20 +75,23 @@ export class AlgoliaFacets {
           ]
         }
       },
+      projects: {
+        queryId: "projects",
+        facetName: "_content_type",
+        item: {
+          id: "projects",
+          name: "Projects",
+          facets: ["project", "project_update"],
+          icon: this._faIcon("fa-info")
+        }
+      },
       pages: {
         queryId: "pages",
         facetName: "_content_type",
         item: {
           id: "page",
           name: "Pages",
-          facets: [
-            "page",
-            "search_result",
-            "landing_page",
-            "person",
-            "project",
-            "project_update"
-          ],
+          facets: ["page", "search_result", "landing_page", "person"],
           icon: this._faIcon("fa-info")
         }
       },
