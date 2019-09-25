@@ -16,6 +16,7 @@ defmodule Leaflet.MapData do
   defstruct default_center: %{latitude: 42.360718, longitude: -71.05891},
             height: 0,
             markers: [],
+            stop_markers: [],
             polylines: [],
             tile_server_url: "",
             width: 0,
@@ -26,6 +27,7 @@ defmodule Leaflet.MapData do
           default_center: lat_lng,
           height: integer,
           markers: [Marker.t()],
+          stop_markers: [Marker.t()],
           polylines: [Polyline.t()],
           tile_server_url: String.t(),
           width: integer,
@@ -47,9 +49,19 @@ defmodule Leaflet.MapData do
     %{map_data | markers: [marker | map_data.markers]}
   end
 
+  @spec add_stop_marker(t, Marker.t()) :: t
+  def add_stop_marker(map_data, marker) do
+    %{map_data | stop_markers: [marker | map_data.stop_markers]}
+  end
+
   @spec add_markers(t, [Marker.t()]) :: t
   def add_markers(map_data, markers) do
     Enum.reduce(markers, map_data, &add_marker(&2, &1))
+  end
+
+  @spec add_stop_markers(t, [Marker.t()]) :: t
+  def add_stop_markers(map_data, markers) do
+    Enum.reduce(markers, map_data, &add_stop_marker(&2, &1))
   end
 
   @spec add_polyline(t, Polyline.t()) :: t

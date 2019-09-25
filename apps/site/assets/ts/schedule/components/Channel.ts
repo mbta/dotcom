@@ -7,7 +7,7 @@ declare global {
   }
 }
 
-type UpdateEventName = "reset" | "add" | "update";
+type UpdateEventName = "reset" | "add" | "update" | "setChannel";
 
 interface UpdateEvent<T> {
   event: UpdateEventName;

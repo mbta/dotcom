@@ -1,13 +1,22 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import {
+  createReactRoot,
+  enzymeToJsonWithoutProps
+} from "../../app/helpers/testUtils";
 import { mount } from "enzyme";
-import { createReactRoot } from "../../app/helpers/testUtils";
-import ScheduleDirection from "../components/ScheduleDirection";
-import { reducer, State, Action } from "../components/direction/reducer";
+import {
+  menuReducer as reducer,
+  State,
+  MenuAction as Action
+} from "../components/direction/reducer";
+import ScheduleDirection, { fetchData } from "../components/ScheduleDirection";
 import { EnhancedRoute } from "../../__v3api";
+import { MapData } from "../../leaflet/components/__mapdata";
 import { RoutePatternsByDirection, ShapesById } from "../components/__schedule";
 
-const body = '<div id="body-wrapper"><div id="react-root"></div></div>';
+const body =
+  '<div id="body-wrapper"><div id="react-root"></div><div id="map-root"></div></div>';
 
 const route = {
   type: 3,
@@ -116,17 +125,53 @@ const state = {
   itemFocus: null
 } as State;
 
+/* eslint-disable @typescript-eslint/camelcase */
+const mapData: MapData = {
+  zoom: 16,
+  width: 600,
+  tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com",
+  polylines: [],
+  markers: [
+    {
+      icon: "vehicle-bordered-expanded",
+      id: "vehicle-R-545CDFC5",
+      latitude: 42.39786911010742,
+      longitude: -71.13092041015625,
+      rotation_angle: 90,
+      tooltip_text: "Alewife train is on the way to Alewife",
+      tooltip: null
+    },
+    {
+      icon: "stop-circle-bordered-expanded",
+      id: "stop-place-alfcl",
+      latitude: 42.395428,
+      longitude: -71.142483,
+      rotation_angle: 0,
+      tooltip: null,
+      tooltip_text: "Alewife"
+    }
+  ],
+  height: 600,
+  default_center: {
+    longitude: -71.05891,
+    latitude: 42.360718
+  }
+};
+/* eslint-enable typescript/camelcase */
+
 const getComponent = () => (
   <ScheduleDirection
     route={route}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     shapesById={shapesById}
+    mapData={mapData}
   />
 );
 
 const getSubwayComponent = () => (
   <ScheduleDirection
+    mapData={mapData}
     route={{ ...route, type: 1 }}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
@@ -136,14 +181,14 @@ const getSubwayComponent = () => (
 
 it("it renders a bus component", () => {
   createReactRoot();
-  const tree = renderer.create(getComponent()).toJSON();
-  expect(tree).toMatchSnapshot();
+  const tree = mount(getComponent());
+  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
 });
 
 it("it renders a subway component", () => {
   createReactRoot();
-  const tree = renderer.create(getSubwayComponent()).toJSON();
-  expect(tree).toMatchSnapshot();
+  const tree = mount(getSubwayComponent());
+  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
 });
 
 it("can change direction", () => {
@@ -237,7 +282,7 @@ it("can change route pattern for bus mode (accessible)", () => {
 it("reducer can change state correctly for closeRoutePatternMenu", () => {
   const previousState = { ...state, routePatternMenuOpen: true } as State;
 
-  const action = { event: "closeRoutePatternMenu", payload: {} } as Action;
+  const action = { type: "closeRoutePatternMenu", payload: {} } as Action;
 
   const nextState = reducer(previousState, action);
 
@@ -247,9 +292,66 @@ it("reducer can change state correctly for closeRoutePatternMenu", () => {
 it("reducer can change state correctly for showAllRoutePatterns", () => {
   const previousState = { ...state, routePatternMenuAll: false } as State;
 
-  const action = { event: "showAllRoutePatterns", payload: {} } as Action;
+  const action = { type: "showAllRoutePatterns", payload: {} } as Action;
 
   const nextState = reducer(previousState, action);
 
   expect(nextState.routePatternMenuAll).toEqual(true);
+});
+
+describe("fetchData", () => {
+  it("fetches data", () => {
+    const spy = jest.fn();
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => mapData,
+            ok: true,
+            status: 200,
+            statusText: "OK"
+          })
+        )
+    );
+
+    return fetchData("1", 0, "2", spy).then(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        "/schedules/map_api?id=1&direction_id=0&variant=2"
+      );
+      expect(spy).toHaveBeenCalledWith({
+        type: "FETCH_STARTED"
+      });
+      expect(spy).toHaveBeenCalledWith({
+        type: "FETCH_COMPLETE",
+        payload: mapData
+      });
+    });
+  });
+
+  it("fails gracefully if fetch is unsuccessful", () => {
+    const spy = jest.fn();
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => "Internal Server Error",
+            ok: false,
+            status: 500,
+            statusText: "INTERNAL SERVER ERROR"
+          })
+        )
+    );
+
+    return fetchData("1", 0, "2", spy).then(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        "/schedules/map_api?id=1&direction_id=0&variant=2"
+      );
+      expect(spy).toHaveBeenCalledWith({
+        type: "FETCH_STARTED"
+      });
+      expect(spy).toHaveBeenCalledWith({
+        type: "FETCH_ERROR"
+      });
+    });
+  });
 });

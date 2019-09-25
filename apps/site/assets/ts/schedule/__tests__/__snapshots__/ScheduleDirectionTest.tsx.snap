@@ -1,80 +1,92 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`it renders a bus component 1`] = `
-<div
-  className="m-schedule-direction"
->
+<ScheduleDirection>
   <div
-    className="m-schedule-direction__direction"
-    id="direction-name"
-  >
-    Inbound
-  </div>
-  <div
-    className="js-m-schedule-click-boundary"
+    className="m-schedule-direction"
   >
     <div
-      className="m-schedule-direction__route-pattern"
-      onClick={[Function]}
-      onKeyUp={[Function]}
+      className="m-schedule-direction__direction"
+      id="direction-name"
     >
-      Pattern 2
-       
+      Inbound
     </div>
+    <ScheduleDirectionMenu>
+      <div
+        className="js-m-schedule-click-boundary"
+      >
+        <div
+          className="m-schedule-direction__route-pattern"
+          onClick={[Function]}
+          onKeyUp={[Function]}
+        >
+          Pattern 2
+           
+        </div>
+      </div>
+    </ScheduleDirectionMenu>
+    <ScheduleDirectionButton>
+      <button
+        className="m-schedule-direction__button btn btn-primary"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          className="notranslate m-schedule-direction__icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Change Direction
+      </button>
+    </ScheduleDirectionButton>
   </div>
-  <button
-    className="m-schedule-direction__button btn btn-primary"
-    onClick={[Function]}
-    type="button"
-  >
-    <span
-      aria-hidden="true"
-      className="notranslate m-schedule-direction__icon"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "SVG",
-        }
-      }
-    />
-    Change Direction
-  </button>
-</div>
+</ScheduleDirection>
 `;
 
 exports[`it renders a subway component 1`] = `
-<div
-  className="m-schedule-direction"
->
+<ScheduleDirection>
   <div
-    className="m-schedule-direction__direction"
-    id="direction-name"
-  >
-    Inbound
-  </div>
-  <div
-    className="js-m-schedule-click-boundary"
+    className="m-schedule-direction"
   >
     <div
-      className="m-schedule-direction__route-pattern"
+      className="m-schedule-direction__direction"
+      id="direction-name"
     >
-      End
+      Inbound
     </div>
+    <ScheduleDirectionMenu>
+      <div
+        className="js-m-schedule-click-boundary"
+      >
+        <div
+          className="m-schedule-direction__route-pattern"
+        >
+          End
+        </div>
+      </div>
+    </ScheduleDirectionMenu>
+    <ScheduleDirectionButton>
+      <button
+        className="m-schedule-direction__button btn btn-primary"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          className="notranslate m-schedule-direction__icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Change Direction
+      </button>
+    </ScheduleDirectionButton>
   </div>
-  <button
-    className="m-schedule-direction__button btn btn-primary"
-    onClick={[Function]}
-    type="button"
-  >
-    <span
-      aria-hidden="true"
-      className="notranslate m-schedule-direction__icon"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "SVG",
-        }
-      }
-    />
-    Change Direction
-  </button>
-</div>
+</ScheduleDirection>
 `;

@@ -26,11 +26,9 @@
             route: Routes.Route.to_json_safe(@route), stops: @schedule_page_data[:stops], directionId: @direction_id}) %>
           <% end %>
         </div>
-        
+
         <%= if redesign_direction? do %>
           <div id="react-schedule-direction-root">
-            <%= Site.React.render("ScheduleDirection", %{directionId: @direction_id, shapesById: @schedule_page_data.shape_map, 
-            routePatternsByDirection: @schedule_page_data.route_patterns, route: @schedule_page_data.route}) %>
           </div>
         <% else %>
           <%= render "_line_filters.html",
@@ -46,23 +44,23 @@
             show_variant_selector: assigns[:show_variant_selector]
           %>
 
-          <div class="line-map-container">
-            <%= if display_map_link?(@route.type) do %>
-              <img src="<%= @map_img_src %>" class="img-fluid">
-              <a href="<%= @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>" target="_blank">
-                <%= fa "search-plus" %>
-                View map as a PDF
-              </a>
-            <% else %>
-              <%= render "_line_map.html",
-                conn: @conn,
-                channel: @channel,
-                dynamic_map_data: @dynamic_map_data,
-                map_img_src: @map_img_src
-              %>
-            <% end %>
-          </div>
         <% end %>
+        <div class="line-map-container">
+          <%= if display_map_link?(@route.type) do %>
+            <img src="<%= @map_img_src %>" class="img-fluid">
+            <a href="<%= @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>" target="_blank">
+              <%= fa "search-plus" %>
+              View map as a PDF
+            </a>
+          <% else %>
+            <%= render "_line_map.html",
+              conn: @conn,
+              channel: @channel,
+              dynamic_map_data: @dynamic_map_data,
+              map_img_src: @map_img_src
+            %>
+          <% end %>
+        </div>
 
         <%= render "_stop_list.html", assigns %>
     </div>

@@ -14,9 +14,9 @@ export interface State {
 export const reducer = (state: State, action: fetchAction): State => {
   switch (action.type) {
     case "FETCH_STARTED":
-      return { isLoading: true, error: false, data: null };
+      return { ...state, isLoading: true, error: false, data: null };
     case "FETCH_COMPLETE":
-      return { data: action.payload, isLoading: false, error: false };
+      return { ...state, data: action.payload, isLoading: false, error: false };
     case "FETCH_ERROR":
       return { ...state, error: true, isLoading: false };
     default:

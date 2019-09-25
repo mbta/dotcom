@@ -50,7 +50,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
           String.t(),
           [Shape.t()],
           {[RouteStop.t()], any},
-          {[String.t()], VehicleHelpers.tooltip_index()}
+          {[String.t()], VehicleHelpers.tooltip_index()} | {any, nil}
         ) :: MapData.t()
   def dynamic_map_data(
         color,
@@ -58,22 +58,29 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
         {route_stops, _shapes},
         {_vehicle_polylines, vehicle_tooltips}
       ) do
-    markers = dynamic_markers(route_stops, vehicle_tooltips)
+    {stop_markers, all_markers} = dynamic_markers(route_stops, vehicle_tooltips)
 
     paths = dynamic_paths("#" <> color, map_shapes, [])
 
     {600, 600}
     |> MapData.new(16)
-    |> MapData.add_markers(markers)
+    |> MapData.add_markers(all_markers)
+    |> MapData.add_stop_markers(stop_markers)
     |> MapData.add_polylines(paths)
     |> Map.put(:tile_server_url, Application.fetch_env!(:site, :tile_server_url))
   end
 
-  @spec dynamic_markers([RouteStop.t()], VehicleHelpers.tooltip_index()) :: [Marker.t()]
+  @spec dynamic_markers([RouteStop.t()], VehicleHelpers.tooltip_index() | nil) ::
+          {[Marker.t()], [Marker.t()]}
+  defp dynamic_markers(route_stops, nil) do
+    stop_markers = Enum.map(route_stops, &build_stop_marker/1)
+    {stop_markers, stop_markers}
+  end
+
   defp dynamic_markers(route_stops, tooltip_index) do
     vehicle_markers = build_vehicle_markers(tooltip_index)
     stop_markers = Enum.map(route_stops, &build_stop_marker/1)
-    stop_markers ++ vehicle_markers
+    {stop_markers, stop_markers ++ vehicle_markers}
   end
 
   @spec build_vehicle_markers(VehicleHelpers.tooltip_index()) :: [Marker.t()]
@@ -110,6 +117,22 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   is the url for the static map, and the second element is the MapData
   struct used to build the dynamic map
   """
+  def map_data(route, map_route_stops, [], []) do
+    color = MapHelpers.route_map_color(route)
+    map_shapes = map_polylines(map_route_stops, route)
+
+    static_data =
+      map_img_src(
+        map_route_stops,
+        [],
+        route,
+        color
+      )
+
+    dynamic_data = dynamic_map_data(color, map_shapes, map_route_stops, {nil, nil})
+    {static_data, dynamic_data}
+  end
+
   def map_data(route, map_route_stops, vehicle_polylines, vehicle_tooltips) do
     color = MapHelpers.route_map_color(route)
     map_shapes = map_polylines(map_route_stops, route)

@@ -54,7 +54,10 @@ const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
   }
 };
 
-const renderDirection = (schedulePageData: SchedulePageData): void => {
+const renderDirectionAndMap = (
+  schedulePageData: SchedulePageData,
+  root: HTMLElement
+): void => {
   const {
     direction_id: directionId,
     route_patterns: routePatternsByDirection,
@@ -62,31 +65,38 @@ const renderDirection = (schedulePageData: SchedulePageData): void => {
     route
   } = schedulePageData;
 
-  const root = document.getElementById("react-schedule-direction-root");
-  if (!root) {
-    return;
-  }
-
+  const mapDataEl = document.getElementById("js-map-data");
+  if (!mapDataEl) return;
+  const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
   ReactDOM.render(
     <ScheduleDirection
       directionId={directionId}
       route={route}
       routePatternsByDirection={routePatternsByDirection}
       shapesById={shapesById}
+      mapData={mapData}
     />,
     root
   );
 };
 
+const renderDirectionOrMap = (schedulePageData: SchedulePageData): void => {
+  const root = document.getElementById("react-schedule-direction-root");
+  if (!root) {
+    renderMap();
+    return;
+  }
+  renderDirectionAndMap(schedulePageData, root);
+};
+
 const render = (): void => {
-  renderMap();
   const schedulePageDataEl = document.getElementById("js-schedule-page-data");
   if (!schedulePageDataEl) return;
   const schedulePageData = JSON.parse(
     schedulePageDataEl.innerHTML
   ) as SchedulePageData;
   renderSchedulePage(schedulePageData);
-  renderDirection(schedulePageData);
+  renderDirectionOrMap(schedulePageData);
 };
 
 export const onLoad = (): void => {
