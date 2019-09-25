@@ -7,6 +7,7 @@ defmodule SiteWeb.ScheduleController.LineController do
   alias Services.Service
   alias Site.ScheduleNote
   alias SiteWeb.{ScheduleView, ViewHelpers}
+  alias Stops.{RouteStop}
 
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.Plugs.DateInRating)
@@ -82,9 +83,17 @@ defmodule SiteWeb.ScheduleController.LineController do
         stops: simple_stop_map(conn),
         direction_id: conn.assigns.direction_id,
         route_patterns: conn.assigns.route_patterns,
-        shape_map: conn.assigns.shape_map
+        shape_map: conn.assigns.shape_map,
+        line_diagram: Enum.map(conn.assigns.all_stops, &update_route_stop_data/1)
       }
     )
+  end
+
+  def update_route_stop_data({data, %RouteStop{} = map}) do
+    %{
+      stop_data: %{branch: List.first(Keyword.keys(data)), type: List.first(Keyword.values(data))},
+      route_stop: RouteStop.to_json_safe(map)
+    }
   end
 
   @spec dedup_services([Service.t()]) :: [Service.t()]

@@ -18,7 +18,7 @@ defmodule Stops.RouteStop do
   ```
 
   """
-
+  alias Routes.{Route}
   @type branch_name_t :: String.t() | nil
   @type direction_id_t :: 0 | 1
 
@@ -51,6 +51,14 @@ defmodule Stops.RouteStop do
   ]
 
   alias __MODULE__, as: RouteStop
+
+  def to_json_safe(%RouteStop{connections: connections, route: route} = map) do
+    %{
+      map
+      | connections: Enum.map(connections, &Route.to_json_safe/1),
+        route: Route.to_json_safe(route)
+    }
+  end
 
   @doc """
   Given a route and a list of that route's shapes, generates a list of RouteStops representing all stops on that route. If the route has branches,

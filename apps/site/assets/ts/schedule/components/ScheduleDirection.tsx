@@ -1,6 +1,10 @@
 import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
 import { DirectionId, EnhancedRoute } from "../../__v3api";
-import { ShapesById, RoutePatternsByDirection } from "./__schedule";
+import {
+  ShapesById,
+  RoutePatternsByDirection,
+  LineDiagram
+} from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
 import { reducer as mapDataReducer } from "../../helpers/fetch";
@@ -14,6 +18,7 @@ export interface Props {
   shapesById: ShapesById;
   routePatternsByDirection: RoutePatternsByDirection;
   mapData: MapData;
+  lineDiagram: LineDiagram;
 }
 
 export const fetchData = (

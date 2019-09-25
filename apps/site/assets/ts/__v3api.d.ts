@@ -130,7 +130,7 @@ export interface Stop {
   accessibility: AccessibilityType[];
   address: string | null;
   bike_storage: BikeStorageType[];
-  closed_stop_info: string | null;
+  closed_stop_info: ClosedStopInfo | null;
   "has_charlie_card_vendor?": boolean;
   "has_fare_machine?": boolean;
   fare_facilities: FareFacilityType[];
@@ -148,6 +148,11 @@ export interface Stop {
   platform_name?: string;
   platform_code?: string;
   description?: string;
+}
+
+export interface ClosedStopInfo {
+  reason: string;
+  info_link: string;
 }
 
 export interface StopWithDirections {
