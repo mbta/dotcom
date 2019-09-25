@@ -40,6 +40,16 @@ describe("AlgoliaResult", () => {
         }
       }
     },
+    project: {
+      _content_type: "project",
+      _content_url: "/projects/project",
+      content_title: "Project Title",
+      _highlightResult: {
+        content_title: {
+          value: "Project Title"
+        }
+      }
+    },
     page: {
       _content_type: "page",
       _content_url: "/pages/page",
@@ -373,6 +383,10 @@ describe("AlgoliaResult", () => {
         "fa-calendar"
       );
       assert.include(
+        AlgoliaResult.getIcon(drupalHits.project, "drupal"),
+        "fa-wrench"
+      );
+      assert.include(
         AlgoliaResult.getIcon(drupalHits.page, "drupal"),
         "fa-info"
       );
@@ -544,6 +558,9 @@ describe("AlgoliaResult", () => {
         expect(AlgoliaResult.getTitle(drupalHits.event, "drupal")).to.equal(
           "Event Title"
         );
+        expect(AlgoliaResult.getTitle(drupalHits.project, "drupal")).to.equal(
+          "Project Title"
+        );
         expect(AlgoliaResult.getTitle(drupalHits.page, "drupal")).to.equal(
           "Page Title"
         );
@@ -586,6 +603,9 @@ describe("AlgoliaResult", () => {
       );
       expect(AlgoliaResult.getUrl(drupalHits.event, "drupal")).to.equal(
         "/events/2018-03-29/event"
+      );
+      expect(AlgoliaResult.getUrl(drupalHits.project, "drupal")).to.equal(
+        "/projects/project"
       );
       expect(AlgoliaResult.getUrl(drupalHits.page, "drupal")).to.equal(
         "/pages/page"

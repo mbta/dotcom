@@ -251,6 +251,9 @@ describe("AlgoliaResults", () => {
         routes: {
           hits: []
         },
+        projects: {
+          hits: []
+        },
         pages: {
           hits: []
         },
@@ -264,7 +267,7 @@ describe("AlgoliaResults", () => {
         "c-search-results__section"
       );
       const hits = document.getElementsByClassName("c-search-result__hit");
-      assert.lengthOf(sections, 4);
+      assert.lengthOf(sections, 5);
       assert.lengthOf(hits, 0);
     });
 
@@ -316,6 +319,9 @@ describe("AlgoliaResults", () => {
         routes: {
           hits: []
         },
+        projects: {
+          hits: []
+        },
         pages: {
           hits: []
         },
@@ -329,7 +335,7 @@ describe("AlgoliaResults", () => {
         "c-search-results__section"
       );
       const hits = document.getElementsByClassName("c-search-result__hit");
-      assert.lengthOf(sections, 4);
+      assert.lengthOf(sections, 5);
       assert.lengthOf(hits, 2);
     });
 
@@ -385,6 +391,9 @@ describe("AlgoliaResults", () => {
         stops: {
           hits: []
         },
+        projects: {
+          hits: []
+        },
         pages: {
           hits: []
         },
@@ -398,12 +407,15 @@ describe("AlgoliaResults", () => {
         "c-search-results__section"
       );
       const hits = document.getElementsByClassName("c-search-result__hit");
-      assert.lengthOf(sections, 4);
+      assert.lengthOf(sections, 5);
       assert.lengthOf(hits, 2);
     });
 
     it("renders content hits", () => {
       const results = {
+        projects: {
+          hits: []
+        },
         pages: {
           title: "title",
           nbHits: 2,
@@ -444,7 +456,7 @@ describe("AlgoliaResults", () => {
         "c-search-results__section"
       );
       const hits = document.getElementsByClassName("c-search-result__hit");
-      assert.lengthOf(sections, 3);
+      assert.lengthOf(sections, 4);
       assert.lengthOf(hits, 2);
     });
   });

@@ -174,6 +174,8 @@ function _contentIcon(hit) {
       search_result: "fa-info",
       news_entry: "fa-newspaper-o",
       event: "fa-calendar",
+      project: "fa-wrench",
+      project_update: "fa-wrench",
       page: "fa-info",
       landing_page: "fa-info",
       person: "fa-user",
@@ -480,14 +482,11 @@ function pagesdocumentsDate(hit) {
 }
 
 function projectsDate(hit) {
-  const dateString = hit._content_url.split("/")[2];
-  try {
-    const dateStringWithTime = `${dateString}T01:00:00`;
-    const date = new Date(dateStringWithTime);
+  if (hit._content_posted_on) {
+    const date = new Date(hit._content_posted_on * 1000);
     return [_formatDate(date)];
-  } catch (err) {
-    return [];
   }
+  return [];
 }
 
 function _contentDate(hit) {
