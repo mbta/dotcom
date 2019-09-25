@@ -44,6 +44,28 @@ export const fetchData = (
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
 };
+export const fetchLineData = (
+  routeId: string,
+  directionId: DirectionId,
+  shapeId: string,
+  dispatch: Dispatch<FetchAction>
+): Promise<void> => {
+  dispatch({ type: "FETCH_STARTED" });
+  return (
+    window.fetch &&
+    window
+      .fetch(
+        `/schedules/line_api?id=${routeId}&direction_id=${directionId}&variant=${shapeId}`
+      )
+      .then(response => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
+      // @ts-ignore
+      .catch(() => dispatch({ type: "FETCH_ERROR" }))
+  );
+};
 const ScheduleDirection = ({
   route,
   directionId,
@@ -78,6 +100,17 @@ const ScheduleDirection = ({
     },
     [route, state.directionId, shapeId]
   );
+  const [lineState, dispatchLineData] = useReducer(mapDataReducer, {
+    data: lineDiagram,
+    isLoading: false,
+    error: false
+  });
+  useEffect(
+    () => {
+      fetchLineData(route.id, directionId, shapeId, dispatchLineData);
+    },
+    [route, directionId, shapeId]
+  );
 
   return (
     <>
@@ -104,7 +137,7 @@ const ScheduleDirection = ({
           shapeId={shapeId}
         />
       )}
-      {lineDiagram && <LineDiagram lineDiagram={lineDiagram} />}
+      {lineState.data && <LineDiagram lineDiagram={lineState.data} />}
     </>
   );
 };
