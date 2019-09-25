@@ -3,12 +3,18 @@
     <div class="c-photo-gallery clearfix" data-component="photo-gallery">
       <%= for image <- @content.images do %>
         <div class="col-xs-12 col-sm-6 col-md-4 photo-item">
-          <div>
+          <figure>
             <%= link to: image.url do %>
               <%= img_tag(image.url, alt: image.alt, class: "img-thumbnail") %>
             <% end %>
-          </div>
-          <div><%= image.alt %></div>
+            <figcaption>
+            <%= if image.caption do %>
+              <%= image.caption %>
+            <% else %>
+              <p><%= image.alt %></p>
+            <% end %>
+            </figcaption>
+          </figure>
         </div>
       <% end %>
     </div>

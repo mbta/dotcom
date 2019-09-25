@@ -17,8 +17,10 @@ export default function photoGallery($) {
 
 /* DATA FUNCTIONS */
 function initializeData($) {
-  let output = {};
-  let $galleryEl, galleryId, images;
+  const output = {};
+  let $galleryEl;
+  let galleryId;
+  let images;
 
   $('[data-component="photo-gallery"]').each((_offset, el) => {
     $galleryEl = $(el);
@@ -27,8 +29,8 @@ function initializeData($) {
     galleryId = guid();
     $galleryEl.attr("data-gallery-id", galleryId);
 
-    // find all images that belong to a gallery
-    images = $galleryEl.find("img").get();
+    // find all images/captions that belong to a gallery
+    images = $galleryEl.find("figure").get();
 
     // create an object to keep track of image gallery parameters
     output[galleryId] = makeGallery($galleryEl, images);
@@ -39,7 +41,7 @@ function initializeData($) {
 
 const makeGallery = ($el, images) => ({
   el: $el,
-  images: images,
+  images,
   imageOffset: 0,
   pageOffset: 0,
   lastPage: calculateLastPage(images.length)
@@ -82,7 +84,6 @@ function handleClickImage(ev) {
   ev.preventDefault();
   const id = ev.currentTarget.getAttribute("data-gallery");
   const offset = ev.currentTarget.getAttribute("data-offset");
-  const photoId = ev.currentTarget.getAttribute("id");
   const actualOffset = setGalleryImageOffset(id, offset);
   replaceActiveImage(id, getGalleryImageByOffset(id, actualOffset));
 }
@@ -92,7 +93,7 @@ function handleClickNavigation(ev) {
   const id = ev.currentTarget.getAttribute("data-gallery");
   const increment = parseInt(ev.currentTarget.getAttribute("data-increment"));
   const focusEl = increment === 1 ? "next" : "prev";
-  const isDesktop = isVisible(id + "images");
+  const isDesktop = isVisible(`${id}images`);
 
   // when on desktop: navigate between sets of images
   // when on mobile: navigate between images
@@ -115,9 +116,13 @@ const guid = () =>
 /* RENDERING FUNCTIONS */
 function render(id, focusId) {
   // get main image
-  const mainImage = galleries[id].images
+  const main = galleries[id].images
     .filter((_el, offset) => offset == galleries[id].imageOffset)
     .pop();
+
+  const mainImage = main.querySelectorAll("img").item(0);
+
+  const mainCaption = main.querySelectorAll("figcaption").item(0);
 
   // get pages of images
   const firstImage = galleries[id].pageOffset * PAGE_SIZE;
@@ -130,19 +135,19 @@ function render(id, focusId) {
   // render group of images
   const markUp = `
     <div class="c-photo-gallery__main-container">
-      <div class="c-photo-gallery__main-window">
-        <img class="c-photo-gallery__main-image"
-          id="${id + "primary"}"
-          alt="${mainImage.getAttribute("alt")}"
-          src="${mainImage.getAttribute("src")}">
+      <figure>
+        <div class="c-photo-gallery__main-window">
+          <img class="c-photo-gallery__main-image"
+            id="${`${id}primary`}"
+            alt="${mainImage.getAttribute("alt")}"
+            src="${mainImage.getAttribute("src")}">
         </div>
-      <div id="${id +
-        "name"}" class="c-photo-gallery__main-title">${mainImage.getAttribute(
-    "alt"
-  )}</div>
+        <figcaption id="${`${id}name`}" class="c-photo-gallery__main-title">${
+    mainCaption.innerHTML
+  }</figcaption>
+      </figure>
     </div>
-    <div id="${id +
-      "images"}" class="c-photo-gallery__thumbnails c-thumbnail-count--${
+    <div id="${`${id}images`}" class="c-photo-gallery__thumbnails c-thumbnail-count--${
     images.length
   }">
       ${renderImages(images, firstImage, id)}
@@ -163,14 +168,14 @@ function renderNavigation(id, pagination) {
       <a href="#gallery-previous"
         title="previous photos"
         role="navigation"
-        id="${id + "prev"}"
+        id="${`${id}prev`}"
         data-gallery="${id}"
         data-image="navigation"
         data-increment="-1"><i class="fa fa-caret-left" aria-hidden="true"></i> Previous</a>
       <a href="#gallery-next"
         title="next photos"
         role="navigation"
-        id="${id + "next"}"
+        id="${`${id}next`}"
         data-gallery="${id}"
         data-image="navigation"
         data-increment="1">Next <i class="fa fa-caret-right" aria-hidden="true"></i></a>
@@ -186,20 +191,43 @@ function renderImages(images, firstImage, id) {
         data-gallery="${id}"
         id="${id + (firstImage + offset)}"
         role="navigation"
-        title="change photo to ${image.getAttribute("alt")}"
+        title="change photo to ${image
+          .querySelectorAll("img")
+          .item(0)
+          .getAttribute("alt")}"
         data-offset="${firstImage + offset}">
           <img
             class="c-photo-gallery__thumbnail"
-            alt="${image.getAttribute("alt")}"
-            src="${image.getAttribute("src")}"></a>`
+            alt="${image
+              .querySelectorAll("img")
+              .item(0)
+              .getAttribute("alt")}"
+            src="${image
+              .querySelectorAll("img")
+              .item(0)
+              .getAttribute("src")}"></a>`
     )
     .join("");
 }
 
 function replaceActiveImage(id, image) {
-  const activeImage = document.getElementById(id + "primary");
-  const activeImageName = document.getElementById(id + "name");
-  activeImage.setAttribute("src", image.getAttribute("src"));
-  activeImage.setAttribute("alt", image.getAttribute("alt"));
-  activeImageName.innerHTML = image.getAttribute("alt");
+  const activeImage = document.getElementById(`${id}primary`);
+  const activeImageName = document.getElementById(`${id}name`);
+  activeImage.setAttribute(
+    "src",
+    image
+      .querySelectorAll("img")
+      .item(0)
+      .getAttribute("src")
+  );
+  activeImage.setAttribute(
+    "alt",
+    image
+      .querySelectorAll("img")
+      .item(0)
+      .getAttribute("alt")
+  );
+  activeImageName.innerHTML = image
+    .querySelectorAll("figcaption")
+    .item(0).innerHTML;
 }
