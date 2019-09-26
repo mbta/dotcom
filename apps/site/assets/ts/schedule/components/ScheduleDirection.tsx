@@ -69,7 +69,7 @@ const ScheduleDirection = ({
     () => {
       fetchData(route.id, state.directionId, shapeId, dispatchMapData);
     },
-    [route, directionId, shapeId]
+    [route, state.directionId, shapeId]
   );
 
   return (
