@@ -543,8 +543,8 @@ export function parseResult(hit, index, searchType) {
 }
 
 export function renderResult(hit, index, searchType) {
-  if (searchType) {
-    return TEMPLATES[searchType].render(parseResult(hit, index, searchType));
+  if (hit._content_type == "project" || hit._content_type == "project_update") {
+    return TEMPLATES["projects"].render(parseResult(hit, index, "projects"));
   }
   if (TEMPLATES[index]) {
     return TEMPLATES[index].render(parseResult(hit, index));
