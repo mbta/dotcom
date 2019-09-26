@@ -13,7 +13,7 @@ const LineDiagram = ({
   <>
     {lineDiagram.map(
       ({ route_stop: routeStop, stop_data: stopData }: LineDiagramStop) => (
-        <div className="m-schedule-line-diagram__stop">
+        <div key={routeStop.id} className="m-schedule-line-diagram__stop">
           <div className="m-schedule-line-diagram__card-left">
             <div className="m-schedule-line-diagram__stop-name">
               {routeStop.name}
@@ -22,11 +22,14 @@ const LineDiagram = ({
             <div className="m-schedule-line-diagram__connections">
               {routeStop.connections.map((route: Route) =>
                 route.type === 3 && !route.name.startsWith("SL") ? (
-                  <span className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus">
+                  <span
+                    key={route.id}
+                    className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+                  >
                     {route.name}
                   </span>
                 ) : (
-                  modeIcon(route.id)
+                  <span key={route.id}>{modeIcon(route.id)}</span>
                 )
               )}
             </div>

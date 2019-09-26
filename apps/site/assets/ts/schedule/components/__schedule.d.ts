@@ -51,14 +51,17 @@ export interface LineDiagramStop {
   route_stop: RouteStop;
 }
 
+interface RouteStopRoute extends Route {
+  "custom_route?": boolean;
+}
 export interface RouteStop {
   id: string;
   name: string;
-  zone: string;
+  zone: string | null;
   branch: string | null;
-  station_info: Stop;
-  route: Route | null;
-  connections: Route[];
+  station_info: Stop & { parent_id: string | null; child_ids: string[] };
+  route: RouteStopRoute | null;
+  connections: RouteStopRoute[];
   stop_features: string[];
   "is_terminus?": boolean;
   "is_beginning?": boolean;

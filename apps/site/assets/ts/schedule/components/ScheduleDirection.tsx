@@ -1,5 +1,5 @@
 import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
-import { DirectionId, EnhancedRoute, Route } from "../../__v3api";
+import { DirectionId, EnhancedRoute } from "../../__v3api";
 import {
   ShapesById,
   RoutePatternsByDirection,
@@ -109,7 +109,7 @@ const ScheduleDirection = ({
     () => {
       fetchLineData(route.id, state.directionId, shapeId, dispatchLineData);
     },
-    [route, directionId, shapeId]
+    [route, state.directionId, shapeId]
   );
 
   return (

@@ -1,7 +1,7 @@
 defmodule SiteWeb.ScheduleController.LineTest do
   use SiteWeb.ConnCase, async: true
-  import SiteWeb.ScheduleController.Line
   import SiteWeb.ScheduleController.Line.Helpers
+  import SiteWeb.ScheduleController.Line.DiagramHelpers
   alias Stops.{RouteStop, RouteStops}
 
   doctest SiteWeb.ScheduleController.Line

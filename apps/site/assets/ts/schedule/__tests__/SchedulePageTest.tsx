@@ -5,6 +5,7 @@ import SchedulePage from "../components/SchedulePage";
 import { TypedRoutes } from "../../stop/components/__stop";
 import ScheduleNote from "../components/ScheduleNote";
 import { EnhancedRoute, ServiceWithServiceDate } from "../../__v3api";
+import { lineDiagram } from "./LineDiagramTest";
 
 const pdfs = [
   {
@@ -139,7 +140,8 @@ it("it renders", () => {
           stops,
           direction_id: 0,
           shape_map: {},
-          route_patterns: {}
+          route_patterns: {},
+          line_diagram: lineDiagram
         }}
       />
     )
@@ -173,7 +175,8 @@ it("it renders with conditional components", () => {
         stops,
         direction_id: 0,
         shape_map: {},
-        route_patterns: {}
+        route_patterns: {},
+        line_diagram: lineDiagram
       }}
     />
   );

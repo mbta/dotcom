@@ -5,8 +5,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
 
   alias Routes.Route
   alias Site.StopBubble
-  alias Stops.Repo, as: StopsRepo
-  alias Stops.{RouteStop, RouteStops, Stop}
+  alias Stops.{RouteStop, RouteStops}
   alias Util.EnumHelpers
 
   @type query_param :: String.t() | nil

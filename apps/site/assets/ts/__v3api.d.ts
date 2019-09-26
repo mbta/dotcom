@@ -145,9 +145,9 @@ export interface Stop {
   type: StopType;
   distance?: string;
   href?: string;
-  platform_name?: string;
-  platform_code?: string;
-  description?: string;
+  platform_name?: string | null;
+  platform_code?: string | null;
+  description?: string | null;
 }
 
 export interface ClosedStopInfo {

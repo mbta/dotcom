@@ -7,7 +7,6 @@ defmodule SiteWeb.ScheduleController.Line do
   alias RoutePatterns.RoutePattern
   alias Routes.Route
   alias Schedules.Repo, as: SchedulesRepo
-  alias Site.StopBubble
   alias Site.TransitNearMe
   alias SiteWeb.ScheduleController.Line.Dependencies, as: Dependencies
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
@@ -101,7 +100,10 @@ defmodule SiteWeb.ScheduleController.Line do
       :reverse_direction_all_stops_from_shapes,
       DiagramHelpers.build_stop_list(reverse_branches, reverse_direction_id)
     )
-    |> assign(:all_stops_from_shapes, DiagramHelpers.build_stop_list(unfiltered_branches, direction_id))
+    |> assign(
+      :all_stops_from_shapes,
+      DiagramHelpers.build_stop_list(unfiltered_branches, direction_id)
+    )
     |> assign(:connections, connections(branches))
     |> assign(:time_data_by_stop, time_data_by_stop)
   end
@@ -143,7 +145,6 @@ defmodule SiteWeb.ScheduleController.Line do
     |> LineHelpers.get_route_shapes(nil, false)
     |> Map.new(fn shape -> {shape.id, shape} end)
   end
-
 
   def reverse_direction(0), do: 1
   def reverse_direction(1), do: 0
