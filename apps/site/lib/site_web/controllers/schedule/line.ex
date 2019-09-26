@@ -9,8 +9,8 @@ defmodule SiteWeb.ScheduleController.Line do
   alias Schedules.Repo, as: SchedulesRepo
   alias Site.TransitNearMe
   alias SiteWeb.ScheduleController.Line.Dependencies, as: Dependencies
-  alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
+  alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias SiteWeb.ScheduleController.Line.Maps
   alias Stops.Repo, as: StopsRepo
   alias Stops.{RouteStops, RouteStop, Stop}

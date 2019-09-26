@@ -4,8 +4,8 @@ defmodule SiteWeb.ScheduleController.LineApi do
   """
   use SiteWeb, :controller
 
-  alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
+  alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias Stops.Repo, as: StopsRepo
   alias Stops.RouteStop
 
