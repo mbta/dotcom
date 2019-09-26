@@ -6,7 +6,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   alias Routes.Route
   alias Site.StopBubble
   alias Stops.Repo, as: StopsRepo
-  alias Stops.{RouteStop, Stop}
+  alias Stops.{RouteStop, RouteStops, Stop}
   alias Util.EnumHelpers
 
   @type query_param :: String.t() | nil
@@ -300,7 +300,6 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   end
 
   def stop_bubble_type(branch_id, _stop), do: {branch_id, :line}
-
 
   @doc """
   Sorts branches and their stops into the correct order to prepare them to be parsed.

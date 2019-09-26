@@ -107,7 +107,7 @@ const ScheduleDirection = ({
   });
   useEffect(
     () => {
-      fetchLineData(route.id, directionId, shapeId, dispatchLineData);
+      fetchLineData(route.id, state.directionId, shapeId, dispatchLineData);
     },
     [route, directionId, shapeId]
   );
