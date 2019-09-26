@@ -67,9 +67,9 @@ const ScheduleDirection = ({
   const shapeId = state.shape ? state.shape.id : defaultRoutePattern.shape_id;
   useEffect(
     () => {
-      fetchData(route.id, directionId, shapeId, dispatchMapData);
+      fetchData(route.id, state.directionId, shapeId, dispatchMapData);
     },
-    [route, directionId, shapeId]
+    [route, state.directionId, shapeId]
   );
 
   return (
