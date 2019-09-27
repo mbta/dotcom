@@ -232,15 +232,15 @@ export function getIcon(hit, type) {
     case "popular":
       return getPopularIcon(hit.icon);
 
+    case "projects":
+      return getTransitIcons(hit);
+
     case "drupal":
     case "pages":
     case "documents":
     case "events":
     case "news":
       return _contentIcon(hit);
-
-    case "projects":
-      return getTransitIcons(hit);
 
     case "usemylocation":
       return "";
