@@ -59,7 +59,6 @@ export class AlgoliaEmbeddedSearch {
         })
       : new AlgoliaAutocomplete({
           id: this.pageId,
-          searchType: "projects",
           selectors: this.selectors,
           indices: Object.keys(this.indices),
           locationParams: this.locationParams,

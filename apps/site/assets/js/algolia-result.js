@@ -219,25 +219,7 @@ function getPopularIcon(icon) {
   }
 }
 
-export function getIcon(hit, type, searchType) {
-  if (searchType) {
-    if (searchType === "projects") {
-      if (
-        hit.related_transit_gtfs_id === null &&
-        hit.related_transit_gtfs_ancestry == null
-      ) {
-        return "";
-      }
-      const icons = iconFromGTFS(
-        hit.related_transit_gtfs_id,
-        hit.related_transit_gtfs_ancestry
-      );
-      if (Array.isArray(icons)) {
-        return icons.join(" ");
-      }
-      return icons;
-    }
-  }
+export function getIcon(hit, type) {
   switch (type) {
     case "locations":
       return _contentIcon({ ...hit, content_type: "locations" });
@@ -251,12 +233,14 @@ export function getIcon(hit, type, searchType) {
       return getPopularIcon(hit.icon);
 
     case "drupal":
-    case "projects":
     case "pages":
     case "documents":
     case "events":
     case "news":
       return _contentIcon(hit);
+
+    case "projects":
+      return getTransitIcons(hit);
 
     case "usemylocation":
       return "";
@@ -264,6 +248,23 @@ export function getIcon(hit, type, searchType) {
     default:
       return "";
   }
+}
+
+function getTransitIcons(hit) {
+  if (
+    hit.related_transit_gtfs_id === null &&
+    hit.related_transit_gtfs_ancestry == null
+  ) {
+    return "";
+  }
+  const icons = iconFromGTFS(
+    hit.related_transit_gtfs_id,
+    hit.related_transit_gtfs_ancestry
+  );
+  if (Array.isArray(icons)) {
+    return icons.join(" ");
+  }
+  return icons;
 }
 
 function _contentUrl(hit) {
@@ -276,8 +277,8 @@ function _contentUrl(hit) {
   return hit._content_url;
 }
 
-export function getUrl(hit, type) {
-  switch (type) {
+export function getUrl(hit, index) {
+  switch (index) {
     case "stops":
       return `/stops/${hit.stop.id}`;
 
@@ -525,9 +526,9 @@ export function getFeatureIcons(hit, type) {
   }
 }
 
-export function parseResult(hit, index, searchType) {
+export function parseResult(hit, index) {
   return Object.assign(hit, {
-    hitIcon: getIcon(hit, index, searchType),
+    hitIcon: getIcon(hit, index),
     hitUrl: getUrl(hit, index),
     hitTitle: getTitle(hit, index),
     hasDate:
@@ -542,9 +543,9 @@ export function parseResult(hit, index, searchType) {
   });
 }
 
-export function renderResult(hit, index, searchType) {
+export function renderResult(hit, index) {
   if (hit._content_type == "project" || hit._content_type == "project_update") {
-    return TEMPLATES["projects"].render(parseResult(hit, index, "projects"));
+    return TEMPLATES["projects"].render(parseResult(hit, "projects"));
   }
   if (TEMPLATES[index]) {
     return TEMPLATES[index].render(parseResult(hit, index));

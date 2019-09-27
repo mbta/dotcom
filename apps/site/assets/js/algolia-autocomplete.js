@@ -6,12 +6,11 @@ import * as QueryHelpers from "../ts/helpers/query";
 /* eslint-disable class-methods-use-this */
 
 export default class AlgoliaAutocomplete {
-  constructor({ id, selectors, indices, parent, searchType }) {
+  constructor({ id, selectors, indices, parent }) {
     if (typeof id !== "string") {
       throw new window.Error("autocomplete must have an id");
     }
     this.id = id;
-    this.searchType = searchType;
     this._parent = parent;
     this.error = null;
     this._selectors = Object.assign(selectors, {
@@ -370,7 +369,7 @@ export default class AlgoliaAutocomplete {
   }
 
   renderResult(index) {
-    return hit => AlgoliaResult.renderResult(hit, index, this.searchType);
+    return hit => AlgoliaResult.renderResult(hit, index);
   }
 
   setValue(value) {
