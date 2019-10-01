@@ -115,7 +115,7 @@ defmodule SiteWeb.ScheduleView.StopList do
     collapse_target_id =
       "branch-#{branch}"
       |> String.downcase()
-      |> String.replace(" ", "-")
+      |> String.replace(~r/[^a-zA-Z0-9-_]/, "-")
 
     rendered_expand = render_row(expand_row, assigns)
     rendered_collapse = Enum.map(collapsible_rows, &render_row(&1, assigns))
