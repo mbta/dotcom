@@ -3,9 +3,11 @@ import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import {
   fetchData as fetchSchedule,
-  ServiceSelector
+  ServiceSelector,
+  getDefaultScheduleId
 } from "../components/schedule-finder/ServiceSelector";
 import { ServiceWithServiceDate } from "../../__v3api";
+import { ServiceOptGroup } from "../../helpers/service";
 
 const services: ServiceWithServiceDate[] = [
   {
@@ -150,5 +152,57 @@ describe("ServiceSelector", () => {
     expect(dispatchSpy).toHaveBeenCalledTimes(2);
     expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_STARTED" });
     expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_ERROR" });
+  });
+
+  describe("getDefaultScheduleId", () => {
+    const servicesByOptGroup = {
+      current: [
+        {
+          type: "current" as ServiceOptGroup,
+          servicePeriod: "sometime",
+          service: services[0]
+        }
+      ],
+      future: [
+        {
+          type: "future" as ServiceOptGroup,
+          servicePeriod: "sometime",
+          service: services[1]
+        },
+        {
+          type: "future" as ServiceOptGroup,
+          servicePeriod: "sometime",
+          service: services[2]
+        }
+      ],
+      holiday: [
+        {
+          type: "holiday" as ServiceOptGroup,
+          servicePeriod: "sometime",
+          service: services[3]
+        }
+      ]
+    };
+
+    it("uses today's schedule if given", () => {
+      expect(getDefaultScheduleId(servicesByOptGroup)).toEqual(services[0].id);
+    });
+
+    it("uses the first upcoming schedule if no schedule for today", () => {
+      const defaultScheduleId = getDefaultScheduleId({
+        ...servicesByOptGroup,
+        current: []
+      });
+      expect(defaultScheduleId).toEqual(services[1].id);
+    });
+
+    it("uses the first holiday schedule if no schedule for today or upcoming", () => {
+      const defaultScheduleId = getDefaultScheduleId({
+        ...servicesByOptGroup,
+        current: [],
+        future: []
+      });
+      expect(defaultScheduleId).toEqual(services[3].id);
+    });
   });
 });
