@@ -10,7 +10,7 @@ import {
   State,
   MenuAction as Action
 } from "../components/direction/reducer";
-import ScheduleDirection, { fetchData } from "../components/ScheduleDirection";
+import ScheduleDirection, { fetchMapData } from "../components/ScheduleDirection";
 import { EnhancedRoute } from "../../__v3api";
 import { MapData } from "../../leaflet/components/__mapdata";
 import { RoutePatternsByDirection, ShapesById } from "../components/__schedule";
@@ -299,7 +299,7 @@ it("reducer can change state correctly for showAllRoutePatterns", () => {
   expect(nextState.routePatternMenuAll).toEqual(true);
 });
 
-describe("fetchData", () => {
+describe("fetchMapData", () => {
   it("fetches data", () => {
     const spy = jest.fn();
     window.fetch = jest.fn().mockImplementation(
@@ -314,7 +314,7 @@ describe("fetchData", () => {
         )
     );
 
-    return fetchData("1", 0, "2", spy).then(() => {
+    return fetchMapData("1", 0, "2", spy).then(() => {
       expect(window.fetch).toHaveBeenCalledWith(
         "/schedules/map_api?id=1&direction_id=0&variant=2"
       );
@@ -342,7 +342,7 @@ describe("fetchData", () => {
         )
     );
 
-    return fetchData("1", 0, "2", spy).then(() => {
+    return fetchMapData("1", 0, "2", spy).then(() => {
       expect(window.fetch).toHaveBeenCalledWith(
         "/schedules/map_api?id=1&direction_id=0&variant=2"
       );

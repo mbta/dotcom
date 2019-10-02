@@ -1,4 +1,4 @@
-import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
+import React, { ReactElement, SetStateAction, useReducer, useEffect, useState, Dispatch } from "react";
 import { DirectionId, EnhancedRoute } from "../../__v3api";
 import { ShapesById, RoutePatternsByDirection } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
@@ -17,7 +17,7 @@ export interface Props {
   stopListHtml: string;
 }
 
-export const fetchData = (
+export const fetchMapData = (
   routeId: string,
   directionId: DirectionId,
   shapeId: string,
@@ -39,13 +39,29 @@ export const fetchData = (
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
 };
+
+export const fetchStopListHtml = (routeId: string, directionId: DirectionId, shapeId: string, setStopListHtml: Dispatch<SetStateAction<string>>): Promise<void> => {
+	const stopListUrl = `/schedules/${routeId}/line/diagram?direction_id=${directionId}&variant=${shapeId}`;
+	return(
+    window
+      .fetch(stopListUrl)
+      .then((response: Response) => {
+        if (response.ok) return response.text();
+        throw new Error(response.statusText);
+      })
+      .then((newStopListHtml: string) => {
+        setStopListHtml(newStopListHtml)
+      })
+  );
+}
+
 const ScheduleDirection = ({
   route,
   directionId,
   shapesById,
   routePatternsByDirection,
   mapData,
-  stopListHtml
+  stopListHtml: initialStopListHtml
 }: Props): ReactElement<HTMLElement> => {
   const defaultRoutePattern = routePatternsByDirection[directionId].slice(
     0,
@@ -66,10 +82,19 @@ const ScheduleDirection = ({
     isLoading: false,
     error: false
   });
+  const [stopListHtml, setStopListHtml] = useState(initialStopListHtml);
+
   const shapeId = state.shape ? state.shape.id : defaultRoutePattern.shape_id;
+
   useEffect(
     () => {
-      fetchData(route.id, state.directionId, shapeId, dispatchMapData);
+      fetchMapData(route.id, state.directionId, shapeId, dispatchMapData);
+    },
+    [route, state.directionId, shapeId]
+  );
+  useEffect(
+    () => {
+      fetchStopListHtml(route.id, state.directionId, shapeId, setStopListHtml);
     },
     [route, state.directionId, shapeId]
   );
