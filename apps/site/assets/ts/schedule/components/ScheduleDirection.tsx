@@ -1,4 +1,11 @@
-import React, { ReactElement, SetStateAction, useReducer, useEffect, useState, Dispatch } from "react";
+import React, {
+  ReactElement,
+  SetStateAction,
+  useReducer,
+  useEffect,
+  useState,
+  Dispatch
+} from "react";
 import { DirectionId, EnhancedRoute } from "../../__v3api";
 import { ShapesById, RoutePatternsByDirection } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
@@ -40,20 +47,26 @@ export const fetchMapData = (
   );
 };
 
-export const fetchStopListHtml = (routeId: string, directionId: DirectionId, shapeId: string, setStopListHtml: Dispatch<SetStateAction<string>>): Promise<void> => {
-	const stopListUrl = `/schedules/${routeId}/line/diagram?direction_id=${directionId}&variant=${shapeId}`;
-	return(
-    window.fetch && window
+export const fetchStopListHtml = (
+  routeId: string,
+  directionId: DirectionId,
+  shapeId: string,
+  setStopListHtml: Dispatch<SetStateAction<string>>
+): Promise<void> => {
+  const stopListUrl = `/schedules/${routeId}/line/diagram?direction_id=${directionId}&variant=${shapeId}`;
+  return (
+    window.fetch &&
+    window
       .fetch(stopListUrl)
       .then((response: Response) => {
         if (response.ok) return response.text();
         throw new Error(response.statusText);
       })
       .then((newStopListHtml: string) => {
-        setStopListHtml(newStopListHtml)
+        setStopListHtml(newStopListHtml);
       })
   );
-}
+};
 
 const ScheduleDirection = ({
   route,
@@ -99,6 +112,7 @@ const ScheduleDirection = ({
     [route, state.directionId, shapeId]
   );
 
+  /* eslint-disable react/no-danger */
   return (
     <>
       <div className="m-schedule-direction">
@@ -124,9 +138,10 @@ const ScheduleDirection = ({
           shapeId={shapeId}
         />
       )}
-      <div dangerouslySetInnerHTML={{__html: stopListHtml}} />
+      <div dangerouslySetInnerHTML={{ __html: stopListHtml }} />
     </>
   );
+  /* eslint-enable react/no-danger */
 };
 
 export default ScheduleDirection;

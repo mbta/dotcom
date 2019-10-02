@@ -10,7 +10,9 @@ import {
   State,
   MenuAction as Action
 } from "../components/direction/reducer";
-import ScheduleDirection, { fetchMapData } from "../components/ScheduleDirection";
+import ScheduleDirection, {
+  fetchMapData
+} from "../components/ScheduleDirection";
 import { EnhancedRoute } from "../../__v3api";
 import { MapData } from "../../leaflet/components/__mapdata";
 import { RoutePatternsByDirection, ShapesById } from "../components/__schedule";
