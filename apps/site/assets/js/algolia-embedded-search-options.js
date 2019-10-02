@@ -16,7 +16,7 @@ export const FACET_MAP = {
   "search-route--commuter_rail": "commuter-rail,stations,stops,locations",
   "search-route--bus": "bus,stations,stops,locations",
   "search-route--ferry": "ferry,stations,stops,locations",
-  "search-projects": "page"
+  "search-projects": "projects"
 };
 
 const FACET_FILTER_MAP = {
@@ -56,7 +56,7 @@ export const buildOptions = pageId => {
 
   params[index] = {
     hitsPerPage: 5,
-    facets: ["*"],
+    facets: [FACET_MAP[pageId]],
     facetFilters: [FACET_FILTER_MAP[pageId]]
   };
 

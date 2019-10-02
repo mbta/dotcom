@@ -188,6 +188,10 @@ AlgoliaGlobalSearch.INITIAL_QUERIES = {
     indexName: "stops",
     query: ""
   },
+  projects: {
+    indexName: "drupal",
+    query: ""
+  },
   pages: {
     indexName: "drupal",
     query: ""
@@ -217,6 +221,11 @@ AlgoliaGlobalSearch.DEFAULT_PARAMS = {
     facets: ["*"],
     facetFilters: [[]]
   },
+  projects: {
+    hitsPerPage: 5,
+    facets: ["*"],
+    facetFilters: [["_content_type:project", "_content_type:project_update"]]
+  },
   pages: {
     hitsPerPage: 5,
     facets: ["*"],
@@ -225,9 +234,7 @@ AlgoliaGlobalSearch.DEFAULT_PARAMS = {
         "_content_type:page",
         "_content_type:search_result",
         "_content_type:landing_page",
-        "_content_type:person",
-        "_content_type:project",
-        "_content_type:project_update"
+        "_content_type:person"
       ]
     ]
   },

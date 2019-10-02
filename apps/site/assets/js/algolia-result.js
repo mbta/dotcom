@@ -174,6 +174,8 @@ function _contentIcon(hit) {
       search_result: "fa-info",
       news_entry: "fa-newspaper-o",
       event: "fa-calendar",
+      project: "fa-wrench",
+      project_update: "fa-wrench",
       page: "fa-info",
       landing_page: "fa-info",
       person: "fa-user",
@@ -217,25 +219,7 @@ function getPopularIcon(icon) {
   }
 }
 
-export function getIcon(hit, type, searchType) {
-  if (searchType) {
-    if (searchType === "projects") {
-      if (
-        hit.related_transit_gtfs_id === null &&
-        hit.related_transit_gtfs_ancestry == null
-      ) {
-        return "";
-      }
-      const icons = iconFromGTFS(
-        hit.related_transit_gtfs_id,
-        hit.related_transit_gtfs_ancestry
-      );
-      if (Array.isArray(icons)) {
-        return icons.join(" ");
-      }
-      return icons;
-    }
-  }
+export function getIcon(hit, type) {
   switch (type) {
     case "locations":
       return _contentIcon({ ...hit, content_type: "locations" });
@@ -247,6 +231,9 @@ export function getIcon(hit, type, searchType) {
 
     case "popular":
       return getPopularIcon(hit.icon);
+
+    case "projects":
+      return getTransitIcons(hit);
 
     case "drupal":
     case "pages":
@@ -263,6 +250,23 @@ export function getIcon(hit, type, searchType) {
   }
 }
 
+function getTransitIcons(hit) {
+  if (
+    hit.related_transit_gtfs_id === null &&
+    hit.related_transit_gtfs_ancestry == null
+  ) {
+    return "";
+  }
+  const icons = iconFromGTFS(
+    hit.related_transit_gtfs_id,
+    hit.related_transit_gtfs_ancestry
+  );
+  if (Array.isArray(icons)) {
+    return icons.join(" ");
+  }
+  return icons;
+}
+
 function _contentUrl(hit) {
   if (hit.search_api_datasource === "entity:file") {
     return `/sites/default/files/${hit._file_uri.replace(/public:\/\//, "")}`;
@@ -273,8 +277,8 @@ function _contentUrl(hit) {
   return hit._content_url;
 }
 
-export function getUrl(hit, type) {
-  switch (type) {
+export function getUrl(hit, index) {
+  switch (index) {
     case "stops":
       return `/stops/${hit.stop.id}`;
 
@@ -285,6 +289,7 @@ export function getUrl(hit, type) {
       return hit.url;
 
     case "drupal":
+    case "projects":
     case "pages":
     case "documents":
     case "events":
@@ -347,6 +352,7 @@ export function getTitle(hit, type) {
       return hit.name;
 
     case "drupal":
+    case "projects":
     case "pages":
     case "documents":
     case "events":
@@ -476,6 +482,14 @@ function pagesdocumentsDate(hit) {
   return [];
 }
 
+function projectsDate(hit) {
+  if (hit._content_posted_on) {
+    const date = new Date(hit._content_posted_on * 1000);
+    return [_formatDate(date)];
+  }
+  return [];
+}
+
 function _contentDate(hit) {
   const dateString = hit._content_url.split("/")[2];
   try {
@@ -497,6 +511,9 @@ export function getFeatureIcons(hit, type) {
     case "routes":
       return _featuresToIcons(alertFeature);
 
+    case "projects":
+      return projectsDate(hit);
+
     case "pages":
     case "documents":
       return pagesdocumentsDate(hit);
@@ -509,9 +526,9 @@ export function getFeatureIcons(hit, type) {
   }
 }
 
-export function parseResult(hit, index, searchType) {
+export function parseResult(hit, index) {
   return Object.assign(hit, {
-    hitIcon: getIcon(hit, index, searchType),
+    hitIcon: getIcon(hit, index),
     hitUrl: getUrl(hit, index),
     hitTitle: getTitle(hit, index),
     hasDate:
@@ -519,15 +536,16 @@ export function parseResult(hit, index, searchType) {
       index === "news" ||
       index === "pages" ||
       index === "documents" ||
+      index === "projects" ||
       null,
     hitFeatureIcons: getFeatureIcons(hit, index),
     id: hit.place_id || null
   });
 }
 
-export function renderResult(hit, index, searchType) {
-  if (searchType) {
-    return TEMPLATES[searchType].render(parseResult(hit, index, searchType));
+export function renderResult(hit, index) {
+  if (hit._content_type == "project" || hit._content_type == "project_update") {
+    return TEMPLATES["projects"].render(parseResult(hit, "projects"));
   }
   if (TEMPLATES[index]) {
     return TEMPLATES[index].render(parseResult(hit, index));
