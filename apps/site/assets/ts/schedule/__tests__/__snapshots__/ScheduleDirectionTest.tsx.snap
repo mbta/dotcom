@@ -44,6 +44,13 @@ exports[`it renders a bus component 1`] = `
       </button>
     </ScheduleDirectionButton>
   </div>
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "line diagram content goes here",
+      }
+    }
+  />
 </ScheduleDirection>
 `;
 
@@ -88,5 +95,12 @@ exports[`it renders a subway component 1`] = `
       </button>
     </ScheduleDirectionButton>
   </div>
+  <div
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "line diagram content goes here",
+      }
+    }
+  />
 </ScheduleDirection>
 `;

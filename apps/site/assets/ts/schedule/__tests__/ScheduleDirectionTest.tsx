@@ -166,6 +166,7 @@ const getComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     shapesById={shapesById}
     mapData={mapData}
+    stopListHtml={"line diagram content goes here"}
   />
 );
 
@@ -176,6 +177,7 @@ const getSubwayComponent = () => (
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     shapesById={shapesById}
+    stopListHtml={"line diagram content goes here"}
   />
 );
 

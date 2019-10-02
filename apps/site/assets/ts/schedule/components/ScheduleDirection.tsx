@@ -43,7 +43,7 @@ export const fetchMapData = (
 export const fetchStopListHtml = (routeId: string, directionId: DirectionId, shapeId: string, setStopListHtml: Dispatch<SetStateAction<string>>): Promise<void> => {
 	const stopListUrl = `/schedules/${routeId}/line/diagram?direction_id=${directionId}&variant=${shapeId}`;
 	return(
-    window
+    window.fetch && window
       .fetch(stopListUrl)
       .then((response: Response) => {
         if (response.ok) return response.text();
