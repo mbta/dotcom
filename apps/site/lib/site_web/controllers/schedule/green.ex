@@ -70,6 +70,7 @@ defmodule SiteWeb.ScheduleController.Green do
     |> await_assign_all_default(__MODULE__)
     |> put_view(ScheduleView)
     |> LineController.assign_schedule_page_data()
+    |> LineController.assign_stop_list_html()
     |> render("show.html", [])
   end
 
