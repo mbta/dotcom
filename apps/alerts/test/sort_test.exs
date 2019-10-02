@@ -87,6 +87,26 @@ defmodule Alerts.SortTest do
       assert sorted_effects == [:snow_route, :access_issue, :access_issue]
     end
 
+    test "prioritizes a high-severity, low-priority alert over vice versa" do
+      {:ok, now, _} = DateTime.from_iso8601("2018-04-03T11:00:00Z")
+
+      alert_prototype = %Alert{
+        effect: :snow_route,
+        lifecycle: "Upcoming",
+        updated_at: new_datetime("2017-06-01T12:00:00-05:00")
+      }
+
+      high_severity_low_priority = %Alert{alert_prototype | priority: :low, severity: 7}
+      low_severity_high_priority = %Alert{alert_prototype | priority: :high, severity: 6}
+      alerts = [low_severity_high_priority, high_severity_low_priority]
+
+      sorted_alerts =
+        alerts
+        |> Alerts.Sort.sort(now)
+
+      assert sorted_alerts == [high_severity_low_priority, low_severity_high_priority]
+    end
+
     def new_datetime(str) do
       Timex.parse!(str, "{ISO:Extended}")
     end
