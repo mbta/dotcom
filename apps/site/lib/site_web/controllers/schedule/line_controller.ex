@@ -32,6 +32,7 @@ defmodule SiteWeb.ScheduleController.LineController do
     |> put_view(ScheduleView)
     |> await_assign_all_default(__MODULE__)
     |> assign_schedule_page_data()
+    |> assign_stop_list_html()
     |> render("show.html", [])
   end
 
@@ -85,6 +86,15 @@ defmodule SiteWeb.ScheduleController.LineController do
         shape_map: conn.assigns.shape_map
       }
     )
+  end
+
+  def assign_stop_list_html(conn) do
+    stop_list_html =
+      "_stop_list.html"
+      |> ScheduleView.render(Map.merge(conn.assigns, %{conn: conn}))
+      |> HTML.safe_to_string()
+
+    assign(conn, :stop_list_html, stop_list_html)
   end
 
   @spec dedup_services([Service.t()]) :: [Service.t()]

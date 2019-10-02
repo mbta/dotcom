@@ -66,8 +66,10 @@ const renderDirectionAndMap = (
   } = schedulePageData;
 
   const mapDataEl = document.getElementById("js-map-data");
-  if (!mapDataEl) return;
+  const stopListHtmlEl = document.getElementById("js-initial-stop-list-html");
+  if (!mapDataEl || !stopListHtmlEl) return;
   const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
+  const stopListHtml = JSON.parse(stopListHtmlEl.innerHTML);
   ReactDOM.render(
     <ScheduleDirection
       directionId={directionId}
@@ -75,6 +77,7 @@ const renderDirectionAndMap = (
       routePatternsByDirection={routePatternsByDirection}
       shapesById={shapesById}
       mapData={mapData}
+      stopListHtml={stopListHtml}
     />,
     root
   );

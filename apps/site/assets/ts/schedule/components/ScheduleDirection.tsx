@@ -14,6 +14,7 @@ export interface Props {
   shapesById: ShapesById;
   routePatternsByDirection: RoutePatternsByDirection;
   mapData: MapData;
+  stopListHtml: string;
 }
 
 export const fetchData = (
@@ -43,7 +44,8 @@ const ScheduleDirection = ({
   directionId,
   shapesById,
   routePatternsByDirection,
-  mapData
+  mapData,
+  stopListHtml
 }: Props): ReactElement<HTMLElement> => {
   const defaultRoutePattern = routePatternsByDirection[directionId].slice(
     0,
@@ -97,6 +99,7 @@ const ScheduleDirection = ({
           shapeId={shapeId}
         />
       )}
+      <div dangerouslySetInnerHTML={{__html: stopListHtml}} />
     </>
   );
 };

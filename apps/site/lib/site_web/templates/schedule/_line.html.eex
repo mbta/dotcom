@@ -2,6 +2,10 @@
   <%= raw Poison.encode!(@schedule_page_data) %>
 </script>
 
+<script data-for="stop-list" id="js-initial-stop-list-html" type="text/plain">
+  <%= raw Poison.encode!(@stop_list_html) %>
+</script>
+
 <div class="page-section m-schedule-line">
   <div class="row">
     <div class="col-md-12">
@@ -42,8 +46,6 @@
             %>
           <% end %>
         </div>
-
-        <%= render "_stop_list.html", assigns %>
     </div>
     <% end %>
     <div class="col-xs-12 col-md-5 col-lg-4 col-lg-offset-1">
