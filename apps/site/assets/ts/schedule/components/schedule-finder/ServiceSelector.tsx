@@ -63,6 +63,27 @@ const getTodaysScheduleId = (
   return todayService ? todayService.service.id : "";
 };
 
+const firstFutureScheduleId = (
+  servicesByOptGroup: ServicesKeyedByGroup
+): string => {
+  const firstFutureSchedule = servicesByOptGroup.future[0];
+  return firstFutureSchedule ? firstFutureSchedule.service.id : "";
+};
+
+const firstHolidayScheduleId = (
+  servicesByOptGroup: ServicesKeyedByGroup
+): string => {
+  const firstHolidaySchedule = servicesByOptGroup.holiday[0];
+  return firstHolidaySchedule ? firstHolidaySchedule.service.id : "";
+};
+
+export const getDefaultScheduleId = (
+  servicesByOptGroup: ServicesKeyedByGroup
+): string =>
+  getTodaysScheduleId(servicesByOptGroup) ||
+  firstFutureScheduleId(servicesByOptGroup) ||
+  firstHolidayScheduleId(servicesByOptGroup);
+
 type fetchAction =
   | { type: "FETCH_COMPLETE"; payload: ServiceScheduleInfo }
   | { type: "FETCH_ERROR" }
@@ -134,7 +155,7 @@ export const ServiceSelector = ({
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
     .reduce(groupByType, { current: [], holiday: [], future: [] });
 
-  const defaultServiceId = getTodaysScheduleId(servicesByOptGroup);
+  const defaultServiceId = getDefaultScheduleId(servicesByOptGroup);
 
   if (!selectedServiceId) {
     setSelectedServiceId(defaultServiceId);
