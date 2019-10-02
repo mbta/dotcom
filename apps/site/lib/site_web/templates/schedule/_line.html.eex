@@ -2,8 +2,6 @@
   <%= raw Poison.encode!(@schedule_page_data) %>
 </script>
 
-<% redesign_direction? = Laboratory.enabled?(@conn, :schedule_direction_redesign) %>
-
 <div class="page-section m-schedule-line">
   <div class="row">
     <div class="col-md-12">
@@ -26,25 +24,8 @@
             route: Routes.Route.to_json_safe(@route), stops: @schedule_page_data[:stops], directionId: @direction_id}) %>
           <% end %>
         </div>
-
-        <%= if redesign_direction? do %>
-          <div id="react-schedule-direction-root">
-          </div>
-        <% else %>
-          <%= render "_line_filters.html",
-            conn: @conn,
-            direction_id: @direction_id,
-            route: @route,
-            origin: assigns[:origin],
-            destination: assigns[:destination],
-            show_date_select?: @show_date_select?,
-            force_six_column: true,
-            route_shapes: @route_shapes,
-            active_shape: @active_shape,
-            show_variant_selector: assigns[:show_variant_selector]
-          %>
-
-        <% end %>
+        <div id="react-schedule-direction-root">
+        </div>
         <div class="line-map-container">
           <%= if display_map_link?(@route.type) do %>
             <img src="<%= @map_img_src %>" class="img-fluid">
