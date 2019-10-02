@@ -43,11 +43,13 @@ export interface SchedulePageData {
   line_diagram: LineDiagramStop[];
 }
 
+interface StopData {
+  branch: string | null;
+  type: string | null;
+}
+
 export interface LineDiagramStop {
-  stop_data: {
-    branch: string | null;
-    type: string | null;
-  };
+  stop_data: StopData[];
   route_stop: RouteStop;
 }
 

@@ -1,6 +1,6 @@
 defmodule SiteWeb.ScheduleController.LineApi do
   @moduledoc """
-    API for retrieving Map data by route and variant
+    API for retrieving line diagram data
   """
   use SiteWeb, :controller
 
@@ -37,7 +37,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
 
   def update_route_stop_data({data, %RouteStop{} = map}) do
     %{
-      stop_data: %{branch: List.first(Keyword.keys(data)), type: List.first(Keyword.values(data))},
+      stop_data: Enum.map(data, fn {key, value} -> %{branch: key, type: value} end),
       route_stop: RouteStop.to_json_safe(map)
     }
   end

@@ -35,8 +35,10 @@ Array [
         </span>
       </div>
       <div>
-        
-        terminus
+        <div>
+          
+          terminus
+        </div>
       </div>
     </div>
   </div>,
@@ -152,8 +154,10 @@ Array [
         </span>
       </div>
       <div>
-        Lowell, 
-        stop
+        <div>
+          Lowell, 
+          stop
+        </div>
       </div>
     </div>
   </div>,

@@ -1,11 +1,14 @@
 import React, { ReactElement } from "react";
-import { LineDiagramStop } from "./__schedule";
+import { LineDiagramStop, StopData } from "./__schedule";
 import { modeIcon, accessibleIcon, parkingIcon } from "../../helpers/icon";
 import { Route } from "../../__v3api";
 
 interface Props {
   lineDiagram: LineDiagramStop[];
 }
+
+const maybeTerminus = (stopData: StopData[]): StopData | undefined =>
+  stopData.find((stop: StopData) => stop.type === "terminus");
 
 const LineDiagram = ({
   lineDiagram
@@ -18,7 +21,9 @@ const LineDiagram = ({
             <div className="m-schedule-line-diagram__stop-name">
               {routeStop.name}
             </div>
-            <div>{stopData.type === "terminus" && stopData.branch}</div>
+            <div>
+              {maybeTerminus(stopData) && maybeTerminus(stopData)!.branch}
+            </div>
             <div className="m-schedule-line-diagram__connections">
               {routeStop.connections.map((route: Route) =>
                 route.type === 3 && !route.name.startsWith("SL") ? (
@@ -49,8 +54,12 @@ const LineDiagram = ({
               )}
             </div>
             <div>
-              {stopData.branch ? `${stopData.branch}, ` : ""}
-              {stopData.type}
+              {stopData.map((stop: StopData) => (
+                <div>
+                  {stop.branch ? `${stop.branch}, ` : ""}
+                  {stop.type}
+                </div>
+              ))}
             </div>
           </div>
         </div>

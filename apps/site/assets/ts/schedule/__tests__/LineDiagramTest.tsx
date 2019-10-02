@@ -8,7 +8,7 @@ const stopType = "stop" as StopType;
 
 export const lineDiagram = [
   {
-    stop_data: { type: "terminus", branch: null },
+    stop_data: [{ type: "terminus", branch: null }],
     route_stop: {
       zone: "1A",
       stop_features: ["bus"],
@@ -66,7 +66,7 @@ export const lineDiagram = [
     }
   },
   {
-    stop_data: { type: "stop", branch: "Lowell" },
+    stop_data: [{ type: "stop", branch: "Lowell" }],
     route_stop: {
       zone: "1A",
       stop_features: [
