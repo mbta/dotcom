@@ -11,7 +11,8 @@ defmodule Fares do
   @outer_express_routes ~w(352 354 505)
   @outer_express_route_set MapSet.new(@outer_express_routes)
 
-  @foxboro_place_id "place-FS-0049"
+  @foxboro_interzone ~w(741 743 745 750 752 754 756)
+  @foxboro_interzone_set MapSet.new(@foxboro_interzone)
 
   @type ferry_name ::
           :ferry_cross_harbor
@@ -20,26 +21,35 @@ defmodule Fares do
           | :commuter_ferry
           | :ferry_george
 
-  @spec fare_for_stops(:commuter_rail | :ferry, Stops.Stop.id_t(), Stops.Stop.id_t()) ::
+  @spec fare_for_stops(
+          :commuter_rail | :ferry,
+          Stops.Stop.id_t(),
+          Stops.Stop.id_t(),
+          String.t(),
+          String.t() | nil
+        ) ::
           {:ok, Fares.Fare.fare_name()}
           | :error
-  def fare_for_stops(route_type_atom, origin_id, destination_id)
+  def fare_for_stops(route_type_atom, origin_id, destination_id, route_id \\ "", trip_name \\ "")
 
-  def fare_for_stops(:commuter_rail, origin, destination)
-      when origin == @foxboro_place_id or destination == @foxboro_place_id do
+  def fare_for_stops(_, _, _, "CR-Foxboro", _) do
     {:ok, :foxboro}
   end
 
-  def fare_for_stops(:commuter_rail, origin, destination) do
+  def fare_for_stops(:commuter_rail, origin, destination, _, trip_name) do
     with origin_zone when not is_nil(origin_zone) <- Zones.Repo.get(origin),
          dest_zone when not is_nil(dest_zone) <- Zones.Repo.get(destination) do
-      {:ok, calculate_commuter_rail(Zones.Repo.get(origin), Zones.Repo.get(destination))}
+      if trip_name in @foxboro_interzone_set do
+        {:ok, calculate_foxboro_zones(Zones.Repo.get(origin), Zones.Repo.get(destination))}
+      else
+        {:ok, calculate_commuter_rail(Zones.Repo.get(origin), Zones.Repo.get(destination))}
+      end
     else
       _ -> :error
     end
   end
 
-  def fare_for_stops(:ferry, origin, destination) do
+  def fare_for_stops(:ferry, origin, destination, _, _) do
     {:ok, calculate_ferry(origin, destination)}
   end
 
@@ -56,6 +66,18 @@ defmodule Fares do
     total_zones = abs(String.to_integer(start_zone) - String.to_integer(end_zone)) + 1
 
     {:interzone, "#{total_zones}"}
+  end
+
+  def calculate_foxboro_zones(start_zone, "1A") do
+    calculate_commuter_rail(start_zone, "1")
+  end
+
+  def calculate_foxboro_zones("1A", end_zone) do
+    calculate_commuter_rail("1", end_zone)
+  end
+
+  def calculate_foxboro_zones(start_zone, end_zone) do
+    calculate_commuter_rail(start_zone, end_zone)
   end
 
   @spec calculate_ferry(String.t(), String.t()) :: ferry_name
