@@ -152,6 +152,8 @@ defmodule SiteWeb.Router do
     get("/schedules/:route/alerts", ScheduleController.AlertsController, :show, as: :alerts)
     get("/schedules/:route/line", ScheduleController.LineController, :show, as: :line)
 
+    get("/schedules/Green/line/diagram", ScheduleController.Green, :line_diagram_api)
+
     get("/schedules/:route/line/diagram", ScheduleController.LineController, :line_diagram_api,
       as: :line
     )

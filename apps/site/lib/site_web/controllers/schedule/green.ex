@@ -41,6 +41,18 @@ defmodule SiteWeb.ScheduleController.Green do
 
   def show(conn, _parmas), do: line(conn, [])
 
+  def line_diagram_api(conn, _) do
+    conn
+    |> call_plug(SiteWeb.ScheduleController.HoursOfOperation)
+    |> call_plug(SiteWeb.ScheduleController.Holidays)
+    |> call_plug(SiteWeb.ScheduleController.Line)
+    |> call_plug(SiteWeb.ScheduleController.CMS)
+    |> await_assign_all_default(__MODULE__)
+    |> put_view(ScheduleView)
+    |> LineController.assign_schedule_page_data()
+    |> render("_stop_list.html", layout: false)
+  end
+
   def trip_view(conn, _params) do
     conn
     |> assign(:tab, "trip-view")
