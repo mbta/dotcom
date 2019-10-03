@@ -8,11 +8,20 @@ defmodule SiteWeb.FareController.Commuter do
   def mode, do: :commuter_rail
 
   @impl true
+
+  @foxboro "place-FS-0049"
+
   def fares(%{assigns: %{origin: origin, destination: destination}})
       when not is_nil(origin) and not is_nil(destination) do
     case Fares.fare_for_stops(:commuter_rail, origin.id, destination.id) do
       {:ok, fare_name} ->
-        Fares.Repo.all(name: fare_name)
+        standard_fares = get_fares(fare_name)
+
+        if foxboro?(origin.id, destination.id) do
+          standard_fares ++ get_fares(:foxboro)
+        else
+          standard_fares
+        end
 
       :error ->
         []
@@ -29,4 +38,9 @@ defmodule SiteWeb.FareController.Commuter do
       Stops.Repo.get!(stop_id)
     end
   end
+
+  defp get_fares(fare_name), do: Fares.Repo.all(name: fare_name)
+
+  defp foxboro?(a, b) when a == @foxboro or b == @foxboro, do: true
+  defp foxboro?(_, _), do: false
 end
