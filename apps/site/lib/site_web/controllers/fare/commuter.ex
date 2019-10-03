@@ -41,6 +41,6 @@ defmodule SiteWeb.FareController.Commuter do
 
   defp get_fares(fare_name), do: Fares.Repo.all(name: fare_name)
 
-  defp foxboro?(a, b) when a == @foxboro or b == @foxboro, do: true
+  defp foxboro?(a, b) when @foxboro in [a, b], do: true
   defp foxboro?(_, _), do: false
 end
