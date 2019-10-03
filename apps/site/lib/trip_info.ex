@@ -113,7 +113,7 @@ defmodule TripInfo do
     trip = PredictedSchedule.trip(time)
     duration = duration(times, origin_id)
     stop_count = Enum.count(times)
-    base_fare = BaseFare.base_fare(route, origin_id, destination_id, trip)
+    base_fare = BaseFare.base_fare(route, trip, origin_id, destination_id)
 
     %TripInfo{
       route: route,

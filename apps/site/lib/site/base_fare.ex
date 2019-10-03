@@ -15,22 +15,28 @@ defmodule Site.BaseFare do
   @default_filters [reduced: nil, duration: :single_trip]
   @default_foxboro_filters [reduced: nil, duration: :round_trip]
 
+  @default_trip %Trip{name: ""}
+
   @spec base_fare(
           Route.t() | map,
-          Stops.Stop.id_t(),
-          Stops.Stop.id_t(),
           Trip.t() | map,
+          Stops.Stop.id_t(),
+          Stops.Stop.id_t(),
           (Keyword.t() -> [Fare.t()])
         ) ::
           String.t() | nil
-  def base_fare(route, origin_id, destination_id, trip \\ %{}, fare_fn \\ &Repo.all/1)
+  def base_fare(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def base_fare(nil, _, _, _, _), do: nil
 
-  def base_fare(route, origin_id, destination_id, trip, fare_fn) do
+  def base_fare(route, nil, origin_id, destination_id, fare_fn) do
+    base_fare(route, @default_trip, origin_id, destination_id, fare_fn)
+  end
+
+  def base_fare(route, trip, origin_id, destination_id, fare_fn) do
     route_filters =
       route.type
       |> Route.type_atom()
-      |> name_or_mode_filter(route, origin_id, destination_id, Map.get(trip, :name))
+      |> name_or_mode_filter(route, origin_id, destination_id, trip.name)
 
     default_filters =
       if {:name, :foxboro} in route_filters do

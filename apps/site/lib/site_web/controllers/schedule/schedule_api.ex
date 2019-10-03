@@ -6,7 +6,7 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
 
   alias Fares.Format
   alias Routes.Route
-  alias Schedules.{Repo, Trip}
+  alias Schedules.Repo
   alias Site.{BaseFare}
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
@@ -97,7 +97,7 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     |> Enum.map(
       &Map.merge(
         &1,
-        fares_for_service(origin.route, origin.stop.id, &1.stop.id, origin.trip)
+        fares_for_service(origin.route, origin.trip, origin.stop.id, &1.stop.id)
       )
     )
   end
@@ -148,10 +148,10 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     %{schedules: time_formatted_schedules, duration: duration}
   end
 
-  @spec fares_for_service(map, String.t(), String.t(), Trip.t()) :: map
-  def fares_for_service(route, origin, destination, trip) do
+  @spec fares_for_service(map, map, String.t(), String.t()) :: map
+  def fares_for_service(route, trip, origin, destination) do
     %{
-      price: route |> BaseFare.base_fare(origin, destination, trip) |> Format.price(),
+      price: route |> BaseFare.base_fare(trip, origin, destination) |> Format.price(),
       fare_link:
         fare_link(
           Route.type_atom(route.type),
