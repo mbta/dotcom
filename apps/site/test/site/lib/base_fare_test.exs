@@ -47,7 +47,7 @@ defmodule BaseFareTest do
         @subway_fares
       end
 
-      assert %Fares.Fare{cents: 225} = base_fare(@route, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 225} = base_fare(@route, nil, nil, %{}, fare_fn)
     end
   end
 
@@ -110,7 +110,7 @@ defmodule BaseFareTest do
         Enum.filter(@bus_fares, &(&1.name == :local_bus))
       end
 
-      assert %Fares.Fare{cents: 170} = base_fare(local_route, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 170} = base_fare(local_route, nil, nil, %{}, fare_fn)
     end
 
     test "returns the lowest one-way trip fare that is not discounted for the inner express bus" do
@@ -120,7 +120,7 @@ defmodule BaseFareTest do
         Enum.filter(@bus_fares, &(&1.name == :inner_express_bus))
       end
 
-      assert %Fares.Fare{cents: 400} = base_fare(inner_express_route, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 400} = base_fare(inner_express_route, nil, nil, %{}, fare_fn)
     end
 
     test "returns the lowerst one-way trip fare that is not discounted for the outer express bus" do
@@ -130,7 +130,7 @@ defmodule BaseFareTest do
         Enum.filter(@bus_fares, &(&1.name == :outer_express_bus))
       end
 
-      assert %Fares.Fare{cents: 525} = base_fare(outer_express_route, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 525} = base_fare(outer_express_route, nil, nil, %{}, fare_fn)
     end
 
     test "returns the subway fare for for SL1 route (id=741)" do
@@ -140,7 +140,7 @@ defmodule BaseFareTest do
         Enum.filter(@subway_fares, &(&1.name == :subway))
       end
 
-      assert %Fares.Fare{cents: 225} = base_fare(sl1, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 225} = base_fare(sl1, nil, nil, %{}, fare_fn)
     end
 
     test "returns the subway fare for for SL2 route (id=742)" do
@@ -150,7 +150,7 @@ defmodule BaseFareTest do
         Enum.filter(@subway_fares, &(&1.name == :subway))
       end
 
-      assert %Fares.Fare{cents: 225} = base_fare(sl2, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 225} = base_fare(sl2, nil, nil, %{}, fare_fn)
     end
 
     test "returns the subway fare for for SL3 route (id=743)" do
@@ -160,7 +160,7 @@ defmodule BaseFareTest do
         Enum.filter(@subway_fares, &(&1.name == :subway))
       end
 
-      assert %Fares.Fare{cents: 225} = base_fare(sl3, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 225} = base_fare(sl3, nil, nil, %{}, fare_fn)
     end
 
     test "returns the bus fare for for SL4 route (id=751)" do
@@ -170,7 +170,7 @@ defmodule BaseFareTest do
         Enum.filter(@bus_fares, &(&1.name == :local_bus))
       end
 
-      assert %Fares.Fare{cents: 170} = base_fare(sl4, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 170} = base_fare(sl4, nil, nil, %{}, fare_fn)
     end
   end
 
@@ -193,7 +193,7 @@ defmodule BaseFareTest do
         ]
       end
 
-      assert %Fares.Fare{cents: 1050} = base_fare(route, origin_id, destination_id, fare_fn)
+      assert %Fares.Fare{cents: 1050} = base_fare(route, origin_id, destination_id, %{}, fare_fn)
     end
 
     test "returns the lowest one-way fare that is not discounted for a trip terminating in Zone 1A" do
@@ -214,7 +214,7 @@ defmodule BaseFareTest do
         ]
       end
 
-      assert %Fares.Fare{cents: 825} = base_fare(route, origin_id, destination_id, fare_fn)
+      assert %Fares.Fare{cents: 825} = base_fare(route, origin_id, destination_id, %{}, fare_fn)
     end
 
     test "returns an interzone fare that is not discounted for a trip that does not originate/terminate in Zone 1A" do
@@ -235,11 +235,11 @@ defmodule BaseFareTest do
         ]
       end
 
-      assert %Fares.Fare{cents: 401} = base_fare(route, origin_id, destination_id, fare_fn)
+      assert %Fares.Fare{cents: 401} = base_fare(route, origin_id, destination_id, %{}, fare_fn)
     end
 
     test "returns the appropriate fare for Foxboro" do
-      route = %Route{type: 2}
+      route = %Route{type: 2, id: "CR-Foxboro"}
       south_station_id = "place-sstat"
       foxboro_id = "place-FS-0049"
 
@@ -257,7 +257,7 @@ defmodule BaseFareTest do
 
       fare_fn = fn _ -> [] end
 
-      assert base_fare(route, origin_id, destination_id, fare_fn) == nil
+      assert base_fare(route, origin_id, destination_id, %{}, fare_fn) == nil
     end
 
     test "returns a free fare for any bus shuttle rail replacements" do
@@ -294,7 +294,7 @@ defmodule BaseFareTest do
         ]
       end
 
-      assert %Fares.Fare{cents: 350} = base_fare(route, origin_id, destination_id, fare_fn)
+      assert %Fares.Fare{cents: 350} = base_fare(route, origin_id, destination_id, %{}, fare_fn)
     end
   end
 end
