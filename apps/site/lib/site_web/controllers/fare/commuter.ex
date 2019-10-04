@@ -39,8 +39,10 @@ defmodule SiteWeb.FareController.Commuter do
     end
   end
 
+  @spec get_fares(Fares.Fare.fare_name()) :: [Fares.Fare.t()]
   defp get_fares(fare_name), do: Fares.Repo.all(name: fare_name)
 
+  @spec foxboro?(String.t(), String.t()) :: boolean()
   defp foxboro?(a, b) when @foxboro in [a, b], do: true
   defp foxboro?(_, _), do: false
 end

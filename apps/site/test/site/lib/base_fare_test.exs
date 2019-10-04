@@ -239,7 +239,7 @@ defmodule BaseFareTest do
       assert %Fares.Fare{cents: 401} = base_fare(route, nil, origin_id, destination_id, fare_fn)
     end
 
-    test "returns the appropriate fare for Foxboro" do
+    test "returns the appropriate fare for Foxboro Special Events" do
       route = %Route{type: 2, id: "CR-Foxboro"}
       trip = %Trip{name: "9743"}
       south_station_id = "place-sstat"
@@ -250,6 +250,33 @@ defmodule BaseFareTest do
 
       assert %Fares.Fare{cents: 2000, duration: :round_trip} =
                base_fare(route, trip, foxboro_id, south_station_id)
+    end
+
+    test "returns zone-based fares for standard trips on Foxboro pilot" do
+      route = %Route{type: 2, id: "CR-Franklin"}
+      trip_1 = %Trip{name: "751"}
+      trip_2 = %Trip{name: "759"}
+
+      assert %Fares.Fare{name: {:zone, "4"}} =
+               base_fare(route, trip_1, "place-sstat", "place-FS-0049")
+
+      assert %Fares.Fare{name: {:interzone, "3"}} =
+               base_fare(route, trip_2, "place-FB-0118", "place-FS-0049")
+    end
+
+    test "returns interzone fare for reverse commute trips to and from Foxboro" do
+      route = %Route{type: 2, id: "CR-Franklin"}
+      inbound_trip = %Trip{name: "750"}
+      outbound_trip = %Trip{name: "741"}
+
+      south_station_id = "place-sstat"
+      foxboro_id = "place-FS-0049"
+
+      assert %Fares.Fare{name: {:interzone, "4"}} =
+               base_fare(route, inbound_trip, foxboro_id, south_station_id)
+
+      assert %Fares.Fare{name: {:interzone, "4"}} =
+               base_fare(route, outbound_trip, south_station_id, foxboro_id)
     end
 
     test "returns nil if no matching fares found" do
