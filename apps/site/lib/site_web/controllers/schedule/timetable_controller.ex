@@ -100,14 +100,38 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   end
 
   defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
-    %{
-      {"790", "place-rugg"} => "Via",
-      {"790", "place-bbsta"} => "Fairmount"
-    }
+    ["740", "746", "748", "750", "754", "726", "758"]
+    |> Enum.flat_map(&franklin_via_fairmount(&1, 1))
+    |> Enum.into(%{})
+  end
+
+  defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 0) do
+    ["741", "743", "747", "749", "755", "757", "759"]
+    |> Enum.flat_map(&franklin_via_fairmount(&1, 0))
+    |> Enum.into(%{})
   end
 
   defp trip_messages(_, _) do
     %{}
+  end
+
+  defp franklin_via_fairmount(train, direction_id) do
+    [
+      List.duplicate(train, 4),
+      stops_for_fairmount(direction_id),
+      ["Via", "Fair-", "mount", "Line"]
+    ]
+    |> List.zip()
+    |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
+  end
+
+  defp stops_for_fairmount(direction_id) do
+    stops = ["place-DB-0095", "place-NEC-2203", "place-rugg", "place-bbsta"]
+
+    case direction_id do
+      1 -> stops
+      0 -> Enum.reverse(stops)
+    end
   end
 
   defp all_stops(conn, _) do
