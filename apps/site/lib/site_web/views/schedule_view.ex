@@ -470,4 +470,22 @@ defmodule SiteWeb.ScheduleView do
       []
     end
   end
+
+  @spec timetable_note(Conn.t()) :: Safe.t()
+  def timetable_note(%{route: %Route{id: "CR-Fairmount"}}) do
+    content_tag :span, class: "m-timetable__note" do
+      [
+        content_tag(:span, "FRANK: ", class: "m-timetable__cell--via"),
+        content_tag(
+          :span,
+          "Operates from Forge Park. Does not serve Foxboro. "
+        ),
+        link(to: timetable_path(SiteWeb.Endpoint, :show, "CR-Franklin")) do
+          "See the Franklin Line schedule for all stops."
+        end
+      ]
+    end
+  end
+
+  def timetable_note(_), do: nil
 end

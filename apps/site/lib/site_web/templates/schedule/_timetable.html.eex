@@ -118,6 +118,7 @@
     </div>
   <% end %>
 </div>
+<%= timetable_note(assigns) %>
 <div class="m-timetable__key-and-pdfs">
   <%= render "_timetable_icon_key.html", assigns %>
   <%= render "_pdf_schedules.html", assigns %>

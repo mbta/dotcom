@@ -136,6 +136,16 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     end
   end
 
+  def trip_messages(%Routes.Route{id: "CR-Fairmount"}, 1, date) do
+    case is_atleast_oct_21_2019(date) do
+      true ->
+        %{{"726", "place-FS-0049"} => "FRANK"}
+
+      false ->
+        %{}
+    end
+  end
+
   def trip_messages(_, _, _) do
     %{}
   end
