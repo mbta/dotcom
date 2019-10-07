@@ -352,6 +352,10 @@ $location-line-width: $space-6;
 
 .schedule-link {
   padding-right: $base-spacing;
+
+  .commuter-rail & {
+    display: none;
+  }
 }
 
 .route-branch-stop-link {

@@ -1025,7 +1025,7 @@ defmodule SiteWeb.ScheduleViewTest do
   end
 
   describe "route_header_tabs/1" do
-    test "returns 5 tabs for commuter rail (1 hidden by css)", %{conn: conn} do
+    test "returns 5 tabs for commuter rail (2 hidden by css)", %{conn: conn} do
       tabs =
         conn
         |> assign(:route, %Route{type: 2})

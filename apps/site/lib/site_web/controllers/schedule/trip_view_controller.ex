@@ -16,6 +16,10 @@ defmodule SiteWeb.ScheduleController.TripViewController do
   plug(SiteWeb.ScheduleController.ScheduleError)
   plug(:zone_map)
 
+  def show(conn, %{"route" => "CR-" <> _ = route}) do
+    redirect(conn, to: "/schedules/#{route}/timetable")
+  end
+
   def show(conn, _) do
     conn
     |> put_view(SiteWeb.ScheduleView)
