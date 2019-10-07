@@ -1,5 +1,4 @@
 import React from "react";
-import renderer from "react-test-renderer";
 import {
   createReactRoot,
   enzymeToJsonWithoutProps
@@ -14,6 +13,7 @@ import ScheduleDirection, { fetchData } from "../components/ScheduleDirection";
 import { EnhancedRoute } from "../../__v3api";
 import { MapData } from "../../leaflet/components/__mapdata";
 import { RoutePatternsByDirection, ShapesById } from "../components/__schedule";
+import { lineDiagram } from "./LineDiagramTest";
 
 const body =
   '<div id="body-wrapper"><div id="react-root"></div><div id="map-root"></div></div>';
@@ -166,6 +166,7 @@ const getComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     shapesById={shapesById}
     mapData={mapData}
+    lineDiagram={lineDiagram}
   />
 );
 
@@ -176,6 +177,7 @@ const getSubwayComponent = () => (
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     shapesById={shapesById}
+    lineDiagram={lineDiagram}
   />
 );
 

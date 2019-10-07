@@ -62,7 +62,8 @@ const renderDirectionAndMap = (
     direction_id: directionId,
     route_patterns: routePatternsByDirection,
     shape_map: shapesById,
-    route
+    route,
+    line_diagram: lineDiagram
   } = schedulePageData;
 
   const mapDataEl = document.getElementById("js-map-data");
@@ -75,6 +76,7 @@ const renderDirectionAndMap = (
       routePatternsByDirection={routePatternsByDirection}
       shapesById={shapesById}
       mapData={mapData}
+      lineDiagram={lineDiagram}
     />,
     root
   );

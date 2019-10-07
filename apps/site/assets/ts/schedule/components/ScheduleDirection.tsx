@@ -1,12 +1,17 @@
 import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
 import { DirectionId, EnhancedRoute } from "../../__v3api";
-import { ShapesById, RoutePatternsByDirection } from "./__schedule";
+import {
+  ShapesById,
+  RoutePatternsByDirection,
+  LineDiagramStop
+} from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
 import { reducer as mapDataReducer } from "../../helpers/fetch";
 import { menuReducer, FetchAction } from "./direction/reducer";
 import { MapData } from "../../leaflet/components/__mapdata";
 import Map from "../components/Map";
+import LineDiagram from "../components/LineDiagram";
 
 export interface Props {
   route: EnhancedRoute;
@@ -14,6 +19,7 @@ export interface Props {
   shapesById: ShapesById;
   routePatternsByDirection: RoutePatternsByDirection;
   mapData: MapData;
+  lineDiagram: LineDiagramStop[];
 }
 
 export const fetchData = (
@@ -38,12 +44,35 @@ export const fetchData = (
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
 };
+export const fetchLineData = (
+  routeId: string,
+  directionId: DirectionId,
+  shapeId: string,
+  dispatch: Dispatch<FetchAction>
+): Promise<void> => {
+  dispatch({ type: "FETCH_STARTED" });
+  return (
+    window.fetch &&
+    window
+      .fetch(
+        `/schedules/line_api?id=${routeId}&direction_id=${directionId}&variant=${shapeId}`
+      )
+      .then(response => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
+      // @ts-ignore
+      .catch(() => dispatch({ type: "FETCH_ERROR" }))
+  );
+};
 const ScheduleDirection = ({
   route,
   directionId,
   shapesById,
   routePatternsByDirection,
-  mapData
+  mapData,
+  lineDiagram
 }: Props): ReactElement<HTMLElement> => {
   const defaultRoutePattern = routePatternsByDirection[directionId].slice(
     0,
@@ -68,6 +97,17 @@ const ScheduleDirection = ({
   useEffect(
     () => {
       fetchData(route.id, state.directionId, shapeId, dispatchMapData);
+    },
+    [route, state.directionId, shapeId]
+  );
+  const [lineState, dispatchLineData] = useReducer(mapDataReducer, {
+    data: lineDiagram,
+    isLoading: false,
+    error: false
+  });
+  useEffect(
+    () => {
+      fetchLineData(route.id, state.directionId, shapeId, dispatchLineData);
     },
     [route, state.directionId, shapeId]
   );
@@ -97,6 +137,7 @@ const ScheduleDirection = ({
           shapeId={shapeId}
         />
       )}
+      {lineState.data && <LineDiagram lineDiagram={lineState.data} />}
     </>
   );
 };

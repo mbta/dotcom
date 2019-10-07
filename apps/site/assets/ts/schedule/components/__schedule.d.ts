@@ -7,7 +7,9 @@ import {
   ServiceWithServiceDate,
   Schedule,
   RoutePattern,
-  Shape
+  Shape,
+  Stop,
+  ClosedStopInfo
 } from "../../__v3api";
 
 export interface EnhancedRoutePattern extends RoutePattern {
@@ -38,6 +40,34 @@ export interface SchedulePageData {
   direction_id: DirectionId;
   shape_map: ShapesById;
   route_patterns: RoutePatternsByDirection;
+  line_diagram: LineDiagramStop[];
+}
+
+interface StopData {
+  branch: string | null;
+  type: string | null;
+}
+
+export interface LineDiagramStop {
+  stop_data: StopData[];
+  route_stop: RouteStop;
+}
+
+interface RouteStopRoute extends Route {
+  "custom_route?": boolean;
+}
+export interface RouteStop {
+  id: string;
+  name: string;
+  zone: string | null;
+  branch: string | null;
+  station_info: Stop & { parent_id: string | null; child_ids: string[] };
+  route: RouteStopRoute | null;
+  connections: RouteStopRoute[];
+  stop_features: string[];
+  "is_terminus?": boolean;
+  "is_beginning?": boolean;
+  closed_stop_info: ClosedStopInfo | null;
 }
 
 export interface SimpleStopMap {

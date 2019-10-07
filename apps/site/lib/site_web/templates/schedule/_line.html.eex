@@ -62,7 +62,9 @@
           <% end %>
         </div>
 
-        <%= render "_stop_list.html", assigns %>
+        <%= if !redesign_direction? do %>
+          <%= render "_stop_list.html", assigns %>
+        <% end %>
     </div>
     <% end %>
     <div class="col-xs-12 col-md-5 col-lg-4 col-lg-offset-1">

@@ -294,4 +294,14 @@ a {
   color: $brand-commuter-rail;
   padding-left: $base-spacing / 4;
   padding-right: $base-spacing / 4;
+  white-space: nowrap;
 }
+
+.c-icon__bus-pill {
+  border-radius: $base-spacing / 4;
+  font-weight: bold;
+  min-width: 2rem;
+  padding: 0 $base-spacing / 4;
+  text-align: center;
+}
+

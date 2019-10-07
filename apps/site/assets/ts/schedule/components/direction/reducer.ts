@@ -41,7 +41,6 @@ const toggleDirection = (state: State): State => {
   const [defaultRoutePatternForDirection] = state.routePatternsByDirection[
     nextDirection
   ];
-
   return {
     ...state,
     directionId: nextDirection,

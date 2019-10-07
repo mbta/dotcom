@@ -1,5 +1,169 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`LineDiagram it renders 1`] = `
+Array [
+  <div
+    className="m-schedule-line-diagram__stop"
+  >
+    <div
+      className="m-schedule-line-diagram__card-left"
+    >
+      <div
+        className="m-schedule-line-diagram__stop-name"
+      >
+        Elm St opp Haskell Ave
+      </div>
+      <div />
+      <div
+        className="m-schedule-line-diagram__connections"
+      >
+        <span
+          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+        >
+          110
+        </span>
+      </div>
+    </div>
+    <div>
+      <div
+        className="m-schedule-line-diagram__features"
+      >
+        <span
+          className="c-icon__cr-zone"
+        >
+          Zone 1A
+        </span>
+      </div>
+      <div>
+        <div>
+          
+          terminus
+        </div>
+      </div>
+    </div>
+  </div>,
+  <div
+    className="m-schedule-line-diagram__stop"
+  >
+    <div
+      className="m-schedule-line-diagram__card-left"
+    >
+      <div
+        className="m-schedule-line-diagram__stop-name"
+      >
+        North Station
+      </div>
+      <div />
+      <div
+        className="m-schedule-line-diagram__connections"
+      >
+        <span>
+          <span
+            aria-hidden="false"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+        <span>
+          <span
+            aria-hidden="false"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+        <span>
+          <span
+            aria-hidden="false"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+        <span>
+          <span
+            aria-hidden="false"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+        <span>
+          <span
+            aria-hidden="false"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+        <span>
+          <span
+            aria-hidden="false"
+            className="notranslate c-svg__icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </span>
+      </div>
+    </div>
+    <div>
+      <div
+        className="m-schedule-line-diagram__features"
+      >
+        <span
+          aria-hidden="false"
+          className="notranslate c-svg__icon-parking-default"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        <span
+          aria-hidden="false"
+          className="notranslate c-svg__icon-acessible-default"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        <span
+          className="c-icon__cr-zone"
+        >
+          Zone 1A
+        </span>
+      </div>
+      <div>
+        <div>
+          Lowell, 
+          stop
+        </div>
+      </div>
+    </div>
+  </div>,
+]
+`;
+
 exports[`it renders 1`] = `
 Array [
   <div
