@@ -115,23 +115,36 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     %{}
   end
 
-  defp franklin_via_fairmount(train, direction_id) do
+  defp franklin_via_fairmount(train, 1) do
     [
-      List.duplicate(train, 4),
-      stops_for_fairmount(direction_id),
-      ["Via", "Fair-", "mount", "Line"]
+      List.duplicate(train, 3),
+      stops_for_fairmount(1),
+      ["Via", "Fairmount", "Line"]
     ]
-    |> List.zip()
-    |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
+    |> make_via_list()
   end
 
-  defp stops_for_fairmount(direction_id) do
-    stops = ["place-DB-0095", "place-NEC-2203", "place-rugg", "place-bbsta"]
+  defp franklin_via_fairmount(train, 0) do
+    [
+      List.duplicate(train, 4),
+      stops_for_fairmount(0),
+      ["Via", "Fair-", "mount", "Line"]
+    ]
+    |> make_via_list()
+  end
 
-    case direction_id do
-      1 -> stops
-      0 -> Enum.reverse(stops)
-    end
+  defp stops_for_fairmount(1) do
+    ["place-DB-0095", "place-rugg", "place-bbsta"]
+  end
+
+  defp stops_for_fairmount(0) do
+    ["place-bbsta", "place-rugg", "place-NEC-2203", "place-DB-0095"]
+  end
+
+  def make_via_list(list) do
+    list
+    |> List.zip()
+    |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
   end
 
   defp all_stops(conn, _) do
