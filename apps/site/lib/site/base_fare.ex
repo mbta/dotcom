@@ -36,7 +36,7 @@ defmodule Site.BaseFare do
     route_filters =
       route.type
       |> Route.type_atom()
-      |> name_or_mode_filter(route, origin_id, destination_id, trip.name)
+      |> name_or_mode_filter(route, origin_id, destination_id, trip)
 
     default_filters =
       if {:name, :foxboro} in route_filters do
@@ -72,9 +72,9 @@ defmodule Site.BaseFare do
     [name: name]
   end
 
-  defp name_or_mode_filter(mode, %{id: route_id}, origin_id, destination_id, trip_name)
+  defp name_or_mode_filter(mode, %{id: route_id}, origin_id, destination_id, trip)
        when mode in [:commuter_rail, :ferry] do
-    case Fares.fare_for_stops(mode, origin_id, destination_id, route_id, trip_name) do
+    case Fares.fare_for_stops(mode, origin_id, destination_id, route_id, trip) do
       {:ok, name} ->
         [name: name]
 

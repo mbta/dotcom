@@ -1,5 +1,6 @@
 defmodule Fares do
   alias Routes.Route
+  alias Schedules.Trip
   alias Stops.Stop
   alias Zones.Repo
 
@@ -15,6 +16,8 @@ defmodule Fares do
   @foxboro_interzone ~w(741 743 745 750 752 754 756)
   @foxboro_interzone_set MapSet.new(@foxboro_interzone)
 
+  @default_trip %Trip{name: "", id: ""}
+
   @type ferry_name ::
           :ferry_cross_harbor
           | :ferry_inner_harbor
@@ -27,20 +30,26 @@ defmodule Fares do
           Stops.Stop.id_t(),
           Stops.Stop.id_t(),
           String.t(),
-          String.t() | nil
+          Trip.t()
         ) ::
           {:ok, Fares.Fare.fare_name()}
           | :error
-  def fare_for_stops(route_type_atom, origin_id, destination_id, route_id \\ "", trip_name \\ "")
+  def fare_for_stops(
+        route_type_atom,
+        origin_id,
+        destination_id,
+        route_id \\ "",
+        trip \\ @default_trip
+      )
 
   def fare_for_stops(_, _, _, "CR-Foxboro", _) do
     {:ok, :foxboro}
   end
 
-  def fare_for_stops(:commuter_rail, origin, destination, _, trip_name) do
+  def fare_for_stops(:commuter_rail, origin, destination, _, %Trip{name: trip_name, id: trip_id}) do
     with origin_zone when not is_nil(origin_zone) <- Repo.get(origin),
          dest_zone when not is_nil(dest_zone) <- Repo.get(destination) do
-      if trip_name in @foxboro_interzone_set do
+      if trip_name in @foxboro_interzone_set and trip_id == "CR-Weekday-Fall-19-#{trip_name}" do
         {:ok, calculate_foxboro_zones(Repo.get(origin), Repo.get(destination))}
       else
         {:ok, calculate_commuter_rail(Repo.get(origin), Repo.get(destination))}

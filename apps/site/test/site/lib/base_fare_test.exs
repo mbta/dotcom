@@ -254,8 +254,8 @@ defmodule BaseFareTest do
 
     test "returns zone-based fares for standard trips on Foxboro pilot" do
       route = %Route{type: 2, id: "CR-Franklin"}
-      trip_1 = %Trip{name: "751"}
-      trip_2 = %Trip{name: "759"}
+      trip_1 = %Trip{name: "751", id: "CR-Weekday-Fall-19-751"}
+      trip_2 = %Trip{name: "759", id: "CR-Weekday-Fall-19-759"}
 
       assert %Fares.Fare{name: {:zone, "4"}} =
                base_fare(route, trip_1, "place-sstat", "place-FS-0049")
@@ -266,16 +266,24 @@ defmodule BaseFareTest do
 
     test "Zone 1A to 1A reverse commute trips on Foxboro pilot retain original pricing" do
       route = %Route{type: 2, id: "CR-Fairmount"}
-      trip = %Trip{name: "741"}
+      trip = %Trip{name: "741", id: "CR-Weekday-Fall-19-741"}
 
       assert %Fares.Fare{name: {:zone, "1A"}} =
                base_fare(route, trip, "origin=place-DB-2240", "place-DB-2222")
     end
 
+    test "does not apply pilot/discounted fare for reverse commutes until Fall 2019" do
+      route = %Route{type: 2, id: "CR-Franklin"}
+      trip = %Trip{name: "743", id: "CR-Weekday-Spring-19-743"}
+
+      assert %Fares.Fare{name: {:interzone, "4"}} =
+               base_fare(route, trip, "place-sstat", "place-FB-0148")
+    end
+
     test "returns interzone fare for reverse commute trips to and from Foxboro" do
       route = %Route{type: 2, id: "CR-Franklin"}
-      inbound_trip = %Trip{name: "750"}
-      outbound_trip = %Trip{name: "741"}
+      inbound_trip = %Trip{name: "750", id: "CR-Weekday-Fall-19-750"}
+      outbound_trip = %Trip{name: "741", id: "CR-Weekday-Fall-19-741"}
 
       south_station_id = "place-sstat"
       foxboro_id = "place-FS-0049"
