@@ -264,6 +264,14 @@ defmodule BaseFareTest do
                base_fare(route, trip_2, "place-FB-0118", "place-FS-0049")
     end
 
+    test "Zone 1A to 1A reverse commute trips on Foxboro pilot retain original pricing" do
+      route = %Route{type: 2, id: "CR-Fairmount"}
+      trip = %Trip{name: "741"}
+
+      assert %Fares.Fare{name: {:zone, "1A"}} =
+               base_fare(route, trip, "origin=place-DB-2240", "place-DB-2222")
+    end
+
     test "returns interzone fare for reverse commute trips to and from Foxboro" do
       route = %Route{type: 2, id: "CR-Franklin"}
       inbound_trip = %Trip{name: "750"}

@@ -69,11 +69,11 @@ defmodule Fares do
     {:interzone, "#{total_zones}"}
   end
 
-  def calculate_foxboro_zones(start_zone, "1A") do
+  def calculate_foxboro_zones(start_zone, "1A") when start_zone != "1A" do
     calculate_commuter_rail(start_zone, "1")
   end
 
-  def calculate_foxboro_zones("1A", end_zone) do
+  def calculate_foxboro_zones("1A", end_zone) when end_zone != "1A" do
     calculate_commuter_rail("1", end_zone)
   end
 
