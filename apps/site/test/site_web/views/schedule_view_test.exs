@@ -1025,7 +1025,7 @@ defmodule SiteWeb.ScheduleViewTest do
   end
 
   describe "route_header_tabs/1" do
-    test "returns 5 tabs for commuter rail (2 hidden by css)", %{conn: conn} do
+    test "returns 4 tabs for commuter rail (1 hidden by css)", %{conn: conn} do
       tabs =
         conn
         |> assign(:route, %Route{type: 2})
@@ -1035,7 +1035,7 @@ defmodule SiteWeb.ScheduleViewTest do
         |> safe_to_string()
 
       assert tabs =~ "info-tab"
-      assert tabs =~ "schedule-tab"
+      refute tabs =~ "schedule-tab"
       assert tabs =~ "info-&amp;-maps-tab"
       assert tabs =~ "timetable-tab"
       assert tabs =~ "alerts-tab"

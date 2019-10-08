@@ -4,6 +4,7 @@ defmodule SiteWeb.ScheduleController.TripViewController do
   """
   use SiteWeb, :controller
   alias Routes.Route
+  alias Zones.Repo
 
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.Plugs.DateInRating)
@@ -16,8 +17,8 @@ defmodule SiteWeb.ScheduleController.TripViewController do
   plug(SiteWeb.ScheduleController.ScheduleError)
   plug(:zone_map)
 
-  def show(conn, %{"route" => "CR-" <> _ = route}) do
-    redirect(conn, to: "/schedules/#{route}/timetable")
+  def show(%{assigns: %{route: %Route{type: 2, id: route_id}}, query_params: params} = conn, _) do
+    redirect(conn, to: timetable_path(conn, :show, route_id, params))
   end
 
   def show(conn, _) do
@@ -27,7 +28,7 @@ defmodule SiteWeb.ScheduleController.TripViewController do
   end
 
   defp zone_map(%{assigns: %{route: %Route{type: 2}, all_stops: all_stops}} = conn, _) do
-    assign(conn, :zone_map, Map.new(all_stops, &{&1.id, Zones.Repo.get(&1.id)}))
+    assign(conn, :zone_map, Map.new(all_stops, &{&1.id, Repo.get(&1.id)}))
   end
 
   defp zone_map(conn, _), do: conn

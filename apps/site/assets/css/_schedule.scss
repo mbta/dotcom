@@ -1033,8 +1033,7 @@ del .trip-list-realtime {
       }
     }
 
-    .info-tab,
-    .schedule-tab {
+    .info-tab {
       @include media-breakpoint-up(sm) {
         display: none;
       }
