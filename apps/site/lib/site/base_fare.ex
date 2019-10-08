@@ -15,7 +15,7 @@ defmodule Site.BaseFare do
   @default_filters [reduced: nil, duration: :single_trip]
   @default_foxboro_filters [reduced: nil, duration: :round_trip]
 
-  @default_trip %Trip{name: ""}
+  @default_trip %Trip{name: "", id: ""}
 
   @spec base_fare(
           Route.t() | map,
@@ -59,6 +59,10 @@ defmodule Site.BaseFare do
     [name: :free_fare]
   end
 
+  defp name_or_mode_filter(_, %{id: "CR-Foxboro"}, _, _, _) do
+    [name: :foxboro]
+  end
+
   defp name_or_mode_filter(:bus, %{id: route_id}, origin_id, _destination_id, _trip) do
     name =
       cond do
@@ -72,14 +76,17 @@ defmodule Site.BaseFare do
     [name: name]
   end
 
-  defp name_or_mode_filter(mode, %{id: route_id}, origin_id, destination_id, trip)
-       when mode in [:commuter_rail, :ferry] do
-    case Fares.fare_for_stops(mode, origin_id, destination_id, route_id, trip) do
+  defp name_or_mode_filter(:commuter_rail, _, origin_id, destination_id, trip) do
+    case Fares.fare_for_stops(:commuter_rail, origin_id, destination_id, trip) do
       {:ok, name} ->
         [name: name]
 
       :error ->
-        [mode: mode]
+        [mode: :commuter_rail]
     end
+  end
+
+  defp name_or_mode_filter(:ferry, _, origin_id, destination_id, _) do
+    [name: :ferry |> Fares.fare_for_stops(origin_id, destination_id) |> elem(1)]
   end
 end

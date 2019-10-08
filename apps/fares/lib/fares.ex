@@ -13,10 +13,8 @@ defmodule Fares do
   @outer_express_routes ~w(352 354 505)
   @outer_express_route_set MapSet.new(@outer_express_routes)
 
-  @foxboro_interzone ~w(741 743 745 750 752 754 756)
-  @foxboro_interzone_set MapSet.new(@foxboro_interzone)
-
-  @default_trip %Trip{name: "", id: ""}
+  @foxboro_reverse_commute ~w(741 743 745 750 752 754 756)
+  @foxboro_reverse_commute_set MapSet.new(@foxboro_reverse_commute)
 
   @type ferry_name ::
           :ferry_cross_harbor
@@ -29,27 +27,16 @@ defmodule Fares do
           :commuter_rail | :ferry,
           Stops.Stop.id_t(),
           Stops.Stop.id_t(),
-          String.t(),
-          Trip.t()
+          String.t() | Trip.t() | nil
         ) ::
           {:ok, Fares.Fare.fare_name()}
           | :error
-  def fare_for_stops(
-        route_type_atom,
-        origin_id,
-        destination_id,
-        route_id \\ "",
-        trip \\ @default_trip
-      )
+  def fare_for_stops(route_type_atom, origin_id, destination_id, trip_details \\ nil)
 
-  def fare_for_stops(_, _, _, "CR-Foxboro", _) do
-    {:ok, :foxboro}
-  end
-
-  def fare_for_stops(:commuter_rail, origin, destination, _, %Trip{name: trip_name, id: trip_id}) do
+  def fare_for_stops(:commuter_rail, origin, destination, trip_details) do
     with origin_zone when not is_nil(origin_zone) <- Repo.get(origin),
          dest_zone when not is_nil(dest_zone) <- Repo.get(destination) do
-      if trip_name in @foxboro_interzone_set and trip_id == "CR-Weekday-Fall-19-#{trip_name}" do
+      if foxboro_pilot?(trip_details) do
         {:ok, calculate_foxboro_zones(Repo.get(origin), Repo.get(destination))}
       else
         {:ok, calculate_commuter_rail(Repo.get(origin), Repo.get(destination))}
@@ -59,10 +46,11 @@ defmodule Fares do
     end
   end
 
-  def fare_for_stops(:ferry, origin, destination, _, _) do
+  def fare_for_stops(:ferry, origin, destination, _) do
     {:ok, calculate_ferry(origin, destination)}
   end
 
+  @spec calculate_commuter_rail(any, any) :: {:interzone, binary} | {:zone, any}
   def calculate_commuter_rail(start_zone, "1A") do
     {:zone, start_zone}
   end
@@ -119,6 +107,12 @@ defmodule Fares do
   defp calculate_ferry(_origin, _destination) do
     :commuter_ferry
   end
+
+  @spec foxboro_pilot?(Trip.t() | nil) :: boolean
+  defp foxboro_pilot?(%Trip{name: id, id: "CR-Weekday-Fall-19" <> _}),
+    do: id in @foxboro_reverse_commute_set
+
+  defp foxboro_pilot?(_), do: false
 
   @spec silver_line_rapid_transit?(Route.id_t()) :: boolean
   def silver_line_rapid_transit?(<<id::binary>>),

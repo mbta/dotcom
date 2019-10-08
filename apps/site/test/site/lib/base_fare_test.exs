@@ -276,7 +276,7 @@ defmodule BaseFareTest do
       route = %Route{type: 2, id: "CR-Franklin"}
       trip = %Trip{name: "743", id: "CR-Weekday-Spring-19-743"}
 
-      assert %Fares.Fare{name: {:interzone, "4"}} =
+      assert %Fares.Fare{name: {:zone, "3"}} =
                base_fare(route, trip, "place-sstat", "place-FB-0148")
     end
 
