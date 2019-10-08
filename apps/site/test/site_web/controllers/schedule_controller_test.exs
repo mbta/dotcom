@@ -315,8 +315,8 @@ defmodule SiteWeb.ScheduleControllerTest do
 
       assert [
                %RouteStops{branch: nil, stops: unbranched_stops},
-               %RouteStops{branch: "Braintree", stops: braintree},
-               %RouteStops{branch: "Ashmont", stops: ashmont}
+               %RouteStops{branch: "Alewife - Braintree", stops: braintree},
+               %RouteStops{branch: "Alewife - Ashmont", stops: ashmont}
              ] = branches
 
       # stops are in southbound order

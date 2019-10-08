@@ -11,8 +11,8 @@ defmodule Stops.RouteStopsTest do
       stops = RouteStops.by_direction(stops, shapes, @red, 0)
       [core, braintree, ashmont] = stops
       assert %Stops.RouteStops{branch: nil, stops: unbranched_stops} = core
-      assert %Stops.RouteStops{branch: "Braintree", stops: braintree_stops} = braintree
-      assert %Stops.RouteStops{branch: "Ashmont", stops: ashmont_stops} = ashmont
+      assert %Stops.RouteStops{branch: "Alewife - Braintree", stops: braintree_stops} = braintree
+      assert %Stops.RouteStops{branch: "Alewife - Ashmont", stops: ashmont_stops} = ashmont
 
       assert unbranched_stops |> Enum.map(& &1.name) == [
                "Alewife",
@@ -44,25 +44,25 @@ defmodule Stops.RouteStopsTest do
 
       assert [savin | _] = ashmont_stops
       assert savin.name == "Savin Hill"
-      assert savin.branch == "Ashmont"
+      assert savin.branch == "Alewife - Ashmont"
       assert savin.stop_features == [:access, :parking_lot]
       assert savin.is_terminus? == false
 
       ashmont = List.last(ashmont_stops)
       assert ashmont.name == "Ashmont"
-      assert ashmont.branch == "Ashmont"
+      assert ashmont.branch == "Alewife - Ashmont"
       assert ashmont.stop_features == [:mattapan_line, :bus, :access]
       assert ashmont.is_terminus? == true
 
       [north_quincy | _] = braintree_stops
       assert north_quincy.name == "North Quincy"
-      assert north_quincy.branch == "Braintree"
+      assert north_quincy.branch == "Alewife - Braintree"
       assert north_quincy.stop_features == [:bus, :access, :parking_lot]
       assert north_quincy.is_terminus? == false
 
       braintree = List.last(braintree_stops)
       assert braintree.name == "Braintree"
-      assert braintree.branch == "Braintree"
+      assert braintree.branch == "Alewife - Braintree"
       assert braintree.stop_features == [:bus, :commuter_rail, :access, :parking_lot]
       assert braintree.is_terminus? == true
     end
@@ -73,29 +73,29 @@ defmodule Stops.RouteStopsTest do
       stops = RouteStops.by_direction(stops, shapes, @red, 1)
 
       [ashmont, braintree, core] = stops
-      assert %Stops.RouteStops{branch: "Ashmont", stops: ashmont_stops} = ashmont
-      assert %Stops.RouteStops{branch: "Braintree", stops: braintree_stops} = braintree
+      assert %Stops.RouteStops{branch: "Ashmont - Alewife", stops: ashmont_stops} = ashmont
+      assert %Stops.RouteStops{branch: "Braintree - Alewife", stops: braintree_stops} = braintree
       assert %Stops.RouteStops{branch: nil, stops: _unbranched_stops} = core
 
       [ashmont | _] = ashmont_stops
       assert ashmont.name == "Ashmont"
-      assert ashmont.branch == "Ashmont"
+      assert ashmont.branch == "Ashmont - Alewife"
       assert ashmont.is_terminus? == true
 
       savin = List.last(ashmont_stops)
       assert savin.name == "Savin Hill"
-      assert savin.branch == "Ashmont"
+      assert savin.branch == "Ashmont - Alewife"
       assert savin.is_terminus? == false
 
       [braintree | _] = braintree_stops
       assert braintree.name == "Braintree"
-      assert braintree.branch == "Braintree"
+      assert braintree.branch == "Braintree - Alewife"
       assert braintree.stop_features == [:bus, :commuter_rail, :access, :parking_lot]
       assert braintree.is_terminus? == true
 
       n_quincy = List.last(braintree_stops)
       assert n_quincy.name == "North Quincy"
-      assert n_quincy.branch == "Braintree"
+      assert n_quincy.branch == "Braintree - Alewife"
       assert n_quincy.is_terminus? == false
     end
 
@@ -157,15 +157,19 @@ defmodule Stops.RouteStopsTest do
       stops = Stops.Repo.by_route("CR-Providence", 1)
       route_stops = RouteStops.by_direction(stops, shapes, route, 1)
 
-      [wickford, canton] = route_stops
+      [wickford, stoughton, trunk] = route_stops
 
       assert %Stops.RouteStops{
                stops: [%Stops.RouteStop{id: "place-NEC-1659"} | _]
              } = wickford
 
       assert %Stops.RouteStops{
+               stops: [%Stops.RouteStop{id: "place-SB-0189"} | _]
+             } = stoughton
+
+      assert %Stops.RouteStops{
                stops: [%Stops.RouteStop{id: "place-NEC-2139"} | _]
-             } = canton
+             } = trunk
     end
 
     test "works for bus routes" do
@@ -173,11 +177,11 @@ defmodule Stops.RouteStopsTest do
       shapes = Routes.Repo.get_shapes("1", direction_id: 0)
       route = %Routes.Route{id: "1", type: 3}
 
-      [%Stops.RouteStops{branch: "Harvard Square", stops: outbound}] =
+      [%Stops.RouteStops{branch: "Dudley Station - Harvard Square", stops: outbound}] =
         RouteStops.by_direction(stops, shapes, route, 0)
 
       assert is_list(outbound)
-      assert Enum.all?(outbound, &(&1.branch == "Harvard Square"))
+      assert Enum.all?(outbound, &(&1.branch == "Dudley Station - Harvard Square"))
       assert outbound |> List.first() |> Map.get(:is_terminus?) == true
       assert outbound |> Enum.slice(1..-2) |> Enum.all?(&(&1.is_terminus? == false))
 
@@ -185,10 +189,10 @@ defmodule Stops.RouteStopsTest do
       shapes = Routes.Repo.get_shapes("1", direction_id: 1)
       route = %Routes.Route{id: "1", type: 3}
 
-      [%Stops.RouteStops{branch: "Dudley Station", stops: inbound}] =
+      [%Stops.RouteStops{branch: "Harvard Square - Dudley Station", stops: inbound}] =
         RouteStops.by_direction(stops, shapes, route, 1)
 
-      assert Enum.all?(inbound, &(&1.branch == "Dudley Station"))
+      assert Enum.all?(inbound, &(&1.branch == "Harvard Square - Dudley Station"))
       assert inbound |> List.first() |> Map.get(:is_terminus?) == true
     end
 
