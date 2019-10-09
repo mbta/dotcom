@@ -3,6 +3,7 @@ defmodule SiteWeb.FareView.Description do
 
   import Phoenix.HTML.Link
   import Phoenix.HTML.Tag, only: [content_tag: 2]
+  import Phoenix.HTML.Link, only: [link: 2]
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
   import Util.AndOr
 
@@ -374,7 +375,11 @@ defmodule SiteWeb.FareView.Description do
   end
 
   defp valid_commuter_zones(:foxboro) do
-    "to Gillette Stadium for special events"
+    [
+      "to ",
+      link("Gillette Stadium", to: "/gillette"),
+      " for special events"
+    ]
   end
 
   def transfers(fare) do

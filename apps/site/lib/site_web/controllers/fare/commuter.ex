@@ -18,7 +18,7 @@ defmodule SiteWeb.FareController.Commuter do
         standard_fares = get_fares(fare_name)
 
         if foxboro?(origin.id, destination.id) do
-          standard_fares ++ get_fares(:foxboro)
+          get_fares(:foxboro) ++ standard_fares
         else
           standard_fares
         end

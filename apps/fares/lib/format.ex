@@ -89,7 +89,7 @@ defmodule Fares.Format do
   def name(:commuter_ferry_logan), do: "Commuter Ferry to Logan Airport"
   def name({:zone, zone}), do: "Zone #{zone}"
   def name({:interzone, zone}), do: "Interzone #{zone}"
-  def name(:foxboro), do: "Foxboro"
+  def name(:foxboro), do: "Foxboro Special Event"
   def name(:free_fare), do: "Free Fare for SL1 Trips from Airport Stops"
   def name(:ada_ride), do: "ADA Ride"
   def name(:premium_ride), do: "Premium Ride"
