@@ -54,7 +54,10 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     |> assign(:trip_schedules, trip_schedules)
     |> assign(:vehicle_schedules, vehicle_schedules)
     |> assign(:prior_stops, prior_stops)
-    |> assign(:trip_messages, trip_messages(conn.assigns.route, conn.assigns.direction_id))
+    |> assign(
+      :trip_messages,
+      trip_messages(conn.assigns.route, conn.assigns.direction_id, conn.assigns.date)
+    )
     |> assign(:all_stops, all_stops)
   end
 
@@ -67,8 +70,10 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     end
   end
 
-  @spec trip_messages(Routes.Route.t(), 0 | 1) :: %{{String.t(), String.t()} => String.t()}
-  defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0) do
+  @spec trip_messages(Routes.Route.t(), 0 | 1, Date.t()) :: %{
+          {String.t(), String.t()} => String.t()
+        }
+  defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0, _) do
     %{
       {"221", "place-WR-0067"} => "Via",
       {"221", "place-WR-0075"} => "Lowell",
@@ -76,7 +81,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     }
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 1) do
+  defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 1, _) do
     %{
       {"208", "place-WR-0085"} => "Via",
       {"208", "place-WR-0075"} => "Lowell",
@@ -84,14 +89,14 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     }
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 0) do
+  defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 0, _) do
     %{
       {"221", "place-NHRML-0218"} => "Via",
       {"221", "place-NHRML-0254"} => "Haverhill"
     }
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 1) do
+  defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 1, _) do
     %{
       {"208", "place-NHRML-0254"} => "Via",
       {"208", "place-NHRML-0218"} => "Haverhill",
@@ -99,20 +104,43 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     }
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
-    ["740", "746", "748", "750", "754", "726", "758"]
-    |> Enum.flat_map(&franklin_via_fairmount(&1, 1))
-    |> Enum.into(%{})
+  defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 1, date) do
+    case is_atleast_oct_21_2019(date) do
+      true ->
+        ["740", "746", "748", "750", "754", "726", "758"]
+        |> Enum.flat_map(&franklin_via_fairmount(&1, 1))
+        |> Enum.into(%{})
+
+      false ->
+        %{
+          {"790", "place-rugg"} => "Via",
+          {"790", "place-bbsta"} => "Fairmount"
+        }
+    end
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 0) do
-    ["741", "743", "747", "749", "755", "757", "759"]
-    |> Enum.flat_map(&franklin_via_fairmount(&1, 0))
-    |> Enum.into(%{})
+  defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 0, date) do
+    case is_atleast_oct_21_2019(date) do
+      true ->
+        ["741", "743", "747", "749", "755", "757", "759"]
+        |> Enum.flat_map(&franklin_via_fairmount(&1, 0))
+        |> Enum.into(%{})
+
+      false ->
+        %{}
+    end
   end
 
-  defp trip_messages(_, _) do
+  defp trip_messages(_, _, _) do
     %{}
+  end
+
+  def is_atleast_oct_21_2019(date) do
+    case Date.compare(date, ~D[2019-10-21]) do
+      :lt -> false
+      :eq -> true
+      :gt -> true
+    end
   end
 
   defp franklin_via_fairmount(train, 1) do
