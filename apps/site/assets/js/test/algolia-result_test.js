@@ -70,6 +70,16 @@ describe("AlgoliaResult", () => {
         }
       }
     },
+    diversion: {
+      _content_type: "diversion",
+      _content_url: "/diversions/diversion-1",
+      content_title: "Diversion Title",
+      _highlightResult: {
+        content_title: {
+          value: "Diversion Title"
+        }
+      }
+    },
     person: {
       _content_type: "person",
       _content_url: "/people/person",
@@ -395,6 +405,10 @@ describe("AlgoliaResult", () => {
         "fa-info"
       );
       assert.include(
+        AlgoliaResult.getIcon(drupalHits.diversion, "drupal"),
+        "fa-info"
+      );
+      assert.include(
         AlgoliaResult.getIcon(drupalHits.person, "drupal"),
         "fa-user"
       );
@@ -561,6 +575,9 @@ describe("AlgoliaResult", () => {
         expect(
           AlgoliaResult.getTitle(drupalHits.landingPage, "drupal")
         ).to.equal("Landing Page Title");
+        expect(AlgoliaResult.getTitle(drupalHits.diversion, "drupal")).to.equal(
+          "Diversion Title"
+        );
         expect(AlgoliaResult.getTitle(drupalHits.person, "drupal")).to.equal(
           "Person Name"
         );
@@ -606,6 +623,9 @@ describe("AlgoliaResult", () => {
       );
       expect(AlgoliaResult.getUrl(drupalHits.landingPage, "drupal")).to.equal(
         "/landing_page"
+      );
+      expect(AlgoliaResult.getUrl(drupalHits.diversion, "drupal")).to.equal(
+        "/diversions/diversion-1"
       );
       expect(AlgoliaResult.getUrl(drupalHits.person, "drupal")).to.equal(
         "/people/person"

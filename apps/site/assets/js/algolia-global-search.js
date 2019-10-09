@@ -232,6 +232,7 @@ AlgoliaGlobalSearch.DEFAULT_PARAMS = {
     facetFilters: [
       [
         "_content_type:page",
+        "_content_type:diversion",
         "_content_type:search_result",
         "_content_type:landing_page",
         "_content_type:person"
