@@ -73,7 +73,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   @spec trip_messages(Routes.Route.t(), 0 | 1, Date.t()) :: %{
           {String.t(), String.t()} => String.t()
         }
-  defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0, _) do
+  def trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0, _) do
     %{
       {"221", "place-WR-0067"} => "Via",
       {"221", "place-WR-0075"} => "Lowell",
@@ -81,7 +81,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     }
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 1, _) do
+  def trip_messages(%Routes.Route{id: "CR-Haverhill"}, 1, _) do
     %{
       {"208", "place-WR-0085"} => "Via",
       {"208", "place-WR-0075"} => "Lowell",
@@ -89,14 +89,14 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     }
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 0, _) do
+  def trip_messages(%Routes.Route{id: "CR-Lowell"}, 0, _) do
     %{
       {"221", "place-NHRML-0218"} => "Via",
       {"221", "place-NHRML-0254"} => "Haverhill"
     }
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 1, _) do
+  def trip_messages(%Routes.Route{id: "CR-Lowell"}, 1, _) do
     %{
       {"208", "place-NHRML-0254"} => "Via",
       {"208", "place-NHRML-0218"} => "Haverhill",
@@ -104,7 +104,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     }
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 1, date) do
+  def trip_messages(%Routes.Route{id: "CR-Franklin"}, 1, date) do
     case is_atleast_oct_21_2019(date) do
       true ->
         ["740", "746", "748", "750", "754", "726", "758"]
@@ -119,7 +119,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     end
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 0, date) do
+  def trip_messages(%Routes.Route{id: "CR-Franklin"}, 0, date) do
     case is_atleast_oct_21_2019(date) do
       true ->
         ["741", "743", "747", "749", "755", "757", "759"]
@@ -131,7 +131,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     end
   end
 
-  defp trip_messages(_, _, _) do
+  def trip_messages(_, _, _) do
     %{}
   end
 

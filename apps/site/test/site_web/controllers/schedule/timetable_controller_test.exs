@@ -93,6 +93,51 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
     end
   end
 
+  describe "trip_messages/3" do
+    test "returns proper trips for CR Franklin before 10-21" do
+      assert Enum.empty?(trip_messages(%Routes.Route{id: "CR-Franklin"}, 0, ~D[2019-10-20]))
+
+      assert [
+               {"790", "place-bbsta"},
+               {"790", "place-rugg"}
+             ] = Map.keys(trip_messages(%Routes.Route{id: "CR-Franklin"}, 1, ~D[2019-10-20]))
+    end
+
+    test "returns proper trips for CR Franklin on and after 10-21" do
+      assert [
+               "726",
+               "740",
+               "746",
+               "748",
+               "750",
+               "754",
+               "758"
+             ] =
+               %Routes.Route{id: "CR-Franklin"}
+               |> trip_messages(1, ~D[2019-10-22])
+               |> Map.keys()
+               |> Enum.map(&elem(&1, 0))
+               |> Enum.uniq()
+               |> Enum.sort()
+
+      assert [
+               "741",
+               "743",
+               "747",
+               "749",
+               "755",
+               "757",
+               "759"
+             ] ==
+               %Routes.Route{id: "CR-Franklin"}
+               |> trip_messages(0, ~D[2019-10-22])
+               |> Map.keys()
+               |> Enum.map(&elem(&1, 0))
+               |> Enum.uniq()
+               |> Enum.sort()
+    end
+  end
+
   describe "vehicle_schedules/1" do
     test "constructs vehicle data for channel consumption" do
       vehicles =
