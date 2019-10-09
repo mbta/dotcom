@@ -80,7 +80,8 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
     "charlie_ticket",
     "commuter_ticket",
     "mticket",
-    "paper_ferry"
+    "paper_ferry",
+    "special_event"
   ]
 
   @fare_reduced [
