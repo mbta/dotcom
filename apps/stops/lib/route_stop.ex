@@ -125,6 +125,18 @@ defmodule Stops.RouteStop do
     |> merge_branch_list(1)
   end
 
+  def list_from_shapes(
+        shapes,
+        stops,
+        %Route{id: "CR-Franklin"} = route,
+        1
+      ) do
+    shapes
+    |> Enum.reject(&(&1.name == "Forge Park/495 - South Station via Back Bay"))
+    |> Enum.map(&do_list_from_shapes(&1.name, &1.stop_ids, stops, route))
+    |> merge_branch_list(1)
+  end
+
   def list_from_shapes(shapes, stops, route, direction_id) do
     shapes
     |> Enum.map(&do_list_from_shapes(&1.name, &1.stop_ids, stops, route))
