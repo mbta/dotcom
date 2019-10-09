@@ -91,7 +91,13 @@ export class AlgoliaFacets {
         item: {
           id: "page",
           name: "Pages",
-          facets: ["page", "search_result", "landing_page", "person"],
+          facets: [
+            "page",
+            "search_result",
+            "landing_page",
+            "person",
+            "diversion"
+          ],
           icon: this._faIcon("fa-info")
         }
       },
