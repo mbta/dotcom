@@ -44,6 +44,7 @@ defmodule Fares.Mixfile do
       {:sweet_xml, "~> 0.6.2", only: [:dev, :test]},
       {:repo_cache, in_umbrella: true},
       {:stops, in_umbrella: true},
+      {:schedules, in_umbrella: true},
       {:google_maps, in_umbrella: true},
       {:rstar, github: "armon/erl-rstar"}
     ]
