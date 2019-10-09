@@ -10,25 +10,33 @@ defmodule Site.BaseFare do
 
   alias Fares.{Fare, Repo}
   alias Routes.Route
+  alias Schedules.Trip
 
   @default_filters [reduced: nil, duration: :single_trip]
   @default_foxboro_filters [reduced: nil, duration: :round_trip]
 
+  @default_trip %Trip{name: "", id: ""}
+
   @spec base_fare(
           Route.t() | map,
+          Trip.t() | map,
           Stops.Stop.id_t(),
           Stops.Stop.id_t(),
           (Keyword.t() -> [Fare.t()])
         ) ::
           String.t() | nil
-  def base_fare(route, origin_id, destination_id, fare_fn \\ &Repo.all/1)
-  def base_fare(nil, _, _, _), do: nil
+  def base_fare(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
+  def base_fare(nil, _, _, _, _), do: nil
 
-  def base_fare(route, origin_id, destination_id, fare_fn) do
+  def base_fare(route, nil, origin_id, destination_id, fare_fn) do
+    base_fare(route, @default_trip, origin_id, destination_id, fare_fn)
+  end
+
+  def base_fare(route, trip, origin_id, destination_id, fare_fn) do
     route_filters =
       route.type
       |> Route.type_atom()
-      |> name_or_mode_filter(route, origin_id, destination_id)
+      |> name_or_mode_filter(route, origin_id, destination_id, trip)
 
     default_filters =
       if {:name, :foxboro} in route_filters do
@@ -43,15 +51,19 @@ defmodule Site.BaseFare do
     |> Enum.min_by(& &1.cents, fn -> nil end)
   end
 
-  defp name_or_mode_filter(:subway, _route, _origin_id, _destination_id) do
+  defp name_or_mode_filter(:subway, _route, _origin_id, _destination_id, _trip) do
     [mode: :subway]
   end
 
-  defp name_or_mode_filter(_, %{description: :rail_replacement_bus}, _, _) do
+  defp name_or_mode_filter(_, %{description: :rail_replacement_bus}, _, _, _) do
     [name: :free_fare]
   end
 
-  defp name_or_mode_filter(:bus, %{id: route_id}, origin_id, _destination_id) do
+  defp name_or_mode_filter(_, %{id: "CR-Foxboro"}, _, _, _) do
+    [name: :foxboro]
+  end
+
+  defp name_or_mode_filter(:bus, %{id: route_id}, origin_id, _destination_id, _trip) do
     name =
       cond do
         Fares.inner_express?(route_id) -> :inner_express_bus
@@ -64,14 +76,17 @@ defmodule Site.BaseFare do
     [name: name]
   end
 
-  defp name_or_mode_filter(mode, _route, origin_id, destination_id)
-       when mode in [:commuter_rail, :ferry] do
-    case Fares.fare_for_stops(mode, origin_id, destination_id) do
+  defp name_or_mode_filter(:commuter_rail, _, origin_id, destination_id, trip) do
+    case Fares.fare_for_stops(:commuter_rail, origin_id, destination_id, trip) do
       {:ok, name} ->
         [name: name]
 
       :error ->
-        [mode: mode]
+        [mode: :commuter_rail]
     end
+  end
+
+  defp name_or_mode_filter(:ferry, _, origin_id, destination_id, _) do
+    [name: :ferry |> Fares.fare_for_stops(origin_id, destination_id) |> elem(1)]
   end
 end
