@@ -54,7 +54,10 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     |> assign(:trip_schedules, trip_schedules)
     |> assign(:vehicle_schedules, vehicle_schedules)
     |> assign(:prior_stops, prior_stops)
-    |> assign(:trip_messages, trip_messages(conn.assigns.route, conn.assigns.direction_id))
+    |> assign(
+      :trip_messages,
+      trip_messages(conn.assigns.route, conn.assigns.direction_id, conn.assigns.date)
+    )
     |> assign(:all_stops, all_stops)
   end
 
@@ -67,47 +70,116 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     end
   end
 
-  @spec trip_messages(Routes.Route.t(), 0 | 1) :: %{{String.t(), String.t()} => String.t()}
-  defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0) do
+  @spec trip_messages(Routes.Route.t(), 0 | 1, Date.t()) :: %{
+          {String.t(), String.t()} => String.t()
+        }
+  def trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0, _) do
     %{
+      {"221"} => "Via Lowell Line",
       {"221", "place-WR-0067"} => "Via",
       {"221", "place-WR-0075"} => "Lowell",
       {"221", "place-WR-0085"} => "Line"
     }
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Haverhill"}, 1) do
+  def trip_messages(%Routes.Route{id: "CR-Haverhill"}, 1, _) do
     %{
+      {"208"} => "Via Lowell Line",
       {"208", "place-WR-0085"} => "Via",
       {"208", "place-WR-0075"} => "Lowell",
       {"208", "place-WR-0067"} => "Line"
     }
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 0) do
+  def trip_messages(%Routes.Route{id: "CR-Lowell"}, 0, _) do
     %{
+      {"221"} => "Via Haverhill",
       {"221", "place-NHRML-0218"} => "Via",
       {"221", "place-NHRML-0254"} => "Haverhill"
     }
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Lowell"}, 1) do
+  def trip_messages(%Routes.Route{id: "CR-Lowell"}, 1, _) do
     %{
+      {"208"} => "Via Haverhill",
       {"208", "place-NHRML-0254"} => "Via",
       {"208", "place-NHRML-0218"} => "Haverhill",
       {"208", "place-NHRML-0152"} => "-"
     }
   end
 
-  defp trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
-    %{
-      {"790", "place-rugg"} => "Via",
-      {"790", "place-bbsta"} => "Fairmount"
-    }
+  def trip_messages(%Routes.Route{id: "CR-Franklin"}, 1, date) do
+    case is_atleast_oct_21_2019(date) do
+      true ->
+        ["740", "746", "748", "750", "754", "726", "758"]
+        |> Enum.flat_map(&franklin_via_fairmount(&1, 1))
+        |> Enum.into(%{})
+
+      false ->
+        %{
+          {"790"} => "Via Fairmount",
+          {"790", "place-rugg"} => "Via",
+          {"790", "place-bbsta"} => "Fairmount"
+        }
+    end
   end
 
-  defp trip_messages(_, _) do
+  def trip_messages(%Routes.Route{id: "CR-Franklin"}, 0, date) do
+    case is_atleast_oct_21_2019(date) do
+      true ->
+        ["741", "743", "747", "749", "755", "757", "759"]
+        |> Enum.flat_map(&franklin_via_fairmount(&1, 0))
+        |> Enum.into(%{})
+
+      false ->
+        %{}
+    end
+  end
+
+  def trip_messages(_, _, _) do
     %{}
+  end
+
+  def is_atleast_oct_21_2019(date) do
+    case Date.compare(date, ~D[2019-10-21]) do
+      :lt -> false
+      :eq -> true
+      :gt -> true
+    end
+  end
+
+  defp franklin_via_fairmount(train, 1) do
+    [
+      List.duplicate(train, 3),
+      stops_for_fairmount(1),
+      ["Via", "Fairmount", "Line"]
+    ]
+    |> make_via_list()
+    |> Enum.concat([{{train}, "Via Fairmount Line"}])
+  end
+
+  defp franklin_via_fairmount(train, 0) do
+    [
+      List.duplicate(train, 4),
+      stops_for_fairmount(0),
+      ["Via", "Fair-", "mount", "Line"]
+    ]
+    |> make_via_list()
+    |> Enum.concat([{{train}, "Via Fairmount Line"}])
+  end
+
+  defp stops_for_fairmount(1) do
+    ["place-DB-0095", "place-rugg", "place-bbsta"]
+  end
+
+  defp stops_for_fairmount(0) do
+    ["place-bbsta", "place-rugg", "place-NEC-2203", "place-DB-0095"]
+  end
+
+  def make_via_list(list) do
+    list
+    |> List.zip()
+    |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
   end
 
   defp all_stops(conn, _) do

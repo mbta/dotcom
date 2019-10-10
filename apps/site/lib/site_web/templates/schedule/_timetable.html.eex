@@ -94,6 +94,7 @@
                 trip_id = schedule.trip.id
                 trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
                 tooltip = stop_tooltip(trip_schedule)
+                full_trip_message = @trip_messages[{schedule.trip.name}]
                 trip_message = @trip_messages[{schedule.trip.name, stop.id}]
                 tooltip_attrs = [html: true, toggle: "tooltip"]
               %>
@@ -104,7 +105,8 @@
                 title: if tooltip do raw(tooltip) end
               ] do %>
                 <%= if trip_message do %>
-                  <%= trip_message %>
+                  <div class="sr-only"><%= full_trip_message %></div>
+                  <div aria-hidden="true"><%= trip_message %></div>
                 <% else %>
                   <%= render "_timetable_schedule.html", Map.merge(assigns, %{trip_schedule: trip_schedule, schedule: schedule, stop: stop}) %>
                 <% end %>
