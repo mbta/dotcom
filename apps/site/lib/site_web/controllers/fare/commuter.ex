@@ -50,6 +50,6 @@ defmodule SiteWeb.FareController.Commuter do
   defp foxboro?(a, b) when @foxboro in [a, b], do: true
   defp foxboro?(_, _), do: false
 
-  @spec foxboro_pilot?(Calendar.date()) :: boolean
+  @spec foxboro_pilot?(Date.t()) :: boolean
   defp foxboro_pilot?(current_date), do: Date.compare(current_date, @pilot_launch_date) != :lt
 end
