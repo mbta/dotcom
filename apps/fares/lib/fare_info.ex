@@ -398,7 +398,7 @@ defmodule Fares.FareInfo do
         mode: :commuter_rail,
         name: :foxboro,
         duration: :round_trip,
-        media: [:commuter_ticket, :cash],
+        media: [:mticket, :special_event, :cash],
         reduced: nil,
         cents: dollars_to_cents(round_trip)
       }
