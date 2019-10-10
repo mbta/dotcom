@@ -109,7 +109,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   end
 
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 1, date) do
-    case is_atleast_oct_21_2019(date) do
+    case ScheduleView.is_atleast_oct_21_2019?(date) do
       true ->
         ["740", "746", "748", "750", "754", "726", "758"]
         |> Enum.flat_map(&franklin_via_fairmount(&1, 1))
@@ -125,7 +125,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   end
 
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 0, date) do
-    case is_atleast_oct_21_2019(date) do
+    case ScheduleView.is_atleast_oct_21_2019?(date) do
       true ->
         ["741", "743", "747", "749", "755", "757", "759"]
         |> Enum.flat_map(&franklin_via_fairmount(&1, 0))
@@ -136,10 +136,13 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     end
   end
 
-  def trip_messages(%Routes.Route{id: "CR-Fairmount"}, 1, date) do
-    case is_atleast_oct_21_2019(date) do
+  def trip_messages(%Routes.Route{id: "CR-Fairmount"} = route, 1, date) do
+    case ScheduleView.is_atleast_oct_21_2019?(date) do
       true ->
-        %{{"726", "place-FS-0049"} => "FRANK"}
+        %{
+          {"726"} => ScheduleView.timetable_note(%{route: route, direction_id: 1}),
+          {"726", "place-FS-0049"} => "FRANK"
+        }
 
       false ->
         %{}
@@ -148,14 +151,6 @@ defmodule SiteWeb.ScheduleController.TimetableController do
 
   def trip_messages(_, _, _) do
     %{}
-  end
-
-  def is_atleast_oct_21_2019(date) do
-    case Date.compare(date, ~D[2019-10-21]) do
-      :lt -> false
-      :eq -> true
-      :gt -> true
-    end
   end
 
   defp franklin_via_fairmount(train, 1) do

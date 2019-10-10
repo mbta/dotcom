@@ -471,19 +471,34 @@ defmodule SiteWeb.ScheduleView do
     end
   end
 
-  @spec timetable_note(Conn.t()) :: Safe.t()
-  def timetable_note(%{route: %Route{id: "CR-Fairmount"}}) do
-    content_tag :span, class: "m-timetable__note" do
-      [
-        content_tag(:span, "FRANK: ", class: "m-timetable__cell--via"),
-        content_tag(
-          :span,
-          "Operates from Forge Park. Does not serve Foxboro. "
-        ),
-        link(to: timetable_path(SiteWeb.Endpoint, :show, "CR-Franklin")) do
-          "See the Franklin Line schedule for all stops."
+  @spec is_atleast_oct_21_2019?(Date.t()) :: boolean
+  def is_atleast_oct_21_2019?(date) do
+    case Date.compare(date, ~D[2019-10-21]) do
+      :lt -> false
+      :eq -> true
+      :gt -> true
+    end
+  end
+
+  @spec timetable_note(Conn.t()) :: Safe.t() | nil
+  def timetable_note(%{route: %Route{id: "CR-Fairmount"}, direction_id: 1, date: date}) do
+    case is_atleast_oct_21_2019?(date) do
+      true ->
+        content_tag :span, class: "m-timetable__note" do
+          [
+            content_tag(:span, "FRANK: ", class: "m-timetable__cell--via"),
+            content_tag(
+              :span,
+              "Operates from Forge Park. Does not serve Foxboro. "
+            ),
+            link(to: timetable_path(SiteWeb.Endpoint, :show, "CR-Franklin")) do
+              "See the Franklin Line schedule for all stops."
+            end
+          ]
         end
-      ]
+
+      false ->
+        nil
     end
   end
 

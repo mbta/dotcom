@@ -144,6 +144,7 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
 
     test "returns proper trips for CR Fairmount on or after 10-21" do
       assert [
+               {"726"},
                {"726", "place-FS-0049"}
              ] = Map.keys(trip_messages(%Routes.Route{id: "CR-Fairmount"}, 1, ~D[2019-10-21]))
     end
