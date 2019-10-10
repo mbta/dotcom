@@ -98,6 +98,7 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
       assert Enum.empty?(trip_messages(%Routes.Route{id: "CR-Franklin"}, 0, ~D[2019-10-20]))
 
       assert [
+               {"790"},
                {"790", "place-bbsta"},
                {"790", "place-rugg"}
              ] = Map.keys(trip_messages(%Routes.Route{id: "CR-Franklin"}, 1, ~D[2019-10-20]))

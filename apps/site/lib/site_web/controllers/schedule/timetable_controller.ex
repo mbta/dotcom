@@ -75,6 +75,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
         }
   def trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0, _) do
     %{
+      {"221"} => "Via Lowell Line",
       {"221", "place-WR-0067"} => "Via",
       {"221", "place-WR-0075"} => "Lowell",
       {"221", "place-WR-0085"} => "Line"
@@ -83,6 +84,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
 
   def trip_messages(%Routes.Route{id: "CR-Haverhill"}, 1, _) do
     %{
+      {"208"} => "Via Lowell Line",
       {"208", "place-WR-0085"} => "Via",
       {"208", "place-WR-0075"} => "Lowell",
       {"208", "place-WR-0067"} => "Line"
@@ -91,6 +93,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
 
   def trip_messages(%Routes.Route{id: "CR-Lowell"}, 0, _) do
     %{
+      {"221"} => "Via Haverhill",
       {"221", "place-NHRML-0218"} => "Via",
       {"221", "place-NHRML-0254"} => "Haverhill"
     }
@@ -98,6 +101,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
 
   def trip_messages(%Routes.Route{id: "CR-Lowell"}, 1, _) do
     %{
+      {"208"} => "Via Haverhill",
       {"208", "place-NHRML-0254"} => "Via",
       {"208", "place-NHRML-0218"} => "Haverhill",
       {"208", "place-NHRML-0152"} => "-"
@@ -113,6 +117,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
 
       false ->
         %{
+          {"790"} => "Via Fairmount",
           {"790", "place-rugg"} => "Via",
           {"790", "place-bbsta"} => "Fairmount"
         }
@@ -150,6 +155,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
       ["Via", "Fairmount", "Line"]
     ]
     |> make_via_list()
+    |> Enum.concat([{{train}, "Via Fairmount Line"}])
   end
 
   defp franklin_via_fairmount(train, 0) do
@@ -159,6 +165,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
       ["Via", "Fair-", "mount", "Line"]
     ]
     |> make_via_list()
+    |> Enum.concat([{{train}, "Via Fairmount Line"}])
   end
 
   defp stops_for_fairmount(1) do
