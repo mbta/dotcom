@@ -480,7 +480,7 @@ defmodule SiteWeb.ScheduleView do
     end
   end
 
-  @spec timetable_note(Conn.t()) :: Safe.t() | nil
+  @spec timetable_note(Conn.t() | map) :: Safe.t() | nil
   def timetable_note(%{route: %Route{id: "CR-Fairmount"}, direction_id: 1, date: date}) do
     case is_atleast_oct_21_2019?(date) do
       true ->

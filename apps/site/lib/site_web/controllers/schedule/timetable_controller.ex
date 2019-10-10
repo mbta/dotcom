@@ -140,7 +140,7 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     case ScheduleView.is_atleast_oct_21_2019?(date) do
       true ->
         %{
-          {"726"} => ScheduleView.timetable_note(%{route: route, direction_id: 1}),
+          {"726"} => ScheduleView.timetable_note(%{route: route, direction_id: 1, date: date}),
           {"726", "place-FS-0049"} => "FRANK"
         }
 
