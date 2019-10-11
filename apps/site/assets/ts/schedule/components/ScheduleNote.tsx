@@ -31,7 +31,8 @@ const ScheduleNote = ({
   scheduleNote: {
     peak_service: peakService,
     offpeak_service: offpeakService,
-    exceptions
+    exceptions,
+    alternate_text: alternateText
   },
   className
 }: Props): ReactElement<HTMLElement> => (
@@ -43,20 +44,28 @@ const ScheduleNote = ({
       />
       Schedule Note
     </h3>
-    <div className="m-schedule-page__schedule-note">
-      <h4 className="m-schedule-page__service">Peak Service</h4>
-      <div className="m-schedule-page__service-subheading">
-        Weekdays 7 AM - 9 AM, 4 PM - 6:30 PM
+    {alternateText ? (
+      <div className="m-schedule-page__schedule-note m-schedule-page__schedule-note--alternate">
+        <div dangerouslySetInnerHTML={{ __html: alternateText }} />
       </div>
-      {service(peakService)}
-    </div>
-    <div className="m-schedule-page__schedule-note">
-      <h4 className="m-schedule-page__service">Off Peak / Weekends</h4>
-      {offPeak(offpeakService, exceptions)}
-      {exceptions.map(exception =>
-        service(`${exception.service} ${exception.type}`)
-      )}
-    </div>
+    ) : (
+      <>
+        <div className="m-schedule-page__schedule-note">
+          <h4 className="m-schedule-page__service">Peak Service</h4>
+          <div className="m-schedule-page__service-subheading">
+            Weekdays 7 AM - 9 AM, 4 PM - 6:30 PM
+          </div>
+          {service(peakService)}
+        </div>
+        <div className="m-schedule-page__schedule-note">
+          <h4 className="m-schedule-page__service">Off Peak / Weekends</h4>
+          {offPeak(offpeakService, exceptions)}
+          {exceptions.map(exception =>
+            service(`${exception.service} ${exception.type}`)
+          )}
+        </div>
+      </>
+    )}
   </div>
 );
 

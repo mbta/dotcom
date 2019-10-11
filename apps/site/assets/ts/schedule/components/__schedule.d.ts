@@ -102,6 +102,7 @@ export interface ScheduleNote {
   peak_service: string;
   offpeak_service: string;
   exceptions: ServiceException[];
+  alternate_text?: string;
 }
 
 export interface ServiceException {
