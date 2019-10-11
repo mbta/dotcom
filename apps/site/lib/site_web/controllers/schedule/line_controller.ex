@@ -1,5 +1,6 @@
 defmodule SiteWeb.ScheduleController.LineController do
   use SiteWeb, :controller
+  alias Alerts.Stop
   alias Phoenix.HTML
   alias Plug.Conn
   alias Routes.{Group, Route}
@@ -8,6 +9,8 @@ defmodule SiteWeb.ScheduleController.LineController do
   alias Site.ScheduleNote
   alias SiteWeb.{ScheduleView, ViewHelpers}
   alias Stops.{RouteStop}
+
+  import SiteWeb.StopController, only: [json_safe_alerts: 2]
 
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.Plugs.DateInRating)
@@ -84,15 +87,19 @@ defmodule SiteWeb.ScheduleController.LineController do
         direction_id: conn.assigns.direction_id,
         route_patterns: conn.assigns.route_patterns,
         shape_map: conn.assigns.shape_map,
-        line_diagram: Enum.map(conn.assigns.all_stops, &update_route_stop_data/1)
+        line_diagram:
+          Enum.map(conn.assigns.all_stops, fn stop ->
+            update_route_stop_data(stop, conn.assigns.alerts, conn.assigns.date)
+          end)
       }
     )
   end
 
-  def update_route_stop_data({data, %RouteStop{} = map}) do
+  def update_route_stop_data({data, %RouteStop{id: stop_id} = map}, alerts, date) do
     %{
       stop_data: Enum.map(data, fn {key, value} -> %{branch: key, type: value} end),
-      route_stop: RouteStop.to_json_safe(map)
+      route_stop: RouteStop.to_json_safe(map),
+      alerts: alerts |> Stop.match(stop_id) |> json_safe_alerts(date)
     }
   end
 

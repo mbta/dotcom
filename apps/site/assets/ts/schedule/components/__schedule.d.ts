@@ -1,5 +1,6 @@
 import { TypedRoutes } from "../../stop/components/__stop";
 import {
+  Alert,
   Route,
   PredictedOrScheduledTime,
   EnhancedRoute,
@@ -51,6 +52,7 @@ interface StopData {
 export interface LineDiagramStop {
   stop_data: StopData[];
   route_stop: RouteStop;
+  alerts: Alert[];
 }
 
 interface RouteStopRoute extends Route {

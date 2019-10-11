@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { LineDiagramStop, StopData } from "./__schedule";
 import { modeIcon, accessibleIcon, parkingIcon } from "../../helpers/icon";
-import { Route } from "../../__v3api";
+import { Alert, Route } from "../../__v3api";
 
 interface Props {
   lineDiagram: LineDiagramStop[];
@@ -15,7 +15,11 @@ const LineDiagram = ({
 }: Props): ReactElement<HTMLElement> | null => (
   <>
     {lineDiagram.map(
-      ({ route_stop: routeStop, stop_data: stopData }: LineDiagramStop) => (
+      ({
+        route_stop: routeStop,
+        stop_data: stopData,
+        alerts: stopAlerts
+      }: LineDiagramStop) => (
         <div key={routeStop.id} className="m-schedule-line-diagram__stop">
           <div className="m-schedule-line-diagram__card-left">
             <div className="m-schedule-line-diagram__stop-name">
