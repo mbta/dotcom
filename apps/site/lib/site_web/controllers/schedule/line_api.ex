@@ -4,13 +4,20 @@ defmodule SiteWeb.ScheduleController.LineApi do
   """
   use SiteWeb, :controller
 
+  alias Alerts.Stop
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias Stops.Repo, as: StopsRepo
   alias Stops.RouteStop
 
+  import SiteWeb.StopController, only: [json_safe_alerts: 2]
+
+  plug(:alerts)
+
   @type query_param :: String.t() | nil
   @type direction_id :: 0 | 1
+
+  defp alerts(conn, _), do: assign_alerts(conn, [])
 
   def show(conn, %{
         "id" => route_id,
@@ -21,7 +28,12 @@ defmodule SiteWeb.ScheduleController.LineApi do
         stops_by_route_fn: &StopsRepo.by_route/3
       })
 
-    json(conn, Enum.map(line_data, &update_route_stop_data/1))
+    json(
+      conn,
+      Enum.map(line_data, fn stop ->
+        update_route_stop_data(stop, conn.assigns.alerts, conn.assigns.date)
+      end)
+    )
   end
 
   def get_line_data(conn, route_id, direction_id, deps) do
@@ -35,10 +47,11 @@ defmodule SiteWeb.ScheduleController.LineApi do
     DiagramHelpers.build_stop_list(branches, direction_id)
   end
 
-  def update_route_stop_data({data, %RouteStop{} = map}) do
+  def update_route_stop_data({data, %RouteStop{id: stop_id} = map}, alerts, date) do
     %{
       stop_data: Enum.map(data, fn {key, value} -> %{branch: key, type: value} end),
-      route_stop: RouteStop.to_json_safe(map)
+      route_stop: RouteStop.to_json_safe(map),
+      alerts: alerts |> Stop.match(stop_id) |> json_safe_alerts(date)
     }
   end
 end

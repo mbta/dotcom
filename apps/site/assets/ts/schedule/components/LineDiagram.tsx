@@ -10,6 +10,8 @@ interface Props {
 const maybeTerminus = (stopData: StopData[]): StopData | undefined =>
   stopData.find((stop: StopData) => stop.type === "terminus");
 
+const maybeAlert = (alerts: Alert[]): boolean => Boolean(alerts.length);
+
 const LineDiagram = ({
   lineDiagram
 }: Props): ReactElement<HTMLElement> | null => (
@@ -44,6 +46,7 @@ const LineDiagram = ({
             </div>
           </div>
           <div>
+            {maybeAlert(stopAlerts)}
             <div className="m-schedule-line-diagram__features">
               {routeStop.stop_features.includes("parking_lot")
                 ? parkingIcon("c-svg__icon-parking-default")
