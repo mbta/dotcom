@@ -1,8 +1,0 @@
-<%= if @route.id == "CR-Foxboro" do %>
-  <div class="schedule-route-note col-xs-12 col-md-<%= @column_width %>">
-    <div class="callout callout-full-height">
-      <strong>Note:</strong>
-      Trains depart from Foxboro 30 minutes after conclusion of events
-    </div>
-  </div>
-<% end %>

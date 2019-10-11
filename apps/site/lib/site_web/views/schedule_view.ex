@@ -502,5 +502,29 @@ defmodule SiteWeb.ScheduleView do
     end
   end
 
+  def timetable_note(%{route: %Route{id: "CR-Foxboro"}, direction_id: _, date: date}) do
+    case is_atleast_oct_21_2019?(date) do
+      true ->
+        content_tag :div, class: "m-timetable__note" do
+          [
+            content_tag(:p, [
+              content_tag(:strong, "Note:"),
+              " Trains depart from Foxboro 30 minutes after conclusion of events"
+            ]),
+            content_tag(:p, [
+              content_tag(:strong, "Note:"),
+              " For regular weekday service to and from Foxboro please visit ",
+              link(to: timetable_path(SiteWeb.Endpoint, :show, "CR-Franklin")) do
+                "Franklin Line/Foxboro Pilot"
+              end
+            ])
+          ]
+        end
+
+      false ->
+        nil
+    end
+  end
+
   def timetable_note(_), do: nil
 end
