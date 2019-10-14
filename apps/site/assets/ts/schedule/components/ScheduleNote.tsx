@@ -45,9 +45,10 @@ const ScheduleNote = ({
       Schedule Note
     </h3>
     {alternateText ? (
+      /* eslint-disable react/no-danger */
       <div className="m-schedule-page__schedule-note m-schedule-page__schedule-note--alternate">
         <div dangerouslySetInnerHTML={{ __html: alternateText }} />
-      </div>
+      </div> /* eslint-enable react/no-danger */
     ) : (
       <>
         <div className="m-schedule-page__schedule-note">

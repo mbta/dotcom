@@ -6,7 +6,7 @@ defmodule Site.ScheduleNote do
   import Phoenix.HTML.Tag
   import Phoenix.HTML.Link
   alias Phoenix.HTML
-  alias SiteWeb.Router
+  alias SiteWeb.Router.Helpers
 
   @type exception :: %{
           type: String.t(),
@@ -102,32 +102,33 @@ defmodule Site.ScheduleNote do
       offpeak_service: nil,
       alternate_text:
         HTML.safe_to_string(
-          content_tag(
-            :p,
-            [
-              content_tag(
-                :strong,
-                "The Foxboro Special Events line is only for occasional service."
-              ),
-              content_tag(
-                :span,
+          content_tag(:div, [
+            content_tag(
+              :p,
+              [
+                content_tag(
+                  :strong,
+                  "The Foxboro Special Events line is only for occasional service."
+                ),
                 " It travels along limited stops between Foxboro and either Providence or Downtown Boston (South Station)"
-              ),
-              content_tag(
-                :p,
-                [
-                  content_tag(
-                    :strong,
-                    "For regular weekday service to Foxboro please visit: "
-                  ),
-                  link(
-                    "Franklin Line/Foxboro Pilot",
-                    to: Helpers.timetable_path(SiteWeb.Endpoint, :show, route.id)
-                  )
-                ]
-              )
-            ]
-          )
+              ],
+              class: "m-schedule-page__service-note-time"
+            ),
+            content_tag(
+              :p,
+              [
+                content_tag(
+                  :strong,
+                  "For regular weekday service to Foxboro please visit: "
+                ),
+                link(
+                  "Franklin Line/Foxboro Pilot",
+                  to: Helpers.timetable_path(SiteWeb.Endpoint, :show, route.id)
+                )
+              ],
+              class: "m-schedule-page__service-note-time"
+            )
+          ])
         )
     }
   end

@@ -21,6 +21,10 @@
         <h2>Info &amp; Maps</h2>
 
         <div id="react-schedule-finder-root">
+          <%= unless @schedule_page_data[:schedule_note] do %>
+            <%= Site.React.render("ScheduleFinder", %{classModifier: "mobile",
+            route: Routes.Route.to_json_safe(@route), stops: @schedule_page_data[:stops], directionId: @direction_id}) %>
+          <% end %>
         </div>
 
         <%= if redesign_direction? do %>

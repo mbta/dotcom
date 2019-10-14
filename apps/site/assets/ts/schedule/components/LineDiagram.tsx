@@ -54,12 +54,14 @@ const LineDiagram = ({
               )}
             </div>
             <div>
-              {stopData.map((stop: StopData, idx: number) => (
+              {/* eslint-disable react/no-array-index-key */
+              stopData.map((stop: StopData, idx: number) => (
                 <div key={idx}>
                   {stop.branch ? `${stop.branch}, ` : ""}
                   {stop.type}
                 </div>
               ))}
+              {/* eslint-enable react/no-array-index-key */}
             </div>
           </div>
         </div>
