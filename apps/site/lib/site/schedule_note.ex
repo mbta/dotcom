@@ -3,9 +3,10 @@ defmodule Site.ScheduleNote do
   Represents text describing the schedule for a subway route
   """
   alias Routes.Route
-  alias Phoenix.HTML
   import Phoenix.HTML.Tag
   import Phoenix.HTML.Link
+  alias Phoenix.HTML
+  alias SiteWeb.Router
 
   @type exception :: %{
           type: String.t(),
@@ -121,7 +122,7 @@ defmodule Site.ScheduleNote do
                   ),
                   link(
                     "Franklin Line/Foxboro Pilot",
-                    to: SiteWeb.Router.Helpers.timetable_path(SiteWeb.Endpoint, :show, route.id)
+                    to: Helpers.timetable_path(SiteWeb.Endpoint, :show, route.id)
                   )
                 ]
               )

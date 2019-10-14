@@ -54,8 +54,8 @@ const LineDiagram = ({
               )}
             </div>
             <div>
-              {stopData.map((stop: StopData) => (
-                <div>
+              {stopData.map((stop: StopData, idx: number) => (
+                <div key={idx}>
                   {stop.branch ? `${stop.branch}, ` : ""}
                   {stop.type}
                 </div>
