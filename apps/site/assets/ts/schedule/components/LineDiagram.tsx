@@ -2,7 +2,6 @@ import React, { ReactElement } from "react";
 import { LineDiagramStop, StopData } from "./__schedule";
 import { modeIcon, accessibleIcon, parkingIcon } from "../../helpers/icon";
 import { Alert, Route } from "../../__v3api";
-import { iconForAlert } from "../../components/Alerts";
 
 interface Props {
   lineDiagram: LineDiagramStop[];
