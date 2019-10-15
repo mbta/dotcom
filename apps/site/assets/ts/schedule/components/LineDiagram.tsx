@@ -1,12 +1,18 @@
 import React, { ReactElement } from "react";
 import { LineDiagramStop, StopData } from "./__schedule";
 import { modeIcon, accessibleIcon, parkingIcon } from "../../helpers/icon";
-import { Route } from "../../__v3api";
-import Alerts from "../../components/Alerts";
+import { Alert, Route } from "../../__v3api";
+import { iconForAlert } from "../../components/Alerts";
 
 interface Props {
   lineDiagram: LineDiagramStop[];
 }
+
+const filteredAlerts = (allAlerts: Alert[]): any =>
+  allAlerts.filter(alert => alert.priority === "low");
+
+const alertIcon = (alerts: Alert[]): any =>
+  alerts.map(alert => iconForAlert(alert));
 
 const maybeTerminus = (stopData: StopData[]): StopData | undefined =>
   stopData.find((stop: StopData) => stop.type === "terminus");
@@ -24,7 +30,7 @@ const LineDiagram = ({
         <div key={routeStop.id} className="m-schedule-line-diagram__stop">
           <div className="m-schedule-line-diagram__card-left">
             <div className="m-schedule-line-diagram__stop-name">
-              {routeStop.name}
+              {alertIcon(filteredAlerts(stopAlerts))} {routeStop.name}
             </div>
             <div>
               {maybeTerminus(stopData) && maybeTerminus(stopData)!.branch}
@@ -45,7 +51,6 @@ const LineDiagram = ({
             </div>
           </div>
           <div>
-            <Alerts alerts={stopAlerts} />
             <div className="m-schedule-line-diagram__features">
               {routeStop.stop_features.includes("parking_lot")
                 ? parkingIcon("c-svg__icon-parking-default")
