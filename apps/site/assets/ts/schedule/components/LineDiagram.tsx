@@ -1,6 +1,11 @@
 import React, { ReactElement } from "react";
 import { LineDiagramStop, StopData } from "./__schedule";
-import { modeIcon, accessibleIcon, parkingIcon } from "../../helpers/icon";
+import {
+  alertIcon,
+  modeIcon,
+  accessibleIcon,
+  parkingIcon
+} from "../../helpers/icon";
 import { Alert, Route } from "../../__v3api";
 
 interface Props {
@@ -8,16 +13,14 @@ interface Props {
 }
 
 const maybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
-  const highPriorityAlerts = alerts.filter(alert => alert.priority === "high");
+  const highPriorityAlerts = alerts.filter(alert => alert.priority === "low");
   if (highPriorityAlerts.length === 0) return null;
   return (
-    <i
-      className="notranslate fa fa-exclamation-triangle"
-      aria-hidden="true"
-      data-toggle="tooltip"
-      title=""
-      data-original-title="Service alert or delay"
-    />
+    <>
+      {alertIcon("c-svg__icon-alerts-triangle")}
+      <span className="sr-only">Service alert or delay</span>
+      &nbsp;
+    </>
   );
 };
 
@@ -37,7 +40,8 @@ const LineDiagram = ({
         <div key={routeStop.id} className="m-schedule-line-diagram__stop">
           <div className="m-schedule-line-diagram__card-left">
             <div className="m-schedule-line-diagram__stop-name">
-              {routeStop.name} {maybeAlert(stopAlerts)}
+              {maybeAlert(stopAlerts)}
+              {routeStop.name}
             </div>
             <div>
               {maybeTerminus(stopData) && maybeTerminus(stopData)!.branch}
