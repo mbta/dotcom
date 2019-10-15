@@ -9,7 +9,7 @@ interface Props {
 
 const maybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
   const highPriorityAlerts = alerts.filter(alert => alert.priority === "high");
-  if (highPriorityAlerts.length == 0) return null;
+  if (highPriorityAlerts.length === 0) return null;
   return (
     <i
       className="notranslate fa fa-exclamation-triangle"
