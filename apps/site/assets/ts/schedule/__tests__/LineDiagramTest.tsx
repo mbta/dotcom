@@ -63,7 +63,8 @@ export const lineDiagram = [
       ],
       closed_stop_info: null,
       branch: null
-    }
+    },
+    alerts: []
   },
   {
     stop_data: [{ type: "stop", branch: "Lowell" }],
@@ -246,7 +247,8 @@ export const lineDiagram = [
       ],
       closed_stop_info: null,
       branch: null
-    }
+    },
+    alerts: []
   }
 ] as LineDiagramStop[];
 
