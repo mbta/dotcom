@@ -49,11 +49,12 @@ defmodule SiteWeb.ScheduleController.LineApi do
     DiagramHelpers.build_stop_list(branches, direction_id)
   end
 
+  @spec update_route_stop_data({any, Stops.RouteStop.t()}, any, DateTime.t()) :: map()
   def update_route_stop_data({data, %RouteStop{id: stop_id} = map}, alerts, date) do
     %{
-      stop_data: Enum.map(data, fn {key, value} -> %{branch: key, type: value} end),
+      alerts: alerts |> Stop.match(stop_id) |> json_safe_alerts(date),
       route_stop: RouteStop.to_json_safe(map),
-      alerts: alerts |> Stop.match(stop_id) |> json_safe_alerts(date)
+      stop_data: Enum.map(data, fn {key, value} -> %{branch: key, type: value} end)
     }
   end
 end
