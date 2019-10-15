@@ -12,12 +12,8 @@ defmodule SiteWeb.ScheduleController.LineApi do
 
   import SiteWeb.StopController, only: [json_safe_alerts: 2]
 
-  plug(:alerts)
-
   @type query_param :: String.t() | nil
   @type direction_id :: 0 | 1
-
-  defp alerts(conn, _), do: assign_alerts(conn, [])
 
   def show(conn, %{
         "id" => route_id,
@@ -27,6 +23,11 @@ defmodule SiteWeb.ScheduleController.LineApi do
       get_line_data(conn, route_id, String.to_integer(direction_id), %{
         stops_by_route_fn: &StopsRepo.by_route/3
       })
+
+    conn =
+      conn
+      |> assign(:route, LineHelpers.get_route(route_id))
+      |> assign_alerts([])
 
     json(
       conn,

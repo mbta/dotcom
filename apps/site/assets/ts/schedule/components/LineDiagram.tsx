@@ -1,7 +1,8 @@
 import React, { ReactElement } from "react";
 import { LineDiagramStop, StopData } from "./__schedule";
 import { modeIcon, accessibleIcon, parkingIcon } from "../../helpers/icon";
-import { Alert, Route } from "../../__v3api";
+import { Route } from "../../__v3api";
+import Alerts from "../../components/Alerts";
 
 interface Props {
   lineDiagram: LineDiagramStop[];
@@ -9,8 +10,6 @@ interface Props {
 
 const maybeTerminus = (stopData: StopData[]): StopData | undefined =>
   stopData.find((stop: StopData) => stop.type === "terminus");
-
-const maybeAlert = (alerts: Alert[]): boolean => Boolean(alerts.length);
 
 const LineDiagram = ({
   lineDiagram
@@ -46,7 +45,7 @@ const LineDiagram = ({
             </div>
           </div>
           <div>
-            {maybeAlert(stopAlerts)}
+            <Alerts alerts={stopAlerts} />
             <div className="m-schedule-line-diagram__features">
               {routeStop.stop_features.includes("parking_lot")
                 ? parkingIcon("c-svg__icon-parking-default")
