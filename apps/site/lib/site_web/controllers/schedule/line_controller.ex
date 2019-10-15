@@ -188,7 +188,7 @@ defmodule SiteWeb.ScheduleController.LineController do
 
   defp tab_name(conn, _), do: assign(conn, :tab, "line")
 
-  defp alerts(conn, _), do: assign_alerts(conn, [])
+  defp alerts(conn, _), do: assign_alerts(conn, filter_by_direction?: true)
 
   defp channel_id(conn, _) do
     assign(conn, :channel, "vehicles:#{conn.assigns.route.id}:#{conn.assigns.direction_id}")

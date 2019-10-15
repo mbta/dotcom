@@ -27,7 +27,8 @@ defmodule SiteWeb.ScheduleController.LineApi do
     conn =
       conn
       |> assign(:route, LineHelpers.get_route(route_id))
-      |> assign_alerts([])
+      |> assign(:direction_id, direction_id)
+      |> assign_alerts(filter_by_direction?: true)
 
     json(
       conn,
