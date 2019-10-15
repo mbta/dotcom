@@ -13,7 +13,7 @@ interface Props {
 }
 
 const maybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
-  const highPriorityAlerts = alerts.filter(alert => alert.priority === "low");
+  const highPriorityAlerts = alerts.filter(alert => alert.priority === "high");
   if (highPriorityAlerts.length === 0) return null;
   return (
     <>
