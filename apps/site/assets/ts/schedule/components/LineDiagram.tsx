@@ -8,11 +8,19 @@ interface Props {
   lineDiagram: LineDiagramStop[];
 }
 
-const filteredAlerts = (allAlerts: Alert[]): any =>
-  allAlerts.filter(alert => alert.priority === "low");
-
-const alertIcon = (alerts: Alert[]): any =>
-  alerts.map(alert => iconForAlert(alert));
+const maybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
+  const highPriorityAlerts = alerts.filter(alert => alert.priority === "low");
+  if (highPriorityAlerts.length == 0) return null;
+  return (
+    <i
+      className="notranslate fa fa-exclamation-triangle"
+      aria-hidden="true"
+      data-toggle="tooltip"
+      title=""
+      data-original-title="Service alert or delay"
+    />
+  );
+};
 
 const maybeTerminus = (stopData: StopData[]): StopData | undefined =>
   stopData.find((stop: StopData) => stop.type === "terminus");
@@ -30,7 +38,7 @@ const LineDiagram = ({
         <div key={routeStop.id} className="m-schedule-line-diagram__stop">
           <div className="m-schedule-line-diagram__card-left">
             <div className="m-schedule-line-diagram__stop-name">
-              {alertIcon(filteredAlerts(stopAlerts))} {routeStop.name}
+              {routeStop.name} {maybeAlert(stopAlerts)}
             </div>
             <div>
               {maybeTerminus(stopData) && maybeTerminus(stopData)!.branch}
