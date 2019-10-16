@@ -161,5 +161,103 @@ Array [
       </div>
     </div>
   </div>,
+  <div
+    className="m-schedule-line-diagram__stop"
+  >
+    <div
+      className="m-schedule-line-diagram__card-left"
+    >
+      <div
+        className="m-schedule-line-diagram__stop-name"
+      >
+        <span
+          aria-hidden="false"
+          className="notranslate c-svg__icon-alerts-triangle"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        <span
+          className="sr-only"
+        >
+          Service alert or delay
+        </span>
+         
+        Alewife
+      </div>
+      <div />
+      <div
+        className="m-schedule-line-diagram__connections"
+      >
+        <span
+          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+        >
+          62
+        </span>
+        <span
+          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+        >
+          67
+        </span>
+        <span
+          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+        >
+          76
+        </span>
+        <span
+          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+        >
+          79
+        </span>
+        <span
+          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+        >
+          84
+        </span>
+        <span
+          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+        >
+          350
+        </span>
+        <span
+          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+        >
+          351
+        </span>
+      </div>
+    </div>
+    <div>
+      <div
+        className="m-schedule-line-diagram__features"
+      >
+        <span
+          aria-hidden="false"
+          className="notranslate c-svg__icon-parking-default"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        <span
+          aria-hidden="false"
+          className="notranslate c-svg__icon-acessible-default"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+      </div>
+      <div>
+        <div>
+          
+          terminus
+        </div>
+      </div>
+    </div>
+  </div>,
 ]
 `;
