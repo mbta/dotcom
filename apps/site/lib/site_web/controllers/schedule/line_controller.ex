@@ -7,7 +7,8 @@ defmodule SiteWeb.ScheduleController.LineController do
   alias Services.Service
   alias Site.ScheduleNote
   alias SiteWeb.{ScheduleView, ViewHelpers}
-  alias Stops.{RouteStop}
+
+  import SiteWeb.ScheduleController.LineApi, only: [update_route_stop_data: 3]
 
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.Plugs.DateInRating)
@@ -84,16 +85,12 @@ defmodule SiteWeb.ScheduleController.LineController do
         direction_id: conn.assigns.direction_id,
         route_patterns: conn.assigns.route_patterns,
         shape_map: conn.assigns.shape_map,
-        line_diagram: Enum.map(conn.assigns.all_stops, &update_route_stop_data/1)
+        line_diagram:
+          Enum.map(conn.assigns.all_stops, fn stop ->
+            update_route_stop_data(stop, conn.assigns.alerts, conn.assigns.date)
+          end)
       }
     )
-  end
-
-  def update_route_stop_data({data, %RouteStop{} = map}) do
-    %{
-      stop_data: Enum.map(data, fn {key, value} -> %{branch: key, type: value} end),
-      route_stop: RouteStop.to_json_safe(map)
-    }
   end
 
   @spec dedup_services([Service.t()]) :: [Service.t()]
@@ -181,7 +178,7 @@ defmodule SiteWeb.ScheduleController.LineController do
 
   defp tab_name(conn, _), do: assign(conn, :tab, "line")
 
-  defp alerts(conn, _), do: assign_alerts(conn, [])
+  defp alerts(conn, _), do: assign_alerts(conn, filter_by_direction?: true)
 
   defp channel_id(conn, _) do
     assign(conn, :channel, "vehicles:#{conn.assigns.route.id}:#{conn.assigns.direction_id}")

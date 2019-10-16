@@ -1,11 +1,28 @@
 import React, { ReactElement } from "react";
 import { LineDiagramStop, StopData } from "./__schedule";
-import { modeIcon, accessibleIcon, parkingIcon } from "../../helpers/icon";
-import { Route } from "../../__v3api";
+import {
+  alertIcon,
+  modeIcon,
+  accessibleIcon,
+  parkingIcon
+} from "../../helpers/icon";
+import { Alert, Route } from "../../__v3api";
 
 interface Props {
   lineDiagram: LineDiagramStop[];
 }
+
+const maybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
+  const highPriorityAlerts = alerts.filter(alert => alert.priority === "high");
+  if (highPriorityAlerts.length === 0) return null;
+  return (
+    <>
+      {alertIcon("c-svg__icon-alerts-triangle")}
+      <span className="sr-only">Service alert or delay</span>
+      &nbsp;
+    </>
+  );
+};
 
 const maybeTerminus = (stopData: StopData[]): StopData | undefined =>
   stopData.find((stop: StopData) => stop.type === "terminus");
@@ -15,10 +32,15 @@ const LineDiagram = ({
 }: Props): ReactElement<HTMLElement> | null => (
   <>
     {lineDiagram.map(
-      ({ route_stop: routeStop, stop_data: stopData }: LineDiagramStop) => (
+      ({
+        route_stop: routeStop,
+        stop_data: stopData,
+        alerts: stopAlerts
+      }: LineDiagramStop) => (
         <div key={routeStop.id} className="m-schedule-line-diagram__stop">
           <div className="m-schedule-line-diagram__card-left">
             <div className="m-schedule-line-diagram__stop-name">
+              {maybeAlert(stopAlerts)}
               {routeStop.name}
             </div>
             <div>
