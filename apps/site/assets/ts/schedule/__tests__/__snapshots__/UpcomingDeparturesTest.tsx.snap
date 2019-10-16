@@ -263,7 +263,12 @@ Array [
             className="u-nowrap text-right"
           >
             Train 591 · 
-             track 3 · 
+            <span
+              className="schedule-table__track"
+            >
+               track 3
+               · 
+            </span>
             On time
           </div>
         </td>
@@ -300,7 +305,12 @@ Array [
             className="u-nowrap text-right"
           >
             Train 591 · 
-             track 3 · 
+            <span
+              className="schedule-table__track"
+            >
+               track 3
+               · 
+            </span>
             On time
           </div>
         </td>

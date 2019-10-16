@@ -80,7 +80,11 @@ const CrTableRow = ({
         </div>
         <div className="u-nowrap text-right">
           {trainNumber}
-          {track ? `${track} · ` : ""}
+          {track ? (
+            <span className="schedule-table__track">{track} · </span>
+          ) : (
+            ""
+          )}
           {statusForCommuterRail(predictedSchedule)}
         </div>
       </td>
@@ -107,11 +111,7 @@ export const UpcomingDepartures = ({
           </thead>
           <tbody>
             {predictions.map((prediction: StopPrediction, idx: number) => (
-              <TableRow
-                prediction={prediction}
-                // eslint-disable-next-line react/no-array-index-key
-                key={idx}
-              />
+              <TableRow prediction={prediction} key={idx} />
             ))}
           </tbody>
         </table>

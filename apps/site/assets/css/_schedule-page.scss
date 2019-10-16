@@ -293,6 +293,10 @@
   }
 }
 
+.schedule-table__track {
+  text-transform: capitalize;
+}
+
 .schedule-table__row-header {
   background: $brand-primary-lightest-contrast;
   display: flex;
