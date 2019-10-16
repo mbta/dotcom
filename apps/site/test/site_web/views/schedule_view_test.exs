@@ -1034,9 +1034,8 @@ defmodule SiteWeb.ScheduleViewTest do
         |> route_header_tabs()
         |> safe_to_string()
 
-      assert tabs =~ "info-tab"
-      refute tabs =~ "schedule-tab"
-      assert tabs =~ "info-&amp;-maps-tab"
+      assert tabs =~ "schedule-tab"
+      assert tabs =~ "schedule-&amp;-maps-tab"
       assert tabs =~ "timetable-tab"
       assert tabs =~ "alerts-tab"
     end
