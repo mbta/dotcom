@@ -1131,4 +1131,52 @@ defmodule SiteWeb.ScheduleViewTest do
       assert fare_change_message(@after_july_1_2019) == []
     end
   end
+
+  describe "timetable_note" do
+    test "returns a timetable note for fairmount on or after Oct 21" do
+      assert is_nil(
+               timetable_note(%{
+                 route: %Route{id: "CR-Fairmount"},
+                 direction_id: 1,
+                 date: ~D[2019-10-20]
+               })
+             )
+
+      refute is_nil(
+               timetable_note(%{
+                 route: %Route{id: "CR-Fairmount"},
+                 direction_id: 1,
+                 date: ~D[2019-10-21]
+               })
+             )
+    end
+
+    test "returns a timetable note for foxboro" do
+      assert is_nil(
+               timetable_note(%{
+                 route: %Route{id: "CR-Foxboro"},
+                 direction_id: 0,
+                 date: ~D[2019-10-20]
+               })
+             )
+
+      refute is_nil(
+               timetable_note(%{
+                 route: %Route{id: "CR-Foxboro"},
+                 direction_id: 1,
+                 date: ~D[2019-10-21]
+               })
+             )
+    end
+
+    test "doesn't return a timetable note for other routes" do
+      assert is_nil(
+               timetable_note(%{
+                 route: %Route{id: "CR-Lowell"},
+                 direction_id: 0,
+                 date: ~D[2019-10-20]
+               })
+             )
+    end
+  end
 end
