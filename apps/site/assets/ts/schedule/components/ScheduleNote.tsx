@@ -22,6 +22,40 @@ const offPeak = (
   return service(`${offpeak} ${except}`);
 };
 
+const alternateNote = (alternateText: string): ReactElement<HTMLElement> => (
+  /* eslint-disable react/no-danger */
+  <div className="m-schedule-page__schedule-note m-schedule-page__schedule-note--alternate">
+    <div dangerouslySetInnerHTML={{ __html: alternateText }} />
+  </div> /* eslint-enable react/no-danger */
+);
+
+const peakOffPeakTimes = ({
+  peakService,
+  offpeakService,
+  exceptions
+}: {
+  peakService: string;
+  offpeakService: string;
+  exceptions: ServiceException[];
+}): ReactElement<HTMLElement> => (
+  <>
+    <div className="m-schedule-page__schedule-note">
+      <h4 className="m-schedule-page__service">Peak Service</h4>
+      <div className="m-schedule-page__service-subheading">
+        Weekdays 7 AM - 9 AM, 4 PM - 6:30 PM
+      </div>
+      {service(peakService)}
+    </div>
+    <div className="m-schedule-page__schedule-note">
+      <h4 className="m-schedule-page__service">Off Peak / Weekends</h4>
+      {offPeak(offpeakService, exceptions)}
+      {exceptions.map(exception =>
+        service(`${exception.service} ${exception.type}`)
+      )}
+    </div>
+  </>
+);
+
 interface Props {
   scheduleNote: ScheduleNoteType;
   className: string;
@@ -44,29 +78,9 @@ const ScheduleNote = ({
       />
       Schedule Note
     </h3>
-    {alternateText ? (
-      /* eslint-disable react/no-danger */
-      <div className="m-schedule-page__schedule-note m-schedule-page__schedule-note--alternate">
-        <div dangerouslySetInnerHTML={{ __html: alternateText }} />
-      </div> /* eslint-enable react/no-danger */
-    ) : (
-      <>
-        <div className="m-schedule-page__schedule-note">
-          <h4 className="m-schedule-page__service">Peak Service</h4>
-          <div className="m-schedule-page__service-subheading">
-            Weekdays 7 AM - 9 AM, 4 PM - 6:30 PM
-          </div>
-          {service(peakService)}
-        </div>
-        <div className="m-schedule-page__schedule-note">
-          <h4 className="m-schedule-page__service">Off Peak / Weekends</h4>
-          {offPeak(offpeakService, exceptions)}
-          {exceptions.map(exception =>
-            service(`${exception.service} ${exception.type}`)
-          )}
-        </div>
-      </>
-    )}
+    {alternateText
+      ? alternateNote(alternateText)
+      : peakOffPeakTimes({ peakService, offpeakService, exceptions })}
   </div>
 );
 
