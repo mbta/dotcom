@@ -72,13 +72,25 @@ const ScheduleTable = ({
         <thead className="schedule-table__header">
           <tr className="schedule-table__row-header">
             {anySchoolTrips && (
-              <th className="schedule-table__row-header-label--tiny" />
+              <th
+                scope="col"
+                className="schedule-table__row-header-label--tiny"
+              />
             )}
-            <th className="schedule-table__row-header-label">Departs</th>
+            <th scope="col" className="schedule-table__row-header-label">
+              Departs
+            </th>
             {schedule.by_trip[firstTrip].schedules[0].route.type === 2 && (
-              <th className="schedule-table__row-header-label--small">Train</th>
+              <th
+                scope="col"
+                className="schedule-table__row-header-label--small"
+              >
+                Train
+              </th>
             )}
-            <th className="schedule-table__row-header-label">Destination</th>
+            <th scope="col" className="schedule-table__row-header-label">
+              Destination
+            </th>
           </tr>
         </thead>
         <tbody>

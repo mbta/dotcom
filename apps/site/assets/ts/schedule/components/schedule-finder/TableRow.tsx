@@ -63,10 +63,10 @@ const BusTableRow = ({
         }
         aria-controls={`trip-${firstSchedule.trip.id}`}
         aria-expanded={expanded}
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
         role="button"
         onClick={onClick}
         onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
+        tabIndex={0}
       >
         {anySchoolTrips && (
           <td className="schedule-table__td--tiny">
@@ -99,8 +99,13 @@ const BusTableRow = ({
               <thead>
                 <TripInfo schedules={schedules} />
                 <tr>
-                  <th className="schedule-table__subtable-data">Stops</th>
-                  <th className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
+                  <th scope="col" className="schedule-table__subtable-data">
+                    Stops
+                  </th>
+                  <th
+                    scope="col"
+                    className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                  >
                     Arrival
                   </th>
                 </tr>
@@ -147,10 +152,10 @@ const CrTableRow = ({
         }
         aria-controls={`trip-${firstSchedule.trip.id}`}
         aria-expanded={expanded}
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
         role="button"
         onClick={onClick}
         onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
+        tabIndex={0}
       >
         {anySchoolTrips && (
           <td className="schedule-table__td--tiny">
@@ -186,13 +191,22 @@ const CrTableRow = ({
               <thead>
                 <TripInfo schedules={schedules} />
                 <tr className="schedule-table__subtable-row">
-                  <th className="schedule-table__subtable-data schedule-table__subtable-data--long">
+                  <th
+                    scope="col"
+                    className="schedule-table__subtable-data schedule-table__subtable-data--long"
+                  >
                     Stops
                   </th>
-                  <th className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
+                  <th
+                    scope="col"
+                    className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                  >
                     Fare
                   </th>
-                  <th className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
+                  <th
+                    scope="col"
+                    className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                  >
                     Arrival
                   </th>
                 </tr>

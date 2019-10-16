@@ -29,11 +29,13 @@ exports[`ScheduleTable it renders 1`] = `
       >
         <th
           className="schedule-table__row-header-label"
+          scope="col"
         >
           Departs
         </th>
         <th
           className="schedule-table__row-header-label"
+          scope="col"
         >
           Destination
         </th>
@@ -49,6 +51,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -139,11 +142,13 @@ exports[`ScheduleTable it renders 1`] = `
                   <tr>
                     <th
                       className="schedule-table__subtable-data"
+                      scope="col"
                     >
                       Stops
                     </th>
                     <th
                       className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                      scope="col"
                     >
                       Arrival
                     </th>
@@ -243,6 +248,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -293,6 +299,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -343,6 +350,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -393,6 +401,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -443,6 +452,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -493,6 +503,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -543,6 +554,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -593,6 +605,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -643,6 +656,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -693,6 +707,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -743,6 +758,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -793,6 +809,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -843,6 +860,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -893,6 +911,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -943,6 +962,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -993,6 +1013,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1043,6 +1064,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1093,6 +1115,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1143,6 +1166,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1193,6 +1217,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1243,6 +1268,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1293,6 +1319,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1343,6 +1370,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1393,6 +1421,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1443,6 +1472,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1493,6 +1523,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1543,6 +1574,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1593,6 +1625,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1643,6 +1676,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1693,6 +1727,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1743,6 +1778,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1793,6 +1829,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1843,6 +1880,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1893,6 +1931,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1943,6 +1982,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -1993,6 +2033,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2043,6 +2084,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2093,6 +2135,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2143,6 +2186,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2193,6 +2237,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2243,6 +2288,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2293,6 +2339,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2343,6 +2390,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2393,6 +2441,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2443,6 +2492,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2493,6 +2543,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2543,6 +2594,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2593,6 +2645,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2643,6 +2696,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2693,6 +2747,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2743,6 +2798,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2793,6 +2849,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2843,6 +2900,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2893,6 +2951,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2943,6 +3002,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -2993,6 +3053,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3043,6 +3104,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3093,6 +3155,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3143,6 +3206,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3193,6 +3257,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3243,6 +3308,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3293,6 +3359,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3343,6 +3410,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3393,6 +3461,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3443,6 +3512,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3493,6 +3563,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3543,6 +3614,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3593,6 +3665,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3643,6 +3716,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3693,6 +3767,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3743,6 +3818,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3793,6 +3869,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3843,6 +3920,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3893,6 +3971,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3943,6 +4022,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -3993,6 +4073,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4043,6 +4124,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4093,6 +4175,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4143,6 +4226,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4193,6 +4277,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4243,6 +4328,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4293,6 +4379,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4343,6 +4430,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4393,6 +4481,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4443,6 +4532,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4493,6 +4583,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4543,6 +4634,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4593,6 +4685,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4643,6 +4736,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4693,6 +4787,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4743,6 +4838,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4793,6 +4889,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4843,6 +4940,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4893,6 +4991,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4943,6 +5042,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -4993,6 +5093,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5043,6 +5144,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5093,6 +5195,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5143,6 +5246,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5193,6 +5297,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5243,6 +5348,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5293,6 +5399,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5343,6 +5450,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5393,6 +5501,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5443,6 +5552,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5493,6 +5603,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5543,6 +5654,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5593,6 +5705,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5643,6 +5756,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5693,6 +5807,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5743,6 +5858,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5793,6 +5909,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5843,6 +5960,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5893,6 +6011,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5943,6 +6062,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -5993,6 +6113,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6043,6 +6164,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6093,6 +6215,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6143,6 +6266,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6193,6 +6317,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6243,6 +6368,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6293,6 +6419,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6343,6 +6470,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6393,6 +6521,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6443,6 +6572,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6493,6 +6623,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6543,6 +6674,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6593,6 +6725,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6643,6 +6776,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6693,6 +6827,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6743,6 +6878,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6793,6 +6929,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6843,6 +6980,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6893,6 +7031,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6943,6 +7082,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -6993,6 +7133,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7043,6 +7184,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7093,6 +7235,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7143,6 +7286,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7193,6 +7337,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7243,6 +7388,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7293,6 +7439,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7343,6 +7490,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7393,6 +7541,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7443,6 +7592,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7493,6 +7643,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7543,6 +7694,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7593,6 +7745,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7643,6 +7796,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7693,6 +7847,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7743,6 +7898,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7793,6 +7949,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7843,6 +8000,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7893,6 +8051,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7943,6 +8102,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -7993,6 +8153,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8043,6 +8204,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8093,6 +8255,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8143,6 +8306,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8193,6 +8357,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8243,6 +8408,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8293,6 +8459,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8343,6 +8510,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8393,6 +8561,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8443,6 +8612,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8493,6 +8663,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8543,6 +8714,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8593,6 +8765,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8643,6 +8816,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8693,6 +8867,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8743,6 +8918,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8793,6 +8969,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8843,6 +9020,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8893,6 +9071,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8943,6 +9122,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -8993,6 +9173,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9043,6 +9224,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9093,6 +9275,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9143,6 +9326,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9193,6 +9377,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9243,6 +9428,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9293,6 +9479,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9343,6 +9530,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9393,6 +9581,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9443,6 +9632,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9493,6 +9683,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9543,6 +9734,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9593,6 +9785,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9643,6 +9836,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9693,6 +9887,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9743,6 +9938,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9793,6 +9989,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9843,6 +10040,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9893,6 +10091,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9943,6 +10142,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -9993,6 +10193,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10043,6 +10244,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10093,6 +10295,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10143,6 +10346,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10193,6 +10397,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10243,6 +10448,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10293,6 +10499,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10343,6 +10550,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10393,6 +10601,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10443,6 +10652,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10493,6 +10703,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10543,6 +10754,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10593,6 +10805,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10643,6 +10856,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10693,6 +10907,7 @@ exports[`ScheduleTable it renders 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td schedule-table__time"
@@ -10768,16 +10983,19 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
       >
         <th
           className="schedule-table__row-header-label"
+          scope="col"
         >
           Departs
         </th>
         <th
           className="schedule-table__row-header-label--small"
+          scope="col"
         >
           Train
         </th>
         <th
           className="schedule-table__row-header-label"
+          scope="col"
         >
           Destination
         </th>
@@ -10793,6 +11011,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -10889,16 +11108,19 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                   >
                     <th
                       className="schedule-table__subtable-data schedule-table__subtable-data--long"
+                      scope="col"
                     >
                       Stops
                     </th>
                     <th
                       className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                      scope="col"
                     >
                       Fare
                     </th>
                     <th
                       className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                      scope="col"
                     >
                       Arrival
                     </th>
@@ -11136,6 +11358,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11190,6 +11413,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11244,6 +11468,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11298,6 +11523,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11352,6 +11578,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11406,6 +11633,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11460,6 +11688,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11514,6 +11743,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11568,6 +11798,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11622,6 +11853,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11676,6 +11908,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11730,6 +11963,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11784,6 +12018,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11838,6 +12073,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11892,6 +12128,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -11946,6 +12183,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -12000,6 +12238,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -12054,6 +12293,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -12108,6 +12348,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td"
@@ -12195,19 +12436,23 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
       >
         <th
           className="schedule-table__row-header-label--tiny"
+          scope="col"
         />
         <th
           className="schedule-table__row-header-label"
+          scope="col"
         >
           Departs
         </th>
         <th
           className="schedule-table__row-header-label--small"
+          scope="col"
         >
           Train
         </th>
         <th
           className="schedule-table__row-header-label"
+          scope="col"
         >
           Destination
         </th>
@@ -12223,6 +12468,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -12284,6 +12530,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -12345,6 +12592,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -12406,6 +12654,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -12467,6 +12716,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -12528,6 +12778,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -12589,6 +12840,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -12650,6 +12902,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -12711,6 +12964,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -12772,6 +13026,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -12833,6 +13088,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -12894,6 +13150,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -12955,6 +13212,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13016,6 +13274,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13077,6 +13336,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13138,6 +13398,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13199,6 +13460,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13260,6 +13522,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13321,6 +13584,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13382,6 +13646,7 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13486,14 +13751,17 @@ exports[`ScheduleTable it renders with school trips 1`] = `
       >
         <th
           className="schedule-table__row-header-label--tiny"
+          scope="col"
         />
         <th
           className="schedule-table__row-header-label"
+          scope="col"
         >
           Departs
         </th>
         <th
           className="schedule-table__row-header-label"
+          scope="col"
         >
           Destination
         </th>
@@ -13509,6 +13777,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13562,6 +13831,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13619,6 +13889,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13676,6 +13947,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13733,6 +14005,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13790,6 +14063,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13847,6 +14121,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13904,6 +14179,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -13961,6 +14237,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14018,6 +14295,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14075,6 +14353,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14132,6 +14411,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14189,6 +14469,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14246,6 +14527,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14299,6 +14581,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14356,6 +14639,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14409,6 +14693,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14466,6 +14751,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14519,6 +14805,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14576,6 +14863,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14633,6 +14921,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14686,6 +14975,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14743,6 +15033,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14796,6 +15087,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14853,6 +15145,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14910,6 +15203,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -14963,6 +15257,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15020,6 +15315,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15073,6 +15369,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15130,6 +15427,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15183,6 +15481,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15240,6 +15539,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15293,6 +15593,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15350,6 +15651,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15407,6 +15709,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15460,6 +15763,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15517,6 +15821,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15570,6 +15875,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15627,6 +15933,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15680,6 +15987,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15737,6 +16045,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15794,6 +16103,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15847,6 +16157,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15904,6 +16215,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -15957,6 +16269,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16014,6 +16327,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16067,6 +16381,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16124,6 +16439,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16181,6 +16497,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16234,6 +16551,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16291,6 +16609,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16344,6 +16663,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16401,6 +16721,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16458,6 +16779,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16511,6 +16833,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16568,6 +16891,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16621,6 +16945,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16678,6 +17003,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16731,6 +17057,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16788,6 +17115,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16841,6 +17169,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16898,6 +17227,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -16951,6 +17281,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17004,6 +17335,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17061,6 +17393,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17114,6 +17447,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17171,6 +17505,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17224,6 +17559,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17281,6 +17617,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17334,6 +17671,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17387,6 +17725,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17444,6 +17783,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17501,6 +17841,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17558,6 +17899,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17611,6 +17953,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17668,6 +18011,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17725,6 +18069,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17778,6 +18123,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17835,6 +18181,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17888,6 +18235,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -17945,6 +18293,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18002,6 +18351,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18059,6 +18409,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18116,6 +18467,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18169,6 +18521,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18226,6 +18579,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18279,6 +18633,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18336,6 +18691,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18393,6 +18749,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18450,6 +18807,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18503,6 +18861,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18560,6 +18919,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18617,6 +18977,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18670,6 +19031,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18727,6 +19089,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18784,6 +19147,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18837,6 +19201,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18894,6 +19259,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -18947,6 +19313,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19004,6 +19371,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19061,6 +19429,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19118,6 +19487,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19175,6 +19545,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19232,6 +19603,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19289,6 +19661,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19346,6 +19719,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19399,6 +19773,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19456,6 +19831,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19513,6 +19889,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19570,6 +19947,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19627,6 +20005,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19684,6 +20063,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19741,6 +20121,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19798,6 +20179,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19851,6 +20233,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19904,6 +20287,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -19961,6 +20345,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20014,6 +20399,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20071,6 +20457,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20124,6 +20511,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20181,6 +20569,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20234,6 +20623,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20291,6 +20681,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20344,6 +20735,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20401,6 +20793,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20454,6 +20847,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20511,6 +20905,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20568,6 +20963,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20621,6 +21017,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20678,6 +21075,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20731,6 +21129,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20788,6 +21187,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20841,6 +21241,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20898,6 +21299,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -20951,6 +21353,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21008,6 +21411,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21061,6 +21465,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21118,6 +21523,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21171,6 +21577,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21228,6 +21635,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21281,6 +21689,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21338,6 +21747,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21395,6 +21805,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21448,6 +21859,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21505,6 +21917,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21558,6 +21971,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21615,6 +22029,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21668,6 +22083,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21725,6 +22141,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21782,6 +22199,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21835,6 +22253,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21892,6 +22311,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -21945,6 +22365,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22002,6 +22423,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22059,6 +22481,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22112,6 +22535,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22169,6 +22593,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22222,6 +22647,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22279,6 +22705,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22336,6 +22763,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22389,6 +22817,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22446,6 +22875,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22499,6 +22929,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22556,6 +22987,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22613,6 +23045,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22666,6 +23099,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22723,6 +23157,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22780,6 +23215,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22837,6 +23273,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22894,6 +23331,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -22951,6 +23389,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23008,6 +23447,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23065,6 +23505,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23122,6 +23563,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23179,6 +23621,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23236,6 +23679,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23293,6 +23737,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23350,6 +23795,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23403,6 +23849,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23460,6 +23907,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23517,6 +23965,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23574,6 +24023,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23627,6 +24077,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23680,6 +24131,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23737,6 +24189,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23794,6 +24247,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23847,6 +24301,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23904,6 +24359,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -23961,6 +24417,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24014,6 +24471,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24071,6 +24529,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24128,6 +24587,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24185,6 +24645,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24242,6 +24703,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24299,6 +24761,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24352,6 +24815,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24409,6 +24873,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24466,6 +24931,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24519,6 +24985,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24576,6 +25043,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24633,6 +25101,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24690,6 +25159,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24747,6 +25217,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24804,6 +25275,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24861,6 +25333,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24918,6 +25391,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -24975,6 +25449,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -25032,6 +25507,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -25085,6 +25561,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -25142,6 +25619,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
@@ -25199,6 +25677,7 @@ exports[`ScheduleTable it renders with school trips 1`] = `
             onClick={[Function]}
             onKeyPress={[Function]}
             role="button"
+            tabIndex={0}
           >
             <td
               className="schedule-table__td--tiny"
