@@ -368,7 +368,6 @@ defmodule SiteWeb.ScheduleView do
     alerts_link = alerts_path(conn, :show, route.id, tab_params)
 
     tabs = [
-      %HeaderTab{id: "line", name: "Info & Maps", href: info_link},
       %HeaderTab{
         id: "alerts",
         name: "Alerts",
@@ -382,12 +381,14 @@ defmodule SiteWeb.ScheduleView do
         2 ->
           [
             %HeaderTab{id: "timetable", name: "Timetable", href: timetable_link},
-            %HeaderTab{id: "line", name: "Info", href: info_link} | tabs
+            %HeaderTab{id: "line", name: "Schedule & Maps", href: info_link},
+            %HeaderTab{id: "line", name: "Schedule", href: info_link} | tabs
           ]
 
         _ ->
           [
-            %HeaderTab{id: "trip-view", name: "Schedule", href: schedule_link} | tabs
+            %HeaderTab{id: "trip-view", name: "Schedule", href: schedule_link},
+            %HeaderTab{id: "line", name: "Info & Maps", href: info_link} | tabs
           ]
       end
 
