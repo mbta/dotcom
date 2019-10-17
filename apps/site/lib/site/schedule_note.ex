@@ -96,7 +96,7 @@ defmodule Site.ScheduleNote do
     }
   end
 
-  def schedule_note(%Route{id: "CR-Foxboro"} = route) do
+  def schedule_note(%Route{id: "CR-Foxboro"}) do
     %__MODULE__{
       peak_service: nil,
       offpeak_service: nil,
@@ -123,7 +123,7 @@ defmodule Site.ScheduleNote do
                 ),
                 link(
                   "Franklin Line/Foxboro Pilot",
-                  to: Helpers.timetable_path(SiteWeb.Endpoint, :show, route.id)
+                  to: Helpers.timetable_path(SiteWeb.Endpoint, :show, "CR-Franklin")
                 )
               ],
               class: "m-schedule-page__service-note-time"
