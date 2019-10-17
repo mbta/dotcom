@@ -154,7 +154,8 @@ const scheduleNoteData = {
   peak_service: "5 minutes",
   exceptions: [
     { service: "26 minutes", type: "weekend mornings and late night" }
-  ]
+  ],
+  alternate_text: null
 };
 
 it("it renders with conditional components", () => {

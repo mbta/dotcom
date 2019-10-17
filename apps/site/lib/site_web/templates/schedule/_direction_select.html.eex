@@ -16,4 +16,3 @@
     <% end %>
   </div>
 <% end %>
-<%= render "_route_notes.html", column_width: @column_width, route: @route %>

@@ -38,9 +38,10 @@ const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
     route,
     stops,
     services,
-    route_patterns: routePatternsByDirection
+    route_patterns: routePatternsByDirection,
+    schedule_note: scheduleNote
   } = schedulePageData;
-  if (route.type !== 0 && route.type !== 1) {
+  if (!scheduleNote) {
     ReactDOM.render(
       <ScheduleFinderAccordion
         directionId={directionId}

@@ -1,7 +1,7 @@
 defmodule SiteWeb.Views.Helpers.StopHelpers do
   @spec special_disabled_stops(:origin | :destination) :: [{String.t(), String.t()}]
   def special_disabled_stops(:origin),
-    do: [{"Foxboro", "Trains depart 30 minutes after conclusion of events"}]
+    do: []
 
   def special_disabled_stops(:destination), do: []
 

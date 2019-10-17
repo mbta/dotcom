@@ -61,6 +61,37 @@ exports[`it renders 1`] = `
 </div>
 `;
 
+exports[`it renders alternate text if not showing specific times 1`] = `
+<div
+  className="m-schedule-page__schedule-notes test"
+>
+  <h3
+    className="m-schedule-page__schedule-note-title"
+  >
+    <div
+      className="m-schedule-page__schedule-note-icon"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+    Schedule Note
+  </h3>
+  <div
+    className="m-schedule-page__schedule-note m-schedule-page__schedule-note--alternate"
+  >
+    <div
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<div>Some other information here</div>",
+        }
+      }
+    />
+  </div>
+</div>
+`;
+
 exports[`it renders without service exceptions 1`] = `
 <div
   className="m-schedule-page__schedule-notes test"
