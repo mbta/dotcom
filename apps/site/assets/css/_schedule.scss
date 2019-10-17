@@ -1027,13 +1027,15 @@ del .trip-list-realtime {
   color: $white;
 
   &.u-bg--commuter-rail {
-    .info-\&-maps-tab {
+    .info-\&-maps-tab,
+    .schedule-\&-maps-tab {
       @include media-breakpoint-down(xs) {
         display: none;
       }
     }
 
-    .info-tab {
+    .info-tab,
+    .schedule-tab {
       @include media-breakpoint-up(sm) {
         display: none;
       }
