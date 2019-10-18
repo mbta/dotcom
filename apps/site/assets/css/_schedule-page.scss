@@ -433,6 +433,10 @@
   align-items: center;
   display: flex;
   justify-content: flex-end;
+
+  .m-schedule-line-diagram__feature-icon {
+    margin-left: $base-spacing / 4;
+  }
 }
 
 .m-schedule-line-diagram__card-left {

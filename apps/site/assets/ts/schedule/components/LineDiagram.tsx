@@ -61,13 +61,13 @@ const LineDiagram = ({
           <div>
             <div className="m-schedule-line-diagram__features">
               {routeStop.stop_features.includes("parking_lot")
-                ? parkingIcon("c-svg__icon-parking-default")
+                ? parkingIcon("c-svg__icon-parking-default m-schedule-line-diagram__feature-icon")
                 : null}
               {routeStop.stop_features.includes("access")
-                ? accessibleIcon("c-svg__icon-acessible-default")
+                ? accessibleIcon("c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon")
                 : null}
               {routeStop.zone && (
-                <span className="c-icon__cr-zone">{`Zone ${
+                <span className="c-icon__cr-zone m-schedule-line-diagram__feature-icon">{`Zone ${
                   routeStop.zone
                 }`}</span>
               )}
