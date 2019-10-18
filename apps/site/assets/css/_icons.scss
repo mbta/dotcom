@@ -300,6 +300,7 @@ a {
 .c-icon__bus-pill {
   border-radius: $base-spacing / 4;
   font-weight: bold;
+  max-height: $base-spacing * 1.5;
   min-width: 2rem;
   padding: 0 $base-spacing / 4;
   text-align: center;
