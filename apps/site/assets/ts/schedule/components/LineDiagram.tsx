@@ -41,7 +41,7 @@ const LineDiagram = ({
           <div className="m-schedule-line-diagram__card-left">
             <div className="m-schedule-line-diagram__stop-name">
               {maybeAlert(stopAlerts)}
-              {routeStop.name}
+              <a href={"/stops/" + routeStop.id}>{routeStop.name}</a>
             </div>
             <div className="m-schedule-line-diagram__connections">
               {routeStop.connections.map((route: Route) =>
