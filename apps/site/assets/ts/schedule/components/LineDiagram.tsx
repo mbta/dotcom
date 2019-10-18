@@ -43,9 +43,6 @@ const LineDiagram = ({
               {maybeAlert(stopAlerts)}
               {routeStop.name}
             </div>
-            <div>
-              {maybeTerminus(stopData) && maybeTerminus(stopData)!.branch}
-            </div>
             <div className="m-schedule-line-diagram__connections">
               {routeStop.connections.map((route: Route) =>
                 route.type === 3 && !route.name.startsWith("SL") ? (
@@ -74,16 +71,6 @@ const LineDiagram = ({
                   routeStop.zone
                 }`}</span>
               )}
-            </div>
-            <div>
-              {/* eslint-disable react/no-array-index-key */
-              stopData.map((stop: StopData, idx: number) => (
-                <div key={idx}>
-                  {stop.branch ? `${stop.branch}, ` : ""}
-                  {stop.type}
-                </div>
-              ))}
-              {/* eslint-enable react/no-array-index-key */}
             </div>
           </div>
         </div>
