@@ -53,7 +53,7 @@ const LineDiagram = ({
                     {route.name}
                   </span>
                 ) : (
-                  <span key={route.id}>{modeIcon(route.id)}</span>
+                  <span key={route.id} className="m-schedule-line-diagram__connection">{modeIcon(route.id)}</span>
                 )
               )}
             </div>

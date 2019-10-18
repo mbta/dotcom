@@ -426,7 +426,12 @@
 
 .m-schedule-line-diagram__connections {
   display: inline-flex;
-  justify-content: center;
+  flex-wrap: wrap;
+  justify-content: left;
+
+  .m-schedule-line-diagram__connection {
+    margin: 0 ($base-spacing / 4) ($base-spacing / 4) 0;
+  }
 }
 
 .m-schedule-line-diagram__features {
