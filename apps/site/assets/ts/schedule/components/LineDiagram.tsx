@@ -42,6 +42,10 @@ const maybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
 const maybeTerminus = (stopData: StopData[]): StopData | undefined =>
   stopData.find((stop: StopData) => stop.type === "terminus");
 
+const busBackgroundClass = (connection: Route): string => (
+  connection.name.startsWith("SL") ? "u-bg--silver-line" : "u-bg--bus"
+);
+
 const LineDiagram = ({
   lineDiagram
 }: Props): ReactElement<HTMLElement> | null => (
@@ -60,10 +64,10 @@ const LineDiagram = ({
             </div>
             <div className="m-schedule-line-diagram__connections">
               {filteredConnections(routeStop.connections).map((route: Route) =>
-                route.type === 3 && !route.name.startsWith("SL") ? (
+                route.type === 3 ? (
                   <span
                     key={route.id}
-                    className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+                    className={"c-icon__bus-pill m-schedule-line-diagram__connection " + busBackgroundClass(route)}
                   >
                     {route.name}
                   </span>
