@@ -12,20 +12,23 @@ interface Props {
   lineDiagram: LineDiagramStop[];
 }
 
-const filteredConnections = (connections: RouteStopRoute[]): RouteStopRoute[] => {
-  const firstCRIndex = connections.findIndex((connection) =>
-    connection.type == 2
+const filteredConnections = (
+  connections: RouteStopRoute[]
+): RouteStopRoute[] => {
+  const firstCRIndex = connections.findIndex(
+    connection => connection.type == 2
   );
-  const firstFerryIndex = connections.findIndex((connection) =>
-    connection.type == 4
+  const firstFerryIndex = connections.findIndex(
+    connection => connection.type == 4
   );
 
-  return connections.filter((connection, index) => (
-    (connection.type != 2 && connection.type != 4) ||
+  return connections.filter(
+    (connection, index) =>
+      (connection.type != 2 && connection.type != 4) ||
       (connection.type == 2 && index == firstCRIndex) ||
       (connection.type == 4 && index == firstFerryIndex)
-  ));
-}
+  );
+};
 
 const maybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
   const highPriorityAlerts = alerts.filter(alert => alert.priority === "high");
@@ -42,9 +45,8 @@ const maybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
 const maybeTerminus = (stopData: StopData[]): StopData | undefined =>
   stopData.find((stop: StopData) => stop.type === "terminus");
 
-const busBackgroundClass = (connection: Route): string => (
-  connection.name.startsWith("SL") ? "u-bg--silver-line" : "u-bg--bus"
-);
+const busBackgroundClass = (connection: Route): string =>
+  connection.name.startsWith("SL") ? "u-bg--silver-line" : "u-bg--bus";
 
 const LineDiagram = ({
   lineDiagram
@@ -67,12 +69,20 @@ const LineDiagram = ({
                 route.type === 3 ? (
                   <span
                     key={route.id}
-                    className={"c-icon__bus-pill m-schedule-line-diagram__connection " + busBackgroundClass(route)}
+                    className={
+                      "c-icon__bus-pill m-schedule-line-diagram__connection " +
+                      busBackgroundClass(route)
+                    }
                   >
                     {route.name}
                   </span>
                 ) : (
-                  <span key={route.id} className="m-schedule-line-diagram__connection">{modeIcon(route.id)}</span>
+                  <span
+                    key={route.id}
+                    className="m-schedule-line-diagram__connection"
+                  >
+                    {modeIcon(route.id)}
+                  </span>
                 )
               )}
             </div>
@@ -80,10 +90,14 @@ const LineDiagram = ({
           <div>
             <div className="m-schedule-line-diagram__features">
               {routeStop.stop_features.includes("parking_lot")
-                ? parkingIcon("c-svg__icon-parking-default m-schedule-line-diagram__feature-icon")
+                ? parkingIcon(
+                    "c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
+                  )
                 : null}
               {routeStop.stop_features.includes("access")
-                ? accessibleIcon("c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon")
+                ? accessibleIcon(
+                    "c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
+                  )
                 : null}
               {routeStop.zone && (
                 <span className="c-icon__cr-zone m-schedule-line-diagram__feature-icon">{`Zone ${

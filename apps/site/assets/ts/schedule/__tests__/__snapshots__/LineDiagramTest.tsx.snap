@@ -11,9 +11,12 @@ Array [
       <div
         className="m-schedule-line-diagram__stop-name"
       >
-        Elm St opp Haskell Ave
+        <a
+          href="/stops/5547"
+        >
+          Elm St opp Haskell Ave
+        </a>
       </div>
-      <div />
       <div
         className="m-schedule-line-diagram__connections"
       >
@@ -29,16 +32,10 @@ Array [
         className="m-schedule-line-diagram__features"
       >
         <span
-          className="c-icon__cr-zone"
+          className="c-icon__cr-zone m-schedule-line-diagram__feature-icon"
         >
           Zone 1A
         </span>
-      </div>
-      <div>
-        <div>
-          
-          terminus
-        </div>
       </div>
     </div>
   </div>,
@@ -51,13 +48,18 @@ Array [
       <div
         className="m-schedule-line-diagram__stop-name"
       >
-        North Station
+        <a
+          href="/stops/place-north"
+        >
+          North Station
+        </a>
       </div>
-      <div />
       <div
         className="m-schedule-line-diagram__connections"
       >
-        <span>
+        <span
+          className="m-schedule-line-diagram__connection"
+        >
           <span
             aria-hidden="false"
             className="notranslate c-svg__icon"
@@ -68,7 +70,9 @@ Array [
             }
           />
         </span>
-        <span>
+        <span
+          className="m-schedule-line-diagram__connection"
+        >
           <span
             aria-hidden="false"
             className="notranslate c-svg__icon"
@@ -79,7 +83,9 @@ Array [
             }
           />
         </span>
-        <span>
+        <span
+          className="m-schedule-line-diagram__connection"
+        >
           <span
             aria-hidden="false"
             className="notranslate c-svg__icon"
@@ -90,29 +96,9 @@ Array [
             }
           />
         </span>
-        <span>
-          <span
-            aria-hidden="false"
-            className="notranslate c-svg__icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
-        </span>
-        <span>
-          <span
-            aria-hidden="false"
-            className="notranslate c-svg__icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
-        </span>
-        <span>
+        <span
+          className="m-schedule-line-diagram__connection"
+        >
           <span
             aria-hidden="false"
             className="notranslate c-svg__icon"
@@ -131,7 +117,7 @@ Array [
       >
         <span
           aria-hidden="false"
-          className="notranslate c-svg__icon-parking-default"
+          className="notranslate c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
           dangerouslySetInnerHTML={
             Object {
               "__html": "SVG",
@@ -140,7 +126,7 @@ Array [
         />
         <span
           aria-hidden="false"
-          className="notranslate c-svg__icon-acessible-default"
+          className="notranslate c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
           dangerouslySetInnerHTML={
             Object {
               "__html": "SVG",
@@ -148,16 +134,10 @@ Array [
           }
         />
         <span
-          className="c-icon__cr-zone"
+          className="c-icon__cr-zone m-schedule-line-diagram__feature-icon"
         >
           Zone 1A
         </span>
-      </div>
-      <div>
-        <div>
-          Lowell, 
-          stop
-        </div>
       </div>
     </div>
   </div>,
@@ -185,9 +165,12 @@ Array [
           Service alert or delay
         </span>
          
-        Alewife
+        <a
+          href="/stops/place-alfcl"
+        >
+          Alewife
+        </a>
       </div>
-      <div />
       <div
         className="m-schedule-line-diagram__connections"
       >
@@ -234,7 +217,7 @@ Array [
       >
         <span
           aria-hidden="false"
-          className="notranslate c-svg__icon-parking-default"
+          className="notranslate c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
           dangerouslySetInnerHTML={
             Object {
               "__html": "SVG",
@@ -243,19 +226,13 @@ Array [
         />
         <span
           aria-hidden="false"
-          className="notranslate c-svg__icon-acessible-default"
+          className="notranslate c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
           dangerouslySetInnerHTML={
             Object {
               "__html": "SVG",
             }
           }
         />
-      </div>
-      <div>
-        <div>
-          
-          terminus
-        </div>
       </div>
     </div>
   </div>,
