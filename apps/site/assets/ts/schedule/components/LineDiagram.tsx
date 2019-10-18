@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { LineDiagramStop, StopData } from "./__schedule";
+import { LineDiagramStop, RouteStopRoute, StopData } from "./__schedule";
 import {
   alertIcon,
   modeIcon,
@@ -10,6 +10,21 @@ import { Alert, Route } from "../../__v3api";
 
 interface Props {
   lineDiagram: LineDiagramStop[];
+}
+
+const filteredConnections = (connections: RouteStopRoute[]): RouteStopRoute[] => {
+  const firstCRIndex = connections.findIndex((connection) =>
+    connection.type == 2
+  );
+  const firstFerryIndex = connections.findIndex((connection) =>
+    connection.type == 4
+  );
+
+  return connections.filter((connection, index) => (
+    (connection.type != 2 && connection.type != 4) ||
+      (connection.type == 2 && index == firstCRIndex) ||
+      (connection.type == 4 && index == firstFerryIndex)
+  ));
 }
 
 const maybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
@@ -44,7 +59,7 @@ const LineDiagram = ({
               <a href={"/stops/" + routeStop.id}>{routeStop.name}</a>
             </div>
             <div className="m-schedule-line-diagram__connections">
-              {routeStop.connections.map((route: Route) =>
+              {filteredConnections(routeStop.connections).map((route: Route) =>
                 route.type === 3 && !route.name.startsWith("SL") ? (
                   <span
                     key={route.id}
