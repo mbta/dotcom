@@ -267,6 +267,7 @@ export interface Schedule {
   stop_sequence: number;
   pickup_type: number;
   train_number?: string;
+  prediction: Prediction | null;
 }
 
 export interface Shape {
