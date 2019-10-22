@@ -1,11 +1,15 @@
-import React, { useState, ReactElement } from "react";
+import React, { useState, ReactElement, ReactHTMLElement } from "react";
 import { ScheduleWithFare, ScheduleInfo } from "../__schedule";
 import { RoutePillSmall } from "./UpcomingDepartures";
 import { modeIcon, caret } from "../../../helpers/icon";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { breakTextAtSlash } from "../../../helpers/text";
+import { isNull } from "util";
 
 const totalMinutes = (schedules: ScheduleInfo): string => schedules.duration;
+
+const predictions = (info: ScheduleInfo): string =>
+  info.schedules.some(el => !isNull(el.prediction)) ? " LIVE" : " DEAD";
 
 interface Props {
   isSchoolTrip: boolean;
@@ -46,11 +50,12 @@ const TripInfo = ({
   );
 };
 
-const BusTableRow = ({
-  schedules,
-  isSchoolTrip,
-  anySchoolTrips
-}: Props): ReactElement<HTMLElement> => {
+const Accordion = (
+  schedules: ScheduleInfo,
+  isSchoolTrip: boolean,
+  anySchoolTrips: boolean,
+  contentCallback: ReactElement<HTMLElement>
+): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
   const firstSchedule = schedules.schedules[0];
   const onClick = (): void => setExpanded(!expanded);
@@ -73,107 +78,9 @@ const BusTableRow = ({
             {isSchoolTrip && <strong>S</strong>}
           </td>
         )}
-        <td className="schedule-table__td schedule-table__time">
-          {firstSchedule.time}
-        </td>
-        <td className="schedule-table__td">
-          <div className="schedule-table__row-route">
-            <RoutePillSmall route={firstSchedule.route} />
-          </div>
-          {breakTextAtSlash(firstSchedule.trip.headsign)}
-        </td>
-        <td className="schedule-table__td schedule-table__td--flex-end">
-          {caret(
-            `c-expandable-block__header-caret${expanded ? "--white" : ""}`,
-            expanded
-          )}
-        </td>
-      </tr>
-      {expanded && (
-        <tr
-          className="schedule-table__subtable-container"
-          id={`trip-${firstSchedule.trip.id}`}
-        >
-          <td className="schedule-table__subtable-td">
-            <table className="schedule-table__subtable">
-              <thead>
-                <TripInfo schedules={schedules} />
-                <tr>
-                  <th scope="col" className="schedule-table__subtable-data">
-                    Stops
-                  </th>
-                  <th
-                    scope="col"
-                    className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                  >
-                    Arrival
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="schedule-table__subtable-tbody">
-                {schedules.schedules.map((schedule: ScheduleWithFare) => (
-                  <tr
-                    key={`${schedule.stop.id}-${schedule.trip.id}`}
-                    className="schedule-table__subtable-row"
-                  >
-                    <td className="schedule-table__subtable-data">
-                      <a href={`/stops/${schedule.stop.id}`}>
-                        {breakTextAtSlash(schedule.stop.name)}
-                      </a>
-                    </td>
-                    <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
-                      {schedule.time}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </td>
-        </tr>
-      )}
-    </>
-  );
-};
 
-const CrTableRow = ({
-  schedules,
-  isSchoolTrip,
-  anySchoolTrips
-}: Props): ReactElement<HTMLElement> => {
-  const [expanded, setExpanded] = useState(false);
-  const firstSchedule = schedules.schedules[0];
-  const onClick = (): void => setExpanded(!expanded);
+        {contentCallback}
 
-  return (
-    <>
-      <tr
-        className={
-          expanded ? "schedule-table__row-selected" : "schedule-table__row"
-        }
-        aria-controls={`trip-${firstSchedule.trip.id}`}
-        aria-expanded={expanded}
-        role="button"
-        onClick={onClick}
-        onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
-        tabIndex={0}
-      >
-        {anySchoolTrips && (
-          <td className="schedule-table__td--tiny">
-            {isSchoolTrip && <strong>S</strong>}
-          </td>
-        )}
-        <td className="schedule-table__td">
-          <div className="schedule-table__time">{firstSchedule.time}</div>
-        </td>
-        {firstSchedule.trip.name && (
-          <td className="schedule-table__td schedule-table__tab-num">
-            {firstSchedule.trip.name}
-          </td>
-        )}
-        <td className="schedule-table__headsign">
-          {modeIcon(firstSchedule.route.id)}{" "}
-          {breakTextAtSlash(firstSchedule.trip.headsign)}
-        </td>
         <td className="schedule-table__td schedule-table__td--flex-end">
           {caret(
             `c-expandable-block__header-caret${expanded ? "--white" : ""}`,
@@ -241,24 +148,59 @@ const CrTableRow = ({
   );
 };
 
+const BusTableRow = (schedules: ScheduleInfo): ReactElement<HTMLElement> => {
+  const firstSchedule = schedules.schedules[0];
+
+  return (
+    <>
+      <td className="schedule-table__td schedule-table__time">
+        {firstSchedule.time}
+      </td>
+      <td className="schedule-table__td">
+        <div className="schedule-table__row-route">
+          <RoutePillSmall route={firstSchedule.route} />
+        </div>
+        {breakTextAtSlash(firstSchedule.trip.headsign)}
+      </td>
+    </>
+  );
+};
+
+const CrTableRow = (schedules: ScheduleInfo): ReactElement<HTMLElement> => {
+  const firstSchedule = schedules.schedules[0];
+
+  return (
+    <>
+      <td className="schedule-table__td">
+        <div className="schedule-table__time">{firstSchedule.time}</div>
+      </td>
+      {firstSchedule.trip.name && (
+        <td className="schedule-table__td schedule-table__tab-num">
+          {firstSchedule.trip.name}
+        </td>
+      )}
+      <td className="schedule-table__headsign">
+        {modeIcon(firstSchedule.route.id)}{" "}
+        {breakTextAtSlash(firstSchedule.trip.headsign)}
+      </td>
+    </>
+  );
+};
+
 const TableRow = ({
   schedules,
   isSchoolTrip,
   anySchoolTrips
 }: Props): ReactElement<HTMLElement> | null => {
-  if (schedules.schedules[0].route.type === 3)
-    return (
-      <BusTableRow
-        schedules={schedules}
-        isSchoolTrip={isSchoolTrip}
-        anySchoolTrips={anySchoolTrips}
-      />
-    );
+  let contentCallback = () => <BusTableRow schedules={schedules} />;
+  if (schedules.schedules[0].route.type === 2)
+    contentCallback = () => <CrTableRow schedules={schedules} />;
   return (
-    <CrTableRow
+    <Accordion
       schedules={schedules}
       isSchoolTrip={isSchoolTrip}
       anySchoolTrips={anySchoolTrips}
+      contentCallback={contentCallback}
     />
   );
 };

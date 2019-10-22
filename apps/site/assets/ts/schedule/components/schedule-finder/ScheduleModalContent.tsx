@@ -1,6 +1,5 @@
 import React, { ReactElement, useReducer, useEffect } from "react";
 import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
-import UpcomingDepartures from "./UpcomingDepartures";
 import { Route, RouteType, ServiceWithServiceDate } from "../../../__v3api";
 import {
   SimpleStop,
@@ -129,7 +128,6 @@ const ScheduleModalContent = ({
         </div>
       </div>
       <div>from {stopNameLink(selectedOrigin, stops)}</div>
-      <UpcomingDepartures state={state} />
       <ServiceSelector
         stopId={selectedOrigin}
         services={services}

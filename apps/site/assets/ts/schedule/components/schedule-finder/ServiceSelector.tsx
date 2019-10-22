@@ -1,5 +1,6 @@
 import React, { ReactElement, useEffect, useState, useReducer } from "react";
 import SelectContainer from "./SelectContainer";
+import UpcomingDepartures from "./UpcomingDepartures";
 import { ServiceWithServiceDate } from "../../../__v3api";
 import {
   ServicesKeyedByGroup,
@@ -163,6 +164,10 @@ export const ServiceSelector = ({
 
   return (
     <>
+      {/* istanbul ignore next */ !state.isLoading &&
+        /* istanbul ignore next */ state.data && (
+          /* istanbul ignore next */ <UpcomingDepartures data={state.data!} />
+        )}
       <h3>Daily Schedule</h3>
       <div className="schedule-finder__service-selector">
         <SelectContainer id="service_selector_container" error={false}>

@@ -6,24 +6,41 @@ import {
 } from "../../../helpers/prediction-helpers";
 import { modeIcon } from "../../../helpers/icon";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
-import { Route } from "../../../__v3api";
-import { StopPrediction } from "../__schedule";
+import { Prediction, Route, Schedule } from "../../../__v3api";
+import {
+  ServiceScheduleByTrip,
+  ServiceScheduleInfo,
+  StopPrediction
+} from "../__schedule";
 import { breakTextAtSlash } from "../../../helpers/text";
-
-interface State {
-  data: StopPrediction[] | null;
-  isLoading: boolean;
-  error: boolean;
-}
+import { isNull } from "util";
+import TripPlannerResults from "../../../trip-plan-results/components/TripPlannerResults";
+import { access } from "fs";
 
 interface Props {
-  state: State;
+  data: ServiceScheduleInfo;
 }
 
-const hasPredictions = (stopPredictions: StopPrediction[]): boolean =>
-  stopPredictions.filter(
-    stopPrediction => stopPrediction.prediction.prediction !== null
-  ).length > 0;
+const predictionsByTrip = ({
+  trip_order,
+  by_trip
+}: ServiceScheduleInfo): ServiceScheduleInfo => {
+  const filtered = trip_order.reduce(
+    (obj: ServiceScheduleByTrip, tripId: string) => {
+      const trip = by_trip[tripId];
+      if (trip.schedules.some(schedule => !isNull(schedule.prediction))) {
+        obj.tripId = trip;
+      }
+      return obj;
+    },
+    {}
+  );
+
+  return { trip_order: trip_order, by_trip: filtered };
+};
+
+const hasPredictions = ({ by_trip }: ServiceScheduleInfo): boolean =>
+  Object.entries(by_trip).length === 0;
 
 export const RoutePillSmall = ({
   route
@@ -35,13 +52,13 @@ export const RoutePillSmall = ({
   </div>
 );
 interface TableRowProps {
-  prediction: StopPrediction;
+  prediction: Prediction;
 }
 
 const TableRow = ({
   prediction
 }: TableRowProps): ReactElement<HTMLElement> | null => {
-  if (prediction.prediction.prediction === null) return null;
+  if (prediction === null) return null;
   if (prediction.route.type === 2)
     return <CrTableRow prediction={prediction} />;
   return (
@@ -93,13 +110,13 @@ const CrTableRow = ({
 };
 
 export const UpcomingDepartures = ({
-  state
+  data
 }: Props): ReactElement<HTMLElement> | null => {
-  const { data: predictions, error, isLoading } = state;
-  if (error || isLoading) {
-    return null;
-  }
-  if (predictions !== null && hasPredictions(predictions)) {
+  const dataWithPredictions = predictionsByTrip(data);
+
+  console.log(dataWithPredictions);
+
+  if (hasPredictions(dataWithPredictions)) {
     return (
       <>
         <h3>Upcoming Departures</h3>
@@ -110,8 +127,16 @@ export const UpcomingDepartures = ({
             </tr>
           </thead>
           <tbody>
-            {predictions.map((prediction: StopPrediction, idx: number) => (
-              <TableRow prediction={prediction} key={idx} />
+            {dataWithPredictions.trip_order.map((tripId: string) => (
+              <TableRow
+                key={tripId}
+                schedules={dataWithPredictions.by_trip[tripId]}
+                isSchoolTrip={isSchoolTrip(
+                  routePatternsById,
+                  dataWithPredictions.by_trip[tripId].route_pattern_id
+                )}
+                anySchoolTrips={anySchoolTrips}
+              />
             ))}
           </tbody>
         </table>
