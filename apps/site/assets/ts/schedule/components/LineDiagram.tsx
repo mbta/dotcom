@@ -47,65 +47,75 @@ const busBackgroundClass = (connection: Route): string =>
 
 const LineDiagram = ({
   lineDiagram
-}: Props): ReactElement<HTMLElement> | null => (
-  <>
-    {lineDiagram.map(
-      ({ route_stop: routeStop, alerts: stopAlerts }: LineDiagramStop) => (
-        <div key={routeStop.id} className="m-schedule-line-diagram__stop">
-          <div className="m-schedule-line-diagram__card-left">
-            <div className="m-schedule-line-diagram__stop-name">
-              {maybeAlert(stopAlerts)}
-              <a href={`/stops/${routeStop.id}`}>{routeStop.name}</a>
+}: Props): ReactElement<HTMLElement> | null => {
+  const routeType = lineDiagram[0].route_stop.route!.type;
+
+  return(
+    <>
+      <h3>
+        {routeType === 0 || routeType === 1 || routeType === 2 ?
+          "Stations" :
+          "Stops"
+        }
+      </h3>
+      {lineDiagram.map(
+        ({ route_stop: routeStop, alerts: stopAlerts }: LineDiagramStop) => (
+          <div key={routeStop.id} className="m-schedule-line-diagram__stop">
+            <div className="m-schedule-line-diagram__card-left">
+              <div className="m-schedule-line-diagram__stop-name">
+                {maybeAlert(stopAlerts)}
+                <a href={`/stops/${routeStop.id}`}><h4>{routeStop.name}</h4></a>
+              </div>
+              <div className="m-schedule-line-diagram__connections">
+                {filteredConnections(routeStop.connections).map((route: Route) =>
+                  route.type === 3 ? (
+                    <a href={`/schedules/${route.id}/line`}>
+                      <span
+                        key={route.id}
+                        className={`c-icon__bus-pill m-schedule-line-diagram__connection ${busBackgroundClass(
+                          route
+                        )}`}
+                      >
+                        {route.name}
+                      </span>
+                    </a>
+                  ) : (
+                    <a href={`/schedules/${route.id}/line`}>
+                      <span
+                        key={route.id}
+                        className="m-schedule-line-diagram__connection"
+                      >
+                        {modeIcon(route.id)}
+                      </span>
+                    </a>
+                  )
+                )}
+              </div>
             </div>
-            <div className="m-schedule-line-diagram__connections">
-              {filteredConnections(routeStop.connections).map((route: Route) =>
-                route.type === 3 ? (
-                  <a href={`/schedules/${route.id}/line`}>
-                    <span
-                      key={route.id}
-                      className={`c-icon__bus-pill m-schedule-line-diagram__connection ${busBackgroundClass(
-                        route
-                      )}`}
-                    >
-                      {route.name}
-                    </span>
-                  </a>
-                ) : (
-                  <a href={`/schedules/${route.id}/line`}>
-                    <span
-                      key={route.id}
-                      className="m-schedule-line-diagram__connection"
-                    >
-                      {modeIcon(route.id)}
-                    </span>
-                  </a>
-                )
-              )}
+            <div>
+              <div className="m-schedule-line-diagram__features">
+                {routeStop.stop_features.includes("parking_lot")
+                  ? parkingIcon(
+                      "c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
+                    )
+                  : null}
+                {routeStop.stop_features.includes("access")
+                  ? accessibleIcon(
+                      "c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
+                    )
+                  : null}
+                {routeStop.route!.type === 2 && routeStop.zone && (
+                  <span className="c-icon__cr-zone m-schedule-line-diagram__feature-icon">{`Zone ${
+                    routeStop.zone
+                  }`}</span>
+                )}
+              </div>
             </div>
           </div>
-          <div>
-            <div className="m-schedule-line-diagram__features">
-              {routeStop.stop_features.includes("parking_lot")
-                ? parkingIcon(
-                    "c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
-                  )
-                : null}
-              {routeStop.stop_features.includes("access")
-                ? accessibleIcon(
-                    "c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
-                  )
-                : null}
-              {routeStop.route!.type === 2 && routeStop.zone && (
-                <span className="c-icon__cr-zone m-schedule-line-diagram__feature-icon">{`Zone ${
-                  routeStop.zone
-                }`}</span>
-              )}
-            </div>
-          </div>
-        </div>
-      )
-    )}
-  </>
-);
+        )
+      )}
+    </>
+  )
+}
 
 export default LineDiagram;
