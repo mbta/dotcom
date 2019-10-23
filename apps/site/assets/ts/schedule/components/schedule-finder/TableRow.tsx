@@ -17,6 +17,16 @@ interface Props {
   anySchoolTrips: boolean;
 }
 
+interface AccordionProps {
+  schedules: ScheduleInfo;
+  isSchoolTrip: boolean;
+  anySchoolTrips: boolean;
+  contentCallback: () => ReactElement<HTMLElement>;
+}
+
+interface TableRowProps {
+  schedules: ScheduleWithFare[];
+}
 const TripInfo = ({
   schedules
 }: {
@@ -50,12 +60,12 @@ const TripInfo = ({
   );
 };
 
-const Accordion = (
-  schedules: ScheduleInfo,
-  isSchoolTrip: boolean,
-  anySchoolTrips: boolean,
-  contentCallback: ReactElement<HTMLElement>
-): ReactElement<HTMLElement> => {
+export const Accordion = ({
+  schedules,
+  isSchoolTrip,
+  anySchoolTrips,
+  contentCallback
+}: AccordionProps): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
   const firstSchedule = schedules.schedules[0];
   const onClick = (): void => setExpanded(!expanded);
@@ -79,7 +89,7 @@ const Accordion = (
           </td>
         )}
 
-        {contentCallback}
+        {contentCallback()}
 
         <td className="schedule-table__td schedule-table__td--flex-end">
           {caret(
@@ -148,8 +158,10 @@ const Accordion = (
   );
 };
 
-const BusTableRow = (schedules: ScheduleInfo): ReactElement<HTMLElement> => {
-  const firstSchedule = schedules.schedules[0];
+const BusTableRow = ({
+  schedules
+}: TableRowProps): ReactElement<HTMLElement> => {
+  const firstSchedule = schedules[0];
 
   return (
     <>
@@ -166,8 +178,10 @@ const BusTableRow = (schedules: ScheduleInfo): ReactElement<HTMLElement> => {
   );
 };
 
-const CrTableRow = (schedules: ScheduleInfo): ReactElement<HTMLElement> => {
-  const firstSchedule = schedules.schedules[0];
+const CrTableRow = ({
+  schedules
+}: TableRowProps): ReactElement<HTMLElement> => {
+  const firstSchedule = schedules[0];
 
   return (
     <>
@@ -192,15 +206,17 @@ const TableRow = ({
   isSchoolTrip,
   anySchoolTrips
 }: Props): ReactElement<HTMLElement> | null => {
-  let contentCallback = () => <BusTableRow schedules={schedules} />;
-  if (schedules.schedules[0].route.type === 2)
-    contentCallback = () => <CrTableRow schedules={schedules} />;
+  const callback =
+    schedules.schedules[0].route.type === 2
+      ? () => <CrTableRow schedules={schedules.schedules} />
+      : () => <BusTableRow schedules={schedules.schedules} />;
+
   return (
     <Accordion
       schedules={schedules}
       isSchoolTrip={isSchoolTrip}
       anySchoolTrips={anySchoolTrips}
-      contentCallback={contentCallback}
+      contentCallback={callback}
     />
   );
 };

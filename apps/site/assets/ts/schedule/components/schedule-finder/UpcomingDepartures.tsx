@@ -16,6 +16,7 @@ import { breakTextAtSlash } from "../../../helpers/text";
 import { isNull } from "util";
 import TripPlannerResults from "../../../trip-plan-results/components/TripPlannerResults";
 import { access } from "fs";
+import { Accordion } from "../../components/schedule-finder/TableRow"
 
 interface Props {
   data: ServiceScheduleInfo;
@@ -58,11 +59,12 @@ interface TableRowProps {
 const TableRow = ({
   prediction
 }: TableRowProps): ReactElement<HTMLElement> | null => {
+  // If there is no live data, return null:
   if (prediction === null) return null;
   if (prediction.route.type === 2)
     return <CrTableRow prediction={prediction} />;
   return (
-    <tr className="schedule-table__row schedule-table__row--stretch">
+    <>
       <td>
         <div className="schedule-table__row-route">
           <RoutePillSmall route={prediction.route} /> {prediction.headsign}
@@ -71,8 +73,9 @@ const TableRow = ({
       <td className="schedule-table__time u-bold">
         {prediction.prediction.prediction.time}
       </td>
-    </tr>
+    </>
   );
+};
 };
 
 const CrTableRow = ({
@@ -84,7 +87,7 @@ const CrTableRow = ({
     : "";
   const predictedSchedule = prediction.prediction;
   return (
-    <tr className="schedule-table__row schedule-table__row--stretch">
+    <>
       <td className="schedule-table__headsign">
         {modeIcon(prediction.route.id)} {breakTextAtSlash(prediction.headsign)}
       </td>
@@ -105,7 +108,7 @@ const CrTableRow = ({
           {statusForCommuterRail(predictedSchedule)}
         </div>
       </td>
-    </tr>
+    </>
   );
 };
 
