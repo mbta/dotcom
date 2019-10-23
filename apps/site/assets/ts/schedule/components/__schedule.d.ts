@@ -133,10 +133,3 @@ export interface Holiday {
   name: string;
   date: string;
 }
-
-export interface StopPrediction {
-  headsign: string;
-  route: Route;
-  prediction: PredictedOrScheduledTime;
-  train_number: string;
-}

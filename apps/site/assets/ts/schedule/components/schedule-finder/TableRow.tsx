@@ -4,29 +4,25 @@ import { RoutePillSmall } from "./UpcomingDepartures";
 import { modeIcon, caret } from "../../../helpers/icon";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { breakTextAtSlash } from "../../../helpers/text";
-import { isNull } from "util";
 
 const totalMinutes = (schedules: ScheduleInfo): string => schedules.duration;
 
-const predictions = (info: ScheduleInfo): string =>
-  info.schedules.some(el => !isNull(el.prediction)) ? " LIVE" : " DEAD";
-
+interface TableRowProps {
+  schedules: ScheduleWithFare[];
+}
 interface Props {
+  schedule: ScheduleInfo;
   isSchoolTrip: boolean;
-  schedules: ScheduleInfo;
   anySchoolTrips: boolean;
 }
 
 interface AccordionProps {
-  schedules: ScheduleInfo;
+  schedule: ScheduleInfo;
   isSchoolTrip: boolean;
   anySchoolTrips: boolean;
   contentCallback: () => ReactElement<HTMLElement>;
 }
 
-interface TableRowProps {
-  schedules: ScheduleWithFare[];
-}
 const TripInfo = ({
   schedules
 }: {
@@ -61,13 +57,13 @@ const TripInfo = ({
 };
 
 export const Accordion = ({
-  schedules,
+  schedule,
   isSchoolTrip,
   anySchoolTrips,
   contentCallback
 }: AccordionProps): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
-  const firstSchedule = schedules.schedules[0];
+  const firstSchedule = schedule.schedules[0];
   const onClick = (): void => setExpanded(!expanded);
 
   return (
@@ -106,7 +102,7 @@ export const Accordion = ({
           <td className="schedule-table__subtable-td">
             <table className="schedule-table__subtable">
               <thead>
-                <TripInfo schedules={schedules} />
+                <TripInfo schedules={schedule} />
                 <tr className="schedule-table__subtable-row">
                   <th
                     scope="col"
@@ -129,7 +125,7 @@ export const Accordion = ({
                 </tr>
               </thead>
               <tbody className="schedule-table__subtable-tbody">
-                {schedules.schedules.map(
+                {schedule.schedules.map(
                   (schedule: ScheduleWithFare, index: number) => (
                     <tr
                       key={`${schedule.stop.id}-${schedule.trip.id}`}
@@ -202,18 +198,18 @@ const CrTableRow = ({
 };
 
 const TableRow = ({
-  schedules,
+  schedule,
   isSchoolTrip,
   anySchoolTrips
 }: Props): ReactElement<HTMLElement> | null => {
   const callback =
-    schedules.schedules[0].route.type === 2
-      ? () => <CrTableRow schedules={schedules.schedules} />
-      : () => <BusTableRow schedules={schedules.schedules} />;
+    schedule.schedules[0].route.type === 2
+      ? () => <CrTableRow schedules={schedule.schedules} />
+      : () => <BusTableRow schedules={schedule.schedules} />;
 
   return (
     <Accordion
-      schedules={schedules}
+      schedule={schedule}
       isSchoolTrip={isSchoolTrip}
       anySchoolTrips={anySchoolTrips}
       contentCallback={callback}

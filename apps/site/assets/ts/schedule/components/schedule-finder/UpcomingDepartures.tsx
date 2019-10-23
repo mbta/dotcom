@@ -6,30 +6,38 @@ import {
 } from "../../../helpers/prediction-helpers";
 import { modeIcon } from "../../../helpers/icon";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
-import { Prediction, Route, Schedule } from "../../../__v3api";
 import {
+  Route,
+  StopPrediction,
+  PredictedOrScheduledTime
+} from "../../../__v3api";
+import {
+  ScheduleInfo,
+  ScheduleWithFare,
   ServiceScheduleByTrip,
-  ServiceScheduleInfo,
-  StopPrediction
+  ServiceScheduleInfo
 } from "../__schedule";
 import { breakTextAtSlash } from "../../../helpers/text";
 import { isNull } from "util";
 import TripPlannerResults from "../../../trip-plan-results/components/TripPlannerResults";
 import { access } from "fs";
-import { Accordion } from "../../components/schedule-finder/TableRow"
+import { Accordion } from "../../components/schedule-finder/TableRow";
 
 interface Props {
-  data: ServiceScheduleInfo;
+  schedules: ServiceScheduleInfo;
+  predictions: StopPrediction[] | null;
 }
 
-const predictionsByTrip = ({
+const tripsWithPredictions = ({
   trip_order,
   by_trip
 }: ServiceScheduleInfo): ServiceScheduleInfo => {
-  const filtered = trip_order.reduce(
+  let trip_ids_with_predictions: string[] = [];
+  const trips_with_predictions = trip_order.reduce(
     (obj: ServiceScheduleByTrip, tripId: string) => {
       const trip = by_trip[tripId];
       if (trip.schedules.some(schedule => !isNull(schedule.prediction))) {
+        trip_ids_with_predictions.push(tripId);
         obj.tripId = trip;
       }
       return obj;
@@ -37,11 +45,19 @@ const predictionsByTrip = ({
     {}
   );
 
-  return { trip_order: trip_order, by_trip: filtered };
+  return {
+    trip_order: trip_ids_with_predictions,
+    by_trip: trips_with_predictions
+  };
 };
 
-const hasPredictions = ({ by_trip }: ServiceScheduleInfo): boolean =>
+const hasCrPredictions = ({ by_trip }: ServiceScheduleInfo): boolean =>
   Object.entries(by_trip).length === 0;
+
+const hasBusPredictions = (stopPredictions: StopPrediction[]): boolean =>
+  stopPredictions.filter(
+    stopPrediction => stopPrediction.prediction.prediction !== null
+  ).length > 0;
 
 export const RoutePillSmall = ({
   route
@@ -52,17 +68,25 @@ export const RoutePillSmall = ({
     <div className={modeBgClass(route)}>{route.name}</div>
   </div>
 );
-interface TableRowProps {
-  prediction: Prediction;
-}
 
-const TableRow = ({
-  prediction
-}: TableRowProps): ReactElement<HTMLElement> | null => {
-  // If there is no live data, return null:
-  if (prediction === null) return null;
-  if (prediction.route.type === 2)
-    return <CrTableRow prediction={prediction} />;
+const TableRow = (
+  schedule: ScheduleInfo,
+  callback: () => ReactElement<HTMLElement>
+): ReactElement<HTMLElement> => {
+  return (
+    <Accordion
+      schedule={schedule}
+      isSchoolTrip={false}
+      anySchoolTrips={false}
+      contentCallback={callback}
+    />
+  );
+};
+
+const BusTableRow = (
+  prediction: StopPrediction
+): ReactElement<HTMLElement> | null => {
+  if (prediction.prediction.prediction === null) return null;
   return (
     <>
       <td>
@@ -76,25 +100,27 @@ const TableRow = ({
     </>
   );
 };
-};
 
 const CrTableRow = ({
-  prediction
-}: TableRowProps): ReactElement<HTMLElement> => {
-  const track = trackForCommuterRail(prediction.prediction);
-  const trainNumber = prediction.train_number
-    ? `Train ${prediction.train_number} · `
+  schedule
+}: {
+  schedule: ScheduleWithFare;
+}): ReactElement<HTMLElement> => {
+  const track = schedule.prediction!.prediction.prediction!.track;
+  const trainNumber = schedule.trip.name
+    ? `Train ${schedule.trip.name} · `
     : "";
-  const predictedSchedule = prediction.prediction;
+
   return (
     <>
       <td className="schedule-table__headsign">
-        {modeIcon(prediction.route.id)} {breakTextAtSlash(prediction.headsign)}
+        {modeIcon(schedule.route.id)}{" "}
+        {breakTextAtSlash(schedule.prediction!.headsign)}
       </td>
       <td>
         <div className="schedule-table__time-container">
           {timeForCommuterRail(
-            predictedSchedule,
+            schedule.prediction!.prediction,
             "schedule-table__time u-bold"
           )}
         </div>
@@ -105,7 +131,7 @@ const CrTableRow = ({
           ) : (
             ""
           )}
-          {statusForCommuterRail(predictedSchedule)}
+          {statusForCommuterRail(schedule.prediction!.prediction)}
         </div>
       </td>
     </>
@@ -113,13 +139,16 @@ const CrTableRow = ({
 };
 
 export const UpcomingDepartures = ({
-  data
+  schedules,
+  predictions
 }: Props): ReactElement<HTMLElement> | null => {
-  const dataWithPredictions = predictionsByTrip(data);
+  const live_schedules = tripsWithPredictions(schedules);
+  const mode = live_schedules.by_trip[0].schedules[0].route.type;
 
-  console.log(dataWithPredictions);
-
-  if (hasPredictions(dataWithPredictions)) {
+  if (
+    (mode === 2 && hasCrPredictions(live_schedules)) ||
+    (predictions !== null && hasBusPredictions(predictions))
+  ) {
     return (
       <>
         <h3>Upcoming Departures</h3>
@@ -130,15 +159,22 @@ export const UpcomingDepartures = ({
             </tr>
           </thead>
           <tbody>
-            {dataWithPredictions.trip_order.map((tripId: string) => (
+            {/* if mode === 2 */}
+            {live_schedules.trip_order.map((tripId: string) => (
               <TableRow
-                key={tripId}
-                schedules={dataWithPredictions.by_trip[tripId]}
-                isSchoolTrip={isSchoolTrip(
-                  routePatternsById,
-                  dataWithPredictions.by_trip[tripId].route_pattern_id
+                schedule={live_schedules.by_trip[tripId].schedules}
+                callback={() => (
+                  <CrTableRow
+                    schedule={live_schedules.by_trip[tripId].schedules[0]}
+                  />
                 )}
-                anySchoolTrips={anySchoolTrips}
+              />
+            ))}
+            {/* else */}
+            {predictions!.map((prediction: StopPrediction, idx: number) => (
+              <TableRow
+                schedule={live_schedules.by_trip[0].schedules[0]}
+                callback={() => <BusTableRow prediction={prediction} />}
               />
             ))}
           </tbody>

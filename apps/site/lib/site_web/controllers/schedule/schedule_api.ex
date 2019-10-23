@@ -9,7 +9,7 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
   alias Schedules.Repo
   alias Site.{BaseFare}
 
-  import Site.TransitNearMe, only: [simple_prediction: 3]
+  import Site.TransitNearMe, only: [build_time_map: 2]
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   def show(conn, %{
@@ -56,9 +56,13 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
         Enum.empty?(schedules) || length(schedules) == 1
       end)
 
+    route = Routes.Repo.get(route_id)
+
     services_by_trip =
-      services_by_trip
-      |> Enum.map(&thread_in_predictions/1)
+      case route.type do
+        2 -> Enum.map(services_by_trip, &thread_in_predictions/1)
+        _ -> services_by_trip
+      end
 
     ordered_trips = ordered_trips -- Enum.map(no_service_trips, &elem(&1, 0))
     ordered_trips_by_stop = sort_trips_by_stop(ordered_trips, Enum.into(services_by_trip, %{}))
@@ -67,6 +71,7 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     %{by_trip: services_by_trip_with_fare, trip_order: ordered_trips_by_stop}
   end
 
+  # For each trip, attach stop predictions to the matching schedule stop
   defp thread_in_predictions({trip_id, schedules}) do
     predictions =
       [trip: trip_id]
@@ -74,12 +79,36 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
       |> Enum.map(&simplify_prediction/1)
       |> Enum.reduce(%{}, fn x, acc -> Map.merge(acc, x) end)
 
+    first_schedule = List.first(schedules)
+
+    stop_prediction = %{
+      headsign: first_schedule.trip.headsign,
+      route: first_schedule.route,
+      train_number: first_schedule.trip.name
+    }
+
     updated_schedules =
       Enum.map(schedules, fn schedule ->
-        Map.put(schedule, :prediction, predictions[schedule.stop.id])
+        Map.put(
+          schedule,
+          :prediction,
+          Map.put(
+            stop_prediction,
+            :prediction,
+            predictions[schedule.stop.id]
+          )
+        )
       end)
 
     {trip_id, updated_schedules}
+  end
+
+  @spec simplify_prediction(Prediction.t()) :: map
+  defp simplify_prediction(%{stop: %{id: stop_id}} = prediction) do
+    predicted_schedule = %PredictedSchedule{schedule: nil, prediction: prediction}
+    {_ps, simplified_prediction} = build_time_map(predicted_schedule, now: Util.now())
+
+    %{stop_id => simplified_prediction}
   end
 
   @spec prune_schedules_by_stop(any, any) :: [any]
@@ -123,17 +152,6 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
 
   def route_pattern(%{schedules: [first_schedule | _]} = service) do
     Map.put(service, "route_pattern_id", first_schedule.trip.route_pattern_id)
-  end
-
-  defp simplify_prediction(%{stop: %{id: stop_id}} = prediction) do
-    simplified_prediction =
-      simple_prediction(
-        prediction,
-        Route.type_atom(prediction.route.type),
-        Util.now()
-      )
-
-    %{stop_id => simplified_prediction}
   end
 
   def fares_for_service(schedules) do

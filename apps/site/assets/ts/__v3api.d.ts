@@ -63,16 +63,23 @@ export interface ParkingLotUtilization {
   typical?: number;
 }
 
-export interface PredictedOrScheduledTime {
-  delay: number;
-  scheduled_time: string[] | null;
-  prediction: Prediction | null;
-}
-
 export interface Prediction {
   time: string[];
   status: string | null;
   track: string | null;
+}
+
+export interface StopPrediction {
+  headsign: string;
+  route: Route;
+  prediction: PredictedOrScheduledTime;
+  train_number: string;
+}
+
+export interface PredictedOrScheduledTime {
+  delay: number;
+  scheduled_time: string[] | null;
+  prediction: Prediction | null;
 }
 
 export interface Route {
@@ -267,7 +274,7 @@ export interface Schedule {
   stop_sequence: number;
   pickup_type: number;
   train_number?: string;
-  prediction: Prediction | null;
+  prediction: StopPrediction | null;
 }
 
 export interface Shape {
