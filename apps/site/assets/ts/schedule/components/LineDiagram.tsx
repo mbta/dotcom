@@ -60,21 +60,25 @@ const LineDiagram = ({
             <div className="m-schedule-line-diagram__connections">
               {filteredConnections(routeStop.connections).map((route: Route) =>
                 route.type === 3 ? (
-                  <span
-                    key={route.id}
-                    className={`c-icon__bus-pill m-schedule-line-diagram__connection ${busBackgroundClass(
-                      route
-                    )}`}
-                  >
-                    {route.name}
-                  </span>
+                  <a href={`/schedules/${route.id}/line`}>
+                    <span
+                      key={route.id}
+                      className={`c-icon__bus-pill m-schedule-line-diagram__connection ${busBackgroundClass(
+                        route
+                      )}`}
+                    >
+                      {route.name}
+                    </span>
+                  </a>
                 ) : (
-                  <span
-                    key={route.id}
-                    className="m-schedule-line-diagram__connection"
-                  >
-                    {modeIcon(route.id)}
-                  </span>
+                  <a href={`/schedules/${route.id}/line`}>
+                    <span
+                      key={route.id}
+                      className="m-schedule-line-diagram__connection"
+                    >
+                      {modeIcon(route.id)}
+                    </span>
+                  </a>
                 )
               )}
             </div>
