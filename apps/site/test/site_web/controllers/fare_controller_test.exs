@@ -26,7 +26,7 @@ defmodule SiteWeb.FareControllerTest do
       assert response =~ "Logan"
     end
 
-    test "renders georges island ferry", %{conn: conn} do
+    test "does not render georges island ferry due to summer-only service", %{conn: conn} do
       conn =
         get(
           conn,
@@ -35,9 +35,9 @@ defmodule SiteWeb.FareControllerTest do
 
       response = html_response(conn, 200)
 
-      assert response =~ "Georges Island Fare"
-      assert response =~ "Child under 3"
-      assert response =~ "Family 4-pack"
+      refute response =~ "Georges Island Fare"
+      refute response =~ "Child under 3"
+      refute response =~ "Family 4-pack"
     end
 
     test "renders ferry when no destinations", %{conn: conn} do

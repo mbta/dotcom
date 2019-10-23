@@ -137,13 +137,13 @@ defmodule Stops.RouteStopTest do
     test "handles ferry routes with multiple shapes by returning the stops as-is" do
       primary = %Shape{id: "primary"}
       other = %Shape{id: "secondary"}
-      stops = make_stops(~w(Boat-Long Boat-George Boat-Logan Boat-Hull Boat-Rowes Boat-Hingham))
+      stops = make_stops(~w(Boat-Long Boat-Logan Boat-Hull Boat-Rowes Boat-Hingham))
       route = %Route{id: "boat", type: 4}
       actual = list_from_shapes([primary, other], stops, route, 1)
 
       assert_stop_ids(
         actual,
-        ~w(Boat-Long Boat-George Boat-Logan Boat-Hull Boat-Rowes Boat-Hingham)
+        ~w(Boat-Long Boat-Logan Boat-Hull Boat-Rowes Boat-Hingham)
       )
     end
   end
