@@ -416,8 +416,13 @@
 
 .m-schedule-line-diagram__stop {
   border: $border;
+  border-bottom: none;
   display: flex;
   padding: $base-spacing;
+
+  &:last-child {
+    border-bottom: $border;
+  }
 }
 
 .m-schedule-line-diagram__stop-name {
