@@ -91,7 +91,7 @@ const LineDiagram = ({
                     "c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
                   )
                 : null}
-              {routeStop.zone && (
+              {routeStop.route!.type === 2 && routeStop.zone && (
                 <span className="c-icon__cr-zone m-schedule-line-diagram__feature-icon">{`Zone ${
                   routeStop.zone
                 }`}</span>
