@@ -157,9 +157,7 @@ const CrTableRow = ({
           {breakTextAtSlash(schedule.prediction.headsign)}
         </td>
         <td>
-          <div className="schedule-table__time-container">
-            (scheduled or actual departed time if we can get it)
-          </div>
+          <div className="schedule-table__time-container">{schedule.time}</div>
           <div className="u-nowrap text-right">{trainNumber}DEPARTED</div>
         </td>
       </>
