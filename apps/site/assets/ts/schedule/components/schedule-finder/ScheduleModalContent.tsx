@@ -1,13 +1,8 @@
 import React, { ReactElement, useReducer, useEffect } from "react";
 import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import { Route, RouteType, ServiceWithServiceDate } from "../../../__v3api";
-import {
-  SimpleStop,
-  StopPrediction,
-  RoutePatternsByDirection
-} from "../__schedule";
+import { SimpleStop, RoutePatternsByDirection } from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
-import { reducer } from "../../../helpers/fetch";
 import ServiceSelector from "./ServiceSelector";
 import { breakTextAtSlash } from "../../../helpers/text";
 
@@ -41,40 +36,6 @@ const routePill = (
     </div>
   ) : null;
 
-type fetchAction =
-  | { type: "FETCH_COMPLETE"; payload: StopPrediction[] }
-  | { type: "FETCH_ERROR" }
-  | { type: "FETCH_STARTED" };
-
-export const fetchData = (
-  routeId: string,
-  selectedOrigin: SelectedOrigin,
-  selectedDirection: SelectedDirection,
-  dispatch: (action: fetchAction) => void
-): Promise<void> => {
-  dispatch({ type: "FETCH_STARTED" });
-  return (
-    window.fetch &&
-    window
-      .fetch(
-        `/schedules/predictions_api?id=${routeId}&origin_stop=${selectedOrigin}&direction_id=${selectedDirection}`
-      )
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
-      // @ts-ignore
-      .catch(() => dispatch({ type: "FETCH_ERROR" }))
-  );
-};
-
-interface State {
-  data: StopPrediction[] | null;
-  isLoading: boolean;
-  error: boolean;
-}
-
 interface Props {
   route: Route;
   selectedDirection: SelectedDirection;
@@ -98,17 +59,6 @@ const ScheduleModalContent = ({
   stops,
   routePatternsByDirection
 }: Props): ReactElement<HTMLElement> | null => {
-  const [state, dispatch] = useReducer(reducer, {
-    data: null,
-    isLoading: true,
-    error: false
-  });
-  useEffect(
-    () => {
-      fetchData(routeId, selectedOrigin, selectedDirection, dispatch);
-    },
-    [routeId, selectedDirection, selectedOrigin]
-  );
   if (selectedOrigin === null || selectedDirection === null) {
     return null;
   }

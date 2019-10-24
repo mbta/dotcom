@@ -36,6 +36,12 @@ interface Props {
   routePatterns: EnhancedRoutePattern[];
 }
 
+export interface ScheduleState {
+  data: ServiceScheduleInfo | null;
+  isLoading: boolean;
+  error: boolean;
+}
+
 const serviceDescription = (
   service: ServiceWithServiceDate,
   group: ServiceOptGroup,
@@ -85,17 +91,17 @@ export const getDefaultScheduleId = (
   firstFutureScheduleId(servicesByOptGroup) ||
   firstHolidayScheduleId(servicesByOptGroup);
 
-type fetchAction =
+type fetchSchedulesAction =
   | { type: "FETCH_COMPLETE"; payload: ServiceScheduleInfo }
   | { type: "FETCH_ERROR" }
   | { type: "FETCH_STARTED" };
 
-export const fetchData = (
+export const fetchScheduleData = (
   routeId: string,
   stopId: string,
   selectedService: ServiceWithServiceDate,
   selectedDirection: SelectedDirection,
-  dispatch: (action: fetchAction) => void
+  dispatch: (action: fetchSchedulesAction) => void
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
   return (
@@ -116,12 +122,6 @@ export const fetchData = (
   );
 };
 
-interface State {
-  data: ServiceScheduleInfo | null;
-  isLoading: boolean;
-  error: boolean;
-}
-
 export const ServiceSelector = ({
   stopId,
   services,
@@ -130,11 +130,11 @@ export const ServiceSelector = ({
   routePatterns
 }: Props): ReactElement<HTMLElement> | null => {
   const [selectedServiceId, setSelectedServiceId] = useState("");
-  const [state, dispatch] = useReducer(reducer, {
+  const [scheduleState, scheduleDispatch] = useReducer(reducer, {
     data: null,
     isLoading: true,
     error: false
-  });
+  } as ScheduleState);
 
   useEffect(
     () => {
@@ -145,7 +145,13 @@ export const ServiceSelector = ({
       if (!selectedService) {
         return;
       }
-      fetchData(routeId, stopId, selectedService, directionId, dispatch);
+      fetchScheduleData(
+        routeId,
+        stopId,
+        selectedService,
+        directionId,
+        scheduleDispatch
+      );
     },
     [services, routeId, directionId, stopId, selectedServiceId]
   );
@@ -164,10 +170,12 @@ export const ServiceSelector = ({
 
   return (
     <>
-      {/* istanbul ignore next */ !state.isLoading &&
-        /* istanbul ignore next */ state.data && (
-          /* istanbul ignore next */ <UpcomingDepartures data={state.data!} />
-        )}
+      <UpcomingDepartures
+        scheduleState={scheduleState}
+        routeId={routeId}
+        directionId={directionId}
+        stopId={stopId}
+      />
       <h3>Daily Schedule</h3>
       <div className="schedule-finder__service-selector">
         <SelectContainer id="service_selector_container" error={false}>
@@ -201,16 +209,16 @@ export const ServiceSelector = ({
         </SelectContainer>
       </div>
 
-      {state.isLoading && (
+      {scheduleState.isLoading && (
         <div className="c-spinner__container">
           <div className="c-spinner">Loading...</div>
         </div>
       )}
 
-      {/* istanbul ignore next */ !state.isLoading &&
-        /* istanbul ignore next */ state.data && (
+      {/* istanbul ignore next */ !scheduleState.isLoading &&
+        /* istanbul ignore next */ scheduleState.data && (
           /* istanbul ignore next */ <ScheduleTable
-            schedule={state.data!}
+            schedule={scheduleState.data!}
             routePatterns={routePatterns}
           />
         )}

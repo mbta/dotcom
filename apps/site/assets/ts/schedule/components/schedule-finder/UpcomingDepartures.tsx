@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useReducer } from "react";
 import {
   timeForCommuterRail,
   trackForCommuterRail,
@@ -6,11 +6,7 @@ import {
 } from "../../../helpers/prediction-helpers";
 import { modeIcon } from "../../../helpers/icon";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
-import {
-  Route,
-  StopPrediction,
-  PredictedOrScheduledTime
-} from "../../../__v3api";
+import { Route, StopPrediction } from "../../../__v3api";
 import {
   ScheduleInfo,
   ScheduleWithFare,
@@ -19,13 +15,28 @@ import {
 } from "../__schedule";
 import { breakTextAtSlash } from "../../../helpers/text";
 import { isNull } from "util";
-import TripPlannerResults from "../../../trip-plan-results/components/TripPlannerResults";
-import { access } from "fs";
 import { Accordion } from "../../components/schedule-finder/TableRow";
+import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
+import { reducer } from "../../../helpers/fetch";
+import { ScheduleState } from "./ServiceSelector";
 
+//  ServiceScheduleInfo
 interface Props {
-  schedules: ServiceScheduleInfo;
-  predictions: StopPrediction[] | null;
+  scheduleState: ScheduleState;
+  stopId: string;
+  routeId: string;
+  directionId: SelectedDirection;
+}
+
+type fetchPredictionsAction =
+  | { type: "FETCH_COMPLETE"; payload: StopPrediction[] }
+  | { type: "FETCH_ERROR" }
+  | { type: "FETCH_STARTED" };
+
+interface PredictionState {
+  data: StopPrediction[] | null;
+  isLoading: boolean;
+  error: boolean;
 }
 
 const tripsWithPredictions = ({
@@ -138,10 +149,69 @@ const CrTableRow = ({
   );
 };
 
+const fetchPredictionData = (
+  routeId: string,
+  selectedOrigin: SelectedOrigin,
+  selectedDirection: SelectedDirection,
+  dispatch: (action: fetchPredictionsAction) => void
+): Promise<void> => {
+  dispatch({ type: "FETCH_STARTED" });
+  return (
+    window.fetch &&
+    window
+      .fetch(
+        `/schedules/predictions_api?id=${routeId}&origin_stop=${selectedOrigin}&direction_id=${selectedDirection}`
+      )
+      .then(response => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
+      // @ts-ignore
+      .catch(() => dispatch({ type: "FETCH_ERROR" }))
+  );
+};
+
 export const UpcomingDepartures = ({
-  schedules,
-  predictions
+  routeId,
+  directionId,
+  stopId,
+  scheduleState: {
+    data: schedules,
+    error: scheduleError,
+    isLoading: areSchedulesLoading
+  }
 }: Props): ReactElement<HTMLElement> | null => {
+  const [predictionState, predictionDispatch] = useReducer(reducer, {
+    data: null,
+    isLoading: true,
+    error: false
+  } as PredictionState);
+
+  useEffect(
+    () => {
+      fetchPredictionData(routeId, stopId, directionId, predictionDispatch);
+    },
+    [routeId, directionId, stopId]
+  );
+
+  const {
+    data: predictions,
+    error: predictionError,
+    isLoading: arePredictionsLoading
+  } = predictionState;
+
+  if (
+    isNull(schedules) ||
+    isNull(predictions) ||
+    scheduleError ||
+    predictionError ||
+    areSchedulesLoading ||
+    arePredictionsLoading
+  ) {
+    return null;
+  }
+
   const live_schedules = tripsWithPredictions(schedules);
   const mode = live_schedules.by_trip[0].schedules[0].route.type;
 
@@ -159,24 +229,23 @@ export const UpcomingDepartures = ({
             </tr>
           </thead>
           <tbody>
-            {/* if mode === 2 */}
-            {live_schedules.trip_order.map((tripId: string) => (
-              <TableRow
-                schedule={live_schedules.by_trip[tripId].schedules}
-                callback={() => (
-                  <CrTableRow
-                    schedule={live_schedules.by_trip[tripId].schedules[0]}
+            {mode === 2
+              ? live_schedules.trip_order.map((tripId: string) => (
+                  <TableRow
+                    schedule={live_schedules.by_trip[tripId].schedules}
+                    callback={() => (
+                      <CrTableRow
+                        schedule={live_schedules.by_trip[tripId].schedules[0]}
+                      />
+                    )}
                   />
-                )}
-              />
-            ))}
-            {/* else */}
-            {predictions!.map((prediction: StopPrediction, idx: number) => (
-              <TableRow
-                schedule={live_schedules.by_trip[0].schedules[0]}
-                callback={() => <BusTableRow prediction={prediction} />}
-              />
-            ))}
+                ))
+              : predictions!.map((prediction: StopPrediction, idx: number) => (
+                  <TableRow
+                    schedule={live_schedules.by_trip[0].schedules[0]}
+                    callback={() => <BusTableRow prediction={prediction} />}
+                  />
+                ))}
           </tbody>
         </table>
       </>
