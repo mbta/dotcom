@@ -42,7 +42,7 @@ interface AccordionProps {
   contentCallback: () => ReactElement<HTMLElement>;
 }
 
-const tripsWithPredictions = ({
+const reduceTrips = ({
   trip_order,
   by_trip
 }: ServiceScheduleInfo): ServiceScheduleInfo => {
@@ -51,7 +51,9 @@ const tripsWithPredictions = ({
     (obj: ServiceScheduleByTrip, tripId: string) => {
       const trip = by_trip[tripId];
       if (
-        trip.schedules.some(schedule => !isNull(schedule.prediction.prediction))
+        trip.schedules.some(
+          (schedule, idx) => !isNull(schedule.prediction.prediction) && idx < 2
+        )
       ) {
         trip_ids_with_predictions.push(tripId);
         obj[tripId] = trip;
@@ -157,8 +159,13 @@ const CrTableRow = ({
           {breakTextAtSlash(schedule.prediction.headsign)}
         </td>
         <td>
-          <div className="schedule-table__time-container">{schedule.time}</div>
-          <div className="u-nowrap text-right">{trainNumber}DEPARTED</div>
+          <div className="schedule-table__time-container">
+            <div className="schedule-table__time u-bold">{schedule.time}</div>
+          </div>
+          <div className="u-nowrap text-right">
+            {trainNumber}
+            Departed
+          </div>
         </td>
       </>
     );
@@ -245,19 +252,13 @@ export const UpcomingDepartures = ({
     isLoading: arePredictionsLoading
   }: PredictionState = predictionState;
 
-  if (areSchedulesLoading || arePredictionsLoading) {
-    return (
-      <div className="c-spinner__container">
-        <div className="c-spinner">Loading...</div>
-      </div>
-    );
-  }
-
   if (
     isNull(schedules) ||
     isNull(predictions) ||
     scheduleError ||
-    predictionError
+    predictionError ||
+    areSchedulesLoading ||
+    arePredictionsLoading
   ) {
     return null;
   }
@@ -270,7 +271,7 @@ export const UpcomingDepartures = ({
   const mode = first_scheduled_stop.route.type;
 
   if (mode === 2) {
-    const live_trip_data = tripsWithPredictions(schedules);
+    const live_trip_data = reduceTrips(schedules);
     const live_trip_names = live_trip_data.trip_order;
     if (hasCrPredictions(live_trip_data)) {
       return (
