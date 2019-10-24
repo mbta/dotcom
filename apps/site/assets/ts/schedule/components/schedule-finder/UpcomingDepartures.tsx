@@ -20,12 +20,11 @@ import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import { reducer } from "../../../helpers/fetch";
 import { ScheduleState } from "./ServiceSelector";
 
-//  ServiceScheduleInfo
 interface Props {
   scheduleState: ScheduleState;
+  directionId: SelectedDirection;
   stopId: string;
   routeId: string;
-  directionId: SelectedDirection;
 }
 
 type fetchPredictionsAction =
@@ -47,9 +46,13 @@ const tripsWithPredictions = ({
   const trips_with_predictions = trip_order.reduce(
     (obj: ServiceScheduleByTrip, tripId: string) => {
       const trip = by_trip[tripId];
-      if (trip.schedules.some(schedule => !isNull(schedule.prediction))) {
+      if (
+        trip.schedules.some(
+          schedule => !isNull(schedule.prediction!.prediction)
+        )
+      ) {
         trip_ids_with_predictions.push(tripId);
-        obj.tripId = trip;
+        obj[tripId] = trip;
       }
       return obj;
     },
@@ -57,7 +60,7 @@ const tripsWithPredictions = ({
   );
 
   return {
-    trip_order: trip_ids_with_predictions,
+    trip_order: trip_ids_with_predictions, // [just, the, ones, with, predictions]
     by_trip: trips_with_predictions
   };
 };
@@ -199,7 +202,7 @@ export const UpcomingDepartures = ({
     data: predictions,
     error: predictionError,
     isLoading: arePredictionsLoading
-  } = predictionState;
+  }: PredictionState = predictionState;
 
   if (areSchedulesLoading || arePredictionsLoading) {
     return (
@@ -219,7 +222,9 @@ export const UpcomingDepartures = ({
   }
 
   const live_schedules = tripsWithPredictions(schedules);
-  const mode = live_schedules.by_trip[0].schedules[0].route.type;
+  const mode =
+    live_schedules.by_trip[live_schedules.trip_order[0]].schedules[0].route
+      .type;
 
   if (
     (mode === 2 && hasCrPredictions(live_schedules)) ||
@@ -235,7 +240,10 @@ export const UpcomingDepartures = ({
             </tr>
           </thead>
           <tbody>
-            {mode === 2
+            <tr>
+              <td>Is this a prediction?</td>
+            </tr>
+            {/* {mode === 2
               ? live_schedules.trip_order.map((tripId: string) => (
                   <TableRow
                     schedule={live_schedules.by_trip[tripId].schedules}
@@ -251,7 +259,7 @@ export const UpcomingDepartures = ({
                     schedule={live_schedules.by_trip[0].schedules[0]}
                     callback={() => <BusTableRow prediction={prediction} />}
                   />
-                ))}
+                ))} */}
           </tbody>
         </table>
       </>

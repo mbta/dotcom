@@ -97,7 +97,7 @@ const ScheduleTable = ({
           {schedule.trip_order.map((tripId: string) => (
             <TableRow
               key={tripId}
-              schedules={schedule.by_trip[tripId]}
+              schedule={schedule.by_trip[tripId]}
               isSchoolTrip={isSchoolTrip(
                 routePatternsById,
                 schedule.by_trip[tripId].route_pattern_id
