@@ -201,13 +201,19 @@ export const UpcomingDepartures = ({
     isLoading: arePredictionsLoading
   } = predictionState;
 
+  if (areSchedulesLoading || arePredictionsLoading) {
+    return (
+      <div className="c-spinner__container">
+        <div className="c-spinner">Loading...</div>
+      </div>
+    );
+  }
+
   if (
     isNull(schedules) ||
     isNull(predictions) ||
     scheduleError ||
-    predictionError ||
-    areSchedulesLoading ||
-    arePredictionsLoading
+    predictionError
   ) {
     return null;
   }
