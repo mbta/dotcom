@@ -67,6 +67,25 @@ const tripsWithPredictions = ({
   };
 };
 
+const TripDataForPredictions = (
+  schedule_data: ServiceScheduleInfo,
+  predictions: StopPrediction[]
+): ServiceScheduleInfo => {
+  const trip_ids = predictions.map(prediction => prediction.trip_id);
+  const prediction_trips = trip_ids.reduce(
+    (obj: ServiceScheduleByTrip, trip_id: string) => {
+      obj[trip_id] = schedule_data.by_trip[trip_id];
+      return obj;
+    },
+    {}
+  );
+
+  return {
+    trip_order: trip_ids,
+    by_trip: prediction_trips
+  };
+};
+
 const hasCrPredictions = ({ by_trip }: ServiceScheduleInfo): boolean =>
   Object.entries(by_trip).length !== 0;
 
@@ -283,6 +302,7 @@ export const UpcomingDepartures = ({
       );
     }
   } else if (predictions !== null && hasBusPredictions(predictions)) {
+    const live_trip_data = TripDataForPredictions(schedules, predictions);
     return (
       <>
         <h3>Upcoming Departures</h3>
@@ -295,7 +315,7 @@ export const UpcomingDepartures = ({
           <tbody>
             {predictions.map((prediction: StopPrediction) => (
               <TableRow
-                trip={first_stop_schedule}
+                trip={live_trip_data.by_trip[prediction.trip_id]}
                 contentCallback={() => <BusTableRow prediction={prediction} />}
               />
             ))}
