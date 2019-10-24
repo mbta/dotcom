@@ -274,56 +274,46 @@ export const UpcomingDepartures = ({
     const live_trip_data = reduceTrips(schedules);
     const live_trip_names = live_trip_data.trip_order;
     if (hasCrPredictions(live_trip_data)) {
-      return (
-        <>
-          <h3>Upcoming Departures</h3>
-          <table className="schedule-table">
-            <thead className="schedule-table__header">
-              <tr className="schedule-table__row-header">
-                <th>Destinations</th>
-                <th>Trip Details</th>
-              </tr>
-            </thead>
-            <tbody>
-              {live_trip_names.map((tripId: string) => (
-                <TableRow
-                  trip={live_trip_data.by_trip[tripId]}
-                  contentCallback={() => (
-                    <CrTableRow
-                      scheduledStops={live_trip_data.by_trip[tripId].schedules}
-                    />
-                  )}
-                />
-              ))}
-            </tbody>
-          </table>
-        </>
-      );
+      const tableRows = live_trip_names.map((tripId: string) => (
+        <TableRow
+          trip={live_trip_data.by_trip[tripId]}
+          contentCallback={() => (
+            <CrTableRow
+              scheduledStops={live_trip_data.by_trip[tripId].schedules}
+            />
+          )}
+        />
+      ));
+      return wrapDepartures(tableRows);
     }
   } else if (predictions !== null && hasBusPredictions(predictions)) {
     const live_trip_data = TripDataForPredictions(schedules, predictions);
-    return (
-      <>
-        <h3>Upcoming Departures</h3>
-        <table className="schedule-table">
-          <thead className="schedule-table__header">
-            <tr className="schedule-table__row-header">
-              <th>Destinations</th>
-            </tr>
-          </thead>
-          <tbody>
-            {predictions.map((prediction: StopPrediction) => (
-              <TableRow
-                trip={live_trip_data.by_trip[prediction.trip_id]}
-                contentCallback={() => <BusTableRow prediction={prediction} />}
-              />
-            ))}
-          </tbody>
-        </table>
-      </>
-    );
+    const tableRows = predictions.map((prediction: StopPrediction) => (
+      <TableRow
+        trip={live_trip_data.by_trip[prediction.trip_id]}
+        contentCallback={() => <BusTableRow prediction={prediction} />}
+      />
+    ));
+    return wrapDepartures(tableRows);
   }
   return null;
+};
+
+const wrapDepartures = (tableRows: ReactElement<HTMLElement>[]) => {
+  return (
+    <>
+      <h3>Upcoming Departures</h3>
+      <table className="schedule-table">
+        <thead className="schedule-table__header">
+          <tr className="schedule-table__row-header">
+            <th>Destinations</th>
+            <th>Trip Details</th>
+          </tr>
+        </thead>
+        <tbody>{tableRows}</tbody>
+      </table>
+    </>
+  );
 };
 
 export default UpcomingDepartures;
