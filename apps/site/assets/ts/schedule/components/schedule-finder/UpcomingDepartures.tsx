@@ -62,13 +62,13 @@ const tripsWithPredictions = ({
   );
 
   return {
-    trip_order: trip_ids_with_predictions, // [just, the, ones, with, predictions]
+    trip_order: trip_ids_with_predictions,
     by_trip: trips_with_predictions
   };
 };
 
 const hasCrPredictions = ({ by_trip }: ServiceScheduleInfo): boolean =>
-  Object.entries(by_trip).length === 0;
+  Object.entries(by_trip).length !== 0;
 
 const hasBusPredictions = (stopPredictions: StopPrediction[]): boolean =>
   stopPredictions.filter(
@@ -89,7 +89,6 @@ const TableRow = ({
   trip,
   contentCallback
 }: AccordionProps): ReactElement<HTMLElement> => {
-  console.log(trip);
   return (
     <Accordion
       trip={trip}
@@ -246,16 +245,44 @@ export const UpcomingDepartures = ({
     return null;
   }
 
-  const live_trip_data = tripsWithPredictions(schedules);
-  const trip_names = live_trip_data.trip_order;
-  const first_trip = trip_names[0];
-  const first_schedule = live_trip_data.by_trip[first_trip].schedules[0];
-  const mode = first_schedule.route.type;
+  const all_trip_names = schedules.trip_order;
+  const all_trips = schedules.by_trip;
+  const first_trip = all_trip_names[0];
+  const first_stop_schedule = all_trips[first_trip];
+  const first_scheduled_stop = first_stop_schedule.schedules[0];
+  const mode = first_scheduled_stop.route.type;
 
-  if (
-    (mode === 2 && hasCrPredictions(live_trip_data)) ||
-    (predictions !== null && hasBusPredictions(predictions))
-  ) {
+  if (mode === 2) {
+    const live_trip_data = tripsWithPredictions(schedules);
+    const live_trip_names = live_trip_data.trip_order;
+    if (hasCrPredictions(live_trip_data)) {
+      return (
+        <>
+          <h3>Upcoming Departures</h3>
+          <table className="schedule-table">
+            <thead className="schedule-table__header">
+              <tr className="schedule-table__row-header">
+                <th>Destinations</th>
+                <th>Trip Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              {live_trip_names.map((tripId: string) => (
+                <TableRow
+                  trip={live_trip_data.by_trip[tripId]}
+                  contentCallback={() => (
+                    <CrTableRow
+                      scheduledStops={live_trip_data.by_trip[tripId].schedules}
+                    />
+                  )}
+                />
+              ))}
+            </tbody>
+          </table>
+        </>
+      );
+    }
+  } else if (predictions !== null && hasBusPredictions(predictions)) {
     return (
       <>
         <h3>Upcoming Departures</h3>
@@ -266,27 +293,12 @@ export const UpcomingDepartures = ({
             </tr>
           </thead>
           <tbody>
-            {mode === 2
-              ? trip_names.map((tripId: string) => (
-                  <TableRow
-                    trip={live_trip_data.by_trip[tripId]}
-                    contentCallback={() => (
-                      <CrTableRow
-                        scheduledStops={
-                          live_trip_data.by_trip[tripId].schedules
-                        }
-                      />
-                    )}
-                  />
-                ))
-              : predictions.map((prediction: StopPrediction, idx: number) => (
-                  <TableRow
-                    trip={live_trip_data.by_trip[0]}
-                    contentCallback={() => (
-                      <BusTableRow prediction={prediction} />
-                    )}
-                  />
-                ))}
+            {predictions.map((prediction: StopPrediction) => (
+              <TableRow
+                trip={first_stop_schedule}
+                contentCallback={() => <BusTableRow prediction={prediction} />}
+              />
+            ))}
           </tbody>
         </table>
       </>

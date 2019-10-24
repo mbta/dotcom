@@ -70,6 +70,7 @@ export interface Prediction {
 }
 
 export interface StopPrediction {
+  trip_id: string;
   headsign: string;
   route: Route;
   prediction: PredictedOrScheduledTime;

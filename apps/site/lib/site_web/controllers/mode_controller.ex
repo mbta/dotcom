@@ -77,6 +77,7 @@ defmodule SiteWeb.ModeController do
     trip = PredictedSchedule.trip(pred_sched)
 
     %{
+      trip_id: trip.id,
       headsign: Display.headsign(pred_sched),
       train_number: trip && trip.name,
       route: Route.to_json_safe(Routes.Repo.get(route_id)),
