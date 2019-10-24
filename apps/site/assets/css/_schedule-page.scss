@@ -437,6 +437,10 @@
   .m-schedule-line-diagram__connection {
     margin: 0 ($base-spacing / 4) ($base-spacing / 4) 0;
   }
+
+  a {
+    max-height: $base-spacing * 1.5;
+  }
 }
 
 .m-schedule-line-diagram__features {
