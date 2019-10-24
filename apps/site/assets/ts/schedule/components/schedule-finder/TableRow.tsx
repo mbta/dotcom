@@ -11,13 +11,13 @@ interface TableRowProps {
   schedules: ScheduleWithFare[];
 }
 interface Props {
-  schedule: ScheduleInfo;
+  trip: ScheduleInfo;
   isSchoolTrip: boolean;
   anySchoolTrips: boolean;
 }
 
 interface AccordionProps {
-  schedule: ScheduleInfo;
+  trip: ScheduleInfo;
   isSchoolTrip: boolean;
   anySchoolTrips: boolean;
   contentCallback: () => ReactElement<HTMLElement>;
@@ -57,13 +57,13 @@ const TripInfo = ({
 };
 
 export const Accordion = ({
-  schedule,
+  trip,
   isSchoolTrip,
   anySchoolTrips,
   contentCallback
 }: AccordionProps): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
-  const firstSchedule = schedule.schedules[0];
+  const firstSchedule = trip.schedules[0];
   const onClick = (): void => setExpanded(!expanded);
 
   return (
@@ -102,7 +102,7 @@ export const Accordion = ({
           <td className="schedule-table__subtable-td">
             <table className="schedule-table__subtable">
               <thead>
-                <TripInfo schedules={schedule} />
+                <TripInfo schedules={trip} />
                 <tr className="schedule-table__subtable-row">
                   <th
                     scope="col"
@@ -125,7 +125,7 @@ export const Accordion = ({
                 </tr>
               </thead>
               <tbody className="schedule-table__subtable-tbody">
-                {schedule.schedules.map(
+                {trip.schedules.map(
                   (schedule: ScheduleWithFare, index: number) => (
                     <tr
                       key={`${schedule.stop.id}-${schedule.trip.id}`}
@@ -198,18 +198,18 @@ const CrTableRow = ({
 };
 
 const TableRow = ({
-  schedule,
+  trip,
   isSchoolTrip,
   anySchoolTrips
 }: Props): ReactElement<HTMLElement> | null => {
   const callback =
-    schedule.schedules[0].route.type === 2
-      ? () => <CrTableRow schedules={schedule.schedules} />
-      : () => <BusTableRow schedules={schedule.schedules} />;
+    trip.schedules[0].route.type === 2
+      ? () => <CrTableRow schedules={trip.schedules} />
+      : () => <BusTableRow schedules={trip.schedules} />;
 
   return (
     <Accordion
-      schedule={schedule}
+      trip={trip}
       isSchoolTrip={isSchoolTrip}
       anySchoolTrips={anySchoolTrips}
       contentCallback={callback}

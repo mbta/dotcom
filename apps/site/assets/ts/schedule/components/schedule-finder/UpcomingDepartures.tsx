@@ -37,6 +37,11 @@ interface PredictionState {
   error: boolean;
 }
 
+interface AccordionProps {
+  trip: ScheduleInfo;
+  contentCallback: () => ReactElement<HTMLElement>;
+}
+
 const tripsWithPredictions = ({
   trip_order,
   by_trip
@@ -80,23 +85,26 @@ export const RoutePillSmall = ({
   </div>
 );
 
-const TableRow = (
-  schedule: ScheduleInfo,
-  callback: () => ReactElement<HTMLElement>
-): ReactElement<HTMLElement> => {
+const TableRow = ({
+  trip,
+  contentCallback
+}: AccordionProps): ReactElement<HTMLElement> => {
+  console.log(trip);
   return (
     <Accordion
-      schedule={schedule}
+      trip={trip}
       isSchoolTrip={false}
       anySchoolTrips={false}
-      contentCallback={callback}
+      contentCallback={contentCallback}
     />
   );
 };
 
-const BusTableRow = (
-  prediction: StopPrediction
-): ReactElement<HTMLElement> | null => {
+const BusTableRow = ({
+  prediction
+}: {
+  prediction: StopPrediction;
+}): ReactElement<HTMLElement> | null => {
   if (prediction.prediction.prediction === null) return null;
   return (
     <>
@@ -113,14 +121,34 @@ const BusTableRow = (
 };
 
 const CrTableRow = ({
-  schedule
+  scheduledStops
 }: {
-  schedule: ScheduleWithFare;
+  scheduledStops: ScheduleWithFare[];
 }): ReactElement<HTMLElement> => {
-  const track = trackForCommuterRail(schedule.prediction.prediction);
+  const schedule = scheduledStops[0];
+
   const trainNumber = schedule.trip.name
     ? `Train ${schedule.trip.name} · `
     : "";
+
+  if (schedule.prediction.prediction === null) {
+    return (
+      <>
+        <td className="schedule-table__headsign">
+          {modeIcon(schedule.route.id)}{" "}
+          {breakTextAtSlash(schedule.prediction.headsign)}
+        </td>
+        <td>
+          <div className="schedule-table__time-container">
+            (scheduled or actual departed time if we can get it)
+          </div>
+          <div className="u-nowrap text-right">{trainNumber}DEPARTED</div>
+        </td>
+      </>
+    );
+  }
+
+  const track = trackForCommuterRail(schedule.prediction.prediction);
 
   return (
     <>
@@ -218,13 +246,14 @@ export const UpcomingDepartures = ({
     return null;
   }
 
-  const live_schedules = tripsWithPredictions(schedules);
-  const mode =
-    live_schedules.by_trip[live_schedules.trip_order[0]].schedules[0].route
-      .type;
+  const live_trip_data = tripsWithPredictions(schedules);
+  const trip_names = live_trip_data.trip_order;
+  const first_trip = trip_names[0];
+  const first_schedule = live_trip_data.by_trip[first_trip].schedules[0];
+  const mode = first_schedule.route.type;
 
   if (
-    (mode === 2 && hasCrPredictions(live_schedules)) ||
+    (mode === 2 && hasCrPredictions(live_trip_data)) ||
     (predictions !== null && hasBusPredictions(predictions))
   ) {
     return (
@@ -237,26 +266,27 @@ export const UpcomingDepartures = ({
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Is this a prediction?</td>
-            </tr>
-            {/* {mode === 2
-              ? live_schedules.trip_order.map((tripId: string) => (
+            {mode === 2
+              ? trip_names.map((tripId: string) => (
                   <TableRow
-                    schedule={live_schedules.by_trip[tripId].schedules}
-                    callback={() => (
+                    trip={live_trip_data.by_trip[tripId]}
+                    contentCallback={() => (
                       <CrTableRow
-                        schedule={live_schedules.by_trip[tripId].schedules[0]}
+                        scheduledStops={
+                          live_trip_data.by_trip[tripId].schedules
+                        }
                       />
                     )}
                   />
                 ))
               : predictions.map((prediction: StopPrediction, idx: number) => (
                   <TableRow
-                    schedule={live_schedules.by_trip[0].schedules[0]}
-                    callback={() => <BusTableRow prediction={prediction} />}
+                    trip={live_trip_data.by_trip[0]}
+                    contentCallback={() => (
+                      <BusTableRow prediction={prediction} />
+                    )}
                   />
-                ))} */}
+                ))}
           </tbody>
         </table>
       </>
