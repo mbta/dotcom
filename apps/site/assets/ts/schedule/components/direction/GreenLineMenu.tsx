@@ -6,7 +6,7 @@ import React, {
 import { DirectionId, EnhancedRoute } from "../../../__v3api";
 import { MenuAction } from "./reducer";
 import renderSvg from "../../../helpers/render-svg";
-import { default as handleNavigation } from "./menu-helpers";
+import handleNavigation from "./menu-helpers";
 import arrowIcon from "../../../../static/images/icon-down-arrow.svg";
 import checkIcon from "../../../../static/images/icon-checkmark.svg";
 import iconGreenB from "../../../../static/images/icon-green-line-b-small.svg";
@@ -43,6 +43,7 @@ interface GreenLineItem {
   directionId: DirectionId;
 }
 
+/* eslint-disable @typescript-eslint/camelcase */
 const greenRoutes: GreenRoute[] = [
   {
     id: "Green",
@@ -156,7 +157,7 @@ export const GreenLineSelect = ({
     dispatch({ type: "toggleRoutePatternMenu", payload: {} });
   };
 
-  const route = greenRoutes.find(greenRoute => greenRoute.id == routeId)!;
+  const route = greenRoutes.find(greenRoute => greenRoute.id === routeId)!;
 
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions

@@ -5,7 +5,7 @@ import React, {
 } from "react";
 import { MenuAction } from "./reducer";
 import { EnhancedRoutePattern } from "../__schedule";
-import { default as handleNavigation } from "./menu-helpers";
+import handleNavigation from "./menu-helpers";
 import renderSvg from "../../../helpers/render-svg";
 import arrowIcon from "../../../../static/images/icon-down-arrow.svg";
 import checkIcon from "../../../../static/images/icon-checkmark.svg";
