@@ -274,7 +274,7 @@ export interface Schedule {
   stop_sequence: number;
   pickup_type: number;
   train_number?: string;
-  prediction: StopPrediction | null;
+  prediction: StopPrediction;
 }
 
 export interface Shape {
