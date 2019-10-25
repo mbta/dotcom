@@ -1,4 +1,4 @@
-import React, { useState, ReactElement, ReactHTMLElement } from "react";
+import React, { useState, ReactElement } from "react";
 import { ScheduleWithFare, ScheduleInfo } from "../__schedule";
 import { RoutePillSmall } from "./UpcomingDepartures";
 import { modeIcon, caret } from "../../../helpers/icon";
@@ -174,7 +174,7 @@ const BusTableRow = ({
   );
 };
 
-const CrTableRow = ({
+const DefaultTableRow = ({
   schedules
 }: TableRowProps): ReactElement<HTMLElement> => {
   const firstSchedule = schedules[0];
@@ -203,9 +203,9 @@ const TableRow = ({
   anySchoolTrips
 }: Props): ReactElement<HTMLElement> | null => {
   const callback =
-    trip.schedules[0].route.type === 2
-      ? () => <CrTableRow schedules={trip.schedules} />
-      : () => <BusTableRow schedules={trip.schedules} />;
+    trip.schedules[0].route.type === 3
+      ? () => <BusTableRow schedules={trip.schedules} />
+      : () => <DefaultTableRow schedules={trip.schedules} />;
 
   return (
     <Accordion
