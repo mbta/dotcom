@@ -427,6 +427,10 @@
 
 .m-schedule-line-diagram__stop-name {
   font-weight: bold;
+
+  h4 {
+    margin-top: $base-spacing * -0.25;
+  }
 }
 
 .m-schedule-line-diagram__connections {
@@ -436,6 +440,12 @@
 
   .m-schedule-line-diagram__connection {
     margin: 0 ($base-spacing / 4) ($base-spacing / 4) 0;
+
+    .c-svg__icon {
+      height: $base-spacing;
+      vertical-align: middle;
+      width: $base-spacing;
+    }
   }
 
   a {
@@ -449,7 +459,9 @@
   justify-content: flex-end;
 
   .m-schedule-line-diagram__feature-icon {
+    height: $base-spacing;
     margin-left: $base-spacing / 4;
+    width: $base-spacing;
   }
 }
 

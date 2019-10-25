@@ -72,7 +72,7 @@ const LineDiagram = ({
                     <a href={`/schedules/${route.id}/line`}>
                       <span
                         key={route.id}
-                        className={`c-icon__bus-pill m-schedule-line-diagram__connection ${busBackgroundClass(
+                        className={`c-icon__bus-pill--small m-schedule-line-diagram__connection ${busBackgroundClass(
                           route
                         )}`}
                       >
