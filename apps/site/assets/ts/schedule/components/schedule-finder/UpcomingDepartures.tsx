@@ -47,8 +47,8 @@ const reduceTrips = ({
   trip_order,
   by_trip
 }: ServiceScheduleInfo): ServiceScheduleInfo => {
-  let trip_ids_with_predictions: string[] = [];
-  const trips_with_predictions = trip_order.reduce(
+  let tripIdsWithPredictions: string[] = [];
+  const tripsWithPredictions = trip_order.reduce(
     (obj: ServiceScheduleByTrip, tripId: string) => {
       const trip = by_trip[tripId];
       if (
@@ -56,7 +56,7 @@ const reduceTrips = ({
           (schedule, idx) => !isNull(schedule.prediction.prediction) && idx < 2
         )
       ) {
-        trip_ids_with_predictions.push(tripId);
+        tripIdsWithPredictions.push(tripId);
         obj[tripId] = trip;
       }
       return obj;
@@ -65,27 +65,29 @@ const reduceTrips = ({
   );
 
   return {
-    trip_order: trip_ids_with_predictions,
-    by_trip: trips_with_predictions
+    trip_order: tripIdsWithPredictions,
+    by_trip: tripsWithPredictions
   };
 };
 
 const TripDataForPredictions = (
-  schedule_data: ServiceScheduleInfo,
+  scheduleData: ServiceScheduleInfo,
   predictions: StopPrediction[]
 ): ServiceScheduleInfo => {
-  const trip_ids = predictions.map(prediction => prediction.trip_id);
-  const prediction_trips = trip_ids.reduce(
+  const tripIdsWithPredictions = predictions.map(
+    prediction => prediction.trip_id
+  );
+  const tripsWithPredictions = tripIdsWithPredictions.reduce(
     (obj: ServiceScheduleByTrip, trip_id: string) => {
-      obj[trip_id] = schedule_data.by_trip[trip_id];
+      obj[trip_id] = scheduleData.by_trip[trip_id];
       return obj;
     },
     {}
   );
 
   return {
-    trip_order: trip_ids,
-    by_trip: prediction_trips
+    trip_order: tripIdsWithPredictions,
+    by_trip: tripsWithPredictions
   };
 };
 
@@ -201,6 +203,27 @@ const CrTableRow = ({
   );
 };
 
+const wrapDepartures = (tableRows: ReactElement<HTMLElement>[]) => {
+  return (
+    <>
+      <h3>Upcoming Departures</h3>
+      <table className="schedule-table schedule-table--upcoming">
+        <thead className="schedule-table__header">
+          <tr className="schedule-table__row-header">
+            <th scope="col" className="schedule-table__row-header-label">
+              Destinations
+            </th>
+            <th scope="col" className="schedule-table__row-header-label">
+              Trip Details
+            </th>
+          </tr>
+        </thead>
+        <tbody>{tableRows}</tbody>
+      </table>
+    </>
+  );
+};
+
 const fetchPredictionData = (
   routeId: string,
   selectedOrigin: SelectedOrigin,
@@ -264,23 +287,23 @@ export const UpcomingDepartures = ({
     return null;
   }
 
-  const all_trip_names = trips.trip_order;
-  const all_trips = trips.by_trip;
-  const first_trip = all_trip_names[0];
-  const first_stop_schedule = all_trips[first_trip];
-  const first_scheduled_stop = first_stop_schedule.schedules[0];
-  const mode = first_scheduled_stop.route.type;
+  const allTripNames = trips.trip_order;
+  const allTrips = trips.by_trip;
+  const firstTrip = allTripNames[0];
+  const firstStopSchedule = allTrips[firstTrip];
+  const firstScheduledStop = firstStopSchedule.schedules[0];
+  const mode = firstScheduledStop.route.type;
 
   if (mode === 2) {
-    const live_trip_data = reduceTrips(trips);
-    const live_trip_names = live_trip_data.trip_order;
-    if (hasCrPredictions(live_trip_data)) {
-      const tableRows = live_trip_names.map((tripId: string) => (
+    const liveTripData = reduceTrips(trips);
+    const liveTripNames = liveTripData.trip_order;
+    if (hasCrPredictions(liveTripData)) {
+      const tableRows = liveTripNames.map((tripId: string) => (
         <TableRow
-          trip={live_trip_data.by_trip[tripId]}
+          trip={liveTripData.by_trip[tripId]}
           contentCallback={() => (
             <CrTableRow
-              scheduledStops={live_trip_data.by_trip[tripId].schedules}
+              scheduledStops={liveTripData.by_trip[tripId].schedules}
             />
           )}
         />
@@ -288,37 +311,16 @@ export const UpcomingDepartures = ({
       return wrapDepartures(tableRows);
     }
   } else if (predictions !== null && hasBusPredictions(predictions)) {
-    const live_trip_data = TripDataForPredictions(trips, predictions);
+    const liveTripData = TripDataForPredictions(trips, predictions);
     const tableRows = predictions.map((prediction: StopPrediction) => (
       <TableRow
-        trip={live_trip_data.by_trip[prediction.trip_id]}
+        trip={liveTripData.by_trip[prediction.trip_id]}
         contentCallback={() => <BusTableRow prediction={prediction} />}
       />
     ));
     return wrapDepartures(tableRows);
   }
   return null;
-};
-
-const wrapDepartures = (tableRows: ReactElement<HTMLElement>[]) => {
-  return (
-    <>
-      <h3>Upcoming Departures</h3>
-      <table className="schedule-table schedule-table--upcoming">
-        <thead className="schedule-table__header">
-          <tr className="schedule-table__row-header">
-            <th scope="col" className="schedule-table__row-header-label">
-              Destinations
-            </th>
-            <th scope="col" className="schedule-table__row-header-label">
-              Trip Details
-            </th>
-          </tr>
-        </thead>
-        <tbody>{tableRows}</tbody>
-      </table>
-    </>
-  );
 };
 
 export default UpcomingDepartures;
