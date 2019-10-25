@@ -416,7 +416,7 @@
 
 .m-schedule-line-diagram__stop {
   border: $border;
-  border-bottom: none;
+  border-bottom: 0;
   display: flex;
   padding: $base-spacing;
 
@@ -429,7 +429,7 @@
   font-weight: bold;
 
   h4 {
-    margin-top: $base-spacing * -0.25;
+    margin-top: $base-spacing / -4;
   }
 }
 

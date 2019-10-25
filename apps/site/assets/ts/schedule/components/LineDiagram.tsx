@@ -50,13 +50,12 @@ const LineDiagram = ({
 }: Props): ReactElement<HTMLElement> | null => {
   const routeType = lineDiagram[0].route_stop.route!.type;
 
-  return(
+  return (
     <>
       <h3>
-        {routeType === 0 || routeType === 1 || routeType === 2 ?
-          "Stations" :
-          "Stops"
-        }
+        {routeType === 0 || routeType === 1 || routeType === 2
+          ? "Stations"
+          : "Stops"}
       </h3>
       {lineDiagram.map(
         ({ route_stop: routeStop, alerts: stopAlerts }: LineDiagramStop) => (
@@ -64,31 +63,34 @@ const LineDiagram = ({
             <div className="m-schedule-line-diagram__card-left">
               <div className="m-schedule-line-diagram__stop-name">
                 {maybeAlert(stopAlerts)}
-                <a href={`/stops/${routeStop.id}`}><h4>{routeStop.name}</h4></a>
+                <a href={`/stops/${routeStop.id}`}>
+                  <h4>{routeStop.name}</h4>
+                </a>
               </div>
               <div className="m-schedule-line-diagram__connections">
-                {filteredConnections(routeStop.connections).map((route: Route) =>
-                  route.type === 3 ? (
-                    <a href={`/schedules/${route.id}/line`}>
-                      <span
-                        key={route.id}
-                        className={`c-icon__bus-pill--small m-schedule-line-diagram__connection ${busBackgroundClass(
-                          route
-                        )}`}
-                      >
-                        {route.name}
-                      </span>
-                    </a>
-                  ) : (
-                    <a href={`/schedules/${route.id}/line`}>
-                      <span
-                        key={route.id}
-                        className="m-schedule-line-diagram__connection"
-                      >
-                        {modeIcon(route.id)}
-                      </span>
-                    </a>
-                  )
+                {filteredConnections(routeStop.connections).map(
+                  (route: Route) =>
+                    route.type === 3 ? (
+                      <a href={`/schedules/${route.id}/line`}>
+                        <span
+                          key={route.id}
+                          className={`c-icon__bus-pill--small m-schedule-line-diagram__connection ${busBackgroundClass(
+                            route
+                          )}`}
+                        >
+                          {route.name}
+                        </span>
+                      </a>
+                    ) : (
+                      <a href={`/schedules/${route.id}/line`}>
+                        <span
+                          key={route.id}
+                          className="m-schedule-line-diagram__connection"
+                        >
+                          {modeIcon(route.id)}
+                        </span>
+                      </a>
+                    )
                 )}
               </div>
             </div>
@@ -115,7 +117,7 @@ const LineDiagram = ({
         )
       )}
     </>
-  )
-}
+  );
+};
 
 export default LineDiagram;
