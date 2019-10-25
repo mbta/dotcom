@@ -27,6 +27,7 @@
 .m-schedule-direction__route-pattern {
   align-items: center;
   display: flex;
+  font-family: $headings-font-family;
   font-size: $font-size-h3;
   font-weight: bold;
 
@@ -80,11 +81,11 @@
 .m-schedule-direction__checkmark {
   left: $base-spacing;
   position: absolute;
-  top: $base-spacing / 1.5;
+  top: $base-spacing * .5;
 
   svg {
     fill: $white;
-    height: $base-spacing;
+    height: $base-spacing * .75;
   }
 }
 
@@ -101,6 +102,12 @@
       color: $gray;
     }
   }
+}
+
+.m-schedule-direction__menu-item-icon {
+  margin-right: $base-spacing * .5;
+  transform: translateY($base-spacing * .25);
+  width: $base-spacing * 1.25;
 }
 
 .m-schedule-direction__menu-item-description {

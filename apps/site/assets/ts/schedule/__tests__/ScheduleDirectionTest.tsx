@@ -181,6 +181,34 @@ const getSubwayComponent = () => (
   />
 );
 
+const getGreenLineComponent = () => {
+  const greenRoute: EnhancedRoute = {
+    type: 0,
+    name: "Green Line",
+    long_name: "Green Line",
+    id: "Green",
+    direction_names: { "0": "Westbound", "1": "Eastbound" },
+    direction_destinations: {
+      "0": "Boston College / Cleveland Circle / Riverside / Heath Street",
+      "1": "Park Street / Government Center / North Station / Lechmere"
+    },
+    description: "rapid_transit",
+    header: "",
+    alert_count: 0
+  };
+
+  return (
+    <ScheduleDirection
+      mapData={mapData}
+      route={greenRoute}
+      directionId={directionId}
+      routePatternsByDirection={routePatternsByDirection}
+      shapesById={shapesById}
+      lineDiagram={lineDiagram}
+    />
+  );
+};
+
 it("it renders a bus component", () => {
   createReactRoot();
   const tree = mount(getComponent());
@@ -356,4 +384,51 @@ describe("fetchData", () => {
       });
     });
   });
+});
+
+it("can render green line", () => {
+  createReactRoot();
+  const tree = mount(getGreenLineComponent());
+  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
+});
+
+it("can change route for bus green line with click", () => {
+  const stubFn = jest
+    .spyOn(window.location, "assign")
+    .mockImplementation(url => url);
+
+  document.body.innerHTML = body;
+  const component = getGreenLineComponent();
+  const wrapper = mount(component);
+
+  // click to open
+  wrapper
+    .find(".m-schedule-direction__route-pattern--clickable")
+    .simulate("click");
+  expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(true);
+
+  // enter to close
+  wrapper
+    .find(".m-schedule-direction__route-pattern--clickable")
+    .simulate("keyUp", { key: "Enter" });
+  expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(false);
+
+  // open again
+  wrapper
+    .find(".m-schedule-direction__route-pattern--clickable")
+    .simulate("click");
+
+  // click and item
+  wrapper.find("#route-pattern_Green-C").simulate("click");
+  expect(stubFn).toHaveBeenCalledTimes(1);
+  expect(stubFn).toHaveBeenCalledWith("/schedules/Green-C?direction_id=1");
+
+  // enter on an item
+  wrapper.find("#route-pattern_Green-D").simulate("keyUp", { key: "Enter" });
+  expect(stubFn).toHaveBeenCalledWith("/schedules/Green-C?direction_id=1");
+
+  // get code coverage of keyboard navigation
+  wrapper
+    .find("#route-pattern_Green")
+    .simulate("keydown", { key: "ArrowRight" });
 });
