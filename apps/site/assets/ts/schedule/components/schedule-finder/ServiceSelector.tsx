@@ -1,6 +1,5 @@
-import React, { ReactElement, useEffect, useState, useReducer } from "react";
+import React, { ReactElement, Dispatch, SetStateAction } from "react";
 import SelectContainer from "./SelectContainer";
-import UpcomingDepartures from "./UpcomingDepartures";
 import { ServiceWithServiceDate } from "../../../__v3api";
 import {
   ServicesKeyedByGroup,
@@ -12,7 +11,6 @@ import {
   serviceDays,
   hasMultipleWeekdaySchedules
 } from "../../../helpers/service";
-import { reducer } from "../../../helpers/fetch";
 import ScheduleTable from "./ScheduleTable";
 import { SelectedDirection } from "../ScheduleFinder";
 import { EnhancedRoutePattern, ServiceScheduleInfo } from "../__schedule";
@@ -29,10 +27,10 @@ const optGroupTitles: { [key in ServiceOptGroup]: string } = {
 };
 
 interface Props {
-  stopId: string;
+  scheduleState: ScheduleState;
+  selectedServiceId: string;
+  setSelectedServiceId: Dispatch<SetStateAction<string>>;
   services: ServiceWithServiceDate[];
-  routeId: string;
-  directionId: SelectedDirection;
   routePatterns: EnhancedRoutePattern[];
 }
 
@@ -91,71 +89,13 @@ export const getDefaultScheduleId = (
   firstFutureScheduleId(servicesByOptGroup) ||
   firstHolidayScheduleId(servicesByOptGroup);
 
-type fetchSchedulesAction =
-  | { type: "FETCH_COMPLETE"; payload: ServiceScheduleInfo }
-  | { type: "FETCH_ERROR" }
-  | { type: "FETCH_STARTED" };
-
-export const fetchScheduleData = (
-  routeId: string,
-  stopId: string,
-  selectedService: ServiceWithServiceDate,
-  selectedDirection: SelectedDirection,
-  dispatch: (action: fetchSchedulesAction) => void
-): Promise<void> => {
-  dispatch({ type: "FETCH_STARTED" });
-  return (
-    window.fetch &&
-    window
-      .fetch(
-        `/schedules/schedule_api?id=${routeId}&date=${
-          selectedService.end_date
-        }&direction_id=${selectedDirection}&stop_id=${stopId}`
-      )
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
-      // @ts-ignore
-      .catch(() => dispatch({ type: "FETCH_ERROR" }))
-  );
-};
-
 export const ServiceSelector = ({
-  stopId,
+  scheduleState,
+  selectedServiceId,
+  setSelectedServiceId,
   services,
-  routeId,
-  directionId,
   routePatterns
 }: Props): ReactElement<HTMLElement> | null => {
-  const [selectedServiceId, setSelectedServiceId] = useState("");
-  const [scheduleState, scheduleDispatch] = useReducer(reducer, {
-    data: null,
-    isLoading: true,
-    error: false
-  } as ScheduleState);
-
-  useEffect(
-    () => {
-      const selectedService = services.find(
-        service => service.id === selectedServiceId
-      );
-
-      if (!selectedService) {
-        return;
-      }
-      fetchScheduleData(
-        routeId,
-        stopId,
-        selectedService,
-        directionId,
-        scheduleDispatch
-      );
-    },
-    [services, routeId, directionId, stopId, selectedServiceId]
-  );
-
   if (services.length <= 0) return null;
 
   const servicesByOptGroup: ServicesKeyedByGroup = services
@@ -170,12 +110,6 @@ export const ServiceSelector = ({
 
   return (
     <>
-      <UpcomingDepartures
-        scheduleState={scheduleState}
-        routeId={routeId}
-        directionId={directionId}
-        stopId={stopId}
-      />
       <h3>Daily Schedule</h3>
       <div className="schedule-finder__service-selector">
         <SelectContainer id="service_selector_container" error={false}>

@@ -20,10 +20,11 @@ import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import { reducer } from "../../../helpers/fetch";
 import { ScheduleState } from "./ServiceSelector";
 interface Props {
-  scheduleState: ScheduleState;
+  scheduleState: ScheduleState | null;
   directionId: SelectedDirection;
   stopId: string;
   routeId: string;
+  initialScheduleStateFlag: boolean;
 }
 
 type fetchPredictionsAction =
@@ -224,14 +225,10 @@ const fetchPredictionData = (
 };
 
 export const UpcomingDepartures = ({
+  scheduleState,
   routeId,
   directionId,
-  stopId,
-  scheduleState: {
-    data: schedules,
-    error: scheduleError,
-    isLoading: areSchedulesLoading
-  }
+  stopId
 }: Props): ReactElement<HTMLElement> | null => {
   const [predictionState, predictionDispatch] = useReducer(reducer, {
     data: null,
@@ -245,6 +242,16 @@ export const UpcomingDepartures = ({
     },
     [routeId, directionId, stopId]
   );
+
+  if (!scheduleState) {
+    return null;
+  }
+
+  const {
+    data: schedules,
+    error: scheduleError,
+    isLoading: areSchedulesLoading
+  }: ScheduleState = scheduleState;
 
   const {
     data: predictions,
