@@ -2,6 +2,9 @@
 
 exports[`LineDiagram it renders 1`] = `
 Array [
+  <h3>
+    Stops
+  </h3>,
   <div
     className="m-schedule-line-diagram__stop"
   >
@@ -14,29 +17,29 @@ Array [
         <a
           href="/stops/5547"
         >
-          Elm St opp Haskell Ave
+          <h4>
+            Elm St opp Haskell Ave
+          </h4>
         </a>
       </div>
       <div
         className="m-schedule-line-diagram__connections"
       >
-        <span
-          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+        <a
+          href="/schedules/110/line"
         >
-          110
-        </span>
+          <span
+            className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
+          >
+            110
+          </span>
+        </a>
       </div>
     </div>
     <div>
       <div
         className="m-schedule-line-diagram__features"
-      >
-        <span
-          className="c-icon__cr-zone m-schedule-line-diagram__feature-icon"
-        >
-          Zone 1A
-        </span>
-      </div>
+      />
     </div>
   </div>,
   <div
@@ -51,64 +54,82 @@ Array [
         <a
           href="/stops/place-north"
         >
-          North Station
+          <h4>
+            North Station
+          </h4>
         </a>
       </div>
       <div
         className="m-schedule-line-diagram__connections"
       >
-        <span
-          className="m-schedule-line-diagram__connection"
+        <a
+          href="/schedules/Orange/line"
         >
           <span
-            aria-hidden="false"
-            className="notranslate c-svg__icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
+            className="m-schedule-line-diagram__connection"
+          >
+            <span
+              aria-hidden="false"
+              className="notranslate c-svg__icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
               }
-            }
-          />
-        </span>
-        <span
-          className="m-schedule-line-diagram__connection"
+            />
+          </span>
+        </a>
+        <a
+          href="/schedules/Green-C/line"
         >
           <span
-            aria-hidden="false"
-            className="notranslate c-svg__icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
+            className="m-schedule-line-diagram__connection"
+          >
+            <span
+              aria-hidden="false"
+              className="notranslate c-svg__icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
               }
-            }
-          />
-        </span>
-        <span
-          className="m-schedule-line-diagram__connection"
+            />
+          </span>
+        </a>
+        <a
+          href="/schedules/Green-E/line"
         >
           <span
-            aria-hidden="false"
-            className="notranslate c-svg__icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
+            className="m-schedule-line-diagram__connection"
+          >
+            <span
+              aria-hidden="false"
+              className="notranslate c-svg__icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
               }
-            }
-          />
-        </span>
-        <span
-          className="m-schedule-line-diagram__connection"
+            />
+          </span>
+        </a>
+        <a
+          href="/schedules/CR-Fitchburg/line"
         >
           <span
-            aria-hidden="false"
-            className="notranslate c-svg__icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
+            className="m-schedule-line-diagram__connection"
+          >
+            <span
+              aria-hidden="false"
+              className="notranslate c-svg__icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
               }
-            }
-          />
-        </span>
+            />
+          </span>
+        </a>
       </div>
     </div>
     <div>
@@ -168,47 +189,77 @@ Array [
         <a
           href="/stops/place-alfcl"
         >
-          Alewife
+          <h4>
+            Alewife
+          </h4>
         </a>
       </div>
       <div
         className="m-schedule-line-diagram__connections"
       >
-        <span
-          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+        <a
+          href="/schedules/62/line"
         >
-          62
-        </span>
-        <span
-          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+          <span
+            className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
+          >
+            62
+          </span>
+        </a>
+        <a
+          href="/schedules/67/line"
         >
-          67
-        </span>
-        <span
-          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+          <span
+            className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
+          >
+            67
+          </span>
+        </a>
+        <a
+          href="/schedules/76/line"
         >
-          76
-        </span>
-        <span
-          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+          <span
+            className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
+          >
+            76
+          </span>
+        </a>
+        <a
+          href="/schedules/79/line"
         >
-          79
-        </span>
-        <span
-          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+          <span
+            className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
+          >
+            79
+          </span>
+        </a>
+        <a
+          href="/schedules/84/line"
         >
-          84
-        </span>
-        <span
-          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+          <span
+            className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
+          >
+            84
+          </span>
+        </a>
+        <a
+          href="/schedules/350/line"
         >
-          350
-        </span>
-        <span
-          className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
+          <span
+            className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
+          >
+            350
+          </span>
+        </a>
+        <a
+          href="/schedules/351/line"
         >
-          351
-        </span>
+          <span
+            className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
+          >
+            351
+          </span>
+        </a>
       </div>
     </div>
     <div>
