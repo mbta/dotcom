@@ -247,11 +247,7 @@ export const UpcomingDepartures = ({
     return null;
   }
 
-  const {
-    data: schedules,
-    error: scheduleError,
-    isLoading: areSchedulesLoading
-  }: ScheduleState = scheduleState;
+  const { data: trips }: ScheduleState = scheduleState;
 
   const {
     data: predictions,
@@ -260,25 +256,23 @@ export const UpcomingDepartures = ({
   }: PredictionState = predictionState;
 
   if (
-    isNull(schedules) ||
+    isNull(trips) ||
     isNull(predictions) ||
-    scheduleError ||
     predictionError ||
-    areSchedulesLoading ||
     arePredictionsLoading
   ) {
     return null;
   }
 
-  const all_trip_names = schedules.trip_order;
-  const all_trips = schedules.by_trip;
+  const all_trip_names = trips.trip_order;
+  const all_trips = trips.by_trip;
   const first_trip = all_trip_names[0];
   const first_stop_schedule = all_trips[first_trip];
   const first_scheduled_stop = first_stop_schedule.schedules[0];
   const mode = first_scheduled_stop.route.type;
 
   if (mode === 2) {
-    const live_trip_data = reduceTrips(schedules);
+    const live_trip_data = reduceTrips(trips);
     const live_trip_names = live_trip_data.trip_order;
     if (hasCrPredictions(live_trip_data)) {
       const tableRows = live_trip_names.map((tripId: string) => (
@@ -294,7 +288,7 @@ export const UpcomingDepartures = ({
       return wrapDepartures(tableRows);
     }
   } else if (predictions !== null && hasBusPredictions(predictions)) {
-    const live_trip_data = TripDataForPredictions(schedules, predictions);
+    const live_trip_data = TripDataForPredictions(trips, predictions);
     const tableRows = predictions.map((prediction: StopPrediction) => (
       <TableRow
         trip={live_trip_data.by_trip[prediction.trip_id]}

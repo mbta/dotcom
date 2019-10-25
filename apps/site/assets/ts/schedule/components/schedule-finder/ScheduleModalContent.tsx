@@ -89,7 +89,11 @@ export const fetchScheduleData = (
       .then(json => {
         dispatch({ type: "FETCH_COMPLETE", payload: json });
         if (initialScheduleState.current === null) {
-          initialScheduleState.current = json;
+          initialScheduleState.current = {
+            data: json as ServiceScheduleInfo,
+            isLoading: false,
+            error: false
+          };
           setInitialScheduleStateFlag(true);
         }
       })

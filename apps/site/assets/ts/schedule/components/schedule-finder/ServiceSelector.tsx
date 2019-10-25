@@ -12,7 +12,6 @@ import {
   hasMultipleWeekdaySchedules
 } from "../../../helpers/service";
 import ScheduleTable from "./ScheduleTable";
-import { SelectedDirection } from "../ScheduleFinder";
 import { EnhancedRoutePattern, ServiceScheduleInfo } from "../__schedule";
 
 // until we come up with a good integration test for async with loading
@@ -26,18 +25,18 @@ const optGroupTitles: { [key in ServiceOptGroup]: string } = {
   future: "Future Schedules"
 };
 
+export interface ScheduleState {
+  data: ServiceScheduleInfo | null;
+  isLoading: boolean;
+  error: boolean;
+}
+
 interface Props {
   scheduleState: ScheduleState;
   selectedServiceId: string;
   setSelectedServiceId: Dispatch<SetStateAction<string>>;
   services: ServiceWithServiceDate[];
   routePatterns: EnhancedRoutePattern[];
-}
-
-export interface ScheduleState {
-  data: ServiceScheduleInfo | null;
-  isLoading: boolean;
-  error: boolean;
 }
 
 const serviceDescription = (
