@@ -147,26 +147,29 @@ const CrTableRow = ({
   scheduledStops: ScheduleWithFare[];
 }): ReactElement<HTMLElement> => {
   const schedule = scheduledStops[0];
+  const trainNumber = schedule.trip.name ? `Train ${schedule.trip.name}` : "";
 
-  const trainNumber = schedule.trip.name
-    ? `Train ${schedule.trip.name} · `
-    : "";
+  const destinationHTML = (
+    <>
+      <td className="schedule-table__headsign">
+        {modeIcon(schedule.route.id)}
+      </td>
+      <td className="schedule-table__headsign">
+        {breakTextAtSlash(schedule.prediction.headsign)}
+        <div>{trainNumber}</div>
+      </td>
+    </>
+  );
 
   if (schedule.prediction.prediction === null) {
     return (
       <>
-        <td className="schedule-table__headsign">
-          {modeIcon(schedule.route.id)}{" "}
-          {breakTextAtSlash(schedule.prediction.headsign)}
-        </td>
+        {destinationHTML}
         <td>
           <div className="schedule-table__time-container">
             <div className="schedule-table__time u-bold">{schedule.time}</div>
           </div>
-          <div className="u-nowrap text-right">
-            {trainNumber}
-            Departed
-          </div>
+          <div className="u-nowrap text-right">Departed</div>
         </td>
       </>
     );
@@ -176,10 +179,7 @@ const CrTableRow = ({
 
   return (
     <>
-      <td className="schedule-table__headsign">
-        {modeIcon(schedule.route.id)}{" "}
-        {breakTextAtSlash(schedule.prediction.headsign)}
-      </td>
+      {destinationHTML}
       <td>
         <div className="schedule-table__time-container">
           {timeForCommuterRail(
@@ -187,14 +187,14 @@ const CrTableRow = ({
             "schedule-table__time u-bold"
           )}
         </div>
-        <div className="u-nowrap text-right">
-          {trainNumber}
-          {track ? (
-            <span className="schedule-table__track">{track} · </span>
-          ) : (
-            ""
-          )}
-          {statusForCommuterRail(schedule.prediction.prediction)}
+        <div className="u-nowrap text-right u-bold">
+          <span className="schedule-table__status">
+            {statusForCommuterRail(schedule.prediction.prediction)}
+          </span>
+
+          <span className="schedule-table__track">
+            {track ? ` · ${track}` : ""}
+          </span>
         </div>
       </td>
     </>
@@ -304,11 +304,15 @@ const wrapDepartures = (tableRows: ReactElement<HTMLElement>[]) => {
   return (
     <>
       <h3>Upcoming Departures</h3>
-      <table className="schedule-table">
+      <table className="schedule-table schedule-table--upcoming">
         <thead className="schedule-table__header">
           <tr className="schedule-table__row-header">
-            <th>Destinations</th>
-            <th>Trip Details</th>
+            <th scope="col" className="schedule-table__row-header-label">
+              Destinations
+            </th>
+            <th scope="col" className="schedule-table__row-header-label">
+              Trip Details
+            </th>
           </tr>
         </thead>
         <tbody>{tableRows}</tbody>
