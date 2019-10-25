@@ -19,13 +19,6 @@ import { Accordion } from "../../components/schedule-finder/TableRow";
 import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import { reducer } from "../../../helpers/fetch";
 import { ScheduleState } from "./ServiceSelector";
-interface Props {
-  scheduleState: ScheduleState | null;
-  directionId: SelectedDirection;
-  stopId: string;
-  routeId: string;
-  initialScheduleStateFlag: boolean;
-}
 
 type fetchPredictionsAction =
   | { type: "FETCH_COMPLETE"; payload: StopPrediction[] }
@@ -41,6 +34,25 @@ interface PredictionState {
 interface AccordionProps {
   trip: ScheduleInfo;
   contentCallback: () => ReactElement<HTMLElement>;
+}
+
+interface Props {
+  scheduleState: ScheduleState | null;
+  directionId: SelectedDirection;
+  stopId: string;
+  routeId: string;
+  initialScheduleStateFlag: boolean;
+}
+
+interface UpcomingBusProps {
+  tripData: ServiceScheduleInfo;
+  routeId: string;
+  directionId: SelectedDirection;
+  stopId: string;
+}
+
+interface UpcomingCrProps {
+  tripData: ServiceScheduleInfo;
 }
 
 const reduceTrips = ({
@@ -109,6 +121,29 @@ export const RoutePillSmall = ({
   </div>
 );
 
+const fetchPredictionData = (
+  routeId: string,
+  selectedOrigin: SelectedOrigin,
+  selectedDirection: SelectedDirection,
+  dispatch: (action: fetchPredictionsAction) => void
+): Promise<void> => {
+  dispatch({ type: "FETCH_STARTED" });
+  return (
+    window.fetch &&
+    window
+      .fetch(
+        `/schedules/predictions_api?id=${routeId}&origin_stop=${selectedOrigin}&direction_id=${selectedDirection}`
+      )
+      .then(response => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
+      // @ts-ignore
+      .catch(() => dispatch({ type: "FETCH_ERROR" }))
+  );
+};
+
 const TableRow = ({
   trip,
   contentCallback
@@ -128,7 +163,7 @@ const BusTableRow = ({
 }: {
   prediction: StopPrediction;
 }): ReactElement<HTMLElement> | null => {
-  if (prediction.prediction.prediction === null) return null;
+  if (!prediction.prediction.prediction) return null;
   return (
     <>
       <td>
@@ -163,7 +198,7 @@ const CrTableRow = ({
     </>
   );
 
-  if (schedule.prediction.prediction === null) {
+  if (!schedule.prediction.prediction) {
     return (
       <>
         {destinationHTML}
@@ -224,35 +259,66 @@ const wrapDepartures = (tableRows: ReactElement<HTMLElement>[]) => {
   );
 };
 
-const fetchPredictionData = (
-  routeId: string,
-  selectedOrigin: SelectedOrigin,
-  selectedDirection: SelectedDirection,
-  dispatch: (action: fetchPredictionsAction) => void
-): Promise<void> => {
-  dispatch({ type: "FETCH_STARTED" });
-  return (
-    window.fetch &&
-    window
-      .fetch(
-        `/schedules/predictions_api?id=${routeId}&origin_stop=${selectedOrigin}&direction_id=${selectedDirection}`
-      )
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
-      // @ts-ignore
-      .catch(() => dispatch({ type: "FETCH_ERROR" }))
-  );
-};
-
 export const UpcomingDepartures = ({
   scheduleState,
   routeId,
   directionId,
   stopId
 }: Props): ReactElement<HTMLElement> | null => {
+  if (!scheduleState) return null;
+
+  const { data: tripData }: ScheduleState = scheduleState;
+
+  if (!tripData) return null;
+
+  const allTripNames = tripData.trip_order;
+  const allTrips = tripData.by_trip;
+  const firstTrip = allTripNames[0];
+  const firstStopSchedule = allTrips[firstTrip];
+  const firstScheduledStop = firstStopSchedule.schedules[0];
+  const mode = firstScheduledStop.route.type;
+
+  return mode === 2 ? (
+    <UpcomingCrDepartures tripData={tripData} />
+  ) : (
+    <UpcomingBusDepartures
+      tripData={tripData}
+      routeId={routeId}
+      directionId={directionId}
+      stopId={stopId}
+    />
+  );
+};
+
+export const UpcomingCrDepartures = ({
+  tripData
+}: UpcomingCrProps): ReactElement<HTMLElement> | null => {
+  const liveTripData = reduceTrips(tripData);
+  const liveTripNames = liveTripData.trip_order;
+
+  if (hasCrPredictions(liveTripData)) {
+    return wrapDepartures(
+      liveTripNames.map((tripId: string) => (
+        <TableRow
+          trip={liveTripData.by_trip[tripId]}
+          contentCallback={() => (
+            <CrTableRow
+              scheduledStops={liveTripData.by_trip[tripId].schedules}
+            />
+          )}
+        />
+      ))
+    );
+  }
+  return null;
+};
+
+export const UpcomingBusDepartures = ({
+  tripData,
+  routeId,
+  directionId,
+  stopId
+}: UpcomingBusProps): ReactElement<HTMLElement> | null => {
   const [predictionState, predictionDispatch] = useReducer(reducer, {
     data: null,
     isLoading: true,
@@ -266,59 +332,27 @@ export const UpcomingDepartures = ({
     [routeId, directionId, stopId]
   );
 
-  if (!scheduleState) {
-    return null;
-  }
-
-  const { data: trips }: ScheduleState = scheduleState;
-
   const {
     data: predictions,
     error: predictionError,
     isLoading: arePredictionsLoading
   }: PredictionState = predictionState;
 
-  if (
-    isNull(trips) ||
-    isNull(predictions) ||
-    predictionError ||
-    arePredictionsLoading
-  ) {
+  if (!predictions || predictionError || arePredictionsLoading) {
     return null;
   }
 
-  const allTripNames = trips.trip_order;
-  const allTrips = trips.by_trip;
-  const firstTrip = allTripNames[0];
-  const firstStopSchedule = allTrips[firstTrip];
-  const firstScheduledStop = firstStopSchedule.schedules[0];
-  const mode = firstScheduledStop.route.type;
+  if (predictions && hasBusPredictions(predictions)) {
+    const liveTripData = TripDataForPredictions(tripData, predictions);
 
-  if (mode === 2) {
-    const liveTripData = reduceTrips(trips);
-    const liveTripNames = liveTripData.trip_order;
-    if (hasCrPredictions(liveTripData)) {
-      const tableRows = liveTripNames.map((tripId: string) => (
+    return wrapDepartures(
+      predictions.map((prediction: StopPrediction) => (
         <TableRow
-          trip={liveTripData.by_trip[tripId]}
-          contentCallback={() => (
-            <CrTableRow
-              scheduledStops={liveTripData.by_trip[tripId].schedules}
-            />
-          )}
+          trip={liveTripData.by_trip[prediction.trip_id]}
+          contentCallback={() => <BusTableRow prediction={prediction} />}
         />
-      ));
-      return wrapDepartures(tableRows);
-    }
-  } else if (predictions !== null && hasBusPredictions(predictions)) {
-    const liveTripData = TripDataForPredictions(trips, predictions);
-    const tableRows = predictions.map((prediction: StopPrediction) => (
-      <TableRow
-        trip={liveTripData.by_trip[prediction.trip_id]}
-        contentCallback={() => <BusTableRow prediction={prediction} />}
-      />
-    ));
-    return wrapDepartures(tableRows);
+      ))
+    );
   }
   return null;
 };
