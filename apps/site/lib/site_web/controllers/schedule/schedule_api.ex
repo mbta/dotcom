@@ -18,18 +18,8 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
         "direction_id" => direction_id,
         "stop_id" => stop_id
       }) do
-    # {:ok, date} = Date.from_iso8601(date)
+    {:ok, date} = Date.from_iso8601(date)
     schedule_data = get_schedules(route_id, date, direction_id, stop_id)
-    # schedules = Schedules.Repo.by_route_ids([route_id], direction_id: direction_id)
-    # predictions = Predictions.Repo.all(route: route_id, direction_id: direction_id)
-
-    # journey_list = JourneyList.build_predictions_only(schedules, predictions, stop_id, nil)
-    # journey_list =
-    #   JourneyList.build(schedules, predictions, :last_trip_and_upcoming, true, origin_id: stop_id)
-
-    # trip_info = TripInfo.from_list(predictions, origin_id: stop_id) |> IO.inspect()
-
-    # result = simple_journeys(journey_list)
 
     json(conn, schedule_data)
   end
@@ -111,7 +101,6 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     %{stop_id => simplified_prediction}
   end
 
-  @spec prune_schedules_by_stop(any, any) :: [any]
   def prune_schedules_by_stop(schedules, stop_id) do
     Enum.drop_while(schedules, fn schedule -> schedule.stop && schedule.stop.id !== stop_id end)
   end
@@ -119,15 +108,12 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
   def enhance_services([]), do: []
 
   def enhance_services(services_by_trip) do
-    services_by_trip =
-      services_by_trip
-      |> Stream.map(fn {trip_id, service} -> {trip_id, fares_for_service(service)} end)
-      |> Stream.map(fn {trip_id, service} -> {trip_id, duration_for_service(service)} end)
-      |> Stream.map(fn {trip_id, service} -> {trip_id, formatted_time(service)} end)
-      |> Stream.map(fn {trip_id, service} -> {trip_id, route_pattern(service)} end)
-      |> Enum.into(%{})
-
     services_by_trip
+    |> Stream.map(fn {trip_id, service} -> {trip_id, fares_for_service(service)} end)
+    |> Stream.map(fn {trip_id, service} -> {trip_id, duration_for_service(service)} end)
+    |> Stream.map(fn {trip_id, service} -> {trip_id, formatted_time(service)} end)
+    |> Stream.map(fn {trip_id, service} -> {trip_id, route_pattern(service)} end)
+    |> Enum.into(%{})
   end
 
   def sort_trips_by_stop(ordered_trips, services_by_trip) do
@@ -246,9 +232,4 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
       destination: destination
     })
   end
-
-  # def simple_journeys(%JourneyList{journeys: journeys}) do
-  #   # Enum.map(journeys, &simple_prediction(&1))
-  #   # Timex.format!(time, "{YYYY}-{M}-{D} {h12}:{m}")
-  # end
 end
