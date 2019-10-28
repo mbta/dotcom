@@ -8,7 +8,6 @@ import { modeIcon } from "../../../helpers/icon";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
 import { Route, StopPrediction } from "../../../__v3api";
 import {
-  ScheduleInfo,
   ScheduleWithFare,
   ServiceScheduleByTrip,
   ServiceScheduleInfo
@@ -29,11 +28,6 @@ interface PredictionState {
   data: StopPrediction[] | null;
   isLoading: boolean;
   error: boolean;
-}
-
-interface AccordionProps {
-  trip: ScheduleInfo;
-  contentCallback: () => ReactElement<HTMLElement>;
 }
 
 interface Props {
@@ -141,20 +135,6 @@ const fetchPredictionData = (
       .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
       // @ts-ignore
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
-  );
-};
-
-const TableRow = ({
-  trip,
-  contentCallback
-}: AccordionProps): ReactElement<HTMLElement> => {
-  return (
-    <Accordion
-      trip={trip}
-      isSchoolTrip={false}
-      anySchoolTrips={false}
-      contentCallback={contentCallback}
-    />
   );
 };
 
@@ -299,7 +279,7 @@ export const UpcomingCrDepartures = ({
   if (hasCrPredictions(liveTripData)) {
     return wrapDepartures(
       liveTripNames.map((tripId: string) => (
-        <TableRow
+        <Accordion
           trip={liveTripData.by_trip[tripId]}
           contentCallback={() => (
             <CrTableRow
@@ -347,7 +327,7 @@ export const UpcomingBusDepartures = ({
 
     return wrapDepartures(
       predictions.map((prediction: StopPrediction) => (
-        <TableRow
+        <Accordion
           trip={liveTripData.by_trip[prediction.trip_id]}
           contentCallback={() => <BusTableRow prediction={prediction} />}
         />

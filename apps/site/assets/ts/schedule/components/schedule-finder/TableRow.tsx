@@ -10,6 +10,11 @@ const totalMinutes = (schedules: ScheduleInfo): string => schedules.duration;
 interface TableRowProps {
   schedules: ScheduleWithFare[];
 }
+
+interface BusTableRowProps extends TableRowProps {
+  anySchoolTrips: boolean;
+  isSchoolTrip: boolean;
+}
 interface Props {
   trip: ScheduleInfo;
   isSchoolTrip: boolean;
@@ -18,8 +23,6 @@ interface Props {
 
 interface AccordionProps {
   trip: ScheduleInfo;
-  isSchoolTrip: boolean;
-  anySchoolTrips: boolean;
   contentCallback: () => ReactElement<HTMLElement>;
 }
 
@@ -58,8 +61,6 @@ const TripInfo = ({
 
 export const Accordion = ({
   trip,
-  isSchoolTrip,
-  anySchoolTrips,
   contentCallback
 }: AccordionProps): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
@@ -79,12 +80,6 @@ export const Accordion = ({
         onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
         tabIndex={0}
       >
-        {anySchoolTrips && (
-          <td className="schedule-table__td--tiny">
-            {isSchoolTrip && <strong>S</strong>}
-          </td>
-        )}
-
         {contentCallback()}
 
         <td className="schedule-table__td schedule-table__td--flex-end">
@@ -155,12 +150,19 @@ export const Accordion = ({
 };
 
 const BusTableRow = ({
-  schedules
-}: TableRowProps): ReactElement<HTMLElement> => {
+  schedules,
+  anySchoolTrips,
+  isSchoolTrip
+}: BusTableRowProps): ReactElement<HTMLElement> => {
   const firstSchedule = schedules[0];
 
   return (
     <>
+      {anySchoolTrips && (
+        <td className="schedule-table__td--tiny">
+          {isSchoolTrip && <strong>S</strong>}
+        </td>
+      )}
       <td className="schedule-table__td schedule-table__time">
         {firstSchedule.time}
       </td>
@@ -204,17 +206,16 @@ const TableRow = ({
 }: Props): ReactElement<HTMLElement> | null => {
   const callback =
     trip.schedules[0].route.type === 3
-      ? () => <BusTableRow schedules={trip.schedules} />
+      ? () => (
+          <BusTableRow
+            schedules={trip.schedules}
+            isSchoolTrip={isSchoolTrip}
+            anySchoolTrips={anySchoolTrips}
+          />
+        )
       : () => <DefaultTableRow schedules={trip.schedules} />;
 
-  return (
-    <Accordion
-      trip={trip}
-      isSchoolTrip={isSchoolTrip}
-      anySchoolTrips={anySchoolTrips}
-      contentCallback={callback}
-    />
-  );
+  return <Accordion trip={trip} contentCallback={callback} />;
 };
 
 export default TableRow;
