@@ -65,6 +65,7 @@ export const Accordion = ({
 }: AccordionProps): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
   const firstSchedule = trip.schedules[0];
+  const mode = firstSchedule.route.type;
   const onClick = (): void => setExpanded(!expanded);
 
   return (
@@ -105,12 +106,14 @@ export const Accordion = ({
                   >
                     Stops
                   </th>
-                  <th
-                    scope="col"
-                    className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                  >
-                    Fare
-                  </th>
+                  {mode !== 3 && (
+                    <th
+                      scope="col"
+                      className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+                    >
+                      Fare
+                    </th>
+                  )}
                   <th
                     scope="col"
                     className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
@@ -131,9 +134,11 @@ export const Accordion = ({
                           {breakTextAtSlash(schedule.stop.name)}
                         </a>
                       </td>
-                      <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
-                        {index === 0 ? "" : schedule.price}
-                      </td>
+                      {mode !== 3 && (
+                        <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
+                          {index === 0 ? "" : schedule.price}
+                        </td>
+                      )}
                       <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
                         {schedule.time}
                       </td>
