@@ -5,12 +5,12 @@ defmodule Site.VehicleHelpersTest do
   import SiteWeb.ViewHelpers, only: [format_schedule_time: 1]
 
   @locations %{
-    {"CR-Weekday-Spring-19-515", "place-sstat"} => %Vehicles.Vehicle{
+    {"CR-Weekday-Fall-19-515", "place-sstat"} => %Vehicles.Vehicle{
       latitude: 1.1,
       longitude: 2.2,
       status: :stopped,
       stop_id: "place-sstat",
-      trip_id: "CR-Weekday-Spring-19-515",
+      trip_id: "CR-Weekday-Fall-19-515",
       shape_id: "903_0018"
     }
   }
@@ -20,7 +20,7 @@ defmodule Site.VehicleHelpersTest do
       departing?: true,
       time: ~N[2018-05-01T11:00:00],
       status: "On Time",
-      trip: %Schedules.Trip{id: "CR-Weekday-Spring-19-515", shape_id: "903_0018"},
+      trip: %Schedules.Trip{id: "CR-Weekday-Fall-19-515", shape_id: "903_0018"},
       stop: %Stops.Stop{id: "place-sstat"}
     }
   ]
@@ -34,12 +34,12 @@ defmodule Site.VehicleHelpersTest do
   describe "build_tooltip_index/3" do
     test "translate child stop to parent stop" do
       locations = %{
-        {"CR-Weekday-Spring-19-515", "South Station-02"} => %Vehicles.Vehicle{
+        {"CR-Weekday-Fall-19-515", "South Station-02"} => %Vehicles.Vehicle{
           latitude: 1.1,
           longitude: 2.2,
           status: :stopped,
           stop_id: "South Station-02",
-          trip_id: "CR-Weekday-Spring-19-515",
+          trip_id: "CR-Weekday-Fall-19-515",
           shape_id: "903_0018"
         }
       }
@@ -51,12 +51,12 @@ defmodule Site.VehicleHelpersTest do
 
     test "translate parent stop to itself" do
       locations = %{
-        {"CR-Weekday-Spring-19-330", "place-NHRML-0254"} => %Vehicles.Vehicle{
+        {"CR-Weekday-Fall-19-330", "place-NHRML-0254"} => %Vehicles.Vehicle{
           latitude: 1.1,
           longitude: 2.2,
           status: :stopped,
           stop_id: "place-NHRML-0254",
-          trip_id: "CR-Weekday-Spring-19-330",
+          trip_id: "CR-Weekday-Fall-19-330",
           shape_id: "903_0018"
         }
       }
@@ -68,7 +68,7 @@ defmodule Site.VehicleHelpersTest do
 
     test "verify the Vehicle tooltip data" do
       assert length(Map.keys(@tooltips)) == 2
-      assert Map.has_key?(@tooltips, {"CR-Weekday-Spring-19-515", "place-sstat"})
+      assert Map.has_key?(@tooltips, {"CR-Weekday-Fall-19-515", "place-sstat"})
       assert Map.has_key?(@tooltips, "place-sstat")
       assert @tooltip_base.route.type == 2
       assert @tooltip_base.trip.name == "515"
@@ -82,7 +82,7 @@ defmodule Site.VehicleHelpersTest do
       tooltips = build_tooltip_index(@route, Enum.concat(@locations, null_location), @predictions)
       tooltip_base = tooltips["place-sstat"]
       assert length(Map.keys(tooltips)) == 2
-      assert Map.has_key?(tooltips, {"CR-Weekday-Spring-19-515", "place-sstat"})
+      assert Map.has_key?(tooltips, {"CR-Weekday-Fall-19-515", "place-sstat"})
       assert Map.has_key?(tooltips, "place-sstat")
       assert tooltip_base.route.type == 2
       assert tooltip_base.trip.name == "515"
