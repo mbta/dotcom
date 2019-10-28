@@ -197,7 +197,7 @@ const DefaultTableRow = ({
         </td>
       )}
       <td className="schedule-table__headsign">
-        {modeIcon(firstSchedule.route.id)}{" "}
+        {modeIcon(firstSchedule.route.id)}
         {breakTextAtSlash(firstSchedule.trip.headsign)}
       </td>
     </>

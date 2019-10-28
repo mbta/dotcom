@@ -300,9 +300,16 @@
 .schedule-table__row-header {
   background: $brand-primary-lightest-contrast;
   display: flex;
+  flex-grow: 1;
   font-weight: bold;
   justify-content: space-between;
   overflow: hidden;
+}
+
+.schedule-table__th--flex-end {
+  flex-grow: 1;
+  margin-right: 0;
+  text-align: right;
 }
 
 .schedule-table__row-header-label {
@@ -336,7 +343,7 @@
 
 .schedule-table__headsign {
   .c-svg__icon {
-    margin-right: $base-spacing / 4;
+    margin-right: $base-spacing / 2;
   }
 }
 
@@ -411,6 +418,11 @@
 .schedule-table__td--flex-end {
   flex-grow: 1;
   margin-right: $base-spacing / 2;
+
+  .schedule-table--upcoming &:last-child {
+    align-self: center;
+    flex-grow: 0;
+  }
 }
 
 .schedule-table--empty {

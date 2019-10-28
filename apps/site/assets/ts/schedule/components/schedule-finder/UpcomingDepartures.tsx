@@ -146,12 +146,12 @@ const BusTableRow = ({
   if (!prediction.prediction.prediction) return null;
   return (
     <>
-      <td>
+      <td className="schedule-table__td schedule-table__td--flex-end">
         <div className="schedule-table__row-route">
           <RoutePillSmall route={prediction.route} /> {prediction.headsign}
         </div>
       </td>
-      <td className="schedule-table__time u-bold">
+      <td className="schedule-table__time schedule-table__td--flex-end u-bold">
         {prediction.prediction.prediction.time}
       </td>
     </>
@@ -197,7 +197,7 @@ const CrTableRow = ({
   return (
     <>
       {destinationHTML}
-      <td>
+      <td className="schedule-table__td schedule-table__td--flex-end">
         <div className="schedule-table__time-container">
           {timeForCommuterRail(
             schedule.prediction.prediction,
@@ -228,9 +228,7 @@ const wrapDepartures = (tableRows: ReactElement<HTMLElement>[]) => {
             <th scope="col" className="schedule-table__row-header-label">
               Destinations
             </th>
-            <th scope="col" className="schedule-table__row-header-label">
-              Trip Details
-            </th>
+            <th scope="col">Trip Details</th>
           </tr>
         </thead>
         <tbody>{tableRows}</tbody>

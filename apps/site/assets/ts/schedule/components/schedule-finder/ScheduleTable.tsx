@@ -91,6 +91,10 @@ const ScheduleTable = ({
             <th scope="col" className="schedule-table__row-header-label">
               Destination
             </th>
+
+            <th scope="col" className="schedule-table__th--flex-end">
+              Trip Details
+            </th>
           </tr>
         </thead>
         <tbody>
