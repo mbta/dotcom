@@ -1,21 +1,25 @@
 [![Build Status](https://semaphoreci.com/api/v1/mbta/dotcom/branches/master/badge.svg)](https://semaphoreci.com/mbta/dotcom)
+
 # Dotcom
 
 The new face of https://www.mbta.com/
-  - [Getting Started](#getting-started)
-  - [Running the Server](#running-the-server)
-  - [Environment Variables](#environment-variables)
-    - [`V3_API_KEY`](#v3apikey)
-    - [`V3_URL`](#v3url)
-    - [`GOOGLE_API_KEY`](#googleapikey)
-    - [`DRUPAL_ROOT`](#drupalroot)
-    - [`ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_ADMIN_KEY`](#algoliaappid-algoliasearchkey-and-algoliaadminkey)
+
+- [Getting Started](#getting-started)
+- [Running the Server](#running-the-server)
+- [Environment Variables](#environment-variables)
+    - [`V3_API_KEY`](#v3_api_key)
+    - [`V3_URL`](#v3_url)
+    - [`GOOGLE_API_KEY`](#google_api_key)
+    - [`DRUPAL_ROOT`](#drupal_root)
+    - [`ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_ADMIN_KEY`](#algolia_app_id-algolia_search_key-and-algolia_admin_key)
     - [Making the variables available to the app](#making-the-variables-available-to-the-app)
-  - [Additional documentation](#additional-documentation)
+- [Additional documentation](#additional-documentation)
+
 ## Getting Started
 
-1. Request a V3 API key at https://api-v3.mbta.com/. Note that, at any given time, the site may not be compatible with the
-very latest API version. As of this writing, the site is compatible with API version 2019-04-05.
+1. Request a V3 API key at https://dev.api.mbtace.com/, and request an increased
+rate limit for it (someone with access will need to approve this). Note that, at
+any given time, the site may not be compatible with the very latest API version.
 
 1. Install [Homebrew](https://docs.brew.sh/Installation.html):
     ```
@@ -28,7 +32,6 @@ very latest API version. As of this writing, the site is compatible with API ver
 
      ```
      brew install coreutils automake autoconf openssl libyaml readline libxslt libtool unixodbc
-     brew cask install java
      ```
 
    * Add asdf plugins
@@ -48,6 +51,10 @@ very latest API version. As of this writing, the site is compatible with API ver
      ```
 
      If you run into problems, you might have to update the `import-release-team-keyring` script.
+
+   * If running OSX 10.15 Catalina, run `export MACOSX_DEPLOYMENT_TARGET=10.14`.
+     This works around a [known issue](https://github.com/asdf-vm/asdf-erlang/issues/116)
+     with compiling versions of Erlang prior to 22.1.4.
 
    * Run the install:
 
@@ -74,9 +81,10 @@ very latest API version. As of this writing, the site is compatible with API ver
 
 1. Install chromedriver (for Elixir acceptance tests using Wallaby)
     ```
-    brew tap caskroom/cask
     brew cask install chromedriver
     ```
+   Note: `chromedriver` requires Chrome to be installed. If you don't already
+   have it, `brew cask install google-chrome` is an easy way to install it.
 
 1. Install our Elixir dependencies. From the root of this repo:
     ```
