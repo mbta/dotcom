@@ -105,17 +105,7 @@ const hasBusPredictions = (stopPredictions: StopPrediction[]): boolean =>
     stopPrediction => stopPrediction.prediction.prediction !== null
   ).length > 0;
 
-export const RoutePillSmall = ({
-  route
-}: {
-  route: Route;
-}): ReactElement<HTMLElement> | null => (
-  <div className="schedule-table__row-route-pill m-route-pills">
-    <div className={modeBgClass(route)}>{route.name}</div>
-  </div>
-);
-
-const fetchPredictionData = (
+export const fetchPredictionData = (
   routeId: string,
   selectedOrigin: SelectedOrigin,
   selectedDirection: SelectedDirection,
@@ -137,6 +127,16 @@ const fetchPredictionData = (
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
 };
+
+export const RoutePillSmall = ({
+  route
+}: {
+  route: Route;
+}): ReactElement<HTMLElement> | null => (
+  <div className="schedule-table__row-route-pill m-route-pills">
+    <div className={modeBgClass(route)}>{route.name}</div>
+  </div>
+);
 
 const BusTableRow = ({
   prediction
@@ -237,37 +237,6 @@ const wrapDepartures = (tableRows: ReactElement<HTMLElement>[]) => {
   );
 };
 
-export const UpcomingDepartures = ({
-  scheduleState,
-  routeId,
-  directionId,
-  stopId
-}: Props): ReactElement<HTMLElement> | null => {
-  if (!scheduleState) return null;
-
-  const { data: tripData }: ScheduleState = scheduleState;
-
-  if (!tripData) return null;
-
-  const allTripNames = tripData.trip_order;
-  const allTrips = tripData.by_trip;
-  const firstTrip = allTripNames[0];
-  const firstStopSchedule = allTrips[firstTrip];
-  const firstScheduledStop = firstStopSchedule.schedules[0];
-  const mode = firstScheduledStop.route.type;
-
-  return mode === 2 ? (
-    <UpcomingCrDepartures tripData={tripData} />
-  ) : (
-    <UpcomingBusDepartures
-      tripData={tripData}
-      routeId={routeId}
-      directionId={directionId}
-      stopId={stopId}
-    />
-  );
-};
-
 export const UpcomingCrDepartures = ({
   tripData
 }: UpcomingCrProps): ReactElement<HTMLElement> | null => {
@@ -333,6 +302,37 @@ export const UpcomingBusDepartures = ({
     );
   }
   return null;
+};
+
+export const UpcomingDepartures = ({
+  scheduleState,
+  routeId,
+  directionId,
+  stopId
+}: Props): ReactElement<HTMLElement> | null => {
+  if (!scheduleState) return null;
+
+  const { data: tripData }: ScheduleState = scheduleState;
+
+  if (!tripData) return null;
+
+  const allTripNames = tripData.trip_order;
+  const allTrips = tripData.by_trip;
+  const firstTrip = allTripNames[0];
+  const firstStopSchedule = allTrips[firstTrip];
+  const firstScheduledStop = firstStopSchedule.schedules[0];
+  const mode = firstScheduledStop.route.type;
+
+  return mode === 2 ? (
+    <UpcomingCrDepartures tripData={tripData} />
+  ) : (
+    <UpcomingBusDepartures
+      tripData={tripData}
+      routeId={routeId}
+      directionId={directionId}
+      stopId={stopId}
+    />
+  );
 };
 
 export default UpcomingDepartures;

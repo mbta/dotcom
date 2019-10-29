@@ -70,8 +70,8 @@ export const fetchScheduleData = (
   selectedService: ServiceWithServiceDate,
   selectedDirection: SelectedDirection,
   dispatch: (action: fetchSchedulesAction) => void,
-  initialScheduleState: MutableRefObject<ScheduleState | null>,
-  setInitialScheduleStateFlag: Dispatch<SetStateAction<boolean>>
+  initialScheduleState: MutableRefObject<ScheduleState | null> = useRef(null),
+  setInitialScheduleStateFlag: Dispatch<SetStateAction<boolean>> = () => false
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
   return (

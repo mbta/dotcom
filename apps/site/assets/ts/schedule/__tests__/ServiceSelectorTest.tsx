@@ -1,13 +1,14 @@
 import React from "react";
+import { act } from "react-dom/test-utils";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import {
-  fetchData as fetchSchedule,
   ServiceSelector,
   getDefaultScheduleId
 } from "../components/schedule-finder/ServiceSelector";
 import { ServiceWithServiceDate } from "../../__v3api";
 import { ServiceOptGroup } from "../../helpers/service";
+import { fetchScheduleData } from "../components/schedule-finder/ScheduleModalContent";
 
 const services: ServiceWithServiceDate[] = [
   {
@@ -70,22 +71,53 @@ const services: ServiceWithServiceDate[] = [
   }
 ] as ServiceWithServiceDate[];
 
+const servicesByOptGroup = {
+  current: [
+    {
+      type: "current" as ServiceOptGroup,
+      servicePeriod: "sometime",
+      service: services[0]
+    }
+  ],
+  future: [
+    {
+      type: "future" as ServiceOptGroup,
+      servicePeriod: "sometime",
+      service: services[1]
+    },
+    {
+      type: "future" as ServiceOptGroup,
+      servicePeriod: "sometime",
+      service: services[2]
+    }
+  ],
+  holiday: [
+    {
+      type: "holiday" as ServiceOptGroup,
+      servicePeriod: "sometime",
+      service: services[3]
+    }
+  ]
+};
+
 describe("ServiceSelector", () => {
   it("it renders", () => {
     createReactRoot();
+    const defaultScheduleState = { data: null, isLoading: true, error: false };
+    const action = act(() => getDefaultScheduleId(servicesByOptGroup));
     const tree = renderer.create(
       <ServiceSelector
-        stopId="stopId"
+        scheduleState={defaultScheduleState}
+        selectedServiceId={"BUS319-P-Sa-02"}
+        setSelectedServiceId={action}
         services={services}
-        directionId={0}
         routePatterns={[]}
-        routeId="111"
       />
     );
     expect(tree).toMatchSnapshot();
   });
 
-  describe("fetchSchedule", () => {
+  describe("fetchScheduleData", () => {
     it("fetches the selected schedule", async () => {
       window.fetch = jest.fn().mockImplementation(
         () =>
@@ -104,7 +136,7 @@ describe("ServiceSelector", () => {
 
       const dispatchSpy = jest.fn();
 
-      await await fetchSchedule(
+      await await fetchScheduleData(
         "83",
         "stopId",
         services.find(service => service.id === "BUS319-P-Sa-02")!,
@@ -141,7 +173,7 @@ describe("ServiceSelector", () => {
 
     const dispatchSpy = jest.fn();
 
-    await await fetchSchedule(
+    await await fetchScheduleData(
       "83",
       "stopId",
       services.find(service => service.id === "BUS319-P-Sa-02")!,
@@ -155,35 +187,6 @@ describe("ServiceSelector", () => {
   });
 
   describe("getDefaultScheduleId", () => {
-    const servicesByOptGroup = {
-      current: [
-        {
-          type: "current" as ServiceOptGroup,
-          servicePeriod: "sometime",
-          service: services[0]
-        }
-      ],
-      future: [
-        {
-          type: "future" as ServiceOptGroup,
-          servicePeriod: "sometime",
-          service: services[1]
-        },
-        {
-          type: "future" as ServiceOptGroup,
-          servicePeriod: "sometime",
-          service: services[2]
-        }
-      ],
-      holiday: [
-        {
-          type: "holiday" as ServiceOptGroup,
-          servicePeriod: "sometime",
-          service: services[3]
-        }
-      ]
-    };
-
     it("uses today's schedule if given", () => {
       expect(getDefaultScheduleId(servicesByOptGroup)).toEqual(services[0].id);
     });

@@ -1,126 +1,22 @@
 import React from "react";
-import renderer, { act } from "react-test-renderer";
+import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import UpcomingDepartures from "../components/schedule-finder/UpcomingDepartures";
-import { payload } from "./ScheduleModalTest";
-import { RouteType } from "../../__v3api";
+import { busPredictions, busSchedule, crSchedule } from "./ScheduleFinderTest";
+import {
+  UpcomingDepartures,
+  fetchPredictionData
+} from "../components/schedule-finder/UpcomingDepartures";
 
-const stopPrediction = payload;
-
-const crRouteType: RouteType = 2;
-
-const crPrediction = [
-  {
-    train_number: "",
-    route: {
-      type: crRouteType,
-      name: "Framingham/Worcester Line",
-      long_name: "Framingham/Worcester Line",
-      id: "CR-Worcester",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "South Station", "0": "Worcester" },
-      description: "commuter_rail",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["4:51", " ", "PM"],
-      prediction: {
-        track: null,
-        time: ["4:51", " ", "PM"],
-        status: null,
-        seconds: 1854
-      },
-      delay: 0
-    },
-    headsign: "Framingham"
-  },
-  {
-    train_number: "591",
-    route: {
-      type: crRouteType,
-      name: "Framingham/Worcester Line",
-      long_name: "Framingham/Worcester Line",
-      id: "CR-Worcester",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "South Station", "0": "Worcester" },
-      description: "commuter_rail",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["4:51", " ", "PM"],
-      prediction: {
-        track: "3",
-        time: ["4:51", " ", "PM"],
-        status: null,
-        seconds: 1854
-      },
-      delay: 0
-    },
-    headsign: "Framingham"
-  },
-  {
-    train_number: "591",
-    route: {
-      type: crRouteType,
-      name: "Framingham/Worcester Line",
-      long_name: "Framingham/Worcester Line",
-      id: "CR-Worcester",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "South Station", "0": "Worcester" },
-      description: "commuter_rail",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["4:51", " ", "PM"],
-      prediction: {
-        track: "3",
-        time: ["4:51", " ", "PM"],
-        status: null,
-        seconds: 1854
-      },
-      delay: 0
-    },
-    headsign: "Framingham"
-  },
-  {
-    train_number: "593",
-    route: {
-      type: crRouteType,
-      name: "Framingham/Worcester Line",
-      long_name: "Framingham/Worcester Line",
-      id: "CR-Worcester",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "South Station", "0": "Worcester" },
-      description: "commuter_rail",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["5:31", " ", "PM"],
-      prediction: null,
-      delay: 0
-    },
-    headsign: "Framingham"
-  }
-];
 describe("UpcomingDepartures", () => {
-  it("doesn't render if there are not predictions", () => {
+  it("doesn't render if there are no predictions", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
-        state={{
-          data: [
-            {
-              ...stopPrediction[0],
-              prediction: {
-                prediction: null,
-                delay: 0,
-                scheduled_time: ["3", ":25", "PM"]
-              }
-            }
-          ],
-          error: false,
-          isLoading: false
-        }}
+        initialScheduleStateFlag={true}
+        scheduleState={{ data: null, isLoading: false, error: false }}
+        routeId={"CR-Worcester"}
+        directionId={0}
+        stopId={"place-sstat"}
       />
     );
     expect(tree.toJSON()).toBeNull();
@@ -130,20 +26,11 @@ describe("UpcomingDepartures", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
-        state={{
-          data: [
-            {
-              ...stopPrediction[0],
-              prediction: {
-                prediction: null,
-                delay: 0,
-                scheduled_time: ["3", ":25", "PM"]
-              }
-            }
-          ],
-          error: true,
-          isLoading: false
-        }}
+        initialScheduleStateFlag={true}
+        scheduleState={{ data: null, isLoading: false, error: true }}
+        routeId={"CR-Worcester"}
+        directionId={0}
+        stopId={"place-sstat"}
       />
     );
     expect(tree.toJSON()).toBeNull();
@@ -153,11 +40,11 @@ describe("UpcomingDepartures", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
-        state={{
-          data: stopPrediction,
-          error: false,
-          isLoading: false
-        }}
+        initialScheduleStateFlag={true}
+        scheduleState={{ data: busSchedule, isLoading: false, error: false }}
+        routeId={"1"}
+        directionId={1}
+        stopId={"110"}
       />
     );
     expect(tree).toMatchSnapshot();
@@ -167,16 +54,11 @@ describe("UpcomingDepartures", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
-        state={{
-          data: [
-            {
-              ...stopPrediction[0],
-              route: { ...stopPrediction[0].route, name: "SL-2", id: "741" }
-            }
-          ],
-          error: false,
-          isLoading: false
-        }}
+        initialScheduleStateFlag={true}
+        scheduleState={{ data: busSchedule, isLoading: false, error: false }}
+        routeId={"742"}
+        directionId={1}
+        stopId={""}
       />
     );
     expect(tree).toMatchSnapshot();
@@ -186,13 +68,70 @@ describe("UpcomingDepartures", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
-        state={{
-          data: crPrediction,
-          error: false,
-          isLoading: false
-        }}
+        initialScheduleStateFlag={true}
+        scheduleState={{ data: crSchedule, isLoading: false, error: false }}
+        routeId={"CR-Fairmount"}
+        directionId={1}
+        stopId={"place-sstat"}
       />
     );
     expect(tree).toMatchSnapshot();
+  });
+
+  describe("fetchPredictionData", () => {
+    it("fetches prediction data", () => {
+      const spy = jest.fn();
+      window.fetch = jest.fn().mockImplementation(
+        () =>
+          new Promise((resolve: Function) =>
+            resolve({
+              json: () => busPredictions,
+              ok: true,
+              status: 200,
+              statusText: "OK"
+            })
+          )
+      );
+
+      return fetchPredictionData("1", "99", 0, spy).then(() => {
+        expect(window.fetch).toHaveBeenCalledWith(
+          "/schedules/predictions_api?id=1&origin_stop=99&direction_id=0"
+        );
+        expect(spy).toHaveBeenCalledWith({
+          type: "FETCH_STARTED"
+        });
+        expect(spy).toHaveBeenCalledWith({
+          type: "FETCH_COMPLETE",
+          busPredictions
+        });
+      });
+    });
+
+    it("fails gracefully if fetch is unsuccessful", () => {
+      const spy = jest.fn();
+      window.fetch = jest.fn().mockImplementation(
+        () =>
+          new Promise((resolve: Function) =>
+            resolve({
+              json: () => "Internal Server Error",
+              ok: false,
+              status: 500,
+              statusText: "INTERNAL SERVER ERROR"
+            })
+          )
+      );
+
+      return fetchPredictionData("Orange", "place-mlmnl", 0, spy).then(() => {
+        expect(window.fetch).toHaveBeenCalledWith(
+          "/schedules/predictions_api?id=Orange&origin_stop=place-mlmnl&direction_id=0"
+        );
+        expect(spy).toHaveBeenCalledWith({
+          type: "FETCH_STARTED"
+        });
+        expect(spy).toHaveBeenCalledWith({
+          type: "FETCH_ERROR"
+        });
+      });
+    });
   });
 });

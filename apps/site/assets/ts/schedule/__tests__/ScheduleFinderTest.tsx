@@ -4,8 +4,20 @@ import { mount } from "enzyme";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import ScheduleFinder from "../components/ScheduleFinder";
 import ScheduleFinderAccordion from "../components/ScheduleFinderAccordion";
-import { EnhancedRoute, ServiceWithServiceDate } from "../../__v3api";
 import { RoutePatternsByDirection } from "../components/__schedule";
+import { ServiceScheduleInfo } from "../components/__schedule.js";
+import busPredictionData from "./api/predictions-bus-1.json";
+import busScheduleData from "./api/schedule-bus-742.json";
+import crScheduleData from "./api/schedule-cr-fairmount.json";
+import {
+  EnhancedRoute,
+  ServiceWithServiceDate,
+  StopPrediction
+} from "../../__v3api";
+
+export const busPredictions: StopPrediction[] = (busPredictionData as unknown) as StopPrediction[];
+export const busSchedule: ServiceScheduleInfo = (busScheduleData as unknown) as ServiceScheduleInfo;
+export const crSchedule: ServiceScheduleInfo = (crScheduleData as unknown) as ServiceScheduleInfo;
 
 const services: ServiceWithServiceDate[] = [
   {

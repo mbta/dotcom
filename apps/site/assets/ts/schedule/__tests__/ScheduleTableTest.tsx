@@ -1,18 +1,14 @@
 import React from "react";
 import { mount } from "enzyme";
-import serviceData from "./serviceData.json";
-import crServiceData from "./crServiceData.json";
 import ScheduleTable from "../components/schedule-finder/ScheduleTable";
-import { ServiceScheduleInfo } from "../components/__schedule.js";
+import { busSchedule, crSchedule } from "./ScheduleFinderTest";
 import { EnhancedRoutePattern } from "../components/__schedule";
 import {
   createReactRoot,
   enzymeToJsonWithoutProps
 } from "../../app/helpers/testUtils";
 
-const schedule: ServiceScheduleInfo = (serviceData as unknown) as ServiceScheduleInfo;
-
-const routePatterns = [
+const busRoutePatterns = [
   {
     typicality: 1,
     time_desc: null,
@@ -43,7 +39,7 @@ const crRoutePatterns = [
     time_desc: null,
     shape_id: "9870002",
     route_id: "CR-Fairmount",
-    representative_trip_id: "CR-Weekday-Spring-19-751",
+    representative_trip_id: "CR-Weekday-Fall-19-769",
     name: "South Station - Readville via Fairmount",
     headsign: "South Station",
     id: "CR-Fairmount-0-0",
@@ -51,13 +47,11 @@ const crRoutePatterns = [
   }
 ] as EnhancedRoutePattern[];
 
-const crSchedule: ServiceScheduleInfo = crServiceData as ServiceScheduleInfo;
-
 describe("ScheduleTable", () => {
   it("it renders", () => {
     createReactRoot();
     const wrapper = mount(
-      <ScheduleTable schedule={schedule} routePatterns={routePatterns} />
+      <ScheduleTable schedule={busSchedule} routePatterns={busRoutePatterns} />
     );
     wrapper
       .find(".schedule-table__row")
@@ -70,8 +64,8 @@ describe("ScheduleTable", () => {
     createReactRoot();
     const wrapper = mount(
       <ScheduleTable
-        schedule={schedule}
-        routePatterns={routePatterns.map(routePattern => ({
+        schedule={busSchedule}
+        routePatterns={busRoutePatterns.map(routePattern => ({
           ...routePattern,
           time_desc: "School Trip"
         }))}
@@ -85,7 +79,7 @@ describe("ScheduleTable", () => {
     const wrapper = mount(
       <ScheduleTable
         schedule={{ by_trip: {}, trip_order: [] }}
-        routePatterns={routePatterns}
+        routePatterns={busRoutePatterns}
       />
     );
     expect(enzymeToJsonWithoutProps(wrapper)).toMatchSnapshot();

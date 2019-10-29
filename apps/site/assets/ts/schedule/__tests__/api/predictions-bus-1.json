@@ -1,0 +1,126 @@
+[
+  {
+    "trip_id": "41894323",
+    "train_number": "",
+    "route": {
+      "type": 3,
+      "name": "1",
+      "long_name": "Harvard - Dudley via Massachusetts Avenue",
+      "id": "1",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Harvard",
+        "1": "Dudley"
+      },
+      "description": "key_bus_route",
+      "custom_route?": false
+    },
+    "prediction": {
+      "scheduled_time": ["1:33", " ", "PM"],
+      "prediction": {
+        "track": null,
+        "time": ["7", " ", "min"],
+        "status": null,
+        "seconds": 436
+      },
+      "delay": 0
+    },
+    "headsign": "Harvard"
+  },
+  {
+    "trip_id": "41894242",
+    "train_number": "",
+    "route": {
+      "type": 3,
+      "name": "1",
+      "long_name": "Harvard - Dudley via Massachusetts Avenue",
+      "id": "1",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Harvard",
+        "1": "Dudley"
+      },
+      "description": "key_bus_route",
+      "custom_route?": false
+    },
+    "prediction": {
+      "scheduled_time": ["1:56", " ", "PM"],
+      "prediction": {
+        "track": null,
+        "time": ["30", " ", "min"],
+        "status": null,
+        "seconds": 1816
+      },
+      "delay": 0
+    },
+    "headsign": "Harvard"
+  },
+  {
+    "trip_id": "41894243",
+    "train_number": "",
+    "route": {
+      "type": 3,
+      "name": "1",
+      "long_name": "Harvard - Dudley via Massachusetts Avenue",
+      "id": "1",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Harvard",
+        "1": "Dudley"
+      },
+      "description": "key_bus_route",
+      "custom_route?": false
+    },
+    "prediction": {
+      "scheduled_time": ["2:07", " ", "PM"],
+      "prediction": {
+        "track": null,
+        "time": ["41", " ", "min"],
+        "status": null,
+        "seconds": 2476
+      },
+      "delay": 0
+    },
+    "headsign": "Harvard"
+  },
+  {
+    "trip_id": "41894244",
+    "train_number": "",
+    "route": {
+      "type": 3,
+      "name": "1",
+      "long_name": "Harvard - Dudley via Massachusetts Avenue",
+      "id": "1",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Harvard",
+        "1": "Dudley"
+      },
+      "description": "key_bus_route",
+      "custom_route?": false
+    },
+    "prediction": {
+      "scheduled_time": ["2:16", " ", "PM"],
+      "prediction": {
+        "track": null,
+        "time": ["50", " ", "min"],
+        "status": null,
+        "seconds": 3016
+      },
+      "delay": 0
+    },
+    "headsign": "Harvard"
+  }
+]
