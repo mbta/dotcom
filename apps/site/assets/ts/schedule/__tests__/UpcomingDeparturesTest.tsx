@@ -102,7 +102,7 @@ describe("UpcomingDepartures", () => {
         });
         expect(spy).toHaveBeenCalledWith({
           type: "FETCH_COMPLETE",
-          busPredictions
+          payload: busPredictions
         });
       });
     });
