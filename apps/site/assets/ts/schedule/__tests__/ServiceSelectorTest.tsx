@@ -1,5 +1,4 @@
 import React from "react";
-import { act } from "react-dom/test-utils";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import {
@@ -104,12 +103,11 @@ describe("ServiceSelector", () => {
   it("it renders", () => {
     createReactRoot();
     const defaultScheduleState = { data: null, isLoading: true, error: false };
-    const action = act(() => getDefaultScheduleId(servicesByOptGroup));
     const tree = renderer.create(
       <ServiceSelector
         scheduleState={defaultScheduleState}
         selectedServiceId={"BUS319-P-Sa-02"}
-        setSelectedServiceId={action}
+        setSelectedServiceId={() => {}}
         services={services}
         routePatterns={[]}
       />
