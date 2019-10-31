@@ -27,6 +27,7 @@ const optGroupTitles: { [key in ServiceOptGroup]: string } = {
 
 export interface ScheduleState {
   data: ServiceScheduleInfo | null;
+  initial: ServiceScheduleInfo | null;
   isLoading: boolean;
   error: boolean;
 }

@@ -7,6 +7,7 @@ export type fetchAction =
 export interface State {
   // @ts-ignore should add a generic
   data: any | null; // eslint-disable-line
+  initial: any | null;
   isLoading: boolean;
   error: boolean;
 }
@@ -14,9 +15,15 @@ export interface State {
 export const reducer = (state: State, action: fetchAction): State => {
   switch (action.type) {
     case "FETCH_STARTED":
-      return { ...state, isLoading: true, error: false, data: null };
+      return { ...state, isLoading: true, error: false };
     case "FETCH_COMPLETE":
-      return { ...state, data: action.payload, isLoading: false, error: false };
+      return {
+        ...state,
+        initial: state.initial || action.payload,
+        data: action.payload,
+        isLoading: false,
+        error: false
+      };
     case "FETCH_ERROR":
       return { ...state, error: true, isLoading: false };
     default:

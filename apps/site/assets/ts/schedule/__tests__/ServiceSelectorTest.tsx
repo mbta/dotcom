@@ -102,7 +102,12 @@ const servicesByOptGroup = {
 describe("ServiceSelector", () => {
   it("it renders", () => {
     createReactRoot();
-    const defaultScheduleState = { data: null, isLoading: true, error: false };
+    const defaultScheduleState = {
+      data: null,
+      initial: null,
+      isLoading: true,
+      error: false
+    };
     const tree = renderer.create(
       <ServiceSelector
         scheduleState={defaultScheduleState}

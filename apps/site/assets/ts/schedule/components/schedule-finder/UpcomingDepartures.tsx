@@ -26,16 +26,16 @@ type fetchPredictionsAction =
 
 interface PredictionState {
   data: StopPrediction[] | null;
+  initial: StopPrediction[] | null;
   isLoading: boolean;
   error: boolean;
 }
 
 interface Props {
-  scheduleState: ScheduleState | null;
+  tripData: ServiceScheduleInfo | null;
   directionId: SelectedDirection;
   stopId: string;
   routeId: string;
-  initialScheduleStateFlag: boolean;
 }
 
 interface UpcomingBusProps {
@@ -305,15 +305,11 @@ export const UpcomingBusDepartures = ({
 };
 
 export const UpcomingDepartures = ({
-  scheduleState,
+  tripData,
   routeId,
   directionId,
   stopId
 }: Props): ReactElement<HTMLElement> | null => {
-  if (!scheduleState) return null;
-
-  const { data: tripData }: ScheduleState = scheduleState;
-
   if (!tripData) return null;
 
   const allTripNames = tripData.trip_order;

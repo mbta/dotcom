@@ -69,9 +69,7 @@ export const fetchScheduleData = (
   stopId: string,
   selectedService: ServiceWithServiceDate,
   selectedDirection: SelectedDirection,
-  dispatch: (action: fetchSchedulesAction) => void,
-  initialScheduleState: MutableRefObject<ScheduleState | null> = useRef(null),
-  setInitialScheduleStateFlag: Dispatch<SetStateAction<boolean>> = () => false
+  dispatch: (action: fetchSchedulesAction) => void
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
   return (
@@ -88,14 +86,6 @@ export const fetchScheduleData = (
       })
       .then(json => {
         dispatch({ type: "FETCH_COMPLETE", payload: json });
-        if (initialScheduleState.current === null) {
-          initialScheduleState.current = {
-            data: json as ServiceScheduleInfo,
-            isLoading: false,
-            error: false
-          };
-          setInitialScheduleStateFlag(true);
-        }
       })
       // @ts-ignore
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
@@ -120,15 +110,10 @@ const ScheduleModalContent = ({
     return null;
   }
 
-  const initialScheduleState: MutableRefObject<ScheduleState | null> = useRef(
-    null
-  );
-  const [initialScheduleStateFlag, setInitialScheduleStateFlag] = useState(
-    false
-  );
   const [selectedServiceId, setSelectedServiceId] = useState("");
   const [scheduleState, scheduleDispatch] = useReducer(reducer, {
     data: null,
+    initial: null,
     isLoading: true,
     error: false
   } as ScheduleState);
@@ -147,9 +132,7 @@ const ScheduleModalContent = ({
         selectedOrigin,
         selectedService,
         selectedDirection,
-        scheduleDispatch,
-        initialScheduleState,
-        setInitialScheduleStateFlag
+        scheduleDispatch
       );
     },
     [services, routeId, selectedDirection, selectedOrigin, selectedServiceId]
@@ -172,8 +155,7 @@ const ScheduleModalContent = ({
       </div>
       <div>from {stopNameLink(selectedOrigin, stops)}</div>
       <UpcomingDepartures
-        scheduleState={initialScheduleState.current}
-        initialScheduleStateFlag={initialScheduleStateFlag}
+        tripData={scheduleState.initial}
         routeId={routeId}
         directionId={selectedDirection}
         stopId={selectedOrigin}

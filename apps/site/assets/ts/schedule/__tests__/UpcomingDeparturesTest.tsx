@@ -12,8 +12,7 @@ describe("UpcomingDepartures", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
-        initialScheduleStateFlag={true}
-        scheduleState={{ data: null, isLoading: false, error: false }}
+        tripData={null}
         routeId={"CR-Worcester"}
         directionId={0}
         stopId={"place-sstat"}
@@ -26,8 +25,7 @@ describe("UpcomingDepartures", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
-        initialScheduleStateFlag={true}
-        scheduleState={{ data: null, isLoading: false, error: true }}
+        tripData={null}
         routeId={"CR-Worcester"}
         directionId={0}
         stopId={"place-sstat"}
@@ -40,8 +38,7 @@ describe("UpcomingDepartures", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
-        initialScheduleStateFlag={true}
-        scheduleState={{ data: busSchedule, isLoading: false, error: false }}
+        tripData={busSchedule}
         routeId={"1"}
         directionId={1}
         stopId={"110"}
@@ -51,11 +48,23 @@ describe("UpcomingDepartures", () => {
   });
 
   it("renders SL bus predictions", () => {
+    // const spy = jest.fn();
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => busPredictions,
+            ok: true,
+            status: 200,
+            statusText: "OK"
+          })
+        )
+    );
+
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
-        initialScheduleStateFlag={true}
-        scheduleState={{ data: busSchedule, isLoading: false, error: false }}
+        tripData={busSchedule}
         routeId={"742"}
         directionId={0}
         stopId={"place-sstat"}
@@ -68,8 +77,7 @@ describe("UpcomingDepartures", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
-        initialScheduleStateFlag={true}
-        scheduleState={{ data: crSchedule, isLoading: false, error: false }}
+        tripData={crSchedule}
         routeId={"CR-Fairmount"}
         directionId={1}
         stopId={"place-sstat"}

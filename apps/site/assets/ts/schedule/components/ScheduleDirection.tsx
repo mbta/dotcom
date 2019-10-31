@@ -90,6 +90,7 @@ const ScheduleDirection = ({
   });
   const [mapState, dispatchMapData] = useReducer(mapDataReducer, {
     data: mapData,
+    initial: null,
     isLoading: false,
     error: false
   });
@@ -102,6 +103,7 @@ const ScheduleDirection = ({
   );
   const [lineState, dispatchLineData] = useReducer(mapDataReducer, {
     data: lineDiagram,
+    initial: null,
     isLoading: false,
     error: false
   });
