@@ -41,7 +41,7 @@ exports[`renders 1`] = `
           >
             <span
               aria-hidden="false"
-              className="notranslate c-svg__icon c-featured-project__route-icon"
+              className="notranslate c-svg__icon m-featured-project__route-icon"
               dangerouslySetInnerHTML={
                 Object {
                   "__html": "SVG",
