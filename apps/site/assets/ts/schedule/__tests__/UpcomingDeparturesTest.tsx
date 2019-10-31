@@ -57,8 +57,8 @@ describe("UpcomingDepartures", () => {
         initialScheduleStateFlag={true}
         scheduleState={{ data: busSchedule, isLoading: false, error: false }}
         routeId={"742"}
-        directionId={1}
-        stopId={""}
+        directionId={0}
+        stopId={"place-sstat"}
       />
     );
     expect(tree).toMatchSnapshot();
