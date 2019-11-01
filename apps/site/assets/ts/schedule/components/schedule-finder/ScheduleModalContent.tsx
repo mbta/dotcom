@@ -1,13 +1,4 @@
-import React, {
-  Dispatch,
-  MutableRefObject,
-  ReactElement,
-  SetStateAction,
-  useReducer,
-  useEffect,
-  useState,
-  useRef
-} from "react";
+import React, { ReactElement, useReducer, useEffect, useState } from "react";
 import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import { Route, RouteType, ServiceWithServiceDate } from "../../../__v3api";
 import {
