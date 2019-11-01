@@ -54,7 +54,7 @@ const RoutePillList = ({ routes }: Props): ReactElement<HTMLElement> => {
               <RouteIcon
                 key="route-pill-bus"
                 tag="bus"
-                extraClasses="c-featured-project__route-icon"
+                extraClasses="m-featured-project__route-icon"
               />
             );
           case "silver-line":
@@ -62,7 +62,7 @@ const RoutePillList = ({ routes }: Props): ReactElement<HTMLElement> => {
               <span key="route-pill-silver-line">
                 <RouteIcon
                   tag="bus"
-                  extraClasses="c-featured-project__route-icon"
+                  extraClasses="m-featured-project__route-icon"
                 />
                 <RoutePill modeName="silver-line" />
               </span>
