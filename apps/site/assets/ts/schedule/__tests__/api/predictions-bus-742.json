@@ -1,0 +1,102 @@
+[
+  {
+    "trip_id": "42253399-20:45-SLNoTransitway",
+    "train_number": "",
+    "route": {
+      "type": 3,
+      "name": "SL2",
+      "long_name": "Design Center - South Station",
+      "id": "742",
+      "direction_names": { "1": "Inbound", "0": "Outbound" },
+      "direction_destinations": { "1": "South Station", "0": "Design Center" },
+      "description": "key_bus_route",
+      "custom_route?": false
+    },
+    "prediction": {
+      "scheduled_time": null,
+      "prediction": {
+        "track": null,
+        "time": ["4", " ", "min"],
+        "status": null,
+        "seconds": 276
+      },
+      "delay": 0
+    },
+    "headsign": "Silver Line Way"
+  },
+  {
+    "trip_id": "42253773-20:45-SLNoTransitway",
+    "train_number": "",
+    "route": {
+      "type": 3,
+      "name": "SL2",
+      "long_name": "Design Center - South Station",
+      "id": "742",
+      "direction_names": { "1": "Inbound", "0": "Outbound" },
+      "direction_destinations": { "1": "South Station", "0": "Design Center" },
+      "description": "key_bus_route",
+      "custom_route?": false
+    },
+    "prediction": {
+      "scheduled_time": ["1:44", " ", "PM"],
+      "prediction": {
+        "track": null,
+        "time": ["7", " ", "min"],
+        "status": null,
+        "seconds": 430
+      },
+      "delay": 0
+    },
+    "headsign": "Drydock"
+  },
+  {
+    "trip_id": "42253710-20:45-SLNoTransitway",
+    "train_number": "",
+    "route": {
+      "type": 3,
+      "name": "SL2",
+      "long_name": "Design Center - South Station",
+      "id": "742",
+      "direction_names": { "1": "Inbound", "0": "Outbound" },
+      "direction_destinations": { "1": "South Station", "0": "Design Center" },
+      "description": "key_bus_route",
+      "custom_route?": false
+    },
+    "prediction": {
+      "scheduled_time": ["1:54", " ", "PM"],
+      "prediction": {
+        "track": null,
+        "time": ["17", " ", "min"],
+        "status": null,
+        "seconds": 1030
+      },
+      "delay": 0
+    },
+    "headsign": "Drydock"
+  },
+  {
+    "trip_id": "42253603-20:45-SLNoTransitway",
+    "train_number": "",
+    "route": {
+      "type": 3,
+      "name": "SL2",
+      "long_name": "Design Center - South Station",
+      "id": "742",
+      "direction_names": { "1": "Inbound", "0": "Outbound" },
+      "direction_destinations": { "1": "South Station", "0": "Design Center" },
+      "description": "key_bus_route",
+      "custom_route?": false
+    },
+    "prediction": {
+      "scheduled_time": ["2:04", " ", "PM"],
+      "prediction": {
+        "track": null,
+        "time": ["27", " ", "min"],
+        "status": null,
+        "seconds": 1630
+      },
+      "delay": 0
+    },
+    "headsign": "Drydock"
+  }
+]

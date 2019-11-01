@@ -17,7 +17,6 @@ import { isNull } from "util";
 import { Accordion } from "../../components/schedule-finder/TableRow";
 import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import { reducer } from "../../../helpers/fetch";
-import { ScheduleState } from "./ServiceSelector";
 
 type fetchPredictionsAction =
   | { type: "FETCH_COMPLETE"; payload: StopPrediction[] }
@@ -294,7 +293,7 @@ const UpcomingBusDepartures = ({
   );
 };
 
-const UpcomingBusDepartureRows = ({
+export const UpcomingBusDepartureRows = ({
   tripData,
   predictions
 }: {

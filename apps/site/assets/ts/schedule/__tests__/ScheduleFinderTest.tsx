@@ -6,8 +6,10 @@ import ScheduleFinder from "../components/ScheduleFinder";
 import ScheduleFinderAccordion from "../components/ScheduleFinderAccordion";
 import { RoutePatternsByDirection } from "../components/__schedule";
 import { ServiceScheduleInfo } from "../components/__schedule.js";
-import busPredictionData from "./api/predictions-bus-1.json";
-import busScheduleData from "./api/schedule-bus-742.json";
+import busPredictionData1 from "./api/predictions-bus-1.json";
+import busPredictionData742 from "./api/predictions-bus-742.json";
+import busScheduleData1 from "./api/schedule-bus-1.json";
+import busScheduleData742 from "./api/schedule-bus-742.json";
 import crScheduleData from "./api/schedule-cr-fairmount.json";
 import {
   EnhancedRoute,
@@ -15,8 +17,12 @@ import {
   StopPrediction
 } from "../../__v3api";
 
-export const busPredictions: StopPrediction[] = (busPredictionData as unknown) as StopPrediction[];
-export const busSchedule: ServiceScheduleInfo = (busScheduleData as unknown) as ServiceScheduleInfo;
+export const busSchedule1: ServiceScheduleInfo = (busScheduleData1 as unknown) as ServiceScheduleInfo;
+export const busPredictions1: StopPrediction[] = (busPredictionData1 as unknown) as StopPrediction[];
+
+export const busSchedule742: ServiceScheduleInfo = (busScheduleData742 as unknown) as ServiceScheduleInfo;
+export const busPredictions742: StopPrediction[] = (busPredictionData742 as unknown) as StopPrediction[];
+
 export const crSchedule: ServiceScheduleInfo = (crScheduleData as unknown) as ServiceScheduleInfo;
 
 const services: ServiceWithServiceDate[] = [

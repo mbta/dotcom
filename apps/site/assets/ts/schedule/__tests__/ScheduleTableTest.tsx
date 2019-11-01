@@ -1,7 +1,7 @@
 import React from "react";
 import { mount } from "enzyme";
 import ScheduleTable from "../components/schedule-finder/ScheduleTable";
-import { busSchedule, crSchedule } from "./ScheduleFinderTest";
+import { busSchedule742, crSchedule } from "./ScheduleFinderTest";
 import { EnhancedRoutePattern } from "../components/__schedule";
 import {
   createReactRoot,
@@ -51,7 +51,10 @@ describe("ScheduleTable", () => {
   it("it renders", () => {
     createReactRoot();
     const wrapper = mount(
-      <ScheduleTable schedule={busSchedule} routePatterns={busRoutePatterns} />
+      <ScheduleTable
+        schedule={busSchedule742}
+        routePatterns={busRoutePatterns}
+      />
     );
     wrapper
       .find(".schedule-table__row")
@@ -64,7 +67,7 @@ describe("ScheduleTable", () => {
     createReactRoot();
     const wrapper = mount(
       <ScheduleTable
-        schedule={busSchedule}
+        schedule={busSchedule742}
         routePatterns={busRoutePatterns.map(routePattern => ({
           ...routePattern,
           time_desc: "School Trip"

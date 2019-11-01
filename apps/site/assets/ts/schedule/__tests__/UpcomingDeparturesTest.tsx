@@ -1,9 +1,16 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { busPredictions, busSchedule, crSchedule } from "./ScheduleFinderTest";
+import {
+  busPredictions1,
+  busPredictions742,
+  busSchedule1,
+  busSchedule742,
+  crSchedule
+} from "./ScheduleFinderTest";
 import {
   UpcomingDepartures,
+  UpcomingBusDepartureRows,
   fetchPredictionData
 } from "../components/schedule-finder/UpcomingDepartures";
 
@@ -34,34 +41,7 @@ describe("UpcomingDepartures", () => {
     expect(tree.toJSON()).toBeNull();
   });
 
-  it("renders bus predictions", () => {
-    createReactRoot();
-    const tree = renderer.create(
-      <UpcomingDepartures
-        tripData={busSchedule}
-        routeId={"1"}
-        directionId={1}
-        stopId={"110"}
-      />
-    );
-    expect(tree).toMatchSnapshot();
-  });
-
-  it("renders SL bus predictions", () => {
-    createReactRoot();
-    const tree = renderer.create(
-      <UpcomingDepartures
-        tripData={busSchedule}
-        routeId={"742"}
-        directionId={0}
-        stopId={"place-sstat"}
-      />
-    );
-
-    expect(tree).toMatchSnapshot();
-  });
-
-  it("renders cr predictions", () => {
+  it("renders upcoming cr predictions", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
@@ -74,6 +54,28 @@ describe("UpcomingDepartures", () => {
     expect(tree).toMatchSnapshot();
   });
 
+  it("renders upcoming bus predictions", () => {
+    createReactRoot();
+    const tree = renderer.create(
+      <UpcomingBusDepartureRows
+        tripData={busSchedule1}
+        predictions={busPredictions1}
+      />
+    );
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("renders upcoming SL bus predictions", () => {
+    createReactRoot();
+    const tree = renderer.create(
+      <UpcomingBusDepartureRows
+        tripData={busSchedule742}
+        predictions={busPredictions742}
+      />
+    );
+    expect(tree).toMatchSnapshot();
+  });
+
   describe("fetchPredictionData", () => {
     it("fetches prediction data", () => {
       const spy = jest.fn();
@@ -81,7 +83,7 @@ describe("UpcomingDepartures", () => {
         () =>
           new Promise((resolve: Function) =>
             resolve({
-              json: () => busPredictions,
+              json: () => busPredictions1,
               ok: true,
               status: 200,
               statusText: "OK"
@@ -98,7 +100,7 @@ describe("UpcomingDepartures", () => {
         });
         expect(spy).toHaveBeenCalledWith({
           type: "FETCH_COMPLETE",
-          payload: busPredictions
+          payload: busPredictions1
         });
       });
     });
