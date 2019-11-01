@@ -434,10 +434,6 @@
 }
 
 .m-schedule-line-diagram__connections {
-  display: inline-flex;
-  flex-wrap: wrap;
-  justify-content: left;
-
   .m-schedule-line-diagram__connection {
     margin: 0 ($base-spacing / 4) ($base-spacing / 4) 0;
 
@@ -449,7 +445,10 @@
   }
 
   a {
+    display: inline-block;
+    line-height: 0;
     max-height: $base-spacing * 1.5;
+    vertical-align: top;
   }
 }
 

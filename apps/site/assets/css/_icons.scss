@@ -308,11 +308,12 @@ a {
 
 .c-icon__bus-pill--small {
   border-radius: $base-spacing / 6;
+  display: inline-block;
   font-size: $font-size-base * 2 / 3;
   font-weight: bold;
-  max-height: $base-spacing;
+  height: $base-spacing;
+  line-height: $base-spacing;
   min-width: $base-spacing * 4 / 3;
   padding: 0 $base-spacing / 6;
   text-align: center;
-  vertical-align: middle;
 }
