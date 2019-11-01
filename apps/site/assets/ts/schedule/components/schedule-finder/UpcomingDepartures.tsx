@@ -260,7 +260,7 @@ export const UpcomingCrDepartures = ({
   return null;
 };
 
-export const UpcomingBusDepartures = ({
+const UpcomingBusDepartures = ({
   tripData,
   routeId,
   directionId,
@@ -289,9 +289,20 @@ export const UpcomingBusDepartures = ({
     return null;
   }
 
+  return (
+    <UpcomingBusDepartureRows tripData={tripData} predictions={predictions} />
+  );
+};
+
+const UpcomingBusDepartureRows = ({
+  tripData,
+  predictions
+}: {
+  tripData: ServiceScheduleInfo;
+  predictions: StopPrediction[];
+}): ReactElement<HTMLElement> | null => {
   if (predictions && hasBusPredictions(predictions)) {
     const liveTripData = TripDataForPredictions(tripData, predictions);
-
     return wrapDepartures(
       predictions.map((prediction: StopPrediction) => (
         <Accordion

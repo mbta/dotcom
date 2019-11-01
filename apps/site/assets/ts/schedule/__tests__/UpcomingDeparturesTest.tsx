@@ -48,19 +48,6 @@ describe("UpcomingDepartures", () => {
   });
 
   it("renders SL bus predictions", () => {
-    // const spy = jest.fn();
-    window.fetch = jest.fn().mockImplementation(
-      () =>
-        new Promise((resolve: Function) =>
-          resolve({
-            json: () => busPredictions,
-            ok: true,
-            status: 200,
-            statusText: "OK"
-          })
-        )
-    );
-
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
@@ -70,6 +57,7 @@ describe("UpcomingDepartures", () => {
         stopId={"place-sstat"}
       />
     );
+
     expect(tree).toMatchSnapshot();
   });
 
