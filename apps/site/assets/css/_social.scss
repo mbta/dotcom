@@ -27,6 +27,14 @@
   width: 1.5em;
 }
 
+.c-social--facebook {
+  background-color: $facebook;
+
+  .fa {
+    color: $white;
+  }
+}
+
 .c-social--instagram {
   background-color: $white;
 
