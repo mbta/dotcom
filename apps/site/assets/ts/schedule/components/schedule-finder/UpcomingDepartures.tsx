@@ -246,6 +246,7 @@ export const UpcomingCrDepartures = ({
     return wrapDepartures(
       liveTripNames.map((tripId: string) => (
         <Accordion
+          key={tripId}
           trip={liveTripData.by_trip[tripId]}
           contentCallback={() => (
             <CrTableRow
@@ -305,6 +306,7 @@ export const UpcomingBusDepartureRows = ({
     return wrapDepartures(
       predictions.map((prediction: StopPrediction) => (
         <Accordion
+          key={prediction.trip_id}
           trip={liveTripData.by_trip[prediction.trip_id]}
           contentCallback={() => <BusTableRow prediction={prediction} />}
         />
