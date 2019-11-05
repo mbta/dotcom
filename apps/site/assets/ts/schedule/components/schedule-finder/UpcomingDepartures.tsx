@@ -260,7 +260,7 @@ export const UpcomingCrDepartures = ({
   return null;
 };
 
-const UpcomingBusDepartures = ({
+export const UpcomingBusDepartures = ({
   tripData,
   routeId,
   directionId,

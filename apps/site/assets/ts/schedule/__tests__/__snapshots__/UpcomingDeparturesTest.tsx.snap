@@ -1,52 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ScheduleModal it renders 1`] = `
-Array [
-  <div
-    className="schedule-finder__modal-header"
-  >
-    <div>
-      <div
-        className="h3 u-small-caps"
-        style={
-          Object {
-            "margin": 0,
-          }
-        }
-      >
-         
-        Inbound
-      </div>
-      <h2
-        className="h2"
-        style={
-          Object {
-            "margin": 0,
-          }
-        }
-      >
-        Oak Grove
-      </h2>
-    </div>
-  </div>,
-  <div>
-    from 
-    <a
-      href="/stops/place-mlmnl"
-    >
-      Malden Center
-    </a>
-  </div>,
-]
-`;
-
-exports[`UpcomingDepartures renders SL bus predictions 1`] = `
+exports[`UpcomingDepartures renders upcoming SL bus predictions 1`] = `
 Array [
   <h3>
     Upcoming Departures
   </h3>,
   <table
-    className="schedule-table"
+    className="schedule-table schedule-table--upcoming"
   >
     <thead
       className="schedule-table__header"
@@ -54,16 +14,32 @@ Array [
       <tr
         className="schedule-table__row-header"
       >
-        <th>
+        <th
+          className="schedule-table__row-header-label"
+          scope="col"
+        >
           Destinations
+        </th>
+        <th
+          scope="col"
+        >
+          Trip Details
         </th>
       </tr>
     </thead>
     <tbody>
       <tr
-        className="schedule-table__row schedule-table__row--stretch"
+        aria-controls="trip-42253399-20:45-SLNoTransitway"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
-        <td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
           <div
             className="schedule-table__row-route"
           >
@@ -73,19 +49,175 @@ Array [
               <div
                 className="u-bg--silver-line"
               >
-                SL-2
+                SL2
               </div>
             </div>
              
-            Harvard
+            Silver Line Way
           </div>
         </td>
         <td
-          className="schedule-table__time u-bold"
+          className="schedule-table__time schedule-table__td--flex-end u-bold"
         >
-          15
+          4
            
           min
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
+      </tr>
+      <tr
+        aria-controls="trip-42253773-20:45-SLNoTransitway"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <div
+            className="schedule-table__row-route"
+          >
+            <div
+              className="schedule-table__row-route-pill m-route-pills"
+            >
+              <div
+                className="u-bg--silver-line"
+              >
+                SL2
+              </div>
+            </div>
+             
+            Drydock
+          </div>
+        </td>
+        <td
+          className="schedule-table__time schedule-table__td--flex-end u-bold"
+        >
+          7
+           
+          min
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
+      </tr>
+      <tr
+        aria-controls="trip-42253710-20:45-SLNoTransitway"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <div
+            className="schedule-table__row-route"
+          >
+            <div
+              className="schedule-table__row-route-pill m-route-pills"
+            >
+              <div
+                className="u-bg--silver-line"
+              >
+                SL2
+              </div>
+            </div>
+             
+            Drydock
+          </div>
+        </td>
+        <td
+          className="schedule-table__time schedule-table__td--flex-end u-bold"
+        >
+          17
+           
+          min
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
+      </tr>
+      <tr
+        aria-controls="trip-42253603-20:45-SLNoTransitway"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <div
+            className="schedule-table__row-route"
+          >
+            <div
+              className="schedule-table__row-route-pill m-route-pills"
+            >
+              <div
+                className="u-bg--silver-line"
+              >
+                SL2
+              </div>
+            </div>
+             
+            Drydock
+          </div>
+        </td>
+        <td
+          className="schedule-table__time schedule-table__td--flex-end u-bold"
+        >
+          27
+           
+          min
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
         </td>
       </tr>
     </tbody>
@@ -93,13 +225,13 @@ Array [
 ]
 `;
 
-exports[`UpcomingDepartures renders bus predictions 1`] = `
+exports[`UpcomingDepartures renders upcoming bus predictions 1`] = `
 Array [
   <h3>
     Upcoming Departures
   </h3>,
   <table
-    className="schedule-table"
+    className="schedule-table schedule-table--upcoming"
   >
     <thead
       className="schedule-table__header"
@@ -107,16 +239,32 @@ Array [
       <tr
         className="schedule-table__row-header"
       >
-        <th>
+        <th
+          className="schedule-table__row-header-label"
+          scope="col"
+        >
           Destinations
+        </th>
+        <th
+          scope="col"
+        >
+          Trip Details
         </th>
       </tr>
     </thead>
     <tbody>
       <tr
-        className="schedule-table__row schedule-table__row--stretch"
+        aria-controls="trip-41894323"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
-        <td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
           <div
             className="schedule-table__row-route"
           >
@@ -134,17 +282,37 @@ Array [
           </div>
         </td>
         <td
-          className="schedule-table__time u-bold"
+          className="schedule-table__time schedule-table__td--flex-end u-bold"
         >
-          15
+          7
            
           min
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
-        className="schedule-table__row schedule-table__row--stretch"
+        aria-controls="trip-41894242"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
-        <td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
           <div
             className="schedule-table__row-route"
           >
@@ -162,11 +330,119 @@ Array [
           </div>
         </td>
         <td
-          className="schedule-table__time u-bold"
+          className="schedule-table__time schedule-table__td--flex-end u-bold"
         >
-          11
+          30
            
           min
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
+      </tr>
+      <tr
+        aria-controls="trip-41894243"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <div
+            className="schedule-table__row-route"
+          >
+            <div
+              className="schedule-table__row-route-pill m-route-pills"
+            >
+              <div
+                className="u-bg--bus"
+              >
+                1
+              </div>
+            </div>
+             
+            Harvard
+          </div>
+        </td>
+        <td
+          className="schedule-table__time schedule-table__td--flex-end u-bold"
+        >
+          41
+           
+          min
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
+      </tr>
+      <tr
+        aria-controls="trip-41894244"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <div
+            className="schedule-table__row-route"
+          >
+            <div
+              className="schedule-table__row-route-pill m-route-pills"
+            >
+              <div
+                className="u-bg--bus"
+              >
+                1
+              </div>
+            </div>
+             
+            Harvard
+          </div>
+        </td>
+        <td
+          className="schedule-table__time schedule-table__td--flex-end u-bold"
+        >
+          50
+           
+          min
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
         </td>
       </tr>
     </tbody>
@@ -174,13 +450,13 @@ Array [
 ]
 `;
 
-exports[`UpcomingDepartures renders cr predictions 1`] = `
+exports[`UpcomingDepartures renders upcoming cr predictions 1`] = `
 Array [
   <h3>
     Upcoming Departures
   </h3>,
   <table
-    className="schedule-table"
+    className="schedule-table schedule-table--upcoming"
   >
     <thead
       className="schedule-table__header"
@@ -188,14 +464,28 @@ Array [
       <tr
         className="schedule-table__row-header"
       >
-        <th>
+        <th
+          className="schedule-table__row-header-label"
+          scope="col"
+        >
           Destinations
+        </th>
+        <th
+          scope="col"
+        >
+          Trip Details
         </th>
       </tr>
     </thead>
     <tbody>
       <tr
-        className="schedule-table__row schedule-table__row--stretch"
+        aria-controls="trip-CR-Weekday-Fall-19-783"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <td
           className="schedule-table__headsign"
@@ -209,8 +499,14 @@ Array [
               }
             }
           />
-           
-          Framingham
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
+          Readville
+          <div>
+            Train 783
+          </div>
         </td>
         <td>
           <div
@@ -219,20 +515,36 @@ Array [
             <div
               className="schedule-table__time u-bold"
             >
-              4:51 PM
+              04:15 PM
             </div>
           </div>
           <div
             className="u-nowrap text-right"
           >
-            
-            
-            On time
+            Departed
           </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
         </td>
       </tr>
       <tr
-        className="schedule-table__row schedule-table__row--stretch"
+        aria-controls="trip-CR-Weekday-Fall-19-785"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <td
           className="schedule-table__headsign"
@@ -246,35 +558,63 @@ Array [
               }
             }
           />
-           
-          Framingham
         </td>
-        <td>
+        <td
+          className="schedule-table__headsign"
+        >
+          Readville
+          <div>
+            Train 785
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
           <div
             className="schedule-table__time-container"
           >
             <div
               className="schedule-table__time u-bold"
             >
-              4:51 PM
+              5:00 PM
             </div>
           </div>
           <div
-            className="u-nowrap text-right"
+            className="u-nowrap text-right u-bold"
           >
-            Train 591 · 
+            <span
+              className="schedule-table__status"
+            >
+              On time
+            </span>
             <span
               className="schedule-table__track"
             >
-               track 3
-               · 
+              
             </span>
-            On time
           </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
         </td>
       </tr>
       <tr
-        className="schedule-table__row schedule-table__row--stretch"
+        aria-controls="trip-CR-Weekday-Fall-19-787"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <td
           className="schedule-table__headsign"
@@ -288,34 +628,181 @@ Array [
               }
             }
           />
-           
-          Framingham
         </td>
-        <td>
+        <td
+          className="schedule-table__headsign"
+        >
+          Readville
+          <div>
+            Train 787
+          </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
           <div
             className="schedule-table__time-container"
           >
             <div
               className="schedule-table__time u-bold"
             >
-              4:51 PM
+              5:45 PM
             </div>
           </div>
           <div
-            className="u-nowrap text-right"
+            className="u-nowrap text-right u-bold"
           >
-            Train 591 · 
+            <span
+              className="schedule-table__status"
+            >
+              On time
+            </span>
             <span
               className="schedule-table__track"
             >
-               track 3
-               · 
+              
             </span>
-            On time
           </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
         </td>
       </tr>
     </tbody>
   </table>,
 ]
+`;
+
+exports[`renders 1`] = `
+<div
+  className="schedule-finder"
+>
+  <h2
+    className="h3 schedule-finder__heading"
+  >
+    <span
+      aria-hidden="true"
+      className="notranslate c-svg__icon"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+     Schedule Finder
+  </h2>
+  <div>
+    Choose a stop to get schedule information and real-time departure predictions.
+  </div>
+  <div
+    className="c-select-custom__container "
+    id="sf_direction_select_container"
+    onClick={[Function]}
+    onKeyUp={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    <select
+      className="c-select-custom"
+      id="sf_direction_select"
+      onChange={[Function]}
+      onKeyUp={[Function]}
+      value=""
+    >
+      <option
+        value=""
+      >
+        Choose a direction
+      </option>
+      <option
+        value="0"
+      >
+        INBOUND
+         
+        Oak Grove
+      </option>
+      <option
+        value="1"
+      >
+        OUTBOUND
+         
+        Forest Hills
+      </option>
+    </select>
+    <span
+      aria-hidden="true"
+      className="notranslate c-svg__icon c-select-custom__arrow"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+  </div>
+  <div
+    className="c-select-custom__container "
+    id="sf_origin_select_container"
+    onClick={[Function]}
+    onKeyUp={[Function]}
+    role="button"
+    tabIndex={0}
+  >
+    <select
+      className="c-select-custom c-select-custom--noclick"
+      id="sf_origin_select"
+      onChange={[Function]}
+      onKeyUp={[Function]}
+      value=""
+    >
+      <option
+        value=""
+      >
+        Choose an origin stop
+      </option>
+      <option
+        value="place-welln"
+      >
+        Wellington
+      </option>
+      <option
+        value="123"
+      >
+        Abc
+      </option>
+      <option
+        value="741"
+      >
+        SL
+      </option>
+    </select>
+    <span
+      aria-hidden="true"
+      className="notranslate c-svg__icon c-select-custom__arrow"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+  </div>
+  <div
+    className="text-right"
+  >
+    <input
+      className="btn btn-primary"
+      onClick={[Function]}
+      type="submit"
+      value="Get schedules"
+    />
+  </div>
+</div>
 `;
