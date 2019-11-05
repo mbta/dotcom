@@ -2,7 +2,6 @@ import { TypedRoutes } from "../../stop/components/__stop";
 import {
   Alert,
   Route,
-  PredictedOrScheduledTime,
   EnhancedRoute,
   DirectionId,
   ServiceWithServiceDate,

@@ -97,17 +97,14 @@ const ScheduleModalContent = ({
   stops,
   routePatternsByDirection
 }: Props): ReactElement<HTMLElement> | null => {
-  if (selectedOrigin === null || selectedDirection === null) {
-    return null;
-  }
-
   const [selectedServiceId, setSelectedServiceId] = useState("");
-  const [scheduleState, scheduleDispatch] = useReducer(reducer, {
+  const initialState: ScheduleState = {
     data: null,
     initial: null,
     isLoading: true,
     error: false
-  } as ScheduleState);
+  };
+  const [scheduleState, scheduleDispatch] = useReducer(reducer, initialState);
 
   useEffect(
     () => {
@@ -115,7 +112,7 @@ const ScheduleModalContent = ({
         service => service.id === selectedServiceId
       );
 
-      if (!selectedService) {
+      if (!selectedService || !selectedOrigin) {
         return;
       }
       fetchScheduleData(
@@ -128,6 +125,10 @@ const ScheduleModalContent = ({
     },
     [services, routeId, selectedDirection, selectedOrigin, selectedServiceId]
   );
+
+  if (selectedOrigin === null || selectedDirection === null) {
+    return null;
+  }
 
   const destination = directionDestinations[selectedDirection];
   return (

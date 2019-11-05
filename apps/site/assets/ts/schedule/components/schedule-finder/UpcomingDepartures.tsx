@@ -1,4 +1,5 @@
 import React, { ReactElement, useEffect, useReducer } from "react";
+import { isNull } from "util";
 import {
   timeForCommuterRail,
   trackForCommuterRail,
@@ -13,7 +14,6 @@ import {
   ServiceScheduleInfo
 } from "../__schedule";
 import { breakTextAtSlash } from "../../../helpers/text";
-import { isNull } from "util";
 import { Accordion } from "../../components/schedule-finder/TableRow";
 import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import { reducer } from "../../../helpers/fetch";
@@ -52,7 +52,7 @@ const reduceTrips = ({
   trip_order,
   by_trip
 }: ServiceScheduleInfo): ServiceScheduleInfo => {
-  let tripIdsWithPredictions: string[] = [];
+  const tripIdsWithPredictions: string[] = [];
   const tripsWithPredictions = trip_order.reduce(
     (obj: ServiceScheduleByTrip, tripId: string) => {
       const trip = by_trip[tripId];
@@ -62,6 +62,7 @@ const reduceTrips = ({
         )
       ) {
         tripIdsWithPredictions.push(tripId);
+        // eslint-disable-next-line no-param-reassign
         obj[tripId] = trip;
       }
       return obj;
@@ -84,6 +85,7 @@ const TripDataForPredictions = (
   );
   const tripsWithPredictions = tripIdsWithPredictions.reduce(
     (obj: ServiceScheduleByTrip, trip_id: string) => {
+      // eslint-disable-next-line no-param-reassign
       obj[trip_id] = scheduleData.by_trip[trip_id];
       return obj;
     },
@@ -96,8 +98,8 @@ const TripDataForPredictions = (
   };
 };
 
-const hasCrPredictions = ({ by_trip }: ServiceScheduleInfo): boolean =>
-  Object.entries(by_trip).length !== 0;
+const hasCrPredictions = ({ by_trip: byTrip }: ServiceScheduleInfo): boolean =>
+  Object.entries(byTrip).length !== 0;
 
 const hasBusPredictions = (stopPredictions: StopPrediction[]): boolean =>
   stopPredictions.filter(
@@ -217,24 +219,24 @@ const CrTableRow = ({
   );
 };
 
-const wrapDepartures = (tableRows: ReactElement<HTMLElement>[]) => {
-  return (
-    <>
-      <h3>Upcoming Departures</h3>
-      <table className="schedule-table schedule-table--upcoming">
-        <thead className="schedule-table__header">
-          <tr className="schedule-table__row-header">
-            <th scope="col" className="schedule-table__row-header-label">
-              Destinations
-            </th>
-            <th scope="col">Trip Details</th>
-          </tr>
-        </thead>
-        <tbody>{tableRows}</tbody>
-      </table>
-    </>
-  );
-};
+const wrapDepartures = (
+  tableRows: ReactElement<HTMLElement>[]
+): ReactElement<HTMLElement> => (
+  <>
+    <h3>Upcoming Departures</h3>
+    <table className="schedule-table schedule-table--upcoming">
+      <thead className="schedule-table__header">
+        <tr className="schedule-table__row-header">
+          <th scope="col" className="schedule-table__row-header-label">
+            Destinations
+          </th>
+          <th scope="col">Trip Details</th>
+        </tr>
+      </thead>
+      <tbody>{tableRows}</tbody>
+    </table>
+  </>
+);
 
 export const UpcomingCrDepartures = ({
   tripData
@@ -266,11 +268,16 @@ export const UpcomingBusDepartures = ({
   directionId,
   stopId
 }: UpcomingBusProps): ReactElement<HTMLElement> | null => {
-  const [predictionState, predictionDispatch] = useReducer(reducer, {
+  const initialState: PredictionState = {
     data: null,
+    initial: null,
     isLoading: true,
     error: false
-  } as PredictionState);
+  };
+  const [predictionState, predictionDispatch] = useReducer(
+    reducer,
+    initialState
+  );
 
   useEffect(
     () => {
