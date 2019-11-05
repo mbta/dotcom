@@ -209,6 +209,14 @@ defmodule SiteWeb.CustomerSupportControllerTest do
              ]
     end
 
+    test "prevents submissions when the anti-spam field is filled", %{conn: conn} do
+      params = valid_request_response_data() |> Map.put("leave_this_alone", "spam!")
+
+      conn = post(conn, customer_support_path(conn, :submit), %{"support" => params})
+
+      assert "antispam" in conn.assigns.errors
+    end
+
     test "logs a warning, returns 429, and shows an error when rate limit reached", %{conn: conn} do
       path = customer_support_path(conn, :submit)
 
