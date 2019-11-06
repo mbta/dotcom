@@ -49,13 +49,13 @@ interface UpcomingCrProps {
 }
 
 const reduceTrips = ({
-  trip_order,
-  by_trip
+  trip_order: tripOrder,
+  by_trip: byTrip
 }: ServiceScheduleInfo): ServiceScheduleInfo => {
   const tripIdsWithPredictions: string[] = [];
-  const tripsWithPredictions = trip_order.reduce(
+  const tripsWithPredictions = tripOrder.reduce(
     (obj: ServiceScheduleByTrip, tripId: string) => {
-      const trip = by_trip[tripId];
+      const trip = byTrip[tripId];
       if (
         trip.schedules.some(
           (schedule, idx) => !isNull(schedule.prediction.prediction) && idx < 2
@@ -71,8 +71,10 @@ const reduceTrips = ({
   );
 
   return {
+    /* eslint-disable @typescript-eslint/camelcase */
     trip_order: tripIdsWithPredictions,
     by_trip: tripsWithPredictions
+    /* eslint-enable @typescript-eslint/camelcase */
   };
 };
 
@@ -84,17 +86,19 @@ const TripDataForPredictions = (
     prediction => prediction.trip_id
   );
   const tripsWithPredictions = tripIdsWithPredictions.reduce(
-    (obj: ServiceScheduleByTrip, trip_id: string) => {
+    (obj: ServiceScheduleByTrip, tripId: string) => {
       // eslint-disable-next-line no-param-reassign
-      obj[trip_id] = scheduleData.by_trip[trip_id];
+      obj[tripId] = scheduleData.by_trip[tripId];
       return obj;
     },
     {}
   );
 
   return {
+    /* eslint-disable @typescript-eslint/camelcase */
     trip_order: tripIdsWithPredictions,
     by_trip: tripsWithPredictions
+    /* eslint-enable @typescript-eslint/camelcase */
   };
 };
 
