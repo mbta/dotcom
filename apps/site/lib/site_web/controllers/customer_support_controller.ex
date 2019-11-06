@@ -92,12 +92,13 @@ defmodule SiteWeb.CustomerSupportController do
         [
           &validate_comments/1,
           &validate_service/1,
+          &validate_antispam/1,
           &validate_name/1,
           &validate_email/1,
           &validate_privacy/1
         ]
       else
-        [&validate_comments/1, &validate_service/1]
+        [&validate_comments/1, &validate_service/1, &validate_antispam/1]
       end
 
     Site.Validation.validate(validators, params)
@@ -135,6 +136,10 @@ defmodule SiteWeb.CustomerSupportController do
   @spec validate_privacy(map) :: :ok | String.t()
   defp validate_privacy(%{"privacy" => "on"}), do: :ok
   defp validate_privacy(_), do: "privacy"
+
+  @spec validate_antispam(map) :: :ok | String.t()
+  defp validate_antispam(%{"leave_this_alone" => value}) when byte_size(value) > 0, do: "antispam"
+  defp validate_antispam(_), do: :ok
 
   def send_ticket(params) do
     Feedback.Repo.send_ticket(%Feedback.Message{
