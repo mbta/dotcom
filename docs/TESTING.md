@@ -1,16 +1,10 @@
 ## Tests
 
-Run `mix phx.server` to start a server in one window, then open a
-separate window and run `npm test` from the main folder. This will execute
-the following scripts in succession:
-
-* `mix test` — Phoenix tests
+* `mix test` — Elixir tests
 * `npm run test:js` — JS tests
 * `npm run backstop` — Backstop tests (see section below for details)
 
-Note that all tests will run even if one of them fails, and there is no final
-summary at the end, so pay attention to the output while they're running to
-make sure everything passes.
+`npm test` runs all of these in succession.
 
 ### Dialyzer
 
@@ -18,11 +12,6 @@ Dialyzer is a static analysis tool which looks at type information. We use it
 verify our type specifcations and make sure we're calling functions properly.
 
 * `mix dialyzer` — Runs the actual type checks.
-
-Currently, there are some spurious "The variable _ can never match ..."
-errors that can be ignored.
-`npm run dialyzer` will filter out these errors, though there are still a few
-which show up.
 
 ### Pronto
 
@@ -33,11 +22,8 @@ Installing Pronto on Max OS can be challenging because some of its dependencies 
 Follow these instructions to install:
 
 ```
-brew install cmake
-brew install pkg-config
-gem install pronto
-gem install pronto-scss
-gem install pronto-credo
+brew install cmake pkg-config
+gem install pronto pronto-scss pronto-credo
 ```
 
 Run it by calling `pronto run` in the `mbta/dotcom` directory. If there is no output, that means it passed.
@@ -46,7 +32,7 @@ Run it by calling `pronto run` in the `mbta/dotcom` directory. If there is no ou
 
 Our javascript is linted by eslint and formatted by prettier. At this time, only prettier formatting is enforced in CI for javascript. For Typescript, both eslint and prettier are enforced in CI. You can auto-format your javascript and Typescript via `npm run format`, or set it up to autoformat on save in your editor of choice.
 
-If you are using the Prettier plugin for Visual Studio Code, you will want to configure it to use the ignore file  in `apps/site/assets/.prettierignore`. 
+If you are using the Prettier plugin for Visual Studio Code, you will want to configure it to use the ignore file  in `apps/site/assets/.prettierignore`.
 
 ### Backstop Tests
 
@@ -63,12 +49,25 @@ The tests are run against a live application, built in production mode. To make 
 work consistently and do not depend on a specific schedule or realtime vehicle locations, we use
 [WireMock](http://wiremock.org/) to record and playback the V3 API responses.
 
-To run the tests, do the following:
+Prerequisites for running the tests:
 
-* Make sure docker is [installed](https://docs.docker.com/docker-for-mac/install/) and running: we run the tests in docker to ensure we get consistent images across platforms.
-* Run `npm run backstop` which starts up wiremock, a mocked phoenix server, and when those are up, kicks off backstop testing in docker
+* Docker
+  * `brew cask install docker`
+  * Start Docker Desktop from the dock or Applications; this only has to be done
+    once, after which it will auto-start on login by default
+* Wiremock
+  * `brew cask install java --no-quarantine`
+    * This option is currently required on OS X 10.15+ due to Gatekeeper
+      changes. Ref: https://github.com/Homebrew/homebrew-cask/issues/70798
+  * `brew cask install wiremock-standalone`
+* Ensure the [environment variable](ENVIRONMENT.md) `WIREMOCK_PATH` points to
+  the Wiremock JAR file; with brew cask this will be something like
+  `/usr/local/Cellar/wiremock-standalone/<VERSION>/libexec/wiremock-standalone-<VERSION>.jar`
 
-Note: If you are not running on OSX or Windows, you'll need to modify the `STATIC_HOST=host.docker.internal` in the commands.
+Once all the above are in place: `npm run backstop`
+
+Note: If you are not running on OSX or Windows, you'll need to modify the
+`STATIC_HOST=host.docker.internal` in the commands.
 
 ### Other helpful test scripts
 

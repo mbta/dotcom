@@ -46,7 +46,6 @@ limited. See below for how to get a Google API Key.
 1. Obtain a Google API key:
     * Go to [Google's API documentation](https://developers.google.com/maps/documentation/javascript/get-api-key)
     * Click on "GET STARTED", create a personal project (e.g. "mbtadotcom").
-        * You have to enter personal billing information for your API key but Google gives you $200 of free credit per month. You can set up budget alerts to email you if you are approaching your free credit limit or set up daily quotas for each API. However, our costs accumulate very slowly in local development so it's not likely that you will approach this limit.
     * Go to [the Google developer credentials page](https://console.developers.google.com/apis/credentials)
     * Use the "Select Project" button at the top of the page to choose your project and then hit "Create Credentials" -> "API Key"
 2. Enable specific APIs:
