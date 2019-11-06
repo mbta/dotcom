@@ -4,6 +4,7 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
   """
   use SiteWeb, :controller
 
+  alias Predictions.Prediction
   alias Fares.Format
   alias Routes.Route
   alias Schedules.Repo
