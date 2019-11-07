@@ -53,7 +53,7 @@ defmodule Fares.RetailLocations.Data do
 
   def parse_v3_facility(%JsonApi.Item{} = item) do
     location = %Location{
-      name: item.attributes["name"],
+      name: item.attributes["long_name"],
       address: v3_property(item, "address"),
       latitude: item.attributes["latitude"],
       longitude: item.attributes["longitude"],
