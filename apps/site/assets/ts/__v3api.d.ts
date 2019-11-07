@@ -67,6 +67,7 @@ export interface Prediction {
   time: string[];
   status: string | null;
   track: string | null;
+  seconds: number;
 }
 
 export interface StopPrediction {

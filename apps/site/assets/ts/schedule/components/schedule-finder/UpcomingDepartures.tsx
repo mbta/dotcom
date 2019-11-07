@@ -7,7 +7,11 @@ import {
 } from "../../../helpers/prediction-helpers";
 import { modeIcon } from "../../../helpers/icon";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
-import { Route, StopPrediction } from "../../../__v3api";
+import {
+  Route,
+  StopPrediction,
+  PredictedOrScheduledTime
+} from "../../../__v3api";
 import {
   ScheduleWithFare,
   ServiceScheduleByTrip,
@@ -48,22 +52,46 @@ interface UpcomingCrProps {
   tripData: ServiceScheduleInfo;
 }
 
+/** Further reduces scheduled trips by prediction presence:
+ *  - Upcoming departure: prediction found for current origin (stopPosition == 0)
+ *  - Recently departed: prediction found at next stop AND is within last 15 minutes
+ */
+const isRelevant = (
+  prediction: PredictedOrScheduledTime,
+  stopPosition: number
+): boolean => {
+  if (stopPosition === 0) return true;
+  if (stopPosition === 1) {
+    return !isNull(prediction.prediction)
+      ? prediction.prediction.seconds < 900
+      : false;
+  }
+  return false;
+};
+
+/**
+ * Reduces all scheduled trips to only those that contain live predictions anywhere along the route.
+ */
 const filterCrTrips = ({
-  trip_order: tripOrder,
-  by_trip: byTrip
+  trip_order: tripIds,
+  by_trip: trips
 }: ServiceScheduleInfo): ServiceScheduleInfo => {
+  const departuresToKeep: number = 4;
   const tripIdsWithPredictions: string[] = [];
-  const tripsWithPredictions = tripOrder.reduce(
+  const tripsWithPredictions = tripIds.reduce(
     (obj: ServiceScheduleByTrip, tripId: string) => {
-      const trip = byTrip[tripId];
+      if (Object.entries(obj).length > departuresToKeep - 1) return obj;
       if (
-        trip.schedules.some(
-          (schedule, idx) => !isNull(schedule.prediction.prediction) && idx < 2
-        )
+        trips[tripId].schedules.some((schedule, stopPosition) => {
+          return (
+            !isNull(schedule.prediction.prediction) &&
+            isRelevant(schedule.prediction.prediction, stopPosition)
+          );
+        })
       ) {
         tripIdsWithPredictions.push(tripId);
         // eslint-disable-next-line no-param-reassign
-        obj[tripId] = trip;
+        obj[tripId] = trips[tripId];
       }
       return obj;
     },

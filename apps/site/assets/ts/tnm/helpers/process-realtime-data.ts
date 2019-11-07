@@ -119,6 +119,7 @@ const buildHeadsign = (
       ({ prediction, schedule }): PredictedOrScheduledTime => {
         const shortPrediction: Prediction | null = prediction
           ? {
+              seconds: prediction.seconds,
               track: prediction.track,
               time: prediction.time,
               status: null
