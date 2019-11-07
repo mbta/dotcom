@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { LineDiagramStop, StopData } from "./__schedule";
+import { LineDiagramStop, RouteStopRoute } from "./__schedule";
 import {
   alertIcon,
   modeIcon,
@@ -11,6 +11,24 @@ import { Alert, Route } from "../../__v3api";
 interface Props {
   lineDiagram: LineDiagramStop[];
 }
+
+const filteredConnections = (
+  connections: RouteStopRoute[]
+): RouteStopRoute[] => {
+  const firstCRIndex = connections.findIndex(
+    connection => connection.type === 2
+  );
+  const firstFerryIndex = connections.findIndex(
+    connection => connection.type === 4
+  );
+
+  return connections.filter(
+    (connection, index) =>
+      (connection.type !== 2 && connection.type !== 4) ||
+      (connection.type === 2 && index === firstCRIndex) ||
+      (connection.type === 4 && index === firstFerryIndex)
+  );
+};
 
 const maybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
   const highPriorityAlerts = alerts.filter(alert => alert.priority === "high");
@@ -24,72 +42,81 @@ const maybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
   );
 };
 
-const maybeTerminus = (stopData: StopData[]): StopData | undefined =>
-  stopData.find((stop: StopData) => stop.type === "terminus");
+const busBackgroundClass = (connection: Route): string =>
+  connection.name.startsWith("SL") ? "u-bg--silver-line" : "u-bg--bus";
 
 const LineDiagram = ({
   lineDiagram
-}: Props): ReactElement<HTMLElement> | null => (
-  <>
-    {lineDiagram.map(
-      ({
-        route_stop: routeStop,
-        stop_data: stopData,
-        alerts: stopAlerts
-      }: LineDiagramStop) => (
-        <div key={routeStop.id} className="m-schedule-line-diagram__stop">
-          <div className="m-schedule-line-diagram__card-left">
-            <div className="m-schedule-line-diagram__stop-name">
-              {maybeAlert(stopAlerts)}
-              {routeStop.name}
+}: Props): ReactElement<HTMLElement> | null => {
+  const routeType = lineDiagram[0].route_stop.route!.type;
+
+  return (
+    <>
+      <h3>
+        {routeType === 0 || routeType === 1 || routeType === 2
+          ? "Stations"
+          : "Stops"}
+      </h3>
+      {lineDiagram.map(
+        ({ route_stop: routeStop, alerts: stopAlerts }: LineDiagramStop) => (
+          <div key={routeStop.id} className="m-schedule-line-diagram__stop">
+            <div className="m-schedule-line-diagram__card-left">
+              <div className="m-schedule-line-diagram__stop-name">
+                {maybeAlert(stopAlerts)}
+                <a href={`/stops/${routeStop.id}`}>
+                  <h4>{routeStop.name}</h4>
+                </a>
+              </div>
+              <div className="m-schedule-line-diagram__connections">
+                {filteredConnections(routeStop.connections).map(
+                  (route: Route) => (
+                    <a href={`/schedules/${route.id}/line`} key={route.id}>
+                      {route.type === 3 ? (
+                        <span
+                          key={route.id}
+                          className={`c-icon__bus-pill--small m-schedule-line-diagram__connection ${busBackgroundClass(
+                            route
+                          )}`}
+                        >
+                          {route.name}
+                        </span>
+                      ) : (
+                        <span
+                          key={route.id}
+                          className="m-schedule-line-diagram__connection"
+                        >
+                          {modeIcon(route.id)}
+                        </span>
+                      )}
+                    </a>
+                  )
+                )}
+              </div>
             </div>
             <div>
-              {maybeTerminus(stopData) && maybeTerminus(stopData)!.branch}
-            </div>
-            <div className="m-schedule-line-diagram__connections">
-              {routeStop.connections.map((route: Route) =>
-                route.type === 3 && !route.name.startsWith("SL") ? (
-                  <span
-                    key={route.id}
-                    className="c-icon__bus-pill m-schedule-line-diagram__connection u-bg--bus"
-                  >
-                    {route.name}
-                  </span>
-                ) : (
-                  <span key={route.id}>{modeIcon(route.id)}</span>
-                )
-              )}
-            </div>
-          </div>
-          <div>
-            <div className="m-schedule-line-diagram__features">
-              {routeStop.stop_features.includes("parking_lot")
-                ? parkingIcon("c-svg__icon-parking-default")
-                : null}
-              {routeStop.stop_features.includes("access")
-                ? accessibleIcon("c-svg__icon-acessible-default")
-                : null}
-              {routeStop.zone && (
-                <span className="c-icon__cr-zone">{`Zone ${
-                  routeStop.zone
-                }`}</span>
-              )}
-            </div>
-            <div>
-              {/* eslint-disable react/no-array-index-key */
-              stopData.map((stop: StopData, idx: number) => (
-                <div key={idx}>
-                  {stop.branch ? `${stop.branch}, ` : ""}
-                  {stop.type}
-                </div>
-              ))}
-              {/* eslint-enable react/no-array-index-key */}
+              <div className="m-schedule-line-diagram__features">
+                {routeStop.stop_features.includes("parking_lot")
+                  ? parkingIcon(
+                      "c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
+                    )
+                  : null}
+                {routeStop.stop_features.includes("access")
+                  ? accessibleIcon(
+                      "c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
+                    )
+                  : null}
+                {routeStop.route!.type === 2 && routeStop.zone && (
+                  <span className="c-icon__cr-zone m-schedule-line-diagram__feature-icon">{`Zone ${
+                    routeStop.zone
+                  }`}</span>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      )
-    )}
-  </>
-);
+        )
+      )}
+    </>
+  );
+};
 
 export default LineDiagram;
