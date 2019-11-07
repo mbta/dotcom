@@ -459,8 +459,14 @@
 
   .m-schedule-line-diagram__feature-icon {
     height: $base-spacing;
+    line-height: $base-spacing;
     margin-left: $base-spacing / 4;
     width: $base-spacing;
+  }
+
+  .c-icon__cr-zone {
+    font-size: $base-spacing * 0.7;
+    width: auto;
   }
 }
 
