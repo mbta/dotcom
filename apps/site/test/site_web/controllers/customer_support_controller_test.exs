@@ -194,8 +194,8 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       params =
         valid_no_response_data()
         |> Map.put("photos", [
-          %Plug.Upload{filename: "photo-1", path: "/tmp/photo-1.jpg"},
-          %Plug.Upload{filename: "photo-2", path: "/tmp/photo-2.jpg"}
+          %Plug.Upload{filename: "photo-1.jpg", path: "/tmp/upload-1"},
+          %Plug.Upload{filename: "photo-2.jpg", path: "/tmp/upload-2"}
         ])
 
       conn = post(conn, customer_support_path(conn, :submit), %{"support" => params})
@@ -204,8 +204,8 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       attachments = Feedback.Test.latest_message()["attachments"]
 
       assert attachments == [
-               %{"filename" => "photo-1", "path" => "/tmp/photo-1.jpg"},
-               %{"filename" => "photo-2", "path" => "/tmp/photo-2.jpg"}
+               %{"filename" => "photo-1.jpg", "path" => "/tmp/upload-1"},
+               %{"filename" => "photo-2.jpg", "path" => "/tmp/upload-2"}
              ]
     end
 
@@ -215,6 +215,19 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       conn = post(conn, customer_support_path(conn, :submit), %{"support" => params})
 
       assert "antispam" in conn.assigns.errors
+    end
+
+    test "prevents submissions when an upload does not appear to be an image", %{conn: conn} do
+      params =
+        valid_request_response_data()
+        |> Map.put(:photos, [
+          %Plug.Upload{filename: "image.jpg"},
+          %Plug.Upload{filename: "runme.exe"}
+        ])
+
+      conn = post(conn, customer_support_path(conn, :submit), %{"support" => params})
+
+      assert "photos" in conn.assigns.errors
     end
 
     test "logs a warning, returns 429, and shows an error when rate limit reached", %{conn: conn} do
