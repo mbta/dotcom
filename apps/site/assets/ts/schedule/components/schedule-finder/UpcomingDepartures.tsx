@@ -83,10 +83,9 @@ const filterCrTrips = ({
       if (Object.entries(obj).length > departuresToKeep - 1) return obj;
       if (
         trips[tripId].schedules.some((schedule, stopPosition) => {
-          return (
-            !isNull(schedule.prediction.prediction) &&
-            isRelevant(schedule.prediction.prediction, stopPosition)
-          );
+          const prediction: PredictedOrScheduledTime | null =
+            schedule.prediction.prediction;
+          return !isNull(prediction) && isRelevant(prediction, stopPosition);
         })
       ) {
         tripIdsWithPredictions.push(tripId);
@@ -105,7 +104,11 @@ const filterCrTrips = ({
     /* eslint-enable @typescript-eslint/camelcase */
   };
 };
-
+/**
+ * Reduces all schedules to only those trips that match the predictions' trip IDs
+ * @param scheduleData Object containing trip index and trips
+ * @param predictions Array of predictions for the given stop
+ */
 const filterBusTrips = (
   scheduleData: ServiceScheduleInfo,
   predictions: StopPrediction[]
