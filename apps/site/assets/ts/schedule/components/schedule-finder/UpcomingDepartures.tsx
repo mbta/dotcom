@@ -48,7 +48,7 @@ interface UpcomingCrProps {
   tripData: ServiceScheduleInfo;
 }
 
-const reduceTrips = ({
+const filterCrTrips = ({
   trip_order: tripOrder,
   by_trip: byTrip
 }: ServiceScheduleInfo): ServiceScheduleInfo => {
@@ -78,7 +78,7 @@ const reduceTrips = ({
   };
 };
 
-const TripDataForPredictions = (
+const filterBusTrips = (
   scheduleData: ServiceScheduleInfo,
   predictions: StopPrediction[]
 ): ServiceScheduleInfo => {
@@ -187,7 +187,7 @@ const CrTableRow = ({
     return (
       <>
         {destinationHTML}
-        <td>
+        <td className="schedule-table__td schedule-table__td--flex-end">
           <div className="schedule-table__time-container">
             <div className="schedule-table__time u-bold">{schedule.time}</div>
           </div>
@@ -245,7 +245,7 @@ const wrapDepartures = (
 export const UpcomingCrDepartures = ({
   tripData
 }: UpcomingCrProps): ReactElement<HTMLElement> | null => {
-  const liveTripData = reduceTrips(tripData);
+  const liveTripData = filterCrTrips(tripData);
   const liveTripNames = liveTripData.trip_order;
 
   if (hasCrPredictions(liveTripData)) {
@@ -313,7 +313,7 @@ export const UpcomingBusDepartureRows = ({
   predictions: StopPrediction[];
 }): ReactElement<HTMLElement> | null => {
   if (predictions && hasBusPredictions(predictions)) {
-    const liveTripData = TripDataForPredictions(tripData, predictions);
+    const liveTripData = filterBusTrips(tripData, predictions);
     return wrapDepartures(
       predictions.map((prediction: StopPrediction) => (
         <Accordion

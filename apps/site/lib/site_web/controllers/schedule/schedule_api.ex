@@ -4,8 +4,8 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
   """
   use SiteWeb, :controller
 
-  alias Predictions.Prediction
   alias Fares.Format
+  alias Predictions.Prediction
   alias Routes.Route
   alias Schedules.Repo
   alias Site.{BaseFare}
@@ -47,10 +47,8 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
         Enum.empty?(schedules) || length(schedules) == 1
       end)
 
-    route = Routes.Repo.get(route_id)
-
     services_by_trip =
-      case route.type do
+      case Routes.Repo.get(route_id).type do
         2 -> Enum.map(services_by_trip, &thread_in_predictions/1)
         _ -> services_by_trip
       end
