@@ -2,6 +2,8 @@ defmodule SiteWeb.CustomerSupportController do
   use SiteWeb, :controller
   require Logger
 
+  @allowed_attachment_types ~w(image/bmp image/gif image/jpeg image/png image/tiff image/webp)
+
   plug(Turbolinks.Plug.NoCache)
   plug(:set_service_options)
   plug(:assign_ip)
@@ -144,8 +146,6 @@ defmodule SiteWeb.CustomerSupportController do
   end
 
   defp validate_photos(_), do: :ok
-
-  @allowed_attachment_types ~w(image/bmp image/gif image/jpeg image/png image/tiff image/webp)
 
   defp valid_upload?(%Plug.Upload{filename: filename}) do
     MIME.from_path(filename) in @allowed_attachment_types
