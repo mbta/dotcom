@@ -134,6 +134,7 @@ defmodule SiteWeb.Router do
     get("/schedules/Green/line", ScheduleController.Green, :line)
     get("/schedules/Green/schedule", ScheduleController.Green, :trip_view)
     get("/schedules/Green/alerts", ScheduleController.Green, :alerts)
+    get("/schedules/Green/shuttles", ScheduleController.Green, :shuttles)
     get("/schedules/Green", ScheduleController.Green, :show)
 
     get(
@@ -152,6 +153,7 @@ defmodule SiteWeb.Router do
 
     get("/schedules/:route/alerts", ScheduleController.AlertsController, :show, as: :alerts)
     get("/schedules/:route/line", ScheduleController.LineController, :show, as: :line)
+    get("/schedules/:route/shuttles", ScheduleController.ShuttlesController, :show, as: :shuttles)
 
     get("/schedules/:route/line/diagram", ScheduleController.LineController, :line_diagram_api,
       as: :line
