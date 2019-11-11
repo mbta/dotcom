@@ -60,6 +60,7 @@ defmodule SiteWeb.ScheduleView do
   def template_for_tab("timetable"), do: "_timetable.html"
   def template_for_tab("line"), do: "_line.html"
   def template_for_tab("alerts"), do: "_alerts.html"
+  def template_for_tab("shuttles"), do: "_shuttles.html"
 
   @spec reverse_direction_opts(Stops.Stop.t() | nil, Stops.Stop.t() | nil, 0..1) :: Keyword.t()
   def reverse_direction_opts(origin, destination, direction_id) do
@@ -366,6 +367,7 @@ defmodule SiteWeb.ScheduleView do
     info_link = line_path(conn, :show, route.id, tab_params)
     timetable_link = timetable_path(conn, :show, route.id, tab_params)
     alerts_link = alerts_path(conn, :show, route.id, tab_params)
+    shuttles_link = shuttles_path(conn, :show, route.id, tab_params)
 
     tabs = [
       %HeaderTab{
@@ -375,6 +377,20 @@ defmodule SiteWeb.ScheduleView do
         badge: conn |> alert_count() |> alert_badge()
       }
     ]
+
+    tabs =
+      if Laboratory.enabled?(conn, :shuttles) && shuttle_alert?(conn) do
+        [
+          %HeaderTab{
+            id: "shuttles",
+            name: "Shuttles",
+            href: shuttles_link
+          }
+          | tabs
+        ]
+      else
+        tabs
+      end
 
     tabs =
       case route.type do
@@ -528,4 +544,8 @@ defmodule SiteWeb.ScheduleView do
   end
 
   def timetable_note(_), do: nil
+
+  defp shuttle_alert?(conn) do
+    conn.assigns[:alerts] |> Enum.find(&(&1.effect == :shuttle))
+  end
 end

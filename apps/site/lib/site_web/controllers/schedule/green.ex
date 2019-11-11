@@ -55,6 +55,13 @@ defmodule SiteWeb.ScheduleController.Green do
     |> render("show.html", [])
   end
 
+  def shuttles(conn, _params) do
+    conn
+    |> assign(:tab, "shuttles")
+    |> put_view(ScheduleView)
+    |> render("show.html", [])
+  end
+
   def line(conn, _params) do
     conn
     |> assign(:tab, "line")
