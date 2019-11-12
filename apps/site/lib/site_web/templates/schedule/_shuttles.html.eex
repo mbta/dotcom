@@ -1,1 +1,13 @@
+<%= if Application.get_env(:site, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/shuttles.js" %>"></script>
+<% else %>
+  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+  <script defer src="<%= static_url(@conn, "/js/shuttles.js") %>"></script>
+<% end %>
 
+<div id="react-shuttles-root">
+  <%= Site.React.render("ShuttlesPage", %{}) %>
+</div>
+
+<div class="shuttles__sidebar col-xs-offset-1 col-xs-10 col-sm-offset-0 col-sm-12 col-lg-offset-8 col-lg-4">
+</div>
