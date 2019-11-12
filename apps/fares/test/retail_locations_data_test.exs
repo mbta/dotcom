@@ -1,6 +1,6 @@
 defmodule Fares.RetailLocationsDataTest do
   use ExUnit.Case, async: true
-  alias Fares.RetailLocations.{Location, Data}
+  alias Fares.RetailLocations.{Data, Location}
 
   describe "Fares.RetailLocationsData" do
     test "get/1 retrieves an array of retail locations data" do
@@ -33,7 +33,7 @@ defmodule Fares.RetailLocationsDataTest do
     test "parses a location" do
       item = %JsonApi.Item{
         attributes: %{
-          "name" => "facility_name",
+          "long_name" => "facility_name",
           "latitude" => 32.0,
           "longitude" => -41.0,
           "properties" => [
