@@ -20,12 +20,6 @@ defmodule Fares.RetailLocationsDataTest do
       end
     end
 
-    test "all locations have a non-nil name" do
-      for %Location{name: name} <- Data.get() do
-        assert is_binary(name)
-      end
-    end
-
     test "build_r_tree returns a tree with all location data" do
       tree = Data.build_r_tree()
 
