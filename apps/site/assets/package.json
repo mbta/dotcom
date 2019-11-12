@@ -68,7 +68,7 @@
     "eslint-plugin-react": "^7.12.3",
     "eslint-plugin-react-hooks": "^1.5.0",
     "file-api": "^0.10.4",
-    "jest": "^24.0.0",
+    "jest": "^24.9.0",
     "jsdom": "< 9.10.0",
     "lodash": "^4.17.11",
     "mini-css-extract-plugin": "^0.4.1",
@@ -106,6 +106,7 @@
     "test:mocha": "mocha --require @babel/register --require ts-node/register js/test/**/*.js",
     "test:jest": "jest -c ts/jest.config.js",
     "test:jest:update": "jest -c ts/jest.config.js -u",
+    "test:jest:watch": "jest -c ts/jest.config.js --watch",
     "webpack:watch": "webpack-dev-server --config webpack.config.dev.js --env.development --env.port ${WEBPACK_PORT:-8090} --stdin",
     "webpack:build": "webpack --config webpack.config.prod.js --env.production",
     "webpack:analyze": "webpack --config webpack.config.prod.js --env.production --profile --json > stats.json && webpack-bundle-analyzer stats.json ../priv/static/js/"

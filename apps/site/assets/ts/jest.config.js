@@ -12,7 +12,7 @@ module.exports = {
   coverageReporters: ["html"],
   coverageThreshold: {
     global: {
-      branches: 94,
+      branches: 93,
       functions: 95,
       lines: 95,
       statements: -40 // Since we have SSR checks, this needs to be lenient
