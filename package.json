@@ -12,6 +12,7 @@
     "test:js": "cd apps/site/assets && npm run test",
     "test:jest": "cd apps/site/assets && npm run test:jest",
     "test:jest:update": "cd apps/site/assets && npm run test:jest:update",
+    "test:jest:watch": "cd apps/site/assets && npm run test:jest:watch",
     "test:jest:cov": "open apps/site/assets/ts/coverage/index.html",
     "backstop": "./semaphore/backstop.sh",
     "backstop:test": "cd apps/site/test && ../assets/node_modules/.bin/backstop test --docker",
