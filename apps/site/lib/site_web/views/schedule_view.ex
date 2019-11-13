@@ -549,4 +549,8 @@ defmodule SiteWeb.ScheduleView do
     conn.assigns[:alerts]
     |> Enum.find(&(&1.effect == :shuttle and &1.lifecycle in [:ongoing, :ongoing_upcoming]))
   end
+
+  def json_safe_route(route) do
+    Route.to_json_safe(route)
+  end
 end

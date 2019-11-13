@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`it renders 1`] = `
+<div
+  className="shuttles__main col-sm-12 col-lg-7"
+>
+  <h2>
+    Shuttle Maps
+  </h2>
+  <div
+    aria-label="Filter shuttle map by direction"
+    className="c-btn-group-stackable"
+    role="group"
+  >
+    <button
+      className="btn btn-secondary btn-sm c-btn-group-stackable__btn c-btn-group-stackable__btn--active"
+      onClick={[Function]}
+      type="button"
+    >
+      All Directions
+    </button>
+    <button
+      className="btn btn-secondary btn-sm c-btn-group-stackable__btn"
+      onClick={[Function]}
+      type="button"
+    >
+      Oak Grove
+    </button>
+    <button
+      className="btn btn-secondary btn-sm c-btn-group-stackable__btn"
+      onClick={[Function]}
+      type="button"
+    >
+      Forest Hills
+    </button>
+  </div>
+  <div>
+    Map1 
+    
+     
+  </div>
+  <div>
+    Station Detail and dropdown
+  </div>
+  <div>
+    Map2
+  </div>
+</div>
+`;
