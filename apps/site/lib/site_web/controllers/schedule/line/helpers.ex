@@ -3,10 +3,15 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   Helpers for the line page
   """
 
+  alias CMS.Partial.Paragraph
+  alias CMS.Partial.Paragraph.ContentList
   alias Routes.Repo, as: RoutesRepo
   alias Routes.{Route, Shape}
   alias Stops.Repo, as: StopsRepo
   alias Stops.{RouteStop, RouteStops, Stop}
+
+  import CMS.Repo, only: [get_paragraph: 1]
+  import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
 
   @type query_param :: String.t() | nil
   @type direction_id :: 0 | 1
@@ -109,6 +114,41 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
 
   def get_branches(shapes, stops, route, direction_id) do
     RouteStops.by_direction(stops[route.id], shapes, route, direction_id)
+  end
+
+  @spec get_shuttle_paragraphs(Plug.Conn.t()) :: [Phoneix.HTML.safe()]
+  def get_shuttle_paragraphs(conn) do
+    conn
+    |> shuttle_paragraphs_by_line()
+    |> Enum.map(&get_paragraph/1)
+    |> Enum.map(&post_process_paragraph/1)
+    |> Enum.map(&render_paragraph(&1, conn))
+  end
+
+  @spec shuttle_paragraphs_by_line(Plug.Conn.t()) :: [binary()]
+  defp shuttle_paragraphs_by_line(conn) do
+    common_shuttle_paragraphs = [
+      "paragraphs/content-list/shuttles-sidebar-project",
+      "paragraphs/custom-html/shuttles-boilerplate"
+    ]
+
+    line_shuttle_paragraphs =
+      case conn.assigns.route.id do
+        "Red" -> ["paragraphs/custom-html/shuttles-sidebar-red-line"]
+        "Orange" -> ["paragraphs/custom-html/shuttles-sidebar-orange-line"]
+        "Green" -> ["paragraphs/custom-html/shuttles-sidebar-green-line"]
+      end
+
+    common_shuttle_paragraphs ++ line_shuttle_paragraphs
+  end
+
+  @spec post_process_paragraph(Paragraph.t()) :: Paragraph.t()
+  defp post_process_paragraph(%ContentList{} = content_list) do
+    ContentList.fetch_teasers(content_list)
+  end
+
+  defp post_process_paragraph(normal_paragraph) do
+    normal_paragraph
   end
 
   @spec get_green_branch(
