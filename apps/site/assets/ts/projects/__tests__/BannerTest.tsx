@@ -2,10 +2,10 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { SimpleProject } from "../components/__projects";
+import { Teaser as Project } from "../../__cms";
 import Banner, { cmsRouteToClass } from "../components/Banner";
 
-const bannerTeaser: SimpleProject = {
+const bannerTeaser: Project = {
   title: "Better Bus Project",
   text:
     "Too many of our bus routes still fail to live up to our own standards. Through the Better Bus Project, we are changing that.",

@@ -1,4 +1,4 @@
-export interface SimpleProject {
+export interface Teaser {
   date: string;
   id: number;
   image: Image | null;

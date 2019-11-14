@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { SimpleProject as Project, Route } from "./__projects";
+import { Teaser as Project, Route } from "../../__cms";
 import { formattedDate } from "../../helpers/date";
 import { routeToCSSClass } from "../../helpers/css";
 

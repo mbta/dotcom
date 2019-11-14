@@ -5,7 +5,7 @@ import FilterAndSearch from "./FilterAndSearch";
 import MoreProjectsTable from "./MoreProjectsTable";
 import ProjectUpdateList from "./ProjectUpdateList";
 import { Mode } from "../../__v3api";
-import { SimpleProject as Project } from "./__projects";
+import { Teaser as Project } from "../../__cms";
 
 interface Props {
   initialBanner: Project | null;

@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { SimpleProject as Project } from "./__projects";
+import { Teaser as Project } from "../../__cms";
 import FeaturedProjectsRow from "./FeaturedProjectsRow";
 
 interface Props {

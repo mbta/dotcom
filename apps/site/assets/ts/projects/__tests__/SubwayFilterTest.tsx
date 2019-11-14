@@ -1,7 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { SimpleProject as Project } from "../components/__projects";
 import SubwayFilter from "../components/SubwayFilter";
 
 import {
