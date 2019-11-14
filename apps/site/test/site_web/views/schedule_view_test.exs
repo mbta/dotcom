@@ -11,6 +11,7 @@ defmodule SiteWeb.ScheduleViewTest do
   import SiteWeb.ScheduleView
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
+  import SiteWeb.ControllerHelpers, only: [assign_alerts: 2]
 
   @trip %Schedules.Trip{name: "101", headsign: "Headsign", direction_id: 0, id: "1"}
   @stop %Stops.Stop{id: "stop-id", name: "Stop Name"}
@@ -121,6 +122,20 @@ defmodule SiteWeb.ScheduleViewTest do
       "1" => []
     },
     teasers: "<div>teasers</div>"
+  }
+
+  @shuttle_alert %Alerts.Alert{
+    effect: :shuttle,
+    informed_entity: %Alerts.InformedEntitySet{
+      route: MapSet.new(["83"]),
+      route_type: MapSet.new(["3"]),
+      entities: [
+        %Alerts.InformedEntity{
+          route: "83",
+          route_type: "3"
+        }
+      ]
+    }
   }
 
   describe "display_direction/1" do
@@ -1025,6 +1040,22 @@ defmodule SiteWeb.ScheduleViewTest do
   end
 
   describe "route_header_tabs/1" do
+    def set_shuttles_laboratory_flag(conn) do
+      put_req_header(conn, "cookie", "shuttles=true")
+    end
+
+    def render_route_header_tabs(conn, fake_repo_fn) do
+      conn
+      |> set_shuttles_laboratory_flag
+      |> assign(:route, %Route{id: "83", type: 3})
+      |> assign(:tab, "alerts")
+      |> assign(:tab_params, [])
+      |> assign(:date_time, DateTime.utc_now())
+      |> assign_alerts(filter_by_direction?: true, repo_fn: fake_repo_fn)
+      |> route_header_tabs()
+      |> safe_to_string()
+    end
+
     test "returns 4 tabs for commuter rail (1 hidden by css)", %{conn: conn} do
       tabs =
         conn
@@ -1054,6 +1085,44 @@ defmodule SiteWeb.ScheduleViewTest do
       assert tabs =~ "alerts-tab"
       refute tabs =~ "info-tab"
       refute tabs =~ "timetable-tab"
+    end
+
+    test "includes shuttles tab, if flag set and current shuttle alert", %{conn: conn} do
+      ongoing_lifecycles = [:ongoing, :ongoing_upcoming]
+
+      ongoing_lifecycles
+      |> Enum.each(fn lifecycle ->
+        fake_repo_fn = fn _, _, _ ->
+          [%Alerts.Alert{@shuttle_alert | lifecycle: lifecycle}]
+        end
+
+        tabs = render_route_header_tabs(conn, fake_repo_fn)
+        assert tabs =~ "shuttles-tab"
+      end)
+    end
+
+    test "doesn't include shuttles tab, if only upcoming shuttle alert", %{conn: conn} do
+      fake_repo_fn = fn _, _, _ ->
+        [%Alerts.Alert{@shuttle_alert | lifecycle: :upcoming}]
+      end
+
+      tabs = render_route_header_tabs(conn, fake_repo_fn)
+      refute tabs =~ "shuttles-tab"
+    end
+
+    test "doesn't include shuttles tab, if no shuttle alert", %{conn: conn} do
+      ongoing_lifecycles = [:ongoing, :ongoing_upcoming]
+
+      ongoing_lifecycles
+      |> Enum.each(fn lifecycle ->
+        fake_repo_fn = fn _, _, _ ->
+          [%Alerts.Alert{@shuttle_alert | effect: :suspension, lifecycle: lifecycle}]
+        end
+
+        tabs = render_route_header_tabs(conn, fake_repo_fn)
+
+        refute tabs =~ "shuttles-tab"
+      end)
     end
   end
 

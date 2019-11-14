@@ -546,6 +546,7 @@ defmodule SiteWeb.ScheduleView do
   def timetable_note(_), do: nil
 
   defp shuttle_alert?(conn) do
-    conn.assigns[:alerts] |> Enum.find(&(&1.effect == :shuttle))
+    conn.assigns[:alerts]
+    |> Enum.find(&(&1.effect == :shuttle and &1.lifecycle in [:ongoing, :ongoing_upcoming]))
   end
 end

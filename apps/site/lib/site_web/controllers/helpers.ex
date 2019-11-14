@@ -76,10 +76,11 @@ defmodule SiteWeb.ControllerHelpers do
         opts
       ) do
     filter_by_direction? = Keyword.get(opts, :filter_by_direction?, true)
+    alerts_by_route_id_and_type_fn = Keyword.get(opts, :repo_fn, &Repo.by_route_id_and_type/3)
 
     alerts =
       route_id
-      |> Repo.by_route_id_and_type(route_type, date_time)
+      |> alerts_by_route_id_and_type_fn.(route_type, date_time)
       |> Match.match([%InformedEntity{route_type: route_type}, %InformedEntity{route: route_id}])
 
     filtered_alerts =
