@@ -137,6 +137,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
         "Red" -> ["paragraphs/custom-html/shuttles-sidebar-red-line"]
         "Orange" -> ["paragraphs/custom-html/shuttles-sidebar-orange-line"]
         "Green" -> ["paragraphs/custom-html/shuttles-sidebar-green-line"]
+        _ -> []
       end
 
     common_shuttle_paragraphs ++ line_shuttle_paragraphs
