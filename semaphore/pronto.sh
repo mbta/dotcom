@@ -6,7 +6,7 @@ gem install pronto-scss -v 0.9.1
 gem install pronto-credo -v 0.0.8
 
 # run pronto
-MIX_ENV=test pronto run -f github github_status -c origin/master
+MIX_ENV=test pronto run -f github -c origin/master
 npm run format:check
 npm run tslint
 
