@@ -116,7 +116,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     RouteStops.by_direction(stops[route.id], shapes, route, direction_id)
   end
 
-  @spec get_shuttle_paragraphs(Plug.Conn.t()) :: [Phoneix.HTML.safe()]
+  @spec get_shuttle_paragraphs(Plug.Conn.t()) :: [Phoenix.HTML.safe()]
   def get_shuttle_paragraphs(conn) do
     conn
     |> shuttle_paragraphs_by_line()
