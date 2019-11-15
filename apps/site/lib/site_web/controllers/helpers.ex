@@ -155,4 +155,8 @@ defmodule SiteWeb.ControllerHelpers do
 
     "#{Strftime.format!(one_year_after, "%d %b %Y")} 00:00:00 EST"
   end
+
+  def noindex(conn) do
+    Conn.put_resp_header(conn, "x-robots-tag", "noindex")
+  end
 end
