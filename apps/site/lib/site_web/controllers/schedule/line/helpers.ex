@@ -127,16 +127,15 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
 
   @spec shuttle_paragraphs_by_line(Plug.Conn.t()) :: [binary()]
   defp shuttle_paragraphs_by_line(conn) do
-    common_shuttle_paragraphs = [
-      "paragraphs/content-list/shuttles-sidebar-project",
-      "paragraphs/custom-html/shuttles-boilerplate"
-    ]
+    common_shuttle_paragraphs = ["paragraphs/custom-html/shuttles-boilerplate"]
 
     line_shuttle_paragraphs =
       case conn.assigns.route.id do
         "Red" -> ["paragraphs/custom-html/shuttles-sidebar-red-line"]
         "Orange" -> ["paragraphs/custom-html/shuttles-sidebar-orange-line"]
         "Green" -> ["paragraphs/custom-html/shuttles-sidebar-green-line"]
+        "Green-B" -> ["paragraphs/custom-html/shuttles-sidebar-green-line-b"]
+        "Green-D" -> ["paragraphs/custom-html/shuttles-sidebar-green-line-d"]
         _ -> []
       end
 
