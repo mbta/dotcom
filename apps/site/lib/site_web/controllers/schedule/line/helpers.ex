@@ -121,7 +121,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     conn
     |> shuttle_paragraphs_by_line()
     |> Enum.map(&get_paragraph/1)
-    |> Enum.map(&post_process_paragraph/1)
     |> Enum.map(&render_paragraph(&1, conn))
   end
 
@@ -140,15 +139,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
       end
 
     common_shuttle_paragraphs ++ line_shuttle_paragraphs
-  end
-
-  @spec post_process_paragraph(Paragraph.t()) :: Paragraph.t()
-  defp post_process_paragraph(%ContentList{} = content_list) do
-    ContentList.fetch_teasers(content_list)
-  end
-
-  defp post_process_paragraph(normal_paragraph) do
-    normal_paragraph
   end
 
   @spec get_green_branch(
