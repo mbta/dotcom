@@ -1,0 +1,183 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`the station dropdown renders 1`] = `
+<div
+  className="c-select-custom__container"
+>
+  <select
+    className="c-select-custom"
+    defaultValue="place-alfcl"
+    onChange={[Function]}
+  >
+    <option
+      value="place-alfcl"
+    >
+      Alewife
+    </option>
+    <option
+      value="place-davis"
+    >
+      Davis
+    </option>
+    <option
+      value="place-portr"
+    >
+      Porter
+    </option>
+    <option
+      value="place-harsq"
+    >
+      Harvard
+    </option>
+    <option
+      value="place-cntsq"
+    >
+      Central
+    </option>
+    <option
+      value="place-knncl"
+    >
+      Kendall/MIT
+    </option>
+    <option
+      value="place-chmnl"
+    >
+      Charles/MGH
+    </option>
+    <option
+      value="place-pktrm"
+    >
+      Park Street
+    </option>
+    <option
+      value="place-dwnxg"
+    >
+      Downtown Crossing
+    </option>
+    <option
+      value="place-sstat"
+    >
+      South Station
+    </option>
+    <option
+      value="place-brdwy"
+    >
+      Broadway
+    </option>
+    <option
+      value="place-andrw"
+    >
+      Andrew
+    </option>
+    <option
+      value="place-jfk"
+    >
+      JFK/UMass
+    </option>
+    <option
+      value="place-shmnl"
+    >
+      Savin Hill
+    </option>
+    <option
+      value="place-fldcr"
+    >
+      Fields Corner
+    </option>
+    <option
+      value="place-smmnl"
+    >
+      Shawmut
+    </option>
+    <option
+      value="place-asmnl"
+    >
+      Ashmont
+    </option>
+    <option
+      value="place-nqncy"
+    >
+      North Quincy
+    </option>
+    <option
+      value="place-wlsta"
+    >
+      Wollaston
+    </option>
+    <option
+      value="place-qnctr"
+    >
+      Quincy Center
+    </option>
+    <option
+      value="place-qamnl"
+    >
+      Quincy Adams
+    </option>
+    <option
+      value="place-brntn"
+    >
+      Braintree
+    </option>
+    <option
+      value="9070071"
+    >
+      Kendall/MIT
+    </option>
+    <option
+      value="9070073"
+    >
+      Charles/MGH
+    </option>
+    <option
+      value="9070076"
+    >
+      Park Street
+    </option>
+    <option
+      value="6564"
+    >
+      Summer St @ South Station - Red Line entrance
+    </option>
+    <option
+      value="150"
+    >
+      Broadway Station - Red Line
+    </option>
+    <option
+      value="151"
+    >
+      W Broadway @ Broadway Station
+    </option>
+    <option
+      value="892"
+    >
+      Summer St @ Atlantic Ave
+    </option>
+    <option
+      value="6551"
+    >
+      Federal St @ Franklin St
+    </option>
+    <option
+      value="4510"
+    >
+      Cambridge St @ Government Ctr Sta
+    </option>
+    <option
+      value="9070074"
+    >
+      Charles/MGH
+    </option>
+  </select>
+  <span
+    aria-hidden="true"
+    className="notranslate c-svg__icon c-select-custom__arrow"
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "SVG",
+      }
+    }
+  />
+</div>
+`;

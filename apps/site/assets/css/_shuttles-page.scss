@@ -39,3 +39,22 @@
 .c-btn-group-stackable__btn--active {
   @extend .focus;
 }
+
+.c-heading-with-control {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
+
+  @include media-breakpoint-only(xs) {
+    display: initial;
+  }
+}
+
+.m-shuttles-map {
+  margin: $base-spacing 0;
+
+  @include media-breakpoint-down(sm) {
+    margin-left: -$base-spacing;
+    margin-right: -$base-spacing;
+  }
+}

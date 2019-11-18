@@ -117,8 +117,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
 
   @spec get_shuttle_data(Plug.Conn.t()) :: [Phoenix.HTML.safe()]
   def get_shuttle_data(conn) do
-    now = conn.assigns[:date_time] || Util.now()
-    {:ok, data} = ShuttleDiversion.active([conn.assigns.route.id], now)
+    {:ok, data} = ShuttleDiversion.active([conn.assigns.route.id], conn.assigns.date_time)
     data
   end
 
