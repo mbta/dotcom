@@ -23,7 +23,7 @@ defmodule TripPlan.PersonalDetail.Step do
   @type t :: %__MODULE__{
           distance: float,
           relative_direction: relative_direction,
-          absolute_direction: absolute_direction
+          absolute_direction: absolute_direction | nil
         }
   @type relative_direction ::
           :depart

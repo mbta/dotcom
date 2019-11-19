@@ -155,6 +155,8 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
     defp parse_absolute_direction(unquote(String.upcase(Atom.to_string(dir)))), do: unquote(dir)
   end
 
+  defp parse_absolute_direction(nil), do: nil
+
   defp id_after_colon(agency_colon_id) do
     [_agency, id] = String.split(agency_colon_id, ":", parts: 2)
     id

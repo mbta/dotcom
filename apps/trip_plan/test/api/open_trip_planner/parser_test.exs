@@ -21,9 +21,16 @@ defmodule TripPlan.Api.OpenTripPlanner.ParserTest do
       assert first.stop == Timex.to_datetime(~N[2017-05-19T14:03:19], "America/New_York")
     end
 
-    test "returns an error if JSON is invalid" do
+    test "allows null absoluteDirection" do
       pattern = "absoluteDirection\": \"SOUTH\""
       replacement = "absoluteDirection\": null"
+      json = String.replace(@fixture, pattern, replacement)
+      assert {:ok, _itinerary} = parse_json(json)
+    end
+
+    test "returns an error if JSON is invalid" do
+      pattern = "absoluteDirection\": \"SOUTH\""
+      replacement = "absoluteDirection\": \"UP\""
       json = String.replace(@fixture, pattern, replacement)
       assert {:error, :invalid_json} = parse_json(json)
     end
