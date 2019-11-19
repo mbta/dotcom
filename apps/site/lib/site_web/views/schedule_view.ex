@@ -12,7 +12,7 @@ defmodule SiteWeb.ScheduleView do
   alias Phoenix.HTML.Safe
   alias Plug.Conn
   alias Routes.Route
-  alias Site.MapHelpers
+  alias Site.{MapHelpers, ShuttleDiversion}
   alias SiteWeb.PartialView.{HeaderTab, HeaderTabs, SvgIconWithCircle}
   alias Stops.{RouteStop, Stop}
 
@@ -363,6 +363,7 @@ defmodule SiteWeb.ScheduleView do
   def route_header_tabs(conn) do
     route = conn.assigns.route
     tab_params = conn.assigns.tab_params
+    now = conn.assigns[:date_time] || Util.now()
     schedule_link = trip_view_path(conn, :show, route.id, tab_params)
     info_link = line_path(conn, :show, route.id, tab_params)
     timetable_link = timetable_path(conn, :show, route.id, tab_params)
@@ -379,7 +380,7 @@ defmodule SiteWeb.ScheduleView do
     ]
 
     tabs =
-      if Laboratory.enabled?(conn, :shuttles) && shuttle_alert?(conn) do
+      if Laboratory.enabled?(conn, :shuttles) and ShuttleDiversion.active?([route.id], now) do
         [
           %HeaderTab{
             id: "shuttles",
@@ -544,11 +545,6 @@ defmodule SiteWeb.ScheduleView do
   end
 
   def timetable_note(_), do: nil
-
-  defp shuttle_alert?(conn) do
-    conn.assigns[:alerts]
-    |> Enum.find(&(&1.effect == :shuttle and &1.lifecycle in [:ongoing, :ongoing_upcoming]))
-  end
 
   def json_safe_route(route) do
     Route.to_json_safe(route)
