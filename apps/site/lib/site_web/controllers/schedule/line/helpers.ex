@@ -3,8 +3,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   Helpers for the line page
   """
 
-  alias CMS.Partial.Paragraph
-  alias CMS.Partial.Paragraph.ContentList
   alias Routes.Repo, as: RoutesRepo
   alias Routes.{Route, Shape}
   alias Stops.Repo, as: StopsRepo
