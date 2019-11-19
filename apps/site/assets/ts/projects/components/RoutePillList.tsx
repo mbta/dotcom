@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import RouteIcon from "./RouteIcon";
 import RoutePill from "./RoutePill";
-import { Route } from "./__projects";
+import { Route } from "../../__cms";
 import { isSilverLine } from "../../helpers/silver-line";
 
 interface Props {

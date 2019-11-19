@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import { createReactRoot } from "../../app/helpers/testUtils";
-import { SimpleProject as Project } from "../components/__projects";
+import { Teaser as Project } from "../../__cms";
 import MoreProjectsTable, {
   tableHeaderText
 } from "../components/MoreProjectsTable";

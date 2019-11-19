@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { isSilverLine } from "../../helpers/silver-line";
 import formattedDate from "../../helpers/date";
-import { SimpleProject as Project, Route } from "./__projects";
+import { Teaser as Project, Route } from "../../__cms";
 import RouteIcon from "./RouteIcon";
 
 interface Props extends Project {
