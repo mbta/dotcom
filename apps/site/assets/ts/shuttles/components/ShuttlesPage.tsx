@@ -11,7 +11,7 @@ const ShuttlesPage = ({ route }: Props): ReactElement<HTMLElement> => {
     route.id === "Green" ? route.direction_names : route.direction_destinations;
 
   return (
-    <div className="shuttles__main col-sm-12 col-lg-7">
+    <div className="shuttles__main">
       <h2>Shuttle Maps</h2>
       <ShuttlesOverview places={places} />
       <div>Station Detail and dropdown</div>
