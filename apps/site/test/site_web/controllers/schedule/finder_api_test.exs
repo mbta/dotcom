@@ -62,6 +62,24 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
     end
   end
 
+  describe "departures/2" do
+    test "only journeys with predictions are returned", %{conn: conn} do
+      date = Util.now() |> Date.to_iso8601()
+
+      path =
+        finder_api_path(conn, :departures, %{
+          id: "CR-Kingston",
+          direction: "0",
+          date: date,
+          stop: "place-PB-0194"
+        })
+
+      conn
+      |> get(path)
+      |> json_response(200)
+    end
+  end
+
   describe "trip/2" do
     test "trip info is returned", %{conn: conn} do
       date = Util.now() |> Date.to_iso8601()
