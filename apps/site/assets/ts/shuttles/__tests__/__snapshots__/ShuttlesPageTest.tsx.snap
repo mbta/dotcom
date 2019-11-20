@@ -2,7 +2,7 @@
 
 exports[`it renders 1`] = `
 <div
-  className="shuttles__main col-sm-12 col-lg-7"
+  className="shuttles__main"
 >
   <h2>
     Shuttle Maps

@@ -10,14 +10,14 @@
 </script>
 
 <div class="row">
-  <div class="shuttles__main col-xs-10 col-xs-offset-1 col-sm-12 col-sm-offset-0 col-md-8 col-lg-7">
+  <div class="shuttles__main col-md-8 col-lg-7">
     <div id="react-shuttles-root">
       <%= Site.React.render("ShuttlesPage", %{route: json_safe_route(@route)}) %>
     </div>
   </div>
 
   <%= if !Enum.empty?(@paragraphs) do %>
-  <div class="shuttles__sidebar col-xs-10 col-xs-offset-1 col-sm-12 col-sm-offset-0 col-md-4 col-lg-offset-1">
+  <div class="shuttles__sidebar col-md-4 col-lg-offset-1">
     <%= @paragraphs %>
   </div>
   <% end %>
