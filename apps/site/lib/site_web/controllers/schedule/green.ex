@@ -1,7 +1,9 @@
 defmodule SiteWeb.ScheduleController.Green do
   use SiteWeb, :controller
 
+  import SiteWeb.ScheduleController.Line.Helpers, only: [get_shuttle_paragraphs: 1]
   import UrlHelpers, only: [update_url: 2]
+
   alias Schedules.Schedule
   alias SiteWeb.ScheduleController.LineController
   alias SiteWeb.ScheduleView
@@ -58,6 +60,7 @@ defmodule SiteWeb.ScheduleController.Green do
   def shuttles(conn, _params) do
     conn
     |> assign(:tab, "shuttles")
+    |> assign(:paragraphs, get_shuttle_paragraphs(conn))
     |> put_view(ScheduleView)
     |> render("show.html", [])
   end

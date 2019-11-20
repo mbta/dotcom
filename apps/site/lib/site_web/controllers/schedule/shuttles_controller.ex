@@ -5,6 +5,8 @@ defmodule SiteWeb.ScheduleController.ShuttlesController do
 
   alias SiteWeb.ScheduleView
 
+  import SiteWeb.ScheduleController.Line.Helpers, only: [get_shuttle_paragraphs: 1]
+
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.ScheduleController.Defaults)
   plug(:alerts)
@@ -12,9 +14,11 @@ defmodule SiteWeb.ScheduleController.ShuttlesController do
   plug(SiteWeb.ScheduleController.RouteBreadcrumbs)
   plug(:tab_name)
 
+  @spec show(Plug.Conn.t(), any) :: Plug.Conn.t()
   def show(conn, _) do
     conn
     |> put_view(ScheduleView)
+    |> assign(:paragraphs, get_shuttle_paragraphs(conn))
     |> render("show.html", [])
   end
 

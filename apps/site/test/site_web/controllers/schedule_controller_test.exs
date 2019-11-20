@@ -434,6 +434,18 @@ defmodule SiteWeb.ScheduleControllerTest do
       refute Enum.empty?(stops)
       assert Floki.find(stops, ".fa-check") == []
     end
+
+    test "assigned :paragraphs key is available to shuttles template", %{conn: conn} do
+      conn = get(conn, shuttles_path(conn, :show, "Red"))
+
+      assert Map.has_key?(conn.assigns, :paragraphs)
+      assert is_list(conn.assigns.paragraphs)
+
+      green_conn = get(conn, green_path(conn, :shuttles))
+
+      assert Map.has_key?(green_conn.assigns, :paragraphs)
+      assert is_list(green_conn.assigns.paragraphs)
+    end
   end
 
   describe "tab redirects" do
