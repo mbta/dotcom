@@ -1,4 +1,6 @@
 defmodule SiteWeb.Router do
+  @moduledoc false
+
   use SiteWeb, :router
   use Plug.ErrorHandler
   use Sentry.Plug
@@ -140,6 +142,7 @@ defmodule SiteWeb.Router do
     get("/schedules/Green/alerts", ScheduleController.Green, :alerts)
     get("/schedules/Green/shuttles", ScheduleController.Green, :shuttles)
     get("/schedules/Green", ScheduleController.Green, :show)
+    get("/schedules/finder_api/journeys", ScheduleController.FinderApi, :journeys)
 
     get(
       "/schedules/:route/timetable",
