@@ -143,6 +143,7 @@ defmodule SiteWeb.Router do
     get("/schedules/Green/shuttles", ScheduleController.Green, :shuttles)
     get("/schedules/Green", ScheduleController.Green, :show)
     get("/schedules/finder_api/journeys", ScheduleController.FinderApi, :journeys)
+    get("/schedules/finder_api/departures", ScheduleController.FinderApi, :departures)
     get("/schedules/finder_api/trip", ScheduleController.FinderApi, :trip)
 
     get(
