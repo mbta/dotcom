@@ -49,6 +49,40 @@ defmodule SiteWeb.ScheduleController.FinderApi do
     json(conn, journeys)
   end
 
+  @spec departures(Plug.Conn.t(), map) :: Plug.Conn.t()
+  def departures(conn, %{
+        "id" => route_id,
+        "date" => date,
+        "direction" => direction_id,
+        "stop" => stop_id
+      }) do
+    {:ok, date} = Date.from_iso8601(date)
+    today? = Date.diff(date, conn.assigns.date_time) == 0
+    direction_id = String.to_integer(direction_id)
+
+    schedules =
+      Schedules.Repo.by_route_ids([route_id],
+        date: date,
+        direction_id: direction_id,
+        stop_ids: [stop_id]
+      )
+
+    opts = [route: route_id, stop: stop_id, direction_id: direction_id]
+    predictions_fn = &Predictions.Repo.all/1
+    predictions = (today? && predictions_fn.(opts)) || []
+
+    journeys =
+      schedules
+      |> JourneyList.build_predictions_only(predictions, stop_id, nil)
+      |> Map.get(:journeys)
+      |> Enum.map(&lift_up_route/1)
+      |> Enum.map(&json_safe_journey/1)
+      |> Enum.map(&format_schedule_time/1)
+      |> Enum.map(&Map.drop(&1, [:arrival]))
+
+    json(conn, journeys)
+  end
+
   @spec trip(Plug.Conn.t(), map) :: Plug.Conn.t()
   def trip(conn, %{
         "id" => trip_id,
