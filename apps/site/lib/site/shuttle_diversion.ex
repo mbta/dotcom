@@ -55,7 +55,8 @@ defmodule Site.ShuttleDiversion do
   @spec active([Route.id_t()], DateTime.t()) :: {:ok, t()} | {:error, any}
   def active(route_ids, time \\ Util.now()) do
     if active?(route_ids, time) do
-      trips_route = Enum.join(route_ids, ",")
+      true_route_ids = expand_route_ids(route_ids)
+      trips_route = Enum.join(true_route_ids, ",")
 
       trips_params = [
         "filter[date]": time |> Util.service_date() |> Date.to_iso8601(),
@@ -63,7 +64,7 @@ defmodule Site.ShuttleDiversion do
       ]
 
       with %JsonApi{data: trips} <- Trips.by_route(trips_route, trips_params),
-           route_stops when is_list(route_stops) <- Stops.by_routes(route_ids, 0),
+           route_stops when is_list(route_stops) <- Stops.by_routes(true_route_ids, 0),
            relevant_trips = shuttle_related_trips(trips) do
         {:ok,
          %__MODULE__{
@@ -134,6 +135,11 @@ defmodule Site.ShuttleDiversion do
   defp decode_polyline(encoded_line) do
     encoded_line |> Polyline.decode() |> Enum.map(fn {lng, lat} -> [lat, lng] end)
   end
+
+  # Allow the otherwise-invalid route ID "Green" to stand in for all Green Line routes.
+  defp expand_route_ids(["Green" | rest]), do: GreenLine.branch_ids() ++ expand_route_ids(rest)
+  defp expand_route_ids([route_id | rest]), do: [route_id | expand_route_ids(rest)]
+  defp expand_route_ids([]), do: []
 
   defp ongoing_shuttle_alerts(route_ids, time) do
     route_ids
