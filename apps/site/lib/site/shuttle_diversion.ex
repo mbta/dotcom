@@ -25,12 +25,13 @@ defmodule Site.ShuttleDiversion do
     @moduledoc "Derivative of an API `stop` tailored for drawing a shuttle diversion map."
 
     @enforce_keys [:id, :name, :type, :latitude, :longitude]
-    defstruct @enforce_keys
+    defstruct [:direction_id | @enforce_keys]
 
     @type t :: %__MODULE__{
             id: String.t(),
             name: String.t(),
             type: :rail_unaffected | :rail_affected | :shuttle,
+            direction_id: nil | 0 | 1,
             latitude: float,
             longitude: float
           }
@@ -116,13 +117,14 @@ defmodule Site.ShuttleDiversion do
   defp build_shuttle_stops(trips) do
     trips
     |> Stream.filter(&shuttle_route?/1)
-    |> Stream.flat_map(&stops/1)
-    |> Stream.uniq_by(& &1.id)
-    |> Enum.map(fn stop ->
+    |> Stream.flat_map(&stops_with_direction/1)
+    |> Stream.uniq_by(fn {_, stop} -> stop.id end)
+    |> Enum.map(fn {direction_id, stop} ->
       %Stop{
         id: stop.id,
         name: stop.attributes["name"],
         type: :shuttle,
+        direction_id: direction_id,
         latitude: stop.attributes["latitude"],
         longitude: stop.attributes["longitude"]
       }
@@ -163,4 +165,8 @@ defmodule Site.ShuttleDiversion do
 
   defp stops(%{relationships: %{"shape" => [%{relationships: %{"stops" => stops}}]}}), do: stops
   defp stops(_trip), do: []
+
+  defp stops_with_direction(%{attributes: %{"direction_id" => direction_id}} = trip) do
+    trip |> stops() |> Enum.map(& {direction_id, &1})
+  end
 end
