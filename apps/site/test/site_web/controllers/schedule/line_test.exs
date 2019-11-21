@@ -2,6 +2,8 @@ defmodule SiteWeb.ScheduleController.LineTest do
   use SiteWeb.ConnCase, async: true
   import SiteWeb.ScheduleController.Line.Helpers
   import SiteWeb.ScheduleController.Line.DiagramHelpers
+  alias Plug.Conn
+  alias Routes.Route
   alias Stops.{RouteStop, RouteStops}
 
   doctest SiteWeb.ScheduleController.Line
@@ -444,6 +446,21 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> get(line_path(conn, :line_diagram_api, "39"))
 
       assert html_response(conn, 200) =~ "Forest Hills"
+    end
+  end
+
+  describe "get_shuttle_data" do
+    test "returns empty data when given a route and a date_time without shuttle service", %{
+      conn: conn
+    } do
+      conn =
+        conn
+        |> Conn.assign(:route, %Route{id: "Red", type: 1})
+        |> Conn.assign(:date_time, ~N[2019-11-25T12:00:00])
+
+      expected = %Site.ShuttleDiversion{shapes: [], stops: []}
+      data = get_shuttle_data(conn)
+      assert data == expected
     end
   end
 end

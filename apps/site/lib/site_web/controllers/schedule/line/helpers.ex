@@ -5,6 +5,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
 
   alias Routes.Repo, as: RoutesRepo
   alias Routes.{Route, Shape}
+  alias Site.ShuttleDiversion
   alias Stops.Repo, as: StopsRepo
   alias Stops.{RouteStop, RouteStops, Stop}
 
@@ -112,6 +113,13 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
 
   def get_branches(shapes, stops, route, direction_id) do
     RouteStops.by_direction(stops[route.id], shapes, route, direction_id)
+  end
+
+  @spec get_shuttle_data(Plug.Conn.t()) :: [Phoenix.HTML.safe()]
+  def get_shuttle_data(conn) do
+    now = conn.assigns[:date_time] || Util.now()
+    {:ok, data} = ShuttleDiversion.active([conn.assigns.route.id], now)
+    data
   end
 
   @spec get_shuttle_paragraphs(Plug.Conn.t()) :: [Phoenix.HTML.safe()]
