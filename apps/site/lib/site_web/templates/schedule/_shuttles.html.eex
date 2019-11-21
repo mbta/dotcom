@@ -6,7 +6,7 @@
 <% end %>
 
 <script id="shuttles-page-data" type="text/plain">
-  <%= raw Poison.encode!(%{route: json_safe_route(@route)}) %>
+  <%= raw Poison.encode!(%{route: json_safe_route(@route), diversions: @shuttle_data }) %>
 </script>
 
 <div class="row">
@@ -16,7 +16,7 @@
 
   <div class="shuttles__main col-md-8 col-lg-7">
     <div id="react-shuttles-root">
-      <%= Site.React.render("ShuttlesPage", %{route: json_safe_route(@route)}) %>
+      <%= Site.React.render("ShuttlesPage", %{route: json_safe_route(@route), diversions: @shuttle_data}) %>
     </div>
   </div>
 

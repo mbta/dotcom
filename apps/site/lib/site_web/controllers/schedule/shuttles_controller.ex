@@ -6,7 +6,8 @@ defmodule SiteWeb.ScheduleController.ShuttlesController do
   alias SiteWeb.ControllerHelpers
   alias SiteWeb.ScheduleView
 
-  import SiteWeb.ScheduleController.Line.Helpers, only: [get_shuttle_paragraphs: 1]
+  import SiteWeb.ScheduleController.Line.Helpers,
+    only: [get_shuttle_paragraphs: 1, get_shuttle_data: 1]
 
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.ScheduleController.Defaults)
@@ -21,6 +22,7 @@ defmodule SiteWeb.ScheduleController.ShuttlesController do
     |> put_view(ScheduleView)
     |> ControllerHelpers.noindex()
     |> assign(:paragraphs, get_shuttle_paragraphs(conn))
+    |> assign(:shuttle_data, get_shuttle_data(conn))
     |> render("show.html", [])
   end
 
