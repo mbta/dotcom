@@ -167,6 +167,6 @@ defmodule Site.ShuttleDiversion do
   defp stops(_trip), do: []
 
   defp stops_with_direction(%{attributes: %{"direction_id" => direction_id}} = trip) do
-    trip |> stops() |> Enum.map(& {direction_id, &1})
+    trip |> stops() |> Enum.map(&{direction_id, &1})
   end
 end
