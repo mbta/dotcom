@@ -95,6 +95,9 @@ const Component = ({
               positions={polyline.positions}
               color={polyline.color}
               weight={polyline.weight}
+              dashArray={polyline["dotted?"] ? "4px 8px" : "none"}
+              lineCap={polyline["dotted?"] ? "butt" : "round"}
+              lineJoin={polyline["dotted?"] ? "miter" : "round"}
             />
           )
         )}

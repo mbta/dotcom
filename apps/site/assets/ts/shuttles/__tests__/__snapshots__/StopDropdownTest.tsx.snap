@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`the station dropdown renders 1`] = `
+exports[`the stop dropdown renders 1`] = `
 <div
   className="c-select-custom__container"
 >
   <select
     className="c-select-custom"
-    defaultValue="place-alfcl"
     onChange={[Function]}
+    value="place-alfcl"
   >
     <option
       value="place-alfcl"
