@@ -71,7 +71,7 @@ defmodule Site.ShuttleDiversion do
           %JsonApi{data: d_trips ++ other_trips}
         end
       else
-        Trips.by_route(route_ids, params)
+        Trips.by_route(routes, params)
       end
     end
   end
