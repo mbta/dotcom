@@ -10,6 +10,10 @@
 </script>
 
 <div class="row">
+  <div class="shuttles__alerts col-md-12">
+    <%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high) %>
+  </div>
+
   <div class="shuttles__main col-md-8 col-lg-7">
     <div id="react-shuttles-root">
       <%= Site.React.render("ShuttlesPage", %{route: json_safe_route(@route)}) %>
