@@ -5,6 +5,7 @@ export type MaybeDirectionId = DirectionId | null;
 export interface Stop {
   id: string;
   direction_id: MaybeDirectionId;
+  headsign: string | null;
   longitude: number;
   latitude: number;
   name: string;
@@ -12,18 +13,14 @@ export interface Stop {
 }
 
 export interface Shape {
+  color: string;
   direction_id: MaybeDirectionId;
   id: string;
   is_shuttle_route: boolean;
-  polyline: number[][];
+  polyline: [number, number][];
 }
 
 export interface Diversion {
   shapes: Shape[];
   stops: Stop[];
-}
-
-export interface Coordinates {
-  longitude: number;
-  latitude: number;
 }

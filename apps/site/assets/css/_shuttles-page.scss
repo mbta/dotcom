@@ -51,6 +51,7 @@
 }
 
 .m-shuttles-map {
+  height: 400px;
   margin: $base-spacing 0;
 
   @include media-breakpoint-down(sm) {

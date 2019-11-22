@@ -76,6 +76,7 @@ export interface Prediction {
 }
 
 export interface Route {
+  color?: string;
   description: string;
   direction_destinations: DirectionInfo;
   direction_names: DirectionInfo;

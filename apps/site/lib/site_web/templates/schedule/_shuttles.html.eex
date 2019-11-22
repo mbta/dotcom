@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
+
 <%= if Application.get_env(:site, :dev_server?) do %>
   <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/shuttles.js" %>"></script>
 <% else %>
@@ -6,7 +8,7 @@
 <% end %>
 
 <script id="shuttles-page-data" type="text/plain">
-  <%= raw Poison.encode!(%{route: json_safe_route(@route), diversions: @shuttle_data }) %>
+  <%= raw Poison.encode!(%{route: json_safe_route(@route), diversions: @shuttle_data, tileServerUrl: Application.fetch_env!(:site, :tile_server_url) }) %>
 </script>
 
 <div class="row">
@@ -16,7 +18,7 @@
 
   <div class="shuttles__main col-md-8 col-lg-7">
     <div id="react-shuttles-root">
-      <%= Site.React.render("ShuttlesPage", %{route: json_safe_route(@route), diversions: @shuttle_data}) %>
+      <%= Site.React.render("ShuttlesPage", %{route: json_safe_route(@route), diversions: @shuttle_data, tileServerUrl: Application.fetch_env!(:site, :tile_server_url)}) %>
     </div>
   </div>
 

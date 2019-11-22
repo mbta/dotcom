@@ -1,52 +1,62 @@
 import React, { ReactElement, useState, useEffect } from "react";
 import ShuttlesMap from "./ShuttlesMap";
-import StationDropdown from "./StationDropdown";
+import StopDropdown from "./StopDropdown";
 import { Route } from "../../__v3api";
-import { Coordinates, Diversion, MaybeDirectionId } from "./__shuttles";
+import { Diversion, MaybeDirectionId } from "./__shuttles";
+import { TileServerUrl } from "../../leaflet/components/__mapdata";
 
 interface Props {
   route: Route;
   diversions: Diversion;
+  tileServerUrl: TileServerUrl;
 }
 
-const ShuttlesPage = ({
+const ShuttlesPage: React.FC<Props> = ({
   route,
-  diversions
+  diversions,
+  tileServerUrl
 }: Props): ReactElement<HTMLElement> => {
   const places =
     route.id === "Green" ? route.direction_names : route.direction_destinations;
-
+  const initialShapes = [...diversions.shapes].map(shape => ({
+    color: route.color,
+    ...shape
+  }));
+  const initialStops = [...diversions.stops].map(stop => ({
+    headsign:
+      stop.direction_id === null ? "All Directions" : places[stop.direction_id],
+    ...stop
+  }));
   const [selectedDirectionId, setSelectedDirectionId] = useState<
     MaybeDirectionId
   >(null);
-  const [displayedShapes, setDisplayedShapes] = useState([
-    ...diversions.shapes
-  ]);
-  const [displayedStops, setDisplayedStops] = useState([...diversions.stops]);
-  const [mapCenter, setMapCenter] = useState<Coordinates>();
-
-  useEffect(
-    () => {
-      if (selectedDirectionId === null) {
-        setDisplayedShapes([...diversions.shapes]);
-        setDisplayedStops([...diversions.stops]);
-      } else {
-        setDisplayedShapes(
-          diversions.shapes.filter(
-            shape => shape.direction_id === selectedDirectionId
-          )
-        );
-        setDisplayedStops(
-          diversions.stops.filter(
-            stop =>
-              stop.direction_id === selectedDirectionId ||
-              stop.direction_id === null
-          )
-        );
-      }
-    },
-    [diversions, selectedDirectionId]
+  const [displayedShapes, setDisplayedShapes] = useState(initialShapes);
+  const [displayedStops, setDisplayedStops] = useState(initialStops);
+  const [selectedStop, setSelectedStop] = useState(
+    initialStops.sort().filter(s => s.type === "rail_affected")[0]
   );
+
+  const filterMap = (): void => {
+    if (selectedDirectionId === null) {
+      setDisplayedShapes(initialShapes);
+      setDisplayedStops(initialStops);
+    } else {
+      setDisplayedShapes(
+        initialShapes.filter(
+          shape => shape.direction_id === selectedDirectionId
+        )
+      );
+      setDisplayedStops(
+        initialStops.filter(
+          stop =>
+            stop.direction_id === selectedDirectionId ||
+            stop.direction_id === null
+        )
+      );
+    }
+  };
+
+  useEffect(filterMap, [selectedDirectionId]);
 
   const DirectionButton = (
     directionId: MaybeDirectionId,
@@ -62,16 +72,6 @@ const ShuttlesPage = ({
       {headsign}
     </button>
   );
-
-  const centerMapOnStation = (stationId: string): void => {
-    const station = diversions.stops.find(stop => stop.id === stationId);
-    if (station) {
-      setMapCenter({
-        longitude: station.longitude,
-        latitude: station.latitude
-      });
-    }
-  };
 
   return (
     <div className="shuttles__main">
@@ -93,22 +93,27 @@ const ShuttlesPage = ({
           )}
       </div>
 
-      <ShuttlesMap shapes={displayedShapes} stops={displayedStops} />
+      <ShuttlesMap
+        tileServerUrl={tileServerUrl}
+        shapes={displayedShapes}
+        stops={displayedStops}
+      />
 
       <div className="c-heading-with-control">
-        <h3>Station Detail</h3>
+        <h3>Stop Detail</h3>
 
-        <StationDropdown
-          stations={diversions.stops
+        <StopDropdown
+          stops={diversions.stops
             .sort()
             .filter(stop => stop.type === "rail_affected")}
-          onSelect={centerMapOnStation}
+          onSelect={setSelectedStop}
         />
       </div>
       <ShuttlesMap
+        tileServerUrl={tileServerUrl}
         shapes={displayedShapes}
         stops={displayedStops}
-        center={mapCenter}
+        centerStop={selectedStop}
       />
     </div>
   );

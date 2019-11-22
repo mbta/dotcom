@@ -214,7 +214,8 @@ defmodule Routes.Repo do
         1 => "Park Street / Government Center / North Station / Lechmere"
       },
       type: 0,
-      description: :rapid_transit
+      description: :rapid_transit,
+      color: "00843D"
     }
   end
 end
