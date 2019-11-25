@@ -13,6 +13,7 @@ defmodule Routes.RepoTest do
                type: 1,
                name: "Red Line",
                long_name: "Red Line",
+               color: "DA291C",
                direction_names: %{0 => "Southbound", 1 => "Northbound"},
                direction_destinations: %{0 => "Ashmont/Braintree", 1 => "Alewife"},
                description: :rapid_transit
@@ -29,6 +30,7 @@ defmodule Routes.RepoTest do
                type: 0,
                name: "Green Line B",
                long_name: "Green Line B",
+               color: "00843D",
                direction_names: %{0 => "Westbound", 1 => "Eastbound"},
                direction_destinations: %{0 => "Boston College", 1 => "Park Street"},
                description: :rapid_transit
@@ -45,6 +47,7 @@ defmodule Routes.RepoTest do
                type: 3,
                name: "SL1",
                long_name: "Logan Airport - South Station",
+               color: "7C878E",
                direction_destinations: %{0 => "Logan Airport", 1 => "South Station"},
                description: :key_bus_route
              }
@@ -60,6 +63,7 @@ defmodule Routes.RepoTest do
                type: 3,
                name: "23",
                long_name: "Ashmont - Ruggles via Washington Street",
+               color: "FFC72C",
                direction_destinations: %{0 => "Ashmont", 1 => "Ruggles"},
                description: :key_bus_route
              }

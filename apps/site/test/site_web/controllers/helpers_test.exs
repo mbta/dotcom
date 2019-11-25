@@ -360,43 +360,6 @@ defmodule SiteWeb.ControllerHelpersTest do
   end
 
   test "green_routes/0" do
-    assert green_routes() == [
-             %Routes.Route{
-               description: :rapid_transit,
-               direction_names: %{0 => "Westbound", 1 => "Eastbound"},
-               direction_destinations: %{0 => "Boston College", 1 => "Park Street"},
-               id: "Green-B",
-               long_name: "Green Line B",
-               name: "Green Line B",
-               type: 0
-             },
-             %Routes.Route{
-               description: :rapid_transit,
-               direction_names: %{0 => "Westbound", 1 => "Eastbound"},
-               direction_destinations: %{0 => "Cleveland Circle", 1 => "North Station"},
-               id: "Green-C",
-               long_name: "Green Line C",
-               name: "Green Line C",
-               type: 0
-             },
-             %Routes.Route{
-               description: :rapid_transit,
-               direction_names: %{0 => "Westbound", 1 => "Eastbound"},
-               direction_destinations: %{0 => "Riverside", 1 => "Government Center"},
-               id: "Green-D",
-               long_name: "Green Line D",
-               name: "Green Line D",
-               type: 0
-             },
-             %Routes.Route{
-               description: :rapid_transit,
-               direction_names: %{0 => "Westbound", 1 => "Eastbound"},
-               direction_destinations: %{0 => "Heath Street", 1 => "Lechmere"},
-               id: "Green-E",
-               long_name: "Green Line E",
-               name: "Green Line E",
-               type: 0
-             }
-           ]
+    assert Enum.map(green_routes(), & &1.id) == ["Green-B", "Green-C", "Green-D", "Green-E"]
   end
 end

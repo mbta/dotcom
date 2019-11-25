@@ -5,6 +5,7 @@ defmodule Routes.Route do
             type: 0,
             name: "",
             long_name: "",
+            color: "",
             direction_names: %{0 => "Outbound", 1 => "Inbound"},
             direction_destinations: :unknown,
             description: :unknown,
@@ -16,6 +17,7 @@ defmodule Routes.Route do
           type: 0..4,
           name: String.t(),
           long_name: String.t(),
+          color: String.t(),
           direction_names: %{0 => String.t(), 1 => String.t()},
           direction_destinations: %{0 => String.t(), 1 => String.t()} | :unknown,
           description: gtfs_route_desc,
@@ -202,6 +204,7 @@ defmodule Routes.Route do
         type: type,
         name: name,
         long_name: long_name,
+        color: color,
         direction_names: direction_names,
         direction_destinations: direction_destinations,
         description: description,
@@ -220,6 +223,7 @@ defmodule Routes.Route do
       type: type,
       name: name,
       long_name: long_name,
+      color: color,
       direction_names: %{
         "0" => direction_names[0],
         "1" => direction_names[1]
