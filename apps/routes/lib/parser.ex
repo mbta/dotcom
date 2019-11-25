@@ -10,6 +10,7 @@ defmodule Routes.Parser do
       type: attributes["type"],
       name: name(attributes),
       long_name: attributes["long_name"],
+      color: attributes["color"],
       direction_names: direction_bound_attrs(attributes["direction_names"]),
       direction_destinations: direction_attrs(attributes["direction_destinations"]),
       description: parse_gtfs_desc(attributes["description"])

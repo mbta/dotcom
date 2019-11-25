@@ -23,7 +23,8 @@ defmodule Site.RealtimeScheduleTest do
     id: "Orange",
     long_name: "Orange Line",
     name: "Orange Line",
-    type: 1
+    type: 1,
+    color: "ED8B00"
   }
 
   @route_with_patterns [
@@ -251,7 +252,8 @@ defmodule Site.RealtimeScheduleTest do
           id: "Orange",
           long_name: "Orange Line",
           name: "Orange Line",
-          type: 1
+          type: 1,
+          color: "ED8B00"
         }
       }
     ]

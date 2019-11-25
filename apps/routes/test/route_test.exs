@@ -196,7 +196,8 @@ defmodule Routes.RouteTest do
         id: "Red",
         long_name: "Red Line",
         name: "Red Line",
-        type: 1
+        type: 1,
+        color: "DA291C"
       }
 
       expected = %{
@@ -207,7 +208,8 @@ defmodule Routes.RouteTest do
         id: "Red",
         long_name: "Red Line",
         name: "Red Line",
-        type: 1
+        type: 1,
+        color: "DA291C"
       }
 
       assert Route.to_json_safe(route) == expected
