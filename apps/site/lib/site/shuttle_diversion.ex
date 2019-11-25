@@ -99,7 +99,7 @@ defmodule Site.ShuttleDiversion do
 
       trips_params = [
         "filter[date]": time |> Util.service_date() |> Date.to_iso8601(),
-        include: "route,service,shape,shape.stops"
+        include: "route,route_pattern,shape,shape.stops"
       ]
 
       with %JsonApi{data: trips} <- TripsHack.by_route(trips_route, trips_params),
@@ -199,7 +199,7 @@ defmodule Site.ShuttleDiversion do
   defp shuttle_related?(trip) do
     # Typicality 4 indicates major changes in service due to a planned disruption. This might not
     # always mean there's a shuttle service, but it's the best identifying attribute we have.
-    hd(trip.relationships["service"]).attributes["schedule_typicality"] == 4
+    hd(trip.relationships["route_pattern"]).attributes["typicality"] == 4
   end
 
   defp shuttle_route?(trip) do
