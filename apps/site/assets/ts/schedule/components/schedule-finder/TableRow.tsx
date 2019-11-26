@@ -1,59 +1,70 @@
-import React, { useState, ReactElement } from "react";
-import { ScheduleWithFare, ScheduleInfo } from "../__schedule";
+import React, { useEffect, useState, useReducer, ReactElement } from "react";
+import { reducer } from "../../../helpers/fetch";
+import { Journey, TripInfo } from "../__trips";
 import { RoutePillSmall } from "./UpcomingDepartures";
 import { modeIcon, caret } from "../../../helpers/icon";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { breakTextAtSlash } from "../../../helpers/text";
-
-const totalMinutes = (schedules: ScheduleInfo): string => schedules.duration;
+import { TripDetails } from "./TripDetails";
+import { UserInput } from "../ScheduleFinder";
 
 interface Props {
+  input: UserInput;
+  journey: Journey;
   isSchoolTrip: boolean;
-  schedules: ScheduleInfo;
   anySchoolTrips: boolean;
 }
 
-const TripInfo = ({
-  schedules
-}: {
-  schedules: ScheduleInfo;
-}): ReactElement<HTMLElement> => {
-  const lastTrip = schedules.schedules[schedules.schedules.length - 1];
+type fetchAction =
+  | { type: "FETCH_COMPLETE"; payload: TripInfo }
+  | { type: "FETCH_ERROR" }
+  | { type: "FETCH_STARTED" };
+
+export const fetchData = (
+  tripId: string,
+  { route, direction, date, origin }: UserInput,
+  dispatch: (action: fetchAction) => void
+): Promise<void> => {
+  dispatch({ type: "FETCH_STARTED" });
   return (
-    <tr>
-      <td colSpan={3}>
-        <div className="schedule-table__subtable-trip-info">
-          <div className="schedule-table__subtable-trip-info-title u-small-caps u-bold">
-            Trip length
-          </div>
-          {schedules.schedules.length} stops, {totalMinutes(schedules)} minutes
-          total
-        </div>
-        <div className="schedule-table__subtable-trip-info">
-          <div className="schedule-table__subtable-trip-info-title u-small-caps u-bold">
-            Fare
-          </div>
-          {lastTrip.price}
-          <a
-            className="schedule-table__subtable-trip-info-link"
-            href={lastTrip.fare_link}
-          >
-            View fares
-          </a>
-        </div>
-      </td>
-    </tr>
+    window.fetch &&
+    window
+      .fetch(
+        `/schedules/finder_api/trip?id=${tripId}&route=${route}&date=${date}&direction=${direction}&stop=${origin}`
+      )
+      .then(response => {
+        if (response.ok) return response.json();
+        throw new Error(response.statusText);
+      })
+      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
+      // @ts-ignore
+      .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
 };
 
 const BusTableRow = ({
-  schedules,
+  input,
+  journey,
   isSchoolTrip,
   anySchoolTrips
 }: Props): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
-  const firstSchedule = schedules.schedules[0];
-  const onClick = (): void => setExpanded(!expanded);
+  const [state, dispatch] = useReducer(reducer, {
+    data: null,
+    isLoading: false,
+    error: false
+  });
+
+  const toggle = (): void => setExpanded(!expanded);
+
+  useEffect(
+    () => {
+      if (expanded && state.data === null && !state.isLoading && !state.error) {
+        fetchData(journey.trip.id, input, dispatch);
+      }
+    },
+    [journey.trip.id, input, expanded, state]
+  );
 
   return (
     <>
@@ -61,11 +72,11 @@ const BusTableRow = ({
         className={
           expanded ? "schedule-table__row-selected" : "schedule-table__row"
         }
-        aria-controls={`trip-${firstSchedule.trip.id}`}
+        aria-controls={`trip-${journey.trip.id}`}
         aria-expanded={expanded}
         role="button"
-        onClick={onClick}
-        onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
+        onClick={toggle}
+        onKeyPress={e => handleReactEnterKeyPress(e, toggle)}
         tabIndex={0}
       >
         {anySchoolTrips && (
@@ -74,13 +85,13 @@ const BusTableRow = ({
           </td>
         )}
         <td className="schedule-table__td schedule-table__time">
-          {firstSchedule.time}
+          {journey.departure.time}
         </td>
         <td className="schedule-table__td">
           <div className="schedule-table__row-route">
-            <RoutePillSmall route={firstSchedule.route} />
+            <RoutePillSmall route={journey.route} />
           </div>
-          {breakTextAtSlash(firstSchedule.trip.headsign)}
+          {breakTextAtSlash(journey.trip.headsign)}
         </td>
         <td className="schedule-table__td schedule-table__td--flex-end">
           {caret(
@@ -91,43 +102,11 @@ const BusTableRow = ({
       </tr>
       {expanded && (
         <tr
+          id={`trip-${journey.trip.id}`}
           className="schedule-table__subtable-container"
-          id={`trip-${firstSchedule.trip.id}`}
         >
           <td className="schedule-table__subtable-td">
-            <table className="schedule-table__subtable">
-              <thead>
-                <TripInfo schedules={schedules} />
-                <tr>
-                  <th scope="col" className="schedule-table__subtable-data">
-                    Stops
-                  </th>
-                  <th
-                    scope="col"
-                    className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                  >
-                    Arrival
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="schedule-table__subtable-tbody">
-                {schedules.schedules.map((schedule: ScheduleWithFare) => (
-                  <tr
-                    key={`${schedule.stop.id}-${schedule.trip.id}`}
-                    className="schedule-table__subtable-row"
-                  >
-                    <td className="schedule-table__subtable-data">
-                      <a href={`/stops/${schedule.stop.id}`}>
-                        {breakTextAtSlash(schedule.stop.name)}
-                      </a>
-                    </td>
-                    <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
-                      {schedule.time}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <TripDetails state={state} fare={false} />
           </td>
         </tr>
       )}
@@ -136,13 +115,28 @@ const BusTableRow = ({
 };
 
 const CrTableRow = ({
-  schedules,
+  input,
+  journey,
   isSchoolTrip,
   anySchoolTrips
 }: Props): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
-  const firstSchedule = schedules.schedules[0];
-  const onClick = (): void => setExpanded(!expanded);
+  const [state, dispatch] = useReducer(reducer, {
+    data: null,
+    isLoading: false,
+    error: false
+  });
+
+  const toggle = (): void => setExpanded(!expanded);
+
+  useEffect(
+    () => {
+      if (expanded && state.data === null && !state.isLoading && !state.error) {
+        fetchData(journey.trip.id, input, dispatch);
+      }
+    },
+    [journey.trip.id, input, expanded, state]
+  );
 
   return (
     <>
@@ -150,11 +144,11 @@ const CrTableRow = ({
         className={
           expanded ? "schedule-table__row-selected" : "schedule-table__row"
         }
-        aria-controls={`trip-${firstSchedule.trip.id}`}
+        aria-controls={`trip-${journey.trip.id}`}
         aria-expanded={expanded}
         role="button"
-        onClick={onClick}
-        onKeyPress={e => handleReactEnterKeyPress(e, onClick)}
+        onClick={toggle}
+        onKeyPress={e => handleReactEnterKeyPress(e, toggle)}
         tabIndex={0}
       >
         {anySchoolTrips && (
@@ -163,16 +157,15 @@ const CrTableRow = ({
           </td>
         )}
         <td className="schedule-table__td">
-          <div className="schedule-table__time">{firstSchedule.time}</div>
+          <div className="schedule-table__time">{journey.departure.time}</div>
         </td>
-        {firstSchedule.trip.name && (
+        {journey.trip.name && (
           <td className="schedule-table__td schedule-table__tab-num">
-            {firstSchedule.trip.name}
+            {journey.trip.name}
           </td>
         )}
         <td className="schedule-table__headsign">
-          {modeIcon(firstSchedule.route.id)}{" "}
-          {breakTextAtSlash(firstSchedule.trip.headsign)}
+          {modeIcon(journey.route.id)} {breakTextAtSlash(journey.trip.headsign)}
         </td>
         <td className="schedule-table__td schedule-table__td--flex-end">
           {caret(
@@ -183,57 +176,11 @@ const CrTableRow = ({
       </tr>
       {expanded && (
         <tr
-          id={`trip-${firstSchedule.trip.id}`}
+          id={`trip-${journey.trip.id}`}
           className="schedule-table__subtable-container"
         >
           <td className="schedule-table__subtable-td">
-            <table className="schedule-table__subtable">
-              <thead>
-                <TripInfo schedules={schedules} />
-                <tr className="schedule-table__subtable-row">
-                  <th
-                    scope="col"
-                    className="schedule-table__subtable-data schedule-table__subtable-data--long"
-                  >
-                    Stops
-                  </th>
-                  <th
-                    scope="col"
-                    className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                  >
-                    Fare
-                  </th>
-                  <th
-                    scope="col"
-                    className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
-                  >
-                    Arrival
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="schedule-table__subtable-tbody">
-                {schedules.schedules.map(
-                  (schedule: ScheduleWithFare, index: number) => (
-                    <tr
-                      key={`${schedule.stop.id}-${schedule.trip.id}`}
-                      className="schedule-table__subtable-row"
-                    >
-                      <td className="schedule-table__subtable-data">
-                        <a href={`/stops/${schedule.stop.id}`}>
-                          {breakTextAtSlash(schedule.stop.name)}
-                        </a>
-                      </td>
-                      <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
-                        {index === 0 ? "" : schedule.price}
-                      </td>
-                      <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
-                        {schedule.time}
-                      </td>
-                    </tr>
-                  )
-                )}
-              </tbody>
-            </table>
+            <TripDetails state={state} fare />
           </td>
         </tr>
       )}
@@ -242,21 +189,24 @@ const CrTableRow = ({
 };
 
 const TableRow = ({
-  schedules,
+  input,
+  journey,
   isSchoolTrip,
   anySchoolTrips
 }: Props): ReactElement<HTMLElement> | null => {
-  if (schedules.schedules[0].route.type === 3)
+  if (journey.route.type === 3)
     return (
       <BusTableRow
-        schedules={schedules}
+        input={input}
+        journey={journey}
         isSchoolTrip={isSchoolTrip}
         anySchoolTrips={anySchoolTrips}
       />
     );
   return (
     <CrTableRow
-      schedules={schedules}
+      input={input}
+      journey={journey}
       isSchoolTrip={isSchoolTrip}
       anySchoolTrips={anySchoolTrips}
     />

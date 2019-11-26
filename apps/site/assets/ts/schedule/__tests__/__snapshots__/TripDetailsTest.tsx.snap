@@ -1,0 +1,567 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TripDetails it renders an error if fetch failed 1`] = `
+<p>
+  <em>
+    Error loading trip details. Please try again later.
+  </em>
+</p>
+`;
+
+exports[`TripDetails it renders trip details for a CR trip 1`] = `
+<table
+  className="schedule-table__subtable"
+>
+  <thead>
+    <tr>
+      <td
+        colSpan={3}
+      >
+        <div
+          className="schedule-table__subtable-trip-info"
+        >
+          <div
+            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+          >
+            Trip length
+          </div>
+          10
+           stops, 
+          69
+           minutes total
+        </div>
+        <div
+          className="schedule-table__subtable-trip-info"
+        >
+          <div
+            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+          >
+            Fare
+          </div>
+          $12.25
+          <a
+            className="schedule-table__subtable-trip-info-link"
+            href="/fares/commuter_rail?destination=place-NEC-1851&origin=place-sstat"
+          >
+            View fares
+          </a>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__subtable-data"
+        scope="col"
+      >
+        Stops
+      </th>
+      <th
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        scope="col"
+      >
+        Fare
+      </th>
+      <th
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        scope="col"
+      >
+        Arrival
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    className="schedule-table__subtable-tbody"
+  >
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-sstat"
+        >
+          South Station
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        02:30 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-bbsta"
+        >
+          Back Bay
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        $2.40
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        02:35 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-rugg"
+        >
+          Ruggles
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        $2.40
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        02:38 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-NEC-2173"
+        >
+          Route 128
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        $7.00
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        02:51 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-NEC-2139"
+        >
+          Canton Junction
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        $8.00
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        02:57 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-NEC-2108"
+        >
+          Sharon
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        $8.75
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        03:03 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-NEC-2040"
+        >
+          Mansfield
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        $10.50
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        03:11 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-NEC-1969"
+        >
+          Attleboro
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        $11.00
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        03:19 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-NEC-1919"
+        >
+          South Attleboro
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        $11.00
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        03:29 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-NEC-1851"
+        >
+          Providence
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        $12.25
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        03:39 PM
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`TripDetails it renders trip details for a bus trip 1`] = `
+<table
+  className="schedule-table__subtable"
+>
+  <thead>
+    <tr>
+      <td
+        colSpan={3}
+      >
+        <div
+          className="schedule-table__subtable-trip-info"
+        >
+          <div
+            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+          >
+            Trip length
+          </div>
+          11
+           stops, 
+          14
+           minutes total
+        </div>
+        <div
+          className="schedule-table__subtable-trip-info"
+        >
+          <div
+            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+          >
+            Fare
+          </div>
+          $2.40
+          <a
+            className="schedule-table__subtable-trip-info-link"
+            href="/fares/bus-fares"
+          >
+            View fares
+          </a>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__subtable-data"
+        scope="col"
+      >
+        Stops
+      </th>
+      <th
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        scope="col"
+      >
+        Arrival
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    className="schedule-table__subtable-tbody"
+  >
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-sstat"
+        >
+          South Station
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:46 AM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-crtst"
+        >
+          Courthouse
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:48 AM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-wtcst"
+        >
+          World Trade Center
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:50 AM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-conrd"
+        >
+          Silver Line Way
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:53 AM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/247"
+        >
+          Northern Ave @ Harbor St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:54 AM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/30249"
+        >
+          Northern Ave @ Tide St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:55 AM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/30250"
+        >
+          23 Drydock Ave
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:56 AM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/30251"
+        >
+          27 Drydock Ave
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:56 AM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/31259"
+        >
+          Drydock Ave @ Black Falcon Ave
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:56 AM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/31258"
+        >
+          88 Black Falcon
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:57 AM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/31255"
+        >
+          Drydock Ave @ Design Center Place
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        06:00 AM
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
