@@ -33,7 +33,7 @@ defmodule Site.BodyTag do
   end
 
   defp enable_turbolinks?(conn) do
-    is_nil(conn.assigns[:disable_turbolinks]) or Turbolinks.enabled?(conn)
+    is_nil(conn.assigns[:disable_turbolinks])
   end
 
   defp javascript_class(conn) do
