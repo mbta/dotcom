@@ -30,6 +30,13 @@ interface Props {
 export type SelectedDirection = 0 | 1 | null;
 export type SelectedOrigin = string | null;
 
+export interface UserInput {
+  route: string;
+  origin: string;
+  date: string;
+  direction: SelectedDirection;
+}
+
 interface State {
   directionError: boolean;
   modalId: string | null;

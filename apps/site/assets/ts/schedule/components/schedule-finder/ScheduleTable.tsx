@@ -1,10 +1,13 @@
 import React, { ReactElement } from "react";
-import { ServiceScheduleInfo, EnhancedRoutePattern } from "../__schedule";
+import { EnhancedRoutePattern } from "../__schedule";
+import { Journey } from "../__trips";
 import TableRow from "./TableRow";
+import { UserInput } from "../ScheduleFinder";
 
 interface Props {
-  schedule: ServiceScheduleInfo;
+  journeys: Journey[];
   routePatterns: EnhancedRoutePattern[];
+  input: UserInput;
 }
 
 const isSchoolTrip = (
@@ -20,8 +23,9 @@ const isSchoolTrip = (
   ).match(/school/gi) !== null;
 
 const ScheduleTable = ({
-  schedule,
-  routePatterns
+  journeys,
+  routePatterns,
+  input
 }: Props): ReactElement<HTMLElement> => {
   const routePatternsById = routePatterns.reduce(
     (accumulator, routePattern) => ({
@@ -33,21 +37,18 @@ const ScheduleTable = ({
     [key: string]: EnhancedRoutePattern;
   };
 
-  if (schedule.trip_order.length === 0) {
+  if (journeys.length === 0) {
     return (
       <div className="callout schedule-table--empty">
         There is no scheduled service for this time period.
       </div>
     );
   }
-  const firstTrip = schedule.trip_order[0];
-  const lastTrip =
-    schedule.trip_order.length > 1
-      ? schedule.trip_order[schedule.trip_order.length - 1]
-      : null;
+  const firstTrip = journeys[0];
+  const lastTrip = journeys.length > 1 ? journeys[journeys.length - 1] : null;
 
-  const anySchoolTrips = Object.values(schedule.by_trip).some(
-    ({ route_pattern_id: routePatternId }) =>
+  const anySchoolTrips = Object.values(journeys).some(
+    ({ trip: { route_pattern_id: routePatternId } }) =>
       isSchoolTrip(routePatternsById, routePatternId)
   );
 
@@ -55,11 +56,11 @@ const ScheduleTable = ({
     <>
       <div className="schedule-finder__first-last-trip">
         <div className="u-small-caps u-bold">First Trip</div>
-        {schedule.by_trip[firstTrip].schedules[0].time}
+        {firstTrip.departure.time}
         {lastTrip && (
           <>
             <div className="u-small-caps u-bold">Last Trip</div>
-            {schedule.by_trip[lastTrip].schedules[0].time}
+            {lastTrip.departure.time}
           </>
         )}
       </div>
@@ -80,7 +81,7 @@ const ScheduleTable = ({
             <th scope="col" className="schedule-table__row-header-label">
               Departs
             </th>
-            {schedule.by_trip[firstTrip].schedules[0].route.type === 2 && (
+            {firstTrip.route.type === 2 && (
               <th
                 scope="col"
                 className="schedule-table__row-header-label--small"
@@ -94,13 +95,14 @@ const ScheduleTable = ({
           </tr>
         </thead>
         <tbody>
-          {schedule.trip_order.map((tripId: string) => (
+          {journeys.map((journey: Journey) => (
             <TableRow
-              key={tripId}
-              schedules={schedule.by_trip[tripId]}
+              key={journey.trip.id}
+              input={input}
+              journey={journey}
               isSchoolTrip={isSchoolTrip(
                 routePatternsById,
-                schedule.by_trip[tripId].route_pattern_id
+                journey.trip.route_pattern_id
               )}
               anySchoolTrips={anySchoolTrips}
             />
