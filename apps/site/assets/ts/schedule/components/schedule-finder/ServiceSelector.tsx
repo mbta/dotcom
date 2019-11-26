@@ -13,8 +13,9 @@ import {
 import { reducer } from "../../../helpers/fetch";
 import ScheduleTable from "./ScheduleTable";
 import { SelectedDirection } from "../ScheduleFinder";
-import { EnhancedRoutePattern, ServiceScheduleInfo } from "../__schedule";
+import { EnhancedRoutePattern } from "../__schedule";
 import ServiceOptGroup from "./ServiceOptGroup";
+import { Journey } from "../__trips";
 
 // until we come up with a good integration test for async with loading
 // some lines in this file have been ignored from codecov
@@ -64,6 +65,27 @@ const firstHolidayScheduleId = (
   return firstHolidaySchedule ? firstHolidaySchedule.service.id : "";
 };
 
+const getSelectedService = (
+  services: ServiceWithServiceDate[],
+  selectedServiceId: string
+): ServiceWithServiceDate => {
+  const selectedService = services.find(
+    service => service.id === selectedServiceId
+  );
+  return selectedService!;
+};
+
+const getServicesByOptGroup = (
+  services: ServiceWithServiceDate[],
+  ratingEndDate: string
+): ServicesKeyedByGroup =>
+  services
+    .reduce(
+      (acc, service) => [...acc, ...groupServiceByDate(service, ratingEndDate)],
+      [] as ServiceByOptGroup[]
+    )
+    .reduce(groupByType, { current: [], holiday: [], future: [] });
+
 export const getDefaultScheduleId = (
   servicesByOptGroup: ServicesKeyedByGroup
 ): string =>
@@ -73,7 +95,7 @@ export const getDefaultScheduleId = (
   firstHolidayScheduleId(servicesByOptGroup);
 
 type fetchAction =
-  | { type: "FETCH_COMPLETE"; payload: ServiceScheduleInfo }
+  | { type: "FETCH_COMPLETE"; payload: Journey[] }
   | { type: "FETCH_ERROR" }
   | { type: "FETCH_STARTED" };
 
@@ -82,6 +104,7 @@ export const fetchData = (
   stopId: string,
   selectedService: ServiceWithServiceDate,
   selectedDirection: SelectedDirection,
+  isCurrentService: boolean,
   dispatch: (action: fetchAction) => void
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
@@ -89,9 +112,9 @@ export const fetchData = (
     window.fetch &&
     window
       .fetch(
-        `/schedules/schedule_api?id=${routeId}&date=${
+        `/schedules/finder_api/journeys?id=${routeId}&date=${
           selectedService.end_date
-        }&direction_id=${selectedDirection}&stop_id=${stopId}`
+        }&direction=${selectedDirection}&stop=${stopId}&is_current=${isCurrentService}`
       )
       .then(response => {
         if (response.ok) return response.json();
@@ -102,12 +125,6 @@ export const fetchData = (
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
 };
-
-interface State {
-  data: ServiceScheduleInfo | null;
-  isLoading: boolean;
-  error: boolean;
-}
 
 export const ServiceSelector = ({
   stopId,
@@ -130,28 +147,35 @@ export const ServiceSelector = ({
         service => service.id === selectedServiceId
       );
 
-      if (!selectedService) {
-        return;
-      }
-      fetchData(routeId, stopId, selectedService, directionId, dispatch);
+      const servicesByOptGroup = getServicesByOptGroup(services);
+      const defaultServiceId = getDefaultScheduleId(servicesByOptGroup);
+      const isCurrentService = selectedServiceId === defaultServiceId;
+
+      /* istanbul ignore next */
+      if (!selectedService) return;
+
+      fetchData(
+        routeId,
+        stopId,
+        selectedService,
+        directionId,
+        isCurrentService,
+        dispatch
+      );
     },
     [services, routeId, directionId, stopId, selectedServiceId]
   );
 
   if (services.length <= 0) return null;
 
-  const servicesByOptGroup: ServicesKeyedByGroup = services
-    .reduce(
-      (acc, service) => [...acc, ...groupServiceByDate(service, ratingEndDate)],
-      [] as ServiceByOptGroup[]
-    )
-    .reduce(groupByType, { current: [], holiday: [], future: [] });
-
+  const servicesByOptGroup = getServicesByOptGroup(services, ratingEndDate);
   const defaultServiceId = getDefaultScheduleId(servicesByOptGroup);
 
   if (!selectedServiceId) {
     setSelectedServiceId(defaultServiceId);
   }
+
+  const selectedService = getSelectedService(services, selectedServiceId);
 
   return (
     <>
@@ -194,8 +218,14 @@ export const ServiceSelector = ({
       {/* istanbul ignore next */ !state.isLoading &&
         /* istanbul ignore next */ state.data && (
           /* istanbul ignore next */ <ScheduleTable
-            schedule={state.data!}
+            journeys={state.data!}
             routePatterns={routePatterns}
+            input={{
+              route: routeId,
+              origin: stopId,
+              direction: directionId,
+              date: selectedService.end_date
+            }}
           />
         )}
     </>

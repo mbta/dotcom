@@ -3,14 +3,15 @@ import { mount } from "enzyme";
 import serviceData from "./serviceData.json";
 import crServiceData from "./crServiceData.json";
 import ScheduleTable from "../components/schedule-finder/ScheduleTable";
-import { ServiceScheduleInfo } from "../components/__schedule.js";
 import { EnhancedRoutePattern } from "../components/__schedule";
 import {
   createReactRoot,
   enzymeToJsonWithoutProps
 } from "../../app/helpers/testUtils";
+import { Journey } from "../components/__trips.js";
+import { UserInput } from "../components/ScheduleFinder.js";
 
-const schedule: ServiceScheduleInfo = (serviceData as unknown) as ServiceScheduleInfo;
+const journeys: Journey[] = serviceData as Journey[];
 
 const routePatterns = [
   {
@@ -51,13 +52,24 @@ const crRoutePatterns = [
   }
 ] as EnhancedRoutePattern[];
 
-const crSchedule: ServiceScheduleInfo = crServiceData as ServiceScheduleInfo;
+const crJourneys: Journey[] = crServiceData as Journey[];
+
+const input = {
+  route: "",
+  origin: "",
+  date: "",
+  direction: 0
+} as UserInput;
 
 describe("ScheduleTable", () => {
   it("it renders", () => {
     createReactRoot();
     const wrapper = mount(
-      <ScheduleTable schedule={schedule} routePatterns={routePatterns} />
+      <ScheduleTable
+        journeys={journeys}
+        routePatterns={routePatterns}
+        input={input}
+      />
     );
     wrapper
       .find(".schedule-table__row")
@@ -70,11 +82,12 @@ describe("ScheduleTable", () => {
     createReactRoot();
     const wrapper = mount(
       <ScheduleTable
-        schedule={schedule}
+        journeys={journeys}
         routePatterns={routePatterns.map(routePattern => ({
           ...routePattern,
           time_desc: "School Trip"
         }))}
+        input={input}
       />
     );
     expect(enzymeToJsonWithoutProps(wrapper)).toMatchSnapshot();
@@ -84,8 +97,9 @@ describe("ScheduleTable", () => {
     createReactRoot();
     const wrapper = mount(
       <ScheduleTable
-        schedule={{ by_trip: {}, trip_order: [] }}
+        journeys={[]}
         routePatterns={routePatterns}
+        input={input}
       />
     );
     expect(enzymeToJsonWithoutProps(wrapper)).toMatchSnapshot();
@@ -94,7 +108,11 @@ describe("ScheduleTable", () => {
   it("it renders CR schedules", () => {
     createReactRoot();
     const wrapper = mount(
-      <ScheduleTable schedule={crSchedule} routePatterns={crRoutePatterns} />
+      <ScheduleTable
+        journeys={crJourneys}
+        routePatterns={crRoutePatterns}
+        input={input}
+      />
     );
     wrapper
       .find(".schedule-table__row")
@@ -107,11 +125,12 @@ describe("ScheduleTable", () => {
     createReactRoot();
     const wrapper = mount(
       <ScheduleTable
-        schedule={crSchedule}
+        journeys={crJourneys}
         routePatterns={crRoutePatterns.map(routePattern => ({
           ...routePattern,
           time_desc: "School Trip"
         }))}
+        input={input}
       />
     );
     expect(enzymeToJsonWithoutProps(wrapper)).toMatchSnapshot();

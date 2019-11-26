@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TableRow it renders 1`] = `
+<tr
+  aria-controls="trip-CR-Weekday-Fall-19-801"
+  aria-expanded={false}
+  className="schedule-table__row"
+  onClick={[Function]}
+  onKeyPress={[Function]}
+  role="button"
+  tabIndex={0}
+>
+  <td
+    className="schedule-table__td"
+  >
+    <div
+      className="schedule-table__time"
+    >
+      05:30 AM
+    </div>
+  </td>
+  <td
+    className="schedule-table__td schedule-table__tab-num"
+  >
+    801
+  </td>
+  <td
+    className="schedule-table__headsign"
+  >
+    <span
+      aria-hidden="false"
+      className="notranslate c-svg__icon"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+     
+    Wickford Junction
+  </td>
+  <td
+    className="schedule-table__td schedule-table__td--flex-end"
+  >
+    <span
+      className="c-expandable-block__header-caret"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "&#xF107;",
+        }
+      }
+    />
+  </td>
+</tr>
+`;

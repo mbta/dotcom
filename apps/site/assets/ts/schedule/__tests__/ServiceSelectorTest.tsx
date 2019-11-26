@@ -138,11 +138,12 @@ describe("ServiceSelector", () => {
         "stopId",
         services.find(service => service.id === "BUS319-P-Sa-02")!,
         1,
+        true,
         dispatchSpy
       );
 
       expect(window.fetch).toHaveBeenCalledWith(
-        "/schedules/schedule_api?id=83&date=2019-08-31&direction_id=1&stop_id=stopId"
+        "/schedules/finder_api/journeys?id=83&date=2019-08-31&direction=1&stop=stopId&is_current=true"
       );
 
       expect(dispatchSpy).toHaveBeenCalledTimes(2);
@@ -175,6 +176,7 @@ describe("ServiceSelector", () => {
       "stopId",
       services.find(service => service.id === "BUS319-P-Sa-02")!,
       1,
+      true,
       dispatchSpy
     );
 
