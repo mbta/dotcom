@@ -31,7 +31,7 @@ describe("TripDetails", () => {
   it("it renders trip details for a bus trip", () => {
     createReactRoot();
     const tree = renderer.create(
-      <TripDetails state={successState} fare={false} />
+      <TripDetails state={successState} showFare={false} />
     );
     expect(tree).toMatchSnapshot();
   });
@@ -39,7 +39,7 @@ describe("TripDetails", () => {
   it("it renders trip details for a CR trip", () => {
     createReactRoot();
     const tree = renderer.create(
-      <TripDetails state={crSuccessState} fare={true} />
+      <TripDetails state={crSuccessState} showFare={true} />
     );
     expect(tree).toMatchSnapshot();
   });
@@ -47,7 +47,7 @@ describe("TripDetails", () => {
   it("it renders an error if fetch failed", () => {
     createReactRoot();
     const tree = renderer.create(
-      <TripDetails state={errorState} fare={false} />
+      <TripDetails state={errorState} showFare={false} />
     );
     expect(tree).toMatchSnapshot();
   });
