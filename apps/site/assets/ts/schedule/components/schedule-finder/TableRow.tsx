@@ -8,11 +8,17 @@ import { breakTextAtSlash } from "../../../helpers/text";
 import { TripDetails } from "./TripDetails";
 import { UserInput } from "../ScheduleFinder";
 
-interface Props {
+interface TableRowProps {
   input: UserInput;
   journey: Journey;
   isSchoolTrip: boolean;
   anySchoolTrips: boolean;
+}
+
+interface AccordionProps {
+  input: UserInput;
+  journey: Journey;
+  contentComponent: () => ReactElement<HTMLElement>;
 }
 
 type fetchAction =
@@ -43,83 +49,57 @@ export const fetchData = (
 };
 
 const BusTableRow = ({
-  input,
   journey,
-  isSchoolTrip,
-  anySchoolTrips
-}: Props): ReactElement<HTMLElement> => {
-  const [expanded, setExpanded] = useState(false);
-  const [state, dispatch] = useReducer(reducer, {
-    data: null,
-    isLoading: false,
-    error: false
-  });
-
-  const toggle = (): void => setExpanded(!expanded);
-
-  useEffect(
-    () => {
-      if (expanded && state.data === null && !state.isLoading && !state.error) {
-        fetchData(journey.trip.id, input, dispatch);
-      }
-    },
-    [journey.trip.id, input, expanded, state]
-  );
-
-  return (
-    <>
-      <tr
-        className={
-          expanded ? "schedule-table__row-selected" : "schedule-table__row"
-        }
-        aria-controls={`trip-${journey.trip.id}`}
-        aria-expanded={expanded}
-        role="button"
-        onClick={toggle}
-        onKeyPress={e => handleReactEnterKeyPress(e, toggle)}
-        tabIndex={0}
-      >
-        {anySchoolTrips && (
-          <td className="schedule-table__td--tiny">
-            {isSchoolTrip && <strong>S</strong>}
-          </td>
-        )}
-        <td className="schedule-table__td schedule-table__time">
-          {journey.departure.time}
-        </td>
-        <td className="schedule-table__td">
-          <div className="schedule-table__row-route">
-            <RoutePillSmall route={journey.route} />
-          </div>
-          {breakTextAtSlash(journey.trip.headsign)}
-        </td>
-        <td className="schedule-table__td schedule-table__td--flex-end">
-          {caret(
-            `c-expandable-block__header-caret${expanded ? "--white" : ""}`,
-            expanded
-          )}
-        </td>
-      </tr>
-      {expanded && (
-        <tr
-          id={`trip-${journey.trip.id}`}
-          className="schedule-table__subtable-container"
-        >
-          <td className="schedule-table__subtable-td">
-            <TripDetails state={state} fare={false} />
-          </td>
-        </tr>
-      )}
-    </>
-  );
-};
+  anySchoolTrips,
+  isSchoolTrip
+}: {
+  journey: Journey;
+  anySchoolTrips: boolean;
+  isSchoolTrip: boolean;
+}): ReactElement<HTMLElement> => (
+  <>
+    {anySchoolTrips && (
+      <td className="schedule-table__td--tiny">
+        {isSchoolTrip && <strong>S</strong>}
+      </td>
+    )}
+    <td className="schedule-table__td schedule-table__time">
+      {journey.departure.time}
+    </td>
+    <td className="schedule-table__td">
+      <div className="schedule-table__row-route">
+        <RoutePillSmall route={journey.route} />
+      </div>
+      {breakTextAtSlash(journey.trip.headsign)}
+    </td>
+  </>
+);
 
 const CrTableRow = ({
+  journey
+}: {
+  journey: Journey;
+}): ReactElement<HTMLElement> => (
+  <>
+    <td className="schedule-table__td">
+      <div className="schedule-table__time">{journey.departure.time}</div>
+    </td>
+    {journey.trip.name && (
+      <td className="schedule-table__td schedule-table__tab-num">
+        {journey.trip.name}
+      </td>
+    )}
+    <td className="schedule-table__headsign">
+      {modeIcon(journey.route.id)} {breakTextAtSlash(journey.trip.headsign)}
+    </td>
+  </>
+);
+
+const Accordion = ({
   input,
   journey,
-  isSchoolTrip,
-  anySchoolTrips
-}: Props): ReactElement<HTMLElement> => {
+  contentComponent
+}: AccordionProps): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
   const [state, dispatch] = useReducer(reducer, {
     data: null,
@@ -128,14 +108,15 @@ const CrTableRow = ({
   });
 
   const toggle = (): void => setExpanded(!expanded);
+  const tripId = journey.trip.id;
 
   useEffect(
     () => {
       if (expanded && state.data === null && !state.isLoading && !state.error) {
-        fetchData(journey.trip.id, input, dispatch);
+        fetchData(tripId, input, dispatch);
       }
     },
-    [journey.trip.id, input, expanded, state]
+    [tripId, input, expanded, state]
   );
 
   return (
@@ -144,29 +125,14 @@ const CrTableRow = ({
         className={
           expanded ? "schedule-table__row-selected" : "schedule-table__row"
         }
-        aria-controls={`trip-${journey.trip.id}`}
+        aria-controls={`trip-${tripId}`}
         aria-expanded={expanded}
         role="button"
         onClick={toggle}
         onKeyPress={e => handleReactEnterKeyPress(e, toggle)}
         tabIndex={0}
       >
-        {anySchoolTrips && (
-          <td className="schedule-table__td--tiny">
-            {isSchoolTrip && <strong>S</strong>}
-          </td>
-        )}
-        <td className="schedule-table__td">
-          <div className="schedule-table__time">{journey.departure.time}</div>
-        </td>
-        {journey.trip.name && (
-          <td className="schedule-table__td schedule-table__tab-num">
-            {journey.trip.name}
-          </td>
-        )}
-        <td className="schedule-table__headsign">
-          {modeIcon(journey.route.id)} {breakTextAtSlash(journey.trip.headsign)}
-        </td>
+        {contentComponent()}
         <td className="schedule-table__td schedule-table__td--flex-end">
           {caret(
             `c-expandable-block__header-caret${expanded ? "--white" : ""}`,
@@ -176,11 +142,11 @@ const CrTableRow = ({
       </tr>
       {expanded && (
         <tr
-          id={`trip-${journey.trip.id}`}
+          id={`trip-${tripId}-expanded`}
           className="schedule-table__subtable-container"
         >
           <td className="schedule-table__subtable-td">
-            <TripDetails state={state} fare />
+            <TripDetails state={state} showFare={journey.route.type === 2} />
           </td>
         </tr>
       )}
@@ -191,24 +157,25 @@ const CrTableRow = ({
 const TableRow = ({
   input,
   journey,
-  isSchoolTrip,
-  anySchoolTrips
-}: Props): ReactElement<HTMLElement> | null => {
-  if (journey.route.type === 3)
-    return (
-      <BusTableRow
-        input={input}
-        journey={journey}
-        isSchoolTrip={isSchoolTrip}
-        anySchoolTrips={anySchoolTrips}
-      />
-    );
+  anySchoolTrips,
+  isSchoolTrip
+}: TableRowProps): ReactElement<HTMLElement> | null => {
+  const contentComponent =
+    journey.route.type !== 2
+      ? () => (
+          <BusTableRow
+            journey={journey}
+            anySchoolTrips={anySchoolTrips}
+            isSchoolTrip={isSchoolTrip}
+          />
+        )
+      : () => <CrTableRow journey={journey} />;
+
   return (
-    <CrTableRow
+    <Accordion
       input={input}
       journey={journey}
-      isSchoolTrip={isSchoolTrip}
-      anySchoolTrips={anySchoolTrips}
+      contentComponent={contentComponent}
     />
   );
 };
