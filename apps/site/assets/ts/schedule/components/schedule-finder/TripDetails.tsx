@@ -10,7 +10,7 @@ export interface State {
 
 interface Props {
   state: State;
-  fare: boolean;
+  showFare: boolean;
 }
 
 const TripSummary = ({
@@ -45,11 +45,11 @@ const TripSummary = ({
 export const TripStop = ({
   departure,
   index,
-  fare
+  showFare
 }: {
   departure: DepartureWithFare;
   index: number;
-  fare: boolean;
+  showFare: boolean;
 }): ReactElement<HTMLElement> | null => {
   const { schedule } = departure;
 
@@ -62,7 +62,7 @@ export const TripStop = ({
           {breakTextAtSlash(schedule.stop.name)}
         </a>
       </td>
-      {fare && (
+      {showFare && (
         <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
           {index === 0 ? "" : schedule.fare.price}
         </td>
@@ -76,7 +76,7 @@ export const TripStop = ({
 
 export const TripDetails = ({
   state,
-  fare
+  showFare
 }: Props): ReactElement<HTMLElement> | null => {
   const { data: tripInfo, error, isLoading } = state;
 
@@ -106,7 +106,7 @@ export const TripDetails = ({
           <th scope="col" className="schedule-table__subtable-data">
             Stops
           </th>
-          {fare && (
+          {showFare && (
             <th
               scope="col"
               className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
@@ -127,7 +127,7 @@ export const TripDetails = ({
           <TripStop
             departure={departure}
             index={index}
-            fare={fare}
+            showFare={showFare}
             key={departure.schedule.stop.id}
           />
         ))}
