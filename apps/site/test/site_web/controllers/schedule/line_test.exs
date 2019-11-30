@@ -4,11 +4,194 @@ defmodule SiteWeb.ScheduleController.LineTest do
   import SiteWeb.ScheduleController.Line.DiagramHelpers
   alias Plug.Conn
   alias Routes.Route
+  alias Services.Service
   alias Stops.{RouteStop, RouteStops}
 
   doctest SiteWeb.ScheduleController.Line
 
   @deps %SiteWeb.ScheduleController.Line.Dependencies{}
+
+  @thirtynine_services [
+    %Service{
+      added_dates: [],
+      added_dates_notes: %{},
+      description: "Weekday schedule",
+      end_date: ~D[2020-03-13],
+      id: "BUS120-3-Wdy-02",
+      name: "Weekday",
+      removed_dates: [
+        "2020-01-20",
+        "2020-02-17",
+        "2020-02-18",
+        "2020-02-19",
+        "2020-02-20",
+        "2020-02-21"
+      ],
+      removed_dates_notes: %{
+        "2020-01-20" => "Martin Luther King Day",
+        "2020-02-17" => "Washington's Birthday",
+        "2020-02-18" => nil,
+        "2020-02-19" => nil,
+        "2020-02-20" => nil,
+        "2020-02-21" => nil
+      },
+      start_date: ~D[2020-01-02],
+      type: :weekday,
+      typicality: :typical_service,
+      valid_days: [1, 2, 3, 4, 5]
+    },
+    %Service{
+      added_dates: [],
+      added_dates_notes: %{},
+      description: "Weekday schedule",
+      end_date: ~D[2020-03-13],
+      id: "BUS120-Z-Wdy-02",
+      name: "Weekday",
+      removed_dates: [
+        "2020-01-20",
+        "2020-02-17",
+        "2020-02-18",
+        "2020-02-19",
+        "2020-02-20",
+        "2020-02-21"
+      ],
+      removed_dates_notes: %{
+        "2020-01-20" => "Martin Luther King Day",
+        "2020-02-17" => "Washington's Birthday",
+        "2020-02-18" => nil,
+        "2020-02-19" => nil,
+        "2020-02-20" => nil,
+        "2020-02-21" => nil
+      },
+      start_date: ~D[2020-01-02],
+      type: :weekday,
+      typicality: :typical_service,
+      valid_days: [1, 2, 3, 4, 5]
+    },
+    %Service{
+      added_dates: [],
+      added_dates_notes: %{},
+      description: "Saturday schedule",
+      end_date: ~D[2019-12-21],
+      id: "BUS419-3-Sa-02",
+      name: "Saturday",
+      removed_dates: [],
+      removed_dates_notes: %{},
+      start_date: ~D[2019-12-21],
+      type: :saturday,
+      typicality: :typical_service,
+      valid_days: [6]
+    },
+    %Service{
+      added_dates: [],
+      added_dates_notes: %{},
+      description: "Saturday schedule",
+      end_date: ~D[2019-12-21],
+      id: "BUS419-E-Sa-02",
+      name: "Saturday",
+      removed_dates: [],
+      removed_dates_notes: %{},
+      start_date: ~D[2019-12-21],
+      type: :saturday,
+      typicality: :typical_service,
+      valid_days: [6]
+    },
+    %Service{
+      added_dates: ["2019-12-25", "2020-01-01"],
+      added_dates_notes: %{
+        "2019-12-25" => "Christmas Day",
+        "2020-01-01" => "New Year's Day"
+      },
+      description: "Holiday (Sunday schedule)",
+      end_date: ~D[2020-01-01],
+      id: "ChristmasDay-NewYearsDay",
+      name: "Holiday",
+      removed_dates: [],
+      removed_dates_notes: %{},
+      start_date: ~D[2019-12-25],
+      type: :sunday,
+      typicality: :holiday_service,
+      valid_days: []
+    },
+    %Service{
+      added_dates: [],
+      added_dates_notes: %{},
+      description: "Weekday schedule",
+      end_date: ~D[2019-12-20],
+      id: "FallWeekday",
+      name: "Weekday",
+      removed_dates: [],
+      removed_dates_notes: %{},
+      start_date: ~D[2019-12-20],
+      type: :weekday,
+      typicality: :typical_service,
+      valid_days: [5]
+    },
+    %Service{
+      added_dates: ["2020-01-20", "2020-02-17"],
+      added_dates_notes: %{
+        "2020-01-20" => "Martin Luther King Day",
+        "2020-02-17" => "Washington's Birthday"
+      },
+      description: "Holiday (Saturday schedule)",
+      end_date: ~D[2020-02-17],
+      id: "MartinLutherKingDay-WashingtonsBirthday",
+      name: "Holiday",
+      removed_dates: [],
+      removed_dates_notes: %{},
+      start_date: ~D[2020-01-20],
+      type: :saturday,
+      typicality: :holiday_service,
+      valid_days: []
+    },
+    %Service{
+      added_dates: [],
+      added_dates_notes: %{},
+      description: "Saturday schedule",
+      end_date: ~D[2020-03-14],
+      id: "WinterSaturday",
+      name: "Saturday",
+      removed_dates: [],
+      removed_dates_notes: %{},
+      start_date: ~D[2019-12-28],
+      type: :saturday,
+      typicality: :typical_service,
+      valid_days: [6]
+    },
+    %Service{
+      added_dates: [],
+      added_dates_notes: %{},
+      description: "Sunday schedule",
+      end_date: ~D[2020-03-08],
+      id: "WinterSunday",
+      name: "Sunday",
+      removed_dates: [],
+      removed_dates_notes: %{},
+      start_date: ~D[2019-12-22],
+      type: :sunday,
+      typicality: :typical_service,
+      valid_days: '\a'
+    },
+    %Service{
+      added_dates: ["2020-02-18", "2020-02-19", "2020-02-20", "2020-02-21"],
+      added_dates_notes: %{
+        "2020-02-18" => nil,
+        "2020-02-19" => nil,
+        "2020-02-20" => nil,
+        "2020-02-21" => nil
+      },
+      description: "Weekday schedule (no school)",
+      end_date: ~D[2019-12-31],
+      id: "WinterWeekday",
+      name: "Weekday (no school)",
+      removed_dates: [],
+      removed_dates_notes: %{},
+      start_date: ~D[2019-12-23],
+      type: :weekday,
+      typicality: :typical_service,
+      valid_days: [1, 2, 4, 5]
+    }
+  ]
 
   def get_error_stop_list(_, _, _), do: {:error, "error"}
 
@@ -428,14 +611,16 @@ defmodule SiteWeb.ScheduleController.LineTest do
   end
 
   describe "services" do
-    test "remove duplicates", %{conn: conn} do
+    test "determines a single, default service for route and date", %{conn: conn} do
       conn =
         conn
+        |> assign(:services_fn, fn _ -> @thirtynine_services end)
         |> get(line_path(conn, :show, "39"))
 
-      services = Services.Repo.by_route_id("39")
+      services_for_route = conn.assigns.schedule_page_data.services
+      default_service = Enum.filter(services_for_route, &(&1.default_service? === true))
 
-      assert length(conn.assigns.schedule_page_data.services) < services
+      assert length(default_service) == 1
     end
   end
 

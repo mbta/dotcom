@@ -98,7 +98,7 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
           direction: "0",
           date: date,
           stop: "place-PB-0194",
-          is_current: true
+          is_current: "true"
         })
 
       opts = [
@@ -176,7 +176,7 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
     end
 
     test "skips formatting predictions without a time", %{conn: conn} do
-      date = Util.now() |> Date.to_iso8601()
+      date = Util.service_date() |> Date.to_iso8601()
 
       path =
         finder_api_path(conn, :trip, %{
@@ -184,8 +184,7 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
           route: "CR-Providence",
           direction: "0",
           date: date,
-          stop: "place-sstat",
-          is_current: true
+          stop: "place-sstat"
         })
 
       prediction_without_time = Map.put(@prediction, :time, nil)

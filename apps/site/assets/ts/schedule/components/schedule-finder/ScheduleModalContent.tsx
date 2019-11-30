@@ -1,11 +1,12 @@
 import React, { ReactElement, useReducer, useEffect } from "react";
 import { SelectedDirection, SelectedOrigin } from "../ScheduleFinder";
 import UpcomingDepartures from "./UpcomingDepartures";
-import { Route, RouteType, ServiceWithServiceDate } from "../../../__v3api";
+import { Route, RouteType } from "../../../__v3api";
 import {
   SimpleStop,
   StopPrediction,
-  RoutePatternsByDirection
+  RoutePatternsByDirection,
+  ServiceInSelector
 } from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
 import { reducer } from "../../../helpers/fetch";
@@ -80,7 +81,7 @@ interface Props {
   route: Route;
   selectedDirection: SelectedDirection;
   selectedOrigin: SelectedOrigin;
-  services: ServiceWithServiceDate[];
+  services: ServiceInSelector[];
   ratingEndDate: string;
   stops: SimpleStop[];
   routePatternsByDirection: RoutePatternsByDirection;
