@@ -1,11 +1,9 @@
 import React, { ReactElement, useEffect, useState, useReducer } from "react";
 import SelectContainer from "./SelectContainer";
-import { ServiceWithServiceDate } from "../../../__v3api";
 import {
   ServicesKeyedByGroup,
   groupServiceByDate,
   groupByType,
-  getTodaysSchedule,
   ServiceOptGroupName,
   ServiceByOptGroup,
   hasMultipleWeekdaySchedules
@@ -13,7 +11,7 @@ import {
 import { reducer } from "../../../helpers/fetch";
 import ScheduleTable from "./ScheduleTable";
 import { SelectedDirection } from "../ScheduleFinder";
-import { EnhancedRoutePattern } from "../__schedule";
+import { EnhancedRoutePattern, ServiceInSelector } from "../__schedule";
 import ServiceOptGroup from "./ServiceOptGroup";
 import { Journey } from "../__trips";
 
@@ -30,45 +28,17 @@ const optGroupTitles: { [key in ServiceOptGroupName]: string } = {
 
 interface Props {
   stopId: string;
-  services: ServiceWithServiceDate[];
+  services: ServiceInSelector[];
   ratingEndDate: string;
   routeId: string;
   directionId: SelectedDirection;
   routePatterns: EnhancedRoutePattern[];
 }
 
-const getTodaysScheduleId = (
-  servicesByOptGroup: ServicesKeyedByGroup
-): string => {
-  const todayService = getTodaysSchedule(servicesByOptGroup);
-  return todayService ? todayService.service.id : "";
-};
-
-const firstCurrentScheduleId = (
-  servicesByOptGroup: ServicesKeyedByGroup
-): string => {
-  const firstCurrentSchedule = servicesByOptGroup.current[0];
-  return firstCurrentSchedule ? firstCurrentSchedule.service.id : "";
-};
-
-const firstFutureScheduleId = (
-  servicesByOptGroup: ServicesKeyedByGroup
-): string => {
-  const firstFutureSchedule = servicesByOptGroup.future[0];
-  return firstFutureSchedule ? firstFutureSchedule.service.id : "";
-};
-
-const firstHolidayScheduleId = (
-  servicesByOptGroup: ServicesKeyedByGroup
-): string => {
-  const firstHolidaySchedule = servicesByOptGroup.holiday[0];
-  return firstHolidaySchedule ? firstHolidaySchedule.service.id : "";
-};
-
 const getSelectedService = (
-  services: ServiceWithServiceDate[],
+  services: ServiceInSelector[],
   selectedServiceId: string
-): ServiceWithServiceDate => {
+): ServiceInSelector => {
   const selectedService = services.find(
     service => service.id === selectedServiceId
   );
@@ -76,7 +46,7 @@ const getSelectedService = (
 };
 
 const getServicesByOptGroup = (
-  services: ServiceWithServiceDate[],
+  services: ServiceInSelector[],
   ratingEndDate: string
 ): ServicesKeyedByGroup =>
   services
@@ -86,13 +56,12 @@ const getServicesByOptGroup = (
     )
     .reduce(groupByType, { current: [], holiday: [], future: [] });
 
-export const getDefaultScheduleId = (
-  servicesByOptGroup: ServicesKeyedByGroup
-): string =>
-  getTodaysScheduleId(servicesByOptGroup) ||
-  firstCurrentScheduleId(servicesByOptGroup) ||
-  firstFutureScheduleId(servicesByOptGroup) ||
-  firstHolidayScheduleId(servicesByOptGroup);
+const getDefaultServiceId = (services: ServiceInSelector[]): string => {
+  const currentService = services.find(
+    service => service["default_service?"] === true
+  );
+  return currentService ? currentService.id : services[0].id;
+};
 
 type fetchAction =
   | { type: "FETCH_COMPLETE"; payload: Journey[] }
@@ -102,7 +71,7 @@ type fetchAction =
 export const fetchData = (
   routeId: string,
   stopId: string,
-  selectedService: ServiceWithServiceDate,
+  selectedService: ServiceInSelector,
   selectedDirection: SelectedDirection,
   isCurrentService: boolean,
   dispatch: (action: fetchAction) => void
@@ -147,8 +116,9 @@ export const ServiceSelector = ({
         service => service.id === selectedServiceId
       );
 
-      const servicesByOptGroup = getServicesByOptGroup(services);
-      const defaultServiceId = getDefaultScheduleId(servicesByOptGroup);
+      if (services.length <= 0) return;
+
+      const defaultServiceId = getDefaultServiceId(services);
       const isCurrentService = selectedServiceId === defaultServiceId;
 
       /* istanbul ignore next */
@@ -169,7 +139,7 @@ export const ServiceSelector = ({
   if (services.length <= 0) return null;
 
   const servicesByOptGroup = getServicesByOptGroup(services, ratingEndDate);
-  const defaultServiceId = getDefaultScheduleId(servicesByOptGroup);
+  const defaultServiceId = getDefaultServiceId(services);
 
   if (!selectedServiceId) {
     setSelectedServiceId(defaultServiceId);

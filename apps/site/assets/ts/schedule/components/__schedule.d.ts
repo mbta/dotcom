@@ -12,6 +12,7 @@ import {
   Stop,
   ClosedStopInfo
 } from "../../__v3api";
+import { ServiceInSelector } from "./schedule-finder/ServiceSelector";
 
 export interface EnhancedRoutePattern extends RoutePattern {
   shape_id: string;
@@ -26,6 +27,10 @@ export interface RoutePatternsByDirection {
   [key: string]: EnhancedRoutePattern[];
 }
 
+export interface ServiceInSelector extends ServiceWithServiceDate {
+  "default_service?": boolean;
+}
+
 export interface SchedulePageData {
   connections: TypedRoutes[];
   pdfs: SchedulePDF[];
@@ -36,7 +41,7 @@ export interface SchedulePageData {
   holidays: Holiday[];
   route: EnhancedRoute;
   schedule_note: ScheduleNote | null;
-  services: ServiceWithServiceDate[];
+  services: ServiceInSelector[];
   rating_end_date: string;
   stops: SimpleStopMap;
   direction_id: DirectionId;

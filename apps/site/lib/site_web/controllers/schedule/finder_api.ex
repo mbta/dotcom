@@ -1,7 +1,7 @@
 defmodule SiteWeb.ScheduleController.FinderApi do
   @moduledoc """
     API for retrieving journeys for a route, and for
-    showing trip details for each journey.
+    showing trip details for each journey on demand.
   """
   use SiteWeb, :controller
 
@@ -19,18 +19,30 @@ defmodule SiteWeb.ScheduleController.FinderApi do
 
   # Leverage the JourneyList module to return a simplified set of trips
   @spec journeys(Plug.Conn.t(), map) :: Plug.Conn.t()
-  def journeys(conn, %{"stop" => stop_id} = params) do
+  def journeys(conn, %{"stop" => stop_id, "date" => date} = params) do
     {schedules, predictions} = load_from_repos(conn, params)
 
-    journey_opts = [
+    {:ok, user_selected_date} = Date.from_iso8601(date)
+
+    # Emulate original Schedules tab journey build logic:
+    # The original Schedules tab contained a complete list of trips
+    # (JourneyList) (minus detailed stop info) for the date, and then
+    # allowed to you drill down into a specific trip (TripInfo) on demand.
+    # These structs contained all the information desired in the designs,
+    # matching the design spec architecturally better than the existing
+    # Schedules-only and Predictions-only configuration for
+    # ScheduleFinder.
+    today? = params["is_current"] == "true"
+    current_time = if today?, do: user_selected_date, else: nil
+
+    journey_list_opts = [
       origin_id: stop_id,
-      destination_id: nil,
-      current_time: nil
+      current_time: current_time
     ]
 
     journeys =
       schedules
-      |> JourneyList.build(predictions, :predictions_then_schedules, true, journey_opts)
+      |> JourneyList.build(predictions, :predictions_then_schedules, true, journey_list_opts)
       |> prepare_journeys_for_json()
 
     json(conn, journeys)
@@ -103,16 +115,19 @@ defmodule SiteWeb.ScheduleController.FinderApi do
       convert_from_string(date: date, direction: direction, is_current: is_current)
 
     # JourneyList orders trips according to their prediction time first (if present),
-    # and then by scheduled time. If the selcted service is valid for the current day,
-    # request schedules for the current day instead of the service end date, so that the
-    # schedule date matches the prediction dates, thereby keeping trips in time order.
-    current_date = DateTime.to_date(conn.assigns.date_time)
+    # and then by scheduled time. If the selected service is valid for the current day,
+    # request schedules using today's date instead of the service end date, so that the
+    # schedule date matches the prediction dates, keeping trips in order by time.
+    current_date = Util.service_date(conn.assigns.date_time)
     schedule_date = if current_service?, do: current_date, else: service_end_date
 
     schedule_opts = [date: schedule_date, direction_id: direction_id, stop_ids: [stop_id]]
     schedules_fn = Map.get(conn.assigns, :schedules_fn, &Schedules.Repo.by_route_ids/2)
     schedules = schedules_fn.([route_id], schedule_opts)
 
+    # Don't bother fetching predictions if we're looking at a future/past date.
+    # We include predictions in the trip list because current day trips MAY have
+    # special, added-in predictions w/o normal schedules attached to them (bus).
     prediction_opts = [route: route_id, stop: stop_id, direction_id: direction_id]
     predictions_fn = Map.get(conn.assigns, :predictions_fn, &Predictions.Repo.all/1)
     predictions = if current_service?, do: predictions_fn.(prediction_opts), else: []
@@ -153,7 +168,7 @@ defmodule SiteWeb.ScheduleController.FinderApi do
       |> Keyword.get(:direction)
       |> String.to_integer()
 
-    current_service? = Keyword.get(params, :is_current) === "true"
+    current_service? = Keyword.get(params, :is_current, false) === "true"
 
     {date, direction_id, current_service?}
   end

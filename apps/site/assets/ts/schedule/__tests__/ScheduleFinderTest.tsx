@@ -3,10 +3,13 @@ import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import ScheduleFinder from "../components/ScheduleFinder";
-import { EnhancedRoute, ServiceWithServiceDate } from "../../__v3api";
-import { RoutePatternsByDirection } from "../components/__schedule";
+import { EnhancedRoute } from "../../__v3api";
+import {
+  RoutePatternsByDirection,
+  ServiceInSelector
+} from "../components/__schedule";
 
-const services: ServiceWithServiceDate[] = [
+const services: ServiceInSelector[] = [
   {
     valid_days: [1, 2, 3, 4, 5],
     typicality: "typical_service",
@@ -20,7 +23,8 @@ const services: ServiceWithServiceDate[] = [
     end_date: "2019-08-30",
     description: "Weekday schedule",
     added_dates_notes: {},
-    added_dates: []
+    added_dates: [],
+    "default_service?": true
   },
   {
     valid_days: [6],
@@ -35,7 +39,8 @@ const services: ServiceWithServiceDate[] = [
     end_date: "2019-08-31",
     description: "Saturday schedule",
     added_dates_notes: {},
-    added_dates: []
+    added_dates: [],
+    "default_service?": false
   },
   {
     valid_days: [7],
@@ -50,7 +55,8 @@ const services: ServiceWithServiceDate[] = [
     end_date: "2019-08-25",
     description: "Sunday schedule",
     added_dates_notes: {},
-    added_dates: []
+    added_dates: [],
+    "default_service?": false
   }
 ];
 

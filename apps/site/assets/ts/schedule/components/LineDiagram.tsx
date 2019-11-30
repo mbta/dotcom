@@ -4,7 +4,8 @@ import {
   RouteStopRoute,
   RoutePatternsByDirection,
   SimpleStopMap,
-  RouteStop
+  RouteStop,
+  ServiceInSelector
 } from "./__schedule";
 import Modal from "../../components/Modal";
 import ScheduleModalContent from "./schedule-finder/ScheduleModalContent";
@@ -15,19 +16,14 @@ import {
   parkingIcon,
   TooltipWrapper
 } from "../../helpers/icon";
-import {
-  Alert,
-  Route,
-  DirectionId,
-  ServiceWithServiceDate
-} from "../../__v3api";
+import { Alert, Route, DirectionId } from "../../__v3api";
 
 interface Props {
   lineDiagram: LineDiagramStop[];
   route: Route;
   directionId: DirectionId;
   routePatternsByDirection: RoutePatternsByDirection;
-  services: ServiceWithServiceDate[];
+  services: ServiceInSelector[];
   ratingEndDate: string;
   stops: SimpleStopMap;
 }

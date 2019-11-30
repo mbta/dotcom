@@ -1,4 +1,6 @@
 defmodule SiteWeb.ScheduleController.LineController do
+  @moduledoc false
+
   use SiteWeb, :controller
   alias Phoenix.HTML
   alias Plug.Conn
@@ -44,6 +46,10 @@ defmodule SiteWeb.ScheduleController.LineController do
   end
 
   def assign_schedule_page_data(conn) do
+    services_fn = Map.get(conn.assigns, :services_fn, &ServicesRepo.by_route_id/1)
+
+    service_date = Map.get(conn.assigns, :date_time, Util.now()) |> Util.service_date()
+
     assign(
       conn,
       :schedule_page_data,
@@ -69,8 +75,8 @@ defmodule SiteWeb.ScheduleController.LineController do
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
-        services: services(conn.assigns.route.id, conn.assigns.date),
         rating_end_date: Schedules.Repo.end_of_rating(),
+        services: services(conn.assigns.route.id, service_date, services_fn),
         schedule_note: ScheduleNote.new(conn.assigns.route),
         stops: simple_stop_map(conn),
         direction_id: conn.assigns.direction_id,
@@ -104,13 +110,15 @@ defmodule SiteWeb.ScheduleController.LineController do
     |> Enum.group_by(&{&1.type, &1.typicality})
     |> Enum.flat_map(fn {_, service_group} ->
       service_group
-      |> Enum.reject(fn service ->
-        Enum.any?(service_group, fn other_service ->
-          other_service != service &&
-            Date.compare(other_service.start_date, service.start_date) != :gt &&
-            Date.compare(other_service.end_date, service.end_date) != :lt
-        end)
-      end)
+      |> Enum.reject(fn service -> subset_of_another_service?(service, service_group) end)
+    end)
+  end
+
+  defp subset_of_another_service?(service, service_group) do
+    Enum.any?(service_group, fn other_service ->
+      other_service != service &&
+        Date.compare(other_service.start_date, service.start_date) != :gt &&
+        Date.compare(other_service.end_date, service.end_date) != :lt
     end)
   end
 
@@ -135,6 +143,52 @@ defmodule SiteWeb.ScheduleController.LineController do
     |> Enum.reject(&(Date.compare(&1.end_date, service_date) == :lt))
     |> Enum.sort_by(&sort_services_by_date/1)
     |> Enum.map(&Map.put(&1, :service_date, service_date))
+    |> tag_default_service()
+  end
+
+  # Find candidates that could be valid for today:
+  # - within the :start_date and :end_date (REJECT otherwise)
+  # - today NOT present in :removed_dates (REJECT if present)
+  # - today IS present in :added_dates
+  defp is_current_service?(service) do
+    service_date_string = Date.to_iso8601(service.service_date)
+
+    in_current_rating? = Date.compare(service.start_date, Schedules.Repo.end_of_rating()) != :gt
+    added_in? = Enum.member?(service.added_dates, service_date_string)
+    removed? = Enum.member?(service.removed_dates, service_date_string)
+
+    (in_current_rating? || added_in?) && !removed?
+  end
+
+  # Some routes have no services (ie, "Green")
+  defp tag_default_service([]), do: []
+
+  defp tag_default_service(services) do
+    current_service_id =
+      services
+      |> Enum.filter(&is_current_service?/1)
+      |> get_default_service()
+      |> Map.get(:id, "")
+
+    Enum.map(services, &Map.put(&1, :default_service?, &1.id === current_service_id))
+  end
+
+  # Get today's default service (reduce valid candidates to best match)
+  # - prefer if today's date is present inside :added_dates (typically means holiday)
+  # - otherwise, if today's day of week is within set of :valid_days
+  # - if all else fails, use the first candidate (already sorted by :start_date)
+  defp get_default_service(services) do
+    service_date = services |> List.first() |> Map.get(:service_date)
+    day_number = Timex.weekday(service_date)
+
+    # Fallback #2: First service
+    first_service = List.first(services)
+
+    # Fallback #1: Today is a valid day for this service
+    day_service = Enum.find(services, first_service, &Enum.member?(&1.valid_days, day_number))
+
+    # Best match: Today is explicitly listed in this service's :added_in list
+    Enum.find(services, day_service, &Enum.member?(&1.added_dates, Date.to_iso8601(service_date)))
   end
 
   def sort_services_by_date(%Service{typicality: :typical_service, type: :weekday} = service) do

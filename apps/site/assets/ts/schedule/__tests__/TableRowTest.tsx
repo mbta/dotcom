@@ -6,7 +6,7 @@ import { fetchData as fetchJourney } from "../components/schedule-finder/TableRo
 import { Journey } from "../components/__trips";
 import { UserInput } from "../components/ScheduleFinder";
 
-const journey = ({
+const journey = {
   trip: {
     shape_id: "9890009",
     route_pattern_id: "CR-Providence-0-0",
@@ -45,7 +45,7 @@ const journey = ({
     },
     prediction: null
   }
-}) as Journey;
+} as Journey;
 
 const input = {
   route: "CR-Providence",

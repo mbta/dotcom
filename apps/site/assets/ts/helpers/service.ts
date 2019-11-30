@@ -1,4 +1,4 @@
-import { Service, DayInteger, ServiceWithServiceDate } from "../__v3api";
+import { Service, ServiceWithServiceDate } from "../__v3api";
 
 const monthIntegerToString = (month: MonthInteger): string =>
   [
@@ -31,47 +31,6 @@ export interface ServiceByOptGroup {
   servicePeriod: string;
   service: ServiceWithServiceDate;
 }
-
-const UTCDayToDayInteger = (day: number): DayInteger => {
-  // Sunday is 0 for getUTCDay, but 7 for our valid_days
-  if (day === 0) {
-    return 7;
-  }
-  return day as DayInteger;
-};
-
-const serviceDayMatch = (
-  service: ServiceWithServiceDate,
-  serviceDate: string
-): boolean => {
-  const serviceDayOfWeek = UTCDayToDayInteger(
-    new Date(serviceDate).getUTCDay()
-  );
-  return (
-    service.valid_days.includes(serviceDayOfWeek) &&
-    !service.removed_dates.includes(serviceDate)
-  );
-};
-
-export const getTodaysSchedule = (
-  services: ServicesKeyedByGroup
-): ServiceByOptGroup | null => {
-  let holidayMatch: ServiceByOptGroup[] = [];
-  let currentMatch: ServiceByOptGroup[] = [];
-  if (services.holiday.length > 0) {
-    holidayMatch = services.holiday.filter(
-      service => service.service.start_date === service.service.service_date
-    );
-  }
-  if (services.current.length > 0) {
-    currentMatch = services.current.filter(service =>
-      serviceDayMatch(service.service, service.service.service_date)
-    );
-  }
-  if (holidayMatch.length > 0) return holidayMatch[0];
-  if (currentMatch.length > 0) return currentMatch[0];
-  return null;
-};
 
 export type ServicesKeyedByGroup = {
   [key in ServiceOptGroupName]: ServiceByOptGroup[]

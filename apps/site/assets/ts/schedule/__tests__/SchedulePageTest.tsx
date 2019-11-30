@@ -4,9 +4,9 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 import SchedulePage from "../components/SchedulePage";
 import { TypedRoutes } from "../../stop/components/__stop";
 import ScheduleNote from "../components/ScheduleNote";
-import { EnhancedRoute, ServiceWithServiceDate } from "../../__v3api";
+import { EnhancedRoute } from "../../__v3api";
 import lineDiagramData from "./lineDiagramData.json"; // Not a full line diagram
-import { LineDiagramStop } from "../components/__schedule";
+import { LineDiagramStop, ServiceInSelector } from "../components/__schedule";
 const lineDiagram = lineDiagramData as LineDiagramStop[];
 
 const pdfs = [
@@ -105,7 +105,7 @@ const stops = {
   ]
 };
 
-const service: ServiceWithServiceDate = {
+const service: ServiceInSelector = {
   added_dates: [],
   added_dates_notes: {},
   description: "Weekday schedule",
@@ -118,7 +118,8 @@ const service: ServiceWithServiceDate = {
   typicality: "typical_service",
   valid_days: [1, 2, 3, 4, 5],
   service_date: "2019-06-26",
-  name: "weekday"
+  name: "weekday",
+  "default_service?": true
 };
 
 const services = [service];
