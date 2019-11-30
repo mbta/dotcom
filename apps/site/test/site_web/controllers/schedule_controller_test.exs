@@ -279,8 +279,8 @@ defmodule SiteWeb.ScheduleControllerTest do
       # builds a map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
 
-      # assigns 2 holidays
-      assert Enum.count(conn.assigns.holidays) == 2
+      # assigns 1 holiday
+      assert Enum.count(conn.assigns.holidays) == 1
     end
 
     test "Ferry data", %{conn: conn} do
@@ -379,7 +379,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     test "assigns 2 holidays", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "CR-Fitchburg"))
 
-      assert Enum.count(conn.assigns.holidays) == 2
+      assert Enum.count(conn.assigns.holidays) == 1
     end
 
     test "Bus line with variant", %{conn: conn} do
