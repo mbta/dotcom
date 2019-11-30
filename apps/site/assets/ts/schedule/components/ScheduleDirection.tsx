@@ -1,14 +1,11 @@
 import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
-import {
-  DirectionId,
-  EnhancedRoute,
-  ServiceWithServiceDate
-} from "../../__v3api";
+import { DirectionId, EnhancedRoute } from "../../__v3api";
 import {
   ShapesById,
   RoutePatternsByDirection,
   LineDiagramStop,
-  SimpleStopMap
+  SimpleStopMap,
+  ServiceInSelector
 } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
@@ -26,7 +23,7 @@ export interface Props {
   mapData?: MapData;
   staticMapData?: StaticMapData;
   lineDiagram: LineDiagramStop[];
-  services: ServiceWithServiceDate[];
+  services: ServiceInSelector[];
   ratingEndDate: string;
   stops: SimpleStopMap;
 }

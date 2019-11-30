@@ -36,7 +36,7 @@ defmodule SiteWeb.Schedule.LineControllerTest do
     end
 
     test "omits no-school weekday services" do
-      service_date = ~D[2019-05-01]
+      service_date = ~D[2019-12-11]
 
       school_service = %Service{
         start_date: ~D[2019-12-11],
@@ -71,7 +71,7 @@ defmodule SiteWeb.Schedule.LineControllerTest do
       }
 
       superset_service = %Service{
-        start_date: ~D[2019-05-29],
+        start_date: ~D[2019-04-29],
         end_date: ~D[2019-07-01]
       }
 

@@ -1,13 +1,10 @@
 import React, { ReactElement, useState, ChangeEvent } from "react";
-import {
-  EnhancedRoute,
-  DirectionId,
-  ServiceWithServiceDate
-} from "../../__v3api";
+import { EnhancedRoute, DirectionId } from "../../__v3api";
 import {
   SimpleStop,
   SimpleStopMap,
-  RoutePatternsByDirection
+  RoutePatternsByDirection,
+  ServiceInSelector
 } from "./__schedule";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 import icon from "../../../static/images/icon-schedule-finder.svg";
@@ -19,7 +16,7 @@ import OriginModalContent from "./schedule-finder/OriginModalContent";
 import ScheduleModalContent from "./schedule-finder/ScheduleModalContent";
 
 interface Props {
-  services: ServiceWithServiceDate[];
+  services: ServiceInSelector[];
   ratingEndDate: string;
   directionId: DirectionId;
   route: EnhancedRoute;
