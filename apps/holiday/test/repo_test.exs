@@ -12,22 +12,22 @@ defmodule Holiday.RepoTest do
   end
 
   describe "by_date/1" do
-    test "returns Christmas Day on 2018-12-25" do
-      date = ~D[2018-12-25]
+    test "returns Christmas Day on 2019-12-25" do
+      date = ~D[2019-12-25]
       assert Holiday.Repo.by_date(date) == [%Holiday{date: date, name: "Christmas Day"}]
     end
 
-    test "returns nothing for 2018-11-01" do
-      date = ~D[2018-11-01]
+    test "returns nothing for 2020-11-01" do
+      date = ~D[2020-11-01]
       assert Holiday.Repo.by_date(date) == []
     end
   end
 
   describe "holidays_in_month/1" do
     test "returns all holidays in the given month" do
-      for date <- [~D[2018-12-01], ~D[2018-12-25], ~D[2018-12-31]] do
+      for date <- [~D[2019-12-01], ~D[2019-12-25], ~D[2019-12-31]] do
         assert Holiday.Repo.holidays_in_month(date) == [
-                 %Holiday{date: ~D[2018-12-25], name: "Christmas Day"}
+                 %Holiday{date: ~D[2019-12-25], name: "Christmas Day"}
                ]
       end
     end
