@@ -115,7 +115,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     RouteStops.by_direction(stops[route.id], shapes, route, direction_id)
   end
 
-  @spec get_shuttle_data(Plug.Conn.t()) :: [Phoenix.HTML.safe()]
+  @spec get_shuttle_data(Plug.Conn.t()) :: Site.ShuttleDiversion.t()
   def get_shuttle_data(conn) do
     {:ok, data} = ShuttleDiversion.active([conn.assigns.route.id], conn.assigns.date_time)
     data
