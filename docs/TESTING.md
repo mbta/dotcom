@@ -59,7 +59,7 @@ Prerequisites for running the tests:
   * `brew cask install java --no-quarantine`
     * This option is currently required on OS X 10.15+ due to Gatekeeper
       changes. Ref: https://github.com/Homebrew/homebrew-cask/issues/70798
-  * `brew cask install wiremock-standalone`
+  * `brew install wiremock-standalone`
 * Ensure the [environment variable](ENVIRONMENT.md) `WIREMOCK_PATH` points to
   the Wiremock JAR file; with brew cask this will be something like
   `/usr/local/Cellar/wiremock-standalone/<VERSION>/libexec/wiremock-standalone-<VERSION>.jar`
