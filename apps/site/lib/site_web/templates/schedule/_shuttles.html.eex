@@ -11,7 +11,7 @@
 
 <div class="row">
   <div class="shuttles__alerts col-md-12">
-    <%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high) %>
+    <%= SiteWeb.AlertView.group(alerts: @shuttle_data.alerts, route: @route, date_time: @date_time) %>
   </div>
 
   <div class="shuttles__main col-md-8 col-lg-7">

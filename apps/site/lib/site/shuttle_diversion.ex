@@ -1,6 +1,7 @@
 defmodule Site.ShuttleDiversion do
   @moduledoc "Represents and retrieves data about rail-replacement shuttle bus services."
 
+  alias Alerts.Alert
   alias Alerts.Match, as: AlertsMatch
   alias Alerts.Repo, as: Alerts
   alias Routes.Route
@@ -77,10 +78,13 @@ defmodule Site.ShuttleDiversion do
     end
   end
 
-  @enforce_keys [:shapes, :stops]
+  @derive {Poison.Encoder, except: [:alerts]}
+
+  @enforce_keys [:alerts, :shapes, :stops]
   defstruct @enforce_keys
 
   @type t :: %__MODULE__{
+          alerts: [Alert.t()],
           shapes: [Shape.t()],
           stops: [Stop.t()]
         }
@@ -108,12 +112,13 @@ defmodule Site.ShuttleDiversion do
            unique_trips = unique_trips_by_shape(trips) do
         {:ok,
          %__MODULE__{
+           alerts: ongoing_shuttle_alerts(route_ids, time),
            shapes: build_shapes(route_ids, unique_trips, time),
            stops: build_stops(route_ids, route_stops, unique_trips, time)
          }}
       end
     else
-      {:ok, %__MODULE__{shapes: [], stops: []}}
+      {:ok, %__MODULE__{alerts: [], shapes: [], stops: []}}
     end
   end
 
