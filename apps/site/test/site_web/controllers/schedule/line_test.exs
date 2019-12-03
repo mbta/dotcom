@@ -458,7 +458,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> Conn.assign(:route, %Route{id: "Red", type: 1})
         |> Conn.assign(:date_time, ~N[2019-11-25T12:00:00])
 
-      expected = %Site.ShuttleDiversion{shapes: [], stops: []}
+      expected = %Site.ShuttleDiversion{alerts: [], shapes: [], stops: []}
       data = get_shuttle_data(conn)
       assert data == expected
     end
