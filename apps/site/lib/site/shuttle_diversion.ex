@@ -158,7 +158,6 @@ defmodule Site.ShuttleDiversion do
     trips
     |> Stream.filter(&shuttle_route?/1)
     |> Stream.flat_map(&stops_with_direction/1)
-    |> Stream.uniq_by(fn {_, stop} -> stop.id end)
     |> Enum.map(fn {direction_id, stop} ->
       %Stop{
         id: stop.id,
