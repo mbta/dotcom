@@ -105,11 +105,11 @@ defmodule Site.ShuttleDiversion do
 
       with %JsonApi{data: trips} <- TripsHack.by_route(trips_route, trips_params),
            route_stops when is_list(route_stops) <- Stops.by_routes(true_route_ids, 0),
-           relevant_trips = shuttle_related_trips(trips) do
+           unique_trips = unique_trips_by_shape(trips) do
         {:ok,
          %__MODULE__{
-           shapes: build_shapes(relevant_trips),
-           stops: build_stops(route_ids, route_stops, relevant_trips, time)
+           shapes: build_shapes(route_ids, unique_trips, time),
+           stops: build_stops(route_ids, route_stops, unique_trips, time)
          }}
       end
     else
@@ -117,8 +117,10 @@ defmodule Site.ShuttleDiversion do
     end
   end
 
-  defp build_shapes(trips) do
-    Enum.map(trips, fn trip ->
+  defp build_shapes(route_ids, trips, time) do
+    trips_on_unaffected_routes(route_ids, trips, time)
+    |> Stream.concat(trips_on_affected_routes(trips))
+    |> Enum.map(fn trip ->
       with shape <- shape(trip) do
         %Shape{
           id: shape.id,
@@ -189,13 +191,6 @@ defmodule Site.ShuttleDiversion do
   defp shape(%{relationships: %{"shape" => [shape]}}), do: shape
   defp shape(_trip), do: nil
 
-  defp shuttle_related_trips(trips) do
-    trips
-    |> Stream.filter(&shape/1)
-    |> Stream.uniq_by(&shape/1)
-    |> Stream.filter(&shuttle_related?/1)
-  end
-
   defp shuttle_related?(trip) do
     # Typicality 4 indicates major changes in service due to a planned disruption. This might not
     # always mean there's a shuttle service, but it's the best identifying attribute we have.
@@ -213,5 +208,38 @@ defmodule Site.ShuttleDiversion do
 
   defp stops_with_direction(%{attributes: %{"direction_id" => direction_id}} = trip) do
     trip |> stops() |> Enum.map(&{direction_id, &1})
+  end
+
+  defp trips_on_affected_routes(trips) do
+    Stream.filter(trips, &shuttle_related?/1)
+  end
+
+  defp trips_on_unaffected_routes(route_ids, trips, time) do
+    # Since trips can only be retrieved by service date and not by a finer-grained time window,
+    # the overall collection of trips may include ones that are both typical and atypical for the
+    # routes experiencing a diversion, if the diversion occurs only during part of the day. So we
+    # need to reject trips that are typical, but belong to a route that has an active diversion.
+
+    affected_route_ids =
+      route_ids
+      |> ongoing_shuttle_alerts(time)
+      |> Enum.flat_map(& &1.informed_entity.entities)
+      |> Enum.map(& &1.route)
+      |> Enum.reject(&is_nil/1)
+      |> Enum.uniq()
+
+    trips
+    |> Stream.filter(&typical?/1)
+    |> Stream.filter(&(hd(&1.relationships["route"]).id not in affected_route_ids))
+  end
+
+  defp typical?(trip) do
+    hd(trip.relationships["route_pattern"]).attributes["typicality"] == 1
+  end
+
+  defp unique_trips_by_shape(trips) do
+    trips
+    |> Stream.filter(&shape/1)
+    |> Stream.uniq_by(&shape/1)
   end
 end
