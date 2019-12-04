@@ -75,7 +75,7 @@ To make your local server externally visible (useful for testing on a real phone
 
 ### `WIREMOCK_PATH`
 
-The path to your wiremock `.jar` file. Currently, this optional variable is only used by `npm` tasks, and not `mix`. If it is not set, `bin/wiremock-standalone-2.1.14.jar` will be used as the default.
+The path to your wiremock `.jar` file. Currently, this optional variable is only used by `npm` tasks, and not `mix`.
 
 ### `WIREMOCK_PROXY_URL`
 
