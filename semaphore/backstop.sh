@@ -8,6 +8,8 @@ function kill_processes () {
 # When script exits, clean up processes
 trap kill_processes EXIT
 
+WIREMOCK_VERSION="2.25.1"
+
 # OSX
 if [[ $OSTYPE == "darwin"* ]]; then
   DOCKER_INTERNAL_IP="host.docker.internal"
@@ -25,10 +27,10 @@ else
   # CI
   if [[ -n $SEMAPHORE_CACHE_DIR ]]; then
     mkdir -p "$SEMAPHORE_CACHE_DIR"/wiremock
-    if [[ ! -f $SEMAPHORE_CACHE_DIR/wiremock/wiremock-standalone-2.14.0.jar ]]; then
-      cd "$SEMAPHORE_CACHE_DIR"/wiremock && curl -O http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/2.14.0/wiremock-standalone-2.14.0.jar && cd -
+    if [[ ! -f $SEMAPHORE_CACHE_DIR/wiremock/wiremock-standalone-$WIREMOCK_VERSION.jar ]]; then
+      cd "$SEMAPHORE_CACHE_DIR"/wiremock && curl -O http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/$WIREMOCK_VERSION/wiremock-standalone-$WIREMOCK_VERSION.jar && cd -
     fi
-    WIREMOCK_PATH=$SEMAPHORE_CACHE_DIR/wiremock/wiremock-standalone-2.14.0.jar npm run wiremock &
+    WIREMOCK_PATH=$SEMAPHORE_CACHE_DIR/wiremock/wiremock-standalone-$WIREMOCK_VERSION.jar npm run wiremock &
   else
     npm run wiremock &
   fi
