@@ -3,7 +3,7 @@
 use Mix.Config
 
 config :v3_api,
-  base_url: {:system, "V3_URL", System.get_env("V3_URL")},
+  base_url: {:system, "V3_URL"},
   api_key: {:system, "V3_API_KEY"},
   wiremock_proxy_url: {:system, "WIREMOCK_PROXY_URL"},
   wiremock_proxy: {:system, "WIREMOCK_PROXY", "false"},
