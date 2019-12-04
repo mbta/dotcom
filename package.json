@@ -20,7 +20,7 @@
     "brunch:build:namespaced": "cd apps/site/assets/namespaced_header_footer && npm run brunch:build",
     "server:mocked": "WARM_CACHES=false REACT_BUILD_PATH=${PWD}/apps/site/react_renderer/dist/app.js USE_SERVER_SENT_EVENTS=false WIREMOCK_PROXY=true MIX_ENV=prod PORT=8082 STATIC_SCHEME=http STATIC_HOST=host.docker.internal STATIC_PORT=8082 V3_URL=http://localhost:8080 OPEN_TRIP_PLANNER_URL=http://localhost:8080 DRUPAL_ROOT=http://www.cms.example mix do deps.compile --force, compile --no-deps-check --force, phx.server",
     "server:mocked:nocompile": "WARM_CACHES=false REACT_BUILD_PATH=${PWD}/apps/site/react_renderer/dist/app.js USE_SERVER_SENT_EVENTS=false WIREMOCK_PROXY=true MIX_ENV=prod PORT=8082 STATIC_SCHEME=http STATIC_HOST=host.docker.internal STATIC_PORT=8082 V3_URL=http://localhost:8080 OPEN_TRIP_PLANNER_URL=http://localhost:8080 DRUPAL_ROOT=http://www.cms.example mix phx.server",
-    "wiremock": "cd apps/site && java -jar ${WIREMOCK_PATH:-../../bin/wiremock-standalone-2.14.0.jar} --root-dir=test --global-response-templating",
+    "wiremock": "cd apps/site && java -jar $WIREMOCK_PATH --root-dir=test --global-response-templating",
     "wiremock:record": "npm run wiremock -- --record-mappings",
     "wiremock:record:clean": "rm -fr apps/site/test/__files/*.json && rm -fr apps/site/test/mappings/mapping* && npm run wiremock:record",
     "webpack:watch": "cd apps/site/assets && npm run webpack:watch",
