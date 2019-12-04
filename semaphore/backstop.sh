@@ -53,28 +53,19 @@ done
 # Do not exit on failure at this point (so s3 file uploads in CI)
 set +e
 
-for i in {1..2}
-do
-  if npm run backstop:test
-  then
-    echo "Backstop tests passed!"
-    exit 0
-  else
-    echo "Run $i failed"
-    # If not in CI, only run once
-    if [[ -z $SEMAPHORE_CACHE_DIR ]]; then
-      break
-    fi
+if npm run backstop:test
+then
+  echo "Backstop tests passed!"
+  exit 0
+else
+  echo "Some tests failed."
+  # If in CI, upload backstop data to S3
+  if [[ -n $SEMAPHORE_CACHE_DIR ]]; then
+    BRANCH=$(git rev-parse --abbrev-ref HEAD)
+    FILENAME="$BRANCH.tar.gz"
+    tar -czvf "$FILENAME" apps/site/test/backstop_data
+    LINK=$(curl -F "file=@$FILENAME" https://file.io/\?expires\=1d | jq -r .link)
+    echo "Backstop report located at $LINK, available for 1 day for a single download."
   fi
-done
-
-echo "Some tests failed."
-# If in CI, upload backstop data to S3
-if [[ -n $SEMAPHORE_CACHE_DIR ]]; then
-  BRANCH=$(git rev-parse --abbrev-ref HEAD)
-  FILENAME="$BRANCH.tar.gz"
-  tar -czvf "$FILENAME" apps/site/test/backstop_data
-  LINK=$(curl -F "file=@$FILENAME" https://file.io/\?expires\=1d | jq -r .link)
-  echo "Backstop report located at $LINK, available for 1 day for a single download."
+  exit 1
 fi
-exit 1
