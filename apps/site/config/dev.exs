@@ -53,5 +53,3 @@ config :logger,
 # Do not configure such in production as keeping
 # and calculating stacktraces is usually expensive.
 config :phoenix, :stacktrace_depth, 20
-
-config :site, :wiremock_path, Path.expand("bin/wiremock-standalone-2.14.0.jar")
