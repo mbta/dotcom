@@ -380,7 +380,7 @@ defmodule SiteWeb.ScheduleView do
     ]
 
     tabs =
-      if Laboratory.enabled?(conn, :shuttles) and ShuttleDiversion.active?([route.id], now) do
+      if ShuttleDiversion.active?([route.id], now) do
         [
           %HeaderTab{
             id: "shuttles",

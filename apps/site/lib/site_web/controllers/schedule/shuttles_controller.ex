@@ -3,7 +3,6 @@ defmodule SiteWeb.ScheduleController.ShuttlesController do
 
   use SiteWeb, :controller
 
-  alias SiteWeb.ControllerHelpers
   alias SiteWeb.ScheduleView
 
   import SiteWeb.ScheduleController.Line.Helpers,
@@ -20,7 +19,6 @@ defmodule SiteWeb.ScheduleController.ShuttlesController do
   def show(conn, _) do
     conn
     |> put_view(ScheduleView)
-    |> ControllerHelpers.noindex()
     |> assign(:paragraphs, get_shuttle_paragraphs(conn))
     |> assign(:shuttle_data, get_shuttle_data(conn))
     |> render("show.html", [])
