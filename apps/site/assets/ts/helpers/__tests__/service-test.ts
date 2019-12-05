@@ -75,61 +75,74 @@ describe("serviceDate", () => {
 describe("groupServiceByDate", () => {
   it("groups current schedules with the proper service period", () => {
     const groupedService = groupServiceByDate(currentService);
-    expect(groupedService).toEqual({
-      type: "current",
-      servicePeriod: "ends July 28",
-      service: currentService
-    });
+    expect(groupedService).toEqual([
+      {
+        type: "current",
+        servicePeriod: "ends July 28",
+        service: currentService
+      }
+    ]);
   });
 
   it("groups upcoming schedules as future with proper service period", () => {
     const groupedService = groupServiceByDate(upcomingService);
-    expect(groupedService).toEqual({
-      type: "future",
-      servicePeriod: "starts July 1",
-      service: upcomingService
-    });
+    expect(groupedService).toEqual([
+      {
+        type: "future",
+        servicePeriod: "starts July 1",
+        service: upcomingService
+      }
+    ]);
   });
 
   it("groups holiday schedules with proper service period", () => {
-    const groupedService = groupServiceByDate({
-      ...service,
-      service_date: "06-25-19"
-    });
-    expect(groupedService).toEqual({
-      type: "holiday",
-      servicePeriod: "on June 25",
-      service: { ...service, service_date: "06-25-19" }
-    });
+    const groupedService = groupServiceByDate(holidayService);
+    expect(groupedService).toEqual([
+      {
+        type: "holiday",
+        servicePeriod: "St. Transit's Day, June 25",
+        service: holidayService
+      }
+    ]);
   });
+
   it("marks future schedules as future", () => {
     const groupedService = groupServiceByDate({
       ...currentService,
       start_date: "2019-01-01",
       end_date: "2019-01-02"
     });
-    expect(groupedService).toEqual({
-      type: "future",
-      servicePeriod: "January 1 to January 2",
-      service: {
-        ...currentService,
-        start_date: "2019-01-01",
-        end_date: "2019-01-02"
+    expect(groupedService).toEqual([
+      {
+        type: "future",
+        servicePeriod: "January 1 to January 2",
+        service: {
+          ...currentService,
+          start_date: "2019-01-01",
+          end_date: "2019-01-02"
+        }
       }
-    });
+    ]);
   });
 });
 
 const groupServices = (services: ServiceWithServiceDate[]) =>
   services
     .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
+    .reduce((acc, services) => [...acc, ...services])
     .reduce(
       (acc: ServicesKeyedByGroup, currService: ServiceByOptGroup) =>
         groupByType(acc, currService),
       { future: [], current: [], holiday: [] }
     );
 
-const holidayService = { ...service, service_date: "2019-06-25" };
+const holidayService: ServiceWithServiceDate = {
+  ...service,
+  added_dates: ["06-25-19"],
+  added_dates_notes: { "06-25-19": "St. Transit's Day" },
+  service_date: "2019-06-25",
+  typicality: "holiday_service"
+};
 
 describe("getTodaysSchedule", () => {
   it("marks the holiday day as today if there is a holiday", () => {
