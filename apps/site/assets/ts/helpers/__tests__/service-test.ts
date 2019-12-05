@@ -6,7 +6,12 @@ import {
   ServiceByOptGroup,
   getTodaysSchedule
 } from "../service";
-import { Service, ServiceWithServiceDate, DayInteger } from "../../__v3api";
+import {
+  Service,
+  ServiceWithServiceDate,
+  DayInteger,
+  DatesNotes
+} from "../../__v3api";
 
 const service: Service = {
   added_dates: [],

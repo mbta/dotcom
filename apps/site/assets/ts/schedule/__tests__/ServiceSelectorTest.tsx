@@ -67,6 +67,21 @@ const services: ServiceWithServiceDate[] = [
     description: "Sunday schedule",
     added_dates_notes: {},
     added_dates: []
+  },
+  {
+    valid_days: [],
+    typicality: "holiday_service",
+    type: "sunday",
+    start_date: "2019-07-07",
+    service_date: "2019-07-09",
+    removed_dates_notes: {},
+    removed_dates: [],
+    name: "Sunday",
+    id: "Bastille-Day",
+    end_date: "2019-08-25",
+    description: "Sunday schedule",
+    added_dates_notes: { "2019-07-14": "Bastille Day" },
+    added_dates: ["2019-07-14"]
   }
 ] as ServiceWithServiceDate[];
 
