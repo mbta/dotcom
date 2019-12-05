@@ -56,7 +56,13 @@ Array [
         </optgroup>
         <optgroup
           label="Holiday Schedules"
-        />
+        >
+          <option
+            value="Bastille-Day"
+          >
+            Bastille Day, July 14
+          </option>
+        </optgroup>
         <optgroup
           label="Future Schedules"
         />

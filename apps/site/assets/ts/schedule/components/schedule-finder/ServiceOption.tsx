@@ -58,7 +58,7 @@ const ServiceOption = ({
     service.type === "weekday" &&
     service.typicality !== "holiday_service";
   return (
-    <option value={service.id} key={service.id}>
+    <option value={service.id}>
       {isMultipleWeekday
         ? `${serviceDays(service)} schedule`
         : service.description}

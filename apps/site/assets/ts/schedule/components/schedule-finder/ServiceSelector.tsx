@@ -15,6 +15,7 @@ import ScheduleTable from "./ScheduleTable";
 import { SelectedDirection } from "../ScheduleFinder";
 import { EnhancedRoutePattern, ServiceScheduleInfo } from "../__schedule";
 import ServiceOption from "./ServiceOption";
+import HolidayServiceOption from "./HolidayServiceOption";
 
 // until we come up with a good integration test for async with loading
 // some lines in this file have been ignored from codecov
@@ -163,9 +164,16 @@ export const ServiceSelector = ({
 
               return (
                 <optgroup key={group} label={optGroupTitles[group]}>
-                  {servicesByOptGroup[group].map(
-                    (service: ServiceByOptGroup) => (
+                  {servicesByOptGroup[group].map((service: ServiceByOptGroup) =>
+                    group === "holiday" ? (
+                      <HolidayServiceOption
+                        key={service.service.id + service.servicePeriod}
+                        service={service.service}
+                        servicePeriod={service.servicePeriod}
+                      />
+                    ) : (
                       <ServiceOption
+                        key={service.service.id + service.servicePeriod}
                         service={service.service}
                         group={group}
                         servicePeriod={service.servicePeriod}
