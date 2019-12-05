@@ -1,0 +1,26 @@
+{
+  "id" : "c43f7165-d2bb-3daf-81ef-f1c08c41e123",
+  "request" : {
+    "url" : "/routes/?stop=place-ER-0115",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-QpaRh.json",
+    "headers" : {
+      "Date" : "Thu, 05 Dec 2019 15:19:11 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Thu, 05 Dec 2019 05:54:29 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69626",
+      "x-ratelimit-reset" : "1575559200",
+      "x-request-id" : "Fd2Csz4yl3oCSBoACJ1h"
+    }
+  },
+  "uuid" : "c43f7165-d2bb-3daf-81ef-f1c08c41e123"
+}

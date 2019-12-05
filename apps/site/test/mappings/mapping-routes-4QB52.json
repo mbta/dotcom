@@ -1,0 +1,26 @@
+{
+  "id" : "559c61ae-2b08-36c4-83e3-ad28e487fcc6",
+  "request" : {
+    "url" : "/routes/?stop=106",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-4QB52.json",
+    "headers" : {
+      "Date" : "Thu, 05 Dec 2019 15:17:38 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Thu, 05 Dec 2019 05:54:29 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69750",
+      "x-ratelimit-reset" : "1575559080",
+      "x-request-id" : "Fd2CncboDVyZ_R4ACIYh"
+    }
+  },
+  "uuid" : "559c61ae-2b08-36c4-83e3-ad28e487fcc6"
+}

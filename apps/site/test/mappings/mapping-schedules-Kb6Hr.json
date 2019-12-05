@@ -1,0 +1,25 @@
+{
+  "id" : "6e71497b-561e-3256-a091-164cdb57a2b4",
+  "request" : {
+    "url" : "/schedules/?route=Red&date=1970-01-01",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-Kb6Hr.json",
+    "headers" : {
+      "Date" : "Thu, 05 Dec 2019 15:17:12 GMT",
+      "Content-Type" : "application/vnd.api+json",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Thu, 05 Dec 2019 05:55:07 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69790",
+      "x-ratelimit-reset" : "1575559080",
+      "x-request-id" : "Fd2Cl7hBc1dViVYACH1B"
+    }
+  },
+  "uuid" : "6e71497b-561e-3256-a091-164cdb57a2b4"
+}
