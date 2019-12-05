@@ -1,0 +1,26 @@
+{
+  "id" : "2aa40ebd-0171-3ebf-a29e-9bf4a2039953",
+  "request" : {
+    "url" : "/shapes/?route=Green-B&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-smsmc.json",
+    "headers" : {
+      "Date" : "Thu, 05 Dec 2019 15:15:56 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Thu, 05 Dec 2019 05:55:24 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69605",
+      "x-ratelimit-reset" : "1575558960",
+      "x-request-id" : "Fd2ChgGiHlgvno8ACDih"
+    }
+  },
+  "uuid" : "2aa40ebd-0171-3ebf-a29e-9bf4a2039953"
+}

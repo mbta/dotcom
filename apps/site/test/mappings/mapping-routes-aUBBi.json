@@ -1,0 +1,26 @@
+{
+  "id" : "f3e3f3dd-ced2-36bb-8095-6476046f46bb",
+  "request" : {
+    "url" : "/routes/?stop=place-stpul",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-aUBBi.json",
+    "headers" : {
+      "Date" : "Thu, 05 Dec 2019 15:19:11 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Thu, 05 Dec 2019 05:54:29 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69530",
+      "x-ratelimit-reset" : "1575559200",
+      "x-request-id" : "Fd2Cs2VE4cRkMd8AA93C"
+    }
+  },
+  "uuid" : "f3e3f3dd-ced2-36bb-8095-6476046f46bb"
+}

@@ -1,0 +1,26 @@
+{
+  "id" : "9512bbbe-523e-370f-996b-ad0f0528de91",
+  "request" : {
+    "url" : "/routes/Red",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-Red-TqEgI.json",
+    "headers" : {
+      "Date" : "Thu, 05 Dec 2019 19:48:09 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Thu, 05 Dec 2019 16:00:42 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69790",
+      "x-ratelimit-reset" : "1575575340",
+      "x-request-id" : "Fd2RYM4mw6b0z48AA0pi"
+    }
+  },
+  "uuid" : "9512bbbe-523e-370f-996b-ad0f0528de91"
+}

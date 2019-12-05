@@ -1,0 +1,26 @@
+{
+  "id" : "04397cb3-588f-36b4-b60e-a874b4098f60",
+  "request" : {
+    "url" : "/routes/?stop=place-wlsta",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-mQNT4.json",
+    "headers" : {
+      "Date" : "Thu, 05 Dec 2019 15:19:11 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Thu, 05 Dec 2019 05:54:29 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69565",
+      "x-ratelimit-reset" : "1575559200",
+      "x-request-id" : "Fd2Cs1Nw09DN3c0AAM5E"
+    }
+  },
+  "uuid" : "04397cb3-588f-36b4-b60e-a874b4098f60"
+}
