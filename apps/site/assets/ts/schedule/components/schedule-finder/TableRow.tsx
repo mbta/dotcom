@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useReducer, ReactElement } from "react";
 import { reducer } from "../../../helpers/fetch";
 import { Journey, TripInfo } from "../__trips";
-import { RoutePillSmall } from "./UpcomingDepartures";
 import { modeIcon, caret } from "../../../helpers/icon";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { breakTextAtSlash } from "../../../helpers/text";
@@ -67,9 +66,13 @@ const BusTableRow = ({
       {journey.departure.time}
     </td>
     <td className="schedule-table__td">
-      <div className="schedule-table__row-route">
-        <RoutePillSmall route={journey.route} />
-      </div>
+      {journey.route.type === 3 && !journey.route.name.startsWith("SL") ? (
+        <span className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill">
+          {journey.route.name}
+        </span>
+      ) : (
+        modeIcon(journey.route.id)
+      )}{" "}
       {breakTextAtSlash(journey.trip.headsign)}
     </td>
   </>

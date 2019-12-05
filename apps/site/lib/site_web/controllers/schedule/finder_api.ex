@@ -2,12 +2,15 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   @moduledoc """
     API for retrieving journeys for a route, and for
     showing trip details for each journey on demand.
+
+    "Departure" here is analagous to PredictedSchedule.t()
   """
   use SiteWeb, :controller
 
   alias Predictions.Prediction
   alias Routes.Route
-  alias Schedules.Schedule
+  alias Schedules.{Schedule, Trip}
+  alias Site.TransitNearMe
   alias SiteWeb.ScheduleController.TripInfo, as: Trips
   alias SiteWeb.ScheduleController.VehicleLocations, as: Vehicles
 
@@ -17,12 +20,21 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   @type react_strings :: [{react_keys, String.t()}]
   @type converted_values :: {Date.t(), integer, boolean}
 
+  @type enhanced_journey :: %{
+          departure: PredictedSchedule.t() | nil,
+          arrival: PredictedSchedule.t() | nil,
+          trip: Trip.t() | nil,
+          realtime: TransitNearMe.time_data() | nil
+        }
+
+  # How many seconds a departure is considered recent
+  @recent_departure_max_age 600
+
   # Leverage the JourneyList module to return a simplified set of trips
   @spec journeys(Plug.Conn.t(), map) :: Plug.Conn.t()
   def journeys(conn, %{"stop" => stop_id, "date" => date} = params) do
-    {schedules, predictions} = load_from_repos(conn, params)
-
     {:ok, user_selected_date} = Date.from_iso8601(date)
+    {schedules, predictions} = load_from_repos(conn, params)
 
     # Emulate original Schedules tab journey build logic:
     # The original Schedules tab contained a complete list of trips
@@ -51,11 +63,16 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   # Use alternative JourneyList constructor to only return trips with predictions
   @spec departures(Plug.Conn.t(), map) :: Plug.Conn.t()
   def departures(conn, %{"stop" => stop_id} = params) do
+    now = conn.assigns.date_time |> DateTime.to_date() |> Date.to_iso8601()
+    params = %{"date" => now, "is_current" => "true"} |> Map.merge(params)
+
     {schedules, predictions} = load_from_repos(conn, params)
 
     journeys =
       schedules
       |> JourneyList.build_predictions_only(predictions, stop_id, nil)
+      |> Map.get(:journeys, [])
+      |> Enum.map(&enhance_journeys/1)
       |> prepare_journeys_for_json()
 
     json(conn, journeys)
@@ -112,7 +129,11 @@ defmodule SiteWeb.ScheduleController.FinderApi do
          "is_current" => is_current
        }) do
     {service_end_date, direction_id, current_service?} =
-      convert_from_string(date: date, direction: direction, is_current: is_current)
+      convert_from_string(
+        date: date,
+        direction: direction,
+        is_current: is_current
+      )
 
     # JourneyList orders trips according to their prediction time first (if present),
     # and then by scheduled time. If the selected service is valid for the current day,
@@ -135,10 +156,44 @@ defmodule SiteWeb.ScheduleController.FinderApi do
     {schedules, predictions}
   end
 
-  @spec prepare_journeys_for_json(JourneyList.t()) :: [map]
-  defp prepare_journeys_for_json(journey_list) do
-    journey_list
-    |> Map.get(:journeys)
+  # Add detailed prediction data to journeys known to have predictions.
+  @spec enhance_journeys(Journey.t()) :: map
+  defp enhance_journeys(%{departure: departure} = journey) do
+    now = Timex.now()
+    diff = DateTime.diff(Timex.now(), departure.schedule.time)
+
+    time_map =
+      departure
+      |> TransitNearMe.build_time_map(now: now)
+      |> recent_departure(departure.prediction, diff)
+
+    Map.put(journey, :realtime, time_map)
+  end
+
+  # Trips which have departed the origin/selected station are normally
+  # excluded in upcoming departures since their predictions are nil. In
+  # order to include recently departed trips along with upcoming, check
+  # a prediction's status and limit recent trips to a certain time range.
+  # NOTE: Only works for N/S Station and Back Bay, and predictions will
+  # drop off (become nil) anytime during the duration of the trip.
+  defp recent_departure({_, details}, %{status: "Departed"} = prediction, time_elapsed)
+       when time_elapsed <= @recent_departure_max_age do
+    Map.put(details, :prediction, %{
+      time: details.scheduled_time,
+      track: prediction.track,
+      status: "Departed"
+    })
+  end
+
+  defp recent_departure({_, details}, _, _), do: details
+
+  @spec prepare_journeys_for_json(JourneyList.t() | [Journey.t() | enhanced_journey]) :: [map]
+  defp prepare_journeys_for_json(%{journeys: journeys}) do
+    prepare_journeys_for_json(journeys)
+  end
+
+  defp prepare_journeys_for_json(journeys) do
+    journeys
     |> Enum.map(&destruct_journey/1)
     |> Enum.map(&lift_up_route/1)
     |> Enum.map(&set_departure_time/1)
