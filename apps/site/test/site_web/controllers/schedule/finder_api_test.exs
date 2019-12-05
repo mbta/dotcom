@@ -90,15 +90,11 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
 
   describe "departures/2" do
     test "successfully calls the API", %{conn: conn} do
-      date = Util.now() |> Date.to_iso8601()
-
       path =
         finder_api_path(conn, :departures, %{
           id: "CR-Kingston",
           direction: "0",
-          date: date,
-          stop: "place-PB-0194",
-          is_current: "true"
+          stop: "place-PB-0194"
         })
 
       opts = [
@@ -110,6 +106,52 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
       |> assign(:trip_info_functions, opts)
       |> get(path)
       |> json_response(200)
+    end
+
+    test "includes recently departed journeys within the time limit only", %{conn: conn} do
+      path =
+        finder_api_path(conn, :departures, %{
+          id: "CR-Providence",
+          direction: "0",
+          stop: "place-sstat"
+        })
+
+      older_trip = %Trip{direction_id: 0, id: "CR-Weekday-Fall-19-000"}
+      older_time = Timex.shift(@schedule_time, minutes: -15)
+
+      recent_prediction =
+        @prediction
+        |> Map.put(:time, nil)
+        |> Map.put(:status, "Departed")
+
+      older_prediction =
+        recent_prediction
+        |> Map.put(:trip, older_trip)
+
+      older_schedule =
+        @schedule
+        |> Map.put(:time, older_time)
+        |> Map.put(:trip, older_trip)
+
+      response =
+        conn
+        |> assign(:schedules_fn, fn _, _ -> [older_schedule, @schedule] end)
+        |> assign(:predictions_fn, fn _ -> [older_prediction, recent_prediction] end)
+        |> get(path)
+        |> json_response(200)
+
+      assert length(response) == 2
+
+      assert [
+               %{
+                 "trip" => %{"id" => "CR-Weekday-Fall-19-000"},
+                 "realtime" => %{"prediction" => nil}
+               },
+               %{
+                 "trip" => %{"id" => "CR-Weekday-Fall-19-839"},
+                 "realtime" => %{"prediction" => %{"status" => "Departed"}}
+               }
+             ] = response
     end
   end
 

@@ -7,11 +7,11 @@ import {
 import { modeIcon } from "../../../helpers/icon";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
 import { Route } from "../../../__v3api";
-import { StopPrediction } from "../__schedule";
+import { EnhancedJourney } from "../__trips";
 import { breakTextAtSlash } from "../../../helpers/text";
 
 interface State {
-  data: StopPrediction[] | null;
+  data: EnhancedJourney[] | null;
   isLoading: boolean;
   error: boolean;
 }
@@ -20,10 +20,10 @@ interface Props {
   state: State;
 }
 
-const hasPredictions = (stopPredictions: StopPrediction[]): boolean =>
-  stopPredictions.filter(
-    stopPrediction => stopPrediction.prediction.prediction !== null
-  ).length > 0;
+// Predictions are nil unless they have a time. This helps
+// prevent far-future trips from appearing in Upcoming Departures.
+const hasPredictions = (journeys: EnhancedJourney[]): boolean =>
+  journeys.filter(journey => journey.realtime.prediction !== null).length > 0;
 
 export const RoutePillSmall = ({
   route
@@ -35,53 +35,62 @@ export const RoutePillSmall = ({
   </div>
 );
 interface TableRowProps {
-  prediction: StopPrediction;
+  journey: EnhancedJourney;
 }
 
 const TableRow = ({
-  prediction
+  journey
 }: TableRowProps): ReactElement<HTMLElement> | null => {
-  if (prediction.prediction.prediction === null) return null;
-  if (prediction.route.type === 2)
-    return <CrTableRow prediction={prediction} />;
+  const { trip, route, realtime } = journey;
+
+  if (realtime.prediction === null) return null;
+
+  if (route.type === 2) return <CrTableRow journey={journey} />;
+
   return (
     <tr className="schedule-table__row schedule-table__row--stretch">
       <td>
         <div className="schedule-table__row-route">
-          <RoutePillSmall route={prediction.route} /> {prediction.headsign}
+          {route.type === 3 ? (
+            <RoutePillSmall route={route} />
+          ) : (
+            <div className="schedule-table__row-route-pill m-route-pills">
+              {modeIcon(route.id)}
+            </div>
+          )}
+          {trip.headsign}
         </div>
       </td>
       <td className="schedule-table__time u-bold">
-        {prediction.prediction.prediction.time}
+        {realtime.prediction.time}
       </td>
     </tr>
   );
 };
 
 const CrTableRow = ({
-  prediction
-}: TableRowProps): ReactElement<HTMLElement> => {
-  const track = trackForCommuterRail(prediction.prediction);
-  const trainNumber = prediction.train_number
-    ? `Train ${prediction.train_number} · `
-    : "";
-  const predictedSchedule = prediction.prediction;
+  journey
+}: TableRowProps): ReactElement<HTMLElement> | null => {
+  const { trip, route, realtime } = journey;
+
+  if (realtime.prediction === null) return null;
+
+  const track = trackForCommuterRail(realtime);
+  const trainNumber = trip.name ? `Train ${trip.name} · ` : "";
+
   return (
     <tr className="schedule-table__row schedule-table__row--stretch">
       <td className="schedule-table__headsign">
-        {modeIcon(prediction.route.id)} {breakTextAtSlash(prediction.headsign)}
+        {modeIcon(route.id)} {breakTextAtSlash(trip.headsign)}
       </td>
       <td>
         <div className="schedule-table__time-container">
-          {timeForCommuterRail(
-            predictedSchedule,
-            "schedule-table__time u-bold"
-          )}
+          {timeForCommuterRail(realtime, "schedule-table__time u-bold")}
         </div>
         <div className="u-nowrap text-right">
           {trainNumber}
           {track ? `${track} · ` : ""}
-          {statusForCommuterRail(predictedSchedule)}
+          {statusForCommuterRail(realtime)}
         </div>
       </td>
     </tr>
@@ -91,11 +100,11 @@ const CrTableRow = ({
 export const UpcomingDepartures = ({
   state
 }: Props): ReactElement<HTMLElement> | null => {
-  const { data: predictions, error, isLoading } = state;
-  if (error || isLoading) {
-    return null;
-  }
-  if (predictions !== null && hasPredictions(predictions)) {
+  const { data: journeys, error, isLoading } = state;
+
+  if (error || isLoading) return null;
+
+  if (journeys !== null && hasPredictions(journeys)) {
     return (
       <>
         <h3>Upcoming Departures</h3>
@@ -106,9 +115,9 @@ export const UpcomingDepartures = ({
             </tr>
           </thead>
           <tbody>
-            {predictions.map((prediction: StopPrediction, idx: number) => (
+            {journeys.map((journey: EnhancedJourney, idx: number) => (
               <TableRow
-                prediction={prediction}
+                journey={journey}
                 // eslint-disable-next-line react/no-array-index-key
                 key={idx}
               />

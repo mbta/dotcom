@@ -2,122 +2,20 @@ import React from "react";
 import renderer, { act } from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import UpcomingDepartures from "../components/schedule-finder/UpcomingDepartures";
+import { EnhancedJourney } from "../components/__trips";
 import { payload } from "./ScheduleModalTest";
-import { RouteType } from "../../__v3api";
+import crDeparturesResponse from "../__tests__/crDepartures.json";
 
-const stopPrediction = payload;
+const busDepartures = payload;
+const crDepartures = (crDeparturesResponse as unknown) as EnhancedJourney[];
 
-const crRouteType: RouteType = 2;
-
-const crPrediction = [
-  {
-    train_number: "",
-    route: {
-      type: crRouteType,
-      name: "Framingham/Worcester Line",
-      long_name: "Framingham/Worcester Line",
-      id: "CR-Worcester",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "South Station", "0": "Worcester" },
-      description: "commuter_rail",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["4:51", " ", "PM"],
-      prediction: {
-        track: null,
-        time: ["4:51", " ", "PM"],
-        status: null,
-        seconds: 1854
-      },
-      delay: 0
-    },
-    headsign: "Framingham"
-  },
-  {
-    train_number: "591",
-    route: {
-      type: crRouteType,
-      name: "Framingham/Worcester Line",
-      long_name: "Framingham/Worcester Line",
-      id: "CR-Worcester",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "South Station", "0": "Worcester" },
-      description: "commuter_rail",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["4:51", " ", "PM"],
-      prediction: {
-        track: "3",
-        time: ["4:51", " ", "PM"],
-        status: null,
-        seconds: 1854
-      },
-      delay: 0
-    },
-    headsign: "Framingham"
-  },
-  {
-    train_number: "591",
-    route: {
-      type: crRouteType,
-      name: "Framingham/Worcester Line",
-      long_name: "Framingham/Worcester Line",
-      id: "CR-Worcester",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "South Station", "0": "Worcester" },
-      description: "commuter_rail",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["4:51", " ", "PM"],
-      prediction: {
-        track: "3",
-        time: ["4:51", " ", "PM"],
-        status: null,
-        seconds: 1854
-      },
-      delay: 0
-    },
-    headsign: "Framingham"
-  },
-  {
-    train_number: "593",
-    route: {
-      type: crRouteType,
-      name: "Framingham/Worcester Line",
-      long_name: "Framingham/Worcester Line",
-      id: "CR-Worcester",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "South Station", "0": "Worcester" },
-      description: "commuter_rail",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["5:31", " ", "PM"],
-      prediction: null,
-      delay: 0
-    },
-    headsign: "Framingham"
-  }
-];
 describe("UpcomingDepartures", () => {
-  it("doesn't render if there are not predictions", () => {
+  it("doesn't render if there are no predictions", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
         state={{
-          data: [
-            {
-              ...stopPrediction[0],
-              prediction: {
-                prediction: null,
-                delay: 0,
-                scheduled_time: ["3", ":25", "PM"]
-              }
-            }
-          ],
+          data: [],
           error: false,
           isLoading: false
         }}
@@ -131,16 +29,7 @@ describe("UpcomingDepartures", () => {
     const tree = renderer.create(
       <UpcomingDepartures
         state={{
-          data: [
-            {
-              ...stopPrediction[0],
-              prediction: {
-                prediction: null,
-                delay: 0,
-                scheduled_time: ["3", ":25", "PM"]
-              }
-            }
-          ],
+          data: crDepartures,
           error: true,
           isLoading: false
         }}
@@ -154,7 +43,7 @@ describe("UpcomingDepartures", () => {
     const tree = renderer.create(
       <UpcomingDepartures
         state={{
-          data: stopPrediction,
+          data: busDepartures,
           error: false,
           isLoading: false
         }}
@@ -170,8 +59,8 @@ describe("UpcomingDepartures", () => {
         state={{
           data: [
             {
-              ...stopPrediction[0],
-              route: { ...stopPrediction[0].route, name: "SL-2", id: "741" }
+              ...busDepartures[0],
+              route: { ...busDepartures[0].route, name: "SL-2", id: "741" }
             }
           ],
           error: false,
@@ -187,7 +76,21 @@ describe("UpcomingDepartures", () => {
     const tree = renderer.create(
       <UpcomingDepartures
         state={{
-          data: crPrediction,
+          data: crDepartures,
+          error: false,
+          isLoading: false
+        }}
+      />
+    );
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("doesn't renders cr departures that don't have a predicted time yet", () => {
+    createReactRoot();
+    const tree = renderer.create(
+      <UpcomingDepartures
+        state={{
+          data: [crDepartures[1]],
           error: false,
           isLoading: false
         }}

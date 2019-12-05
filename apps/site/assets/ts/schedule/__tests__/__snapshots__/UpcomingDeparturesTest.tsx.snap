@@ -40,6 +40,8 @@ Array [
 ]
 `;
 
+exports[`UpcomingDepartures doesn't renders cr departures that don't have a predicted time yet 1`] = `null`;
+
 exports[`UpcomingDepartures renders SL bus predictions 1`] = `
 Array [
   <h3>
@@ -76,14 +78,13 @@ Array [
                 SL-2
               </div>
             </div>
-             
             Harvard
           </div>
         </td>
         <td
           className="schedule-table__time u-bold"
         >
-          15
+          8
            
           min
         </td>
@@ -129,14 +130,13 @@ Array [
                 1
               </div>
             </div>
-             
             Harvard
           </div>
         </td>
         <td
           className="schedule-table__time u-bold"
         >
-          15
+          8
            
           min
         </td>
@@ -157,14 +157,13 @@ Array [
                 1
               </div>
             </div>
-             
             Harvard
           </div>
         </td>
         <td
           className="schedule-table__time u-bold"
         >
-          11
+          9
            
           min
         </td>
@@ -210,7 +209,7 @@ Array [
             }
           />
            
-          Framingham
+          Worcester
         </td>
         <td>
           <div
@@ -219,88 +218,14 @@ Array [
             <div
               className="schedule-table__time u-bold"
             >
-              4:51 PM
+              1:55 PM
             </div>
           </div>
           <div
             className="u-nowrap text-right"
           >
+            Train 515 · 
             
-            
-            On time
-          </div>
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row schedule-table__row--stretch"
-      >
-        <td
-          className="schedule-table__headsign"
-        >
-          <span
-            aria-hidden="false"
-            className="notranslate c-svg__icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
-           
-          Framingham
-        </td>
-        <td>
-          <div
-            className="schedule-table__time-container"
-          >
-            <div
-              className="schedule-table__time u-bold"
-            >
-              4:51 PM
-            </div>
-          </div>
-          <div
-            className="u-nowrap text-right"
-          >
-            Train 591 · 
-             track 3 · 
-            On time
-          </div>
-        </td>
-      </tr>
-      <tr
-        className="schedule-table__row schedule-table__row--stretch"
-      >
-        <td
-          className="schedule-table__headsign"
-        >
-          <span
-            aria-hidden="false"
-            className="notranslate c-svg__icon"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
-           
-          Framingham
-        </td>
-        <td>
-          <div
-            className="schedule-table__time-container"
-          >
-            <div
-              className="schedule-table__time u-bold"
-            >
-              4:51 PM
-            </div>
-          </div>
-          <div
-            className="u-nowrap text-right"
-          >
-            Train 591 · 
-             track 3 · 
             On time
           </div>
         </td>
