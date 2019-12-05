@@ -1,10 +1,12 @@
 import React from "react";
 import renderer, { act } from "react-test-renderer";
-import { EnhancedRoute, RouteType } from "../../__v3api";
+import { EnhancedRoute } from "../../__v3api";
 import ScheduleModalContent, {
   fetchData
 } from "../components/schedule-finder/ScheduleModalContent";
 import { SimpleStop } from "../components/__schedule";
+import { EnhancedJourney } from "../components/__trips";
+import departuresResponse from "../__tests__/departures.json";
 
 const route: EnhancedRoute = {
   alert_count: 0,
@@ -23,57 +25,7 @@ const stops: SimpleStop[] = [
   { name: "Wellington", id: "place-welln", is_closed: false, zone: "2" }
 ];
 
-const routeType: RouteType = 3;
-export const payload = [
-  {
-    train_number: "",
-    route: {
-      type: routeType,
-      name: "1",
-      long_name: "Harvard - Dudley via Massachusetts Avenue",
-      id: "1",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "Dudley", "0": "Harvard" },
-      description: "key_bus_route",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["3:44", " ", "PM"],
-      prediction: {
-        track: null,
-        time: ["15", " ", "min"],
-        status: null,
-        seconds: 905
-      },
-      delay: 9
-    },
-    headsign: "Harvard"
-  },
-  {
-    train_number: "",
-    route: {
-      type: routeType,
-      name: "1",
-      long_name: "Harvard - Dudley via Massachusetts Avenue",
-      id: "1",
-      direction_names: { "1": "Inbound", "0": "Outbound" },
-      direction_destinations: { "1": "Dudley", "0": "Harvard" },
-      description: "key_bus_route",
-      "custom_route?": false
-    },
-    prediction: {
-      scheduled_time: ["3:54", " ", "PM"],
-      prediction: {
-        track: null,
-        time: ["11", " ", "min"],
-        status: null,
-        seconds: 707
-      },
-      delay: -4
-    },
-    headsign: "Harvard"
-  }
-];
+export const payload: EnhancedJourney[] = departuresResponse as EnhancedJourney[];
 
 describe("ScheduleModal", () => {
   it("it renders", () => {
@@ -148,7 +100,7 @@ describe("ScheduleModal", () => {
 
       return fetchData("1", "99", 0, spy).then(() => {
         expect(window.fetch).toHaveBeenCalledWith(
-          "/schedules/predictions_api?id=1&origin_stop=99&direction_id=0"
+          "/schedules/finder_api/departures?id=1&stop=99&direction=0"
         );
         expect(spy).toHaveBeenCalledWith({
           type: "FETCH_STARTED"
@@ -176,7 +128,7 @@ describe("ScheduleModal", () => {
 
       return fetchData(route.id, stops[0].id, 0, spy).then(() => {
         expect(window.fetch).toHaveBeenCalledWith(
-          "/schedules/predictions_api?id=Orange&origin_stop=place-mlmnl&direction_id=0"
+          "/schedules/finder_api/departures?id=Orange&stop=place-mlmnl&direction=0"
         );
         expect(spy).toHaveBeenCalledWith({
           type: "FETCH_STARTED"

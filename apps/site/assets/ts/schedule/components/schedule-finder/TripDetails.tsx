@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { TripInfo, DepartureWithFare } from "../__trips";
+import { TripInfo, TripDeparture } from "../__trips";
 import { breakTextAtSlash } from "../../../helpers/text";
 
 export interface State {
@@ -47,7 +47,7 @@ export const TripStop = ({
   index,
   showFare
 }: {
-  departure: DepartureWithFare;
+  departure: TripDeparture;
   index: number;
   showFare: boolean;
 }): ReactElement<HTMLElement> | null => {

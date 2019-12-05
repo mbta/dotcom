@@ -1,0 +1,124 @@
+[
+  {
+    "trip": {
+      "shape_id": "010070",
+      "route_pattern_id": "1-_-0",
+      "name": "",
+      "id": "41894293",
+      "headsign": "Harvard",
+      "direction_id": 0,
+      "bikes_allowed?": true
+    },
+    "route": {
+      "type": 3,
+      "name": "1",
+      "long_name": "Harvard - Dudley via Massachusetts Avenue",
+      "id": "1",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Harvard",
+        "1": "Dudley"
+      },
+      "description": "key_bus_route",
+      "custom_route?": false,
+      "color": "FFC72C"
+    },
+    "realtime": {
+      "scheduled_time": ["1:47", " ", "PM"],
+      "prediction": {
+        "track": null,
+        "time": ["8", " ", "min"],
+        "status": null,
+        "seconds": 491
+      },
+      "delay": 7
+    },
+    "departure": {
+      "time": "01:47 PM",
+      "schedule": {
+        "time": "2019-12-04T13:47:00-05:00",
+        "stop_sequence": 17,
+        "stop": null,
+        "pickup_type": 0,
+        "last_stop?": false,
+        "flag?": false,
+        "early_departure?": true
+      },
+      "prediction": {
+        "track": null,
+        "time": "2019-12-04T13:54:17-05:00",
+        "stop_sequence": 17,
+        "stop": null,
+        "status": null,
+        "schedule_relationship": null,
+        "id": "prediction-41894293-99-17",
+        "direction_id": 0,
+        "departing?": true
+      }
+    }
+  },
+  {
+    "trip": {
+      "shape_id": "010070",
+      "route_pattern_id": "1-_-0",
+      "name": "",
+      "id": "41894271",
+      "headsign": "Harvard",
+      "direction_id": 0,
+      "bikes_allowed?": true
+    },
+    "route": {
+      "type": 3,
+      "name": "1",
+      "long_name": "Harvard - Dudley via Massachusetts Avenue",
+      "id": "1",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Harvard",
+        "1": "Dudley"
+      },
+      "description": "key_bus_route",
+      "custom_route?": false,
+      "color": "FFC72C"
+    },
+    "realtime": {
+      "scheduled_time": ["1:36", " ", "PM"],
+      "prediction": {
+        "track": null,
+        "time": ["9", " ", "min"],
+        "status": null,
+        "seconds": 546
+      },
+      "delay": 19
+    },
+    "departure": {
+      "time": "01:36 PM",
+      "schedule": {
+        "time": "2019-12-04T13:36:00-05:00",
+        "stop_sequence": 17,
+        "stop": null,
+        "pickup_type": 0,
+        "last_stop?": false,
+        "flag?": false,
+        "early_departure?": true
+      },
+      "prediction": {
+        "track": null,
+        "time": "2019-12-04T13:55:12-05:00",
+        "stop_sequence": 17,
+        "stop": null,
+        "status": null,
+        "schedule_relationship": null,
+        "id": "prediction-41894271-99-17",
+        "direction_id": 0,
+        "departing?": true
+      }
+    }
+  }
+]

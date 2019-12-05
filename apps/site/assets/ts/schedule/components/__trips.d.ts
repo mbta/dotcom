@@ -1,9 +1,13 @@
-import { Route, Trip, Stop } from "../../__v3api";
+import { Route, Trip, Stop, PredictedOrScheduledTime } from "../../__v3api";
 
 export interface Journey {
   trip: Trip;
   route: Route;
   departure: Departure;
+}
+
+export interface EnhancedJourney extends Journey {
+  realtime: PredictedOrScheduledTime;
 }
 
 export interface Departure {
@@ -12,13 +16,13 @@ export interface Departure {
   prediction: Prediction | null;
 }
 
-export interface DepartureWithFare {
-  schedule: ScheduleWithFare;
+export interface TripDeparture {
+  schedule: TripSchedule;
   prediction: Prediction | null;
 }
 
 export interface TripInfo {
-  times: DepartureWithFare[];
+  times: TripDeparture[];
   vehicle: Vehicle | null;
   vehicle_stop_name: string;
   stop_count: number;
@@ -28,14 +32,12 @@ export interface TripInfo {
 }
 
 export interface Prediction {
+  delay: number;
   status: string | null;
-  time: string;
   track: string | null;
-  "departing?": boolean;
 }
 
 export interface Schedule {
-  stop: Stop;
   time: string;
   stop_sequence: number;
   pickup_type: number;
@@ -44,7 +46,8 @@ export interface Schedule {
   "last_stop?": boolean;
 }
 
-export interface ScheduleWithFare extends Schedule {
+export interface TripSchedule extends Schedule {
+  stop: Stop;
   fare: Fare;
 }
 

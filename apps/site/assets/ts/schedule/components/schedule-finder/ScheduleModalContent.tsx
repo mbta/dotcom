@@ -59,7 +59,7 @@ export const fetchData = (
     window.fetch &&
     window
       .fetch(
-        `/schedules/predictions_api?id=${routeId}&origin_stop=${selectedOrigin}&direction_id=${selectedDirection}`
+        `/schedules/finder_api/departures?id=${routeId}&stop=${selectedOrigin}&direction=${selectedDirection}`
       )
       .then(response => {
         if (response.ok) return response.json();
@@ -70,12 +70,6 @@ export const fetchData = (
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
 };
-
-interface State {
-  data: StopPrediction[] | null;
-  isLoading: boolean;
-  error: boolean;
-}
 
 interface Props {
   route: Route;
