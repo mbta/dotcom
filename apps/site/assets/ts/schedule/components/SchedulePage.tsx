@@ -28,7 +28,8 @@ const SchedulePage = ({
     rating_end_date: ratingEndDate,
     stops,
     direction_id: directionId,
-    route_patterns: routePatternsByDirection
+    route_patterns: routePatternsByDirection,
+    today
   }
 }: Props): ReactElement<HTMLElement> => (
   <>
@@ -45,6 +46,7 @@ const SchedulePage = ({
         stops={stops}
         directionId={directionId}
         routePatternsByDirection={routePatternsByDirection}
+        today={today}
       />
     )}
     <ContentTeasers teasers={teasers} />
