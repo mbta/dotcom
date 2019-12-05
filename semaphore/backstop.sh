@@ -47,7 +47,7 @@ until curl --output /dev/null --silent --head --fail http://localhost:8082/_heal
   sleep 5
 done
 
-until curl -X GET --output /dev/null --silent --head --fail http://localhost:8080/alerts/; do
+until curl -X GET -H "X-WM-Proxy-Url: https://dev.api.mbtace.com" --output /dev/null --silent --head --fail http://localhost:8080/alerts/; do
   printf 'waiting for wiremock server...\n'
   sleep 5
 done
