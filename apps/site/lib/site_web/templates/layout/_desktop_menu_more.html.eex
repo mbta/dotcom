@@ -78,7 +78,7 @@
           <%= link "Commuter Rail Positive Train Control", to: project_path(@conn, :show, "commuter-rail-positive-train-control-ptc"), class: "ga-nav-sublink" %>
         </li>
         <li>
-          <%= link "Automated Fare Collection 2.0", to: cms_static_page_path(@conn, "/afc2"), class: "ga-nav-sublink" %>
+          <%= link "Fare Transformation", to: cms_static_page_path(@conn, "/fare-transformation"), class: "ga-nav-sublink" %>
         </li>
         <li>
           <%= link "Green Line Extension", to: "https://www.mass.gov/green-line-extension-project-glx", target: "_blank", class: "ga-nav-sublink" %>

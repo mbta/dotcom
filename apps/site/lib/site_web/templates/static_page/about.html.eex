@@ -26,7 +26,7 @@
     <h2>Improvements & Projects</h2>
     <div class="c-grid-buttons">
       <%= render "_link.html", text: "Commuter Rail Positive Train Control", href: project_path(@conn, :show , "commuter-rail-positive-train-control-ptc"), class: "col-xs-12 col-sm-4" %>
-      <%= render "_link.html", text: "Automated Fare Collection 2.0", href: cms_static_page_path(@conn, "/afc2"), class: "col-xs-12 col-sm-4" %>
+      <%= render "_link.html", text: "Fare Transformation", href: cms_static_page_path(@conn, "/fare-transformation"), class: "col-xs-12 col-sm-4" %>
       <%= render "_link.html", text: "Green Line Extension", href: "https://www.mass.gov/green-line-extension-project-glx", class: "col-xs-12 col-sm-4", target: "_blank" %>
       <%= render "_link.html", text: "Wollaston Station", href: cms_static_page_path(@conn, "/wollaston"), class: "col-xs-12 col-sm-4" %>
       <%= render "_link.html", text: "See All Projects", href: project_path(@conn, :index), class: "col-xs-12 col-sm-4" %>
