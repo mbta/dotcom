@@ -1026,10 +1026,6 @@ defmodule SiteWeb.ScheduleViewTest do
   end
 
   describe "route_header_tabs/1" do
-    def set_shuttles_laboratory_flag(conn) do
-      put_req_header(conn, "cookie", "shuttles=true")
-    end
-
     test "returns 4 tabs for commuter rail (1 hidden by css)", %{conn: conn} do
       tabs =
         conn
@@ -1061,11 +1057,10 @@ defmodule SiteWeb.ScheduleViewTest do
       refute tabs =~ "timetable-tab"
     end
 
-    test "includes shuttles tab, if flag set and any shuttle alerts", %{conn: conn} do
+    test "includes shuttles tab if there are any shuttle alerts", %{conn: conn} do
       with_mock Site.ShuttleDiversion, active?: fn _, _ -> true end do
         tabs =
           conn
-          |> set_shuttles_laboratory_flag
           |> assign(:route, %Route{id: "83", type: 3})
           |> assign(:tab, "alerts")
           |> assign(:tab_params, [])
@@ -1080,7 +1075,6 @@ defmodule SiteWeb.ScheduleViewTest do
       with_mock Site.ShuttleDiversion, active?: fn _, _ -> false end do
         tabs =
           conn
-          |> set_shuttles_laboratory_flag
           |> assign(:route, %Route{id: "83", type: 3})
           |> assign(:tab, "alerts")
           |> assign(:tab_params, [])
