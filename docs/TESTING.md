@@ -73,8 +73,8 @@ Note: If you are not running on OSX or Windows, you'll need to modify the
 
 All run from the main folder:
 
-* `mix backstop.update` - takes any failed backstop diffs and marks them as new reference images
-* `npm run backstop:reference` — create new backstop reference images
+* `npm run backstop:record` - run Backstop tests with recording of new network requests enabled
+* `npm run backstop:approve` - mark failed Backstop diffs as new reference images
 * `npm run webpack:watch` — run webpack-dev-server for local development
 * `npm run webpack:build` — builds the static files for production
 * `semaphore/smoke_test.sh` - tries to hit all the URLs on your server.

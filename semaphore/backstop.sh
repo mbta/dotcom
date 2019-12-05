@@ -15,7 +15,12 @@ if [[ $OSTYPE == "darwin"* ]]; then
   DOCKER_INTERNAL_IP="host.docker.internal"
   # Ensure build is up to date
   npm run webpack:build
-  npm run wiremock &
+
+  if [[ $ENABLE_RECORDING == "true" ]]; then
+    npm run wiremock:record &
+  else
+    npm run wiremock &
+  fi
 else
 # Linux
   sudo apt-get install jq
@@ -32,14 +37,22 @@ else
     fi
     WIREMOCK_PATH=$SEMAPHORE_CACHE_DIR/wiremock/wiremock-standalone-$WIREMOCK_VERSION.jar npm run wiremock &
   else
-    npm run wiremock &
+    if [[ $ENABLE_RECORDING == "true" ]]; then
+      npm run wiremock:record &
+    else
+      npm run wiremock &
+    fi
   fi
 fi
 
 # Do exit on failure at this point
 set -e
 
-SENTRY_REPORTING_ENV="test" npm run server:mocked:nocompile 1>/dev/null 2>/dev/null &
+if [[ $ENABLE_RECORDING == "true" ]]; then
+  SENTRY_REPORTING_ENV="test" npm run server:mocked:record 1>/dev/null 2>/dev/null &
+else
+  SENTRY_REPORTING_ENV="test" npm run server:mocked 1>/dev/null 2>/dev/null &
+fi
 SERVER_PID=$!
 
 until curl --output /dev/null --silent --head --fail http://localhost:8082/_health; do
