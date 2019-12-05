@@ -88,20 +88,24 @@ export const groupByType = (
 
 export const groupServiceByDate = (
   service: ServiceWithServiceDate
-): ServiceByOptGroup => {
+): ServiceByOptGroup[] => {
   const {
     service_date: serviceDate,
     start_date: startDate,
-    end_date: endDate
+    end_date: endDate,
+    added_dates: addedDates,
+    added_dates_notes: addedDatesNotes,
+    typicality
   } = service;
 
-  // Get unix timestamps
-  if (startDate === endDate) {
-    return {
-      type: "holiday",
-      servicePeriod: holidayDate(service),
+  if (typicality === "holiday_service") {
+    return addedDates.map(addedDate => ({
+      type: "holiday" as ServiceOptGroup,
+      servicePeriod: `${addedDatesNotes[addedDate]}, ${formattedDate(
+        new Date(addedDate)
+      )}`,
       service
-    };
+    }));
   }
 
   const startDateObject = new Date(startDate);
@@ -111,28 +115,34 @@ export const groupServiceByDate = (
   const endDateTime = endDateObject.getTime();
 
   if (serviceDateTime >= startDateTime && serviceDateTime <= endDateTime) {
-    return {
-      type: "current",
-      servicePeriod: `ends ${formattedDate(endDateObject)}`,
-      service
-    };
+    return [
+      {
+        type: "current",
+        servicePeriod: `ends ${formattedDate(endDateObject)}`,
+        service
+      }
+    ];
   }
 
   if (serviceDateTime < startDateTime) {
-    return {
-      type: "future",
-      servicePeriod: `starts ${formattedDate(startDateObject)}`,
-      service
-    };
+    return [
+      {
+        type: "future",
+        servicePeriod: `starts ${formattedDate(startDateObject)}`,
+        service
+      }
+    ];
   }
 
-  return {
-    type: "future",
-    servicePeriod: `${formattedDate(startDateObject)} to ${formattedDate(
-      endDateObject
-    )}`,
-    service
-  };
+  return [
+    {
+      type: "future",
+      servicePeriod: `${formattedDate(startDateObject)} to ${formattedDate(
+        endDateObject
+      )}`,
+      service
+    }
+  ];
 };
 
 export const serviceDate = (

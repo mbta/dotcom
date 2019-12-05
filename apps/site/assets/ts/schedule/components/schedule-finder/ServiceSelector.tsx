@@ -131,7 +131,10 @@ export const ServiceSelector = ({
   if (services.length <= 0) return null;
 
   const servicesByOptGroup: ServicesKeyedByGroup = services
-    .map((service: ServiceWithServiceDate) => groupServiceByDate(service))
+    .reduce(
+      (acc, service) => [...acc, ...groupServiceByDate(service)],
+      [] as ServiceByOptGroup[]
+    )
     .reduce(groupByType, { current: [], holiday: [], future: [] });
 
   const defaultServiceId = getDefaultScheduleId(servicesByOptGroup);
