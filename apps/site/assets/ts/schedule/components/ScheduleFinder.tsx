@@ -22,6 +22,7 @@ interface Props {
   route: EnhancedRoute;
   stops: SimpleStopMap;
   routePatternsByDirection: RoutePatternsByDirection;
+  today: string;
 }
 
 export type SelectedDirection = 0 | 1 | null;
@@ -63,7 +64,8 @@ const ScheduleFinder = ({
   services,
   ratingEndDate,
   stops,
-  routePatternsByDirection
+  routePatternsByDirection,
+  today
 }: Props): ReactElement<HTMLElement> => {
   const {
     direction_destinations: directionDestinations,
@@ -267,6 +269,7 @@ const ScheduleFinder = ({
                 ratingEndDate={ratingEndDate}
                 stops={stops[state.selectedDirection!]}
                 routePatternsByDirection={routePatternsByDirection}
+                today={today}
               />
             )}
           </>

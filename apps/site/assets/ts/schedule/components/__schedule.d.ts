@@ -48,6 +48,7 @@ export interface SchedulePageData {
   shape_map: ShapesById;
   route_patterns: RoutePatternsByDirection;
   line_diagram: LineDiagramStop[];
+  today: string;
 }
 
 interface StopData {

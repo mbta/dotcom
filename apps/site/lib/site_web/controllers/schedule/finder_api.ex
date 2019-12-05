@@ -99,6 +99,7 @@ defmodule SiteWeb.ScheduleController.FinderApi do
 
     route = Routes.Repo.get(route_id)
     opts = Map.get(conn.assigns, :trip_info_functions, [])
+    params = %{"origin" => origin, "trip" => trip_id}
 
     trip_info =
       conn
@@ -106,15 +107,14 @@ defmodule SiteWeb.ScheduleController.FinderApi do
       |> assign(:direction_id, direction_id)
       |> assign(:origin, origin)
       |> assign(:route, route)
-      |> Map.put(:query_params, %{"trip" => trip_id})
+      |> Map.put(:query_params, params)
       |> Vehicles.call(Vehicles.init([]))
       |> Trips.call(Trips.init(opts))
       |> Map.get(:assigns)
       |> Map.get(:trip_info)
+      |> add_computed_fares_to_trip_info(route)
       |> json_safe_trip_info()
       |> update_in([:times], &simplify_time/1)
-      |> add_computed_fares_to_trip_info(trip_id, route)
-      |> trim_schedule_stops(origin)
 
     json(conn, trip_info)
   end
@@ -275,7 +275,8 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   end
 
   # Removes problematic/unnecessary data from JSON response:
-  # - Drops :route and :trip from each schedule/prediction (redundant)
+  # - Drops :route from each schedule/prediction (redundant)
+  # - :trip is retained since it's needed to calculate fares
   @spec json_safe_trip_info(TripInfo.t()) :: map
   defp json_safe_trip_info(trip_info) do
     clean_schedules_and_predictions =
@@ -299,14 +300,18 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   end
 
   defp clean_schedule_or_prediction(schedule_or_prediction, key) do
-    update_in(schedule_or_prediction, [key], &Map.drop(&1, [:route, :trip]))
+    update_in(schedule_or_prediction, [key], &Map.drop(&1, [:route]))
   end
 
-  defp add_computed_fares_to_trip_info(trip_info, trip_id, route) do
+  defp add_computed_fares_to_trip_info(trip_info, route) do
+    origin = List.first(trip_info.times)
+    trip = PredictedSchedule.trip(origin)
+    stop = PredictedSchedule.stop(origin)
+
     fare_params = %{
-      trip: trip_id,
+      trip: trip,
       route: route,
-      origin: trip_info.origin_id,
+      origin: stop.id,
       destination: trip_info.destination_id
     }
 
@@ -316,11 +321,12 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   end
 
   defp add_computed_fare(%{schedule: %{stop: %{id: id}}} = container, fare_params) do
-    update_in(
-      container,
-      [:schedule],
-      &Map.put(&1, :fare, compute_fare(%{fare_params | destination: id}))
-    )
+    with_fare =
+      container
+      |> Map.get(:schedule)
+      |> Map.put(:fare, compute_fare(%{fare_params | destination: id}))
+
+    Map.put(container, :schedule, with_fare)
   end
 
   defp add_computed_fare(%{prediction: _} = no_fare_for_prediction, _) do
@@ -339,16 +345,6 @@ defmodule SiteWeb.ScheduleController.FinderApi do
       fare_params.origin,
       fare_params.destination
     )
-  end
-
-  # Only show times beginning at the selected origin stop onward
-  defp trim_schedule_stops(%{times: times} = trip_info, stop_id) do
-    trimmed_times =
-      Enum.drop_while(times, fn time = time ->
-        time.schedule && time.schedule.stop && time.schedule.stop.id !== stop_id
-      end)
-
-    Map.put(trip_info, :times, trimmed_times)
   end
 
   # Converts a DateTime to a simple string

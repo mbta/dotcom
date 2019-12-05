@@ -26,6 +26,7 @@ interface Props {
   services: ServiceInSelector[];
   ratingEndDate: string;
   stops: SimpleStopMap;
+  today: string;
 }
 
 const filteredConnections = (
@@ -124,7 +125,8 @@ const LineDiagram = ({
   routePatternsByDirection,
   services,
   ratingEndDate,
-  stops
+  stops,
+  today
 }: Props): ReactElement<HTMLElement> | null => {
   const routeType = route.type;
   const [modalState, setModalState] = useState<{
@@ -325,6 +327,7 @@ const LineDiagram = ({
             ratingEndDate={ratingEndDate}
             stops={stops[directionId]}
             routePatternsByDirection={routePatternsByDirection}
+            today={today}
           />
         )}
       </Modal>

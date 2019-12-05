@@ -5,15 +5,24 @@ import UpcomingDepartures from "../components/schedule-finder/UpcomingDepartures
 import { EnhancedJourney } from "../components/__trips";
 import { payload } from "./ScheduleModalTest";
 import crDeparturesResponse from "../__tests__/crDepartures.json";
+import { UserInput } from "../components/ScheduleFinder";
 
 const busDepartures = payload;
 const crDepartures = (crDeparturesResponse as unknown) as EnhancedJourney[];
+
+const input: UserInput = {
+  route: "",
+  origin: "",
+  date: "",
+  direction: 0
+};
 
 describe("UpcomingDepartures", () => {
   it("doesn't render if there are no predictions", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
+        input={input}
         state={{
           data: [],
           error: false,
@@ -28,6 +37,7 @@ describe("UpcomingDepartures", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
+        input={input}
         state={{
           data: crDepartures,
           error: true,
@@ -42,6 +52,7 @@ describe("UpcomingDepartures", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
+        input={input}
         state={{
           data: busDepartures,
           error: false,
@@ -56,6 +67,7 @@ describe("UpcomingDepartures", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
+        input={input}
         state={{
           data: [
             {
@@ -75,6 +87,7 @@ describe("UpcomingDepartures", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
+        input={input}
         state={{
           data: crDepartures,
           error: false,
@@ -89,6 +102,7 @@ describe("UpcomingDepartures", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
+        input={input}
         state={{
           data: [crDepartures[1]],
           error: false,

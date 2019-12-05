@@ -53,6 +53,7 @@ export const TripStop = ({
 }): ReactElement<HTMLElement> | null => {
   const { schedule } = departure;
 
+  /* istanbul ignore next */
   if (!schedule.stop) return null;
 
   return (
