@@ -162,45 +162,7 @@ export const serviceDate = (
   return `${formattedDate(startDateObject)} to ${formattedDate(endDateObject)}`;
 };
 
-const daysAreConsecutive = (
-  days: DayInteger[],
-  areConsecutive: boolean
-): boolean => {
-  if (!areConsecutive) return areConsecutive;
-  const [day, nextDay, ...rest] = days;
-  if (rest.length === 0) return day + 1 === nextDay;
-  return daysAreConsecutive([nextDay, ...rest], day + 1 === nextDay);
-};
-
-const dayIntegerToString = (day: DayInteger): string =>
-  [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday"
-  ][day - 1];
-
 type MonthInteger = number | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
-
-export const serviceDays = ({
-  type,
-  valid_days: validDays
-}: Service): string => {
-  if (type === "saturday" || type === "sunday") return "";
-
-  if (validDays.length === 1) return `${dayIntegerToString(validDays[0])}`;
-
-  if (daysAreConsecutive(validDays, true)) {
-    return `${dayIntegerToString(validDays[0])} - ${dayIntegerToString(
-      validDays[validDays.length - 1]
-    )}`;
-  }
-
-  return `${validDays.map(dayIntegerToString).join(", ")}`;
-};
 
 export const hasMultipleWeekdaySchedules = (
   services: ServiceWithServiceDate[]

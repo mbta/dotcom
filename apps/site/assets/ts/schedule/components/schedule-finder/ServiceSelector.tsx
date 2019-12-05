@@ -8,13 +8,13 @@ import {
   getTodaysSchedule,
   ServiceOptGroup,
   ServiceByOptGroup,
-  serviceDays,
   hasMultipleWeekdaySchedules
 } from "../../../helpers/service";
 import { reducer } from "../../../helpers/fetch";
 import ScheduleTable from "./ScheduleTable";
 import { SelectedDirection } from "../ScheduleFinder";
 import { EnhancedRoutePattern, ServiceScheduleInfo } from "../__schedule";
+import ServiceOption from "./ServiceOption";
 
 // until we come up with a good integration test for async with loading
 // some lines in this file have been ignored from codecov
@@ -34,27 +34,6 @@ interface Props {
   directionId: SelectedDirection;
   routePatterns: EnhancedRoutePattern[];
 }
-
-const serviceDescription = (
-  service: ServiceWithServiceDate,
-  group: ServiceOptGroup,
-  servicePeriod: string,
-  multipleWeekdays: boolean
-): ReactElement<HTMLElement> => {
-  const isMultipleWeekday =
-    multipleWeekdays &&
-    service.type === "weekday" &&
-    service.typicality !== "holiday_service";
-  return (
-    <option value={service.id} key={service.id}>
-      {isMultipleWeekday
-        ? `${serviceDays(service)} schedule`
-        : service.description}
-      {group !== "holiday" ? ", " : " "}
-      {servicePeriod}
-    </option>
-  );
-};
 
 const getTodaysScheduleId = (
   servicesByOptGroup: ServicesKeyedByGroup
@@ -181,12 +160,14 @@ export const ServiceSelector = ({
 
               return (
                 <optgroup key={group} label={optGroupTitles[group]}>
-                  {servicesByOptGroup[group].map((service: ServiceByOptGroup) =>
-                    serviceDescription(
-                      service.service,
-                      group,
-                      service.servicePeriod,
-                      multipleWeekdays
+                  {servicesByOptGroup[group].map(
+                    (service: ServiceByOptGroup) => (
+                      <ServiceOption
+                        service={service.service}
+                        group={group}
+                        servicePeriod={service.servicePeriod}
+                        multipleWeekdays={multipleWeekdays}
+                      />
                     )
                   )}
                 </optgroup>
