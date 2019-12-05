@@ -40,7 +40,8 @@ const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
     services,
     rating_end_date: ratingEndDate,
     route_patterns: routePatternsByDirection,
-    schedule_note: scheduleNote
+    schedule_note: scheduleNote,
+    today
   } = schedulePageData;
   if (!scheduleNote) {
     ReactDOM.render(
@@ -51,6 +52,7 @@ const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
         services={services}
         ratingEndDate={ratingEndDate}
         routePatternsByDirection={routePatternsByDirection}
+        today={today}
       />,
       document.getElementById("react-schedule-finder-root")
     );
@@ -69,7 +71,8 @@ const renderDirectionAndMap = (
     line_diagram: lineDiagram,
     services,
     rating_end_date: ratingEndDate,
-    stops
+    stops,
+    today
   } = schedulePageData;
 
   let mapData: MapData | undefined;
@@ -96,6 +99,7 @@ const renderDirectionAndMap = (
       services={services}
       ratingEndDate={ratingEndDate}
       stops={stops}
+      today={today}
     />,
     root
   );

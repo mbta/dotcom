@@ -142,6 +142,7 @@ const getComponent = () => (
     services={[]}
     ratingEndDate="2020-03-14"
     stops={{ stops }}
+    today="2019-12-05"
   />
 );
 
@@ -156,6 +157,7 @@ const getSubwayComponent = () => (
     services={[]}
     ratingEndDate="2020-03-14"
     stops={{ stops }}
+    today="2019-12-05"
   />
 );
 
@@ -170,6 +172,7 @@ const getStaticMapComponent = () => (
     services={[]}
     ratingEndDate="2020-03-14"
     stops={{ stops }}
+    today="2019-12-05"
   />
 );
 
@@ -200,6 +203,7 @@ const getGreenLineComponent = () => {
       services={[]}
       ratingEndDate="2020-03-14"
       stops={{ stops }}
+      today="2019-12-05"
     />
   );
 };

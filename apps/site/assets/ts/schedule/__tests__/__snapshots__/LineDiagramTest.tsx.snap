@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LineDiagram for CR with branches going inward renders and matches snapshot 1`] = `
-"<LineDiagram lineDiagram={{...}} route={{...}} directionId={1} routePatternsByDirection={{...}} services={{...}} ratingEndDate=\\"2020-03-14\\" stops={{...}}>
+"<LineDiagram lineDiagram={{...}} route={{...}} directionId={1} routePatternsByDirection={{...}} services={{...}} ratingEndDate=\\"2020-03-14\\" stops={{...}} today=\\"2019-12-05\\">
   <h3>
     Stations
   </h3>
@@ -205,7 +205,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
 `;
 
 exports[`LineDiagram with branches going outward renders and matches snapshot 1`] = `
-"<LineDiagram lineDiagram={{...}} route={{...}} directionId={1} routePatternsByDirection={{...}} services={{...}} ratingEndDate=\\"2020-03-14\\" stops={{...}}>
+"<LineDiagram lineDiagram={{...}} route={{...}} directionId={1} routePatternsByDirection={{...}} services={{...}} ratingEndDate=\\"2020-03-14\\" stops={{...}} today=\\"2019-12-05\\">
   <h3>
     Stops
   </h3>
@@ -409,7 +409,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
 `;
 
 exports[`LineDiagram without branches renders and matches snapshot 1`] = `
-"<LineDiagram lineDiagram={{...}} route={{...}} directionId={1} routePatternsByDirection={{...}} services={{...}} ratingEndDate=\\"2020-03-14\\" stops={{...}}>
+"<LineDiagram lineDiagram={{...}} route={{...}} directionId={1} routePatternsByDirection={{...}} services={{...}} ratingEndDate=\\"2020-03-14\\" stops={{...}} today=\\"2019-12-05\\">
   <h3>
     Stops
   </h3>

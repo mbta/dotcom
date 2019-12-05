@@ -48,7 +48,7 @@ Array [
     Upcoming Departures
   </h3>,
   <table
-    className="schedule-table"
+    className="schedule-table schedule-table--upcoming"
   >
     <thead
       className="schedule-table__header"
@@ -56,16 +56,33 @@ Array [
       <tr
         className="schedule-table__row-header"
       >
-        <th>
+        <th
+          className="schedule-table__row-header-label"
+          scope="col"
+        >
           Destinations
+        </th>
+        <th
+          className="schedule-table__th--flex-end"
+          scope="col"
+        >
+          Trip Details
         </th>
       </tr>
     </thead>
     <tbody>
       <tr
-        className="schedule-table__row schedule-table__row--stretch"
+        aria-controls="trip-41894293"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
-        <td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
           <div
             className="schedule-table__row-route"
           >
@@ -82,11 +99,23 @@ Array [
           </div>
         </td>
         <td
-          className="schedule-table__time u-bold"
+          className="schedule-table__time schedule-table__td--flex-end u-bold"
         >
           8
            
           min
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
         </td>
       </tr>
     </tbody>
@@ -100,7 +129,7 @@ Array [
     Upcoming Departures
   </h3>,
   <table
-    className="schedule-table"
+    className="schedule-table schedule-table--upcoming"
   >
     <thead
       className="schedule-table__header"
@@ -108,16 +137,33 @@ Array [
       <tr
         className="schedule-table__row-header"
       >
-        <th>
+        <th
+          className="schedule-table__row-header-label"
+          scope="col"
+        >
           Destinations
+        </th>
+        <th
+          className="schedule-table__th--flex-end"
+          scope="col"
+        >
+          Trip Details
         </th>
       </tr>
     </thead>
     <tbody>
       <tr
-        className="schedule-table__row schedule-table__row--stretch"
+        aria-controls="trip-41894293"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
-        <td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
           <div
             className="schedule-table__row-route"
           >
@@ -134,17 +180,37 @@ Array [
           </div>
         </td>
         <td
-          className="schedule-table__time u-bold"
+          className="schedule-table__time schedule-table__td--flex-end u-bold"
         >
           8
            
           min
         </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
       </tr>
       <tr
-        className="schedule-table__row schedule-table__row--stretch"
+        aria-controls="trip-41894271"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
-        <td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
           <div
             className="schedule-table__row-route"
           >
@@ -161,11 +227,23 @@ Array [
           </div>
         </td>
         <td
-          className="schedule-table__time u-bold"
+          className="schedule-table__time schedule-table__td--flex-end u-bold"
         >
           9
            
           min
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
         </td>
       </tr>
     </tbody>
@@ -179,7 +257,7 @@ Array [
     Upcoming Departures
   </h3>,
   <table
-    className="schedule-table"
+    className="schedule-table schedule-table--upcoming"
   >
     <thead
       className="schedule-table__header"
@@ -187,14 +265,29 @@ Array [
       <tr
         className="schedule-table__row-header"
       >
-        <th>
+        <th
+          className="schedule-table__row-header-label"
+          scope="col"
+        >
           Destinations
+        </th>
+        <th
+          className="schedule-table__th--flex-end"
+          scope="col"
+        >
+          Trip Details
         </th>
       </tr>
     </thead>
     <tbody>
       <tr
-        className="schedule-table__row schedule-table__row--stretch"
+        aria-controls="trip-CR-Weekday-Fall-19-515"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
       >
         <td
           className="schedule-table__headsign"
@@ -208,26 +301,51 @@ Array [
               }
             }
           />
-           
+        </td>
+        <td
+          className="schedule-table__headsign"
+        >
           Worcester
         </td>
-        <td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
           <div
             className="schedule-table__time-container"
           >
             <div
-              className="schedule-table__time u-bold"
+              className="schedule-table__time"
             >
               1:55 PM
             </div>
           </div>
           <div
-            className="u-nowrap text-right"
+            className="u-nowrap text-right u-bold"
           >
-            Train 515 · 
-            
-            On time
+            <span
+              className="schedule-table__status"
+            >
+              Train 515 · 
+              On time
+            </span>
+            <span
+              className="schedule-table__track"
+            >
+              
+            </span>
           </div>
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
         </td>
       </tr>
     </tbody>

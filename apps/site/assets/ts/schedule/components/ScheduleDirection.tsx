@@ -26,6 +26,7 @@ export interface Props {
   services: ServiceInSelector[];
   ratingEndDate: string;
   stops: SimpleStopMap;
+  today: string;
 }
 
 export const fetchMapData = (
@@ -82,7 +83,8 @@ const ScheduleDirection = ({
   lineDiagram,
   services,
   ratingEndDate,
-  stops
+  stops,
+  today
 }: Props): ReactElement<HTMLElement> => {
   const defaultRoutePattern = routePatternsByDirection[directionId].slice(
     0,
@@ -175,6 +177,7 @@ const ScheduleDirection = ({
           services={services}
           ratingEndDate={ratingEndDate}
           stops={stops}
+          today={today}
         />
       )}
     </>

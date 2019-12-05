@@ -65,6 +65,8 @@ const services: ServiceInSelector[] = [
 // dependency that the Modal component depends on
 
 /* eslint-disable @typescript-eslint/camelcase */
+const today = "2019-12-05";
+const ratingEndDate = "2019-12-21";
 const body = '<div id="react-root"></div>';
 const route: EnhancedRoute = {
   alert_count: 0,
@@ -161,6 +163,7 @@ it("renders", () => {
         services={services}
         ratingEndDate="2020-03-14"
         routePatternsByDirection={routePatternsByDirection}
+        today={today}
       />
     )
     .toJSON();
@@ -178,6 +181,7 @@ it("opens modal after displaying error", () => {
       services={services}
       ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
+      today={today}
     />
   );
 
@@ -291,6 +295,7 @@ it("modal renders route pill for bus lines", () => {
       services={services}
       ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
+      today={today}
     />
   );
   subwayWrapper
@@ -316,6 +321,7 @@ it("modal renders route pill for bus lines", () => {
       services={services}
       ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
+      today={today}
     />
   );
   busWrapper
@@ -341,6 +347,7 @@ it("modal renders route pill for silver line", () => {
       services={services}
       ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
+      today={today}
     />
   );
   subwayWrapper
@@ -366,6 +373,59 @@ it("modal renders route pill for silver line", () => {
       services={services}
       ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
+      today={today}
+    />
+  );
+  busWrapper
+    .find("#sf_direction_select")
+    .simulate("change", { target: { value: "0" } });
+
+  busWrapper
+    .find("#sf_origin_select")
+    .simulate("change", { target: { value: "place-welln" } });
+
+  busWrapper.find("input").simulate("click");
+
+  expect(busWrapper.exists(".schedule-finder__modal-route-pill")).toBeTruthy();
+  expect(busWrapper.exists(".u-bg--silver-line")).toBeTruthy();
+});
+
+it("modal renders route pill for silver line", () => {
+  const subwayWrapper = mount(
+    <ScheduleFinder
+      stops={stops}
+      route={route}
+      directionId={0}
+      services={services}
+      routePatternsByDirection={routePatternsByDirection}
+      today={today}
+      ratingEndDate={ratingEndDate}
+    />
+  );
+  subwayWrapper
+    .find("#sf_direction_select")
+    .simulate("change", { target: { value: "1" } });
+
+  subwayWrapper
+    .find("#sf_origin_select")
+    .simulate("change", { target: { value: "place-welln" } });
+
+  subwayWrapper.find("input").simulate("click");
+
+  expect(
+    subwayWrapper.exists(".schedule-finder__modal-route-pill")
+  ).toBeFalsy();
+
+  const busRoute: EnhancedRoute = { ...route, id: "741", name: "SL", type: 3 };
+  const busWrapper = mount(
+    <ScheduleFinder
+      stops={stops}
+      route={busRoute}
+      directionId={0}
+      services={services}
+      routePatternsByDirection={routePatternsByDirection}
+      today={today}
+      ratingEndDate={ratingEndDate}
     />
   );
   busWrapper
