@@ -109,7 +109,7 @@
     },
     {
       "label": "Subway Schedule",
-      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-12-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
       "delay": 1000,
@@ -117,7 +117,7 @@
     },
     {
       "label": "Subway Schedule",
-      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-06-22&date_time=2019-12-21T15:00:00-05:00",
+      "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
       "removeSelectors": [".pdf-links"],
       "selectors": [".schedule__header"],
       "delay": 1000,
@@ -198,7 +198,7 @@
     },
     {
       "label": "Trip Planner Results",
-      "url": "http://host.docker.internal:8082/trip-planner?_utf8=✓&plan[from]=Boston+Children's+Museum,+Congress+Street,+Boston,+MA,+USA&plan[from_latitude]=42.3518682&plan[from_longitude]=-71.04999250000003&plan[to]=Government+Center&plan[to_latitude]=42.359705&plan[to_longitude]=-71.059215&plan[time]=depart&plan[date_time][hour]=11&plan[date_time][minute]=35&plan[date_time][am_pm]=AM&plan[date_time][month]=8&plan[date_time][day]=30&plan[date_time][year]=2019&plan[modes][subway]=false&plan[modes][subway]=true&plan[modes][commuter_rail]=false&plan[modes][commuter_rail]=true&plan[modes][bus]=false&plan[modes][bus]=true&plan[modes][ferry]=false&plan[modes][ferry]=true&plan[optimize_for]=best_route#plan_result_focus",
+      "url": "http://host.docker.internal:8082/trip-planner?_utf8=✓&plan[from]=Boston+Children's+Museum,+Congress+Street,+Boston,+MA,+USA&plan[from_latitude]=42.3518682&plan[from_longitude]=-71.04999250000003&plan[to]=Government+Center&plan[to_latitude]=42.359705&plan[to_longitude]=-71.059215&plan[time]=depart&plan[date_time][hour]=11&plan[date_time][minute]=35&plan[date_time][am_pm]=AM&plan[date_time][month]=12&plan[date_time][day]=21&plan[date_time][year]=2019&plan[modes][subway]=false&plan[modes][subway]=true&plan[modes][commuter_rail]=false&plan[modes][commuter_rail]=true&plan[modes][bus]=false&plan[modes][bus]=true&plan[modes][ferry]=false&plan[modes][ferry]=true&plan[optimize_for]=best_route#plan_result_focus",
       "hideSelectors": [".map", "footer"],
       "selectors": ["document"],
       "readyEvent": null,
