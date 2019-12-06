@@ -15,7 +15,7 @@ module.exports = {
       branches: 93,
       functions: 95,
       lines: 95,
-      statements: -45 // Since we have SSR checks, this needs to be lenient
+      statements: -40 // Since we have SSR checks, this needs to be lenient
     },
     // The Leaflet API is difficult to test, so we consider a lower
     // threshold acceptable for these modules. However, callbacks in
