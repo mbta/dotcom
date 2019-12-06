@@ -110,6 +110,7 @@
     {
       "label": "Subway Schedule",
       "url": "http://host.docker.internal:8082/schedules/Red/schedule?direction_id=1&origin=place-sstat&trip=&date=2019-12-21&date_time=2019-12-21T15:00:00-05:00",
+      "hideSelectors": [".icon-realtime"],
       "removeSelectors": [".pdf-links"],
       "selectors": ["main"],
       "delay": 1000,
