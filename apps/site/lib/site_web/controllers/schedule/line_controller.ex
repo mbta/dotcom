@@ -44,13 +44,6 @@ defmodule SiteWeb.ScheduleController.LineController do
   end
 
   def assign_schedule_page_data(conn) do
-    service_date = Util.service_date()
-
-    services =
-      conn.assigns.route.id
-      |> ServicesRepo.by_route_id()
-      |> dedup_services()
-
     assign(
       conn,
       :schedule_page_data,
@@ -76,10 +69,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
-        services:
-          services
-          |> Enum.sort_by(&sort_services_by_date/1)
-          |> Enum.map(&Map.put(&1, :service_date, service_date)),
+        services: services(conn.assigns.route.id, Util.service_date()),
         schedule_note: ScheduleNote.new(conn.assigns.route),
         stops: simple_stop_map(conn),
         direction_id: conn.assigns.direction_id,
@@ -102,6 +92,16 @@ defmodule SiteWeb.ScheduleController.LineController do
     |> Enum.map(fn {_key, [service | _rest]} ->
       service
     end)
+  end
+
+  @spec services(Routes.Route.id_t(), Date.t()) :: [Service.t()]
+  def services(route_id, service_date, services_by_route_id_fn \\ &ServicesRepo.by_route_id/1) do
+    route_id
+    |> services_by_route_id_fn.()
+    |> dedup_services()
+    |> Enum.reject(&(Date.compare(&1.end_date, service_date) == :lt))
+    |> Enum.sort_by(&sort_services_by_date/1)
+    |> Enum.map(&Map.put(&1, :service_date, service_date))
   end
 
   def sort_services_by_date(%Service{typicality: :typical_service, type: :weekday} = service) do
