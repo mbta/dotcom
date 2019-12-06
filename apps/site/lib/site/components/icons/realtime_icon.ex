@@ -4,7 +4,7 @@ defmodule Site.Components.Icons.Realtime do
 
   @spec realtime_icon :: Phoenix.HTML.Safe.t()
   def realtime_icon do
-    content_tag :span, class: "icon-realtime animate backstop-hide-animation" do
+    content_tag :span, class: "icon-realtime animate" do
       [
         svg("icon-live-clock.svg"),
         content_tag(:span, "live", class: "icon-realtime-text")
