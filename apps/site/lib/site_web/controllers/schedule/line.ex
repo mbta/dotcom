@@ -59,6 +59,7 @@ defmodule SiteWeb.ScheduleController.Line do
 
     time_data_by_stop =
       TransitNearMe.time_data_for_route_by_stop(route.id, direction_id,
+        date: conn.assigns.date,
         now: conn.assigns.date_time
       )
 

@@ -405,11 +405,12 @@ defmodule Site.TransitNearMe do
           Stop.id_t() => [headsign_data]
         }
   def time_data_for_route_by_stop(route_id, direction_id, opts) do
+    date = Keyword.get(opts, :date, Util.service_date())
     schedules_fn = Keyword.get(opts, :schedules_fn, &Schedules.Repo.by_route_ids/2)
 
     route_id
     |> expand_route_id()
-    |> schedules_fn.(direction_id: direction_id)
+    |> schedules_fn.(direction_id: direction_id, date: date)
     |> get_predicted_schedules([route: route_id, direction_id: direction_id], opts)
     |> Enum.group_by(&PredictedSchedule.route(&1).id)
     |> Enum.flat_map(&schedules_for_route(&1, %{}, [], opts).stops_with_directions)
