@@ -8,6 +8,7 @@ import { TileServerUrl } from "../../leaflet/components/__mapdata";
 import ShuttlesMap from "../components/ShuttlesMap";
 import StopDropdown from "../components/StopDropdown";
 import renderer from "react-test-renderer";
+import DirectionButtons from "../components/DirectionButtons";
 
 const diversionsData = _diversionsData as Diversion;
 const tileServerUrl: TileServerUrl =
@@ -85,12 +86,18 @@ it("the shuttles page renders", () => {
 it("the shuttles page shows direction names for combined 'Green' Line", () => {
   destinations(greenRoute).forEach(headsign => {
     expect(
-      greenWrapper.containsMatchingElement(<button>{headsign}</button>)
+      greenWrapper
+        .find(DirectionButtons)
+        .dive()
+        .containsMatchingElement(<button>{headsign}</button>)
     ).toEqual(false);
   });
   names(greenRoute).forEach(name => {
     expect(
-      greenWrapper.containsMatchingElement(<button>{name}</button>)
+      greenWrapper
+        .find(DirectionButtons)
+        .dive()
+        .containsMatchingElement(<button>{name}</button>)
     ).toEqual(true);
   });
 });
@@ -98,13 +105,19 @@ it("the shuttles page shows direction names for combined 'Green' Line", () => {
 it("the shuttles page shows direction destinations for all other lines", () => {
   destinations(route).forEach(headsign => {
     expect(
-      wrapper.containsMatchingElement(<button>{headsign}</button>)
+      wrapper
+        .find(DirectionButtons)
+        .dive()
+        .containsMatchingElement(<button>{headsign}</button>)
     ).toEqual(true);
   });
   names(route).forEach(name => {
-    expect(wrapper.containsMatchingElement(<button>{name}</button>)).toEqual(
-      false
-    );
+    expect(
+      wrapper
+        .find(DirectionButtons)
+        .dive()
+        .containsMatchingElement(<button>{name}</button>)
+    ).toEqual(false);
   });
 });
 
@@ -125,23 +138,6 @@ it("the shuttles page by default shows all shapes", () => {
     }
   );
 });
-
-it.each`
-  index | direction | name
-  ${0}  | ${null}   | ${"All Directions"}
-  ${1}  | ${0}      | ${route.direction_destinations["0"]}
-  ${2}  | ${1}      | ${route.direction_destinations["1"]}
-`(
-  "the shuttles page button for direction $direction has name $name",
-  ({ index, name }) => {
-    expect(
-      wrapper
-        .find("button")
-        .at(index)
-        .text()
-    ).toEqual(name);
-  }
-);
 
 it("the shuttles page <select> lists affected stops only", () => {
   const options = wrapper

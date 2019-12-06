@@ -1,8 +1,9 @@
-import React, { ReactElement, useState, useEffect } from "react";
+import React, { ReactElement, useState } from "react";
 import ShuttlesMap from "./ShuttlesMap";
+import DirectionButtons from "./DirectionButtons";
 import StopDropdown from "./StopDropdown";
 import { Route } from "../../__v3api";
-import { Diversion, MaybeDirectionId } from "./__shuttles";
+import { Diversion, MaybeDirectionId, Shape, Stop } from "./__shuttles";
 import { TileServerUrl } from "../../leaflet/components/__mapdata";
 
 interface Props {
@@ -27,71 +28,34 @@ const ShuttlesPage: React.FC<Props> = ({
       stop.direction_id === null ? "All Directions" : places[stop.direction_id],
     ...stop
   }));
-  const [selectedDirectionId, setSelectedDirectionId] = useState<
-    MaybeDirectionId
-  >(null);
+
   const [displayedShapes, setDisplayedShapes] = useState(initialShapes);
   const [displayedStops, setDisplayedStops] = useState(initialStops);
   const [selectedStop, setSelectedStop] = useState(
     initialStops.sort().filter(s => s.type === "rail_affected")[0]
   );
 
-  const filterMap = (): void => {
-    if (selectedDirectionId === null) {
-      setDisplayedShapes(initialShapes);
-      setDisplayedStops(initialStops);
-    } else {
-      setDisplayedShapes(
-        initialShapes.filter(
-          shape => shape.direction_id === selectedDirectionId
-        )
-      );
-      setDisplayedStops(
-        initialStops.filter(
-          stop =>
-            stop.direction_id === selectedDirectionId ||
-            stop.direction_id === null
-        )
-      );
-    }
+  const shapesByDirection = (
+    directionId: MaybeDirectionId
+  ): ((shape: Shape) => boolean) => (shape: Shape): boolean =>
+    directionId !== null ? shape.direction_id === directionId : true;
+  const stopsByDirection = (
+    directionId: MaybeDirectionId
+  ): ((stop: Stop) => boolean) => (stop: Stop): boolean =>
+    directionId !== null
+      ? stop.direction_id === directionId || stop.direction_id === null
+      : true;
+
+  const filterMap = (directionId: MaybeDirectionId): void => {
+    setDisplayedShapes(initialShapes.filter(shapesByDirection(directionId)));
+    setDisplayedStops(initialStops.filter(stopsByDirection(directionId)));
   };
-
-  useEffect(filterMap, [selectedDirectionId]);
-
-  const DirectionButton = (
-    directionId: MaybeDirectionId,
-    headsign: string
-  ): JSX.Element => (
-    <button
-      key={`${headsign}`}
-      type="button"
-      className={`btn btn-secondary btn-sm c-btn-group-stackable__btn ${selectedDirectionId ===
-        directionId && "c-btn-group-stackable__btn--active"}`}
-      onClick={() => setSelectedDirectionId(directionId)}
-    >
-      {headsign}
-    </button>
-  );
 
   return (
     <div className="shuttles__main">
       <h2>Shuttle Maps</h2>
 
-      <div
-        className="c-btn-group-stackable"
-        role="group"
-        aria-label="Filter shuttle map by direction"
-      >
-        {DirectionButton(null, "All Directions")}
-        {Object.entries(places)
-          .sort()
-          .map(([directionId, headsign]) =>
-            DirectionButton(
-              parseInt(directionId, 10) as MaybeDirectionId,
-              headsign
-            )
-          )}
-      </div>
+      <DirectionButtons places={places} onClick={filterMap} />
 
       <ShuttlesMap
         tileServerUrl={tileServerUrl}
