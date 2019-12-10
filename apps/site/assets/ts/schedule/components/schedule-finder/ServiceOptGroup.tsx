@@ -18,25 +18,26 @@ const ServiceOptGroup = ({
   label,
   services,
   multipleWeekdays
-}: Props): ReactElement<HTMLElement> | null => (
-  <optgroup key={group} label={label}>
-    {services.map((service: ServiceByOptGroup) =>
-      group === "holiday" ? (
-        <HolidayServiceOption
-          key={service.service.id + service.servicePeriod}
-          service={service.service}
-          servicePeriod={service.servicePeriod}
-        />
-      ) : (
-        <ServiceOption
-          key={service.service.id + service.servicePeriod}
-          service={service.service}
-          group={group}
-          servicePeriod={service.servicePeriod}
-          multipleWeekdays={multipleWeekdays}
-        />
-      )
-    )}
-  </optgroup>
-);
+}: Props): ReactElement<HTMLElement> | null =>
+  services.length === 0 ? null : (
+    <optgroup key={group} label={label}>
+      {services.map((service: ServiceByOptGroup) =>
+        group === "holiday" ? (
+          <HolidayServiceOption
+            key={service.service.id + service.servicePeriod}
+            service={service.service}
+            servicePeriod={service.servicePeriod}
+          />
+        ) : (
+          <ServiceOption
+            key={service.service.id + service.servicePeriod}
+            service={service.service}
+            group={group}
+            servicePeriod={service.servicePeriod}
+            multipleWeekdays={multipleWeekdays}
+          />
+        )
+      )}
+    </optgroup>
+  );
 export default ServiceOptGroup;

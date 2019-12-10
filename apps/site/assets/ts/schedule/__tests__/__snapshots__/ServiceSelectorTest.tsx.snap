@@ -63,9 +63,6 @@ Array [
             Bastille Day, July 14
           </option>
         </optgroup>
-        <optgroup
-          label="Future Schedules"
-        />
       </select>
       <span
         aria-hidden="true"
