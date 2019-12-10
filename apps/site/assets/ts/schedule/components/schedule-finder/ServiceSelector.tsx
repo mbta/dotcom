@@ -6,7 +6,7 @@ import {
   groupServiceByDate,
   groupByType,
   getTodaysSchedule,
-  ServiceOptGroup,
+  ServiceOptGroupName,
   ServiceByOptGroup,
   hasMultipleWeekdaySchedules
 } from "../../../helpers/service";
@@ -20,9 +20,9 @@ import HolidayServiceOption from "./HolidayServiceOption";
 // until we come up with a good integration test for async with loading
 // some lines in this file have been ignored from codecov
 
-const optGroupNames: ServiceOptGroup[] = ["current", "holiday", "future"];
+const optGroupNames: ServiceOptGroupName[] = ["current", "holiday", "future"];
 
-const optGroupTitles: { [key in ServiceOptGroup]: string } = {
+const optGroupTitles: { [key in ServiceOptGroupName]: string } = {
   current: "Current Schedules",
   holiday: "Holiday Schedules",
   future: "Future Schedules"
@@ -157,7 +157,7 @@ export const ServiceSelector = ({
               setSelectedServiceId(e.target.value);
             }}
           >
-            {optGroupNames.map((group: ServiceOptGroup) => {
+            {optGroupNames.map((group: ServiceOptGroupName) => {
               const multipleWeekdays = hasMultipleWeekdaySchedules(
                 servicesByOptGroup[group].map(service => service.service)
               );

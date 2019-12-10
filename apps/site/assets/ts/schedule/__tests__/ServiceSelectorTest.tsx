@@ -7,7 +7,7 @@ import {
   getDefaultScheduleId
 } from "../components/schedule-finder/ServiceSelector";
 import { ServiceWithServiceDate } from "../../__v3api";
-import { ServiceOptGroup } from "../../helpers/service";
+import { ServiceOptGroupName } from "../../helpers/service";
 
 const services: ServiceWithServiceDate[] = [
   {
@@ -173,26 +173,26 @@ describe("ServiceSelector", () => {
     const servicesByOptGroup = {
       current: [
         {
-          type: "current" as ServiceOptGroup,
+          type: "current" as ServiceOptGroupName,
           servicePeriod: "sometime",
           service: services[0]
         }
       ],
       future: [
         {
-          type: "future" as ServiceOptGroup,
+          type: "future" as ServiceOptGroupName,
           servicePeriod: "sometime",
           service: services[1]
         },
         {
-          type: "future" as ServiceOptGroup,
+          type: "future" as ServiceOptGroupName,
           servicePeriod: "sometime",
           service: services[2]
         }
       ],
       holiday: [
         {
-          type: "holiday" as ServiceOptGroup,
+          type: "holiday" as ServiceOptGroupName,
           servicePeriod: "sometime",
           service: services[3]
         }

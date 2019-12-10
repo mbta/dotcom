@@ -1,10 +1,10 @@
 import React, { ReactElement } from "react";
-import { ServiceOptGroup } from "../../../helpers/service";
+import { ServiceOptGroupName } from "../../../helpers/service";
 import { Service, DayInteger, ServiceWithServiceDate } from "../../../__v3api";
 
 interface Props {
   service: ServiceWithServiceDate;
-  group: ServiceOptGroup;
+  group: ServiceOptGroupName;
   servicePeriod: string;
   multipleWeekdays: boolean;
 }

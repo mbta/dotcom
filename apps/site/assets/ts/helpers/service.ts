@@ -24,10 +24,10 @@ const holidayDate = (service: Service): string => {
   return note || `on ${formattedDate(new Date(service.start_date))}`;
 };
 
-export type ServiceOptGroup = "current" | "holiday" | "future";
+export type ServiceOptGroupName = "current" | "holiday" | "future";
 
 export interface ServiceByOptGroup {
-  type: ServiceOptGroup;
+  type: ServiceOptGroupName;
   servicePeriod: string;
   service: ServiceWithServiceDate;
 }
@@ -74,14 +74,14 @@ export const getTodaysSchedule = (
 };
 
 export type ServicesKeyedByGroup = {
-  [key in ServiceOptGroup]: ServiceByOptGroup[]
+  [key in ServiceOptGroupName]: ServiceByOptGroup[]
 };
 
 export const groupByType = (
   acc: ServicesKeyedByGroup,
   currService: ServiceByOptGroup
 ): ServicesKeyedByGroup => {
-  const currentServiceType: ServiceOptGroup = currService.type;
+  const currentServiceType: ServiceOptGroupName = currService.type;
   const updatedGroup = [...acc[currentServiceType], currService];
   return { ...acc, [currentServiceType]: updatedGroup };
 };
@@ -100,7 +100,7 @@ export const groupServiceByDate = (
 
   if (typicality === "holiday_service") {
     return addedDates.map(addedDate => ({
-      type: "holiday" as ServiceOptGroup,
+      type: "holiday" as ServiceOptGroupName,
       servicePeriod: `${addedDatesNotes[addedDate]}, ${formattedDate(
         new Date(addedDate)
       )}`,
