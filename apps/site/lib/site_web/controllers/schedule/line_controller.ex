@@ -83,8 +83,38 @@ defmodule SiteWeb.ScheduleController.LineController do
     )
   end
 
-  @spec dedup_services([Service.t()]) :: [Service.t()]
-  def dedup_services(services) do
+  # If we have two services A and B with the same type and typicality,
+  # with the date range from A's start to A's end a subset of the date
+  # range from B's start to B's end, either A is in the list of services
+  # erroneously (for example, in the case of the 39 in the fall 2019
+  # rating), or A represents a special service that's not a holiday (for
+  # instance, the Thanksgiving-week extra service to Logan on the SL1 in
+  # the fall 2019 rating).
+  #
+  # However, in neither of these cases do we want to show service A. In the
+  # first case, we don't want to show A because it's erroneous, and in the
+  # second case, we don't want to show A for parity with the paper/PDF
+  # schedules, in which these special services are not generally called
+  # out.
+
+  @spec dedup_similar_services([Service.t()]) :: [Service.t()]
+  def dedup_similar_services(services) do
+    services
+    |> Enum.group_by(&{&1.type, &1.typicality})
+    |> Enum.flat_map(fn {_, service_group} ->
+      service_group
+      |> Enum.reject(fn service ->
+        Enum.any?(service_group, fn other_service ->
+          other_service != service &&
+            Date.compare(other_service.start_date, service.start_date) != :gt &&
+            Date.compare(other_service.end_date, service.end_date) != :lt
+        end)
+      end)
+    end)
+  end
+
+  @spec dedup_identical_services([Service.t()]) :: [Service.t()]
+  def dedup_identical_services(services) do
     services
     |> Enum.group_by(fn %{start_date: start_date, end_date: end_date, valid_days: valid_days} ->
       {start_date, end_date, valid_days}
@@ -98,7 +128,8 @@ defmodule SiteWeb.ScheduleController.LineController do
   def services(route_id, service_date, services_by_route_id_fn \\ &ServicesRepo.by_route_id/1) do
     route_id
     |> services_by_route_id_fn.()
-    |> dedup_services()
+    |> dedup_identical_services()
+    |> dedup_similar_services()
     |> Enum.reject(&(&1.name == "Weekday (no school)"))
     |> Enum.reject(&(Date.compare(&1.end_date, service_date) == :lt))
     |> Enum.sort_by(&sort_services_by_date/1)
