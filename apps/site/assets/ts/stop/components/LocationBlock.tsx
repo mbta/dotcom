@@ -13,12 +13,23 @@ interface Props {
   streetViewUrl: string | null;
 }
 
-const renderAddress = (address: string): ReactElement<HTMLElement> => (
-  <div className="m-stop-page__address">
-    <h3 className="u-small-caps">Address</h3>
-    <div className="h3">{address}</div>
-  </div>
-);
+const addressOrMunicipality = (stop: Stop) => {
+  if (stop.address) {
+    return (
+      <div className="m-stop-page__location">
+        <h3 className="u-small-caps">Address</h3>
+        <div className="h3">{stop.address}</div>
+      </div>
+    );
+  } else if (stop.municipality) {
+    return (
+      <div className="m-stop-page__location">
+        <h3 className="u-small-caps">City</h3>
+        <div className="h3">{stop.municipality}</div>
+      </div>
+    );
+  }
+};
 
 const latLngString = (stop: Stop): string =>
   `${stop.latitude},${stop.longitude}`;
@@ -37,16 +48,16 @@ const streetViewLink = (stop: Stop): string =>
     stop
   )}`;
 
-const AddressBlock = ({
+const LocationBlock = ({
   routes,
   stop,
   encoder,
   streetViewUrl
 }: Props): ReactElement<HTMLElement> => (
-  <div className="m-stop-page__address-block">
-    {stop.address && renderAddress(stop.address)}
-    <div className="m-stop-page__address-links">
-      <div className="m-stop-page__address-link">
+  <div className="m-stop-page__location-block">
+    {addressOrMunicipality(stop)}
+    <div className="m-stop-page__location-links">
+      <div className="m-stop-page__location-link">
         <a
           href={directionLink(stop, encoder)}
           className="btn btn-primary"
@@ -56,7 +67,7 @@ const AddressBlock = ({
           Get directions to this station
         </a>
       </div>
-      <div className="m-stop-page__address-link">
+      <div className="m-stop-page__location-link">
         <a
           href={streetViewUrl || streetViewLink(stop)}
           target="_blank"
@@ -74,4 +85,4 @@ const AddressBlock = ({
   </div>
 );
 
-export default AddressBlock;
+export default LocationBlock;

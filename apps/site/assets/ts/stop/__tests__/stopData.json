@@ -48,6 +48,7 @@
     ],
     "note": null,
     "name": "South Station",
+    "municipality": "Boston",
     "longitude": -71.055242,
     "latitude": 42.352271,
     "is_child?": false,

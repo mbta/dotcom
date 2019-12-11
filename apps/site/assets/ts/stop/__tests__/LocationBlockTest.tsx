@@ -4,7 +4,7 @@ import { shallow } from "enzyme";
 import stopData from "./stopData.json";
 import { StopPageData } from "../components/__stop";
 import { Stop } from "../../__v3api";
-import AddressBlock from "../components/AddressBlock";
+import LocationBlock from "../components/LocationBlock";
 
 const data = JSON.parse(JSON.stringify(stopData)) as StopPageData;
 
@@ -14,7 +14,7 @@ it("renders", () => {
 
   const tree = renderer
     .create(
-      <AddressBlock
+      <LocationBlock
         routes={data.routes}
         stop={data.stop}
         encoder={window.encodeURIComponent}
@@ -34,7 +34,7 @@ it("uses lat/lng when window.encodeURIComponent isn't available", () => {
   const latLng = `${data.stop.latitude},${data.stop.longitude}`;
   expect(
     shallow(
-      <AddressBlock
+      <LocationBlock
         routes={[]}
         stop={data.stop}
         encoder={window.encodeURIComponent}
@@ -48,25 +48,37 @@ it("uses lat/lng when window.encodeURIComponent isn't available", () => {
   );
 
   expect(
-    shallow(<AddressBlock routes={[]} stop={data.stop} streetViewUrl={null} />)
+    shallow(<LocationBlock routes={[]} stop={data.stop} streetViewUrl={null} />)
       .find(".btn.btn-primary")
       .prop("href")
   ).toEqual(`https://www.google.com/maps/dir/?api=1&destination=${latLng}`);
 });
 
-it("does not render address if stop has no address", () => {
-  expect(
-    shallow(<AddressBlock routes={[]} stop={data.stop} streetViewUrl={null} />)
-      .find(".m-stop-page__address")
-      .exists()
-  ).toEqual(true);
-
-  const stopWithoutAddress: Stop = { ...data.stop, address: null };
+it("falls back to municipality if stop has no address", () => {
+  const stopWithoutAddress = { ...data.stop, address: null };
 
   const wrapper = shallow(
-    <AddressBlock routes={[]} stop={stopWithoutAddress} streetViewUrl={null} />
+    <LocationBlock routes={[]} stop={stopWithoutAddress} streetViewUrl={null} />
   );
 
-  expect(wrapper.find(".m-stop-page__address").exists()).toEqual(false);
-  expect(wrapper.find(".m-stop-page__address-links").exists()).toEqual(true);
+  expect(wrapper.find(".m-stop-page__location .h3").text()).toEqual("Boston");
+});
+
+it("does not render location if stop has no address or municipality", () => {
+  const stopWithoutLocation = {
+    ...data.stop,
+    address: null,
+    municipality: null
+  };
+
+  const wrapper = shallow(
+    <LocationBlock
+      routes={[]}
+      stop={stopWithoutLocation}
+      streetViewUrl={null}
+    />
+  );
+
+  expect(wrapper.find(".m-stop-page__location").exists()).toEqual(false);
+  expect(wrapper.find(".m-stop-page__location-links").exists()).toEqual(true);
 });

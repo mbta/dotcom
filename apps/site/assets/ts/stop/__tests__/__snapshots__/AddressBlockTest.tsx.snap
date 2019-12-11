@@ -2,10 +2,10 @@
 
 exports[`renders 1`] = `
 <div
-  className="m-stop-page__address-block"
+  className="m-stop-page__location-block"
 >
   <div
-    className="m-stop-page__address"
+    className="m-stop-page__location"
   >
     <h3
       className="u-small-caps"
@@ -19,10 +19,10 @@ exports[`renders 1`] = `
     </div>
   </div>
   <div
-    className="m-stop-page__address-links"
+    className="m-stop-page__location-links"
   >
     <div
-      className="m-stop-page__address-link"
+      className="m-stop-page__location-link"
     >
       <a
         className="btn btn-primary"
@@ -34,7 +34,7 @@ exports[`renders 1`] = `
       </a>
     </div>
     <div
-      className="m-stop-page__address-link"
+      className="m-stop-page__location-link"
     >
       <a
         href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.352271,-71.055242"

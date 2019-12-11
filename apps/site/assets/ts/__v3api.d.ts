@@ -139,6 +139,7 @@ export interface Stop {
   "is_child?": boolean;
   latitude: number;
   longitude: number;
+  municipality: string | null;
   name: string;
   note: string | null;
   parking_lots: ParkingLot[];

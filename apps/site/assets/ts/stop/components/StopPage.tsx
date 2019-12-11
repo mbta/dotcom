@@ -7,7 +7,7 @@ import { reducer, initialState, Dispatch, updateRoutesAction } from "../state";
 import Alerts from "../../components/Alerts";
 import AlertsTab from "./AlertsTab";
 import Sidebar from "./Sidebar";
-import AddressBlock from "./AddressBlock";
+import LocationBlock from "./LocationBlock";
 import Departures from "./Departures";
 import SuggestedTransfers from "./SuggestedTransfers";
 import useInterval from "../../helpers/use-interval";
@@ -101,7 +101,7 @@ export default ({
             <div className="page-section">
               <div className="row">
                 <div className="col-12 col-sm-10 col-sm-offset-1 col-lg-7 col-lg-offset-0">
-                  <AddressBlock
+                  <LocationBlock
                     stop={stop}
                     routes={routes}
                     encoder={encoder}
