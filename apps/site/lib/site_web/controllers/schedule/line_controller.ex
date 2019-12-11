@@ -99,6 +99,7 @@ defmodule SiteWeb.ScheduleController.LineController do
     route_id
     |> services_by_route_id_fn.()
     |> dedup_services()
+    |> Enum.reject(&(&1.name == "Weekday (no school)"))
     |> Enum.reject(&(Date.compare(&1.end_date, service_date) == :lt))
     |> Enum.sort_by(&sort_services_by_date/1)
     |> Enum.map(&Map.put(&1, :service_date, service_date))
