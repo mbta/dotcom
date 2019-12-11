@@ -94,6 +94,7 @@ describe("filterData", () => {
               "is_child?": false,
               latitude: 0,
               longitude: 0,
+              municipality: "Malden",
               note: null,
               parking_lots: [],
               "station?": false

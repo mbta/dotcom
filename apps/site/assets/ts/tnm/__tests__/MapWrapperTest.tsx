@@ -26,6 +26,7 @@ const stop: Stop = {
   "is_child?": false,
   latitude: 41.0,
   longitude: -71.0,
+  municipality: "Boston",
   name: "Stop Name",
   note: null,
   parking_lots: [],

@@ -13,22 +13,24 @@ interface Props {
   streetViewUrl: string | null;
 }
 
-const addressOrMunicipality = (stop: Stop) => {
-  if (stop.address) {
+const addressOrMunicipality = (stop: Stop): ReactElement | null => {
+  if (stop.address)
     return (
       <div className="m-stop-page__location">
         <h3 className="u-small-caps">Address</h3>
         <div className="h3">{stop.address}</div>
       </div>
     );
-  } else if (stop.municipality) {
+
+  if (stop.municipality)
     return (
       <div className="m-stop-page__location">
         <h3 className="u-small-caps">City</h3>
         <div className="h3">{stop.municipality}</div>
       </div>
     );
-  }
+
+  return null;
 };
 
 const latLngString = (stop: Stop): string =>
