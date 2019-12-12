@@ -18,7 +18,7 @@ defmodule Stops.Api do
     "fields[facility]": "long_name,type,properties,latitude,longitude",
     "fields[stop]":
       "address,name,latitude,longitude,address," <>
-        "wheelchair_boarding,location_type," <>
+        "municipality,wheelchair_boarding,location_type," <>
         "platform_name,platform_code,description"
   ]
 
@@ -134,6 +134,7 @@ defmodule Stops.Api do
       child_ids: child_ids(item),
       name: v3_name(item),
       address: item.attributes["address"],
+      municipality: item.attributes["municipality"],
       accessibility: merge_accessibility(v3_accessibility(item), item.attributes),
       parking_lots: v3_parking(item),
       fare_facilities: fare_facilities,

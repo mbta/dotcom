@@ -91,7 +91,7 @@
   text-transform: uppercase;
 }
 
-.m-stop-page__address-block {
+.m-stop-page__location-block {
   background: $white;
   border: 1px solid $gray-lightest;
   display: flex;
@@ -116,16 +116,16 @@
   }
 }
 
-.m-stop-page__address {
+.m-stop-page__location {
   flex: 1 1 auto;
   padding-right: $base-spacing;
 }
 
-.m-stop-page__address-links {
+.m-stop-page__location-links {
   flex: 0 0 auto;
 }
 
-.m-stop-page__address-link {
+.m-stop-page__location-link {
   display: block;
   margin-bottom: $base-spacing / 2;
 }

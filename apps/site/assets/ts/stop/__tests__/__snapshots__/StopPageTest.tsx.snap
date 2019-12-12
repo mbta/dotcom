@@ -277,10 +277,10 @@ Array [
           className="col-12 col-sm-10 col-sm-offset-1 col-lg-7 col-lg-offset-0"
         >
           <div
-            className="m-stop-page__address-block"
+            className="m-stop-page__location-block"
           >
             <div
-              className="m-stop-page__address"
+              className="m-stop-page__location"
             >
               <h3
                 className="u-small-caps"
@@ -294,10 +294,10 @@ Array [
               </div>
             </div>
             <div
-              className="m-stop-page__address-links"
+              className="m-stop-page__location-links"
             >
               <div
-                className="m-stop-page__address-link"
+                className="m-stop-page__location-link"
               >
                 <a
                   className="btn btn-primary"
@@ -309,7 +309,7 @@ Array [
                 </a>
               </div>
               <div
-                className="m-stop-page__address-link"
+                className="m-stop-page__location-link"
               >
                 <a
                   href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.352271,-71.055242"

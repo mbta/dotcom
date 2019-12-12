@@ -31,6 +31,7 @@ const stop: Stop = {
   "has_charlie_card_vendor?": false,
   closed_stop_info: null,
   address: "700 Atlantic Ave, Boston, MA 02110",
+  municipality: "Boston",
   accessibility: [
     "accessible",
     "escalator_both",

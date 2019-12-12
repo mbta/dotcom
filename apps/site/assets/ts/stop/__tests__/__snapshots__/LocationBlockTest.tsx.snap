@@ -1,0 +1,206 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders 1`] = `
+<div
+  className="m-stop-page__location-block"
+>
+  <div
+    className="m-stop-page__location"
+  >
+    <h3
+      className="u-small-caps"
+    >
+      Address
+    </h3>
+    <div
+      className="h3"
+    >
+      700 Atlantic Ave, Boston, MA 02110
+    </div>
+  </div>
+  <div
+    className="m-stop-page__location-links"
+  >
+    <div
+      className="m-stop-page__location-link"
+    >
+      <a
+        className="btn btn-primary"
+        href="https://www.google.com/maps/dir/?api=1&destination=700%20Atlantic%20Ave%2C%20Boston%2C%20MA%2002110"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        Get directions to this station
+      </a>
+    </div>
+    <div
+      className="m-stop-page__location-link"
+    >
+      <a
+        href="https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=42.352271,-71.055242"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
+        <span
+          aria-hidden="true"
+          className="notranslate c-svg__icon-street-view m-stop-page__street-view-icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Street View
+      </a>
+    </div>
+  </div>
+  <div
+    className="m-route-pills"
+  >
+    <div
+      className="m-route-pills--subway"
+    >
+      <a
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--red-line
+    "
+        href="/schedules/Red"
+      >
+        Red Line
+      </a>
+    </div>
+    <div
+      className="m-route-pills--bus"
+    >
+      <a
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--silver-line
+    "
+        href="/schedules/741"
+      >
+        SL1
+      </a>
+      <a
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--silver-line
+    "
+        href="/schedules/742"
+      >
+        SL2
+      </a>
+      <a
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--silver-line
+    "
+        href="/schedules/743"
+      >
+        SL3
+      </a>
+    </div>
+    <div
+      className="m-route-pills--commuter_rail"
+    >
+      <a
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+        href="/schedules/CR-Fairmount"
+      >
+        Fairmount Line
+      </a>
+      <a
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+        href="/schedules/CR-Worcester"
+      >
+        Framingham/​Worcester Line
+      </a>
+      <a
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+        href="/schedules/CR-Franklin"
+      >
+        Franklin Line
+      </a>
+      <a
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+        href="/schedules/CR-Greenbush"
+      >
+        Greenbush Line
+      </a>
+      <a
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+        href="/schedules/CR-Kingston"
+      >
+        Kingston/​Plymouth Line
+      </a>
+      <a
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+        href="/schedules/CR-Middleborough"
+      >
+        Middleborough/​Lakeville Line
+      </a>
+      <a
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+        href="/schedules/CR-Needham"
+      >
+        Needham Line
+      </a>
+      <a
+        className="
+      m-stop-page__header-feature
+      m-stop-page__header-description
+      u-small-caps
+      u-bg--commuter-rail
+    "
+        href="/schedules/CR-Providence"
+      >
+        Providence/​Stoughton Line
+      </a>
+    </div>
+  </div>
+</div>
+`;
