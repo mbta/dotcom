@@ -408,16 +408,25 @@ defmodule Site.TransitNearMe do
     date = Keyword.get(opts, :date, Util.service_date())
     schedules_fn = Keyword.get(opts, :schedules_fn, &Schedules.Repo.by_route_ids/2)
 
-    route_id
-    |> expand_route_id()
-    |> schedules_fn.(direction_id: direction_id, date: date)
-    |> get_predicted_schedules([route: route_id, direction_id: direction_id], opts)
-    |> Enum.group_by(&PredictedSchedule.route(&1).id)
-    |> Enum.flat_map(&schedules_for_route(&1, %{}, [], opts).stops_with_directions)
-    |> convert_route_time_data_to_map()
-    |> Map.new(fn {stop_id, time_data} ->
-      {stop_id, limit_route_time_data(time_data)}
-    end)
+    schedule_data =
+      route_id
+      |> expand_route_id()
+      |> schedules_fn.(direction_id: direction_id, date: date)
+
+    case schedule_data do
+      {:error, [%JsonApi.Error{code: "no_service"}]} ->
+        %{}
+
+      _ ->
+        schedule_data
+        |> get_predicted_schedules([route: route_id, direction_id: direction_id], opts)
+        |> Enum.group_by(&PredictedSchedule.route(&1).id)
+        |> Enum.flat_map(&schedules_for_route(&1, %{}, [], opts).stops_with_directions)
+        |> convert_route_time_data_to_map()
+        |> Map.new(fn {stop_id, time_data} ->
+          {stop_id, limit_route_time_data(time_data)}
+        end)
+    end
   end
 
   @spec convert_route_time_data_to_map([stop_with_data]) :: %{Stop.id_t() => [headsign_data]}
