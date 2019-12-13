@@ -461,5 +461,34 @@ defmodule Site.TransitNearMeTest do
 
       assert %{"place-wimnl" => [%{}]} = actual
     end
+
+    test "return neither schedules nor predictions if date is outside rating" do
+      predictions_fn = fn _ -> [@prediction] end
+
+      schedules_fn = fn _, _ ->
+        {:error,
+         [
+           %JsonApi.Error{
+             code: "no_service",
+             detail: nil,
+             meta: %{
+               "end_date" => "2020-03-14",
+               "start_date" => "2019-12-06",
+               "version" => "Winter 2020, 2019-12-13T17:29:50+00:00, version D"
+             },
+             source: %{"parameter" => "date"}
+           }
+         ]}
+      end
+
+      actual =
+        TransitNearMe.time_data_for_route_by_stop(@route.id, 1,
+          schedules_fn: schedules_fn,
+          predictions_fn: predictions_fn,
+          now: @now
+        )
+
+      assert actual == %{}
+    end
   end
 end
