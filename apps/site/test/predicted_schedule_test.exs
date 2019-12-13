@@ -211,6 +211,27 @@ defmodule PredictedScheduleTest do
         assert schedule.trip.id == prediction.trip.id
       end
     end
+
+    test "still makes predictions available if date requested is outside of rating" do
+      no_service_error =
+        {:error,
+         [
+           %JsonApi.Error{
+             code: "no_service",
+             detail: nil,
+             meta: %{
+               "end_date" => "2020-03-14",
+               "start_date" => "2019-12-05",
+               "version" => "Winter 2020, 2019-12-12T21:07:05+00:00, version D"
+             },
+             source: %{"parameter" => "date"}
+           }
+         ]}
+
+      grouped_predicted_schedules = group(@predictions, no_service_error)
+      assert grouped_predicted_schedules |> Enum.map(& &1.prediction) == @predictions
+      assert grouped_predicted_schedules |> Enum.map(& &1.schedule) == [nil, nil, nil]
+    end
   end
 
   describe "stop/1" do
