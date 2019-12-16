@@ -57,6 +57,15 @@ const ServiceOption = ({
     multipleWeekdays &&
     service.type === "weekday" &&
     service.typicality !== "holiday_service";
+
+  if (service.typicality === "unplanned_disruption") {
+    return <option value={service.id}>Storm service, {servicePeriod}</option>;
+  }
+
+  if (service.typicality === "holiday_service") {
+    return <option value={service.id}>{servicePeriod}</option>;
+  }
+
   return (
     <option value={service.id}>
       {isMultipleWeekday

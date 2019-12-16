@@ -63,6 +63,16 @@ Array [
             Bastille Day, July 14
           </option>
         </optgroup>
+        <optgroup
+          label="Future Schedules"
+        >
+          <option
+            value="BUS319-storm"
+          >
+            Storm service, 
+            July 15
+          </option>
+        </optgroup>
       </select>
       <span
         aria-hidden="true"

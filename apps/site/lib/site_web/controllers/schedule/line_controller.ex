@@ -44,8 +44,6 @@ defmodule SiteWeb.ScheduleController.LineController do
   end
 
   def assign_schedule_page_data(conn) do
-    service_date = conn.assigns.date_time |> Util.service_date()
-
     assign(
       conn,
       :schedule_page_data,
@@ -71,7 +69,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
-        services: services(conn.assigns.route.id, service_date),
+        services: services(conn.assigns.route.id, conn.assigns.date),
         rating_end_date: Schedules.Repo.end_of_rating(),
         schedule_note: ScheduleNote.new(conn.assigns.route),
         stops: simple_stop_map(conn),
