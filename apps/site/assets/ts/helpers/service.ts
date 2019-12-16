@@ -95,6 +95,7 @@ export const groupServiceByDate = (
     end_date: endDate,
     added_dates: addedDates,
     added_dates_notes: addedDatesNotes,
+    service_date: serviceDate,
     typicality
   } = service;
 
@@ -108,9 +109,27 @@ export const groupServiceByDate = (
     }));
   }
 
+  const serviceDateTime = new Date(serviceDate).getTime();
   const startDateObject = new Date(startDate);
+  const startDateTime = startDateObject.getTime();
   const endDateObject = new Date(endDate);
+  const endDateTime = endDateObject.getTime();
   const ratingEndDateTime = new Date(ratingEndDate).getTime();
+
+  if (typicality === "unplanned_disruption") {
+    const type =
+      serviceDateTime >= startDateTime && serviceDateTime <= endDateTime
+        ? "current"
+        : "future";
+
+    return [
+      {
+        type,
+        servicePeriod: formattedDate(new Date(startDateObject)),
+        service
+      }
+    ];
+  }
 
   if (endDateObject.getTime() <= ratingEndDateTime) {
     return [
