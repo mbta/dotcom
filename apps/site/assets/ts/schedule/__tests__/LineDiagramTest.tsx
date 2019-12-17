@@ -1,5 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import { mount } from "enzyme";
 import LineDiagram from "../components/LineDiagram";
 import { StopType } from "../../__v3api";
 import { LineDiagramStop } from "../components/__schedule";
@@ -505,5 +506,17 @@ describe("LineDiagram", () => {
   it("it renders", () => {
     const wrapper = renderer.create(<LineDiagram lineDiagram={lineDiagram} />);
     expect(wrapper.toJSON()).toMatchSnapshot();
+  });
+
+  it("has a tooltip for a transit connection", () => {
+    const wrapper = mount(<LineDiagram lineDiagram={lineDiagram} />);
+    const stopConnections = wrapper.find(
+      ".m-schedule-line-diagram__connections a"
+    );
+    stopConnections.forEach(connectionLink => {
+      const props = connectionLink.props();
+      expect(props.title).toBeTruthy();
+      expect(Object.entries(props)).toContainEqual(["data-toggle", "tooltip"]);
+    });
   });
 });

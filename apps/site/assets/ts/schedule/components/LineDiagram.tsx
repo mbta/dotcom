@@ -45,6 +45,16 @@ const maybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
 const busBackgroundClass = (connection: Route): string =>
   connection.name.startsWith("SL") ? "u-bg--silver-line" : "u-bg--bus";
 
+const connectionName = (connection: Route): string => {
+  if (connection.type === 3) {
+    return connection.name.startsWith("SL")
+      ? `Silver Line ${connection.name}`
+      : `Route ${connection.name}`;
+  }
+
+  return connection.name;
+};
+
 const LineDiagram = ({
   lineDiagram
 }: Props): ReactElement<HTMLElement> | null => {
@@ -70,7 +80,17 @@ const LineDiagram = ({
               <div className="m-schedule-line-diagram__connections">
                 {filteredConnections(routeStop.connections).map(
                   (route: Route) => (
-                    <a href={`/schedules/${route.id}/line`} key={route.id}>
+                    <a
+                      href={`/schedules/${route.id}/line`}
+                      key={route.id}
+                      data-toggle="tooltip"
+                      data-trigger="focus"
+                      data-placement="bottom"
+                      data-animation="false"
+                      data-selector="true"
+                      data-original-title={connectionName(route)}
+                      title={connectionName(route)}
+                    >
                       {route.type === 3 ? (
                         <span
                           key={route.id}
