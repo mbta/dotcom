@@ -26,7 +26,14 @@ Array [
         className="m-schedule-line-diagram__connections"
       >
         <a
+          data-animation="false"
+          data-original-title="Route 110"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="focus"
           href="/schedules/110/line"
+          title="Route 110"
         >
           <span
             className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
@@ -63,7 +70,14 @@ Array [
         className="m-schedule-line-diagram__connections"
       >
         <a
+          data-animation="false"
+          data-original-title="Orange Line"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="focus"
           href="/schedules/Orange/line"
+          title="Orange Line"
         >
           <span
             className="m-schedule-line-diagram__connection"
@@ -80,7 +94,14 @@ Array [
           </span>
         </a>
         <a
+          data-animation="false"
+          data-original-title="Green Line C"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="focus"
           href="/schedules/Green-C/line"
+          title="Green Line C"
         >
           <span
             className="m-schedule-line-diagram__connection"
@@ -97,7 +118,14 @@ Array [
           </span>
         </a>
         <a
+          data-animation="false"
+          data-original-title="Green Line E"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="focus"
           href="/schedules/Green-E/line"
+          title="Green Line E"
         >
           <span
             className="m-schedule-line-diagram__connection"
@@ -114,7 +142,14 @@ Array [
           </span>
         </a>
         <a
+          data-animation="false"
+          data-original-title="Fitchburg Line"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="focus"
           href="/schedules/CR-Fitchburg/line"
+          title="Fitchburg Line"
         >
           <span
             className="m-schedule-line-diagram__connection"
@@ -198,7 +233,14 @@ Array [
         className="m-schedule-line-diagram__connections"
       >
         <a
+          data-animation="false"
+          data-original-title="Route 62"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="focus"
           href="/schedules/62/line"
+          title="Route 62"
         >
           <span
             className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
@@ -207,7 +249,14 @@ Array [
           </span>
         </a>
         <a
+          data-animation="false"
+          data-original-title="Route 67"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="focus"
           href="/schedules/67/line"
+          title="Route 67"
         >
           <span
             className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
@@ -216,7 +265,14 @@ Array [
           </span>
         </a>
         <a
+          data-animation="false"
+          data-original-title="Route 76"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="focus"
           href="/schedules/76/line"
+          title="Route 76"
         >
           <span
             className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
@@ -225,7 +281,14 @@ Array [
           </span>
         </a>
         <a
+          data-animation="false"
+          data-original-title="Route 79"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="focus"
           href="/schedules/79/line"
+          title="Route 79"
         >
           <span
             className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
@@ -234,7 +297,14 @@ Array [
           </span>
         </a>
         <a
+          data-animation="false"
+          data-original-title="Route 84"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="focus"
           href="/schedules/84/line"
+          title="Route 84"
         >
           <span
             className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
@@ -243,7 +313,14 @@ Array [
           </span>
         </a>
         <a
+          data-animation="false"
+          data-original-title="Route 350"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="focus"
           href="/schedules/350/line"
+          title="Route 350"
         >
           <span
             className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
@@ -252,7 +329,14 @@ Array [
           </span>
         </a>
         <a
+          data-animation="false"
+          data-original-title="Route 351"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="focus"
           href="/schedules/351/line"
+          title="Route 351"
         >
           <span
             className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
