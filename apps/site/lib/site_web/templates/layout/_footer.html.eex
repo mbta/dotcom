@@ -82,7 +82,7 @@
         <div class="m-footer__group-title">Follow Us Online</div>
         <ul class="c-social">
           <% social_links = %{"facebook" => "https://www.facebook.com/TheMBTA/",
-                              "instagram" => "https://www.instagram.com/mbtapics/",
+                              "instagram" => "https://www.instagram.com/thembta/",
                               "youtube"   => "https://www.youtube.com/user/mbtagm/",
                               "twitter"   => "https://twitter.com/MBTA"} %>
           <%= for {name, href} <- social_links do %>
