@@ -44,6 +44,7 @@ defmodule SiteWeb.ScheduleController.Line do
   defp update_conn(conn, route, direction_id, deps) do
     variant = conn.query_params["variant"]
     expanded = conn.query_params["expanded"]
+    reverse_direction_id = reverse_direction(direction_id)
     route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)
     route_stops = LineHelpers.get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
     route_patterns = get_route_patterns(route.id)
@@ -66,21 +67,8 @@ defmodule SiteWeb.ScheduleController.Line do
     {map_img_src, dynamic_map_data} =
       Maps.map_data(route, map_stops, vehicle_polylines, vehicle_tooltips)
 
-    # For <ScheduleFinder />
-    unfiltered_branches = LineHelpers.get_branches(route_shapes, route_stops, route, direction_id)
-    reverse_direction_id = reverse_direction(direction_id)
-    reverse_shapes = LineHelpers.get_route_shapes(route.id, reverse_direction_id)
-
     reverse_route_stops =
       LineHelpers.get_route_stops(route.id, reverse_direction_id, deps.stops_by_route_fn)
-
-    reverse_branches =
-      LineHelpers.get_branches(
-        reverse_shapes,
-        reverse_route_stops,
-        route,
-        reverse_direction_id
-      )
 
     conn
     |> assign(:route_patterns, route_patterns)
@@ -97,16 +85,14 @@ defmodule SiteWeb.ScheduleController.Line do
       :reverse_direction_all_stops,
       reverse_direction_all_stops(route.id, reverse_direction_id)
     )
-    |> assign(
-      :reverse_direction_all_stops_from_shapes,
-      DiagramHelpers.build_stop_list(reverse_branches, reverse_direction_id)
-    )
-    |> assign(
-      :all_stops_from_shapes,
-      DiagramHelpers.build_stop_list(unfiltered_branches, direction_id)
-    )
+    |> assign(:all_stops_from_route, flatten_route_stops(route_stops))
+    |> assign(:reverse_direction_all_stops_from_route, flatten_route_stops(reverse_route_stops))
     |> assign(:connections, connections(branches))
     |> assign(:time_data_by_stop, time_data_by_stop)
+  end
+
+  defp flatten_route_stops(route_stops) do
+    Enum.flat_map(route_stops, fn {_route_id, stops} -> stops end)
   end
 
   @spec get_route_patterns(Route.id_t()) :: map
