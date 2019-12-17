@@ -150,61 +150,30 @@ defmodule SiteWeb.ScheduleController.LineController do
     opposite_direction = reverse_direction(current_direction)
 
     Map.new()
-    |> Map.put(current_direction, simple_stop_list(conn.assigns.all_stops_from_shapes))
+    |> Map.put(
+      current_direction,
+      simple_stop_list(conn.assigns.all_stops_from_route, conn.assigns.route)
+    )
     |> Map.put(
       opposite_direction,
-      simple_stop_list(conn.assigns.reverse_direction_all_stops_from_shapes)
+      simple_stop_list(conn.assigns.reverse_direction_all_stops_from_route, conn.assigns.route)
     )
-  end
-
-  def add_zones_to_stops(stops) do
-    stops
-    |> Enum.map(fn stop -> Map.put(stop, :zone, Zones.Repo.get(stop.id)) end)
-    |> Enum.map(&simple_stop/1)
   end
 
   # Must be strings for mapping to JSON
   def reverse_direction("0"), do: "1"
   def reverse_direction("1"), do: "0"
 
-  def simple_stop_list(all_stops) do
-    all_stops |> Enum.map(&simple_stop/1) |> Enum.uniq_by(& &1.id)
+  defp simple_stop_list(stops, route) do
+    stops |> Enum.uniq_by(& &1.id) |> Enum.map(&simple_stop(&1, route))
   end
 
-  def simple_stop(%{
-        id: id,
-        name: name,
-        closed_stop_info: closed_stop_info,
-        zone: zone
-      }) do
-    closed_stop? = if closed_stop_info == nil, do: false, else: true
-
+  defp simple_stop(%{id: id, name: name, closed_stop_info: closed_info}, %{type: route_type}) do
     %{
       id: id,
       name: name,
-      is_closed: closed_stop?,
-      zone: zone
-    }
-  end
-
-  def simple_stop(
-        {_,
-         %{
-           id: id,
-           name: name,
-           closed_stop_info: closed_stop_info,
-           zone: zone,
-           route: %{type: type}
-         }}
-      ) do
-    closed_stop? = if closed_stop_info == nil, do: false, else: true
-    zone = if type == 2, do: zone, else: nil
-
-    %{
-      id: id,
-      name: name,
-      is_closed: closed_stop?,
-      zone: zone
+      is_closed: if(is_nil(closed_info), do: false, else: true),
+      zone: if(route_type == 2, do: Zones.Repo.get(id), else: nil)
     }
   end
 
