@@ -94,6 +94,10 @@ defmodule SiteWeb.Router do
     get("/schedules/448/*path_params", Redirector, to: "/betterbus-440s")
     get("/schedules/449", Redirector, to: "/betterbus-440s")
     get("/schedules/449/*path_params", Redirector, to: "/betterbus-440s")
+    get("/schedules/70a", Redirector, to: "/betterbus-61-70-70A")
+    get("/schedules/70a/*path_params", Redirector, to: "/betterbus-61-70-70A")
+    get("/schedules/70A", Redirector, to: "/betterbus-61-70-70A")
+    get("/schedules/70A/*path_params", Redirector, to: "/betterbus-61-70-70A")
 
     get("/", PageController, :index)
 
