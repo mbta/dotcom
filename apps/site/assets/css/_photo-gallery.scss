@@ -35,8 +35,13 @@
     display: none;
   }
 
+  // Remove inline, vertical space between rows of thumbnails
+  .js & {
+    line-height: 0;
+  }
+
   &.c-thumbnail-count--0,
-  &.c-thumbnail-count--1 {
+  &.c-thumbnail-total--1 {
     display: none;
 
     + .c-photo-gallery__nav-btns {
@@ -46,30 +51,23 @@
 
   a {
     display: inline-block;
-    margin: 0 4px 4px 0;
-
-    &:nth-child(5n+0) {
-      margin: 0 0 4px;
-    }
+    height: 0;
+    margin: .25%;
+    padding-bottom: 20%;
+    position: relative;
+    width: 19.5%;
   }
 }
 
 .c-photo-gallery__thumbnail {
   font-family: 'object-fit: cover;';  // IE polyfill
-  height: 99px;
+  height: 100%;
+  left: 0;
   object-fit: cover;
   pointer-events: none;
-  width: 99px;
-
-  @include media-breakpoint-up(lg) {
-    height: 124px;
-    width: 124px;
-  }
-
-  @include media-breakpoint-only(xxl) {
-    height: 140px;
-    width: 140px;
-  }
+  position: absolute;
+  top: 0;
+  width: 100%;
 }
 
 .c-photo-gallery__nav-btns {

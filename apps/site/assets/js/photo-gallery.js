@@ -125,6 +125,7 @@ function render(id, focusId) {
   const mainCaption = main.querySelectorAll("figcaption").item(0);
 
   // get pages of images
+  const totalImages = galleries[id].images.length;
   const firstImage = galleries[id].pageOffset * PAGE_SIZE;
   const lastImage = firstImage + PAGE_SIZE;
   const pagination = galleries[id].images.length > PAGE_SIZE;
@@ -149,7 +150,7 @@ function render(id, focusId) {
     </div>
     <div id="${`${id}images`}" class="c-photo-gallery__thumbnails c-thumbnail-count--${
     images.length
-  }">
+  } c-thumbnail-total--${totalImages}">
       ${renderImages(images, firstImage, id)}
     </div>
     ${renderNavigation(id, pagination)}
