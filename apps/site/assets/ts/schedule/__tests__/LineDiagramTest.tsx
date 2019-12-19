@@ -96,7 +96,7 @@ export const lineDiagram = [
           id: "741",
           description: "rapid_transit",
           "custom_route?": false
-        },
+        }
       ],
       closed_stop_info: null,
       branch: null
@@ -556,14 +556,14 @@ describe("LineDiagram", () => {
   });
 
   it.each`
-    index | expectedNames
-    ${0}  | ${["Route 110"]}
-    ${1}  | ${["Silver Line SL1"]}
-    ${2}  | ${["Orange Line", "Green Line C", "Green Line E", "Commuter Rail"]}
-    ${3}  | ${["Route 62", "Route 67", "Route 76", "Route 79", "Route 84", "Route 350", "Route 351"]}
+    index | expectedNames                                                                             | expectedFeatures
+    ${0}  | ${["Route 110"]}                                                                          | ${[]}
+    ${1}  | ${["Silver Line SL1"]}                                                                    | ${[]}
+    ${2}  | ${["Orange Line", "Green Line C", "Green Line E", "Commuter Rail"]}                       | ${["Parking", "Accessible"]}
+    ${3}  | ${["Route 62", "Route 67", "Route 76", "Route 79", "Route 84", "Route 350", "Route 351"]} | ${["Parking", "Accessible"]}
   `(
     "has appropriate tooltip content for stop $index",
-    ({ index, expectedNames }) => {
+    ({ index, expectedNames, expectedFeatures }) => {
       const wrapper = mount(<LineDiagram lineDiagram={lineDiagram} />);
       const connections = wrapper
         .find(".m-schedule-line-diagram__connections")
@@ -571,6 +571,15 @@ describe("LineDiagram", () => {
 
       const names = connections.find("a").map(c => c.props().title);
       expect(names).toEqual(expectedNames);
+
+      const features = wrapper
+        .find(".m-schedule-line-diagram__features")
+        .at(index);
+
+      const featureNames = features
+        .find("span[data-toggle='tooltip']")
+        .map(c => c.props().title);
+      expect(featureNames).toEqual(expectedFeatures);
     }
   );
 });
