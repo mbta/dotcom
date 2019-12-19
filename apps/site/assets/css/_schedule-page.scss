@@ -417,12 +417,16 @@
 .m-schedule-line-diagram__stop {
   border: $border;
   border-bottom: 0;
-  display: flex;
   padding: $base-spacing;
 
   &:last-child {
     border-bottom: $border;
   }
+}
+
+.m-schedule-line-diagram__card {
+  display: flex;
+  align-items: flex-start;
 }
 
 .m-schedule-line-diagram__stop-name {
@@ -472,4 +476,12 @@
 
 .m-schedule-line-diagram__card-left {
   flex-grow: 1;
+}
+
+.m-schedule-line-diagram__footer {
+  text-align: center;
+
+  .btn {
+    padding: unset;
+  }
 }

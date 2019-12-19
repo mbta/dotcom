@@ -1,9 +1,13 @@
 import React from "react";
-import renderer from "react-test-renderer";
-import { mount } from "enzyme";
+import { mount, ReactWrapper } from "enzyme";
 import LineDiagram from "../components/LineDiagram";
 import { StopType } from "../../__v3api";
 import { LineDiagramStop } from "../components/__schedule";
+import {
+  route,
+  directionId,
+  routePatternsByDirection
+} from "./ScheduleDirectionTest";
 const stopType = "stop" as StopType;
 // Not a full line diagram
 
@@ -537,14 +541,60 @@ export const lineDiagram = [
   }
 ] as LineDiagramStop[];
 
+const stops = lineDiagram.map(({ route_stop }) => ({
+  name: route_stop.name,
+  id: route_stop.id,
+  is_closed: false,
+  zone: route_stop.zone || null
+}));
+
 describe("LineDiagram", () => {
-  it("it renders", () => {
-    const wrapper = renderer.create(<LineDiagram lineDiagram={lineDiagram} />);
-    expect(wrapper.toJSON()).toMatchSnapshot();
+  let wrapper: ReactWrapper;
+  beforeEach(() => {
+    wrapper = mount(
+      <LineDiagram
+        lineDiagram={lineDiagram}
+        route={route}
+        directionId={directionId}
+        routePatternsByDirection={routePatternsByDirection}
+        services={[]}
+        stops={{ 0: stops, 1: stops }}
+      />
+    );
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
+  });
+
+  it("renders and matches snapshot", () => {
+    expect(wrapper.debug()).toMatchSnapshot();
+  });
+
+  it("has buttons to view schedules for each stop", () => {
+    const stopCards = wrapper.find(".m-schedule-line-diagram__stop");
+    const buttons = stopCards.map(card =>
+      card.find(".m-schedule-line-diagram__footer button")
+    );
+    expect(buttons.map(node => node.text())).toEqual(
+      Array.from({ length: buttons.length }, () => "View schedule")
+    );
+  });
+
+  it("opens a closeable modal after clicking button", () => {
+    expect(wrapper.exists(".schedule-finder__modal-header")).toBeFalsy();
+    wrapper
+      .find(".m-schedule-line-diagram__footer > button")
+      .last()
+      .simulate("click");
+    expect(wrapper.exists(".schedule-finder__modal-header")).toBeTruthy();
+    expect(wrapper.exists("#modal-close")).toBeTruthy();
+    wrapper.find("#modal-close").simulate("click");
+    expect(wrapper.exists(".schedule-finder__modal-header")).toBeFalsy();
+    expect(wrapper.exists("#modal-close")).toBeFalsy();
   });
 
   it("has a tooltip for a transit connection", () => {
-    const wrapper = mount(<LineDiagram lineDiagram={lineDiagram} />);
     const stopConnections = wrapper.find(
       ".m-schedule-line-diagram__connections a"
     );
@@ -564,7 +614,6 @@ describe("LineDiagram", () => {
   `(
     "has appropriate tooltip content for stop $index",
     ({ index, expectedNames, expectedFeatures }) => {
-      const wrapper = mount(<LineDiagram lineDiagram={lineDiagram} />);
       const connections = wrapper
         .find(".m-schedule-line-diagram__connections")
         .at(index);

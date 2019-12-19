@@ -18,7 +18,7 @@ const route: EnhancedRoute = {
   type: 1
 };
 
-const stops: SimpleStop[] = [
+export const stops: SimpleStop[] = [
   { name: "Malden Center", id: "place-mlmnl", is_closed: false, zone: "1" },
   { name: "Wellington", id: "place-welln", is_closed: false, zone: "2" }
 ];

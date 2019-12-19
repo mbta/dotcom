@@ -14,11 +14,12 @@ import { EnhancedRoute } from "../../__v3api";
 import { MapData } from "../../leaflet/components/__mapdata";
 import { RoutePatternsByDirection, ShapesById } from "../components/__schedule";
 import { lineDiagram } from "./LineDiagramTest";
+import { stops } from "./ScheduleModalTest";
 
 const body =
   '<div id="body-wrapper"><div id="react-root"></div><div id="map-root"></div></div>';
 
-const route = {
+export const route = {
   type: 3,
   name: "route 1",
   long_name: "route 1 long name",
@@ -36,8 +37,8 @@ const route = {
   header: "",
   alert_count: 0
 } as EnhancedRoute;
-const directionId = 1;
-const routePatternsByDirection = {
+export const directionId = 1;
+export const routePatternsByDirection = {
   "0": [
     {
       typicality: 1,
@@ -167,6 +168,8 @@ const getComponent = () => (
     shapesById={shapesById}
     mapData={mapData}
     lineDiagram={lineDiagram}
+    services={[]}
+    stops={{ stops }}
   />
 );
 
@@ -178,6 +181,8 @@ const getSubwayComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     shapesById={shapesById}
     lineDiagram={lineDiagram}
+    services={[]}
+    stops={{ stops }}
   />
 );
 
@@ -205,6 +210,8 @@ const getGreenLineComponent = () => {
       routePatternsByDirection={routePatternsByDirection}
       shapesById={shapesById}
       lineDiagram={lineDiagram}
+      services={[]}
+      stops={{ stops }}
     />
   );
 };
