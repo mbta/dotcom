@@ -31,7 +31,7 @@ Array [
           data-placement="bottom"
           data-selector="true"
           data-toggle="tooltip"
-          data-trigger="focus"
+          data-trigger="hover focus"
           href="/schedules/110/line"
           title="Route 110"
         >
@@ -39,6 +39,50 @@ Array [
             className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--bus"
           >
             110
+          </span>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div
+        className="m-schedule-line-diagram__features"
+      />
+    </div>
+  </div>,
+  <div
+    className="m-schedule-line-diagram__stop"
+  >
+    <div
+      className="m-schedule-line-diagram__card-left"
+    >
+      <div
+        className="m-schedule-line-diagram__stop-name"
+      >
+        <a
+          href="/stops/place-tufts"
+        >
+          <h4>
+            Tufts Medical Center
+          </h4>
+        </a>
+      </div>
+      <div
+        className="m-schedule-line-diagram__connections"
+      >
+        <a
+          data-animation="false"
+          data-original-title="Silver Line SL1"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="hover focus"
+          href="/schedules/741/line"
+          title="Silver Line SL1"
+        >
+          <span
+            className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--silver-line"
+          >
+            SL1
           </span>
         </a>
       </div>
@@ -75,7 +119,7 @@ Array [
           data-placement="bottom"
           data-selector="true"
           data-toggle="tooltip"
-          data-trigger="focus"
+          data-trigger="hover focus"
           href="/schedules/Orange/line"
           title="Orange Line"
         >
@@ -99,7 +143,7 @@ Array [
           data-placement="bottom"
           data-selector="true"
           data-toggle="tooltip"
-          data-trigger="focus"
+          data-trigger="hover focus"
           href="/schedules/Green-C/line"
           title="Green Line C"
         >
@@ -123,7 +167,7 @@ Array [
           data-placement="bottom"
           data-selector="true"
           data-toggle="tooltip"
-          data-trigger="focus"
+          data-trigger="hover focus"
           href="/schedules/Green-E/line"
           title="Green Line E"
         >
@@ -143,13 +187,13 @@ Array [
         </a>
         <a
           data-animation="false"
-          data-original-title="Fitchburg Line"
+          data-original-title="Commuter Rail"
           data-placement="bottom"
           data-selector="true"
           data-toggle="tooltip"
-          data-trigger="focus"
+          data-trigger="hover focus"
           href="/schedules/CR-Fitchburg/line"
-          title="Fitchburg Line"
+          title="Commuter Rail"
         >
           <span
             className="m-schedule-line-diagram__connection"
@@ -172,23 +216,43 @@ Array [
         className="m-schedule-line-diagram__features"
       >
         <span
-          aria-hidden="false"
-          className="notranslate c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "SVG",
+          data-animation="true"
+          data-original-title="Parking"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="hover focus"
+          title="Parking"
+        >
+          <span
+            aria-hidden="false"
+            className="notranslate c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
             }
-          }
-        />
+          />
+        </span>
         <span
-          aria-hidden="false"
-          className="notranslate c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "SVG",
+          data-animation="true"
+          data-original-title="Accessible"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="hover focus"
+          title="Accessible"
+        >
+          <span
+            aria-hidden="false"
+            className="notranslate c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
             }
-          }
-        />
+          />
+        </span>
         <span
           className="c-icon__cr-zone m-schedule-line-diagram__feature-icon"
         >
@@ -238,7 +302,7 @@ Array [
           data-placement="bottom"
           data-selector="true"
           data-toggle="tooltip"
-          data-trigger="focus"
+          data-trigger="hover focus"
           href="/schedules/62/line"
           title="Route 62"
         >
@@ -254,7 +318,7 @@ Array [
           data-placement="bottom"
           data-selector="true"
           data-toggle="tooltip"
-          data-trigger="focus"
+          data-trigger="hover focus"
           href="/schedules/67/line"
           title="Route 67"
         >
@@ -270,7 +334,7 @@ Array [
           data-placement="bottom"
           data-selector="true"
           data-toggle="tooltip"
-          data-trigger="focus"
+          data-trigger="hover focus"
           href="/schedules/76/line"
           title="Route 76"
         >
@@ -286,7 +350,7 @@ Array [
           data-placement="bottom"
           data-selector="true"
           data-toggle="tooltip"
-          data-trigger="focus"
+          data-trigger="hover focus"
           href="/schedules/79/line"
           title="Route 79"
         >
@@ -302,7 +366,7 @@ Array [
           data-placement="bottom"
           data-selector="true"
           data-toggle="tooltip"
-          data-trigger="focus"
+          data-trigger="hover focus"
           href="/schedules/84/line"
           title="Route 84"
         >
@@ -318,7 +382,7 @@ Array [
           data-placement="bottom"
           data-selector="true"
           data-toggle="tooltip"
-          data-trigger="focus"
+          data-trigger="hover focus"
           href="/schedules/350/line"
           title="Route 350"
         >
@@ -334,7 +398,7 @@ Array [
           data-placement="bottom"
           data-selector="true"
           data-toggle="tooltip"
-          data-trigger="focus"
+          data-trigger="hover focus"
           href="/schedules/351/line"
           title="Route 351"
         >
@@ -351,23 +415,43 @@ Array [
         className="m-schedule-line-diagram__features"
       >
         <span
-          aria-hidden="false"
-          className="notranslate c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "SVG",
+          data-animation="true"
+          data-original-title="Parking"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="hover focus"
+          title="Parking"
+        >
+          <span
+            aria-hidden="false"
+            className="notranslate c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
             }
-          }
-        />
+          />
+        </span>
         <span
-          aria-hidden="false"
-          className="notranslate c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "SVG",
+          data-animation="true"
+          data-original-title="Accessible"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="hover focus"
+          title="Accessible"
+        >
+          <span
+            aria-hidden="false"
+            className="notranslate c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
             }
-          }
-        />
+          />
+        </span>
       </div>
     </div>
   </div>,

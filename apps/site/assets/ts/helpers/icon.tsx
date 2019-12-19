@@ -107,3 +107,44 @@ export const caret = (
     />
   );
 };
+
+/* 
+A minimal component that gives its child component 
+a basic tooltip containing the specified text. Has no
+visual appearance itself.
+
+Note: data-selector="true" and data-original-title are
+specified here in order to preserve `title` text post-trigger
+*/
+export const TooltipWrapper: React.FC<{
+  children: JSX.Element;
+  tooltipText: string;
+  tooltipOptions?: object; // corresponds to Bootstrap tooltip options
+  href?: string;
+}> = ({ children, tooltipText, tooltipOptions, href }): JSX.Element => {
+  const { trigger, placement, animation } = Object.assign(
+    {
+      trigger: "hover focus",
+      placement: "top",
+      animation: "true"
+    },
+    tooltipOptions
+  );
+
+  const Tag = href ? "a" : "span";
+
+  return (
+    <Tag
+      href={href}
+      data-toggle="tooltip"
+      data-trigger={trigger}
+      data-placement={placement}
+      data-animation={animation}
+      data-selector="true"
+      data-original-title={tooltipText}
+      title={tooltipText}
+    >
+      {children}
+    </Tag>
+  );
+};

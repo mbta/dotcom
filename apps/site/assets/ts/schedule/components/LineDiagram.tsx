@@ -4,7 +4,8 @@ import {
   alertIcon,
   modeIcon,
   accessibleIcon,
-  parkingIcon
+  parkingIcon,
+  TooltipWrapper
 } from "../../helpers/icon";
 import { Alert, Route } from "../../__v3api";
 
@@ -84,16 +85,14 @@ const LineDiagram = ({
               <div className="m-schedule-line-diagram__connections">
                 {filteredConnections(routeStop.connections).map(
                   (route: Route) => (
-                    <a
-                      href={`/schedules/${route.id}/line`}
+                    <TooltipWrapper
                       key={route.id}
-                      data-toggle="tooltip"
-                      data-trigger="focus"
-                      data-placement="bottom"
-                      data-animation="false"
-                      data-selector="true"
-                      data-original-title={connectionName(route)}
-                      title={connectionName(route)}
+                      href={`/schedules/${route.id}/line`}
+                      tooltipText={connectionName(route)}
+                      tooltipOptions={{
+                        placement: "bottom",
+                        animation: "false"
+                      }}
                     >
                       {route.type === 3 ? (
                         <span
@@ -112,23 +111,33 @@ const LineDiagram = ({
                           {modeIcon(route.id)}
                         </span>
                       )}
-                    </a>
+                    </TooltipWrapper>
                   )
                 )}
               </div>
             </div>
             <div>
               <div className="m-schedule-line-diagram__features">
-                {routeStop.stop_features.includes("parking_lot")
-                  ? parkingIcon(
+                {routeStop.stop_features.includes("parking_lot") ? (
+                  <TooltipWrapper
+                    tooltipText="Parking"
+                    tooltipOptions={{ placement: "bottom" }}
+                  >
+                    {parkingIcon(
                       "c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
-                    )
-                  : null}
-                {routeStop.stop_features.includes("access")
-                  ? accessibleIcon(
+                    )}
+                  </TooltipWrapper>
+                ) : null}
+                {routeStop.stop_features.includes("access") ? (
+                  <TooltipWrapper
+                    tooltipText="Accessible"
+                    tooltipOptions={{ placement: "bottom" }}
+                  >
+                    {accessibleIcon(
                       "c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
-                    )
-                  : null}
+                    )}
+                  </TooltipWrapper>
+                ) : null}
                 {routeStop.route!.type === 2 && routeStop.zone && (
                   <span className="c-icon__cr-zone m-schedule-line-diagram__feature-icon">{`Zone ${
                     routeStop.zone
