@@ -59,6 +59,50 @@ Array [
         className="m-schedule-line-diagram__stop-name"
       >
         <a
+          href="/stops/place-tufts"
+        >
+          <h4>
+            Tufts Medical Center
+          </h4>
+        </a>
+      </div>
+      <div
+        className="m-schedule-line-diagram__connections"
+      >
+        <a
+          data-animation="false"
+          data-original-title="Silver Line SL1"
+          data-placement="bottom"
+          data-selector="true"
+          data-toggle="tooltip"
+          data-trigger="focus"
+          href="/schedules/741/line"
+          title="Silver Line SL1"
+        >
+          <span
+            className="c-icon__bus-pill--small m-schedule-line-diagram__connection u-bg--silver-line"
+          >
+            SL1
+          </span>
+        </a>
+      </div>
+    </div>
+    <div>
+      <div
+        className="m-schedule-line-diagram__features"
+      />
+    </div>
+  </div>,
+  <div
+    className="m-schedule-line-diagram__stop"
+  >
+    <div
+      className="m-schedule-line-diagram__card-left"
+    >
+      <div
+        className="m-schedule-line-diagram__stop-name"
+      >
+        <a
           href="/stops/place-north"
         >
           <h4>
@@ -143,13 +187,13 @@ Array [
         </a>
         <a
           data-animation="false"
-          data-original-title="Fitchburg Line"
+          data-original-title="Commuter Rail"
           data-placement="bottom"
           data-selector="true"
           data-toggle="tooltip"
           data-trigger="focus"
           href="/schedules/CR-Fitchburg/line"
-          title="Fitchburg Line"
+          title="Commuter Rail"
         >
           <span
             className="m-schedule-line-diagram__connection"

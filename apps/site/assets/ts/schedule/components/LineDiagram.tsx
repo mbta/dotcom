@@ -52,6 +52,10 @@ const connectionName = (connection: Route): string => {
       : `Route ${connection.name}`;
   }
 
+  if (connection.type === 2) {
+    return "Commuter Rail";
+  }
+
   return connection.name;
 };
 
