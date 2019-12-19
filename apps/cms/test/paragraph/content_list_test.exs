@@ -179,6 +179,16 @@ defmodule CMS.Partial.Paragraph.ContentListTest do
     assert opts == [items_per_page: 5, type: [:event]]
   end
 
+  test "Only enforces an upper limit for project/update teasers" do
+    request_3 = cms_map(content_type: "project", number_of_items: 3)
+    request_2 = cms_map(content_type: "project", number_of_items: 2)
+    request_1 = cms_map(content_type: "project", number_of_items: 1)
+
+    assert request_3 == [items_per_page: 2, type: [:project]]
+    assert request_2 == [items_per_page: 2, type: [:project]]
+    assert request_1 == [items_per_page: 1, type: [:project]]
+  end
+
   defp cms_map(fields) do
     fields
     |> Enum.into(%{}, &cms_field/1)
