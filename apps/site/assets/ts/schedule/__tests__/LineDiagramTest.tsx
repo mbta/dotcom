@@ -71,6 +71,41 @@ export const lineDiagram = [
   {
     stop_data: [{ type: "stop", branch: "Lowell" }],
     route_stop: {
+      zone: "",
+      stop_features: [],
+      station_info: {},
+      route: {
+        type: 1,
+        name: "Orange Line",
+        long_name: "Orange Line",
+        id: "Orange",
+        direction_names: { "0": "Southbound", "1": "Northbound" },
+        direction_destinations: { "0": "Forest Hills", "1": "Oak Grove" },
+        description: "rapid_transit",
+        "custom_route?": false
+      },
+      name: "Tufts Medical Center",
+      "is_terminus?": false,
+      "is_beginning?": false,
+      id: "place-tufts",
+      connections: [
+        {
+          type: 3,
+          name: "SL1",
+          long_name: "Silver Line",
+          id: "741",
+          description: "rapid_transit",
+          "custom_route?": false
+        },
+      ],
+      closed_stop_info: null,
+      branch: null
+    },
+    alerts: []
+  },
+  {
+    stop_data: [{ type: "stop", branch: "Lowell" }],
+    route_stop: {
       zone: "1A",
       stop_features: [
         "orange_line",
@@ -519,4 +554,23 @@ describe("LineDiagram", () => {
       expect(Object.entries(props)).toContainEqual(["data-toggle", "tooltip"]);
     });
   });
+
+  it.each`
+    index | expectedNames
+    ${0}  | ${["Route 110"]}
+    ${1}  | ${["Silver Line SL1"]}
+    ${2}  | ${["Orange Line", "Green Line C", "Green Line E", "Commuter Rail"]}
+    ${3}  | ${["Route 62", "Route 67", "Route 76", "Route 79", "Route 84", "Route 350", "Route 351"]}
+  `(
+    "has appropriate tooltip content for stop $index",
+    ({ index, expectedNames }) => {
+      const wrapper = mount(<LineDiagram lineDiagram={lineDiagram} />);
+      const connections = wrapper
+        .find(".m-schedule-line-diagram__connections")
+        .at(index);
+
+      const names = connections.find("a").map(c => c.props().title);
+      expect(names).toEqual(expectedNames);
+    }
+  );
 });
