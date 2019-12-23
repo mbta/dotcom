@@ -31,6 +31,6 @@ defmodule Util.AsyncAssignTest do
     assert log =~ "module=#{__MODULE__}"
     assert log =~ "key=hello"
     assert log =~ "error=async_error"
-    assert log =~ "async task timed out"
+    assert log =~ "Async task timed out"
   end
 end

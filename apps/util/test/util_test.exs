@@ -313,6 +313,21 @@ defmodule UtilTest do
       assert async_with_timeout([fn -> 5 end, fn -> 6 end], nil, __MODULE__) == [5, 6]
     end
 
+    test "returns results in the same order functions were passed in" do
+      results = Enum.to_list(0..99)
+
+      functions =
+        Enum.map(
+          results,
+          &fn ->
+            :timer.sleep(&1)
+            &1
+          end
+        )
+
+      assert async_with_timeout(functions, nil, __MODULE__) == results
+    end
+
     test "returns the default for a task that runs too long and logs a warning" do
       log =
         capture_log(fn ->
@@ -327,7 +342,7 @@ defmodule UtilTest do
                  ) == [5, :default]
         end)
 
-      assert log =~ "async task timed out"
+      assert log =~ "Async task timed out"
     end
   end
 
@@ -377,9 +392,9 @@ defmodule UtilTest do
                  }
         end)
 
-      assert log =~ "Returning: :long_default"
-      assert log =~ "task exited unexpectedly"
-      refute log =~ "Returning: :short_default"
+      assert log =~ "Defaulting to: :long_default"
+      assert log =~ "exited for reason: :killed"
+      refute log =~ "Defaulting to: :short_default"
     end
   end
 
