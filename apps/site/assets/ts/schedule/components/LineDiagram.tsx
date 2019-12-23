@@ -87,7 +87,7 @@ const LineDiagram = ({
   stops
 }: Props): ReactElement<HTMLElement> | null => {
   const routeType = route.type;
-  const [modalState, toggleModal] = useState<{
+  const [modalState, setModalState] = useState<{
     selectedOrigin: RouteStop;
     modalOpen: boolean;
   }>({
@@ -180,7 +180,7 @@ const LineDiagram = ({
                 className="btn btn-link"
                 type="button"
                 onClick={() =>
-                  toggleModal({
+                  setModalState({
                     selectedOrigin: routeStop,
                     modalOpen: true
                   })
@@ -195,7 +195,7 @@ const LineDiagram = ({
       <Modal
         openState={modalState.modalOpen}
         closeModal={() => {
-          toggleModal({
+          setModalState({
             ...modalState,
             modalOpen: false
           });
