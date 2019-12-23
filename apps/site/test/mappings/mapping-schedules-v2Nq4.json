@@ -1,0 +1,26 @@
+{
+  "id" : "85332fcc-a1f1-3abd-a78c-7027895bdcc7",
+  "request" : {
+    "url" : "/schedules/?stop=102&direction_id=0&date=2020-03-14&route=1&include=trip&fields%5Bschedule%5D=departure_time%2Carrival_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-v2Nq4.json",
+    "headers" : {
+      "Date" : "Mon, 23 Dec 2019 22:06:20 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Mon, 23 Dec 2019 16:53:59 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69659",
+      "x-ratelimit-reset" : "1577138820",
+      "x-request-id" : "FeMfXWWAK0bEMWsADqOB"
+    }
+  },
+  "uuid" : "85332fcc-a1f1-3abd-a78c-7027895bdcc7"
+}

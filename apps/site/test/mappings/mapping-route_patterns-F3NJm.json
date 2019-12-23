@@ -1,0 +1,26 @@
+{
+  "id" : "80cece40-6238-3d13-9e5a-1c2041839bef",
+  "request" : {
+    "url" : "/route_patterns/?sort=typicality%2Csort_order&route=CR-Kingston",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-route_patterns-F3NJm.json",
+    "headers" : {
+      "Date" : "Mon, 23 Dec 2019 22:09:18 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Mon, 23 Dec 2019 16:52:20 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69782",
+      "x-ratelimit-reset" : "1577139000",
+      "x-request-id" : "FeMfhsiisrJlpOAACyQC"
+    }
+  },
+  "uuid" : "80cece40-6238-3d13-9e5a-1c2041839bef"
+}
