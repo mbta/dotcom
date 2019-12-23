@@ -1,5 +1,13 @@
-import React, { ReactElement } from "react";
-import { LineDiagramStop, RouteStopRoute } from "./__schedule";
+import React, { ReactElement, useState } from "react";
+import {
+  LineDiagramStop,
+  RouteStopRoute,
+  RoutePatternsByDirection,
+  SimpleStopMap,
+  RouteStop
+} from "./__schedule";
+import Modal from "../../components/Modal";
+import ScheduleModalContent from "./schedule-finder/ScheduleModalContent";
 import {
   alertIcon,
   modeIcon,
@@ -7,10 +15,20 @@ import {
   parkingIcon,
   TooltipWrapper
 } from "../../helpers/icon";
-import { Alert, Route } from "../../__v3api";
+import {
+  Alert,
+  Route,
+  DirectionId,
+  ServiceWithServiceDate
+} from "../../__v3api";
 
 interface Props {
   lineDiagram: LineDiagramStop[];
+  route: Route;
+  directionId: DirectionId;
+  routePatternsByDirection: RoutePatternsByDirection;
+  services: ServiceWithServiceDate[];
+  stops: SimpleStopMap;
 }
 
 const filteredConnections = (
@@ -61,9 +79,21 @@ const connectionName = (connection: Route): string => {
 };
 
 const LineDiagram = ({
-  lineDiagram
+  lineDiagram,
+  route,
+  directionId,
+  routePatternsByDirection,
+  services,
+  stops
 }: Props): ReactElement<HTMLElement> | null => {
-  const routeType = lineDiagram[0].route_stop.route!.type;
+  const routeType = route.type;
+  const [modalState, setModalState] = useState<{
+    selectedOrigin: RouteStop;
+    modalOpen: boolean;
+  }>({
+    selectedOrigin: lineDiagram[0].route_stop,
+    modalOpen: false
+  });
 
   return (
     <>
@@ -75,48 +105,48 @@ const LineDiagram = ({
       {lineDiagram.map(
         ({ route_stop: routeStop, alerts: stopAlerts }: LineDiagramStop) => (
           <div key={routeStop.id} className="m-schedule-line-diagram__stop">
-            <div className="m-schedule-line-diagram__card-left">
-              <div className="m-schedule-line-diagram__stop-name">
-                {maybeAlert(stopAlerts)}
-                <a href={`/stops/${routeStop.id}`}>
-                  <h4>{routeStop.name}</h4>
-                </a>
+            <div className="m-schedule-line-diagram__card">
+              <div className="m-schedule-line-diagram__card-left">
+                <div className="m-schedule-line-diagram__stop-name">
+                  {maybeAlert(stopAlerts)}
+                  <a href={`/stops/${routeStop.id}`}>
+                    <h4>{routeStop.name}</h4>
+                  </a>
+                </div>
+                <div className="m-schedule-line-diagram__connections">
+                  {filteredConnections(routeStop.connections).map(
+                    (connectingRoute: Route) => (
+                      <TooltipWrapper
+                        key={connectingRoute.id}
+                        href={`/schedules/${connectingRoute.id}/line`}
+                        tooltipText={connectionName(connectingRoute)}
+                        tooltipOptions={{
+                          placement: "bottom",
+                          animation: "false"
+                        }}
+                      >
+                        {connectingRoute.type === 3 ? (
+                          <span
+                            key={connectingRoute.id}
+                            className={`c-icon__bus-pill--small m-schedule-line-diagram__connection ${busBackgroundClass(
+                              connectingRoute
+                            )}`}
+                          >
+                            {connectingRoute.name}
+                          </span>
+                        ) : (
+                          <span
+                            key={connectingRoute.id}
+                            className="m-schedule-line-diagram__connection"
+                          >
+                            {modeIcon(connectingRoute.id)}
+                          </span>
+                        )}
+                      </TooltipWrapper>
+                    )
+                  )}
+                </div>
               </div>
-              <div className="m-schedule-line-diagram__connections">
-                {filteredConnections(routeStop.connections).map(
-                  (route: Route) => (
-                    <TooltipWrapper
-                      key={route.id}
-                      href={`/schedules/${route.id}/line`}
-                      tooltipText={connectionName(route)}
-                      tooltipOptions={{
-                        placement: "bottom",
-                        animation: "false"
-                      }}
-                    >
-                      {route.type === 3 ? (
-                        <span
-                          key={route.id}
-                          className={`c-icon__bus-pill--small m-schedule-line-diagram__connection ${busBackgroundClass(
-                            route
-                          )}`}
-                        >
-                          {route.name}
-                        </span>
-                      ) : (
-                        <span
-                          key={route.id}
-                          className="m-schedule-line-diagram__connection"
-                        >
-                          {modeIcon(route.id)}
-                        </span>
-                      )}
-                    </TooltipWrapper>
-                  )
-                )}
-              </div>
-            </div>
-            <div>
               <div className="m-schedule-line-diagram__features">
                 {routeStop.stop_features.includes("parking_lot") ? (
                   <TooltipWrapper
@@ -145,9 +175,46 @@ const LineDiagram = ({
                 )}
               </div>
             </div>
+            <div className="m-schedule-line-diagram__footer">
+              <button
+                className="btn btn-link"
+                type="button"
+                onClick={() =>
+                  setModalState({
+                    selectedOrigin: routeStop,
+                    modalOpen: true
+                  })
+                }
+              >
+                View schedule
+              </button>
+            </div>
           </div>
         )
       )}
+      <Modal
+        openState={modalState.modalOpen}
+        closeModal={() => {
+          setModalState({
+            ...modalState,
+            modalOpen: false
+          });
+        }}
+        ariaLabel={{
+          label: `Schedules to ${route.direction_names[directionId]}`
+        }}
+      >
+        {() => (
+          <ScheduleModalContent
+            route={route}
+            selectedDirection={directionId}
+            selectedOrigin={modalState.selectedOrigin.id}
+            services={services}
+            stops={stops[directionId]}
+            routePatternsByDirection={routePatternsByDirection}
+          />
+        )}
+      </Modal>
     </>
   );
 };

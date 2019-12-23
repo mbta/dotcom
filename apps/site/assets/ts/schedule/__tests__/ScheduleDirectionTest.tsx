@@ -12,11 +12,25 @@ import {
 import ScheduleDirection, { fetchData } from "../components/ScheduleDirection";
 import { EnhancedRoute } from "../../__v3api";
 import { MapData } from "../../leaflet/components/__mapdata";
-import { RoutePatternsByDirection, ShapesById } from "../components/__schedule";
-import { lineDiagram } from "./LineDiagramTest";
+import {
+  ShapesById,
+  LineDiagramStop,
+  RoutePatternsByDirection
+} from "../components/__schedule";
+import lineDiagramData from "./lineDiagramData.json"; // Not a full line diagram
+import * as routePatternsByDirectionData from "./routePatternsByDirectionData.json";
 
 const body =
   '<div id="body-wrapper"><div id="react-root"></div><div id="map-root"></div></div>';
+
+const lineDiagram = lineDiagramData as LineDiagramStop[];
+
+const stops = lineDiagram.map(({ route_stop }) => ({
+  name: route_stop.name,
+  id: route_stop.id,
+  is_closed: false,
+  zone: route_stop.zone || null
+}));
 
 const route = {
   type: 3,
@@ -37,56 +51,7 @@ const route = {
   alert_count: 0
 } as EnhancedRoute;
 const directionId = 1;
-const routePatternsByDirection = {
-  "0": [
-    {
-      typicality: 1,
-      time_desc: null,
-      shape_id: "shape-1",
-      route_id: "route-1",
-      representative_trip_id: "trip-1",
-      name: "Pattern 1 - Dest",
-      headsign: "Pattern 1",
-      id: "pattern-1",
-      direction_id: 0
-    },
-    {
-      typicality: 1,
-      time_desc: null,
-      shape_id: "shape-3",
-      route_id: "route-1",
-      representative_trip_id: "trip-3",
-      name: "Pattern 3 - Dest",
-      headsign: "Pattern 3",
-      id: "pattern-3",
-      direction_id: 0
-    },
-    {
-      typicality: 3,
-      time_desc: null,
-      shape_id: "shape-4",
-      route_id: "route-1",
-      representative_trip_id: "trip-4",
-      name: "Pattern 4 - Dest",
-      headsign: "Pattern 3",
-      id: "pattern-4",
-      direction_id: 0
-    }
-  ],
-  "1": [
-    {
-      typicality: 2,
-      time_desc: null,
-      shape_id: "shape-2",
-      route_id: "route-1",
-      representative_trip_id: "trip-1",
-      name: "Pattern 2 - Dest",
-      headsign: "Pattern 2",
-      id: "pattern-2",
-      direction_id: 1
-    }
-  ]
-} as RoutePatternsByDirection;
+const routePatternsByDirection = routePatternsByDirectionData as RoutePatternsByDirection;
 const shapesById = {
   "shape-1": {
     stop_ids: ["stop"],
@@ -167,6 +132,8 @@ const getComponent = () => (
     shapesById={shapesById}
     mapData={mapData}
     lineDiagram={lineDiagram}
+    services={[]}
+    stops={{ stops }}
   />
 );
 
@@ -178,6 +145,8 @@ const getSubwayComponent = () => (
     routePatternsByDirection={routePatternsByDirection}
     shapesById={shapesById}
     lineDiagram={lineDiagram}
+    services={[]}
+    stops={{ stops }}
   />
 );
 
@@ -205,6 +174,8 @@ const getGreenLineComponent = () => {
       routePatternsByDirection={routePatternsByDirection}
       shapesById={shapesById}
       lineDiagram={lineDiagram}
+      services={[]}
+      stops={{ stops }}
     />
   );
 };

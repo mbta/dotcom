@@ -1,0 +1,50 @@
+{
+  "0": [
+    {
+      "typicality": 1,
+      "time_desc": null,
+      "shape_id": "shape-1",
+      "route_id": "route-1",
+      "representative_trip_id": "trip-1",
+      "name": "Pattern 1 - Dest",
+      "headsign": "Pattern 1",
+      "id": "pattern-1",
+      "direction_id": 0
+    },
+    {
+      "typicality": 1,
+      "time_desc": null,
+      "shape_id": "shape-3",
+      "route_id": "route-1",
+      "representative_trip_id": "trip-3",
+      "name": "Pattern 3 - Dest",
+      "headsign": "Pattern 3",
+      "id": "pattern-3",
+      "direction_id": 0
+    },
+    {
+      "typicality": 3,
+      "time_desc": null,
+      "shape_id": "shape-4",
+      "route_id": "route-1",
+      "representative_trip_id": "trip-4",
+      "name": "Pattern 4 - Dest",
+      "headsign": "Pattern 3",
+      "id": "pattern-4",
+      "direction_id": 0
+    }
+  ],
+  "1": [
+    {
+      "typicality": 2,
+      "time_desc": null,
+      "shape_id": "shape-2",
+      "route_id": "route-1",
+      "representative_trip_id": "trip-1",
+      "name": "Pattern 2 - Dest",
+      "headsign": "Pattern 2",
+      "id": "pattern-2",
+      "direction_id": 1
+    }
+  ]
+}

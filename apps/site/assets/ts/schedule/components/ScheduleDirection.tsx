@@ -1,9 +1,14 @@
 import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
-import { DirectionId, EnhancedRoute } from "../../__v3api";
+import {
+  DirectionId,
+  EnhancedRoute,
+  ServiceWithServiceDate
+} from "../../__v3api";
 import {
   ShapesById,
   RoutePatternsByDirection,
-  LineDiagramStop
+  LineDiagramStop,
+  SimpleStopMap
 } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
@@ -20,6 +25,8 @@ export interface Props {
   routePatternsByDirection: RoutePatternsByDirection;
   mapData: MapData;
   lineDiagram: LineDiagramStop[];
+  services: ServiceWithServiceDate[];
+  stops: SimpleStopMap;
 }
 
 export const fetchData = (
@@ -72,7 +79,9 @@ const ScheduleDirection = ({
   shapesById,
   routePatternsByDirection,
   mapData,
-  lineDiagram
+  lineDiagram,
+  services,
+  stops
 }: Props): ReactElement<HTMLElement> => {
   const defaultRoutePattern = routePatternsByDirection[directionId].slice(
     0,
@@ -137,7 +146,16 @@ const ScheduleDirection = ({
           shapeId={shapeId}
         />
       )}
-      {lineState.data && <LineDiagram lineDiagram={lineState.data} />}
+      {lineState.data && (
+        <LineDiagram
+          lineDiagram={lineState.data}
+          route={route}
+          directionId={state.directionId}
+          routePatternsByDirection={routePatternsByDirection}
+          services={services}
+          stops={stops}
+        />
+      )}
     </>
   );
 };
