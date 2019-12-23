@@ -6,6 +6,13 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
     Stops
   </h3>
   <div className=\\"m-schedule-line-diagram__stop\\">
+    <div style={{...}} className=\\"m-schedule-line-diagram__line\\">
+      <svg>
+        <g transform=\\"translate(0 -4)\\">
+          <circle cx=\\"5\\" cy=\\"5\\" r=\\"4\\" strokeWidth=\\"2\\" />
+        </g>
+      </svg>
+    </div>
     <div className=\\"m-schedule-line-diagram__card\\">
       <div className=\\"m-schedule-line-diagram__card-left\\">
         <div className=\\"m-schedule-line-diagram__stop-name\\">
@@ -34,6 +41,13 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
     </div>
   </div>
   <div className=\\"m-schedule-line-diagram__stop\\">
+    <div style={{...}} className=\\"m-schedule-line-diagram__line\\">
+      <svg>
+        <g transform=\\"translate(0 -4)\\">
+          <circle cx=\\"5\\" cy=\\"5\\" r=\\"4\\" strokeWidth=\\"2\\" />
+        </g>
+      </svg>
+    </div>
     <div className=\\"m-schedule-line-diagram__card\\">
       <div className=\\"m-schedule-line-diagram__card-left\\">
         <div className=\\"m-schedule-line-diagram__stop-name\\">
@@ -62,6 +76,13 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
     </div>
   </div>
   <div className=\\"m-schedule-line-diagram__stop\\">
+    <div style={{...}} className=\\"m-schedule-line-diagram__line\\">
+      <svg>
+        <g transform=\\"translate(0 -4)\\">
+          <circle cx=\\"5\\" cy=\\"5\\" r=\\"4\\" strokeWidth=\\"2\\" />
+        </g>
+      </svg>
+    </div>
     <div className=\\"m-schedule-line-diagram__card\\">
       <div className=\\"m-schedule-line-diagram__card-left\\">
         <div className=\\"m-schedule-line-diagram__stop-name\\">
@@ -125,6 +146,13 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
     </div>
   </div>
   <div className=\\"m-schedule-line-diagram__stop\\">
+    <div style={{...}} className=\\"m-schedule-line-diagram__line\\">
+      <svg>
+        <g transform=\\"translate(0 -4)\\">
+          <circle cx=\\"5\\" cy=\\"5\\" r=\\"4\\" strokeWidth=\\"2\\" />
+        </g>
+      </svg>
+    </div>
     <div className=\\"m-schedule-line-diagram__card\\">
       <div className=\\"m-schedule-line-diagram__card-left\\">
         <div className=\\"m-schedule-line-diagram__stop-name\\">
