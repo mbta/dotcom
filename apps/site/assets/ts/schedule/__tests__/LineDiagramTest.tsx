@@ -1,13 +1,13 @@
 import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import LineDiagram from "../components/LineDiagram";
-import { StopType, EnhancedRoute } from "../../__v3api";
+import { EnhancedRoute } from "../../__v3api";
 import {
   LineDiagramStop,
   RoutePatternsByDirection,
   SimpleStop
 } from "../components/__schedule";
-import * as routePatternsByDirection from "./RoutePatternsByDirectionData.json";
+import * as routePatternsByDirection from "./routePatternsByDirectionData.json";
 import lineDiagramData from "./lineDiagramData.json"; // Not a full line diagram
 
 const route = {

@@ -18,7 +18,7 @@ import {
   RoutePatternsByDirection
 } from "../components/__schedule";
 import lineDiagramData from "./lineDiagramData.json"; // Not a full line diagram
-import * as routePatternsByDirectionData from "./RoutePatternsByDirectionData.json";
+import * as routePatternsByDirectionData from "./routePatternsByDirectionData.json";
 
 const body =
   '<div id="body-wrapper"><div id="react-root"></div><div id="map-root"></div></div>';
