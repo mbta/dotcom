@@ -1,0 +1,26 @@
+{
+  "id" : "4e4985bd-ffeb-3240-95b9-7e8c4cada3ce",
+  "request" : {
+    "url" : "/routes/?stop=place-KB-0351",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-2czIm.json",
+    "headers" : {
+      "Date" : "Mon, 23 Dec 2019 22:08:15 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Mon, 23 Dec 2019 16:52:21 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69686",
+      "x-ratelimit-reset" : "1577138940",
+      "x-request-id" : "FeMfeCChC6gcYsEADsMh"
+    }
+  },
+  "uuid" : "4e4985bd-ffeb-3240-95b9-7e8c4cada3ce"
+}

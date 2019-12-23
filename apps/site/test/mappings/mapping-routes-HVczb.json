@@ -1,0 +1,26 @@
+{
+  "id" : "a62ac901-88a4-3c53-a557-66166cdd590c",
+  "request" : {
+    "url" : "/routes/?stop=place-SB-0189",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-HVczb.json",
+    "headers" : {
+      "Date" : "Mon, 23 Dec 2019 22:08:15 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Mon, 23 Dec 2019 16:52:21 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69607",
+      "x-ratelimit-reset" : "1577138940",
+      "x-request-id" : "FeMfeDm9OzBJQ6QACgRj"
+    }
+  },
+  "uuid" : "a62ac901-88a4-3c53-a557-66166cdd590c"
+}

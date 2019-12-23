@@ -1,0 +1,26 @@
+{
+  "id" : "15434642-25b7-355a-b769-c2031d55711f",
+  "request" : {
+    "url" : "/routes/?stop=place-kntst",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-IMYZi.json",
+    "headers" : {
+      "Date" : "Mon, 23 Dec 2019 22:08:16 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Mon, 23 Dec 2019 16:52:21 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69545",
+      "x-ratelimit-reset" : "1577138940",
+      "x-request-id" : "FeMfeFZ_qqmIHwkACx2C"
+    }
+  },
+  "uuid" : "15434642-25b7-355a-b769-c2031d55711f"
+}
