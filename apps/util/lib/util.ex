@@ -141,10 +141,11 @@ defmodule Util do
       when is_list(functions) and is_atom(module) do
     functions
     |> Enum.map(&Task.async/1)
+    |> Task.yield_many(timeout)
     |> Enum.with_index()
-    |> Map.new(fn {task, idx} -> {task, {idx, default}} end)
-    |> yield_or_default_many(module, timeout)
-    |> Enum.map(fn {_, result} -> result end)
+    |> Enum.map(fn {{task, result}, index} ->
+      task_result_or_default(result, default, task, module, index)
+    end)
   end
 
   @doc """
@@ -154,7 +155,7 @@ defmodule Util do
   def yield_or_default(%Task{} = task, timeout, default, module) when is_atom(module) do
     task
     |> Task.yield(timeout)
-    |> task_result_or_default(default, task, {"", module})
+    |> task_result_or_default(default, task, module, "")
   end
 
   @doc """
@@ -174,29 +175,28 @@ defmodule Util do
           {atom, any}
   defp do_yield_or_default_many({%Task{} = task, result}, task_map, module) do
     {key, default} = Map.get(task_map, task)
-    {key, task_result_or_default(result, default, task, {key, module})}
+    {key, task_result_or_default(result, default, task, module, key)}
   end
 
-  @spec task_result_or_default({:ok, any} | {:exit, term} | nil, any, Task.t(), {any, atom}) ::
-          any
-  defp task_result_or_default({:ok, result}, _default, %Task{}, _module) do
+  @spec task_result_or_default({:ok, any} | {:exit, term} | nil, any, Task.t(), atom, any) :: any
+  defp task_result_or_default({:ok, result}, _default, _task, _module, _key) do
     result
   end
 
-  defp task_result_or_default({:exit, _reason}, default, %Task{}, {key, module}) do
+  defp task_result_or_default({:exit, reason}, default, _task, module, key) do
     _ =
       Logger.warn(
         "module=#{module} " <>
           "key=#{key} " <>
           "error=async_error " <>
           "error_type=timeout " <>
-          "Async task exited unexpectedly. Returning: #{inspect(default)}"
+          "Async task exited for reason: #{inspect(reason)} -- Defaulting to: #{inspect(default)}"
       )
 
     default
   end
 
-  defp task_result_or_default(nil, default, %Task{} = task, {key, module}) do
+  defp task_result_or_default(nil, default, %Task{} = task, module, key) do
     case Task.shutdown(task, :brutal_kill) do
       {:ok, result} ->
         result
@@ -208,7 +208,7 @@ defmodule Util do
               "key=#{key} " <>
               "error=async_error " <>
               "error_type=timeout " <>
-              "async task timed out. Returning: #{inspect(default)}"
+              "Async task timed out -- Defaulting to: #{inspect(default)}"
           )
 
         default
