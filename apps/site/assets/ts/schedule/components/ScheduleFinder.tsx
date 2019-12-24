@@ -20,6 +20,7 @@ import ScheduleModalContent from "./schedule-finder/ScheduleModalContent";
 
 interface Props {
   services: ServiceWithServiceDate[];
+  ratingEndDate: string;
   directionId: DirectionId;
   hideHeader?: boolean;
   route: EnhancedRoute;
@@ -58,6 +59,7 @@ const ScheduleFinder = ({
   hideHeader,
   route,
   services,
+  ratingEndDate,
   stops,
   routePatternsByDirection
 }: Props): ReactElement<HTMLElement> => {
@@ -262,6 +264,7 @@ const ScheduleFinder = ({
                 selectedDirection={state.selectedDirection}
                 selectedOrigin={state.selectedOrigin}
                 services={services}
+                ratingEndDate={ratingEndDate}
                 stops={stops[state.selectedDirection!]}
                 routePatternsByDirection={routePatternsByDirection}
               />

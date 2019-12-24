@@ -81,6 +81,7 @@ interface Props {
   selectedDirection: SelectedDirection;
   selectedOrigin: SelectedOrigin;
   services: ServiceWithServiceDate[];
+  ratingEndDate: string;
   stops: SimpleStop[];
   routePatternsByDirection: RoutePatternsByDirection;
 }
@@ -96,6 +97,7 @@ const ScheduleModalContent = ({
   selectedDirection,
   selectedOrigin,
   services,
+  ratingEndDate,
   stops,
   routePatternsByDirection
 }: Props): ReactElement<HTMLElement> | null => {
@@ -133,6 +135,7 @@ const ScheduleModalContent = ({
       <ServiceSelector
         stopId={selectedOrigin}
         services={services}
+        ratingEndDate={ratingEndDate}
         routeId={routeId}
         directionId={selectedDirection}
         routePatterns={routePatternsByDirection[selectedDirection]}

@@ -92,6 +92,7 @@ describe("ServiceSelector", () => {
       <ServiceSelector
         stopId="stopId"
         services={services}
+        ratingEndDate="2020-03-14"
         directionId={0}
         routePatterns={[]}
         routeId="111"
@@ -203,7 +204,22 @@ describe("ServiceSelector", () => {
       expect(getDefaultScheduleId(servicesByOptGroup)).toEqual(services[0].id);
     });
 
-    it("uses the first upcoming schedule if no schedule for today", () => {
+    it("uses the first current schedule if no schedule for today", () => {
+      // service_date is a Tuesday, so omit that from the only "current" service
+      const defaultScheduleId = getDefaultScheduleId({
+        ...servicesByOptGroup,
+        current: [
+          {
+            type: "current" as ServiceOptGroupName,
+            servicePeriod: "sometime",
+            service: { ...services[0], valid_days: [1, 3, 4, 5] }
+          }
+        ]
+      });
+      expect(defaultScheduleId).toEqual(services[0].id);
+    });
+
+    it("uses the first upcoming schedule if no current schedules", () => {
       const defaultScheduleId = getDefaultScheduleId({
         ...servicesByOptGroup,
         current: []

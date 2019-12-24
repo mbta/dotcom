@@ -53,6 +53,7 @@ describe("LineDiagram", () => {
           routePatternsByDirection as RoutePatternsByDirection
         }
         services={[]}
+        ratingEndDate="2020-03-14"
         stops={{ 0: stops, 1: stops }}
       />
     );

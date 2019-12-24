@@ -133,6 +133,7 @@ const getComponent = () => (
     mapData={mapData}
     lineDiagram={lineDiagram}
     services={[]}
+    ratingEndDate="2020-03-14"
     stops={{ stops }}
   />
 );
@@ -146,6 +147,7 @@ const getSubwayComponent = () => (
     shapesById={shapesById}
     lineDiagram={lineDiagram}
     services={[]}
+    ratingEndDate="2020-03-14"
     stops={{ stops }}
   />
 );
@@ -175,6 +177,7 @@ const getGreenLineComponent = () => {
       shapesById={shapesById}
       lineDiagram={lineDiagram}
       services={[]}
+      ratingEndDate="2020-03-14"
       stops={{ stops }}
     />
   );

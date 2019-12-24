@@ -154,6 +154,7 @@ it("renders", () => {
         stops={stops}
         directionId={0}
         services={services}
+        ratingEndDate="2020-03-14"
         routePatternsByDirection={routePatternsByDirection}
       />
     )
@@ -170,6 +171,7 @@ it("opens modal after displaying error", () => {
       stops={stops}
       directionId={0}
       services={services}
+      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
     />
   );
@@ -282,6 +284,7 @@ it("modal renders route pill for bus lines", () => {
       route={route}
       directionId={0}
       services={services}
+      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
     />
   );
@@ -306,6 +309,7 @@ it("modal renders route pill for bus lines", () => {
       route={busRoute}
       directionId={0}
       services={services}
+      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
     />
   );
@@ -330,6 +334,7 @@ it("modal renders route pill for silver line", () => {
       route={route}
       directionId={0}
       services={services}
+      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
     />
   );
@@ -354,6 +359,7 @@ it("modal renders route pill for silver line", () => {
       route={busRoute}
       directionId={0}
       services={services}
+      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
     />
   );
@@ -378,6 +384,7 @@ it("modal renders within ScheduleFinderAccordion", () => {
       route={route}
       directionId={0}
       services={services}
+      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
     />
   );
@@ -405,6 +412,7 @@ it("modal renders within ScheduleFinderAccordion", () => {
       route={busRoute}
       directionId={0}
       services={services}
+      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
     />
   );
