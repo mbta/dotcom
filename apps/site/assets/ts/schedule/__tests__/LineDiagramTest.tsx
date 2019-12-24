@@ -128,9 +128,7 @@ describe("LineDiagram", () => {
   );
 
   it("uses the route color", () => {
-    const line = wrapper.find(
-      ".m-schedule-line-diagram__line"
-    ).first();
-    expect(line.prop('style')!.color).toBe("#F00B42");
+    const line = wrapper.find(".m-schedule-line-diagram__line").first();
+    expect(line.prop("style")!.color).toBe("#F00B42");
   });
 });
