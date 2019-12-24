@@ -14,6 +14,7 @@ const route = {
   type: 3,
   name: "route 1",
   long_name: "route 1 long name",
+  color: "F00B42",
   id: "route-1",
   direction_names: {
     0: "Outbound",
@@ -125,4 +126,9 @@ describe("LineDiagram", () => {
       expect(featureNames).toEqual(expectedFeatures);
     }
   );
+
+  it("uses the route color", () => {
+    const line = wrapper.find(".m-schedule-line-diagram__line").first();
+    expect(line.prop("style")!.color).toBe("#F00B42");
+  });
 });

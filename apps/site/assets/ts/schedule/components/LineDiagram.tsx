@@ -105,6 +105,16 @@ const LineDiagram = ({
       {lineDiagram.map(
         ({ route_stop: routeStop, alerts: stopAlerts }: LineDiagramStop) => (
           <div key={routeStop.id} className="m-schedule-line-diagram__stop">
+            <div
+              style={{ color: `#${route.color}` }}
+              className="m-schedule-line-diagram__line"
+            >
+              <svg>
+                <g transform="translate(0 -4)">
+                  <circle cx="5" cy="5" r="4" strokeWidth="2" />
+                </g>
+              </svg>
+            </div>
             <div className="m-schedule-line-diagram__card">
               <div className="m-schedule-line-diagram__card-left">
                 <div className="m-schedule-line-diagram__stop-name">
