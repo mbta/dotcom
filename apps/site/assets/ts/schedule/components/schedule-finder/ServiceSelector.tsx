@@ -30,6 +30,7 @@ const optGroupTitles: { [key in ServiceOptGroupName]: string } = {
 interface Props {
   stopId: string;
   services: ServiceWithServiceDate[];
+  ratingEndDate: string;
   routeId: string;
   directionId: SelectedDirection;
   routePatterns: EnhancedRoutePattern[];
@@ -40,6 +41,13 @@ const getTodaysScheduleId = (
 ): string => {
   const todayService = getTodaysSchedule(servicesByOptGroup);
   return todayService ? todayService.service.id : "";
+};
+
+const firstCurrentScheduleId = (
+  servicesByOptGroup: ServicesKeyedByGroup
+): string => {
+  const firstCurrentSchedule = servicesByOptGroup.current[0];
+  return firstCurrentSchedule ? firstCurrentSchedule.service.id : "";
 };
 
 const firstFutureScheduleId = (
@@ -60,6 +68,7 @@ export const getDefaultScheduleId = (
   servicesByOptGroup: ServicesKeyedByGroup
 ): string =>
   getTodaysScheduleId(servicesByOptGroup) ||
+  firstCurrentScheduleId(servicesByOptGroup) ||
   firstFutureScheduleId(servicesByOptGroup) ||
   firstHolidayScheduleId(servicesByOptGroup);
 
@@ -103,6 +112,7 @@ interface State {
 export const ServiceSelector = ({
   stopId,
   services,
+  ratingEndDate,
   routeId,
   directionId,
   routePatterns
@@ -132,7 +142,7 @@ export const ServiceSelector = ({
 
   const servicesByOptGroup: ServicesKeyedByGroup = services
     .reduce(
-      (acc, service) => [...acc, ...groupServiceByDate(service)],
+      (acc, service) => [...acc, ...groupServiceByDate(service, ratingEndDate)],
       [] as ServiceByOptGroup[]
     )
     .reduce(groupByType, { current: [], holiday: [], future: [] });

@@ -87,10 +87,10 @@ export const groupByType = (
 };
 
 export const groupServiceByDate = (
-  service: ServiceWithServiceDate
+  service: ServiceWithServiceDate,
+  ratingEndDate: string
 ): ServiceByOptGroup[] => {
   const {
-    service_date: serviceDate,
     start_date: startDate,
     end_date: endDate,
     added_dates: addedDates,
@@ -110,11 +110,9 @@ export const groupServiceByDate = (
 
   const startDateObject = new Date(startDate);
   const endDateObject = new Date(endDate);
-  const serviceDateTime = new Date(serviceDate).getTime();
-  const startDateTime = startDateObject.getTime();
-  const endDateTime = endDateObject.getTime();
+  const ratingEndDateTime = new Date(ratingEndDate).getTime();
 
-  if (serviceDateTime >= startDateTime && serviceDateTime <= endDateTime) {
+  if (endDateObject.getTime() <= ratingEndDateTime) {
     return [
       {
         type: "current",
@@ -124,22 +122,10 @@ export const groupServiceByDate = (
     ];
   }
 
-  if (serviceDateTime < startDateTime) {
-    return [
-      {
-        type: "future",
-        servicePeriod: `starts ${formattedDate(startDateObject)}`,
-        service
-      }
-    ];
-  }
-
   return [
     {
       type: "future",
-      servicePeriod: `${formattedDate(startDateObject)} to ${formattedDate(
-        endDateObject
-      )}`,
+      servicePeriod: `starts ${formattedDate(startDateObject)}`,
       service
     }
   ];

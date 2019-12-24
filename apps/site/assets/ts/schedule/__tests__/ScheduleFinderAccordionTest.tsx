@@ -117,6 +117,7 @@ it("renders", () => {
         stops={stops}
         directionId={0}
         services={services}
+        ratingEndDate="2020-03-14"
         routePatternsByDirection={{}}
       />
     )
