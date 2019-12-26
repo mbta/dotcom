@@ -64,12 +64,10 @@ const makePolylines = (shapes: Shape[]): Polyline[] =>
     weight: shape.is_shuttle_route ? 4 : 6
   }));
 
-const boundsFromStops = (
-  stops: Stop[],
-  selectedStop: Stop | undefined
-): LatLngBounds => {
-  // eslint-disable-next-line global-require
-  const { latLng, LatLngBounds, latLngBounds } = require("leaflet");
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const boundsFromStops = (stops: Stop[], selectedStop: Stop | undefined) => {
+  // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+  const { latLng, latLngBounds } = require("leaflet");
 
   let includedStops;
   const padding = 0.2;
