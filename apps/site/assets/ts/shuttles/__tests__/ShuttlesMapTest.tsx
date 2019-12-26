@@ -5,8 +5,9 @@ import { Diversion } from "../components/__shuttles";
 import _diversionsData from "./diversionData.json";
 import { TileServerUrl } from "../../leaflet/components/__mapdata";
 
-const diversionsData = _diversionsData as Diversion;
-const centerStop = diversionsData.stops[0];
+const { shapes, stops } = _diversionsData as Diversion;
+const affectedStops = stops.filter(stop => stop.type === "rail_affected");
+const unaffectedStops = stops.filter(stop => stop.type === "rail_unaffected");
 
 const tileServerUrl: TileServerUrl =
   "https://mbta-map-tiles-dev.s3.amazonaws.com";
@@ -16,14 +17,14 @@ beforeAll(() => {
   jest.mock("react-leaflet/lib/Map");
 });
 
-describe("the shuttles map without a center prop", () => {
+describe("the shuttles map without a selected stop", () => {
   let wrapper: ReactWrapper;
   beforeEach(() => {
     wrapper = mount(
       <ShuttlesMap
         tileServerUrl={tileServerUrl}
-        shapes={diversionsData.shapes}
-        stops={diversionsData.stops}
+        shapes={shapes}
+        stops={stops}
       />
     );
   });
@@ -41,9 +42,9 @@ describe("the shuttles map without a center prop", () => {
       .find(".m-shuttles-map")
       .childAt(0)
       .prop("mapData");
-    expect(mapDataProps.markers.length).toEqual(diversionsData.stops.length);
+    expect(mapDataProps.markers.length).toEqual(stops.length);
     expect(mapDataProps.markers.map((m: any) => m.shape_id)).toEqual(
-      diversionsData.stops.map(s => s.id)
+      stops.map(s => s.id)
     );
   });
 
@@ -52,30 +53,36 @@ describe("the shuttles map without a center prop", () => {
       .find(".m-shuttles-map")
       .childAt(0)
       .prop("mapData");
-    expect(mapDataProps.polylines.length).toEqual(diversionsData.shapes.length);
+    expect(mapDataProps.polylines.length).toEqual(shapes.length);
     expect(mapDataProps.polylines.map((p: any) => p.id)).toEqual(
-      diversionsData.shapes.map((s, i) => `${s.id}-${i}`)
+      shapes.map((s, i) => `${s.id}-${i}`)
     );
   });
 
-  it("has zoom level 13", () => {
-    const mapDataProps = wrapper
+  it("bounds all affected rail stops, but not unaffected stops", () => {
+    const bounds = wrapper
       .find(".m-shuttles-map")
       .childAt(0)
-      .prop("mapData");
-    expect(mapDataProps.zoom).toEqual(13);
+      .prop("bounds");
+
+    affectedStops.forEach(({ latitude, longitude }) =>
+      expect(bounds.contains([latitude, longitude])).toBe(true)
+    );
+    unaffectedStops.forEach(({ latitude, longitude }) =>
+      expect(bounds.contains([latitude, longitude])).toBe(false)
+    );
   });
 });
 
-describe("the shuttles map with a centerStop prop", () => {
+describe("the shuttles map with a selected stop", () => {
   let wrapper: ReactWrapper;
   beforeEach(() => {
     wrapper = mount(
       <ShuttlesMap
         tileServerUrl={tileServerUrl}
-        shapes={diversionsData.shapes}
-        stops={diversionsData.stops}
-        centerStop={centerStop}
+        shapes={shapes}
+        stops={stops}
+        selectedStop={affectedStops[0]}
       />
     );
   });
@@ -88,23 +95,18 @@ describe("the shuttles map with a centerStop prop", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("uses the given center", () => {
-    const mapDataProps = wrapper
+  it("bounds the selected stop, but not other affected stops", () => {
+    const bounds = wrapper
       .find(".m-shuttles-map")
       .childAt(0)
-      .prop("mapData");
-    const centerCoordinates = {
-      latitude: centerStop.latitude,
-      longitude: centerStop.longitude
-    };
-    expect(mapDataProps.default_center).toEqual(centerCoordinates);
-  });
+      .prop("bounds");
+    const { latitude: selectedLat, longitude: selectedLng } = affectedStops[0];
 
-  it("has zoom level 18", () => {
-    const mapDataProps = wrapper
-      .find(".m-shuttles-map")
-      .childAt(0)
-      .prop("mapData");
-    expect(mapDataProps.zoom).toEqual(18);
+    expect(bounds.contains([selectedLat, selectedLng])).toBe(true);
+    affectedStops
+      .slice(1)
+      .forEach(({ latitude, longitude }) =>
+        expect(bounds.contains([latitude, longitude])).toBe(false)
+      );
   });
 });

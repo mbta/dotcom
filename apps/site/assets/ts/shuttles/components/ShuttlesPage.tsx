@@ -77,7 +77,7 @@ const ShuttlesPage: React.FC<Props> = ({
         tileServerUrl={tileServerUrl}
         shapes={displayedShapes}
         stops={displayedStops}
-        centerStop={selectedStop}
+        selectedStop={selectedStop}
       />
     </div>
   );

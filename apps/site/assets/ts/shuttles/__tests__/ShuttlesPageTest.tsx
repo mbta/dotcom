@@ -46,7 +46,7 @@ jest.mock("react-leaflet/lib/Map");
 let wrapper: ShallowWrapper;
 let greenWrapper: ShallowWrapper;
 
-/* use shallow instead of mount. mount throws Uncaught [RangeError: Maximum call stack size exceeded] 
+/* use shallow instead of mount. mount throws Uncaught [RangeError: Maximum call stack size exceeded]
 from a dependency, fast-deep-equal, used to memoize the Map component ShuttlesMap is based on. */
 beforeEach(() => {
   wrapper = shallow(
@@ -152,10 +152,10 @@ it("the shuttles page <select> lists affected stops only", () => {
   expect(options).toEqual(affectedStops);
 });
 
-it("the shuttles page detail map by default centers first affected stop", () => {
+it("the shuttles page detail map by default views first affected stop", () => {
   let map = wrapper.find(ShuttlesMap).at(1);
   const firstStation = diversionsData.stops
     .sort()
     .filter(s => s.type === "rail_affected")[0];
-  expect(map.prop("centerStop")!.id).toEqual(firstStation.id);
+  expect(map.prop("selectedStop")!.id).toEqual(firstStation.id);
 });
