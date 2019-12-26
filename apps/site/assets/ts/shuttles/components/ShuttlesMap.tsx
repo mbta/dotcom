@@ -68,6 +68,9 @@ const boundsFromStops = (
   stops: Stop[],
   selectedStop: Stop | undefined
 ): LatLngBounds => {
+  // eslint-disable-next-line global-require
+  const { latLng, LatLngBounds, latLngBounds } = require("leaflet");
+
   let includedStops;
   const padding = 0.2;
 
@@ -102,9 +105,6 @@ const ShuttlesMap = ({
   tileServerUrl
 }: Props): ReactElement<HTMLElement> | null => {
   if (typeof window !== "undefined") {
-    // eslint-disable-next-line global-require
-    const { latLng, LatLngBounds, latLngBounds } = require("leaflet");
-
     const bounds = boundsFromStops(stops, selectedStop);
 
     // the MapData interface requires a center value
