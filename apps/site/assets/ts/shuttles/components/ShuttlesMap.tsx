@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { latLng, latLngBounds } from "leaflet";
+import { latLng, LatLngBounds, latLngBounds } from "leaflet";
 import { Stop, Shape } from "./__shuttles";
 import Map from "../../leaflet/components/Map";
 import {
@@ -65,21 +65,25 @@ const makePolylines = (shapes: Shape[]): Polyline[] =>
     weight: shape.is_shuttle_route ? 4 : 6
   }));
 
-const boundsFromStops = (stops: Stop[], selectedStop: Stop | undefined) => {
+const boundsFromStops = (
+  stops: Stop[],
+  selectedStop: Stop | undefined
+): LatLngBounds => {
   let includedStops;
   const padding = 0.2;
 
   if (selectedStop) {
     // If a stop is selected, include that stop and the nearest shuttle stop.
-    const { latitude, longitude } = selectedStop,
-      selectedStopLocation = latLng(latitude, longitude),
-      shuttleStopsByDistance = stops
-        .filter(stop => stop.type === "shuttle")
-        .sort(
-          (a, b) =>
-            selectedStopLocation.distanceTo([a.latitude, a.longitude]) -
-            selectedStopLocation.distanceTo([b.latitude, b.longitude])
-        );
+    const { latitude, longitude } = selectedStop;
+    const selectedStopLocation = latLng(latitude, longitude);
+
+    const shuttleStopsByDistance = stops
+      .filter(stop => stop.type === "shuttle")
+      .sort(
+        (a, b) =>
+          selectedStopLocation.distanceTo([a.latitude, a.longitude]) -
+          selectedStopLocation.distanceTo([b.latitude, b.longitude])
+      );
 
     includedStops = [selectedStop, shuttleStopsByDistance[0]];
   } else {
@@ -102,8 +106,8 @@ const ShuttlesMap = ({
     const bounds = boundsFromStops(stops, selectedStop);
 
     // the MapData interface requires a center value
-    const { lng: longitude, lat: latitude } = bounds.getCenter(),
-      defaultCenter = { longitude, latitude };
+    const { lng: longitude, lat: latitude } = bounds.getCenter();
+    const defaultCenter = { longitude, latitude };
 
     /* eslint-disable @typescript-eslint/camelcase */
     const mapData: MapData = {
