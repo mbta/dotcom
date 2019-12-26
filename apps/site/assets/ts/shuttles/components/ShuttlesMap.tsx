@@ -1,5 +1,4 @@
 import React, { ReactElement } from "react";
-import { latLng, LatLngBounds, latLngBounds } from "leaflet";
 import { Stop, Shape } from "./__shuttles";
 import Map from "../../leaflet/components/Map";
 import {
@@ -103,6 +102,9 @@ const ShuttlesMap = ({
   tileServerUrl
 }: Props): ReactElement<HTMLElement> | null => {
   if (typeof window !== "undefined") {
+    // eslint-disable-next-line global-require
+    const { latLng, LatLngBounds, latLngBounds } = require("leaflet");
+
     const bounds = boundsFromStops(stops, selectedStop);
 
     // the MapData interface requires a center value

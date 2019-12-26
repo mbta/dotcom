@@ -51,7 +51,7 @@ set -e
 if [[ $ENABLE_RECORDING == "true" ]]; then
   SENTRY_REPORTING_ENV="test" npm run server:mocked:record 1>/dev/null 2>/dev/null &
 else
-  SENTRY_REPORTING_ENV="test" npm run server:mocked &
+  SENTRY_REPORTING_ENV="test" npm run server:mocked 1>/dev/null 2>/dev/null &
 fi
 SERVER_PID=$!
 
