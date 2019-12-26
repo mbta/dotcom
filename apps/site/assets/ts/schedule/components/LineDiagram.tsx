@@ -79,6 +79,36 @@ const connectionName = (connection: Route): string => {
   return connection.name;
 };
 
+const isTerminusStop = (lineDiagramStop: LineDiagramStop): boolean =>
+  lineDiagramStop.route_stop["is_terminus?"];
+
+const isBeginningStop = (lineDiagramStop: LineDiagramStop): boolean =>
+  lineDiagramStop.route_stop["is_beginning?"];
+
+const isMergeStop = (lineDiagramStop: LineDiagramStop): boolean =>
+  lineDiagramStop.stop_data.some(sd => sd.type === "merge");
+
+const isOnBranch = (lineDiagramStop: LineDiagramStop): boolean =>
+  !!lineDiagramStop.route_stop.branch || isMergeStop(lineDiagramStop);
+
+const isOnPrimaryBranch = (lineDiagramStop: LineDiagramStop): boolean =>
+  isOnBranch(lineDiagramStop) && lineDiagramStop.stop_data.length === 1;
+
+const isOnSecondaryBranch = (lineDiagramStop: LineDiagramStop): boolean =>
+  isOnBranch(lineDiagramStop) && !isOnPrimaryBranch(lineDiagramStop);
+
+const branchName = (lineDiagramStop: LineDiagramStop): JSX.Element | null => {
+  if (isOnBranch(lineDiagramStop) && isTerminusStop(lineDiagramStop)) {
+    return (
+      <strong className="u-small-caps">
+        {lineDiagramStop.route_stop.name} Line
+      </strong>
+    );
+  }
+
+  return null;
+};
+
 const LineDiagram = ({
   lineDiagram,
   route,
@@ -97,6 +127,28 @@ const LineDiagram = ({
     modalOpen: false
   });
 
+  const isBranchEnd = (index: number): boolean =>
+    index === lineDiagram.length - 1 ||
+    index ===
+      lineDiagram.lastIndexOf(
+        lineDiagram.filter(isOnSecondaryBranch)[
+          lineDiagram.filter(isOnSecondaryBranch).length - 1
+        ]
+      ) ||
+    (index > 0 &&
+      lineDiagram
+        .filter(l => isTerminusStop(l) && !isBeginningStop(l))
+        .includes(lineDiagram[index]));
+
+  const isBranchStart = (index: number): boolean =>
+    index === 0 ||
+    index === lineDiagram.indexOf(lineDiagram.filter(isOnSecondaryBranch)[0]) ||
+    (index > 0 &&
+      lineDiagram
+        .filter(isTerminusStop)
+        .filter(isBeginningStop)
+        .includes(lineDiagram[index]));
+
   return (
     <>
       <h3>
@@ -104,113 +156,167 @@ const LineDiagram = ({
           ? "Stations"
           : "Stops"}
       </h3>
-      {lineDiagram.map(
-        ({ route_stop: routeStop, alerts: stopAlerts }: LineDiagramStop) => (
-          <div key={routeStop.id} className="m-schedule-line-diagram__stop">
+      <div
+        className={`m-schedule-diagram m-schedule-diagram${
+          lineDiagram.some(isOnBranch) ? "--with-branches" : ""
+        }`}
+      >
+        {lineDiagram.map((lineDiagramStop: LineDiagramStop, index: number) => {
+          const { route_stop: routeStop, alerts: stopAlerts } = lineDiagramStop;
+
+          return (
             <div
-              style={{ color: `#${route.color}` }}
-              className="m-schedule-line-diagram__line"
+              key={routeStop.id}
+              className={`m-schedule-diagram__stop 
+                ${
+                  isOnSecondaryBranch(lineDiagramStop)
+                    ? "m-schedule-diagram__stop--branch"
+                    : ""
+                }
+                ${
+                  isBranchEnd(index)
+                    ? "m-schedule-diagram__stop--branch-end"
+                    : ""
+                }
+                ${
+                  isBranchStart(index)
+                    ? "m-schedule-diagram__stop--branch-start"
+                    : ""
+                }
+              `}
             >
-              <svg>
-                <g transform="translate(0 -4)">
-                  <circle cx="5" cy="5" r="4" strokeWidth="2" />
-                </g>
-              </svg>
-            </div>
-            <div className="m-schedule-line-diagram__card">
-              <div className="m-schedule-line-diagram__card-left">
-                <div className="m-schedule-line-diagram__stop-name">
-                  {maybeAlert(stopAlerts)}
-                  <a href={`/stops/${routeStop.id}`}>
-                    <h4>{routeStop.name}</h4>
-                  </a>
-                </div>
-                <div className="m-schedule-line-diagram__connections">
-                  {filteredConnections(routeStop.connections).map(
-                    (connectingRoute: Route) => (
-                      <TooltipWrapper
-                        key={connectingRoute.id}
-                        href={`/schedules/${connectingRoute.id}/line`}
-                        tooltipText={connectionName(connectingRoute)}
-                        tooltipOptions={{
-                          placement: "bottom",
-                          animation: "false"
-                        }}
-                      >
-                        {connectingRoute.type === 3 ? (
-                          <span
-                            key={connectingRoute.id}
-                            className={`c-icon__bus-pill--small m-schedule-line-diagram__connection ${busBackgroundClass(
-                              connectingRoute
-                            )}`}
-                          >
-                            {connectingRoute.name}
-                          </span>
-                        ) : (
-                          <span
-                            key={connectingRoute.id}
-                            className="m-schedule-line-diagram__connection"
-                          >
-                            {modeIcon(connectingRoute.id)}
-                          </span>
-                        )}
-                      </TooltipWrapper>
-                    )
+              <div
+                style={{ color: `#${route.color}` }}
+                className="m-schedule-diagram__lines"
+              >
+                <div className="m-schedule-diagram__line">
+                  {!isOnSecondaryBranch(lineDiagramStop) && (
+                    <svg>
+                      <circle
+                        r="4"
+                        cx="5"
+                        cy={isBranchStart(index) ? "-16" : "14"}
+                      />
+                    </svg>
                   )}
                 </div>
-              </div>
-              <div className="m-schedule-line-diagram__features">
-                {routeStop.stop_features.includes("parking_lot") ? (
-                  <TooltipWrapper
-                    tooltipText="Parking"
-                    tooltipOptions={{ placement: "bottom" }}
-                  >
-                    {parkingIcon(
-                      "c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
-                    )}
-                  </TooltipWrapper>
-                ) : null}
-                {routeStop.stop_features.includes("access") ? (
-                  <TooltipWrapper
-                    tooltipText="Accessible"
-                    tooltipOptions={{ placement: "bottom" }}
-                  >
-                    {accessibleIcon(
-                      "c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
-                    )}
-                  </TooltipWrapper>
-                ) : null}
-                {routeStop.route!.type === 2 && routeStop.zone && (
-                  <span className="c-icon__cr-zone m-schedule-line-diagram__feature-icon">{`Zone ${
-                    routeStop.zone
-                  }`}</span>
+
+                {isOnSecondaryBranch(lineDiagramStop) && (
+                  <div className="m-schedule-diagram__line m-schedule-diagram__line--branch">
+                    <svg>
+                      {isMergeStop(lineDiagramStop) && (
+                        <path
+                          d={`
+                            M-10,${isBranchStart(index) ? "-60" : "60"}
+                            h 15 
+                            v ${isBranchStart(index) ? "46" : "-46"}
+                          `}
+                        />
+                      )}
+                      <circle
+                        r="4"
+                        cx="5"
+                        cy={isBranchStart(index) ? "-16" : "14"}
+                      />
+                    </svg>
+                  </div>
                 )}
               </div>
+              <div className="m-schedule-line-diagram__content">
+                <div className="m-schedule-line-diagram__card">
+                  <div className="m-schedule-line-diagram__card-left">
+                    <div className="m-schedule-line-diagram__stop-name">
+                      {branchName(lineDiagramStop)}
+                      {maybeAlert(stopAlerts)}
+                      <a href={`/stops/${routeStop.id}`}>
+                        <h4>{routeStop.name}</h4>
+                      </a>
+                    </div>
+                    <div className="m-schedule-line-diagram__connections">
+                      {filteredConnections(routeStop.connections).map(
+                        (connectingRoute: Route) => (
+                          <TooltipWrapper
+                            key={connectingRoute.id}
+                            href={`/schedules/${connectingRoute.id}/line`}
+                            tooltipText={connectionName(connectingRoute)}
+                            tooltipOptions={{
+                              placement: "bottom",
+                              animation: "false"
+                            }}
+                          >
+                            {connectingRoute.type === 3 ? (
+                              <span
+                                key={connectingRoute.id}
+                                className={`c-icon__bus-pill--small m-schedule-line-diagram__connection ${busBackgroundClass(
+                                  connectingRoute
+                                )}`}
+                              >
+                                {connectingRoute.name}
+                              </span>
+                            ) : (
+                              <span
+                                key={connectingRoute.id}
+                                className="m-schedule-line-diagram__connection"
+                              >
+                                {modeIcon(connectingRoute.id)}
+                              </span>
+                            )}
+                          </TooltipWrapper>
+                        )
+                      )}
+                    </div>
+                  </div>
+                  <div className="m-schedule-line-diagram__features">
+                    {routeStop.stop_features.includes("parking_lot") ? (
+                      <TooltipWrapper
+                        tooltipText="Parking"
+                        tooltipOptions={{ placement: "bottom" }}
+                      >
+                        {parkingIcon(
+                          "c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
+                        )}
+                      </TooltipWrapper>
+                    ) : null}
+                    {routeStop.stop_features.includes("access") ? (
+                      <TooltipWrapper
+                        tooltipText="Accessible"
+                        tooltipOptions={{ placement: "bottom" }}
+                      >
+                        {accessibleIcon(
+                          "c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
+                        )}
+                      </TooltipWrapper>
+                    ) : null}
+                    {routeStop.route!.type === 2 && routeStop.zone && (
+                      <span className="c-icon__cr-zone m-schedule-line-diagram__feature-icon">{`Zone ${
+                        routeStop.zone
+                      }`}</span>
+                    )}
+                  </div>
+                </div>
+                <div className="m-schedule-line-diagram__footer">
+                  <button
+                    className="btn btn-link"
+                    type="button"
+                    onClick={() =>
+                      setModalState({
+                        selectedOrigin: routeStop,
+                        modalOpen: true
+                      })
+                    }
+                  >
+                    View schedule
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="m-schedule-line-diagram__footer">
-              <button
-                className="btn btn-link"
-                type="button"
-                onClick={() =>
-                  setModalState({
-                    selectedOrigin: routeStop,
-                    modalOpen: true
-                  })
-                }
-              >
-                View schedule
-              </button>
-            </div>
-          </div>
-        )
-      )}
+          );
+        })}
+      </div>
       <Modal
         openState={modalState.modalOpen}
         closeModal={() => {
-          setModalState({
-            ...modalState,
-            modalOpen: false
-          });
+          setModalState({ ...modalState, modalOpen: false });
         }}
         ariaLabel={{
           label: `Schedules to ${route.direction_names[directionId]}`

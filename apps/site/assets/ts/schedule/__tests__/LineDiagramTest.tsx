@@ -9,6 +9,7 @@ import {
 } from "../components/__schedule";
 import * as routePatternsByDirection from "./routePatternsByDirectionData.json";
 import lineDiagramData from "./lineDiagramData.json"; // Not a full line diagram
+import lineDiagramWithBranchesData from "./lineDiagramWithBranchesData.json"; // Not a full line diagram
 
 const route = {
   type: 3,
@@ -129,7 +130,67 @@ describe("LineDiagram", () => {
   );
 
   it("uses the route color", () => {
-    const line = wrapper.find(".m-schedule-line-diagram__line").first();
+    const line = wrapper.find(".m-schedule-diagram__lines").first();
     expect(line.prop("style")!.color).toBe("#F00B42");
+  });
+
+  it("does not detect and render branches", () => {
+    expect(wrapper.exists(".m-schedule-diagram--with-branches")).toBeFalsy();
+    expect(wrapper.exists(".m-schedule-diagram__line--branch")).toBeFalsy();
+  });
+});
+
+describe("LineDiagram with branches", () => {
+  let wrapper: ReactWrapper;
+  beforeEach(() => {
+    wrapper = mount(
+      <LineDiagram
+        lineDiagram={lineDiagramWithBranchesData as LineDiagramStop[]}
+        route={route}
+        directionId={directionId}
+        routePatternsByDirection={
+          routePatternsByDirection as RoutePatternsByDirection
+        }
+        services={[]}
+        ratingEndDate="2020-03-14"
+        stops={{ 0: stops, 1: stops }}
+      />
+    );
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
+  });
+
+  it("renders and matches snapshot", () => {
+    expect(wrapper.debug()).toMatchSnapshot();
+  });
+
+  it("detects and renders branches", () => {
+    expect(wrapper.exists(".m-schedule-diagram--with-branches")).toBeTruthy();
+    expect(wrapper.exists(".m-schedule-diagram__line--branch")).toBeTruthy();
+  });
+
+  it("shows branch name", () => {
+    expect(wrapper.find(".u-small-caps").text()).toEqual("Lowell Two Line");
+  });
+
+  it("renders branches distinctly at start/ends", () => {
+    const branchEnd = wrapper
+      .find(
+        ".m-schedule-diagram__stop--branch-end .m-schedule-diagram__line--branch"
+      )
+      .first();
+    const branchStart = wrapper
+      .find(
+        ".m-schedule-diagram__stop--branch-start .m-schedule-diagram__line--branch"
+      )
+      .first();
+    const line = wrapper
+      .find(".m-schedule-diagram__line:not(.m-schedule-diagram__line--branch)")
+      .first();
+    expect(line.html()).not.toEqual(branchStart.html());
+    expect(line.html()).not.toEqual(branchEnd.html());
+    expect(branchStart.html()).not.toEqual(branchEnd.html());
   });
 });

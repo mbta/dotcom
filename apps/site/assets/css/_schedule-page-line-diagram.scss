@@ -1,13 +1,16 @@
-.m-schedule-line-diagram__stop {
+.m-schedule-diagram__stop {
   border: $border;
   border-bottom: 0;
+  display: flex;
   padding: $base-spacing;
-  padding-left: $base-spacing * 3;
-  position: relative;
 
   &:last-child {
     border-bottom: $border;
   }
+}
+
+.m-schedule-line-diagram__content {
+  flex-grow: 1;
 }
 
 .m-schedule-line-diagram__card {
@@ -43,10 +46,6 @@
 }
 
 .m-schedule-line-diagram__features {
-  align-items: center;
-  display: flex;
-  justify-content: flex-end;
-
   .m-schedule-line-diagram__feature-icon {
     height: $base-spacing;
     line-height: $base-spacing;
@@ -56,6 +55,7 @@
 
   .c-icon__cr-zone {
     font-size: $base-spacing * .7;
+    vertical-align: text-top;
     width: auto;
   }
 }
@@ -72,27 +72,67 @@
   }
 }
 
-.m-schedule-line-diagram__line {
-  background-color: currentColor;
-  bottom: -$base-spacing * 1.5;
-  left: $base-spacing;
-  line-height: 0;
-  margin-bottom: -1px; // removes spacing
-  position: absolute;
-  top: $base-spacing * 1.5;
-  width: 10px;
-  z-index: 1;
+//
+//  Schedule line diagram
+//
+//  .m-schedule-diagram__lines contains all the
+//  graphics for the line diagram, and uses negative
+//  margins to counter the padding from its parent
+//  .m-schedule-diagram__stop.
+//  A .m-schedule-diagram__line is drawn for each
+//..branch, and creates the line. Stop circles are SVGs.
+$line-width: 10px;
 
-  .m-schedule-line-diagram__stop:last-child & {
-    height: 0;
+.m-schedule-diagram {
+  .m-schedule-diagram__lines {
+    display: flex;
+    margin: calc(-#{$base-spacing} - #{$border-width}*2) 0;
+    margin-right: $base-spacing;
+
+    svg {
+      height: 0; // remove browser default height
+      overflow: visible;
+    }
+
+    circle {
+      fill: $white;
+      stroke: currentColor;
+      stroke-width: 2;
+      z-index: 2;
+    }
+
+    path {
+      fill: none;
+      stroke: currentColor;
+      stroke-linejoin: round;
+      stroke-width: $line-width;
+    }
   }
 
-  svg {
-    overflow: visible;
+  .m-schedule-diagram__line {
+    background-color: currentColor;
+    width: $line-width;
   }
 
-  circle {
-    fill: $white;
-    stroke: currentColor;
+  .m-schedule-diagram__stop:last-child .m-schedule-diagram__line {
+    height: $base-spacing * 2;
+  }
+
+  .m-schedule-diagram__stop:first-child .m-schedule-diagram__lines {
+    margin-top: $base-spacing;
+  }
+}
+
+.m-schedule-diagram--with-branches {
+  .m-schedule-diagram__line--branch {
+    margin-left: $line-width;
+  }
+
+  .m-schedule-diagram__stop--branch-start .m-schedule-diagram__line--branch:last-child {
+    margin-top: $base-spacing * 2;
+  }
+
+  .m-schedule-diagram__stop--branch-end .m-schedule-diagram__line:last-child {
+    height: $base-spacing * 2;
   }
 }
