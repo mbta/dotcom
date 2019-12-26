@@ -104,7 +104,7 @@ defmodule Site.ShuttleDiversion do
 
       trips_params = [
         "filter[date]": time |> Util.service_date() |> Date.to_iso8601(),
-        include: "route,route_pattern,shape,shape.stops"
+        include: "route,route_pattern,shape,stops"
       ]
 
       with %JsonApi{data: trips} <- TripsHack.by_route(trips_route, trips_params),
@@ -208,7 +208,7 @@ defmodule Site.ShuttleDiversion do
     hd(trip.relationships["route"]).attributes["type"] == 3
   end
 
-  defp stops(%{relationships: %{"shape" => [%{relationships: %{"stops" => stops}}]}}), do: stops
+  defp stops(%{relationships: %{"stops" => stops}}), do: stops
   defp stops(_trip), do: []
 
   defp stops_with_direction(%{attributes: %{"direction_id" => direction_id}} = trip) do
