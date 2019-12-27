@@ -9,7 +9,8 @@ defmodule Site.MapHelpers.MarkersTest do
     id: "Red",
     long_name: "Red Line",
     name: "Red Line",
-    type: 1
+    type: 1,
+    color: "DA291C"
   }
 
   @stop %Stops.Stop{
@@ -100,7 +101,7 @@ defmodule Site.MapHelpers.MarkersTest do
       assert tooltip =~ "Alewife train is on the way to South Station"
 
       assert icon == %Symbol{
-               fill_color: "#FF1428",
+               fill_color: "#DA291C",
                fill_opacity: 1,
                path: :forward_closed_arrow,
                rotation: 130,
@@ -133,7 +134,7 @@ defmodule Site.MapHelpers.MarkersTest do
       assert tooltip =~ "Alewife train is on the way to South Station"
 
       assert icon == %Symbol{
-               fill_color: "#FF1428",
+               fill_color: "#DA291C",
                fill_opacity: 1,
                path: :forward_closed_arrow,
                rotation: 130,

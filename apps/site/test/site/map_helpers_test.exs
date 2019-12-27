@@ -1,6 +1,5 @@
 defmodule MapHelpersTest do
   use SiteWeb.ConnCase, async: true
-  alias Routes.Route
   import Site.MapHelpers
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
@@ -58,19 +57,6 @@ defmodule MapHelpersTest do
 
     test "returns a map image url for the ferry" do
       assert thumbnail(:ferry) == static_url(SiteWeb.Endpoint, "/images/map-thumbnail-ferry.jpg")
-    end
-  end
-
-  describe "route_map_color/1" do
-    test "correct color is returned for each route" do
-      assert route_map_color(%Route{type: 3}) == "FFCE0C"
-      assert route_map_color(%Route{type: 2}) == "A00A78"
-      assert route_map_color(%Route{id: "Blue"}) == "0064C8"
-      assert route_map_color(%Route{id: "Red"}) == "FF1428"
-      assert route_map_color(%Route{id: "Mattapan"}) == "FF1428"
-      assert route_map_color(%Route{id: "Orange"}) == "FF8200"
-      assert route_map_color(%Route{id: "Green"}) == "428608"
-      assert route_map_color(%Route{id: "OTHER"}) == "000000"
     end
   end
 

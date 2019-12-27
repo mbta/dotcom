@@ -30,7 +30,7 @@ defmodule Site.MapHelpers.Markers do
   @spec vehicle_icon(Vehicle.t(), Route.t()) :: Symbol.t()
   defp vehicle_icon(%Vehicle{} = vehicle, %Route{} = route) do
     Symbol.new(
-      fill_color: "#" <> Site.MapHelpers.route_map_color(route),
+      fill_color: "#" <> route.color,
       fill_opacity: 1,
       rotation: vehicle.bearing,
       path: :forward_closed_arrow,
