@@ -12,7 +12,7 @@ import {
 interface Props {
   shapes: Shape[];
   stops: Stop[];
-  centerStop?: Stop;
+  selectedStop?: Stop;
   tileServerUrl: TileServerUrl;
 }
 
@@ -64,31 +64,50 @@ const makePolylines = (shapes: Shape[]): Polyline[] =>
     weight: shape.is_shuttle_route ? 4 : 6
   }));
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const boundsFromStops = (stops: Stop[], selectedStop: Stop | undefined) => {
+  // eslint-disable-next-line global-require, @typescript-eslint/no-var-requires
+  const { latLng, latLngBounds } = require("leaflet");
+
+  let includedStops;
+  const padding = 0.2;
+
+  if (selectedStop) {
+    // If a stop is selected, include that stop and the nearest shuttle stop.
+    const { latitude, longitude } = selectedStop;
+    const selectedStopLocation = latLng(latitude, longitude);
+
+    const shuttleStopsByDistance = stops
+      .filter(stop => stop.type === "shuttle")
+      .sort(
+        (a, b) =>
+          selectedStopLocation.distanceTo([a.latitude, a.longitude]) -
+          selectedStopLocation.distanceTo([b.latitude, b.longitude])
+      );
+
+    includedStops = [selectedStop, shuttleStopsByDistance[0]];
+  } else {
+    // If no stop is selected, include all stops affected by the diversion.
+    includedStops = stops.filter(stop => stop.type === "rail_affected");
+  }
+
+  return latLngBounds(
+    includedStops.map(({ latitude, longitude }) => latLng(latitude, longitude))
+  ).pad(padding);
+};
+
 const ShuttlesMap = ({
   shapes,
   stops,
-  centerStop,
+  selectedStop,
   tileServerUrl
 }: Props): ReactElement<HTMLElement> | null => {
   if (typeof window !== "undefined") {
-    /* eslint-disable-next-line global-require */
-    const getBounds = require("../../leaflet/bounds").default;
-    const defaultBounds = getBounds(
-      makeMarkers(stops.filter(stop => stop.type === "rail_affected"))
-    );
-
-    const bounds = centerStop
-      ? getBounds(makeMarkers([centerStop]))
-      : defaultBounds;
+    const bounds = boundsFromStops(stops, selectedStop);
 
     // the MapData interface requires a center value
-    const { lng: longitude, lat: latitude } = defaultBounds.getCenter();
-    const defaultCenter = centerStop
-      ? {
-          longitude: centerStop.longitude,
-          latitude: centerStop.latitude
-        }
-      : { longitude, latitude };
+    const { lng: longitude, lat: latitude } = bounds.getCenter();
+    const defaultCenter = { longitude, latitude };
 
     /* eslint-disable @typescript-eslint/camelcase */
     const mapData: MapData = {
@@ -98,7 +117,7 @@ const ShuttlesMap = ({
       markers: makeMarkers(stops),
       polylines: makePolylines(shapes),
       tile_server_url: tileServerUrl,
-      zoom: centerStop ? 18 : 13
+      zoom: null
     };
     /* eslint-enable @typescript-eslint/camelcase */
 
