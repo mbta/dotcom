@@ -18,6 +18,20 @@
     <%= if Enum.empty?(@branches) do %>
       <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
     <% else %>
+        <div id="react-schedule-finder-root">
+          <%= unless @schedule_page_data[:schedule_note] do %>
+            <%= Site.React.render("ScheduleFinder", %{
+              classModifier: "mobile",
+              directionId: @direction_id,
+              route: Routes.Route.to_json_safe(@route),
+              stops: @schedule_page_data.stops,
+              services: @schedule_page_data.services,
+              ratingEndDate: @schedule_page_data.rating_end_date,
+              routePatternsByDirection: @schedule_page_data.route_patterns
+            }) %>
+          <% end %>
+        </div>
+
         <h2>
           <%= if @route.type == 2 do %>
             Schedule &amp; Maps
@@ -25,13 +39,6 @@
             Info &amp; Maps
           <% end %>
         </h2>
-
-        <div id="react-schedule-finder-root">
-          <%= unless @schedule_page_data[:schedule_note] do %>
-            <%= Site.React.render("ScheduleFinder", %{classModifier: "mobile",
-            route: Routes.Route.to_json_safe(@route), stops: @schedule_page_data[:stops], directionId: @direction_id}) %>
-          <% end %>
-        </div>
 
         <%= if redesign_direction? do %>
           <div id="react-schedule-direction-root">
