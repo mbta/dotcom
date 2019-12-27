@@ -12,13 +12,13 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   Handles Map information for the line controller
   """
 
-  def map_img_src(_, _, %Routes.Route{type: 4}, _path_color) do
+  def map_img_src(_, _, %Routes.Route{type: 4}) do
     MapHelpers.image(:ferry)
   end
 
-  def map_img_src({route_stops, _shapes}, polylines, _route, path_color) do
+  def map_img_src({route_stops, _shapes}, polylines, %{color: route_color} = _route) do
     markers = Enum.map(route_stops, &build_google_stop_marker/1)
-    paths = Enum.map(polylines, &Path.new(&1, color: path_color))
+    paths = Enum.map(polylines, &Path.new(&1, color: route_color))
 
     {600, 600}
     |> GoogleMapData.new()
@@ -118,35 +118,24 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   struct used to build the dynamic map
   """
   def map_data(route, map_route_stops, [], []) do
-    color = MapHelpers.route_map_color(route)
     map_shapes = map_polylines(map_route_stops, route)
-
-    static_data =
-      map_img_src(
-        map_route_stops,
-        [],
-        route,
-        color
-      )
-
-    dynamic_data = dynamic_map_data(color, map_shapes, map_route_stops, {nil, nil})
+    static_data = map_img_src(map_route_stops, [], route)
+    dynamic_data = dynamic_map_data(route.color, map_shapes, map_route_stops, {nil, nil})
     {static_data, dynamic_data}
   end
 
   def map_data(route, map_route_stops, vehicle_polylines, vehicle_tooltips) do
-    color = MapHelpers.route_map_color(route)
     map_shapes = map_polylines(map_route_stops, route)
 
     static_data =
       map_img_src(
         map_route_stops,
         Enum.flat_map(map_shapes, &PolylineHelpers.condense([&1.polyline])),
-        route,
-        color
+        route
       )
 
     vehicle_data = {vehicle_polylines, vehicle_tooltips}
-    dynamic_data = dynamic_map_data(color, map_shapes, map_route_stops, vehicle_data)
+    dynamic_data = dynamic_map_data(route.color, map_shapes, map_route_stops, vehicle_data)
     {static_data, dynamic_data}
   end
 

@@ -3,7 +3,6 @@ defmodule Site.TripPlan.Map do
   alias Leaflet.MapData.Polyline, as: LeafletPolyline
   alias GoogleMaps
   alias Routes.Route
-  alias Site.MapHelpers
   alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
   alias Util.Position
 
@@ -154,10 +153,7 @@ defmodule Site.TripPlan.Map do
 
   @spec leg_color(Leg.t(), route_mapper) :: String.t()
   defp leg_color(%Leg{mode: %TransitDetail{route_id: route_id}}, route_mapper) do
-    route_id
-    |> route_mapper.()
-    |> MapHelpers.route_map_color()
-    |> String.pad_leading(7, ["#"])
+    with route <- route_mapper.(route_id), do: "#" <> route.color
   end
 
   defp leg_color(_leg, _route_mapper) do

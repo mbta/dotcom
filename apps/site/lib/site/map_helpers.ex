@@ -1,5 +1,4 @@
 defmodule Site.MapHelpers do
-  alias Routes.Route
   alias GoogleMaps.MapData.Marker
 
   import SiteWeb.Router.Helpers, only: [static_url: 2]
@@ -68,25 +67,6 @@ defmodule Site.MapHelpers do
   def image(:ferry) do
     static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-08-ferry-map.png")
   end
-
-  @doc "Returns the map color that should be used for the given route"
-  # The Ferry color: 5DA9E8 isn't used on any maps right now.
-  @spec route_map_color(Route.t() | nil) :: String.t()
-
-  for silver_line_route <- Route.silver_line() do
-    def route_map_color(%Route{id: unquote(silver_line_route)}), do: "7C878E"
-  end
-
-  def route_map_color(%Route{type: 3}), do: "FFCE0C"
-  def route_map_color(%Route{type: 2}), do: "A00A78"
-  def route_map_color(%Route{id: "Blue"}), do: "0064C8"
-  def route_map_color(%Route{id: "Red"}), do: "FF1428"
-  def route_map_color(%Route{id: "Mattapan"}), do: "FF1428"
-  def route_map_color(%Route{id: "Orange"}), do: "FF8200"
-  def route_map_color(%Route{id: "Green" <> _}), do: "428608"
-  def route_map_color(%Route{custom_route?: true}), do: "003383"
-
-  def route_map_color(_), do: "000000"
 
   @doc """
   Returns the map icon path for the given route. An optional size
