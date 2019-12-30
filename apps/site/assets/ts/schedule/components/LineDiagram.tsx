@@ -195,7 +195,7 @@ const LineDiagram = ({
                       <circle
                         r="4"
                         cx="5"
-                        cy={isBranchStart(index) ? "-16" : "14"}
+                        cy={isBranchStart(index) ? "2" : "26"}
                       />
                     </svg>
                   )}
@@ -207,16 +207,16 @@ const LineDiagram = ({
                       {isMergeStop(lineDiagramStop) && (
                         <path
                           d={`
-                            M-10,${isBranchStart(index) ? "-60" : "60"}
+                            M-10,${isBranchStart(index) ? "-30" : "100"}
                             h 15 
-                            v ${isBranchStart(index) ? "46" : "-46"}
+                            v ${isBranchStart(index) ? "36" : "-76"}
                           `}
                         />
                       )}
                       <circle
                         r="4"
                         cx="5"
-                        cy={isBranchStart(index) ? "-16" : "14"}
+                        cy={isBranchStart(index) ? "2" : "26"}
                       />
                     </svg>
                   </div>

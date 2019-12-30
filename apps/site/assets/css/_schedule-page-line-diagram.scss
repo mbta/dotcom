@@ -90,7 +90,7 @@ $line-width: 10px;
     margin-right: $base-spacing;
 
     svg {
-      height: 0; // remove browser default height
+      height: auto; // remove browser default height
       overflow: visible;
     }
 

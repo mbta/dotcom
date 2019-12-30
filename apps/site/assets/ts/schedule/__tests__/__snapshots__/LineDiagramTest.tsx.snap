@@ -10,7 +10,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
       <div style={{...}} className=\\"m-schedule-diagram__lines\\">
         <div className=\\"m-schedule-diagram__line\\">
           <svg>
-            <circle r=\\"4\\" cx=\\"5\\" cy=\\"-16\\" />
+            <circle r=\\"4\\" cx=\\"5\\" cy=\\"2\\" />
           </svg>
         </div>
       </div>
@@ -47,7 +47,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
       <div style={{...}} className=\\"m-schedule-diagram__lines\\">
         <div className=\\"m-schedule-diagram__line\\">
           <svg>
-            <circle r=\\"4\\" cx=\\"5\\" cy=\\"14\\" />
+            <circle r=\\"4\\" cx=\\"5\\" cy=\\"26\\" />
           </svg>
         </div>
       </div>
@@ -84,7 +84,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
       <div style={{...}} className=\\"m-schedule-diagram__lines\\">
         <div className=\\"m-schedule-diagram__line\\">
           <svg>
-            <circle r=\\"4\\" cx=\\"5\\" cy=\\"-16\\" />
+            <circle r=\\"4\\" cx=\\"5\\" cy=\\"2\\" />
           </svg>
         </div>
       </div>
@@ -156,7 +156,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
       <div style={{...}} className=\\"m-schedule-diagram__lines\\">
         <div className=\\"m-schedule-diagram__line\\">
           <svg>
-            <circle r=\\"4\\" cx=\\"5\\" cy=\\"-16\\" />
+            <circle r=\\"4\\" cx=\\"5\\" cy=\\"2\\" />
           </svg>
         </div>
       </div>
@@ -264,7 +264,7 @@ exports[`LineDiagram with branches renders and matches snapshot 1`] = `
       <div style={{...}} className=\\"m-schedule-diagram__lines\\">
         <div className=\\"m-schedule-diagram__line\\">
           <svg>
-            <circle r=\\"4\\" cx=\\"5\\" cy=\\"-16\\" />
+            <circle r=\\"4\\" cx=\\"5\\" cy=\\"2\\" />
           </svg>
         </div>
       </div>
@@ -302,8 +302,8 @@ exports[`LineDiagram with branches renders and matches snapshot 1`] = `
         <div className=\\"m-schedule-diagram__line\\" />
         <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--branch\\">
           <svg>
-            <path d=\\"\\\\n                            M-10,-60\\\\n                            h 15 \\\\n                            v 46\\\\n                          \\" />
-            <circle r=\\"4\\" cx=\\"5\\" cy=\\"-16\\" />
+            <path d=\\"\\\\n                            M-10,-30\\\\n                            h 15 \\\\n                            v 36\\\\n                          \\" />
+            <circle r=\\"4\\" cx=\\"5\\" cy=\\"2\\" />
           </svg>
         </div>
       </div>
@@ -341,7 +341,7 @@ exports[`LineDiagram with branches renders and matches snapshot 1`] = `
         <div className=\\"m-schedule-diagram__line\\" />
         <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--branch\\">
           <svg>
-            <circle r=\\"4\\" cx=\\"5\\" cy=\\"14\\" />
+            <circle r=\\"4\\" cx=\\"5\\" cy=\\"26\\" />
           </svg>
         </div>
       </div>
@@ -375,7 +375,7 @@ exports[`LineDiagram with branches renders and matches snapshot 1`] = `
         <div className=\\"m-schedule-diagram__line\\" />
         <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--branch\\">
           <svg>
-            <circle r=\\"4\\" cx=\\"5\\" cy=\\"14\\" />
+            <circle r=\\"4\\" cx=\\"5\\" cy=\\"26\\" />
           </svg>
         </div>
       </div>
@@ -451,7 +451,7 @@ exports[`LineDiagram with branches renders and matches snapshot 1`] = `
       <div style={{...}} className=\\"m-schedule-diagram__lines\\">
         <div className=\\"m-schedule-diagram__line\\">
           <svg>
-            <circle r=\\"4\\" cx=\\"5\\" cy=\\"14\\" />
+            <circle r=\\"4\\" cx=\\"5\\" cy=\\"26\\" />
           </svg>
         </div>
       </div>
