@@ -101,7 +101,8 @@ const branchName = (lineDiagramStop: LineDiagramStop): JSX.Element | null => {
   if (isOnBranch(lineDiagramStop) && isTerminusStop(lineDiagramStop)) {
     return (
       <strong className="u-small-caps">
-        {lineDiagramStop.route_stop.name} Line
+        {lineDiagramStop.route_stop.name}
+        {lineDiagramStop.route_stop.route!.type === 2 ? " Line" : " Branch"}
       </strong>
     );
   }
