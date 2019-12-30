@@ -45,7 +45,6 @@ const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
   if (!scheduleNote) {
     ReactDOM.render(
       <ScheduleFinder
-        classModifier="mobile"
         directionId={directionId}
         route={route}
         stops={stops}

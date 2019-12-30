@@ -39,7 +39,6 @@ const SchedulePage = ({
       />
     ) : (
       <ScheduleFinder
-        classModifier="desktop"
         route={route} // don't show for subway
         services={services}
         ratingEndDate={ratingEndDate}

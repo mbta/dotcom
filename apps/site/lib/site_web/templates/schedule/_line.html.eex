@@ -9,7 +9,7 @@
     <div class="col-md-12">
     <%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high) %>
     </div>
-    <div class="col-xs-12 col-md-7">
+    <div class="col-xs-12 col-md-7 m-schedule-line__main-content">
       <div id="react-schedule-note-root">
           <%= if @schedule_page_data[:schedule_note] do %>
           <%= Site.React.render("ScheduleNote", %{scheduleNote: @schedule_page_data.schedule_note, className: "m-schedule-page__schedule-notes--mobile"}) %>
@@ -21,7 +21,6 @@
         <div id="react-schedule-finder-root">
           <%= unless @schedule_page_data[:schedule_note] do %>
             <%= Site.React.render("ScheduleFinder", %{
-              classModifier: "mobile",
               directionId: @direction_id,
               route: Routes.Route.to_json_safe(@route),
               stops: @schedule_page_data.stops,
@@ -80,7 +79,7 @@
         <% end %>
     </div>
     <% end %>
-    <div class="col-xs-12 col-md-5 col-lg-4 col-lg-offset-1">
+    <div class="col-xs-12 col-md-5 col-lg-4 col-lg-offset-1 m-schedule-line__side-content">
       <% without_schedules = @schedule_page_data |> Map.put(:service_schedules, %{})%>
       <div id="react-root">
         <%= Site.React.render("SchedulePage", %{schedulePageData: without_schedules}) %>

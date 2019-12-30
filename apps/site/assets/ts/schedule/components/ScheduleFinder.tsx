@@ -19,7 +19,6 @@ import OriginModalContent from "./schedule-finder/OriginModalContent";
 import ScheduleModalContent from "./schedule-finder/ScheduleModalContent";
 
 interface Props {
-  classModifier?: string;
   services: ServiceWithServiceDate[];
   ratingEndDate: string;
   directionId: DirectionId;
@@ -55,7 +54,6 @@ export const stopListOrder = (
   selectedDirection !== null ? stops[selectedDirection] : stops[directionId];
 
 const ScheduleFinder = ({
-  classModifier,
   directionId,
   route,
   services,
@@ -63,11 +61,6 @@ const ScheduleFinder = ({
   stops,
   routePatternsByDirection
 }: Props): ReactElement<HTMLElement> => {
-  const classBase = "schedule-finder";
-  const className = `${classBase}${
-    classModifier ? ` ${classBase}--${classModifier}` : ""
-  }`;
-
   const {
     direction_destinations: directionDestinations,
     direction_names: directionNames
@@ -154,7 +147,7 @@ const ScheduleFinder = ({
   };
 
   return (
-    <div className={className}>
+    <div className="schedule-finder">
       <h2 className="h3 schedule-finder__heading">
         {renderSvg("c-svg__icon", icon)} Schedule Finder
       </h2>
