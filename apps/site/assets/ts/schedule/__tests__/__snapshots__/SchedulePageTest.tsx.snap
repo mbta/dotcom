@@ -3,7 +3,7 @@
 exports[`it renders 1`] = `
 Array [
   <div
-    className="schedule-finder schedule-finder--desktop"
+    className="schedule-finder"
   >
     <h2
       className="h3 schedule-finder__heading"
