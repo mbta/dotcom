@@ -22,7 +22,6 @@ interface Props {
   services: ServiceWithServiceDate[];
   ratingEndDate: string;
   directionId: DirectionId;
-  hideHeader?: boolean;
   route: EnhancedRoute;
   stops: SimpleStopMap;
   routePatternsByDirection: RoutePatternsByDirection;
@@ -56,7 +55,6 @@ export const stopListOrder = (
 
 const ScheduleFinder = ({
   directionId,
-  hideHeader,
   route,
   services,
   ratingEndDate,
@@ -150,11 +148,9 @@ const ScheduleFinder = ({
 
   return (
     <div className="schedule-finder">
-      {hideHeader ? null : (
-        <h2 className="h3 schedule-finder__heading">
-          {renderSvg("c-svg__icon", icon)} Schedule Finder
-        </h2>
-      )}
+      <h2 className="h3 schedule-finder__heading">
+        {renderSvg("c-svg__icon", icon)} Schedule Finder
+      </h2>
       <ErrorMessage
         directionError={state.directionError}
         originError={state.originError}

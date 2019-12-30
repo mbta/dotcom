@@ -3,129 +3,125 @@
 exports[`it renders 1`] = `
 Array [
   <div
-    className="schedule-finder--desktop"
+    className="schedule-finder schedule-finder--desktop"
   >
-    <div
-      className="schedule-finder"
+    <h2
+      className="h3 schedule-finder__heading"
     >
-      <h2
-        className="h3 schedule-finder__heading"
-      >
-        <span
-          aria-hidden="true"
-          className="notranslate c-svg__icon"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "SVG",
-            }
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
           }
-        />
-         Schedule Finder
-      </h2>
-      <div>
-        Choose a stop to get schedule information and real-time departure predictions.
-      </div>
-      <div
-        className="c-select-custom__container "
-        id="sf_direction_select_container"
-        onClick={[Function]}
+        }
+      />
+       Schedule Finder
+    </h2>
+    <div>
+      Choose a stop to get schedule information and real-time departure predictions.
+    </div>
+    <div
+      className="c-select-custom__container "
+      id="sf_direction_select_container"
+      onClick={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <select
+        className="c-select-custom"
+        id="sf_direction_select"
+        onChange={[Function]}
         onKeyUp={[Function]}
-        role="button"
-        tabIndex={0}
+        value=""
       >
-        <select
-          className="c-select-custom"
-          id="sf_direction_select"
-          onChange={[Function]}
-          onKeyUp={[Function]}
+        <option
           value=""
         >
-          <option
-            value=""
-          >
-            Choose a direction
-          </option>
-          <option
-            value="0"
-          >
-            INBOUND
-             
-            Oak Grove
-          </option>
-          <option
-            value="1"
-          >
-            OUTBOUND
-             
-            Forest Hills
-          </option>
-        </select>
-        <span
-          aria-hidden="true"
-          className="notranslate c-svg__icon c-select-custom__arrow"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "SVG",
-            }
+          Choose a direction
+        </option>
+        <option
+          value="0"
+        >
+          INBOUND
+           
+          Oak Grove
+        </option>
+        <option
+          value="1"
+        >
+          OUTBOUND
+           
+          Forest Hills
+        </option>
+      </select>
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-select-custom__arrow"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
           }
-        />
-      </div>
-      <div
-        className="c-select-custom__container "
-        id="sf_origin_select_container"
-        onClick={[Function]}
+        }
+      />
+    </div>
+    <div
+      className="c-select-custom__container "
+      id="sf_origin_select_container"
+      onClick={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <select
+        className="c-select-custom c-select-custom--noclick"
+        id="sf_origin_select"
+        onChange={[Function]}
         onKeyUp={[Function]}
-        role="button"
-        tabIndex={0}
+        value=""
       >
-        <select
-          className="c-select-custom c-select-custom--noclick"
-          id="sf_origin_select"
-          onChange={[Function]}
-          onKeyUp={[Function]}
+        <option
           value=""
         >
-          <option
-            value=""
-          >
-            Choose an origin stop
-          </option>
-          <option
-            value="place-welln"
-          >
-            Wellington
-          </option>
-          <option
-            value="123"
-          >
-            Abc
-          </option>
-          <option
-            value="741"
-          >
-            SL
-          </option>
-        </select>
-        <span
-          aria-hidden="true"
-          className="notranslate c-svg__icon c-select-custom__arrow"
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "SVG",
-            }
+          Choose an origin stop
+        </option>
+        <option
+          value="place-welln"
+        >
+          Wellington
+        </option>
+        <option
+          value="123"
+        >
+          Abc
+        </option>
+        <option
+          value="741"
+        >
+          SL
+        </option>
+      </select>
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-select-custom__arrow"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
           }
-        />
-      </div>
-      <div
-        className="text-right"
-      >
-        <input
-          className="btn btn-primary"
-          onClick={[Function]}
-          type="submit"
-          value="Get schedules"
-        />
-      </div>
+        }
+      />
+    </div>
+    <div
+      className="text-right"
+    >
+      <input
+        className="btn btn-primary"
+        onClick={[Function]}
+        type="submit"
+        value="Get schedules"
+      />
     </div>
   </div>,
   <div

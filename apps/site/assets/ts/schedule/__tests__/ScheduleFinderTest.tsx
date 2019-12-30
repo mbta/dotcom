@@ -3,7 +3,6 @@ import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import ScheduleFinder from "../components/ScheduleFinder";
-import ScheduleFinderAccordion from "../components/ScheduleFinderAccordion";
 import { EnhancedRoute, ServiceWithServiceDate } from "../../__v3api";
 import { RoutePatternsByDirection } from "../components/__schedule";
 
@@ -338,59 +337,6 @@ it("modal renders route pill for silver line", () => {
       routePatternsByDirection={routePatternsByDirection}
     />
   );
-  subwayWrapper
-    .find("#sf_direction_select")
-    .simulate("change", { target: { value: "1" } });
-
-  subwayWrapper
-    .find("#sf_origin_select")
-    .simulate("change", { target: { value: "place-welln" } });
-
-  subwayWrapper.find("input").simulate("click");
-
-  expect(
-    subwayWrapper.exists(".schedule-finder__modal-route-pill")
-  ).toBeFalsy();
-
-  const busRoute: EnhancedRoute = { ...route, id: "741", name: "SL", type: 3 };
-  const busWrapper = mount(
-    <ScheduleFinder
-      stops={stops}
-      route={busRoute}
-      directionId={0}
-      services={services}
-      ratingEndDate="2020-03-14"
-      routePatternsByDirection={routePatternsByDirection}
-    />
-  );
-  busWrapper
-    .find("#sf_direction_select")
-    .simulate("change", { target: { value: "0" } });
-
-  busWrapper
-    .find("#sf_origin_select")
-    .simulate("change", { target: { value: "place-welln" } });
-
-  busWrapper.find("input").simulate("click");
-
-  expect(busWrapper.exists(".schedule-finder__modal-route-pill")).toBeTruthy();
-  expect(busWrapper.exists(".u-bg--silver-line")).toBeTruthy();
-});
-
-it("modal renders within ScheduleFinderAccordion", () => {
-  const subwayWrapper = mount(
-    <ScheduleFinderAccordion
-      stops={stops}
-      route={route}
-      directionId={0}
-      services={services}
-      ratingEndDate="2020-03-14"
-      routePatternsByDirection={routePatternsByDirection}
-    />
-  );
-
-  subwayWrapper.find("#header-schedule-finder-mobile").simulate("click");
-
   subwayWrapper
     .find("#sf_direction_select")
     .simulate("change", { target: { value: "1" } });

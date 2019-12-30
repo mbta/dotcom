@@ -6,7 +6,7 @@ import ScheduleDirection from "./components/ScheduleDirection";
 import Map from "./components/Map";
 import { SchedulePageData } from "./components/__schedule";
 import { MapData } from "../leaflet/components/__mapdata";
-import ScheduleFinderAccordion from "./components/ScheduleFinderAccordion";
+import ScheduleFinder from "./components/ScheduleFinder";
 
 const renderMap = (): void => {
   const mapDataEl = document.getElementById("js-map-data");
@@ -44,7 +44,7 @@ const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
   } = schedulePageData;
   if (!scheduleNote) {
     ReactDOM.render(
-      <ScheduleFinderAccordion
+      <ScheduleFinder
         directionId={directionId}
         route={route}
         stops={stops}

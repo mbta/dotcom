@@ -103,13 +103,13 @@
     display: inline; // otherwise clicking next to the button fires the event
   }
 
-  &--desktop {
+  .m-schedule-line__side-content & {
     @include media-breakpoint-down(sm) {
       display: none;
     }
   }
 
-  &--mobile {
+  .m-schedule-line__main-content & {
     @include media-breakpoint-up(md) {
       display: none;
     }
@@ -117,12 +117,6 @@
     @include media-breakpoint-down(sm) {
       margin-bottom: $base-spacing;
     }
-  }
-
-  &--accordion {
-    background-color: $brand-primary-lightest-contrast;
-    padding-bottom: 0;
-    padding-top: 0;
   }
 }
 

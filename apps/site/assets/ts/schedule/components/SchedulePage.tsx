@@ -38,16 +38,14 @@ const SchedulePage = ({
         scheduleNote={scheduleNote}
       />
     ) : (
-      <div className="schedule-finder--desktop">
-        <ScheduleFinder
-          route={route} // don't show for subway
-          services={services}
-          ratingEndDate={ratingEndDate}
-          stops={stops}
-          directionId={directionId}
-          routePatternsByDirection={routePatternsByDirection}
-        />
-      </div>
+      <ScheduleFinder
+        route={route} // don't show for subway
+        services={services}
+        ratingEndDate={ratingEndDate}
+        stops={stops}
+        directionId={directionId}
+        routePatternsByDirection={routePatternsByDirection}
+      />
     )}
     <ContentTeasers teasers={teasers} />
     <PDFSchedules pdfs={pdfs} />
