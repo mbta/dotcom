@@ -4,7 +4,6 @@ defmodule Site.ReactTest do
   alias ExUnit.CaptureLog
   alias GoogleMaps.Geocode.Address
   alias Site.{React, TransitNearMe}
-  alias Site.React.Worker
 
   @address %Address{
     latitude: 42.352271,
@@ -85,32 +84,6 @@ defmodule Site.ReactTest do
 
       assert log =~
                ~r/react_renderer component=TransitNearMe Cannot read property 'filter' of undefined/
-    end
-  end
-
-  describe "init/1" do
-    test "initialize the process" do
-      assert {:ok,
-              {%{intensity: 3, period: 5, strategy: :one_for_one},
-               [
-                 {:react_render,
-                  {:poolboy, :start_link,
-                   [
-                     [
-                       name: {:local, :react_render},
-                       worker_module: Worker,
-                       size: 1,
-                       max_overflow: 0
-                     ],
-                     []
-                   ]}, :permanent, 5000, :worker, [:poolboy]}
-               ]}} = React.init(pool_size: 1)
-    end
-  end
-
-  describe "stop/0" do
-    test "stops the process" do
-      assert :ok = React.stop()
     end
   end
 
