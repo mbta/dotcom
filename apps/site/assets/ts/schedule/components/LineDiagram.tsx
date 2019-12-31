@@ -180,17 +180,17 @@ const LineDiagram = ({
                   </div>
                 ))}
               </div>
-              <div className="m-schedule-line-diagram__content">
-                <div className="m-schedule-line-diagram__card">
-                  <div className="m-schedule-line-diagram__card-left">
-                    <div className="m-schedule-line-diagram__stop-name">
+              <div className="m-schedule-diagram__content">
+                <div className="m-schedule-diagram__card">
+                  <div className="m-schedule-diagram__card-left">
+                    <div className="m-schedule-diagram__stop-name">
                       {StopBranchLabel(routeStop)}
                       {maybeAlert(stopAlerts)}
                       <a href={`/stops/${routeStop.id}`}>
                         <h4>{routeStop.name}</h4>
                       </a>
                     </div>
-                    <div className="m-schedule-line-diagram__connections">
+                    <div className="m-schedule-diagram__connections">
                       {filteredConnections(routeStop.connections).map(
                         (connectingRoute: Route) => (
                           <TooltipWrapper
@@ -205,7 +205,7 @@ const LineDiagram = ({
                             {connectingRoute.type === 3 ? (
                               <span
                                 key={connectingRoute.id}
-                                className={`c-icon__bus-pill--small m-schedule-line-diagram__connection ${busBackgroundClass(
+                                className={`c-icon__bus-pill--small m-schedule-diagram__connection ${busBackgroundClass(
                                   connectingRoute
                                 )}`}
                               >
@@ -214,7 +214,7 @@ const LineDiagram = ({
                             ) : (
                               <span
                                 key={connectingRoute.id}
-                                className="m-schedule-line-diagram__connection"
+                                className="m-schedule-diagram__connection"
                               >
                                 {modeIcon(connectingRoute.id)}
                               </span>
@@ -224,14 +224,14 @@ const LineDiagram = ({
                       )}
                     </div>
                   </div>
-                  <div className="m-schedule-line-diagram__features">
+                  <div className="m-schedule-diagram__features">
                     {routeStop.stop_features.includes("parking_lot") ? (
                       <TooltipWrapper
                         tooltipText="Parking"
                         tooltipOptions={{ placement: "bottom" }}
                       >
                         {parkingIcon(
-                          "c-svg__icon-parking-default m-schedule-line-diagram__feature-icon"
+                          "c-svg__icon-parking-default m-schedule-diagram__feature-icon"
                         )}
                       </TooltipWrapper>
                     ) : null}
@@ -241,18 +241,18 @@ const LineDiagram = ({
                         tooltipOptions={{ placement: "bottom" }}
                       >
                         {accessibleIcon(
-                          "c-svg__icon-acessible-default m-schedule-line-diagram__feature-icon"
+                          "c-svg__icon-acessible-default m-schedule-diagram__feature-icon"
                         )}
                       </TooltipWrapper>
                     ) : null}
                     {routeStop.route!.type === 2 && routeStop.zone && (
-                      <span className="c-icon__cr-zone m-schedule-line-diagram__feature-icon">{`Zone ${
+                      <span className="c-icon__cr-zone m-schedule-diagram__feature-icon">{`Zone ${
                         routeStop.zone
                       }`}</span>
                     )}
                   </div>
                 </div>
-                <div className="m-schedule-line-diagram__footer">
+                <div className="m-schedule-diagram__footer">
                   <button
                     className="btn btn-link"
                     type="button"

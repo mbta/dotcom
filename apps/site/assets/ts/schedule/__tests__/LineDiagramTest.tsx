@@ -69,9 +69,9 @@ describe("LineDiagram", () => {
   });
 
   it("has buttons to view schedules for each stop", () => {
-    const stopCards = wrapper.find(".m-schedule-line-diagram__stop");
+    const stopCards = wrapper.find(".m-schedule-diagram__stop");
     const buttons = stopCards.map(card =>
-      card.find(".m-schedule-line-diagram__footer button")
+      card.find(".m-schedule-diagram__footer button")
     );
     expect(buttons.map(node => node.text())).toEqual(
       Array.from({ length: buttons.length }, () => "View schedule")
@@ -81,7 +81,7 @@ describe("LineDiagram", () => {
   it("opens a closeable modal after clicking button", () => {
     expect(wrapper.exists(".schedule-finder__modal-header")).toBeFalsy();
     wrapper
-      .find(".m-schedule-line-diagram__footer > button")
+      .find(".m-schedule-diagram__footer > button")
       .last()
       .simulate("click");
     expect(wrapper.exists(".schedule-finder__modal-header")).toBeTruthy();
@@ -93,7 +93,7 @@ describe("LineDiagram", () => {
 
   it("has a tooltip for a transit connection", () => {
     const stopConnections = wrapper.find(
-      ".m-schedule-line-diagram__connections a"
+      ".m-schedule-diagram__connections a"
     );
     stopConnections.forEach(connectionLink => {
       const props = connectionLink.props();
@@ -112,14 +112,14 @@ describe("LineDiagram", () => {
     "has appropriate tooltip content for stop $index",
     ({ index, expectedNames, expectedFeatures }) => {
       const connections = wrapper
-        .find(".m-schedule-line-diagram__connections")
+        .find(".m-schedule-diagram__connections")
         .at(index);
 
       const names = connections.find("a").map(c => c.props().title);
       expect(names).toEqual(expectedNames);
 
       const features = wrapper
-        .find(".m-schedule-line-diagram__features")
+        .find(".m-schedule-diagram__features")
         .at(index);
 
       const featureNames = features

@@ -1,89 +1,89 @@
-.m-schedule-diagram__stop {
-  border: $border;
-  border-bottom: 0;
-  display: flex;
-  padding: $base-spacing;
-
-  &:last-child {
-    border-bottom: $border;
-  }
-}
-
-.m-schedule-line-diagram__content {
-  flex-grow: 1;
-}
-
-.m-schedule-line-diagram__card {
-  align-items: flex-start;
-  display: flex;
-}
-
-.m-schedule-line-diagram__stop-name {
-  font-weight: bold;
-
-  h4 {
-    margin-top: $base-spacing / -4;
-  }
-}
-
-.m-schedule-line-diagram__connections {
-  .m-schedule-line-diagram__connection {
-    margin: 0 ($base-spacing / 8);
-
-    .c-svg__icon {
-      height: $base-spacing;
-      vertical-align: middle;
-      width: $base-spacing;
-    }
-  }
-
-  a {
-    display: inline-block;
-    line-height: 0;
-    max-height: $base-spacing * 1.5;
-    vertical-align: top;
-  }
-}
-
-.m-schedule-line-diagram__features {
-  .m-schedule-line-diagram__feature-icon {
-    height: $base-spacing;
-    line-height: $base-spacing;
-    margin-left: $base-spacing / 4;
-    width: $base-spacing;
-  }
-
-  .c-icon__cr-zone {
-    font-size: $base-spacing * .7;
-    vertical-align: text-top;
-    width: auto;
-  }
-}
-
-.m-schedule-line-diagram__card-left {
-  flex-grow: 1;
-}
-
-.m-schedule-line-diagram__footer {
-  text-align: center;
-
-  .btn {
-    padding: unset;
-  }
-}
-
-//
-//  Schedule line diagram
-//
-//  .m-schedule-diagram__lines contains all the
-//  graphics for the line diagram, and uses negative
-//  margins to counter the padding from its parent
-//  .m-schedule-diagram__stop.
-//  A .m-schedule-diagram__line is drawn for each
-//  branch, and creates the line. Stop circles are SVGs.
 $line-width: 10px;
 
 .m-schedule-diagram {
+  .m-schedule-diagram__stop {
+    border: $border;
+    border-bottom: 0;
+    display: flex;
+    padding: $base-spacing;
+  
+    &:last-child {
+      border-bottom: $border;
+    }
+  }
+  
+  .m-schedule-diagram__content {
+    flex-grow: 1;
+  }
+  
+  .m-schedule-diagram__card {
+    align-items: flex-start;
+    display: flex;
+  }
+
+  .m-schedule-diagram__card-left {
+    flex-grow: 1;
+  }
+
+  .m-schedule-diagram__stop-name {
+    font-weight: bold;
+  
+    h4 {
+      margin-top: $base-spacing / -4;
+    }
+  }
+
+  .m-schedule-diagram__connections {
+    .m-schedule-diagram__connection {
+      margin: 0 ($base-spacing / 8);
+  
+      .c-svg__icon {
+        height: $base-spacing;
+        vertical-align: middle;
+        width: $base-spacing;
+      }
+    }
+  
+    a {
+      display: inline-block;
+      line-height: 0;
+      max-height: $base-spacing * 1.5;
+      vertical-align: top;
+    }
+  }
+  
+  .m-schedule-diagram__features {
+    .m-schedule-diagram__feature-icon {
+      height: $base-spacing;
+      line-height: $base-spacing;
+      margin-left: $base-spacing / 4;
+      width: $base-spacing;
+    }
+  
+    .c-icon__cr-zone {
+      font-size: $base-spacing * .7;
+      vertical-align: text-top;
+      width: auto;
+    }
+  }
+
+  .m-schedule-diagram__footer {
+    text-align: center;
+
+    .btn {
+      padding: unset;
+    }
+  }
+
+  //
+  //  Schedule line diagram
+  //
+  //  .m-schedule-diagram__lines contains all the
+  //  graphics for the line diagram, and uses negative
+  //  margins to counter the padding from its parent
+  //  .m-schedule-diagram__stop.
+  //  A .m-schedule-diagram__line is drawn for each
+  //  branch, and creates the line. Stop circles are SVGs.
   .m-schedule-diagram__lines {
     display: flex;
     margin: calc(-#{$base-spacing} - #{$border-width}*2) 0;
