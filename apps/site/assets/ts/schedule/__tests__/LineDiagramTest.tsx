@@ -168,16 +168,20 @@ describe("LineDiagram with branches", () => {
   it("renders different parts of branches", () => {
     const terminus = wrapper
       .find(".m-schedule-diagram__line--terminus")
-      .first().html();
+      .first()
+      .html();
     const merge = wrapper
       .find(".m-schedule-diagram__line--merge")
-      .first().html();
+      .first()
+      .html();
     const stop = wrapper
       .find(".m-schedule-diagram__line--stop")
-      .first().html();
+      .first()
+      .html();
     const line = wrapper
       .find(".m-schedule-diagram__line--line")
-      .first().html();
+      .first()
+      .html();
 
     expect(terminus).not.toEqual(stop);
     expect(terminus).not.toEqual(line);
