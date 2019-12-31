@@ -46,7 +46,12 @@ defmodule SiteWeb.ScheduleController.LineApi do
     active_shapes = LineHelpers.get_active_shapes(route_shapes, route, variant)
     filtered_shapes = LineHelpers.filter_route_shapes(route_shapes, active_shapes, route)
     branches = LineHelpers.get_branches(filtered_shapes, route_stops, route, direction_id)
-    DiagramHelpers.build_stop_list(branches, direction_id)
+
+    DiagramHelpers.build_stop_list(
+      branches,
+      direction_id,
+      Laboratory.enabled?(conn, :schedule_direction_redesign)
+    )
   end
 
   @spec update_route_stop_data({any, Stops.RouteStop.t()}, any, DateTime.t()) :: map()

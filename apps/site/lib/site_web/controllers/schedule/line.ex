@@ -74,7 +74,14 @@ defmodule SiteWeb.ScheduleController.Line do
     |> assign(:route_patterns, route_patterns)
     |> assign(:shape_map, shape_map)
     |> assign(:direction_id, direction_id)
-    |> assign(:all_stops, DiagramHelpers.build_stop_list(branches, direction_id))
+    |> assign(
+      :all_stops,
+      DiagramHelpers.build_stop_list(
+        branches,
+        direction_id,
+        Laboratory.enabled?(conn, :schedule_direction_redesign)
+      )
+    )
     |> assign(:branches, branches)
     |> assign(:route_shapes, route_shapes)
     |> assign(:active_shape, LineHelpers.active_shape(active_shapes, route.type))
