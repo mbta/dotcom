@@ -6,7 +6,6 @@ defmodule Site.React do
   use Supervisor
   alias Phoenix.HTML
 
-  @timeout 10_000
   @pool_name :react_render
   @default_pool_size 4
 
@@ -17,14 +16,6 @@ defmodule Site.React do
   def start_link do
     opts = [pool_size: @default_pool_size]
     Supervisor.start_link(__MODULE__, opts, name: __MODULE__)
-  end
-
-  @doc """
-  Stops the react renderer worker pool.
-  """
-  @spec stop() :: :ok
-  def stop do
-    Supervisor.stop(__MODULE__)
   end
 
   @spec render(String.t(), map) :: HTML.safe()
@@ -52,7 +43,7 @@ defmodule Site.React do
         )
       end)
 
-    Task.await(task, @timeout)
+    Task.await(task)
   end
 
   @doc """
