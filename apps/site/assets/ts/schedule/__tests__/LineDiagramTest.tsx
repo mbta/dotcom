@@ -133,11 +133,6 @@ describe("LineDiagram", () => {
     const line = wrapper.find(".m-schedule-diagram__lines").first();
     expect(line.prop("style")!.color).toBe("#F00B42");
   });
-
-  it("does not detect and render branches", () => {
-    expect(wrapper.exists(".m-schedule-diagram--with-branches")).toBeFalsy();
-    expect(wrapper.exists(".m-schedule-diagram__line--branch")).toBeFalsy();
-  });
 });
 
 describe("LineDiagram with branches", () => {
@@ -166,31 +161,29 @@ describe("LineDiagram with branches", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("detects and renders branches", () => {
-    expect(wrapper.exists(".m-schedule-diagram--with-branches")).toBeTruthy();
-    expect(wrapper.exists(".m-schedule-diagram__line--branch")).toBeTruthy();
-  });
-
   it("shows branch name", () => {
     expect(wrapper.find(".u-small-caps").text()).toEqual("Lowell Two Line");
   });
 
-  it("renders branches distinctly at start/ends", () => {
-    const branchEnd = wrapper
-      .find(
-        ".m-schedule-diagram__stop--branch-end .m-schedule-diagram__line--branch"
-      )
-      .first();
-    const branchStart = wrapper
-      .find(
-        ".m-schedule-diagram__stop--branch-start .m-schedule-diagram__line--branch"
-      )
-      .first();
+  it("renders different parts of branches", () => {
+    const terminus = wrapper
+      .find(".m-schedule-diagram__line--terminus")
+      .first().html();
+    const merge = wrapper
+      .find(".m-schedule-diagram__line--merge")
+      .first().html();
+    const stop = wrapper
+      .find(".m-schedule-diagram__line--stop")
+      .first().html();
     const line = wrapper
-      .find(".m-schedule-diagram__line:not(.m-schedule-diagram__line--branch)")
-      .first();
-    expect(line.html()).not.toEqual(branchStart.html());
-    expect(line.html()).not.toEqual(branchEnd.html());
-    expect(branchStart.html()).not.toEqual(branchEnd.html());
+      .find(".m-schedule-diagram__line--line")
+      .first().html();
+
+    expect(terminus).not.toEqual(stop);
+    expect(terminus).not.toEqual(line);
+    expect(terminus).not.toEqual(merge);
+    expect(stop).not.toEqual(merge);
+    expect(stop).not.toEqual(line);
+    expect(line).not.toEqual(merge);
   });
 });

@@ -79,35 +79,39 @@ const connectionName = (connection: Route): string => {
   return connection.name;
 };
 
-const isTerminusStop = (lineDiagramStop: LineDiagramStop): boolean =>
-  lineDiagramStop.route_stop["is_terminus?"];
+const StopBranchLabel = (stop: RouteStop): JSX.Element | null =>
+  stop["is_terminus?"] && !!stop.branch ? (
+    <strong className="u-small-caps">
+      {stop.name}
+      {stop.route!.type === 2 ? " Line" : " Branch"}
+    </strong>
+  ) : null;
 
-const isBeginningStop = (lineDiagramStop: LineDiagramStop): boolean =>
-  lineDiagramStop.route_stop["is_beginning?"];
+const treeDirection = (
+  lineDiagram: LineDiagramStop[]
+): "outward" | "inward" => {
+  // determines if tree should fan out or collect branches as we go down the page
+  // use the position of the merge stop to find this. assume default of outward
+  let mergeIndex: number;
+  const mergeStop = lineDiagram.find(
+    ({ stop_data: stopData }: LineDiagramStop) =>
+      stopData.some(sd => sd.type === "merge")
+  );
 
-const isMergeStop = (lineDiagramStop: LineDiagramStop): boolean =>
-  lineDiagramStop.stop_data.some(sd => sd.type === "merge");
-
-const isOnBranch = (lineDiagramStop: LineDiagramStop): boolean =>
-  !!lineDiagramStop.route_stop.branch || isMergeStop(lineDiagramStop);
-
-const isOnPrimaryBranch = (lineDiagramStop: LineDiagramStop): boolean =>
-  isOnBranch(lineDiagramStop) && lineDiagramStop.stop_data.length === 1;
-
-const isOnSecondaryBranch = (lineDiagramStop: LineDiagramStop): boolean =>
-  isOnBranch(lineDiagramStop) && !isOnPrimaryBranch(lineDiagramStop);
-
-const branchName = (lineDiagramStop: LineDiagramStop): JSX.Element | null => {
-  if (isOnBranch(lineDiagramStop) && isTerminusStop(lineDiagramStop)) {
-    return (
-      <strong className="u-small-caps">
-        {lineDiagramStop.route_stop.name}
-        {lineDiagramStop.route_stop.route!.type === 2 ? " Line" : " Branch"}
-      </strong>
-    );
+  if (mergeStop) {
+    mergeIndex = lineDiagram.indexOf(mergeStop);
+    const branchTerminiIndices = lineDiagram
+      .filter(
+        (lds: LineDiagramStop) =>
+          lds.route_stop["is_terminus?"] && lds.stop_data.length > 1
+      )
+      .map((lds: LineDiagramStop) => lineDiagram.indexOf(lds));
+    return branchTerminiIndices.some(i => i < mergeIndex)
+      ? "inward"
+      : "outward";
   }
 
-  return null;
+  return "outward";
 };
 
 const LineDiagram = ({
@@ -128,28 +132,6 @@ const LineDiagram = ({
     modalOpen: false
   });
 
-  const isBranchEnd = (index: number): boolean =>
-    index === lineDiagram.length - 1 ||
-    index ===
-      lineDiagram.lastIndexOf(
-        lineDiagram.filter(isOnSecondaryBranch)[
-          lineDiagram.filter(isOnSecondaryBranch).length - 1
-        ]
-      ) ||
-    (index > 0 &&
-      lineDiagram
-        .filter(l => isTerminusStop(l) && !isBeginningStop(l))
-        .includes(lineDiagram[index]));
-
-  const isBranchStart = (index: number): boolean =>
-    index === 0 ||
-    index === lineDiagram.indexOf(lineDiagram.filter(isOnSecondaryBranch)[0]) ||
-    (index > 0 &&
-      lineDiagram
-        .filter(isTerminusStop)
-        .filter(isBeginningStop)
-        .includes(lineDiagram[index]));
-
   return (
     <>
       <h3>
@@ -158,76 +140,51 @@ const LineDiagram = ({
           : "Stops"}
       </h3>
       <div
-        className={`m-schedule-diagram m-schedule-diagram${
-          lineDiagram.some(isOnBranch) ? "--with-branches" : ""
-        }`}
+        className={`m-schedule-diagram m-schedule-diagram--${treeDirection(
+          lineDiagram
+        )}`}
       >
-        {lineDiagram.map((lineDiagramStop: LineDiagramStop, index: number) => {
-          const { route_stop: routeStop, alerts: stopAlerts } = lineDiagramStop;
-
-          return (
-            <div
-              key={routeStop.id}
-              className={`m-schedule-diagram__stop 
-                ${
-                  isOnSecondaryBranch(lineDiagramStop)
-                    ? "m-schedule-diagram__stop--branch"
-                    : ""
-                }
-                ${
-                  isBranchEnd(index)
-                    ? "m-schedule-diagram__stop--branch-end"
-                    : ""
-                }
-                ${
-                  isBranchStart(index)
-                    ? "m-schedule-diagram__stop--branch-start"
-                    : ""
-                }
-              `}
-            >
+        {lineDiagram.map(
+          ({
+            stop_data: stopData,
+            route_stop: routeStop,
+            alerts: stopAlerts
+          }: LineDiagramStop) => (
+            <div key={routeStop.id} className="m-schedule-diagram__stop">
               <div
                 style={{ color: `#${route.color}` }}
                 className="m-schedule-diagram__lines"
               >
-                <div className="m-schedule-diagram__line">
-                  {!isOnSecondaryBranch(lineDiagramStop) && (
-                    <svg>
-                      <circle
-                        r="4"
-                        cx="5"
-                        cy={isBranchStart(index) ? "2" : "26"}
-                      />
-                    </svg>
-                  )}
-                </div>
-
-                {isOnSecondaryBranch(lineDiagramStop) && (
-                  <div className="m-schedule-diagram__line m-schedule-diagram__line--branch">
-                    <svg>
-                      {isMergeStop(lineDiagramStop) && (
-                        <path
-                          d={`
-                            M-10,${isBranchStart(index) ? "-30" : "100"}
-                            h 15 
-                            v ${isBranchStart(index) ? "36" : "-76"}
-                          `}
-                        />
-                      )}
-                      <circle
-                        r="4"
-                        cx="5"
-                        cy={isBranchStart(index) ? "2" : "26"}
-                      />
-                    </svg>
+                {stopData.map((sd, sdIndex) => (
+                  <div
+                    key={`${routeStop.id}-${sd.type}-${sd.branch}`}
+                    className={`m-schedule-diagram__line m-schedule-diagram__line--${
+                      sd.type
+                    }`}
+                  >
+                    {sdIndex + 1 === stopData.length && (
+                      <svg
+                        viewBox="0 9 10 10"
+                        height="10"
+                        className="m-schedule-diagram__line-stop"
+                      >
+                        {sd.type === "merge" && (
+                          <path
+                            className="m-schedule-diagram__line-bend"
+                            d="M-15,-30 h 20 v 60"
+                          />
+                        )}
+                        <circle r="4" cx="50%" />
+                      </svg>
+                    )}
                   </div>
-                )}
+                ))}
               </div>
               <div className="m-schedule-line-diagram__content">
                 <div className="m-schedule-line-diagram__card">
                   <div className="m-schedule-line-diagram__card-left">
                     <div className="m-schedule-line-diagram__stop-name">
-                      {branchName(lineDiagramStop)}
+                      {StopBranchLabel(routeStop)}
                       {maybeAlert(stopAlerts)}
                       <a href={`/stops/${routeStop.id}`}>
                         <h4>{routeStop.name}</h4>
@@ -311,8 +268,8 @@ const LineDiagram = ({
                 </div>
               </div>
             </div>
-          );
-        })}
+          )
+        )}
       </div>
       <Modal
         openState={modalState.modalOpen}
