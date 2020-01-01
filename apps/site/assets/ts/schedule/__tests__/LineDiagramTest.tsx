@@ -92,9 +92,7 @@ describe("LineDiagram", () => {
   });
 
   it("has a tooltip for a transit connection", () => {
-    const stopConnections = wrapper.find(
-      ".m-schedule-diagram__connections a"
-    );
+    const stopConnections = wrapper.find(".m-schedule-diagram__connections a");
     stopConnections.forEach(connectionLink => {
       const props = connectionLink.props();
       expect(props.title).toBeTruthy();
@@ -118,9 +116,7 @@ describe("LineDiagram", () => {
       const names = connections.find("a").map(c => c.props().title);
       expect(names).toEqual(expectedNames);
 
-      const features = wrapper
-        .find(".m-schedule-diagram__features")
-        .at(index);
+      const features = wrapper.find(".m-schedule-diagram__features").at(index);
 
       const featureNames = features
         .find("span[data-toggle='tooltip']")
@@ -170,10 +166,6 @@ describe("LineDiagram with branches", () => {
       .find(".m-schedule-diagram__line--terminus")
       .first()
       .html();
-    const merge = wrapper
-      .find(".m-schedule-diagram__line--merge")
-      .first()
-      .html();
     const stop = wrapper
       .find(".m-schedule-diagram__line--stop")
       .first()
@@ -185,9 +177,6 @@ describe("LineDiagram with branches", () => {
 
     expect(terminus).not.toEqual(stop);
     expect(terminus).not.toEqual(line);
-    expect(terminus).not.toEqual(merge);
-    expect(stop).not.toEqual(merge);
     expect(stop).not.toEqual(line);
-    expect(line).not.toEqual(merge);
   });
 });

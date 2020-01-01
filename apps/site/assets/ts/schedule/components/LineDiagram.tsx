@@ -87,26 +87,30 @@ const StopBranchLabel = (stop: RouteStop): JSX.Element | null =>
     </strong>
   ) : null;
 
-const treeDirection = (
+const getMergeStops = (lineDiagram: LineDiagramStop[]): LineDiagramStop[] =>
+  lineDiagram.filter(
+    ({ stop_data: stopData }: LineDiagramStop) =>
+      stopData.some(sd => sd.type === "merge") && stopData.length > 1
+  );
+
+const getTreeDirection = (
   lineDiagram: LineDiagramStop[]
 ): "outward" | "inward" => {
   // determines if tree should fan out or collect branches as we go down the page
   // use the position of the merge stop to find this. assume default of outward
-  let mergeIndex: number;
-  const mergeStop = lineDiagram.find(
-    ({ stop_data: stopData }: LineDiagramStop) =>
-      stopData.some(sd => sd.type === "merge")
-  );
-
-  if (mergeStop) {
-    mergeIndex = lineDiagram.indexOf(mergeStop);
+  const mergeStops = getMergeStops(lineDiagram);
+  if (mergeStops) {
+    const mergeIndices = mergeStops.map((ms: LineDiagramStop) =>
+      lineDiagram.indexOf(ms)
+    );
     const branchTerminiIndices = lineDiagram
       .filter(
         (lds: LineDiagramStop) =>
           lds.route_stop["is_terminus?"] && lds.stop_data.length > 1
       )
       .map((lds: LineDiagramStop) => lineDiagram.indexOf(lds));
-    return branchTerminiIndices.some(i => i < mergeIndex)
+
+    return branchTerminiIndices.some(i => mergeIndices[0] > i)
       ? "inward"
       : "outward";
   }
@@ -132,6 +136,18 @@ const LineDiagram = ({
     modalOpen: false
   });
 
+  const treeDirection = getTreeDirection(lineDiagram);
+
+  // identify the stops immediately before merge branches,
+  // where 2+ branches are about to merge.
+  const mergeStopIndices = getMergeStops(lineDiagram).map(
+    (ms: LineDiagramStop) => lineDiagram.indexOf(ms)
+  );
+  const mergingStopIndices =
+    treeDirection === "inward"
+      ? mergeStopIndices.map(i => i - 1)
+      : mergeStopIndices.map(i => i + 1);
+
   return (
     <>
       <h3>
@@ -140,45 +156,65 @@ const LineDiagram = ({
           : "Stops"}
       </h3>
       <div
-        className={`m-schedule-diagram m-schedule-diagram--${treeDirection(
-          lineDiagram
-        )}`}
+        className={`m-schedule-diagram m-schedule-diagram--${treeDirection}`}
       >
         {lineDiagram.map(
-          ({
-            stop_data: stopData,
-            route_stop: routeStop,
-            alerts: stopAlerts
-          }: LineDiagramStop) => (
+          (
+            {
+              stop_data: stopData,
+              route_stop: routeStop,
+              alerts: stopAlerts
+            }: LineDiagramStop,
+            ldIndex
+          ) => (
             <div key={routeStop.id} className="m-schedule-diagram__stop">
               <div
                 style={{ color: `#${route.color}` }}
-                className="m-schedule-diagram__lines"
+                className={`m-schedule-diagram__lines ${
+                  mergingStopIndices.includes(ldIndex)
+                    ? "m-schedule-diagram__lines--merging"
+                    : ""
+                }`}
               >
-                {stopData.map((sd, sdIndex) => (
-                  <div
-                    key={`${routeStop.id}-${sd.type}-${sd.branch}`}
-                    className={`m-schedule-diagram__line m-schedule-diagram__line--${
-                      sd.type
-                    }`}
-                  >
-                    {sdIndex + 1 === stopData.length && (
-                      <svg
-                        viewBox="0 9 10 10"
-                        height="10"
-                        className="m-schedule-diagram__line-stop"
-                      >
-                        {sd.type === "merge" && (
-                          <path
-                            className="m-schedule-diagram__line-bend"
-                            d="M-15,-30 h 20 v 60"
-                          />
-                        )}
-                        <circle r="4" cx="50%" />
-                      </svg>
-                    )}
+                {mergeStopIndices.includes(ldIndex) ? (
+                  <div className="m-schedule-diagram__line m-schedule-diagram__line--stop">
+                    <svg
+                      viewBox="0 10 10 10"
+                      height="10"
+                      className="m-schedule-diagram__line-stop"
+                    >
+                      <circle r="4" cx="50%" />
+                    </svg>
                   </div>
-                ))}
+                ) : (
+                  stopData.map((sd, sdIndex) => (
+                    <div
+                      key={`${routeStop.id}-${sd.type}-${sd.branch}`}
+                      className={`m-schedule-diagram__line m-schedule-diagram__line--${
+                        sd.type
+                      }`}
+                    >
+                      {sd.type !== "line" && (
+                        <svg
+                          viewBox="0 10 10 10"
+                          height="10"
+                          className="m-schedule-diagram__line-stop"
+                        >
+                          {mergingStopIndices.includes(ldIndex) &&
+                            sdIndex > 0 && (
+                              <path
+                                className="m-schedule-diagram__line-bend"
+                                d={`M5,10 v-10 h${-20 * sdIndex}`}
+                              />
+                            )}
+                          {sdIndex + 1 === stopData.length && (
+                            <circle r="4" cx="50%" />
+                          )}
+                        </svg>
+                      )}
+                    </div>
+                  ))
+                )}
               </div>
               <div className="m-schedule-diagram__content">
                 <div className="m-schedule-diagram__card">

@@ -6,16 +6,16 @@ $line-width: 10px;
     border-bottom: 0;
     display: flex;
     padding: $base-spacing;
-  
+
     &:last-child {
       border-bottom: $border;
     }
   }
-  
+
   .m-schedule-diagram__content {
     flex-grow: 1;
   }
-  
+
   .m-schedule-diagram__card {
     align-items: flex-start;
     display: flex;
@@ -27,7 +27,7 @@ $line-width: 10px;
 
   .m-schedule-diagram__stop-name {
     font-weight: bold;
-  
+
     h4 {
       margin-top: $base-spacing / -4;
     }
@@ -36,14 +36,14 @@ $line-width: 10px;
   .m-schedule-diagram__connections {
     .m-schedule-diagram__connection {
       margin: 0 ($base-spacing / 8);
-  
-      .c-svg__icon {
-        height: $base-spacing;
-        vertical-align: middle;
-        width: $base-spacing;
-      }
     }
-  
+
+    .c-svg__icon {
+      height: $base-spacing;
+      vertical-align: middle;
+      width: $base-spacing;
+    }
+
     a {
       display: inline-block;
       line-height: 0;
@@ -51,7 +51,7 @@ $line-width: 10px;
       vertical-align: top;
     }
   }
-  
+
   .m-schedule-diagram__features {
     .m-schedule-diagram__feature-icon {
       height: $base-spacing;
@@ -59,7 +59,7 @@ $line-width: 10px;
       margin-left: $base-spacing / 4;
       width: $base-spacing;
     }
-  
+
     .c-icon__cr-zone {
       font-size: $base-spacing * .7;
       vertical-align: text-top;
@@ -116,6 +116,8 @@ $line-width: 10px;
     circle {
       fill: $white;
       stroke: currentColor;
+      stroke-width: 0;
+      transform-origin: 50%;
     }
 
     path {
@@ -131,9 +133,18 @@ $line-width: 10px;
     transform: translateY(28px);
   }
 
+  .m-schedule-diagram__line--terminus circle {
+    stroke-width: 1.15px !important;
+  }
+
+  // first stop
+  .m-schedule-diagram__stop:first-child circle {
+    transform: translateY(3px) scale(1.15);
+  }
+
   // last stop
   .m-schedule-diagram__stop:last-child circle {
-    transform: translateY(34px);
+    transform: translateY(35px) scale(1.15);
   }
 }
 
@@ -144,7 +155,7 @@ $line-width: 10px;
     height: $base-spacing * 2;
 
     circle {
-      transform: translateY(34px);
+      transform: translateY(35px) scale(1.15);
     }
   }
 }
@@ -153,14 +164,17 @@ $line-width: 10px;
   // first stop on branch
   .m-schedule-diagram__line + .m-schedule-diagram__line--terminus {
     margin-top: $base-spacing * 2;
+
+    circle {
+      transform: translateY(3px) scale(1.15);
+    }
   }
 
-  // last stop on branch
-  .m-schedule-diagram__line + .m-schedule-diagram__line--merge {
-    height: $base-spacing * 2;
+  .m-schedule-diagram__lines--merging .m-schedule-diagram__line-bend {
+    transform: scaleY(-1) translateY(calc(-#{$base-spacing * 2} - 10px));
   }
 
-  .m-schedule-diagram__line--merge .m-schedule-diagram__line-bend {
-    transform: scaleY(-1) translateY(-50px);
+  .m-schedule-diagram__lines--merging .m-schedule-diagram__line:not(:first-child) {
+    height: calc(#{$base-spacing * 2} + 10px);
   }
 }

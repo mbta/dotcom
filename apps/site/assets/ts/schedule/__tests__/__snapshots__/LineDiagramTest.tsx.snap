@@ -7,9 +7,9 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
   </h3>
   <div className=\\"m-schedule-diagram m-schedule-diagram--outward\\">
     <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
         <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
-          <svg viewBox=\\"0 9 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
+          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
             <circle r=\\"4\\" cx=\\"50%\\" />
           </svg>
         </div>
@@ -44,9 +44,9 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
       </div>
     </div>
     <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
         <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-          <svg viewBox=\\"0 9 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
+          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
             <circle r=\\"4\\" cx=\\"50%\\" />
           </svg>
         </div>
@@ -81,9 +81,9 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
       </div>
     </div>
     <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
         <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-          <svg viewBox=\\"0 9 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
+          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
             <circle r=\\"4\\" cx=\\"50%\\" />
           </svg>
         </div>
@@ -153,9 +153,9 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
       </div>
     </div>
     <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
         <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
-          <svg viewBox=\\"0 9 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
+          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
             <circle r=\\"4\\" cx=\\"50%\\" />
           </svg>
         </div>
@@ -261,9 +261,9 @@ exports[`LineDiagram with branches renders and matches snapshot 1`] = `
   </h3>
   <div className=\\"m-schedule-diagram m-schedule-diagram--outward\\">
     <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
         <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
-          <svg viewBox=\\"0 9 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
+          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
             <circle r=\\"4\\" cx=\\"50%\\" />
           </svg>
         </div>
@@ -298,11 +298,9 @@ exports[`LineDiagram with branches renders and matches snapshot 1`] = `
       </div>
     </div>
     <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines\\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--merge\\" />
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--merge\\">
-          <svg viewBox=\\"0 9 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <path className=\\"m-schedule-diagram__line-bend\\" d=\\"M-15,-30 h 20 v 60\\" />
+      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
+        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
+          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
             <circle r=\\"4\\" cx=\\"50%\\" />
           </svg>
         </div>
@@ -337,10 +335,11 @@ exports[`LineDiagram with branches renders and matches snapshot 1`] = `
       </div>
     </div>
     <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+      <div style={{...}} className=\\"m-schedule-diagram__lines m-schedule-diagram__lines--merging\\">
         <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
         <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-          <svg viewBox=\\"0 9 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
+          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
+            <path className=\\"m-schedule-diagram__line-bend\\" d=\\"M5,10 v-10 h-20\\" />
             <circle r=\\"4\\" cx=\\"50%\\" />
           </svg>
         </div>
@@ -371,10 +370,10 @@ exports[`LineDiagram with branches renders and matches snapshot 1`] = `
       </div>
     </div>
     <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
         <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
         <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
-          <svg viewBox=\\"0 9 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
+          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
             <circle r=\\"4\\" cx=\\"50%\\" />
           </svg>
         </div>
@@ -448,9 +447,9 @@ exports[`LineDiagram with branches renders and matches snapshot 1`] = `
       </div>
     </div>
     <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
         <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
-          <svg viewBox=\\"0 9 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
+          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
             <circle r=\\"4\\" cx=\\"50%\\" />
           </svg>
         </div>
