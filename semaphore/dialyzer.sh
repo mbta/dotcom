@@ -1,4 +1,4 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 set -e
 
 # Add more swap memory. Default is ~200m, our setup made it 2G, now make it 4G
