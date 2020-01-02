@@ -82,7 +82,9 @@ const connectionName = (connection: Route): string => {
 const StopBranchLabel = (stop: RouteStop): JSX.Element | null =>
   stop["is_terminus?"] && !!stop.branch && !!stop.route ? (
     <strong className="u-small-caps">
-      {stop.name}
+      {stop.route.id.startsWith("Green")
+        ? `Green Line ${stop.route.id.split("-")[1]}`
+        : stop.name}
       {stop.route.type === 2 ? " Line" : " Branch"}
     </strong>
   ) : null;
