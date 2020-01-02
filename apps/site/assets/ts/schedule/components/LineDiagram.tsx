@@ -80,10 +80,10 @@ const connectionName = (connection: Route): string => {
 };
 
 const StopBranchLabel = (stop: RouteStop): JSX.Element | null =>
-  stop["is_terminus?"] && !!stop.branch ? (
+  stop["is_terminus?"] && !!stop.branch && !!stop.route ? (
     <strong className="u-small-caps">
       {stop.name}
-      {stop.route!.type === 2 ? " Line" : " Branch"}
+      {stop.route.type === 2 ? " Line" : " Branch"}
     </strong>
   ) : null;
 
@@ -99,6 +99,7 @@ const getTreeDirection = (
   // determines if tree should fan out or collect branches as we go down the page
   // use the position of the merge stop to find this. assume default of outward
   const mergeStops = getMergeStops(lineDiagram);
+  let direction: "outward" | "inward" = "outward";
   if (mergeStops) {
     const mergeIndices = mergeStops.map((ms: LineDiagramStop) =>
       lineDiagram.indexOf(ms)
@@ -110,12 +111,12 @@ const getTreeDirection = (
       )
       .map((lds: LineDiagramStop) => lineDiagram.indexOf(lds));
 
-    return branchTerminiIndices.some(i => mergeIndices[0] > i)
+    direction = branchTerminiIndices.some(i => mergeIndices[0] > i)
       ? "inward"
       : "outward";
   }
 
-  return "outward";
+  return direction;
 };
 
 const LineDiagram = ({

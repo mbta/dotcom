@@ -1,18 +1,22 @@
 import React from "react";
 import { mount, ReactWrapper } from "enzyme";
+import { cloneDeep, merge } from "lodash";
 import LineDiagram from "../components/LineDiagram";
-import { EnhancedRoute } from "../../__v3api";
+import { EnhancedRoute, RouteType } from "../../__v3api";
 import {
   LineDiagramStop,
   RoutePatternsByDirection,
   SimpleStop
 } from "../components/__schedule";
 import * as routePatternsByDirection from "./routePatternsByDirectionData.json";
-import lineDiagramData from "./lineDiagramData.json"; // Not a full line diagram
-import lineDiagramWithBranchesData from "./lineDiagramWithBranchesData.json"; // Not a full line diagram
+import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
+import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
+
+const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
+let lineDiagramBranchingOut = (outwardLineDiagram as unknown) as LineDiagramStop[];
 
 const route = {
-  type: 3,
+  type: 3 as RouteType,
   name: "route 1",
   long_name: "route 1 long name",
   color: "F00B42",
@@ -29,9 +33,21 @@ const route = {
   "custom_route?": false,
   header: "",
   alert_count: 0
-} as EnhancedRoute;
+};
 
-const lineDiagram = lineDiagramData as LineDiagramStop[];
+lineDiagram.forEach(({ route_stop }) => {
+  route_stop.route = cloneDeep(route);
+});
+
+lineDiagramBranchingOut.forEach(({ route_stop }) => {
+  route_stop.route = cloneDeep(route);
+});
+
+let lineDiagramBranchingIn = cloneDeep(lineDiagramBranchingOut).reverse();
+const CRroute = merge(cloneDeep(route), { type: 2 as RouteType });
+lineDiagramBranchingIn.forEach(({ route_stop }) => {
+  route_stop.route = CRroute;
+});
 
 const stops = lineDiagram.map(({ route_stop }) => ({
   name: route_stop.name,
@@ -42,13 +58,13 @@ const stops = lineDiagram.map(({ route_stop }) => ({
 
 const directionId = 1;
 
-describe("LineDiagram", () => {
+describe("LineDiagram without branches", () => {
   let wrapper: ReactWrapper;
   beforeEach(() => {
     wrapper = mount(
       <LineDiagram
         lineDiagram={lineDiagram}
-        route={route}
+        route={route as EnhancedRoute}
         directionId={directionId}
         routePatternsByDirection={
           routePatternsByDirection as RoutePatternsByDirection
@@ -101,11 +117,28 @@ describe("LineDiagram", () => {
   });
 
   it.each`
-    index | expectedNames                                                                             | expectedFeatures
-    ${0}  | ${["Route 110"]}                                                                          | ${[]}
-    ${1}  | ${["Silver Line SL1"]}                                                                    | ${[]}
-    ${2}  | ${["Orange Line", "Green Line C", "Green Line E", "Commuter Rail"]}                       | ${["Parking", "Accessible"]}
-    ${3}  | ${["Route 62", "Route 67", "Route 76", "Route 79", "Route 84", "Route 350", "Route 351"]} | ${["Parking", "Accessible"]}
+    index | expectedAlerts
+    ${0}  | ${0}
+    ${1}  | ${0}
+    ${2}  | ${1}
+    ${3}  | ${0}
+  `(
+    "shows $expectedAlerts high priority alerts for stop $index",
+    ({ index, expectedAlerts }) => {
+      const alerts = wrapper
+        .find(".m-schedule-diagram__stop")
+        .at(index)
+        .find(".c-svg__icon-alerts-triangle");
+      expect(alerts.length).toEqual(expectedAlerts);
+    }
+  );
+
+  it.each`
+    index | expectedNames                      | expectedFeatures
+    ${0}  | ${[]}                              | ${["Parking"]}
+    ${1}  | ${["Orange Line", "Green Line C"]} | ${[]}
+    ${2}  | ${["Route 62", "Route 67"]}        | ${["Accessible"]}
+    ${3}  | ${["Atlantis"]}                    | ${["Parking", "Accessible"]}
   `(
     "has appropriate tooltip content for stop $index",
     ({ index, expectedNames, expectedFeatures }) => {
@@ -131,13 +164,13 @@ describe("LineDiagram", () => {
   });
 });
 
-describe("LineDiagram with branches", () => {
+describe("LineDiagram with branches going outward", () => {
   let wrapper: ReactWrapper;
   beforeEach(() => {
     wrapper = mount(
       <LineDiagram
-        lineDiagram={lineDiagramWithBranchesData as LineDiagramStop[]}
-        route={route}
+        lineDiagram={lineDiagramBranchingOut}
+        route={route as EnhancedRoute}
         directionId={directionId}
         routePatternsByDirection={
           routePatternsByDirection as RoutePatternsByDirection
@@ -157,11 +190,39 @@ describe("LineDiagram with branches", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("shows branch name", () => {
-    expect(wrapper.find(".u-small-caps").text()).toEqual("Lowell Two Line");
+  it("identifies stops rather than stations", () => {
+    expect(wrapper.find("h3").text()).toEqual("Stops");
   });
 
-  it("renders different parts of branches", () => {
+  it("identifies the tree direction as outward", () => {
+    expect(wrapper.find(".m-schedule-diagram--outward").exists()).toBeTruthy();
+  });
+
+  it.each`
+    index | expectedBranchNaming
+    ${0}  | ${null}
+    ${1}  | ${null}
+    ${2}  | ${null}
+    ${3}  | ${"Other Destination Branch"}
+    ${4}  | ${null}
+    ${5}  | ${"Destination Branch"}
+  `(
+    "shows branch name $expectedBranchNaming at stop $index",
+    ({ index, expectedBranchNaming }) => {
+      const branchNameNode = wrapper
+        .find(".m-schedule-diagram__stop")
+        .at(index)
+        .find(".u-small-caps");
+
+      if (expectedBranchNaming) {
+        expect(branchNameNode.text()).toEqual(expectedBranchNaming);
+      } else {
+        expect(branchNameNode.exists()).toBeFalsy();
+      }
+    }
+  );
+
+  it("renders different parts of branches with different markup", () => {
     const terminus = wrapper
       .find(".m-schedule-diagram__line--terminus")
       .first()
@@ -179,4 +240,64 @@ describe("LineDiagram with branches", () => {
     expect(terminus).not.toEqual(line);
     expect(stop).not.toEqual(line);
   });
+});
+
+describe("LineDiagram for CR with branches going inward", () => {
+  let wrapper: ReactWrapper;
+
+  beforeEach(() => {
+    wrapper = mount(
+      <LineDiagram
+        lineDiagram={lineDiagramBranchingIn}
+        route={CRroute as EnhancedRoute}
+        directionId={directionId}
+        routePatternsByDirection={
+          routePatternsByDirection as RoutePatternsByDirection
+        }
+        services={[]}
+        ratingEndDate="2020-03-14"
+        stops={{ 0: stops, 1: stops }}
+      />
+    );
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
+  });
+
+  it("renders and matches snapshot", () => {
+    expect(wrapper.debug()).toMatchSnapshot();
+  });
+
+  it("identifies stations rather than stops", () => {
+    expect(wrapper.find("h3").text()).toEqual("Stations");
+  });
+
+  it("identifies the tree direction as inward", () => {
+    expect(wrapper.find(".m-schedule-diagram--inward").exists()).toBeTruthy();
+  });
+
+  it.each`
+    index | expectedBranchNaming
+    ${5}  | ${null}
+    ${4}  | ${null}
+    ${3}  | ${null}
+    ${2}  | ${"Other Destination Line"}
+    ${1}  | ${null}
+    ${0}  | ${"Destination Line"}
+  `(
+    "shows branch name $expectedBranchNaming at stop $index",
+    ({ index, expectedBranchNaming }) => {
+      const branchNameNode = wrapper
+        .find(".m-schedule-diagram__stop")
+        .at(index)
+        .find(".u-small-caps");
+
+      if (expectedBranchNaming) {
+        expect(branchNameNode.text()).toEqual(expectedBranchNaming);
+      } else {
+        expect(branchNameNode.exists()).toBeFalsy();
+      }
+    }
+  );
 });

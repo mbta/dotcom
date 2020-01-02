@@ -1,0 +1,217 @@
+[
+  {
+    "stop_data": [{ "type": "terminus", "branch": null }],
+    "route_stop": {
+      "zone": null,
+      "stop_features": ["parking_lot"],
+      "station_info": {
+        "parent_id": null,
+        "child_ids": [],
+        "accessibility": [],
+        "address": null,
+        "bike_storage": [],
+        "closed_stop_info": null,
+        "has_charlie_card_vendor?": false,
+        "has_fare_machine?": false,
+        "fare_facilities": [],
+        "id": "line-origin",
+        "is_child?": false,
+        "latitude": 0,
+        "longitude": 0,
+        "municipality": null,
+        "name": "Origin",
+        "note": null,
+        "parking_lots": [],
+        "station?": true,
+        "type": "station"
+      },
+      "route": null,
+      "name": "Origin",
+      "is_terminus?": true,
+      "is_beginning?": true,
+      "id": "line-origin",
+      "connections": [],
+      "closed_stop_info": null,
+      "branch": null
+    },
+    "alerts": [
+      {
+        "priority": "low"
+      }
+    ]
+  },
+  {
+    "stop_data": [{ "type": "stop", "branch": null }],
+    "route_stop": {
+      "zone": null,
+      "stop_features": [],
+      "station_info": {
+        "parent_id": null,
+        "child_ids": [],
+        "accessibility": [],
+        "address": null,
+        "bike_storage": [],
+        "closed_stop_info": null,
+        "has_charlie_card_vendor?": false,
+        "has_fare_machine?": false,
+        "fare_facilities": [],
+        "id": "line-stop1",
+        "is_child?": false,
+        "latitude": 0,
+        "longitude": 0,
+        "municipality": null,
+        "name": "Stop 1",
+        "note": null,
+        "parking_lots": [],
+        "station?": true,
+        "type": "station"
+      },
+      "route": null,
+      "name": "Stop 1",
+      "is_terminus?": false,
+      "is_beginning?": false,
+      "id": "line-stop1",
+      "connections": [
+        {
+          "type": 1,
+          "name": "Orange Line",
+          "long_name": "Orange Line",
+          "id": "Orange",
+          "direction_names": { "0": "Southbound", "1": "Northbound" },
+          "direction_destinations": { "0": "Forest Hills", "1": "Oak Grove" },
+          "description": "rapid_transit",
+          "custom_route?": false
+        },
+        {
+          "type": 0,
+          "name": "Green Line C",
+          "long_name": "Green Line C",
+          "id": "Green-C",
+          "direction_names": { "0": "Westbound", "1": "Eastbound" },
+          "direction_destinations": {
+            "0": "Cleveland Circle",
+            "1": "North Station"
+          },
+          "description": "rapid_transit",
+          "custom_route?": false
+        }
+      ],
+      "closed_stop_info": null,
+      "branch": null
+    },
+    "alerts": []
+  },
+  {
+    "stop_data": [{ "type": "stop", "branch": null }],
+    "route_stop": {
+      "zone": null,
+      "stop_features": ["access"],
+      "station_info": {
+        "parent_id": null,
+        "child_ids": [],
+        "accessibility": [],
+        "address": null,
+        "bike_storage": [],
+        "closed_stop_info": null,
+        "has_charlie_card_vendor?": false,
+        "has_fare_machine?": false,
+        "fare_facilities": [],
+        "id": "line-stop2",
+        "is_child?": false,
+        "latitude": 0,
+        "longitude": 0,
+        "municipality": null,
+        "name": "Stop 2",
+        "note": null,
+        "parking_lots": [],
+        "station?": true,
+        "type": "station"
+      },
+      "route": null,
+      "name": "Stop 2",
+      "is_terminus?": false,
+      "is_beginning?": false,
+      "id": "line-stop2",
+      "connections": [
+        {
+          "type": 3,
+          "name": "62",
+          "long_name": "Bedford VA Hospital - Alewife",
+          "id": "62",
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "direction_destinations": {
+            "0": "Bedford VA Hospital",
+            "1": "Alewife"
+          },
+          "description": "local_bus",
+          "custom_route?": false
+        },
+        {
+          "type": 3,
+          "name": "67",
+          "long_name": "Turkey Hill - Alewife",
+          "id": "67",
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "direction_destinations": { "0": "Turkey Hill", "1": "Alewife" },
+          "description": "local_bus",
+          "custom_route?": false
+        }
+      ],
+      "closed_stop_info": null,
+      "branch": null
+    },
+    "alerts": [
+      {
+        "priority": "high"
+      }
+    ]
+  },
+  {
+    "stop_data": [{ "type": "terminus", "branch": null }],
+    "route_stop": {
+      "zone": null,
+      "stop_features": ["parking_lot", "access"],
+      "station_info": {
+        "parent_id": null,
+        "child_ids": [],
+        "accessibility": [],
+        "address": null,
+        "bike_storage": [],
+        "closed_stop_info": null,
+        "has_charlie_card_vendor?": false,
+        "has_fare_machine?": false,
+        "fare_facilities": [],
+        "id": "line-destination",
+        "is_child?": false,
+        "latitude": 0,
+        "longitude": 0,
+        "municipality": null,
+        "name": "Destination",
+        "note": null,
+        "parking_lots": [],
+        "station?": true,
+        "type": "station"
+      },
+      "route": null,
+      "name": "Destination",
+      "is_terminus?": true,
+      "is_beginning?": false,
+      "id": "line-destination",
+      "connections": [
+        {
+          "type": 4,
+          "name": "Atlantis",
+          "long_name": "Boston - Atlantis",
+          "id": "BOAT-A",
+          "direction_names": { "0": "Outbound", "1": "Inbound" },
+          "direction_destinations": { "0": "Boston", "1": "Atlantis" },
+          "description": "ferry",
+          "custom_route?": false
+        }
+      ],
+      "closed_stop_info": null,
+      "branch": null
+    },
+    "alerts": []
+  }
+]
