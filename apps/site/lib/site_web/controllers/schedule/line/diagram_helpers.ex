@@ -381,14 +381,12 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
 
   def stop_bubble_type(branch_id, _stop), do: {branch_id, :line}
 
-  @doc """
-  Alternate bubble generation for the new line diagram, which shows the Green Line as a single
-  branching route instead of four parallel routes.
-
-  "Merge stop" IDs are hard-coded for the moment since we can't easily get data on *which* lines
-  are merging together at a given stop, and the E line needs a special case since it merges into
-  three other lines we want to represent as a single line.
-  """
+  # Alternate bubble generation for the new line diagram, which shows the Green Line as a single
+  # branching route instead of four parallel routes.
+  #
+  # "Merge stop" IDs are hard-coded for the moment since we can't easily get data on *which* lines
+  # are merging together at a given stop, and the E line needs a special case since it merges into
+  # three other lines we want to represent as a single line.
   defp combined_green_stop_bubble_types(%RouteStop{id: "place-coecl"}) do
     [{nil, :merge}, {"Green-E", :merge}]
   end
