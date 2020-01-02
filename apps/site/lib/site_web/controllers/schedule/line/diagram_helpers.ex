@@ -338,41 +338,41 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   @doc """
   Alternate bubble generation for the new line diagram, which shows the Green Line as a single
   branching route instead of four parallel routes.
+
+  "Merge stop" IDs are hard-coded for the moment since we can't easily get data on *which* lines
+  are merging together at a given stop, and the E line needs a special case since it merges into
+  three other lines we want to represent as a single line.
   """
+  defp combined_green_stop_bubble_types(%RouteStop{id: "place-coecl"}) do
+    [{nil, :merge}, {"Green-E", :merge}]
+  end
+
+  defp combined_green_stop_bubble_types(%RouteStop{id: "place-kencl"}) do
+    [{"Green-B", :merge}, {"Green-C", :merge}, {"Green-D", :merge}]
+  end
+
   defp combined_green_stop_bubble_types(%RouteStop{id: id, branch: branch}) do
-    # We need to hard-code the "merge stop" IDs since we don't have data on *which* lines are
-    # merging together at a given stop (and the E line needs a special case anyway because it
-    # merges into 3 other branches we want to represent as a single line).
-    case id do
-      "place-coecl" ->
-        [{nil, :merge}, {"Green-E", :merge}]
+    # Determine which branches should be drawn as lines parallel to this stop's branch.
+    parallel_branches =
+      case branch do
+        nil -> []
+        "Green-B" -> []
+        "Green-C" -> ["Green-B"]
+        "Green-D" -> ["Green-B", "Green-C"]
+        "Green-E" -> [nil]
+      end
 
-      "place-kencl" ->
-        [{"Green-B", :merge}, {"Green-C", :merge}, {"Green-D", :merge}]
+    # Determine whether this stop should be drawn as a terminus on its branch. Since we are
+    # presenting everything inbound of Copley as a single combined line, only Lechmere should be
+    # considered a terminus on that segment.
+    stop_bubble =
+      if GreenLine.terminus?(id, branch, 0) or GreenLine.terminus?(id, "Green-E", 1) do
+        {branch, :terminus}
+      else
+        {branch, :stop}
+      end
 
-      _ ->
-        # Determine which branches should be drawn as lines parallel to this stop's branch.
-        parallel_branches =
-          case branch do
-            nil -> []
-            "Green-B" -> []
-            "Green-C" -> ["Green-B"]
-            "Green-D" -> ["Green-B", "Green-C"]
-            "Green-E" -> [nil]
-          end
-
-        # Determine whether this stop should be drawn as a terminus on its branch. Since we are
-        # presenting everything inbound of Copley as a single combined line, only Lechmere should
-        # be considered a terminus on that segment.
-        stop_bubble =
-          if GreenLine.terminus?(id, branch, 0) or GreenLine.terminus?(id, "Green-E", 1) do
-            {branch, :terminus}
-          else
-            {branch, :stop}
-          end
-
-        Enum.map(parallel_branches, &{&1, :line}) ++ [stop_bubble]
-    end
+    Enum.map(parallel_branches, &{&1, :line}) ++ [stop_bubble]
   end
 
   @doc """
