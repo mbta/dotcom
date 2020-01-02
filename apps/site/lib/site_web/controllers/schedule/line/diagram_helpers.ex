@@ -66,6 +66,50 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     |> parse_green_branch(acc, direction_id, branch.branch, combine_green_branches)
   end
 
+  # Adds the current route to each stop's connections as a
+  # workaround to show labelled Green Line branches on the line diagram.
+  # Attempts to sort the new set of connections reasonably.
+  defp fix_green_connections(stops, combine_green_branches) do
+    if combine_green_branches do
+      stops
+      |> Enum.map(fn {branch, stop} ->
+        route = Map.get(stop, :route)
+
+        {branch,
+         Map.update!(stop, :connections, fn connections ->
+           green_indices =
+             Enum.with_index(connections)
+             |> Enum.filter(fn {connection, _index} ->
+               connection.id in [
+                 "Green-B",
+                 "Green-C",
+                 "Green-D",
+                 "Green-E"
+               ]
+             end)
+             |> Enum.map(fn {_connection, index} -> index end)
+
+           List.insert_at(
+             connections,
+             case {route.id, green_indices} do
+               {_, []} ->
+                 0
+
+               {"Green-B", _} ->
+                 List.first(green_indices)
+
+               {id, _} when id in ["Green-C", "Green-D", "Green-E"] ->
+                 List.last(green_indices) + 1
+             end,
+             route
+           )
+         end)}
+      end)
+    else
+      stops
+    end
+  end
+
   # Pulls together the results of &reduce_green_branches/3 and compiles the full list of Green Line stops
   # in the expected order based on direction_id. Unshared stops have already had their bubble types generated in
   # &parse_green_branch/4; shared stops get their bubble types generated here, after the shared stops have
@@ -81,6 +125,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     )
     |> Kernel.++(branch_stops)
     |> Enum.reverse()
+    |> fix_green_connections(combine_green_branches)
   end
 
   defp build_green_stop_list({branch_stops, shared_stops}, 0, combine_green_branches) do
@@ -91,6 +136,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
       Enum.reverse(branch_stops),
       &build_branched_stop(&1, &2, {&1.branch, GreenLine.branch_ids()}, combine_green_branches)
     )
+    |> fix_green_connections(combine_green_branches)
   end
 
   defp dedupe_green_stop_list(route_stops) do
