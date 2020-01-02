@@ -13,20 +13,11 @@ verify our type specifcations and make sure we're calling functions properly.
 
 * `mix dialyzer` — Runs the actual type checks.
 
-### Pronto
+### Linting
 
-Pronto is a lint runner for various languages.
-
-Installing Pronto on Max OS can be challenging because some of its dependencies are missing or outdated.
-
-Follow these instructions to install:
-
-```
-brew install cmake pkg-config
-gem install pronto pronto-scss pronto-credo
-```
-
-Run it by calling `pronto run` in the `mbta/dotcom` directory. If there is no output, that means it passed.
+* Elixir: `mix credo`
+* SCSS: `scss-lint` (prerequisite: `gem install scss_lint`)
+* TypeScript: `npm run tslint`
 
 ### Javascript and Typescript formatting
 
