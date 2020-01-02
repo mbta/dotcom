@@ -222,9 +222,10 @@ const LineDiagram = ({
                   <div className="m-schedule-diagram__card-left">
                     <div className="m-schedule-diagram__stop-name">
                       {StopBranchLabel(routeStop)}
-                      {maybeAlert(stopAlerts)}
                       <a href={`/stops/${routeStop.id}`}>
-                        <h4>{routeStop.name}</h4>
+                        <h4>
+                          {maybeAlert(stopAlerts)} {routeStop.name}
+                        </h4>
                       </a>
                     </div>
                     <div className="m-schedule-diagram__connections">

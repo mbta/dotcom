@@ -23,6 +23,10 @@ $line-width: 10px;
 
   .m-schedule-diagram__card-left {
     flex-grow: 1;
+
+    .c-svg__icon-alerts-triangle svg > path:first-of-type {
+      fill: currentColor;
+    }
   }
 
   .m-schedule-diagram__stop-name {
@@ -134,7 +138,7 @@ $line-width: 10px;
   }
 
   .m-schedule-diagram__line--terminus circle {
-    stroke-width: 1.15px !important;
+    stroke-width: 1.15px;
   }
 
   // first stop

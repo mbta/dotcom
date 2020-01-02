@@ -24,6 +24,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
               </strong>
               <a href=\\"/stops/tree-destination\\">
                 <h4>
+                   
                   Destination
                 </h4>
               </a>
@@ -53,6 +54,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-stopA\\">
                 <h4>
+                   
                   Stop A
                 </h4>
               </a>
@@ -87,6 +89,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
               </strong>
               <a href=\\"/stops/tree-other-destination\\">
                 <h4>
+                   
                   Other Destination
                 </h4>
               </a>
@@ -118,6 +121,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-stop2\\">
                 <h4>
+                   
                   Stop 2
                 </h4>
               </a>
@@ -147,6 +151,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-stop1\\">
                 <h4>
+                   
                   Stop 1
                 </h4>
               </a>
@@ -176,6 +181,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-origin\\">
                 <h4>
+                   
                   Origin
                 </h4>
               </a>
@@ -218,6 +224,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-origin\\">
                 <h4>
+                   
                   Origin
                 </h4>
               </a>
@@ -247,6 +254,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-stop1\\">
                 <h4>
+                   
                   Stop 1
                 </h4>
               </a>
@@ -278,6 +286,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-stop2\\">
                 <h4>
+                   
                   Stop 2
                 </h4>
               </a>
@@ -312,6 +321,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
               </strong>
               <a href=\\"/stops/tree-other-destination\\">
                 <h4>
+                   
                   Other Destination
                 </h4>
               </a>
@@ -341,6 +351,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-stopA\\">
                 <h4>
+                   
                   Stop A
                 </h4>
               </a>
@@ -374,6 +385,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
               </strong>
               <a href=\\"/stops/tree-destination\\">
                 <h4>
+                   
                   Destination
                 </h4>
               </a>
@@ -416,6 +428,7 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/line-origin\\">
                 <h4>
+                   
                   Origin
                 </h4>
               </a>
@@ -451,6 +464,7 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/line-stop1\\">
                 <h4>
+                   
                   Stop 1
                 </h4>
               </a>
@@ -493,13 +507,14 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
         <div className=\\"m-schedule-diagram__card\\">
           <div className=\\"m-schedule-diagram__card-left\\">
             <div className=\\"m-schedule-diagram__stop-name\\">
-              <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-              <span className=\\"sr-only\\">
-                Service alert or delay
-              </span>
-               
               <a href=\\"/stops/line-stop2\\">
                 <h4>
+                  <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                  <span className=\\"sr-only\\">
+                    Service alert or delay
+                  </span>
+                   
+                   
                   Stop 2
                 </h4>
               </a>
@@ -550,6 +565,7 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/line-destination\\">
                 <h4>
+                   
                   Destination
                 </h4>
               </a>
