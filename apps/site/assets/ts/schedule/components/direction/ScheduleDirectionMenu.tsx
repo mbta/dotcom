@@ -71,12 +71,18 @@ const ScheduleDirectionMenu = ({
         />
       )}
       {// Green Line
-      route.type === 0 && (
+      route.type === 0 && route.id.startsWith("Green") && (
         <GreenLineSelect
           routeId={route.id}
           dispatch={dispatch}
           directionId={directionId}
         />
+      )}
+      {// Mattapan Trolley
+      route.type === 0 && route.id === "Mattapan" && (
+        <div className="m-schedule-direction__route-pattern">
+          {route.direction_destinations[directionId]}
+        </div>
       )}
       {// Subway, CR, Ferry
       [1, 2, 4].indexOf(route.type) !== -1 && (
