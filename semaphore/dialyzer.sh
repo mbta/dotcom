@@ -1,21 +1,28 @@
 #!/usr/bin/env bash
 set -e
 
-# Add more swap memory. Default is ~200m, our setup made it 2G, now make it 4G
+# Add even more swap space (2GB => 4GB). This is not part of the shared setup
+# script because other CI tasks (e.g. Backstop) need the extra disk space.
 sudo swapoff -a
 sudo dd if=/dev/zero of=/swapfile bs=1M count=4096
 sudo mkswap /swapfile
 sudo swapon /swapfile
 
-mix compile --force --warnings-as-errors
-
-# copy any pre-built PLTs to the right directory
-find $SEMAPHORE_CACHE_DIR -name "dialyxir_*_deps-dev.plt*" | xargs -I{} cp '{}' _build/dev
+# FIXME: Workaround for Dialyzer errors in test environment. Once we fix these,
+#        can delete this block and add `build_app.sh` to the CI task instead.
+export MIX_ENV=dev
+npm run webpack:build
+mix compile --warnings-as-errors
+# /FIXME
 
 export ERL_CRASH_DUMP=/dev/null
+PLT_CACHE=$SEMAPHORE_CACHE_DIR/plt
+
+# Restore cached PLTs, rebuild them if needed, then store them back in cache
+mkdir -p "$PLT_CACHE"
+cp "$PLT_CACHE"/*.plt* _build/$MIX_ENV || :
 mix dialyzer --plt
+cp _build/$MIX_ENV/*.plt* "$PLT_CACHE"
 
-# copy build PLTs back
-cp _build/dev/*_deps-dev.plt* $SEMAPHORE_CACHE_DIR
-
-/usr/bin/time -v mix dialyzer --halt-exit-status
+# Dialyze it!
+/usr/bin/time -v mix dialyzer --no-check --halt-exit-status

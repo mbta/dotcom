@@ -3,7 +3,7 @@ set -e
 
 for i in {1..2}
 do
-  if MIX_ENV=test mix test --only=wallaby
+  if mix test --only=wallaby
   then
     echo "Wallaby tests passed!"
     exit 0
