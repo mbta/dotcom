@@ -84,14 +84,9 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
          connections
          |> List.insert_at(
            case {stop.route.id, green_indices} do
-             {_, []} ->
-               0
-
-             {"Green-B", _} ->
-               List.first(green_indices)
-
-             _ ->
-               List.last(green_indices) + 1
+             {_, []} -> 0
+             {"Green-B", _} -> List.first(green_indices)
+             _ -> List.last(green_indices) + 1
            end,
            stop.route
          )
