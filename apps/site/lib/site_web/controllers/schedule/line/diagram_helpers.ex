@@ -68,46 +68,35 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
 
   # Adds the current route to each stop's connections as a
   # workaround to show labelled Green Line branches on the line diagram.
-  # Attempts to sort the new set of connections reasonably.
-  defp fix_green_connections(stops, combine_green_branches) do
-    if combine_green_branches do
-      stops
-      |> Enum.map(fn {branch, stop} ->
-        route = Map.get(stop, :route)
+  # Attempts to result in a reasonably ordered set of connections.
+  defp fix_green_connections(stops, false), do: stops
 
-        {branch,
-         Map.update!(stop, :connections, fn connections ->
-           green_indices =
-             Enum.with_index(connections)
-             |> Enum.filter(fn {connection, _index} ->
-               connection.id in [
-                 "Green-B",
-                 "Green-C",
-                 "Green-D",
-                 "Green-E"
-               ]
-             end)
-             |> Enum.map(fn {_connection, index} -> index end)
+  defp fix_green_connections(stops, true) do
+    stops
+    |> Enum.map(fn {bubbles, stop} ->
+      {bubbles,
+       Map.update!(stop, :connections, fn connections ->
+         green_indices =
+           Enum.with_index(connections)
+           |> Enum.filter(fn {connection, _} -> String.starts_with?(connection.id, "Green-") end)
+           |> Enum.map(fn {_, index} -> index end)
 
-           List.insert_at(
-             connections,
-             case {route.id, green_indices} do
-               {_, []} ->
-                 0
+         connections
+         |> List.insert_at(
+           case {stop.route.id, green_indices} do
+             {_, []} ->
+               0
 
-               {"Green-B", _} ->
-                 List.first(green_indices)
+             {"Green-B", _} ->
+               List.first(green_indices)
 
-               {id, _} when id in ["Green-C", "Green-D", "Green-E"] ->
-                 List.last(green_indices) + 1
-             end,
-             route
-           )
-         end)}
-      end)
-    else
-      stops
-    end
+             _ ->
+               List.last(green_indices) + 1
+           end,
+           stop.route
+         )
+       end)}
+    end)
   end
 
   # Pulls together the results of &reduce_green_branches/3 and compiles the full list of Green Line stops
