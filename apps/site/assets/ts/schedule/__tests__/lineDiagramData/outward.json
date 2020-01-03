@@ -16,8 +16,25 @@
     "alerts": []
   },
   {
+    "stop_data": [{ "type": "stop", "branch": null }],
+    "route_stop": {
+      "zone": null,
+      "stop_features": [],
+      "station_info": {},
+      "route": {},
+      "name": "Stop 0",
+      "is_terminus?": false,
+      "is_beginning?": false,
+      "id": "tree-stop0",
+      "connections": [],
+      "branch": null
+    },
+    "alerts": []
+  },
+  {
     "stop_data": [
       { "type": "merge", "branch": "TreeTrunk" },
+      { "type": "merge", "branch": "TreeTwig" },
       { "type": "merge", "branch": "TreeBranch" }
     ],
     "route_stop": {
@@ -37,6 +54,7 @@
   {
     "stop_data": [
       { "type": "line", "branch": "TreeTrunk" },
+      { "type": "line", "branch": "TreeTwig" },
       { "type": "stop", "branch": "TreeBranch" }
     ],
     "route_stop": {
@@ -49,13 +67,54 @@
       "is_beginning?": false,
       "id": "tree-stop2",
       "connections": [],
-      "branch": "Origin - Other Destination"
+      "branch": "Origin - Branch Destination"
     },
     "alerts": []
   },
   {
     "stop_data": [
       { "type": "line", "branch": "TreeTrunk" },
+      { "type": "line", "branch": "TreeTwig" },
+      { "type": "stop", "branch": "TreeBranch" }
+    ],
+    "route_stop": {
+      "zone": null,
+      "stop_features": [],
+      "station_info": {},
+      "route": {},
+      "name": "Stop 4",
+      "is_terminus?": false,
+      "is_beginning?": false,
+      "id": "tree-stop4",
+      "connections": [],
+      "branch": "Origin - Branch Destination"
+    },
+    "alerts": []
+  },
+  {
+    "stop_data": [
+      { "type": "line", "branch": "TreeTrunk" },
+      { "type": "line", "branch": "TreeTwig" },
+      { "type": "stop", "branch": "TreeBranch" }
+    ],
+    "route_stop": {
+      "zone": null,
+      "stop_features": [],
+      "station_info": {},
+      "route": {},
+      "name": "Stop 3",
+      "is_terminus?": false,
+      "is_beginning?": false,
+      "id": "tree-stop3",
+      "connections": [],
+      "branch": "Origin - Branch Destination"
+    },
+    "alerts": []
+  },
+  {
+    "stop_data": [
+      { "type": "line", "branch": "TreeTrunk" },
+      { "type": "line", "branch": "TreeTwig" },
       { "type": "terminus", "branch": "TreeBranch" }
     ],
     "route_stop": {
@@ -63,12 +122,50 @@
       "stop_features": [],
       "station_info": {},
       "route": {},
-      "name": "Other Destination",
+      "name": "Branch Destination",
       "is_terminus?": true,
       "is_beginning?": false,
-      "id": "tree-other-destination",
+      "id": "tree-branch-destination",
       "connections": [],
-      "branch": "Origin - Other Destination"
+      "branch": "Origin - Branch Destination"
+    },
+    "alerts": []
+  },
+  {
+    "stop_data": [
+      { "type": "line", "branch": "TreeTrunk" },
+      { "type": "stop", "branch": "TreeTwig" }
+    ],
+    "route_stop": {
+      "zone": null,
+      "stop_features": [],
+      "station_info": {},
+      "route": {},
+      "name": "Twig Stop",
+      "is_terminus?": false,
+      "is_beginning?": false,
+      "id": "tree-twig-stop",
+      "connections": [],
+      "branch": "Origin - Twig Destination"
+    },
+    "alerts": []
+  },
+  {
+    "stop_data": [
+      { "type": "line", "branch": "TreeTrunk" },
+      { "type": "terminus", "branch": "TreeTwig" }
+    ],
+    "route_stop": {
+      "zone": null,
+      "stop_features": [],
+      "station_info": {},
+      "route": {},
+      "name": "Twig Destination",
+      "is_terminus?": true,
+      "is_beginning?": false,
+      "id": "tree-twig-destination",
+      "connections": [],
+      "branch": "Origin - Twig Destination"
     },
     "alerts": []
   },
@@ -83,6 +180,38 @@
       "is_terminus?": false,
       "is_beginning?": false,
       "id": "tree-stopA",
+      "connections": [],
+      "branch": "Origin - Destination"
+    },
+    "alerts": []
+  },
+  {
+    "stop_data": [{ "type": "stop", "branch": "TreeTrunk" }],
+    "route_stop": {
+      "zone": null,
+      "stop_features": [],
+      "station_info": {},
+      "route": {},
+      "name": "Stop B",
+      "is_terminus?": false,
+      "is_beginning?": false,
+      "id": "tree-stopB",
+      "connections": [],
+      "branch": "Origin - Destination"
+    },
+    "alerts": []
+  },
+  {
+    "stop_data": [{ "type": "stop", "branch": "TreeTrunk" }],
+    "route_stop": {
+      "zone": null,
+      "stop_features": [],
+      "station_info": {},
+      "route": {},
+      "name": "Stop C",
+      "is_terminus?": false,
+      "is_beginning?": false,
+      "id": "tree-stopC",
       "connections": [],
       "branch": "Origin - Destination"
     },

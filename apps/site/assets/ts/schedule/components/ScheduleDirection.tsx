@@ -13,7 +13,7 @@ import { reducer as fetchReducer } from "../../helpers/fetch";
 import { menuReducer, FetchAction } from "./direction/reducer";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "../components/Map";
-import LineDiagram from "../components/LineDiagram";
+import LineDiagram from "../components/line-diagram/LineDiagram";
 
 export interface Props {
   route: EnhancedRoute;
