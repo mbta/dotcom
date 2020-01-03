@@ -1,98 +1,184 @@
-.m-schedule-line-diagram__stop {
-  border: $border;
-  border-bottom: 0;
-  padding: $base-spacing;
-  padding-left: $base-spacing * 3;
-  position: relative;
+$line-width: 10px;
 
-  &:last-child {
-    border-bottom: $border;
+.m-schedule-diagram {
+  .m-schedule-diagram__stop {
+    border: $border;
+    border-bottom: 0;
+    display: flex;
+    padding: $base-spacing;
+
+    &:last-child {
+      border-bottom: $border;
+    }
   }
-}
 
-.m-schedule-line-diagram__card {
-  align-items: flex-start;
-  display: flex;
-}
-
-.m-schedule-line-diagram__stop-name {
-  font-weight: bold;
-
-  h4 {
-    margin-top: $base-spacing / -4;
+  .m-schedule-diagram__content {
+    flex-grow: 1;
   }
-}
 
-.m-schedule-line-diagram__connections {
-  .m-schedule-line-diagram__connection {
-    margin: 0 ($base-spacing / 8);
+  .m-schedule-diagram__card {
+    align-items: flex-start;
+    display: flex;
+  }
+
+  .m-schedule-diagram__card-left {
+    flex-grow: 1;
+  }
+
+  .m-schedule-diagram__stop-name {
+    font-weight: bold;
+
+    h4 {
+      margin-top: $base-spacing / -4;
+    }
+  }
+
+  .m-schedule-diagram__connections {
+    .m-schedule-diagram__connection {
+      margin: 0 ($base-spacing / 8);
+    }
 
     .c-svg__icon {
       height: $base-spacing;
       vertical-align: middle;
       width: $base-spacing;
     }
+
+    a {
+      display: inline-block;
+      line-height: 0;
+      max-height: $base-spacing * 1.5;
+      vertical-align: top;
+    }
   }
 
-  a {
-    display: inline-block;
-    line-height: 0;
-    max-height: $base-spacing * 1.5;
-    vertical-align: top;
-  }
-}
+  .m-schedule-diagram__features {
+    .m-schedule-diagram__feature-icon {
+      height: $base-spacing;
+      line-height: $base-spacing;
+      margin-left: $base-spacing / 4;
+      width: $base-spacing;
+    }
 
-.m-schedule-line-diagram__features {
-  align-items: center;
-  display: flex;
-  justify-content: flex-end;
-
-  .m-schedule-line-diagram__feature-icon {
-    height: $base-spacing;
-    line-height: $base-spacing;
-    margin-left: $base-spacing / 4;
-    width: $base-spacing;
+    .c-icon__cr-zone {
+      font-size: $base-spacing * .7;
+      vertical-align: text-top;
+      width: auto;
+    }
   }
 
-  .c-icon__cr-zone {
-    font-size: $base-spacing * .7;
-    width: auto;
-  }
-}
+  .m-schedule-diagram__footer {
+    text-align: center;
 
-.m-schedule-line-diagram__card-left {
-  flex-grow: 1;
-}
-
-.m-schedule-line-diagram__footer {
-  text-align: center;
-
-  .btn {
-    padding: unset;
-  }
-}
-
-.m-schedule-line-diagram__line {
-  background-color: currentColor;
-  bottom: -$base-spacing * 1.5;
-  left: $base-spacing;
-  line-height: 0;
-  margin-bottom: -1px; // removes spacing
-  position: absolute;
-  top: $base-spacing * 1.5;
-  width: 10px;
-  z-index: 1;
-
-  .m-schedule-line-diagram__stop:last-child & {
-    height: 0;
+    .btn {
+      padding: unset;
+    }
   }
 
-  svg {
+  .c-svg__icon-alerts-triangle path:not(:nth-child(1)) {
+    fill: currentColor;
+  }
+
+  //
+  //  Schedule line diagram
+  //
+  //  .m-schedule-diagram__lines contains all the
+  //  graphics for the line diagram, and uses negative
+  //  margins to counter the padding from its parent
+  //  .m-schedule-diagram__stop.
+  //  A .m-schedule-diagram__line is drawn for each
+  //  branch, and creates the line. Stop circles are SVGs.
+  .m-schedule-diagram__lines {
+    display: flex;
+    margin: calc(-#{$base-spacing} - #{$border-width}*2) 0;
+    margin-right: $base-spacing;
+  }
+
+  .m-schedule-diagram__line {
+    background-color: currentColor;
+    width: $line-width;
+
+    + .m-schedule-diagram__line {
+      margin-left: $line-width;
+    }
+  }
+
+  // first stop
+  .m-schedule-diagram__stop:first-child .m-schedule-diagram__lines {
+    margin-top: $base-spacing;
+  }
+
+  // last stop
+  .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines {
+    height: $base-spacing * 2;
+  }
+
+  // stop circle
+  .m-schedule-diagram__line-stop {
     overflow: visible;
+
+    circle {
+      fill: $white;
+      stroke: currentColor;
+      stroke-width: 0;
+      transform-origin: 50%;
+    }
+
+    path {
+      fill: none;
+      stroke: currentColor;
+      stroke-linejoin: round;
+      stroke-width: $line-width;
+    }
   }
 
-  circle {
-    fill: $white;
-    stroke: currentColor;
+  .m-schedule-diagram__line--merge circle,
+  .m-schedule-diagram__line--stop circle {
+    transform: translateY(28px);
+  }
+
+  .m-schedule-diagram__line--terminus circle {
+    stroke-width: 1.15px;
+  }
+
+  // first stop
+  .m-schedule-diagram__stop:first-child circle {
+    transform: translateY(3px) scale(1.15);
+  }
+
+  // last stop
+  .m-schedule-diagram__stop:last-child circle {
+    transform: translateY(35px) scale(1.15);
+  }
+}
+
+// flips from default tree branching direction
+.m-schedule-diagram--outward {
+  // last stop on branch
+  .m-schedule-diagram__line + .m-schedule-diagram__line--terminus {
+    height: $base-spacing * 2;
+
+    circle {
+      transform: translateY(35px) scale(1.15);
+    }
+  }
+}
+
+.m-schedule-diagram--inward {
+  // first stop on branch
+  .m-schedule-diagram__line + .m-schedule-diagram__line--terminus {
+    margin-top: $base-spacing * 2;
+
+    circle {
+      transform: translateY(3px) scale(1.15);
+    }
+  }
+
+  .m-schedule-diagram__lines--merging .m-schedule-diagram__line-bend {
+    transform: scaleY(-1) translateY(calc(-#{$base-spacing * 2} - 10px));
+  }
+
+  .m-schedule-diagram__lines--merging .m-schedule-diagram__line:not(:first-child) {
+    height: calc(#{$base-spacing * 2} + 10px);
   }
 }

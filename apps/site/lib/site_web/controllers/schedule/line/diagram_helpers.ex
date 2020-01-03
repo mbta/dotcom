@@ -21,15 +21,21 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   `branch_name` is used by the green line to display the branch's letter.
 
   """
-  @spec build_stop_list([RouteStops.t()], 0 | 1) :: [stop_with_bubble_info]
-  def build_stop_list([%RouteStops{branch: "Green-" <> _} | _] = branches, direction_id) do
+  @spec build_stop_list([RouteStops.t()], 0 | 1, boolean) :: [stop_with_bubble_info]
+  def build_stop_list(branches, direction_id, combine_green_branches \\ false)
+
+  def build_stop_list(
+        [%RouteStops{branch: "Green-" <> _} | _] = branches,
+        direction_id,
+        combine_green_branches
+      ) do
     branches
     |> Enum.reverse()
-    |> Enum.reduce({[], []}, &reduce_green_branch(&1, &2, direction_id))
-    |> build_green_stop_list(direction_id)
+    |> Enum.reduce({[], []}, &reduce_green_branch(&1, &2, direction_id, combine_green_branches))
+    |> build_green_stop_list(direction_id, combine_green_branches)
   end
 
-  def build_stop_list([%RouteStops{stops: stops}], _direction_id) do
+  def build_stop_list([%RouteStops{stops: stops}], _direction_id, _) do
     stops
     |> EnumHelpers.with_first_last()
     |> Enum.map(fn {stop, is_terminus?} ->
@@ -38,7 +44,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     end)
   end
 
-  def build_stop_list(branches, direction_id) do
+  def build_stop_list(branches, direction_id, _) do
     branches
     |> do_build_stop_list(direction_id)
     |> sort_stop_list(direction_id)
@@ -52,37 +58,69 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
 
   # Reduces each green line branch into a tuple of {stops_on_branches, shared_stops}, which gets parsed
   # by &build_green_stop_list/2.
-  @spec reduce_green_branch(RouteStops.t(), {[RouteStop.t()], [RouteStop.t()]}, 0 | 1) ::
+  @spec reduce_green_branch(RouteStops.t(), {[RouteStop.t()], [RouteStop.t()]}, 0 | 1, boolean) ::
           {[stop_with_bubble_info], [RouteStop.t()]}
-  defp reduce_green_branch(branch, acc, direction_id) do
+  defp reduce_green_branch(branch, acc, direction_id, combine_green_branches) do
     branch
     |> split_green_branch(direction_id)
-    |> parse_green_branch(acc, direction_id, branch.branch)
+    |> parse_green_branch(acc, direction_id, branch.branch, combine_green_branches)
+  end
+
+  # Adds the current route to each stop's connections as a
+  # workaround to show labelled Green Line branches on the line diagram.
+  # Attempts to result in a reasonably ordered set of connections.
+  defp fix_green_connections(stops, false), do: stops
+
+  defp fix_green_connections(stops, true) do
+    stops
+    |> Enum.map(fn {bubbles, stop} ->
+      {bubbles,
+       Map.update!(stop, :connections, fn connections ->
+         green_indices =
+           Enum.with_index(connections)
+           |> Enum.filter(fn {connection, _} -> String.starts_with?(connection.id, "Green-") end)
+           |> Enum.map(fn {_, index} -> index end)
+
+         connections
+         |> List.insert_at(
+           case {stop.route.id, green_indices} do
+             {_, []} -> 0
+             {"Green-B", _} -> List.first(green_indices)
+             _ -> List.last(green_indices) + 1
+           end,
+           stop.route
+         )
+       end)}
+    end)
   end
 
   # Pulls together the results of &reduce_green_branches/3 and compiles the full list of Green Line stops
   # in the expected order based on direction_id. Unshared stops have already had their bubble types generated in
   # &parse_green_branch/4; shared stops get their bubble types generated here, after the shared stops have
   # been reduced to a unique list.
-  @spec build_green_stop_list({[stop_with_bubble_info], [RouteStop.t()]}, direction_id) :: [
-          stop_with_bubble_info
-        ]
-  defp build_green_stop_list({branch_stops, shared_stops}, 1) do
+  @spec build_green_stop_list({[stop_with_bubble_info], [RouteStop.t()]}, direction_id, boolean) ::
+          [stop_with_bubble_info]
+  defp build_green_stop_list({branch_stops, shared_stops}, 1, combine_green_branches) do
     shared_stops
     |> dedupe_green_stop_list
-    |> Enum.reduce([], &build_branched_stop(&1, &2, {&1.branch, GreenLine.branch_ids()}))
+    |> Enum.reduce(
+      [],
+      &build_branched_stop(&1, &2, {&1.branch, GreenLine.branch_ids()}, combine_green_branches)
+    )
     |> Kernel.++(branch_stops)
     |> Enum.reverse()
+    |> fix_green_connections(combine_green_branches)
   end
 
-  defp build_green_stop_list({branch_stops, shared_stops}, 0) do
+  defp build_green_stop_list({branch_stops, shared_stops}, 0, combine_green_branches) do
     shared_stops
     |> dedupe_green_stop_list
     |> Enum.reverse()
     |> Enum.reduce(
       Enum.reverse(branch_stops),
-      &build_branched_stop(&1, &2, {&1.branch, GreenLine.branch_ids()})
+      &build_branched_stop(&1, &2, {&1.branch, GreenLine.branch_ids()}, combine_green_branches)
     )
+    |> fix_green_connections(combine_green_branches)
   end
 
   defp dedupe_green_stop_list(route_stops) do
@@ -128,11 +166,21 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
           {[RouteStop.t()], [RouteStop.t()]},
           {[stop_with_bubble_info], [RouteStop.t()]},
           direction_id,
-          Route.branch_name()
+          Route.branch_name(),
+          boolean
         ) :: {[stop_with_bubble_info], [RouteStop.t()]}
-  defp parse_green_branch({branch_stops, shared_stops}, acc, direction_id, branch_name) do
+  defp parse_green_branch(
+         {branch_stops, shared_stops},
+         acc,
+         direction_id,
+         branch_name,
+         combine_green_branches
+       ) do
     branch_stops
-    |> Enum.reduce([], &build_branched_stop(&1, &2, {branch_name, GreenLine.branch_ids()}))
+    |> Enum.reduce(
+      [],
+      &build_branched_stop(&1, &2, {branch_name, GreenLine.branch_ids()}, combine_green_branches)
+    )
     |> do_parse_green_branch(shared_stops, acc, direction_id)
   end
 
@@ -190,7 +238,10 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     stop_list =
       branch_stops
       |> EnumHelpers.with_first_last()
-      |> Enum.reduce(all_stops, &build_branched_stop(&1, &2, {current_branch, branch_names}))
+      |> Enum.reduce(
+        all_stops,
+        &build_branched_stop(&1, &2, {current_branch, branch_names}, false)
+      )
 
     {stop_list, branch_names}
   end
@@ -202,23 +253,38 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   @spec build_branched_stop(
           RouteStop.t() | {RouteStop.t(), boolean},
           [stop_with_bubble_info],
-          {Route.branch_name(), [Route.branch_name()]}
+          {Route.branch_name(), [Route.branch_name()]},
+          boolean
         ) :: [stop_with_bubble_info]
-  def build_branched_stop(this_stop, all_stops, current_and_previous_branches)
+  def build_branched_stop(
+        this_stop,
+        all_stops,
+        current_and_previous_branches,
+        combine_green_branches \\ false
+      )
 
-  def build_branched_stop(stop, branch_stops, {_, ["Green" <> _ | _] = green_branches}) do
-    # Green Line always evaluates all branches on all stops. If the stop should have a bubble for a branch,
-    # &stop_bubble_type/3 returns a valid tuple, otherwise it returns false. The bubble list then gets filtered to
-    # remove anything that's not a tuple.
+  def build_branched_stop(
+        stop,
+        branch_stops,
+        {_, ["Green" <> _ | _] = green_branches},
+        combine_green_branches
+      ) do
     bubble_types =
-      green_branches
-      |> Enum.map(&stop_bubble_type(&1, stop))
-      |> Enum.filter(&is_tuple/1)
+      if combine_green_branches do
+        combined_green_stop_bubble_types(stop)
+      else
+        # Evaluate all branches on all stops. If the stop should have a bubble for a branch,
+        # stop_bubble_type returns a valid tuple, otherwise it returns nil. The bubble list then
+        # gets filtered to remove anything that's not a tuple.
+        green_branches
+        |> Enum.map(&stop_bubble_type(&1, stop))
+        |> Enum.filter(&is_tuple/1)
+      end
 
     [{bubble_types, stop} | branch_stops]
   end
 
-  def build_branched_stop({%RouteStop{is_terminus?: true} = stop, _}, all_stops, {nil, _}) do
+  def build_branched_stop({%RouteStop{is_terminus?: true} = stop, _}, all_stops, {nil, _}, _) do
     # a terminus that's not on a branch is always :terminus
     [{[{nil, :terminus}], stop} | all_stops]
   end
@@ -226,19 +292,20 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   def build_branched_stop(
         {%RouteStop{is_terminus?: false} = stop, true},
         all_stops,
-        {nil, branches}
+        {nil, branches},
+        _
       ) do
     # If the first or last unbranched stop on a branched route is not a terminus, it's a merge stop.
     # We identify these in order to know where to render the horizontal line connecting a branch to the main line.
     [{Enum.map(branches, &{&1, :merge}), stop} | all_stops]
   end
 
-  def build_branched_stop({%RouteStop{} = stop, _}, all_stops, {nil, _}) do
+  def build_branched_stop({%RouteStop{} = stop, _}, all_stops, {nil, _}, _) do
     # all other unbranched stops are just :stop
     [{[{nil, :stop}], stop} | all_stops]
   end
 
-  def build_branched_stop({%RouteStop{} = stop, _}, all_stops, {current_branch, branches})
+  def build_branched_stop({%RouteStop{} = stop, _}, all_stops, {current_branch, branches}, _)
       when is_binary(current_branch) do
     # when the branch name is not nil, that means that the stop is on a branch. The stop needs to show a bubble for
     # each branch that has already been parsed. We evaluate each branch to determine which bubble type to show:
@@ -262,8 +329,6 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   Returns a tuple with the stop bubble type, and the name of the branch that the bubble represents.
   """
   @spec stop_bubble_type(String.t(), RouteStop.t()) :: StopBubble.stop_bubble()
-  def stop_bubble_type(bubble_branch_name, stop)
-
   def stop_bubble_type(branch_id, %RouteStop{branch: branch_id, is_terminus?: true}),
     do: {branch_id, :terminus}
 
@@ -299,6 +364,44 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   end
 
   def stop_bubble_type(branch_id, _stop), do: {branch_id, :line}
+
+  # Alternate bubble generation for the new line diagram, which shows the Green Line as a single
+  # branching route instead of four parallel routes.
+  #
+  # "Merge stop" IDs are hard-coded for the moment since we can't easily get data on *which* lines
+  # are merging together at a given stop, and the E line needs a special case since it merges into
+  # three other lines we want to represent as a single line.
+  defp combined_green_stop_bubble_types(%RouteStop{id: "place-coecl"}) do
+    [{nil, :merge}, {"Green-E", :merge}]
+  end
+
+  defp combined_green_stop_bubble_types(%RouteStop{id: "place-kencl"}) do
+    [{"Green-B", :merge}, {"Green-C", :merge}, {"Green-D", :merge}]
+  end
+
+  defp combined_green_stop_bubble_types(%RouteStop{id: id, branch: branch}) do
+    # Determine which branches should be drawn as lines parallel to this stop's branch.
+    parallel_branches =
+      case branch do
+        nil -> []
+        "Green-B" -> []
+        "Green-C" -> ["Green-B"]
+        "Green-D" -> ["Green-B", "Green-C"]
+        "Green-E" -> [nil]
+      end
+
+    # Determine whether this stop should be drawn as a terminus on its branch. Since we are
+    # presenting everything inbound of Copley as a single combined line, only Lechmere should be
+    # considered a terminus on that segment.
+    stop_bubble =
+      if GreenLine.terminus?(id, branch, 0) or GreenLine.terminus?(id, "Green-E", 1) do
+        {branch, :terminus}
+      else
+        {branch, :stop}
+      end
+
+    Enum.map(parallel_branches, &{&1, :line}) ++ [stop_bubble]
+  end
 
   @doc """
   Sorts branches and their stops into the correct order to prepare them to be parsed.
