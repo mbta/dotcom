@@ -1,6 +1,5 @@
 {
   "scripts": {
-    "lint": "pronto run",
     "eslint": "git diff --name-only --diff-filter=dx origin/master... | grep apps/site/assets/js/.*\\.js | xargs apps/site/assets/node_modules/.bin/eslint -c apps/site/assets/.eslintrc.js",
     "tslint": "cd apps/site/assets && npm run tslint",
     "eslint:fix": "git diff --name-only --diff-filter=dx origin/master... | grep apps/site/assets/js/.*\\.js | xargs apps/site/assets/node_modules/.bin/eslint -c apps/site/assets/.eslintrc.js --fix",
