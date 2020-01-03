@@ -276,7 +276,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
         this_stop,
         all_stops,
         current_and_previous_branches,
-        combine_green_branches
+        combine_green_branches \\ false
       )
 
   def build_branched_stop(
