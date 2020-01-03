@@ -1,46 +1,56 @@
+#!/usr/bin/env bash
 set -e
-ELIXIR_VERSION=1.8.1
-ERLANG_VERSION=21
 
-mkdir -p $SEMAPHORE_CACHE_DIR/gems $SEMAPHORE_CACHE_DIR/npm $SEMAPHORE_CACHE_DIR/mix
-
-SERVICES="apache2 cassandra docker elasticsearch memcached mongod mysql postgresql sphinxsearch rabbitmq-server redis-server"
-# Turn off some high-memory apps
-for service in $SERVICES; do
-    sudo service $service stop
-done
+# Turn off some high-memory services
+SERVICES="apache2 cassandra docker elasticsearch memcached mongod mysql \
+  postgresql sphinxsearch rabbitmq-server redis-server"
+for service in $SERVICES; do sudo service "$service" stop; done
 killall Xvfb
 
-# Add more swap memory. Default is ~200m, make it 2G
+# Free up some disk space since we use a lot of swap and our repo is huge
+# (per Semaphore support, this should fix issues with the cache not persisting)
+sudo tune2fs -m 1 /dev/dm-0
+rm -rf ~/.kiex ~/.lein ~/.kerl ~/.phpbrew ~/.sbt
+
+# Add more swap space (~200MB => 2GB)
 sudo swapoff -a
 sudo dd if=/dev/zero of=/swapfile bs=1M count=2048
 sudo mkswap /swapfile
 sudo swapon /swapfile
 
-export MIX_HOME=$SEMAPHORE_CACHE_DIR/mix
+# Ensure cache directories exist
+CACHE=$SEMAPHORE_CACHE_DIR
+mkdir -p "$CACHE/asdf/installs" "$CACHE/gems" "$CACHE/mix/deps" "$CACHE/npm"
 
-. /home/runner/.kerl/installs/$ERLANG_VERSION/activate
-if ! kiex use $ELIXIR_VERSION; then
-    kiex install $ELIXIR_VERSION
-    kiex use $ELIXIR_VERSION
-fi
+export MIX_ENV=test
+export MIX_DEPS_PATH=$CACHE/mix/deps
+export GEM_HOME=$CACHE/gems
 
-# retry setup if it fails
-n=0
-until [ $n -ge 3 ]; do
-    MIX_ENV=test mix do local.hex --force, local.rebar --force, deps.get && break
-    n=$[$n+1]
-    sleep 3
-done
+# Install asdf and link cached languages
+ASDF_GIT=https://github.com/asdf-vm/asdf.git
+git clone $ASDF_GIT ~/.asdf --branch v0.7.6
+ln -s "$CACHE/asdf/installs" ~/.asdf/installs
+source ~/.asdf/asdf.sh
 
-nvm use 8.15.0
-npm install -g npm@6.7.0
-echo npm version is `npm -v`
+# Add asdf plugins and install languages
+asdf plugin-add erlang
+asdf plugin-add elixir
+asdf plugin-add nodejs
+asdf plugin-add ruby
+~/.asdf/plugins/nodejs/bin/import-release-team-keyring
+asdf install
+asdf reshim # Needed to pick up languages that were already installed in cache
 
-# set cache dir for node
-npm config set cache $SEMAPHORE_CACHE_DIR/npm
-NODEJS_ORG_MIRROR=$NVM_NODEJS_ORG_MIRROR npm run ci-install --no-optional
+# Fetch Elixir dependencies
+#   Note: Must be done before NPM, since some NPM packages are installed from
+#   files inside Elixir packages
+mix local.hex --force
+mix local.rebar --force
+mix deps.get
 
-npm run webpack:build
-npm run react:setup
-npm run react:build
+# Fetch Node dependencies
+#   Note: Must be done before compiling Elixir apps, since some Elixir macros
+#   require frontend assets to be present at compile time
+npm config set cache "$CACHE/npm"
+npm run install:ci
+npm run react:setup:ci

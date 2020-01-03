@@ -6,7 +6,7 @@ function join_by {
 }
 
 fork_point=$(git merge-base --fork-point origin/master)
-changed=$(git diff --name-only $fork_point "*.ex" "*.exs")
+changed=$(git diff --name-only "$fork_point" "*.ex" "*.exs")
 
 if [ -z "$changed" ]; then
   echo "No Elixir files changed relative to origin/master fork point."
@@ -14,11 +14,7 @@ else
   # Since Credo doesn't support running checks only on specified files via the
   # command line, we create a temporary copy of the config file whose `included`
   # contains only the files that have changed.
-  replace=$(join_by \",\" $changed)
-  cp config/.credo.exs config/.changed.exs
-  sed -i.bak -e "s:apps/:$replace:" config/.changed.exs
-  MIX_ENV=test mix credo --config-file config/.changed.exs
-  exit=$?
-  rm config/.changed.exs config/.changed.exs.bak
-  exit $exit
+  replace=$(join_by \",\" "$changed")
+  sed -e "s:apps/:$replace:" < config/.credo.exs > /tmp/.credo.exs
+  mix credo --config-file /tmp/.credo.exs
 fi

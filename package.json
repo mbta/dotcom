@@ -5,8 +5,8 @@
     "eslint:fix": "git diff --name-only --diff-filter=dx origin/master... | grep apps/site/assets/js/.*\\.js | xargs apps/site/assets/node_modules/.bin/eslint -c apps/site/assets/.eslintrc.js --fix",
     "format": "cd apps/site/assets && node_modules/.bin/prettier --write \"{js,ts}/**/*.{js,ts,tsx}\"",
     "format:check": "cd apps/site/assets && node_modules/.bin/prettier \"{js,ts}/**/*.{js,ts,tsx}\" --list-different",
-    "ci-install": "cd apps/site/assets && npm ci --no-optional",
     "install": "cd apps/site/assets && npm install --no-optional",
+    "install:ci": "cd apps/site/assets && npm ci --no-optional",
     "test": "mix test && npm run test:js && mix backstop.tests",
     "test:js": "cd apps/site/assets && npm run test",
     "test:jest": "cd apps/site/assets && npm run test:jest",
@@ -28,6 +28,7 @@
     "webpack:analyze": "cd apps/site/assets && npm run webpack:analyze",
     "ts:build": "cd apps/site/assets/ts && npm run ts:build",
     "react:setup": "cd apps/site/react_renderer && npm install",
+    "react:setup:ci": "cd apps/site/react_renderer && npm ci",
     "react:build": "cd apps/site/react_renderer && npx webpack",
     "routes": "cd apps/site && mix phx.routes && cd ../..",
     "dialyzer": "mix dialyzer --halt-exit-status"

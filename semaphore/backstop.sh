@@ -79,7 +79,7 @@ else
     BRANCH=$(git rev-parse --abbrev-ref HEAD)
     FILENAME="$BRANCH.tar.gz"
     tar -czvf "$FILENAME" apps/site/test/backstop_data
-    LINK=$(curl -F "file=@$FILENAME" https://file.io/\?expires\=1d | jq -r .link)
+    LINK=$(curl -F "file=@$FILENAME" https://file.io/\?expires=1d | jq -r .link)
     echo "Backstop report located at $LINK, available for 1 day for a single download."
   fi
   exit 1
