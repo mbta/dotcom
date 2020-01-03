@@ -1,4 +1,7 @@
 defmodule SiteWeb.ScheduleController.Line do
+  @moduledoc """
+  Actions to support rendering lines for a schedule
+  """
   @behaviour Plug
   import Plug.Conn, only: [assign: 3]
 
@@ -16,6 +19,9 @@ defmodule SiteWeb.ScheduleController.Line do
   alias Stops.{RouteStops, RouteStop, Stop}
 
   defmodule Dependencies do
+    @moduledoc """
+    Actions pulled in from elsewhere
+    """
     defstruct stops_by_route_fn: &StopsRepo.by_route/3
 
     @type t :: %__MODULE__{stops_by_route_fn: StopsRepo.stop_by_route()}
