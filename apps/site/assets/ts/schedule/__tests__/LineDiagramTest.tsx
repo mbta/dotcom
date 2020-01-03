@@ -1,7 +1,7 @@
 import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import { cloneDeep, merge } from "lodash";
-import LineDiagram from "../components/LineDiagram";
+import LineDiagram from "../components/line-diagram/LineDiagram";
 import { EnhancedRoute, RouteType } from "../../__v3api";
 import {
   LineDiagramStop,
@@ -193,7 +193,9 @@ describe("LineDiagram with branches going outward", () => {
   });
 
   it("identifies stops rather than stations", () => {
-    expect(wrapper.find("h3").text()).toEqual("Stops");
+    expect(wrapper.find(".m-schedule-diagram__heading").text()).toEqual(
+      "Stops"
+    );
   });
 
   it("identifies the tree direction as outward", () => {
@@ -205,9 +207,12 @@ describe("LineDiagram with branches going outward", () => {
     ${0}  | ${null}
     ${1}  | ${null}
     ${2}  | ${null}
-    ${3}  | ${"Other Destination Branch"}
-    ${4}  | ${null}
-    ${5}  | ${"Destination Branch"}
+    ${3}  | ${null}
+    ${4}  | ${"Branch Destination Branch"}
+    ${5}  | ${null}
+    ${6}  | ${"Twig Destination Branch"}
+    ${7}  | ${null}
+    ${8}  | ${"Destination Branch"}
   `(
     "shows branch name $expectedBranchNaming at stop $index",
     ({ index, expectedBranchNaming }) => {
@@ -273,7 +278,9 @@ describe("LineDiagram for CR with branches going inward", () => {
   });
 
   it("identifies stations rather than stops", () => {
-    expect(wrapper.find("h3").text()).toEqual("Stations");
+    expect(wrapper.find(".m-schedule-diagram__heading").text()).toEqual(
+      "Stations"
+    );
   });
 
   it("identifies the tree direction as inward", () => {
@@ -282,10 +289,13 @@ describe("LineDiagram for CR with branches going inward", () => {
 
   it.each`
     index | expectedBranchNaming
+    ${8}  | ${null}
+    ${7}  | ${null}
+    ${6}  | ${null}
     ${5}  | ${null}
-    ${4}  | ${null}
+    ${4}  | ${"Branch Destination Line"}
     ${3}  | ${null}
-    ${2}  | ${"Other Destination Line"}
+    ${2}  | ${"Twig Destination Line"}
     ${1}  | ${null}
     ${0}  | ${"Destination Line"}
   `(
@@ -303,4 +313,22 @@ describe("LineDiagram for CR with branches going inward", () => {
       }
     }
   );
+
+  it("expands a branch", () => {
+    expect(
+      wrapper
+        .find(".c-expandable-block__panel .m-schedule-diagram__stop")
+        .exists()
+    ).toBeFalsy();
+    wrapper
+      .find(
+        ".m-schedule-diagram__expander .c-expandable-block__header[role='button']"
+      )
+      .first()
+      .simulate("click");
+    const moreStops = wrapper.find(
+      ".c-expandable-block__panel .m-schedule-diagram__stop"
+    );
+    expect(moreStops.exists()).toBeTruthy();
+  });
 });

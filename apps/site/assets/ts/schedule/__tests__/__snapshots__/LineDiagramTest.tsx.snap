@@ -2,201 +2,326 @@
 
 exports[`LineDiagram for CR with branches going inward renders and matches snapshot 1`] = `
 "<LineDiagram lineDiagram={{...}} route={{...}} directionId={1} routePatternsByDirection={{...}} services={{...}} ratingEndDate=\\"2020-03-14\\" stops={{...}} today=\\"2019-12-05\\">
-  <h3>
+  <h3 className=\\"m-schedule-diagram__heading\\">
     Stations
   </h3>
   <div className=\\"m-schedule-diagram m-schedule-diagram--inward\\">
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
+    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"5\\" cx=\\"50%\\" cy=\\"-66px\\" />
+            </svg>
+          </div>
         </div>
-      </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <strong className=\\"u-small-caps\\">
-                Destination
-                 Line
-              </strong>
-              <a href=\\"/stops/tree-destination\\">
-                <h4>
-                   
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <strong className=\\"u-small-caps\\">
                   Destination
-                </h4>
-              </a>
+                   Line
+                </strong>
+                <a href=\\"/stops/tree-destination\\">
+                  <h4>
+                     
+                    Destination
+                     
+                  </h4>
+                </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\" />
             </div>
-            <div className=\\"m-schedule-diagram__connections\\" />
+            <div className=\\"m-schedule-diagram__features\\" />
           </div>
-          <div className=\\"m-schedule-diagram__features\\" />
-        </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </div>
-      </div>
-    </div>
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
+          </div>
         </div>
       </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <a href=\\"/stops/tree-stopA\\">
-                <h4>
-                   
-                  Stop A
-                </h4>
-              </a>
+    </SingleStop>
+    <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={false}>
+      <div className=\\"m-schedule-diagram__expander \\">
+        <ExpandableBlock header={{...}} initiallyExpanded={false} id=\\"Origin - Destination\\">
+          <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-Origin - Destination\\" aria-expanded={false} aria-controls=\\"panel-Origin - Destination\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
+            <div className=\\"c-expandable-block__header-text\\">
+              <div className=\\"m-schedule-diagram__stop false\\">
+                <div className=\\"m-schedule-diagram__lines m-schedule-diagram__lines--collapsed\\" style={{...}}>
+                  <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--collapsed\\">
+                    <div className=\\"m-schedule-diagram__collapsed-icon\\">
+                      <svg viewBox=\\"0 0 10 30\\" className=\\"m-schedule-diagram__line-stop\\">
+                        <circle r=\\"4\\" cy=\\"10\\" cx=\\"50%\\" />
+                        <circle r=\\"4\\" cy=\\"20\\" cx=\\"50%\\" />
+                        <circle r=\\"4\\" cy=\\"30\\" cx=\\"50%\\" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className=\\"m-schedule-diagram__content\\">
+                  <button className=\\"btn btn-link m-schedule-diagram__toggle\\" type=\\"button\\">
+                    3
+                     stops
+                  </button>
+                </div>
+              </div>
+              <span className=\\"c-expandable-block__header-caret\\" dangerouslySetInnerHTML={{...}} />
             </div>
-            <div className=\\"m-schedule-diagram__connections\\" />
+          </h3>
+          <noscript>
+            <style />
+            <h3 className=\\"c-expandable-block__header\\" />
+            <div className=\\"c-expandable-block__panel\\" role=\\"region\\" />
+          </noscript>
+        </ExpandableBlock>
+      </div>
+    </ExpandableBranch>
+    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"5\\" cx=\\"50%\\" cy=\\"-66px\\" />
+            </svg>
           </div>
-          <div className=\\"m-schedule-diagram__features\\" />
         </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </div>
-      </div>
-    </div>
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
-        </div>
-      </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <strong className=\\"u-small-caps\\">
-                Other Destination
-                 Line
-              </strong>
-              <a href=\\"/stops/tree-other-destination\\">
-                <h4>
-                   
-                  Other Destination
-                </h4>
-              </a>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <strong className=\\"u-small-caps\\">
+                  Twig Destination
+                   Line
+                </strong>
+                <a href=\\"/stops/tree-twig-destination\\">
+                  <h4>
+                     
+                    Twig Destination
+                     
+                  </h4>
+                </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\" />
             </div>
-            <div className=\\"m-schedule-diagram__connections\\" />
+            <div className=\\"m-schedule-diagram__features\\" />
           </div>
-          <div className=\\"m-schedule-diagram__features\\" />
-        </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </div>
-      </div>
-    </div>
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines m-schedule-diagram__lines--merging\\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <path className=\\"m-schedule-diagram__line-bend\\" d=\\"M5,10 v-10 h-20\\" />
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
+          </div>
         </div>
       </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <a href=\\"/stops/tree-stop2\\">
-                <h4>
-                   
-                  Stop 2
-                </h4>
-              </a>
+    </SingleStop>
+    <div className=\\"m-schedule-diagram__expanded\\">
+      <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+        <div className=\\"m-schedule-diagram__stop\\">
+          <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+            <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
+            <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
+              <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+                <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+              </svg>
             </div>
-            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
-          <div className=\\"m-schedule-diagram__features\\" />
-        </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </div>
-      </div>
-    </div>
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
-        </div>
-      </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <a href=\\"/stops/tree-stop1\\">
-                <h4>
-                   
-                  Stop 1
-                </h4>
-              </a>
+          <div className=\\"m-schedule-diagram__content\\">
+            <div className=\\"m-schedule-diagram__card\\">
+              <div className=\\"m-schedule-diagram__card-left\\">
+                <div className=\\"m-schedule-diagram__stop-name\\">
+                  <a href=\\"/stops/tree-twig-stop\\">
+                    <h4>
+                       
+                      Twig Stop
+                       
+                    </h4>
+                  </a>
+                </div>
+                <div className=\\"m-schedule-diagram__connections\\" />
+              </div>
+              <div className=\\"m-schedule-diagram__features\\" />
             </div>
-            <div className=\\"m-schedule-diagram__connections\\" />
-          </div>
-          <div className=\\"m-schedule-diagram__features\\" />
-        </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </div>
-      </div>
-    </div>
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
-        </div>
-      </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <a href=\\"/stops/tree-origin\\">
-                <h4>
-                   
-                  Origin
-                </h4>
-              </a>
+            <div className=\\"m-schedule-diagram__footer\\">
+              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+                View schedule
+              </button>
             </div>
-            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
-          <div className=\\"m-schedule-diagram__features\\" />
         </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
+      </SingleStop>
+    </div>
+    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"5\\" cx=\\"50%\\" cy=\\"-66px\\" />
+            </svg>
+          </div>
+        </div>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <strong className=\\"u-small-caps\\">
+                  Branch Destination
+                   Line
+                </strong>
+                <a href=\\"/stops/tree-branch-destination\\">
+                  <h4>
+                     
+                    Branch Destination
+                     
+                  </h4>
+                </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\" />
+            </div>
+            <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </SingleStop>
+    <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={true}>
+      <div className=\\"m-schedule-diagram__expander m-schedule-diagram__expander--merging\\">
+        <ExpandableBlock header={{...}} initiallyExpanded={false} id=\\"Origin - Branch Destination\\">
+          <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-Origin - Branch Destination\\" aria-expanded={false} aria-controls=\\"panel-Origin - Branch Destination\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
+            <div className=\\"c-expandable-block__header-text\\">
+              <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--merging\\">
+                <div className=\\"m-schedule-diagram__lines m-schedule-diagram__lines--collapsed\\" style={{...}}>
+                  <div className=\\"m-schedule-diagram__line\\" />
+                  <div className=\\"m-schedule-diagram__line\\" />
+                  <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--collapsed\\">
+                    <div className=\\"m-schedule-diagram__collapsed-icon\\">
+                      <svg viewBox=\\"0 0 10 30\\" className=\\"m-schedule-diagram__line-stop\\">
+                        <circle r=\\"4\\" cy=\\"10\\" cx=\\"50%\\" />
+                        <circle r=\\"4\\" cy=\\"20\\" cx=\\"50%\\" />
+                        <circle r=\\"4\\" cy=\\"30\\" cx=\\"50%\\" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className=\\"m-schedule-diagram__content\\">
+                  <button className=\\"btn btn-link m-schedule-diagram__toggle\\" type=\\"button\\">
+                    3
+                     stops
+                  </button>
+                </div>
+              </div>
+              <span className=\\"c-expandable-block__header-caret\\" dangerouslySetInnerHTML={{...}} />
+            </div>
+          </h3>
+          <noscript>
+            <style />
+            <h3 className=\\"c-expandable-block__header\\" />
+            <div className=\\"c-expandable-block__panel\\" role=\\"region\\" />
+          </noscript>
+        </ExpandableBlock>
+      </div>
+    </ExpandableBranch>
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+            </svg>
+          </div>
+        </div>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <a href=\\"/stops/tree-stop1\\">
+                  <h4>
+                     
+                    Stop 1
+                     
+                  </h4>
+                </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\" />
+            </div>
+            <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
+          </div>
+        </div>
+      </div>
+    </SingleStop>
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+            </svg>
+          </div>
+        </div>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <a href=\\"/stops/tree-stop0\\">
+                  <h4>
+                     
+                    Stop 0
+                     
+                  </h4>
+                </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\" />
+            </div>
+            <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
+          </div>
+        </div>
+      </div>
+    </SingleStop>
+    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"5\\" cx=\\"50%\\" cy=\\"32px\\" />
+            </svg>
+          </div>
+        </div>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <a href=\\"/stops/tree-origin\\">
+                  <h4>
+                     
+                    Origin
+                     
+                  </h4>
+                </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\" />
+            </div>
+            <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+        </div>
+      </div>
+    </SingleStop>
   </div>
   <WrappedModal openState={false} closeModal={[Function: closeModal]} ariaLabel={{...}}>
     <Modal openState={false} closeModal={[Function: closeModal]} ariaLabel={{...}} priorPadding=\\"0px\\" paddingRight={0} />
@@ -206,201 +331,316 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
 
 exports[`LineDiagram with branches going outward renders and matches snapshot 1`] = `
 "<LineDiagram lineDiagram={{...}} route={{...}} directionId={1} routePatternsByDirection={{...}} services={{...}} ratingEndDate=\\"2020-03-14\\" stops={{...}} today=\\"2019-12-05\\">
-  <h3>
+  <h3 className=\\"m-schedule-diagram__heading\\">
     Stops
   </h3>
   <div className=\\"m-schedule-diagram m-schedule-diagram--outward\\">
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
-        </div>
-      </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <a href=\\"/stops/tree-origin\\">
-                <h4>
-                   
-                  Origin
-                </h4>
-              </a>
-            </div>
-            <div className=\\"m-schedule-diagram__connections\\" />
+    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"5\\" cx=\\"50%\\" cy=\\"-66px\\" />
+            </svg>
           </div>
-          <div className=\\"m-schedule-diagram__features\\" />
         </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </div>
-      </div>
-    </div>
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
-        </div>
-      </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <a href=\\"/stops/tree-stop1\\">
-                <h4>
-                   
-                  Stop 1
-                </h4>
-              </a>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <a href=\\"/stops/tree-origin\\">
+                  <h4>
+                     
+                    Origin
+                     
+                  </h4>
+                </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\" />
             </div>
-            <div className=\\"m-schedule-diagram__connections\\" />
+            <div className=\\"m-schedule-diagram__features\\" />
           </div>
-          <div className=\\"m-schedule-diagram__features\\" />
-        </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </div>
-      </div>
-    </div>
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines m-schedule-diagram__lines--merging\\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <path className=\\"m-schedule-diagram__line-bend\\" d=\\"M5,10 v-10 h-20\\" />
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
+          </div>
         </div>
       </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <a href=\\"/stops/tree-stop2\\">
-                <h4>
-                   
-                  Stop 2
-                </h4>
-              </a>
+    </SingleStop>
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+            </svg>
+          </div>
+        </div>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <a href=\\"/stops/tree-stop0\\">
+                  <h4>
+                     
+                    Stop 0
+                     
+                  </h4>
+                </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\" />
             </div>
-            <div className=\\"m-schedule-diagram__connections\\" />
+            <div className=\\"m-schedule-diagram__features\\" />
           </div>
-          <div className=\\"m-schedule-diagram__features\\" />
-        </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </div>
-      </div>
-    </div>
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
+          </div>
         </div>
       </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <strong className=\\"u-small-caps\\">
-                Other Destination
-                 Branch
-              </strong>
-              <a href=\\"/stops/tree-other-destination\\">
-                <h4>
-                   
-                  Other Destination
-                </h4>
-              </a>
+    </SingleStop>
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+            </svg>
+          </div>
+        </div>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <a href=\\"/stops/tree-stop1\\">
+                  <h4>
+                     
+                    Stop 1
+                     
+                  </h4>
+                </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\" />
             </div>
-            <div className=\\"m-schedule-diagram__connections\\" />
+            <div className=\\"m-schedule-diagram__features\\" />
           </div>
-          <div className=\\"m-schedule-diagram__features\\" />
-        </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </div>
-      </div>
-    </div>
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
+          </div>
         </div>
       </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <a href=\\"/stops/tree-stopA\\">
-                <h4>
-                   
-                  Stop A
-                </h4>
-              </a>
+    </SingleStop>
+    <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={true}>
+      <div className=\\"m-schedule-diagram__expander m-schedule-diagram__expander--merging\\">
+        <ExpandableBlock header={{...}} initiallyExpanded={false} id=\\"Origin - Branch Destination\\">
+          <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-Origin - Branch Destination\\" aria-expanded={false} aria-controls=\\"panel-Origin - Branch Destination\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
+            <div className=\\"c-expandable-block__header-text\\">
+              <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--merging\\">
+                <div className=\\"m-schedule-diagram__lines m-schedule-diagram__lines--collapsed\\" style={{...}}>
+                  <div className=\\"m-schedule-diagram__line\\" />
+                  <div className=\\"m-schedule-diagram__line\\" />
+                  <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--collapsed\\">
+                    <div className=\\"m-schedule-diagram__collapsed-icon\\">
+                      <svg viewBox=\\"0 0 10 30\\" className=\\"m-schedule-diagram__line-stop\\">
+                        <circle r=\\"4\\" cy=\\"10\\" cx=\\"50%\\" />
+                        <circle r=\\"4\\" cy=\\"20\\" cx=\\"50%\\" />
+                        <circle r=\\"4\\" cy=\\"30\\" cx=\\"50%\\" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className=\\"m-schedule-diagram__content\\">
+                  <button className=\\"btn btn-link m-schedule-diagram__toggle\\" type=\\"button\\">
+                    3
+                     stops
+                  </button>
+                </div>
+              </div>
+              <span className=\\"c-expandable-block__header-caret\\" dangerouslySetInnerHTML={{...}} />
             </div>
-            <div className=\\"m-schedule-diagram__connections\\" />
+          </h3>
+          <noscript>
+            <style />
+            <h3 className=\\"c-expandable-block__header\\" />
+            <div className=\\"c-expandable-block__panel\\" role=\\"region\\" />
+          </noscript>
+        </ExpandableBlock>
+      </div>
+    </ExpandableBranch>
+    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"5\\" cx=\\"50%\\" cy=\\"32px\\" />
+            </svg>
           </div>
-          <div className=\\"m-schedule-diagram__features\\" />
         </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <strong className=\\"u-small-caps\\">
+                  Branch Destination
+                   Branch
+                </strong>
+                <a href=\\"/stops/tree-branch-destination\\">
+                  <h4>
+                     
+                    Branch Destination
+                     
+                  </h4>
+                </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\" />
+            </div>
+            <div className=\\"m-schedule-diagram__features\\" />
+          </div>
         </div>
       </div>
+    </SingleStop>
+    <div className=\\"m-schedule-diagram__expanded\\">
+      <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+        <div className=\\"m-schedule-diagram__stop\\">
+          <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+            <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
+            <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
+              <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+                <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+              </svg>
+            </div>
+          </div>
+          <div className=\\"m-schedule-diagram__content\\">
+            <div className=\\"m-schedule-diagram__card\\">
+              <div className=\\"m-schedule-diagram__card-left\\">
+                <div className=\\"m-schedule-diagram__stop-name\\">
+                  <a href=\\"/stops/tree-twig-stop\\">
+                    <h4>
+                       
+                      Twig Stop
+                       
+                    </h4>
+                  </a>
+                </div>
+                <div className=\\"m-schedule-diagram__connections\\" />
+              </div>
+              <div className=\\"m-schedule-diagram__features\\" />
+            </div>
+            <div className=\\"m-schedule-diagram__footer\\">
+              <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+                View schedule
+              </button>
+            </div>
+          </div>
+        </div>
+      </SingleStop>
     </div>
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
+    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"5\\" cx=\\"50%\\" cy=\\"32px\\" />
+            </svg>
+          </div>
+        </div>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <strong className=\\"u-small-caps\\">
+                  Twig Destination
+                   Branch
+                </strong>
+                <a href=\\"/stops/tree-twig-destination\\">
+                  <h4>
+                     
+                    Twig Destination
+                     
+                  </h4>
+                </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\" />
+            </div>
+            <div className=\\"m-schedule-diagram__features\\" />
+          </div>
         </div>
       </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <strong className=\\"u-small-caps\\">
-                Destination
-                 Branch
-              </strong>
-              <a href=\\"/stops/tree-destination\\">
-                <h4>
-                   
+    </SingleStop>
+    <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={false}>
+      <div className=\\"m-schedule-diagram__expander \\">
+        <ExpandableBlock header={{...}} initiallyExpanded={false} id=\\"Origin - Destination\\">
+          <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-Origin - Destination\\" aria-expanded={false} aria-controls=\\"panel-Origin - Destination\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
+            <div className=\\"c-expandable-block__header-text\\">
+              <div className=\\"m-schedule-diagram__stop false\\">
+                <div className=\\"m-schedule-diagram__lines m-schedule-diagram__lines--collapsed\\" style={{...}}>
+                  <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--collapsed\\">
+                    <div className=\\"m-schedule-diagram__collapsed-icon\\">
+                      <svg viewBox=\\"0 0 10 30\\" className=\\"m-schedule-diagram__line-stop\\">
+                        <circle r=\\"4\\" cy=\\"10\\" cx=\\"50%\\" />
+                        <circle r=\\"4\\" cy=\\"20\\" cx=\\"50%\\" />
+                        <circle r=\\"4\\" cy=\\"30\\" cx=\\"50%\\" />
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className=\\"m-schedule-diagram__content\\">
+                  <button className=\\"btn btn-link m-schedule-diagram__toggle\\" type=\\"button\\">
+                    3
+                     stops
+                  </button>
+                </div>
+              </div>
+              <span className=\\"c-expandable-block__header-caret\\" dangerouslySetInnerHTML={{...}} />
+            </div>
+          </h3>
+          <noscript>
+            <style />
+            <h3 className=\\"c-expandable-block__header\\" />
+            <div className=\\"c-expandable-block__panel\\" role=\\"region\\" />
+          </noscript>
+        </ExpandableBlock>
+      </div>
+    </ExpandableBranch>
+    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"5\\" cx=\\"50%\\" cy=\\"32px\\" />
+            </svg>
+          </div>
+        </div>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <strong className=\\"u-small-caps\\">
                   Destination
-                </h4>
-              </a>
+                   Branch
+                </strong>
+                <a href=\\"/stops/tree-destination\\">
+                  <h4>
+                     
+                    Destination
+                     
+                  </h4>
+                </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\" />
             </div>
-            <div className=\\"m-schedule-diagram__connections\\" />
+            <div className=\\"m-schedule-diagram__features\\" />
           </div>
-          <div className=\\"m-schedule-diagram__features\\" />
-        </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
         </div>
       </div>
-    </div>
+    </SingleStop>
   </div>
   <WrappedModal openState={false} closeModal={[Function: closeModal]} ariaLabel={{...}}>
     <Modal openState={false} closeModal={[Function: closeModal]} ariaLabel={{...}} priorPadding=\\"0px\\" paddingRight={0} />
@@ -410,196 +650,208 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
 
 exports[`LineDiagram without branches renders and matches snapshot 1`] = `
 "<LineDiagram lineDiagram={{...}} route={{...}} directionId={1} routePatternsByDirection={{...}} services={{...}} ratingEndDate=\\"2020-03-14\\" stops={{...}} today=\\"2019-12-05\\">
-  <h3>
+  <h3 className=\\"m-schedule-diagram__heading\\">
     Stops
   </h3>
   <div className=\\"m-schedule-diagram m-schedule-diagram--outward\\">
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
-        </div>
-      </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <a href=\\"/stops/line-origin\\">
-                <h4>
-                   
-                  Origin
-                </h4>
-              </a>
-            </div>
-            <div className=\\"m-schedule-diagram__connections\\" />
-          </div>
-          <div className=\\"m-schedule-diagram__features\\">
-            <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
-              <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"true\\" data-selector=\\"true\\" data-original-title=\\"Parking\\" title=\\"Parking\\">
-                <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-              </span>
-            </Component>
+    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"5\\" cx=\\"50%\\" cy=\\"-66px\\" />
+            </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </div>
-      </div>
-    </div>
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
-        </div>
-      </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <a href=\\"/stops/line-stop1\\">
-                <h4>
-                   
-                  Stop 1
-                </h4>
-              </a>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <a href=\\"/stops/line-origin\\">
+                  <h4>
+                     
+                    Origin
+                     
+                  </h4>
+                </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\" />
             </div>
-            <div className=\\"m-schedule-diagram__connections\\">
-              <Component href=\\"/schedules/Orange/line\\" tooltipText=\\"Orange Line\\" tooltipOptions={{...}}>
-                <a href=\\"/schedules/Orange/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Orange Line\\" title=\\"Orange Line\\">
-                  <span className=\\"m-schedule-diagram__connection\\">
-                    <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                  </span>
-                </a>
-              </Component>
-              <Component href=\\"/schedules/Green-C/line\\" tooltipText=\\"Green Line C\\" tooltipOptions={{...}}>
-                <a href=\\"/schedules/Green-C/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Green Line C\\" title=\\"Green Line C\\">
-                  <span className=\\"m-schedule-diagram__connection\\">
-                    <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                  </span>
-                </a>
+            <div className=\\"m-schedule-diagram__features\\">
+              <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
+                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"true\\" data-selector=\\"true\\" data-original-title=\\"Parking\\" title=\\"Parking\\">
+                  <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                </span>
               </Component>
             </div>
           </div>
-          <div className=\\"m-schedule-diagram__features\\" />
-        </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </div>
-      </div>
-    </div>
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
+          </div>
         </div>
       </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <a href=\\"/stops/line-stop2\\">
-                <h4>
-                  <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                  <span className=\\"sr-only\\">
-                    Service alert or delay
-                  </span>
-                   
-                   
-                  Stop 2
-                </h4>
-              </a>
-            </div>
-            <div className=\\"m-schedule-diagram__connections\\">
-              <Component href=\\"/schedules/62/line\\" tooltipText=\\"Route 62\\" tooltipOptions={{...}}>
-                <a href=\\"/schedules/62/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Route 62\\" title=\\"Route 62\\">
-                  <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
-                    62
-                  </span>
+    </SingleStop>
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+            </svg>
+          </div>
+        </div>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <a href=\\"/stops/line-stop1\\">
+                  <h4>
+                     
+                    Stop 1
+                     
+                  </h4>
                 </a>
-              </Component>
-              <Component href=\\"/schedules/67/line\\" tooltipText=\\"Route 67\\" tooltipOptions={{...}}>
-                <a href=\\"/schedules/67/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Route 67\\" title=\\"Route 67\\">
-                  <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
-                    67
-                  </span>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\">
+                <Component href=\\"/schedules/Orange/line\\" tooltipText=\\"Orange Line\\" tooltipOptions={{...}}>
+                  <a href=\\"/schedules/Orange/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Orange Line\\" title=\\"Orange Line\\">
+                    <span className=\\"m-schedule-diagram__connection\\">
+                      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                    </span>
+                  </a>
+                </Component>
+                <Component href=\\"/schedules/Green-C/line\\" tooltipText=\\"Green Line C\\" tooltipOptions={{...}}>
+                  <a href=\\"/schedules/Green-C/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Green Line C\\" title=\\"Green Line C\\">
+                    <span className=\\"m-schedule-diagram__connection\\">
+                      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                    </span>
+                  </a>
+                </Component>
+              </div>
+            </div>
+            <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
+          </div>
+        </div>
+      </div>
+    </SingleStop>
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+            </svg>
+          </div>
+        </div>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <a href=\\"/stops/line-stop2\\">
+                  <h4>
+                    <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                    <span className=\\"sr-only\\">
+                      Service alert or delay
+                    </span>
+                     
+                     
+                    Stop 2
+                     
+                  </h4>
                 </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\">
+                <Component href=\\"/schedules/62/line\\" tooltipText=\\"Route 62\\" tooltipOptions={{...}}>
+                  <a href=\\"/schedules/62/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Route 62\\" title=\\"Route 62\\">
+                    <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
+                      62
+                    </span>
+                  </a>
+                </Component>
+                <Component href=\\"/schedules/67/line\\" tooltipText=\\"Route 67\\" tooltipOptions={{...}}>
+                  <a href=\\"/schedules/67/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Route 67\\" title=\\"Route 67\\">
+                    <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
+                      67
+                    </span>
+                  </a>
+                </Component>
+              </div>
+            </div>
+            <div className=\\"m-schedule-diagram__features\\">
+              <Component tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
+                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"true\\" data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
+                  <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                </span>
               </Component>
             </div>
           </div>
-          <div className=\\"m-schedule-diagram__features\\">
-            <Component tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-              <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"true\\" data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
-                <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-              </span>
-            </Component>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </div>
       </div>
-    </div>
-    <div className=\\"m-schedule-diagram__stop\\">
-      <div style={{...}} className=\\"m-schedule-diagram__lines \\">
-        <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
-          <svg viewBox=\\"0 10 10 10\\" height=\\"10\\" className=\\"m-schedule-diagram__line-stop\\">
-            <circle r=\\"4\\" cx=\\"50%\\" />
-          </svg>
+    </SingleStop>
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--terminus\\">
+        <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+          <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
+            <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+              <circle r=\\"5\\" cx=\\"50%\\" cy=\\"32px\\" />
+            </svg>
+          </div>
         </div>
-      </div>
-      <div className=\\"m-schedule-diagram__content\\">
-        <div className=\\"m-schedule-diagram__card\\">
-          <div className=\\"m-schedule-diagram__card-left\\">
-            <div className=\\"m-schedule-diagram__stop-name\\">
-              <a href=\\"/stops/line-destination\\">
-                <h4>
-                   
-                  Destination
-                </h4>
-              </a>
-            </div>
-            <div className=\\"m-schedule-diagram__connections\\">
-              <Component href=\\"/schedules/BOAT-A/line\\" tooltipText=\\"Atlantis\\" tooltipOptions={{...}}>
-                <a href=\\"/schedules/BOAT-A/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Atlantis\\" title=\\"Atlantis\\">
-                  <span className=\\"m-schedule-diagram__connection\\">
-                    <span className=\\"notranslate c-svg__icon-bus-small\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                  </span>
+        <div className=\\"m-schedule-diagram__content\\">
+          <div className=\\"m-schedule-diagram__card\\">
+            <div className=\\"m-schedule-diagram__card-left\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <a href=\\"/stops/line-destination\\">
+                  <h4>
+                     
+                    Destination
+                     
+                  </h4>
                 </a>
+              </div>
+              <div className=\\"m-schedule-diagram__connections\\">
+                <Component href=\\"/schedules/BOAT-A/line\\" tooltipText=\\"Atlantis\\" tooltipOptions={{...}}>
+                  <a href=\\"/schedules/BOAT-A/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Atlantis\\" title=\\"Atlantis\\">
+                    <span className=\\"m-schedule-diagram__connection\\">
+                      <span className=\\"notranslate c-svg__icon-bus-small\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                    </span>
+                  </a>
+                </Component>
+              </div>
+            </div>
+            <div className=\\"m-schedule-diagram__features\\">
+              <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
+                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"true\\" data-selector=\\"true\\" data-original-title=\\"Parking\\" title=\\"Parking\\">
+                  <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                </span>
+              </Component>
+              <Component tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
+                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"true\\" data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
+                  <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                </span>
               </Component>
             </div>
           </div>
-          <div className=\\"m-schedule-diagram__features\\">
-            <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
-              <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"true\\" data-selector=\\"true\\" data-original-title=\\"Parking\\" title=\\"Parking\\">
-                <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-              </span>
-            </Component>
-            <Component tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-              <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"true\\" data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
-                <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-              </span>
-            </Component>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__footer\\">
-          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-            View schedule
-          </button>
-        </div>
       </div>
-    </div>
+    </SingleStop>
   </div>
   <WrappedModal openState={false} closeModal={[Function: closeModal]} ariaLabel={{...}}>
     <Modal openState={false} closeModal={[Function: closeModal]} ariaLabel={{...}} priorPadding=\\"0px\\" paddingRight={0} />
