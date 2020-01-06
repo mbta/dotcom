@@ -60,7 +60,7 @@ exports[`can render green line 1`] = `
 </ScheduleDirection>
 `;
 
-exports[`it renders a bus component 1`] = `
+exports[`renders a bus component 1`] = `
 <ScheduleDirection>
   <div
     className="m-schedule-direction"
@@ -109,7 +109,7 @@ exports[`it renders a bus component 1`] = `
 </ScheduleDirection>
 `;
 
-exports[`it renders a subway component 1`] = `
+exports[`renders a subway component 1`] = `
 <ScheduleDirection>
   <div
     className="m-schedule-direction"

@@ -12,7 +12,7 @@ import {
 } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
-import { reducer as mapDataReducer } from "../../helpers/fetch";
+import { reducer as fetchReducer } from "../../helpers/fetch";
 import { menuReducer, FetchAction } from "./direction/reducer";
 import { MapData } from "../../leaflet/components/__mapdata";
 import Map from "../components/Map";
@@ -30,7 +30,7 @@ export interface Props {
   stops: SimpleStopMap;
 }
 
-export const fetchData = (
+export const fetchMapData = (
   routeId: string,
   directionId: DirectionId,
   shapeId: string,
@@ -99,7 +99,7 @@ const ScheduleDirection = ({
     routePatternMenuAll: false,
     itemFocus: null
   });
-  const [mapState, dispatchMapData] = useReducer(mapDataReducer, {
+  const [mapState, dispatchMapData] = useReducer(fetchReducer, {
     data: mapData,
     isLoading: false,
     error: false
@@ -107,11 +107,11 @@ const ScheduleDirection = ({
   const shapeId = state.shape ? state.shape.id : defaultRoutePattern.shape_id;
   useEffect(
     () => {
-      fetchData(route.id, state.directionId, shapeId, dispatchMapData);
+      fetchMapData(route.id, state.directionId, shapeId, dispatchMapData);
     },
     [route, state.directionId, shapeId]
   );
-  const [lineState, dispatchLineData] = useReducer(mapDataReducer, {
+  const [lineState, dispatchLineData] = useReducer(fetchReducer, {
     data: lineDiagram,
     isLoading: false,
     error: false
