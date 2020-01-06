@@ -13,6 +13,9 @@ config :logger, level: :warn
 # operations while it updates.
 config :tzdata, :autoupdate, :disabled
 
+# Allow more time for API requests on CI
+config :v3_api, default_timeout: 10_000
+
 config :wallaby,
   screenshot_on_failure: false,
   driver: Wallaby.Experimental.Chrome,
