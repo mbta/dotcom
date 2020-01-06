@@ -14,7 +14,7 @@ import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
 import { reducer as fetchReducer } from "../../helpers/fetch";
 import { menuReducer, FetchAction } from "./direction/reducer";
-import { MapData } from "../../leaflet/components/__mapdata";
+import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "../components/Map";
 import LineDiagram from "../components/LineDiagram";
 
@@ -23,7 +23,8 @@ export interface Props {
   directionId: DirectionId;
   shapesById: ShapesById;
   routePatternsByDirection: RoutePatternsByDirection;
-  mapData: MapData;
+  mapData?: MapData;
+  staticMapData?: StaticMapData;
   lineDiagram: LineDiagramStop[];
   services: ServiceWithServiceDate[];
   ratingEndDate: string;
@@ -80,6 +81,7 @@ const ScheduleDirection = ({
   shapesById,
   routePatternsByDirection,
   mapData,
+  staticMapData,
   lineDiagram,
   services,
   ratingEndDate,
@@ -107,9 +109,11 @@ const ScheduleDirection = ({
   const shapeId = state.shape ? state.shape.id : defaultRoutePattern.shape_id;
   useEffect(
     () => {
-      fetchMapData(route.id, state.directionId, shapeId, dispatchMapData);
+      if (!staticMapData) {
+        fetchMapData(route.id, state.directionId, shapeId, dispatchMapData);
+      }
     },
-    [route, state.directionId, shapeId]
+    [route, state.directionId, shapeId, staticMapData]
   );
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
     data: lineDiagram,
@@ -141,12 +145,29 @@ const ScheduleDirection = ({
         />
         <ScheduleDirectionButton dispatch={dispatch} />
       </div>
-      {mapState.data && (
+      {!staticMapData && mapState.data && (
         <Map
           channel={`vehicles:${route.id}:${state.directionId}`}
           data={mapState.data}
           shapeId={shapeId}
         />
+      )}
+      {staticMapData && (
+        <>
+          <img
+            src={staticMapData.img_src}
+            alt={`${route.name} route map`}
+            className="img-fluid"
+          />
+          <a
+            href={staticMapData.pdf_url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i className="fa fa-search-plus" aria-hidden="true" />
+            View map as a PDF
+          </a>
+        </>
       )}
       {lineState.data && (
         <LineDiagram
