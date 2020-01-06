@@ -1,4 +1,5 @@
 defmodule SiteWeb.CustomerSupportController do
+  @moduledoc "Handles the customer support page and form submissions."
   use SiteWeb, :controller
   require Logger
 
