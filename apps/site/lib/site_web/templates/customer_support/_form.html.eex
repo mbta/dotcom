@@ -30,7 +30,7 @@
           <% comments_placeholder = "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number." %>
           <%= textarea f, :comments, id: "comments", class: "support-form-text-input form-control", maxlength: "3000",
                                      rows: "3", placeholder: comments_placeholder, required: "required", value: assigns[:comments] %>
-
+  
           <span></span>
           <small class="form-text">3000 characters maximum</small>
         </div>
@@ -100,10 +100,6 @@
               })
             %>
           </div>
-        </div>
-        <div style="display: none" class="form-group contrast">
-          <label for="leave-this-alone">As a security measure, please leave this field blank.</label>
-          <%= text_input f, :leave_this_alone, id: "leave-this-alone", tabindex: -1, autocomplete: "off" %>
         </div>
         <div class="response-time-disclaimer">
           Responses may take up to 5 business days. If this is an emergency, please <%= link("contact the Transit Police", to: "/transit-police") %>.

@@ -94,14 +94,13 @@ defmodule SiteWeb.CustomerSupportController do
         [
           &validate_comments/1,
           &validate_service/1,
-          &validate_antispam/1,
           &validate_photos/1,
           &validate_name/1,
           &validate_email/1,
           &validate_privacy/1
         ]
       else
-        [&validate_comments/1, &validate_service/1, &validate_antispam/1, &validate_photos/1]
+        [&validate_comments/1, &validate_service/1, &validate_photos/1]
       end
 
     Site.Validation.validate(validators, params)
@@ -150,10 +149,6 @@ defmodule SiteWeb.CustomerSupportController do
   defp valid_upload?(%Plug.Upload{filename: filename}) do
     MIME.from_path(filename) in @allowed_attachment_types
   end
-
-  @spec validate_antispam(map) :: :ok | String.t()
-  defp validate_antispam(%{"leave_this_alone" => value}) when byte_size(value) > 0, do: "antispam"
-  defp validate_antispam(_), do: :ok
 
   def send_ticket(params) do
     Feedback.Repo.send_ticket(%Feedback.Message{
