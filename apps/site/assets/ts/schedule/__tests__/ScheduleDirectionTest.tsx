@@ -9,7 +9,9 @@ import {
   State,
   MenuAction as Action
 } from "../components/direction/reducer";
-import ScheduleDirection, { fetchData } from "../components/ScheduleDirection";
+import ScheduleDirection, {
+  fetchMapData
+} from "../components/ScheduleDirection";
 import { EnhancedRoute } from "../../__v3api";
 import { MapData } from "../../leaflet/components/__mapdata";
 import {
@@ -183,13 +185,13 @@ const getGreenLineComponent = () => {
   );
 };
 
-it("it renders a bus component", () => {
+it("renders a bus component", () => {
   createReactRoot();
   const tree = mount(getComponent());
   expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
 });
 
-it("it renders a subway component", () => {
+it("renders a subway component", () => {
   createReactRoot();
   const tree = mount(getSubwayComponent());
   expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
@@ -303,7 +305,7 @@ it("reducer can change state correctly for showAllRoutePatterns", () => {
   expect(nextState.routePatternMenuAll).toEqual(true);
 });
 
-describe("fetchData", () => {
+describe("fetchMapData", () => {
   it("fetches data", () => {
     const spy = jest.fn();
     window.fetch = jest.fn().mockImplementation(
@@ -318,7 +320,7 @@ describe("fetchData", () => {
         )
     );
 
-    return fetchData("1", 0, "2", spy).then(() => {
+    return fetchMapData("1", 0, "2", spy).then(() => {
       expect(window.fetch).toHaveBeenCalledWith(
         "/schedules/map_api?id=1&direction_id=0&variant=2"
       );
@@ -346,7 +348,7 @@ describe("fetchData", () => {
         )
     );
 
-    return fetchData("1", 0, "2", spy).then(() => {
+    return fetchMapData("1", 0, "2", spy).then(() => {
       expect(window.fetch).toHaveBeenCalledWith(
         "/schedules/map_api?id=1&direction_id=0&variant=2"
       );
@@ -366,7 +368,7 @@ it("can render green line", () => {
   expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
 });
 
-it("can change route for bus green line with click", () => {
+it("can change route for green line with click", () => {
   const stubFn = jest
     .spyOn(window.location, "assign")
     .mockImplementation(url => url);
