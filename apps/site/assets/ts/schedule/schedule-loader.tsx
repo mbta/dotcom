@@ -5,7 +5,7 @@ import ScheduleNote from "./components/ScheduleNote";
 import ScheduleDirection from "./components/ScheduleDirection";
 import Map from "./components/Map";
 import { SchedulePageData } from "./components/__schedule";
-import { MapData } from "../leaflet/components/__mapdata";
+import { MapData, StaticMapData } from "../leaflet/components/__mapdata";
 import ScheduleFinder from "./components/ScheduleFinder";
 
 const renderMap = (): void => {
@@ -72,9 +72,18 @@ const renderDirectionAndMap = (
     stops
   } = schedulePageData;
 
+  let mapData: MapData | undefined;
   const mapDataEl = document.getElementById("js-map-data");
-  if (!mapDataEl) return;
-  const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
+  if (mapDataEl) {
+    mapData = JSON.parse(mapDataEl.innerHTML);
+  }
+
+  let staticMapData: StaticMapData | undefined;
+  const staticDataEl = document.getElementById("static-map-data");
+  if (staticDataEl) {
+    staticMapData = JSON.parse(staticDataEl.innerHTML);
+  }
+
   ReactDOM.render(
     <ScheduleDirection
       directionId={directionId}
@@ -82,6 +91,7 @@ const renderDirectionAndMap = (
       routePatternsByDirection={routePatternsByDirection}
       shapesById={shapesById}
       mapData={mapData}
+      staticMapData={staticMapData}
       lineDiagram={lineDiagram}
       services={services}
       ratingEndDate={ratingEndDate}

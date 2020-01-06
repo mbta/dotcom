@@ -55,15 +55,22 @@
             active_shape: @active_shape,
             show_variant_selector: assigns[:show_variant_selector]
           %>
-
         <% end %>
+
         <div class="line-map-container">
+          <% map_pdf_url = @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>
           <%= if display_map_link?(@route.type) do %>
-            <img src="<%= @map_img_src %>" class="img-fluid">
-            <a href="<%= @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>" target="_blank">
-              <%= fa "search-plus" %>
-              View map as a PDF
-            </a>
+            <%= if redesign_direction? do %>
+              <script id="static-map-data" type="text/plain">
+                <%= raw Poison.encode!(%{img_src: @map_img_src, pdf_url: map_pdf_url}) %>
+              </script>
+            <% else %>
+              <img src="<%= @map_img_src %>" class="img-fluid">
+              <a href="<%= map_pdf_url %>" target="_blank">
+                <%= fa "search-plus" %>
+                View map as a PDF
+              </a>
+            <% end %>
           <% else %>
             <%= render "_line_map.html",
               conn: @conn,

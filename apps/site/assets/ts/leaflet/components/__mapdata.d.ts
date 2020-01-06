@@ -47,3 +47,8 @@ export interface MapData {
   width: number;
   zoom: number | null;
 }
+
+export interface StaticMapData {
+  img_src: string;
+  pdf_url: string;
+}

@@ -13,7 +13,7 @@ import ScheduleDirection, {
   fetchMapData
 } from "../components/ScheduleDirection";
 import { EnhancedRoute } from "../../__v3api";
-import { MapData } from "../../leaflet/components/__mapdata";
+import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import {
   ShapesById,
   LineDiagramStop,
@@ -124,6 +124,11 @@ const mapData: MapData = {
     latitude: 42.360718
   }
 };
+
+const staticMapData: StaticMapData = {
+  img_src: "http://example.com/map.png",
+  pdf_url: "http://example.com/map.pdf"
+};
 /* eslint-enable typescript/camelcase */
 
 const getComponent = () => (
@@ -144,6 +149,20 @@ const getSubwayComponent = () => (
   <ScheduleDirection
     mapData={mapData}
     route={{ ...route, type: 1 }}
+    directionId={directionId}
+    routePatternsByDirection={routePatternsByDirection}
+    shapesById={shapesById}
+    lineDiagram={lineDiagram}
+    services={[]}
+    ratingEndDate="2020-03-14"
+    stops={{ stops }}
+  />
+);
+
+const getStaticMapComponent = () => (
+  <ScheduleDirection
+    staticMapData={staticMapData}
+    route={{ ...route, type: 4 }}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     shapesById={shapesById}
@@ -194,6 +213,12 @@ it("renders a bus component", () => {
 it("renders a subway component", () => {
   createReactRoot();
   const tree = mount(getSubwayComponent());
+  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
+});
+
+it("renders with a static map", () => {
+  createReactRoot();
+  const tree = mount(getStaticMapComponent());
   expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
 });
 
