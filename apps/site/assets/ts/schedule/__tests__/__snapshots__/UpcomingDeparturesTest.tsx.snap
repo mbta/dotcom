@@ -44,9 +44,35 @@ exports[`UpcomingDepartures doesn't renders cr departures that don't have a pred
 
 exports[`UpcomingDepartures renders SL bus predictions 1`] = `
 Array [
-  <h3>
-    Upcoming Departures
-  </h3>,
+  <div
+    className="schedule-table__upcoming-departures-header"
+  >
+    <h3>
+      Upcoming Departures
+    </h3>
+    <span
+      aria-hidden={true}
+      className="schedule-table__live-clock"
+    >
+      <span
+        className="icon-realtime animate notranslate"
+      >
+        <span
+          className="c-svg__icon-live-clock"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        <span
+          className="icon-realtime-text"
+        >
+          live
+        </span>
+      </span>
+    </span>
+  </div>,
   <table
     className="schedule-table schedule-table--upcoming"
   >
@@ -125,9 +151,35 @@ Array [
 
 exports[`UpcomingDepartures renders bus predictions 1`] = `
 Array [
-  <h3>
-    Upcoming Departures
-  </h3>,
+  <div
+    className="schedule-table__upcoming-departures-header"
+  >
+    <h3>
+      Upcoming Departures
+    </h3>
+    <span
+      aria-hidden={true}
+      className="schedule-table__live-clock"
+    >
+      <span
+        className="icon-realtime animate notranslate"
+      >
+        <span
+          className="c-svg__icon-live-clock"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        <span
+          className="icon-realtime-text"
+        >
+          live
+        </span>
+      </span>
+    </span>
+  </div>,
   <table
     className="schedule-table schedule-table--upcoming"
   >
@@ -253,9 +305,35 @@ Array [
 
 exports[`UpcomingDepartures renders cr predictions 1`] = `
 Array [
-  <h3>
-    Upcoming Departures
-  </h3>,
+  <div
+    className="schedule-table__upcoming-departures-header"
+  >
+    <h3>
+      Upcoming Departures
+    </h3>
+    <span
+      aria-hidden={true}
+      className="schedule-table__live-clock"
+    >
+      <span
+        className="icon-realtime animate notranslate"
+      >
+        <span
+          className="c-svg__icon-live-clock"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        <span
+          className="icon-realtime-text"
+        >
+          live
+        </span>
+      </span>
+    </span>
+  </div>,
   <table
     className="schedule-table schedule-table--upcoming"
   >
@@ -320,7 +398,7 @@ Array [
             </div>
           </div>
           <div
-            className="u-nowrap text-right u-bold"
+            className="u-nowrap text-right"
           >
             <span
               className="schedule-table__status"

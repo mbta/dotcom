@@ -431,3 +431,19 @@
 .schedule-table__scheduled-bus-pill {
   vertical-align: middle;
 }
+
+.schedule-table__upcoming-departures-header {
+  align-items: baseline;
+  display: flex;
+  justify-content: space-between;
+}
+
+.schedule-table__live-clock {
+  color: $brand-primary;
+  fill: $brand-primary;
+
+  svg {
+    height: 9px;
+    width: 9px;
+  }
+}
