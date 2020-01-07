@@ -1,3 +1,4 @@
+import { updateInLocation } from "use-query-params";
 import { DirectionId, Shape } from "../../../__v3api";
 import {
   ShapesById,
@@ -36,8 +37,17 @@ export type FetchAction =
   | { type: "FETCH_ERROR" }
   | { type: "FETCH_STARTED" };
 
+const updateDirectionInURL = (directionId: DirectionId): void => {
+  // eslint-disable-next-line @typescript-eslint/camelcase
+  const query = { direction_id: directionId.toString() };
+  const newLoc = updateInLocation(query, window.location);
+  // newLoc is not a true Location, so toString doesn't work
+  window.history.replaceState({}, "", `${newLoc.pathname}${newLoc.search}`);
+};
+
 const toggleDirection = (state: State): State => {
   const nextDirection = state.directionId === 0 ? 1 : 0;
+  updateDirectionInURL(nextDirection);
   const [defaultRoutePatternForDirection] = state.routePatternsByDirection[
     nextDirection
   ];
