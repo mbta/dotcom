@@ -9,7 +9,7 @@ fork_point=$(git merge-base --fork-point origin/master)
 changed=$(git diff --name-only $fork_point "*.ex" "*.exs")
 
 if [ -z "$changed" ]; then
-  echo "No files changed relative to origin/master fork point."
+  echo "No Elixir files changed relative to origin/master fork point."
 else
   # Since Credo doesn't support running checks only on specified files via the
   # command line, we create a temporary copy of the config file whose `included`
