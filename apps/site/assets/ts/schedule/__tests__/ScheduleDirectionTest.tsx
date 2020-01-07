@@ -222,13 +222,21 @@ it("renders with a static map", () => {
   expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
 });
 
-it("can change direction", () => {
+it("changes direction and updates the query param", () => {
   document.body.innerHTML = body;
   const component = getComponent();
   const wrapper = mount(component);
+  window.history.replaceState = jest.fn();
+
   expect(wrapper.find("#direction-name").text()).toBe("Inbound");
   wrapper.find("button").simulate("click");
+
   expect(wrapper.find("#direction-name").text()).toBe("Outbound");
+  expect(window.history.replaceState).toBeCalledWith(
+    {},
+    "",
+    "/?direction_id=0"
+  );
 });
 
 it("can change route pattern for bus mode", () => {
