@@ -11,6 +11,7 @@ import { EnhancedJourney } from "../__trips";
 import { breakTextAtSlash } from "../../../helpers/text";
 import { Accordion } from "./TableRow";
 import { UserInput } from "../ScheduleFinder";
+import liveClockSvg from "../../../../static/images/icon-live-clock.svg";
 
 interface State {
   data: EnhancedJourney[] | null;
@@ -139,7 +140,19 @@ export const UpcomingDepartures = ({
   if (journeys !== null && hasPredictions(journeys)) {
     return (
       <>
-        <h3>Upcoming Departures</h3>
+        <div className="schedule-table__upcoming-departures-header">
+          <h3>Upcoming Departures</h3>
+          <span className="schedule-table__live-clock" aria-hidden>
+            <span className="icon-realtime animate notranslate">
+              <span
+                className="c-svg__icon-live-clock"
+                // eslint-disable-next-line react/no-danger
+                dangerouslySetInnerHTML={{ __html: liveClockSvg }}
+              />
+              <span className="icon-realtime-text">live</span>
+            </span>
+          </span>
+        </div>
         <table className="schedule-table schedule-table--upcoming">
           <thead className="schedule-table__header">
             <tr className="schedule-table__row-header">
