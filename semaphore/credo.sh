@@ -5,10 +5,11 @@ function join_by {
   local d=$1; shift; echo -n "$1"; shift; printf "%s" "${@/#/$d}";
 }
 
-changed=$(git diff --name-only origin/master "*.ex" "*.exs")
+fork_point=$(git merge-base --fork-point origin/master)
+changed=$(git diff --name-only $fork_point "*.ex" "*.exs")
 
 if [ -z "$changed" ]; then
-  echo "No files changed from origin/master."
+  echo "No Elixir files changed relative to origin/master fork point."
 else
   # Since Credo doesn't support running checks only on specified files via the
   # command line, we create a temporary copy of the config file whose `included`
