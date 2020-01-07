@@ -129,12 +129,26 @@ defmodule Stops.RouteStop do
         shapes,
         stops,
         %Route{id: "CR-Franklin"} = route,
-        1
+        0
       ) do
     shapes
-    |> Enum.reject(&(&1.name == "Forge Park/495 - South Station via Back Bay"))
+    |> Enum.reject(&(&1.name == "South Station - Foxboro via Fairmount"))
     |> Enum.map(&do_list_from_shapes(&1.name, &1.stop_ids, stops, route))
-    |> merge_branch_list(1)
+    |> merge_branch_list(0)
+  end
+
+  def list_from_shapes(
+        shapes,
+        stops,
+        %Route{id: "CR-Franklin"} = route,
+        1
+      ) do
+    # We need to prefer the shorter "trunk" here when merging the branch list so the trunk stops
+    # don't end up being the ones from the Fairmount line
+    shapes
+    |> Enum.reject(&(&1.name == "Forge Park/495 - South Station via Fairmount"))
+    |> Enum.map(&do_list_from_shapes(&1.name, &1.stop_ids, stops, route))
+    |> merge_branch_list(1, true)
   end
 
   def list_from_shapes(shapes, stops, route, direction_id) do
@@ -224,20 +238,22 @@ defmodule Stops.RouteStop do
     []
   end
 
-  @spec merge_branch_list([[RouteStop.t()]], direction_id_t) :: [RouteStop.t()]
-  defp merge_branch_list(branches, direction_id) do
-    # If we know a route has branches, then we need to figure out which stops are on a branch vs. which stops
-    # are shared. At this point, we have two lists of branches, and at the back end the stops are all the same,
-    # but starting at some point in the middle the stops branch.
+  @spec merge_branch_list([[RouteStop.t()]], direction_id_t, boolean) :: [RouteStop.t()]
+  defp merge_branch_list(branches, direction_id, prefer_shorter_trunk \\ false) do
+    # Attempt to flatten a collection of RouteStop lists into a single list consisting of a shared
+    # "trunk" (where `branch` is set to nil) and two or more "branches" (where it is left alone).
+    # If the routes split, then merge, then split again, only the final split will be represented
+    # as "branches" and all but one of the multiple "trunks" will be discarded. Normally the kept
+    # trunk will be the one with the most stops; `prefer_shorter_trunk` instead keeps the one with
+    # the fewest stops.
     branches
     |> Enum.map(&flip_branches_to_front(&1, direction_id))
-    |> flatten_branches
-    # unflips the branches
+    |> flatten_branches(prefer_shorter_trunk)
     |> flip_branches_to_front(direction_id)
   end
 
-  @spec flatten_branches([[RouteStop.t()]]) :: [RouteStop.t()]
-  defp flatten_branches(branches) do
+  @spec flatten_branches([[RouteStop.t()]], boolean) :: [RouteStop.t()]
+  defp flatten_branches(branches, prefer_shorter_trunk) do
     # We build a list of the shared stops between the branches, then unassign
     # the branch for each stop that's in the list of shared stops.
     shared_stop_ids =
@@ -249,7 +265,7 @@ defmodule Stops.RouteStop do
 
     branches
     |> Enum.map(&unassign_branch_if_shared(&1, shared_stop_ids))
-    |> Enum.reduce(&merge_two_branches/2)
+    |> Enum.reduce(&merge_two_branches(&1, &2, prefer_shorter_trunk))
   end
 
   @spec unassign_branch_if_shared([RouteStop.t()], MapSet.t()) :: [RouteStop.t()]
@@ -263,14 +279,16 @@ defmodule Stops.RouteStop do
     end
   end
 
-  @spec merge_two_branches([RouteStop.t()], [RouteStop.t()]) :: [RouteStop.t()]
-  defp merge_two_branches(first, second) do
+  @spec merge_two_branches([RouteStop.t()], [RouteStop.t()], boolean) :: [RouteStop.t()]
+  defp merge_two_branches(first, second, prefer_shorter_trunk) do
     {first_branch, first_core} = Enum.split_while(first, & &1.branch)
     {second_branch, second_core} = Enum.split_while(second, & &1.branch)
 
+    max_or_min_by = if(prefer_shorter_trunk, do: &Enum.min_by/2, else: &Enum.max_by/2)
+
     core =
       [first_core, second_core]
-      |> Enum.max_by(&length/1)
+      |> max_or_min_by.(&length/1)
       |> Enum.map(&%{&1 | branch: nil})
 
     second_branch ++ first_branch ++ core
