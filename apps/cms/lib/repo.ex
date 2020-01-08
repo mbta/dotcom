@@ -185,47 +185,21 @@ defmodule CMS.Repo do
   defp handle_revision({:ok, revisions}) when is_list(revisions), do: {:ok, List.first(revisions)}
 
   @doc """
-  Returns a list of teaser items.
+  Returns a list of teaser items. Documentation can be found at
+  https://github.com/mbta/cms/blob/master/API.md#teasers
 
   TYPE
 
   Opts can include :type, which is a list that can contain one
   or more of the API.type() atoms (ex: [:news_entry, :event]).
+  Elixir formats this list into a CMS-compatible URL parameter.
 
   If no types are specified, results can be of mixed types.
 
   To filter by a route include :route_id, for example:
     "/guides/subway" or just "subway"
 
-  To fetch all items that are NOT of a specific type,
-  use [type: [_type], type_op: "not in"]. type_op: "in"
-  is the default value for this filter if not supplied.
-
-  RELATIONSHIPS
-
-  To fetch items related to a given ID, use the "related_to"
-  parameter with an integer value (usually a content ID).
-
-  ITEMS PER PAGE
-
-  Opts can also include :items_per_page, which sets
-  the number of items to return. Default is 5 items.
-  The number can only be 1-10, 20, or 50, otherwise
-  it will be ignored.
-
-  DATE
-
-  If :date is specified, a valid :date_op of ">=" or "<" must
-  also be specified -- both params must always be used together.
-  You may specify a date of "now" to use the current date. You
-  may use "between" as the :date_op value to show all items with
-  compatible dates between :date[min] and :date[max].
-
   SORTING
-
-  Projects, Project Updates, News and Events can all be sorted
-  using the :sort_order and :sort_by filters. Other content types
-  like Basic Page (:page) default to creation date, descending.
 
   If neither :sort_order nor :sort_by are provided, Elixir will
   attempt to fill-in these values according to content :type.

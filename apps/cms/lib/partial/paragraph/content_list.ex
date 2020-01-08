@@ -3,6 +3,8 @@ defmodule CMS.Partial.Paragraph.ContentList do
   A content list paragraph (optionally including a header) from the CMS.
   This paragraph provides a formula for retreiving a dynamic list of
   content items from the CMS via the `/cms/teasers` API endpoint.
+
+  For API documentation, see https://github.com/mbta/cms/blob/master/API.md#teasers
   """
   import CMS.Helpers,
     only: [field_value: 2, int_or_string_to_int: 1, content_type: 1, parse_link: 2]
