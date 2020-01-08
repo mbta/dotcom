@@ -5,9 +5,11 @@ import { TripDetails, State } from "../components/schedule-finder/TripDetails";
 import { TripInfo } from "../components/__trips";
 import tripData from "./tripInfo.json";
 import crTripData from "./crTripInfo.json";
+import tripDataWithPredictions from "./tripInfoWithPredictions.json";
 
-const tripInfo: TripInfo = (tripData as unknown) as TripInfo;
-const crTripInfo: TripInfo = (crTripData as unknown) as TripInfo;
+const tripInfo: TripInfo = tripData as TripInfo;
+const crTripInfo: TripInfo = crTripData as TripInfo;
+const tripInfoWithPredictions = tripDataWithPredictions as TripInfo;
 
 const successState = {
   data: tripInfo,
@@ -17,6 +19,12 @@ const successState = {
 
 const crSuccessState = {
   data: crTripInfo,
+  isLoading: false,
+  error: false
+} as State;
+
+const successStateWithPredictions = {
+  data: tripInfoWithPredictions,
   isLoading: false,
   error: false
 } as State;
@@ -48,6 +56,14 @@ describe("TripDetails", () => {
     createReactRoot();
     const tree = renderer.create(
       <TripDetails state={errorState} showFare={false} />
+    );
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("uses a predicted departure time in preference to a scheduled one", () => {
+    createReactRoot();
+    const tree = renderer.create(
+      <TripDetails state={successStateWithPredictions} showFare={false} />
     );
     expect(tree).toMatchSnapshot();
   });

@@ -35,6 +35,7 @@ export interface Prediction {
   delay: number;
   status: string | null;
   track: string | null;
+  time: string | null;
 }
 
 export interface Schedule {

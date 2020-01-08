@@ -51,7 +51,7 @@ export const TripStop = ({
   index: number;
   showFare: boolean;
 }): ReactElement<HTMLElement> | null => {
-  const { schedule } = departure;
+  const { prediction, schedule } = departure;
 
   /* istanbul ignore next */
   if (!schedule.stop) return null;
@@ -69,7 +69,7 @@ export const TripStop = ({
         </td>
       )}
       <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
-        {schedule.time}
+        {prediction && prediction.time ? prediction.time : schedule.time}
       </td>
     </tr>
   );
