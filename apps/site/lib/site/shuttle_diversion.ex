@@ -38,46 +38,6 @@ defmodule Site.ShuttleDiversion do
           }
   end
 
-  defmodule TripsHack do
-    @moduledoc """
-    Proxy for `V3Api.Trips.by_route` that works around missing trip data for specific weekday
-    shuttle diversions on the D line, by borrowing the trips from an identical weekend diversion.
-    TODO: Delete after 2019-12-20.
-    """
-
-    @date_with_correct_trips "2019-12-21"
-    @dates_to_correct [
-      "2019-11-20",
-      "2019-11-21",
-      "2019-11-25",
-      "2019-11-26",
-      "2019-12-06",
-      "2019-12-13",
-      "2019-12-16",
-      "2019-12-17",
-      "2019-12-18",
-      "2019-12-19",
-      "2019-12-20"
-    ]
-
-    @spec by_route(String.t(), keyword) :: JsonApi.t() | {:error, any}
-    def by_route(routes, params \\ []) do
-      route_ids = String.split(routes, ",")
-
-      if "Green-D" in route_ids and params[:"filter[date]"] in @dates_to_correct do
-        d_params = Keyword.put(params, :"filter[date]", @date_with_correct_trips)
-        other_routes = (route_ids -- ["Green-D"]) |> Enum.join(",")
-
-        with %{data: d_trips} <- Trips.by_route("Green-D", d_params),
-             %{data: other_trips} <- Trips.by_route(other_routes, params) do
-          %JsonApi{data: d_trips ++ other_trips}
-        end
-      else
-        Trips.by_route(routes, params)
-      end
-    end
-  end
-
   @derive {Poison.Encoder, except: [:alerts]}
 
   @enforce_keys [:alerts, :shapes, :stops]
@@ -107,7 +67,7 @@ defmodule Site.ShuttleDiversion do
         include: "route,route_pattern,shape,stops"
       ]
 
-      with %JsonApi{data: trips} <- TripsHack.by_route(trips_route, trips_params),
+      with %JsonApi{data: trips} <- Trips.by_route(trips_route, trips_params),
            route_stops when is_list(route_stops) <- Stops.by_routes(true_route_ids, 0),
            unique_trips = unique_trips_by_shape(trips) do
         {:ok,
