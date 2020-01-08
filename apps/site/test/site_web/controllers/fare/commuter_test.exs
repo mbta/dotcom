@@ -18,21 +18,7 @@ defmodule SiteWeb.FareController.CommuterTest do
     refute Enum.any?(valid_fares, fn fare -> match?(%Fares.Fare{name: :foxboro}, fare) end)
   end
 
-  test "show only Foxboro special event fare if selection includes Foxboro", %{conn: conn} do
-    origin = Stops.Repo.get("place-sstat")
-    destination = Stops.Repo.get("place-FS-0049")
-
-    valid_fares =
-      conn
-      |> assign(:date, ~D[2019-10-20])
-      |> assign(:origin, origin)
-      |> assign(:destination, destination)
-      |> Commuter.fares()
-
-    assert valid_fares == Fares.Repo.all(name: :foxboro)
-  end
-
-  test "includes Zone 4 fares for Foxboro if pilot has launched", %{conn: conn} do
+  test "includes Zone 4 fares for Foxboro if selection includes Foxboro", %{conn: conn} do
     origin = Stops.Repo.get("place-sstat")
     destination = Stops.Repo.get("place-FS-0049")
 
