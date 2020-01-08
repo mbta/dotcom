@@ -93,18 +93,8 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
     end
   end
 
-  describe "trip_messages/3" do
-    test "returns proper trips for CR Franklin before 10-21" do
-      assert Enum.empty?(trip_messages(%Routes.Route{id: "CR-Franklin"}, 0, ~D[2019-10-20]))
-
-      assert [
-               {"790"},
-               {"790", "place-bbsta"},
-               {"790", "place-rugg"}
-             ] = Map.keys(trip_messages(%Routes.Route{id: "CR-Franklin"}, 1, ~D[2019-10-20]))
-    end
-
-    test "returns proper trips for CR Franklin on and after 10-21" do
+  describe "trip_messages/2" do
+    test "returns proper messages for CR Franklin" do
       assert [
                "726",
                "740",
@@ -115,7 +105,7 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
                "758"
              ] =
                %Routes.Route{id: "CR-Franklin"}
-               |> trip_messages(1, ~D[2019-10-22])
+               |> trip_messages(1)
                |> Map.keys()
                |> Enum.map(&elem(&1, 0))
                |> Enum.uniq()
@@ -131,22 +121,18 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
                "759"
              ] ==
                %Routes.Route{id: "CR-Franklin"}
-               |> trip_messages(0, ~D[2019-10-22])
+               |> trip_messages(0)
                |> Map.keys()
                |> Enum.map(&elem(&1, 0))
                |> Enum.uniq()
                |> Enum.sort()
     end
 
-    test "returns proper trips for CR Fairmount before 10-21" do
-      assert Enum.empty?(trip_messages(%Routes.Route{id: "CR-Fairmount"}, 1, ~D[2019-10-20]))
-    end
-
-    test "returns proper trips for CR Fairmount on or after 10-21" do
+    test "returns proper messages for CR Fairmount" do
       assert [
                {"726"},
                {"726", "place-FS-0049"}
-             ] = Map.keys(trip_messages(%Routes.Route{id: "CR-Fairmount"}, 1, ~D[2019-10-21]))
+             ] = Map.keys(trip_messages(%Routes.Route{id: "CR-Fairmount"}, 1))
     end
   end
 
