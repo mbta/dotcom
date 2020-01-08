@@ -61,5 +61,4 @@
       </div>
     <% end %>
   <% end %>
-  <%= fare_change_message() %>
 </div>
