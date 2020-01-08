@@ -565,3 +565,767 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
   </tbody>
 </table>
 `;
+
+exports[`TripDetails uses a predicted departure time in preference to a scheduled one 1`] = `
+<table
+  className="schedule-table__subtable"
+>
+  <thead>
+    <tr>
+      <td
+        colSpan={3}
+      >
+        <div
+          className="schedule-table__subtable-trip-info"
+        >
+          <div
+            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+          >
+            Trip length
+          </div>
+          39
+           stops, 
+          32
+           minutes total
+        </div>
+        <div
+          className="schedule-table__subtable-trip-info"
+        >
+          <div
+            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+          >
+            Fare
+          </div>
+          $1.70
+          <a
+            className="schedule-table__subtable-trip-info-link"
+            href="/fares/bus-fares"
+          >
+            View fares
+          </a>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__subtable-data"
+        scope="col"
+      >
+        Stops
+      </th>
+      <th
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        scope="col"
+      >
+        Arrival
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    className="schedule-table__subtable-tbody"
+  >
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-forhl"
+        >
+          Forest Hills
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:39 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/596"
+        >
+          3867 Washington St opp Tollgate Way
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:42 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/597"
+        >
+          Washington St @ Lochdale Rd
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:42 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/598"
+        >
+          Washington St @ Archdale Rd
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:43 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/599"
+        >
+          Washington St @ Mosgrove Ave
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:43 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/600"
+        >
+          Washington St opp Granfield Ave
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:44 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/601"
+        >
+          Washington St @ South St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:45 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/602"
+        >
+          South St @ Taft Hill Terr
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:46 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/797"
+        >
+          Belgrade Ave @ Robert St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:47 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/798"
+        >
+          Belgrade Ave opp Pinehurst St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:47 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/799"
+        >
+          Belgrade Ave opp Penfield St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:47 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/800"
+        >
+          Belgrade Ave @ Walworth St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:48 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/801"
+        >
+          Belgrade Ave opp Aldrich St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:48 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/802"
+        >
+          277 Belgrade Ave opp Rexhame St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:49 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/803"
+        >
+          Belgrade Ave @ McCraw St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:49 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/804"
+        >
+          Belgrade Ave @ West Roxbury Pkwy
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:50 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/805"
+        >
+          Belgrade Ave @ Centre St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:51 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/806"
+        >
+          Centre St @ Willow St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:53 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/807"
+        >
+          Centre St @ Corey St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:54 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/808"
+        >
+          Centre St opp Bellevue st
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:55 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/810"
+        >
+          Opp 2000 Centre St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:56 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/821"
+        >
+          Centre St @ Lorette St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:58 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/811"
+        >
+          Centre St @ Spring St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:58 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/822"
+        >
+          Centre St @ Autumn St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:59 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/823"
+        >
+          Centre St @ Cass St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:00 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/824"
+        >
+          Centre St @ Bronx Rd
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:00 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/825"
+        >
+          Centre St opp Wedgemere Rd
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:00 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/826"
+        >
+          Centre St @ Glenhaven Rd
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:01 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/10768"
+        >
+          Centre St @ Grove St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:01 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/827"
+        >
+          Centre St @ Northdale Rd
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:01 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/828"
+        >
+          Centre St @ Fairlane Rd
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:02 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/829"
+        >
+          2519 Centre St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:02 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/830"
+        >
+          Stimson St @ Centre St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:02 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/831"
+        >
+          80 Stimson St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:03 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/832"
+        >
+          Stimson St @ Washington St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:03 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/618"
+        >
+          Washington St opp Meshaka St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:05 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/10618"
+        >
+          Washington St @ Sumner St
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:05 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/10835"
+        >
+          Dedham Mall @ South Side
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:09 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/10833"
+        >
+          Dedham Mall @ Stop & Shop
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        05:11 PM
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
