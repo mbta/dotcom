@@ -68,8 +68,9 @@ defmodule Site.ShuttleDiversion do
       ]
 
       with %JsonApi{data: trips} <- Trips.by_route(trips_route, trips_params),
-           route_stops when is_list(route_stops) <- Stops.by_routes(true_route_ids, 0),
-           unique_trips = unique_trips_by_shape(trips) do
+           route_stops when is_list(route_stops) <- Stops.by_routes(true_route_ids, 0) do
+        unique_trips = unique_trips_by_shape(trips)
+
         {:ok,
          %__MODULE__{
            alerts: ongoing_shuttle_alerts(route_ids, time),
