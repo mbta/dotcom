@@ -210,7 +210,7 @@ defmodule CMS.Repo do
   """
 
   @type teaser_filters :: %{
-          optional(:sidebar) => integer,
+          optional(:sidebar) => 0 | 1,
           optional(:type) => [API.type()],
           optional(:type_op) => String.t(),
           optional(:related_to) => integer,
@@ -218,8 +218,7 @@ defmodule CMS.Repo do
           optional(:only) => integer,
           optional(:items_per_page) => 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 20 | 50,
           optional(:date_op) => String.t(),
-          optional(:date) =>
-            String.t() | [value: String.t()] | [min: String.t(), max: String.t()],
+          optional(:date) => [value: String.t()] | [min: String.t(), max: String.t()],
           optional(:sort_order) => :DESC | :ASC,
           optional(:sort_by) => String.t()
         }
