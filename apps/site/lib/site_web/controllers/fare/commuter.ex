@@ -1,4 +1,5 @@
 defmodule SiteWeb.FareController.Commuter do
+  @moduledoc "Determines fares for Commuter Rail trips."
   use SiteWeb.FareController.OriginDestinationFareBehavior
 
   @impl true

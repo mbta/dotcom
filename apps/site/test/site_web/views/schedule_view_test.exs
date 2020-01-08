@@ -542,7 +542,7 @@ defmodule SiteWeb.ScheduleViewTest do
         |> Enum.map(&safe_to_string/1)
         |> IO.iodata_to_binary()
 
-      assert Enum.count(Floki.find(html, ".route-branch-stop-bubble.stop.dotted")) == 0
+      assert Enum.empty?(Floki.find(html, ".route-branch-stop-bubble.stop.dotted"))
     end
   end
 

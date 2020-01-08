@@ -1,4 +1,5 @@
 defmodule SiteWeb.ScheduleController.TimetableController do
+  @moduledoc "Handles the Timetable tab for commuter rail routes."
   use SiteWeb, :controller
   alias Plug.Conn
   alias Routes.Route
