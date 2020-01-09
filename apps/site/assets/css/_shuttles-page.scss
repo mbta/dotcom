@@ -18,7 +18,7 @@
 
   @include media-breakpoint-only(xs) {
     &:not(:first-child):not(:last-child) {
-      border-radius: unset;
+      border-radius: inherit;
     }
 
     &:first-child:not(:last-child) {

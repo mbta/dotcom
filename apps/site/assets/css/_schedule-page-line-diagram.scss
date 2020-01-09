@@ -111,7 +111,7 @@ $line-width: 8px; // width of the colored line in the diagram
     text-align: center;
 
     .btn {
-      padding: unset;
+      padding: 0;
     }
   }
 
@@ -188,11 +188,11 @@ $line-width: 8px; // width of the colored line in the diagram
   }
 
   .c-expandable-block__header {
-    background-color: unset;
+    background-color: initial;
     border: $border;
     border-bottom: 0;
     margin-top: 0;
-    padding: unset;
+    padding: 0;
   }
 
   // The "show/hide stops" toggle
@@ -218,7 +218,7 @@ $line-width: 8px; // width of the colored line in the diagram
     }
 
     .m-schedule-diagram__lines--collapsed {
-      margin: unset;
+      margin: initial;
     }
   }
 
