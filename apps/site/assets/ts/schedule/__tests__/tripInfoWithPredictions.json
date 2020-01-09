@@ -6,10 +6,12 @@
         "price": "$1.70"
     },
     "origin_id": "place-forhl",
+    "route_type": 3,
     "status": "operating at normal schedule",
     "stop_count": 39,
     "times": [
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -270,6 +272,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -364,6 +367,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -458,6 +462,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -552,6 +557,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -646,6 +652,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -740,6 +747,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -834,6 +842,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -928,6 +937,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -1022,6 +1032,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -1116,6 +1127,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -1210,6 +1222,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -1304,6 +1317,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -1398,6 +1412,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -1492,6 +1507,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -1586,6 +1602,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -1680,6 +1697,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -1774,6 +1792,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -1868,6 +1887,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -1962,6 +1982,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -2056,6 +2077,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -2150,6 +2172,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -2244,6 +2267,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -2338,6 +2362,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -2432,6 +2457,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -2526,6 +2552,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -2620,6 +2647,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -2714,6 +2742,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -2808,6 +2837,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -2902,6 +2932,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -2996,6 +3027,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -3090,6 +3122,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -3184,6 +3217,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -3278,6 +3312,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -3372,6 +3407,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -3466,6 +3502,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -3560,6 +3597,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -3654,6 +3692,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": true,
                 "direction_id": 0,
@@ -3748,6 +3787,7 @@
             }
         },
         {
+            "delay": null,
             "prediction": {
                 "departing?": false,
                 "direction_id": 0,

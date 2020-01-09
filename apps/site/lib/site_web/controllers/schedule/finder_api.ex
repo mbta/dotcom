@@ -114,6 +114,7 @@ defmodule SiteWeb.ScheduleController.FinderApi do
       |> Map.get(:trip_info)
       |> add_computed_fares_to_trip_info(route)
       |> json_safe_trip_info()
+      |> update_in([:times], &add_delays/1)
       |> update_in([:times], &simplify_time/1)
 
     json(conn, trip_info)
@@ -287,6 +288,7 @@ defmodule SiteWeb.ScheduleController.FinderApi do
 
     trip_info
     |> Map.from_struct()
+    |> put_in([:route_type], trip_info.route.type)
     |> Map.drop([:route, :base_fare])
     |> Map.put(:times, clean_schedules_and_predictions)
   end
@@ -345,6 +347,26 @@ defmodule SiteWeb.ScheduleController.FinderApi do
       fare_params.origin,
       fare_params.destination
     )
+  end
+
+  defp maybe_add_delay(%{prediction: nil} = schedule_and_prediction) do
+    schedule_and_prediction
+  end
+
+  defp maybe_add_delay(%{prediction: %{time: nil}} = schedule_and_prediction) do
+    schedule_and_prediction
+  end
+
+  defp maybe_add_delay(
+         %{schedule: %{time: schedule_time}, prediction: %{time: prediction_time}} =
+           schedule_and_prediction
+       ) do
+    delay = DateTime.diff(prediction_time, schedule_time)
+    Map.put_new(schedule_and_prediction, :delay, delay)
+  end
+
+  defp add_delays(schedules_and_predictions) do
+    Enum.map(schedules_and_predictions, &maybe_add_delay/1)
   end
 
   # Converts a DateTime to a simple string

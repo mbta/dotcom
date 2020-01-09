@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
-import { TripInfo, TripDeparture } from "../__trips";
-import { breakTextAtSlash } from "../../../helpers/text";
+import TripStop from "./TripStop";
+import { TripInfo } from "../__trips";
 
 export interface State {
   data: TripInfo | null;
@@ -41,39 +41,6 @@ const TripSummary = ({
     </td>
   </tr>
 );
-
-export const TripStop = ({
-  departure,
-  index,
-  showFare
-}: {
-  departure: TripDeparture;
-  index: number;
-  showFare: boolean;
-}): ReactElement<HTMLElement> | null => {
-  const { prediction, schedule } = departure;
-
-  /* istanbul ignore next */
-  if (!schedule.stop) return null;
-
-  return (
-    <tr key={`${schedule.stop.id}`} className="schedule-table__subtable-row">
-      <td className="schedule-table__subtable-data">
-        <a href={`/stops/${schedule.stop.id}`}>
-          {breakTextAtSlash(schedule.stop.name)}
-        </a>
-      </td>
-      {showFare && (
-        <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
-          {index === 0 ? "" : schedule.fare.price}
-        </td>
-      )}
-      <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
-        {prediction && prediction.time ? prediction.time : schedule.time}
-      </td>
-    </tr>
-  );
-};
 
 export const TripDetails = ({
   state,
@@ -129,6 +96,7 @@ export const TripDetails = ({
             departure={departure}
             index={index}
             showFare={showFare}
+            routeType={tripInfo.route_type}
             key={departure.schedule.stop.id}
           />
         ))}

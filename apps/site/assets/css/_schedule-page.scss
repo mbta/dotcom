@@ -288,6 +288,12 @@
     margin-right: $base-spacing / 2;
     text-align: right;
     text-decoration: line-through;
+
+    &-future_stop {
+      @include media-breakpoint-only(xs) {
+        margin-right: 0;
+      }
+    }
   }
 }
 
