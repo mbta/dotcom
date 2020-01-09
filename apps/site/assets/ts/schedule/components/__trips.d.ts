@@ -19,6 +19,7 @@ export interface Departure {
 export interface TripDeparture {
   schedule: TripSchedule;
   prediction: Prediction | null;
+  delay: number | null;
 }
 
 export interface TripInfo {
@@ -29,6 +30,7 @@ export interface TripInfo {
   status: string;
   duration: number;
   fare: Fare;
+  route_type: number;
 }
 
 export interface Prediction {

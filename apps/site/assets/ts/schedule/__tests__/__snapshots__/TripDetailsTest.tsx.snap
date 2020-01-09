@@ -1,5 +1,225 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`TripDetails displays both scheduled and predicted times for CR if there is a delay of more than 5 minutes 1`] = `
+<table
+  className="schedule-table__subtable"
+>
+  <thead>
+    <tr>
+      <td
+        colSpan={3}
+      >
+        <div
+          className="schedule-table__subtable-trip-info"
+        >
+          <div
+            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+          >
+            Trip length
+          </div>
+          7
+           stops, 
+          56
+           minutes total
+        </div>
+        <div
+          className="schedule-table__subtable-trip-info"
+        >
+          <div
+            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+          >
+            Fare
+          </div>
+          $12.25
+          <a
+            className="schedule-table__subtable-trip-info-link"
+            href="/fares/commuter_rail?destination=place-NEC-1851&origin=place-bbsta"
+          >
+            View fares
+          </a>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__subtable-data"
+        scope="col"
+      >
+        Stops
+      </th>
+      <th
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        scope="col"
+      >
+        Arrival
+      </th>
+    </tr>
+  </thead>
+  <tbody
+    className="schedule-table__subtable-tbody"
+  >
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-bbsta"
+        >
+          Back Bay
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        <span
+          className="schedule-table__time--delayed schedule-table__time--delayed-future_stop"
+        >
+          04:00 PM
+        </span>
+        <br
+          className="hidden-sm-up"
+        />
+        04:01 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-rugg"
+        >
+          Ruggles
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:04 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-NEC-2108"
+        >
+          Sharon
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        <span
+          className="schedule-table__time--delayed schedule-table__time--delayed-future_stop"
+        >
+          04:22 PM
+        </span>
+        <br
+          className="hidden-sm-up"
+        />
+        04:22 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-NEC-2040"
+        >
+          Mansfield
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:30 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-NEC-1969"
+        >
+          Attleboro
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        <span
+          className="schedule-table__time--delayed schedule-table__time--delayed-future_stop"
+        >
+          04:38 PM
+        </span>
+        <br
+          className="hidden-sm-up"
+        />
+        04:39 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-NEC-1919"
+        >
+          South Attleboro
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        04:48 PM
+      </td>
+    </tr>
+    <tr
+      className="schedule-table__subtable-row"
+    >
+      <td
+        className="schedule-table__subtable-data"
+      >
+        <a
+          href="/stops/place-NEC-1851"
+        >
+          Providence
+        </a>
+      </td>
+      <td
+        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+      >
+        <span
+          className="schedule-table__time--delayed schedule-table__time--delayed-future_stop"
+        >
+          04:58 PM
+        </span>
+        <br
+          className="hidden-sm-up"
+        />
+        04:57 PM
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
 exports[`TripDetails it renders an error if fetch failed 1`] = `
 <p>
   <em>

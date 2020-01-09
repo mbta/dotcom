@@ -6,10 +6,12 @@ import { TripInfo } from "../components/__trips";
 import tripData from "./tripInfo.json";
 import crTripData from "./crTripInfo.json";
 import tripDataWithPredictions from "./tripInfoWithPredictions.json";
+import crTripDataWithDelays from "./crTripInfoWithDelays.json";
 
 const tripInfo: TripInfo = tripData as TripInfo;
 const crTripInfo: TripInfo = crTripData as TripInfo;
-const tripInfoWithPredictions = tripDataWithPredictions as TripInfo;
+const tripInfoWithPredictions: TripInfo = tripDataWithPredictions as TripInfo;
+const crTripInfoWithDelays: TripInfo = crTripDataWithDelays as TripInfo;
 
 const successState = {
   data: tripInfo,
@@ -25,6 +27,12 @@ const crSuccessState = {
 
 const successStateWithPredictions = {
   data: tripInfoWithPredictions,
+  isLoading: false,
+  error: false
+} as State;
+
+const crSuccessStateWithDelays = {
+  data: crTripInfoWithDelays,
   isLoading: false,
   error: false
 } as State;
@@ -64,6 +72,14 @@ describe("TripDetails", () => {
     createReactRoot();
     const tree = renderer.create(
       <TripDetails state={successStateWithPredictions} showFare={false} />
+    );
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("displays both scheduled and predicted times for CR if there is a delay of more than 5 minutes", () => {
+    createReactRoot();
+    const tree = renderer.create(
+      <TripDetails state={crSuccessStateWithDelays} showFare={false} />
     );
     expect(tree).toMatchSnapshot();
   });
