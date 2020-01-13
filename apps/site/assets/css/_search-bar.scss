@@ -29,8 +29,12 @@
 }
 
 .c-search-bar__empty {
+  border-bottom: $border;
+  border-left: $border;
+  border-right: $border;
   display: flex;
   justify-content: space-between;
+  margin-bottom: 0;
   padding: $base-spacing / 2;
 }
 
@@ -56,13 +60,6 @@
 
 .c-search-bar__result-name {
   font-weight: bold;
-}
-
-.c-search-bar__empty {
-  border-bottom: $border;
-  border-left: $border;
-  border-right: $border;
-  margin-bottom: 0;
 }
 
 .c-search-bar--hidden,

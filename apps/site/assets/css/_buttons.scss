@@ -23,6 +23,7 @@
 
   &.btn-secondary {
     background-color: transparent;
+
     @include hover {
       background-color: $brand-primary-lightest;
       color: $brand-primary-darkest;

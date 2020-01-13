@@ -157,23 +157,18 @@ small {
 }
 
 // undo styles in app.html.eex
+// duplicate property required because IE doesn't support `initial`
 .icon {
   height: auto;
-  height: initial;
+  height: initial; // scss-lint:disable DuplicateProperty
   width: auto;
-  width: initial;
+  width: initial; // scss-lint:disable DuplicateProperty
 }
 
 .icon-circle {
   fill: initial;
   stroke: initial;
   stroke-width: initial;
-}
-
-.page-container {
-  flex-basis: auto;
-  flex-grow: 1;
-  flex-shrink: 0;
 }
 
 .station__header,
@@ -185,6 +180,9 @@ small {
 
 .page-container {
   align-self: center;
+  flex-basis: auto;
+  flex-grow: 1;
+  flex-shrink: 0;
   padding: 0 0 $base-spacing * 2;
 }
 

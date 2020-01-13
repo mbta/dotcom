@@ -37,7 +37,7 @@
 }
 
 .c-btn-group-stackable__btn--active {
-  @extend .focus;
+  @extend .focus; // scss-lint:disable PlaceholderInExtend
 }
 
 .c-heading-with-control {

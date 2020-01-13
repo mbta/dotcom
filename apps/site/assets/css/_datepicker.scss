@@ -44,8 +44,9 @@
 .datepicker-month-wrap {
   background: $brand-primary-darkest;
   color: $white;
+  // duplicate property required because IE doesn't support `initial`
   height: auto;
-  height: initial;
+  height: initial; // scss-lint:disable DuplicateProperty
   padding: $base-spacing-sm;
 }
 
