@@ -34,6 +34,9 @@
 }
 
 .callout-small {
+  padding-bottom: $base-spacing-sm;
+  padding-top: $base-spacing-sm;
+
   .icon-bus,
   .icon-subway,
   .icon-logan-express,
@@ -44,9 +47,6 @@
     top: .125em;
     width: 1.25em;
   }
-
-  padding-bottom: $base-spacing-sm;
-  padding-top: $base-spacing-sm;
 }
 
 .callout-full-height {

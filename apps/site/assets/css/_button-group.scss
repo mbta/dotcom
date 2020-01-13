@@ -7,8 +7,8 @@
   border-collapse: collapse;
   display: table;
   table-layout: fixed;
-  width: 100%;
   vertical-align: middle;
+  width: 100%;
 
   // Special case because of display: table-cell;
   [class*="c-svg__icon"] {
