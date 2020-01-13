@@ -1,4 +1,5 @@
 defmodule TripPlan.Api.OpenTripPlanner do
+  @moduledoc "Fetches data from the OpenTripPlanner API."
   @behaviour TripPlan.Api
   require Logger
   import __MODULE__.Builder, only: [build_params: 3]
@@ -12,20 +13,21 @@ defmodule TripPlan.Api.OpenTripPlanner do
 
   @impl true
   def plan(from, to, opts) do
-    with {:ok, params} <- build_params(from, to, opts),
-         params =
-           Map.merge(
-             params,
-             %{
-               "fromPlace" => location(from),
-               "toPlace" => location(to),
-               "showIntermediateStops" => "true",
-               "format" => "json",
-               "locale" => "en"
-             }
-           ),
-         root_url = params["root_url"] || config(:root_url),
-         full_url = "#{root_url}/otp/routers/default/plan" do
+    with {:ok, params} <- build_params(from, to, opts) do
+      params =
+        Map.merge(
+          params,
+          %{
+            "fromPlace" => location(from),
+            "toPlace" => location(to),
+            "showIntermediateStops" => "true",
+            "format" => "json",
+            "locale" => "en"
+          }
+        )
+
+      root_url = params["root_url"] || config(:root_url)
+      full_url = "#{root_url}/otp/routers/default/plan"
       send_request(full_url, params, &parse_json/1)
     end
   end

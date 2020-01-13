@@ -1,19 +1,5 @@
 defmodule Stops.Nearby do
-  @doc """
-
-  Returns a list of %Stops.Stop{} around the given latitude/longitude.
-
-  The algorithm should return 12 or fewer results:
-
-  * Return 4 nearest CR or Subway stops
-  ** for CR use 50 mile radius
-  ** for subway - 30 mile radius
-  ** return at least 1 CR stop and 1 Subway stop
-  * Return all Bus stops with 1 mi radius
-  ** limit to 2 stops per line-direction
-  * Return Subway stops in 5 mi radius
-  """
-
+  @moduledoc "Functions for retrieving and organizing stops relative to a location."
   import Util.Distance
   alias Routes.Route
   alias Stops.Stop
@@ -26,6 +12,7 @@ defmodule Stops.Nearby do
   @type route_with_direction :: %{direction_id: 0 | 1 | nil, route: Route.t()}
 
   defmodule Options do
+    @moduledoc "Defines shared options and defaults for this module's functions."
     defstruct api_fn: &Stops.Nearby.api_around/2,
               keys_fn: &Stops.Nearby.keys/1,
               fetch_fn: &Stops.Repo.get_parent/1,
@@ -33,6 +20,19 @@ defmodule Stops.Nearby do
               limit: nil
   end
 
+  @doc """
+  Returns a list of %Stops.Stop{} around the given latitude/longitude.
+
+  The algorithm should return 12 or fewer results:
+
+  * Return 4 nearest CR or Subway stops
+  ** for CR use 50 mile radius
+  ** for subway - 30 mile radius
+  ** return at least 1 CR stop and 1 Subway stop
+  * Return all Bus stops with 1 mi radius
+  ** limit to 2 stops per line-direction
+  * Return Subway stops in 5 mi radius
+  """
   @spec nearby_with_varying_radius_by_mode(Position.t()) :: [Stop.t()]
   def nearby_with_varying_radius_by_mode(position, opts \\ []) do
     opts =
@@ -128,24 +128,27 @@ defmodule Stops.Nearby do
         @default_timeout
       )
 
-    with %{direction_0_routes: direction_0_routes, direction_1_routes: direction_1_routes}
-         when is_list(direction_0_routes) and is_list(direction_1_routes) <- result do
-      routes =
-        [direction_0_routes | direction_1_routes]
-        |> List.flatten()
-        |> Enum.reduce(%{}, fn %{route: route} = route_with_direction, merged_routes ->
-          direction_id =
-            if Map.has_key?(merged_routes, route.id),
-              do: nil,
-              else: route_with_direction.direction_id
+    case result do
+      %{direction_0_routes: direction_0_routes, direction_1_routes: direction_1_routes}
+      when is_list(direction_0_routes) and is_list(direction_1_routes) ->
+        routes =
+          [direction_0_routes | direction_1_routes]
+          |> List.flatten()
+          |> Enum.reduce(%{}, fn %{route: route} = route_with_direction, merged_routes ->
+            # credo:disable-for-lines:4 Credo.Check.Refactor.Nesting
+            direction_id =
+              if Map.has_key?(merged_routes, route.id),
+                do: nil,
+                else: route_with_direction.direction_id
 
-          Map.put(merged_routes, route.id, %{route_with_direction | direction_id: direction_id})
-        end)
-        |> Map.values()
+            Map.put(merged_routes, route.id, %{route_with_direction | direction_id: direction_id})
+          end)
+          |> Map.values()
 
-      {:ok, routes}
-    else
-      _ -> {:error, :timeout}
+        {:ok, routes}
+
+      _ ->
+        {:error, :timeout}
     end
   end
 
@@ -200,10 +203,8 @@ defmodule Stops.Nearby do
   end
 
   @doc """
-
   Given a list of commuter rail, subway, and bus stops, organize them
   according to the algorithm.
-
   """
   @spec gather_stops(Position.t(), [Position.t()], [Position.t()], [Position.t()]) :: [
           Position.t()
@@ -258,7 +259,6 @@ defmodule Stops.Nearby do
   end
 
   @doc """
-
   Filters an enumerable such that the keys (returned by `keys_fn`) do not
   appear more than `max_count` times.
 

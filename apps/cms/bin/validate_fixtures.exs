@@ -24,9 +24,10 @@ defmodule Drupal do
   end
 
   defp data(route) do
-    with {:ok, data} <- HTTPClient.view(route, []) do
-      data
-    else
+    case HTTPClient.view(route, []) do
+      {:ok, data} ->
+        data
+
       _ ->
         IO.puts("Error requesting data for #{route}!")
         %{}
