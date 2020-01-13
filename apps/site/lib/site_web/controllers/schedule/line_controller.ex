@@ -1,4 +1,5 @@
 defmodule SiteWeb.ScheduleController.LineController do
+  @moduledoc "Handles the page that shows the map and line diagram for a given route."
   use SiteWeb, :controller
   alias Phoenix.HTML
   alias Plug.Conn
@@ -103,14 +104,15 @@ defmodule SiteWeb.ScheduleController.LineController do
     services
     |> Enum.group_by(&{&1.type, &1.typicality})
     |> Enum.flat_map(fn {_, service_group} ->
-      service_group
-      |> Enum.reject(fn service ->
-        Enum.any?(service_group, fn other_service ->
-          other_service != service &&
-            Date.compare(other_service.start_date, service.start_date) != :gt &&
-            Date.compare(other_service.end_date, service.end_date) != :lt
-        end)
-      end)
+      Enum.reject(service_group, &service_completely_overlapped?(&1, service_group))
+    end)
+  end
+
+  defp service_completely_overlapped?(service, services) do
+    Enum.any?(services, fn other_service ->
+      other_service != service &&
+        Date.compare(other_service.start_date, service.start_date) != :gt &&
+        Date.compare(other_service.end_date, service.end_date) != :lt
     end)
   end
 

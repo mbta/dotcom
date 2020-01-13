@@ -1,4 +1,5 @@
 defmodule Schedules.Repo do
+  @moduledoc "Repo for V3 API Schedule resources."
   import Kernel, except: [to_string: 1]
   use RepoCache, ttl: :timer.hours(1)
 
@@ -65,10 +66,12 @@ defmodule Schedules.Repo do
         @default_timeout
       )
 
-    with %{origin: origin, dest: dest} when is_list(origin) and is_list(dest) <- result do
-      join_schedules(origin, dest)
-    else
-      _ -> {:error, :timeout}
+    case result do
+      %{origin: origin, dest: dest} when is_list(origin) and is_list(dest) ->
+        join_schedules(origin, dest)
+
+      _ ->
+        {:error, :timeout}
     end
   end
 
@@ -93,19 +96,22 @@ defmodule Schedules.Repo do
   end
 
   def trip(trip_id, trip_by_id_fn) do
-    case cache(trip_id, fn trip_id ->
-           with %JsonApi{} = response <- trip_by_id_fn.(trip_id) do
-             {:ok, Parser.trip(response)}
-           else
-             {:error, [%JsonApi.Error{code: "not_found"} | _]} ->
-               {:ok, nil}
-
-             error ->
-               error
-           end
-         end) do
+    case cache(trip_id, &fetch_trip(&1, trip_by_id_fn)) do
       {:ok, value} -> value
       {:error, _} -> nil
+    end
+  end
+
+  defp fetch_trip(trip_id, trip_by_id_fn) do
+    case trip_by_id_fn.(trip_id) do
+      %JsonApi{} = response ->
+        {:ok, Parser.trip(response)}
+
+      {:error, [%JsonApi.Error{code: "not_found"} | _]} ->
+        {:ok, nil}
+
+      error ->
+        error
     end
   end
 

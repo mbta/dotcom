@@ -1,4 +1,6 @@
 defmodule V3Api do
+  @moduledoc "Handles fetching and caching generic JSON:API responses from the V3 API."
+
   use HTTPoison.Base
   require Logger
   import V3Api.SentryExtra
@@ -15,9 +17,9 @@ defmodule V3Api do
       end)
 
     body = ""
+    opts = Keyword.merge(default_options(), opts)
 
-    with opts = Keyword.merge(default_options(), opts),
-         {time, response} <- timed_get(url, params, opts),
+    with {time, response} <- timed_get(url, params, opts),
          :ok <- log_response(url, params, time, response),
          {:ok, http_response} <- response,
          {:ok, http_response} <- Cache.cache_response(url, params, http_response),

@@ -32,9 +32,10 @@ defmodule SiteWeb.PlacesController do
     geocode_by_place_id_fn =
       Map.get(conn.assigns, :geocode_by_place_id_fn, &Geocode.geocode_by_place_id/1)
 
-    with {:ok, results} <- geocode_by_place_id_fn.(place_id) do
-      json(conn, %{result: results |> List.first() |> Poison.encode!()})
-    else
+    case geocode_by_place_id_fn.(place_id) do
+      {:ok, results} ->
+        json(conn, %{result: results |> List.first() |> Poison.encode!()})
+
       {:error, :internal_error} ->
         return_internal_error(conn)
 
