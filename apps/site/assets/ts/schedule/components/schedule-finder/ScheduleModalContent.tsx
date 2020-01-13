@@ -113,9 +113,10 @@ const ScheduleModalContent = ({
     },
     [routeId, selectedDirection, selectedOrigin]
   );
-  if (selectedOrigin === null || selectedDirection === null) return null;
 
-  const destination = directionDestinations[selectedDirection];
+  if (selectedOrigin === null || selectedDirection === null) {
+    return null;
+  }
 
   const input: UserInput = {
     route: routeId,
@@ -123,6 +124,11 @@ const ScheduleModalContent = ({
     date: today,
     direction: selectedDirection
   };
+
+  const destination =
+    routeId === "Green"
+      ? "All branches"
+      : directionDestinations[selectedDirection];
 
   return (
     <>
