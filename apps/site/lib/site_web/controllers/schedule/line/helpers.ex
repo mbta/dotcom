@@ -9,7 +9,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   alias Stops.Repo, as: StopsRepo
   alias Stops.{RouteStop, RouteStops, Stop}
 
-  import CMS.Repo, only: [get_paragraph: 1]
+  import CMS.Repo, only: [get_paragraph: 2]
   import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
 
   @type query_param :: String.t() | nil
@@ -125,7 +125,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   def get_shuttle_paragraphs(conn) do
     conn
     |> shuttle_paragraphs_by_line()
-    |> Enum.map(&get_paragraph/1)
+    |> Enum.map(&get_paragraph(&1, conn.query_params))
     |> Enum.map(&render_paragraph(&1, conn))
   end
 

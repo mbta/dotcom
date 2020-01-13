@@ -117,30 +117,30 @@ defmodule CMS.Helpers do
     end
   end
 
-  @spec parse_paragraphs(map, String.t()) :: [Paragraph.t()]
-  def parse_paragraphs(data, target_field \\ "field_paragraphs") do
+  @spec parse_paragraphs(map, map, String.t()) :: [Paragraph.t()]
+  def parse_paragraphs(data, query_params \\ %{}, target_field \\ "field_paragraphs") do
     data
     |> Map.get(target_field, [])
-    |> Enum.filter(&para_is_published/1)
-    |> Enum.map(&Paragraph.from_api/1)
+    |> Enum.filter(&para_is_published(&1, query_params))
+    |> Enum.map(&Paragraph.from_api(&1, query_params))
   end
 
-  @spec para_is_published(map) :: boolean
+  @spec para_is_published(map, map) :: boolean
   # Reusable paragraphs can be deleted, but their parent references may remain
-  defp para_is_published(%{"field_reusable_paragraph" => [nil]}) do
+  defp para_is_published(%{"field_reusable_paragraph" => [nil]}, _query_params) do
     false
   end
 
-  defp para_is_published(%{"field_reusable_paragraph" => reusable}) do
+  defp para_is_published(%{"field_reusable_paragraph" => reusable}, query_params) do
     [%{"status" => status, "paragraphs" => data}] = reusable
 
     case status do
       [%{"value" => false}] -> false
-      _ -> data |> List.first() |> para_is_published()
+      _ -> data |> List.first() |> para_is_published(query_params)
     end
   end
 
-  defp para_is_published(%{"status" => [%{"value" => value}]}) do
+  defp para_is_published(%{"status" => [%{"value" => value}]}, _query_params) do
     value
   end
 

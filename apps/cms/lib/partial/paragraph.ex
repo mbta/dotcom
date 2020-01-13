@@ -84,66 +84,68 @@ defmodule CMS.Partial.Paragraph do
           | TitleCardSet
           | Unknown
 
-  @spec from_api(map) :: t
-  def from_api(%{"type" => [%{"target_id" => "entity_reference"}]} = para) do
+  @spec from_api(map, map) :: t
+  def from_api(data, query_params \\ %{})
+
+  def from_api(%{"type" => [%{"target_id" => "entity_reference"}]} = para, _query_params) do
     Callout.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "multi_column"}]} = para) do
-    ColumnMulti.from_api(para)
+  def from_api(%{"type" => [%{"target_id" => "multi_column"}]} = para, query_params) do
+    ColumnMulti.from_api(para, query_params)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "content_list"}]} = para) do
-    ContentList.from_api(para)
+  def from_api(%{"type" => [%{"target_id" => "content_list"}]} = para, query_params) do
+    ContentList.from_api(para, query_params)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "custom_html"}]} = para) do
+  def from_api(%{"type" => [%{"target_id" => "custom_html"}]} = para, _query_params) do
     CustomHTML.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "description_list"}]} = para) do
-    DescriptionList.from_api(para)
+  def from_api(%{"type" => [%{"target_id" => "description_list"}]} = para, query_params) do
+    DescriptionList.from_api(para, query_params)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "fare_card"}]} = para) do
+  def from_api(%{"type" => [%{"target_id" => "fare_card"}]} = para, _query_params) do
     FareCard.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "files_grid"}]} = para) do
+  def from_api(%{"type" => [%{"target_id" => "files_grid"}]} = para, _query_params) do
     FilesGrid.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "people_grid"}]} = para) do
+  def from_api(%{"type" => [%{"target_id" => "people_grid"}]} = para, _query_params) do
     PeopleGrid.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "photo_gallery"}]} = para) do
+  def from_api(%{"type" => [%{"target_id" => "photo_gallery"}]} = para, _query_params) do
     PhotoGallery.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "tabs"}]} = para) do
-    Accordion.from_api(para)
+  def from_api(%{"type" => [%{"target_id" => "tabs"}]} = para, query_params) do
+    Accordion.from_api(para, query_params)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "title_card"}]} = para) do
+  def from_api(%{"type" => [%{"target_id" => "title_card"}]} = para, _query_params) do
     DescriptiveLink.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "title_card_set"}]} = para) do
+  def from_api(%{"type" => [%{"target_id" => "title_card_set"}]} = para, _query_params) do
     TitleCardSet.from_api(para)
   end
 
   @doc "This ¶ type has a single paragraph reference within. Get the nested paragraph."
-  def from_api(%{"type" => [%{"target_id" => "from_library"}]} = para) do
-    parse_library_item(para)
+  def from_api(%{"type" => [%{"target_id" => "from_library"}]} = para, query_params) do
+    parse_library_item(para, query_params)
   end
 
   @doc "For directly accessing a reusable paragraph (from paragraphs API endpoint)"
-  def from_api(%{"paragraphs" => [para]}) do
-    from_api(para)
+  def from_api(%{"paragraphs" => [para]}, query_params) do
+    from_api(para, query_params)
   end
 
-  def from_api(unknown_paragraph_type) do
+  def from_api(unknown_paragraph_type, _query_params) do
     Unknown.from_api(unknown_paragraph_type)
   end
 
@@ -159,8 +161,8 @@ defmodule CMS.Partial.Paragraph do
   @spec get_types() :: [name]
   def get_types, do: @types
 
-  @spec parse_header(map) :: t
-  def parse_header(%{} = data) do
+  @spec parse_header(map, map) :: t
+  def parse_header(%{} = data, _query_params) do
     data
     |> Map.get("field_multi_column_header", [])
     |> Enum.map(&ColumnMultiHeader.from_api/1)
@@ -169,14 +171,14 @@ defmodule CMS.Partial.Paragraph do
   end
 
   # Pass through the nested paragraph and host ID
-  @spec parse_library_item(map) :: t
-  defp parse_library_item(data) do
+  @spec parse_library_item(map, map) :: t
+  defp parse_library_item(data, query_params) do
     data
     |> Map.get("field_reusable_paragraph")
     |> List.first()
     |> Map.get("paragraphs")
     |> List.first()
     |> Map.put("parent_id", Map.get(data, "parent_id"))
-    |> from_api()
+    |> from_api(query_params)
   end
 end

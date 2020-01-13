@@ -19,7 +19,7 @@ defmodule SiteWeb.ProjectControllerTest do
 
       resp =
         conn
-        |> assign(:get_page_fn, fn _ -> project end)
+        |> assign(:get_page_fn, fn _, _ -> project end)
         |> assign(:teasers_fn, teasers_fn)
         |> get(project_updates_path(conn, :project_updates, Project.alias(project)))
         |> html_response(200)
@@ -45,7 +45,7 @@ defmodule SiteWeb.ProjectControllerTest do
 
       resp =
         conn
-        |> assign(:get_page_fn, fn _ -> project end)
+        |> assign(:get_page_fn, fn _, _ -> project end)
         |> assign(:teasers_fn, teasers_fn)
         |> get(project_updates_path(conn, :project_updates, Project.alias(project)))
         |> html_response(200)
@@ -65,7 +65,9 @@ defmodule SiteWeb.ProjectControllerTest do
 
       for status <- [301, 302] do
         conn
-        |> assign(:get_page_fn, fn _ -> {:error, {:redirect, status, to: project.path_alias}} end)
+        |> assign(:get_page_fn, fn _, _ ->
+          {:error, {:redirect, status, to: project.path_alias}}
+        end)
         |> assign(:teasers_fn, fn _ ->
           send(self(), :teasers_fn)
           []
@@ -79,7 +81,7 @@ defmodule SiteWeb.ProjectControllerTest do
 
     test "404s when project 404s", %{conn: conn} do
       conn
-      |> assign(:get_page_fn, fn _ -> {:error, :not_found} end)
+      |> assign(:get_page_fn, fn _, _ -> {:error, :not_found} end)
       |> assign(:teasers_fn, fn _ ->
         send(self(), :teasers_fn)
         []
@@ -92,7 +94,7 @@ defmodule SiteWeb.ProjectControllerTest do
 
     test "returns 502 when repo returns error", %{conn: conn} do
       conn
-      |> assign(:get_page_fn, fn _ -> {:error, :invalid_response} end)
+      |> assign(:get_page_fn, fn _, _ -> {:error, :invalid_response} end)
       |> assign(:teasers_fn, fn _ ->
         send(self(), :teasers_fn)
         []

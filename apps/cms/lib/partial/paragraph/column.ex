@@ -10,12 +10,12 @@ defmodule CMS.Partial.Paragraph.Column do
           paragraphs: [Paragraph.t()]
         }
 
-  @spec from_api(map) :: t
-  def from_api(data) do
+  @spec from_api(map, Plug.Conn.t()) :: t
+  def from_api(data, conn) do
     paragraphs =
       data
       |> Map.get("field_content", [])
-      |> Enum.map(&Paragraph.from_api/1)
+      |> Enum.map(&Paragraph.from_api(&1, conn))
 
     %__MODULE__{
       paragraphs: paragraphs

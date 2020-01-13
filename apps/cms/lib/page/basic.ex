@@ -13,7 +13,7 @@ defmodule CMS.Page.Basic do
       field_value: 2,
       int_or_string_to_int: 1,
       parse_body: 1,
-      parse_paragraphs: 1
+      parse_paragraphs: 2
     ]
 
   defstruct body: HTML.raw(""),
@@ -32,13 +32,13 @@ defmodule CMS.Page.Basic do
           breadcrumbs: [Util.Breadcrumb.t()]
         }
 
-  @spec from_api(map) :: t
-  def from_api(%{} = data) do
+  @spec from_api(map, map) :: t
+  def from_api(%{} = data, query_params \\ %{}) do
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
       title: field_value(data, "title") || "",
       body: parse_body(data),
-      paragraphs: parse_paragraphs(data),
+      paragraphs: parse_paragraphs(data, query_params),
       sidebar_menu: parse_menu_links(data),
       breadcrumbs: Breadcrumbs.build(data)
     }

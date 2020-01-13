@@ -20,12 +20,12 @@ defmodule CMS.Partial.Paragraph.Accordion do
           sections: [AccordionSection.t()]
         }
 
-  @spec from_api(map) :: t
-  def from_api(data) do
+  @spec from_api(map, map) :: t
+  def from_api(data, query_params) do
     sections =
       data
       |> Map.get("field_tabs", [])
-      |> Enum.map(&AccordionSection.from_api/1)
+      |> Enum.map(&AccordionSection.from_api(&1, query_params))
 
     %__MODULE__{
       display: field_value(data, "field_tabs_display"),

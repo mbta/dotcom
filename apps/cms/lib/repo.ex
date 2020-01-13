@@ -30,7 +30,7 @@ defmodule CMS.Repo do
   @spec get_page(String.t(), map) :: Page.t() | {:error, API.error()}
   def get_page(path, query_params \\ %{}) do
     case view_or_preview(path, query_params) do
-      {:ok, api_data} -> Page.from_api(api_data)
+      {:ok, api_data} -> Page.from_api(api_data, query_params)
       {:error, error} -> {:error, error}
     end
   end
@@ -303,10 +303,10 @@ defmodule CMS.Repo do
   def get_paragraph(path, query_params \\ %{}) do
     case view_or_preview(path, query_params) do
       {:ok, api_data} ->
-        Paragraph.from_api(api_data)
+        Paragraph.from_api(api_data, query_params)
 
       {:error, {:redirect, _status, to: new_path}} ->
-        get_paragraph(new_path)
+        get_paragraph(new_path, query_params)
 
       {:error, error} ->
         {:error, error}

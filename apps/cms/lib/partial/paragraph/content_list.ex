@@ -9,7 +9,7 @@ defmodule CMS.Partial.Paragraph.ContentList do
   import CMS.Helpers,
     only: [field_value: 2, int_or_string_to_int: 1, content_type: 1, parse_link: 2]
 
-  import CMS.Partial.Paragraph, only: [parse_header: 1]
+  import CMS.Partial.Paragraph, only: [parse_header: 2]
 
   alias CMS.Partial.Paragraph.ColumnMultiHeader
   alias CMS.Partial.Teaser
@@ -35,8 +35,8 @@ defmodule CMS.Partial.Paragraph.ContentList do
           cta: map()
         }
 
-  @spec from_api(map) :: t
-  def from_api(data) do
+  @spec from_api(map, map) :: t
+  def from_api(data, query_params \\ %{}) do
     type =
       data
       |> field_value("field_content_type")
@@ -76,7 +76,7 @@ defmodule CMS.Partial.Paragraph.ContentList do
     recipe = combine(ingredients)
 
     %__MODULE__{
-      header: parse_header(data),
+      header: parse_header(data, query_params),
       right_rail: field_value(data, "field_right_rail"),
       ingredients: ingredients,
       recipe: recipe,
