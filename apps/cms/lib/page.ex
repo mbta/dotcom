@@ -32,44 +32,44 @@ defmodule CMS.Page do
   @doc """
   Expects parsed json from drupal CMS. Should be one item (not array of items)
   """
-  @spec from_api(map) :: t
-  def from_api(data) do
+  @spec from_api(map, map) :: t
+  def from_api(data, query_params \\ %{}) do
     data
-    |> parse()
+    |> parse(query_params)
     |> fetch_content_lists()
   end
 
-  defp parse(%{"type" => [%{"target_id" => "event"}]} = api_data) do
+  defp parse(%{"type" => [%{"target_id" => "event"}]} = api_data, _query_params) do
     Event.from_api(api_data)
   end
 
-  defp parse(%{"type" => [%{"target_id" => "landing_page"}]} = api_data) do
-    Landing.from_api(api_data)
+  defp parse(%{"type" => [%{"target_id" => "landing_page"}]} = api_data, query_params) do
+    Landing.from_api(api_data, query_params)
   end
 
-  defp parse(%{"type" => [%{"target_id" => "news_entry"}]} = api_data) do
+  defp parse(%{"type" => [%{"target_id" => "news_entry"}]} = api_data, _query_params) do
     NewsEntry.from_api(api_data)
   end
 
-  defp parse(%{"type" => [%{"target_id" => "person"}]} = api_data) do
+  defp parse(%{"type" => [%{"target_id" => "person"}]} = api_data, _query_params) do
     Person.from_api(api_data)
   end
 
-  defp parse(%{"type" => [%{"target_id" => "project"}]} = api_data) do
-    Project.from_api(api_data)
+  defp parse(%{"type" => [%{"target_id" => "project"}]} = api_data, query_params) do
+    Project.from_api(api_data, query_params)
   end
 
-  defp parse(%{"type" => [%{"target_id" => "project_update"}]} = api_data) do
-    ProjectUpdate.from_api(api_data)
+  defp parse(%{"type" => [%{"target_id" => "project_update"}]} = api_data, query_params) do
+    ProjectUpdate.from_api(api_data, query_params)
   end
 
-  defp parse(%{"type" => [%{"target_id" => "redirect"}]} = api_data) do
+  defp parse(%{"type" => [%{"target_id" => "redirect"}]} = api_data, _query_params) do
     Redirect.from_api(api_data)
   end
 
   # For all other node/content types from the CMS, use a common struct/template
-  defp parse(%{"type" => [%{"target_type" => "node_type"}]} = api_data) do
-    Basic.from_api(api_data)
+  defp parse(%{"type" => [%{"target_type" => "node_type"}]} = api_data, query_params) do
+    Basic.from_api(api_data, query_params)
   end
 
   @spec fetch_content_lists(t) :: t

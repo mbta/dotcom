@@ -12,7 +12,7 @@ defmodule CMS.Partial.Paragraph.AccordionSection do
   import CMS.Helpers,
     only: [
       field_value: 2,
-      parse_paragraphs: 2
+      parse_paragraphs: 3
     ]
 
   alias CMS.Partial.Paragraph
@@ -27,12 +27,12 @@ defmodule CMS.Partial.Paragraph.AccordionSection do
           content: Paragraph.t()
         }
 
-  @spec from_api(map) :: t
-  def from_api(%{} = data) do
+  @spec from_api(map, map) :: t
+  def from_api(%{} = data, query_params) do
     %__MODULE__{
       title: field_value(data, "field_label"),
       prefix: "cms-#{field_value(data, "id")}",
-      content: data |> parse_paragraphs("field_content") |> List.first()
+      content: data |> parse_paragraphs(query_params, "field_content") |> List.first()
     }
   end
 end

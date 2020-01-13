@@ -22,7 +22,7 @@ defmodule SiteWeb.PageController do
   def index(conn, _params) do
     {promoted, remainder} = whats_happening_items()
     banner = banner()
-    fares = fares()
+    fares = fares(conn.query_params)
 
     conn
     |> assign(
@@ -40,9 +40,9 @@ defmodule SiteWeb.PageController do
     |> render("index.html")
   end
 
-  @spec fares :: Paragraph.t() | nil
-  defp fares do
-    case Repo.get_paragraph("paragraphs/multi-column/homepage-fares") do
+  @spec fares(map) :: Paragraph.t() | nil
+  defp fares(query_params) do
+    case Repo.get_paragraph("paragraphs/multi-column/homepage-fares", query_params) do
       {:error, _} -> nil
       result -> result
     end

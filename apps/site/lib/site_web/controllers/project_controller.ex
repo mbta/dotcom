@@ -90,12 +90,12 @@ defmodule SiteWeb.ProjectController do
   end
 
   def project_updates(conn, %{"project_alias" => project_alias}) do
-    get_page_fn = Map.get(conn.assigns, :get_page_fn, &Repo.get_page/1)
+    get_page_fn = Map.get(conn.assigns, :get_page_fn, &Repo.get_page/2)
     teasers_fn = Map.get(conn.assigns, :teasers_fn, &Repo.teasers/1)
 
     "/projects"
     |> Path.join(project_alias)
-    |> get_page_fn.()
+    |> get_page_fn.(conn.query_params)
     |> case do
       %Project{} = project ->
         breadcrumbs = [
