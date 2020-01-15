@@ -631,16 +631,20 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
         %AccordionSection{
           title: "{{ icon:subway-red }} Section 1",
           prefix: "cms-10",
-          content: %CustomHTML{
-            body: HTML.raw("<strong>First section's content</strong>")
-          }
+          content: [
+            %CustomHTML{
+              body: HTML.raw("<strong>First section's content</strong>")
+            }
+          ]
         },
         %AccordionSection{
           title: "Section 2",
           prefix: "cms-11",
-          content: %CustomHTML{
-            body: HTML.raw("<strong>Second section's content</strong>")
-          }
+          content: [
+            %CustomHTML{
+              body: HTML.raw("<strong>Second section's content</strong>")
+            }
+          ]
         }
       ]
 

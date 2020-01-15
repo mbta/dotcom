@@ -19,20 +19,20 @@ defmodule CMS.Partial.Paragraph.AccordionSection do
 
   defstruct title: "",
             prefix: "",
-            content: %{}
+            content: []
 
   @type t :: %__MODULE__{
           title: String.t(),
           prefix: String.t(),
-          content: Paragraph.t()
+          content: [Paragraph.t()]
         }
 
   @spec from_api(map, map) :: t
-  def from_api(%{} = data, query_params) do
+  def from_api(%{} = data, query_params \\ %{}) do
     %__MODULE__{
       title: field_value(data, "field_label"),
       prefix: "cms-#{field_value(data, "id")}",
-      content: data |> parse_paragraphs(query_params, "field_content") |> List.first()
+      content: parse_paragraphs(data, query_params, "field_content")
     }
   end
 end

@@ -22,11 +22,14 @@ defmodule CMS.Partial.Paragraph do
 
   alias CMS.Partial.Paragraph.{
     Accordion,
+    AccordionSection,
     Callout,
+    Column,
     ColumnMulti,
     ColumnMultiHeader,
     ContentList,
     CustomHTML,
+    Description,
     DescriptionList,
     DescriptiveLink,
     FareCard,
@@ -39,10 +42,14 @@ defmodule CMS.Partial.Paragraph do
 
   @types [
     Accordion,
+    AccordionSection,
     Callout,
+    Column,
     ColumnMulti,
+    ColumnMultiHeader,
     ContentList,
     CustomHTML,
+    Description,
     DescriptionList,
     DescriptiveLink,
     FareCard,
@@ -55,11 +62,14 @@ defmodule CMS.Partial.Paragraph do
 
   @type t ::
           Accordion.t()
+          | AccordionSection.t()
           | Callout.t()
+          | Column.t()
           | ColumnMulti.t()
           | ColumnMultiHeader.t()
           | ContentList.t()
           | CustomHTML.t()
+          | Description.t()
           | DescriptionList.t()
           | DescriptiveLink.t()
           | FareCard.t()
@@ -71,10 +81,14 @@ defmodule CMS.Partial.Paragraph do
 
   @type name ::
           Accordion
+          | AccordionSection
           | Callout
+          | Column
           | ColumnMulti
+          | ColumnMultiHeader
           | ContentList
           | CustomHTML
+          | Description
           | DescriptionList
           | DescriptiveLink
           | FareCard
@@ -91,8 +105,16 @@ defmodule CMS.Partial.Paragraph do
     Callout.from_api(para)
   end
 
+  def from_api(%{"type" => [%{"target_id" => "multi_column_header"}]} = para, _query_params) do
+    ColumnMultiHeader.from_api(para)
+  end
+
   def from_api(%{"type" => [%{"target_id" => "multi_column"}]} = para, query_params) do
     ColumnMulti.from_api(para, query_params)
+  end
+
+  def from_api(%{"type" => [%{"target_id" => "column"}]} = para, query_params) do
+    Column.from_api(para, query_params)
   end
 
   def from_api(%{"type" => [%{"target_id" => "content_list"}]} = para, query_params) do
@@ -103,12 +125,16 @@ defmodule CMS.Partial.Paragraph do
     CustomHTML.from_api(para)
   end
 
+  def from_api(%{"type" => [%{"target_id" => "definition"}]} = para, _query_params) do
+    Description.from_api(para)
+  end
+
   def from_api(%{"type" => [%{"target_id" => "description_list"}]} = para, query_params) do
     DescriptionList.from_api(para, query_params)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "fare_card"}]} = para, _query_params) do
-    FareCard.from_api(para)
+  def from_api(%{"type" => [%{"target_id" => "fare_card"}]} = para, query_params) do
+    FareCard.from_api(para, query_params)
   end
 
   def from_api(%{"type" => [%{"target_id" => "files_grid"}]} = para, _query_params) do
@@ -125,6 +151,10 @@ defmodule CMS.Partial.Paragraph do
 
   def from_api(%{"type" => [%{"target_id" => "tabs"}]} = para, query_params) do
     Accordion.from_api(para, query_params)
+  end
+
+  def from_api(%{"type" => [%{"target_id" => "tab"}]} = para, query_params) do
+    AccordionSection.from_api(para, query_params)
   end
 
   def from_api(%{"type" => [%{"target_id" => "title_card"}]} = para, _query_params) do
@@ -160,15 +190,6 @@ defmodule CMS.Partial.Paragraph do
 
   @spec get_types() :: [name]
   def get_types, do: @types
-
-  @spec parse_header(map, map) :: t
-  def parse_header(%{} = data, _query_params) do
-    data
-    |> Map.get("field_multi_column_header", [])
-    |> Enum.map(&ColumnMultiHeader.from_api/1)
-    # There is only ever 1 header element
-    |> List.first()
-  end
 
   # Pass through the nested paragraph and host ID
   @spec parse_library_item(map, map) :: t

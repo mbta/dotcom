@@ -1,4 +1,7 @@
 defmodule SiteWeb.PartialView do
+  @moduledoc """
+  Handles rendering of partial components and CMS content.
+  """
   use SiteWeb, :view
 
   alias CMS.{Partial.Teaser, Repo}
