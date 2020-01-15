@@ -1,10 +1,9 @@
 defmodule SiteWeb.ScheduleController.LineApi do
-  @moduledoc """
-    API for retrieving line diagram data
-  """
+  @moduledoc "Provides JSON endpoints for retrieving line diagram data."
   use SiteWeb, :controller
 
   alias Alerts.Stop
+  alias Routes.Route
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias Stops.Repo, as: StopsRepo
@@ -12,17 +11,15 @@ defmodule SiteWeb.ScheduleController.LineApi do
 
   import SiteWeb.StopController, only: [json_safe_alerts: 2]
 
-  @type query_param :: String.t() | nil
-  @type direction_id :: 0 | 1
-
-  def show(conn, %{
-        "id" => route_id,
-        "direction_id" => direction_id
-      }) do
+  @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
+  def show(conn, %{"id" => route_id, "direction_id" => direction_id}) do
     line_data =
-      get_line_data(conn, route_id, String.to_integer(direction_id), %{
-        stops_by_route_fn: &StopsRepo.by_route/3
-      })
+      get_line_data(
+        route_id,
+        String.to_integer(direction_id),
+        conn.query_params["variant"],
+        Laboratory.enabled?(conn, :schedule_direction_redesign)
+      )
 
     conn =
       conn
@@ -38,28 +35,26 @@ defmodule SiteWeb.ScheduleController.LineApi do
     )
   end
 
-  def get_line_data(conn, route_id, direction_id, deps) do
-    route = LineHelpers.get_route(route_id)
-    variant = conn.query_params["variant"]
-    route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)
-    route_stops = LineHelpers.get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
-    active_shapes = LineHelpers.get_active_shapes(route_shapes, route, variant)
-    filtered_shapes = LineHelpers.filter_route_shapes(route_shapes, active_shapes, route)
-    branches = LineHelpers.get_branches(filtered_shapes, route_stops, route, direction_id)
-
-    DiagramHelpers.build_stop_list(
-      branches,
-      direction_id,
-      Laboratory.enabled?(conn, :schedule_direction_redesign)
-    )
-  end
-
-  @spec update_route_stop_data({any, Stops.RouteStop.t()}, any, DateTime.t()) :: map()
+  @spec update_route_stop_data({any, RouteStop.t()}, any, DateTime.t()) :: map()
   def update_route_stop_data({data, %RouteStop{id: stop_id} = map}, alerts, date) do
     %{
       alerts: alerts |> Stop.match(stop_id) |> json_safe_alerts(date),
       route_stop: RouteStop.to_json_safe(map),
       stop_data: Enum.map(data, fn {key, value} -> %{branch: key, type: value} end)
     }
+  end
+
+  @spec get_line_data(Route.id_t(), 0 | 1, Route.branch_name(), boolean()) :: [
+          DiagramHelpers.stop_with_bubble_info()
+        ]
+  defp get_line_data(route_id, direction_id, variant, redesign_enabled?) do
+    route = LineHelpers.get_route(route_id)
+    route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)
+    route_stops = LineHelpers.get_route_stops(route.id, direction_id, &StopsRepo.by_route/3)
+    active_shapes = LineHelpers.get_active_shapes(route_shapes, route, variant)
+    filtered_shapes = LineHelpers.filter_route_shapes(route_shapes, active_shapes, route)
+    branches = LineHelpers.get_branches(filtered_shapes, route_stops, route, direction_id)
+
+    DiagramHelpers.build_stop_list(branches, direction_id, redesign_enabled?)
   end
 end

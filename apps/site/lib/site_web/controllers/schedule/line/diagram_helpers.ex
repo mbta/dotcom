@@ -8,9 +8,8 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   alias Stops.{RouteStop, RouteStops}
   alias Util.EnumHelpers
 
-  @type query_param :: String.t() | nil
   @type direction_id :: 0 | 1
-  @typep stop_with_bubble_info :: {[StopBubble.stop_bubble()], RouteStop.t()}
+  @type stop_with_bubble_info :: {[StopBubble.stop_bubble()], RouteStop.t()}
   @doc """
   Builds a list of all stops on a route; stops are represented by tuples of
 
@@ -21,7 +20,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   `branch_name` is used by the green line to display the branch's letter.
 
   """
-  @spec build_stop_list([RouteStops.t()], 0 | 1, boolean) :: [stop_with_bubble_info]
+  @spec build_stop_list([RouteStops.t()], direction_id, boolean) :: [stop_with_bubble_info]
   def build_stop_list(branches, direction_id, combine_green_branches \\ false)
 
   def build_stop_list(
@@ -58,7 +57,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
 
   # Reduces each green line branch into a tuple of {stops_on_branches, shared_stops}, which gets parsed
   # by &build_green_stop_list/2.
-  @spec reduce_green_branch(RouteStops.t(), {[RouteStop.t()], [RouteStop.t()]}, 0 | 1, boolean) ::
+  @spec reduce_green_branch(RouteStops.t(), {[RouteStop.t()], [RouteStop.t()]}, direction_id, boolean) ::
           {[stop_with_bubble_info], [RouteStop.t()]}
   defp reduce_green_branch(branch, acc, direction_id, combine_green_branches) do
     branch
@@ -143,7 +142,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   end
 
   # Splits green branch into a tuple of shared stops and stops that are unique to that branch.
-  @spec split_green_branch(RouteStops.t(), 0 | 1) :: {[RouteStop.t()], [RouteStop.t()]}
+  @spec split_green_branch(RouteStops.t(), direction_id) :: {[RouteStop.t()], [RouteStop.t()]}
   defp split_green_branch(%RouteStops{branch: "Green-E", stops: stops}, _direction_id),
     do: {[], stops}
 
@@ -188,7 +187,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
           [stop_with_bubble_info],
           [RouteStop.t()],
           {[stop_with_bubble_info], [RouteStop.t()]},
-          0 | 1
+          direction_id
         ) :: {[stop_with_bubble_info], [RouteStop.t()]}
   defp do_parse_green_branch(
          [],
