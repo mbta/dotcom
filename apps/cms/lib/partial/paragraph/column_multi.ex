@@ -2,8 +2,7 @@ defmodule CMS.Partial.Paragraph.ColumnMulti do
   @moduledoc """
   A set of columns to organize layout on the page.
   """
-  import CMS.Helpers, only: [field_value: 2]
-  import CMS.Partial.Paragraph, only: [parse_header: 2]
+  import CMS.Helpers, only: [field_value: 2, parse_paragraphs: 3]
 
   alias CMS.Partial.Paragraph.{Column, ColumnMultiHeader, DescriptiveLink, FareCard}
 
@@ -21,14 +20,9 @@ defmodule CMS.Partial.Paragraph.ColumnMulti do
 
   @spec from_api(map, map) :: t
   def from_api(data, query_params \\ %{}) do
-    columns =
-      data
-      |> Map.get("field_column", [])
-      |> Enum.map(&Column.from_api(&1, query_params))
-
     %__MODULE__{
-      header: parse_header(data, query_params),
-      columns: columns,
+      header: data |> parse_paragraphs(query_params, "field_multi_column_header") |> List.first(),
+      columns: parse_paragraphs(data, query_params, "field_column"),
       display_options: field_value(data, "field_display_options"),
       right_rail: field_value(data, "field_right_rail")
     }

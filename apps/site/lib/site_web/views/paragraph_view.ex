@@ -7,7 +7,17 @@ defmodule SiteWeb.CMS.ParagraphView do
   alias CMS.API
   alias CMS.Field.{Image, Link}
   alias CMS.Partial.{Paragraph, Teaser}
-  alias Paragraph.{Callout, ColumnMulti, ContentList, DescriptiveLink, FareCard}
+
+  alias Paragraph.{
+    Accordion,
+    Callout,
+    ColumnMulti,
+    ContentList,
+    DescriptionList,
+    DescriptiveLink,
+    FareCard
+  }
+
   alias Plug.Conn
   alias Site.ContentRewriter
 
@@ -28,6 +38,12 @@ defmodule SiteWeb.CMS.ParagraphView do
   def render_paragraph({:error, _error}, _), do: []
   # Don't render Content List if list has no items
   def render_paragraph(%ContentList{teasers: []}, _), do: []
+  # Don't render Accordion if all tabs are unpublished
+  def render_paragraph(%Accordion{sections: []}, _), do: []
+  # Don't render Multi Column if all column content is unpublished
+  def render_paragraph(%ColumnMulti{header: nil, columns: []}, _), do: []
+  # Don't render Description List if all descriptions are unpublished
+  def render_paragraph(%DescriptionList{header: nil, descriptions: []}, _), do: []
 
   def render_paragraph(paragraph, conn) do
     render(

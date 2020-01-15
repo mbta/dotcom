@@ -2,17 +2,19 @@
   <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
 <% end %>
 
-<%= extend_width :table do %>
-  <dl class="dl" role="list">
-    <%= for description <- @content.descriptions do %>
-      <div role="listitem" class="dl--item">
-        <dt class="dt">
-          <%= ContentRewriter.rewrite(description.term, @conn) %>
-        </dt>
-        <dd class="dd">
-          <%= ContentRewriter.rewrite(description.details, @conn) %>
-        </dd>
-      </div>
-    <% end %>
-  </dl>
+<%= if length(@content.descriptions) > 0 do %>
+  <%= extend_width :table do %>
+    <dl class="dl" role="list">
+      <%= for description <- @content.descriptions do %>
+        <div role="listitem" class="dl--item">
+          <dt class="dt">
+            <%= ContentRewriter.rewrite(description.term, @conn) %>
+          </dt>
+          <dd class="dd">
+            <%= ContentRewriter.rewrite(description.details, @conn) %>
+          </dd>
+        </div>
+      <% end %>
+    </dl>
+  <% end %>
 <% end %>

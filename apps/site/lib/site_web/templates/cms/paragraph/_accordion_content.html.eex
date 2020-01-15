@@ -1,1 +1,5 @@
-<%= render_paragraph_content(@content, @conn) %>
+<%=
+  for content <- @content do
+    render_paragraph_content(content, @conn)
+  end
+%>

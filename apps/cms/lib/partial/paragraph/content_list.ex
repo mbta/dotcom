@@ -7,9 +7,13 @@ defmodule CMS.Partial.Paragraph.ContentList do
   For API documentation, see https://github.com/mbta/cms/blob/master/API.md#teasers
   """
   import CMS.Helpers,
-    only: [field_value: 2, int_or_string_to_int: 1, content_type: 1, parse_link: 2]
-
-  import CMS.Partial.Paragraph, only: [parse_header: 2]
+    only: [
+      field_value: 2,
+      int_or_string_to_int: 1,
+      content_type: 1,
+      parse_link: 2,
+      parse_paragraphs: 3
+    ]
 
   alias CMS.Partial.Paragraph.ColumnMultiHeader
   alias CMS.Partial.Teaser
@@ -76,7 +80,7 @@ defmodule CMS.Partial.Paragraph.ContentList do
     recipe = combine(ingredients)
 
     %__MODULE__{
-      header: parse_header(data, query_params),
+      header: data |> parse_paragraphs(query_params, "field_multi_column_header") |> List.first(),
       right_rail: field_value(data, "field_right_rail"),
       ingredients: ingredients,
       recipe: recipe,

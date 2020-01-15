@@ -9,7 +9,8 @@ defmodule CMS.Partial.Paragraph.Accordion do
 
   """
 
-  import CMS.Helpers, only: [field_value: 2]
+  import CMS.Helpers, only: [field_value: 2, parse_paragraphs: 3]
+
   alias CMS.Partial.Paragraph.AccordionSection
 
   defstruct display: "",
@@ -21,15 +22,10 @@ defmodule CMS.Partial.Paragraph.Accordion do
         }
 
   @spec from_api(map, map) :: t
-  def from_api(data, query_params) do
-    sections =
-      data
-      |> Map.get("field_tabs", [])
-      |> Enum.map(&AccordionSection.from_api(&1, query_params))
-
+  def from_api(data, query_params \\ %{}) do
     %__MODULE__{
       display: field_value(data, "field_tabs_display"),
-      sections: sections
+      sections: parse_paragraphs(data, query_params, "field_tabs")
     }
   end
 end

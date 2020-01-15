@@ -201,8 +201,8 @@ defmodule CMS.ParagraphTest do
       assert section1.title == "Accordion Label 1"
       assert section2.title == "Accordion Label 2"
 
-      assert %CustomHTML{} = section1.content
-      assert %CustomHTML{} = section2.content
+      assert [%CustomHTML{}] = section1.content
+      assert [%CustomHTML{}] = section2.content
     end
 
     test "parses title card (used in DescriptiveLink context)" do

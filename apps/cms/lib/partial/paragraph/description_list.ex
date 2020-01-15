@@ -2,7 +2,7 @@ defmodule CMS.Partial.Paragraph.DescriptionList do
   @moduledoc """
   A description list element (optionally including a header) from the CMS.
   """
-  import CMS.Partial.Paragraph, only: [parse_header: 2]
+  import CMS.Helpers, only: [parse_paragraphs: 3]
 
   alias CMS.Partial.Paragraph.{ColumnMultiHeader, Description}
 
@@ -16,14 +16,9 @@ defmodule CMS.Partial.Paragraph.DescriptionList do
 
   @spec from_api(map, map) :: t
   def from_api(data, query_params \\ %{}) do
-    descriptions =
-      data
-      |> Map.get("field_definition", [])
-      |> Enum.map(&Description.from_api/1)
-
     %__MODULE__{
-      header: parse_header(data, query_params),
-      descriptions: descriptions
+      header: data |> parse_paragraphs(query_params, "field_multi_column_header") |> List.first(),
+      descriptions: parse_paragraphs(data, query_params, "field_definition")
     }
   end
 end

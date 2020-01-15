@@ -117,6 +117,10 @@ defmodule CMS.Helpers do
     end
   end
 
+  @doc """
+  Expects raw JSON data for a CMS object that contains a paragraphs field.
+  This field value will always be a list of potential paragraphs.
+  """
   @spec parse_paragraphs(map, map, String.t()) :: [Paragraph.t()]
   def parse_paragraphs(data, query_params \\ %{}, target_field \\ "field_paragraphs") do
     data

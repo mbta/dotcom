@@ -285,6 +285,7 @@ defmodule CMS.HelpersTest do
         "field_paragraphs" => [
           %{
             "type" => [%{"target_id" => "from_library"}],
+            "status" => [%{"value" => true}],
             "field_reusable_paragraph" => [
               %{
                 "status" => [%{"value" => true}],
@@ -300,6 +301,7 @@ defmodule CMS.HelpersTest do
           },
           %{
             "type" => [%{"target_id" => "from_library"}],
+            "status" => [%{"value" => true}],
             "field_reusable_paragraph" => [
               %{
                 "status" => [%{"value" => false}],
@@ -315,6 +317,7 @@ defmodule CMS.HelpersTest do
           },
           %{
             "type" => [%{"target_id" => "from_library"}],
+            "status" => [%{"value" => true}],
             "field_reusable_paragraph" => [
               %{
                 "status" => [%{"value" => true}],
@@ -346,6 +349,7 @@ defmodule CMS.HelpersTest do
         "field_paragraphs" => [
           %{
             "type" => [%{"target_id" => "from_library"}],
+            "status" => [%{"value" => true}],
             "field_reusable_paragraph" => [nil]
           }
         ]

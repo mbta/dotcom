@@ -3,7 +3,7 @@ defmodule CMS.Partial.Paragraph.FareCard do
   Represents a Fare Card paragraph type from the CMS.
   """
 
-  import CMS.Helpers, only: [field_value: 2, parse_link: 2]
+  import CMS.Helpers, only: [field_value: 2, parse_link: 2, parse_paragraphs: 3]
 
   alias CMS.Field.Link
   alias CMS.Partial.Paragraph.CustomHTML
@@ -20,10 +20,10 @@ defmodule CMS.Partial.Paragraph.FareCard do
           show_media: boolean()
         }
 
-  @spec from_api(map) :: t
-  def from_api(data) do
+  @spec from_api(map, map) :: t
+  def from_api(data, query_params \\ %{}) do
     with fare_token <- fare_token(data),
-         note <- note(data) do
+         note <- note(data, query_params) do
       %__MODULE__{
         fare_token: fare_token,
         note: note,
@@ -39,10 +39,9 @@ defmodule CMS.Partial.Paragraph.FareCard do
     |> parse_token()
   end
 
-  defp note(data) do
+  defp note(data, query_params) do
     data
-    |> Map.get("field_fare_notes", [])
-    |> Enum.map(&CustomHTML.from_api/1)
+    |> parse_paragraphs(query_params, "field_fare_notes")
     # There is only ever 1 note element
     |> List.first()
   end
