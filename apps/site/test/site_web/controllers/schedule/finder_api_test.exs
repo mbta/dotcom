@@ -87,6 +87,22 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
       assert [%{"departure" => %{"time" => _}}] = response
       assert [%{"route" => %{"type" => 2}}] = response
     end
+
+    test "handles journeys for combined Green Line", %{conn: conn} do
+      route_id = "Green"
+      date = Util.now() |> Date.to_iso8601()
+      conn = assign(conn, :date, date)
+
+      journey =
+        %{id: route_id, direction: "0", stop: "place-boyls"}
+        |> get_valid_journeys(conn)
+        |> List.first()
+
+      assert %{"trip" => %{"id" => _}, "route" => %{"id" => _}} = journey
+      assert %{"departure" => %{"schedule" => %{"time" => date_time_string}}} = journey
+      assert {:ok, date_time, _} = DateTime.from_iso8601(date_time_string)
+      assert date == date_time |> DateTime.to_date() |> Date.to_iso8601()
+    end
   end
 
   describe "departures/2" do
