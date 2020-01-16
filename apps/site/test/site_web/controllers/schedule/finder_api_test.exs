@@ -153,6 +153,26 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
                }
              ] = response
     end
+
+    test "can handle added trips", %{conn: conn} do
+      added_prediction = %Prediction{@prediction | schedule_relationship: :added}
+
+      path =
+        finder_api_path(conn, :departures, %{
+          id: "CR-Providence",
+          direction: "0",
+          stop: "place-sstat"
+        })
+
+      response =
+        conn
+        |> assign(:schedules_fn, fn _, _ -> [] end)
+        |> assign(:predictions_fn, fn _ -> [added_prediction] end)
+        |> get(path)
+        |> json_response(200)
+
+      assert [%{"departure" => %{"prediction" => added_prediction, "schedule" => nil}}] = response
+    end
   end
 
   describe "trip/2" do

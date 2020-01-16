@@ -161,12 +161,11 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   @spec enhance_journeys(Journey.t()) :: map
   defp enhance_journeys(%{departure: departure} = journey) do
     now = Timex.now()
-    diff = DateTime.diff(Timex.now(), departure.schedule.time)
 
     time_map =
       departure
       |> TransitNearMe.build_time_map(now: now)
-      |> recent_departure(departure.prediction, diff)
+      |> recent_departure(departure, now)
 
     Map.put(journey, :realtime, time_map)
   end
@@ -177,13 +176,23 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   # a prediction's status and limit recent trips to a certain time range.
   # NOTE: Only works for N/S Station and Back Bay, and predictions will
   # drop off (become nil) anytime during the duration of the trip.
-  defp recent_departure({_, details}, %{status: "Departed"} = prediction, time_elapsed)
-       when time_elapsed <= @recent_departure_max_age do
-    Map.put(details, :prediction, %{
-      time: details.scheduled_time,
-      track: prediction.track,
-      status: "Departed"
-    })
+  defp recent_departure(
+         {_, details},
+         %{schedule: schedule, prediction: %{status: "Departed"} = prediction},
+         now
+       )
+       when not is_nil(schedule) do
+    time_elapsed = DateTime.diff(now, schedule.time)
+
+    if time_elapsed <= @recent_departure_max_age do
+      Map.put(details, :prediction, %{
+        time: details.scheduled_time,
+        track: prediction.track,
+        status: "Departed"
+      })
+    else
+      details
+    end
   end
 
   defp recent_departure({_, details}, _, _), do: details
