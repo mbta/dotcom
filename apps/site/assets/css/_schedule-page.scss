@@ -453,3 +453,45 @@
     width: 9px;
   }
 }
+
+// Tighten spacing on mobile view
+@include media-breakpoint-down(xs) {
+  .schedule-finder__first-last-trip,
+  .schedule-table {
+    margin-left: -$base-spacing;
+    margin-right: -$base-spacing;
+    width: calc(100% + 2 * #{$base-spacing});
+  }
+
+  .schedule-finder__first-last-trip {
+    justify-content: space-between;
+  }
+
+  .schedule-table__row-route-pill {
+    margin-right: $base-spacing * .5;
+
+    .u-bg--bus,
+    .u-bg--silver-line {
+      padding-left: $base-spacing * .25;
+      padding-right: $base-spacing * .25;
+    }
+  }
+
+  .schedule-table__row-header-label {
+    margin-right: $base-spacing * 1.25;
+  }
+
+  .schedule-table__td {
+    margin-right: $base-spacing * .5;
+  }
+
+  .schedule-table__row-header-label--tiny,
+  .schedule-table__td--tiny {
+    width: 2ch;
+  }
+
+  .schedule-table__th--flex-end,
+  .schedule-table__td--flex-end {
+    margin-right: $base-spacing * .25;
+  }
+}
