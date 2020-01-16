@@ -1,4 +1,5 @@
 import React, { ReactElement, useReducer } from "react";
+import useInterval from "use-interval";
 import StopMapContainer from "./StopMapContainer";
 import { StopPageData, StopMapData, TypedRoutes } from "./__stop";
 import { EnhancedRoute } from "../../__v3api";
@@ -10,7 +11,6 @@ import Sidebar from "./Sidebar";
 import LocationBlock from "./LocationBlock";
 import Departures from "./Departures";
 import SuggestedTransfers from "./SuggestedTransfers";
-import useInterval from "../../helpers/use-interval";
 
 interface Props {
   stopPageData: StopPageData;
