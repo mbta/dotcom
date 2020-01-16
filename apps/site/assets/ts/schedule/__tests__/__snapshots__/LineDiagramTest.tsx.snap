@@ -45,7 +45,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
     </SingleStop>
     <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={false}>
       <div className=\\"m-schedule-diagram__expander \\">
-        <ExpandableBlock header={{...}} initiallyExpanded={false} id=\\"Origin - Destination\\">
+        <ExpandableBlock header={{...}} initiallyExpanded={false} preventScroll={true} id=\\"Origin - Destination\\">
           <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-Origin - Destination\\" aria-expanded={false} aria-controls=\\"panel-Origin - Destination\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
             <div className=\\"c-expandable-block__header-text\\">
               <div className=\\"m-schedule-diagram__stop false\\">
@@ -193,7 +193,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
     </SingleStop>
     <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={true}>
       <div className=\\"m-schedule-diagram__expander m-schedule-diagram__expander--merging\\">
-        <ExpandableBlock header={{...}} initiallyExpanded={false} id=\\"Origin - Branch Destination\\">
+        <ExpandableBlock header={{...}} initiallyExpanded={false} preventScroll={true} id=\\"Origin - Branch Destination\\">
           <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-Origin - Branch Destination\\" aria-expanded={false} aria-controls=\\"panel-Origin - Branch Destination\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
             <div className=\\"c-expandable-block__header-text\\">
               <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--merging\\">
@@ -436,7 +436,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
     </SingleStop>
     <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={true}>
       <div className=\\"m-schedule-diagram__expander m-schedule-diagram__expander--merging\\">
-        <ExpandableBlock header={{...}} initiallyExpanded={false} id=\\"Origin - Branch Destination\\">
+        <ExpandableBlock header={{...}} initiallyExpanded={false} preventScroll={true} id=\\"Origin - Branch Destination\\">
           <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-Origin - Branch Destination\\" aria-expanded={false} aria-controls=\\"panel-Origin - Branch Destination\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
             <div className=\\"c-expandable-block__header-text\\">
               <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--merging\\">
@@ -576,7 +576,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
     </SingleStop>
     <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={false}>
       <div className=\\"m-schedule-diagram__expander \\">
-        <ExpandableBlock header={{...}} initiallyExpanded={false} id=\\"Origin - Destination\\">
+        <ExpandableBlock header={{...}} initiallyExpanded={false} preventScroll={true} id=\\"Origin - Destination\\">
           <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-Origin - Destination\\" aria-expanded={false} aria-controls=\\"panel-Origin - Destination\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
             <div className=\\"c-expandable-block__header-text\\">
               <div className=\\"m-schedule-diagram__stop false\\">

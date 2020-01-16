@@ -62,6 +62,7 @@ const ExpandableBranch = ({
         )
       }}
       initiallyExpanded={false}
+      preventScroll
       id={`${branchData[0].route_stop.branch}`}
     >
       <>

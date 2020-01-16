@@ -22,6 +22,7 @@ interface Props {
   children: ReactElement<HTMLElement>;
   id: string;
   panelClassName?: string;
+  preventScroll?: boolean;
 }
 
 interface State {
@@ -46,7 +47,8 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
     initiallyFocused,
     children,
     id,
-    panelClassName
+    panelClassName,
+    preventScroll
   } = props;
 
   const initialState = {
@@ -107,7 +109,13 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
           role="region"
           id={panelId}
           aria-labelledby={headerId}
-          ref={panel => panel && focused && panel.focus()}
+          ref={panel =>
+            panel &&
+            focused &&
+            panel.focus({
+              preventScroll: !!preventScroll
+            })
+          }
         >
           {children}
         </div>
