@@ -136,6 +136,8 @@ defmodule SiteWeb.ScheduleController.FinderApi do
         is_current: is_current
       )
 
+    route_ids = if(route_id == "Green", do: GreenLine.branch_ids(), else: [route_id])
+
     # JourneyList orders trips according to their prediction time first (if present),
     # and then by scheduled time. If the selected service is valid for the current day,
     # request schedules using today's date instead of the service end date, so that the
@@ -145,12 +147,17 @@ defmodule SiteWeb.ScheduleController.FinderApi do
 
     schedule_opts = [date: schedule_date, direction_id: direction_id, stop_ids: [stop_id]]
     schedules_fn = Map.get(conn.assigns, :schedules_fn, &Schedules.Repo.by_route_ids/2)
-    schedules = schedules_fn.([route_id], schedule_opts)
+    schedules = schedules_fn.(route_ids, schedule_opts)
 
     # Don't bother fetching predictions if we're looking at a future/past date.
     # We include predictions in the trip list because current day trips MAY have
     # special, added-in predictions w/o normal schedules attached to them (bus).
-    prediction_opts = [route: route_id, stop: stop_id, direction_id: direction_id]
+    prediction_opts = [
+      route: Enum.join(route_ids, ","),
+      stop: stop_id,
+      direction_id: direction_id
+    ]
+
     predictions_fn = Map.get(conn.assigns, :predictions_fn, &Predictions.Repo.all/1)
     predictions = if current_service?, do: predictions_fn.(prediction_opts), else: []
 
