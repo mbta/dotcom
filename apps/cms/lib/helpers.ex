@@ -130,21 +130,33 @@ defmodule CMS.Helpers do
   end
 
   @spec para_is_published(map, map) :: boolean
-  # Reusable paragraphs can be deleted, but their parent references may remain
-  defp para_is_published(%{"field_reusable_paragraph" => [nil]}, _query_params) do
+  defp para_is_published(field_data, query_params)
+
+  # Reusable paragraphs instance aren't automatically removed when their child
+  # paragraphs are deleted from the database, so catch that here.
+  defp para_is_published(%{"field_reusable_paragraph" => [nil]}, _) do
     false
   end
 
-  defp para_is_published(%{"field_reusable_paragraph" => reusable}, query_params) do
-    [%{"status" => status, "paragraphs" => data}] = reusable
+  # Reusable paragraphs are not directly renderable since they act as instance containers.
+  # However, these instances can be unpublished. If unpublished, stop and return false.
+  # If published, continue checking the nested child paragraph for publish status.
+  defp para_is_published(%{"field_reusable_paragraph" => [child]} = parent, query_params) do
+    %{"status" => [parent_status]} = parent
+    %{"paragraphs" => [paragraph]} = child
 
-    case status do
-      [%{"value" => false}] -> false
-      _ -> data |> List.first() |> para_is_published(query_params)
+    case parent_status do
+      %{"value" => false} -> false
+      _ -> para_is_published(paragraph, query_params)
     end
   end
 
-  defp para_is_published(%{"status" => [%{"value" => value}]}, _query_params) do
+  # In "preview" mode, allow unpublished paragraphs to be rendered if requested
+  defp para_is_published(_, %{"preview" => _, "paragraphs" => _}) do
+    true
+  end
+
+  defp para_is_published(%{"status" => [%{"value" => value}]}, _) do
     value
   end
 

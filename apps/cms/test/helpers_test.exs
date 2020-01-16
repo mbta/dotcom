@@ -288,7 +288,6 @@ defmodule CMS.HelpersTest do
             "status" => [%{"value" => true}],
             "field_reusable_paragraph" => [
               %{
-                "status" => [%{"value" => true}],
                 "paragraphs" => [
                   %{
                     "status" => [%{"value" => false}],
@@ -301,15 +300,16 @@ defmodule CMS.HelpersTest do
           },
           %{
             "type" => [%{"target_id" => "from_library"}],
-            "status" => [%{"value" => true}],
+            "status" => [%{"value" => false}],
             "field_reusable_paragraph" => [
               %{
-                "status" => [%{"value" => false}],
                 "paragraphs" => [
                   %{
                     "status" => [%{"value" => true}],
                     "type" => [%{"target_id" => "custom_html"}],
-                    "field_custom_html_body" => [%{"value" => "I am not published"}]
+                    "field_custom_html_body" => [
+                      %{"value" => "I am published, but my instance is not"}
+                    ]
                   }
                 ]
               }
@@ -320,12 +320,11 @@ defmodule CMS.HelpersTest do
             "status" => [%{"value" => true}],
             "field_reusable_paragraph" => [
               %{
-                "status" => [%{"value" => true}],
                 "paragraphs" => [
                   %{
                     "status" => [%{"value" => true}],
                     "type" => [%{"target_id" => "custom_html"}],
-                    "field_custom_html_body" => [%{"value" => "I am published"}]
+                    "field_custom_html_body" => [%{"value" => "I and my instance are published"}]
                   }
                 ]
               }
@@ -338,7 +337,29 @@ defmodule CMS.HelpersTest do
 
       assert parsed_map == [
                %CMS.Partial.Paragraph.CustomHTML{
-                 body: HTML.raw("I am published"),
+                 body: HTML.raw("I and my instance are published"),
+                 right_rail: nil
+               }
+             ]
+    end
+
+    test "it shows unpublished paragraphs when the page is in preview mode" do
+      map_data = %{
+        "field_paragraphs" => [
+          %{
+            "status" => [%{"value" => true}],
+            "type" => [%{"target_id" => "custom_html"}],
+            "field_custom_html_body" => [%{"value" => "Unpublished Custom HTML paragraph"}]
+          }
+        ]
+      }
+
+      query_params = %{"preview" => nil, "paragraphs" => true}
+      parsed_map = parse_paragraphs(map_data, query_params)
+
+      assert parsed_map == [
+               %CMS.Partial.Paragraph.CustomHTML{
+                 body: HTML.raw("Unpublished Custom HTML paragraph"),
                  right_rail: nil
                }
              ]
