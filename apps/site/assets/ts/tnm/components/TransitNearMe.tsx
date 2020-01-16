@@ -1,4 +1,5 @@
 import React, { useReducer, ReactElement, useRef, useEffect } from "react";
+import useInterval from "use-interval";
 import TransitNearMeMap from "./leaflet/TransitNearMeMap";
 import RoutesSidebar from "./RoutesSidebar";
 import StopsSidebar from "./StopsSidebar";
@@ -9,7 +10,6 @@ import {
   RealtimeScheduleData
 } from "./__tnm";
 import { MapData } from "../../leaflet/components/__mapdata";
-import useInterval from "../../helpers/use-interval";
 import {
   reducer,
   initialState,
@@ -129,18 +129,6 @@ const TransitNearMe = ({
     state.selectedStopId
   );
 
-  // call once on initial load
-  useEffect(
-    () => {
-      fetchRealtimeSchedules(
-        stopsWithDistances.stops.map(stop => stop.id),
-        dispatch
-      );
-    },
-    [stopsWithDistances]
-  );
-
-  // call event 15 seconds subsequently
   /* istanbul ignore next */
   useInterval(
     () =>
@@ -148,7 +136,8 @@ const TransitNearMe = ({
         stopsWithDistances.stops.map(stop => stop.id),
         dispatch
       ),
-    30000
+    30000,
+    true
   );
 
   return (
