@@ -33,7 +33,7 @@ else
   if [[ -n $SEMAPHORE_CACHE_DIR ]]; then
     mkdir -p "$SEMAPHORE_CACHE_DIR"/wiremock
     if [[ ! -f $SEMAPHORE_CACHE_DIR/wiremock/wiremock-standalone-$WIREMOCK_VERSION.jar ]]; then
-      cd "$SEMAPHORE_CACHE_DIR"/wiremock && curl -O http://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/$WIREMOCK_VERSION/wiremock-standalone-$WIREMOCK_VERSION.jar && cd -
+      cd "$SEMAPHORE_CACHE_DIR"/wiremock && curl -O https://repo1.maven.org/maven2/com/github/tomakehurst/wiremock-standalone/$WIREMOCK_VERSION/wiremock-standalone-$WIREMOCK_VERSION.jar && cd -
     fi
     WIREMOCK_PATH=$SEMAPHORE_CACHE_DIR/wiremock/wiremock-standalone-$WIREMOCK_VERSION.jar npm run wiremock &
   else
