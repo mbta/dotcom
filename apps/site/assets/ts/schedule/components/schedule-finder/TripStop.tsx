@@ -43,7 +43,7 @@ const TripStop = ({
   const { schedule } = departure;
 
   /* istanbul ignore next */
-  if (!schedule.stop) return null;
+  if (!schedule || !schedule.stop) return null;
 
   return (
     <tr key={`${schedule.stop.id}`} className="schedule-table__subtable-row">

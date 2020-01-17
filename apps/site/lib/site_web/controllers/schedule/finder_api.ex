@@ -358,18 +358,22 @@ defmodule SiteWeb.ScheduleController.FinderApi do
     )
   end
 
-  defp maybe_add_delay(%{prediction: nil} = schedule_and_prediction) do
-    schedule_and_prediction
-  end
+  def maybe_add_delay(%{prediction: nil} = schedule_and_prediction),
+    do: schedule_and_prediction
 
-  defp maybe_add_delay(%{prediction: %{time: nil}} = schedule_and_prediction) do
-    schedule_and_prediction
-  end
+  def maybe_add_delay(%{prediction: %{time: nil}} = schedule_and_prediction),
+    do: schedule_and_prediction
 
-  defp maybe_add_delay(
-         %{schedule: %{time: schedule_time}, prediction: %{time: prediction_time}} =
-           schedule_and_prediction
-       ) do
+  def maybe_add_delay(%{schedule: nil} = schedule_and_prediction),
+    do: schedule_and_prediction
+
+  def maybe_add_delay(%{schedule: %{time: nil}} = schedule_and_prediction),
+    do: schedule_and_prediction
+
+  def maybe_add_delay(
+        %{schedule: %{time: schedule_time}, prediction: %{time: prediction_time}} =
+          schedule_and_prediction
+      ) do
     delay = DateTime.diff(prediction_time, schedule_time)
     Map.put_new(schedule_and_prediction, :delay, delay)
   end
