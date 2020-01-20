@@ -193,6 +193,39 @@ defmodule SiteWeb.ScheduleController.LineTest do
     }
   ]
 
+  @fourtwofour_services [
+    %{
+      __struct__: Services.Service,
+      added_dates: [],
+      added_dates_notes: %{},
+      description: "Weekday schedule",
+      end_date: ~D[2020-03-13],
+      id: "WinterWeekday",
+      name: "Weekday",
+      removed_dates: [
+        "2020-01-20",
+        "2020-02-17",
+        "2020-02-18",
+        "2020-02-19",
+        "2020-02-20",
+        "2020-02-21"
+      ],
+      removed_dates_notes: %{
+        "2020-01-20" => "Martin Luther King Day",
+        "2020-02-17" => "Washington's Birthday",
+        "2020-02-18" => nil,
+        "2020-02-19" => nil,
+        "2020-02-20" => nil,
+        "2020-02-21" => nil
+      },
+      service_date: ~D[2020-01-20],
+      start_date: ~D[2020-01-09],
+      type: :weekday,
+      typicality: :typical_service,
+      valid_days: [1, 2, 3, 4, 5]
+    }
+  ]
+
   def get_error_stop_list(_, _, _), do: {:error, "error"}
 
   describe "get_branches" do
@@ -621,6 +654,20 @@ defmodule SiteWeb.ScheduleController.LineTest do
       default_service = Enum.filter(services_for_route, &(&1.default_service? === true))
 
       assert length(default_service) == 1
+    end
+
+    test "uses the first service as a default if no services are valid", %{conn: conn} do
+      conn =
+        conn
+        |> assign(:date_time, ~D[2020-01-20])
+        |> assign(:services_fn, fn _ -> @fourtwofour_services end)
+        |> get(line_path(conn, :show, "424"))
+
+      services_for_route = conn.assigns.schedule_page_data.services
+      default_services = Enum.filter(services_for_route, &(&1.default_service? === true))
+
+      assert length(default_services) == 1
+      assert default_services = [%{id: "WinterWeekday1"}]
     end
   end
 
