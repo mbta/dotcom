@@ -146,6 +146,19 @@ defmodule SiteWeb.ScheduleController.LineController do
     |> tag_default_service()
   end
 
+  # Some routes have no services (ie, "Green")
+  defp tag_default_service([]), do: []
+
+  defp tag_default_service(services) do
+    current_service_id =
+      services
+      |> Enum.filter(&is_current_service?/1)
+      |> get_default_service(services)
+      |> Map.get(:id, "")
+
+    Enum.map(services, &Map.put(&1, :default_service?, &1.id === current_service_id))
+  end
+
   # Find candidates that could be valid for today:
   # - within the :start_date and :end_date (REJECT otherwise)
   # - today NOT present in :removed_dates (REJECT if present)
@@ -160,35 +173,31 @@ defmodule SiteWeb.ScheduleController.LineController do
     (in_current_rating? || added_in?) && !removed?
   end
 
-  # Some routes have no services (ie, "Green")
-  defp tag_default_service([]), do: []
-
-  defp tag_default_service(services) do
-    current_service_id =
-      services
-      |> Enum.filter(&is_current_service?/1)
-      |> get_default_service()
-      |> Map.get(:id, "")
-
-    Enum.map(services, &Map.put(&1, :default_service?, &1.id === current_service_id))
-  end
+  # Prevent page crash when there are services, but none are valid for today.
+  # Uses first of original services found for this route.
+  defp get_default_service([], all_services), do: List.first(all_services)
 
   # Get today's default service (reduce valid candidates to best match)
   # - prefer if today's date is present inside :added_dates (typically means holiday)
   # - otherwise, if today's day of week is within set of :valid_days
   # - if all else fails, use the first candidate (already sorted by :start_date)
-  defp get_default_service(services) do
-    service_date = services |> List.first() |> Map.get(:service_date)
+  defp get_default_service(current_services, _all_services) do
+    service_date = current_services |> List.first() |> Map.get(:service_date)
     day_number = Timex.weekday(service_date)
 
     # Fallback #2: First service
-    first_service = List.first(services)
+    first_service = List.first(current_services)
 
     # Fallback #1: Today is a valid day for this service
-    day_service = Enum.find(services, first_service, &Enum.member?(&1.valid_days, day_number))
+    day_service =
+      Enum.find(current_services, first_service, &Enum.member?(&1.valid_days, day_number))
 
     # Best match: Today is explicitly listed in this service's :added_in list
-    Enum.find(services, day_service, &Enum.member?(&1.added_dates, Date.to_iso8601(service_date)))
+    Enum.find(
+      current_services,
+      day_service,
+      &Enum.member?(&1.added_dates, Date.to_iso8601(service_date))
+    )
   end
 
   def sort_services_by_date(%Service{typicality: :typical_service, type: :weekday} = service) do
