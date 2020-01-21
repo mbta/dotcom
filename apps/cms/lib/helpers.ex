@@ -125,38 +125,38 @@ defmodule CMS.Helpers do
   def parse_paragraphs(data, query_params \\ %{}, target_field \\ "field_paragraphs") do
     data
     |> Map.get(target_field, [])
-    |> Enum.filter(&para_is_published(&1, query_params))
+    |> Enum.filter(&show_paragraph?(&1, query_params))
     |> Enum.map(&Paragraph.from_api(&1, query_params))
   end
 
-  @spec para_is_published(map, map) :: boolean
-  defp para_is_published(field_data, query_params)
+  @spec show_paragraph?(map, map) :: boolean
+  defp show_paragraph?(field_data, query_params)
 
   # Reusable paragraphs instance aren't automatically removed when their child
   # paragraphs are deleted from the database, so catch that here.
-  defp para_is_published(%{"field_reusable_paragraph" => [nil]}, _) do
+  defp show_paragraph?(%{"field_reusable_paragraph" => [nil]}, _) do
     false
   end
 
   # Reusable paragraphs are not directly renderable since they act as instance containers.
   # However, these instances can be unpublished. If unpublished, stop and return false.
   # If published, continue checking the nested child paragraph for publish status.
-  defp para_is_published(%{"field_reusable_paragraph" => [child]} = parent, query_params) do
+  defp show_paragraph?(%{"field_reusable_paragraph" => [child]} = parent, query_params) do
     %{"status" => [parent_status]} = parent
     %{"paragraphs" => [paragraph]} = child
 
     case parent_status do
       %{"value" => false} -> false
-      _ -> para_is_published(paragraph, query_params)
+      _ -> show_paragraph?(paragraph, query_params)
     end
   end
 
   # In "preview" mode, allow unpublished paragraphs to be rendered if requested
-  defp para_is_published(_, %{"preview" => _, "paragraphs" => _}) do
+  defp show_paragraph?(_, %{"preview" => _, "paragraphs" => _}) do
     true
   end
 
-  defp para_is_published(%{"status" => [%{"value" => value}]}, _) do
+  defp show_paragraph?(%{"status" => [%{"value" => value}]}, _) do
     value
   end
 
