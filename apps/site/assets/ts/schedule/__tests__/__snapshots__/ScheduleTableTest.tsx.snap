@@ -3,20 +3,28 @@
 exports[`ScheduleTable it renders 1`] = `
 <ScheduleTable>
   <div
-    className="schedule-finder__first-last-trip"
+    className="schedule-finder__first-last-trip--bordered first-last-trips"
   >
     <div
-      className="u-small-caps u-bold"
+      className="first-last-trips__trip"
     >
-      First Trip
+      <span
+        className="schedule-finder__first-last-trip-label"
+      >
+        First Trip
+      </span>
+      05:36 AM
     </div>
-    05:36 AM
     <div
-      className="u-small-caps u-bold"
+      className="first-last-trips__trip"
     >
-      Last Trip
+      <span
+        className="schedule-finder__first-last-trip-label"
+      >
+        Last Trip
+      </span>
+      01:02 AM
     </div>
-    01:02 AM
   </div>
   <table
     className="schedule-table"
@@ -9910,20 +9918,28 @@ exports[`ScheduleTable it renders 1`] = `
 exports[`ScheduleTable it renders CR schedules 1`] = `
 <ScheduleTable>
   <div
-    className="schedule-finder__first-last-trip"
+    className="schedule-finder__first-last-trip--bordered first-last-trips"
   >
     <div
-      className="u-small-caps u-bold"
+      className="first-last-trips__trip"
     >
-      First Trip
+      <span
+        className="schedule-finder__first-last-trip-label"
+      >
+        First Trip
+      </span>
+      04:15 AM
     </div>
-    04:15 AM
     <div
-      className="u-small-caps u-bold"
+      className="first-last-trips__trip"
     >
-      Last Trip
+      <span
+        className="schedule-finder__first-last-trip-label"
+      >
+        Last Trip
+      </span>
+      11:50 PM
     </div>
-    11:50 PM
   </div>
   <table
     className="schedule-table"
@@ -11461,20 +11477,28 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
 exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
 <ScheduleTable>
   <div
-    className="schedule-finder__first-last-trip"
+    className="schedule-finder__first-last-trip--bordered first-last-trips"
   >
     <div
-      className="u-small-caps u-bold"
+      className="first-last-trips__trip"
     >
-      First Trip
+      <span
+        className="schedule-finder__first-last-trip-label"
+      >
+        First Trip
+      </span>
+      04:15 AM
     </div>
-    04:15 AM
     <div
-      className="u-small-caps u-bold"
+      className="first-last-trips__trip"
     >
-      Last Trip
+      <span
+        className="schedule-finder__first-last-trip-label"
+      >
+        Last Trip
+      </span>
+      11:50 PM
     </div>
-    11:50 PM
   </div>
   <table
     className="schedule-table"
@@ -13012,24 +13036,30 @@ exports[`ScheduleTable it renders an empty message 1`] = `
 exports[`ScheduleTable it renders with school trips 1`] = `
 <ScheduleTable>
   <div
-    className="schedule-finder__first-last-trip"
+    className="schedule-finder__first-last-trip--bordered first-last-trips"
   >
     <div
-      className="u-small-caps u-bold"
+      className="first-last-trips__trip"
     >
-      First Trip
+      <span
+        className="schedule-finder__first-last-trip-label"
+      >
+        First Trip
+      </span>
+      05:36 AM
     </div>
-    05:36 AM
     <div
-      className="u-small-caps u-bold"
+      className="first-last-trips__trip"
     >
-      Last Trip
+      <span
+        className="schedule-finder__first-last-trip-label"
+      >
+        Last Trip
+      </span>
+      01:02 AM
     </div>
-    01:02 AM
   </div>
-  <p
-    className="text-center"
-  >
+  <p>
     <strong>
       S
     </strong>

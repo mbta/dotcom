@@ -58,6 +58,19 @@
   padding: $base-spacing * 2 $base-spacing;
 }
 
+.m-schedule-page__schedule-notes--modal {
+  margin-top: $base-spacing;
+  padding: $base-spacing;
+
+  .m-schedule-page__schedule-note-title {
+    display: none;
+
+    + .m-schedule-page__schedule-note .m-schedule-page__service {
+      margin-top: 0;
+    }
+  }
+}
+
 .m-schedule-page__schedule-notes--desktop {
   margin-top: $base-spacing * 2;
 
@@ -363,13 +376,29 @@
   font-variant-numeric: tabular-nums;
 }
 
-.schedule-finder__first-last-trip {
+.schedule-finder__first-last-trip--bordered {
   border-top: 3px solid $gray-lightest;
+  padding: ($base-spacing / 2) 0;
+}
+
+.schedule-finder__first-last-trip-label {
+  @extend %u-small-caps;
+  @extend %u-bold;
+  margin-right: $base-spacing;
+  white-space: nowrap;
+
+  @include media-breakpoint-down(xs) {
+    display: block;
+  }
+}
+
+.first-last-trips {
+  align-items: baseline;
   display: flex;
-  justify-content: space-around;
-  // scss-lint:disable DuplicateProperty IE11 doesn't support space-evenly
-  justify-content: space-evenly;
-  padding: $base-spacing / 2;
+}
+
+.first-last-trips__trip:not(:first-child) {
+  margin-left: $base-spacing;
 }
 
 .schedule-table__subtable {

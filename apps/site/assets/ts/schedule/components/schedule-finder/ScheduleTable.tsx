@@ -54,18 +54,24 @@ const ScheduleTable = ({
 
   return (
     <>
-      <div className="schedule-finder__first-last-trip">
-        <div className="u-small-caps u-bold">First Trip</div>
-        {firstTrip.departure.time}
+      <div className="schedule-finder__first-last-trip--bordered first-last-trips">
+        <div className="first-last-trips__trip">
+          <span className="schedule-finder__first-last-trip-label">
+            First Trip
+          </span>
+          {firstTrip.departure.time}
+        </div>
         {lastTrip && (
-          <>
-            <div className="u-small-caps u-bold">Last Trip</div>
+          <div className="first-last-trips__trip">
+            <span className="schedule-finder__first-last-trip-label">
+              Last Trip
+            </span>
             {lastTrip.departure.time}
-          </>
+          </div>
         )}
       </div>
       {anySchoolTrips && (
-        <p className="text-center">
+        <p>
           <strong>S</strong> - Does NOT run on school vacation
         </p>
       )}

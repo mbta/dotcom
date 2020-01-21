@@ -5,7 +5,8 @@ import {
   SimpleStopMap,
   RouteStop,
   StopData,
-  ServiceInSelector
+  ServiceInSelector,
+  ScheduleNote as ScheduleNoteType
 } from "../__schedule";
 import SingleStop from "./SingleStop";
 import Modal from "../../../components/Modal";
@@ -22,6 +23,7 @@ interface Props {
   ratingEndDate: string;
   stops: SimpleStopMap;
   today: string;
+  scheduleNote?: ScheduleNoteType;
 }
 
 const getMergeStops = (lineDiagram: LineDiagramStop[]): LineDiagramStop[] =>
@@ -64,7 +66,8 @@ const LineDiagram = ({
   services,
   ratingEndDate,
   stops,
-  today
+  today,
+  scheduleNote
 }: Props): ReactElement<HTMLElement> | null => {
   const routeType = route.type;
   const routeColor: string = route.color || "#000";
@@ -248,6 +251,7 @@ const LineDiagram = ({
             stops={stops[directionId]}
             routePatternsByDirection={routePatternsByDirection}
             today={today}
+            scheduleNote={scheduleNote}
           />
         )}
       </Modal>

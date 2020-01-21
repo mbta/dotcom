@@ -72,7 +72,8 @@ const renderDirectionAndMap = (
     services,
     rating_end_date: ratingEndDate,
     stops,
-    today
+    today,
+    schedule_note: scheduleNote
   } = schedulePageData;
 
   let mapData: MapData | undefined;
@@ -100,6 +101,7 @@ const renderDirectionAndMap = (
       ratingEndDate={ratingEndDate}
       stops={stops}
       today={today}
+      scheduleNote={scheduleNote || undefined}
     />,
     root
   );

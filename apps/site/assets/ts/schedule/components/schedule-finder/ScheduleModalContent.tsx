@@ -5,17 +5,20 @@ import {
   UserInput
 } from "../ScheduleFinder";
 import UpcomingDepartures from "./UpcomingDepartures";
+import ScheduleNote from "../ScheduleNote";
 import { Route, RouteType } from "../../../__v3api";
 import {
   SimpleStop,
   StopPrediction,
   RoutePatternsByDirection,
-  ServiceInSelector
+  ServiceInSelector,
+  ScheduleNote as ScheduleNoteType
 } from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
 import { reducer } from "../../../helpers/fetch";
 import ServiceSelector from "./ServiceSelector";
 import { breakTextAtSlash } from "../../../helpers/text";
+import FirstLastTimes from "./FirstLastTimes";
 
 const stopInfo = (
   selectedOrigin: string,
@@ -84,6 +87,7 @@ interface Props {
   stops: SimpleStop[];
   routePatternsByDirection: RoutePatternsByDirection;
   today: string;
+  scheduleNote?: ScheduleNoteType;
 }
 
 const ScheduleModalContent = ({
@@ -100,7 +104,8 @@ const ScheduleModalContent = ({
   ratingEndDate,
   stops,
   routePatternsByDirection,
-  today
+  today,
+  scheduleNote
 }: Props): ReactElement<HTMLElement> | null => {
   const [state, dispatch] = useReducer(reducer, {
     data: null,
@@ -130,6 +135,35 @@ const ScheduleModalContent = ({
       ? "All branches"
       : directionDestinations[selectedDirection];
 
+  let ScheduledTripsOrScheduleNote: ReactElement<HTMLElement>;
+
+  if (scheduleNote) {
+    ScheduledTripsOrScheduleNote = (
+      <>
+        <h3>Daily Schedules</h3>
+        <FirstLastTimes
+          hoursOfOperation={scheduleNote.hours_of_operation!}
+          selectedDirection={selectedDirection}
+        />
+        <ScheduleNote
+          className="m-schedule-page__schedule-notes--modal"
+          scheduleNote={scheduleNote}
+        />
+      </>
+    );
+  } else {
+    ScheduledTripsOrScheduleNote = (
+      <ServiceSelector
+        stopId={selectedOrigin}
+        services={services}
+        ratingEndDate={ratingEndDate}
+        routeId={routeId}
+        directionId={selectedDirection}
+        routePatterns={routePatternsByDirection[selectedDirection]}
+      />
+    );
+  }
+
   return (
     <>
       <div className="schedule-finder__modal-header">
@@ -146,14 +180,7 @@ const ScheduleModalContent = ({
       </div>
       <div>from {stopNameLink(selectedOrigin, stops)}</div>
       <UpcomingDepartures state={state} input={input} />
-      <ServiceSelector
-        stopId={selectedOrigin}
-        services={services}
-        ratingEndDate={ratingEndDate}
-        routeId={routeId}
-        directionId={selectedDirection}
-        routePatterns={routePatternsByDirection[selectedDirection]}
-      />
+      {ScheduledTripsOrScheduleNote}
     </>
   );
 };

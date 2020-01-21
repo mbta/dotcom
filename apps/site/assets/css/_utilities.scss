@@ -87,14 +87,22 @@
   text-decoration: line-through;
 }
 
-.u-small-caps {
+%u-small-caps {
   font-family: $headings-font-family;
   font-size: $font-size-small-caps;
   text-transform: uppercase;
 }
 
-.u-bold {
+.u-small-caps {
+  @extend %u-bold;
+}
+
+%u-bold {
   font-weight: bold;
+}
+
+.u-bold {
+  @extend %u-bold;
 }
 
 .u-no-underline {
