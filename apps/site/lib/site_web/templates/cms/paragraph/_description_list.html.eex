@@ -2,7 +2,7 @@
   <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
 <% end %>
 
-<%= if length(@content.descriptions) > 0 do %>
+<%= if Enum.any?(@content.descriptions) do %>
   <%= extend_width :table do %>
     <dl class="dl" role="list">
       <%= for description <- @content.descriptions do %>
