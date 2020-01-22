@@ -354,8 +354,8 @@ defmodule CMS.HelpersTest do
         ]
       }
 
-      query_params = %{"preview" => nil, "paragraphs" => true}
-      parsed_map = parse_paragraphs(map_data, query_params)
+      preview_opts = [preview: true, paragraphs: true]
+      parsed_map = parse_paragraphs(map_data, preview_opts)
 
       assert parsed_map == [
                %CMS.Partial.Paragraph.CustomHTML{
@@ -518,6 +518,13 @@ defmodule CMS.HelpersTest do
       ]
 
       assert [%{id: "limited_service", mode: nil, group: "custom"}] = routes(tags)
+    end
+  end
+
+  describe "preview_opts/1" do
+    test "parses conn.query_params map for CMS preview flags" do
+      query_params = %{"preview" => nil, "foo" => "bar"}
+      assert [page: true, paragraphs: false] = preview_opts(query_params)
     end
   end
 end

@@ -39,8 +39,8 @@ defmodule CMS.Partial.Paragraph.ContentList do
           cta: map()
         }
 
-  @spec from_api(map, map) :: t
-  def from_api(data, query_params \\ %{}) do
+  @spec from_api(map, Keyword.t()) :: t
+  def from_api(data, preview_opts \\ []) do
     type =
       data
       |> field_value("field_content_type")
@@ -80,7 +80,7 @@ defmodule CMS.Partial.Paragraph.ContentList do
     recipe = combine(ingredients)
 
     %__MODULE__{
-      header: data |> parse_paragraphs(query_params, "field_multi_column_header") |> List.first(),
+      header: data |> parse_paragraphs(preview_opts, "field_multi_column_header") |> List.first(),
       right_rail: field_value(data, "field_right_rail"),
       ingredients: ingredients,
       recipe: recipe,

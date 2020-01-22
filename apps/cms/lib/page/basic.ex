@@ -32,13 +32,13 @@ defmodule CMS.Page.Basic do
           breadcrumbs: [Util.Breadcrumb.t()]
         }
 
-  @spec from_api(map, map) :: t
-  def from_api(%{} = data, query_params \\ %{}) do
+  @spec from_api(map, Keyword.t()) :: t
+  def from_api(%{} = data, preview_opts \\ []) do
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
       title: field_value(data, "title") || "",
       body: parse_body(data),
-      paragraphs: parse_paragraphs(data, query_params),
+      paragraphs: parse_paragraphs(data, preview_opts),
       sidebar_menu: parse_menu_links(data),
       breadcrumbs: Breadcrumbs.build(data)
     }

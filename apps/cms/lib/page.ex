@@ -32,44 +32,44 @@ defmodule CMS.Page do
   @doc """
   Expects parsed json from drupal CMS. Should be one item (not array of items)
   """
-  @spec from_api(map, map) :: t
-  def from_api(data, query_params \\ %{}) do
+  @spec from_api(map, Keyword.t()) :: t
+  def from_api(data, preview_opts \\ []) do
     data
-    |> parse(query_params)
+    |> parse(preview_opts)
     |> fetch_content_lists()
   end
 
-  defp parse(%{"type" => [%{"target_id" => "event"}]} = api_data, _query_params) do
+  defp parse(%{"type" => [%{"target_id" => "event"}]} = api_data, _preview_opts) do
     Event.from_api(api_data)
   end
 
-  defp parse(%{"type" => [%{"target_id" => "landing_page"}]} = api_data, query_params) do
-    Landing.from_api(api_data, query_params)
+  defp parse(%{"type" => [%{"target_id" => "landing_page"}]} = api_data, preview_opts) do
+    Landing.from_api(api_data, preview_opts)
   end
 
-  defp parse(%{"type" => [%{"target_id" => "news_entry"}]} = api_data, _query_params) do
+  defp parse(%{"type" => [%{"target_id" => "news_entry"}]} = api_data, _preview_opts) do
     NewsEntry.from_api(api_data)
   end
 
-  defp parse(%{"type" => [%{"target_id" => "person"}]} = api_data, _query_params) do
+  defp parse(%{"type" => [%{"target_id" => "person"}]} = api_data, _preview_opts) do
     Person.from_api(api_data)
   end
 
-  defp parse(%{"type" => [%{"target_id" => "project"}]} = api_data, query_params) do
-    Project.from_api(api_data, query_params)
+  defp parse(%{"type" => [%{"target_id" => "project"}]} = api_data, preview_opts) do
+    Project.from_api(api_data, preview_opts)
   end
 
-  defp parse(%{"type" => [%{"target_id" => "project_update"}]} = api_data, query_params) do
-    ProjectUpdate.from_api(api_data, query_params)
+  defp parse(%{"type" => [%{"target_id" => "project_update"}]} = api_data, preview_opts) do
+    ProjectUpdate.from_api(api_data, preview_opts)
   end
 
-  defp parse(%{"type" => [%{"target_id" => "redirect"}]} = api_data, _query_params) do
+  defp parse(%{"type" => [%{"target_id" => "redirect"}]} = api_data, _preview_opts) do
     Redirect.from_api(api_data)
   end
 
   # For all other node/content types from the CMS, use a common struct/template
-  defp parse(%{"type" => [%{"target_type" => "node_type"}]} = api_data, query_params) do
-    Basic.from_api(api_data, query_params)
+  defp parse(%{"type" => [%{"target_type" => "node_type"}]} = api_data, preview_opts) do
+    Basic.from_api(api_data, preview_opts)
   end
 
   @spec fetch_content_lists(t) :: t

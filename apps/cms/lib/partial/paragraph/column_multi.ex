@@ -18,11 +18,11 @@ defmodule CMS.Partial.Paragraph.ColumnMulti do
           right_rail: boolean
         }
 
-  @spec from_api(map, map) :: t
-  def from_api(data, query_params \\ %{}) do
+  @spec from_api(map, Keyword.t()) :: t
+  def from_api(data, preview_opts \\ []) do
     %__MODULE__{
-      header: data |> parse_paragraphs(query_params, "field_multi_column_header") |> List.first(),
-      columns: parse_paragraphs(data, query_params, "field_column"),
+      header: data |> parse_paragraphs(preview_opts, "field_multi_column_header") |> List.first(),
+      columns: parse_paragraphs(data, preview_opts, "field_column"),
       display_options: field_value(data, "field_display_options"),
       right_rail: field_value(data, "field_right_rail")
     }

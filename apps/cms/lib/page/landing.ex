@@ -35,15 +35,15 @@ defmodule CMS.Page.Landing do
           breadcrumbs: [Util.Breadcrumb.t()]
         }
 
-  @spec from_api(map, map) :: t
-  def from_api(%{} = data, query_params \\ %{}) do
+  @spec from_api(map, Keyword.t()) :: t
+  def from_api(%{} = data, preview_opts \\ []) do
     %__MODULE__{
       id: field_value(data, "nid"),
       title: field_value(data, "title"),
       hero_desktop: parse_image(data, "field_hero_image_desktop"),
       hero_mobile: parse_image(data, "field_hero_image_mobile"),
       hero_mobile_2x: parse_image(data, "field_hero_image_mobile_2x"),
-      paragraphs: parse_paragraphs(data, query_params),
+      paragraphs: parse_paragraphs(data, preview_opts),
       subtitle: field_value(data, "field_subtitle"),
       breadcrumbs: Breadcrumbs.build(data)
     }

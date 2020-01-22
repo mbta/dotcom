@@ -47,15 +47,15 @@ defmodule CMS.Page.ProjectUpdate do
           title: String.t()
         }
 
-  @spec from_api(map, map) :: t
-  def from_api(%{} = data, query_params \\ %{}) do
+  @spec from_api(map, Keyword.t()) :: t
+  def from_api(%{} = data, preview_opts \\ []) do
     {project_id, project_alias} = parse_project(data)
 
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
       body: parse_body(data),
       image: parse_image(data, "field_image"),
-      paragraphs: parse_paragraphs(data, query_params),
+      paragraphs: parse_paragraphs(data, preview_opts),
       photo_gallery: parse_images(data, "field_photo_gallery"),
       posted_on: parse_date(data, "field_posted_on"),
       project_id: project_id,

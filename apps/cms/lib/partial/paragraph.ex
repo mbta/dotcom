@@ -98,84 +98,84 @@ defmodule CMS.Partial.Paragraph do
           | TitleCardSet
           | Unknown
 
-  @spec from_api(map, map) :: t
-  def from_api(data, query_params \\ %{})
+  @spec from_api(map, Keyword.t()) :: t
+  def from_api(data, preview_opts \\ [])
 
-  def from_api(%{"type" => [%{"target_id" => "entity_reference"}]} = para, _query_params) do
+  def from_api(%{"type" => [%{"target_id" => "entity_reference"}]} = para, _preview_opts) do
     Callout.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "multi_column_header"}]} = para, _query_params) do
+  def from_api(%{"type" => [%{"target_id" => "multi_column_header"}]} = para, _preview_opts) do
     ColumnMultiHeader.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "multi_column"}]} = para, query_params) do
-    ColumnMulti.from_api(para, query_params)
+  def from_api(%{"type" => [%{"target_id" => "multi_column"}]} = para, preview_opts) do
+    ColumnMulti.from_api(para, preview_opts)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "column"}]} = para, query_params) do
-    Column.from_api(para, query_params)
+  def from_api(%{"type" => [%{"target_id" => "column"}]} = para, preview_opts) do
+    Column.from_api(para, preview_opts)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "content_list"}]} = para, query_params) do
-    ContentList.from_api(para, query_params)
+  def from_api(%{"type" => [%{"target_id" => "content_list"}]} = para, preview_opts) do
+    ContentList.from_api(para, preview_opts)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "custom_html"}]} = para, _query_params) do
+  def from_api(%{"type" => [%{"target_id" => "custom_html"}]} = para, _preview_opts) do
     CustomHTML.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "definition"}]} = para, _query_params) do
+  def from_api(%{"type" => [%{"target_id" => "definition"}]} = para, _preview_opts) do
     Description.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "description_list"}]} = para, query_params) do
-    DescriptionList.from_api(para, query_params)
+  def from_api(%{"type" => [%{"target_id" => "description_list"}]} = para, preview_opts) do
+    DescriptionList.from_api(para, preview_opts)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "fare_card"}]} = para, query_params) do
-    FareCard.from_api(para, query_params)
+  def from_api(%{"type" => [%{"target_id" => "fare_card"}]} = para, preview_opts) do
+    FareCard.from_api(para, preview_opts)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "files_grid"}]} = para, _query_params) do
+  def from_api(%{"type" => [%{"target_id" => "files_grid"}]} = para, _preview_opts) do
     FilesGrid.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "people_grid"}]} = para, _query_params) do
+  def from_api(%{"type" => [%{"target_id" => "people_grid"}]} = para, _preview_opts) do
     PeopleGrid.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "photo_gallery"}]} = para, _query_params) do
+  def from_api(%{"type" => [%{"target_id" => "photo_gallery"}]} = para, _preview_opts) do
     PhotoGallery.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "tabs"}]} = para, query_params) do
-    Accordion.from_api(para, query_params)
+  def from_api(%{"type" => [%{"target_id" => "tabs"}]} = para, preview_opts) do
+    Accordion.from_api(para, preview_opts)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "tab"}]} = para, query_params) do
-    AccordionSection.from_api(para, query_params)
+  def from_api(%{"type" => [%{"target_id" => "tab"}]} = para, preview_opts) do
+    AccordionSection.from_api(para, preview_opts)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "title_card"}]} = para, _query_params) do
+  def from_api(%{"type" => [%{"target_id" => "title_card"}]} = para, _preview_opts) do
     DescriptiveLink.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "title_card_set"}]} = para, _query_params) do
+  def from_api(%{"type" => [%{"target_id" => "title_card_set"}]} = para, _preview_opts) do
     TitleCardSet.from_api(para)
   end
 
   @doc "This ¶ type has a single paragraph reference within. Get the nested paragraph."
-  def from_api(%{"type" => [%{"target_id" => "from_library"}]} = para, query_params) do
-    parse_library_item(para, query_params)
+  def from_api(%{"type" => [%{"target_id" => "from_library"}]} = para, preview_opts) do
+    parse_library_item(para, preview_opts)
   end
 
   @doc "For directly accessing a reusable paragraph (from paragraphs API endpoint)"
-  def from_api(%{"paragraphs" => [para]}, query_params) do
-    from_api(para, query_params)
+  def from_api(%{"paragraphs" => [para]}, preview_opts) do
+    from_api(para, preview_opts)
   end
 
-  def from_api(unknown_paragraph_type, _query_params) do
+  def from_api(unknown_paragraph_type, _preview_opts) do
     Unknown.from_api(unknown_paragraph_type)
   end
 
@@ -193,13 +193,13 @@ defmodule CMS.Partial.Paragraph do
 
   # Pass through the nested paragraph and host ID
   @spec parse_library_item(map, map) :: t
-  defp parse_library_item(data, query_params) do
+  defp parse_library_item(data, preview_opts) do
     data
     |> Map.get("field_reusable_paragraph")
     |> List.first()
     |> Map.get("paragraphs")
     |> List.first()
     |> Map.put("parent_id", Map.get(data, "parent_id"))
-    |> from_api(query_params)
+    |> from_api(preview_opts)
   end
 end

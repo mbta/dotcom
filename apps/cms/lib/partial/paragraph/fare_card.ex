@@ -20,10 +20,10 @@ defmodule CMS.Partial.Paragraph.FareCard do
           show_media: boolean()
         }
 
-  @spec from_api(map, map) :: t
-  def from_api(data, query_params \\ %{}) do
+  @spec from_api(map, Keyword.t()) :: t
+  def from_api(data, preview_opts \\ []) do
     with fare_token <- fare_token(data),
-         note <- note(data, query_params) do
+         note <- note(data, preview_opts) do
       %__MODULE__{
         fare_token: fare_token,
         note: note,
@@ -39,9 +39,9 @@ defmodule CMS.Partial.Paragraph.FareCard do
     |> parse_token()
   end
 
-  defp note(data, query_params) do
+  defp note(data, preview_opts) do
     data
-    |> parse_paragraphs(query_params, "field_fare_notes")
+    |> parse_paragraphs(preview_opts, "field_fare_notes")
     # There is only ever 1 note element
     |> List.first()
   end

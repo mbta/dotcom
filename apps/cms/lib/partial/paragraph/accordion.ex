@@ -21,11 +21,11 @@ defmodule CMS.Partial.Paragraph.Accordion do
           sections: [AccordionSection.t()]
         }
 
-  @spec from_api(map, map) :: t
-  def from_api(data, query_params \\ %{}) do
+  @spec from_api(map, Keyword.t()) :: t
+  def from_api(data, preview_opts \\ []) do
     %__MODULE__{
       display: field_value(data, "field_tabs_display"),
-      sections: parse_paragraphs(data, query_params, "field_tabs")
+      sections: parse_paragraphs(data, preview_opts, "field_tabs")
     }
   end
 end
