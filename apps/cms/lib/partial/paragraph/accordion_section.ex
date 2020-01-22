@@ -27,12 +27,12 @@ defmodule CMS.Partial.Paragraph.AccordionSection do
           content: [Paragraph.t()]
         }
 
-  @spec from_api(map, map) :: t
-  def from_api(%{} = data, query_params \\ %{}) do
+  @spec from_api(map, Keyword.t()) :: t
+  def from_api(%{} = data, preview_opts \\ []) do
     %__MODULE__{
       title: field_value(data, "field_label"),
       prefix: "cms-#{field_value(data, "id")}",
-      content: parse_paragraphs(data, query_params, "field_content")
+      content: parse_paragraphs(data, preview_opts, "field_content")
     }
   end
 end

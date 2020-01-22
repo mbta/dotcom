@@ -12,10 +12,10 @@ defmodule CMS.Partial.Paragraph.Column do
           paragraphs: [Paragraph.t()]
         }
 
-  @spec from_api(map, map) :: t
-  def from_api(data, query_params \\ %{}) do
+  @spec from_api(map, Keyword.t()) :: t
+  def from_api(data, preview_opts \\ []) do
     %__MODULE__{
-      paragraphs: parse_paragraphs(data, query_params, "field_content")
+      paragraphs: parse_paragraphs(data, preview_opts, "field_content")
     }
   end
 end

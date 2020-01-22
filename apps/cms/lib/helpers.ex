@@ -118,19 +118,33 @@ defmodule CMS.Helpers do
   end
 
   @doc """
+  Gathers information about desired view mode based on incoming
+  query parameters. Key presence is enough to count as true.
+  - page: whether the page is in preview mode (drafts are rendered)
+  - paragraphs: whether unpublished paragraphs should render
+  """
+  @spec preview_opts(map) :: Keyword.t()
+  def preview_opts(query_params \\ %{}) do
+    [
+      page: Map.has_key?(query_params, "preview"),
+      paragraphs: Map.has_key?(query_params, "paragraphs")
+    ]
+  end
+
+  @doc """
   Expects raw JSON data for a CMS object that contains a paragraphs field.
   This field value will always be a list of potential paragraphs.
   """
-  @spec parse_paragraphs(map, map, String.t()) :: [Paragraph.t()]
-  def parse_paragraphs(data, query_params \\ %{}, target_field \\ "field_paragraphs") do
+  @spec parse_paragraphs(map, Keyword.t(), String.t()) :: [Paragraph.t()]
+  def parse_paragraphs(data, preview_opts \\ [], target_field \\ "field_paragraphs") do
     data
     |> Map.get(target_field, [])
-    |> Enum.filter(&show_paragraph?(&1, query_params))
-    |> Enum.map(&Paragraph.from_api(&1, query_params))
+    |> Enum.filter(&show_paragraph?(&1, preview_opts))
+    |> Enum.map(&Paragraph.from_api(&1, preview_opts))
   end
 
-  @spec show_paragraph?(map, map) :: boolean
-  defp show_paragraph?(field_data, query_params)
+  @spec show_paragraph?(map, Keyword.t()) :: boolean
+  defp show_paragraph?(field_data, preview_opts)
 
   # Reusable paragraphs instance aren't automatically removed when their child
   # paragraphs are deleted from the database, so catch that here.
@@ -141,18 +155,18 @@ defmodule CMS.Helpers do
   # Reusable paragraphs are not directly renderable since they act as instance containers.
   # However, these instances can be unpublished. If unpublished, stop and return false.
   # If published, continue checking the nested child paragraph for publish status.
-  defp show_paragraph?(%{"field_reusable_paragraph" => [child]} = parent, query_params) do
+  defp show_paragraph?(%{"field_reusable_paragraph" => [child]} = parent, preview_opts) do
     %{"status" => [parent_status]} = parent
     %{"paragraphs" => [paragraph]} = child
 
     case parent_status do
       %{"value" => false} -> false
-      _ -> show_paragraph?(paragraph, query_params)
+      _ -> show_paragraph?(paragraph, preview_opts)
     end
   end
 
   # In "preview" mode, allow unpublished paragraphs to be rendered if requested
-  defp show_paragraph?(_, %{"preview" => _, "paragraphs" => _}) do
+  defp show_paragraph?(_, preview: true, paragraphs: true) do
     true
   end
 

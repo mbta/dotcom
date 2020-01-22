@@ -4,6 +4,8 @@ defmodule SiteWeb.ProjectController do
   """
   use SiteWeb, :controller
 
+  import CMS.Helpers, only: [preview_opts: 1]
+
   alias CMS.{Partial.Teaser, Repo}
   alias CMS.Page.{Project, ProjectUpdate}
   alias Plug.Conn
@@ -95,7 +97,7 @@ defmodule SiteWeb.ProjectController do
 
     "/projects"
     |> Path.join(project_alias)
-    |> get_page_fn.(conn.query_params)
+    |> get_page_fn.(preview_opts(conn.query_params))
     |> case do
       %Project{} = project ->
         breadcrumbs = [

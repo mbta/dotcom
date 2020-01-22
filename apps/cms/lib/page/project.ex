@@ -62,8 +62,8 @@ defmodule CMS.Page.Project do
           path_alias: String.t() | nil
         }
 
-  @spec from_api(map, map) :: t
-  def from_api(%{} = data, query_params \\ %{}) do
+  @spec from_api(map, Keyword.t()) :: t
+  def from_api(%{} = data, preview_opts \\ []) do
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
       body: parse_body(data),
@@ -74,7 +74,7 @@ defmodule CMS.Page.Project do
       files: parse_files(data, "field_files"),
       media_email: field_value(data, "field_media_email"),
       media_phone: field_value(data, "field_media_phone"),
-      paragraphs: parse_paragraphs(data, query_params),
+      paragraphs: parse_paragraphs(data, preview_opts),
       photo_gallery: parse_images(data, "field_photo_gallery"),
       start_year: field_value(data, "field_start_year"),
       status: field_value(data, "field_project_status"),
