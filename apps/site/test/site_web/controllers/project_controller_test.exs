@@ -7,6 +7,13 @@ defmodule SiteWeb.ProjectControllerTest do
   alias Plug.Conn
 
   describe "project_updates" do
+    test "successfully renders the project update list", %{conn: conn} do
+      path = project_updates_path(conn, :project_updates, "project-name")
+
+      conn = get(conn, path)
+      assert conn.status == 200
+    end
+
     test "renders a list of updates related to a project", %{conn: conn} do
       project = project_factory(0)
       project_id = project.id
