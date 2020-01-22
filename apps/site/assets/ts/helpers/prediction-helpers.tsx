@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { PredictedOrScheduledTime } from "../__v3api";
 
-export const delayForCommuterRail = (
+const delayForCommuterRail = (
   data: PredictedOrScheduledTime,
   className = ""
 ): ReactElement<HTMLElement> => (
