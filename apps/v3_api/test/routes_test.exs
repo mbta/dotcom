@@ -6,8 +6,7 @@ defmodule V3Api.RoutesTest do
   @opts ["page[limit]": 1, sort: "long_name"]
 
   describe "all/1" do
-    %JsonApi{data: [%JsonApi.Item{} = route]} = Routes.all(@opts)
-    assert route.id == "80"
+    %JsonApi{data: [%JsonApi.Item{}]} = Routes.all(@opts)
   end
 
   describe "get/1" do

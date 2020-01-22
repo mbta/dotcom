@@ -46,9 +46,9 @@ defmodule Routes.RepoTest do
                id: "741",
                type: 3,
                name: "SL1",
-               long_name: "Logan Airport - South Station",
+               long_name: "Logan Airport Terminals - South Station",
                color: "7C878E",
-               direction_destinations: %{0 => "Logan Airport", 1 => "South Station"},
+               direction_destinations: %{0 => "Logan Airport Terminals", 1 => "South Station"},
                description: :key_bus_route
              }
     end
@@ -62,9 +62,9 @@ defmodule Routes.RepoTest do
                id: "23",
                type: 3,
                name: "23",
-               long_name: "Ashmont - Ruggles via Washington Street",
+               long_name: "Ashmont Station - Ruggles Station via Washington Street",
                color: "FFC72C",
-               direction_destinations: %{0 => "Ashmont", 1 => "Ruggles"},
+               direction_destinations: %{0 => "Ashmont Station", 1 => "Ruggles Station"},
                description: :key_bus_route
              }
     end
