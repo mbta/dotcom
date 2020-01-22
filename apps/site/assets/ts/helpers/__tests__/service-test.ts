@@ -1,8 +1,6 @@
 import { serviceDate, groupServiceByDate } from "../service";
 import { Service, ServiceWithServiceDate } from "../../__v3api";
 
-const ratingEndDate = "2019-06-30";
-
 const service: Service = {
   added_dates: [],
   added_dates_notes: {},
@@ -37,7 +35,7 @@ const serviceWithDate: ServiceWithServiceDate = {
 const currentService = {
   ...serviceWithDate,
   start_date: "2019-06-25",
-  end_date: "2019-06-30"
+  end_date: "2019-07-28"
 };
 
 const upcomingService = {
@@ -54,7 +52,7 @@ describe("serviceDate", () => {
 
   it("handles current schedules", () => {
     const date = serviceDate(currentService);
-    expect(date).toBe("ends June 30");
+    expect(date).toBe("ends July 28");
   });
 
   it("handles upcoming schedules", () => {
@@ -70,18 +68,18 @@ describe("serviceDate", () => {
 
 describe("groupServiceByDate", () => {
   it("groups current schedules with the proper service period", () => {
-    const groupedService = groupServiceByDate(currentService, ratingEndDate);
+    const groupedService = groupServiceByDate(currentService);
     expect(groupedService).toEqual([
       {
         type: "current",
-        servicePeriod: "ends June 30",
+        servicePeriod: "ends July 28",
         service: currentService
       }
     ]);
   });
 
   it("groups upcoming schedules as future with proper service period", () => {
-    const groupedService = groupServiceByDate(upcomingService, ratingEndDate);
+    const groupedService = groupServiceByDate(upcomingService);
     expect(groupedService).toEqual([
       {
         type: "future",
@@ -99,12 +97,31 @@ describe("groupServiceByDate", () => {
       service_date: "06-25-19",
       typicality: "holiday_service"
     };
-    const groupedService = groupServiceByDate(holidayService, ratingEndDate);
+    const groupedService = groupServiceByDate(holidayService);
     expect(groupedService).toEqual([
       {
         type: "holiday",
         servicePeriod: "Some Holiday, June 25",
         service: holidayService
+      }
+    ]);
+  });
+
+  it("marks future schedules as future", () => {
+    const groupedService = groupServiceByDate({
+      ...currentService,
+      start_date: "2019-01-01",
+      end_date: "2019-01-02"
+    });
+    expect(groupedService).toEqual([
+      {
+        type: "future",
+        servicePeriod: "January 1 to January 2",
+        service: {
+          ...currentService,
+          start_date: "2019-01-01",
+          end_date: "2019-01-02"
+        }
       }
     ]);
   });

@@ -140,7 +140,6 @@ const getComponent = () => (
     mapData={mapData}
     lineDiagram={lineDiagram}
     services={[]}
-    ratingEndDate="2020-03-14"
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
@@ -156,7 +155,6 @@ const getSubwayComponent = () => (
     shapesById={shapesById}
     lineDiagram={lineDiagram}
     services={[]}
-    ratingEndDate="2020-03-14"
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
@@ -172,7 +170,6 @@ const getStaticMapComponent = () => (
     shapesById={shapesById}
     lineDiagram={lineDiagram}
     services={[]}
-    ratingEndDate="2020-03-14"
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
@@ -204,7 +201,6 @@ const getGreenLineComponent = () => {
       shapesById={shapesById}
       lineDiagram={lineDiagram}
       services={[]}
-      ratingEndDate="2020-03-14"
       stops={{ stops }}
       today="2019-12-05"
       scheduleNote={null}

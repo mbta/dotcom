@@ -129,7 +129,6 @@ describe("ServiceSelector", () => {
       <ServiceSelector
         stopId="stopId"
         services={services}
-        ratingEndDate="2020-03-14"
         directionId={0}
         routePatterns={[]}
         routeId="111"

@@ -25,7 +25,6 @@
               route: Routes.Route.to_json_safe(@route),
               stops: @schedule_page_data.stops,
               services: @schedule_page_data.services,
-              ratingEndDate: @schedule_page_data.rating_end_date,
               routePatternsByDirection: @schedule_page_data.route_patterns
             }) %>
           <% end %>

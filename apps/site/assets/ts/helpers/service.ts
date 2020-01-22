@@ -49,8 +49,7 @@ const startToEnd = (startDateObject: Date, endDateObject: Date): string =>
   `${formattedDate(startDateObject)} to ${formattedDate(endDateObject)}`;
 
 export const groupServiceByDate = (
-  service: ServiceWithServiceDate,
-  ratingEndDate: string
+  service: ServiceWithServiceDate
 ): ServiceByOptGroup[] => {
   const {
     start_date: startDate,
@@ -76,7 +75,6 @@ export const groupServiceByDate = (
   const startDateTime = startDateObject.getTime();
   const endDateObject = new Date(endDate);
   const endDateTime = endDateObject.getTime();
-  const ratingEndDateTime = new Date(ratingEndDate).getTime();
 
   if (typicality === "unplanned_disruption") {
     const type =
@@ -98,7 +96,7 @@ export const groupServiceByDate = (
     ];
   }
 
-  if (endDateObject.getTime() <= ratingEndDateTime) {
+  if (serviceDateTime >= startDateTime && serviceDateTime <= endDateTime) {
     return [
       {
         type: "current",
@@ -108,10 +106,20 @@ export const groupServiceByDate = (
     ];
   }
 
+  if (serviceDateTime < startDateTime) {
+    return [
+      {
+        type: "future",
+        servicePeriod: `starts ${formattedDate(startDateObject)}`,
+        service
+      }
+    ];
+  }
+
   return [
     {
       type: "future",
-      servicePeriod: `starts ${formattedDate(startDateObject)}`,
+      servicePeriod: startToEnd(startDateObject, endDateObject),
       service
     }
   ];

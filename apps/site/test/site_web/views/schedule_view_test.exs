@@ -119,8 +119,7 @@ defmodule SiteWeb.ScheduleViewTest do
       "0" => [],
       "1" => []
     },
-    teasers: "<div>teasers</div>",
-    rating_end_date: "2020-03-14"
+    teasers: "<div>teasers</div>"
   }
 
   describe "display_direction/1" do

@@ -29,32 +29,10 @@ const optGroupTitles: { [key in ServiceOptGroupName]: string } = {
 interface Props {
   stopId: string;
   services: ServiceInSelector[];
-  ratingEndDate: string;
   routeId: string;
   directionId: SelectedDirection;
   routePatterns: EnhancedRoutePattern[];
 }
-
-const getSelectedService = (
-  services: ServiceInSelector[],
-  selectedServiceId: string
-): ServiceInSelector => {
-  const selectedService = services.find(
-    service => service.id === selectedServiceId
-  );
-  return selectedService!;
-};
-
-const getServicesByOptGroup = (
-  services: ServiceInSelector[],
-  ratingEndDate: string
-): ServicesKeyedByGroup =>
-  services
-    .reduce(
-      (acc, service) => [...acc, ...groupServiceByDate(service, ratingEndDate)],
-      [] as ServiceByOptGroup[]
-    )
-    .reduce(groupByType, { current: [], holiday: [], future: [] });
 
 const getDefaultServiceId = (services: ServiceInSelector[]): string => {
   const currentService = services.find(
@@ -98,7 +76,6 @@ export const fetchData = (
 export const ServiceSelector = ({
   stopId,
   services,
-  ratingEndDate,
   routeId,
   directionId,
   routePatterns
@@ -138,14 +115,18 @@ export const ServiceSelector = ({
 
   if (services.length <= 0) return null;
 
-  const servicesByOptGroup = getServicesByOptGroup(services, ratingEndDate);
+  const servicesByOptGroup: ServicesKeyedByGroup = services
+    .reduce(
+      (acc, service) => [...acc, ...groupServiceByDate(service)],
+      [] as ServiceByOptGroup[]
+    )
+    .reduce(groupByType, { current: [], holiday: [], future: [] });
+
   const defaultServiceId = getDefaultServiceId(services);
 
   if (!selectedServiceId) {
     setSelectedServiceId(defaultServiceId);
   }
-
-  const selectedService = getSelectedService(services, selectedServiceId);
 
   return (
     <>
@@ -194,7 +175,8 @@ export const ServiceSelector = ({
               route: routeId,
               origin: stopId,
               direction: directionId,
-              date: selectedService.end_date
+              date: services.find(service => service.id === selectedServiceId)!
+                .end_date
             }}
           />
         )}

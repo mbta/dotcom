@@ -66,7 +66,6 @@ const services: ServiceInSelector[] = [
 
 /* eslint-disable @typescript-eslint/camelcase */
 const today = "2019-12-05";
-const ratingEndDate = "2019-12-21";
 const body = '<div id="react-root"></div>';
 const route: EnhancedRoute = {
   alert_count: 0,
@@ -161,7 +160,6 @@ it("renders", () => {
         stops={stops}
         directionId={0}
         services={services}
-        ratingEndDate="2020-03-14"
         routePatternsByDirection={routePatternsByDirection}
         today={today}
         scheduleNote={null}
@@ -180,7 +178,6 @@ it("opens modal after displaying error", () => {
       stops={stops}
       directionId={0}
       services={services}
-      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
       scheduleNote={null}
@@ -295,7 +292,6 @@ it("modal renders route pill for bus lines", () => {
       route={route}
       directionId={0}
       services={services}
-      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
       scheduleNote={null}
@@ -322,7 +318,6 @@ it("modal renders route pill for bus lines", () => {
       route={busRoute}
       directionId={0}
       services={services}
-      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
       scheduleNote={null}
@@ -349,7 +344,6 @@ it("modal renders route pill for silver line", () => {
       route={route}
       directionId={0}
       services={services}
-      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
       scheduleNote={null}
@@ -376,7 +370,6 @@ it("modal renders route pill for silver line", () => {
       route={busRoute}
       directionId={0}
       services={services}
-      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
       scheduleNote={null}
@@ -405,7 +398,6 @@ it("modal renders route pill for silver line", () => {
       services={services}
       routePatternsByDirection={routePatternsByDirection}
       today={today}
-      ratingEndDate={ratingEndDate}
       scheduleNote={null}
     />
   );
@@ -432,7 +424,6 @@ it("modal renders route pill for silver line", () => {
       services={services}
       routePatternsByDirection={routePatternsByDirection}
       today={today}
-      ratingEndDate={ratingEndDate}
       scheduleNote={null}
     />
   );
