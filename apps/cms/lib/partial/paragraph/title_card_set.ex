@@ -1,5 +1,6 @@
 defmodule CMS.Partial.Paragraph.TitleCardSet do
   @moduledoc """
+  DEPRECATED. Use %DescriptiveLink{} structs inside %Column{} structs instead.
   Represents a collection of Title Cards in the CMS
   """
   defstruct descriptive_links: []
