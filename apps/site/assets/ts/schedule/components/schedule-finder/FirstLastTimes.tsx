@@ -24,6 +24,10 @@ const FirstLastTimes = ({
     return null;
   }
 
+  // For subway lines, the frequency of trips is lower on Saturdays, but
+  // the first and last trips are the same on Weekdays and Saturdays.
+  // When showing first and last trips use the weekday service,
+  // but label it as "Monday - Saturday".
   const timesList = [
     [
       "Monday - Saturday",
