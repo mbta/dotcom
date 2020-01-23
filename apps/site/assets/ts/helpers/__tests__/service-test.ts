@@ -47,22 +47,22 @@ const upcomingService = {
 describe("serviceDate", () => {
   it("handles holidays", () => {
     const date = serviceDate(service);
-    expect(date).toBe("on June 25");
+    expect(date).toBe("on Jun 25");
   });
 
   it("handles current schedules", () => {
     const date = serviceDate(currentService);
-    expect(date).toBe("ends July 28");
+    expect(date).toBe("ends Jul 28");
   });
 
   it("handles upcoming schedules", () => {
     const date = serviceDate(upcomingService);
-    expect(date).toBe("starts July 1");
+    expect(date).toBe("starts Jul 1");
   });
 
   it("handles a range of dates when service date is not provided", () => {
     const date = serviceDate({ ...service, end_date: "2019-07-04" });
-    expect(date).toBe("June 25 to July 4");
+    expect(date).toBe("Jun 25 to Jul 4");
   });
 });
 
@@ -72,7 +72,7 @@ describe("groupServiceByDate", () => {
     expect(groupedService).toEqual([
       {
         type: "current",
-        servicePeriod: "ends July 28",
+        servicePeriod: "ends Jul 28",
         service: currentService
       }
     ]);
@@ -83,7 +83,7 @@ describe("groupServiceByDate", () => {
     expect(groupedService).toEqual([
       {
         type: "future",
-        servicePeriod: "starts July 1",
+        servicePeriod: "starts Jul 1",
         service: upcomingService
       }
     ]);
@@ -101,7 +101,7 @@ describe("groupServiceByDate", () => {
     expect(groupedService).toEqual([
       {
         type: "holiday",
-        servicePeriod: "Some Holiday, June 25",
+        servicePeriod: "Some Holiday, Jun 25",
         service: holidayService
       }
     ]);
@@ -116,7 +116,7 @@ describe("groupServiceByDate", () => {
     expect(groupedService).toEqual([
       {
         type: "future",
-        servicePeriod: "January 1 to January 2",
+        servicePeriod: "Jan 1 to Jan 2",
         service: {
           ...currentService,
           start_date: "2019-01-01",

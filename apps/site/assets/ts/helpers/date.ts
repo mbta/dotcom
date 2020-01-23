@@ -14,4 +14,12 @@ export const formattedDate = (unformatted: string): string => {
   });
 };
 
+// Returns a date in the form of "Aug 7"
+export const shortDate = (date: Date): string =>
+  date.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    timeZone: "UTC"
+  });
+
 export default formattedDate;

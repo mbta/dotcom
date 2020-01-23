@@ -1,23 +1,7 @@
 import { Service, ServiceWithServiceDate } from "../__v3api";
+import { shortDate } from "./date";
 
-const monthIntegerToString = (month: MonthInteger): string =>
-  [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December"
-  ][month];
-
-const formattedDate = (date: Date): string =>
-  `${monthIntegerToString(date.getUTCMonth())} ${date.getUTCDate()}`;
+const formattedDate = (date: Date): string => shortDate(date);
 
 const holidayDate = (service: Service): string => {
   const note = service.added_dates_notes[service.start_date];
@@ -151,8 +135,6 @@ export const serviceDate = (
   }
   return startToEnd(startDateObject, endDateObject);
 };
-
-type MonthInteger = number | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
 
 export const hasMultipleWeekdaySchedules = (
   services: ServiceWithServiceDate[]
