@@ -22,6 +22,9 @@ const services: ServiceInSelector[] = [
     description: "Weekday schedule",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": true
   },
   {
@@ -38,6 +41,9 @@ const services: ServiceInSelector[] = [
     description: "Weekday schedule",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   },
   {
@@ -54,6 +60,9 @@ const services: ServiceInSelector[] = [
     description: "Saturday schedule",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   },
   {
@@ -70,6 +79,9 @@ const services: ServiceInSelector[] = [
     description: "Sunday schedule",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   },
   {
@@ -86,6 +98,9 @@ const services: ServiceInSelector[] = [
     description: "Sunday schedule",
     added_dates_notes: { "2019-07-14": "Bastille Day" },
     added_dates: ["2019-07-14"],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   },
   {
@@ -102,6 +117,9 @@ const services: ServiceInSelector[] = [
     description: "Storm (reduced service)",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   },
   {
@@ -118,6 +136,9 @@ const services: ServiceInSelector[] = [
     description: "Storm (reduced service)",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   }
 ];

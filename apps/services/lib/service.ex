@@ -1,4 +1,5 @@
 defmodule Services.Service do
+  @moduledoc "Processes Services, including dates and notes"
   alias JsonApi.Item
 
   defstruct added_dates: [],
@@ -12,7 +13,10 @@ defmodule Services.Service do
             start_date: nil,
             type: nil,
             typicality: :unknown,
-            valid_days: []
+            valid_days: [],
+            rating_start_date: nil,
+            rating_end_date: nil,
+            rating_description: ""
 
   @type typicality ::
           :unknown
@@ -46,12 +50,16 @@ defmodule Services.Service do
           start_date: Date.t() | nil,
           type: type,
           typicality: typicality,
-          valid_days: [valid_day]
+          valid_days: [valid_day],
+          rating_start_date: Date.t() | nil,
+          rating_end_date: Date.t() | nil,
+          rating_description: String.t()
         }
 
   def new(%Item{id: id, attributes: attributes, type: "service"}) do
     %__MODULE__{}
     |> dates(attributes)
+    |> rating_dates(attributes)
     |> date_notes(attributes)
     |> Map.put(:description, Map.get(attributes, "description", ""))
     |> Map.put(:name, Map.get(attributes, "schedule_name", ""))
@@ -59,6 +67,7 @@ defmodule Services.Service do
     |> Map.put(:type, attributes |> Map.get("schedule_type") |> type())
     |> Map.put(:typicality, attributes |> Map.get("schedule_typicality") |> typicality())
     |> Map.put(:valid_days, Map.get(attributes, "valid_days", []))
+    |> Map.put(:rating_description, Map.get(attributes, "rating_description", ""))
   end
 
   defp dates(service, attributes) do
@@ -68,6 +77,18 @@ defmodule Services.Service do
       end)
 
     Enum.reduce(["start", "end"], service, fn date_type, acc ->
+      date =
+        case Map.get(attributes, date_type <> "_date") do
+          nil -> nil
+          date_string -> Date.from_iso8601!(date_string)
+        end
+
+      %{acc | "#{date_type}_date": date}
+    end)
+  end
+
+  defp rating_dates(service, attributes) do
+    Enum.reduce(["rating_start", "rating_end"], service, fn date_type, acc ->
       date =
         case Map.get(attributes, date_type <> "_date") do
           nil -> nil
