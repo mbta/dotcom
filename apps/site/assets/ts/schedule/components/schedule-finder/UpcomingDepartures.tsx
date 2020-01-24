@@ -29,6 +29,13 @@ interface Props {
 const hasPredictions = (journeys: EnhancedJourney[]): boolean =>
   journeys.filter(journey => journey.realtime.prediction !== null).length > 0;
 
+// Sometimes using the route.id from the journey is desired over the route.id
+// from input (e.g. so we can get trips for "Green-D" instead of "Green")
+const getAdjustedInput = (
+  input: UserInput,
+  journey: EnhancedJourney
+): UserInput => ({ ...input, ...{ route: journey.route.id } });
+
 export const RoutePillSmall = ({
   route
 }: {
@@ -122,7 +129,7 @@ const TableRow = ({
 
   return (
     <Accordion
-      input={input}
+      input={getAdjustedInput(input, journey)}
       journey={journey}
       contentComponent={contentComponent}
     />
@@ -168,7 +175,7 @@ export const UpcomingDepartures = ({
             {journeys.map((journey: EnhancedJourney, idx: number) => (
               <TableRow
                 journey={journey}
-                input={input}
+                input={getAdjustedInput(input, journey)}
                 // eslint-disable-next-line react/no-array-index-key
                 key={idx}
               />
