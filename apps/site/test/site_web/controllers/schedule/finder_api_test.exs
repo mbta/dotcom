@@ -49,12 +49,12 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
 
   describe "journeys/2" do
     test "gets valid journeys in order to derive trip params", %{conn: conn} do
-      route_id = "CR-Worcester"
+      route_id = "Red"
       date = get_valid_trip_date(route_id)
       conn = assign(conn, :date, date)
 
       journey =
-        %{id: route_id, direction: "0", stop: "place-WML-0199"}
+        %{id: route_id, direction: "0", stop: "place-sstat"}
         |> get_valid_journeys(conn)
         |> List.first()
 
@@ -178,7 +178,7 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
   describe "trip/2" do
     test "successfully calls the API", %{conn: conn} do
       params = %{
-        id: "CR-Worcester",
+        id: "Red",
         direction: "0",
         stop: "place-sstat"
       }
@@ -192,10 +192,10 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
     end
 
     test "only shows times starting at selected origin onward - outbound", %{conn: conn} do
-      origin_stop = "place-WML-0199"
+      origin_stop = "place-sstat"
 
       params = %{
-        id: "CR-Worcester",
+        id: "Red",
         direction: "0",
         stop: origin_stop
       }
@@ -209,16 +209,16 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
         |> json_response(200)
 
       assert %{"times" => times} = trip
-      assert length(times) == 7
+      assert length(times) == 8
 
       assert origin_stop = times |> List.first() |> get_in(["schedule", "stop", "id"])
     end
 
     test "only shows times starting at selected origin onward - inbound", %{conn: conn} do
-      origin_stop = "place-WML-0199"
+      origin_stop = "place-sstat"
 
       params = %{
-        id: "CR-Worcester",
+        id: "Red",
         direction: "1",
         stop: origin_stop
       }
@@ -232,7 +232,7 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
         |> json_response(200)
 
       assert %{"times" => times} = trip
-      assert length(times) == 12
+      assert length(times) == 10
 
       assert origin_stop = times |> List.first() |> get_in(["schedule", "stop", "id"])
     end
