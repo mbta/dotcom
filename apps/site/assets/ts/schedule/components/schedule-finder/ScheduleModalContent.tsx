@@ -55,6 +55,7 @@ type fetchAction =
   | { type: "FETCH_ERROR" }
   | { type: "FETCH_STARTED" };
 
+// Upcoming departures
 export const fetchData = (
   routeId: string,
   selectedOrigin: SelectedOrigin,
@@ -142,7 +143,8 @@ const ScheduleModalContent = ({
       <>
         <h3>Daily Schedules</h3>
         <FirstLastTimes
-          hoursOfOperation={scheduleNote.hours_of_operation!}
+          routeId={routeId}
+          selectedOrigin={selectedOrigin}
           selectedDirection={selectedDirection}
         />
         <ScheduleNote

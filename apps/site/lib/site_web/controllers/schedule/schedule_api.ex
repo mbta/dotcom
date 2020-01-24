@@ -184,26 +184,36 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
     })
   end
 
-  def hours(conn, %{"stop" => origin_id, "route" => route_id, "direction" => direction_id } = _params) do
+  # TODO Add test and doc
+  def hours(
+        conn,
+        %{"stop" => origin_id, "route" => route_id, "direction" => direction_id} = _params
+      ) do
+    # TODO - return data organized by keys for Sunday, Saturday, and Weekday. Try to figure out how to avoid accidentally pulling in weirdly serviced dates.
     today = Util.service_date()
-    sunday_date = if Timex.weekday(today) === 7 do today else Timex.shift(today, days: 7 - Timex.weekday(today)) end
+
+    sunday_date =
+      if Timex.weekday(today) === 7 do
+        today
+      else
+        Timex.shift(today, days: 7 - Timex.weekday(today))
+      end
+
+    saturday_date = Timex.shift(sunday_date, days: 6)
     weekday_date = Timex.shift(sunday_date, days: 3)
 
-    sunday_schedules = Repo.by_route_ids(
-      [route_id],
-      date: sunday_date,
-      stop_ids: [origin_id],
-      direction_id: direction_id
-    )
+    hours =
+      [sunday_date, weekday_date, saturday_date]
+      |> Stream.map(
+        &Repo.by_route_ids(
+          [route_id],
+          date: &1,
+          stop_ids: [origin_id],
+          direction_id: direction_id
+        )
+      )
+      |> Enum.map(&Departures.first_and_last_departures(&1))
 
-    weekday_schedules = Repo.by_route_ids(
-      [route_id],
-      date: weekday_date,
-      stop_ids: [origin_id],
-      direction_id: direction_id
-    )
-
-    schedules = [sunday_schedules, weekday_schedules] |> Enum.map(& Departures.first_and_last_departures(&1))
-    json(conn, schedules)
+    json(conn, hours)
   end
 end
