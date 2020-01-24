@@ -9,6 +9,7 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
   alias Schedules.Repo
   alias Site.{BaseFare}
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
+  alias Schedules.Departures
 
   def show(conn, %{
         "id" => route_id,
@@ -181,5 +182,28 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
       origin: origin,
       destination: destination
     })
+  end
+
+  def hours(conn, %{"stop" => origin_id, "route" => route_id, "direction" => direction_id } = _params) do
+    today = Util.service_date()
+    sunday_date = if Timex.weekday(today) === 7 do today else Timex.shift(today, days: 7 - Timex.weekday(today)) end
+    weekday_date = Timex.shift(sunday_date, days: 3)
+
+    sunday_schedules = Repo.by_route_ids(
+      [route_id],
+      date: sunday_date,
+      stop_ids: [origin_id],
+      direction_id: direction_id
+    )
+
+    weekday_schedules = Repo.by_route_ids(
+      [route_id],
+      date: weekday_date,
+      stop_ids: [origin_id],
+      direction_id: direction_id
+    )
+
+    schedules = [sunday_schedules, weekday_schedules] |> Enum.map(& Departures.first_and_last_departures(&1))
+    json(conn, schedules)
   end
 end
