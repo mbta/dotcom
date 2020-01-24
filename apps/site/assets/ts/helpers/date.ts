@@ -14,4 +14,11 @@ export const formattedDate = (unformatted: string): string => {
   });
 };
 
+// Returns a time in the form of "05:16 AM"
+export const shortTime = (date: string): string =>
+  new Date(date).toLocaleTimeString("en-US", {
+    hour: "2-digit",
+    minute: "2-digit"
+  });
+
 export default formattedDate;
