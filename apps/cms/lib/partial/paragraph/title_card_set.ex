@@ -1,7 +1,9 @@
 defmodule CMS.Partial.Paragraph.TitleCardSet do
   @moduledoc """
-  DEPRECATED. Use %DescriptiveLink{} structs inside %Column{} structs instead.
-  Represents a collection of Title Cards in the CMS
+  DEPRECATED. This paragraph type is being retained for historical purposes
+  (which is why we're not pulling it), but it is no longer used in any current
+  CMS content (and can no longer be added via the CMS). Use Descriptive Links
+  within a  Multi Column layout instead.
   """
   defstruct descriptive_links: []
 
