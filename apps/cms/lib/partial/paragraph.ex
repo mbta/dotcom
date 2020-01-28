@@ -145,8 +145,8 @@ defmodule CMS.Partial.Paragraph do
     PeopleGrid.from_api(para)
   end
 
-  def from_api(%{"type" => [%{"target_id" => "photo_gallery"}]} = para, _preview_opts) do
-    PhotoGallery.from_api(para)
+  def from_api(%{"type" => [%{"target_id" => "photo_gallery"}]} = para, preview_opts) do
+    PhotoGallery.from_api(para, preview_opts)
   end
 
   def from_api(%{"type" => [%{"target_id" => "tabs"}]} = para, preview_opts) do
