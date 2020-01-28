@@ -5,7 +5,8 @@ import {
   RoutePatternsByDirection,
   LineDiagramStop,
   SimpleStopMap,
-  ServiceInSelector
+  ServiceInSelector,
+  ScheduleNote as ScheduleNoteType
 } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
@@ -27,6 +28,7 @@ export interface Props {
   ratingEndDate: string;
   stops: SimpleStopMap;
   today: string;
+  scheduleNote: ScheduleNoteType | null;
 }
 
 export const fetchMapData = (
@@ -84,7 +86,8 @@ const ScheduleDirection = ({
   services,
   ratingEndDate,
   stops,
-  today
+  today,
+  scheduleNote
 }: Props): ReactElement<HTMLElement> => {
   const defaultRoutePattern = routePatternsByDirection[directionId].slice(
     0,
@@ -178,6 +181,7 @@ const ScheduleDirection = ({
           ratingEndDate={ratingEndDate}
           stops={stops}
           today={today}
+          scheduleNote={scheduleNote}
         />
       )}
     </>

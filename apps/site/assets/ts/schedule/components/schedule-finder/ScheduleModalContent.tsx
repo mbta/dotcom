@@ -10,12 +10,14 @@ import {
   SimpleStop,
   StopPrediction,
   RoutePatternsByDirection,
-  ServiceInSelector
+  ServiceInSelector,
+  ScheduleNote as ScheduleNoteType
 } from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
 import { reducer } from "../../../helpers/fetch";
 import ServiceSelector from "./ServiceSelector";
 import { breakTextAtSlash } from "../../../helpers/text";
+import ScheduleNote from "../ScheduleNote";
 
 const stopInfo = (
   selectedOrigin: string,
@@ -84,6 +86,7 @@ interface Props {
   stops: SimpleStop[];
   routePatternsByDirection: RoutePatternsByDirection;
   today: string;
+  scheduleNote: ScheduleNoteType | null;
 }
 
 const ScheduleModalContent = ({
@@ -100,7 +103,8 @@ const ScheduleModalContent = ({
   ratingEndDate,
   stops,
   routePatternsByDirection,
-  today
+  today,
+  scheduleNote
 }: Props): ReactElement<HTMLElement> | null => {
   const [state, dispatch] = useReducer(reducer, {
     data: null,
@@ -146,14 +150,21 @@ const ScheduleModalContent = ({
       </div>
       <div>from {stopNameLink(selectedOrigin, stops)}</div>
       <UpcomingDepartures state={state} input={input} />
-      <ServiceSelector
-        stopId={selectedOrigin}
-        services={services}
-        ratingEndDate={ratingEndDate}
-        routeId={routeId}
-        directionId={selectedDirection}
-        routePatterns={routePatternsByDirection[selectedDirection]}
-      />
+      {scheduleNote ? (
+        <ScheduleNote
+          className="m-schedule-page__schedule-notes--modal"
+          scheduleNote={scheduleNote}
+        />
+      ) : (
+        <ServiceSelector
+          stopId={selectedOrigin}
+          services={services}
+          ratingEndDate={ratingEndDate}
+          routeId={routeId}
+          directionId={selectedDirection}
+          routePatterns={routePatternsByDirection[selectedDirection]}
+        />
+      )}
     </>
   );
 };

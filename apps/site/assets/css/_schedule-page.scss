@@ -58,6 +58,19 @@
   padding: $base-spacing * 2 $base-spacing;
 }
 
+.m-schedule-page__schedule-notes--modal {
+  margin-top: $base-spacing;
+  padding: $base-spacing;
+
+  .m-schedule-page__schedule-note-title {
+    display: none;
+
+    + .m-schedule-page__schedule-note .m-schedule-page__service {
+      margin-top: 0;
+    }
+  }
+}
+
 .m-schedule-page__schedule-notes--desktop {
   margin-top: $base-spacing * 2;
 

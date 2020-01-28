@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ScheduleModal it renders 1`] = `
+exports[`ScheduleModal renders 1`] = `
 Array [
   <div
     className="schedule-finder__modal-header"
