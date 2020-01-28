@@ -19,6 +19,20 @@ describe("HeaderRoutePill", () => {
     expect(tree).toMatchSnapshot();
   });
 
+  it("renders SL Waterfront appropriately", () => {
+    let tree;
+    act(() => {
+      tree = renderer.create(
+        <HeaderRoutePill
+          id="746"
+          name="Silver Line Way - South Station"
+          type={3}
+        />
+      );
+    });
+    expect(tree).toMatchSnapshot();
+  });
+
   it("returns null for non-bus service", () => {
     const tree = HeaderRoutePill({ id: "Red", type: 1, name: "RL" });
     expect(tree).toBeNull();

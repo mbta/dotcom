@@ -1,5 +1,7 @@
 import React, { ReactElement } from "react";
-import isSilverLine from "../../../helpers/silver-line";
+import isSilverLine, {
+  isSilverLineWaterfront
+} from "../../../helpers/silver-line";
 import { RouteType } from "../../../__v3api";
 
 interface Props {
@@ -20,7 +22,7 @@ const HeaderRoutePill = ({
           isSilverLine(id) ? "silver-line" : "bus"
         }`}
       >
-        {name}
+        {isSilverLineWaterfront(id) ? "SL" : name}
       </div>
     </div>
   ) : null;
