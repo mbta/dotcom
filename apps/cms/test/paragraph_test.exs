@@ -177,6 +177,7 @@ defmodule CMS.ParagraphTest do
       api_data = api_paragraph("photo_gallery")
 
       assert %PhotoGallery{
+               header: nil,
                images: [
                  %Image{},
                  %Image{},
