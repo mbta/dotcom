@@ -8,6 +8,8 @@ import {
   accessibleIcon
 } from "../../../helpers/icon";
 import { Alert, Route } from "../../../__v3api";
+import { LiveData } from "./LineDiagram";
+import StopPredictions from "./StopPredictions";
 
 interface Props {
   stop: LineDiagramStop;
@@ -15,6 +17,7 @@ interface Props {
   color: string;
   isOrigin?: boolean;
   isDestination?: boolean;
+  liveData?: LiveData;
 }
 
 const filteredConnections = (
@@ -120,7 +123,7 @@ const StopFeatures = (routeStop: RouteStop): JSX.Element => (
         )}
       </TooltipWrapper>
     ) : null}
-    {routeStop.route!.type === 2 && routeStop.zone && (
+    {routeStop.zone && routeStop.route && routeStop.route.type === 2 && (
       <span className="c-icon__cr-zone m-schedule-diagram__feature-icon">{`Zone ${
         routeStop.zone
       }`}</span>
@@ -130,12 +133,12 @@ const StopFeatures = (routeStop: RouteStop): JSX.Element => (
 
 const StopBranchLabel = (stop: RouteStop): JSX.Element | null =>
   stop["is_terminus?"] && !!stop.branch && !!stop.route ? (
-    <strong className="u-small-caps">
+    <div className="u-bold u-small-caps">
       {stop.route.id.startsWith("Green")
         ? `Green Line ${stop.route.id.split("-")[1]}`
         : stop.name}
       {stop.route.type === 2 ? " Line" : " Branch"}
-    </strong>
+    </div>
   ) : null;
 
 const StopGraphic = (isOrigin = false, isTerminus = false): JSX.Element => {
@@ -155,7 +158,8 @@ const SingleStop = ({
   onClick,
   color,
   isOrigin,
-  isDestination
+  isDestination,
+  liveData
 }: Props): ReactElement<HTMLElement> | null => {
   const {
     stop_data: stopData,
@@ -196,21 +200,30 @@ const SingleStop = ({
           ))
         )}
       </div>
-      <div className="m-schedule-diagram__content">
-        <div className="m-schedule-diagram__card">
-          <div className="m-schedule-diagram__card-left">
-            <div className="m-schedule-diagram__stop-name">
-              {StopBranchLabel(routeStop)}
-              <a href={`/stops/${routeStop.id}`}>
-                <h4>
-                  {MaybeAlert(stopAlerts)} {routeStop.name}{" "}
-                </h4>
-              </a>
-            </div>
-            {StopConnections(filteredConnections(routeStop.connections))}
+
+      <div className="m-schedule-diagram__stop-content">
+        {StopBranchLabel(routeStop)}
+        <div className="m-schedule-diagram__stop-heading">
+          <div className="m-schedule-diagram__stop-name">
+            <a href={`/stops/${routeStop.id}`}>
+              <h4>
+                {MaybeAlert(stopAlerts)} {routeStop.name}{" "}
+              </h4>
+            </a>
           </div>
           {StopFeatures(routeStop)}
         </div>
+
+        <div className="m-schedule-diagram__stop-details">
+          {StopConnections(filteredConnections(routeStop.connections))}
+          {!isDestination && liveData && (
+            <StopPredictions
+              headsigns={liveData.headsigns}
+              isCommuterRail={!!routeStop.route && routeStop.route.type === 2}
+            />
+          )}
+        </div>
+
         {!isDestination && (
           <div className="m-schedule-diagram__footer">
             <button

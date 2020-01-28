@@ -6,7 +6,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
     Stations
   </h3>
   <div className=\\"m-schedule-diagram m-schedule-diagram--inward\\">
-    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
@@ -15,25 +15,25 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <strong className=\\"u-small-caps\\">
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"u-bold u-small-caps\\">
+            Destination
+             Line
+          </div>
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/tree-destination\\">
+                <h4>
+                   
                   Destination
-                   Line
-                </strong>
-                <a href=\\"/stops/tree-destination\\">
-                  <h4>
-                     
-                    Destination
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\" />
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
           <div className=\\"m-schedule-diagram__footer\\">
             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -43,7 +43,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
         </div>
       </div>
     </SingleStop>
-    <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={false}>
+    <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={false} liveDataByStop={{...}}>
       <div className=\\"m-schedule-diagram__expander \\">
         <ExpandableBlock header={{...}} initiallyExpanded={false} preventScroll={true} id=\\"Origin - Destination\\">
           <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-Origin - Destination\\" aria-expanded={false} aria-controls=\\"panel-Origin - Destination\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
@@ -78,7 +78,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
         </ExpandableBlock>
       </div>
     </ExpandableBranch>
-    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
@@ -88,25 +88,25 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <strong className=\\"u-small-caps\\">
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"u-bold u-small-caps\\">
+            Twig Destination
+             Line
+          </div>
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/tree-twig-destination\\">
+                <h4>
+                   
                   Twig Destination
-                   Line
-                </strong>
-                <a href=\\"/stops/tree-twig-destination\\">
-                  <h4>
-                     
-                    Twig Destination
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\" />
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
           <div className=\\"m-schedule-diagram__footer\\">
             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -117,7 +117,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
       </div>
     </SingleStop>
     <div className=\\"m-schedule-diagram__expanded\\">
-      <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
         <div className=\\"m-schedule-diagram__stop\\">
           <div style={{...}} className=\\"m-schedule-diagram__lines\\">
             <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
@@ -127,21 +127,21 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
               </svg>
             </div>
           </div>
-          <div className=\\"m-schedule-diagram__content\\">
-            <div className=\\"m-schedule-diagram__card\\">
-              <div className=\\"m-schedule-diagram__card-left\\">
-                <div className=\\"m-schedule-diagram__stop-name\\">
-                  <a href=\\"/stops/tree-twig-stop\\">
-                    <h4>
-                       
-                      Twig Stop
-                       
-                    </h4>
-                  </a>
-                </div>
-                <div className=\\"m-schedule-diagram__connections\\" />
+          <div className=\\"m-schedule-diagram__stop-content\\">
+            <div className=\\"m-schedule-diagram__stop-heading\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <a href=\\"/stops/tree-twig-stop\\">
+                  <h4>
+                     
+                    Twig Stop
+                     
+                  </h4>
+                </a>
               </div>
               <div className=\\"m-schedule-diagram__features\\" />
+            </div>
+            <div className=\\"m-schedule-diagram__stop-details\\">
+              <div className=\\"m-schedule-diagram__connections\\" />
             </div>
             <div className=\\"m-schedule-diagram__footer\\">
               <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -152,7 +152,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
         </div>
       </SingleStop>
     </div>
-    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
@@ -163,25 +163,25 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <strong className=\\"u-small-caps\\">
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"u-bold u-small-caps\\">
+            Branch Destination
+             Line
+          </div>
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/tree-branch-destination\\">
+                <h4>
+                   
                   Branch Destination
-                   Line
-                </strong>
-                <a href=\\"/stops/tree-branch-destination\\">
-                  <h4>
-                     
-                    Branch Destination
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\" />
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
           <div className=\\"m-schedule-diagram__footer\\">
             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -191,7 +191,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
         </div>
       </div>
     </SingleStop>
-    <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={true}>
+    <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={true} liveDataByStop={{...}}>
       <div className=\\"m-schedule-diagram__expander m-schedule-diagram__expander--merging\\">
         <ExpandableBlock header={{...}} initiallyExpanded={false} preventScroll={true} id=\\"Origin - Branch Destination\\">
           <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-Origin - Branch Destination\\" aria-expanded={false} aria-controls=\\"panel-Origin - Branch Destination\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
@@ -228,7 +228,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
         </ExpandableBlock>
       </div>
     </ExpandableBranch>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -237,21 +237,21 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <a href=\\"/stops/tree-stop1\\">
-                  <h4>
-                     
-                    Stop 1
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\" />
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/tree-stop1\\">
+                <h4>
+                   
+                  Stop 1
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
           <div className=\\"m-schedule-diagram__footer\\">
             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -261,7 +261,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -270,21 +270,21 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <a href=\\"/stops/tree-stop0\\">
-                  <h4>
-                     
-                    Stop 0
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\" />
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/tree-stop0\\">
+                <h4>
+                   
+                  Stop 0
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
           <div className=\\"m-schedule-diagram__footer\\">
             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -294,7 +294,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
@@ -303,21 +303,21 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <a href=\\"/stops/tree-origin\\">
-                  <h4>
-                     
-                    Origin
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\" />
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/tree-origin\\">
+                <h4>
+                   
+                  Origin
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
         </div>
       </div>
@@ -335,7 +335,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
     Stops
   </h3>
   <div className=\\"m-schedule-diagram m-schedule-diagram--outward\\">
-    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
@@ -344,21 +344,21 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <a href=\\"/stops/tree-origin\\">
-                  <h4>
-                     
-                    Origin
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\" />
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/tree-origin\\">
+                <h4>
+                   
+                  Origin
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
           <div className=\\"m-schedule-diagram__footer\\">
             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -368,7 +368,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -377,21 +377,21 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <a href=\\"/stops/tree-stop0\\">
-                  <h4>
-                     
-                    Stop 0
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\" />
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/tree-stop0\\">
+                <h4>
+                   
+                  Stop 0
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
           <div className=\\"m-schedule-diagram__footer\\">
             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -401,7 +401,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -410,21 +410,21 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <a href=\\"/stops/tree-stop1\\">
-                  <h4>
-                     
-                    Stop 1
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\" />
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/tree-stop1\\">
+                <h4>
+                   
+                  Stop 1
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
           <div className=\\"m-schedule-diagram__footer\\">
             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -434,7 +434,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
         </div>
       </div>
     </SingleStop>
-    <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={true}>
+    <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={true} liveDataByStop={{...}}>
       <div className=\\"m-schedule-diagram__expander m-schedule-diagram__expander--merging\\">
         <ExpandableBlock header={{...}} initiallyExpanded={false} preventScroll={true} id=\\"Origin - Branch Destination\\">
           <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-Origin - Branch Destination\\" aria-expanded={false} aria-controls=\\"panel-Origin - Branch Destination\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
@@ -471,7 +471,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
         </ExpandableBlock>
       </div>
     </ExpandableBranch>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
@@ -482,31 +482,31 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <strong className=\\"u-small-caps\\">
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"u-bold u-small-caps\\">
+            Branch Destination
+             Branch
+          </div>
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/tree-branch-destination\\">
+                <h4>
+                   
                   Branch Destination
-                   Branch
-                </strong>
-                <a href=\\"/stops/tree-branch-destination\\">
-                  <h4>
-                     
-                    Branch Destination
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\" />
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
         </div>
       </div>
     </SingleStop>
     <div className=\\"m-schedule-diagram__expanded\\">
-      <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+      <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
         <div className=\\"m-schedule-diagram__stop\\">
           <div style={{...}} className=\\"m-schedule-diagram__lines\\">
             <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
@@ -516,21 +516,21 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
               </svg>
             </div>
           </div>
-          <div className=\\"m-schedule-diagram__content\\">
-            <div className=\\"m-schedule-diagram__card\\">
-              <div className=\\"m-schedule-diagram__card-left\\">
-                <div className=\\"m-schedule-diagram__stop-name\\">
-                  <a href=\\"/stops/tree-twig-stop\\">
-                    <h4>
-                       
-                      Twig Stop
-                       
-                    </h4>
-                  </a>
-                </div>
-                <div className=\\"m-schedule-diagram__connections\\" />
+          <div className=\\"m-schedule-diagram__stop-content\\">
+            <div className=\\"m-schedule-diagram__stop-heading\\">
+              <div className=\\"m-schedule-diagram__stop-name\\">
+                <a href=\\"/stops/tree-twig-stop\\">
+                  <h4>
+                     
+                    Twig Stop
+                     
+                  </h4>
+                </a>
               </div>
               <div className=\\"m-schedule-diagram__features\\" />
+            </div>
+            <div className=\\"m-schedule-diagram__stop-details\\">
+              <div className=\\"m-schedule-diagram__connections\\" />
             </div>
             <div className=\\"m-schedule-diagram__footer\\">
               <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -541,7 +541,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
         </div>
       </SingleStop>
     </div>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
@@ -551,30 +551,30 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <strong className=\\"u-small-caps\\">
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"u-bold u-small-caps\\">
+            Twig Destination
+             Branch
+          </div>
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/tree-twig-destination\\">
+                <h4>
+                   
                   Twig Destination
-                   Branch
-                </strong>
-                <a href=\\"/stops/tree-twig-destination\\">
-                  <h4>
-                     
-                    Twig Destination
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\" />
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
         </div>
       </div>
     </SingleStop>
-    <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={false}>
+    <ExpandableBranch branchData={{...}} onStopClick={[Function: handleStopClick]} color=\\"F00B42\\" willMerge={false} liveDataByStop={{...}}>
       <div className=\\"m-schedule-diagram__expander \\">
         <ExpandableBlock header={{...}} initiallyExpanded={false} preventScroll={true} id=\\"Origin - Destination\\">
           <h3 className=\\"c-expandable-block__header\\" tabIndex={0} id=\\"header-Origin - Destination\\" aria-expanded={false} aria-controls=\\"panel-Origin - Destination\\" role=\\"button\\" onClick={[Function: onClick]} onKeyPress={[Function: onKeyPress]}>
@@ -609,7 +609,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
         </ExpandableBlock>
       </div>
     </ExpandableBranch>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
@@ -618,25 +618,25 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <strong className=\\"u-small-caps\\">
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"u-bold u-small-caps\\">
+            Destination
+             Branch
+          </div>
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/tree-destination\\">
+                <h4>
+                   
                   Destination
-                   Branch
-                </strong>
-                <a href=\\"/stops/tree-destination\\">
-                  <h4>
-                     
-                    Destination
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\" />
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\" />
           </div>
         </div>
       </div>
@@ -654,7 +654,7 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
     Stops
   </h3>
   <div className=\\"m-schedule-diagram m-schedule-diagram--outward\\">
-    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
@@ -663,19 +663,16 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <a href=\\"/stops/line-origin\\">
-                  <h4>
-                     
-                    Origin
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\" />
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/line-origin\\">
+                <h4>
+                   
+                  Origin
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\">
               <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
@@ -685,6 +682,9 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
               </Component>
             </div>
           </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\" />
+          </div>
           <div className=\\"m-schedule-diagram__footer\\">
             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
               View schedule
@@ -693,7 +693,7 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={{...}}>
       <div className=\\"m-schedule-diagram__stop\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -702,37 +702,57 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <a href=\\"/stops/line-stop1\\">
-                  <h4>
-                     
-                    Stop 1
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\">
-                <Component href=\\"/schedules/Orange/line\\" tooltipText=\\"Orange Line\\" tooltipOptions={{...}}>
-                  <a href=\\"/schedules/Orange/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Orange Line\\" title=\\"Orange Line\\">
-                    <span className=\\"m-schedule-diagram__connection\\">
-                      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                    </span>
-                  </a>
-                </Component>
-                <Component href=\\"/schedules/Green-C/line\\" tooltipText=\\"Green Line C\\" tooltipOptions={{...}}>
-                  <a href=\\"/schedules/Green-C/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Green Line C\\" title=\\"Green Line C\\">
-                    <span className=\\"m-schedule-diagram__connection\\">
-                      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                    </span>
-                  </a>
-                </Component>
-              </div>
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/line-stop1\\">
+                <h4>
+                   
+                  Stop 1
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\" />
           </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\">
+              <Component href=\\"/schedules/Orange/line\\" tooltipText=\\"Orange Line\\" tooltipOptions={{...}}>
+                <a href=\\"/schedules/Orange/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Orange Line\\" title=\\"Orange Line\\">
+                  <span className=\\"m-schedule-diagram__connection\\">
+                    <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                  </span>
+                </a>
+              </Component>
+              <Component href=\\"/schedules/Green-C/line\\" tooltipText=\\"Green Line C\\" tooltipOptions={{...}}>
+                <a href=\\"/schedules/Green-C/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Green Line C\\" title=\\"Green Line C\\">
+                  <span className=\\"m-schedule-diagram__connection\\">
+                    <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                  </span>
+                </a>
+              </Component>
+            </div>
+            <StopPredictions headsigns={{...}} isCommuterRail={false}>
+              <div className=\\"m-schedule-diagram__predictions\\">
+                <div className=\\"m-schedule-diagram__prediction\\">
+                  <div>
+                    Dest1
+                  </div>
+                  <div className=\\"m-schedule-diagram__prediction-time\\">
+                    2   min
+                  </div>
+                </div>
+                <div className=\\"m-schedule-diagram__prediction\\">
+                  <div>
+                    Dest2
+                  </div>
+                  <div className=\\"m-schedule-diagram__prediction-time\\">
+                    5   min
+                  </div>
+                </div>
+              </div>
+            </StopPredictions>
+          </div>
           <div className=\\"m-schedule-diagram__footer\\">
             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
               View schedule
@@ -741,7 +761,7 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={{...}}>
       <div className=\\"m-schedule-diagram__stop\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -750,39 +770,21 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <a href=\\"/stops/line-stop2\\">
-                  <h4>
-                    <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                    <span className=\\"sr-only\\">
-                      Service alert or delay
-                    </span>
-                     
-                     
-                    Stop 2
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\">
-                <Component href=\\"/schedules/62/line\\" tooltipText=\\"Route 62\\" tooltipOptions={{...}}>
-                  <a href=\\"/schedules/62/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Route 62\\" title=\\"Route 62\\">
-                    <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
-                      62
-                    </span>
-                  </a>
-                </Component>
-                <Component href=\\"/schedules/67/line\\" tooltipText=\\"Route 67\\" tooltipOptions={{...}}>
-                  <a href=\\"/schedules/67/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Route 67\\" title=\\"Route 67\\">
-                    <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
-                      67
-                    </span>
-                  </a>
-                </Component>
-              </div>
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/line-stop2\\">
+                <h4>
+                  <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                  <span className=\\"sr-only\\">
+                    Service alert or delay
+                  </span>
+                   
+                   
+                  Stop 2
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\">
               <Component tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
@@ -792,6 +794,36 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
               </Component>
             </div>
           </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\">
+              <Component href=\\"/schedules/62/line\\" tooltipText=\\"Route 62\\" tooltipOptions={{...}}>
+                <a href=\\"/schedules/62/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Route 62\\" title=\\"Route 62\\">
+                  <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
+                    62
+                  </span>
+                </a>
+              </Component>
+              <Component href=\\"/schedules/67/line\\" tooltipText=\\"Route 67\\" tooltipOptions={{...}}>
+                <a href=\\"/schedules/67/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Route 67\\" title=\\"Route 67\\">
+                  <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
+                    67
+                  </span>
+                </a>
+              </Component>
+            </div>
+            <StopPredictions headsigns={{...}} isCommuterRail={false}>
+              <div className=\\"m-schedule-diagram__predictions\\">
+                <div className=\\"m-schedule-diagram__prediction\\">
+                  <div>
+                    Dest2
+                  </div>
+                  <div className=\\"m-schedule-diagram__prediction-time\\">
+                    7   min
+                  </div>
+                </div>
+              </div>
+            </StopPredictions>
+          </div>
           <div className=\\"m-schedule-diagram__footer\\">
             <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
               View schedule
@@ -800,7 +832,7 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\">
+    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
@@ -809,27 +841,16 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
             </svg>
           </div>
         </div>
-        <div className=\\"m-schedule-diagram__content\\">
-          <div className=\\"m-schedule-diagram__card\\">
-            <div className=\\"m-schedule-diagram__card-left\\">
-              <div className=\\"m-schedule-diagram__stop-name\\">
-                <a href=\\"/stops/line-destination\\">
-                  <h4>
-                     
-                    Destination
-                     
-                  </h4>
-                </a>
-              </div>
-              <div className=\\"m-schedule-diagram__connections\\">
-                <Component href=\\"/schedules/BOAT-A/line\\" tooltipText=\\"Atlantis\\" tooltipOptions={{...}}>
-                  <a href=\\"/schedules/BOAT-A/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Atlantis\\" title=\\"Atlantis\\">
-                    <span className=\\"m-schedule-diagram__connection\\">
-                      <span className=\\"notranslate c-svg__icon-bus-small\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                    </span>
-                  </a>
-                </Component>
-              </div>
+        <div className=\\"m-schedule-diagram__stop-content\\">
+          <div className=\\"m-schedule-diagram__stop-heading\\">
+            <div className=\\"m-schedule-diagram__stop-name\\">
+              <a href=\\"/stops/line-destination\\">
+                <h4>
+                   
+                  Destination
+                   
+                </h4>
+              </a>
             </div>
             <div className=\\"m-schedule-diagram__features\\">
               <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
@@ -841,6 +862,17 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
                 <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"true\\" data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
                   <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                 </span>
+              </Component>
+            </div>
+          </div>
+          <div className=\\"m-schedule-diagram__stop-details\\">
+            <div className=\\"m-schedule-diagram__connections\\">
+              <Component href=\\"/schedules/BOAT-A/line\\" tooltipText=\\"Atlantis\\" tooltipOptions={{...}}>
+                <a href=\\"/schedules/BOAT-A/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Atlantis\\" title=\\"Atlantis\\">
+                  <span className=\\"m-schedule-diagram__connection\\">
+                    <span className=\\"notranslate c-svg__icon-bus-small\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                  </span>
+                </a>
               </Component>
             </div>
           </div>

@@ -33,152 +33,191 @@ $line-width: 8px; // width of the colored line in the diagram
   }
 }
 
-//  Schedule line diagram
-//  .m-schedule-diagram is comprised of, at simplest, a list of
-//  .m-schedule-diagram__stop elements (<SingleStop />)
-.m-schedule-diagram {
-  .m-schedule-diagram__stop {
-    border: $border;
-    border-bottom: 0;
-    display: flex;
-    padding: $base-spacing $base-spacing / 2;
+.m-schedule-diagram__stop {
+  border: $border;
+  border-bottom: 0;
+  display: flex;
+  padding: $base-spacing $base-spacing / 2 $base-spacing / 2;
 
-    &:last-child {
-      border-bottom: $border;
-    }
+  &:last-child {
+    border-bottom: $border;
   }
+}
 
+.m-schedule-diagram__stop-content {
   // Take remaining horizontal space unused by visual lines/stops
-  .m-schedule-diagram__content {
-    flex-grow: 1;
+  flex-grow: 1;
+}
+
+.m-schedule-diagram__stop-heading {
+  display: flex;
+  justify-content: space-between;
+}
+
+.m-schedule-diagram__stop-details {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.m-schedule-diagram__stop-name {
+  font-weight: bold;
+
+  h4 {
+    margin-top: $base-spacing / -4;
+  }
+}
+
+// Listing of transit connections
+.m-schedule-diagram__connections {
+  .m-schedule-diagram__connection {
+    margin: 0 ($base-spacing / 8);
   }
 
-  .m-schedule-diagram__card {
-    align-items: flex-start;
+  .c-svg__icon {
+    height: $base-spacing;
+    vertical-align: middle;
+    width: $base-spacing;
+  }
+
+  a {
+    display: inline-block;
+    line-height: 0;
+    max-height: $base-spacing * 1.5;
+    vertical-align: top;
+  }
+}
+
+// Access, parking, commuter rail zone etc. icons
+.m-schedule-diagram__features {
+  .m-schedule-diagram__feature-icon {
+    height: $base-spacing;
+    line-height: $base-spacing;
+    margin-left: $base-spacing / 4;
+    width: $base-spacing;
+  }
+
+  .c-icon__cr-zone {
+    font-size: $base-spacing * .7;
+    vertical-align: text-top;
+    width: auto;
+  }
+}
+
+// Live departure predictions
+.m-schedule-diagram__predictions {
+  flex-grow: 1;
+
+  .m-schedule-diagram__prediction,
+  .m-schedule-diagram__cr-prediction {
+    align-items: center;
     display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
   }
 
-  .m-schedule-diagram__card-left {
-    flex-grow: 1;
-  }
-
-  .m-schedule-diagram__stop-name {
+  .m-schedule-diagram__prediction-time,
+  .m-schedule-diagram__cr-prediction-time {
+    font-variant-numeric: tabular-nums;
     font-weight: bold;
-
-    h4 {
-      margin-top: $base-spacing / -4;
-    }
   }
 
-  // Listing of transit connections
-  .m-schedule-diagram__connections {
-    .m-schedule-diagram__connection {
-      margin: 0 ($base-spacing / 8);
-    }
-
-    .c-svg__icon {
-      height: $base-spacing;
-      vertical-align: middle;
-      width: $base-spacing;
-    }
-
-    a {
-      display: inline-block;
-      line-height: 0;
-      max-height: $base-spacing * 1.5;
-      vertical-align: top;
-    }
+  .m-schedule-diagram__prediction-time {
+    margin-left: .5rem;
+    white-space: nowrap;
   }
 
-  // Access, parking, commuter rail zone etc. icons
-  .m-schedule-diagram__features {
-    .m-schedule-diagram__feature-icon {
-      height: $base-spacing;
-      line-height: $base-spacing;
-      margin-left: $base-spacing / 4;
-      width: $base-spacing;
-    }
-
-    .c-icon__cr-zone {
-      font-size: $base-spacing * .7;
-      vertical-align: text-top;
-      width: auto;
-    }
-  }
-
-  // "View schedules" link
-  .m-schedule-diagram__footer {
-    text-align: center;
-
-    .btn {
-      padding: 0;
-    }
-  }
-
-  // renders blue (link color) alert icons instead of black
-  .c-svg__icon-alerts-triangle path:not(:nth-child(1)) {
-    fill: currentColor;
-  }
-
-  //  .m-schedule-diagram__lines contains all the
-  //  graphics for the line diagram, and uses negative
-  //  margins to counter the padding from its parent
-  //  .m-schedule-diagram__stop.
-  //  A .m-schedule-diagram__line is drawn for each
-  //  branch, and creates the line.
-  .m-schedule-diagram__lines {
-    display: flex;
-    margin: calc(-#{$base-spacing} - #{$border-width}*2) 0;
+  .m-schedule-diagram__cr-prediction-time--delayed {
+    font-weight: normal;
     margin-right: $base-spacing / 2;
+    text-align: right;
+    text-decoration: line-through;
   }
 
-  // each line is just a <div> with a color
-  .m-schedule-diagram__line {
-    background-color: currentColor;
-    margin: 0 $line-width / 2;
-    width: $line-width;
-  }
+  .m-schedule-diagram__cr-prediction-details {
+    font-size: $font-size-sm;
+    text-align: right;
 
-  // stops along the diagram are SVG circles
-  .m-schedule-diagram__line-stop {
-    overflow: visible;
-
-    circle {
-      fill: $white;
-      stroke: currentColor;
-      stroke-width: 0;
-      transform-origin: 50%;
+    // Disallow line breaks in the middle of each prediction detail item
+    span {
+      white-space: nowrap;
     }
   }
+}
 
-  // stops at the edge of the <div> need a stroke to be visible
-  .m-schedule-diagram__line--terminus circle {
-    stroke-width: 1.15px;
-  }
+// "View schedules" link
+.m-schedule-diagram__footer {
+  margin-top: $base-spacing / 2;
+  text-align: center;
 
-  .m-schedule-diagram__line--stop {
-    @include circleposition(60px);
+  .btn {
+    padding: 0;
   }
+}
 
-  // the very first stop - line should begin at the stop
-  > .m-schedule-diagram__stop:first-child .m-schedule-diagram__lines {
-    margin-top: $base-spacing;
-  }
+// renders blue (link color) alert icons instead of black
+.m-schedule-diagram .c-svg__icon-alerts-triangle path:not(:nth-child(1)) {
+  fill: currentColor;
+}
 
-  // any first stop (includes branches)
-  .m-schedule-diagram__stop:first-child .m-schedule-diagram__line--terminus {
-    @include circleposition(65px);
-  }
+//  .m-schedule-diagram__lines contains all the
+//  graphics for the line diagram, and uses negative
+//  margins to counter the padding from its parent
+//  .m-schedule-diagram__stop.
+//  A .m-schedule-diagram__line is drawn for each
+//  branch, and creates the line.
+.m-schedule-diagram__lines {
+  display: flex;
+  margin: calc(-#{$base-spacing} - #{$border-width}*2) 0;
+  margin-right: $base-spacing / 2;
+}
 
-  // any last stop (includes branches)
-  .m-schedule-diagram__stop:last-child .m-schedule-diagram__line--terminus {
-    @include circleposition(5px);
-  }
+// each line is just a <div> with a color
+.m-schedule-diagram__line {
+  background-color: currentColor;
+  margin: 0 $line-width / 2;
+  width: $line-width;
+}
 
-  // the very last stop - line should terminate at the stop
-  > .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines {
-    height: $base-spacing * 2;
+// stops along the diagram are SVG circles
+.m-schedule-diagram .m-schedule-diagram__line-stop {
+  // override Bootstrap setting overflow:hidden for SVGs by default
+  overflow: visible;
+
+  circle {
+    fill: $white;
+    stroke: currentColor;
+    stroke-width: 0;
+    transform-origin: 50%;
   }
+}
+
+// stops at the edge of the <div> need a stroke to be visible
+.m-schedule-diagram .m-schedule-diagram__line--terminus circle {
+  stroke-width: 1.15px;
+}
+
+.m-schedule-diagram__line--stop {
+  @include circleposition(60px);
+}
+
+// the very first stop - line should begin at the stop
+.m-schedule-diagram > .m-schedule-diagram__stop:first-child .m-schedule-diagram__lines {
+  margin-top: $base-spacing;
+}
+
+// any first stop (includes branches)
+.m-schedule-diagram__stop:first-child .m-schedule-diagram__line--terminus {
+  @include circleposition(65px);
+}
+
+// any last stop (includes branches)
+.m-schedule-diagram__stop:last-child .m-schedule-diagram__line--terminus {
+  @include circleposition(5px);
+}
+
+// the very last stop - line should terminate at the stop
+.m-schedule-diagram > .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines {
+  height: $base-spacing * 2;
 }
 
 // <ExpandableBlock /> adjustments
