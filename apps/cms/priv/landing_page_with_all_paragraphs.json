@@ -3663,7 +3663,8 @@
         {
           "value": "collapsible"
         }
-      ]
+      ],
+      "field_multi_column_header": []
     },
     {
       "target_id": 4192,

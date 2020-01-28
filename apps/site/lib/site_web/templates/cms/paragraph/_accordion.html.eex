@@ -1,3 +1,7 @@
+<%= if @content.header do %>
+  <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
+<% end %>
+
 <%= SiteWeb.PartialView.render("_accordion_ui.html",
   Map.merge(assigns, %{
     multiselectable: false,

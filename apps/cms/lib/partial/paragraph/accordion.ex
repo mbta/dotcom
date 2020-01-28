@@ -11,12 +11,14 @@ defmodule CMS.Partial.Paragraph.Accordion do
 
   import CMS.Helpers, only: [field_value: 2, parse_paragraphs: 3]
 
-  alias CMS.Partial.Paragraph.AccordionSection
+  alias CMS.Partial.Paragraph.{AccordionSection, ColumnMultiHeader}
 
-  defstruct display: "",
+  defstruct header: nil,
+            display: "",
             sections: []
 
   @type t :: %__MODULE__{
+          header: ColumnMultiHeader.t() | nil,
           display: String.t(),
           sections: [AccordionSection.t()]
         }
@@ -24,8 +26,9 @@ defmodule CMS.Partial.Paragraph.Accordion do
   @spec from_api(map, Keyword.t()) :: t
   def from_api(data, preview_opts \\ []) do
     %__MODULE__{
+      header: data |> parse_paragraphs(preview_opts, "field_multi_column_header") |> List.first(),
       display: field_value(data, "field_tabs_display"),
-      sections: parse_paragraphs(data, preview_opts, "field_tabs")
+      sections: data |> parse_paragraphs(preview_opts, "field_tabs")
     }
   end
 end
