@@ -92,7 +92,11 @@ describe("UpcomingDepartures", () => {
           data: [
             {
               ...busDepartures[0],
-              route: { ...busDepartures[0].route, name: "Silver Line Way - South Station", id: "746" }
+              route: {
+                ...busDepartures[0].route,
+                name: "Silver Line Way - South Station",
+                id: "746"
+              }
             }
           ],
           error: false,

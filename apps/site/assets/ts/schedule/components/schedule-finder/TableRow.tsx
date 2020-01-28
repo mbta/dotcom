@@ -4,6 +4,7 @@ import { Journey, TripInfo } from "../__trips";
 import { modeIcon, caret } from "../../../helpers/icon";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { breakTextAtSlash } from "../../../helpers/text";
+import { isSilverLine } from "../../../helpers/silver-line";
 import { TripDetails } from "./TripDetails";
 import { UserInput } from "../ScheduleFinder";
 
@@ -66,7 +67,7 @@ const BusTableRow = ({
       {journey.departure.time}
     </td>
     <td className="schedule-table__td">
-      {journey.route.type === 3 && !journey.route.name.startsWith("SL") ? (
+      {journey.route.type === 3 && !isSilverLine(journey.route.id) ? (
         <span className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill">
           {journey.route.name}
         </span>

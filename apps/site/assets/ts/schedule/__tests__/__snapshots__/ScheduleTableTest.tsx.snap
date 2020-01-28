@@ -69,10 +69,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -699,10 +703,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -791,10 +799,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -883,10 +895,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -1023,10 +1039,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -1115,10 +1135,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -1255,10 +1279,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -1347,10 +1375,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -1439,10 +1471,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -1531,10 +1567,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -1671,10 +1711,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -1763,10 +1807,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -1855,10 +1903,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -1995,10 +2047,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -2087,10 +2143,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -2179,10 +2239,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -2319,10 +2383,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -2411,10 +2479,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -2551,10 +2623,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -2643,10 +2719,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -2735,10 +2815,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -2827,10 +2911,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -2919,10 +3007,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -2963,10 +3055,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -3055,10 +3151,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -3147,10 +3247,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -3239,10 +3343,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -3283,10 +3391,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -3471,10 +3583,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -3563,10 +3679,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -3703,10 +3823,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -3987,10 +4111,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -4079,10 +4207,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -4219,10 +4351,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -4359,10 +4495,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -4547,10 +4687,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -4591,10 +4735,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -5259,10 +5407,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -5351,10 +5503,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -5395,10 +5551,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -5487,10 +5647,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -5579,10 +5743,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -5671,10 +5839,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -5763,10 +5935,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -5855,10 +6031,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -5995,10 +6175,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -6087,10 +6271,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -6179,10 +6367,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -6319,10 +6511,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -6411,10 +6607,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -6503,10 +6703,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -6643,10 +6847,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -6735,10 +6943,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -6827,10 +7039,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -6967,10 +7183,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -7059,10 +7279,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -7199,10 +7423,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -7291,10 +7519,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -7431,10 +7663,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -7523,10 +7759,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -7663,10 +7903,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -8283,10 +8527,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -8471,10 +8719,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -8515,10 +8767,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -8559,10 +8815,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -8699,10 +8959,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -8839,10 +9103,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -8883,10 +9151,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -9215,10 +9487,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -9739,10 +10015,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -9879,10 +10159,14 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -13093,10 +13377,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -13800,10 +14088,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -13902,10 +14194,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -14004,10 +14300,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -14161,10 +14461,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -14263,10 +14567,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -14420,10 +14728,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -14522,10 +14834,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -14624,10 +14940,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -14726,10 +15046,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -14883,10 +15207,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -14985,10 +15313,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -15087,10 +15419,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -15244,10 +15580,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -15346,10 +15686,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -15448,10 +15792,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -15605,10 +15953,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -15707,10 +16059,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -15864,10 +16220,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -15966,10 +16326,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -16068,10 +16432,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -16170,10 +16538,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -16272,10 +16644,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -16319,10 +16695,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -16421,10 +16801,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -16523,10 +16907,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -16625,10 +17013,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -16672,10 +17064,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -16884,10 +17280,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -16986,10 +17386,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -17143,10 +17547,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -17465,10 +17873,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -17567,10 +17979,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -17724,10 +18140,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -17881,10 +18301,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -18093,10 +18517,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -18140,10 +18568,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -18902,10 +19334,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -19004,10 +19440,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -19051,10 +19491,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -19153,10 +19597,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -19255,10 +19703,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -19357,10 +19809,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -19459,10 +19915,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -19561,10 +20021,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -19718,10 +20182,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -19820,10 +20288,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -19922,10 +20394,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -20079,10 +20555,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -20181,10 +20661,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -20283,10 +20767,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -20440,10 +20928,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -20542,10 +21034,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -20644,10 +21140,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -20801,10 +21301,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -20903,10 +21407,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -21060,10 +21568,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -21162,10 +21674,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -21319,10 +21835,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -21421,10 +21941,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -21578,10 +22102,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -22285,10 +22813,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -22497,10 +23029,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -22544,10 +23080,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -22591,10 +23131,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -22748,10 +23292,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -22905,10 +23453,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -22952,10 +23504,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -23329,10 +23885,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -23926,10 +24486,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>
@@ -24083,10 +24647,14 @@ exports[`ScheduleTable it renders with school trips 1`] = `
                 className="schedule-table__td"
               >
                 <span
-                  className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill"
-                >
-                  Silver Line Way - South Station
-                </span>
+                  aria-hidden="false"
+                  className="notranslate c-svg__icon"
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "SVG",
+                    }
+                  }
+                />
                  
                 Silver Line Way
               </td>

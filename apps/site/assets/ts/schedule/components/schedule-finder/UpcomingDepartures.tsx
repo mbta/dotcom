@@ -44,7 +44,7 @@ export const RoutePillSmall = ({
 }): ReactElement<HTMLElement> | null => {
   const routeName = isSilverLineWaterfront(route.id) ? "SL" : route.name;
 
-  return(
+  return (
     <div className="schedule-table__row-route-pill m-route-pills">
       <div className={modeBgClass(route)}>{routeName}</div>
     </div>
