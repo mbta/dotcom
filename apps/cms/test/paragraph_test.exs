@@ -192,6 +192,7 @@ defmodule CMS.ParagraphTest do
       api_data = api_paragraph("tabs")
 
       assert %Accordion{
+               header: nil,
                display: "collapsible",
                sections: [
                  %AccordionSection{} = section1,
