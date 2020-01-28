@@ -7,6 +7,8 @@ import ScheduleModalContent, {
 import { SimpleStop } from "../components/__schedule";
 import { EnhancedJourney } from "../components/__trips";
 import departuresResponse from "../__tests__/departures.json";
+import ScheduleNote from "../components/ScheduleNote";
+import { createReactRoot } from "../../app/helpers/testUtils";
 
 const today = "2019-12-05";
 const route: EnhancedRoute = {
@@ -21,6 +23,15 @@ const route: EnhancedRoute = {
   type: 1
 };
 
+const scheduleNoteData = {
+  offpeak_service: "8-12 minutes",
+  peak_service: "5 minutes",
+  exceptions: [
+    { service: "26 minutes", type: "weekend mornings and late night" }
+  ],
+  alternate_text: null
+};
+
 const stops: SimpleStop[] = [
   { name: "Malden Center", id: "place-mlmnl", is_closed: false, zone: "1" },
   { name: "Wellington", id: "place-welln", is_closed: false, zone: "2" }
@@ -29,7 +40,7 @@ const stops: SimpleStop[] = [
 export const payload: EnhancedJourney[] = departuresResponse as EnhancedJourney[];
 
 describe("ScheduleModal", () => {
-  it("it renders", () => {
+  it("renders", () => {
     let tree;
     act(() => {
       tree = renderer.create(
@@ -42,6 +53,7 @@ describe("ScheduleModal", () => {
           ratingEndDate="2020-03-14"
           routePatternsByDirection={{}}
           today={today}
+          scheduleNote={null}
         />
       );
     });
@@ -49,7 +61,7 @@ describe("ScheduleModal", () => {
     expect(tree).toMatchSnapshot();
   });
 
-  it("it doesn't render if selectedOrigin is null", () => {
+  it("doesn't render if selectedOrigin is null", () => {
     let tree;
     act(() => {
       tree = renderer.create(
@@ -62,13 +74,14 @@ describe("ScheduleModal", () => {
           ratingEndDate="2020-03-14"
           routePatternsByDirection={{}}
           today={today}
+          scheduleNote={null}
         />
       );
       expect(tree!.toJSON()).toBeNull();
     });
   });
 
-  it("it doesn't render if selectedDirection is null", () => {
+  it("doesn't render if selectedDirection is null", () => {
     let tree;
     act(() => {
       tree = renderer.create(
@@ -81,10 +94,31 @@ describe("ScheduleModal", () => {
           ratingEndDate="2020-03-14"
           routePatternsByDirection={{}}
           today={today}
+          scheduleNote={null}
         />
       );
       expect(tree!.toJSON()).toBeNull();
     });
+  });
+
+  it("renders with schedule note if present", () => {
+    createReactRoot();
+    const tree = renderer.create(
+      <ScheduleModalContent
+        route={route}
+        stops={stops}
+        selectedOrigin={stops[0].id}
+        selectedDirection={0}
+        services={[]}
+        ratingEndDate="2020-03-14"
+        routePatternsByDirection={{}}
+        today={today}
+        scheduleNote={scheduleNoteData}
+      />
+    );
+    expect(
+      tree.root.findByType(ScheduleNote).props.scheduleNote.offpeak_service
+    ).toBe("8-12 minutes");
   });
 
   describe("fetchData", () => {

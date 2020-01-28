@@ -47,6 +47,7 @@ const SchedulePage = ({
         directionId={directionId}
         routePatternsByDirection={routePatternsByDirection}
         today={today}
+        scheduleNote={null}
       />
     )}
     <ContentTeasers teasers={teasers} />

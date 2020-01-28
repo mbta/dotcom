@@ -4,7 +4,8 @@ import {
   SimpleStop,
   SimpleStopMap,
   RoutePatternsByDirection,
-  ServiceInSelector
+  ServiceInSelector,
+  ScheduleNote as ScheduleNoteType
 } from "./__schedule";
 import { handleReactEnterKeyPress } from "../../helpers/keyboard-events";
 import icon from "../../../static/images/icon-schedule-finder.svg";
@@ -23,6 +24,7 @@ interface Props {
   stops: SimpleStopMap;
   routePatternsByDirection: RoutePatternsByDirection;
   today: string;
+  scheduleNote: ScheduleNoteType | null;
 }
 
 export type SelectedDirection = 0 | 1 | null;
@@ -65,7 +67,8 @@ const ScheduleFinder = ({
   ratingEndDate,
   stops,
   routePatternsByDirection,
-  today
+  today,
+  scheduleNote
 }: Props): ReactElement<HTMLElement> => {
   const {
     direction_destinations: directionDestinations,
@@ -270,6 +273,7 @@ const ScheduleFinder = ({
                 stops={stops[state.selectedDirection!]}
                 routePatternsByDirection={routePatternsByDirection}
                 today={today}
+                scheduleNote={scheduleNote}
               />
             )}
           </>
