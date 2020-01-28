@@ -131,6 +131,113 @@ Array [
 
 exports[`UpcomingDepartures doesn't renders cr departures that don't have a predicted time yet 1`] = `null`;
 
+exports[`UpcomingDepartures renders SL Waterfront predictions 1`] = `
+Array [
+  <div
+    className="schedule-table__upcoming-departures-header"
+  >
+    <h3>
+      Upcoming Departures
+    </h3>
+    <span
+      aria-hidden={true}
+      className="schedule-table__live-clock"
+    >
+      <span
+        className="icon-realtime animate notranslate"
+      >
+        <span
+          className="c-svg__icon-live-clock"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        <span
+          className="icon-realtime-text"
+        >
+          live
+        </span>
+      </span>
+    </span>
+  </div>,
+  <table
+    className="schedule-table schedule-table--upcoming"
+  >
+    <thead
+      className="schedule-table__header"
+    >
+      <tr
+        className="schedule-table__row-header"
+      >
+        <th
+          className="schedule-table__row-header-label"
+          scope="col"
+        >
+          Destinations
+        </th>
+        <th
+          className="schedule-table__th--flex-end"
+          scope="col"
+        >
+          Trip Details
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        aria-controls="trip-41894293"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <div
+            className="schedule-table__row-route"
+          >
+            <div
+              className="schedule-table__row-route-pill m-route-pills"
+            >
+              <div
+                className="u-bg--silver-line"
+              >
+                SL
+              </div>
+            </div>
+            Harvard
+          </div>
+        </td>
+        <td
+          className="schedule-table__time schedule-table__td--flex-end u-bold"
+        >
+          8
+           
+          min
+        </td>
+        <td
+          className="schedule-table__td schedule-table__td--flex-end"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>,
+]
+`;
+
 exports[`UpcomingDepartures renders SL bus predictions 1`] = `
 Array [
   <div

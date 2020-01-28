@@ -83,6 +83,26 @@ describe("UpcomingDepartures", () => {
     expect(tree).toMatchSnapshot();
   });
 
+  it("renders SL Waterfront predictions", () => {
+    createReactRoot();
+    const tree = renderer.create(
+      <UpcomingDepartures
+        input={input}
+        state={{
+          data: [
+            {
+              ...busDepartures[0],
+              route: { ...busDepartures[0].route, name: "Silver Line Way - South Station", id: "746" }
+            }
+          ],
+          error: false,
+          isLoading: false
+        }}
+      />
+    );
+    expect(tree).toMatchSnapshot();
+  });
+
   it("renders cr predictions", () => {
     createReactRoot();
     const tree = renderer.create(

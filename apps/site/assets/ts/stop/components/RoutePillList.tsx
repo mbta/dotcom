@@ -3,6 +3,7 @@ import { EnhancedRoute, Route } from "../../__v3api";
 import { TypedRoutes } from "./__stop";
 import { breakTextAtSlash } from "../../helpers/text";
 import { routeToCSSClass } from "../../helpers/css";
+import { isSilverLine } from "../../helpers/silver-line";
 
 interface RoutePillListProps {
   routes: TypedRoutes[];
@@ -13,10 +14,10 @@ interface RoutePillProps {
   route: Route | EnhancedRoute;
 }
 
-const busName = (name: string): string =>
-  name.startsWith("SL") ? "silver-line" : "bus";
+const busName = (routeId: string): string =>
+  isSilverLine(routeId) ? "silver-line" : "bus";
 
-const modeNameForBg = ({ name, type }: EnhancedRoute | Route): string => {
+const modeNameForBg = ({ name, type, id }: EnhancedRoute | Route): string => {
   switch (type) {
     case 0:
     case 1:
@@ -26,7 +27,7 @@ const modeNameForBg = ({ name, type }: EnhancedRoute | Route): string => {
     case 4:
       return "ferry";
     default:
-      return busName(name);
+      return busName(id);
   }
 };
 

@@ -8,6 +8,7 @@ import { modeIcon } from "../../../helpers/icon";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
 import { Route } from "../../../__v3api";
 import { EnhancedJourney } from "../__trips";
+import { isSilverLineWaterfront } from "../../../helpers/silver-line";
 import { breakTextAtSlash } from "../../../helpers/text";
 import { Accordion } from "./TableRow";
 import { UserInput } from "../ScheduleFinder";
@@ -40,11 +41,16 @@ export const RoutePillSmall = ({
   route
 }: {
   route: Route;
-}): ReactElement<HTMLElement> | null => (
-  <div className="schedule-table__row-route-pill m-route-pills">
-    <div className={modeBgClass(route)}>{route.name}</div>
-  </div>
-);
+}): ReactElement<HTMLElement> | null => {
+  const routeName = isSilverLineWaterfront(route.id) ? "SL" : route.name;
+
+  return(
+    <div className="schedule-table__row-route-pill m-route-pills">
+      <div className={modeBgClass(route)}>{routeName}</div>
+    </div>
+  );
+};
+
 interface TableRowProps {
   input: UserInput;
   journey: EnhancedJourney;
