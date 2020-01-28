@@ -1,0 +1,160 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SingleStop renders and matches snapshot 1`] = `
+"<SingleStop stop={{...}} onClick={[Function: onClick]} color=\\"000\\" isOrigin={false} isDestination={false} liveData={[undefined]}>
+  <div className=\\"m-schedule-diagram__stop\\">
+    <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+      <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
+        <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+          <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+        </svg>
+      </div>
+    </div>
+    <div className=\\"m-schedule-diagram__stop-content\\">
+      <div className=\\"m-schedule-diagram__stop-heading\\">
+        <div className=\\"m-schedule-diagram__stop-name\\">
+          <a href=\\"/stops/place-xxx\\">
+            <h4>
+               
+              Example Stop
+               
+            </h4>
+          </a>
+        </div>
+        <div className=\\"m-schedule-diagram__features\\" />
+      </div>
+      <div className=\\"m-schedule-diagram__stop-details\\">
+        <div className=\\"m-schedule-diagram__connections\\" />
+      </div>
+      <div className=\\"m-schedule-diagram__footer\\">
+        <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+          View schedule
+        </button>
+      </div>
+    </div>
+  </div>
+</SingleStop>"
+`;
+
+exports[`SingleStop renders with Commuter Rail live data 1`] = `
+"<SingleStop stop={{...}} onClick={[Function: onClick]} color=\\"000\\" isOrigin={false} isDestination={false} liveData={{...}}>
+  <div className=\\"m-schedule-diagram__stop\\">
+    <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+      <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
+        <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+          <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+        </svg>
+      </div>
+    </div>
+    <div className=\\"m-schedule-diagram__stop-content\\">
+      <div className=\\"m-schedule-diagram__stop-heading\\">
+        <div className=\\"m-schedule-diagram__stop-name\\">
+          <a href=\\"/stops/place-xxx\\">
+            <h4>
+               
+              Example Stop
+               
+            </h4>
+          </a>
+        </div>
+        <div className=\\"m-schedule-diagram__features\\" />
+      </div>
+      <div className=\\"m-schedule-diagram__stop-details\\">
+        <div className=\\"m-schedule-diagram__connections\\" />
+        <StopPredictions headsigns={{...}} isCommuterRail={true}>
+          <div className=\\"m-schedule-diagram__predictions\\">
+            <div>
+              <div className=\\"m-schedule-diagram__cr-prediction\\">
+                <div className=\\"m-schedule-diagram__cr-prediction-time--delayed\\">
+                  5:00 PM
+                </div>
+                <div className=\\"m-schedule-diagram__cr-prediction-time\\">
+                  5:05 PM
+                </div>
+              </div>
+              <div className=\\"m-schedule-diagram__cr-prediction-details\\">
+                <span>
+                  DestA ·
+                </span>
+                 
+                <span>
+                  Train 404 ·
+                </span>
+                 
+                <span>
+                  Track 3 ·
+                </span>
+                 
+                <span>
+                  Delayed 5 min
+                </span>
+              </div>
+            </div>
+          </div>
+        </StopPredictions>
+      </div>
+      <div className=\\"m-schedule-diagram__footer\\">
+        <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+          View schedule
+        </button>
+      </div>
+    </div>
+  </div>
+</SingleStop>"
+`;
+
+exports[`SingleStop renders with live data 1`] = `
+"<SingleStop stop={{...}} onClick={[Function: onClick]} color=\\"000\\" isOrigin={false} isDestination={false} liveData={{...}}>
+  <div className=\\"m-schedule-diagram__stop\\">
+    <div style={{...}} className=\\"m-schedule-diagram__lines\\">
+      <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
+        <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
+          <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+        </svg>
+      </div>
+    </div>
+    <div className=\\"m-schedule-diagram__stop-content\\">
+      <div className=\\"m-schedule-diagram__stop-heading\\">
+        <div className=\\"m-schedule-diagram__stop-name\\">
+          <a href=\\"/stops/place-xxx\\">
+            <h4>
+               
+              Example Stop
+               
+            </h4>
+          </a>
+        </div>
+        <div className=\\"m-schedule-diagram__features\\" />
+      </div>
+      <div className=\\"m-schedule-diagram__stop-details\\">
+        <div className=\\"m-schedule-diagram__connections\\" />
+        <StopPredictions headsigns={{...}} isCommuterRail={false}>
+          <div className=\\"m-schedule-diagram__predictions\\">
+            <div className=\\"m-schedule-diagram__prediction\\">
+              <div>
+                DestA
+              </div>
+              <div className=\\"m-schedule-diagram__prediction-time\\">
+                Arriving
+              </div>
+            </div>
+            <div className=\\"m-schedule-diagram__prediction\\">
+              <div>
+                DestB
+              </div>
+              <div className=\\"m-schedule-diagram__prediction-time\\">
+                2   min
+              </div>
+            </div>
+          </div>
+        </StopPredictions>
+      </div>
+      <div className=\\"m-schedule-diagram__footer\\">
+        <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+          View schedule
+        </button>
+      </div>
+    </div>
+  </div>
+</SingleStop>"
+`;

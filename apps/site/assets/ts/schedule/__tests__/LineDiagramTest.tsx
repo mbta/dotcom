@@ -11,9 +11,17 @@ import {
 import * as routePatternsByDirection from "./routePatternsByDirectionData.json";
 import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
 import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
+import simpleLiveData from "./lineDiagramData/live-data.json";
 
 const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
 let lineDiagramBranchingOut = (outwardLineDiagram as unknown) as LineDiagramStop[];
+
+jest.mock("react-async", () => {
+  return {
+    useFetch: jest.fn(() => ({ data: simpleLiveData, reload: () => {} }))
+  };
+});
+jest.mock("use-interval");
 
 const route = {
   type: 3 as RouteType,

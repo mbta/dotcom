@@ -2,8 +2,9 @@ defmodule SiteWeb.ScheduleController.LineApi do
   @moduledoc "Provides JSON endpoints for retrieving line diagram data."
   use SiteWeb, :controller
 
-  alias Alerts.Stop
+  alias Alerts.Stop, as: AlertsStop
   alias Routes.Route
+  alias Site.TransitNearMe
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias Stops.Repo, as: StopsRepo
@@ -35,18 +36,36 @@ defmodule SiteWeb.ScheduleController.LineApi do
     )
   end
 
+  @doc """
+  Provides predictions and vehicle information for a given route and direction, organized by stop.
+  The line diagram polls this endpoint for its real-time data.
+  """
+  @spec realtime(Plug.Conn.t(), map()) :: Plug.Conn.t()
+  def realtime(conn, %{"id" => route_id, "direction_id" => direction_id}) do
+    live_data_by_stop =
+      TransitNearMe.time_data_for_route_by_stop(
+        route_id,
+        String.to_integer(direction_id),
+        date: conn.assigns.date,
+        now: conn.assigns.date_time
+      )
+      |> Stream.map(fn {stop_id, headsigns} -> {stop_id, %{headsigns: headsigns}} end)
+      |> Enum.into(%{})
+
+    json(conn, live_data_by_stop)
+  end
+
   @spec update_route_stop_data({any, RouteStop.t()}, any, DateTime.t()) :: map()
   def update_route_stop_data({data, %RouteStop{id: stop_id} = map}, alerts, date) do
     %{
-      alerts: alerts |> Stop.match(stop_id) |> json_safe_alerts(date),
+      alerts: alerts |> AlertsStop.match(stop_id) |> json_safe_alerts(date),
       route_stop: RouteStop.to_json_safe(map),
       stop_data: Enum.map(data, fn {key, value} -> %{branch: key, type: value} end)
     }
   end
 
-  @spec get_line_data(Route.id_t(), 0 | 1, Route.branch_name(), boolean()) :: [
-          DiagramHelpers.stop_with_bubble_info()
-        ]
+  @spec get_line_data(Route.id_t(), LineHelpers.direction_id(), Route.branch_name(), boolean()) ::
+          [DiagramHelpers.stop_with_bubble_info()]
   defp get_line_data(route_id, direction_id, variant, redesign_enabled?) do
     route = LineHelpers.get_route(route_id)
     route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)

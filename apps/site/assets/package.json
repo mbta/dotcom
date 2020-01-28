@@ -23,6 +23,7 @@
     "phoenix_html": "file:../../../deps/phoenix_html",
     "places.js": "^1.6.0",
     "react": "^16.8.1",
+    "react-async": "^10.0.0",
     "react-dom": "^16.8.1",
     "react-leaflet": "^2.2.1",
     "react-leaflet-fullscreen": "^1.0.1",

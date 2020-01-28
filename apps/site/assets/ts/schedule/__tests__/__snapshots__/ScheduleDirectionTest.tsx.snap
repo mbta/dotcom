@@ -248,54 +248,54 @@ exports[`renders with a static map 1`] = `
             </div>
           </div>
           <div
-            className="m-schedule-diagram__content"
+            className="m-schedule-diagram__stop-content"
           >
             <div
-              className="m-schedule-diagram__card"
+              className="m-schedule-diagram__stop-heading"
             >
               <div
-                className="m-schedule-diagram__card-left"
+                className="m-schedule-diagram__stop-name"
               >
-                <div
-                  className="m-schedule-diagram__stop-name"
+                <a
+                  href="/stops/5547"
                 >
-                  <a
-                    href="/stops/5547"
-                  >
-                    <h4>
-                       
-                      Elm St opp Haskell Ave
-                       
-                    </h4>
-                  </a>
-                </div>
-                <div
-                  className="m-schedule-diagram__connections"
-                >
-                  <Component>
-                    <a
-                      data-animation="false"
-                      data-original-title="Route 110"
-                      data-placement="bottom"
-                      data-selector="true"
-                      data-toggle="tooltip"
-                      data-trigger="hover focus"
-                      href="/schedules/110/line"
-                      title="Route 110"
-                    >
-                      <span
-                        className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
-                        key="110"
-                      >
-                        110
-                      </span>
-                    </a>
-                  </Component>
-                </div>
+                  <h4>
+                     
+                    Elm St opp Haskell Ave
+                     
+                  </h4>
+                </a>
               </div>
               <div
                 className="m-schedule-diagram__features"
               />
+            </div>
+            <div
+              className="m-schedule-diagram__stop-details"
+            >
+              <div
+                className="m-schedule-diagram__connections"
+              >
+                <Component>
+                  <a
+                    data-animation="false"
+                    data-original-title="Route 110"
+                    data-placement="bottom"
+                    data-selector="true"
+                    data-toggle="tooltip"
+                    data-trigger="hover focus"
+                    href="/schedules/110/line"
+                    title="Route 110"
+                  >
+                    <span
+                      className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
+                      key="110"
+                    >
+                      110
+                    </span>
+                  </a>
+                </Component>
+              </div>
             </div>
             <div
               className="m-schedule-diagram__footer"
@@ -340,54 +340,54 @@ exports[`renders with a static map 1`] = `
             </div>
           </div>
           <div
-            className="m-schedule-diagram__content"
+            className="m-schedule-diagram__stop-content"
           >
             <div
-              className="m-schedule-diagram__card"
+              className="m-schedule-diagram__stop-heading"
             >
               <div
-                className="m-schedule-diagram__card-left"
+                className="m-schedule-diagram__stop-name"
               >
-                <div
-                  className="m-schedule-diagram__stop-name"
+                <a
+                  href="/stops/place-tufts"
                 >
-                  <a
-                    href="/stops/place-tufts"
-                  >
-                    <h4>
-                       
-                      Tufts Medical Center
-                       
-                    </h4>
-                  </a>
-                </div>
-                <div
-                  className="m-schedule-diagram__connections"
-                >
-                  <Component>
-                    <a
-                      data-animation="false"
-                      data-original-title="Silver Line SL1"
-                      data-placement="bottom"
-                      data-selector="true"
-                      data-toggle="tooltip"
-                      data-trigger="hover focus"
-                      href="/schedules/741/line"
-                      title="Silver Line SL1"
-                    >
-                      <span
-                        className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--silver-line"
-                        key="741"
-                      >
-                        SL1
-                      </span>
-                    </a>
-                  </Component>
-                </div>
+                  <h4>
+                     
+                    Tufts Medical Center
+                     
+                  </h4>
+                </a>
               </div>
               <div
                 className="m-schedule-diagram__features"
               />
+            </div>
+            <div
+              className="m-schedule-diagram__stop-details"
+            >
+              <div
+                className="m-schedule-diagram__connections"
+              >
+                <Component>
+                  <a
+                    data-animation="false"
+                    data-original-title="Silver Line SL1"
+                    data-placement="bottom"
+                    data-selector="true"
+                    data-toggle="tooltip"
+                    data-trigger="hover focus"
+                    href="/schedules/741/line"
+                    title="Silver Line SL1"
+                  >
+                    <span
+                      className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--silver-line"
+                      key="741"
+                    >
+                      SL1
+                    </span>
+                  </a>
+                </Component>
+              </div>
             </div>
             <div
               className="m-schedule-diagram__footer"
@@ -432,139 +432,23 @@ exports[`renders with a static map 1`] = `
             </div>
           </div>
           <div
-            className="m-schedule-diagram__content"
+            className="m-schedule-diagram__stop-content"
           >
             <div
-              className="m-schedule-diagram__card"
+              className="m-schedule-diagram__stop-heading"
             >
               <div
-                className="m-schedule-diagram__card-left"
+                className="m-schedule-diagram__stop-name"
               >
-                <div
-                  className="m-schedule-diagram__stop-name"
+                <a
+                  href="/stops/place-north"
                 >
-                  <a
-                    href="/stops/place-north"
-                  >
-                    <h4>
-                       
-                      North Station
-                       
-                    </h4>
-                  </a>
-                </div>
-                <div
-                  className="m-schedule-diagram__connections"
-                >
-                  <Component>
-                    <a
-                      data-animation="false"
-                      data-original-title="Orange Line"
-                      data-placement="bottom"
-                      data-selector="true"
-                      data-toggle="tooltip"
-                      data-trigger="hover focus"
-                      href="/schedules/Orange/line"
-                      title="Orange Line"
-                    >
-                      <span
-                        className="m-schedule-diagram__connection"
-                        key="Orange"
-                      >
-                        <span
-                          aria-hidden="false"
-                          className="notranslate c-svg__icon"
-                          dangerouslySetInnerHTML={
-                            Object {
-                              "__html": "SVG",
-                            }
-                          }
-                        />
-                      </span>
-                    </a>
-                  </Component>
-                  <Component>
-                    <a
-                      data-animation="false"
-                      data-original-title="Green Line C"
-                      data-placement="bottom"
-                      data-selector="true"
-                      data-toggle="tooltip"
-                      data-trigger="hover focus"
-                      href="/schedules/Green-C/line"
-                      title="Green Line C"
-                    >
-                      <span
-                        className="m-schedule-diagram__connection"
-                        key="Green-C"
-                      >
-                        <span
-                          aria-hidden="false"
-                          className="notranslate c-svg__icon"
-                          dangerouslySetInnerHTML={
-                            Object {
-                              "__html": "SVG",
-                            }
-                          }
-                        />
-                      </span>
-                    </a>
-                  </Component>
-                  <Component>
-                    <a
-                      data-animation="false"
-                      data-original-title="Green Line E"
-                      data-placement="bottom"
-                      data-selector="true"
-                      data-toggle="tooltip"
-                      data-trigger="hover focus"
-                      href="/schedules/Green-E/line"
-                      title="Green Line E"
-                    >
-                      <span
-                        className="m-schedule-diagram__connection"
-                        key="Green-E"
-                      >
-                        <span
-                          aria-hidden="false"
-                          className="notranslate c-svg__icon"
-                          dangerouslySetInnerHTML={
-                            Object {
-                              "__html": "SVG",
-                            }
-                          }
-                        />
-                      </span>
-                    </a>
-                  </Component>
-                  <Component>
-                    <a
-                      data-animation="false"
-                      data-original-title="Commuter Rail"
-                      data-placement="bottom"
-                      data-selector="true"
-                      data-toggle="tooltip"
-                      data-trigger="hover focus"
-                      href="/schedules/CR-Fitchburg/line"
-                      title="Commuter Rail"
-                    >
-                      <span
-                        className="m-schedule-diagram__connection"
-                        key="CR-Fitchburg"
-                      >
-                        <span
-                          aria-hidden="false"
-                          className="notranslate c-svg__icon"
-                          dangerouslySetInnerHTML={
-                            Object {
-                              "__html": "SVG",
-                            }
-                          }
-                        />
-                      </span>
-                    </a>
-                  </Component>
-                </div>
+                  <h4>
+                     
+                    North Station
+                     
+                  </h4>
+                </a>
               </div>
               <div
                 className="m-schedule-diagram__features"
@@ -619,6 +503,122 @@ exports[`renders with a static map 1`] = `
               </div>
             </div>
             <div
+              className="m-schedule-diagram__stop-details"
+            >
+              <div
+                className="m-schedule-diagram__connections"
+              >
+                <Component>
+                  <a
+                    data-animation="false"
+                    data-original-title="Orange Line"
+                    data-placement="bottom"
+                    data-selector="true"
+                    data-toggle="tooltip"
+                    data-trigger="hover focus"
+                    href="/schedules/Orange/line"
+                    title="Orange Line"
+                  >
+                    <span
+                      className="m-schedule-diagram__connection"
+                      key="Orange"
+                    >
+                      <span
+                        aria-hidden="false"
+                        className="notranslate c-svg__icon"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "SVG",
+                          }
+                        }
+                      />
+                    </span>
+                  </a>
+                </Component>
+                <Component>
+                  <a
+                    data-animation="false"
+                    data-original-title="Green Line C"
+                    data-placement="bottom"
+                    data-selector="true"
+                    data-toggle="tooltip"
+                    data-trigger="hover focus"
+                    href="/schedules/Green-C/line"
+                    title="Green Line C"
+                  >
+                    <span
+                      className="m-schedule-diagram__connection"
+                      key="Green-C"
+                    >
+                      <span
+                        aria-hidden="false"
+                        className="notranslate c-svg__icon"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "SVG",
+                          }
+                        }
+                      />
+                    </span>
+                  </a>
+                </Component>
+                <Component>
+                  <a
+                    data-animation="false"
+                    data-original-title="Green Line E"
+                    data-placement="bottom"
+                    data-selector="true"
+                    data-toggle="tooltip"
+                    data-trigger="hover focus"
+                    href="/schedules/Green-E/line"
+                    title="Green Line E"
+                  >
+                    <span
+                      className="m-schedule-diagram__connection"
+                      key="Green-E"
+                    >
+                      <span
+                        aria-hidden="false"
+                        className="notranslate c-svg__icon"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "SVG",
+                          }
+                        }
+                      />
+                    </span>
+                  </a>
+                </Component>
+                <Component>
+                  <a
+                    data-animation="false"
+                    data-original-title="Commuter Rail"
+                    data-placement="bottom"
+                    data-selector="true"
+                    data-toggle="tooltip"
+                    data-trigger="hover focus"
+                    href="/schedules/CR-Fitchburg/line"
+                    title="Commuter Rail"
+                  >
+                    <span
+                      className="m-schedule-diagram__connection"
+                      key="CR-Fitchburg"
+                    >
+                      <span
+                        aria-hidden="false"
+                        className="notranslate c-svg__icon"
+                        dangerouslySetInnerHTML={
+                          Object {
+                            "__html": "SVG",
+                          }
+                        }
+                      />
+                    </span>
+                  </a>
+                </Component>
+              </div>
+            </div>
+            <div
               className="m-schedule-diagram__footer"
             >
               <button
@@ -661,179 +661,38 @@ exports[`renders with a static map 1`] = `
             </div>
           </div>
           <div
-            className="m-schedule-diagram__content"
+            className="m-schedule-diagram__stop-content"
           >
             <div
-              className="m-schedule-diagram__card"
+              className="m-schedule-diagram__stop-heading"
             >
               <div
-                className="m-schedule-diagram__card-left"
+                className="m-schedule-diagram__stop-name"
               >
-                <div
-                  className="m-schedule-diagram__stop-name"
+                <a
+                  href="/stops/place-alfcl"
                 >
-                  <a
-                    href="/stops/place-alfcl"
-                  >
-                    <h4>
-                      <span
-                        aria-hidden="false"
-                        className="notranslate c-svg__icon-alerts-triangle"
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "SVG",
-                          }
+                  <h4>
+                    <span
+                      aria-hidden="false"
+                      className="notranslate c-svg__icon-alerts-triangle"
+                      dangerouslySetInnerHTML={
+                        Object {
+                          "__html": "SVG",
                         }
-                      />
-                      <span
-                        className="sr-only"
-                      >
-                        Service alert or delay
-                      </span>
-                       
-                       
-                      Alewife
-                       
-                    </h4>
-                  </a>
-                </div>
-                <div
-                  className="m-schedule-diagram__connections"
-                >
-                  <Component>
-                    <a
-                      data-animation="false"
-                      data-original-title="Route 62"
-                      data-placement="bottom"
-                      data-selector="true"
-                      data-toggle="tooltip"
-                      data-trigger="hover focus"
-                      href="/schedules/62/line"
-                      title="Route 62"
+                      }
+                    />
+                    <span
+                      className="sr-only"
                     >
-                      <span
-                        className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
-                        key="62"
-                      >
-                        62
-                      </span>
-                    </a>
-                  </Component>
-                  <Component>
-                    <a
-                      data-animation="false"
-                      data-original-title="Route 67"
-                      data-placement="bottom"
-                      data-selector="true"
-                      data-toggle="tooltip"
-                      data-trigger="hover focus"
-                      href="/schedules/67/line"
-                      title="Route 67"
-                    >
-                      <span
-                        className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
-                        key="67"
-                      >
-                        67
-                      </span>
-                    </a>
-                  </Component>
-                  <Component>
-                    <a
-                      data-animation="false"
-                      data-original-title="Route 76"
-                      data-placement="bottom"
-                      data-selector="true"
-                      data-toggle="tooltip"
-                      data-trigger="hover focus"
-                      href="/schedules/76/line"
-                      title="Route 76"
-                    >
-                      <span
-                        className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
-                        key="76"
-                      >
-                        76
-                      </span>
-                    </a>
-                  </Component>
-                  <Component>
-                    <a
-                      data-animation="false"
-                      data-original-title="Route 79"
-                      data-placement="bottom"
-                      data-selector="true"
-                      data-toggle="tooltip"
-                      data-trigger="hover focus"
-                      href="/schedules/79/line"
-                      title="Route 79"
-                    >
-                      <span
-                        className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
-                        key="79"
-                      >
-                        79
-                      </span>
-                    </a>
-                  </Component>
-                  <Component>
-                    <a
-                      data-animation="false"
-                      data-original-title="Route 84"
-                      data-placement="bottom"
-                      data-selector="true"
-                      data-toggle="tooltip"
-                      data-trigger="hover focus"
-                      href="/schedules/84/line"
-                      title="Route 84"
-                    >
-                      <span
-                        className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
-                        key="84"
-                      >
-                        84
-                      </span>
-                    </a>
-                  </Component>
-                  <Component>
-                    <a
-                      data-animation="false"
-                      data-original-title="Route 350"
-                      data-placement="bottom"
-                      data-selector="true"
-                      data-toggle="tooltip"
-                      data-trigger="hover focus"
-                      href="/schedules/350/line"
-                      title="Route 350"
-                    >
-                      <span
-                        className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
-                        key="350"
-                      >
-                        350
-                      </span>
-                    </a>
-                  </Component>
-                  <Component>
-                    <a
-                      data-animation="false"
-                      data-original-title="Route 351"
-                      data-placement="bottom"
-                      data-selector="true"
-                      data-toggle="tooltip"
-                      data-trigger="hover focus"
-                      href="/schedules/351/line"
-                      title="Route 351"
-                    >
-                      <span
-                        className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
-                        key="351"
-                      >
-                        351
-                      </span>
-                    </a>
-                  </Component>
-                </div>
+                      Service alert or delay
+                    </span>
+                     
+                     
+                    Alewife
+                     
+                  </h4>
+                </a>
               </div>
               <div
                 className="m-schedule-diagram__features"
@@ -879,6 +738,147 @@ exports[`renders with a static map 1`] = `
                       }
                     />
                   </span>
+                </Component>
+              </div>
+            </div>
+            <div
+              className="m-schedule-diagram__stop-details"
+            >
+              <div
+                className="m-schedule-diagram__connections"
+              >
+                <Component>
+                  <a
+                    data-animation="false"
+                    data-original-title="Route 62"
+                    data-placement="bottom"
+                    data-selector="true"
+                    data-toggle="tooltip"
+                    data-trigger="hover focus"
+                    href="/schedules/62/line"
+                    title="Route 62"
+                  >
+                    <span
+                      className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
+                      key="62"
+                    >
+                      62
+                    </span>
+                  </a>
+                </Component>
+                <Component>
+                  <a
+                    data-animation="false"
+                    data-original-title="Route 67"
+                    data-placement="bottom"
+                    data-selector="true"
+                    data-toggle="tooltip"
+                    data-trigger="hover focus"
+                    href="/schedules/67/line"
+                    title="Route 67"
+                  >
+                    <span
+                      className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
+                      key="67"
+                    >
+                      67
+                    </span>
+                  </a>
+                </Component>
+                <Component>
+                  <a
+                    data-animation="false"
+                    data-original-title="Route 76"
+                    data-placement="bottom"
+                    data-selector="true"
+                    data-toggle="tooltip"
+                    data-trigger="hover focus"
+                    href="/schedules/76/line"
+                    title="Route 76"
+                  >
+                    <span
+                      className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
+                      key="76"
+                    >
+                      76
+                    </span>
+                  </a>
+                </Component>
+                <Component>
+                  <a
+                    data-animation="false"
+                    data-original-title="Route 79"
+                    data-placement="bottom"
+                    data-selector="true"
+                    data-toggle="tooltip"
+                    data-trigger="hover focus"
+                    href="/schedules/79/line"
+                    title="Route 79"
+                  >
+                    <span
+                      className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
+                      key="79"
+                    >
+                      79
+                    </span>
+                  </a>
+                </Component>
+                <Component>
+                  <a
+                    data-animation="false"
+                    data-original-title="Route 84"
+                    data-placement="bottom"
+                    data-selector="true"
+                    data-toggle="tooltip"
+                    data-trigger="hover focus"
+                    href="/schedules/84/line"
+                    title="Route 84"
+                  >
+                    <span
+                      className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
+                      key="84"
+                    >
+                      84
+                    </span>
+                  </a>
+                </Component>
+                <Component>
+                  <a
+                    data-animation="false"
+                    data-original-title="Route 350"
+                    data-placement="bottom"
+                    data-selector="true"
+                    data-toggle="tooltip"
+                    data-trigger="hover focus"
+                    href="/schedules/350/line"
+                    title="Route 350"
+                  >
+                    <span
+                      className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
+                      key="350"
+                    >
+                      350
+                    </span>
+                  </a>
+                </Component>
+                <Component>
+                  <a
+                    data-animation="false"
+                    data-original-title="Route 351"
+                    data-placement="bottom"
+                    data-selector="true"
+                    data-toggle="tooltip"
+                    data-trigger="hover focus"
+                    href="/schedules/351/line"
+                    title="Route 351"
+                  >
+                    <span
+                      className="c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus"
+                      key="351"
+                    >
+                      351
+                    </span>
+                  </a>
                 </Component>
               </div>
             </div>

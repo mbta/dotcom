@@ -1,4 +1,6 @@
 import React, { ReactElement, useState } from "react";
+import { useFetch } from "react-async";
+import { useInterval } from "use-interval";
 import {
   LineDiagramStop,
   RoutePatternsByDirection,
@@ -10,7 +12,7 @@ import {
 import SingleStop from "./SingleStop";
 import Modal from "../../../components/Modal";
 import ScheduleModalContent from "../schedule-finder/ScheduleModalContent";
-import { Route, DirectionId } from "../../../__v3api";
+import { DirectionId, Headsign, Route } from "../../../__v3api";
 import ExpandableBranch from "./ExpandableBranch";
 
 interface Props {
@@ -22,6 +24,14 @@ interface Props {
   ratingEndDate: string;
   stops: SimpleStopMap;
   today: string;
+}
+
+export interface LiveDataByStop {
+  [stopId: string]: LiveData;
+}
+
+export interface LiveData {
+  headsigns: Headsign[];
 }
 
 const getMergeStops = (lineDiagram: LineDiagramStop[]): LineDiagramStop[] =>
@@ -75,6 +85,22 @@ const LineDiagram = ({
     selectedOrigin: lineDiagram[0].route_stop,
     modalOpen: false
   });
+
+  const {
+    data: maybeLiveData,
+    isLoading: liveDataIsLoading,
+    // @ts-ignore https://github.com/async-library/react-async/issues/244
+    reload: reloadLiveData
+  } = useFetch(
+    `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`,
+    {},
+    { json: true, watch: directionId }
+  );
+  const liveData = (maybeLiveData || {}) as LiveDataByStop;
+  useInterval(() => {
+    /* istanbul ignore next */
+    if (!liveDataIsLoading) reloadLiveData();
+  }, 15000);
 
   const handleStopClick = (stop: RouteStop): (() => void) => () =>
     setModalState({
@@ -174,6 +200,7 @@ const LineDiagram = ({
                     onStopClick={handleStopClick}
                     color={routeColor}
                     willMerge={willMerge}
+                    liveDataByStop={liveData}
                   />
                 );
               }
@@ -194,6 +221,7 @@ const LineDiagram = ({
                       }
                       onClick={handleStopClick(stop.route_stop)}
                       color={routeColor}
+                      liveData={liveData[stop.route_stop.id]}
                     />
                   ))}
                 </div>
@@ -224,6 +252,7 @@ const LineDiagram = ({
                 }
                 onClick={handleStopClick(stopOrStops.route_stop)}
                 color={routeColor}
+                liveData={liveData[stopOrStops.route_stop.id]}
               />
             );
           }

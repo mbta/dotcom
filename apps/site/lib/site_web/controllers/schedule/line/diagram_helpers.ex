@@ -57,7 +57,12 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
 
   # Reduces each green line branch into a tuple of {stops_on_branches, shared_stops}, which gets parsed
   # by &build_green_stop_list/2.
-  @spec reduce_green_branch(RouteStops.t(), {[RouteStop.t()], [RouteStop.t()]}, direction_id, boolean) ::
+  @spec reduce_green_branch(
+          RouteStops.t(),
+          {[RouteStop.t()], [RouteStop.t()]},
+          direction_id,
+          boolean
+        ) ::
           {[stop_with_bubble_info], [RouteStop.t()]}
   defp reduce_green_branch(branch, acc, direction_id, combine_green_branches) do
     branch

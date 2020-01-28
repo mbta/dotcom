@@ -2,18 +2,21 @@ import React, { ReactElement } from "react";
 import { times } from "lodash";
 import ExpandableBlock from "../../../components/ExpandableBlock";
 import { LineDiagramStop, RouteStop } from "../__schedule";
+import { LiveDataByStop } from "./LineDiagram";
 import SingleStop from "./SingleStop";
 
 const ExpandableBranch = ({
   branchData,
   onStopClick,
   color,
-  willMerge
+  willMerge,
+  liveDataByStop
 }: {
   branchData: LineDiagramStop[];
   onStopClick: (stop: RouteStop) => () => void;
   color: string;
   willMerge?: boolean;
+  liveDataByStop: LiveDataByStop;
 }): ReactElement<HTMLElement> | null => (
   <div
     className={`m-schedule-diagram__expander ${
@@ -72,6 +75,7 @@ const ExpandableBranch = ({
             stop={branchStop}
             onClick={onStopClick(branchStop.route_stop)}
             color={color}
+            liveData={liveDataByStop[branchStop.route_stop.id]}
           />
         ))}
       </>

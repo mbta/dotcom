@@ -8,4 +8,12 @@ defmodule SiteWeb.LineApiTest do
       assert json_response(conn, 200)
     end
   end
+
+  describe "realtime" do
+    test "success response", %{conn: conn} do
+      conn = get(conn, line_api_path(conn, :realtime, %{"id" => "Red", "direction_id" => "1"}))
+
+      assert json_response(conn, 200)
+    end
+  end
 end
