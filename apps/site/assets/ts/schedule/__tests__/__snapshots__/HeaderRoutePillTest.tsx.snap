@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HeaderRoutePill renders SL routes appropriately 1`] = `
+<div
+  className="m-route-pills"
+>
+  <div
+    className="h1 schedule-finder__modal-route-pill u-bg--silver-line"
+  >
+    SL1
+  </div>
+</div>
+`;
+
+exports[`HeaderRoutePill renders for bus 1`] = `
+<div
+  className="m-route-pills"
+>
+  <div
+    className="h1 schedule-finder__modal-route-pill u-bg--bus"
+  >
+    123
+  </div>
+</div>
+`;

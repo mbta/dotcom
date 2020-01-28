@@ -5,17 +5,17 @@ import {
   UserInput
 } from "../ScheduleFinder";
 import UpcomingDepartures from "./UpcomingDepartures";
-import { Route, RouteType } from "../../../__v3api";
+import { Route } from "../../../__v3api";
 import {
   SimpleStop,
   StopPrediction,
   RoutePatternsByDirection,
   ServiceInSelector
 } from "../__schedule";
-import isSilverLine from "../../../helpers/silver-line";
 import { reducer } from "../../../helpers/fetch";
 import ServiceSelector from "./ServiceSelector";
 import { breakTextAtSlash } from "../../../helpers/text";
+import HeaderRoutePill from "./HeaderRoutePill";
 
 const stopInfo = (
   selectedOrigin: string,
@@ -29,23 +29,6 @@ const stopNameLink = (
   const stop = stopInfo(selectedOrigin, stops);
   return <a href={`/stops/${stop!.id}`}>{stop!.name}</a>;
 };
-
-const routePill = (
-  id: string,
-  type: RouteType,
-  name: string
-): ReactElement<HTMLElement> | null =>
-  type === 3 ? (
-    <div className="m-route-pills">
-      <div
-        className={`h1 schedule-finder__modal-route-pill u-bg--${
-          isSilverLine(id) ? "silver-line" : "bus"
-        }`}
-      >
-        {name}
-      </div>
-    </div>
-  ) : null;
 
 type fetchAction =
   | { type: "FETCH_COMPLETE"; payload: StopPrediction[] }
@@ -133,7 +116,7 @@ const ScheduleModalContent = ({
   return (
     <>
       <div className="schedule-finder__modal-header">
-        {routePill(routeId, routeType, routeName)}
+        <HeaderRoutePill id={routeId} type={routeType} name={routeName} />
         <div>
           <div className="h3 u-small-caps" style={{ margin: 0 }}>
             {" "}
