@@ -40,6 +40,95 @@ Array [
 ]
 `;
 
+exports[`ScheduleModal renders with appropriate content for the SL Waterfront 1`] = `
+Array [
+  <div
+    className="schedule-finder__modal-header"
+  >
+    <div
+      className="m-route-pills"
+    >
+      <div
+        className="h1 schedule-finder__modal-route-pill u-bg--silver-line"
+      >
+        SL
+      </div>
+    </div>
+    <div>
+      <div
+        className="h3 u-small-caps"
+        style={
+          Object {
+            "margin": 0,
+          }
+        }
+      >
+         
+        Outbound
+      </div>
+      <h2
+        className="h2"
+        style={
+          Object {
+            "margin": 0,
+          }
+        }
+      >
+        Waterfront
+      </h2>
+    </div>
+  </div>,
+  <div>
+    from 
+    <a
+      href="/stops/place-mlmnl"
+    >
+      Malden Center
+    </a>
+  </div>,
+]
+`;
+
+exports[`ScheduleModal renders with appropriate content for the SL Waterfront 2`] = `
+Array [
+  <div
+    className="schedule-finder__modal-header"
+  >
+    <div>
+      <div
+        className="h3 u-small-caps"
+        style={
+          Object {
+            "margin": 0,
+          }
+        }
+      >
+         
+        Eastbound
+      </div>
+      <h2
+        className="h2"
+        style={
+          Object {
+            "margin": 0,
+          }
+        }
+      >
+        All branches
+      </h2>
+    </div>
+  </div>,
+  <div>
+    from 
+    <a
+      href="/stops/place-mlmnl"
+    >
+      Malden Center
+    </a>
+  </div>,
+]
+`;
+
 exports[`UpcomingDepartures doesn't renders cr departures that don't have a predicted time yet 1`] = `null`;
 
 exports[`UpcomingDepartures renders SL bus predictions 1`] = `

@@ -21,6 +21,34 @@ const route: EnhancedRoute = {
   type: 1
 };
 
+const slWaterfront: EnhancedRoute = {
+  alert_count: 0,
+  description: "Key Bus",
+  direction_destinations: { 0: "Silver Line Way", 1: "South Station" },
+  direction_names: { 0: "Outbound", 1: "Inbound" },
+  header: "",
+  id: "746",
+  name: "",
+  long_name: "Silver Line Way - South Station",
+  type: 3
+};
+
+const greenLine: EnhancedRoute = {
+  alert_count: 0,
+  description: "",
+
+  direction_destinations: {
+    "0": "Boston College / Cleveland Circle / Riverside / Heath Street",
+    "1": "Park Street / Government Center / North Station / Lechmere"
+  },
+  direction_names: { 0: "Eastbound", 1: "Westbound" },
+  header: "",
+  id: "Green",
+  name: "",
+  long_name: "Green Line",
+  type: 2
+};
+
 const stops: SimpleStop[] = [
   { name: "Malden Center", id: "place-mlmnl", is_closed: false, zone: "1" },
   { name: "Wellington", id: "place-welln", is_closed: false, zone: "2" }
@@ -46,6 +74,44 @@ describe("ScheduleModal", () => {
       );
     });
 
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("renders with appropriate content for the SL Waterfront", () => {
+    let tree;
+    act(() => {
+      tree = renderer.create(
+        <ScheduleModalContent
+          route={slWaterfront}
+          stops={stops}
+          selectedOrigin={stops[0].id}
+          selectedDirection={0}
+          services={[]}
+          ratingEndDate="2020-03-14"
+          routePatternsByDirection={{}}
+          today={today}
+        />
+      );
+    });
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("renders with appropriate content for the SL Waterfront", () => {
+    let tree;
+    act(() => {
+      tree = renderer.create(
+        <ScheduleModalContent
+          route={greenLine}
+          stops={stops}
+          selectedOrigin={stops[0].id}
+          selectedDirection={0}
+          services={[]}
+          ratingEndDate="2020-03-14"
+          routePatternsByDirection={{}}
+          today={today}
+        />
+      );
+    });
     expect(tree).toMatchSnapshot();
   });
 

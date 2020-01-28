@@ -13,6 +13,7 @@ import {
   ServiceInSelector
 } from "../__schedule";
 import { reducer } from "../../../helpers/fetch";
+import { isSilverLineWaterfront } from "../../../helpers/silver-line";
 import ServiceSelector from "./ServiceSelector";
 import { breakTextAtSlash } from "../../../helpers/text";
 import HeaderRoutePill from "./HeaderRoutePill";
@@ -108,10 +109,14 @@ const ScheduleModalContent = ({
     direction: selectedDirection
   };
 
-  const destination =
-    routeId === "Green"
-      ? "All branches"
-      : directionDestinations[selectedDirection];
+  let destination;
+  if (isSilverLineWaterfront(routeId)) {
+    destination = "Waterfront";
+  } else if (routeId === "Green") {
+    destination = "All branches";
+  } else {
+    destination = directionDestinations[selectedDirection];
+  }
 
   return (
     <>
