@@ -1,4 +1,6 @@
 defmodule Routes.Route do
+  @moduledoc false
+
   alias Routes.Repo
 
   defstruct id: "",
@@ -46,6 +48,7 @@ defmodule Routes.Route do
 
   @silver_line ~w(741 742 743 746 749 751)
   @silver_line_set MapSet.new(@silver_line)
+  @silver_line_waterfront "746"
 
   @spec type_atom(t | type_int | String.t()) :: gtfs_route_type
   def type_atom(%__MODULE__{type: type}), do: type_atom(type)
@@ -197,6 +200,8 @@ defmodule Routes.Route do
   def silver_line?(%__MODULE__{id: id}), do: id in @silver_line_set
 
   def silver_line, do: @silver_line
+
+  def silver_line_waterfront?(%__MODULE__{id: id}), do: id == @silver_line_waterfront
 
   @spec to_json_safe(t) :: map
   def to_json_safe(%__MODULE__{

@@ -987,6 +987,11 @@ defmodule SiteWeb.ScheduleViewTest do
   end
 
   describe "route_header_text/2" do
+    test "treats the Silver Line Waterfront as a special case" do
+      assert route_header_text(%Route{type: 3, name: "Silver Line Way - South Station", id: "746"}) ==
+               ["Silver Line Waterfront"]
+    end
+
     test "translates the type number to a string or number if non-silver-line bus" do
       assert route_header_text(%Route{type: 0, name: "test route"}) == ["test route"]
       assert route_header_text(%Route{type: 3, name: "SL1", id: "741"}) == ["Silver Line ", "SL1"]

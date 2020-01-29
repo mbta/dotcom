@@ -308,12 +308,17 @@ defmodule SiteWeb.ScheduleView do
   @doc "Prefix route name with route for bus lines"
   @spec route_header_text(Route.t()) :: [String.t()] | Safe.t()
   def route_header_text(%Route{type: 3, name: name} = route) do
-    if Route.silver_line?(route) do
-      ["Silver Line ", name]
-    else
-      content_tag :div, class: "bus-route-sign" do
-        route.name
-      end
+    cond do
+      Route.silver_line_waterfront?(route) ->
+        ["Silver Line Waterfront"]
+
+      Route.silver_line?(route) ->
+        ["Silver Line ", name]
+
+      true ->
+        content_tag :div, class: "bus-route-sign" do
+          route.name
+        end
     end
   end
 
