@@ -105,15 +105,57 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   end
 
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
-    ["740", "746", "748", "750", "754", "726", "758"]
-    |> Enum.flat_map(&franklin_via_fairmount(&1, 1))
-    |> Enum.into(%{})
+    normal =
+      ["740", "746", "748", "750", "754", "726", "758"]
+      |> Enum.flat_map(&franklin_via_fairmount(&1, 1, 3))
+      |> Enum.into(%{})
+
+    [
+      "1754",
+      "1758",
+      "1762",
+      "1766",
+      "1770",
+      "1774",
+      "1778",
+      "2762",
+      "2766",
+      "2770",
+      "2774",
+      "2778"
+    ]
+    |> Enum.flat_map(fn trip ->
+      franklin_via_fairmount(trip, 1, 3, &stops_for_fairmount_shuttle/1)
+    end)
+    |> Enum.into(normal)
   end
 
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 0) do
-    ["741", "743", "747", "749", "755", "757", "759"]
-    |> Enum.flat_map(&franklin_via_fairmount(&1, 0))
-    |> Enum.into(%{})
+    normal =
+      ["741", "743", "747", "749", "755", "757", "759"]
+      |> Enum.flat_map(&franklin_via_fairmount(&1, 0, 4))
+      |> Enum.into(%{})
+
+    [
+      "1753",
+      "1757",
+      "1761",
+      "1765",
+      "1769",
+      "1773",
+      "1777",
+      "1781",
+      "2761",
+      "2765",
+      "2769",
+      "2773",
+      "2777",
+      "2781"
+    ]
+    |> Enum.flat_map(fn trip ->
+      franklin_via_fairmount(trip, 0, 3, &stops_for_fairmount_shuttle/1)
+    end)
+    |> Enum.into(normal)
   end
 
   def trip_messages(%Routes.Route{id: "CR-Fairmount"} = route, 1) do
@@ -127,21 +169,23 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     %{}
   end
 
-  defp franklin_via_fairmount(train, 1) do
+  defp franklin_via_fairmount(train, direction_id, name_count, stops_fn \\ &stops_for_fairmount/1)
+
+  defp franklin_via_fairmount(train, 1, name_count, stops_fn) do
     [
-      List.duplicate(train, 3),
-      stops_for_fairmount(1),
-      ["Via", "Fairmount", "Line"]
+      List.duplicate(train, name_count),
+      stops_fn.(1),
+      franklin_via_fairmount_names(name_count)
     ]
     |> make_via_list()
     |> Enum.concat([{{train}, "Via Fairmount Line"}])
   end
 
-  defp franklin_via_fairmount(train, 0) do
+  defp franklin_via_fairmount(train, 0, name_count, stops_fn) do
     [
-      List.duplicate(train, 4),
-      stops_for_fairmount(0),
-      ["Via", "Fair-", "mount", "Line"]
+      List.duplicate(train, name_count),
+      stops_fn.(0),
+      franklin_via_fairmount_names(name_count)
     ]
     |> make_via_list()
     |> Enum.concat([{{train}, "Via Fairmount Line"}])
@@ -153,6 +197,22 @@ defmodule SiteWeb.ScheduleController.TimetableController do
 
   defp stops_for_fairmount(0) do
     ["place-bbsta", "place-rugg", "place-NEC-2203", "place-DB-0095"]
+  end
+
+  defp stops_for_fairmount_shuttle(1) do
+    ~w(place-FB-0230 place-FB-0191 place-FB-0166)s
+  end
+
+  defp stops_for_fairmount_shuttle(0) do
+    ~w(place-FB-0166 place-FB-0191 place-FB-0230)s
+  end
+
+  defp franklin_via_fairmount_names(3) do
+    ["Via", "Fairmount", "Line"]
+  end
+
+  defp franklin_via_fairmount_names(4) do
+    ["Via", "Fair-", "mount", "Line"]
   end
 
   def make_via_list(list) do

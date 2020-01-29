@@ -102,7 +102,19 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
                "748",
                "750",
                "754",
-               "758"
+               "758",
+               "1754",
+               "1758",
+               "1762",
+               "1766",
+               "1770",
+               "1774",
+               "1778",
+               "2762",
+               "2766",
+               "2770",
+               "2774",
+               "2778"
              ] =
                %Routes.Route{id: "CR-Franklin"}
                |> trip_messages(1)
@@ -118,7 +130,21 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
                "749",
                "755",
                "757",
-               "759"
+               "759",
+               "1753",
+               "1757",
+               "1761",
+               "1765",
+               "1769",
+               "1773",
+               "1777",
+               "1781",
+               "2761",
+               "2765",
+               "2769",
+               "2773",
+               "2777",
+               "2781"
              ] ==
                %Routes.Route{id: "CR-Franklin"}
                |> trip_messages(0)
