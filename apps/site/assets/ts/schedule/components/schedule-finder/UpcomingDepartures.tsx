@@ -6,7 +6,7 @@ import {
 } from "../../../helpers/prediction-helpers";
 import { modeIcon } from "../../../helpers/icon";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
-import { Route } from "../../../__v3api";
+import { Route, Trip } from "../../../__v3api";
 import { EnhancedJourney } from "../__trips";
 import { isSilverLineWaterfront } from "../../../helpers/silver-line";
 import { breakTextAtSlash } from "../../../helpers/text";
@@ -56,6 +56,9 @@ interface TableRowProps {
   journey: EnhancedJourney;
 }
 
+const headsignText = (trip: Trip, route: Route): string =>
+  isSilverLineWaterfront(route.id) ? "Silver Line Waterfront" : trip.headsign;
+
 const BusTableRow = ({
   journey
 }: {
@@ -73,7 +76,7 @@ const BusTableRow = ({
               {modeIcon(route.id)}
             </div>
           )}
-          {trip.headsign}
+          {headsignText(trip, route)}
         </div>
       </td>
       <td className="schedule-table__time schedule-table__td--flex-end u-bold">
