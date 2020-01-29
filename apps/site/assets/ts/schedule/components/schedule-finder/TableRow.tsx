@@ -4,7 +4,10 @@ import { Journey, TripInfo } from "../__trips";
 import { modeIcon, caret } from "../../../helpers/icon";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { breakTextAtSlash } from "../../../helpers/text";
-import { isSilverLine } from "../../../helpers/silver-line";
+import {
+  isSilverLine,
+  isSilverLineWaterfront
+} from "../../../helpers/silver-line";
 import { TripDetails } from "./TripDetails";
 import { UserInput } from "../ScheduleFinder";
 
@@ -48,6 +51,14 @@ export const fetchData = (
   );
 };
 
+const headsignText = (journey: Journey): string => {
+  if (isSilverLineWaterfront(journey.route.id)) {
+    return "Silver Line Waterfront";
+  }
+
+  return breakTextAtSlash(journey.trip.headsign);
+};
+
 const BusTableRow = ({
   journey,
   anySchoolTrips,
@@ -74,7 +85,7 @@ const BusTableRow = ({
       ) : (
         modeIcon(journey.route.id)
       )}{" "}
-      {breakTextAtSlash(journey.trip.headsign)}
+      {headsignText(journey)}
     </td>
   </>
 );
