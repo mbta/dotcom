@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ServiceSelector renders 1`] = `
+exports[`ServiceSelector renders with a date 1`] = `
 Array [
   <h3>
     Daily Schedule
@@ -8,6 +8,14 @@ Array [
   <div
     className="schedule-finder__service-selector"
   >
+    <div
+      className="callout schedule-table--empty"
+    >
+      There is no scheduled service for today,
+       
+      Saturday, Aug 31
+      .
+    </div>
     <div
       className="c-select-custom__container "
       id="service_selector_container"
@@ -17,41 +25,33 @@ Array [
       tabIndex={0}
     >
       <select
-        className="c-select-custom"
+        className="c-select-custom text-center u-bold"
         defaultValue="BUS319-O-Wdy-02"
         id="service_selector"
         onChange={[Function]}
       >
         <optgroup
-          label="Current Schedules"
+          label="Current Schedules (Test, ends Oct 25)"
         >
           <option
             value="BUS319-O-Wdy-02"
           >
-            Monday - Friday schedule
-            , 
-            ends August 30
+            Weekday schedule, Test
           </option>
           <option
             value="BUS319-D-Wdy-02"
           >
-            Friday schedule
-            , 
-            ends August 30
+            Friday schedule, Test
           </option>
           <option
             value="BUS319-P-Sa-02"
           >
-            Saturday schedule
-            , 
-            ends August 31
+            Saturday schedule, Test
           </option>
           <option
             value="BUS319-Q-Su-02"
           >
-            Sunday schedule
-            , 
-            ends August 25
+            Sunday schedule, Test
           </option>
         </optgroup>
         <optgroup
@@ -60,23 +60,21 @@ Array [
           <option
             value="Bastille-Day"
           >
-            Bastille Day, July 14
+            Bastille Day, Jul 14
           </option>
         </optgroup>
         <optgroup
-          label="Future Schedules"
+          label="Other Schedules"
         >
           <option
             value="BUS319-storm"
           >
-            Storm service, 
-            starts July 15
+            Storm service, Jul 15 to Jul 15
           </option>
           <option
             value="BUS319-storm-1"
           >
-            Storm service, 
-            July 22 to July 23
+            Storm service, Jul 22 to Jul 23
           </option>
         </optgroup>
       </select>

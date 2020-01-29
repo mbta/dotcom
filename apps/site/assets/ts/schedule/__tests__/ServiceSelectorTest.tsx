@@ -13,7 +13,6 @@ const services: ServiceInSelector[] = [
     typicality: "typical_service",
     type: "weekday",
     start_date: "2019-07-02",
-    service_date: "2019-07-09",
     removed_dates_notes: { "2019-07-04": "Independence Day" },
     removed_dates: ["2019-07-04"],
     name: "Weekday",
@@ -32,7 +31,6 @@ const services: ServiceInSelector[] = [
     typicality: "typical_service",
     type: "weekday",
     start_date: "2019-07-05",
-    service_date: "2019-07-09",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Weekday",
@@ -51,7 +49,6 @@ const services: ServiceInSelector[] = [
     typicality: "typical_service",
     type: "saturday",
     start_date: "2019-07-06",
-    service_date: "2019-07-09",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Saturday",
@@ -70,7 +67,6 @@ const services: ServiceInSelector[] = [
     typicality: "typical_service",
     type: "sunday",
     start_date: "2019-07-07",
-    service_date: "2019-07-09",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Sunday",
@@ -89,7 +85,6 @@ const services: ServiceInSelector[] = [
     typicality: "holiday_service",
     type: "sunday",
     start_date: "2019-07-07",
-    service_date: "2019-07-09",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Sunday",
@@ -108,7 +103,6 @@ const services: ServiceInSelector[] = [
     typicality: "unplanned_disruption",
     type: "weekday",
     start_date: "2019-07-15",
-    service_date: "2019-07-09",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Weekday",
@@ -127,7 +121,6 @@ const services: ServiceInSelector[] = [
     typicality: "unplanned_disruption",
     type: "weekday",
     start_date: "2019-07-22",
-    service_date: "2019-07-09",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Weekday",
@@ -144,7 +137,7 @@ const services: ServiceInSelector[] = [
 ];
 
 describe("ServiceSelector", () => {
-  it("renders", () => {
+  it("renders with a date", () => {
     createReactRoot();
     const tree = renderer.create(
       <ServiceSelector
@@ -153,6 +146,7 @@ describe("ServiceSelector", () => {
         directionId={0}
         routePatterns={[]}
         routeId="111"
+        today={"2019-08-31"}
       />
     );
     expect(tree).toMatchSnapshot();

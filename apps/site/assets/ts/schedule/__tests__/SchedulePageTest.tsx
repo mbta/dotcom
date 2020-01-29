@@ -117,8 +117,10 @@ const service: ServiceInSelector = {
   type: "weekday",
   typicality: "typical_service",
   valid_days: [1, 2, 3, 4, 5],
-  service_date: "2019-06-26",
   name: "weekday",
+  rating_start_date: "2019-06-25",
+  rating_end_date: "2019-10-25",
+  rating_description: "Test",
   "default_service?": true
 };
 

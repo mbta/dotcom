@@ -107,7 +107,6 @@ describe("ScheduleModal", () => {
         selectedOrigin={stops[0].id}
         selectedDirection={0}
         services={[]}
-        ratingEndDate="2020-03-14"
         routePatternsByDirection={{}}
         today={today}
         scheduleNote={scheduleNoteData}

@@ -5,7 +5,7 @@ import {
   PredictedOrScheduledTime,
   EnhancedRoute,
   DirectionId,
-  ServiceWithServiceDate,
+  Service,
   Schedule,
   RoutePattern,
   Shape,
@@ -26,7 +26,7 @@ export interface RoutePatternsByDirection {
   [key: string]: EnhancedRoutePattern[];
 }
 
-export interface ServiceInSelector extends ServiceWithServiceDate {
+export interface ServiceInSelector extends Service {
   "default_service?": boolean;
 }
 

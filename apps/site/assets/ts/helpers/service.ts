@@ -1,145 +1,203 @@
-import { Service, ServiceWithServiceDate } from "../__v3api";
+import _, { Dictionary } from "lodash";
+import { Service, DayInteger } from "../__v3api";
 import { shortDate } from "./date";
 
-const formattedDate = (date: Date): string => shortDate(date);
-
-const holidayDate = (service: Service): string => {
-  const note = service.added_dates_notes[service.start_date];
-  return note || `on ${formattedDate(new Date(service.start_date))}`;
-};
-
-export type ServiceOptGroupName = "current" | "holiday" | "future";
-
-export interface ServiceByOptGroup {
-  type: ServiceOptGroupName;
-  servicePeriod: string;
-  service: ServiceWithServiceDate;
+export enum ServiceGroupNames {
+  HOLIDAY = "Holiday Schedules",
+  CURRENT = "Current Schedules",
+  FUTURE = "Future Schedules",
+  OTHER = "Other Schedules"
 }
 
-export type ServicesKeyedByGroup = {
-  [key in ServiceOptGroupName]: ServiceByOptGroup[]
-};
+export const serviceStartDateComparator = (
+  service1: Service,
+  service2: Service
+): number =>
+  new Date(service1.start_date).getTime() -
+  new Date(service2.start_date).getTime();
 
-export const groupByType = (
-  acc: ServicesKeyedByGroup,
-  currService: ServiceByOptGroup
-): ServicesKeyedByGroup => {
-  const currentServiceType: ServiceOptGroupName = currService.type;
-  const updatedGroup = [...acc[currentServiceType], currService];
-  return { ...acc, [currentServiceType]: updatedGroup };
-};
-
-const startToEnd = (startDateObject: Date, endDateObject: Date): string =>
-  `${formattedDate(startDateObject)} to ${formattedDate(endDateObject)}`;
-
-export const groupServiceByDate = (
-  service: ServiceWithServiceDate
-): ServiceByOptGroup[] => {
-  const {
-    start_date: startDate,
-    end_date: endDate,
-    added_dates: addedDates,
-    added_dates_notes: addedDatesNotes,
-    service_date: serviceDate,
-    typicality
-  } = service;
-
-  if (typicality === "holiday_service") {
-    return addedDates.map(addedDate => ({
-      type: "holiday" as ServiceOptGroupName,
-      servicePeriod: `${addedDatesNotes[addedDate]}, ${formattedDate(
-        new Date(addedDate)
-      )}`,
-      service
-    }));
-  }
-
-  const serviceDateTime = new Date(serviceDate).getTime();
-  const startDateObject = new Date(startDate);
-  const startDateTime = startDateObject.getTime();
-  const endDateObject = new Date(endDate);
-  const endDateTime = endDateObject.getTime();
-
-  if (typicality === "unplanned_disruption") {
-    const type =
-      serviceDateTime >= startDateTime && serviceDateTime <= endDateTime
-        ? "current"
-        : "future";
-
-    const stormServicePeriod =
-      startDate === endDate
-        ? formattedDate(startDateObject)
-        : startToEnd(startDateObject, endDateObject);
-
-    return [
-      {
-        type,
-        servicePeriod: stormServicePeriod,
-        service
-      }
-    ];
-  }
-
-  if (serviceDateTime >= startDateTime && serviceDateTime <= endDateTime) {
-    return [
-      {
-        type: "current",
-        servicePeriod: `ends ${formattedDate(endDateObject)}`,
-        service
-      }
-    ];
-  }
-
-  if (serviceDateTime < startDateTime) {
-    return [
-      {
-        type: "future",
-        servicePeriod: `starts ${formattedDate(startDateObject)}`,
-        service
-      }
-    ];
-  }
-
-  return [
-    {
-      type: "future",
-      servicePeriod: startToEnd(startDateObject, endDateObject),
-      service
-    }
-  ];
-};
-
-export const serviceDate = (
-  service: Service | ServiceWithServiceDate
-): string => {
-  const { start_date: startDate, end_date: endDate } = service;
-  if (service.start_date === service.end_date) {
-    return holidayDate(service);
-  }
-
-  const startDateObject = new Date(startDate);
-  const endDateObject = new Date(endDate);
-  if ("service_date" in service) {
-    // Get unix timestamps
-    const serviceDateTime = new Date(service.service_date).getTime();
-    const startDateTime = startDateObject.getTime();
-    const endDateTime = endDateObject.getTime();
-
-    if (serviceDateTime >= startDateTime && serviceDateTime <= endDateTime) {
-      return `ends ${formattedDate(endDateObject)}`;
-    }
-
-    if (serviceDateTime < startDateTime) {
-      return `starts ${formattedDate(startDateObject)}`;
-    }
-  }
-  return startToEnd(startDateObject, endDateObject);
-};
-
-export const hasMultipleWeekdaySchedules = (
-  services: ServiceWithServiceDate[]
+const isInRemovedDates = (
+  service: Service,
+  currentDate: Date = new Date()
 ): boolean =>
+  service.removed_dates
+    .map(d => new Date(d).getTime())
+    .includes(currentDate.getTime());
+
+const isOnValidDay = (
+  service: Service,
+  currentDate: Date = new Date()
+): boolean => {
+  let currentDay = currentDate.getDay();
+  // different numbering from valid_days for sunday
+  currentDay = currentDay === 0 ? 7 : currentDay;
+  return service.valid_days.includes(currentDay as DayInteger);
+};
+
+const isInCurrentService = (
+  service: Service,
+  currentDate: Date = new Date()
+): boolean => {
+  const serviceStartDate = new Date(service.start_date);
+  const serviceEndDate = new Date(service.end_date);
+  return currentDate >= serviceStartDate && currentDate <= serviceEndDate;
+};
+
+export const isCurrentValidService = (
+  service: Service,
+  currentDate: Date = new Date()
+): boolean => {
+  // check against removed dates
+  if (isInRemovedDates(service, currentDate)) {
+    return false;
+  }
+
+  // check on valid_days
+  if (!isOnValidDay(service, currentDate)) {
+    return false;
+  }
+
+  // check within service dates
+  return isInCurrentService(service, currentDate);
+};
+
+export const hasNoRating = (service: Service): boolean =>
+  !service.rating_start_date || !service.rating_end_date;
+
+export const isInCurrentRating = (
+  service: Service,
+  currentDate: Date = new Date()
+): boolean => {
+  if (hasNoRating(service)) {
+    return false;
+  }
+  const ratingStartDate = new Date(service.rating_start_date!);
+  const ratingEndDate = new Date(service.rating_end_date!);
+  return currentDate >= ratingStartDate && currentDate <= ratingEndDate;
+};
+
+export const startToEnd = (
+  startDateObject: Date,
+  endDateObject: Date
+): string => `${shortDate(startDateObject)} to ${shortDate(endDateObject)}`;
+
+const isInFutureService = (
+  service: Service,
+  currentDate: Date = new Date()
+): boolean => {
+  const serviceStartDate = new Date(service.start_date);
+  const serviceEndDate = new Date(service.end_date);
+  return currentDate <= serviceStartDate && currentDate <= serviceEndDate;
+};
+
+export const isInFutureRating = (
+  service: Service,
+  currentDate: Date = new Date()
+): boolean => {
+  if (hasNoRating(service)) {
+    return false;
+  }
+  const ratingStartDate = new Date(service.rating_start_date!);
+  const ratingEndDate = new Date(service.rating_end_date!);
+  return currentDate <= ratingStartDate && currentDate <= ratingEndDate;
+};
+
+export const groupServicesByDateRating = (
+  services: Service[],
+  currentDate: Date = new Date()
+): Dictionary<Service[]> =>
+  _.groupBy(services, (service: Service) => {
+    if (service.typicality === "holiday_service") {
+      return ServiceGroupNames.HOLIDAY;
+    }
+
+    // if there's no rating end date, this is probably a CR or Ferry.
+    // don't use the rating in that case.
+    if (hasNoRating(service)) {
+      if (isInCurrentService(service, currentDate)) {
+        return ServiceGroupNames.CURRENT;
+      }
+      if (isInFutureService(service, currentDate)) {
+        return ServiceGroupNames.FUTURE;
+      }
+    } else {
+      const ratingStartDate = new Date(service.rating_start_date!);
+      const ratingEndDate = new Date(service.rating_end_date!);
+
+      if (
+        isInCurrentRating(service, currentDate) &&
+        service.typicality === "typical_service"
+      ) {
+        return `${ServiceGroupNames.CURRENT} (${
+          service.rating_description
+        }, ends ${shortDate(ratingEndDate)})`;
+      }
+
+      if (isInFutureRating(service, currentDate)) {
+        return `${ServiceGroupNames.FUTURE} (${
+          service.rating_description
+        }, starts ${shortDate(ratingStartDate)})`;
+      }
+    }
+
+    return ServiceGroupNames.OTHER;
+  });
+
+// sort the option groups
+const optGroupOrder: { [key: string]: number } = {
+  [ServiceGroupNames.CURRENT]: 4,
+  [ServiceGroupNames.HOLIDAY]: 3,
+  [ServiceGroupNames.FUTURE]: 2,
+  [ServiceGroupNames.OTHER]: 1
+};
+
+// group names may have extra verbiage
+export const optGroupComparator = (groupA: string, groupB: string): number => {
+  const optGroupNames = Object.values(ServiceGroupNames);
+  const a = optGroupNames.find(name => groupA.includes(name));
+  const b = optGroupNames.find(name => groupB.includes(name));
+  return optGroupOrder[b!] - optGroupOrder[a!];
+};
+
+export const hasMultipleWeekdaySchedules = (services: Service[]): boolean =>
   services.filter(
     service =>
       service.type === "weekday" && service.typicality !== "holiday_service"
   ).length > 1;
+
+const dayIntegerToString = (day: DayInteger): string =>
+  [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+  ][day - 1];
+
+const daysAreConsecutive = (days: DayInteger[]): boolean => {
+  const [day, nextDay, ...rest] = days;
+  if (rest.length === 0) return day + 1 === nextDay;
+  if (day + 1 !== nextDay) return false;
+  return daysAreConsecutive([nextDay, ...rest]);
+};
+
+export const serviceDays = ({
+  type,
+  valid_days: validDays
+}: Service): string => {
+  if (type === "saturday" || type === "sunday") return "";
+
+  if (validDays.length === 1) return `${dayIntegerToString(validDays[0])}`;
+
+  if (daysAreConsecutive(validDays)) {
+    return validDays[0] === 1 && validDays[validDays.length - 1] === 5
+      ? "Weekday"
+      : `${dayIntegerToString(validDays[0])} - ${dayIntegerToString(
+          validDays[validDays.length - 1]
+        )}`;
+  }
+
+  return `${validDays.map(dayIntegerToString).join(", ")}`;
+};

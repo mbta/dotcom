@@ -160,6 +160,7 @@ const ScheduleModalContent = ({
           routeId={routeId}
           directionId={selectedDirection}
           routePatterns={routePatternsByDirection[selectedDirection]}
+          today={today}
         />
       )}
     </>
