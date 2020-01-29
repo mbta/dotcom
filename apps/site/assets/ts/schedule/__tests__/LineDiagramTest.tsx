@@ -81,6 +81,7 @@ describe("LineDiagram without branches", () => {
         ratingEndDate="2020-03-14"
         stops={{ 0: stops, 1: stops }}
         today="2019-12-05"
+        scheduleNote={null}
       />
     );
   });
@@ -188,6 +189,7 @@ describe("LineDiagram with branches going outward", () => {
         ratingEndDate="2020-03-14"
         stops={{ 0: stops, 1: stops }}
         today="2019-12-05"
+        scheduleNote={null}
       />
     );
   });
@@ -273,6 +275,7 @@ describe("LineDiagram for CR with branches going inward", () => {
         ratingEndDate="2020-03-14"
         stops={{ 0: stops, 1: stops }}
         today="2019-12-05"
+        scheduleNote={null}
       />
     );
   });

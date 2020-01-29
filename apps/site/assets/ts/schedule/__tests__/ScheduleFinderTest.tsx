@@ -164,6 +164,7 @@ it("renders", () => {
         ratingEndDate="2020-03-14"
         routePatternsByDirection={routePatternsByDirection}
         today={today}
+        scheduleNote={null}
       />
     )
     .toJSON();
@@ -182,6 +183,7 @@ it("opens modal after displaying error", () => {
       ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
+      scheduleNote={null}
     />
   );
 
@@ -296,6 +298,7 @@ it("modal renders route pill for bus lines", () => {
       ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
+      scheduleNote={null}
     />
   );
   subwayWrapper
@@ -322,6 +325,7 @@ it("modal renders route pill for bus lines", () => {
       ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
+      scheduleNote={null}
     />
   );
   busWrapper
@@ -348,6 +352,7 @@ it("modal renders route pill for silver line", () => {
       ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
+      scheduleNote={null}
     />
   );
   subwayWrapper
@@ -374,6 +379,7 @@ it("modal renders route pill for silver line", () => {
       ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
+      scheduleNote={null}
     />
   );
   busWrapper
@@ -400,6 +406,7 @@ it("modal renders route pill for silver line", () => {
       routePatternsByDirection={routePatternsByDirection}
       today={today}
       ratingEndDate={ratingEndDate}
+      scheduleNote={null}
     />
   );
   subwayWrapper
@@ -426,6 +433,7 @@ it("modal renders route pill for silver line", () => {
       routePatternsByDirection={routePatternsByDirection}
       today={today}
       ratingEndDate={ratingEndDate}
+      scheduleNote={null}
     />
   );
   busWrapper
