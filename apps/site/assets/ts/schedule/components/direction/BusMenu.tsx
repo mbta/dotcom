@@ -7,6 +7,7 @@ import { MenuAction } from "./reducer";
 import { EnhancedRoutePattern } from "../__schedule";
 import handleNavigation from "./menu-helpers";
 import renderSvg from "../../../helpers/render-svg";
+import { isSilverLineWaterfront } from "../../../helpers/silver-line";
 import arrowIcon from "../../../../static/images/icon-down-arrow.svg";
 import checkIcon from "../../../../static/images/icon-checkmark.svg";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
@@ -40,6 +41,11 @@ const typicalityDefaultText = (typicality: number): string => {
   if (typicality === 2) return "less common route";
   return "";
 };
+
+const headsignText = (routePattern: EnhancedRoutePattern): string =>
+  isSilverLineWaterfront(routePattern.route_id)
+    ? "Silver Line Waterfront"
+    : routePattern.headsign;
 
 const RoutePatternItem = ({
   routePatternIds,
@@ -80,7 +86,7 @@ const RoutePatternItem = ({
     >
       <div className="m-schedule-direction__menu-item-headsign">
         {icon}
-        {routePattern.headsign}
+        {headsignText(routePattern)}
       </div>
       <div className="m-schedule-direction__menu-item-description">
         {duplicated && `from ${routePattern.name.split(" - ")[0]}, `}
@@ -181,15 +187,6 @@ export const ExpandedBusMenu = ({
   );
 };
 
-const routePatternNameById = (
-  routePatterns: EnhancedRoutePattern[],
-  selectedRoutePatternId: string
-): string =>
-  routePatterns.find(
-    (routePattern: EnhancedRoutePattern) =>
-      routePattern.id === selectedRoutePatternId
-  )!.headsign;
-
 export const BusMenuSelect = ({
   clickableMenu,
   routePatterns,
@@ -207,6 +204,11 @@ export const BusMenuSelect = ({
     ? " m-schedule-direction__route-pattern--clickable"
     : "";
 
+  const selectedRoutePattern = routePatterns.find(
+    (routePattern: EnhancedRoutePattern) =>
+      routePattern.id === selectedRoutePatternId
+  );
+
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
@@ -221,7 +223,7 @@ export const BusMenuSelect = ({
         })
       }
     >
-      {routePatternNameById(routePatterns, selectedRoutePatternId)}{" "}
+      {headsignText(selectedRoutePattern!)}{" "}
       {clickableMenu &&
         renderSvg(
           "c-svg__icon m-schedule-direction__route-pattern-arrow",

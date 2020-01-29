@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BusMenuSelect renders properly for the Silver Line Waterfront 1`] = `
+<div
+  className="m-schedule-direction__route-pattern"
+  onClick={[Function]}
+  onKeyUp={[Function]}
+>
+  Silver Line Waterfront
+   
+</div>
+`;
