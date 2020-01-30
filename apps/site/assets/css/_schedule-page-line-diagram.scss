@@ -175,6 +175,7 @@ $line-width: 8px; // width of the colored line in the diagram
 .m-schedule-diagram__line {
   background-color: currentColor;
   margin: 0 $line-width / 2;
+  position: relative;
   width: $line-width;
 }
 
@@ -218,6 +219,67 @@ $line-width: 8px; // width of the colored line in the diagram
 // the very last stop - line should terminate at the stop
 .m-schedule-diagram > .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines {
   height: $base-spacing * 2;
+}
+
+// live vehicle located along line diagram
+.m-schedule-diagram__vehicle {
+  $icon-size: 18px;
+
+  left: -5px;
+  position: absolute;
+  transform: scale(1, -1);
+
+  .m-schedule-diagram__expander & {
+    // Expanded branches have a wider line
+    left: -3px;
+  }
+
+  &--icon {
+    display: block;
+    height: $icon-size;
+    width: $icon-size;
+  }
+
+  &--in_transit {
+    top: -2.5rem;
+  }
+
+  &--incoming {
+    // Has to be positioned very close to the stop so we don't misleadingly
+    // display it above the merge point, if there is one
+    top: -.25rem;
+  }
+
+  &--stopped {
+    top: 1rem;
+  }
+
+  .m-schedule-diagram__stop--origin &--stopped {
+    // The origin stop is positioned differently from others
+    top: -.5rem;
+  }
+
+  .m-schedule-diagram__stop--terminus:not(.m-schedule-diagram__stop--origin) &--stopped {
+    top: 1.4rem;
+  }
+
+  // Hide vehicles arriving to the origin from "off the line"
+  .m-schedule-diagram__stop--origin &--in_transit,
+  .m-schedule-diagram__stop--origin &--incoming {
+    display: none;
+  }
+
+  // Display vehicles in transit to a merge stop in the same position used for
+  // incoming vehicles, since there's only enough space on the diagram for one
+  // icon at the merge point
+  //
+  // FIXME: This currently also applies to terminus stops even when the branch
+  // leading to them is expanded and there's enough space, because "--merging"
+  // is applied both to expanders before a merge point *and* expanders after a
+  // branch point. Ideally we'd split out these two conditions.
+  .m-schedule-diagram__expander--merging + .m-schedule-diagram__stop &--in_transit {
+    top: -.25rem;
+  }
 }
 
 // <ExpandableBlock /> adjustments

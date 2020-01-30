@@ -61,6 +61,30 @@ test("handle click to expand and enter to collapse", () => {
   expect(wrapper.find(id).prop("aria-expanded")).toEqual(false);
 });
 
+test("calls notifyExpanded when expanded state changes", () => {
+  document.body.innerHTML = body;
+
+  const spy = jest.fn();
+  const id = "#header-accessibility";
+
+  const wrapper = mount(
+    <ExpandableBlock
+      notifyExpanded={spy}
+      initiallyExpanded={false}
+      id="accessibility"
+      header={{ text: "Accessibility", iconSvgText: accessibleIcon }}
+    >
+      <p>This is a test</p>
+    </ExpandableBlock>
+  );
+
+  wrapper.find(id).simulate("click");
+  expect(spy).toHaveBeenCalledWith(true);
+
+  wrapper.find(id).simulate("click");
+  expect(spy).toHaveBeenCalledWith(false);
+});
+
 test("dispatches click when dispatch is provided", () => {
   document.body.innerHTML = body;
   const spy = jest.fn();

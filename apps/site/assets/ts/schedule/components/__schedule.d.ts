@@ -62,6 +62,13 @@ export interface LineDiagramStop {
   alerts: Alert[];
 }
 
+export interface LineDiagramVehicle {
+  id: string;
+  headsign: string | null;
+  status: "in_transit" | "incoming" | "stopped";
+  trip_name: string | null;
+}
+
 interface RouteStopRoute extends Route {
   "custom_route?": boolean;
 }

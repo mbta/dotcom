@@ -39,6 +39,20 @@
           }
         ]
       }
+    ],
+    "vehicles": [
+      {
+        "id": "veh1",
+        "headsign": "Dest1",
+        "status": "incoming",
+        "trip_name": ""
+      },
+      {
+        "id": "veh2",
+        "headsign": null,
+        "status": "in_transit",
+        "trip_name": ""
+      }
     ]
   },
   "line-stop2": {
@@ -61,6 +75,14 @@
             }
           }
         ]
+      }
+    ],
+    "vehicles": [
+      {
+        "id": "veh3",
+        "headsign": "Dest2",
+        "status": "in_transit",
+        "trip_name": ""
       }
     ]
   }

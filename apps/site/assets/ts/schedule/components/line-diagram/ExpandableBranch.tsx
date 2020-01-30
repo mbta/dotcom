@@ -17,7 +17,7 @@ const ExpandableBranch = ({
   color: string;
   willMerge?: boolean;
   liveDataByStop: LiveDataByStop;
-}): ReactElement<HTMLElement> | null => (
+}): ReactElement<HTMLElement> => (
   <div
     className={`m-schedule-diagram__expander ${
       willMerge ? "m-schedule-diagram__expander--merging" : ""
