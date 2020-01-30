@@ -16,6 +16,7 @@ export interface ExpandableBlockHeader {
 interface Props {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   dispatch?: React.Dispatch<any>;
+  notifyExpanded?: (isExpanded: boolean) => void;
   initiallyExpanded: boolean;
   initiallyFocused?: boolean;
   header: ExpandableBlockHeader;
@@ -43,6 +44,7 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
   const {
     header: { text, iconSvgText },
     dispatch,
+    notifyExpanded,
     initiallyExpanded,
     initiallyFocused,
     children,
@@ -73,8 +75,11 @@ const ExpandableBlock = (props: Props): ReactElement<HTMLElement> => {
       }
     : {
         state: hookedState,
-        onClick: () =>
-          toggleExpanded({ expanded: !hookedState.expanded, focused: true })
+        onClick: () => {
+          const expanded = !hookedState.expanded;
+          toggleExpanded({ expanded, focused: true });
+          if (notifyExpanded) notifyExpanded(expanded);
+        }
       };
   const { expanded, focused }: State = state;
   const headerId = `header-${id}`;

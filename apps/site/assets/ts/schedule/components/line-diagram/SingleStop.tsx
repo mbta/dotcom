@@ -10,6 +10,7 @@ import {
 import { Alert, Route } from "../../../__v3api";
 import { LiveData } from "./LineDiagram";
 import StopPredictions from "./StopPredictions";
+import VehicleIcons from "./VehicleIcons";
 
 interface Props {
   stop: LineDiagramStop;
@@ -166,6 +167,7 @@ const SingleStop = ({
     route_stop: routeStop,
     alerts: stopAlerts
   } = stop;
+
   let stopClassNames = "m-schedule-diagram__stop";
   if (isOrigin) {
     stopClassNames += " m-schedule-diagram__stop--origin";
@@ -176,12 +178,25 @@ const SingleStop = ({
   if (stopData.some(sd => sd.type === "terminus")) {
     stopClassNames += " m-schedule-diagram__stop--terminus";
   }
+
+  let vehicleIcons = <></>;
+  if (liveData) {
+    vehicleIcons = (
+      <VehicleIcons
+        routeType={routeStop.route ? routeStop.route.type : null}
+        stopName={routeStop.name}
+        vehicles={liveData.vehicles}
+      />
+    );
+  }
+
   return (
     <div className={stopClassNames}>
       <div style={{ color: `#${color}` }} className="m-schedule-diagram__lines">
         {stopData.some(sd => sd.type === "merge") ? (
           <div className="m-schedule-diagram__line m-schedule-diagram__line--stop">
             {StopGraphic()}
+            {vehicleIcons}
           </div>
         ) : (
           stopData.map((sd, sdIndex) => (
@@ -196,6 +211,8 @@ const SingleStop = ({
                   StopGraphic(isOrigin, sd.type === "terminus")
                 : sd.type !== "line" &&
                   StopGraphic(isOrigin, sd.type === "terminus")}
+
+              {sdIndex + 1 === stopData.length && vehicleIcons}
             </div>
           ))
         )}

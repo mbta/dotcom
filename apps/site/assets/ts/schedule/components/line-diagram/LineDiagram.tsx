@@ -3,6 +3,7 @@ import { useFetch } from "react-async";
 import { useInterval } from "use-interval";
 import {
   LineDiagramStop,
+  LineDiagramVehicle,
   RoutePatternsByDirection,
   SimpleStopMap,
   RouteStop,
@@ -32,6 +33,7 @@ export interface LiveDataByStop {
 
 export interface LiveData {
   headsigns: Headsign[];
+  vehicles: LineDiagramVehicle[];
 }
 
 const getMergeStops = (lineDiagram: LineDiagramStop[]): LineDiagramStop[] =>

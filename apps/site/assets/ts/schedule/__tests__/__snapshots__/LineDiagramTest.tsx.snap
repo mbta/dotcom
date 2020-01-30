@@ -700,6 +700,22 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
             <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
               <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
             </svg>
+            <VehicleIcons routeType={3} stopName=\\"Stop 1\\" vehicles={{...}}>
+              <div className=\\"m-schedule-diagram__vehicle m-schedule-diagram__vehicle--incoming\\">
+                <Component tooltipText=\\"Dest1 bus is arriving at Stop 1\\" tooltipOptions={{...}}>
+                  <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Dest1 bus is arriving at Stop 1\\" title=\\"Dest1 bus is arriving at Stop 1\\">
+                    <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                  </span>
+                </Component>
+              </div>
+              <div className=\\"m-schedule-diagram__vehicle m-schedule-diagram__vehicle--in_transit\\">
+                <Component tooltipText=\\"Bus is on the way to Stop 1\\" tooltipOptions={{...}}>
+                  <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Bus is on the way to Stop 1\\" title=\\"Bus is on the way to Stop 1\\">
+                    <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                  </span>
+                </Component>
+              </div>
+            </VehicleIcons>
           </div>
         </div>
         <div className=\\"m-schedule-diagram__stop-content\\">
@@ -768,6 +784,15 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
             <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
               <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
             </svg>
+            <VehicleIcons routeType={3} stopName=\\"Stop 2\\" vehicles={{...}}>
+              <div className=\\"m-schedule-diagram__vehicle m-schedule-diagram__vehicle--in_transit\\">
+                <Component tooltipText=\\"Dest2 bus is on the way to Stop 2\\" tooltipOptions={{...}}>
+                  <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation=\\"false\\" data-selector=\\"true\\" data-original-title=\\"Dest2 bus is on the way to Stop 2\\" title=\\"Dest2 bus is on the way to Stop 2\\">
+                    <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                  </span>
+                </Component>
+              </div>
+            </VehicleIcons>
           </div>
         </div>
         <div className=\\"m-schedule-diagram__stop-content\\">

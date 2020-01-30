@@ -17,6 +17,7 @@ import orangeLineIconSvg from "../../static/images/icon-orange-line-small.svg";
 import parkingIconSvg from "../../static/images/icon-parking-small.svg";
 import redLineIconSvg from "../../static/images/icon-red-line-small.svg";
 import silverLineIconSvg from "../../static/images/icon-silver-line-small.svg";
+import vehicleArrowSvg from "../../static/images/icon-vehicle-bordered-expanded.svg";
 
 export const accessibleIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, accessibleIconSvg, false);
@@ -69,6 +70,9 @@ export const redLineIcon = (className: string = ""): JSX.Element =>
 export const silverLineIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, silverLineIconSvg, false);
 
+export const vehicleArrowIcon = (className: string = ""): JSX.Element =>
+  renderSvg(className, vehicleArrowSvg, false);
+
 const isSilverRoute = (routeId: string): boolean =>
   routeId === "741" ||
   routeId === "742" ||
@@ -108,8 +112,8 @@ export const caret = (
   );
 };
 
-/* 
-A minimal component that gives its child component 
+/*
+A minimal component that gives its child component
 a basic tooltip containing the specified text. Has no
 visual appearance itself.
 

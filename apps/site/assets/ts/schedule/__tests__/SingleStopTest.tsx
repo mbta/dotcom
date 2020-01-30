@@ -90,6 +90,20 @@ const liveData: LiveData = {
       ],
       train_number: null
     }
+  ],
+  vehicles: [
+    {
+      id: "veh1",
+      headsign: "DestA",
+      status: "stopped",
+      trip_name: ""
+    },
+    {
+      id: "veh2",
+      headsign: null,
+      status: "incoming",
+      trip_name: null
+    }
   ]
 };
 
@@ -120,6 +134,14 @@ const crLiveData: LiveData = {
         }
       ],
       train_number: "504"
+    }
+  ],
+  vehicles: [
+    {
+      id: "veh1",
+      headsign: "DestA",
+      status: "in_transit",
+      trip_name: "404"
     }
   ]
 };
