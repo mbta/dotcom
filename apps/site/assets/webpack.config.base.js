@@ -6,6 +6,20 @@ const webpack = require("webpack");
 const path = require("path");
 const postcssPresetEnv = require("postcss-preset-env");
 
+const babelLoader = {
+  loader: "babel-loader",
+  options: {
+    configFile: "./babel.config.js"
+  }
+};
+
+const tsLoader = {
+  loader: "ts-loader",
+  options: {
+    configFile: "tsconfig.webpack.json"
+  }
+};
+
 module.exports = {
   entry: {
     app: ["./js/app-entry.js"],
@@ -33,22 +47,17 @@ module.exports = {
       {
         test: /\.(ts|tsx)$/,
         exclude: [/node_modules/],
-        use: [
-          { loader: "babel-loader" },
-          {
-            loader: "ts-loader",
-            options: {
-              configFile: "tsconfig.webpack.json"
-            }
-          }
-        ]
+        use: [babelLoader, tsLoader]
       },
       {
         test: /\.(js)$/,
         exclude: [/node_modules/, path.resolve(__dirname, "ts/")],
-        use: {
-          loader: "babel-loader"
-        }
+        use: babelLoader
+      },
+      {
+        // https://docs.react-async.com/getting-started/installation#transpiling-for-legacy-browsers
+        test: /\/node_modules\/react-async\//,
+        use: [babelLoader, tsLoader]
       },
       {
         test: /\.svg$/,
