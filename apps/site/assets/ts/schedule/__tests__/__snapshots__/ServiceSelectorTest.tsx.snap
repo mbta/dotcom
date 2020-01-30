@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ServiceSelector it renders 1`] = `
+exports[`ServiceSelector renders 1`] = `
 Array [
   <h3>
     Daily Schedule
@@ -71,6 +71,12 @@ Array [
           >
             Storm service, 
             July 15
+          </option>
+          <option
+            value="BUS319-storm-1"
+          >
+            Storm service, 
+            July 22 to July 23
           </option>
         </optgroup>
       </select>

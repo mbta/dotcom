@@ -103,11 +103,27 @@ const services: ServiceInSelector[] = [
     added_dates_notes: {},
     added_dates: [],
     "default_service?": false
+  },
+  {
+    valid_days: [1, 2, 3, 4, 5],
+    typicality: "unplanned_disruption",
+    type: "weekday",
+    start_date: "2019-07-22",
+    service_date: "2019-07-09",
+    removed_dates_notes: {},
+    removed_dates: [],
+    name: "Weekday",
+    id: "BUS319-storm-1",
+    end_date: "2019-07-23",
+    description: "Storm (reduced service)",
+    added_dates_notes: {},
+    added_dates: [],
+    "default_service?": false
   }
 ];
 
 describe("ServiceSelector", () => {
-  it("it renders", () => {
+  it("renders", () => {
     createReactRoot();
     const tree = renderer.create(
       <ServiceSelector
