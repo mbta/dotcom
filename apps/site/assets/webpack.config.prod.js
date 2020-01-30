@@ -24,11 +24,11 @@ module.exports = env =>
           // Since all entrypoints are dependent on the app entrypoint
           vendor: {
             name: "vendors",
-            test: /[\\/]node_modules[\\/](?!react*)/
+            test: /[\\/]node_modules[\\/](?!react)/
           },
           react: {
             name: "react",
-            test: /[\\/]node_modules[\\/](react*)/
+            test: /[\\/]node_modules[\\/]react/
           }
         }
       }
