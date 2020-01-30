@@ -45,6 +45,9 @@ export const groupByType = (
   return { ...acc, [currentServiceType]: updatedGroup };
 };
 
+const startToEnd = (startDateObject: Date, endDateObject: Date): string =>
+  `${formattedDate(startDateObject)} to ${formattedDate(endDateObject)}`;
+
 export const groupServiceByDate = (
   service: ServiceWithServiceDate,
   ratingEndDate: string
@@ -81,10 +84,15 @@ export const groupServiceByDate = (
         ? "current"
         : "future";
 
+    const stormServicePeriod =
+      startDate === endDate
+        ? formattedDate(startDateObject)
+        : startToEnd(startDateObject, endDateObject);
+
     return [
       {
         type,
-        servicePeriod: formattedDate(new Date(startDateObject)),
+        servicePeriod: stormServicePeriod,
         service
       }
     ];
@@ -133,7 +141,7 @@ export const serviceDate = (
       return `starts ${formattedDate(startDateObject)}`;
     }
   }
-  return `${formattedDate(startDateObject)} to ${formattedDate(endDateObject)}`;
+  return startToEnd(startDateObject, endDateObject);
 };
 
 type MonthInteger = number | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
