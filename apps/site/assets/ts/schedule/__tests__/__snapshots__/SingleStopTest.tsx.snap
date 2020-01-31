@@ -5,8 +5,8 @@ exports[`SingleStop renders and matches snapshot 1`] = `
   <div className=\\"m-schedule-diagram__stop\\">
     <div style={{...}} className=\\"m-schedule-diagram__lines\\">
       <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-        <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
-          <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+        <svg viewBox=\\"0 10 10 10\\" preserveAspectRatio=\\"xMidYMin slice\\" width=\\"100%\\" height=\\"10px\\" className=\\"m-schedule-diagram__line-stop\\">
+          <circle r=\\"4\\" cx=\\"50%\\" cy=\\"32px\\" />
         </svg>
       </div>
     </div>
@@ -41,8 +41,8 @@ exports[`SingleStop renders with Commuter Rail live data 1`] = `
   <div className=\\"m-schedule-diagram__stop\\">
     <div style={{...}} className=\\"m-schedule-diagram__lines\\">
       <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-        <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
-          <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+        <svg viewBox=\\"0 10 10 10\\" preserveAspectRatio=\\"xMidYMin slice\\" width=\\"100%\\" height=\\"10px\\" className=\\"m-schedule-diagram__line-stop\\">
+          <circle r=\\"4\\" cx=\\"50%\\" cy=\\"32px\\" />
         </svg>
         <VehicleIcons routeType={2} stopName=\\"Example Stop\\" vehicles={{...}}>
           <div className=\\"m-schedule-diagram__vehicle m-schedule-diagram__vehicle--in_transit\\">
@@ -117,8 +117,8 @@ exports[`SingleStop renders with live data 1`] = `
   <div className=\\"m-schedule-diagram__stop\\">
     <div style={{...}} className=\\"m-schedule-diagram__lines\\">
       <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
-        <svg viewBox=\\"0 10 10 10\\" className=\\"m-schedule-diagram__line-stop\\">
-          <circle r=\\"4\\" cx=\\"50%\\" cy=\\"-32px\\" />
+        <svg viewBox=\\"0 10 10 10\\" preserveAspectRatio=\\"xMidYMin slice\\" width=\\"100%\\" height=\\"10px\\" className=\\"m-schedule-diagram__line-stop\\">
+          <circle r=\\"4\\" cx=\\"50%\\" cy=\\"32px\\" />
         </svg>
         <VehicleIcons routeType={{...}} stopName=\\"Example Stop\\" vehicles={{...}}>
           <div className=\\"m-schedule-diagram__vehicle m-schedule-diagram__vehicle--stopped\\">

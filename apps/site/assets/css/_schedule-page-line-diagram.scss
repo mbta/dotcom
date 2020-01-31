@@ -188,7 +188,6 @@ $line-width: 8px; // width of the colored line in the diagram
     fill: $white;
     stroke: currentColor;
     stroke-width: 0;
-    transform-origin: 50%;
   }
 }
 
@@ -197,18 +196,9 @@ $line-width: 8px; // width of the colored line in the diagram
   stroke-width: 1.15px;
 }
 
-.m-schedule-diagram__line--stop {
-  @include circleposition(60px);
-}
-
 // the very first stop - line should begin at the stop
 .m-schedule-diagram > .m-schedule-diagram__stop:first-child .m-schedule-diagram__lines {
   margin-top: $base-spacing;
-}
-
-// any first stop (includes branches)
-.m-schedule-diagram__stop:first-child .m-schedule-diagram__line--terminus {
-  @include circleposition(65px);
 }
 
 // any last stop (includes branches)
@@ -421,8 +411,6 @@ $line-width: 8px; // width of the colored line in the diagram
 
   // first stop on branch
   .m-schedule-diagram__line + .m-schedule-diagram__line--terminus {
-    @include circleposition(65px);
-
     margin-top: $base-spacing * 2;
   }
 

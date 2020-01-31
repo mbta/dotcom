@@ -237,11 +237,14 @@ exports[`renders with a static map 1`] = `
             >
               <svg
                 className="m-schedule-diagram__line-stop"
+                height="10px"
+                preserveAspectRatio="xMidYMin slice"
                 viewBox="0 10 10 10"
+                width="100%"
               >
                 <circle
                   cx="50%"
-                  cy="-66px"
+                  cy="-3px"
                   r="5"
                 />
               </svg>
@@ -329,11 +332,14 @@ exports[`renders with a static map 1`] = `
             >
               <svg
                 className="m-schedule-diagram__line-stop"
+                height="10px"
+                preserveAspectRatio="xMidYMin slice"
                 viewBox="0 10 10 10"
+                width="100%"
               >
                 <circle
                   cx="50%"
-                  cy="-32px"
+                  cy="32px"
                   r="4"
                 />
               </svg>
@@ -421,11 +427,14 @@ exports[`renders with a static map 1`] = `
             >
               <svg
                 className="m-schedule-diagram__line-stop"
+                height="10px"
+                preserveAspectRatio="xMidYMin slice"
                 viewBox="0 10 10 10"
+                width="100%"
               >
                 <circle
                   cx="50%"
-                  cy="-32px"
+                  cy="32px"
                   r="4"
                 />
               </svg>
@@ -650,7 +659,10 @@ exports[`renders with a static map 1`] = `
             >
               <svg
                 className="m-schedule-diagram__line-stop"
+                height="10px"
+                preserveAspectRatio="xMidYMin slice"
                 viewBox="0 10 10 10"
+                width="100%"
               >
                 <circle
                   cx="50%"
