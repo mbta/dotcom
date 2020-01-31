@@ -212,7 +212,12 @@ const LineDiagram = ({
 
               // is an array of 1-2 stops; show as expanded
               return (
-                <div className="m-schedule-diagram__expanded">
+                <div
+                  key={`${stopOrStops[0].route_stop.id}-${
+                    stopOrStops.length
+                  }-stops`}
+                  className="m-schedule-diagram__expanded"
+                >
                   {stopOrStops.map((stop, stopIdx) => (
                     <SingleStop
                       key={stop.route_stop.id}

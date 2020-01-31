@@ -36,8 +36,8 @@ const ExpandableBranch = ({
               style={{ color: `#${color}` }}
             >
               <>
-                {times(branchData[0].stop_data.length - 1, () => (
-                  <div className="m-schedule-diagram__line" />
+                {times(branchData[0].stop_data.length - 1, index => (
+                  <div key={index} className="m-schedule-diagram__line" />
                 ))}
                 <div className="m-schedule-diagram__line m-schedule-diagram__line--collapsed">
                   <div className="m-schedule-diagram__collapsed-icon">
