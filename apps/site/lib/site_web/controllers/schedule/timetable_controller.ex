@@ -22,6 +22,11 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     as: :assign_direction_id
 
   def show(conn, _) do
+    direction_id = conn.assigns[:direction_id]
+    direction_name = conn.assigns.route.direction_names[direction_id]
+
+    {:ok, formatted_date} = Timex.format(conn.assigns.date, "{Mfull} {D}, {YYYY}")
+
     conn
     |> assign(
       :meta_description,
@@ -29,6 +34,8 @@ defmodule SiteWeb.ScheduleController.TimetableController do
         "schedules, including timetables, maps, fares, real-time updates, parking and accessibility information, " <>
         "and connections."
     )
+    |> assign(:direction_name, direction_name)
+    |> assign(:formatted_date, formatted_date)
     |> put_view(ScheduleView)
     |> render("show.html", [])
   end
