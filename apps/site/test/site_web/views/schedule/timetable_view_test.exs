@@ -63,7 +63,9 @@ defmodule SiteWeb.Schedule.TimetableViewTest do
         vehicle_locations: vehicle_locations,
         trip_messages: trip_messages,
         trip_schedules: trip_schedules,
-        date_time: ~N[2017-03-01T07:29:00]
+        date_time: ~N[2017-03-01T07:29:00],
+        direction_name: "Southeastbound",
+        formatted_date: "March 1, 2017"
       ]
 
       {:ok, %{assigns: assigns}}
