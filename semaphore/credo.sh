@@ -14,7 +14,7 @@ else
   # Since Credo doesn't support running checks only on specified files via the
   # command line, we create a temporary copy of the config file whose `included`
   # contains only the files that have changed.
-  replace=$(join_by \",\" "$changed")
+  replace=$(join_by \",\" $changed)
   sed -e "s:apps/:$replace:" < config/.credo.exs > /tmp/.credo.exs
   mix credo --config-file /tmp/.credo.exs
 fi
