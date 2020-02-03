@@ -40,7 +40,8 @@ defmodule Holiday.Mixfile do
   defp deps do
     [
       {:timex, ">= 0.0.0"},
-      {:excoveralls, "~> 0.5", only: :test}
+      {:excoveralls, "~> 0.5", only: :test},
+      {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
   end
 end

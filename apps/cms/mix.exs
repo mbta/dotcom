@@ -68,7 +68,8 @@ defmodule CMS.Mixfile do
       {:mock, "~> 0.3.3", only: :test},
       {:phoenix_html, "~> 2.6"},
       {:repo_cache, in_umbrella: true},
-      {:util, in_umbrella: true}
+      {:util, in_umbrella: true},
+      {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
   end
 end

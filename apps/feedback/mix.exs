@@ -42,7 +42,8 @@ defmodule Feedback.Mixfile do
       {:plug, "~> 1.7.2"},
       {:ex_aws, "~> 2.1.2"},
       {:ex_aws_ses, "~> 2.1.1"},
-      {:mail, "~> 0.2"}
+      {:mail, "~> 0.2"},
+      {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
   end
 end
