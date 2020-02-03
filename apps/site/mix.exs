@@ -133,7 +133,8 @@ defmodule Site.Mixfile do
       {:trip_plan, in_umbrella: true},
       {:services, in_umbrella: true},
       {:route_patterns, in_umbrella: true},
-      {:repo_cache, in_umbrella: true}
+      {:repo_cache, in_umbrella: true},
+      {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
   end
 end

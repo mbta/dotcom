@@ -28,7 +28,8 @@ defmodule Services.MixProject do
     [
       {:repo_cache, in_umbrella: true},
       {:v3_api, in_umbrella: true},
-      {:excoveralls, "~> 0.5", only: :test}
+      {:excoveralls, "~> 0.5", only: :test},
+      {:exvcr_helpers, in_umbrella: true, only: :test}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
       # {:sibling_app_in_umbrella, in_umbrella: true}

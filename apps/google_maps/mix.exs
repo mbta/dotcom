@@ -43,7 +43,8 @@ defmodule GoogleMaps.Mixfile do
   defp deps do
     [
       {:stops, in_umbrella: true},
-      {:bypass, "~> 1.0", only: :test}
+      {:bypass, "~> 1.0", only: :test},
+      {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
   end
 end

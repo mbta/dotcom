@@ -3,6 +3,7 @@ defmodule SiteWeb.FareControllerTest do
   import SiteWeb.FareController
   alias Fares.Fare
   alias SiteWeb.FareController.Filter
+  use ExVCRHelpers
 
   describe "show" do
     test "renders commuter rail", %{conn: conn} do
@@ -26,7 +27,7 @@ defmodule SiteWeb.FareControllerTest do
       assert response =~ "Logan"
     end
 
-    test "does not render georges island ferry due to summer-only service", %{conn: conn} do
+    test_vcr "renders Georges Island ferry when present in the data", %{conn: conn} do
       conn =
         get(
           conn,
@@ -35,9 +36,9 @@ defmodule SiteWeb.FareControllerTest do
 
       response = html_response(conn, 200)
 
-      refute response =~ "Georges Island Fare"
-      refute response =~ "Child under 3"
-      refute response =~ "Family 4-pack"
+      assert response =~ "Georges Island Fare"
+      assert response =~ "Child under 3"
+      assert response =~ "Family 4-pack"
     end
 
     test "renders ferry when no destinations", %{conn: conn} do

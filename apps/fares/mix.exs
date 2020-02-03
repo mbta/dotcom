@@ -46,7 +46,8 @@ defmodule Fares.Mixfile do
       {:stops, in_umbrella: true},
       {:schedules, in_umbrella: true},
       {:google_maps, in_umbrella: true},
-      {:rstar, github: "armon/erl-rstar"}
+      {:rstar, github: "armon/erl-rstar"},
+      {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
   end
 end

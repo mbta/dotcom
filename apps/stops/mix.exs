@@ -46,7 +46,8 @@ defmodule Stops.Mixfile do
       {:bypass, "~> 1.0", only: :test},
       {:csv, "~> 2.3"},
       {:util, in_umbrella: true},
-      {:zones, in_umbrella: true}
+      {:zones, in_umbrella: true},
+      {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
   end
 end

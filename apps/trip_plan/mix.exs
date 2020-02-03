@@ -47,7 +47,8 @@ defmodule TripPlan.Mixfile do
       {:google_maps, in_umbrella: true},
       {:excoveralls, "~> 0.5", only: :test},
       {:bypass, "~> 1.0", only: :test},
-      {:mock, "~> 0.3.3", only: :test}
+      {:mock, "~> 0.3.3", only: :test},
+      {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
   end
 end
