@@ -26,7 +26,7 @@ config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE
 
 config :laboratory,
   features: [
-    {:schedule_direction_redesign, "Schedule direction_redesign", ""}
+    {:old_line_diagram, "Go back to the old line diagram", ""}
   ],
   cookie: [
     # one month,
