@@ -142,17 +142,22 @@ const StopBranchLabel = (stop: RouteStop): JSX.Element | null =>
     </div>
   ) : null;
 
-const StopGraphic = (isOrigin = false, isTerminus = false): JSX.Element => {
-  let yPosition = "-32px";
-  if (isTerminus) {
-    yPosition = isOrigin ? "-66px" : "32px";
-  }
-  return (
-    <svg viewBox="0 10 10 10" className="m-schedule-diagram__line-stop">
-      <circle r={`${isTerminus ? "5" : "4"}`} cx="50%" cy={yPosition} />
-    </svg>
-  );
-};
+const StopGraphic = (isOrigin = false, isTerminus = false): JSX.Element => (
+  <svg
+    viewBox="0 10 10 10"
+    preserveAspectRatio="xMidYMin slice"
+    width="100%"
+    height="10px"
+    className="m-schedule-diagram__line-stop"
+  >
+    {/* hardcoded cy position will be shown in IE, otherwise overwritten by CSS */}
+    <circle
+      r={isTerminus ? "5" : "4"}
+      cx="50%"
+      cy={isOrigin && isTerminus ? "-3px" : "32px"}
+    />
+  </svg>
+);
 
 const SingleStop = ({
   stop,

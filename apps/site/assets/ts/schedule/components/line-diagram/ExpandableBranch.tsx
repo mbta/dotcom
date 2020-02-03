@@ -43,6 +43,9 @@ const ExpandableBranch = ({
                   <div className="m-schedule-diagram__collapsed-icon">
                     <svg
                       viewBox="0 0 10 30"
+                      preserveAspectRatio="xMidYMin slice"
+                      width="100%"
+                      height="30px"
                       className="m-schedule-diagram__line-stop"
                     >
                       <circle r="4" cy="10" cx="50%" />
