@@ -160,6 +160,13 @@ defmodule SiteWeb.AlertViewTest do
       assert expected == actual
     end
 
+    test "adds https:// to the URL if it's mbta.com" do
+      expected = raw(~s(<a target="_blank" href="https://mbta.com/GLwork">mbta.com/GLwork</a>))
+      actual = replace_urls_with_links("mbta.com/GLwork")
+
+      assert expected == actual
+    end
+
     test "does not link short TLDs" do
       expected = raw("a.m.")
       actual = replace_urls_with_links("a.m.")

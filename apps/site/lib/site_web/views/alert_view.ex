@@ -1,4 +1,5 @@
 defmodule SiteWeb.AlertView do
+  @moduledoc "Helper functions related to displaying Alerts on the web site."
   use SiteWeb, :view
   alias Alerts.{Alert, InformedEntity, InformedEntitySet}
   alias Routes.Route
@@ -206,6 +207,8 @@ defmodule SiteWeb.AlertView do
 
   defp ensure_scheme("http://" <> _ = url), do: url
   defp ensure_scheme("https://" <> _ = url), do: url
+  defp ensure_scheme("mbta.com" <> _ = url), do: "https://" <> url
+  defp ensure_scheme("MBTA.com" <> _ = url), do: "https://" <> url
   defp ensure_scheme(url), do: "http://" <> url
 
   @spec group_header_path(Route.t() | Stop.t()) :: String.t()
