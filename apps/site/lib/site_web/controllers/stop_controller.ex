@@ -269,6 +269,11 @@ defmodule SiteWeb.StopController do
       end)
     )
     |> Enum.map(
+      &Map.update!(&1, :header, fn header ->
+        HTML.safe_to_string(AlertView.replace_urls_with_links(header))
+      end)
+    )
+    |> Enum.map(
       &Map.update!(&1, :description, fn desc ->
         HTML.safe_to_string(AlertView.format_alert_description(desc))
       end)

@@ -165,7 +165,8 @@ const Alert = ({ alert }: { alert: AlertType }): ReactElement<HTMLElement> => {
             {`${effectNameForAlert(alert)} `}
             {humanLabelForAlert(alert) ? alertLabel(alert) : null}
           </div>
-          {alert.header}
+          {/* eslint-disable-next-line react/no-danger */}
+          <div dangerouslySetInnerHTML={{ __html: alert.header }} />
         </div>
         <div className="c-alert-item__top-caret-container">
           {caretIcon(alert.description === "", expanded)}
