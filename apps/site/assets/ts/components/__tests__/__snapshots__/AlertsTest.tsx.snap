@@ -45,7 +45,13 @@ exports[`it renders 1`] = `
                 >
                   Detour 
                 </div>
-                Route 170 will be rerouted at certain times during the Marathon on Monday, April 15.
+                <div
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "Route 170 will be rerouted at certain times during the Marathon on Monday, April 15. More: <a href=\\"https://mbta.com/marathon\\">mbta.com/marathon</a>",
+                    }
+                  }
+                />
               </div>
               <div
                 className="c-alert-item__top-caret-container"
@@ -123,7 +129,13 @@ exports[`it renders 1`] = `
                     Upcoming
                   </span>
                 </div>
-                There is construction at this station.
+                <div
+                  dangerouslySetInnerHTML={
+                    Object {
+                      "__html": "There is construction at this station.",
+                    }
+                  }
+                />
               </div>
               <div
                 className="c-alert-item__top-caret-container"
