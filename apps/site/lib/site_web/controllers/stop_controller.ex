@@ -256,28 +256,16 @@ defmodule SiteWeb.StopController do
 
   @spec json_safe_alerts([Alert.t()], DateTime.t()) :: [map]
   def json_safe_alerts(alerts, date) do
-    alerts
-    |> Enum.map(&Map.from_struct/1)
-    |> Enum.map(
-      &Map.update!(&1, :active_period, fn active ->
-        Enum.map(active, fn periods -> active_period_to_string(periods) end)
+    Enum.map(alerts, fn alert ->
+      alert
+      |> Map.from_struct()
+      |> Map.update!(:active_period, fn active_periods ->
+        Enum.map(active_periods, &active_period_to_string(&1))
       end)
-    )
-    |> Enum.map(
-      &Map.update!(&1, :updated_at, fn updated ->
-        IO.iodata_to_binary(AlertView.alert_updated(updated, date))
-      end)
-    )
-    |> Enum.map(
-      &Map.update!(&1, :header, fn header ->
-        HTML.safe_to_string(AlertView.replace_urls_with_links(header))
-      end)
-    )
-    |> Enum.map(
-      &Map.update!(&1, :description, fn desc ->
-        HTML.safe_to_string(AlertView.format_alert_description(desc))
-      end)
-    )
+      |> Map.update!(:updated_at, &IO.iodata_to_binary(AlertView.alert_updated(&1, date)))
+      |> Map.update!(:header, &HTML.safe_to_string(AlertView.replace_urls_with_links(&1)))
+      |> Map.update!(:description, &HTML.safe_to_string(AlertView.format_alert_description(&1)))
+    end)
   end
 
   def active_period_to_string({first, last}) do
