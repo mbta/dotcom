@@ -154,7 +154,7 @@ const StopGraphic = (isOrigin = false, isTerminus = false): JSX.Element => (
     <circle
       r={isTerminus ? "5" : "4"}
       cx="50%"
-      cy={isOrigin && isTerminus ? "-3px" : "32px"}
+      cy={isOrigin && isTerminus ? "3px" : "32px"}
     />
   </svg>
 );
