@@ -23,12 +23,13 @@ $line-width: 8px; // width of the colored line in the diagram
     left: $line-width;
     position: absolute;
     right: $line-width / 2;
-    top: $top;
 
     @if $top == 100% {
       border-bottom-right-radius: $line-width;
+      top: calc(#{$top} - #{$base-spacing});
     } @else {
       border-top-right-radius: $line-width;
+      top: $top;
     }
   }
 }
@@ -309,7 +310,7 @@ $line-width: 8px; // width of the colored line in the diagram
     }
 
     .m-schedule-diagram__lines--collapsed {
-      margin: initial;
+      padding-bottom: $base-spacing;
     }
   }
 
@@ -317,7 +318,7 @@ $line-width: 8px; // width of the colored line in the diagram
   .m-schedule-diagram__collapsed-icon {
     background-color: inherit;
     border-radius: $base-spacing;
-    margin: 6px -4px 0;
+    margin: $base-spacing -4px 0;
     padding: $line-width / 2;
   }
 
@@ -406,6 +407,10 @@ $line-width: 8px; // width of the colored line in the diagram
   .m-schedule-diagram__expander--merging .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines,
   .m-schedule-diagram__expanded .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines {
     @include linebend(100%);
+  }
+
+  .m-schedule-diagram__expander--merging .m-schedule-diagram__stop:last-child .m-schedule-diagram__line:not(:first-child) {
+    margin-bottom: $base-spacing;
   }
   // scss-lint:enable SelectorDepth
 

@@ -244,7 +244,7 @@ exports[`renders with a static map 1`] = `
               >
                 <circle
                   cx="50%"
-                  cy="-3px"
+                  cy="3px"
                   r="5"
                 />
               </svg>
