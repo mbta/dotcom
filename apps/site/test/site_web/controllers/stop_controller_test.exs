@@ -202,10 +202,10 @@ defmodule SiteWeb.StopControllerTest do
                %{
                  active_period: [["2019-6-20 8:45", "2019-6-21 2:30"]],
                  description:
-                   "When the Red Sox play evening games at Fenway, trains will run until 10:30 PM to accommodate increased ridership.<br />\r<br /><strong>Regular D Branch Service will operate on:</strong><br />Patriots Day - April 15<br />Memorial Day - May 27<br />\r<br /><strong>This project is part of the MBTA initiative to bring the Green Line track and signal systems into a state of good repair. Learn more:</strong><br /><a target=\"_blank\" href=\"http://MBTA.com/GreenLineD\">MBTA.com/GreenLineD</a><br />\r<br /><strong>Affected stops:</strong><br />Newton Highlands<br />Eliot<br />Waban<br />Woodland<br />Riverside",
+                   "When the Red Sox play evening games at Fenway, trains will run until 10:30 PM to accommodate increased ridership.<br />\r<br /><strong>Regular D Branch Service will operate on:</strong><br />Patriots Day - April 15<br />Memorial Day - May 27<br />\r<br /><strong>This project is part of the MBTA initiative to bring the Green Line track and signal systems into a state of good repair. Learn more:</strong><br /><a target=\"_blank\" href=\"https://MBTA.com/GreenLineD\">MBTA.com/GreenLineD</a><br />\r<br /><strong>Affected stops:</strong><br />Newton Highlands<br />Eliot<br />Waban<br />Woodland<br />Riverside",
                  effect: :shuttle,
                  header:
-                   "Shuttle buses replace Green Line D train service between Riverside and Newton Highlands at about 8:45 PM to end of service on weeknights through July 3. Regular service will operate on Patriot's Day, April 15. More: <a target=\"_blank\" href=\"http://mbta.com/GLwork\">mbta.com/GLwork</a>",
+                   "Shuttle buses replace Green Line D train service between Riverside and Newton Highlands at about 8:45 PM to end of service on weeknights through July 3. Regular service will operate on Patriot's Day, April 15. More: <a target=\"_blank\" href=\"https://mbta.com/GLwork\">mbta.com/GLwork</a>",
                  id: "303815",
                  informed_entity: %Alerts.InformedEntitySet{
                    activities: [:board, :exit, :ride],
