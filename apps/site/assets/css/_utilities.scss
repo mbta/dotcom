@@ -174,3 +174,7 @@
 .u-side-scroll {
   @include side-scroll(md);
 }
+
+.u-highlight {
+  background-color: $brand-primary-lightest-contrast;
+}

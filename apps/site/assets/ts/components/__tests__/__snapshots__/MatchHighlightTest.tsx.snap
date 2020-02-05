@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MatchHighlight highlights only the first match if there are multiple matches 1`] = `"<span>As part of our $8 billion, 5-year capital investment plan, we're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, <b class=\\"u-highlight\\">and</b> ferries, and improving the accessibility of the entire system.</span>"`;
+
+exports[`MatchHighlight renders with a match 1`] = `"<span>As part of our $8 billion, 5-year <b class=\\"u-highlight\\">capital</b> investment plan, we're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system.</span>"`;
+
+exports[`MatchHighlight renders without a match 1`] = `"<span>As part of our $8 billion, 5-year capital investment plan, we're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system.</span>"`;

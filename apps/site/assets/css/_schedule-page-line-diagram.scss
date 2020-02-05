@@ -431,3 +431,18 @@ $line-width: 8px; // width of the colored line in the diagram
   }
   // scss-lint:enable SelectorDepth
 }
+
+// stop filter
+.m-schedule-diagram__filter {
+  margin-bottom: $base-spacing;
+
+  &:focus-within {
+    border-color: $brand-primary-light;
+  }
+}
+
+.m-schedule-diagram--searched {
+  .m-schedule-diagram__lines {
+    display: none;
+  }
+}

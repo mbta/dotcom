@@ -11,6 +11,7 @@ import { Alert, Route } from "../../../__v3api";
 import { LiveData } from "./LineDiagram";
 import StopPredictions from "./StopPredictions";
 import VehicleIcons from "./VehicleIcons";
+import MatchHighlight from "../../../components/MatchHighlight";
 
 interface Props {
   stop: LineDiagramStop;
@@ -19,6 +20,7 @@ interface Props {
   isOrigin?: boolean;
   isDestination?: boolean;
   liveData?: LiveData;
+  searchQuery?: string;
 }
 
 const filteredConnections = (
@@ -165,7 +167,8 @@ const SingleStop = ({
   color,
   isOrigin,
   isDestination,
-  liveData
+  liveData,
+  searchQuery
 }: Props): ReactElement<HTMLElement> | null => {
   const {
     stop_data: stopData,
@@ -229,7 +232,11 @@ const SingleStop = ({
           <div className="m-schedule-diagram__stop-name">
             <a href={`/stops/${routeStop.id}`}>
               <h4>
-                {MaybeAlert(stopAlerts)} {routeStop.name}{" "}
+                {MaybeAlert(stopAlerts)}
+                <MatchHighlight
+                  text={routeStop.name}
+                  matchQuery={searchQuery}
+                />
               </h4>
             </a>
           </div>
