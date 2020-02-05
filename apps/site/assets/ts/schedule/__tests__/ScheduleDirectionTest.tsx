@@ -10,7 +10,8 @@ import {
   MenuAction as Action
 } from "../components/direction/reducer";
 import ScheduleDirection, {
-  fetchMapData
+  fetchMapData,
+  fetchLineData
 } from "../components/ScheduleDirection";
 import { EnhancedRoute } from "../../__v3api";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
@@ -388,6 +389,63 @@ describe("fetchMapData", () => {
     return fetchMapData("1", 0, "2", spy).then(() => {
       expect(window.fetch).toHaveBeenCalledWith(
         "/schedules/map_api?id=1&direction_id=0&variant=2"
+      );
+      expect(spy).toHaveBeenCalledWith({
+        type: "FETCH_STARTED"
+      });
+      expect(spy).toHaveBeenCalledWith({
+        type: "FETCH_ERROR"
+      });
+    });
+  });
+});
+
+describe("fetchLineData", () => {
+  it("fetches data", () => {
+    const spy = jest.fn();
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => lineDiagramData,
+            ok: true,
+            status: 200,
+            statusText: "OK"
+          })
+        )
+    );
+
+    return fetchLineData("Orange", 1, "1", spy).then(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        "/schedules/line_api?id=Orange&direction_id=1&variant=1"
+      );
+      expect(spy).toHaveBeenCalledWith({
+        type: "FETCH_STARTED"
+      });
+      expect(spy).toHaveBeenCalledWith({
+        type: "FETCH_COMPLETE",
+        payload: lineDiagramData
+      });
+    });
+  });
+
+  it("fails gracefully if fetch is unsuccessful", () => {
+    const spy = jest.fn();
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => "Internal Server Error",
+            ok: false,
+            status: 500,
+            statusText: "INTERNAL SERVER ERROR"
+          })
+        )
+    );
+
+    return fetchLineData("Red", 0, "1", spy).then(() => {
+      expect(window.fetch).toHaveBeenCalledWith(
+        "/schedules/line_api?id=Red&direction_id=0&variant=1"
       );
       expect(spy).toHaveBeenCalledWith({
         type: "FETCH_STARTED"
