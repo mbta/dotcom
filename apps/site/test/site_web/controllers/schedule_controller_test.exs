@@ -403,6 +403,38 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert conn.assigns.active_shape.id == default_shape_id
     end
 
+    test "sets schedule link to current direction for last stop and opposite for all other stops on non-bus lines",
+         %{conn: conn} do
+      response =
+        conn
+        |> get(line_path(conn, :show, "CR-Fitchburg", direction_id: 0))
+        |> html_response(200)
+
+      [last_stop | others] =
+        response
+        |> Floki.find(".schedule-link")
+        |> Enum.reverse()
+
+      assert last_stop |> Floki.attribute("href") |> List.first() =~ "direction_id=1"
+      refute others |> List.last() |> Floki.attribute("href") |> List.first() =~ "direction_id=1"
+
+      Enum.each(
+        others,
+        &assert(&1 |> Floki.attribute("href") |> List.first() =~ "direction_id=0")
+      )
+    end
+
+    test "does not show a checkmark next to any stops", %{conn: conn} do
+      response =
+        conn
+        |> get(line_path(conn, :show, "Red"))
+        |> html_response(200)
+
+      stops = Floki.find(response, ".route-branch-stop-list")
+      refute Enum.empty?(stops)
+      assert Floki.find(stops, ".fa-check") == []
+    end
+
     test "assigned :paragraphs key is available to shuttles template", %{conn: conn} do
       conn = get(conn, shuttles_path(conn, :show, "Red"))
 

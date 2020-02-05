@@ -103,10 +103,15 @@ defmodule SiteWeb.ScheduleController.GreenTest do
   test "line tab :all_stops is a list of {bubble_info, %RouteStops{}} for all stops on all branches",
        %{conn: conn} do
     conn = get(conn, green_path(conn, :line, %{direction_id: 0}))
-    assert [{_, %{id: "place-lech"}} | all_stops] = conn.assigns.all_stops
+    assert [{bubble_types, stop} | all_stops] = conn.assigns.all_stops
+    assert stop.id == "place-lech"
 
-    fenway = Enum.find(all_stops, fn {_, stop} -> stop.id == "place-fenwy" end)
-    assert elem(fenway, 0) == [{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :stop}]
+    assert bubble_types == [
+             {"Green-B", :empty},
+             {"Green-C", :empty},
+             {"Green-D", :empty},
+             {"Green-E", :terminus}
+           ]
 
     all_stops = Enum.map(all_stops, fn {_, stop} -> stop.id end)
     assert "place-lake" in all_stops
