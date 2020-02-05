@@ -5,6 +5,17 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
   <h3 className=\\"m-schedule-diagram__heading\\">
     Stations
   </h3>
+  <SearchBox id=\\"stop-search\\" labelText=\\"Search for a station\\" onChange={[Function: bound dispatchAction]} className=\\"m-schedule-diagram__filter\\">
+    <div className=\\"m-schedule-diagram__filter c-form__input-container\\">
+      <label htmlFor=\\"stop-search\\" className=\\"sr-only\\">
+        Search for a station
+      </label>
+      <input className=\\"c-form__input\\" id=\\"stop-search\\" type=\\"text\\" onChange={[Function: onChange]} value=\\"\\" placeholder=\\"Search for a station\\" />
+      <button className=\\"c-form__submit-btn\\" aria-label=\\"search\\" type=\\"button\\" onClick={[Function: onClick]}>
+        <span className=\\"notranslate c-svg__icon-search-reverse-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      </button>
+    </div>
+  </SearchBox>
   <div className=\\"m-schedule-diagram m-schedule-diagram--inward\\">
     <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
@@ -24,9 +35,11 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-destination\\">
                 <h4>
-                   
-                  Destination
-                   
+                  <MatchHighlight text=\\"Destination\\" matchQuery={[undefined]}>
+                    <span>
+                      Destination
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -97,9 +110,11 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-twig-destination\\">
                 <h4>
-                   
-                  Twig Destination
-                   
+                  <MatchHighlight text=\\"Twig Destination\\" matchQuery={[undefined]}>
+                    <span>
+                      Twig Destination
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -132,9 +147,11 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
               <div className=\\"m-schedule-diagram__stop-name\\">
                 <a href=\\"/stops/tree-twig-stop\\">
                   <h4>
-                     
-                    Twig Stop
-                     
+                    <MatchHighlight text=\\"Twig Stop\\" matchQuery={[undefined]}>
+                      <span>
+                        Twig Stop
+                      </span>
+                    </MatchHighlight>
                   </h4>
                 </a>
               </div>
@@ -172,9 +189,11 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-branch-destination\\">
                 <h4>
-                   
-                  Branch Destination
-                   
+                  <MatchHighlight text=\\"Branch Destination\\" matchQuery={[undefined]}>
+                    <span>
+                      Branch Destination
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -242,9 +261,11 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-stop1\\">
                 <h4>
-                   
-                  Stop 1
-                   
+                  <MatchHighlight text=\\"Stop 1\\" matchQuery={[undefined]}>
+                    <span>
+                      Stop 1
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -275,9 +296,11 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-stop0\\">
                 <h4>
-                   
-                  Stop 0
-                   
+                  <MatchHighlight text=\\"Stop 0\\" matchQuery={[undefined]}>
+                    <span>
+                      Stop 0
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -308,9 +331,11 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-origin\\">
                 <h4>
-                   
-                  Origin
-                   
+                  <MatchHighlight text=\\"Origin\\" matchQuery={[undefined]}>
+                    <span>
+                      Origin
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -334,6 +359,17 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
   <h3 className=\\"m-schedule-diagram__heading\\">
     Stops
   </h3>
+  <SearchBox id=\\"stop-search\\" labelText=\\"Search for a stop\\" onChange={[Function: bound dispatchAction]} className=\\"m-schedule-diagram__filter\\">
+    <div className=\\"m-schedule-diagram__filter c-form__input-container\\">
+      <label htmlFor=\\"stop-search\\" className=\\"sr-only\\">
+        Search for a stop
+      </label>
+      <input className=\\"c-form__input\\" id=\\"stop-search\\" type=\\"text\\" onChange={[Function: onChange]} value=\\"\\" placeholder=\\"Search for a stop\\" />
+      <button className=\\"c-form__submit-btn\\" aria-label=\\"search\\" type=\\"button\\" onClick={[Function: onClick]}>
+        <span className=\\"notranslate c-svg__icon-search-reverse-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      </button>
+    </div>
+  </SearchBox>
   <div className=\\"m-schedule-diagram m-schedule-diagram--outward\\">
     <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
@@ -349,9 +385,11 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-origin\\">
                 <h4>
-                   
-                  Origin
-                   
+                  <MatchHighlight text=\\"Origin\\" matchQuery={[undefined]}>
+                    <span>
+                      Origin
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -382,9 +420,11 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-stop0\\">
                 <h4>
-                   
-                  Stop 0
-                   
+                  <MatchHighlight text=\\"Stop 0\\" matchQuery={[undefined]}>
+                    <span>
+                      Stop 0
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -415,9 +455,11 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-stop1\\">
                 <h4>
-                   
-                  Stop 1
-                   
+                  <MatchHighlight text=\\"Stop 1\\" matchQuery={[undefined]}>
+                    <span>
+                      Stop 1
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -491,9 +533,11 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-branch-destination\\">
                 <h4>
-                   
-                  Branch Destination
-                   
+                  <MatchHighlight text=\\"Branch Destination\\" matchQuery={[undefined]}>
+                    <span>
+                      Branch Destination
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -521,9 +565,11 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
               <div className=\\"m-schedule-diagram__stop-name\\">
                 <a href=\\"/stops/tree-twig-stop\\">
                   <h4>
-                     
-                    Twig Stop
-                     
+                    <MatchHighlight text=\\"Twig Stop\\" matchQuery={[undefined]}>
+                      <span>
+                        Twig Stop
+                      </span>
+                    </MatchHighlight>
                   </h4>
                 </a>
               </div>
@@ -560,9 +606,11 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-twig-destination\\">
                 <h4>
-                   
-                  Twig Destination
-                   
+                  <MatchHighlight text=\\"Twig Destination\\" matchQuery={[undefined]}>
+                    <span>
+                      Twig Destination
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -627,9 +675,11 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/tree-destination\\">
                 <h4>
-                   
-                  Destination
-                   
+                  <MatchHighlight text=\\"Destination\\" matchQuery={[undefined]}>
+                    <span>
+                      Destination
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -653,6 +703,17 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
   <h3 className=\\"m-schedule-diagram__heading\\">
     Stops
   </h3>
+  <SearchBox id=\\"stop-search\\" labelText=\\"Search for a stop\\" onChange={[Function: bound dispatchAction]} className=\\"m-schedule-diagram__filter\\">
+    <div className=\\"m-schedule-diagram__filter c-form__input-container\\">
+      <label htmlFor=\\"stop-search\\" className=\\"sr-only\\">
+        Search for a stop
+      </label>
+      <input className=\\"c-form__input\\" id=\\"stop-search\\" type=\\"text\\" onChange={[Function: onChange]} value=\\"\\" placeholder=\\"Search for a stop\\" />
+      <button className=\\"c-form__submit-btn\\" aria-label=\\"search\\" type=\\"button\\" onClick={[Function: onClick]}>
+        <span className=\\"notranslate c-svg__icon-search-reverse-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      </button>
+    </div>
+  </SearchBox>
   <div className=\\"m-schedule-diagram m-schedule-diagram--outward\\">
     <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
@@ -668,9 +729,11 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/line-origin\\">
                 <h4>
-                   
-                  Origin
-                   
+                  <MatchHighlight text=\\"Origin\\" matchQuery={[undefined]}>
+                    <span>
+                      Origin
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -723,9 +786,11 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/line-stop1\\">
                 <h4>
-                   
-                  Stop 1
-                   
+                  <MatchHighlight text=\\"Stop 1\\" matchQuery={[undefined]}>
+                    <span>
+                      Stop 1
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -805,9 +870,11 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
                     Service alert or delay
                   </span>
                    
-                   
-                  Stop 2
-                   
+                  <MatchHighlight text=\\"Stop 2\\" matchQuery={[undefined]}>
+                    <span>
+                      Stop 2
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>
@@ -871,9 +938,11 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
             <div className=\\"m-schedule-diagram__stop-name\\">
               <a href=\\"/stops/line-destination\\">
                 <h4>
-                   
-                  Destination
-                   
+                  <MatchHighlight text=\\"Destination\\" matchQuery={[undefined]}>
+                    <span>
+                      Destination
+                    </span>
+                  </MatchHighlight>
                 </h4>
               </a>
             </div>

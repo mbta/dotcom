@@ -16,6 +16,8 @@ import Modal from "../../../components/Modal";
 import ScheduleModalContent from "../schedule-finder/ScheduleModalContent";
 import { DirectionId, Headsign, Route } from "../../../__v3api";
 import ExpandableBranch from "./ExpandableBranch";
+import useFilteredList from "../../../hooks/useFilteredList";
+import SearchBox from "../../../components/SearchBox";
 
 interface Props {
   lineDiagram: LineDiagramStop[];
@@ -172,104 +174,146 @@ const LineDiagram = ({
     branchedLineDiagram = lineDiagram;
   }
 
+  const [stopQuery, setStopQuery, filteredStops] = useFilteredList(
+    lineDiagram,
+    "route_stop.name"
+  );
+
+  const FilteredStopList = (
+    <div
+      className={`m-schedule-diagram m-schedule-diagram--${treeDirection} m-schedule-diagram--searched`}
+    >
+      {filteredStops.length ? (
+        (filteredStops as LineDiagramStop[]).map((stop: LineDiagramStop) => (
+          <SingleStop
+            key={stop.route_stop.id}
+            stop={stop}
+            onClick={handleStopClick(stop.route_stop)}
+            color={routeColor}
+            liveData={liveData[stop.route_stop.id]}
+            searchQuery={stopQuery}
+          />
+        ))
+      ) : (
+        <div className="c-alert-item c-alert-item--low c-alert-item__top-text-container">
+          No stops {route.direction_names[directionId]} to{" "}
+          {route.direction_destinations[directionId]} matching{" "}
+          <b className="u-highlight">{stopQuery}</b>. Try changing your
+          direction or adjusting your search.
+        </div>
+      )}
+    </div>
+  );
+
+  const stationsOrStops =
+    routeType === 0 || routeType === 1 || routeType === 2
+      ? "Stations"
+      : "Stops";
+
   return (
     <>
-      <h3 className="m-schedule-diagram__heading">
-        {routeType === 0 || routeType === 1 || routeType === 2
-          ? "Stations"
-          : "Stops"}
-      </h3>
-      <div
-        className={`m-schedule-diagram m-schedule-diagram--${treeDirection}`}
-      >
-        {branchedLineDiagram.map(
-          (stopOrStops: LineDiagramStop | LineDiagramStop[], bldIndex) => {
-            if (Array.isArray(stopOrStops)) {
-              if (stopOrStops.length > 2) {
-                let willMerge = false;
-                const adjacentIndex =
-                  treeDirection === "inward" ? bldIndex + 1 : bldIndex - 1;
-                const adjacentStop = branchedLineDiagram[
-                  adjacentIndex
-                ] as LineDiagramStop;
-                if (adjacentStop && !Array.isArray(adjacentStop)) {
-                  willMerge = mergeIndices.includes(
-                    lineDiagram.indexOf(adjacentStop)
+      <h3 className="m-schedule-diagram__heading">{stationsOrStops}</h3>
+      <SearchBox
+        id="stop-search"
+        labelText={`Search for a ${stationsOrStops.toLowerCase().slice(0, -1)}`}
+        onChange={setStopQuery}
+        className="m-schedule-diagram__filter"
+      />
+      {stopQuery !== "" ? (
+        FilteredStopList
+      ) : (
+        <div
+          className={`m-schedule-diagram m-schedule-diagram--${treeDirection}`}
+        >
+          {branchedLineDiagram.map(
+            (stopOrStops: LineDiagramStop | LineDiagramStop[], bldIndex) => {
+              if (Array.isArray(stopOrStops)) {
+                if (stopOrStops.length > 2) {
+                  let willMerge = false;
+                  const adjacentIndex =
+                    treeDirection === "inward" ? bldIndex + 1 : bldIndex - 1;
+                  const adjacentStop = branchedLineDiagram[
+                    adjacentIndex
+                  ] as LineDiagramStop;
+                  if (adjacentStop && !Array.isArray(adjacentStop)) {
+                    willMerge = mergeIndices.includes(
+                      lineDiagram.indexOf(adjacentStop)
+                    );
+                  }
+
+                  return (
+                    <ExpandableBranch
+                      key={`${stopOrStops[0].route_stop.id}-${
+                        stopOrStops.length
+                      }-stops`}
+                      branchData={stopOrStops}
+                      onStopClick={handleStopClick}
+                      color={routeColor}
+                      willMerge={willMerge}
+                      liveDataByStop={liveData}
+                    />
                   );
                 }
 
+                // is an array of 1-2 stops; show as expanded
                 return (
-                  <ExpandableBranch
+                  <div
                     key={`${stopOrStops[0].route_stop.id}-${
                       stopOrStops.length
                     }-stops`}
-                    branchData={stopOrStops}
-                    onStopClick={handleStopClick}
-                    color={routeColor}
-                    willMerge={willMerge}
-                    liveDataByStop={liveData}
-                  />
+                    className="m-schedule-diagram__expanded"
+                  >
+                    {stopOrStops.map((stop, stopIdx) => (
+                      <SingleStop
+                        key={stop.route_stop.id}
+                        stop={stop}
+                        isOrigin={
+                          stopIdx === 0 && stop.route_stop["is_terminus?"]
+                        }
+                        isDestination={
+                          stopIdx === stopOrStops.length - 1 &&
+                          stop.route_stop["is_terminus?"]
+                        }
+                        onClick={handleStopClick(stop.route_stop)}
+                        color={routeColor}
+                        liveData={liveData[stop.route_stop.id]}
+                      />
+                    ))}
+                  </div>
                 );
               }
 
-              // is an array of 1-2 stops; show as expanded
+              // a stop immediately before the expandable section renders
+              // as first in a branch, mark accordingly for inward trees
+              const isStartOnInwardBranch =
+                treeDirection === "inward"
+                  ? Array.isArray(branchedLineDiagram[bldIndex + 1])
+                  : false;
+
+              const isEndOnOutwardBranch =
+                treeDirection === "outward"
+                  ? Array.isArray(branchedLineDiagram[bldIndex - 1])
+                  : false;
+
               return (
-                <div
-                  key={`${stopOrStops[0].route_stop.id}-${
-                    stopOrStops.length
-                  }-stops`}
-                  className="m-schedule-diagram__expanded"
-                >
-                  {stopOrStops.map((stop, stopIdx) => (
-                    <SingleStop
-                      key={stop.route_stop.id}
-                      stop={stop}
-                      isOrigin={
-                        stopIdx === 0 && stop.route_stop["is_terminus?"]
-                      }
-                      isDestination={
-                        stopIdx === stopOrStops.length - 1 &&
-                        stop.route_stop["is_terminus?"]
-                      }
-                      onClick={handleStopClick(stop.route_stop)}
-                      color={routeColor}
-                      liveData={liveData[stop.route_stop.id]}
-                    />
-                  ))}
-                </div>
+                <SingleStop
+                  key={stopOrStops.route_stop.id}
+                  stop={stopOrStops}
+                  isOrigin={bldIndex === 0 || isStartOnInwardBranch}
+                  isDestination={
+                    treeDirection === "inward"
+                      ? bldIndex === branchedLineDiagram.length - 1
+                      : isEndOnOutwardBranch
+                  }
+                  onClick={handleStopClick(stopOrStops.route_stop)}
+                  color={routeColor}
+                  liveData={liveData[stopOrStops.route_stop.id]}
+                />
               );
             }
-
-            // a stop immediately before the expandable section renders
-            // as first in a branch, mark accordingly for inward trees
-            const isStartOnInwardBranch =
-              treeDirection === "inward"
-                ? Array.isArray(branchedLineDiagram[bldIndex + 1])
-                : false;
-
-            const isEndOnOutwardBranch =
-              treeDirection === "outward"
-                ? Array.isArray(branchedLineDiagram[bldIndex - 1])
-                : false;
-
-            return (
-              <SingleStop
-                key={stopOrStops.route_stop.id}
-                stop={stopOrStops}
-                isOrigin={bldIndex === 0 || isStartOnInwardBranch}
-                isDestination={
-                  treeDirection === "inward"
-                    ? bldIndex === branchedLineDiagram.length - 1
-                    : isEndOnOutwardBranch
-                }
-                onClick={handleStopClick(stopOrStops.route_stop)}
-                color={routeColor}
-                liveData={liveData[stopOrStops.route_stop.id]}
-              />
-            );
-          }
-        )}
-      </div>
+          )}
+        </div>
+      )}
       <Modal
         openState={modalState.modalOpen}
         closeModal={() => {

@@ -18,6 +18,7 @@ import parkingIconSvg from "../../static/images/icon-parking-small.svg";
 import redLineIconSvg from "../../static/images/icon-red-line-small.svg";
 import silverLineIconSvg from "../../static/images/icon-silver-line-small.svg";
 import vehicleArrowSvg from "../../static/images/icon-vehicle-bordered-expanded.svg";
+import searchIconSvg from "../../static/images/icon-search-reverse-default.svg";
 
 export const accessibleIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, accessibleIconSvg, false);
@@ -72,6 +73,9 @@ export const silverLineIcon = (className: string = ""): JSX.Element =>
 
 export const vehicleArrowIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, vehicleArrowSvg, false);
+
+export const searchIcon = (className: string = ""): JSX.Element =>
+  renderSvg(className, searchIconSvg, false);
 
 const isSilverRoute = (routeId: string): boolean =>
   routeId === "741" ||

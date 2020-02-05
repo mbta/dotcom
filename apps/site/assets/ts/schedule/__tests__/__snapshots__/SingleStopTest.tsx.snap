@@ -15,9 +15,11 @@ exports[`SingleStop renders and matches snapshot 1`] = `
         <div className=\\"m-schedule-diagram__stop-name\\">
           <a href=\\"/stops/place-xxx\\">
             <h4>
-               
-              Example Stop
-               
+              <MatchHighlight text=\\"Example Stop\\" matchQuery={[undefined]}>
+                <span>
+                  Example Stop
+                </span>
+              </MatchHighlight>
             </h4>
           </a>
         </div>
@@ -60,9 +62,11 @@ exports[`SingleStop renders with Commuter Rail live data 1`] = `
         <div className=\\"m-schedule-diagram__stop-name\\">
           <a href=\\"/stops/place-xxx\\">
             <h4>
-               
-              Example Stop
-               
+              <MatchHighlight text=\\"Example Stop\\" matchQuery={[undefined]}>
+                <span>
+                  Example Stop
+                </span>
+              </MatchHighlight>
             </h4>
           </a>
         </div>
@@ -136,9 +140,11 @@ exports[`SingleStop renders with Commuter Rail live data without track or train 
         <div className=\\"m-schedule-diagram__stop-name\\">
           <a href=\\"/stops/place-xxx\\">
             <h4>
-               
-              Example Stop
-               
+              <MatchHighlight text=\\"Example Stop\\" matchQuery={[undefined]}>
+                <span>
+                  Example Stop
+                </span>
+              </MatchHighlight>
             </h4>
           </a>
         </div>
@@ -215,9 +221,11 @@ exports[`SingleStop renders with live data 1`] = `
         <div className=\\"m-schedule-diagram__stop-name\\">
           <a href=\\"/stops/place-xxx\\">
             <h4>
-               
-              Example Stop
-               
+              <MatchHighlight text=\\"Example Stop\\" matchQuery={[undefined]}>
+                <span>
+                  Example Stop
+                </span>
+              </MatchHighlight>
             </h4>
           </a>
         </div>

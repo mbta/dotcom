@@ -44,6 +44,10 @@
   height: $space-18;
   margin-right: $base-spacing / 2;
   width: $space-18;
+
+  .c-form__reset-btn & {
+    display: inline-block;
+  }
 }
 
 .c-form__submit-btn {

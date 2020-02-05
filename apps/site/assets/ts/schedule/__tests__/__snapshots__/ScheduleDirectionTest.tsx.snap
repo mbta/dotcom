@@ -216,6 +216,42 @@ exports[`renders with a static map 1`] = `
     >
       Stops
     </h3>
+    <SearchBox>
+      <div
+        className="m-schedule-diagram__filter c-form__input-container"
+      >
+        <label
+          className="sr-only"
+          htmlFor="stop-search"
+        >
+          Search for a stop
+        </label>
+        <input
+          className="c-form__input"
+          id="stop-search"
+          onChange={[Function]}
+          placeholder="Search for a stop"
+          type="text"
+          value=""
+        />
+        <button
+          aria-label="search"
+          className="c-form__submit-btn"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            aria-hidden="false"
+            className="notranslate c-svg__icon-search-reverse-default"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "SVG",
+              }
+            }
+          />
+        </button>
+      </div>
+    </SearchBox>
     <div
       className="m-schedule-diagram m-schedule-diagram--outward"
     >
@@ -263,9 +299,11 @@ exports[`renders with a static map 1`] = `
                   href="/stops/5547"
                 >
                   <h4>
-                     
-                    Elm St opp Haskell Ave
-                     
+                    <MatchHighlight>
+                      <span>
+                        Elm St opp Haskell Ave
+                      </span>
+                    </MatchHighlight>
                   </h4>
                 </a>
               </div>
@@ -358,9 +396,11 @@ exports[`renders with a static map 1`] = `
                   href="/stops/place-tufts"
                 >
                   <h4>
-                     
-                    Tufts Medical Center
-                     
+                    <MatchHighlight>
+                      <span>
+                        Tufts Medical Center
+                      </span>
+                    </MatchHighlight>
                   </h4>
                 </a>
               </div>
@@ -453,9 +493,11 @@ exports[`renders with a static map 1`] = `
                   href="/stops/place-north"
                 >
                   <h4>
-                     
-                    North Station
-                     
+                    <MatchHighlight>
+                      <span>
+                        North Station
+                      </span>
+                    </MatchHighlight>
                   </h4>
                 </a>
               </div>
@@ -700,9 +742,11 @@ exports[`renders with a static map 1`] = `
                       Service alert or delay
                     </span>
                      
-                     
-                    Alewife
-                     
+                    <MatchHighlight>
+                      <span>
+                        Alewife
+                      </span>
+                    </MatchHighlight>
                   </h4>
                 </a>
               </div>
