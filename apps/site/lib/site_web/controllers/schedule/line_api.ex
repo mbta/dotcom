@@ -29,7 +29,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
         route_id,
         String.to_integer(direction_id),
         conn.query_params["variant"],
-        !Laboratory.enabled?(conn, :old_line_diagram)
+        Laboratory.enabled?(conn, :schedule_direction_redesign)
       )
 
     conn =

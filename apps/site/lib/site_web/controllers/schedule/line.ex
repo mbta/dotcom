@@ -85,7 +85,7 @@ defmodule SiteWeb.ScheduleController.Line do
       DiagramHelpers.build_stop_list(
         branches,
         direction_id,
-        !Laboratory.enabled?(conn, :old_line_diagram)
+        Laboratory.enabled?(conn, :schedule_direction_redesign)
       )
     )
     |> assign(:branches, branches)

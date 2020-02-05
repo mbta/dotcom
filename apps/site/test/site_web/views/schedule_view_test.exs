@@ -6,7 +6,7 @@ defmodule SiteWeb.ScheduleViewTest do
   alias Routes.Route
   alias Schedules.Trip
   alias SiteWeb.ScheduleView
-  alias Stops.Stop
+  alias Stops.{RouteStop, Stop}
 
   import SiteWeb.ScheduleView
   import Phoenix.HTML.Tag, only: [content_tag: 3]
@@ -547,6 +547,119 @@ defmodule SiteWeb.ScheduleViewTest do
   end
 
   describe "_line.html" do
+    @shape %Routes.Shape{id: "test", name: "test", stop_ids: [], direction_id: 0}
+
+    test "Bus line with variant filter", %{conn: conn} do
+      route_stop_1 = %RouteStop{
+        id: "stop 1",
+        name: "Stop 1",
+        zone: "1",
+        stop_features: [],
+        connections: []
+      }
+
+      route_stop_2 = %RouteStop{
+        id: "stop 2",
+        name: "Stop 2",
+        zone: "2",
+        stop_features: [],
+        connections: []
+      }
+
+      output =
+        ScheduleView.render(
+          "_line.html",
+          conn:
+            conn
+            |> Conn.fetch_query_params()
+            |> put_private(:phoenix_endpoint, SiteWeb.Endpoint),
+          stop_list_template: "_stop_list.html",
+          all_stops: [{[{nil, :terminus}], route_stop_1}, {[{nil, :terminus}], route_stop_2}],
+          route_shapes: [@shape, @shape],
+          active_shape: @shape,
+          alerts: [],
+          connections: [],
+          channel: "vehicles:1:1",
+          expanded: nil,
+          show_variant_selector: true,
+          map_img_src: nil,
+          holidays: [],
+          branches: [%Stops.RouteStops{branch: nil, stops: [route_stop_1, route_stop_2]}],
+          origin: nil,
+          destination: nil,
+          direction_id: 1,
+          route: %Routes.Route{type: 3, direction_destinations: %{1 => "End"}},
+          date: ~D[2017-01-01],
+          date_time: ~N[2017-03-01T07:29:00],
+          direction_id: 1,
+          reverse_direction_all_stops: [],
+          show_date_select?: false,
+          headsigns: %{0 => [], 1 => []},
+          vehicle_tooltips: %{},
+          featured_content: nil,
+          news: [],
+          dynamic_map_data: %{},
+          schedule_page_data: @schedule_page_data
+        )
+
+      assert safe_to_string(output) =~ "shape-filter"
+    end
+
+    test "Bus line without variant filter", %{conn: conn} do
+      route_stop_1 = %RouteStop{
+        id: "stop 1",
+        name: "Stop 1",
+        zone: "1",
+        stop_features: [],
+        connections: []
+      }
+
+      route_stop_2 = %RouteStop{
+        id: "stop 2",
+        name: "Stop 2",
+        zone: "2",
+        stop_features: [],
+        connections: []
+      }
+
+      output =
+        ScheduleView.render(
+          "_line.html",
+          conn:
+            conn
+            |> Conn.fetch_query_params()
+            |> put_private(:phoenix_endpoint, SiteWeb.Endpoint),
+          stop_list_template: "_stop_list.html",
+          all_stops: [{[{nil, :terminus}], route_stop_1}, {[{nil, :terminus}], route_stop_2}],
+          route_shapes: [@shape],
+          alerts: [],
+          connections: [],
+          channel: "vehicles:1:1",
+          upcoming_alerts: [],
+          expanded: nil,
+          active_shape: nil,
+          map_img_src: nil,
+          holidays: [],
+          branches: [%Stops.RouteStops{branch: nil, stops: [route_stop_1, route_stop_2]}],
+          route: %Routes.Route{type: 3, direction_destinations: %{1 => "End"}},
+          date: ~D[2017-01-01],
+          date_time: ~N[2017-03-01T07:29:00],
+          destination: nil,
+          origin: nil,
+          direction_id: 1,
+          reverse_direction_all_stops: [],
+          show_date_select?: false,
+          headsigns: %{0 => [], 1 => []},
+          vehicle_tooltips: %{},
+          featured_content: nil,
+          news: [],
+          dynamic_map_data: %{},
+          schedule_page_data: @schedule_page_data
+        )
+
+      refute safe_to_string(output) =~ "shape-filter"
+    end
+
     test "Displays error message when there are no trips in selected direction", %{conn: conn} do
       output =
         ScheduleView.render(
@@ -583,6 +696,58 @@ defmodule SiteWeb.ScheduleViewTest do
         )
 
       assert safe_to_string(output) =~ "There are no scheduled"
+    end
+
+    test "Doesn't link to last stop if it's excluded", %{conn: conn} do
+      route = %Routes.Route{id: "route", type: 3, direction_destinations: %{1 => "End"}}
+
+      route_stop = %RouteStop{
+        id: "last",
+        name: "last",
+        zone: "1",
+        route: route,
+        connections: [],
+        stop_features: [],
+        is_terminus?: true,
+        is_beginning?: false
+      }
+
+      output =
+        ScheduleView.render(
+          "_line.html",
+          conn:
+            conn
+            |> Conn.fetch_query_params()
+            |> put_private(:phoenix_endpoint, SiteWeb.Endpoint),
+          stop_list_template: "_stop_list.html",
+          all_stops: [{[{nil, :terminus}], route_stop}],
+          alerts: [],
+          connections: [],
+          channel: "vehicles:1:1",
+          route_shapes: [@shape],
+          expanded: nil,
+          active_shape: nil,
+          map_img_src: nil,
+          holidays: [],
+          branches: [%Stops.RouteStops{branch: nil, stops: [route_stop]}],
+          route: route,
+          date: ~D[2017-01-01],
+          date_time: ~N[2017-03-01T07:29:00],
+          destination: nil,
+          origin: nil,
+          direction_id: 1,
+          reverse_direction_all_stops: [%Stops.Stop{id: "last"}],
+          show_date_select?: false,
+          headsigns: %{0 => [], 1 => []},
+          vehicle_tooltips: %{},
+          featured_content: nil,
+          news: [],
+          dynamic_map_data: %{},
+          schedule_page_data: @schedule_page_data
+        )
+
+      refute safe_to_string(output) =~
+               trip_view_path(SiteWeb.Endpoint, :show, "route", origin: "last", direction_id: 0)
     end
   end
 
