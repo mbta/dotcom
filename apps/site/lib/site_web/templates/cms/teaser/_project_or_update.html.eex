@@ -1,4 +1,4 @@
-<%= if @teaser.image && :image in @fields do %>
+<%= if @teaser.image do %>
   <img class="c-content-teaser__image" src="<%= @teaser.image.url %>" alt="<%= @teaser.image.alt %>" />
 <% end %>
 
@@ -18,12 +18,6 @@
   <h3 class="c-content-teaser__title">
     <%= @teaser.title %>
   </h3>
-<% end %>
-
-<%= if @teaser.location && :location in @fields do %>
-  <div class="c-content-teaser__location">
-    <%= display_location(@teaser.location) %>
-  </div>
 <% end %>
 
 <%= if @teaser.text && :summary in @fields do %>

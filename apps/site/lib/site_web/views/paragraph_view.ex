@@ -20,6 +20,7 @@ defmodule SiteWeb.CMS.ParagraphView do
 
   alias Plug.Conn
   alias Site.ContentRewriter
+  alias SiteWeb.CMS.TeaserView
 
   @doc "Map paragraph module names to their templates"
   for type <- Paragraph.get_types() do
@@ -61,6 +62,21 @@ defmodule SiteWeb.CMS.ParagraphView do
   """
   @spec render_paragraph_content(Paragraph.t(), Conn.t()) :: Phoenix.HTML.safe()
   def render_paragraph_content(paragraph, conn)
+
+  def render_paragraph_content(%ContentList{} = paragraph, conn) do
+    first_type = paragraph.recipe |> Keyword.get(:type, [:generic]) |> List.first()
+    display_fields = TeaserView.handle_fields(first_type, paragraph.display_fields)
+    layout_class = (:image in display_fields && "c-teaser-list--grid") || ""
+
+    render(
+      "_content_list.html",
+      content: paragraph,
+      list_class: layout_class,
+      fields: display_fields,
+      type: first_type,
+      conn: conn
+    )
+  end
 
   def render_paragraph_content(%ColumnMulti{display_options: "grouped"} = paragraph, conn) do
     fare_cards =

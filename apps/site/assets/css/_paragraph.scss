@@ -18,3 +18,11 @@
     @include adjacent-descriptive-links;
   }
 }
+
+// For teaser lists within a content list ¶, the content list
+// parent provides margin-top, so reset the child margin-top.
+.c-paragraph--content-list {
+  .c-teaser-list {
+    margin-top: 0;
+  }
+}

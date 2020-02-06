@@ -286,7 +286,8 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
             date: "now",
             date_op: ">="
           ],
-          cta: %{behavior: "default", text: nil, url: nil}
+          cta: %{behavior: "default", text: nil, url: nil},
+          display_fields: []
         })
 
       conn = Map.put(conn, :path_info, ["projects", "a-project"])
@@ -297,7 +298,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
         |> HTML.safe_to_string()
 
       assert rendered =~ "c-paragraph--content-list"
-      assert rendered =~ "c-teaser-list--project-update"
+      assert rendered =~ "c-teaser-list--grid"
       assert rendered =~ "c-content-teaser--project-update"
       assert rendered =~ "Header copy"
       assert rendered =~ "c-call-to-action"

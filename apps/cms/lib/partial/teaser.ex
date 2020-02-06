@@ -2,6 +2,10 @@ defmodule CMS.Partial.Teaser do
   @moduledoc """
   A short, simplified representation of any our content types.
   Fed by the /cms/teasers CMS API endpoint.
+
+  NOTE: `%Teaser{}` components should never be directly rendered
+  onto a page. Normally these are children of the ContentList struct,
+  which renders them within the _teaser_list template automatically.
   """
   import CMS.Helpers,
     only: [
@@ -28,6 +32,14 @@ defmodule CMS.Partial.Teaser do
     routes: [],
     status: nil
   ]
+
+  @type display_field ::
+          :image
+          | :title
+          | :date
+          | :topic
+          | :location
+          | :summary
 
   @type location :: [
           place: String.t() | nil,

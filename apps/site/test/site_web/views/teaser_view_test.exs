@@ -6,7 +6,15 @@ defmodule SiteWeb.TeaserViewTest do
   alias CMS.API.Static
   alias CMS.Partial.Teaser
 
-  describe "teaser_color/1" do
+  @dummy_teaser %Teaser{
+    id: 777,
+    type: :page,
+    path: "/",
+    title: "Dummy Teaser",
+    topic: "Topic"
+  }
+
+  describe "transit_tag/1" do
     test "provides a CSS class for routes found on teaser" do
       teaser =
         Static.teaser_project_response()
@@ -23,7 +31,7 @@ defmodule SiteWeb.TeaserViewTest do
       assert second_term.mode == "subway"
       assert second_term.group == "line"
 
-      assert teaser_color(teaser) == "red-line"
+      assert transit_tag(teaser) == "red-line"
     end
 
     test "provides a default route class for teasers w/o route data" do
@@ -33,7 +41,7 @@ defmodule SiteWeb.TeaserViewTest do
         |> Teaser.from_api()
         |> Map.put(:routes, [])
 
-      assert teaser_color(teaser) == "unknown"
+      assert transit_tag(teaser) == "unknown"
     end
 
     test "formats a news_entry date for display" do
@@ -67,6 +75,22 @@ defmodule SiteWeb.TeaserViewTest do
     end
   end
 
+  describe "teaser_topic/1" do
+    test "returns a topic without a link for non-project topics" do
+      teaser = %{@dummy_teaser | topic: "Guides"}
+
+      assert "Guides" == teaser_topic(teaser)
+    end
+
+    test "returns a linked topic when the topic is Projects" do
+      teaser = %{@dummy_teaser | topic: "Projects"}
+      result = teaser |> teaser_topic() |> Phoenix.HTML.safe_to_string()
+
+      assert result =~ "View all Projects"
+      assert result =~ "href"
+    end
+  end
+
   describe "display_location/2" do
     test "displays location as a comma-separated string with default parts" do
       location = [
@@ -94,6 +118,35 @@ defmodule SiteWeb.TeaserViewTest do
       location = [place: nil, address: nil, city: "Quincy", state: "MA"]
 
       assert display_location(location) == "Quincy, MA"
+    end
+  end
+
+  describe "handle_fields/2" do
+    test "returns the proper default fields for display by content type when rendered via the CMS app" do
+      cms_default_value = []
+
+      assert handle_fields(:page, cms_default_value) == [:image, :topic, :title]
+    end
+
+    test "returns the proper default fields for display by content type when rendered via other apps" do
+      elixir_default_value = nil
+
+      assert handle_fields(:page, elixir_default_value) == [:image, :topic, :title]
+    end
+
+    test "unaccounted (new) content types default to showing all fields" do
+      assert handle_fields(:game, []) == [:image, :title, :date, :topic, :location, :summary]
+    end
+
+    test "the image field is forced for certain content types, even when not provided" do
+      assert handle_fields(:project, [:title, :summary]) == [:image, :title, :summary]
+      assert handle_fields(:project_update, [:date]) == [:image, :date]
+      refute handle_fields(:event, [:title, :location]) == [:image, :title, :location]
+    end
+
+    test "for most content types, requested fields displayed should match input" do
+      assert handle_fields(:page, [:title]) == [:title]
+      assert handle_fields(:news_entry, [:date, :title, :summary]) == [:date, :title, :summary]
     end
   end
 end

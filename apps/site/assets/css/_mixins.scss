@@ -260,6 +260,14 @@
   border-#{$location}: 1px solid transparent;
 }
 
+@mixin teaser-grid {
+  @include make-row();
+  .c-content-teaser {
+    @include make-col();
+    @include make-col-span(6);
+  }
+}
+
 /////////////////////////////////////////////////
 // Supporting @mixins for icon alignment below //
 /////////////////////////////////////////////////
