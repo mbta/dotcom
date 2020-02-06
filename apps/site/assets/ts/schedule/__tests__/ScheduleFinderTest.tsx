@@ -15,7 +15,6 @@ const services: ServiceInSelector[] = [
     typicality: "typical_service",
     type: "weekday",
     start_date: "2019-07-08",
-    service_date: "2019-07-16",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Weekday",
@@ -24,6 +23,9 @@ const services: ServiceInSelector[] = [
     description: "Weekday schedule",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": true
   },
   {
@@ -31,7 +33,6 @@ const services: ServiceInSelector[] = [
     typicality: "typical_service",
     type: "saturday",
     start_date: "2019-07-13",
-    service_date: "2019-07-16",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Saturday",
@@ -40,6 +41,9 @@ const services: ServiceInSelector[] = [
     description: "Saturday schedule",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   },
   {
@@ -47,7 +51,6 @@ const services: ServiceInSelector[] = [
     typicality: "typical_service",
     type: "sunday",
     start_date: "2019-07-14",
-    service_date: "2019-07-16",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Sunday",
@@ -56,6 +59,9 @@ const services: ServiceInSelector[] = [
     description: "Sunday schedule",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   }
 ];
@@ -66,7 +72,6 @@ const services: ServiceInSelector[] = [
 
 /* eslint-disable @typescript-eslint/camelcase */
 const today = "2019-12-05";
-const ratingEndDate = "2019-12-21";
 const body = '<div id="react-root"></div>';
 const route: EnhancedRoute = {
   alert_count: 0,
@@ -161,7 +166,6 @@ it("renders", () => {
         stops={stops}
         directionId={0}
         services={services}
-        ratingEndDate="2020-03-14"
         routePatternsByDirection={routePatternsByDirection}
         today={today}
         scheduleNote={null}
@@ -180,7 +184,6 @@ it("opens modal after displaying error", () => {
       stops={stops}
       directionId={0}
       services={services}
-      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
       scheduleNote={null}
@@ -295,7 +298,6 @@ it("modal renders route pill for bus lines", () => {
       route={route}
       directionId={0}
       services={services}
-      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
       scheduleNote={null}
@@ -322,7 +324,6 @@ it("modal renders route pill for bus lines", () => {
       route={busRoute}
       directionId={0}
       services={services}
-      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
       scheduleNote={null}
@@ -349,7 +350,6 @@ it("modal renders route pill for silver line", () => {
       route={route}
       directionId={0}
       services={services}
-      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
       scheduleNote={null}
@@ -376,7 +376,6 @@ it("modal renders route pill for silver line", () => {
       route={busRoute}
       directionId={0}
       services={services}
-      ratingEndDate="2020-03-14"
       routePatternsByDirection={routePatternsByDirection}
       today={today}
       scheduleNote={null}
@@ -405,7 +404,6 @@ it("modal renders route pill for silver line", () => {
       services={services}
       routePatternsByDirection={routePatternsByDirection}
       today={today}
-      ratingEndDate={ratingEndDate}
       scheduleNote={null}
     />
   );
@@ -432,7 +430,6 @@ it("modal renders route pill for silver line", () => {
       services={services}
       routePatternsByDirection={routePatternsByDirection}
       today={today}
-      ratingEndDate={ratingEndDate}
       scheduleNote={null}
     />
   );

@@ -25,7 +25,6 @@ export interface Props {
   staticMapData?: StaticMapData;
   lineDiagram: LineDiagramStop[];
   services: ServiceInSelector[];
-  ratingEndDate: string;
   stops: SimpleStopMap;
   today: string;
   scheduleNote: ScheduleNoteType | null;
@@ -84,7 +83,6 @@ const ScheduleDirection = ({
   staticMapData,
   lineDiagram,
   services,
-  ratingEndDate,
   stops,
   today,
   scheduleNote
@@ -178,7 +176,6 @@ const ScheduleDirection = ({
           directionId={state.directionId}
           routePatternsByDirection={routePatternsByDirection}
           services={services}
-          ratingEndDate={ratingEndDate}
           stops={stops}
           today={today}
           scheduleNote={scheduleNote}

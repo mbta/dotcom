@@ -5,14 +5,13 @@ import {
   PredictedOrScheduledTime,
   EnhancedRoute,
   DirectionId,
-  ServiceWithServiceDate,
+  Service,
   Schedule,
   RoutePattern,
   Shape,
   Stop,
   ClosedStopInfo
 } from "../../__v3api";
-import { ServiceInSelector } from "./schedule-finder/ServiceSelector";
 
 export interface EnhancedRoutePattern extends RoutePattern {
   shape_id: string;
@@ -27,7 +26,7 @@ export interface RoutePatternsByDirection {
   [key: string]: EnhancedRoutePattern[];
 }
 
-export interface ServiceInSelector extends ServiceWithServiceDate {
+export interface ServiceInSelector extends Service {
   "default_service?": boolean;
 }
 
@@ -42,7 +41,6 @@ export interface SchedulePageData {
   route: EnhancedRoute;
   schedule_note: ScheduleNote | null;
   services: ServiceInSelector[];
-  rating_end_date: string;
   stops: SimpleStopMap;
   direction_id: DirectionId;
   shape_map: ShapesById;

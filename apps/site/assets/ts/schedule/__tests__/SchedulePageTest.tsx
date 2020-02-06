@@ -117,8 +117,10 @@ const service: ServiceInSelector = {
   type: "weekday",
   typicality: "typical_service",
   valid_days: [1, 2, 3, 4, 5],
-  service_date: "2019-06-26",
   name: "weekday",
+  rating_start_date: "2019-06-25",
+  rating_end_date: "2019-10-25",
+  rating_description: "Test",
   "default_service?": true
 };
 
@@ -140,7 +142,6 @@ it("it renders", () => {
           teasers,
           route,
           services,
-          rating_end_date: "2020-03-14",
           stops,
           direction_id: 0,
           shape_map: {},
@@ -178,7 +179,6 @@ it("it renders with conditional components", () => {
         teasers,
         route,
         services,
-        rating_end_date: "2020-03-14",
         stops,
         direction_id: 0,
         shape_map: {},

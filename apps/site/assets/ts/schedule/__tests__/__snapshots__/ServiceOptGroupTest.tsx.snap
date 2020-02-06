@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ServiceOptGroup renders 1`] = `
+<optgroup
+  label="Group label"
+>
+  <option
+    value="BUS319-O-Wdy-02"
+  >
+    Weekday schedule, Test Rating
+  </option>
+  <option
+    value="BUS319-D-Wdy-02"
+  >
+    Weekday schedule, Test Rating
+  </option>
+  <option
+    value="BUS319-P-Sa-02"
+  >
+    Saturday schedule, Test Rating
+  </option>
+  <option
+    value="BUS319-Q-Su-02"
+  >
+    Sunday schedule, Test Rating
+  </option>
+  <option
+    value="Bastille-Day"
+  >
+    Bastille Day Eve, Jul 13, Bastille Day, Jul 14, Jul 15
+  </option>
+  <option
+    value="BUS319-storm"
+  >
+    Storm service, Jul 15 to Jul 15
+  </option>
+  <option
+    value="weekday2020"
+  >
+    Another service, Test Future Rating
+  </option>
+  <option
+    value="weekday2019"
+  >
+    Ferry service
+  </option>
+  <option
+    value="weekday2019-2"
+  >
+    CR service
+  </option>
+</optgroup>
+`;

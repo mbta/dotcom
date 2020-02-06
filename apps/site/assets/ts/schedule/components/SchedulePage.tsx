@@ -25,7 +25,6 @@ const SchedulePage = ({
     route,
     schedule_note: scheduleNote,
     services,
-    rating_end_date: ratingEndDate,
     stops,
     direction_id: directionId,
     route_patterns: routePatternsByDirection,
@@ -42,7 +41,6 @@ const SchedulePage = ({
       <ScheduleFinder
         route={route} // don't show for subway
         services={services}
-        ratingEndDate={ratingEndDate}
         stops={stops}
         directionId={directionId}
         routePatternsByDirection={routePatternsByDirection}

@@ -1,12 +1,12 @@
+import { Dictionary } from "lodash";
 import React, { ReactElement, useEffect, useState, useReducer } from "react";
 import SelectContainer from "./SelectContainer";
 import {
-  ServicesKeyedByGroup,
-  groupServiceByDate,
-  groupByType,
-  ServiceOptGroupName,
-  ServiceByOptGroup,
-  hasMultipleWeekdaySchedules
+  hasMultipleWeekdaySchedules,
+  groupServicesByDateRating,
+  isCurrentValidService,
+  serviceStartDateComparator,
+  optGroupComparator
 } from "../../../helpers/service";
 import { reducer } from "../../../helpers/fetch";
 import ScheduleTable from "./ScheduleTable";
@@ -14,53 +14,33 @@ import { SelectedDirection } from "../ScheduleFinder";
 import { EnhancedRoutePattern, ServiceInSelector } from "../__schedule";
 import ServiceOptGroup from "./ServiceOptGroup";
 import { Journey } from "../__trips";
+import { Service } from "../../../__v3api";
+import { stringToDateObject } from "../../../helpers/date";
 
 // until we come up with a good integration test for async with loading
 // some lines in this file have been ignored from codecov
 
-const optGroupNames: ServiceOptGroupName[] = ["current", "holiday", "future"];
-
-const optGroupTitles: { [key in ServiceOptGroupName]: string } = {
-  current: "Current Schedules",
-  holiday: "Holiday Schedules",
-  future: "Future Schedules"
-};
-
 interface Props {
   stopId: string;
   services: ServiceInSelector[];
-  ratingEndDate: string;
   routeId: string;
   directionId: SelectedDirection;
   routePatterns: EnhancedRoutePattern[];
+  today: string;
 }
 
-const getSelectedService = (
+// By default, show the current day's service
+const getDefaultService = (
   services: ServiceInSelector[],
-  selectedServiceId: string
-): ServiceInSelector => {
-  const selectedService = services.find(
-    service => service.id === selectedServiceId
-  );
-  return selectedService!;
-};
+  today: Date
+): Service => {
+  services.sort(serviceStartDateComparator);
 
-const getServicesByOptGroup = (
-  services: ServiceInSelector[],
-  ratingEndDate: string
-): ServicesKeyedByGroup =>
-  services
-    .reduce(
-      (acc, service) => [...acc, ...groupServiceByDate(service, ratingEndDate)],
-      [] as ServiceByOptGroup[]
-    )
-    .reduce(groupByType, { current: [], holiday: [], future: [] });
-
-const getDefaultServiceId = (services: ServiceInSelector[]): string => {
-  const currentService = services.find(
-    service => service["default_service?"] === true
+  const currentServices = services.filter(service =>
+    isCurrentValidService(service, today)
   );
-  return currentService ? currentService.id : services[0].id;
+
+  return currentServices.length ? currentServices[0] : services[0];
 };
 
 type fetchAction =
@@ -71,9 +51,9 @@ type fetchAction =
 export const fetchData = (
   routeId: string,
   stopId: string,
-  selectedService: ServiceInSelector,
+  selectedService: Service,
   selectedDirection: SelectedDirection,
-  isCurrentService: boolean,
+  isCurrent: boolean,
   dispatch: (action: fetchAction) => void
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
@@ -83,7 +63,7 @@ export const fetchData = (
       .fetch(
         `/schedules/finder_api/journeys?id=${routeId}&date=${
           selectedService.end_date
-        }&direction=${selectedDirection}&stop=${stopId}&is_current=${isCurrentService}`
+        }&direction=${selectedDirection}&stop=${stopId}&is_current=${isCurrent}`
       )
       .then(response => {
         if (response.ok) return response.json();
@@ -98,83 +78,82 @@ export const fetchData = (
 export const ServiceSelector = ({
   stopId,
   services,
-  ratingEndDate,
   routeId,
   directionId,
-  routePatterns
+  routePatterns,
+  today
 }: Props): ReactElement<HTMLElement> | null => {
-  const [selectedServiceId, setSelectedServiceId] = useState("");
   const [state, dispatch] = useReducer(reducer, {
     data: null,
     isLoading: true,
     error: false
   });
 
+  const todayDate = stringToDateObject(today);
+  const defaultService = getDefaultService(services, todayDate);
+  const [selectedService, setSelectedService] = useState(defaultService);
+
   useEffect(
     () => {
-      const selectedService = services.find(
-        service => service.id === selectedServiceId
-      );
-
-      if (services.length <= 0) return;
-
-      const defaultServiceId = getDefaultServiceId(services);
-      const isCurrentService = selectedServiceId === defaultServiceId;
-
       /* istanbul ignore next */
       if (!selectedService) return;
-
-      fetchData(
-        routeId,
-        stopId,
-        selectedService,
-        directionId,
-        isCurrentService,
-        dispatch
-      );
+      fetchData(routeId, stopId, selectedService, directionId, false, dispatch);
     },
-    [services, routeId, directionId, stopId, selectedServiceId]
+    [services, routeId, directionId, stopId, selectedService, defaultService]
   );
 
   if (services.length <= 0) return null;
 
-  const servicesByOptGroup = getServicesByOptGroup(services, ratingEndDate);
-  const defaultServiceId = getDefaultServiceId(services);
-
-  if (!selectedServiceId) {
-    setSelectedServiceId(defaultServiceId);
-  }
-
-  const selectedService = getSelectedService(services, selectedServiceId);
+  const servicesByOptGroup: Dictionary<Service[]> = groupServicesByDateRating(
+    services,
+    todayDate
+  );
 
   return (
     <>
       <h3>Daily Schedule</h3>
       <div className="schedule-finder__service-selector">
+        {!isCurrentValidService(defaultService, todayDate) && (
+          <div className="callout schedule-table--empty">
+            There is no scheduled service for today,{" "}
+            {todayDate.toLocaleDateString("en-US", {
+              weekday: "long",
+              month: "short",
+              day: "numeric"
+            })}
+            .
+          </div>
+        )}
         <SelectContainer id="service_selector_container" error={false}>
           <select
             id="service_selector"
-            className="c-select-custom"
-            defaultValue={defaultServiceId}
+            className="c-select-custom text-center u-bold"
+            defaultValue={defaultService.id}
             onChange={(e): void => {
-              setSelectedServiceId(e.target.value);
+              const chosenService = services.find(s => s.id === e.target.value);
+              if (chosenService) {
+                setSelectedService(chosenService);
+              }
             }}
           >
-            {optGroupNames.map((group: ServiceOptGroupName) => {
-              const multipleWeekdays = hasMultipleWeekdaySchedules(
-                servicesByOptGroup[group].map(service => service.service)
-              );
+            {Object.keys(servicesByOptGroup)
+              .sort(optGroupComparator)
+              .map((group: string) => {
+                const groupedServices = servicesByOptGroup[group];
+                /* istanbul ignore next */
+                if (groupedServices.length <= 0) return null;
 
-              return (
-                <ServiceOptGroup
-                  key={group}
-                  group={group}
-                  label={optGroupTitles[group]}
-                  services={servicesByOptGroup[group]}
-                  multipleWeekdays={multipleWeekdays}
-                />
-              );
-            })}
+                return (
+                  <ServiceOptGroup
+                    key={group}
+                    label={group}
+                    services={groupedServices}
+                    multipleWeekdays={hasMultipleWeekdaySchedules(
+                      groupedServices
+                    )}
+                  />
+                );
+              })}
           </select>
         </SelectContainer>
       </div>
@@ -194,7 +173,7 @@ export const ServiceSelector = ({
               route: routeId,
               origin: stopId,
               direction: directionId,
-              date: selectedService.end_date
+              date: selectedService!.end_date
             }}
           />
         )}

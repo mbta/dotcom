@@ -38,7 +38,6 @@ const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
     route,
     stops,
     services,
-    rating_end_date: ratingEndDate,
     route_patterns: routePatternsByDirection,
     schedule_note: scheduleNote,
     today
@@ -50,7 +49,6 @@ const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
         route={route}
         stops={stops}
         services={services}
-        ratingEndDate={ratingEndDate}
         routePatternsByDirection={routePatternsByDirection}
         today={today}
         scheduleNote={null}
@@ -71,7 +69,6 @@ const renderDirectionAndMap = (
     route,
     line_diagram: lineDiagram,
     services,
-    rating_end_date: ratingEndDate,
     stops,
     today,
     schedule_note: scheduleNote
@@ -99,7 +96,6 @@ const renderDirectionAndMap = (
       staticMapData={staticMapData}
       lineDiagram={lineDiagram}
       services={services}
-      ratingEndDate={ratingEndDate}
       stops={stops}
       today={today}
       scheduleNote={scheduleNote}

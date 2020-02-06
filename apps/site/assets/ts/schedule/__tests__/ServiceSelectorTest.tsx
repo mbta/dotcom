@@ -13,7 +13,6 @@ const services: ServiceInSelector[] = [
     typicality: "typical_service",
     type: "weekday",
     start_date: "2019-07-02",
-    service_date: "2019-07-09",
     removed_dates_notes: { "2019-07-04": "Independence Day" },
     removed_dates: ["2019-07-04"],
     name: "Weekday",
@@ -22,6 +21,9 @@ const services: ServiceInSelector[] = [
     description: "Weekday schedule",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": true
   },
   {
@@ -29,7 +31,6 @@ const services: ServiceInSelector[] = [
     typicality: "typical_service",
     type: "weekday",
     start_date: "2019-07-05",
-    service_date: "2019-07-09",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Weekday",
@@ -38,6 +39,9 @@ const services: ServiceInSelector[] = [
     description: "Weekday schedule",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   },
   {
@@ -45,7 +49,6 @@ const services: ServiceInSelector[] = [
     typicality: "typical_service",
     type: "saturday",
     start_date: "2019-07-06",
-    service_date: "2019-07-09",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Saturday",
@@ -54,6 +57,9 @@ const services: ServiceInSelector[] = [
     description: "Saturday schedule",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   },
   {
@@ -61,7 +67,6 @@ const services: ServiceInSelector[] = [
     typicality: "typical_service",
     type: "sunday",
     start_date: "2019-07-07",
-    service_date: "2019-07-09",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Sunday",
@@ -70,6 +75,9 @@ const services: ServiceInSelector[] = [
     description: "Sunday schedule",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   },
   {
@@ -77,7 +85,6 @@ const services: ServiceInSelector[] = [
     typicality: "holiday_service",
     type: "sunday",
     start_date: "2019-07-07",
-    service_date: "2019-07-09",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Sunday",
@@ -86,6 +93,9 @@ const services: ServiceInSelector[] = [
     description: "Sunday schedule",
     added_dates_notes: { "2019-07-14": "Bastille Day" },
     added_dates: ["2019-07-14"],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   },
   {
@@ -93,7 +103,6 @@ const services: ServiceInSelector[] = [
     typicality: "unplanned_disruption",
     type: "weekday",
     start_date: "2019-07-15",
-    service_date: "2019-07-09",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Weekday",
@@ -102,6 +111,9 @@ const services: ServiceInSelector[] = [
     description: "Storm (reduced service)",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   },
   {
@@ -109,7 +121,6 @@ const services: ServiceInSelector[] = [
     typicality: "unplanned_disruption",
     type: "weekday",
     start_date: "2019-07-22",
-    service_date: "2019-07-09",
     removed_dates_notes: {},
     removed_dates: [],
     name: "Weekday",
@@ -118,21 +129,24 @@ const services: ServiceInSelector[] = [
     description: "Storm (reduced service)",
     added_dates_notes: {},
     added_dates: [],
+    rating_start_date: "2019-06-25",
+    rating_end_date: "2019-10-25",
+    rating_description: "Test",
     "default_service?": false
   }
 ];
 
 describe("ServiceSelector", () => {
-  it("renders", () => {
+  it("renders with a date", () => {
     createReactRoot();
     const tree = renderer.create(
       <ServiceSelector
         stopId="stopId"
         services={services}
-        ratingEndDate="2020-03-14"
         directionId={0}
         routePatterns={[]}
         routeId="111"
+        today={"2019-08-31"}
       />
     );
     expect(tree).toMatchSnapshot();

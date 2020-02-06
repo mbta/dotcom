@@ -75,7 +75,6 @@ defmodule SiteWeb.ScheduleController.LineController do
         fare_link: ScheduleView.route_fare_link(conn.assigns.route),
         holidays: conn.assigns.holidays,
         route: Route.to_json_safe(conn.assigns.route),
-        rating_end_date: Schedules.Repo.end_of_rating(),
         services: services(conn.assigns.route.id, service_date, services_fn),
         schedule_note: ScheduleNote.new(conn.assigns.route),
         stops: simple_stop_map(conn),
