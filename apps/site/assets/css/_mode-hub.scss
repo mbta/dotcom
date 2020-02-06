@@ -61,34 +61,6 @@
   width: 100%;
 }
 
-.m-mode-hub__guides {
-  @include media-breakpoint-down(md) {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: scroll;
-  }
-}
-
-.m-mode-hub__guides-wrapper {
-  // this fixes a horizontal scroll issues on Safari at small breakpoints
-  overflow: hidden;
-}
-
-.m-mode-hub__guide {
-  @include media-breakpoint-up(lg) {
-    margin-bottom: $base-spacing;
-  }
-
-  @include media-breakpoint-down(md) {
-    flex: 0 0 80%;
-
-    & + & {
-      // add a margin between items when laid out horizontally
-      margin-left: $base-spacing / 2;
-    }
-  }
-}
-
 .m-mode-hub__news {
   flex-direction: column;
 }

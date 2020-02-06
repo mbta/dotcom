@@ -57,17 +57,17 @@
           <%= SiteWeb.PartialView.render("_trip_planner_widget.html", assigns) %>
         </div>
         <div class="m-mode__guides">
-          <%= for guide <- @guides do SiteWeb.PartialView.teaser(guide, class: "m-mode__guide") end %>
+          <%= SiteWeb.PartialView.render_teasers(@guides, @conn, fields: [:image]) %>
         </div>
         <div class="m-mode__projects">
-          <%= unless Enum.empty?(@projects) do %>
-            <%= for project <- @projects do SiteWeb.PartialView.teaser(project, class: "m-mode__project") end %>
+          <%= SiteWeb.PartialView.render_teasers(@projects, @conn, list_class: "c-teaser-list--grid") %>
+        </div>
+        <div class="m-mode__news">
+          <%= unless Enum.empty?(@news) do %>
+            <h3 class="h2">News</h3>
+            <%= SiteWeb.PartialView.render_teasers(@news, @conn) %>
           <% end %>
         </div>
-        <%= unless Enum.empty?(@news) do %>
-          <h3 class="h3">News</h3>
-          <%= for item <- @news do SiteWeb.PartialView.news_entry(item, class: "m-mode-hub__news") end %>
-        <% end %>
       </div>
     </div>
   </div>

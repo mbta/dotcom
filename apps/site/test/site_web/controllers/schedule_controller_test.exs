@@ -502,8 +502,8 @@ defmodule SiteWeb.ScheduleControllerTest do
   test "assigns CMS content for line page", %{conn: conn} do
     conn = get(conn, line_path(conn, :show, "Red"))
     assert conn.status == 200
-    assert %Teaser{} = conn.assigns.featured_content
-    refute conn.assigns.featured_content.type == :news_entry
+    assert [%Teaser{} = teaser] = conn.assigns.featured_content
+    refute teaser.type == :news_entry
     assert [%Teaser{} | _] = conn.assigns.news
     assert Enum.all?(conn.assigns.news, &(&1.type === :news_entry))
   end

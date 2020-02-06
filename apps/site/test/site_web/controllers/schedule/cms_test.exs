@@ -15,8 +15,8 @@ defmodule SiteWeb.ScheduleController.CMSTest do
         |> CMS.call([])
         |> AsyncAssign.await_assign_all_default(__MODULE__)
 
-      assert %Teaser{} = conn.assigns.featured_content
-      assert %URI{query: query} = URI.parse(conn.assigns.featured_content.path)
+      assert [%Teaser{} = teaser] = conn.assigns.featured_content
+      assert %URI{query: query} = URI.parse(teaser.path)
 
       assert URI.decode_query(query) == %{
                "utm_campaign" => "curated-content",

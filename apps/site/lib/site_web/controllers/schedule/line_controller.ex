@@ -61,10 +61,7 @@ defmodule SiteWeb.ScheduleController.LineController do
           HTML.safe_to_string(
             ScheduleView.render(
               "_cms_teasers.html",
-              Map.merge(conn.assigns, %{
-                teaser_class: "m-schedule-page__teaser",
-                news_class: "m-schedule-page__news"
-              })
+              Map.merge(conn.assigns, %{conn: conn})
             )
           ),
         hours: HTML.safe_to_string(ScheduleView.render("_hours_of_op.html", conn.assigns)),
