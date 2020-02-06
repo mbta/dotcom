@@ -45,7 +45,7 @@ defmodule SiteWeb.CMS.TeaserView do
   If teasers are being rendered directly from an Elixir module, such
   as a controller or view (ie, a module or template outside the CMS app),
   the default fields below will be used for display. Otherwise, the
-  caller is is responsible for setting/overriding the defaults.
+  caller is responsible for setting/overriding the defaults.
 
   Note that the :type associated with the ContentList paragraph recipe OR
   the :type of the very first teaser in the teasers list will be used as

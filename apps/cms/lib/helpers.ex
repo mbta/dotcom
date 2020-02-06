@@ -33,7 +33,7 @@ defmodule CMS.Helpers do
   end
 
   @doc """
-  Handles entity fields that support multipe values.
+  Handles entity fields that support multiple values.
   Common patterns above apply here.
   """
   @spec field_values(map, String.t()) :: [map]
