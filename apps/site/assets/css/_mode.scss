@@ -58,17 +58,12 @@
 
 .m-mode__projects {
   @include media-breakpoint-between(sm, md) {
-    display: flex;
-  }
-}
+    .c-teaser-list {
+      @include teaser-grid();
 
-.m-mode__project {
-  @include media-breakpoint-between(sm, md) {
-    flex-basis: 0;
-    flex-grow: 1;
-
-    &:first-child {
-      margin-right: $base-spacing;
+      // Teaser list grids have full gutters, so set
+      // the vertical space to match the gutter width.
+      margin-top: $base-spacing * 2;
     }
   }
 }

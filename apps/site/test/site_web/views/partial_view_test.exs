@@ -5,7 +5,7 @@ defmodule SiteWeb.PartialViewTest do
   import SiteWeb.PartialView
   import SiteWeb.PartialView.{HeaderTabs, SvgIconWithCircle}
 
-  alias CMS.{Partial.Teaser, Repo}
+  alias CMS.Partial.Teaser
   alias SiteWeb.PartialView
   alias SiteWeb.PartialView.{FullscreenError, HeaderTab, HeaderTabBadge, SvgIconWithCircle}
 
@@ -123,47 +123,31 @@ defmodule SiteWeb.PartialViewTest do
     end
   end
 
-  describe "teaser/1" do
-    test "renders the title, topic and description for teasers with topic" do
-      assert [teaser | _] = Repo.teasers(type: [:project])
-      assert %Teaser{topic: "Projects"} = teaser
-      rendered = teaser |> PartialView.teaser() |> safe_to_string()
-      assert rendered =~ teaser.image.url
-      assert rendered =~ teaser.image.alt
-      assert rendered =~ teaser.title
-      assert rendered =~ teaser.text
-      assert rendered =~ teaser.topic
-    end
-
-    test "renders the title and description for teasers w/o topic" do
-      assert [teaser | _] = Repo.teasers(route_id: "Red", sidebar: 1)
-      assert %Teaser{topic: nil} = teaser
-      rendered = teaser |> PartialView.teaser() |> safe_to_string()
-      assert rendered =~ teaser.image.url
-      assert rendered =~ teaser.image.alt
-      assert rendered =~ teaser.title
-      assert rendered =~ teaser.text
-      refute rendered =~ "c-content-teaser__topic"
-    end
-
-    test "only shows image for guide teasers" do
-      assert [teaser | _] = Repo.teasers(topic: "guides", sidebar: 1)
-      assert teaser.topic == "Guides"
+  describe "render_teasers/3" do
+    test "renders teasers as a teaser list", %{conn: conn} do
+      teasers = [
+        %Teaser{id: 1, type: :event, path: "/1", title: "Event 1"},
+        %Teaser{id: 2, type: :event, path: "/2", title: "Event 2"}
+      ]
 
       rendered =
-        teaser
-        |> PartialView.teaser()
+        teasers
+        |> render_teasers(conn)
         |> safe_to_string()
 
-      assert rendered =~ teaser.image.url
-      assert rendered =~ teaser.image.alt
-      assert rendered =~ teaser.path
+      assert rendered =~ "c-teaser-list"
+      assert rendered =~ "c-content-teaser"
+      assert rendered =~ "Event 1"
+      assert rendered =~ "Event 2"
+    end
 
-      assert Floki.find(rendered, ".sr-only") == [
-               {"span", [{"class", "sr-only"}], [teaser.title]}
-             ]
+    test "if no teasers are returned, renders empty HTML", %{conn: conn} do
+      rendered =
+        []
+        |> render_teasers(conn)
+        |> safe_to_string()
 
-      refute rendered =~ teaser.text
+      assert rendered == ""
     end
   end
 

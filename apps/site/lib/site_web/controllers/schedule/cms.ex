@@ -29,8 +29,8 @@ defmodule SiteWeb.ScheduleController.CMS do
       @featured_opts
       |> Keyword.put(:route_id, route.id)
       |> Repo.teasers()
-      |> List.first()
-      |> set_utm_params(route)
+      |> Enum.take(1)
+      |> Enum.map(&set_utm_params(&1, route))
     end
 
     news_fn = fn ->

@@ -553,7 +553,7 @@ defmodule SiteWeb.StopListViewTest do
 
   describe "_cms_teasers.html" do
     test "renders featured content and news", %{conn: conn} do
-      assert {news, [featured | _]} =
+      assert {news, featured} =
                [route_id: "Red", sidebar: 1]
                |> Repo.teasers()
                |> Enum.split_with(&(&1.type === :news_entry))
@@ -565,17 +565,15 @@ defmodule SiteWeb.StopListViewTest do
         |> ScheduleView.render(
           featured_content: featured,
           news: news,
-          conn: conn,
-          teaser_class: "teaser-class",
-          news_class: "news-class"
+          conn: conn
         )
         |> safe_to_string()
 
-      assert rendered =~ featured.image.url
-      assert rendered =~ featured.image.alt
-      assert rendered =~ featured.title
-      assert rendered =~ "teaser-class"
-      assert rendered =~ "news-class"
+      [featured_sample | _] = featured
+
+      assert rendered =~ featured_sample.image.url
+      assert rendered =~ featured_sample.image.alt
+      assert rendered =~ featured_sample.title
 
       for item <- news do
         assert rendered =~ item.title
@@ -583,13 +581,13 @@ defmodule SiteWeb.StopListViewTest do
       end
     end
 
-    test "renders nothing when there is no content" do
+    test "renders nothing when there is no content", %{conn: conn} do
       rendered =
         "_cms_teasers.html"
-        |> ScheduleView.render(featured_content: nil, news: [])
+        |> ScheduleView.render(featured_content: [], news: [], conn: conn)
         |> safe_to_string()
 
-      assert rendered == "\n"
+      assert String.trim(rendered) == ""
     end
   end
 end

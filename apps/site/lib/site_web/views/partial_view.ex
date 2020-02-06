@@ -7,12 +7,12 @@ defmodule SiteWeb.PartialView do
   alias CMS.{Partial.Teaser, Repo}
   alias Plug.Conn
   alias Routes.Route
+  alias SiteWeb.CMS.TeaserView
   alias SiteWeb.PartialView.SvgIconWithCircle
 
   import SiteWeb.CMSView, only: [file_description: 1]
-  import SiteWeb.CMSHelpers
   import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
-  import SiteWeb.CMS.TeaserView, only: [transit_tag: 1]
+  import SiteWeb.CMS.TeaserView, only: [transit_tag: 1, handle_fields: 2]
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
@@ -79,92 +79,30 @@ defmodule SiteWeb.PartialView do
   def display_branch_name(_), do: nil
 
   @doc """
-  Renders a CMS content teaser, typically shown on a page's sidebar.
-  Guides only show their teaser image; other content types display
-  the content's topic and title below the teaser image.
+  Abstraction layer for displaying a list of teasers outside of the CMS app.
+  List type is determined by the first teaser's :type value. Avoid creating
+  a single list with multiple, mixed content types.
   """
-  @spec teaser(Teaser.t()) :: Phoenix.HTML.Safe.t()
-  def teaser(%Teaser{} = teaser, opts \\ []) do
-    content_tag(
-      :div,
-      [
-        render_teaser_image(teaser),
-        teaser_text(teaser)
-      ],
-      class: teaser_class(opts)
+  @spec render_teasers([Teaser.t()], Conn.t(), Keyword.t()) :: Phoenix.HTML.safe()
+  def render_teasers(teasers, conn, opts \\ [])
+
+  def render_teasers([], _, _), do: {:safe, []}
+
+  def render_teasers(teasers, conn, opts) do
+    display_fields =
+      teasers
+      |> List.first()
+      |> Map.get(:type)
+      |> handle_fields(opts[:fields])
+
+    TeaserView.render(
+      "_teaser_list.html",
+      teasers: teasers,
+      fields: display_fields,
+      list_class: Keyword.get(opts, :list_class, ""),
+      conn: conn
     )
   end
-
-  @spec teaser_class(Keyword.t()) :: String.t()
-  defp teaser_class(opts) do
-    Enum.join(
-      [
-        Keyword.get(opts, :class, ""),
-        "c-content-teaser",
-        "u-linked-card"
-      ],
-      " "
-    )
-  end
-
-  def render_teaser_image(%Teaser{image: nil}) do
-    []
-  end
-
-  def render_teaser_image(%Teaser{topic: "Guides"} = teaser) do
-    link(do_render_teaser_image(teaser), to: teaser.path)
-  end
-
-  def render_teaser_image(teaser) do
-    do_render_teaser_image(teaser)
-  end
-
-  defp do_render_teaser_image(teaser) do
-    img_tag(teaser.image.url, alt: teaser.image.alt, class: teaser_image_class(teaser))
-  end
-
-  @spec teaser_image_class(Teaser.t()) :: String.t()
-  defp teaser_image_class(%Teaser{topic: nil}) do
-    "c-content-teaser__image"
-  end
-
-  defp teaser_image_class(%Teaser{topic: topic}) do
-    Enum.join(
-      [
-        "c-content-teaser__image",
-        "c-content-teaser__image--" <> CSSHelpers.string_to_class(topic)
-      ],
-      " "
-    )
-  end
-
-  @spec teaser_text(Teaser.t()) :: [Phoenix.HTML.Safe.t()]
-  defp teaser_text(%Teaser{topic: "Guides"} = teaser) do
-    [
-      content_tag(:span, [teaser.title], class: "sr-only")
-    ]
-  end
-
-  defp teaser_text(%Teaser{topic: nil} = teaser) do
-    [
-      content_tag(:h3, [teaser_title(teaser)], class: "h3 c-content-teaser__title"),
-      content_tag(:div, [teaser.text], class: "c-content-teaser__text")
-    ]
-  end
-
-  defp teaser_text(teaser) do
-    [
-      content_tag(:div, [teaser_topic(teaser)], class: "c-content-teaser__topic u-small-caps"),
-      content_tag(:h3, [teaser_title(teaser)], class: "h3 c-content-teaser__title"),
-      content_tag(:div, [teaser.text], class: "c-content-teaser__text")
-    ]
-  end
-
-  defp teaser_title(teaser) do
-    link(teaser.title, to: teaser.path, class: "u-linked-card__primary-link")
-  end
-
-  defp teaser_topic(teaser), do: link_category(teaser.topic)
 
   @doc """
   Renders homepage news entries. Takes two options:
@@ -235,6 +173,9 @@ defmodule SiteWeb.PartialView do
     )
   end
 
+  @doc """
+  Renders a specific CMS paragraph, provided an alias to it and the conn.
+  """
   @spec paragraph(String.t(), Conn.t()) :: Phoenix.HTML.Safe.t()
   def paragraph(path, conn) do
     path

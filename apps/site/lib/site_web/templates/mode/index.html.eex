@@ -57,7 +57,7 @@
           <%= SiteWeb.PartialView.render("_trip_planner_widget.html", assigns) %>
         </div>
         <div class="m-mode-hub__guides">
-          <%= for guide <- @guides do SiteWeb.PartialView.teaser(guide, class: "m-mode-hub__guide") end %>
+          <%= SiteWeb.PartialView.render_teasers(@guides, @conn, fields: [:image], list_class: "u-side-scroll") %>
         </div>
       </div>
     </div>
