@@ -8,6 +8,14 @@ export const stringToDateObject = (unformatted: string): Date => {
   return parsedDate;
 };
 
+// Returns a date in the form of "2019-08-07"
+export const dateObjectToString = (date: Date): string =>
+  [
+    date.getFullYear(),
+    `0${date.getMonth() + 1}`.slice(-2),
+    `0${date.getDate()}`.slice(-2)
+  ].join("-");
+
 // Returns a date in the form of "August 7, 2019"
 export const formattedDate = (unformatted: string): string => {
   const parsedDate = stringToDateObject(unformatted);

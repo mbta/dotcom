@@ -9,14 +9,6 @@ Array [
     className="schedule-finder__service-selector"
   >
     <div
-      className="callout schedule-table--empty"
-    >
-      There is no scheduled service for today,
-       
-      Saturday, Aug 31
-      .
-    </div>
-    <div
       className="c-select-custom__container "
       id="service_selector_container"
       onClick={[Function]}
@@ -26,7 +18,7 @@ Array [
     >
       <select
         className="c-select-custom text-center u-bold"
-        defaultValue="BUS319-O-Wdy-02"
+        defaultValue="BUS319-P-Sa-02"
         id="service_selector"
         onChange={[Function]}
       >

@@ -11,7 +11,7 @@ import {
 } from "../service";
 import { Service, DayInteger } from "../../__v3api";
 import { Dictionary } from "lodash";
-import { shortDate } from "../date";
+import { shortDate, stringToDateObject } from "../date";
 
 export const services: Service[] = [
   {
@@ -173,7 +173,7 @@ export const services: Service[] = [
   }
 ];
 
-const testDate = new Date("2019-07-15"); // sunday
+const testDate = stringToDateObject("2019-07-15"); // sunday
 
 describe("groupServicesByDateRating", () => {
   let grouped: Dictionary<Service[]>;
@@ -237,7 +237,7 @@ describe("groupServicesByDateRating", () => {
     const currentService = grouped[currentKey!][0];
     const name = `${ServiceGroupNames.CURRENT} (${
       currentService.rating_description
-    }, ends ${shortDate(new Date(currentService.rating_end_date!))})`;
+    }, ends ${shortDate(stringToDateObject(currentService.rating_end_date!))})`;
     expect(currentKey).toEqual(name);
   });
 
@@ -248,7 +248,9 @@ describe("groupServicesByDateRating", () => {
     const futureService = grouped[futureKey!][0];
     const name = `${ServiceGroupNames.FUTURE} (${
       futureService.rating_description
-    }, starts ${shortDate(new Date(futureService.rating_start_date!))})`;
+    }, starts ${shortDate(
+      stringToDateObject(futureService.rating_start_date!)
+    )})`;
     expect(futureKey).toEqual(name);
   });
 });
@@ -268,27 +270,23 @@ it("optGroupComparator sorts properly", () => {
   });
 });
 
-it("isCurrentValidService evaluates whether date falls within a service's valid service dates", () => {
-  const dateInCurrentServiceOnInvalidDate = isCurrentValidService(
-    services[0],
-    new Date("2019-07-07")
-  );
-  expect(dateInCurrentServiceOnInvalidDate).toBe(false);
+describe("isCurrentValidService evaluates if date falls within a service's valid service dates:", () => {
+  let testService: Service;
+  beforeAll(() => {
+    testService = services[0];
+  });
 
-  const dateInCurrentServiceOnRemovedDate = isCurrentValidService(
-    services[0],
-    new Date("2019-07-04")
-  );
-  expect(dateInCurrentServiceOnRemovedDate).toBe(false);
-
-  const dateNotInCurrentService = isCurrentValidService(services[0], testDate);
-  expect(dateNotInCurrentService).toBe(false);
-
-  const dateInCurrentService = isCurrentValidService(
-    services[0],
-    new Date("2019-07-12")
-  );
-  expect(dateInCurrentService).toBe(true);
+  it.each`
+    test                                 | date            | result
+    ${"date outside service valid_days"} | ${"2019-07-07"} | ${false}
+    ${"date in removed_dates"}           | ${"2019-07-04"} | ${false}
+    ${"date outside service dates"}      | ${"2020-01-11"} | ${false}
+    ${"actually valid date!"}            | ${"2019-07-02"} | ${true}
+  `("$test = $result", ({ date, result }) => {
+    expect(isCurrentValidService(testService, stringToDateObject(date))).toBe(
+      result
+    );
+  });
 });
 
 it("isInCurrentRating evaluates whether date falls within a service's rating dates", () => {
@@ -296,7 +294,7 @@ it("isInCurrentRating evaluates whether date falls within a service's rating dat
   expect(dateInRating).toBe(true);
   const dateNotInRating = isInCurrentRating(
     services[0],
-    new Date("2019-03-15")
+    stringToDateObject("2019-03-15")
   );
   expect(dateNotInRating).toBe(false);
   const serviceWithoutRating = services[8];
@@ -310,9 +308,9 @@ it("isInFutureRating evaluates whether date falls within service future rating d
   const dateNotInFutureRating = isInFutureRating(services[0], testDate);
   expect(dateNotInFutureRating).toBe(false);
   const serviceWithoutRating = services[8];
-  expect(isInFutureRating(serviceWithoutRating, new Date("2020-08-08"))).toBe(
-    false
-  );
+  expect(
+    isInFutureRating(serviceWithoutRating, stringToDateObject("2020-08-08"))
+  ).toBe(false);
 });
 
 it("hasNoRating evaluates whether service does not fall within a rating", () => {

@@ -1,6 +1,6 @@
 import _, { Dictionary } from "lodash";
 import { Service, DayInteger } from "../__v3api";
-import { shortDate } from "./date";
+import { shortDate, stringToDateObject, dateObjectToString } from "./date";
 
 export enum ServiceGroupNames {
   HOLIDAY = "Holiday Schedules",
@@ -13,16 +13,13 @@ export const serviceStartDateComparator = (
   service1: Service,
   service2: Service
 ): number =>
-  new Date(service1.start_date).getTime() -
-  new Date(service2.start_date).getTime();
+  stringToDateObject(service1.start_date).getTime() -
+  stringToDateObject(service2.start_date).getTime();
 
 const isInRemovedDates = (
   service: Service,
   currentDate: Date = new Date()
-): boolean =>
-  service.removed_dates
-    .map(d => new Date(d).getTime())
-    .includes(currentDate.getTime());
+): boolean => service.removed_dates.includes(dateObjectToString(currentDate));
 
 const isOnValidDay = (
   service: Service,
@@ -38,8 +35,8 @@ const isInCurrentService = (
   service: Service,
   currentDate: Date = new Date()
 ): boolean => {
-  const serviceStartDate = new Date(service.start_date);
-  const serviceEndDate = new Date(service.end_date);
+  const serviceStartDate = stringToDateObject(service.start_date);
+  const serviceEndDate = stringToDateObject(service.end_date);
   return currentDate >= serviceStartDate && currentDate <= serviceEndDate;
 };
 
@@ -71,8 +68,8 @@ export const isInCurrentRating = (
   if (hasNoRating(service)) {
     return false;
   }
-  const ratingStartDate = new Date(service.rating_start_date!);
-  const ratingEndDate = new Date(service.rating_end_date!);
+  const ratingStartDate = stringToDateObject(service.rating_start_date!);
+  const ratingEndDate = stringToDateObject(service.rating_end_date!);
   return currentDate >= ratingStartDate && currentDate <= ratingEndDate;
 };
 
@@ -85,8 +82,8 @@ const isInFutureService = (
   service: Service,
   currentDate: Date = new Date()
 ): boolean => {
-  const serviceStartDate = new Date(service.start_date);
-  const serviceEndDate = new Date(service.end_date);
+  const serviceStartDate = stringToDateObject(service.start_date);
+  const serviceEndDate = stringToDateObject(service.end_date);
   return currentDate <= serviceStartDate && currentDate <= serviceEndDate;
 };
 
@@ -97,8 +94,8 @@ export const isInFutureRating = (
   if (hasNoRating(service)) {
     return false;
   }
-  const ratingStartDate = new Date(service.rating_start_date!);
-  const ratingEndDate = new Date(service.rating_end_date!);
+  const ratingStartDate = stringToDateObject(service.rating_start_date!);
+  const ratingEndDate = stringToDateObject(service.rating_end_date!);
   return currentDate <= ratingStartDate && currentDate <= ratingEndDate;
 };
 
@@ -121,8 +118,8 @@ export const groupServicesByDateRating = (
         return ServiceGroupNames.FUTURE;
       }
     } else {
-      const ratingStartDate = new Date(service.rating_start_date!);
-      const ratingEndDate = new Date(service.rating_end_date!);
+      const ratingStartDate = stringToDateObject(service.rating_start_date!);
+      const ratingEndDate = stringToDateObject(service.rating_end_date!);
 
       if (
         isInCurrentRating(service, currentDate) &&
