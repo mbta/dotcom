@@ -7153,7 +7153,8 @@
       ],
       "field_terms": [],
       "field_routes": [],
-      "field_type_logic": []
+      "field_type_logic": [],
+      "field_teaser_field_display": []
     }
   ],
   "field_subtitle": [

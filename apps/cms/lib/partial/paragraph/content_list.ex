@@ -9,6 +9,7 @@ defmodule CMS.Partial.Paragraph.ContentList do
   import CMS.Helpers,
     only: [
       field_value: 2,
+      field_values: 2,
       int_or_string_to_int: 1,
       content_type: 1,
       parse_link: 2,
@@ -21,18 +22,19 @@ defmodule CMS.Partial.Paragraph.ContentList do
 
   defstruct header: nil,
             right_rail: false,
+            display_fields: [],
             ingredients: %{},
             recipe: [],
             teasers: [],
             cta: %{}
 
   @type order :: :DESC | :ASC | nil
-
   @type text_or_nil :: String.t() | nil
 
   @type t :: %__MODULE__{
           header: ColumnMultiHeader.t() | nil,
           right_rail: boolean(),
+          display_fields: [Teaser.display_field()],
           ingredients: map(),
           recipe: Keyword.t(),
           teasers: [Teaser.t()],
@@ -82,10 +84,16 @@ defmodule CMS.Partial.Paragraph.ContentList do
     %__MODULE__{
       header: data |> parse_paragraphs(preview_opts, "field_multi_column_header") |> List.first(),
       right_rail: field_value(data, "field_right_rail"),
+      display_fields: data |> field_values("field_teaser_field_display") |> field_options(),
       ingredients: ingredients,
       recipe: recipe,
       cta: cta
     }
+  end
+
+  @spec field_options([map]) :: [Teaser.display_field()]
+  defp field_options(visible_fields) do
+    Enum.map(visible_fields, &String.to_existing_atom/1)
   end
 
   @spec fetch_teasers(t()) :: t()

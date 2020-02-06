@@ -12,6 +12,7 @@ defmodule SiteWeb.PartialView do
   import SiteWeb.CMSView, only: [file_description: 1]
   import SiteWeb.CMSHelpers
   import SiteWeb.CMS.ParagraphView, only: [render_paragraph: 2]
+  import SiteWeb.CMS.TeaserView, only: [transit_tag: 1]
 
   defdelegate fa_icon_for_file_type(mime), to: Site.FontAwesomeHelpers
 
@@ -166,14 +167,14 @@ defmodule SiteWeb.PartialView do
   defp teaser_topic(teaser), do: link_category(teaser.topic)
 
   @doc """
-  Renders a news entry. Take two options:
+  Renders homepage news entries. Takes two options:
     size: :large | :small
     class: class to apply to the link
   """
   @spec news_entry(Teaser.t(), Keyword.t()) :: Phoenix.HTML.Safe.t()
   def news_entry(entry, opts \\ []) do
     size = Keyword.get(opts, :size, :small)
-    color = news_color(entry)
+    color = transit_tag(entry)
     opts = [{:color, color} | opts]
 
     link(
@@ -190,10 +191,6 @@ defmodule SiteWeb.PartialView do
       id: entry.id
     )
   end
-
-  @spec news_color(Teaser.t()) :: String.t()
-  defp news_color(%Teaser{routes: []}), do: "unknown"
-  defp news_color(%Teaser{routes: [route | _]}), do: cms_route_to_class(route)
 
   @spec news_path(Teaser.t(), module | Conn.t()) :: String.t()
   defp news_path(%Teaser{path: url}, conn), do: cms_static_page_path(conn, url)

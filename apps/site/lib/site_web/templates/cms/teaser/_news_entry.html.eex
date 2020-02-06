@@ -4,6 +4,14 @@
   </div>
 <% end %>
 
-<div class="c-content-teaser__title">
-  <%= @teaser.title %>
-</div>
+<%= if @teaser.title do %>
+  <div class="c-content-teaser__title">
+    <%= @teaser.title %>
+  </div>
+<% end %>
+
+<%= if @teaser.text && :summary in @fields do %>
+  <div class="c-content-teaser__text">
+    <%= @teaser.text %>
+  </div>
+<% end %>

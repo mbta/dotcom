@@ -10,14 +10,37 @@ defmodule CMS.Helpers do
   alias CMS.Partial.Paragraph
   alias Phoenix.HTML
 
+  @doc """
+  Each CMS entity hosts a variety of fields which all
+  follow common patterns, depending on the field type:
+  - Long text field (optional: with summary):
+    - value: raw database value from user input
+    - processed: Drupal's post-processed (safer) value
+    - summary: A plain-text value separate from above
+  - Entity reference field
+    - target_id: a integer value of another entity
+  - default: most other fields
+    - value: mixed type, but most common pattern
+  """
   @spec field_value(map, String.t()) :: any
-  def field_value(parsed, field) do
-    case parsed[field] do
+  def field_value(entity, field) do
+    case entity[field] do
       [%{"processed" => value}] -> value
       [%{"value" => value}] -> value
       [%{"target_id" => value}] -> value
       _ -> nil
     end
+  end
+
+  @doc """
+  Handles entity fields that support multipe values.
+  Common patterns above apply here.
+  """
+  @spec field_values(map, String.t()) :: [map]
+  def field_values(entity, field) do
+    entity
+    |> Map.get(field, [])
+    |> Enum.map(&Map.get(&1, "value"))
   end
 
   @spec handle_html(String.t() | nil) :: HTML.safe()
