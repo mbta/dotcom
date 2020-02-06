@@ -325,3 +325,34 @@
     top: .125 * $width-height;
   }
 }
+
+// Make container with list of items appear as a horizontally
+// scrolling section rather than stacked, at a certain breakpoint.
+@mixin side-scroll($breakpoint) {
+  @include media-breakpoint-down($breakpoint) {
+    // scss-lint:disable PropertySortOrder
+    display: flex;
+    overflow-x: auto;
+
+    // reset overrides
+    flex-wrap: nowrap;
+    justify-content: normal;
+    margin: 0;
+    padding: 0;
+
+    // Bleed the next item off the right edge
+    // scss-lint:disable ImportantRule
+    > * {
+      flex: 0 0 auto !important;
+      margin-left: 0 !important;
+      margin-right: 0 !important;
+      width: 80%;
+    }
+
+    // Add a margin between items when laid out horizontally
+    > * + * {
+      margin-left: $base-spacing !important;
+    }
+    // scss-lint:enable all
+  }
+}
