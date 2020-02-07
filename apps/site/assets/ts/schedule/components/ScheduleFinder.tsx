@@ -166,6 +166,9 @@ const ScheduleFinder = ({
         Choose a stop to get schedule information and real-time departure
         predictions.
       </div>
+      <label className="schedule-finder__label" htmlFor="sf_direction_select">
+        Choose a direction
+      </label>
       <SelectContainer
         error={state.directionError}
         id="sf_direction_select_container"
@@ -189,7 +192,7 @@ const ScheduleFinder = ({
             })
           }
         >
-          <option value="">Choose a direction</option>
+          <option value="">Select</option>
           <option value="0">
             {directionNames[0].toUpperCase()} {directionDestinations[0]}
           </option>
@@ -198,6 +201,9 @@ const ScheduleFinder = ({
           </option>
         </select>
       </SelectContainer>
+      <label className="schedule-finder__label" htmlFor="sf_origin_select">
+        Choose an origin stop
+      </label>
       <SelectContainer
         error={state.originError}
         handleClick={handleOriginSelectClick}
@@ -216,7 +222,7 @@ const ScheduleFinder = ({
             })
           }
         >
-          <option value="">Choose an origin stop</option>
+          <option value="">Select</option>
           {stopListOrder(stops, state.selectedDirection, directionId).map(
             ({ id, name }: SimpleStop) => (
               <option key={id} value={id}>

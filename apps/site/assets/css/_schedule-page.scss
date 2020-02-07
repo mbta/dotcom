@@ -231,6 +231,15 @@
   width: $base-spacing * 2.75;
 }
 
+.schedule-finder__label {
+  font-weight: bold;
+  margin: $base-spacing / 2 0 0;
+
+  + .c-select-custom__container {
+    margin-top: $base-spacing / 4;
+  }
+}
+
 .schedule-table {
   display: flex;
   flex-direction: column;
