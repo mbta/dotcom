@@ -21,6 +21,12 @@ exports[`renders 1`] = `
   <div>
     Choose a stop to get schedule information and real-time departure predictions.
   </div>
+  <label
+    className="schedule-finder__label"
+    htmlFor="sf_direction_select"
+  >
+    Choose a direction
+  </label>
   <div
     className="c-select-custom__container "
     id="sf_direction_select_container"
@@ -39,7 +45,7 @@ exports[`renders 1`] = `
       <option
         value=""
       >
-        Choose a direction
+        Select
       </option>
       <option
         value="0"
@@ -66,6 +72,12 @@ exports[`renders 1`] = `
       }
     />
   </div>
+  <label
+    className="schedule-finder__label"
+    htmlFor="sf_origin_select"
+  >
+    Choose an origin stop
+  </label>
   <div
     className="c-select-custom__container "
     id="sf_origin_select_container"
@@ -84,7 +96,7 @@ exports[`renders 1`] = `
       <option
         value=""
       >
-        Choose an origin stop
+        Select
       </option>
       <option
         value="place-welln"

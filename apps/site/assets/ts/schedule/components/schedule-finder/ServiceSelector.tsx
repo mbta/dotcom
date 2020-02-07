@@ -124,6 +124,9 @@ export const ServiceSelector = ({
             .
           </div>
         )}
+        <label htmlFor="service_selector" className="sr-only">
+          Schedules
+        </label>
         <SelectContainer id="service_selector_container" error={false}>
           <select
             id="service_selector"
