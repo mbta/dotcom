@@ -105,6 +105,10 @@ defmodule SiteWeb.ViewHelpersTest do
       assert route_to_class(%Routes.Route{type: 3}) == "bus"
       assert route_to_class(%Routes.Route{type: 4}) == "ferry"
     end
+
+    test "no route generates no class" do
+      assert route_to_class(nil) == ""
+    end
   end
 
   describe "mode_summaries/2" do
