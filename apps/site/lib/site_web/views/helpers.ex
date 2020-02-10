@@ -181,6 +181,8 @@ defmodule SiteWeb.ViewHelpers do
 
   @doc "Returns a css class: a string with hyphens."
   @spec route_to_class(Routes.Route.t()) :: String.t()
+  def route_to_class(nil), do: ""
+
   def route_to_class(route) do
     route
     |> Routes.Route.to_naive()
