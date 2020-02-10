@@ -2,7 +2,7 @@
   <%= raw Poison.encode!(@schedule_page_data) %>
 </script>
 
-<% redesign_direction? = Laboratory.enabled?(@conn, :schedule_direction_redesign) %>
+<% redesign_direction? = !Laboratory.enabled?(@conn, :old_line_diagram) %>
 
 <div class="page-section m-schedule-line">
   <div class="row">
