@@ -69,6 +69,9 @@
               <%= link "Contact Us", to: customer_support_path(@conn, :index), data: [scroll: true]  %>
             </li>
             <li class="m-footer__item m-footer--mobile__item">
+              <%= link "Lost and Found", to: cms_static_page_path(@conn, "/customer-support/lost-and-found"), data: [scroll: true]  %>
+            </li>
+            <li class="m-footer__item m-footer--mobile__item">
               <%= link "Policies", to: cms_static_page_path(@conn, "/policies"), data: [scroll: true]  %>
             </li>
           </div>
