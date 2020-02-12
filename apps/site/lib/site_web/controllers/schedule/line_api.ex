@@ -15,6 +15,8 @@ defmodule SiteWeb.ScheduleController.LineApi do
 
   import SiteWeb.StopController, only: [json_safe_alerts: 2]
 
+  require Logger
+
   @typep simple_vehicle :: %{
            id: String.t(),
            headsign: String.t() | nil,
@@ -44,6 +46,11 @@ defmodule SiteWeb.ScheduleController.LineApi do
         update_route_stop_data(stop, conn.assigns.alerts, conn.assigns.date)
       end)
     )
+  end
+
+  def log_visibility(conn, %{"visibility" => visibility}) do
+    _ = Logger.warn("module=#{__MODULE__} visibility=#{visibility}")
+    json(conn, nil)
   end
 
   @doc """
