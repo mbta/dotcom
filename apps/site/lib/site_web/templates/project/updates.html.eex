@@ -8,17 +8,25 @@
     <div class="c-cms__content">
       <div class="c-cms__body">
         <%= for update <- @updates do
-          link([
-            content_tag(:div, img_tag(
-              update.image.url,
-              alt: update.image.alt,
-              class: ["c-content-teaser__image", " ", "c-content-teaser__image--projects"]),
-              class: "m-project-updates__image col-sm-6"),
-            content_tag(:div, [
-              content_tag(:h2, update.title, class: "h3 m-project-updates__title"),
-              content_tag(:p, Timex.format!(update.date, "{Mfull} {D}, {YYYY}"), class: "h4")
-            ], class: "m-project-updates__content col-sm-6")
-          ], to: update.path, class: "m-project-updates__teaser c-content-teaser row")
+          text_content = [
+                content_tag(:h2, update.title, class: "h3 m-project-updates__title"),
+                content_tag(:p, Timex.format!(update.date, "{Mfull} {D}, {YYYY}"), class: "h4")
+              ]
+
+          if update.image do
+            link([
+              content_tag(:div, img_tag(
+                update.image.url,
+                alt: update.image.alt,
+                class: ["c-content-teaser__image", " ", "c-content-teaser__image--projects"]),
+                class: "m-project-updates__image col-sm-6"),
+              content_tag(:div, text_content, class: "m-project-updates__content col-sm-6")
+            ], to: update.path, class: "m-project-updates__teaser c-content-teaser row")
+          else
+            link([
+              content_tag(:div, text_content, class: "m-project-updates__content col-sm-12")
+            ], to: update.path, class: "m-project-updates__teaser c-content-teaser row")
+          end
         end %>
         <%= if Enum.empty?(@updates) do content_tag(:div, "There are no updates at this time.") end %>
         <%= SiteWeb.CMS.ParagraphView.render_paragraph(%DescriptiveLink{
