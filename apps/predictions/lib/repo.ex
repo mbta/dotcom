@@ -6,7 +6,7 @@ defmodule Predictions.Repo do
 
   @default_params [
     "fields[prediction]":
-      "track,status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
+      "status,departure_time,arrival_time,direction_id,schedule_relationship,stop_sequence",
     "fields[trip]": "direction_id,headsign,name,bikes_allowed",
     "fields[stop]": "platform_code",
     include: "trip,stop"

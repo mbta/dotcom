@@ -1,7 +1,7 @@
 {
   "id" : "693baf35-66a3-3e82-8413-93127df58c31",
   "request" : {
-    "url" : "/predictions/?trip=&stop=&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "url" : "/predictions/?trip=&stop=&fields%5Bprediction%5D=status%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
     "method" : "GET"
   },
   "response" : {
