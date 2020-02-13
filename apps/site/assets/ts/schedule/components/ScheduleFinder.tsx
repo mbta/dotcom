@@ -1,4 +1,4 @@
-import React, { ReactElement, useState, ChangeEvent } from "react";
+import React, { ReactElement, useState } from "react";
 import { EnhancedRoute, DirectionId } from "../../__v3api";
 import {
   SimpleStop,
@@ -88,13 +88,8 @@ const ScheduleFinder = ({
     selectedService: null
   });
 
-  const handleUpdateOriginSearch = (
-    event: ChangeEvent<HTMLInputElement>
-  ): void => {
-    setState({
-      ...state,
-      originSearch: event.target.value
-    });
+  const handleUpdateOriginSearch = (searchQuery: string): void => {
+    setState({ ...state, originSearch: searchQuery });
   };
 
   const handleSubmitForm = (): void => {

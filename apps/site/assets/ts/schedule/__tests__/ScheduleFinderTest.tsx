@@ -281,12 +281,14 @@ it("opens modal after displaying error", () => {
 
   // perform search
   wrapper
-    .find(".schedule-finder__origin-search")
+    .find(".schedule-finder__origin-search-container input")
     .simulate("change", { target: { value: "Wellington" } });
+  wrapper.setProps({}); // needed to update the `useEffect` in SearchBox
   expect(wrapper.find(".schedule-finder__origin-list-item").length).toBe(1);
   wrapper
-    .find(".schedule-finder__origin-search")
+    .find(".schedule-finder__origin-search-container input")
     .simulate("change", { target: { value: "" } });
+  wrapper.setProps({});
 
   // click origin modal line item
   wrapper
