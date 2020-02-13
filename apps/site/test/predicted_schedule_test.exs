@@ -7,7 +7,7 @@ defmodule PredictedScheduleTest do
 
   # set to the end of a month to uncover issues with sorting times as
   # structs, rather than as integers
-  @base_time ~N[2017-06-30T23:30:00]
+  @base_time Timex.to_datetime(~N[2017-06-30T23:30:00])
 
   @route %Routes.Route{id: "Teal"}
 
@@ -109,31 +109,57 @@ defmodule PredictedScheduleTest do
     %Prediction{
       trip: %Trip{id: "Trip 1"},
       stop: %Stop{id: "stop1"},
-      time: @base_time,
+      time: Timex.shift(@base_time, minutes: 2),
       route: @route
     },
     %Prediction{
       trip: %Trip{id: "Trip 2"},
       stop: %Stop{id: "stop1"},
-      time: Timex.shift(@base_time, minutes: 10),
+      time: Timex.shift(@base_time, minutes: 12),
       route: @route
     },
     %Prediction{
       trip: %Trip{id: "Trip 3"},
       stop: %Stop{id: "stop1"},
-      time: Timex.shift(@base_time, minutes: 20),
+      time: Timex.shift(@base_time, minutes: 22),
       route: @route
     }
   ]
 
   describe "get/2" do
-    test "PredictedSchedule get returns a list of predicted schedules" do
+    test "returns a list of predicted schedules" do
       predicted_schedules = get("1", 59, direction_id: 1, now: Util.now())
       assert is_list(predicted_schedules)
 
       if !Enum.empty?(predicted_schedules) do
         assert [%PredictedSchedule{} | _] = predicted_schedules
       end
+    end
+
+    test "filters results by time but doesn't filter predictions or schedules individually" do
+      schedules_fn = fn ["Teal"], opts ->
+        refute Keyword.has_key?(opts, :min_time)
+        @trip_schedules
+      end
+
+      predictions_fn = fn opts ->
+        refute Keyword.has_key?(opts, :min_time)
+        @trip_predictions
+      end
+
+      predicted_schedules =
+        get("Teal", "stop1",
+          # between scheduled and predicted times for Trip 2
+          now: Timex.shift(@base_time, minutes: 11),
+          schedules_fn: schedules_fn,
+          predictions_fn: predictions_fn
+        )
+
+      # should not see Trip 1 since scheduled and predicted times have passed
+      assert [
+               %{schedule: %{trip: %{id: "Trip 2"}}, prediction: %{trip: %{id: "Trip 2"}}},
+               %{schedule: %{trip: %{id: "Trip 3"}}, prediction: %{trip: %{id: "Trip 3"}}}
+             ] = predicted_schedules
     end
   end
 

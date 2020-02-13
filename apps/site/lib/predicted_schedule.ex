@@ -17,8 +17,9 @@ defmodule PredictedSchedule do
         }
 
   def get(route_id, stop_id, opts \\ []) do
-    schedules_fn = &Schedules.Repo.by_route_ids/2
-    now = Keyword.get(opts, :now)
+    schedules_fn = Keyword.get(opts, :schedules_fn, &Schedules.Repo.by_route_ids/2)
+    predictions_fn = Keyword.get(opts, :predictions_fn, &Predictions.Repo.all/1)
+    now = Keyword.get(opts, :now, Util.now())
     direction_id = Keyword.get(opts, :direction_id)
     sort_fn = Keyword.get(opts, :sort_fn, &sort_predicted_schedules/1)
 
@@ -26,12 +27,12 @@ defmodule PredictedSchedule do
       [route_id]
       |> schedules_fn.(
         stop_ids: stop_id,
-        min_time: now,
-        direction_id: direction_id
+        direction_id: direction_id,
+        date: Util.service_date(now)
       )
 
-    [route: route_id, stop: stop_id, min_time: now, direction_id: direction_id]
-    |> Predictions.Repo.all()
+    [route: route_id, stop: stop_id, direction_id: direction_id]
+    |> predictions_fn.()
     |> PredictedSchedule.group(schedules, sort_fn: sort_fn)
     |> case do
       [_ | _] = ps ->
@@ -52,6 +53,7 @@ defmodule PredictedSchedule do
     end
     |> Enum.reject(&PredictedSchedule.last_stop?/1)
     |> Enum.reject(&(PredictedSchedule.time(&1) == nil))
+    |> Enum.reject(&(DateTime.compare(PredictedSchedule.time(&1), now) == :lt))
   end
 
   @doc """
