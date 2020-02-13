@@ -1,7 +1,7 @@
 {
   "id" : "dfa00fbc-feac-3685-b369-9f8c24b2d222",
   "request" : {
-    "url" : "/predictions/?direction_id=0&route=1&fields%5Bprediction%5D=track%2Cstatus%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "url" : "/predictions/?direction_id=0&route=1&fields%5Bprediction%5D=status%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
     "method" : "GET"
   },
   "response" : {
