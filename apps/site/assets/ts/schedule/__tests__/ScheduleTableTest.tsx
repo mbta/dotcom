@@ -3,13 +3,12 @@ import { mount } from "enzyme";
 import serviceData from "./serviceData.json";
 import crServiceData from "./crServiceData.json";
 import ScheduleTable from "../components/schedule-finder/ScheduleTable";
-import { EnhancedRoutePattern } from "../components/__schedule";
+import { EnhancedRoutePattern, UserInput } from "../components/__schedule";
 import {
   createReactRoot,
   enzymeToJsonWithoutProps
 } from "../../app/helpers/testUtils";
 import { Journey } from "../components/__trips.js";
-import { UserInput } from "../components/ScheduleFinder.js";
 
 const journeys: Journey[] = serviceData as Journey[];
 

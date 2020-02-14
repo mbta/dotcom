@@ -1,9 +1,4 @@
 import React, { ReactElement, useReducer, useEffect } from "react";
-import {
-  SelectedDirection,
-  SelectedOrigin,
-  UserInput
-} from "../ScheduleFinder";
 import UpcomingDepartures from "./UpcomingDepartures";
 import { Route, RouteType } from "../../../__v3api";
 import {
@@ -11,7 +6,10 @@ import {
   StopPrediction,
   RoutePatternsByDirection,
   ServiceInSelector,
-  ScheduleNote as ScheduleNoteType
+  ScheduleNote as ScheduleNoteType,
+  SelectedDirection,
+  SelectedOrigin,
+  UserInput
 } from "../__schedule";
 import isSilverLine from "../../../helpers/silver-line";
 import { reducer } from "../../../helpers/fetch";

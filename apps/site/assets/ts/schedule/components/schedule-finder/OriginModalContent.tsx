@@ -1,6 +1,5 @@
 import React, { ReactElement } from "react";
-import { SimpleStop } from "../__schedule";
-import { SelectedOrigin, SelectedDirection } from "../ScheduleFinder";
+import { SimpleStop, SelectedOrigin, SelectedDirection } from "../__schedule";
 import OriginListItem from "./OriginListItem";
 import { DirectionId } from "../../../__v3api";
 import SearchBox from "../../../components/SearchBox";

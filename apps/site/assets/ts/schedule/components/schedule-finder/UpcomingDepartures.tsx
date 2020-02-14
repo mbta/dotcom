@@ -10,7 +10,7 @@ import { Route } from "../../../__v3api";
 import { EnhancedJourney } from "../__trips";
 import { breakTextAtSlash } from "../../../helpers/text";
 import { Accordion } from "./TableRow";
-import { UserInput } from "../ScheduleFinder";
+import { UserInput } from "../../components/__schedule";
 import liveClockSvg from "../../../../static/images/icon-live-clock.svg";
 
 interface State {

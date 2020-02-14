@@ -5,7 +5,7 @@ import UpcomingDepartures from "../components/schedule-finder/UpcomingDepartures
 import { EnhancedJourney } from "../components/__trips";
 import departuresResponse from "../__tests__/departures.json";
 import crDeparturesResponse from "../__tests__/crDepartures.json";
-import { UserInput } from "../components/ScheduleFinder";
+import { UserInput } from "../components/__schedule";
 
 const busDepartures = (departuresResponse as unknown) as EnhancedJourney[];
 const crDepartures = (crDeparturesResponse as unknown) as EnhancedJourney[];
