@@ -108,7 +108,7 @@ const LineDiagram = ({
     if (!liveDataIsLoading) reloadLiveData();
   }, 15000);
 
-  const handleStopClick = (stop: RouteStop): (() => void) => () =>
+  const handleStopClick = (stop: RouteStop): void =>
     setModalState({
       selectedOrigin: stop,
       modalOpen: true
@@ -185,7 +185,7 @@ const LineDiagram = ({
           <SingleStop
             key={stop.route_stop.id}
             stop={stop}
-            onClick={handleStopClick(stop.route_stop)}
+            onClick={handleStopClick}
             color={routeColor}
             liveData={liveData[stop.route_stop.id]}
             searchQuery={stopQuery}
@@ -271,7 +271,7 @@ const LineDiagram = ({
                           stopIdx === stopOrStops.length - 1 &&
                           stop.route_stop["is_terminus?"]
                         }
-                        onClick={handleStopClick(stop.route_stop)}
+                        onClick={handleStopClick}
                         color={routeColor}
                         liveData={liveData[stop.route_stop.id]}
                       />
@@ -302,7 +302,7 @@ const LineDiagram = ({
                       ? bldIndex === branchedLineDiagram.length - 1
                       : isEndOnOutwardBranch
                   }
-                  onClick={handleStopClick(stopOrStops.route_stop)}
+                  onClick={handleStopClick}
                   color={routeColor}
                   liveData={liveData[stopOrStops.route_stop.id]}
                 />

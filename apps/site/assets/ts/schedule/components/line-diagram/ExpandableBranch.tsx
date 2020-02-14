@@ -13,7 +13,7 @@ const ExpandableBranch = ({
   liveDataByStop
 }: {
   branchData: LineDiagramStop[];
-  onStopClick: (stop: RouteStop) => () => void;
+  onStopClick: (stop: RouteStop) => void;
   color: string;
   willMerge?: boolean;
   liveDataByStop: LiveDataByStop;
@@ -76,7 +76,7 @@ const ExpandableBranch = ({
           <SingleStop
             key={branchStop.route_stop.id}
             stop={branchStop}
-            onClick={onStopClick(branchStop.route_stop)}
+            onClick={onStopClick}
             color={color}
             liveData={liveDataByStop[branchStop.route_stop.id]}
           />
