@@ -91,12 +91,21 @@ const LineDiagram = ({
     modalOpen: false
   });
 
-  const { data: maybeLiveData } = useFetch(
+  const {
+    data: maybeLiveData,
+    isLoading: liveDataIsLoading,
+    // @ts-ignore https://github.com/async-library/react-async/issues/244
+    reload: reloadLiveData
+  } = useFetch(
     `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`,
     {},
     { json: true, watch: directionId }
   );
   const liveData = (maybeLiveData || {}) as LiveDataByStop;
+  useInterval(() => {
+    /* istanbul ignore next */
+    if (!liveDataIsLoading) reloadLiveData();
+  }, 15000);
 
   useFetch(
     `/schedules/line_api/log_visibility?visibility=${document.visibilityState}`,
