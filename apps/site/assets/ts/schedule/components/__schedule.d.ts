@@ -152,3 +152,12 @@ export interface StopPrediction {
   prediction: PredictedOrScheduledTime;
   train_number: string;
 }
+
+export type SelectedDirection = 0 | 1 | null;
+export type SelectedOrigin = string | null;
+export interface UserInput {
+  route: string;
+  origin: string;
+  date: string;
+  direction: SelectedDirection;
+}

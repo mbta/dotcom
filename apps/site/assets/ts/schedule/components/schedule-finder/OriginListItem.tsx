@@ -2,8 +2,7 @@ import React, { ReactElement } from "react";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import renderSvg from "../../../helpers/render-svg";
 import checkIcon from "../../../../static/images/icon-checkmark.svg";
-import { SimpleStop } from "../__schedule";
-import { SelectedOrigin } from "../ScheduleFinder";
+import { SimpleStop, SelectedOrigin } from "../__schedule";
 
 interface OriginListItemProps {
   changeOrigin: Function;

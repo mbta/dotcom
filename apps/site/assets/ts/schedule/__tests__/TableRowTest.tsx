@@ -4,7 +4,7 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 import TableRow from "../components/schedule-finder/TableRow";
 import { fetchData as fetchJourney } from "../components/schedule-finder/TableRow";
 import { Journey } from "../components/__trips";
-import { UserInput } from "../components/ScheduleFinder";
+import { UserInput } from "../components/__schedule";
 
 const journey = {
   trip: {

@@ -10,8 +10,11 @@ import {
 } from "../../../helpers/service";
 import { reducer } from "../../../helpers/fetch";
 import ScheduleTable from "./ScheduleTable";
-import { SelectedDirection } from "../ScheduleFinder";
-import { EnhancedRoutePattern, ServiceInSelector } from "../__schedule";
+import {
+  EnhancedRoutePattern,
+  ServiceInSelector,
+  SelectedDirection
+} from "../__schedule";
 import ServiceOptGroup from "./ServiceOptGroup";
 import { Journey } from "../__trips";
 import { Service } from "../../../__v3api";

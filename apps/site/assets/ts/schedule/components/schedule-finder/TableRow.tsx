@@ -5,7 +5,7 @@ import { modeIcon, caret } from "../../../helpers/icon";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { breakTextAtSlash } from "../../../helpers/text";
 import { TripDetails } from "./TripDetails";
-import { UserInput } from "../ScheduleFinder";
+import { UserInput } from "../../components/__schedule";
 
 interface TableRowProps {
   input: UserInput;

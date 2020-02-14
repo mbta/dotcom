@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import { EnhancedRoutePattern } from "../__schedule";
 import { Journey } from "../__trips";
 import TableRow from "./TableRow";
-import { UserInput } from "../ScheduleFinder";
+import { UserInput } from "../../components/__schedule";
 
 interface Props {
   journeys: Journey[];
