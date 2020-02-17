@@ -109,7 +109,7 @@ $body-columns: ();
               // so that we do not need advanced logic to look it up dynamically in the $layout-cms map
               @if $element-name == body and $col-mixin == span {
                 $body-columns: map-merge($body-columns, ($breakpoint-name: $value));
-}}}}}}}}
+              }}}}}}}}
 
 // The following two rules setup the header and sidebar
 // so that they are adjacent to each other; we want the

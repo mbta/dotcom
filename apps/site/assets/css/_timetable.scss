@@ -123,7 +123,7 @@
 }
 
 .m-timetable__table {
-  [class*="c-svg__icon"] {
+  [class*='c-svg__icon'] {
     position: static;
   }
 }
@@ -162,8 +162,7 @@
 .m-timetable__access-icon {
   margin-left: .1em; // Forces word split of Stops at small breakpoints
   @include media-breakpoint-down(sm) {
-    @include icon-size(12px)
-  }
+    @include icon-size(12px); }
 }
 
 .m-timetable__row,
@@ -199,11 +198,11 @@
     border-right: 0;
   }
 
-  [class*="c-svg__icon"] {
+  [class*='c-svg__icon'] {
     vertical-align: text-top;
   }
 
-  [class*="c-svg__icon-commuter-rail"] {
+  [class*='c-svg__icon-commuter-rail'] {
     margin-left: .25em;
   }
 

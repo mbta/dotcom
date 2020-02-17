@@ -162,7 +162,7 @@
     display: block;
     height: $header-navbar-height;
     width: $base-spacing * 12; // setting the width keeps the rendered logo proportional,
-                               // while adding space above and below inside the svg.
+    // while adding space above and below inside the svg.
 
     @include media-breakpoint-down(sm) {
       g {

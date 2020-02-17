@@ -274,7 +274,7 @@
 
 // Use this mixin when you just want to set a size on an icon and don't need to position it
 @mixin icon-size($width-height) {
-  [class*="c-svg__icon"] {
+  [class*='c-svg__icon'] {
     height: $width-height;
     width: $width-height;
   }
@@ -284,16 +284,15 @@
 // This mixin is only for new svgs with the "c-svg__icon" class prefix
 @mixin icon-size-inline($width-height, $offset: null) {
   @if $offset {
-    [class*="c-svg__icon"] {
+    [class*='c-svg__icon'] {
       height: $width-height;
       position: relative;
       top: $offset;
       width: $width-height;
     }
   } @else {
-    [class*="c-svg__icon"] {
-      @include center-icon($width-height)
-    }
+    [class*='c-svg__icon'] {
+      @include center-icon($width-height); }
   }
 }
 
@@ -301,8 +300,7 @@
 // This mixin is only for old svgs without the "c-svg__icon" class prefix
 // You can add this to classes like "icon" by selecting that class in the proper context
 @mixin old-style-icon-size-inline($width-height) {
-  @include center-icon($width-height)
-}
+  @include center-icon($width-height); }
 
 // Don't use this mixin directly, use icon-size-inline or old-style-icon-size-inline
 // This aligns the icon with the text since SVG is not text itself
@@ -317,8 +315,8 @@
     1.5em: .35em
   );
   height: $width-height;
-  width: $width-height;
   position: relative;
+  width: $width-height;
   @if map-has-key($map, $width-height) {
     top: map-get($map, $width-height);
   } @else {
@@ -332,12 +330,12 @@
   @include media-breakpoint-down($breakpoint) {
     // scss-lint:disable PropertySortOrder
     display: flex;
-    overflow-x: auto;
 
     // reset overrides
     flex-wrap: nowrap;
     justify-content: normal;
     margin: 0;
+    overflow-x: auto;
     padding: 0;
 
     // Bleed the next item off the right edge

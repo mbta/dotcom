@@ -73,10 +73,10 @@
     position: sticky;
     top: 0;
     z-index: $z-index-datepicker-content; // required so that a new stacking context is defined;
-                                          // without setting z-index, the footer's stacking context
-                                          // is higher than this sidebar so the datepicker popup
-                                          // is covered by the footer. -kh
-                                          // https://philipwalton.com/articles/what-no-one-told-you-about-z-index/
+    // without setting z-index, the footer's stacking context
+    // is higher than this sidebar so the datepicker popup
+    // is covered by the footer. -kh
+    // https://philipwalton.com/articles/what-no-one-told-you-about-z-index/
   }
 }
 
@@ -140,7 +140,7 @@
   right: -$base-spacing / 4;
   top: 27.5%;
 
-  [class*="c-svg__icon-calendar-default"] {
+  [class*='c-svg__icon-calendar-default'] {
     height: 1rem;
     width: 1rem;
   }

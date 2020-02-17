@@ -275,7 +275,7 @@ $line-width: 8px; // width of the colored line in the diagram
 
 // <ExpandableBlock /> adjustments
 .m-schedule-diagram__expander {
-  [tabindex="0"]:focus {
+  [tabindex='0']:focus {
     outline: none;
   }
 
@@ -323,16 +323,16 @@ $line-width: 8px; // width of the colored line in the diagram
   }
 
   // hide icon when branch is expanded
-  [aria-expanded="true"] .m-schedule-diagram__collapsed-icon {
+  [aria-expanded='true'] .m-schedule-diagram__collapsed-icon {
     display: none;
   }
 
   // adjust text when branch is expanded/closed
-  [aria-expanded="true"] .m-schedule-diagram__toggle::before {
+  [aria-expanded='true'] .m-schedule-diagram__toggle::before {
     content: 'Hide ';
   }
 
-  [aria-expanded="false"] .m-schedule-diagram__toggle::before {
+  [aria-expanded='false'] .m-schedule-diagram__toggle::before {
     content: 'Show ';
   }
 
@@ -403,7 +403,7 @@ $line-width: 8px; // width of the colored line in the diagram
   // 2. After the last <SingleStop /> on a branch, when that branch is expanded
   // 3. At the end of short branches, which are expanded by default
   // scss-lint:disable SelectorDepth
-  [aria-expanded="false"] .m-schedule-diagram__stop--merging .m-schedule-diagram__lines--collapsed,
+  [aria-expanded='false'] .m-schedule-diagram__stop--merging .m-schedule-diagram__lines--collapsed,
   .m-schedule-diagram__expander--merging .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines,
   .m-schedule-diagram__expanded .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines {
     @include linebend(100%);

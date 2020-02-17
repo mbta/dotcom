@@ -266,7 +266,7 @@ div {
     // works we need to match selector syntax.
     // scss-lint:disable PseudoElement
 
-    &:before {
+    &::before {
       @include fa-icon();
       content: $fa-var-exclamation-circle;
       margin-right: .25em;

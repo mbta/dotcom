@@ -220,7 +220,7 @@ $layout-media: (
           .c-cms__body {
             // Send the configuration to a mixin which will apply the appropriate col-mixins and parameters
             @include offset-media($breakpoint-name, $layout-name, map-get($body-columns, $breakpoint-name));
-}}}}}}
+          }}}}}}
 
 // Consolidated styles for images, iframes, tables, and other elements
 //
