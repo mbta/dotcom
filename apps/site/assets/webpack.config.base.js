@@ -5,6 +5,8 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const webpack = require("webpack");
 const path = require("path");
 const postcssPresetEnv = require("postcss-preset-env");
+const autoprefixer = require("autoprefixer");
+const sass = require("sass");
 
 const babelLoader = {
   loader: "babel-loader",
@@ -85,17 +87,20 @@ module.exports = {
             loader: "postcss-loader",
             options: {
               ident: "postcss",
-              plugins: () => [postcssPresetEnv()]
+              plugins: () => [postcssPresetEnv, autoprefixer]
             }
           },
           {
             loader: "sass-loader",
             options: {
-              includePaths: [
-                "node_modules/bootstrap/scss",
-                "node_modules/font-awesome/scss"
-              ],
-              precision: 8
+              implementation: sass, // Prefer `dart-sass`
+              sassOptions: {
+                includePaths: [
+                  "node_modules/bootstrap/scss",
+                  "node_modules/font-awesome/scss"
+                ],
+                outputStyle: "compressed"
+              }
             }
           }
         ]
