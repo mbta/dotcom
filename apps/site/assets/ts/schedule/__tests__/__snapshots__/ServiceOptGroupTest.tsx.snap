@@ -45,9 +45,9 @@ exports[`ServiceOptGroup renders 1`] = `
     Ferry service
   </option>
   <option
-    value="weekday2019-2"
+    value="weekday2020-2"
   >
-    CR service
+    CR service, Test Future Service Incomplete Rating
   </option>
 </optgroup>
 `;

@@ -7,7 +7,8 @@ import {
   isCurrentValidService,
   isInFutureRating,
   optGroupComparator,
-  hasNoRating
+  hasIncompleteRating,
+  isInFutureService
 } from "../service";
 import { Service, DayInteger } from "../../__v3api";
 import { Dictionary } from "lodash";
@@ -162,14 +163,14 @@ export const services: Service[] = [
     removed_dates_notes: {},
     removed_dates: [],
     name: "Weekday",
-    id: "weekday2019-2",
+    id: "weekday2020-2",
     end_date: "2021-09-15",
     description: "CR service",
     added_dates_notes: {},
     added_dates: [],
     rating_start_date: "2020-07-07",
     rating_end_date: null,
-    rating_description: ""
+    rating_description: "Test Future Service Incomplete Rating"
   }
 ];
 
@@ -193,13 +194,17 @@ describe("groupServicesByDateRating", () => {
   });
 
   it("lists only typical_service services in the relevant rating as 'current'", () => {
-    const currentKey = Object.keys(grouped).find(
+    const currentKeys = Object.keys(grouped).filter(
       key => key.split(" ")[0] === ServiceGroupNames.CURRENT.split(" ")[0]
     );
-    const currentServices = grouped[currentKey!];
-    currentServices.forEach(service => {
-      expect(service.typicality).toEqual("typical_service");
-      expect(isInCurrentRating(service, testDate)).toBe(true);
+    currentKeys.forEach(currentKey => {
+      const currentServices = grouped[currentKey!];
+      currentServices.forEach(service => {
+        expect(service.typicality).toEqual("typical_service");
+        expect(isInCurrentRating(service, testDate)).toBe(
+          !hasIncompleteRating(service)
+        );
+      });
     });
   });
 
@@ -210,48 +215,80 @@ describe("groupServicesByDateRating", () => {
   });
 
   it("lists future services as 'future'", () => {
-    const futureKey = Object.keys(grouped).find(
+    const futureKeys = Object.keys(grouped).filter(
       key => key.split(" ")[0] === ServiceGroupNames.FUTURE.split(" ")[0]
     );
-    const futureServices = grouped[futureKey!];
-    futureServices.forEach(service => {
-      expect(isInFutureRating(service, testDate)).toBe(true);
+    futureKeys.forEach(futureKey => {
+      const futureServices = grouped[futureKey!];
+      futureServices.forEach(service => {
+        expect(isInFutureService(service, testDate)).toBe(true);
+      });
     });
   });
 
   it("lists other services as 'other'", () => {
-    grouped[ServiceGroupNames.OTHER].forEach(service => {
-      expect(
-        isInCurrentRating(service, testDate) &&
-          service.typicality === "typical_service"
-      ).toBe(false);
-      expect(isInFutureRating(service, testDate)).toBe(false);
-      expect(service.typicality).not.toEqual("holiday_service");
-    });
+    const otherService: Service = {
+      valid_days: [1, 2, 3, 4, 5],
+      typicality: "extra_service",
+      type: "other",
+      start_date: "2020-07-15",
+      removed_dates_notes: {},
+      removed_dates: [],
+      name: "Weekday",
+      id: "weekday2020",
+      end_date: "2020-09-15",
+      description: "Another service",
+      added_dates_notes: {},
+      added_dates: [],
+      rating_start_date: "2020-06-25",
+      rating_end_date: "2020-10-25",
+      rating_description: "Test Future Rating"
+    };
+
+    const other = groupServicesByDateRating([otherService], testDate);
+    expect(Object.keys(other)[0]).toBe(ServiceGroupNames.OTHER);
   });
 
   it("annotates current schedules optgroup with rating name and rating end date", () => {
-    const currentKey = Object.keys(grouped).find(
+    const currentKeys = Object.keys(grouped).filter(
       key => key.split(" ")[0] === ServiceGroupNames.CURRENT.split(" ")[0]
     );
-    const currentService = grouped[currentKey!][0];
-    const name = `${ServiceGroupNames.CURRENT} (${
-      currentService.rating_description
-    }, ends ${shortDate(stringToDateObject(currentService.rating_end_date!))})`;
-    expect(currentKey).toEqual(name);
+    currentKeys.forEach(currentKey => {
+      grouped[currentKey!].forEach(currentService => {
+        const name = currentService.rating_end_date
+          ? `${ServiceGroupNames.CURRENT} (${
+              currentService.rating_description
+            }, ends ${shortDate(
+              stringToDateObject(currentService.rating_end_date!)
+            )})`
+          : ServiceGroupNames.CURRENT;
+        expect(currentKey).toEqual(name);
+      });
+    });
   });
 
   it("annotates future schedules optgroup with rating name and rating start date", () => {
-    const futureKey = Object.keys(grouped).find(
+    // well, only if we have identified a future rating
+    const futureKeys = Object.keys(grouped).filter(
       key => key.split(" ")[0] === ServiceGroupNames.FUTURE.split(" ")[0]
     );
-    const futureService = grouped[futureKey!][0];
-    const name = `${ServiceGroupNames.FUTURE} (${
-      futureService.rating_description
-    }, starts ${shortDate(
-      stringToDateObject(futureService.rating_start_date!)
-    )})`;
-    expect(futureKey).toEqual(name);
+    futureKeys.forEach(futureKey => {
+      grouped[futureKey].forEach(futureService => {
+        const noAnnotation =
+          hasIncompleteRating(futureService) ||
+          (isInFutureService(futureService, testDate) &&
+            !isInFutureRating(futureService, testDate));
+
+        const name = noAnnotation
+          ? ServiceGroupNames.FUTURE
+          : `${ServiceGroupNames.FUTURE} (${
+              futureService.rating_description
+            }, starts ${shortDate(
+              stringToDateObject(futureService.rating_start_date!)
+            )})`;
+        expect(futureKey).toEqual(name);
+      });
+    });
   });
 });
 
@@ -271,21 +308,17 @@ it("optGroupComparator sorts properly", () => {
 });
 
 describe("isCurrentValidService evaluates if date falls within a service's valid service dates:", () => {
-  let testService: Service;
-  beforeAll(() => {
-    testService = services[0];
-  });
-
   it.each`
-    test                                 | date            | result
-    ${"date outside service valid_days"} | ${"2019-07-07"} | ${false}
-    ${"date in removed_dates"}           | ${"2019-07-04"} | ${false}
-    ${"date outside service dates"}      | ${"2020-01-11"} | ${false}
-    ${"actually valid date!"}            | ${"2019-07-02"} | ${true}
-  `("$test = $result", ({ date, result }) => {
-    expect(isCurrentValidService(testService, stringToDateObject(date))).toBe(
-      result
-    );
+    test                                 | service | date            | result
+    ${"date outside service valid_days"} | ${0}    | ${"2019-07-07"} | ${false}
+    ${"date in removed_dates"}           | ${0}    | ${"2019-07-04"} | ${false}
+    ${"date in added_dates"}             | ${4}    | ${"2019-07-14"} | ${true}
+    ${"date outside service dates"}      | ${0}    | ${"2020-01-11"} | ${false}
+    ${"actually valid date!"}            | ${0}    | ${"2019-07-02"} | ${true}
+  `("$test = $result", ({ date, service, result }) => {
+    expect(
+      isCurrentValidService(services[service], stringToDateObject(date))
+    ).toBe(result);
   });
 });
 
@@ -313,11 +346,11 @@ it("isInFutureRating evaluates whether date falls within service future rating d
   ).toBe(false);
 });
 
-it("hasNoRating evaluates whether service does not fall within a rating", () => {
+it("hasIncompleteRating evaluates whether service does not fall within a rating", () => {
   const serviceWithRating = services[0];
   const serviceWithoutRating = services[8];
-  expect(hasNoRating(serviceWithoutRating)).toEqual(true);
-  expect(hasNoRating(serviceWithRating)).toEqual(false);
+  expect(hasIncompleteRating(serviceWithoutRating)).toEqual(true);
+  expect(hasIncompleteRating(serviceWithRating)).toEqual(false);
 });
 
 it("hasMultipleWeekdaySchedules indicates presence of multiple weekday schedules", () => {
