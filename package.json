@@ -3,6 +3,7 @@
     "eslint": "git diff --name-only --diff-filter=dx origin/master... | grep apps/site/assets/js/.*\\.js | xargs apps/site/assets/node_modules/.bin/eslint -c apps/site/assets/.eslintrc.js",
     "tslint": "cd apps/site/assets && npm run tslint",
     "eslint:fix": "git diff --name-only --diff-filter=dx origin/master... | grep apps/site/assets/js/.*\\.js | xargs apps/site/assets/node_modules/.bin/eslint -c apps/site/assets/.eslintrc.js --fix",
+    "stylelint": "cd apps/site/assets && npm run stylelint",
     "format": "cd apps/site/assets && node_modules/.bin/prettier --write \"{js,ts}/**/*.{js,ts,tsx}\"",
     "format:check": "cd apps/site/assets && node_modules/.bin/prettier \"{js,ts}/**/*.{js,ts,tsx}\" --list-different",
     "install": "cd apps/site/assets && npm install --no-optional",
