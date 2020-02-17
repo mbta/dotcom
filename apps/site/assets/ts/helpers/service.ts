@@ -21,6 +21,11 @@ const isInRemovedDates = (
   currentDate: Date = new Date()
 ): boolean => service.removed_dates.includes(dateObjectToString(currentDate));
 
+const isInAddedDates = (
+  service: Service,
+  currentDate: Date = new Date()
+): boolean => service.added_dates.includes(dateObjectToString(currentDate));
+
 const isOnValidDay = (
   service: Service,
   currentDate: Date = new Date()
@@ -44,6 +49,11 @@ export const isCurrentValidService = (
   service: Service,
   currentDate: Date = new Date()
 ): boolean => {
+  // check against added dates
+  if (isInAddedDates(service, currentDate)) {
+    return true;
+  }
+
   // check against removed dates
   if (isInRemovedDates(service, currentDate)) {
     return false;
@@ -58,14 +68,14 @@ export const isCurrentValidService = (
   return isInCurrentService(service, currentDate);
 };
 
-export const hasNoRating = (service: Service): boolean =>
+export const hasIncompleteRating = (service: Service): boolean =>
   !service.rating_start_date || !service.rating_end_date;
 
 export const isInCurrentRating = (
   service: Service,
   currentDate: Date = new Date()
 ): boolean => {
-  if (hasNoRating(service)) {
+  if (hasIncompleteRating(service)) {
     return false;
   }
   const ratingStartDate = stringToDateObject(service.rating_start_date!);
@@ -78,7 +88,7 @@ export const startToEnd = (
   endDateObject: Date
 ): string => `${shortDate(startDateObject)} to ${shortDate(endDateObject)}`;
 
-const isInFutureService = (
+export const isInFutureService = (
   service: Service,
   currentDate: Date = new Date()
 ): boolean => {
@@ -91,11 +101,16 @@ export const isInFutureRating = (
   service: Service,
   currentDate: Date = new Date()
 ): boolean => {
-  if (hasNoRating(service)) {
-    return false;
+  if (hasIncompleteRating(service)) {
+    // check for rating start date
+    return service.rating_start_date
+      ? currentDate <= stringToDateObject(service.rating_start_date!)
+      : false;
   }
+
   const ratingStartDate = stringToDateObject(service.rating_start_date!);
   const ratingEndDate = stringToDateObject(service.rating_end_date!);
+
   return currentDate <= ratingStartDate && currentDate <= ratingEndDate;
 };
 
@@ -108,33 +123,42 @@ export const groupServicesByDateRating = (
       return ServiceGroupNames.HOLIDAY;
     }
 
+    if (service.type === "other") {
+      return ServiceGroupNames.OTHER;
+    }
+
     // if there's no rating end date, this is probably a CR or Ferry.
     // don't use the rating in that case.
-    if (hasNoRating(service)) {
-      if (isInCurrentService(service, currentDate)) {
-        return ServiceGroupNames.CURRENT;
-      }
-      if (isInFutureService(service, currentDate)) {
-        return ServiceGroupNames.FUTURE;
-      }
-    } else {
-      const ratingStartDate = stringToDateObject(service.rating_start_date!);
-      const ratingEndDate = stringToDateObject(service.rating_end_date!);
+    if (
+      hasIncompleteRating(service) &&
+      isInCurrentService(service, currentDate)
+    ) {
+      return ServiceGroupNames.CURRENT;
+    }
+    if (
+      (hasIncompleteRating(service) ||
+        !isInFutureRating(service, currentDate)) &&
+      isInFutureService(service, currentDate)
+    ) {
+      return ServiceGroupNames.FUTURE;
+    }
 
-      if (
-        isInCurrentRating(service, currentDate) &&
-        service.typicality === "typical_service"
-      ) {
-        return `${ServiceGroupNames.CURRENT} (${
-          service.rating_description
-        }, ends ${shortDate(ratingEndDate)})`;
-      }
+    const ratingStartDate = stringToDateObject(service.rating_start_date!);
+    const ratingEndDate = stringToDateObject(service.rating_end_date!);
 
-      if (isInFutureRating(service, currentDate)) {
-        return `${ServiceGroupNames.FUTURE} (${
-          service.rating_description
-        }, starts ${shortDate(ratingStartDate)})`;
-      }
+    if (
+      isInCurrentRating(service, currentDate) &&
+      service.typicality === "typical_service"
+    ) {
+      return `${ServiceGroupNames.CURRENT} (${
+        service.rating_description
+      }, ends ${shortDate(ratingEndDate)})`;
+    }
+
+    if (isInFutureRating(service, currentDate)) {
+      return `${ServiceGroupNames.FUTURE} (${
+        service.rating_description
+      }, starts ${shortDate(ratingStartDate)})`;
     }
 
     return ServiceGroupNames.OTHER;
