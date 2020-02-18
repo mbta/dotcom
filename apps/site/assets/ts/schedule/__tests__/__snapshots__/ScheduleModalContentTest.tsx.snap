@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ScheduleModal renders 1`] = `
+exports[`ScheduleModalContent renders 1`] = `
 Array [
   <div
     className="schedule-finder__modal-header"
@@ -40,7 +40,7 @@ Array [
 ]
 `;
 
-exports[`ScheduleModal renders with a unique destination name for the Green route 1`] = `
+exports[`ScheduleModalContent renders with a unique destination name for the Green route 1`] = `
 Array [
   <div
     className="schedule-finder__modal-header"

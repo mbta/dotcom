@@ -61,9 +61,9 @@ const stops: SimpleStop[] = [
   { name: "Wellington", id: "place-welln", is_closed: false, zone: "2" }
 ];
 
-export const payload: EnhancedJourney[] = departuresResponse as EnhancedJourney[];
+const payload: EnhancedJourney[] = departuresResponse as EnhancedJourney[];
 
-describe("ScheduleModal", () => {
+describe("ScheduleModalContent", () => {
   it("renders", () => {
     let tree;
     act(() => {
