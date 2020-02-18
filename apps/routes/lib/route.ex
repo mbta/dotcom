@@ -18,7 +18,7 @@ defmodule Routes.Route do
           name: String.t(),
           long_name: String.t(),
           color: String.t(),
-          direction_names: %{0 => String.t(), 1 => String.t()},
+          direction_names: %{0 => String.t() | nil, 1 => String.t() | nil},
           direction_destinations: %{0 => String.t(), 1 => String.t()} | :unknown,
           description: gtfs_route_desc,
           custom_route?: boolean

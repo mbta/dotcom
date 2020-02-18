@@ -9,11 +9,14 @@ const formatMilesToFeet = (miles: number): number => Math.floor(miles * 5280.0);
 const routeNameBasedOnDirection = (
   route: EnhancedRoute,
   directionId: DirectionId | null
-): string =>
-  directionId === null
-    ? route.long_name
-    : // eslint-disable-next-line @typescript-eslint/camelcase
-      route.direction_destinations[directionId];
+): string => {
+  if (directionId === null) {
+    return route.long_name;
+  }
+
+  const destination = route.direction_destinations[directionId];
+  return destination === null ? route.long_name : destination;
+};
 
 interface Props {
   stop: Stop;

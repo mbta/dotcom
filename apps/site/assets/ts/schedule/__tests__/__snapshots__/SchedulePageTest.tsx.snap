@@ -49,14 +49,14 @@ Array [
           Select
         </option>
         <option
-          value="0"
+          value={0}
         >
           INBOUND
            
           Oak Grove
         </option>
         <option
-          value="1"
+          value={1}
         >
           OUTBOUND
            

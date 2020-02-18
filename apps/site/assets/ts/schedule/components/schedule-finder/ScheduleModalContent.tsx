@@ -109,6 +109,7 @@ const ScheduleModalContent = ({
     isLoading: true,
     error: false
   });
+
   useEffect(
     () => {
       fetchData(routeId, selectedOrigin, selectedDirection, dispatch);
@@ -116,9 +117,12 @@ const ScheduleModalContent = ({
     [routeId, selectedDirection, selectedOrigin]
   );
 
-  if (selectedOrigin === null || selectedDirection === null) {
-    return null;
-  }
+  if (selectedOrigin === null || selectedDirection === null) return null;
+
+  const directionName = directionNames[selectedDirection];
+  const directionDestination = directionDestinations[selectedDirection];
+
+  if (directionName === null || directionDestination === null) return null;
 
   const input: UserInput = {
     route: routeId,
@@ -128,9 +132,7 @@ const ScheduleModalContent = ({
   };
 
   const destination =
-    routeId === "Green"
-      ? "All branches"
-      : directionDestinations[selectedDirection];
+    routeId === "Green" ? "All branches" : directionDestination;
 
   return (
     <>
@@ -139,7 +141,7 @@ const ScheduleModalContent = ({
         <div>
           <div className="h3 u-small-caps" style={{ margin: 0 }}>
             {" "}
-            {directionNames[selectedDirection]}
+            {directionName}
           </div>
           <h2 className="h2" style={{ margin: 0 }}>
             {breakTextAtSlash(destination)}

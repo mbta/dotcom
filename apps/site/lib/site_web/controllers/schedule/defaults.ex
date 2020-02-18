@@ -27,17 +27,17 @@ defmodule SiteWeb.ScheduleController.Defaults do
 
   @doc """
   If there's no headsign for a direction, default to the other direction. Otherwise, default to
-  inbound before 1:00pm and outbound afterwards.
+  inbound before 2:00pm and outbound afterwards.
   """
-  @spec default_direction_id(Conn.t()) :: 0..1
-  def default_direction_id(%{assigns: %{headsigns: %{0 => []}}}), do: 1
-  def default_direction_id(%{assigns: %{headsigns: %{1 => []}}}), do: 0
+  @spec default_direction_id(Conn.t()) :: 0 | 1
+  def default_direction_id(%{assigns: %{route: %{direction_names: %{0 => nil}}}}), do: 1
+  def default_direction_id(%{assigns: %{route: %{direction_names: %{1 => nil}}}}), do: 0
 
   def default_direction_id(%Conn{assigns: %{route: %Route{id: route_id}}} = conn) do
     direction_id = default_direction_id_for_hour(conn.assigns.date_time.hour)
 
+    # SL1 and SL2 are outbound in the morning, inbound otherwise
     if route_id in ["741", "742"] do
-      # silver line should be outbound in morning, inbound otherwise
       invert_direction_id(direction_id)
     else
       direction_id

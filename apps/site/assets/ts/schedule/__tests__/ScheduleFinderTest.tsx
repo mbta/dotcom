@@ -84,6 +84,17 @@ const route: EnhancedRoute = {
   name: "Orange",
   type: 1
 };
+const oneDirectionRoute: EnhancedRoute = {
+  alert_count: 0,
+  description: "",
+  direction_destinations: { 0: "Destination", 1: null },
+  direction_names: { 0: "Outbound", 1: null },
+  header: "",
+  id: "route",
+  long_name: "the route",
+  name: "Route",
+  type: 1
+};
 
 const stops = {
   "1": [
@@ -173,6 +184,22 @@ it("renders", () => {
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
+});
+
+it("defaults to the sole direction for unidirectional routes", () => {
+  const wrapper = mount(
+    <ScheduleFinder
+      route={oneDirectionRoute}
+      stops={stops}
+      directionId={0}
+      services={services}
+      routePatternsByDirection={routePatternsByDirection}
+      today={today}
+      scheduleNote={null}
+    />
+  );
+
+  expect(wrapper.find("#sf_direction_select").prop("value")).toEqual(0);
 });
 
 it("opens modal after displaying error", () => {

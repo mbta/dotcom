@@ -121,6 +121,40 @@ defmodule Routes.ParserTest do
       assert parsed.direction_names == %{0 => "zero", 1 => "one"}
       assert parsed.direction_destinations == %{0 => "Destination 1", 1 => "Destination 2"}
     end
+
+    test "nulls direction attributes when there are no route patterns in that direction" do
+      item = %Item{
+        id: "id",
+        attributes: %{
+          "type" => 2,
+          "short_name" => "short",
+          "long_name" => "",
+          "direction_names" => ["zero", "one"],
+          "direction_destinations" => ["Destination 1", "Destination 2"]
+        },
+        relationships: %{
+          "route_patterns" => [
+            %Item{
+              id: "id",
+              attributes: %{
+                "direction_id" => 1,
+                "name" => "rp",
+                "time_desc" => "td",
+                "typicality" => 1
+              },
+              relationships: %{
+                "representative_trip" => [%Item{id: "id"}],
+                "route" => [%Item{id: "id"}]
+              }
+            }
+          ]
+        }
+      }
+
+      parsed = parse_route(item)
+      assert parsed.direction_names == %{0 => nil, 1 => "one"}
+      assert parsed.direction_destinations == %{0 => nil, 1 => "Destination 2"}
+    end
   end
 
   describe "parse_shape/1" do

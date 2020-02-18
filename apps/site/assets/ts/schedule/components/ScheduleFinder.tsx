@@ -73,13 +73,17 @@ const ScheduleFinder = ({
     direction_names: directionNames
   } = route;
 
+  const validDirections = ([0, 1] as DirectionId[]).filter(
+    direction => directionNames[direction] !== null
+  );
+
   const [state, setState] = useState<State>({
     directionError: false,
     originError: false,
     originSearch: "",
     modalOpen: false,
     modalId: null,
-    selectedDirection: null,
+    selectedDirection: validDirections.length === 1 ? validDirections[0] : null,
     selectedOrigin: null,
     selectedService: null
   });
@@ -193,12 +197,12 @@ const ScheduleFinder = ({
           }
         >
           <option value="">Select</option>
-          <option value="0">
-            {directionNames[0].toUpperCase()} {directionDestinations[0]}
-          </option>
-          <option value="1">
-            {directionNames[1].toUpperCase()} {directionDestinations[1]}
-          </option>
+          {validDirections.map(direction => (
+            <option key={direction} value={direction}>
+              {directionNames[direction]!.toUpperCase()}{" "}
+              {directionDestinations[direction]!}
+            </option>
+          ))}
         </select>
       </SelectContainer>
       <label className="schedule-finder__label" htmlFor="sf_origin_select">

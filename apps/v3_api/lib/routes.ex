@@ -11,7 +11,7 @@ defmodule V3Api.Routes do
   end
 
   def get(id, opts \\ []) do
-    get_json("/routes/#{id}", [], opts)
+    get_json("/routes/#{id}", opts)
   end
 
   def by_type(type, opts \\ []) do

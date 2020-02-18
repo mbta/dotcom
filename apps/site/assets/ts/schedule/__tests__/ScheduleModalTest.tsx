@@ -23,6 +23,18 @@ const route: EnhancedRoute = {
   type: 1
 };
 
+const oneDirectionRoute: EnhancedRoute = {
+  alert_count: 0,
+  description: "",
+  direction_destinations: { 0: "Oak Grove", 1: null },
+  direction_names: { 0: "Inbound", 1: null },
+  header: "",
+  id: "Orange",
+  name: "Orange",
+  long_name: "Orange Line",
+  type: 1
+};
+
 const scheduleNoteData = {
   offpeak_service: "8-12 minutes",
   peak_service: "5 minutes",
@@ -88,6 +100,25 @@ describe("ScheduleModal", () => {
           stops={stops}
           selectedOrigin={stops[0].id}
           selectedDirection={null}
+          services={[]}
+          routePatternsByDirection={{}}
+          today={today}
+          scheduleNote={null}
+        />
+      );
+      expect(tree!.toJSON()).toBeNull();
+    });
+  });
+
+  it("doesn't render if the name for the selected direction is null", () => {
+    let tree;
+    act(() => {
+      tree = renderer.create(
+        <ScheduleModalContent
+          route={oneDirectionRoute}
+          stops={stops}
+          selectedOrigin={stops[0].id}
+          selectedDirection={1}
           services={[]}
           routePatternsByDirection={{}}
           today={today}
