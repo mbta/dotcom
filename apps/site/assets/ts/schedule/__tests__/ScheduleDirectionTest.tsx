@@ -53,8 +53,29 @@ const route = {
   header: "",
   alert_count: 0
 } as EnhancedRoute;
+
+const oneDirectionRoute = {
+  type: 3,
+  name: "route 2",
+  long_name: "route 2 long name",
+  id: "route-2",
+  direction_names: {
+    0: null,
+    1: "Inbound"
+  },
+  direction_destinations: {
+    0: null,
+    1: "End"
+  },
+  description: "key_bus_route",
+  "custom_route?": false,
+  header: "",
+  alert_count: 0
+} as EnhancedRoute;
+
 const directionId = 1;
 const routePatternsByDirection = routePatternsByDirectionData as RoutePatternsByDirection;
+
 const shapesById = {
   "shape-1": {
     stop_ids: ["stop"],
@@ -135,6 +156,21 @@ const staticMapData: StaticMapData = {
 const getComponent = () => (
   <ScheduleDirection
     route={route}
+    directionId={directionId}
+    routePatternsByDirection={routePatternsByDirection}
+    shapesById={shapesById}
+    mapData={mapData}
+    lineDiagram={lineDiagram}
+    services={[]}
+    stops={{ stops }}
+    today="2019-12-05"
+    scheduleNote={null}
+  />
+);
+
+const getSingleDirectionComponent = () => (
+  <ScheduleDirection
+    route={oneDirectionRoute}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
     shapesById={shapesById}
@@ -234,7 +270,7 @@ it("changes direction and updates the query param", () => {
   window.history.replaceState = jest.fn();
 
   expect(wrapper.find("#direction-name").text()).toBe("Inbound");
-  wrapper.find("button").simulate("click");
+  wrapper.find(".m-schedule-direction__button").simulate("click");
 
   expect(wrapper.find("#direction-name").text()).toBe("Outbound");
   expect(window.history.replaceState).toBeCalledWith(
@@ -244,11 +280,18 @@ it("changes direction and updates the query param", () => {
   );
 });
 
+it("does not allow changing direction when no route patterns", () => {
+  document.body.innerHTML = body;
+  const wrapper = mount(getSingleDirectionComponent());
+
+  expect(wrapper.exists(".m-schedule-direction__button")).toEqual(false);
+});
+
 it("can change route pattern for bus mode", () => {
   document.body.innerHTML = body;
   const component = getComponent();
   const wrapper = mount(component);
-  wrapper.find("button").simulate("click");
+  wrapper.find(".m-schedule-direction__button").simulate("click");
   expect(
     wrapper.find(".m-schedule-direction__route-pattern--clickable").text()
   ).toBe("Pattern 1 SVG");
@@ -294,14 +337,14 @@ it("can change route pattern for bus mode", () => {
 
   wrapper.find("#route-pattern_uncommon").simulate("click");
 
-  wrapper.find("button").simulate("click");
+  wrapper.find(".m-schedule-direction__button").simulate("click");
 });
 
 it("can change route pattern for bus mode (accessible)", () => {
   document.body.innerHTML = body;
   const component = getComponent();
   const wrapper = mount(component);
-  wrapper.find("button").simulate("click");
+  wrapper.find(".m-schedule-direction__button").simulate("click");
   expect(
     wrapper.find(".m-schedule-direction__route-pattern--clickable").text()
   ).toBe("Pattern 1 SVG");

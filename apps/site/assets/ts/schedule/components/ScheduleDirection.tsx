@@ -91,6 +91,10 @@ const ScheduleDirection = ({
     0,
     1
   )[0];
+
+  const reverseDirection = directionId === 0 ? 1 : 0;
+  const directionIsChangeable = route.direction_names[reverseDirection] != null;
+
   const [state, dispatch] = useReducer(menuReducer, {
     routePattern: defaultRoutePattern,
     shape: shapesById[defaultRoutePattern.shape_id],
@@ -101,12 +105,15 @@ const ScheduleDirection = ({
     routePatternMenuAll: false,
     itemFocus: null
   });
+
   const [mapState, dispatchMapData] = useReducer(fetchReducer, {
     data: mapData,
     isLoading: false,
     error: false
   });
+
   const shapeId = state.shape ? state.shape.id : defaultRoutePattern.shape_id;
+
   useEffect(
     () => {
       if (!staticMapData) {
@@ -115,11 +122,13 @@ const ScheduleDirection = ({
     },
     [route, state.directionId, shapeId, staticMapData]
   );
+
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
     data: lineDiagram,
     isLoading: false,
     error: false
   });
+
   useEffect(
     () => {
       fetchLineData(route.id, state.directionId, shapeId, dispatchLineData);
@@ -143,7 +152,9 @@ const ScheduleDirection = ({
           itemFocus={state.itemFocus}
           dispatch={dispatch}
         />
-        <ScheduleDirectionButton dispatch={dispatch} />
+        {directionIsChangeable ? (
+          <ScheduleDirectionButton dispatch={dispatch} />
+        ) : null}
       </div>
       {!staticMapData && mapState.data && (
         <Map

@@ -33,7 +33,7 @@ defmodule SiteWeb.ScheduleController.DefaultsTest do
       assert conn.assigns.direction_id == 1
     end
 
-    test "0 when id is not in params and after 1:59pm", %{conn: conn} do
+    test "0 when id is not in params and on/after 2:00pm", %{conn: conn} do
       conn =
         conn
         |> assign(:date_time, ~N[2017-01-25T14:00:00])
@@ -42,16 +42,16 @@ defmodule SiteWeb.ScheduleController.DefaultsTest do
       assert conn.assigns.direction_id == 0
     end
 
-    test "1 when id is not in params and before 1:59pm", %{conn: conn} do
+    test "1 when id is not in params and before 2:00pm", %{conn: conn} do
       conn =
         conn
-        |> assign(:date_time, ~N[2017-01-25T13:00:00])
+        |> assign(:date_time, ~N[2017-01-25T13:59:59])
         |> Defaults.call([])
 
       assert conn.assigns.direction_id == 1
     end
 
-    test "silverline is 1 when id is not in params and after 1:59pm", %{conn: conn} do
+    test "1 when route is SL1/2 and id is not in params and on/after 2:00pm", %{conn: conn} do
       conn =
         conn
         |> assign(:route, %Route{id: "741", type: 3})
@@ -61,14 +61,25 @@ defmodule SiteWeb.ScheduleController.DefaultsTest do
       assert conn.assigns.direction_id == 1
     end
 
-    test "silverline is 0 when id is not in params and before 1:59pm", %{conn: conn} do
+    test "0 when route is SL1/2 and id is not in params and before 2:00pm", %{conn: conn} do
       conn =
         conn
         |> assign(:route, %Route{id: "741", type: 3})
-        |> assign(:date_time, ~N[2017-01-25T13:00:00])
+        |> assign(:date_time, ~N[2017-01-25T13:59:59])
         |> Defaults.call([])
 
       assert conn.assigns.direction_id == 0
+    end
+
+    test "the single valid direction on a unidirectional route", %{conn: conn} do
+      conn =
+        conn
+        |> assign(:route, %Route{id: "741", type: 3, direction_names: %{0 => nil, 1 => "Test"}})
+        |> assign(:date_time, ~N[2017-01-25T14:00:00])
+        |> Defaults.call([])
+
+      # Normally this would be 0 since the time is on/after 2:00pm
+      assert conn.assigns.direction_id == 1
     end
   end
 

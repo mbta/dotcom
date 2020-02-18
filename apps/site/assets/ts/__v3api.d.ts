@@ -6,8 +6,8 @@ export interface Direction {
 type DirectionId = 0 | 1;
 
 interface DirectionInfo {
-  0: string;
-  1: string;
+  0: string | null;
+  1: string | null;
 }
 
 export interface Headsign {

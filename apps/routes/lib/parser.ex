@@ -4,15 +4,17 @@ defmodule Routes.Parser do
   alias Routes.{Route, Shape}
 
   @spec parse_route(Item.t()) :: Route.t()
-  def parse_route(%Item{id: id, attributes: attributes}) do
+  def parse_route(%Item{id: id, attributes: attributes, relationships: relationships}) do
     %Route{
       id: id,
       type: attributes["type"],
       name: name(attributes),
       long_name: attributes["long_name"],
       color: attributes["color"],
-      direction_names: direction_bound_attrs(attributes["direction_names"]),
-      direction_destinations: direction_attrs(attributes["direction_destinations"]),
+      direction_names:
+        direction_attrs(attributes["direction_names"], parse_route_patterns(relationships)),
+      direction_destinations:
+        direction_attrs(attributes["direction_destinations"], parse_route_patterns(relationships)),
       description: parse_gtfs_desc(attributes["description"])
     }
   end
@@ -32,14 +34,22 @@ defmodule Routes.Parser do
   defp name(%{"short_name" => short_name, "long_name" => ""}), do: short_name
   defp name(%{"long_name" => long_name}), do: long_name
 
-  @spec direction_attrs([String.t()]) :: %{0 => String.t(), 1 => String.t()}
-  defp direction_attrs([zero, one]) do
-    %{0 => zero, 1 => one}
+  @spec direction_attrs([String.t()], [Item.t()]) :: %{
+          0 => String.t() | nil,
+          1 => String.t() | nil
+        }
+  defp direction_attrs([zero, one], route_patterns) do
+    %{
+      0 => maybe_direction_attr(0, zero, route_patterns),
+      1 => maybe_direction_attr(1, one, route_patterns)
+    }
   end
 
-  @spec direction_bound_attrs([String.t()]) :: %{0 => String.t(), 1 => String.t()}
-  defp direction_bound_attrs([zero, one]) do
-    %{0 => add_direction_suffix(zero), 1 => add_direction_suffix(one)}
+  defp maybe_direction_attr(_, attr, []), do: add_direction_suffix(attr)
+
+  defp maybe_direction_attr(direction_id, attr, route_patterns) do
+    valid_directions = route_patterns |> Enum.map(& &1.direction_id) |> Enum.uniq()
+    if direction_id in valid_directions, do: add_direction_suffix(attr), else: nil
   end
 
   @spec add_direction_suffix(String.t()) :: String.t()
