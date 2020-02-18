@@ -19,7 +19,13 @@ export const serviceStartDateComparator = (
 const isInRemovedDates = (
   service: Service,
   currentDate: Date = new Date()
-): boolean => service.removed_dates.includes(dateObjectToString(currentDate));
+): boolean => {
+  const date = dateObjectToString(currentDate);
+  // the date must be in the removed_dates list and have a non-null note
+  return (
+    service.removed_dates.includes(date) && !!service.removed_dates_notes[date]
+  );
+};
 
 const isInAddedDates = (
   service: Service,
