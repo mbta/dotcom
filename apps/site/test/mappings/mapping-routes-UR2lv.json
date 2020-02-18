@@ -1,0 +1,26 @@
+{
+  "id" : "1761c2a0-286e-3e23-bec4-2b1099197fef",
+  "request" : {
+    "url" : "/routes/?stop=place-MM-0277&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-UR2lv.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:14:50 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Fri, 14 Feb 2020 16:44:08 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69648",
+      "x-ratelimit-reset" : "1582056900",
+      "x-request-id" : "FfSYXAltuwWsc_UAJd5C"
+    }
+  },
+  "uuid" : "1761c2a0-286e-3e23-bec4-2b1099197fef"
+}

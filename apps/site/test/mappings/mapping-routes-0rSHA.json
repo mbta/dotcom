@@ -1,0 +1,26 @@
+{
+  "id" : "7e082a4a-5351-3960-bff2-4d379371c3e0",
+  "request" : {
+    "url" : "/routes/?stop=place-kencl&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-0rSHA.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:14:51 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Fri, 14 Feb 2020 16:44:08 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69525",
+      "x-ratelimit-reset" : "1582056900",
+      "x-request-id" : "FfSYXEhWJULHVjYADzej"
+    }
+  },
+  "uuid" : "7e082a4a-5351-3960-bff2-4d379371c3e0"
+}

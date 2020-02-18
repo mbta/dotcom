@@ -1,0 +1,26 @@
+{
+  "id" : "9d3616fa-31aa-3ac4-91fc-e82211955dee",
+  "request" : {
+    "url" : "/routes/?stop=place-jfk&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-48d1a.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:14:49 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Fri, 14 Feb 2020 16:44:08 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69700",
+      "x-ratelimit-reset" : "1582056900",
+      "x-request-id" : "FfSYW_Ls3TdfUdwAj4gh"
+    }
+  },
+  "uuid" : "9d3616fa-31aa-3ac4-91fc-e82211955dee"
+}

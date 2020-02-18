@@ -1,0 +1,26 @@
+{
+  "id" : "511ea4de-4e54-3964-874d-c784aa1bb5bf",
+  "request" : {
+    "url" : "/trips/CR-Weekday-Fall-19-063",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-CR-Weekday-Fall-19-063-u9Ehd.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:16:08 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 18 Feb 2020 20:16:00 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69780",
+      "x-ratelimit-reset" : "1582057020",
+      "x-request-id" : "FfSYbioA9g9V8usAj5uB"
+    }
+  },
+  "uuid" : "511ea4de-4e54-3964-874d-c784aa1bb5bf"
+}

@@ -1,0 +1,26 @@
+{
+  "id" : "a96f06f4-f6ca-308f-8110-c63d413e773f",
+  "request" : {
+    "url" : "/shapes/?route=Green-D&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-VaNnG.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:10:43 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Fri, 14 Feb 2020 16:45:54 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69645",
+      "x-ratelimit-reset" : "1582056660",
+      "x-request-id" : "FfSYIq-iyJobj38ADxTj"
+    }
+  },
+  "uuid" : "a96f06f4-f6ca-308f-8110-c63d413e773f"
+}

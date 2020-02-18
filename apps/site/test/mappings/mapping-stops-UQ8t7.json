@@ -1,0 +1,25 @@
+{
+  "id" : "226ad6fc-3fd0-380e-899b-3232eb528871",
+  "request" : {
+    "url" : "/stops/?direction_id=0&route=CR-Foxboro&include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-UQ8t7.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:14:49 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Fri, 14 Feb 2020 16:44:11 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69751",
+      "x-ratelimit-reset" : "1582056900",
+      "x-request-id" : "FfSYW9EsGMgRJucAJdjC"
+    }
+  },
+  "uuid" : "226ad6fc-3fd0-380e-899b-3232eb528871"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "c5d49c14-2490-3b33-bc02-470970878255",
+  "request" : {
+    "url" : "/schedules/?route=CR-Kingston&date=2020-03-16&direction_id=1&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time%2Carrival_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-9ICtu.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:16:07 GMT",
+      "Content-Type" : "application/vnd.api+json",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Fri, 14 Feb 2020 16:45:21 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69785",
+      "x-ratelimit-reset" : "1582057020",
+      "x-request-id" : "FfSYbiNn053PCAkAj5qB"
+    }
+  },
+  "uuid" : "c5d49c14-2490-3b33-bc02-470970878255"
+}

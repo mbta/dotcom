@@ -1,0 +1,25 @@
+{
+  "id" : "265b6fbd-c8a7-3c56-97bf-8da1cc472307",
+  "request" : {
+    "url" : "/schedules/?route=Red&date=1970-01-01",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-5g5Gm.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:12:13 GMT",
+      "Content-Type" : "application/vnd.api+json",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Fri, 14 Feb 2020 16:45:21 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69789",
+      "x-ratelimit-reset" : "1582056780",
+      "x-request-id" : "FfSYN35FRlOCT-IAj2zh"
+    }
+  },
+  "uuid" : "265b6fbd-c8a7-3c56-97bf-8da1cc472307"
+}
