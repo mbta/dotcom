@@ -3,12 +3,12 @@ import renderer, { act } from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import UpcomingDepartures from "../components/schedule-finder/UpcomingDepartures";
 import { EnhancedJourney } from "../components/__trips";
-import { payload } from "./ScheduleModalTest";
+import departuresResponse from "../__tests__/departures.json";
 import crDeparturesResponse from "../__tests__/crDepartures.json";
 import { UserInput } from "../components/ScheduleFinder";
 
-const busDepartures = payload;
-const crDepartures = (crDeparturesResponse as unknown) as EnhancedJourney[];
+const busDepartures = departuresResponse as EnhancedJourney[];
+const crDepartures = crDeparturesResponse as EnhancedJourney[];
 
 const input: UserInput = {
   route: "",
