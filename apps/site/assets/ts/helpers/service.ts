@@ -42,7 +42,21 @@ const isInCurrentService = (
 ): boolean => {
   const serviceStartDate = stringToDateObject(service.start_date);
   const serviceEndDate = stringToDateObject(service.end_date);
-  return currentDate >= serviceStartDate && currentDate <= serviceEndDate;
+  const inServiceDates =
+    currentDate >= serviceStartDate && currentDate <= serviceEndDate;
+  // FIXME: Considering the rating date range is here as a workaround to allow
+  // relevant weekday services to show as "current" during school vacation weeks
+  // (reflecting real world weekday schedule behavior), as the relevant weekday
+  // service can have service start/end dates in the future, but within the
+  // current rating.
+  if (service.rating_start_date && service.rating_end_date) {
+    const ratingStartDate = stringToDateObject(service.rating_start_date!);
+    const ratingEndDate = stringToDateObject(service.rating_end_date!);
+    const inRatingDates =
+      currentDate >= ratingStartDate && currentDate <= ratingEndDate;
+    return inServiceDates || inRatingDates;
+  }
+  return inServiceDates;
 };
 
 export const isCurrentValidService = (
@@ -136,8 +150,7 @@ export const groupServicesByDateRating = (
       return ServiceGroupNames.CURRENT;
     }
     if (
-      (hasIncompleteRating(service) ||
-        !isInFutureRating(service, currentDate)) &&
+      hasIncompleteRating(service) &&
       isInFutureService(service, currentDate)
     ) {
       return ServiceGroupNames.FUTURE;
