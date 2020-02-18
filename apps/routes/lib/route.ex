@@ -1,4 +1,6 @@
 defmodule Routes.Route do
+  @moduledoc "Data model and helpers corresponding to the V3 API Route resource."
+
   alias Routes.Repo
 
   defstruct id: "",

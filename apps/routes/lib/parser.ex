@@ -1,4 +1,6 @@
 defmodule Routes.Parser do
+  @moduledoc "Functions for parsing generic JSON:API structs into Routes structs."
+
   alias JsonApi.Item
   alias RoutePatterns.RoutePattern
   alias Routes.{Route, Shape}
