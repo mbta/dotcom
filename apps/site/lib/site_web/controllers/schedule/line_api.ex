@@ -59,12 +59,25 @@ defmodule SiteWeb.ScheduleController.LineApi do
   """
   @spec realtime(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def realtime(conn, %{"id" => route_id, "direction_id" => direction_id}) do
+    cache_key = {route_id, direction_id, conn.assigns.date}
+
+    payload =
+      ConCache.get_or_store(:line_diagram_realtime_cache, cache_key, fn ->
+        do_realtime(route_id, direction_id, conn.assigns.date, conn.assigns.date_time)
+      end)
+
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(200, payload)
+  end
+
+  defp do_realtime(route_id, direction_id, date, now) do
     headsigns_by_stop =
       TransitNearMe.time_data_for_route_by_stop(
         route_id,
         String.to_integer(direction_id),
-        date: conn.assigns.date,
-        now: conn.assigns.date_time
+        date: date,
+        now: now
       )
 
     vehicles_by_stop =
@@ -87,7 +100,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
       end)
       |> Enum.into(%{})
 
-    json(conn, combined_data_by_stop)
+    Jason.encode!(combined_data_by_stop)
   end
 
   @spec update_route_stop_data({any, RouteStop.t()}, any, DateTime.t()) :: map()
