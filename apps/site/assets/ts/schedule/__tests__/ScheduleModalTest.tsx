@@ -23,6 +23,18 @@ const route: EnhancedRoute = {
   type: 1
 };
 
+const greenRoute: EnhancedRoute = {
+  alert_count: 0,
+  description: "",
+  direction_destinations: { 0: "East", 1: "West" },
+  direction_names: { 0: "East", 1: "West" },
+  header: "",
+  id: "Green",
+  name: "Green",
+  long_name: "Green Line",
+  type: 0
+};
+
 const oneDirectionRoute: EnhancedRoute = {
   alert_count: 0,
   description: "",
@@ -58,6 +70,26 @@ describe("ScheduleModal", () => {
       tree = renderer.create(
         <ScheduleModalContent
           route={route}
+          stops={stops}
+          selectedOrigin={stops[0].id}
+          selectedDirection={0}
+          services={[]}
+          routePatternsByDirection={{}}
+          today={today}
+          scheduleNote={null}
+        />
+      );
+    });
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("renders with a unique destination name for the Green route", () => {
+    let tree;
+    act(() => {
+      tree = renderer.create(
+        <ScheduleModalContent
+          route={greenRoute}
           stops={stops}
           selectedOrigin={stops[0].id}
           selectedDirection={0}
