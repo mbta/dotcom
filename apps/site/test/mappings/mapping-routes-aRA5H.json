@@ -1,0 +1,26 @@
+{
+  "id" : "4149db3e-3bfd-3165-9ec2-d65dfbfb8ea3",
+  "request" : {
+    "url" : "/routes/?stop=place-GRB-0162&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-aRA5H.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:14:50 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Fri, 14 Feb 2020 16:44:08 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69675",
+      "x-ratelimit-reset" : "1582056900",
+      "x-request-id" : "FfSYXAIkb36Tq8QAJd3C"
+    }
+  },
+  "uuid" : "4149db3e-3bfd-3165-9ec2-d65dfbfb8ea3"
+}

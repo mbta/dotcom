@@ -1,0 +1,26 @@
+{
+  "id" : "c4456670-2543-3cb1-b11a-6960c0573a0a",
+  "request" : {
+    "url" : "/shapes/?route=96&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-ANeoy.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:10:44 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Fri, 14 Feb 2020 16:45:54 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69569",
+      "x-ratelimit-reset" : "1582056660",
+      "x-request-id" : "FfSYItWfliavugAAjzVh"
+    }
+  },
+  "uuid" : "c4456670-2543-3cb1-b11a-6960c0573a0a"
+}

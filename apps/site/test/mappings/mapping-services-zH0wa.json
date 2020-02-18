@@ -1,0 +1,26 @@
+{
+  "id" : "62d8c101-ef67-3e29-b7a2-fb7ca8b814eb",
+  "request" : {
+    "url" : "/services/?route=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-services-zH0wa.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:12:50 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Fri, 14 Feb 2020 16:44:07 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69739",
+      "x-ratelimit-reset" : "1582056780",
+      "x-request-id" : "FfSYQB5zW5m2dykAj3Kh"
+    }
+  },
+  "uuid" : "62d8c101-ef67-3e29-b7a2-fb7ca8b814eb"
+}

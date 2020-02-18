@@ -1,0 +1,25 @@
+{
+  "id" : "aac8ceab-1112-3af2-841b-297b7cd32ece",
+  "request" : {
+    "url" : "/predictions/?trip=&stop=&fields%5Bprediction%5D=status%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-NafSm.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:12:13 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Tue, 18 Feb 2020 20:12:02 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69786",
+      "x-ratelimit-reset" : "1582056780",
+      "x-request-id" : "FfSYN4yuWGJ5qdAAj22h"
+    }
+  },
+  "uuid" : "aac8ceab-1112-3af2-841b-297b7cd32ece"
+}

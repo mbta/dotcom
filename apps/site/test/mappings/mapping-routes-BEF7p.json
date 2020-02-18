@@ -1,0 +1,26 @@
+{
+  "id" : "943d8a97-3e3f-37b5-bacd-ba46d0a4e300",
+  "request" : {
+    "url" : "/routes/?stop=93&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-BEF7p.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:12:48 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Fri, 14 Feb 2020 16:44:08 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69755",
+      "x-ratelimit-reset" : "1582056780",
+      "x-request-id" : "FfSYP6RFblblIF8AJc4i"
+    }
+  },
+  "uuid" : "943d8a97-3e3f-37b5-bacd-ba46d0a4e300"
+}

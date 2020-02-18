@@ -1,0 +1,26 @@
+{
+  "id" : "9e33abc5-eb3b-350e-8049-bae58aab7bd0",
+  "request" : {
+    "url" : "/routes/?stop=place-rcmnl&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-mRF2O.json",
+    "headers" : {
+      "Date" : "Tue, 18 Feb 2020 20:14:50 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "Connection" : "keep-alive",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Fri, 14 Feb 2020 16:44:08 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "69791",
+      "x-ratelimit-remaining" : "69596",
+      "x-ratelimit-reset" : "1582056900",
+      "x-request-id" : "FfSYXCJHxWpto1UADzFj"
+    }
+  },
+  "uuid" : "9e33abc5-eb3b-350e-8049-bae58aab7bd0"
+}
