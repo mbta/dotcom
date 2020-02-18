@@ -3,7 +3,9 @@
   position: relative;
 }
 
+
 .c-checkbox__input {
+  /* stylelint-disable-next-line property-no-vendor-prefix */
   -moz-appearance: none; // Firefox still renders the check without this
   opacity: 0; // Still accessible by screenreaders
   width: 0;
@@ -12,7 +14,7 @@
     + .c-checkbox__label::before {
       outline: 3px solid; // Focus for IE11, auto doesn't work the same
       // Use webkit focus color so IE11 above works
-      outline: auto -webkit-focus-ring-color 5px; // scss-lint:disable DuplicateProperty
+      outline: auto -webkit-focus-ring-color 5px;
       outline-color: $brand-primary-light;
       -moz-outline-radius: $border-radius; // Less ugly focus style for FF
     }

@@ -46,7 +46,7 @@
   color: $white;
   // duplicate property required because IE doesn't support `initial`
   height: auto;
-  height: initial; // scss-lint:disable DuplicateProperty
+  height: initial;
   padding: $base-spacing-sm;
 }
 
@@ -85,7 +85,6 @@
     border: 0;
   }
 
-  //scss-lint:disable SelectorFormat
   .selectable {
     color: $brand-primary;
   }

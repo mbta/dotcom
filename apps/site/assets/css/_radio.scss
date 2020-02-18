@@ -1,8 +1,6 @@
 .c-radio[type=radio] {
   align-items: center;
-  -moz-appearance: none; // Removes the default styling
-  -ms-appearance: none;  // Removes the default styling
-  -webkit-appearance: none;  // Removes the default styling
+  appearance: none;
   opacity: 0;
   width: 0;
 

@@ -120,13 +120,15 @@
       padding-left: $grid-gutter-width / 2;
     }
 
-    tbody th {
-      padding-bottom: 0;
-    }
+    tbody {
+      th {
+        padding-bottom: 0;
+      }
 
-    tbody td {
-      padding-bottom: 0;
-      padding-top: 0;
+      td {
+        padding-bottom: 0;
+        padding-top: 0;
+      }
     }
 
     tr td:last-child {

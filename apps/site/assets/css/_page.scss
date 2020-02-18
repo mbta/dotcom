@@ -47,7 +47,6 @@
   margin: $space-24 0;
 
   @include media-breakpoint-up(md) {
-    // scss-lint:disable PropertySortOrder
     align-items: center;
     background-image: url('/images/banner-squares.png');
     background-position: right bottom;

@@ -1,8 +1,6 @@
 $location-line-width: $space-6;
 
 @mixin stop-bubble-mode-color($class, $color) {
-  // scss-lint:disable NestingDepth
-  // scss-lint:disable SelectorDepth
   // Changes the color for the stop bubble based on the route type
   #{$class} {
     .route-branch-stop-bubble-line,
@@ -89,7 +87,6 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-bubbles {
-  // scss-lint:disable DuplicateProperty
   align-items: stretch;
   display: inline-block; // for non-flex browsers
   display: flex;
@@ -107,7 +104,6 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-bubble {
-  // scss-lint:disable DuplicateProperty
   align-items: center;
   display: inline-block;
   display: flex;
@@ -212,7 +208,6 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-bubble-line {
-  // scss-lint:disable DuplicateProperty
   border-width: 0;
   display: none; // hide on non-flex browsers
   display: flex;
@@ -227,7 +222,6 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-info {
-  // scss-lint:disable DuplicateProperty
   border-bottom: $border;
   display: inline-block; // for non-flex browsers
   display: flex;

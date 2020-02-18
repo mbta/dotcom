@@ -19,7 +19,6 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  // scss-lint:disable DuplicateProperty
   width: $fallback-width; // fallback for browsers which don't support calc()
   width: calc(100% - #{$margin-right});
 }
@@ -34,7 +33,7 @@
   $gap: $grid-gutter-width / 2;
   margin: $gap #{-$gap};
 
-  & > [class*="col-#{$breakpoint}-"] {
+  > [class*="col-#{$breakpoint}-"] {
     border-left: $border;
     left: $gap;
     padding: 0 ($gap * 2) 0 $gap;
@@ -328,7 +327,6 @@
 // scrolling section rather than stacked, at a certain breakpoint.
 @mixin side-scroll($breakpoint) {
   @include media-breakpoint-down($breakpoint) {
-    // scss-lint:disable PropertySortOrder
     display: flex;
 
     // reset overrides
@@ -338,8 +336,8 @@
     overflow-x: auto;
     padding: 0;
 
+    /* stylelint-disable declaration-no-important */
     // Bleed the next item off the right edge
-    // scss-lint:disable ImportantRule
     > * {
       flex: 0 0 auto !important;
       margin-left: 0 !important;
@@ -351,6 +349,6 @@
     > * + * {
       margin-left: $base-spacing !important;
     }
-    // scss-lint:enable all
+    /* stylelint-enable declaration-no-important */
   }
 }

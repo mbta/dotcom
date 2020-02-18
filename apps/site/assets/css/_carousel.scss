@@ -27,30 +27,32 @@
 }
 
 @include media-breakpoint-up(sm) {
-  .js .carousel-active {
-    display: block;
-  }
-
-  .js .carousel-item {
-    cursor: pointer;
-    float: left;
-    padding: $space-6;
-    width: 5.375rem;
-
-    &:first-child {
-      padding-left: 0;
+  .js {
+    .carousel-active {
+      display: block;
     }
 
-    &:last-child {
-      padding-right: 0;
+    .carousel-item {
+      cursor: pointer;
+      float: left;
+      padding: $space-6;
+      width: 5.375rem;
+
+      &:first-child {
+        padding-left: 0;
+      }
+
+      &:last-child {
+        padding-right: 0;
+      }
+
+      figure {
+        margin: 0;
+      }
+
+      figcaption {
+        display: none;
+      }
     }
-  }
-
-  .js .carousel-item figure {
-    margin: 0;
-  }
-
-  .js .carousel-item figcaption {
-    display: none;
   }
 }

@@ -30,6 +30,7 @@
     // A better solution probably exists, but this works.
     // -kh
 
+    position: relative;
     width: $base-spacing * 12.45;
 
     @include media-breakpoint-only(lg) {
@@ -127,11 +128,6 @@
     position: static;
   }
 }
-
-.m-timetable__row-header--empty {
-  position: relative;
-}
-
 
 .m-timetable__stop-name {
   @include icon-size-inline(1em);

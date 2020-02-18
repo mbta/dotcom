@@ -25,7 +25,6 @@
 }
 
 .desktop-nav-link {
-  // scss-lint:disable DuplicateProperty
   color: $link-color;
   display: inline-block;
   display: flex;
@@ -86,7 +85,6 @@
   }
 }
 
-// scss-lint:disable IdSelector
 #more {
   .header-column {
     &:first-child {
