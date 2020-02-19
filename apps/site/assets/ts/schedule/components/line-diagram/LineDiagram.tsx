@@ -204,7 +204,7 @@ const LineDiagram = ({
           />
         ))
       ) : (
-        <div className="c-alert-item c-alert-item--low c-alert-item__top-text-container">
+        /* istanbul ignore next */ <div className="c-alert-item c-alert-item--low c-alert-item__top-text-container">
           No stops {route.direction_names[directionId]} to{" "}
           {route.direction_destinations[directionId]} matching{" "}
           <b className="u-highlight">{stopQuery}</b>. Try changing your
