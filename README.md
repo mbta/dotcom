@@ -7,46 +7,44 @@ The new face of https://www.mbta.com/
 - [Getting Started](#getting-started)
 - [Running the Server](#running-the-server)
 - [Environment Variables](#environment-variables)
-  - [`V3_API_KEY`](#v3_api_key)
-  - [`V3_URL`](#v3_url)
-  - [`GOOGLE_API_KEY`](#google_api_key)
-  - [`DRUPAL_ROOT`](#drupal_root)
-  - [`ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_ADMIN_KEY`](#algolia_app_id-algolia_search_key-and-algolia_admin_key)
-  - [Making the variables available to the app](#making-the-variables-available-to-the-app)
+    - [`V3_API_KEY`](#v3_api_key)
+    - [`V3_URL`](#v3_url)
+    - [`GOOGLE_API_KEY`](#google_api_key)
+    - [`DRUPAL_ROOT`](#drupal_root)
+    - [`ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_ADMIN_KEY`](#algolia_app_id-algolia_search_key-and-algolia_admin_key)
+    - [Making the variables available to the app](#making-the-variables-available-to-the-app)
 - [Additional documentation](#additional-documentation)
 
 ## Getting Started
 
 1. Request a V3 API key at https://dev.api.mbtace.com/, and request an increased
-   rate limit for it (someone with access will need to approve this). Note that, at
-   any given time, the site may not be compatible with the very latest API version.
+rate limit for it (someone with access will need to approve this). Note that, at
+any given time, the site may not be compatible with the very latest API version.
 
 1. Install [Homebrew](https://docs.brew.sh/Installation.html):
-
-   ```
-   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-   ```
+    ```
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+    ```
 
 1. Install [asdf package version manager](https://github.com/asdf-vm/asdf)
-
-   - Follow the instructions on https://github.com/asdf-vm/asdf
-   - Install the necessary tools to set up asdf plugins:
+   * Follow the instructions on https://github.com/asdf-vm/asdf
+   * Install the necessary tools to set up asdf plugins:
 
      ```
      brew install coreutils automake autoconf openssl libyaml readline libxslt libtool unixodbc
      ```
 
-   - Add asdf plugins
+   * Add asdf plugins
 
      ```
      asdf plugin-add erlang
      asdf plugin-add elixir
      asdf plugin-add nodejs
+     asdf plugin-add ruby
      ```
-
      You can verify the plugins were installed with `asdf plugin-list`
 
-   - Import the Node.js release team's OpenPGP keys to install 'nodejs' plugin:
+   * Import the Node.js release team's OpenPGP keys to install 'nodejs' plugin:
 
      ```
      bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
@@ -54,17 +52,17 @@ The new face of https://www.mbta.com/
 
      If you run into problems, you might have to update the `import-release-team-keyring` script.
 
-   - If running OSX 10.15 Catalina, run `export MACOSX_DEPLOYMENT_TARGET=10.14`.
+   * If running OSX 10.15 Catalina, run `export MACOSX_DEPLOYMENT_TARGET=10.14`.
      This works around a [known issue](https://github.com/asdf-vm/asdf-erlang/issues/116)
      with compiling versions of Erlang prior to 22.1.4.
 
-   - Run the install:
+   * Run the install:
 
      ```
      asdf install
      ```
 
-   - Verify that all the languages for our setup were installed:
+   * Verify that all the languages for our setup were installed:
 
      ```
      asdf current
@@ -76,53 +74,47 @@ The new face of https://www.mbta.com/
       elixir         <version> (set by ~/dotcom/.tool-versions)
       erlang         <version> (set by ~/dotcom/.tool-versions)
       nodejs         <version> (set by ~/dotcom/.tool-versions)
+      ruby           <version> (set by ~/dotcom/.tool-versions)
      ```
 
      If you are missing any versions, you should re-run `asdf install`. Related [Github issue about asdf-erlang](https://github.com/asdf-vm/asdf-erlang/issues/57)
 
 1. Install chromedriver (for Elixir acceptance tests using Wallaby)
-
-   ```
-   brew cask install chromedriver
-   ```
-
+    ```
+    brew cask install chromedriver
+    ```
    Note: `chromedriver` requires Chrome to be installed. If you don't already
    have it, `brew cask install google-chrome` is an easy way to install it.
 
 1. Install our Elixir dependencies. From the root of this repo:
-
-   ```
-   mix deps.get
-   ```
+    ```
+    mix deps.get
+    ```
 
 1. Install npm globally
-
    ```
    npm install -g npm@6.7.0
    ```
 
 1. Install our Node dependencies. From the root of this repo:
-
-   ```
-   npm run install
-   ```
+    ```
+    npm run install
+    ```
 
 1. Setup serverside rendering for React:
+    ```
+    npm run react:setup && npm run react:build
+    ```
 
-   ```
-   npm run react:setup && npm run react:build
-   ```
-
-1. Build the assets:
-
-   ```
-   npm run webpack:build
-   ```
+1.  Build the assets:
+    ```
+    npm run webpack:build
+    ```
 
 1. Set up required environment variables:
-   ```
-   cp .envrc.template .envrc
-   ```
+    ```
+    cp .envrc.template .envrc
+    ```
    Then uncomment the `V3_API_KEY` line and fill it in with the key you obtained
    in the first step. If you have [direnv] installed, it will automatically load
    and unload the environment using this file. If not, `source .envrc` will load
