@@ -160,9 +160,9 @@ small {
 // duplicate property required because IE doesn't support `initial`
 .icon {
   height: auto;
-  height: initial; // scss-lint:disable DuplicateProperty
+  height: initial;
   width: auto;
-  width: initial; // scss-lint:disable DuplicateProperty
+  width: initial;
 }
 
 .icon-circle {
@@ -264,9 +264,8 @@ div {
     // NB this should use the single-colon syntax (i.e. :before); it's
     // older CSS2 syntax but FA uses it and due to the way SCSS @extend
     // works we need to match selector syntax.
-    // scss-lint:disable PseudoElement
 
-    &:before {
+    &::before {
       @include fa-icon();
       content: $fa-var-exclamation-circle;
       margin-right: .25em;

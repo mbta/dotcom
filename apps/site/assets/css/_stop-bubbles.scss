@@ -1,9 +1,7 @@
 $location-line-width: $space-6;
 
 @mixin stop-bubble-mode-color($class, $color) {
-// scss-lint:disable NestingDepth
-// scss-lint:disable SelectorDepth
-// Changes the color for the stop bubble based on the route type
+  // Changes the color for the stop bubble based on the route type
   #{$class} {
     .route-branch-stop-bubble-line,
     .route-branch-indent-start {
@@ -89,7 +87,6 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-bubbles {
-  // scss-lint:disable DuplicateProperty
   align-items: stretch;
   display: inline-block; // for non-flex browsers
   display: flex;
@@ -107,7 +104,6 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-bubble {
-  // scss-lint:disable DuplicateProperty
   align-items: center;
   display: inline-block;
   display: flex;
@@ -212,7 +208,6 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-bubble-line {
-  // scss-lint:disable DuplicateProperty
   border-width: 0;
   display: none; // hide on non-flex browsers
   display: flex;
@@ -227,7 +222,6 @@ $location-line-width: $space-6;
 }
 
 .route-branch-stop-info {
-  // scss-lint:disable DuplicateProperty
   border-bottom: $border;
   display: inline-block; // for non-flex browsers
   display: flex;
@@ -372,9 +366,10 @@ $location-line-width: $space-6;
   left: 0;
   position: relative;
   top: 0;
-  transform: scale(1.2); // vehicle SVGs are currently sized incorrectly
-                         // (circle is rendered inside of SVG and svg is too small);
-                         // this is a temporary fix until we get new assets -KH
+  // vehicle SVGs are currently sized incorrectly
+  // (circle is rendered inside of SVG and svg is too small);
+  // this is a temporary fix until we get new assets -KH
+  transform: scale(1.2);
   z-index: $z-index-stop-bubble;
 }
 
@@ -389,7 +384,7 @@ $location-line-width: $space-6;
 .route-branch-stop-icons {
   @include icon-size(1.5rem);
 
-  [class*="c-svg__icon"] {
+  [class*='c-svg__icon'] {
     margin-left: $base-spacing / 4;
   }
 }
@@ -399,19 +394,19 @@ $location-line-width: $space-6;
   width: 1.3125 * $base-spacing;
 }
 
-@include stop-bubble-mode-color(".commuter-rail", $brand-commuter-rail);
-@include stop-bubble-mode-color(".red-line", $brand-red-line);
-@include stop-bubble-mode-color(".mattapan-line", $brand-red-line);
-@include stop-bubble-mode-color(".blue-line", $brand-blue-line);
-@include stop-bubble-mode-color(".orange-line", $brand-orange-line);
-@include stop-bubble-mode-color(".green-line", $brand-green-line);
-@include stop-bubble-mode-color(".green-line-b", $brand-green-line);
-@include stop-bubble-mode-color(".green-line-c", $brand-green-line);
-@include stop-bubble-mode-color(".green-line-d", $brand-green-line);
-@include stop-bubble-mode-color(".green-line-e", $brand-green-line);
-@include stop-bubble-mode-color(".bus", $brand-bus);
-@include stop-bubble-mode-color(".logan-express", $brand-logan-express);
-@include stop-bubble-mode-color(".massport-shuttle", $brand-massport-shuttle);
-@include stop-bubble-mode-color(".silver-line", $brand-silver-line);
-@include stop-bubble-mode-color(".ferry", $brand-ferry);
-@include stop-bubble-mode-color(".personal-itinerary", $gray-dark);
+@include stop-bubble-mode-color('.commuter-rail', $brand-commuter-rail);
+@include stop-bubble-mode-color('.red-line', $brand-red-line);
+@include stop-bubble-mode-color('.mattapan-line', $brand-red-line);
+@include stop-bubble-mode-color('.blue-line', $brand-blue-line);
+@include stop-bubble-mode-color('.orange-line', $brand-orange-line);
+@include stop-bubble-mode-color('.green-line', $brand-green-line);
+@include stop-bubble-mode-color('.green-line-b', $brand-green-line);
+@include stop-bubble-mode-color('.green-line-c', $brand-green-line);
+@include stop-bubble-mode-color('.green-line-d', $brand-green-line);
+@include stop-bubble-mode-color('.green-line-e', $brand-green-line);
+@include stop-bubble-mode-color('.bus', $brand-bus);
+@include stop-bubble-mode-color('.logan-express', $brand-logan-express);
+@include stop-bubble-mode-color('.massport-shuttle', $brand-massport-shuttle);
+@include stop-bubble-mode-color('.silver-line', $brand-silver-line);
+@include stop-bubble-mode-color('.ferry', $brand-ferry);
+@include stop-bubble-mode-color('.personal-itinerary', $gray-dark);

@@ -313,8 +313,6 @@ a {
   }
 }
 
-// scss-lint:disable NestingDepth
-// scss-lint:disable SelectorDepth
 .schedule-date-picker {
   table-layout: fixed;
   text-align: center;
@@ -346,6 +344,7 @@ a {
       a {
         color: $white;
 
+        /* stylelint-disable-next-line max-nesting-depth */
         @include hover-focus-active {
           text-decoration: none;
         }
@@ -849,12 +848,12 @@ del .trip-list-realtime {
 }
 
 .filter-button {
-  // scss-lint:disable VendorPrefix
   @extend %button-primary-outline;
   @include clearfix();
   @include icon-size(2em);
   border-radius: $border-radius;
   display: block;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
   -ms-flex: 1 1 0%; // specify all 3 to work around IE bug
   flex: 1;
   min-height: 4rem;

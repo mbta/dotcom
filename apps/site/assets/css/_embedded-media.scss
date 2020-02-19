@@ -220,7 +220,12 @@ $layout-media: (
           .c-cms__body {
             // Send the configuration to a mixin which will apply the appropriate col-mixins and parameters
             @include offset-media($breakpoint-name, $layout-name, map-get($body-columns, $breakpoint-name));
-}}}}}}
+          }
+        }
+      }
+    }
+  }
+}
 
 // Consolidated styles for images, iframes, tables, and other elements
 //
@@ -241,8 +246,6 @@ $layout-media: (
   // Floated media above xs handles margins within structure, not on figure
   @include media-breakpoint-up(sm) {
     &.c-media--half {
-      -webkit-margin-after: 0;
-      -webkit-margin-before: 0;
       margin-bottom: 0;
       margin-top: 0;
     }

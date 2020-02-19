@@ -63,6 +63,7 @@ $padding: 1rem;
 
   .subpage-nav ul {
     padding: 0 $padding 0 0;
+    /* stylelint-disable-next-line property-no-vendor-prefix */
     -webkit-padding-start: 0;
   }
 

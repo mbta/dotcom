@@ -378,8 +378,8 @@
 .schedule-finder__first-last-trip {
   border-top: 3px solid $gray-lightest;
   display: flex;
+  // IE11 doesn't support space-evenly
   justify-content: space-around;
-  // scss-lint:disable DuplicateProperty IE11 doesn't support space-evenly
   justify-content: space-evenly;
   padding: $base-spacing / 2;
 }

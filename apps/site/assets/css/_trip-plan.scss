@@ -112,7 +112,7 @@
 .trip-plan-itinerary-accessibility {
   @include icon-size-inline(1em);
 
-  [class*="c-svg__icon"] {
+  [class*='c-svg__icon'] {
     margin-right: $base-spacing / 4;
   }
 }
@@ -226,7 +226,7 @@
 }
 
 .trip-plan-related-link {
-  [class*="c-svg__icon"] {
+  [class*='c-svg__icon'] {
     margin-right: $base-spacing / 4;
   }
 }

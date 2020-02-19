@@ -110,7 +110,7 @@
 
   @include media-breakpoint-down(md) {
     margin-bottom: $base-spacing / 2;
- }
+  }
 
   &:first-child {
     margin-top: $base-spacing;
@@ -157,7 +157,7 @@
   &:last-child {
     @include media-breakpoint-up(sm) {
       margin-left: $base-spacing / 2;
-   }
+    }
 
     @include media-breakpoint-up(lg) {
       margin-left: $base-spacing;

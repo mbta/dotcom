@@ -20,11 +20,10 @@ sudo swapon /swapfile
 
 # Ensure cache directories exist
 CACHE=$SEMAPHORE_CACHE_DIR
-mkdir -p "$CACHE/asdf/installs" "$CACHE/gems" "$CACHE/mix/deps" "$CACHE/npm"
+mkdir -p "$CACHE/asdf/installs" "$CACHE/mix/deps" "$CACHE/npm"
 
 export MIX_ENV=test
 export MIX_DEPS_PATH=$CACHE/mix/deps
-export GEM_HOME=$CACHE/gems
 
 # Install asdf and link cached languages
 ASDF_GIT=https://github.com/asdf-vm/asdf.git
@@ -36,7 +35,6 @@ source ~/.asdf/asdf.sh
 asdf plugin-add erlang
 asdf plugin-add elixir
 asdf plugin-add nodejs
-asdf plugin-add ruby
 ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 asdf install
 asdf reshim # Needed to pick up languages that were already installed in cache

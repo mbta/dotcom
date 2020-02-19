@@ -25,7 +25,6 @@
 }
 
 .desktop-nav-link {
-  // scss-lint:disable DuplicateProperty
   color: $link-color;
   display: inline-block;
   display: flex;
@@ -86,7 +85,6 @@
   }
 }
 
-// scss-lint:disable IdSelector
 #more {
   .header-column {
     &:first-child {
@@ -161,8 +159,9 @@
   svg {
     display: block;
     height: $header-navbar-height;
-    width: $base-spacing * 12; // setting the width keeps the rendered logo proportional,
-                               // while adding space above and below inside the svg.
+    // setting the width keeps the rendered logo proportional,
+    // while adding space above and below inside the svg.
+    width: $base-spacing * 12;
 
     @include media-breakpoint-down(sm) {
       g {

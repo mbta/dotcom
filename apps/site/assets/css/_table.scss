@@ -19,13 +19,13 @@
 }
 
 @mixin force-width {
-// ensures that an element will always get assigned a width, even if it is empty.
-// the reason min-height ensures a width is because CSS.
+  // ensures that an element will always get assigned a width, even if it is empty.
+  // the reason min-height ensures a width is because CSS.
   min-height: 1px;
 }
 
 @mixin column($left-padding: $grid-gutter-width / 2, $right-padding: $grid-gutter-width / 2) {
-// a column with equal padding on both sides.
+  // a column with equal padding on both sides.
   @include force-width;
   float: left;
   padding-left: $left-padding;
@@ -37,12 +37,12 @@
 }
 
 @mixin first-column {
-// the far-left column in a group of columns; simply removes padding from the left side of a normal column.
+  // the far-left column in a group of columns; simply removes padding from the left side of a normal column.
   @include column(0);
 }
 
 @mixin last-column {
-// the far-right column in a group of columns; simply removes padding from the right side of a normal column.
+  // the far-right column in a group of columns; simply removes padding from the right side of a normal column.
   @include column($right-padding: 0);
 }
 
@@ -120,13 +120,15 @@
       padding-left: $grid-gutter-width / 2;
     }
 
-    tbody th {
-      padding-bottom: 0;
-    }
+    tbody {
+      th {
+        padding-bottom: 0;
+      }
 
-    tbody td {
-      padding-bottom: 0;
-      padding-top: 0;
+      td {
+        padding-bottom: 0;
+        padding-top: 0;
+      }
     }
 
     tr td:last-child {

@@ -5,7 +5,7 @@
 /// @return {*} - Desired value (number w/o units attached)
 @function strip-units($number) {
   @return $number / ($number * 0 + 1);
- }
+}
 
 /// Map deep get
 /// @author Hugo Giraudel

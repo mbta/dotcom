@@ -1,6 +1,3 @@
-// scss-lint:disable ColorVariable
-// scss-lint:disable SelectorFormat
-
 .datepicker-button {
   cursor: pointer;
 
@@ -14,7 +11,7 @@
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
-  font-size: .9em;
+  font-size: 0.9em;
   margin: 0 10px 10px 0;
   padding: 2px;
   position: absolute;
@@ -58,7 +55,6 @@
   }
 }
 
-
 .datepicker-month-fast-prev {
   padding-right: 2px;
 }
@@ -77,10 +73,10 @@
   text-align: center;
 
   &::after {
-    content: '\e252';
+    content: "\e252";
     display: inline-block;
-    font-family: 'Glyphicons Halflings';
-    font-size: .6em;
+    font-family: "Glyphicons Halflings";
+    font-size: 0.6em;
   }
 
   &:hover,
@@ -157,7 +153,6 @@
       background-color: #f9f9f9;
     }
   }
-
 }
 
 .curDay,
@@ -174,7 +169,7 @@
   height: 100%;
   left: 0;
   min-height: 100%;
-  opacity: .5;
+  opacity: 0.5;
   position: fixed;
   right: 0;
   top: 0;
@@ -205,11 +200,7 @@
   }
 }
 
-
 .datepicker-weekdays {
   border-bottom: 1px solid #999;
   border-top: 1px solid #999;
 }
-
-// scss-lint:enable ColorVariable
-// scss-lint:disable SelectorFormat

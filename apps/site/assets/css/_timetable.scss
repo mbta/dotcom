@@ -30,6 +30,7 @@
     // A better solution probably exists, but this works.
     // -kh
 
+    position: relative;
     width: $base-spacing * 12.45;
 
     @include media-breakpoint-only(lg) {
@@ -123,15 +124,10 @@
 }
 
 .m-timetable__table {
-  [class*="c-svg__icon"] {
+  [class*='c-svg__icon'] {
     position: static;
   }
 }
-
-.m-timetable__row-header--empty {
-  position: relative;
-}
-
 
 .m-timetable__stop-name {
   @include icon-size-inline(1em);
@@ -162,7 +158,7 @@
 .m-timetable__access-icon {
   margin-left: .1em; // Forces word split of Stops at small breakpoints
   @include media-breakpoint-down(sm) {
-    @include icon-size(12px)
+    @include icon-size(12px);
   }
 }
 
@@ -199,11 +195,11 @@
     border-right: 0;
   }
 
-  [class*="c-svg__icon"] {
+  [class*='c-svg__icon'] {
     vertical-align: text-top;
   }
 
-  [class*="c-svg__icon-commuter-rail"] {
+  [class*='c-svg__icon-commuter-rail'] {
     margin-left: .25em;
   }
 

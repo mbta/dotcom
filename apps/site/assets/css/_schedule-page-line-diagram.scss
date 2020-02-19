@@ -155,9 +155,29 @@ $line-width: 8px; // width of the colored line in the diagram
   }
 }
 
-// renders blue (link color) alert icons instead of black
-.m-schedule-diagram .c-svg__icon-alerts-triangle path:not(:nth-child(1)) {
-  fill: currentColor;
+
+.m-schedule-diagram {
+  // renders blue (link color) alert icons instead of black
+  .c-svg__icon-alerts-triangle path:not(:nth-child(1)) {
+    fill: currentColor;
+  }
+
+  // stops at the edge of the <div> need a stroke to be visible
+  .m-schedule-diagram__line--terminus circle {
+    stroke-width: 1.15px;
+  }
+
+  // stops along the diagram are SVG circles
+  .m-schedule-diagram__line-stop {
+    // override Bootstrap setting overflow:hidden for SVGs by default
+    overflow: visible;
+
+    circle {
+      fill: $white;
+      stroke: currentColor;
+      stroke-width: 0;
+    }
+  }
 }
 
 //  .m-schedule-diagram__lines contains all the
@@ -168,7 +188,7 @@ $line-width: 8px; // width of the colored line in the diagram
 //  branch, and creates the line.
 .m-schedule-diagram__lines {
   display: flex;
-  margin: calc(-#{$base-spacing} - #{$border-width}*2) 0;
+  margin: calc(#{-$base-spacing} - (#{$border-width} * 2)) 0;
   margin-right: $base-spacing / 2;
 }
 
@@ -178,23 +198,6 @@ $line-width: 8px; // width of the colored line in the diagram
   margin: 0 $line-width / 2;
   position: relative;
   width: $line-width;
-}
-
-// stops along the diagram are SVG circles
-.m-schedule-diagram .m-schedule-diagram__line-stop {
-  // override Bootstrap setting overflow:hidden for SVGs by default
-  overflow: visible;
-
-  circle {
-    fill: $white;
-    stroke: currentColor;
-    stroke-width: 0;
-  }
-}
-
-// stops at the edge of the <div> need a stroke to be visible
-.m-schedule-diagram .m-schedule-diagram__line--terminus circle {
-  stroke-width: 1.15px;
 }
 
 // the very first stop - line should begin at the stop
@@ -275,7 +278,7 @@ $line-width: 8px; // width of the colored line in the diagram
 
 // <ExpandableBlock /> adjustments
 .m-schedule-diagram__expander {
-  [tabindex="0"]:focus {
+  [tabindex='0']:focus {
     outline: none;
   }
 
@@ -322,17 +325,19 @@ $line-width: 8px; // width of the colored line in the diagram
     padding: $line-width / 2;
   }
 
-  // hide icon when branch is expanded
-  [aria-expanded="true"] .m-schedule-diagram__collapsed-icon {
-    display: none;
+  [aria-expanded='true'] {
+    // hide icon when branch is expanded
+    .m-schedule-diagram__collapsed-icon {
+      display: none;
+    }
+
+    // adjust text when branch is expanded/closed
+    .m-schedule-diagram__toggle::before {
+      content: 'Hide ';
+    }
   }
 
-  // adjust text when branch is expanded/closed
-  [aria-expanded="true"] .m-schedule-diagram__toggle::before {
-    content: 'Hide ';
-  }
-
-  [aria-expanded="false"] .m-schedule-diagram__toggle::before {
+  [aria-expanded='false'] .m-schedule-diagram__toggle::before {
     content: 'Show ';
   }
 
@@ -349,7 +354,6 @@ $line-width: 8px; // width of the colored line in the diagram
     }
 
     // rounded corners at top and bottom this thicker line
-    // scss-lint:disable SelectorDepth
     .m-schedule-diagram__stop:first-child .m-schedule-diagram__line:last-child {
       border-top-left-radius: $base-spacing / 4;
       border-top-right-radius: $base-spacing / 4;
@@ -359,12 +363,11 @@ $line-width: 8px; // width of the colored line in the diagram
       border-bottom-left-radius: $base-spacing / 4;
       border-bottom-right-radius: $base-spacing / 4;
     }
-    // scss-lint:enable SelectorDepth
   }
 
   // first and last stops on branch
   .m-schedule-diagram__stop--origin .m-schedule-diagram__lines {
-    margin-top: calc(-#{$base-spacing} - #{$border-width});
+    margin-top: calc(#{-$base-spacing} - #{$border-width});
   }
 
   .m-schedule-diagram__stop--destination .m-schedule-diagram__lines {
@@ -377,12 +380,10 @@ $line-width: 8px; // width of the colored line in the diagram
   // Draws the line connecting the branch to the trunk in two places:
   // 1. Inside the <ExpandableBlock /> header element
   // 2. At the start of short branches, which are expanded by default
-  // scss-lint:disable SelectorDepth
   .m-schedule-diagram__stop--merging .m-schedule-diagram__lines--collapsed,
   .m-schedule-diagram__expanded .m-schedule-diagram__stop:first-child .m-schedule-diagram__lines {
     @include linebend(-$line-width);
   }
-  // scss-lint:enable SelectorDepth
 
   // last stop on branch
   .m-schedule-diagram__line + .m-schedule-diagram__line--terminus {
@@ -402,17 +403,23 @@ $line-width: 8px; // width of the colored line in the diagram
   // 1. Inside the <ExpandableBlock /> header element, when the branch is collapsed
   // 2. After the last <SingleStop /> on a branch, when that branch is expanded
   // 3. At the end of short branches, which are expanded by default
-  // scss-lint:disable SelectorDepth
-  [aria-expanded="false"] .m-schedule-diagram__stop--merging .m-schedule-diagram__lines--collapsed,
+  [aria-expanded='false'] .m-schedule-diagram__stop--merging .m-schedule-diagram__lines--collapsed,
   .m-schedule-diagram__expander--merging .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines,
   .m-schedule-diagram__expanded .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines {
     @include linebend(100%);
   }
 
-  .m-schedule-diagram__expander--merging .m-schedule-diagram__stop:last-child .m-schedule-diagram__line:not(:first-child) {
-    margin-bottom: $base-spacing;
+  .m-schedule-diagram__expander--merging .m-schedule-diagram__stop:last-child {
+    .m-schedule-diagram__line:not(:first-child) {
+      margin-bottom: $base-spacing;
+    }
+
+    // Remove the border-radius where the expanded branch line meets the line bend
+    .m-schedule-diagram__line:last-child {
+      border-bottom-left-radius: initial;
+      border-bottom-right-radius: initial;
+    }
   }
-  // scss-lint:enable SelectorDepth
 
   // first stop on branch
   .m-schedule-diagram__line + .m-schedule-diagram__line--terminus {
@@ -422,14 +429,6 @@ $line-width: 8px; // width of the colored line in the diagram
   .m-schedule-diagram__lines--merging .m-schedule-diagram__line:not(:first-child) {
     height: calc(#{$base-spacing * 2} + 10px);
   }
-
-  // Remove the border-radius where the expanded branch line meets the line bend
-  // scss-lint:disable SelectorDepth
-  .m-schedule-diagram__expander--merging .m-schedule-diagram__stop:last-child .m-schedule-diagram__line:last-child {
-    border-bottom-left-radius: initial;
-    border-bottom-right-radius: initial;
-  }
-  // scss-lint:enable SelectorDepth
 }
 
 // stop filter
