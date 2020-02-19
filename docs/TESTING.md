@@ -16,7 +16,7 @@ verify our type specifcations and make sure we're calling functions properly.
 ### Linting
 
 * Elixir: `mix credo`
-* SCSS: `scss-lint` (prerequisite: `gem install scss_lint`)
+* SCSS: `npm run stylelint`
 * TypeScript: `npm run tslint`
 
 ### Javascript and Typescript formatting
