@@ -2,7 +2,12 @@
   "priority": 100,
   "request": {
     "method": "GET",
-    "urlPattern": ".*"
+    "urlPattern": ".*",
+    "headers" : {
+      "X-WM-Proxy-Url" : {
+        "contains" : "http"
+      }
+    }
   },
   "response": {
     "proxyBaseUrl" : "{{request.headers.X-WM-Proxy-Url}}",
