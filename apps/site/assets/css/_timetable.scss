@@ -158,7 +158,8 @@
 .m-timetable__access-icon {
   margin-left: .1em; // Forces word split of Stops at small breakpoints
   @include media-breakpoint-down(sm) {
-    @include icon-size(12px); }
+    @include icon-size(12px);
+  }
 }
 
 .m-timetable__row,

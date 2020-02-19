@@ -12,6 +12,7 @@
       "debug"
     ],
     "block-opening-brace-space-before": "always",
+    "block-closing-brace-newline-before": "always-multi-line",
     "color-hex-case": "lower",
     "color-hex-length": "short",
     "color-named": "never",
