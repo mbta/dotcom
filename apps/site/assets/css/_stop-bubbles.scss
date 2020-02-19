@@ -366,9 +366,10 @@ $location-line-width: $space-6;
   left: 0;
   position: relative;
   top: 0;
-  transform: scale(1.2); // vehicle SVGs are currently sized incorrectly
+  // vehicle SVGs are currently sized incorrectly
   // (circle is rendered inside of SVG and svg is too small);
   // this is a temporary fix until we get new assets -KH
+  transform: scale(1.2);
   z-index: $z-index-stop-bubble;
 }
 

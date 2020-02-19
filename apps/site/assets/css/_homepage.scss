@@ -142,8 +142,9 @@
   flex: 1 1 auto;
   flex-direction: column;
   justify-content: space-between;
-  max-width: 100%; // fixes a spacing issue in IE where title causes element
+  // fixes a spacing issue in IE where title causes element
   // to be wider than parent at small breakpoints
+  max-width: 100%;
   padding: $base-spacing;
 
   &:hover {

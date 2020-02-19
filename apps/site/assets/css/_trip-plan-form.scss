@@ -72,11 +72,12 @@
     min-height: $base-spacing * 42;
     position: sticky;
     top: 0;
-    z-index: $z-index-datepicker-content; // required so that a new stacking context is defined;
+    // required so that a new stacking context is defined;
     // without setting z-index, the footer's stacking context
     // is higher than this sidebar so the datepicker popup
     // is covered by the footer. -kh
     // https://philipwalton.com/articles/what-no-one-told-you-about-z-index/
+    z-index: $z-index-datepicker-content;
   }
 }
 
