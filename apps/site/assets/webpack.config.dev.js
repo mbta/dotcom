@@ -22,6 +22,31 @@ module.exports = env =>
       port: env.port,
       contentBase: path.resolve(__dirname, "../priv/static/"),
       watchContentBase: true,
-      compress: true
+      compress: true,
+      stats: {
+        assets: false,
+        builtAt: true,
+        cachedAssets: true,
+        chunkGroups: true,
+        colors: true,
+        entrypoints: false,
+        env: true,
+        errors: true,
+        errorDetails: true,
+        hash: true,
+        modules: false,
+        publicPath: false,
+        progress: true,
+        reasons: false,
+        source: false,
+        timings: true,
+        usedExports: true,
+        version: true,
+        warnings: true
+      },
+      overlay: {
+        errors: true,
+        warnings: true
+      }
     }
   });
