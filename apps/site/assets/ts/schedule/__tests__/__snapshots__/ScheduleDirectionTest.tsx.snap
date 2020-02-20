@@ -938,6 +938,17 @@ exports[`renders with a static map 1`] = `
                 </Component>
               </div>
             </div>
+            <div
+              className="m-schedule-diagram__footer"
+            >
+              <button
+                className="btn btn-link"
+                onClick={[Function]}
+                type="button"
+              >
+                View schedule
+              </button>
+            </div>
           </div>
         </div>
       </SingleStop>

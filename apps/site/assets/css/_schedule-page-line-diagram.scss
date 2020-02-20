@@ -391,11 +391,6 @@ $line-width: 8px; // width of the colored line in the diagram
 
     height: $base-spacing * 2;
   }
-
-  // hide "View schedules" for final destination(s)
-  .m-schedule-diagram__stop--terminus:not(:first-child) .m-schedule-diagram__footer {
-    display: none;
-  }
 }
 
 .m-schedule-diagram--inward {

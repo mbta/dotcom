@@ -252,17 +252,15 @@ const SingleStop = ({
           )}
         </div>
 
-        {!isDestination && (
-          <div className="m-schedule-diagram__footer">
-            <button
-              className="btn btn-link"
-              type="button"
-              onClick={() => onClick(routeStop)}
-            >
-              View schedule
-            </button>
-          </div>
-        )}
+        <div className="m-schedule-diagram__footer">
+          <button
+            className="btn btn-link"
+            type="button"
+            onClick={() => onClick(routeStop)}
+          >
+            View schedule
+          </button>
+        </div>
       </div>
     </div>
   );

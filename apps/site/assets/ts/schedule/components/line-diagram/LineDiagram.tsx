@@ -85,9 +85,11 @@ const LineDiagram = ({
   const routeColor: string = route.color || "#000";
   const [modalState, setModalState] = useState<{
     selectedOrigin: RouteStop;
+    directionId: DirectionId;
     modalOpen: boolean;
   }>({
     selectedOrigin: lineDiagram[0].route_stop,
+    directionId,
     modalOpen: false
   });
 
@@ -100,11 +102,17 @@ const LineDiagram = ({
   );
   const liveData = (maybeLiveData || {}) as LiveDataByStop;
 
-  const handleStopClick = (stop: RouteStop): void =>
+  const handleStopClick = (stop: RouteStop): void => {
+    const { "is_beginning?": isBeginning, "is_terminus?": isTerminus } = stop;
+    const isDestination = isTerminus && !isBeginning;
+    const reverseDirectionId = directionId === 0 ? 1 : 0;
+
     setModalState({
       selectedOrigin: stop,
+      directionId: isDestination ? reverseDirectionId : directionId,
       modalOpen: true
     });
+  };
 
   const treeDirection = getTreeDirection(lineDiagram);
 
@@ -290,7 +298,7 @@ const LineDiagram = ({
         {() => (
           <ScheduleModalContent
             route={route}
-            selectedDirection={directionId}
+            selectedDirection={modalState.directionId}
             selectedOrigin={modalState.selectedOrigin.id}
             services={services}
             stops={stops[directionId]}
