@@ -27,6 +27,7 @@ const StopPredictions = ({ headsigns, isCommuterRail }: Props): JSX.Element => {
     predictions = liveHeadsigns.slice(0, 1).map(headsign => {
       const time = headsign.times[0];
       const prediction = time.prediction!;
+      const status = statusForCommuterRail(time);
 
       return (
         <div key={headsign.name}>
@@ -37,12 +38,14 @@ const StopPredictions = ({ headsigns, isCommuterRail }: Props): JSX.Element => {
             )}
           </div>
           <div className="m-schedule-diagram__cr-prediction-details">
-            <span>{`${headsign.name} ·`}</span>{" "}
+            <span>{`${headsign.name}`}</span>
             <span>
-              {headsign.train_number ? `Train ${headsign.train_number} ·` : ""}
-            </span>{" "}
-            <span>{prediction.track ? `Track ${prediction.track} ·` : ""}</span>{" "}
-            <span>{statusForCommuterRail(headsign.times[0])}</span>
+              {headsign.train_number ? ` · Train ${headsign.train_number}` : ""}
+            </span>
+            <span>
+              {prediction.track ? ` · Track ${prediction.track}` : ""}
+            </span>
+            <span>{status ? ` · ${status}` : ""}</span>
           </div>
         </div>
       );

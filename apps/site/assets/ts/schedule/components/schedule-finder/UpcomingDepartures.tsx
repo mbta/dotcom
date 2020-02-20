@@ -86,8 +86,11 @@ const CrTableRow = ({
 
   if (realtime.prediction === null) return null;
 
+  const status = statusForCommuterRail(realtime);
   const track = trackForCommuterRail(realtime);
-  const trainNumber = trip.name ? `Train ${trip.name} · ` : "";
+  const trainNumber = trip.name ? `Train ${trip.name}` : null;
+
+  const statusWithTrain = [trainNumber, status].filter(x => x).join(" · ");
 
   return (
     <>
@@ -100,11 +103,7 @@ const CrTableRow = ({
           {timeForCommuterRail(realtime, "schedule-table__time")}
         </div>
         <div className="u-nowrap text-right">
-          <span className="schedule-table__status">
-            {trainNumber}
-            {statusForCommuterRail(realtime)}
-          </span>
-
+          <span className="schedule-table__status">{statusWithTrain}</span>
           <span className="schedule-table__track">
             {track ? ` · ${track}` : ""}
           </span>

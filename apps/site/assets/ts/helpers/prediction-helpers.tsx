@@ -19,31 +19,35 @@ export const timeForCommuterRail = (
   data: PredictedOrScheduledTime,
   className = ""
 ): ReactElement<HTMLElement> => {
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  const { delay, prediction, scheduled_time } = data;
+  const { delay, prediction, scheduled_time: scheduledTime } = data;
+
   if (delay >= 5 && prediction) {
     return delayForCommuterRail(data, className);
   }
 
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  const time = prediction ? prediction.time : scheduled_time;
+  const time = prediction ? prediction.time : scheduledTime;
 
   return <div className={className}>{time!.join("")}</div>;
 };
 
 export const statusForCommuterRail = ({
   delay,
+  scheduled_time: scheduledTime,
   prediction
-}: PredictedOrScheduledTime): string => {
-  if (delay >= 5) {
-    return `Delayed ${delay} min`;
-  }
+}: PredictedOrScheduledTime): string | null => {
+  // If there is a human-entered status string, prioritize that
+  if (prediction && prediction.status) return prediction.status;
 
-  if (prediction && prediction.status) {
-    return prediction.status;
-  }
+  // Indicate "Delayed" if train is delayed 5+ minutes
+  if (delay >= 5) return `Delayed ${delay} min`;
 
-  return "On time";
+  // Indicate "On time" if train is not "Delayed" and we have a scheduled time
+  // (even if there is no real-time prediction)
+  if (scheduledTime) return "On time";
+
+  // We have just a prediction with no scheduled time, so we can't say whether
+  // the train is on time, delayed, etc.
+  return null;
 };
 
 export const trackForCommuterRail = ({

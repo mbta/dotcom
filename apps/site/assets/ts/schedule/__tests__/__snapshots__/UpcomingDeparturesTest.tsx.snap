@@ -363,8 +363,7 @@ Array [
             <span
               className="schedule-table__status"
             >
-              Train 515 · 
-              On time
+              Train 515 · On time
             </span>
             <span
               className="schedule-table__track"
