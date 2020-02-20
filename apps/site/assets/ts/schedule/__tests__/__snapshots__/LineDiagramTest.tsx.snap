@@ -344,6 +344,11 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
           <div className=\\"m-schedule-diagram__stop-details\\">
             <div className=\\"m-schedule-diagram__connections\\" />
           </div>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
+          </div>
         </div>
       </div>
     </SingleStop>
@@ -546,6 +551,11 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
           <div className=\\"m-schedule-diagram__stop-details\\">
             <div className=\\"m-schedule-diagram__connections\\" />
           </div>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
+          </div>
         </div>
       </div>
     </SingleStop>
@@ -619,6 +629,11 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
           <div className=\\"m-schedule-diagram__stop-details\\">
             <div className=\\"m-schedule-diagram__connections\\" />
           </div>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
+          </div>
         </div>
       </div>
     </SingleStop>
@@ -687,6 +702,11 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
           </div>
           <div className=\\"m-schedule-diagram__stop-details\\">
             <div className=\\"m-schedule-diagram__connections\\" />
+          </div>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
           </div>
         </div>
       </div>
@@ -969,6 +989,11 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
                 </a>
               </Component>
             </div>
+          </div>
+          <div className=\\"m-schedule-diagram__footer\\">
+            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+              View schedule
+            </button>
           </div>
         </div>
       </div>

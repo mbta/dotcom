@@ -96,17 +96,30 @@ describe("LineDiagram without branches", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("opens a closeable modal after clicking button", () => {
-    expect(wrapper.exists(".schedule-finder__modal-header")).toBeFalsy();
+  it("includes a button to open Schedule Finder on each stop", () => {
+    const modalHeader = ".schedule-finder__modal-header";
+    expect(wrapper.exists(modalHeader)).toBeFalsy();
+
+    wrapper
+      .find(".m-schedule-diagram__footer > button")
+      .first()
+      .simulate("click");
+    expect(wrapper.find(modalHeader).text()).toContain("Inbound");
+    expect(wrapper.exists("#modal-close")).toBeTruthy();
+
+    wrapper.find("#modal-close").simulate("click");
+    expect(wrapper.exists(modalHeader)).toBeFalsy();
+    expect(wrapper.exists("#modal-close")).toBeFalsy();
+  });
+
+  it("uses the opposite direction for Schedule Finder on destinations", () => {
     wrapper
       .find(".m-schedule-diagram__footer > button")
       .last()
       .simulate("click");
-    expect(wrapper.exists(".schedule-finder__modal-header")).toBeTruthy();
-    expect(wrapper.exists("#modal-close")).toBeTruthy();
-    wrapper.find("#modal-close").simulate("click");
-    expect(wrapper.exists(".schedule-finder__modal-header")).toBeFalsy();
-    expect(wrapper.exists("#modal-close")).toBeFalsy();
+    expect(wrapper.find(".schedule-finder__modal-header").text()).toContain(
+      "Outbound"
+    );
   });
 
   it("has a tooltip for a transit connection", () => {
