@@ -113,17 +113,6 @@ export const ServiceSelector = ({
     <>
       <h3>Daily Schedule</h3>
       <div className="schedule-finder__service-selector">
-        {!isCurrentValidService(defaultService, todayDate) && (
-          <div className="callout schedule-table--empty">
-            There is no scheduled service for today,{" "}
-            {todayDate.toLocaleDateString("en-US", {
-              weekday: "long",
-              month: "short",
-              day: "numeric"
-            })}
-            .
-          </div>
-        )}
         <label htmlFor="service_selector" className="sr-only">
           Schedules
         </label>
