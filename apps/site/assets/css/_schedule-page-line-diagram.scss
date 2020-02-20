@@ -162,11 +162,6 @@ $line-width: 8px; // width of the colored line in the diagram
     fill: currentColor;
   }
 
-  // stops at the edge of the <div> need a stroke to be visible
-  .m-schedule-diagram__line--terminus circle {
-    stroke-width: 1.15px;
-  }
-
   // stops along the diagram are SVG circles
   .m-schedule-diagram__line-stop {
     // override Bootstrap setting overflow:hidden for SVGs by default
@@ -177,6 +172,11 @@ $line-width: 8px; // width of the colored line in the diagram
       stroke: currentColor;
       stroke-width: 0;
     }
+  }
+
+  // stops at the edge of the <div> need a stroke to be visible
+  .m-schedule-diagram__line--terminus circle {
+    stroke-width: 1.15px;
   }
 }
 
