@@ -47,6 +47,25 @@ export const fetchData = (
   );
 };
 
+const RouteIcon = ({
+  route: { type, name, id }
+}: Journey): ReactElement<HTMLElement> | undefined => {
+  if (type !== 3) {
+    return modeIcon(id);
+  }
+
+  const backgroundClass = name.startsWith("SL")
+    ? "u-bg--silver-line"
+    : "u-bg--bus";
+  return (
+    <span
+      className={`c-icon__bus-pill--small schedule-table__scheduled-bus-pill ${backgroundClass}`}
+    >
+      {name}
+    </span>
+  );
+};
+
 const BusTableRow = ({
   journey,
   anySchoolTrips,
@@ -66,14 +85,7 @@ const BusTableRow = ({
       {journey.departure.time}
     </td>
     <td className="schedule-table__td">
-      {journey.route.type === 3 && !journey.route.name.startsWith("SL") ? (
-        <span className="c-icon__bus-pill--small u-bg--bus schedule-table__scheduled-bus-pill">
-          {journey.route.name}
-        </span>
-      ) : (
-        modeIcon(journey.route.id)
-      )}{" "}
-      {breakTextAtSlash(journey.trip.headsign)}
+      {RouteIcon(journey)} {breakTextAtSlash(journey.trip.headsign)}
     </td>
   </>
 );
