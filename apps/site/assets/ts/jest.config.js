@@ -12,10 +12,10 @@ module.exports = {
   coverageReporters: ["html"],
   coverageThreshold: {
     global: {
-      branches: 93,
+      branches: 90,
       functions: 95,
       lines: 95,
-      statements: -40 // Since we have SSR checks, this needs to be lenient
+      statements: 95
     },
     // The Leaflet API is difficult to test, so we consider a lower
     // threshold acceptable for these modules. However, callbacks in
