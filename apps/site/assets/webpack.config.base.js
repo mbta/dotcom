@@ -5,7 +5,6 @@ const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const webpack = require("webpack");
 const path = require("path");
 const postcssPresetEnv = require("postcss-preset-env");
-const autoprefixer = require("autoprefixer");
 const sass = require("sass");
 
 const babelLoader = {
@@ -87,7 +86,7 @@ module.exports = {
             loader: "postcss-loader",
             options: {
               ident: "postcss",
-              plugins: () => [postcssPresetEnv, autoprefixer]
+              plugins: () => [postcssPresetEnv]
             }
           },
           {
