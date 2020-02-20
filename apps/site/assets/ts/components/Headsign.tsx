@@ -57,7 +57,7 @@ const renderTimeCommuterRail = (
   >
     {crTime(data)}
     <div className="m-tnm-sidebar__status">
-      {`${statusForCommuterRail(data)}${trackForCommuterRail(data)}`}
+      {`${statusForCommuterRail(data) || ""}${trackForCommuterRail(data)}`}
     </div>
   </div>
 );

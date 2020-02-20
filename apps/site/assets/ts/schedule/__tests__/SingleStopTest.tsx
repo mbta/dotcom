@@ -146,34 +146,6 @@ const crLiveData: LiveData = {
   ]
 };
 
-const crLiveDataNoTrain: LiveData = {
-  headsigns: [
-    {
-      name: "DestC",
-      times: [
-        {
-          delay: 5,
-          prediction: {
-            status: null,
-            time: ["5:05", " ", "PM"],
-            track: null
-          },
-          scheduled_time: ["5:00", " ", "PM"]
-        }
-      ],
-      train_number: null
-    }
-  ],
-  vehicles: [
-    {
-      id: "veh2",
-      headsign: "DestC",
-      status: "in_transit",
-      trip_name: "405"
-    }
-  ]
-};
-
 describe("SingleStop", () => {
   it("renders and matches snapshot", () => {
     let wrapper = mount(
@@ -214,21 +186,6 @@ describe("SingleStop", () => {
         isOrigin={false}
         isDestination={false}
         liveData={crLiveData}
-      />
-    );
-
-    expect(wrapper.debug()).toMatchSnapshot();
-  });
-
-  it("renders with Commuter Rail live data without track or train #", () => {
-    let wrapper = mount(
-      <SingleStop
-        stop={crStop}
-        onClick={() => {}}
-        color="000"
-        isOrigin={false}
-        isDestination={false}
-        liveData={crLiveDataNoTrain}
       />
     );
 
