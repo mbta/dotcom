@@ -59,7 +59,7 @@ export const doInitChannel = (id: string): Channel => {
   return channel;
 };
 
-const initChannel = <T>(
+export const initChannel = <T>(
   channelId: string,
   onData: (data: SocketEvent<T>) => void
 ): void => {
@@ -67,4 +67,11 @@ const initChannel = <T>(
   channel.on("data", onData);
 };
 
-export default initChannel;
+// NB: this removes *all* handlers from the channel. We're currently throwing
+// away the reference returned by `channel.on`, so we can't remove a specific
+// handler, but we don't have a use case for that yet.
+export const stopChannel = (id: string): void => {
+  if (window.channels && window.channels[id]) {
+    window.channels[id].off("data");
+  }
+};

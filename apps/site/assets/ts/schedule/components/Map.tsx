@@ -5,7 +5,7 @@ import React, {
   Dispatch,
   useRef
 } from "react";
-import initChannel, { SocketEvent } from "./Channel";
+import { initChannel, stopChannel, SocketEvent } from "./Channel";
 import Map from "../../leaflet/components/Map";
 import getBounds from "../../leaflet/bounds";
 import {
@@ -43,6 +43,11 @@ const setupChannels = (
   initChannel<EventData[]>("vehicles:remove", (action: Action) =>
     dispatch({ action, channel })
   );
+};
+
+const stopChannels = (channel: string): void => {
+  stopChannel(channel);
+  stopChannel("vehicles:remove");
 };
 
 export const iconOpts = (
@@ -188,7 +193,13 @@ export default ({
     markers: data.markers,
     shapeId
   });
-  useEffect(() => setupChannels(channel, dispatch), [channel]);
+  useEffect(
+    () => {
+      setupChannels(channel, dispatch);
+      return () => stopChannels(channel);
+    },
+    [channel, dispatch]
+  );
   const stopMarkers = data.stop_markers
     ? data.stop_markers.map(marker => updateMarker(marker))
     : [];
