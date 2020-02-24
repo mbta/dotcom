@@ -1,6 +1,7 @@
 import React, { ReactElement, useState } from "react";
 import { useFetch } from "react-async";
 import { useInterval } from "use-interval";
+
 import {
   LineDiagramStop,
   LineDiagramVehicle,
@@ -105,19 +106,6 @@ const LineDiagram = ({
   useInterval(() => {
     /* istanbul ignore next */
     if (!liveDataIsLoading) reloadLiveData();
-  }, 15000);
-
-  useFetch(
-    `/schedules/line_api/log_visibility?visibility=${document.visibilityState}`,
-    {}
-  );
-  useInterval(() => {
-    /* istanbul ignore next */
-    fetch(
-      `/schedules/line_api/log_visibility?visibility=${
-        document.visibilityState
-      }`
-    );
   }, 15000);
 
   const handleStopClick = (stop: RouteStop): (() => void) => () =>
