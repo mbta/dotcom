@@ -17,7 +17,6 @@ defmodule Site.Application do
 
     children = [
       # Start the endpoint when the application starts
-      supervisor(ConCache, [[], [name: :line_diagram_realtime_cache, ttl: :timer.seconds(60)]]),
       supervisor(SiteWeb.Endpoint, []),
       supervisor(Site.GreenLine.Supervisor, []),
       supervisor(Site.Stream.Vehicles, []),
