@@ -92,7 +92,9 @@ const LineDiagram = ({
   });
 
   const { data: maybeLiveData } = useFetch(
-    `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`,
+    `/schedules/line_api/predictions_and_vehicles?id=${
+      route.id
+    }&direction_id=${directionId}`,
     {},
     { json: true, watch: directionId }
   );
