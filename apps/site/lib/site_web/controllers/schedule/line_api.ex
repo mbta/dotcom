@@ -4,23 +4,12 @@ defmodule SiteWeb.ScheduleController.LineApi do
 
   alias Alerts.Stop, as: AlertsStop
   alias Routes.Route
-  alias Schedules.Repo, as: SchedulesRepo
-  alias Site.TransitNearMe
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias Stops.Repo, as: StopsRepo
   alias Stops.RouteStop
-  alias Vehicles.Repo, as: VehiclesRepo
-  alias Vehicles.Vehicle
 
   import SiteWeb.StopController, only: [json_safe_alerts: 2]
-
-  @typep simple_vehicle :: %{
-           id: String.t(),
-           headsign: String.t() | nil,
-           status: String.t(),
-           trip_name: String.t() | nil
-         }
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, %{"id" => route_id, "direction_id" => direction_id}) do
@@ -49,38 +38,12 @@ defmodule SiteWeb.ScheduleController.LineApi do
   @doc """
   Provides predictions and vehicle information for a given route and direction, organized by stop.
   The line diagram polls this endpoint for its real-time data.
+
+  Currently disabled due to performance issues.
   """
   @spec realtime(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def realtime(conn, %{"id" => route_id, "direction_id" => direction_id}) do
-    headsigns_by_stop =
-      TransitNearMe.time_data_for_route_by_stop(
-        route_id,
-        String.to_integer(direction_id),
-        date: conn.assigns.date,
-        now: conn.assigns.date_time
-      )
-
-    vehicles_by_stop =
-      route_id
-      |> expand_route_id()
-      |> Stream.flat_map(&VehiclesRepo.route(&1, direction_id: String.to_integer(direction_id)))
-      |> Stream.map(&update_vehicle_with_parent_stop(&1))
-      |> Enum.group_by(& &1.stop_id)
-
-    combined_data_by_stop =
-      Map.keys(headsigns_by_stop)
-      |> Stream.concat(Map.keys(vehicles_by_stop))
-      |> Stream.uniq()
-      |> Stream.map(fn stop_id ->
-        {stop_id,
-         %{
-           headsigns: Map.get(headsigns_by_stop, stop_id, []),
-           vehicles: Map.get(vehicles_by_stop, stop_id, []) |> Enum.map(&simple_vehicle_map(&1))
-         }}
-      end)
-      |> Enum.into(%{})
-
-    json(conn, combined_data_by_stop)
+  def realtime(conn, _params) do
+    json(conn, %{})
   end
 
   @spec update_route_stop_data({any, RouteStop.t()}, any, DateTime.t()) :: map()
@@ -91,10 +54,6 @@ defmodule SiteWeb.ScheduleController.LineApi do
       stop_data: Enum.map(data, fn {key, value} -> %{branch: key, type: value} end)
     }
   end
-
-  @spec expand_route_id(Route.id_t()) :: [Route.id_t()]
-  defp expand_route_id("Green"), do: GreenLine.branch_ids()
-  defp expand_route_id(route_id), do: [route_id]
 
   @spec get_line_data(Route.id_t(), LineHelpers.direction_id(), Route.branch_name(), boolean()) ::
           [DiagramHelpers.stop_with_bubble_info()]
@@ -107,29 +66,5 @@ defmodule SiteWeb.ScheduleController.LineApi do
     branches = LineHelpers.get_branches(filtered_shapes, route_stops, route, direction_id)
 
     DiagramHelpers.build_stop_list(branches, direction_id, redesign_enabled?)
-  end
-
-  @spec simple_vehicle_map(Vehicle.t()) :: simple_vehicle
-  defp simple_vehicle_map(%Vehicle{id: id, status: status, trip_id: trip_id}) do
-    case SchedulesRepo.trip(trip_id) do
-      nil ->
-        %{id: id, status: status}
-
-      %{headsign: headsign, name: name} ->
-        %{
-          id: id,
-          headsign: headsign,
-          status: status,
-          trip_name: name
-        }
-    end
-  end
-
-  @spec update_vehicle_with_parent_stop(Vehicle.t()) :: Vehicle.t()
-  defp update_vehicle_with_parent_stop(vehicle) do
-    case StopsRepo.get_parent(vehicle.stop_id) do
-      nil -> vehicle
-      parent_stop -> %{vehicle | stop_id: parent_stop.id}
-    end
   end
 end
