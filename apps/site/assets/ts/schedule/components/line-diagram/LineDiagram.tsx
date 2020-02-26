@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
-import { useFetch } from "react-async";
 import { useInterval } from "use-interval";
+import { useFetch } from "react-async";
 
 import {
   LineDiagramStop,
@@ -105,9 +105,11 @@ const LineDiagram = ({
     { json: true, watch: directionId }
   );
   const liveData = (maybeLiveData || {}) as LiveDataByStop;
+
   useInterval(() => {
-    /* istanbul ignore next */
-    if (!liveDataIsLoading) reloadLiveData();
+    requestAnimationFrame(() => {
+      if (!document.hidden && !liveDataIsLoading) reloadLiveData();
+    });
   }, 15000);
 
   const handleStopClick = (stop: RouteStop): void => {
