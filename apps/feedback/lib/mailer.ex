@@ -1,18 +1,8 @@
 defmodule Feedback.Mailer do
+  @moduledoc false
+
   use Mailgun.Client
   require Logger
-
-  # Mix isn't available at runtime
-  @mix_env Mix.env()
-
-  def config do
-    [
-      domain: Application.get_env(:feedback, :mailgun_domain),
-      key: Application.get_env(:feedback, :mailgun_key),
-      test_file_path: Application.get_env(:feedback, :test_mail_file),
-      mode: @mix_env
-    ]
-  end
 
   @spec send_heat_ticket(Feedback.Message.t(), [map()]) :: {:ok, any} | {:error, any}
   def send_heat_ticket(message, photo_info) do
@@ -48,21 +38,32 @@ defmodule Feedback.Mailer do
     </INCIDENT>
     """
 
-    opts = [
-      to: Application.get_env(:feedback, :support_ticket_to_email),
-      from: Application.get_env(:feedback, :support_ticket_from_email),
-      subject: "MBTA Customer Comment Form",
-      text: body
-    ]
-
-    opts =
+    message =
       if photo_info do
-        [{:attachments, photo_info} | opts]
+        photo_info
+        |> Enum.reduce(
+          Mail.build_multipart(),
+          fn attachment, message -> Mail.put_attachment(message, attachment) end
+        )
       else
-        opts
+        Mail.build()
       end
 
-    Mailgun.Client.send_email(config(), opts)
+    message =
+      message
+      |> Mail.put_to(Application.get_env(:feedback, :support_ticket_to_email))
+      |> Mail.put_from(Application.get_env(:feedback, :support_ticket_from_email))
+      |> Mail.put_subject("MBTA Customer Comment Form")
+      |> Mail.put_text(body)
+
+    exaws_perform_fn =
+      Application.get_env(:feedback, :exaws_perform_fn, &ExAws.Operation.perform/2)
+
+    {:ok, _} =
+      message
+      |> Mail.Renderers.RFC2822.render()
+      |> ExAws.SES.send_raw_email()
+      |> exaws_perform_fn.(ExAws.Config.new(:ses))
   end
 
   defp format_name(nil) do

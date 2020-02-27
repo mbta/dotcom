@@ -191,6 +191,9 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     end
 
     test "attaches photos in params", %{conn: conn} do
+      File.write!("/tmp/upload-1", "upload 1 data")
+      File.write!("/tmp/upload-2", "upload 2 data")
+
       params =
         valid_no_response_data()
         |> Map.put("photos", [
@@ -198,14 +201,18 @@ defmodule SiteWeb.CustomerSupportControllerTest do
           %Plug.Upload{filename: "photo-2.jpg", path: "/tmp/upload-2"}
         ])
 
-      conn = post(conn, customer_support_path(conn, :submit), %{"support" => params})
+      conn =
+        post(conn, customer_support_path(conn, :submit), %{
+          "support" => params
+        })
+
       wait_for_ticket_task(conn)
 
       attachments = Feedback.Test.latest_message()["attachments"]
 
       assert attachments == [
-               %{"filename" => "photo-1.jpg", "path" => "/tmp/upload-1"},
-               %{"filename" => "photo-2.jpg", "path" => "/tmp/upload-2"}
+               %{"filename" => "photo-1.jpg", "data" => "upload 1 data"},
+               %{"filename" => "photo-2.jpg", "data" => "upload 2 data"}
              ]
     end
 
@@ -217,7 +224,10 @@ defmodule SiteWeb.CustomerSupportControllerTest do
           %Plug.Upload{filename: "runme.exe"}
         ])
 
-      conn = post(conn, customer_support_path(conn, :submit), %{"support" => params})
+      conn =
+        post(conn, customer_support_path(conn, :submit), %{
+          "support" => params
+        })
 
       assert "photos" in conn.assigns.errors
     end
@@ -231,7 +241,9 @@ defmodule SiteWeb.CustomerSupportControllerTest do
             Enum.reduce(1..4, conn, fn _, acc ->
               acc
               |> recycle()
-              |> post(path, %{"support" => valid_request_response_data()})
+              |> post(path, %{
+                "support" => valid_request_response_data()
+              })
             end)
 
           assert conn.status == 429
