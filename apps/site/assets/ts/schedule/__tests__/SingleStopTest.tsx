@@ -153,8 +153,6 @@ describe("SingleStop", () => {
         stop={basicStop}
         onClick={() => {}}
         color="000"
-        isOrigin={false}
-        isDestination={false}
         liveData={undefined}
       />
     );
@@ -168,8 +166,6 @@ describe("SingleStop", () => {
         stop={basicStop}
         onClick={() => {}}
         color="000"
-        isOrigin={false}
-        isDestination={false}
         liveData={liveData}
       />
     );
@@ -183,8 +179,6 @@ describe("SingleStop", () => {
         stop={crStop}
         onClick={() => {}}
         color="000"
-        isOrigin={false}
-        isDestination={false}
         liveData={crLiveData}
       />
     );

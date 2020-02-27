@@ -17,7 +17,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
     </div>
   </SearchBox>
   <div className=\\"m-schedule-diagram m-schedule-diagram--inward\\">
-    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
@@ -91,7 +91,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
         </ExpandableBlock>
       </div>
     </ExpandableBranch>
-    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
@@ -132,7 +132,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
       </div>
     </SingleStop>
     <div className=\\"m-schedule-diagram__expanded\\">
-      <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+      <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
         <div className=\\"m-schedule-diagram__stop\\">
           <div style={{...}} className=\\"m-schedule-diagram__lines\\">
             <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
@@ -169,7 +169,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
         </div>
       </SingleStop>
     </div>
-    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
@@ -247,7 +247,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
         </ExpandableBlock>
       </div>
     </ExpandableBranch>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -282,7 +282,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -317,7 +317,7 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
@@ -371,7 +371,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
     </div>
   </SearchBox>
   <div className=\\"m-schedule-diagram m-schedule-diagram--outward\\">
-    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
@@ -406,7 +406,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -441,7 +441,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -513,7 +513,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
         </ExpandableBlock>
       </div>
     </ExpandableBranch>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
@@ -550,7 +550,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
       </div>
     </SingleStop>
     <div className=\\"m-schedule-diagram__expanded\\">
-      <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+      <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
         <div className=\\"m-schedule-diagram__stop\\">
           <div style={{...}} className=\\"m-schedule-diagram__lines\\">
             <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
@@ -587,7 +587,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
         </div>
       </SingleStop>
     </div>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--line\\" />
@@ -657,7 +657,7 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
         </ExpandableBlock>
       </div>
     </ExpandableBranch>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={true} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
@@ -715,7 +715,7 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
     </div>
   </SearchBox>
   <div className=\\"m-schedule-diagram m-schedule-diagram--outward\\">
-    <SingleStop stop={{...}} isOrigin={true} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
       <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--origin m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
@@ -756,7 +756,7 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={{...}}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={{...}}>
       <div className=\\"m-schedule-diagram__stop\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -842,7 +842,7 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={{...}}>
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={{...}}>
       <div className=\\"m-schedule-diagram__stop\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -924,8 +924,8 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
         </div>
       </div>
     </SingleStop>
-    <SingleStop stop={{...}} isOrigin={false} isDestination={false} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
-      <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--terminus\\">
+    <SingleStop stop={{...}} onClick={[Function: handleStopClick]} color=\\"F00B42\\" liveData={[undefined]}>
+      <div className=\\"m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus\\">
         <div style={{...}} className=\\"m-schedule-diagram__lines\\">
           <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--terminus\\">
             <svg viewBox=\\"0 10 10 10\\" preserveAspectRatio=\\"xMidYMin slice\\" width=\\"100%\\" height=\\"10px\\" className=\\"m-schedule-diagram__line-stop\\">
@@ -969,11 +969,6 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
                 </a>
               </Component>
             </div>
-          </div>
-          <div className=\\"m-schedule-diagram__footer\\">
-            <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-              View schedule
-            </button>
           </div>
         </div>
       </div>

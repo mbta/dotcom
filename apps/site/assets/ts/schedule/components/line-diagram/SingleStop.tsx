@@ -17,8 +17,6 @@ interface Props {
   stop: LineDiagramStop;
   onClick: (stop: RouteStop) => void;
   color: string;
-  isOrigin?: boolean;
-  isDestination?: boolean;
   liveData?: LiveData;
   searchQuery?: string;
 }
@@ -165,16 +163,17 @@ const SingleStop = ({
   stop,
   onClick,
   color,
-  isOrigin,
-  isDestination,
   liveData,
   searchQuery
 }: Props): ReactElement<HTMLElement> | null => {
   const {
     stop_data: stopData,
     route_stop: routeStop,
-    alerts: stopAlerts
+    alerts: stopAlerts,
+    route_stop: { "is_beginning?": isOrigin, "is_terminus?": isTerminus }
   } = stop;
+
+  const isDestination = !isOrigin && isTerminus;
 
   let stopClassNames = "m-schedule-diagram__stop";
   if (isOrigin) {
@@ -183,7 +182,7 @@ const SingleStop = ({
   if (isDestination) {
     stopClassNames += " m-schedule-diagram__stop--destination";
   }
-  if (stopData.some(sd => sd.type === "terminus")) {
+  if (isTerminus) {
     stopClassNames += " m-schedule-diagram__stop--terminus";
   }
 

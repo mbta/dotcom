@@ -201,8 +201,8 @@
         "custom_route?": false
       },
       "name": "North Station",
-      "is_terminus?": true,
-      "is_beginning?": true,
+      "is_terminus?": false,
+      "is_beginning?": false,
       "id": "place-north",
       "connections": [
         {
@@ -355,7 +355,7 @@
       },
       "name": "Alewife",
       "is_terminus?": true,
-      "is_beginning?": true,
+      "is_beginning?": false,
       "id": "place-alfcl",
       "connections": [
         {
