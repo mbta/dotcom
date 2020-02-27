@@ -17,7 +17,7 @@ defmodule Feedback.MailerTest do
         nil
       )
 
-      assert Test.latest_message()["to"] == "test@test.com"
+      assert Test.latest_message()["to"] == ["test@test.com"]
     end
 
     test "has the body format that heat 2 expects" do
@@ -54,7 +54,10 @@ defmodule Feedback.MailerTest do
     end
 
     test "uses the comments of the message for the description" do
-      Mailer.send_heat_ticket(%{@base_message | comments: "major issue to report"}, nil)
+      Mailer.send_heat_ticket(
+        %{@base_message | comments: "major issue to report"},
+        nil
+      )
 
       assert Test.latest_message()["text"] =~
                "<DESCRIPTION>major issue to report</DESCRIPTION>"
@@ -81,7 +84,11 @@ defmodule Feedback.MailerTest do
     end
 
     test "the email does not have leading or trailing spaces" do
-      Mailer.send_heat_ticket(%{@base_message | email: "   fake_email@gmail.com  "}, nil)
+      Mailer.send_heat_ticket(
+        %{@base_message | email: "   fake_email@gmail.com  "},
+        nil
+      )
+
       assert Test.latest_message()["text"] =~ "<EMAILID>fake_email@gmail.com</EMAILID>"
     end
 
@@ -111,14 +118,17 @@ defmodule Feedback.MailerTest do
     end
 
     test "can attach a photo" do
-      Mailer.send_heat_ticket(@base_message, [
-        %{path: "/tmp/nonsense.txt", filename: "test.png"}
-      ])
+      Mailer.send_heat_ticket(
+        @base_message,
+        [
+          {"test.png", "png data goes here"}
+        ]
+      )
 
       assert Test.latest_message()["attachments"] == [
                %{
-                 "path" => "/tmp/nonsense.txt",
-                 "filename" => "test.png"
+                 "filename" => "test.png",
+                 "data" => "png data goes here"
                }
              ]
     end

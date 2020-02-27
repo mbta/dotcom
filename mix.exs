@@ -13,7 +13,7 @@ defmodule DotCom.Mixfile do
       ],
       test_coverage: [tool: ExCoveralls],
       dialyzer: [
-        plt_add_apps: [:mix, :phoenix_live_reload, :laboratory],
+        plt_add_apps: [:mix, :phoenix_live_reload, :laboratory, :ex_aws, :ex_aws_ses],
         flags: [:race_conditions, :unmatched_returns],
         ignore_warnings: ".dialyzer.ignore-warnings"
       ],
