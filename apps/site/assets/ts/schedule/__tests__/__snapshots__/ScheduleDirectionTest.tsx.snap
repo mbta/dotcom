@@ -685,7 +685,7 @@ exports[`renders with a static map 1`] = `
       </SingleStop>
       <SingleStop>
         <div
-          className="m-schedule-diagram__stop m-schedule-diagram__stop--terminus"
+          className="m-schedule-diagram__stop m-schedule-diagram__stop--destination m-schedule-diagram__stop--terminus"
         >
           <div
             className="m-schedule-diagram__lines"
@@ -937,17 +937,6 @@ exports[`renders with a static map 1`] = `
                   </a>
                 </Component>
               </div>
-            </div>
-            <div
-              className="m-schedule-diagram__footer"
-            >
-              <button
-                className="btn btn-link"
-                onClick={[Function]}
-                type="button"
-              >
-                View schedule
-              </button>
             </div>
           </div>
         </div>

@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SingleStop renders and matches snapshot 1`] = `
-"<SingleStop stop={{...}} onClick={[Function: onClick]} color=\\"000\\" isOrigin={false} isDestination={false} liveData={[undefined]}>
+"<SingleStop stop={{...}} onClick={[Function: onClick]} color=\\"000\\" liveData={[undefined]}>
   <div className=\\"m-schedule-diagram__stop\\">
     <div style={{...}} className=\\"m-schedule-diagram__lines\\">
       <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -39,7 +39,7 @@ exports[`SingleStop renders and matches snapshot 1`] = `
 `;
 
 exports[`SingleStop renders with Commuter Rail live data 1`] = `
-"<SingleStop stop={{...}} onClick={[Function: onClick]} color=\\"000\\" isOrigin={false} isDestination={false} liveData={{...}}>
+"<SingleStop stop={{...}} onClick={[Function: onClick]} color=\\"000\\" liveData={{...}}>
   <div className=\\"m-schedule-diagram__stop\\">
     <div style={{...}} className=\\"m-schedule-diagram__lines\\">
       <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">
@@ -114,7 +114,7 @@ exports[`SingleStop renders with Commuter Rail live data 1`] = `
 `;
 
 exports[`SingleStop renders with live data 1`] = `
-"<SingleStop stop={{...}} onClick={[Function: onClick]} color=\\"000\\" isOrigin={false} isDestination={false} liveData={{...}}>
+"<SingleStop stop={{...}} onClick={[Function: onClick]} color=\\"000\\" liveData={{...}}>
   <div className=\\"m-schedule-diagram__stop\\">
     <div style={{...}} className=\\"m-schedule-diagram__lines\\">
       <div className=\\"m-schedule-diagram__line m-schedule-diagram__line--stop\\">

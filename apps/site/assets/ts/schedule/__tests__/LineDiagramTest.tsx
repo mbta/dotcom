@@ -55,6 +55,9 @@ let lineDiagramBranchingIn = cloneDeep(lineDiagramBranchingOut).reverse();
 const CRroute = merge(cloneDeep(route), { type: 2 as RouteType });
 lineDiagramBranchingIn.forEach(({ route_stop }) => {
   route_stop.route = CRroute;
+  if (route_stop["is_terminus?"]) {
+    route_stop["is_beginning?"] = !route_stop["is_beginning?"];
+  }
 });
 
 const stops = lineDiagram.map(({ route_stop }) => ({
@@ -91,16 +94,6 @@ describe("LineDiagram without branches", () => {
 
   it("renders and matches snapshot", () => {
     expect(wrapper.debug()).toMatchSnapshot();
-  });
-
-  it("has buttons to view schedules for each stop", () => {
-    const stopCards = wrapper.find(".m-schedule-diagram__stop");
-    const buttons = stopCards.map(card =>
-      card.find(".m-schedule-diagram__footer button")
-    );
-    expect(buttons.map(node => node.text())).toEqual(
-      Array.from({ length: buttons.length }, () => "View schedule")
-    );
   });
 
   it("opens a closeable modal after clicking button", () => {

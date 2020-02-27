@@ -252,17 +252,10 @@ const LineDiagram = ({
                     }-stops`}
                     className="m-schedule-diagram__expanded"
                   >
-                    {stopOrStops.map((stop, stopIdx) => (
+                    {stopOrStops.map(stop => (
                       <SingleStop
                         key={stop.route_stop.id}
                         stop={stop}
-                        isOrigin={
-                          stopIdx === 0 && stop.route_stop["is_terminus?"]
-                        }
-                        isDestination={
-                          stopIdx === stopOrStops.length - 1 &&
-                          stop.route_stop["is_terminus?"]
-                        }
                         onClick={handleStopClick}
                         color={routeColor}
                         liveData={liveData[stop.route_stop.id]}
@@ -272,28 +265,10 @@ const LineDiagram = ({
                 );
               }
 
-              // a stop immediately before the expandable section renders
-              // as first in a branch, mark accordingly for inward trees
-              const isStartOnInwardBranch =
-                treeDirection === "inward"
-                  ? Array.isArray(branchedLineDiagram[bldIndex + 1])
-                  : false;
-
-              const isEndOnOutwardBranch =
-                treeDirection === "outward"
-                  ? Array.isArray(branchedLineDiagram[bldIndex - 1])
-                  : false;
-
               return (
                 <SingleStop
                   key={stopOrStops.route_stop.id}
                   stop={stopOrStops}
-                  isOrigin={bldIndex === 0 || isStartOnInwardBranch}
-                  isDestination={
-                    treeDirection === "inward"
-                      ? bldIndex === branchedLineDiagram.length - 1
-                      : isEndOnOutwardBranch
-                  }
                   onClick={handleStopClick}
                   color={routeColor}
                   liveData={liveData[stopOrStops.route_stop.id]}
