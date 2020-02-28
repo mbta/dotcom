@@ -21,7 +21,7 @@ defmodule Feedback.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :mailgun, :timex, :briefly, :ex_aws, :ex_aws_ses, :mail]]
+    [applications: [:logger, :timex, :briefly, :ex_aws, :ex_aws_ses, :mail]]
   end
 
   # Dependencies can be Hex packages:
@@ -35,7 +35,6 @@ defmodule Feedback.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:mailgun, "~> 0.1.2"},
       {:poison, "~> 2.2", override: true},
       {:timex, ">= 2.0.0"},
       {:briefly, "~> 0.3"},

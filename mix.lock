@@ -40,7 +40,6 @@
   "laboratory": {:git, "https://github.com/paulswartz/laboratory.git", "24adbe2cb18d8368e140ab5e13c8f5b75adea742", [ref: "cookie_opts"]},
   "logster": {:hex, :logster, "0.4.3", "a20e9c60e94847e60064d99042d10b1d03abac354c2b360842bf9b3386e56b4a", [:mix], [{:plug, "~> 1.0", [hex: :plug, optional: false]}, {:poison, "~> 1.5 or ~> 2.0 or ~> 3.0", [hex: :poison, optional: false]}]},
   "mail": {:hex, :mail, "0.2.1", "65ba7cf79c07b79a3ce5946397a06b87d8b5f7e5f7b6d31ee8bcdfe940e27b86", [:mix], [], "hexpm"},
-  "mailgun": {:hex, :mailgun, "0.1.2", "37c1306675cf27a66a13dea3c9d479da2a990f0aed296b5addbd0b07529b667d", [:mix], [{:poison, "~> 1.4", [hex: :poison, optional: false]}]},
   "makeup": {:hex, :makeup, "0.5.5", "9e08dfc45280c5684d771ad58159f718a7b5788596099bdfb0284597d368a882", [:mix], [{:nimble_parsec, "~> 0.4", [hex: :nimble_parsec, repo: "hexpm", optional: false]}], "hexpm"},
   "makeup_elixir": {:hex, :makeup_elixir, "0.10.0", "0f09c2ddf352887a956d84f8f7e702111122ca32fbbc84c2f0569b8b65cbf7fa", [:mix], [{:makeup, "~> 0.5.5", [hex: :makeup, repo: "hexpm", optional: false]}], "hexpm"},
   "meck": {:hex, :meck, "0.8.13", "ffedb39f99b0b99703b8601c6f17c7f76313ee12de6b646e671e3188401f7866", [:rebar3], [], "hexpm"},

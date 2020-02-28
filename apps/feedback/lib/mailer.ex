@@ -1,7 +1,6 @@
 defmodule Feedback.Mailer do
   @moduledoc false
 
-  use Mailgun.Client
   require Logger
 
   @spec send_heat_ticket(Feedback.Message.t(), [map()]) :: {:ok, any} | {:error, any}
