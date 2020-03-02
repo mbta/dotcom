@@ -16,6 +16,8 @@ defmodule SiteWeb.ScheduleController.FinderApi do
 
   import SiteWeb.ScheduleController.ScheduleApi, only: [format_time: 1, fares_for_service: 4]
 
+  require Logger
+
   @type react_keys :: :date | :direction | :is_current
   @type react_strings :: [{react_keys, String.t()}]
   @type converted_values :: {Date.t(), integer, boolean}
@@ -101,6 +103,8 @@ defmodule SiteWeb.ScheduleController.FinderApi do
     opts = Map.get(conn.assigns, :trip_info_functions, [])
     params = %{"origin" => origin, "trip" => trip_id}
 
+    original_query_params = conn.query_params
+
     trip_info =
       conn
       |> assign(:date, service_end_date)
@@ -112,12 +116,26 @@ defmodule SiteWeb.ScheduleController.FinderApi do
       |> Trips.call(Trips.init(opts))
       |> Map.get(:assigns)
       |> Map.get(:trip_info)
-      |> add_computed_fares_to_trip_info(route)
-      |> json_safe_trip_info()
-      |> update_in([:times], &add_delays/1)
-      |> update_in([:times], &simplify_time/1)
 
-    json(conn, trip_info)
+    if trip_info do
+      trip_info =
+        trip_info
+        |> add_computed_fares_to_trip_info(route)
+        |> json_safe_trip_info()
+        |> update_in([:times], &add_delays/1)
+        |> update_in([:times], &simplify_time/1)
+
+      json(conn, trip_info)
+    else
+      _ =
+        Logger.warn(
+          "trip_info_not_found original_query_params=#{Jason.encode!(original_query_params)}"
+        )
+
+      conn
+      |> put_resp_content_type("application/json")
+      |> send_resp(404, "null")
+    end
   end
 
   # Use internal API to generate list of relevant schedules and predictions
