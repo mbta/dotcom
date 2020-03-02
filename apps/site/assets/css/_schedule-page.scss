@@ -123,22 +123,36 @@
   }
 }
 
+.schedule-finder--modal {
+  // Compensate for the margins and padding of the modal content area to pull
+  // the Schedule Finder background right up against the edges
+  margin: -$base-spacing * 1.5;
+  margin-bottom: 0;
+  margin-top: -$base-spacing * 1.75;
+  padding: $base-spacing $base-spacing * 2;
+
+  .schedule-finder__inputs {
+    display: flex;
+    justify-content: space-between;
+
+    label {
+      flex-basis: calc(50% - #{$base-spacing / 4});
+    }
+
+    @include media-breakpoint-down(sm) {
+      display: initial;
+    }
+  }
+
+  .schedule-finder__prompt,
+  .schedule-finder__submit {
+    display: none;
+  }
+}
+
 .schedule-finder__heading {
   color: $brand-primary;
   margin-top: 0;
-}
-
-.schedule-finder__modal-header {
-  display: flex;
-  margin-bottom: $base-spacing / 4;
-}
-
-.schedule-finder__modal-route-pill {
-  margin-bottom: 0;
-  margin-right: $base-spacing;
-  margin-top: 0;
-  padding-left: $base-spacing;
-  padding-right: $base-spacing;
 }
 
 .schedule-finder__origin-list {
@@ -184,6 +198,7 @@
 }
 
 .schedule-finder__origin-text {
+  margin-top: 0;
   padding: $base-spacing $base-spacing 0;
 }
 
@@ -225,10 +240,15 @@
 }
 
 .schedule-finder__label {
+  display: block;
   font-weight: bold;
   margin: $base-spacing / 2 0 0;
 
-  + .c-select-custom__container {
+  * {
+    font-weight: normal;
+  }
+
+  .c-select-custom__container {
     margin-top: $base-spacing / 4;
   }
 }

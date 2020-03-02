@@ -1,0 +1,226 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScheduleFinderModal matches snapshot in origin mode 1`] = `
+"<Component closeModal={[Function: closeModal]} initialDirection={0} initialMode=\\"origin\\" initialOrigin={{...}} route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} services={{...}} stops={{...}} today=\\"2019-12-05\\">
+  <WrappedModal focusElementId=\\"origin-filter\\" ariaLabel={{...}} className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]}>
+    <Modal focusElementId=\\"origin-filter\\" ariaLabel={{...}} className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]} priorPadding=\\"0px\\" paddingRight={0}>
+      <ModalContent bodyPadding=\\"0px\\" scrollBarPadding={0} closeText=\\"Close\\" role=\\"dialog\\" ariaLabel={{...}} focusElementId=\\"origin-filter\\" className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]}>
+        <Portal containerInfo={{...}}>
+          <aside aria-modal={true} aria-label=\\"Choose Origin Stop\\" role=\\"dialog\\" id=\\"modal-cover\\" className=\\"c-modal__cover\\" tabIndex={-1} onKeyDown={[Function: onKeyDown]} onClick={[Function: onClick]}>
+            <div className=\\"c-modal schedule-finder__origin-modal\\">
+              <button id=\\"modal-close\\" className=\\"btn btn-secondary c-modal__close\\" onClick={[Function: onClick]} type=\\"button\\">
+                Close
+              </button>
+              <div className=\\"c-modal__content\\">
+                <OriginModalContent handleChangeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} stops={{...}}>
+                  <br />
+                  <h3 className=\\"schedule-finder__origin-text\\">
+                    Choose an origin stop
+                  </h3>
+                  <SearchBox id=\\"origin-filter\\" labelText=\\"Choose an origin stop\\" className=\\"schedule-finder__origin-search-container\\" placeholder=\\"Filter stops and stations\\" onChange={[Function: bound dispatchAction]}>
+                    <div className=\\"schedule-finder__origin-search-container c-form__input-container\\">
+                      <label htmlFor=\\"origin-filter\\" className=\\"sr-only\\">
+                        Choose an origin stop
+                      </label>
+                      <input className=\\"c-form__input\\" id=\\"origin-filter\\" type=\\"text\\" onChange={[Function: onChange]} value=\\"\\" placeholder=\\"Filter stops and stations\\" />
+                      <button className=\\"c-form__submit-btn\\" aria-label=\\"search\\" type=\\"button\\" onClick={[Function: onClick]}>
+                        <span className=\\"notranslate c-svg__icon-search-reverse-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      </button>
+                    </div>
+                  </SearchBox>
+                  <p className=\\"schedule-finder__origin-text\\">
+                    Select from the list below.
+                  </p>
+                  <div className=\\"schedule-finder__origin-list\\">
+                    <OriginListItem stop={{...}} changeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} lastStop={{...}}>
+                      <div tabIndex={0} role=\\"button\\" className=\\"schedule-finder__origin-list-item  disabled\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                        <div className=\\"schedule-finder__origin-list-leftpad\\">
+                           
+                        </div>
+                        Wellington
+                         
+                      </div>
+                    </OriginListItem>
+                    <OriginListItem stop={{...}} changeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} lastStop={{...}}>
+                      <div tabIndex={0} role=\\"button\\" className=\\"schedule-finder__origin-list-item  \\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                        <div className=\\"schedule-finder__origin-list-leftpad\\">
+                           
+                        </div>
+                        Abc
+                         
+                      </div>
+                    </OriginListItem>
+                    <OriginListItem stop={{...}} changeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} lastStop={{...}}>
+                      <div tabIndex={0} role=\\"button\\" className=\\"schedule-finder__origin-list-item  disabled\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                        <div className=\\"schedule-finder__origin-list-leftpad\\">
+                           
+                        </div>
+                        SL
+                         
+                        <span className=\\"schedule-finder__zone\\">
+                          Zone 
+                          1
+                        </span>
+                      </div>
+                    </OriginListItem>
+                  </div>
+                </OriginModalContent>
+              </div>
+            </div>
+          </aside>
+        </Portal>
+      </ModalContent>
+    </Modal>
+  </WrappedModal>
+</Component>"
+`;
+
+exports[`ScheduleFinderModal matches snapshot in origin mode with origin selected 1`] = `
+"<Component closeModal={[Function: closeModal]} initialDirection={0} initialMode=\\"origin\\" initialOrigin={{...}} route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} services={{...}} stops={{...}} today=\\"2019-12-05\\">
+  <WrappedModal focusElementId=\\"origin-filter\\" ariaLabel={{...}} className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]}>
+    <Modal focusElementId=\\"origin-filter\\" ariaLabel={{...}} className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]} priorPadding=\\"0px\\" paddingRight={0}>
+      <ModalContent bodyPadding=\\"0px\\" scrollBarPadding={0} closeText=\\"Close\\" role=\\"dialog\\" ariaLabel={{...}} focusElementId=\\"origin-filter\\" className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]}>
+        <Portal containerInfo={{...}}>
+          <aside aria-modal={true} aria-label=\\"Choose Origin Stop\\" role=\\"dialog\\" id=\\"modal-cover\\" className=\\"c-modal__cover\\" tabIndex={-1} onKeyDown={[Function: onKeyDown]} onClick={[Function: onClick]}>
+            <div className=\\"c-modal schedule-finder__origin-modal\\">
+              <button id=\\"modal-close\\" className=\\"btn btn-secondary c-modal__close\\" onClick={[Function: onClick]} type=\\"button\\">
+                Close
+              </button>
+              <div className=\\"c-modal__content\\">
+                <OriginModalContent handleChangeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} stops={{...}}>
+                  <br />
+                  <h3 className=\\"schedule-finder__origin-text\\">
+                    Choose an origin stop
+                  </h3>
+                  <SearchBox id=\\"origin-filter\\" labelText=\\"Choose an origin stop\\" className=\\"schedule-finder__origin-search-container\\" placeholder=\\"Filter stops and stations\\" onChange={[Function: bound dispatchAction]}>
+                    <div className=\\"schedule-finder__origin-search-container c-form__input-container\\">
+                      <label htmlFor=\\"origin-filter\\" className=\\"sr-only\\">
+                        Choose an origin stop
+                      </label>
+                      <input className=\\"c-form__input\\" id=\\"origin-filter\\" type=\\"text\\" onChange={[Function: onChange]} value=\\"\\" placeholder=\\"Filter stops and stations\\" />
+                      <button className=\\"c-form__submit-btn\\" aria-label=\\"search\\" type=\\"button\\" onClick={[Function: onClick]}>
+                        <span className=\\"notranslate c-svg__icon-search-reverse-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      </button>
+                    </div>
+                  </SearchBox>
+                  <p className=\\"schedule-finder__origin-text\\">
+                    Select from the list below.
+                  </p>
+                  <div className=\\"schedule-finder__origin-list\\">
+                    <OriginListItem stop={{...}} changeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} lastStop={{...}}>
+                      <div tabIndex={0} role=\\"button\\" className=\\"schedule-finder__origin-list-item  disabled\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                        <div className=\\"schedule-finder__origin-list-leftpad\\">
+                           
+                        </div>
+                        Wellington
+                         
+                      </div>
+                    </OriginListItem>
+                    <OriginListItem stop={{...}} changeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} lastStop={{...}}>
+                      <div tabIndex={0} role=\\"button\\" className=\\"schedule-finder__origin-list-item  \\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                        <div className=\\"schedule-finder__origin-list-leftpad\\">
+                           
+                        </div>
+                        Abc
+                         
+                      </div>
+                    </OriginListItem>
+                    <OriginListItem stop={{...}} changeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} lastStop={{...}}>
+                      <div tabIndex={0} role=\\"button\\" className=\\"schedule-finder__origin-list-item  disabled\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                        <div className=\\"schedule-finder__origin-list-leftpad\\">
+                           
+                        </div>
+                        SL
+                         
+                        <span className=\\"schedule-finder__zone\\">
+                          Zone 
+                          1
+                        </span>
+                      </div>
+                    </OriginListItem>
+                  </div>
+                </OriginModalContent>
+              </div>
+            </div>
+          </aside>
+        </Portal>
+      </ModalContent>
+    </Modal>
+  </WrappedModal>
+</Component>"
+`;
+
+exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
+"<Component closeModal={[Function: closeModal]} initialDirection={0} initialMode=\\"origin\\" initialOrigin={{...}} route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} services={{...}} stops={{...}} today=\\"2019-12-05\\">
+  <WrappedModal focusElementId=\\"origin-filter\\" ariaLabel={{...}} className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]}>
+    <Modal focusElementId=\\"origin-filter\\" ariaLabel={{...}} className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]} priorPadding=\\"0px\\" paddingRight={0}>
+      <ModalContent bodyPadding=\\"0px\\" scrollBarPadding={0} closeText=\\"Close\\" role=\\"dialog\\" ariaLabel={{...}} focusElementId=\\"origin-filter\\" className=\\"schedule-finder__origin-modal\\" closeModal={[Function: closeModal]}>
+        <Portal containerInfo={{...}}>
+          <aside aria-modal={true} aria-label=\\"Choose Origin Stop\\" role=\\"dialog\\" id=\\"modal-cover\\" className=\\"c-modal__cover\\" tabIndex={-1} onKeyDown={[Function: onKeyDown]} onClick={[Function: onClick]}>
+            <div className=\\"c-modal schedule-finder__origin-modal\\">
+              <button id=\\"modal-close\\" className=\\"btn btn-secondary c-modal__close\\" onClick={[Function: onClick]} type=\\"button\\">
+                Close
+              </button>
+              <div className=\\"c-modal__content\\">
+                <OriginModalContent handleChangeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} stops={{...}}>
+                  <br />
+                  <h3 className=\\"schedule-finder__origin-text\\">
+                    Choose an origin stop
+                  </h3>
+                  <SearchBox id=\\"origin-filter\\" labelText=\\"Choose an origin stop\\" className=\\"schedule-finder__origin-search-container\\" placeholder=\\"Filter stops and stations\\" onChange={[Function: bound dispatchAction]}>
+                    <div className=\\"schedule-finder__origin-search-container c-form__input-container\\">
+                      <label htmlFor=\\"origin-filter\\" className=\\"sr-only\\">
+                        Choose an origin stop
+                      </label>
+                      <input className=\\"c-form__input\\" id=\\"origin-filter\\" type=\\"text\\" onChange={[Function: onChange]} value=\\"\\" placeholder=\\"Filter stops and stations\\" />
+                      <button className=\\"c-form__submit-btn\\" aria-label=\\"search\\" type=\\"button\\" onClick={[Function: onClick]}>
+                        <span className=\\"notranslate c-svg__icon-search-reverse-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      </button>
+                    </div>
+                  </SearchBox>
+                  <p className=\\"schedule-finder__origin-text\\">
+                    Select from the list below.
+                  </p>
+                  <div className=\\"schedule-finder__origin-list\\">
+                    <OriginListItem stop={{...}} changeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} lastStop={{...}}>
+                      <div tabIndex={0} role=\\"button\\" className=\\"schedule-finder__origin-list-item  disabled\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                        <div className=\\"schedule-finder__origin-list-leftpad\\">
+                           
+                        </div>
+                        Wellington
+                         
+                      </div>
+                    </OriginListItem>
+                    <OriginListItem stop={{...}} changeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} lastStop={{...}}>
+                      <div tabIndex={0} role=\\"button\\" className=\\"schedule-finder__origin-list-item  \\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                        <div className=\\"schedule-finder__origin-list-leftpad\\">
+                           
+                        </div>
+                        Abc
+                         
+                      </div>
+                    </OriginListItem>
+                    <OriginListItem stop={{...}} changeOrigin={[Function: handleChangeOrigin]} selectedOrigin={{...}} lastStop={{...}}>
+                      <div tabIndex={0} role=\\"button\\" className=\\"schedule-finder__origin-list-item  disabled\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                        <div className=\\"schedule-finder__origin-list-leftpad\\">
+                           
+                        </div>
+                        SL
+                         
+                        <span className=\\"schedule-finder__zone\\">
+                          Zone 
+                          1
+                        </span>
+                      </div>
+                    </OriginListItem>
+                  </div>
+                </OriginModalContent>
+              </div>
+            </div>
+          </aside>
+        </Portal>
+      </ModalContent>
+    </Modal>
+  </WrappedModal>
+</Component>"
+`;

@@ -353,9 +353,6 @@ exports[`LineDiagram for CR with branches going inward renders and matches snaps
       </div>
     </SingleStop>
   </div>
-  <WrappedModal openState={false} closeModal={[Function: closeModal]} ariaLabel={{...}}>
-    <Modal openState={false} closeModal={[Function: closeModal]} ariaLabel={{...}} priorPadding=\\"0px\\" paddingRight={0} />
-  </WrappedModal>
 </LineDiagram>"
 `;
 
@@ -712,9 +709,6 @@ exports[`LineDiagram with branches going outward renders and matches snapshot 1`
       </div>
     </SingleStop>
   </div>
-  <WrappedModal openState={false} closeModal={[Function: closeModal]} ariaLabel={{...}}>
-    <Modal openState={false} closeModal={[Function: closeModal]} ariaLabel={{...}} priorPadding=\\"0px\\" paddingRight={0} />
-  </WrappedModal>
 </LineDiagram>"
 `;
 
@@ -999,8 +993,5 @@ exports[`LineDiagram without branches renders and matches snapshot 1`] = `
       </div>
     </SingleStop>
   </div>
-  <WrappedModal openState={false} closeModal={[Function: closeModal]} ariaLabel={{...}}>
-    <Modal openState={false} closeModal={[Function: closeModal]} ariaLabel={{...}} priorPadding=\\"0px\\" paddingRight={0} />
-  </WrappedModal>
 </LineDiagram>"
 `;

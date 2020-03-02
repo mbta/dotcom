@@ -1,7 +1,6 @@
 import React, { ReactElement, useState } from "react";
-import { SimpleStop, SelectedOrigin, SelectedDirection } from "../__schedule";
+import { SimpleStop, SelectedOrigin } from "../__schedule";
 import OriginListItem from "./OriginListItem";
-import { DirectionId } from "../../../__v3api";
 import SearchBox from "../../../components/SearchBox";
 
 const stopListSearchFilter = (
@@ -21,10 +20,8 @@ const stopListSearchFilter = (
 
 interface Props {
   selectedOrigin: SelectedOrigin;
-  selectedDirection: SelectedDirection;
   stops: SimpleStop[];
   handleChangeOrigin: Function;
-  directionId: DirectionId;
 }
 
 const OriginModalContent = ({
@@ -37,9 +34,7 @@ const OriginModalContent = ({
   return (
     <>
       <br />
-      <p className="schedule-finder__origin-text">
-        <strong>Choose an origin stop</strong>
-      </p>
+      <h3 className="schedule-finder__origin-text">Choose an origin stop</h3>
       <SearchBox
         id="origin-filter"
         labelText="Choose an origin stop"

@@ -16,7 +16,6 @@ Array [
     </label>
     <div
       className="c-select-custom__container "
-      id="service_selector_container"
       onClick={[Function]}
       onKeyUp={[Function]}
       role="button"

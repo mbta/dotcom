@@ -95,29 +95,18 @@ describe("LineDiagram without branches", () => {
   });
 
   it("includes a button to open Schedule Finder on each stop", () => {
-    const modalHeader = ".schedule-finder__modal-header";
-    expect(wrapper.exists(modalHeader)).toBeFalsy();
+    expect(wrapper.exists(".schedule-finder--modal")).toBeFalsy();
 
     wrapper
       .find(".m-schedule-diagram__footer > button")
       .first()
       .simulate("click");
-    expect(wrapper.find(modalHeader).text()).toContain("Inbound");
+    expect(wrapper.exists(".schedule-finder--modal")).toBeTruthy();
     expect(wrapper.exists("#modal-close")).toBeTruthy();
 
     wrapper.find("#modal-close").simulate("click");
-    expect(wrapper.exists(modalHeader)).toBeFalsy();
+    expect(wrapper.exists(".schedule-finder--modal")).toBeFalsy();
     expect(wrapper.exists("#modal-close")).toBeFalsy();
-  });
-
-  it("uses the opposite direction for Schedule Finder on destinations", () => {
-    wrapper
-      .find(".m-schedule-diagram__footer > button")
-      .last()
-      .simulate("click");
-    expect(wrapper.find(".schedule-finder__modal-header").text()).toContain(
-      "Outbound"
-    );
   });
 
   it("has a tooltip for a transit connection", () => {

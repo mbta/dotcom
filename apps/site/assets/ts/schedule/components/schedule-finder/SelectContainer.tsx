@@ -4,20 +4,17 @@ import renderSvg from "../../../helpers/render-svg";
 import arrowIcon from "../../../../static/images/icon-down-arrow.svg";
 
 interface SelectContainerProps {
-  id: string;
   children: ReactNode;
-  error: boolean;
+  error?: boolean;
   handleClick?: Function;
 }
 
 const SelectContainer = ({
-  id,
   children,
-  error,
+  error = false,
   handleClick
 }: SelectContainerProps): ReactElement<HTMLElement> => (
   <div
-    id={id}
     tabIndex={0}
     className={`c-select-custom__container ${error ? "error" : ""}`}
     role="button"

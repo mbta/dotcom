@@ -12,8 +12,7 @@ import {
   ScheduleNote as ScheduleNoteType
 } from "../__schedule";
 import SingleStop from "./SingleStop";
-import Modal from "../../../components/Modal";
-import ScheduleModalContent from "../schedule-finder/ScheduleModalContent";
+import ScheduleFinderModal from "../schedule-finder/ScheduleFinderModal";
 import { DirectionId, Headsign, Route } from "../../../__v3api";
 import ExpandableBranch from "./ExpandableBranch";
 import useFilteredList from "../../../hooks/useFilteredList";
@@ -84,13 +83,13 @@ const LineDiagram = ({
   const routeType = route.type;
   const routeColor: string = route.color || "#000";
   const [modalState, setModalState] = useState<{
-    selectedOrigin: RouteStop;
-    directionId: DirectionId;
-    modalOpen: boolean;
+    initialOrigin: RouteStop;
+    initialDirection: DirectionId;
+    isOpen: boolean;
   }>({
-    selectedOrigin: lineDiagram[0].route_stop,
-    directionId,
-    modalOpen: false
+    initialOrigin: lineDiagram[0].route_stop,
+    initialDirection: directionId,
+    isOpen: false
   });
 
   const { data: maybeLiveData } = useSWR(
@@ -108,9 +107,9 @@ const LineDiagram = ({
     const reverseDirectionId = directionId === 0 ? 1 : 0;
 
     setModalState({
-      selectedOrigin: stop,
-      directionId: isDestination ? reverseDirectionId : directionId,
-      modalOpen: true
+      initialDirection: isDestination ? reverseDirectionId : directionId,
+      initialOrigin: stop,
+      isOpen: true
     });
   };
 
@@ -286,28 +285,21 @@ const LineDiagram = ({
           )}
         </div>
       )}
-      <Modal
-        openState={modalState.modalOpen}
-        closeModal={() => {
-          setModalState({ ...modalState, modalOpen: false });
-        }}
-        ariaLabel={{
-          label: `Schedules to ${route.direction_names[directionId]}`
-        }}
-      >
-        {() => (
-          <ScheduleModalContent
-            route={route}
-            selectedDirection={modalState.directionId}
-            selectedOrigin={modalState.selectedOrigin.id}
-            services={services}
-            stops={stops[directionId]}
-            routePatternsByDirection={routePatternsByDirection}
-            today={today}
-            scheduleNote={scheduleNote}
-          />
-        )}
-      </Modal>
+
+      {modalState.isOpen && (
+        <ScheduleFinderModal
+          closeModal={() => setModalState({ ...modalState, isOpen: false })}
+          initialDirection={modalState.initialDirection}
+          initialMode="schedule"
+          initialOrigin={modalState.initialOrigin.id}
+          route={route}
+          routePatternsByDirection={routePatternsByDirection}
+          scheduleNote={scheduleNote}
+          services={services}
+          stops={stops}
+          today={today}
+        />
+      )}
     </>
   );
 };

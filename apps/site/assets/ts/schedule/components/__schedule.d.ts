@@ -153,11 +153,10 @@ export interface StopPrediction {
   train_number: string;
 }
 
-export type SelectedDirection = 0 | 1 | null;
 export type SelectedOrigin = string | null;
 export interface UserInput {
   route: string;
   origin: string;
   date: string;
-  direction: SelectedDirection;
+  direction: DirectionId;
 }

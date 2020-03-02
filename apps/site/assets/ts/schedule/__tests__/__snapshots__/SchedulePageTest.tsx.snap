@@ -5,136 +5,132 @@ Array [
   <div
     className="schedule-finder"
   >
-    <h2
-      className="h3 schedule-finder__heading"
+    <form
+      onSubmit={[Function]}
     >
-      <span
-        aria-hidden="true"
-        className="notranslate c-svg__icon"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "SVG",
-          }
-        }
-      />
-       Schedule Finder
-    </h2>
-    <div>
-      Choose a stop to get schedule information and real-time departure predictions.
-    </div>
-    <label
-      className="schedule-finder__label"
-      htmlFor="sf_direction_select"
-    >
-      Choose a direction
-    </label>
-    <div
-      className="c-select-custom__container "
-      id="sf_direction_select_container"
-      onClick={[Function]}
-      onKeyUp={[Function]}
-      role="button"
-      tabIndex={0}
-    >
-      <select
-        className="c-select-custom"
-        id="sf_direction_select"
-        onChange={[Function]}
-        onKeyUp={[Function]}
-        value=""
+      <h2
+        className="h3 schedule-finder__heading"
       >
-        <option
-          value=""
-        >
-          Select
-        </option>
-        <option
-          value={0}
-        >
-          INBOUND
-           
-          Oak Grove
-        </option>
-        <option
-          value={1}
-        >
-          OUTBOUND
-           
-          Forest Hills
-        </option>
-      </select>
-      <span
-        aria-hidden="true"
-        className="notranslate c-svg__icon c-select-custom__arrow"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "SVG",
+        <span
+          aria-hidden="true"
+          className="notranslate c-svg__icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
           }
-        }
-      />
-    </div>
-    <label
-      className="schedule-finder__label"
-      htmlFor="sf_origin_select"
-    >
-      Choose an origin stop
-    </label>
-    <div
-      className="c-select-custom__container "
-      id="sf_origin_select_container"
-      onClick={[Function]}
-      onKeyUp={[Function]}
-      role="button"
-      tabIndex={0}
-    >
-      <select
-        className="c-select-custom c-select-custom--noclick"
-        id="sf_origin_select"
-        onChange={[Function]}
-        onKeyUp={[Function]}
-        value=""
+        />
+         Schedule Finder
+      </h2>
+      <div
+        className="schedule-finder__prompt"
       >
-        <option
-          value=""
+        Choose a stop to get schedule information and real-time departure predictions.
+      </div>
+      <div
+        className="schedule-finder__inputs"
+      >
+        <label
+          className="schedule-finder__label"
         >
-          Select
-        </option>
-        <option
-          value="place-welln"
+          Choose a direction
+          <div
+            className="c-select-custom__container "
+            onClick={[Function]}
+            onKeyUp={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <select
+              className="c-select-custom"
+              onChange={[Function]}
+              value={0}
+            >
+              <option
+                value={0}
+              >
+                INBOUND
+                 
+                Oak Grove
+              </option>
+              <option
+                value={1}
+              >
+                OUTBOUND
+                 
+                Forest Hills
+              </option>
+            </select>
+            <span
+              aria-hidden="true"
+              className="notranslate c-svg__icon c-select-custom__arrow"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+          </div>
+        </label>
+        <label
+          className="schedule-finder__label"
         >
-          Wellington
-        </option>
-        <option
-          value="123"
-        >
-          Abc
-        </option>
-        <option
-          value="741"
-        >
-          SL
-        </option>
-      </select>
-      <span
-        aria-hidden="true"
-        className="notranslate c-svg__icon c-select-custom__arrow"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "SVG",
-          }
-        }
-      />
-    </div>
-    <div
-      className="text-right"
-    >
-      <input
-        className="btn btn-primary"
-        onClick={[Function]}
-        type="submit"
-        value="Get schedules"
-      />
-    </div>
+          Choose an origin stop
+          <div
+            className="c-select-custom__container "
+            onClick={[Function]}
+            onKeyUp={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            <select
+              className="c-select-custom c-select-custom--noclick"
+              onChange={[Function]}
+              value=""
+            >
+              <option
+                value=""
+              >
+                Select
+              </option>
+              <option
+                value="place-welln"
+              >
+                Wellington
+              </option>
+              <option
+                value="123"
+              >
+                Abc
+              </option>
+              <option
+                value="741"
+              >
+                SL
+              </option>
+            </select>
+            <span
+              aria-hidden="true"
+              className="notranslate c-svg__icon c-select-custom__arrow"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+          </div>
+        </label>
+      </div>
+      <div
+        className="schedule-finder__submit text-right"
+      >
+        <input
+          className="btn btn-primary"
+          type="submit"
+          value="Get schedules"
+        />
+      </div>
+    </form>
   </div>,
   <div
     dangerouslySetInnerHTML={

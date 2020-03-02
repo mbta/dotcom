@@ -1,8 +1,10 @@
 import React, {
-  ReactElement,
-  useLayoutEffect,
   MouseEvent,
-  createRef
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useRef
 } from "react";
 import { createPortal } from "react-dom";
 import createFocusTrap from "focus-trap";
@@ -17,21 +19,18 @@ interface ContentProps {
   closeModal: Function;
 }
 
-type RenderCallback = (args: ContentProps) => JSX.Element;
-
 interface Props {
-  children: RenderCallback;
+  children: ReactNode;
   closeText?: string | ReactElement<HTMLElement>;
   role?: "dialog" | "alertdialog";
   ariaLabel: AriaLabel | AriaLabelledBy;
   focusElementId?: string; // a selector string to the DOM node that will receive focus when the model is first opened
   className?: string;
-  openState?: boolean;
   closeModal: Function;
 }
 
 interface ModalContentProps {
-  content: RenderCallback;
+  children: ReactNode;
   closeText: string | ReactElement<HTMLElement>;
   role: string;
   ariaLabel: AriaLabel | AriaLabelledBy;
@@ -43,7 +42,7 @@ interface ModalContentProps {
 }
 
 const ModalContent = ({
-  content,
+  children,
   closeText,
   closeModal,
   role,
@@ -53,6 +52,23 @@ const ModalContent = ({
   scrollBarPadding,
   className = ""
 }: ModalContentProps): ReactElement<HTMLElement> => {
+  const asideRef = useRef<HTMLElement>(null);
+  const onClickAway = (e: MouseEvent): void => {
+    if (e.target === asideRef.current) closeModal();
+  };
+
+  // In Chrome (and others?), swapping out the modal content doesn't reset the
+  // scroll position. Here we reset it manually whenever the content changes.
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(
+    () => {
+      if (scrollRef.current && scrollRef.current.scrollTo) {
+        scrollRef.current.scrollTo({ top: 0 });
+      }
+    },
+    [children]
+  );
+
   useLayoutEffect(() => {
     // Activate trap and disable scroll on background body
     const trap = createFocusTrap("#modal-cover", {
@@ -82,16 +98,11 @@ const ModalContent = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const ref = createRef<HTMLElement>();
-  const onClickAway = (e: MouseEvent): void => {
-    if (e.target === ref.current) closeModal();
-  };
-
   return createPortal(
     // This does have a role
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <aside
-      ref={ref}
+      ref={asideRef}
       aria-modal
       {...labelOrDescribedBy(ariaLabel)}
       role={role}
@@ -101,7 +112,7 @@ const ModalContent = ({
       onKeyDown={e => handleReactExitKeyPress(e, closeModal)}
       onClick={e => onClickAway(e)}
     >
-      <div className={`c-modal ${className}`}>
+      <div ref={scrollRef} className={`c-modal ${className}`}>
         <button
           id="modal-close"
           className="btn btn-secondary c-modal__close"
@@ -110,7 +121,7 @@ const ModalContent = ({
         >
           {closeText}
         </button>
-        <div className="c-modal__content">{content({ closeModal })}</div>
+        <div className="c-modal__content">{children}</div>
       </div>
     </aside>,
     document.body
@@ -131,22 +142,21 @@ const Modal = ({
   priorPadding,
   paddingRight,
   className,
-  openState = false,
   closeModal
-}: ModalWithNoScrollProps): ReactElement<HTMLElement> | null =>
-  openState ? (
-    <ModalContent
-      bodyPadding={priorPadding}
-      scrollBarPadding={paddingRight}
-      content={children}
-      closeText={closeText}
-      role={role}
-      ariaLabel={ariaLabel}
-      focusElementId={focusElementId}
-      className={className}
-      closeModal={closeModal}
-    />
-  ) : null;
+}: ModalWithNoScrollProps): ReactElement<HTMLElement> | null => (
+  <ModalContent
+    bodyPadding={priorPadding}
+    scrollBarPadding={paddingRight}
+    closeText={closeText}
+    role={role}
+    ariaLabel={ariaLabel}
+    focusElementId={focusElementId}
+    className={className}
+    closeModal={closeModal}
+  >
+    {children}
+  </ModalContent>
+);
 
 // Wrap modal to account for disabling scroll bar on background body
 const WrappedModal = (props: Props): ReactElement<HTMLElement> | null => {
