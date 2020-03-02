@@ -282,6 +282,30 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
       assert %{"times" => [processed_prediction | _]} = response
       assert %{"prediction" => %{"time" => nil}} = processed_prediction
     end
+
+    test "doesn't 500 if trip info not found", %{conn: conn} do
+      date = Util.service_date() |> Date.to_iso8601()
+
+      path =
+        finder_api_path(conn, :trip, %{
+          id: "",
+          route: "CR-Providence",
+          direction: "0",
+          date: date,
+          stop: "place-sstat"
+        })
+
+      opts = [
+        trip_fn: fn _, _ -> [@schedule] end,
+        prediction_fn: fn _ -> [@prediction] end
+      ]
+
+      _ =
+        conn
+        |> assign(:trip_info_functions, opts)
+        |> get(path)
+        |> json_response(404)
+    end
   end
 
   describe "maybe_add_delay/1" do
