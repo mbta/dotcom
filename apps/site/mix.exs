@@ -57,7 +57,8 @@ defmodule Site.Mixfile do
       :util,
       :trip_plan,
       :services,
-      :route_patterns
+      :route_patterns,
+      :con_cache
     ]
 
     apps =
@@ -110,6 +111,7 @@ defmodule Site.Mixfile do
       {:hammer, "~> 4.0"},
       {:poolboy, "~> 1.5"},
       {:wallaby, "~> 0.22", runtime: false, only: :test},
+      {:con_cache, "~> 0.12.0"},
       {:stops, in_umbrella: true},
       {:routes, in_umbrella: true},
       {:alerts, in_umbrella: true},

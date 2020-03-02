@@ -1,5 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import { useFetch } from "react-async";
+import { useInterval } from "use-interval";
 
 import {
   LineDiagramStop,
@@ -93,14 +94,21 @@ const LineDiagram = ({
     modalOpen: false
   });
 
-  const { data: maybeLiveData } = useFetch(
-    `/schedules/line_api/predictions_and_vehicles?id=${
-      route.id
-    }&direction_id=${directionId}`,
+  const {
+    data: maybeLiveData,
+    isLoading: liveDataIsLoading,
+    // @ts-ignore https://github.com/async-library/react-async/issues/244
+    reload: reloadLiveData
+  } = useFetch(
+    `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`,
     {},
     { json: true, watch: directionId }
   );
   const liveData = (maybeLiveData || {}) as LiveDataByStop;
+  useInterval(() => {
+    /* istanbul ignore next */
+    if (!liveDataIsLoading) reloadLiveData();
+  }, 15000);
 
   const handleStopClick = (stop: RouteStop): void => {
     const { "is_beginning?": isBeginning, "is_terminus?": isTerminus } = stop;
