@@ -10,14 +10,10 @@ import {
 } from "../../../helpers/service";
 import { reducer } from "../../../helpers/fetch";
 import ScheduleTable from "./ScheduleTable";
-import {
-  EnhancedRoutePattern,
-  ServiceInSelector,
-  SelectedDirection
-} from "../__schedule";
+import { EnhancedRoutePattern, ServiceInSelector } from "../__schedule";
 import ServiceOptGroup from "./ServiceOptGroup";
 import { Journey } from "../__trips";
-import { Service } from "../../../__v3api";
+import { DirectionId, Service } from "../../../__v3api";
 import { stringToDateObject } from "../../../helpers/date";
 
 // until we come up with a good integration test for async with loading
@@ -27,7 +23,7 @@ interface Props {
   stopId: string;
   services: ServiceInSelector[];
   routeId: string;
-  directionId: SelectedDirection;
+  directionId: DirectionId;
   routePatterns: EnhancedRoutePattern[];
   today: string;
 }
@@ -55,7 +51,7 @@ export const fetchData = (
   routeId: string,
   stopId: string,
   selectedService: Service,
-  selectedDirection: SelectedDirection,
+  selectedDirection: DirectionId,
   isCurrent: boolean,
   dispatch: (action: fetchAction) => void
 ): Promise<void> => {
@@ -119,7 +115,7 @@ export const ServiceSelector = ({
         <label htmlFor="service_selector" className="sr-only">
           Schedules
         </label>
-        <SelectContainer id="service_selector_container" error={false}>
+        <SelectContainer>
           <select
             id="service_selector"
             className="c-select-custom text-center u-bold"

@@ -20,7 +20,7 @@ const OriginListItem = ({
   const isDisabled = stop.is_closed || stop.id === lastStop.id;
   const handleClick = (): void => {
     if (isDisabled) return;
-    changeOrigin(stop.id, true);
+    changeOrigin(stop.id);
   };
 
   return (

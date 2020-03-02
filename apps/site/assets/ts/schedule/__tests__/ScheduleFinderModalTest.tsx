@@ -1,11 +1,17 @@
 import React from "react";
 import { mount } from "enzyme";
-import ScheduleFinder from "../components/ScheduleFinder";
-import { EnhancedRoute } from "../../__v3api";
+import ScheduleFinderModal, {
+  Mode as ModalMode
+} from "../components/schedule-finder/ScheduleFinderModal";
+import { Route } from "../../__v3api";
 import {
   RoutePatternsByDirection,
+  SelectedOrigin,
   ServiceInSelector
 } from "../components/__schedule";
+import * as routePatternsByDirectionData from "./routePatternsByDirectionData.json";
+
+const routePatternsByDirection = routePatternsByDirectionData as RoutePatternsByDirection;
 
 const services: ServiceInSelector[] = [
   {
@@ -66,12 +72,10 @@ const services: ServiceInSelector[] = [
 
 const today = "2019-12-05";
 
-const route: EnhancedRoute = {
-  alert_count: 0,
+const route: Route = {
   description: "",
   direction_destinations: { 0: "Oak Grove", 1: "Forest Hills" },
   direction_names: { 0: "Inbound", 1: "Outbound" },
-  header: "",
   id: "Orange",
   long_name: "Orange Line",
   name: "Orange",
@@ -127,116 +131,35 @@ const stops = {
   ]
 };
 
-const routePatternsByDirection = {
-  "0": [
-    {
-      typicality: 1,
-      time_desc: "School Trip",
-      shape_id: "9840004",
-      route_id: "CR-Fitchburg",
-      representative_trip_id: "CR-Weekday-Spring-19-401",
-      name: "North Station - Wachusett",
-      headsign: "Wachusett",
-      id: "CR-Fitchburg-0-0",
-      direction_id: 0
-    }
-  ],
-  "1": [
-    {
-      typicality: 1,
-      time_desc: "School Trip",
-      shape_id: "9840003",
-      route_id: "CR-Fitchburg",
-      representative_trip_id: "CR-Weekday-Spring-19-400",
-      name: "Wachusett - North Station",
-      headsign: "North Station",
-      id: "CR-Fitchburg-0-1",
-      direction_id: 1
-    }
-  ]
-} as RoutePatternsByDirection;
-
-describe("ScheduleFinder", () => {
-  const mountComponent = () =>
+describe("ScheduleFinderModal", () => {
+  const mountComponent = (mode: ModalMode, origin: SelectedOrigin) =>
     mount(
-      <ScheduleFinder
+      <ScheduleFinderModal
+        closeModal={() => {}}
+        initialDirection={0}
+        initialMode={"origin"}
+        initialOrigin={null}
         route={route}
-        stops={stops}
-        directionId={0}
-        services={services}
         routePatternsByDirection={routePatternsByDirection}
-        today={today}
         scheduleNote={null}
+        services={services}
+        stops={stops}
+        today={today}
       />
     );
 
-  it("matches snapshot", () => {
-    const wrapper = mountComponent();
+  it("matches snapshot in origin mode", () => {
+    const wrapper = mountComponent("origin", null);
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("opens the schedule modal via the origin modal", () => {
-    const wrapper = mountComponent();
-
-    // Click on the SelectContainer for the origin select
-    wrapper
-      .find("SelectContainer")
-      .last()
-      // @ts-ignore -- types for `invoke` are too restrictive?
-      .invoke("handleClick")();
-    wrapper
-      .find(".schedule-finder__origin-list-item")
-      .at(1)
-      .simulate("click");
-
-    // Schedule modal should be open with the chosen origin selected
-    expect(
-      wrapper
-        .find(".schedule-finder--modal select")
-        .last()
-        .prop("value")
-    ).toEqual("123");
+  it("matches snapshot in origin mode with origin selected", () => {
+    const wrapper = mountComponent("origin", "place-welln");
+    expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("clears the selected origin when the direction is changed", () => {
-    const wrapper = mountComponent();
-
-    wrapper
-      .find("select")
-      .last()
-      .simulate("change", { target: { value: "123" } });
-    wrapper
-      .find("select")
-      .first()
-      .simulate("change", { target: { value: "1" } });
-
-    expect(
-      wrapper
-        .find("select")
-        .last()
-        .prop("value")
-    ).toEqual("");
-  });
-
-  it("changes the available origins when the direction is changed", () => {
-    const wrapper = mountComponent();
-    expect(
-      wrapper
-        .find("select")
-        .last()
-        .text()
-    ).not.toContain("Def");
-
-    wrapper
-      .find("select")
-      .first()
-      .simulate("change", { target: { value: "1" } });
-
-    expect(
-      wrapper
-        .find("select")
-        .last()
-        .text()
-    ).toContain("Def");
+  it("matches snapshot in schedule mode", () => {
+    const wrapper = mountComponent("schedule", "place-welln");
+    expect(wrapper.debug()).toMatchSnapshot();
   });
 });

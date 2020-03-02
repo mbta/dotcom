@@ -12,14 +12,8 @@ const baseConfig = {
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "no-console": "error",
-    "jsx-a11y/label-has-for": [2, {
-      "required": {
-        "some": ["nesting", "id"]
-      }
-    }],
-    "jsx-a11y/label-has-associated-control": [2, {
-      "assert": "either"
-    }],
+    "jsx-a11y/label-has-for": "off", // deprecated in newer versions
+    "jsx-a11y/label-has-associated-control": [2, { "depth": 3 }],
   },
   env: {
     browser: true,

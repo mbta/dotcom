@@ -953,9 +953,6 @@ exports[`renders with a static map 1`] = `
         </div>
       </SingleStop>
     </div>
-    <WrappedModal>
-      <Modal />
-    </WrappedModal>
   </LineDiagram>
 </ScheduleDirection>
 `;

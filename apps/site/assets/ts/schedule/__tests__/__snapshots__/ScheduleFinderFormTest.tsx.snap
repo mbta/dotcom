@@ -1,0 +1,108 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ScheduleFinderForm matches snapshot 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <h2
+    className="h3 schedule-finder__heading"
+  >
+    <span
+      aria-hidden="true"
+      className="notranslate c-svg__icon"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "SVG",
+        }
+      }
+    />
+     Schedule Finder
+  </h2>
+  <div
+    className="schedule-finder__prompt"
+  >
+    Choose a stop to get schedule information and real-time departure predictions.
+  </div>
+  <div
+    className="schedule-finder__inputs"
+  >
+    <label
+      className="schedule-finder__label"
+    >
+      Choose a direction
+      <SelectContainer>
+        <select
+          className="c-select-custom"
+          onChange={[Function]}
+          value={0}
+        >
+          <option
+            key="0"
+            value={0}
+          >
+            INBOUND
+             
+            Oak Grove
+          </option>
+          <option
+            key="1"
+            value={1}
+          >
+            OUTBOUND
+             
+            Forest Hills
+          </option>
+        </select>
+      </SelectContainer>
+    </label>
+    <label
+      className="schedule-finder__label"
+    >
+      Choose an origin stop
+      <SelectContainer
+        error={false}
+        handleClick={[Function]}
+      >
+        <select
+          className="c-select-custom c-select-custom--noclick"
+          onChange={[Function]}
+          value=""
+        >
+          <option
+            value=""
+          >
+            Select
+          </option>
+          <option
+            key="place-welln"
+            value="place-welln"
+          >
+            Wellington
+          </option>
+          <option
+            key="123"
+            value="123"
+          >
+            Abc
+          </option>
+          <option
+            key="741"
+            value="741"
+          >
+            SL
+          </option>
+        </select>
+      </SelectContainer>
+    </label>
+  </div>
+  <div
+    className="schedule-finder__submit text-right"
+  >
+    <input
+      className="btn btn-primary"
+      type="submit"
+      value="Get schedules"
+    />
+  </div>
+</form>
+`;
