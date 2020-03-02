@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { SimpleStop, SelectedOrigin, SelectedDirection } from "../__schedule";
 import OriginListItem from "./OriginListItem";
 import { DirectionId } from "../../../__v3api";
@@ -20,47 +20,49 @@ const stopListSearchFilter = (
 };
 
 interface Props {
-  originSearch: string;
   selectedOrigin: SelectedOrigin;
   selectedDirection: SelectedDirection;
   stops: SimpleStop[];
   handleChangeOrigin: Function;
-  handleUpdateOriginSearch: (searchQuery: string) => void;
   directionId: DirectionId;
 }
 
-const OriginModalContents = ({
-  originSearch,
+const OriginModalContent = ({
   selectedOrigin,
   stops,
-  handleChangeOrigin,
-  handleUpdateOriginSearch
-}: Props): ReactElement<HTMLElement> => (
-  <>
-    <br />
-    <p className="schedule-finder__origin-text">
-      <strong>Choose an origin stop</strong>
-    </p>
-    <SearchBox
-      id="origin-filter"
-      labelText="Choose an origin stop"
-      className="schedule-finder__origin-search-container"
-      placeholder="Filter stops and stations"
-      onChange={handleUpdateOriginSearch}
-    />
-    <p className="schedule-finder__origin-text">Select from the list below.</p>
-    <div className="schedule-finder__origin-list">
-      {stopListSearchFilter(stops, originSearch).map((stop: SimpleStop) => (
-        <OriginListItem
-          key={stop.id}
-          stop={stop}
-          changeOrigin={handleChangeOrigin}
-          selectedOrigin={selectedOrigin}
-          lastStop={stops[stops.length - 1]}
-        />
-      ))}
-    </div>
-  </>
-);
+  handleChangeOrigin
+}: Props): ReactElement<HTMLElement> => {
+  const [originSearch, setOriginSearch] = useState("");
 
-export default OriginModalContents;
+  return (
+    <>
+      <br />
+      <p className="schedule-finder__origin-text">
+        <strong>Choose an origin stop</strong>
+      </p>
+      <SearchBox
+        id="origin-filter"
+        labelText="Choose an origin stop"
+        className="schedule-finder__origin-search-container"
+        placeholder="Filter stops and stations"
+        onChange={setOriginSearch}
+      />
+      <p className="schedule-finder__origin-text">
+        Select from the list below.
+      </p>
+      <div className="schedule-finder__origin-list">
+        {stopListSearchFilter(stops, originSearch).map((stop: SimpleStop) => (
+          <OriginListItem
+            key={stop.id}
+            stop={stop}
+            changeOrigin={handleChangeOrigin}
+            selectedOrigin={selectedOrigin}
+            lastStop={stops[stops.length - 1]}
+          />
+        ))}
+      </div>
+    </>
+  );
+};
+
+export default OriginModalContent;

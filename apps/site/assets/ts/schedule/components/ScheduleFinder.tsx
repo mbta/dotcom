@@ -33,7 +33,6 @@ interface State {
   modalId: string | null;
   modalOpen: boolean;
   originError: boolean;
-  originSearch: string;
   selectedDirection: SelectedDirection;
   selectedOrigin: SelectedOrigin;
   selectedService: string | null;
@@ -72,17 +71,12 @@ const ScheduleFinder = ({
   const [state, setState] = useState<State>({
     directionError: false,
     originError: false,
-    originSearch: "",
     modalOpen: false,
     modalId: null,
     selectedDirection: validDirections.length === 1 ? validDirections[0] : null,
     selectedOrigin: null,
     selectedService: null
   });
-
-  const handleUpdateOriginSearch = (searchQuery: string): void => {
-    setState({ ...state, originSearch: searchQuery });
-  };
 
   const handleSubmitForm = (): void => {
     if (state.selectedDirection === null || state.selectedOrigin === null) {
@@ -251,10 +245,8 @@ const ScheduleFinder = ({
               <OriginModalContent
                 selectedDirection={state.selectedDirection}
                 selectedOrigin={state.selectedOrigin}
-                originSearch={state.originSearch}
                 stops={stops[state.selectedDirection!] || []}
                 handleChangeOrigin={handleChangeOrigin}
-                handleUpdateOriginSearch={handleUpdateOriginSearch}
                 directionId={directionId}
               />
             )}
