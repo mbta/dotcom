@@ -1,5 +1,5 @@
 import React from "react";
-import { mount, ReactWrapper, shallow, ShallowWrapper } from "enzyme";
+import { mount, ReactWrapper } from "enzyme";
 import { cloneDeep, merge } from "lodash";
 import LineDiagram from "../components/line-diagram/LineDiagram";
 import { EnhancedRoute, RouteType } from "../../__v3api";
@@ -16,21 +16,12 @@ import simpleLiveData from "./lineDiagramData/live-data.json";
 const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
 let lineDiagramBranchingOut = (outwardLineDiagram as unknown) as LineDiagramStop[];
 
-// Mock useInterval to instead call the function immediately
-jest.mock("use-interval", () => {
-  return { useInterval: jest.fn((fn: () => void) => fn()) };
-});
-
-// Mock useFetch to return fixture data with a spy-able reload function
-const liveDataReload = jest.fn();
-const useFetch = jest.fn().mockImplementation(() => ({
-  data: simpleLiveData,
-  isLoading: false,
-  reload: liveDataReload
-}));
 jest.mock("react-async", () => {
-  return { useFetch: () => useFetch() };
+  return {
+    useFetch: jest.fn(() => ({ data: simpleLiveData, reload: () => {} }))
+  };
 });
+jest.mock("use-interval");
 
 const route = {
   type: 3 as RouteType,
@@ -353,74 +344,5 @@ describe("LineDiagram for CR with branches going inward", () => {
       ".c-expandable-block__panel .m-schedule-diagram__stop"
     );
     expect(moreStops.exists()).toBeTruthy();
-  });
-});
-
-describe("LineDiagram live data", () => {
-  const animationFrameSpy = jest.spyOn(window, "requestAnimationFrame");
-  const documentHiddenSpy = jest.spyOn(document, "hidden", "get");
-
-  let wrapper: ShallowWrapper;
-
-  const mountComponent = () => {
-    wrapper = shallow(
-      <LineDiagram
-        lineDiagram={lineDiagram}
-        route={route as EnhancedRoute}
-        directionId={directionId}
-        routePatternsByDirection={
-          routePatternsByDirection as RoutePatternsByDirection
-        }
-        services={[]}
-        stops={{ 0: stops, 1: stops }}
-        today="2019-12-05"
-        scheduleNote={null}
-      />
-    );
-  };
-
-  it("polls for live data using an animation frame request", () => {
-    animationFrameSpy.mockImplementation(fn => {
-      fn(0);
-      return 1;
-    });
-    mountComponent();
-
-    expect(liveDataReload).toHaveBeenCalledTimes(1);
-  });
-
-  it("does not poll for live data when no animation frame occurs", () => {
-    animationFrameSpy.mockImplementation(fn => {
-      return 1;
-    });
-    mountComponent();
-
-    expect(liveDataReload).not.toHaveBeenCalled();
-  });
-
-  it("does not poll for live data when the page is not visible", () => {
-    animationFrameSpy.mockImplementation(fn => {
-      fn(0);
-      return 1;
-    });
-    documentHiddenSpy.mockReturnValue(true);
-    mountComponent();
-
-    expect(liveDataReload).not.toHaveBeenCalled();
-  });
-
-  it("does not poll for live data when another request is in flight", () => {
-    animationFrameSpy.mockImplementation(fn => {
-      fn(0);
-      return 1;
-    });
-    useFetch.mockImplementationOnce(() => ({
-      data: {},
-      isLoading: true,
-      reload: liveDataReload
-    }));
-    mountComponent();
-
-    expect(liveDataReload).not.toHaveBeenCalled();
   });
 });
