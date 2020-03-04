@@ -56,8 +56,8 @@ module.exports = {
         use: babelLoader
       },
       {
-        // https://docs.react-async.com/getting-started/installation#transpiling-for-legacy-browsers
-        test: /\/node_modules\/react-async\//,
+        // https://github.com/zeit/swr/issues/278
+        test: /\/node_modules\/swr\//,
         use: [babelLoader, tsLoader]
       },
       {
