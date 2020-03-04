@@ -1,5 +1,5 @@
 import React from "react";
-import { mount, ReactWrapper } from "enzyme";
+import { mount, ReactWrapper, shallow, ShallowWrapper } from "enzyme";
 import { cloneDeep, merge } from "lodash";
 import LineDiagram from "../components/line-diagram/LineDiagram";
 import { EnhancedRoute, RouteType } from "../../__v3api";
@@ -16,12 +16,10 @@ import simpleLiveData from "./lineDiagramData/live-data.json";
 const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
 let lineDiagramBranchingOut = (outwardLineDiagram as unknown) as LineDiagramStop[];
 
-jest.mock("react-async", () => {
-  return {
-    useFetch: jest.fn(() => ({ data: simpleLiveData, reload: () => {} }))
-  };
+// Mock useSWR to return fixture data
+jest.mock("swr", () => {
+  return jest.fn(() => ({ data: simpleLiveData }));
 });
-jest.mock("use-interval");
 
 const route = {
   type: 3 as RouteType,
