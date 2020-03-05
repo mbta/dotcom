@@ -94,7 +94,9 @@ const LineDiagram = ({
   });
 
   const { data: maybeLiveData } = useSWR(
-    `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`,
+    `/schedules/line_api/realtime?id=${
+      route.id
+    }&direction_id=${directionId}&v=2`,
     url => fetch(url).then(response => response.json()),
     { refreshInterval: 15000 }
   );
