@@ -41,6 +41,7 @@ module.exports = {
   },
   testEnvironment: "jsdom",
   setupFilesAfterEnv: ["./tnm/__tests__/setupTests.ts"],
+  snapshotSerializers: ["enzyme-to-json/serializer"],
   testPathIgnorePatterns: [
     "/node_modules/",
     "./ts-build",
