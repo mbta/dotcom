@@ -97,7 +97,17 @@ exports[`ScheduleTable it renders 1`] = `
             <td
               className="schedule-table__subtable-td"
             >
-              <Component />
+              <Component>
+                <div
+                  className="c-spinner__container"
+                >
+                  <div
+                    className="c-spinner"
+                  >
+                    Loading...
+                  </div>
+                </div>
+              </Component>
             </td>
           </tr>
         </Component>
@@ -9463,7 +9473,17 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
             <td
               className="schedule-table__subtable-td"
             >
-              <Component />
+              <Component>
+                <div
+                  className="c-spinner__container"
+                >
+                  <div
+                    className="c-spinner"
+                  >
+                    Loading...
+                  </div>
+                </div>
+              </Component>
             </td>
           </tr>
         </Component>
