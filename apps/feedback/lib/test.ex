@@ -14,6 +14,10 @@ defmodule Feedback.Test do
     end
   end
 
+  def mock_config(:ses) do
+    :ok
+  end
+
   def mock_perform(%{params: %{"RawMessage.Data" => raw_message}}, _config) do
     parsed_message = raw_message |> Base.decode64!() |> Mail.Parsers.RFC2822.parse()
 
