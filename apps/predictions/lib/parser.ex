@@ -1,6 +1,10 @@
 defmodule Predictions.Parser do
   alias Predictions.Prediction
 
+  @moduledoc """
+  Functions for parsing predictions from their JSON:API format.
+  """
+
   @type record :: {
           Prediction.id_t() | nil,
           Schedules.Trip.id_t() | nil,
@@ -23,7 +27,7 @@ defmodule Predictions.Parser do
       stop_id(item),
       route_id(item),
       attributes["direction_id"],
-      [attributes["departure_time"], attributes["arrival_time"]] |> first_time,
+      [attributes["arrival_time"], attributes["departure_time"]] |> first_time,
       attributes["stop_sequence"] || 0,
       schedule_relationship(attributes["schedule_relationship"]),
       track(item),
