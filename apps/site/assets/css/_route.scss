@@ -10,10 +10,6 @@
 
 .hours-directions {
   margin-bottom: 0;
-
-  @include media-breakpoint-up(md) {
-    width: 75%;
-  }
 }
 
 .hours-direction-name {
