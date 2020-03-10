@@ -55,6 +55,8 @@ defmodule Feedback.Mailer do
       |> Mail.put_subject("MBTA Customer Comment Form")
       |> Mail.put_text(body)
 
+    exaws_config_fn = Application.get_env(:feedback, :exaws_config_fn, &ExAws.Config.new/1)
+
     exaws_perform_fn =
       Application.get_env(:feedback, :exaws_perform_fn, &ExAws.Operation.perform/2)
 
@@ -62,7 +64,7 @@ defmodule Feedback.Mailer do
       message
       |> Mail.Renderers.RFC2822.render()
       |> ExAws.SES.send_raw_email()
-      |> exaws_perform_fn.(ExAws.Config.new(:ses))
+      |> exaws_perform_fn.(exaws_config_fn.(:ses))
   end
 
   defp format_name(nil) do
