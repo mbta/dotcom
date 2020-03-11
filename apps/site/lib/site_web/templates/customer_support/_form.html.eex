@@ -30,7 +30,7 @@
           <% comments_placeholder = "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number." %>
           <%= textarea f, :comments, id: "comments", class: "support-form-text-input form-control", maxlength: "3000",
                                      rows: "3", placeholder: comments_placeholder, required: "required", value: assigns[:comments] %>
-  
+
           <span></span>
           <small class="form-text">3000 characters maximum</small>
         </div>
@@ -100,6 +100,12 @@
               })
             %>
           </div>
+        </div>
+        <div class="form-group contrast">
+          <div class="error-container support-g-recaptcha-response-error-container <%= class_for_error("recaptcha", @errors, "", "hidden-xs-up") %>" tabindex="-1">
+            <span role="alert" class="support-g-recaptcha-response-error">You must complete the reCAPTCHA before submitting your feedback.</span>
+          </div>
+          <%= raw Recaptcha.Template.display(noscript: true) %>
         </div>
         <div class="response-time-disclaimer">
           Responses may take up to 5 business days. If this is an emergency, please <%= link("contact the Transit Police", to: "/transit-police") %>.

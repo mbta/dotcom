@@ -65,6 +65,10 @@ config :util,
 config :hammer,
   backend: {Hammer.Backend.ETS, [expiry_ms: 60_000 * 60 * 4, cleanup_interval_ms: 60_000 * 10]}
 
+config :recaptcha,
+  public_key: {:system, "RECAPTCHA_PUBLIC_KEY"},
+  secret: {:system, "RECAPTCHA_PRIVATE_KEY"}
+
 config :site, :react,
   source_path: Path.join(File.cwd!(), "/apps/site/react_renderer/"),
   build_path: Path.join(File.cwd!(), "/apps/site/react_renderer/dist/app.js")

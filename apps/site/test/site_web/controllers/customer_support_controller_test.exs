@@ -41,25 +41,32 @@ defmodule SiteWeb.CustomerSupportControllerTest do
   describe "POST" do
     def valid_request_response_data do
       %{
-        "comments" => "comments",
-        "email" => "test@gmail.com",
-        "privacy" => "on",
-        "phone" => "",
-        "name" => "tom brady",
-        "request_response" => "on",
-        "service" => "Inquiry"
+        "support" => %{
+          "comments" => "comments",
+          "email" => "test@gmail.com",
+          "privacy" => "on",
+          "phone" => "",
+          "name" => "tom brady",
+          "request_response" => "on",
+          "service" => "Inquiry"
+        },
+        "g-recaptcha-response" => "valid_response"
       }
     end
 
     def valid_no_response_data do
-      %{"comments" => "comments", "request_response" => "off", "service" => "Inquiry"}
+      %{
+        "support" => %{
+          "comments" => "comments",
+          "request_response" => "off",
+          "service" => "Inquiry"
+        },
+        "g-recaptcha-response" => "valid_response"
+      }
     end
 
     test "shows a thank you message on success and sends an email", %{conn: conn} do
-      conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => valid_request_response_data()
-        })
+      conn = post(conn, customer_support_path(conn, :submit), valid_request_response_data())
 
       response = html_response(conn, 302)
       refute response =~ "form id=\"support-form\""
@@ -72,87 +79,81 @@ defmodule SiteWeb.CustomerSupportControllerTest do
              )
     end
 
+    test "submits successfully if customer does not want a response", %{conn: conn} do
+      conn = post(conn, customer_support_path(conn, :submit), valid_no_response_data())
+
+      refute conn.assigns["errors"]
+      wait_for_ticket_task(conn)
+    end
+
     test "sets a custom meta description", %{conn: conn} do
-      conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => valid_request_response_data()
-        })
+      conn = post(conn, customer_support_path(conn, :submit), valid_request_response_data())
 
       assert conn.assigns.meta_description
     end
 
     test "validates presence of comments", %{conn: conn} do
       conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => Map.put(valid_request_response_data(), "comments", "")
-        })
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "comments"], "")
+        )
 
       assert "comments" in conn.assigns.errors
     end
 
     test "validates the presence of the service type", %{conn: conn} do
       conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => Map.put(valid_request_response_data(), "service", "")
-        })
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "service"], "")
+        )
 
       assert "service" in conn.assigns.errors
     end
 
     test "validates that the service is one of the allowed values", %{conn: conn} do
       conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => Map.put(valid_request_response_data(), "service", "Hug")
-        })
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "service"], "Hug")
+        )
 
       assert "service" in conn.assigns.errors
     end
 
-    test "does not require name if customer does not want a response", %{conn: conn} do
-      conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => Map.put(valid_no_response_data(), "name", "")
-        })
-
-      refute conn.assigns["errors"]
-      wait_for_ticket_task(conn)
-    end
-
     test "requires name if customer does want a response", %{conn: conn} do
       conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => Map.put(valid_request_response_data(), "name", "")
-        })
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "name"], "")
+        )
 
       assert "name" in conn.assigns.errors
     end
 
-    test "does not require email or phone when the customer does not want a response", %{
-      conn: conn
-    } do
-      conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => Map.put(valid_no_response_data(), "email", "")
-        })
-
-      refute conn.assigns["errors"]
-      wait_for_ticket_task(conn)
-    end
-
     test "invalid with no email when the customer wants a response", %{conn: conn} do
       conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => Map.put(valid_request_response_data(), "email", "")
-        })
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "email"], "")
+        )
 
       assert "email" in conn.assigns.errors
     end
 
     test "requires a real email", %{conn: conn} do
       conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => Map.put(valid_request_response_data(), "email", "not an email")
-        })
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "email"], "not an email")
+        )
 
       assert "email" in conn.assigns.errors
     end
@@ -162,30 +163,21 @@ defmodule SiteWeb.CustomerSupportControllerTest do
         post(
           conn,
           customer_support_path(conn, :submit),
-          %{
-            "support" =>
-              Map.merge(valid_request_response_data(), %{"email" => "", "phone" => "555-555-5555"})
-          }
+          valid_request_response_data()
+          |> put_in(["support", "email"], "")
+          |> put_in(["support", "phone"], "555-555-5555")
         )
 
       assert "email" in conn.assigns.errors
     end
 
-    test "does not require privacy checkbox when customer does not want a response", %{conn: conn} do
-      conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => Map.put(valid_no_response_data(), "privacy", "")
-        })
-
-      refute conn.assigns["errors"]
-      wait_for_ticket_task(conn)
-    end
-
     test "requires privacy checkbox when customer wants a response", %{conn: conn} do
       conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => Map.put(valid_request_response_data(), "privacy", "")
-        })
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "privacy"], "")
+        )
 
       assert "privacy" in conn.assigns.errors
     end
@@ -196,18 +188,14 @@ defmodule SiteWeb.CustomerSupportControllerTest do
 
       params =
         valid_no_response_data()
-        |> Map.put("photos", [
+        |> put_in(["support", "photos"], [
           %Plug.Upload{filename: "photo-1.jpg", path: "/tmp/upload-1"},
           %Plug.Upload{filename: "photo-2.jpg", path: "/tmp/upload-2"}
         ])
 
-      conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => params
-        })
+      conn = post(conn, customer_support_path(conn, :submit), params)
 
       wait_for_ticket_task(conn)
-
       attachments = Feedback.Test.latest_message()["attachments"]
 
       assert attachments == [
@@ -219,15 +207,12 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "prevents submissions when an upload does not appear to be an image", %{conn: conn} do
       params =
         valid_request_response_data()
-        |> Map.put(:photos, [
+        |> put_in(["support", "photos"], [
           %Plug.Upload{filename: "image.jpg"},
           %Plug.Upload{filename: "runme.exe"}
         ])
 
-      conn =
-        post(conn, customer_support_path(conn, :submit), %{
-          "support" => params
-        })
+      conn = post(conn, customer_support_path(conn, :submit), params)
 
       assert "photos" in conn.assigns.errors
     end
@@ -241,9 +226,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
             Enum.reduce(1..4, conn, fn _, acc ->
               acc
               |> recycle()
-              |> post(path, %{
-                "support" => valid_request_response_data()
-              })
+              |> post(path, valid_request_response_data())
             end)
 
           assert conn.status == 429
@@ -251,6 +234,17 @@ defmodule SiteWeb.CustomerSupportControllerTest do
         end)
 
       assert log =~ "rate limit exceeded"
+    end
+
+    test "requires a successful recaptcha response", %{conn: conn} do
+      conn =
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_no_response_data(), ["g-recaptcha-response"], "invalid_response")
+        )
+
+      assert "recaptcha" in conn.assigns.errors
     end
   end
 
