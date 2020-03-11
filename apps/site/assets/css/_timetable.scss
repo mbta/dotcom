@@ -6,7 +6,7 @@
 }
 
 .m-timetable__header {
-  background-color: $brand-primary-lightest;
+  background-color: $brand-primary-lightest-contrast;
   border: 1px solid $gray-lighter;
   border-bottom: 0;
   display: flex;
@@ -164,6 +164,10 @@
 
 .m-timetable__row,
 .m-timetable__cell {
+  &:hover {
+    background: $brand-primary-lightest;
+  }
+
   &--gray {
     background: $gray-bordered-background;
   }
@@ -225,7 +229,7 @@
 }
 
 .m-timetable__header-cell {
-  background: $brand-primary-lightest;
+  background: $brand-primary-lightest-contrast;
 }
 
 .m-timetable__cell--first-column-header {
