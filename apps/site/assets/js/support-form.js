@@ -247,6 +247,9 @@ const validators = {
       return $("#privacy").prop("checked");
     }
     return true;
+  },
+  recaptcha: function($) {
+    return !!$("#g-recaptcha-response").val();
   }
 };
 
@@ -288,6 +291,7 @@ function validateForm($) {
     service = "#service",
     email = "#email",
     name = "#name",
+    recaptcha = "#g-recaptcha-response",
     errors = [];
   // Service
   if (!validators.service($)) {
@@ -323,6 +327,13 @@ function validateForm($) {
     errors.push(privacy);
   } else {
     displaySuccess($, privacy);
+  }
+  // reCAPTCHA
+  if (!validators.recaptcha($)) {
+    displayError($, recaptcha);
+    errors.push(recaptcha);
+  } else {
+    displaySuccess($, recaptcha);
   }
   focusError($, errors);
   return errors.length === 0;

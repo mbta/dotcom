@@ -243,6 +243,8 @@ describe("support form", () => {
             <input id="privacy" type="checkbox" />
             <div class="support-privacy-error-container hidden-xs-up" tabindex="-1"><div class="support-privacy-error"></div></div>
             <div class="support-form-expanded" style="display: none"></div>
+            <div class="error-container support-g-recaptcha-response-error-container" tabindex="-1"><div class="support-g-recaptcha-response-error"></div></div>
+            <textarea id="g-recaptcha-response" name="g-recaptcha-response"></textarea>
             <button id="support-submit"></button>
             <span class="waiting" hidden>waiting...</span>
           </form>
@@ -374,6 +376,7 @@ describe("support form", () => {
       $("#name").val("tom brady");
       $("#comments").val("A comment");
       $("#privacy").prop("checked", "checked");
+      $("#g-recaptcha-response").val("response");
       $("#support-submit").click();
 
       assert.isTrue(isWaiting);
@@ -385,6 +388,7 @@ describe("support form", () => {
       $("#comments").val("A comment");
       $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $("#privacy").prop("checked", "checked");
+      $("#g-recaptcha-response").val("response");
       $("#support-submit").click();
       assert.equal(spy.callCount, 1);
       const ajaxArgs = spy.firstCall.args[0];
@@ -406,6 +410,7 @@ describe("support form", () => {
       $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $("#comments").val("A comment");
       $("#privacy").prop("checked", "checked");
+      $("#g-recaptcha-response").val("response");
       $("#support-submit").click();
       spy.firstCall.args[0].error();
       assert.isFalse($(".support-form-error").hasClass("hidden-xs-up"));
@@ -438,6 +443,7 @@ describe("support form", () => {
       $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $("#comments").val("A comment");
       $("#privacy").prop("checked", "checked");
+      $("#g-recaptcha-response").val("response");
       $("#support-submit").click();
 
       const photos = spy.firstCall.args[0].data.getAll("support[photos][]");

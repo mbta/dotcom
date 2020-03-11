@@ -27,15 +27,17 @@ defmodule SiteWeb.CustomerSupportController do
     )
   end
 
-  def submit(conn, %{"support" => data}) do
-    case do_validation(data) do
+  def submit(conn, %{"support" => form_data, "g-recaptcha-response" => recaptcha_response}) do
+    params = Map.put(form_data, "recaptcha_response", recaptcha_response)
+
+    case do_validation(params) do
       [] ->
-        do_submit(conn, data)
+        do_submit(conn, params)
 
       errors ->
         conn
         |> put_status(400)
-        |> render_form(%{errors: errors, comments: Map.get(data, "comments")})
+        |> render_form(%{errors: errors, comments: Map.get(params, "comments")})
     end
   end
 
@@ -98,10 +100,11 @@ defmodule SiteWeb.CustomerSupportController do
           &validate_photos/1,
           &validate_name/1,
           &validate_email/1,
-          &validate_privacy/1
+          &validate_privacy/1,
+          &validate_recaptcha/1
         ]
       else
-        [&validate_comments/1, &validate_service/1, &validate_photos/1]
+        [&validate_comments/1, &validate_service/1, &validate_photos/1, &validate_recaptcha/1]
       end
 
     Site.Validation.validate(validators, params)
@@ -149,6 +152,28 @@ defmodule SiteWeb.CustomerSupportController do
 
   defp valid_upload?(%Plug.Upload{filename: filename}) do
     MIME.from_path(filename) in @allowed_attachment_types
+  end
+
+  # Errors we'd expect to see from reCAPTCHA assuming no bugs in the library.
+  # See: https://developers.google.com/recaptcha/docs/verify#error_code_reference
+  @expected_recaptcha_errors [
+    :challenge_failed,
+    :invalid_input_response,
+    :timeout_or_duplicate,
+    # https://github.com/samueljseay/recaptcha/issues/58
+    :"invalid-input-response"
+  ]
+
+  @spec validate_recaptcha(map) :: :ok | String.t()
+  defp validate_recaptcha(%{"recaptcha_response" => response}) do
+    case Recaptcha.verify(response) do
+      {:ok, _} ->
+        :ok
+
+      {:error, [error]} when error in @expected_recaptcha_errors ->
+        _ = Logger.warn("recaptcha failed_validation=#{error}")
+        "recaptcha"
+    end
   end
 
   def send_ticket(params) do

@@ -92,3 +92,11 @@ An email address to send support tickets to.
 ### `SUPPORT_TICKET_REPLY_EMAIL`
 
 An email address to show as the reply-to for support emails.
+
+### `RECAPTCHA_PUBLIC_KEY` + `RECAPTCHA_PRIVATE_KEY`
+
+Keys to use for the reCAPTCHA on the support form. The default values in the
+`.envrc.template` are the designated "test keys" [as documented here][testkeys],
+which means all reCAPTCHA challenges will succeed.
+
+[testkeys]: https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
