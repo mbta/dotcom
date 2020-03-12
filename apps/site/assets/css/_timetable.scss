@@ -162,12 +162,14 @@
   }
 }
 
-.m-timetable__row,
-.m-timetable__cell {
-  &:hover {
+.m-timetable {
+  &__row:hover &__cell {
     background: $brand-primary-lightest;
   }
+}
 
+.m-timetable__row,
+.m-timetable__cell {
   &--gray {
     background: $gray-bordered-background;
   }
