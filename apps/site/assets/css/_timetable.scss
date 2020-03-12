@@ -3,6 +3,10 @@
     margin-left: -$half-gutter;
     margin-right: -$half-gutter;
   }
+
+  &__row:hover &__cell {
+    background: $brand-primary-lightest;
+  }
 }
 
 .m-timetable__header {
@@ -159,12 +163,6 @@
   margin-left: .1em; // Forces word split of Stops at small breakpoints
   @include media-breakpoint-down(sm) {
     @include icon-size(12px);
-  }
-}
-
-.m-timetable {
-  &__row:hover &__cell {
-    background: $brand-primary-lightest;
   }
 }
 
