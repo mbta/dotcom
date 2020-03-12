@@ -78,7 +78,7 @@
                                             autocomplete: "tel", id: "phone" %>
           </div>
           <div class="support-check-container">
-            <div class="error-container <%= class_for_error("privacy", @errors, "", "hidden-xs-up") %>" tabindex="-1">
+            <div class="error-container support-privacy-error-container <%= class_for_error("privacy", @errors, "", "hidden-xs-up") %>" tabindex="-1">
               <span role="alert" class="support-privacy-error">You must agree to our Privacy Policy before submitting your feedback.</span>
             </div>
           <%= SiteWeb.PartialView.render("_checkbox.html", %{
