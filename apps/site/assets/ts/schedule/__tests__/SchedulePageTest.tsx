@@ -147,7 +147,8 @@ it("it renders", () => {
           shape_map: {},
           route_patterns: {},
           line_diagram: lineDiagram,
-          today: "2019-12-05"
+          today: "2019-12-05",
+          variant: null
         }}
       />
     )
@@ -184,7 +185,8 @@ it("it renders with conditional components", () => {
         shape_map: {},
         route_patterns: {},
         line_diagram: lineDiagram,
-        today: "2019-12-05"
+        today: "2019-12-05",
+        variant: null
       }}
     />
   );

@@ -71,7 +71,8 @@ const renderDirectionAndMap = (
     services,
     stops,
     today,
-    schedule_note: scheduleNote
+    schedule_note: scheduleNote,
+    variant: initialSelectedRoutePatternId
   } = schedulePageData;
 
   let mapData: MapData | undefined;
@@ -99,6 +100,7 @@ const renderDirectionAndMap = (
       stops={stops}
       today={today}
       scheduleNote={scheduleNote}
+      initialSelectedRoutePatternId={initialSelectedRoutePatternId}
     />,
     root
   );
