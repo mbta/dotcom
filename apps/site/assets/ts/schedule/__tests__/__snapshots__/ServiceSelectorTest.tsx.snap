@@ -66,12 +66,12 @@ Array [
           <option
             value="BUS319-storm"
           >
-            Storm service, Jul 15 to Jul 15
+            Reduced service, Jul 15 to Jul 15
           </option>
           <option
             value="BUS319-storm-1"
           >
-            Storm service, Jul 22 to Jul 23
+            Reduced service, Jul 22 to Jul 23
           </option>
         </optgroup>
       </select>
