@@ -27,6 +27,35 @@ verify our type specifications and make sure we're calling functions properly.
 Frontend code is formatted by Prettier. If using the Prettier plugin for Visual
 Studio Code, ensure it uses the ignore file `apps/site/assets/.prettierignore`.
 
+## CrossBrowserTesting
+
+We use this service to test site changes in Internet Explorer 11 without needing
+a local Windows computer or VM.
+
+* [Run a test here!](https://app.crossbrowsertesting.com/livetests/run)
+* Sign in using the shared credentials in **Shared-Website-Dev** in LastPass
+
+Only one person can be running a test using this account at a time; be sure to
+**Stop** your session once you're done with it.
+
+### Testing local changes
+
+If your changes aren't deployed anywhere, you can use the `cbt_tunnels` tool to
+enable CrossBrowserTesting to connect to your local machine.
+
+The easiest way to install this is as a global NPM package:
+
+    npm install -g cbt_tunnels
+
+Then click on the "Local Connection" indicator in the CBT menu bar, copy the
+**Authkey**, and start the tunnel using this command:
+
+    cbt_tunnels --username web-tools@mbtace.com --authkey <AUTHKEY>
+
+If the tunnel is working, the "Local Connection" indicator should flip **ON**.
+You can now start a test using `local` as the domain, and the connection will be
+tunneled to `localhost` on your machine. For example: `http://local:4001/`
+
 ## Backstop
 
 We use [BackstopJS](https://github.com/garris/BackstopJS) to test for unexpected
