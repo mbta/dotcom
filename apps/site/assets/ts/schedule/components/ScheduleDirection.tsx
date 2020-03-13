@@ -28,6 +28,7 @@ export interface Props {
   stops: SimpleStopMap;
   today: string;
   scheduleNote: ScheduleNoteType | null;
+  initialSelectedRoutePatternId: string | null;
 }
 
 export const fetchMapData = (
@@ -85,12 +86,14 @@ const ScheduleDirection = ({
   services,
   stops,
   today,
-  scheduleNote
+  scheduleNote,
+  initialSelectedRoutePatternId
 }: Props): ReactElement<HTMLElement> => {
-  const defaultRoutePattern = routePatternsByDirection[directionId].slice(
-    0,
-    1
-  )[0];
+  const routePatternsInCurrentDirection = routePatternsByDirection[directionId];
+  const defaultRoutePattern =
+    routePatternsInCurrentDirection.find(
+      routePattern => routePattern.id === initialSelectedRoutePatternId
+    ) || routePatternsInCurrentDirection.slice(0, 1)[0];
 
   const reverseDirection = directionId === 0 ? 1 : 0;
   const directionIsChangeable = route.direction_names[reverseDirection] != null;

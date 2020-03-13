@@ -102,6 +102,7 @@ defmodule SiteWeb.ScheduleController.Line do
     |> assign(:reverse_direction_all_stops_from_route, flatten_route_stops(reverse_route_stops))
     |> assign(:connections, connections(branches))
     |> assign(:time_data_by_stop, time_data_by_stop)
+    |> assign(:variant, variant)
   end
 
   defp flatten_route_stops(route_stops) do

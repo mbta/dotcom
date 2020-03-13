@@ -165,6 +165,7 @@ const getComponent = () => (
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
+    initialSelectedRoutePatternId={null}
   />
 );
 
@@ -180,6 +181,7 @@ const getSingleDirectionComponent = () => (
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
+    initialSelectedRoutePatternId={null}
   />
 );
 
@@ -195,6 +197,7 @@ const getSubwayComponent = () => (
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
+    initialSelectedRoutePatternId={null}
   />
 );
 
@@ -210,6 +213,7 @@ const getStaticMapComponent = () => (
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
+    initialSelectedRoutePatternId={null}
   />
 );
 
@@ -241,9 +245,26 @@ const getGreenLineComponent = () => {
       stops={{ stops }}
       today="2019-12-05"
       scheduleNote={null}
+      initialSelectedRoutePatternId={null}
     />
   );
 };
+
+const getVariantComponent = () => (
+  <ScheduleDirection
+    route={route}
+    directionId={0}
+    routePatternsByDirection={routePatternsByDirection}
+    shapesById={shapesById}
+    mapData={mapData}
+    lineDiagram={lineDiagram}
+    services={[]}
+    stops={{ stops }}
+    today="2019-12-05"
+    scheduleNote={null}
+    initialSelectedRoutePatternId="pattern-3"
+  />
+);
 
 it("renders a bus component", () => {
   createReactRoot();
@@ -549,4 +570,10 @@ it("can change route for green line with click", () => {
   wrapper
     .find("#route-pattern_Green")
     .simulate("keydown", { key: "ArrowRight" });
+});
+
+it("respects the initially selected pattern ID, if specified", () => {
+  createReactRoot();
+  const tree = mount(getVariantComponent());
+  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
 });
