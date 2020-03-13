@@ -31,12 +31,12 @@ const ServiceOptGroup = ({
         let optionText = "";
 
         if (service.typicality === "unplanned_disruption") {
-          const stormServicePeriod =
+          const reducedServicePeriod =
             startDate === endDate
               ? shortDate(startDate)
               : startToEnd(startDate, endDate);
 
-          optionText = `Storm service, ${stormServicePeriod}`;
+          optionText = `Reduced service, ${reducedServicePeriod}`;
         } else if (
           service.typicality === "holiday_service" &&
           service.added_dates_notes
