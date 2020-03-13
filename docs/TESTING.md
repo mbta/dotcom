@@ -1,4 +1,4 @@
-## Tests
+# Tests
 
 * `mix test` — Elixir tests
 * `npm run test:js` — JS tests
@@ -8,10 +8,10 @@
 
 ### Dialyzer
 
-Dialyzer is a static analysis tool which looks at type information. We use it
-verify our type specifcations and make sure we're calling functions properly.
+* `mix dialyzer`
 
-* `mix dialyzer` — Runs the actual type checks.
+Dialyzer is a static analysis tool which looks at type information. We use it
+verify our type specifications and make sure we're calling functions properly.
 
 ### Linting
 
@@ -19,26 +19,28 @@ verify our type specifcations and make sure we're calling functions properly.
 * SCSS: `npm run stylelint`
 * TypeScript: `npm run tslint`
 
-### Javascript and Typescript formatting
+### Formatting
 
-Our javascript is linted by eslint and formatted by prettier. At this time, only prettier formatting is enforced in CI for javascript. For Typescript, both eslint and prettier are enforced in CI. You can auto-format your javascript and Typescript via `npm run format`, or set it up to autoformat on save in your editor of choice.
+* Elixir: `mix format`
+* JavaScript/TypeScript: `npm run format`
 
-If you are using the Prettier plugin for Visual Studio Code, you will want to configure it to use the ignore file  in `apps/site/assets/.prettierignore`.
+Frontend code is formatted by Prettier. If using the Prettier plugin for Visual
+Studio Code, ensure it uses the ignore file `apps/site/assets/.prettierignore`.
 
-### Backstop Tests
+## Backstop
 
-We use [BackstopJS](https://github.com/garris/BackstopJS) to test for
-unexpected visual changes. Backstop works by keeping a repository of
-reference images. When you run a backstop test it takes snapshots of the
-pages on your localhost and compares them to those references images.
-If anything has changed then the test will fail. This helps us catch unintended
-changes to the UI (for example a CSS selector that is broader than
-expected). Whenever you make a change that affects the UI, you will need to check
-and if necessary update the backstop images.
+We use [BackstopJS](https://github.com/garris/BackstopJS) to test for unexpected
+visual changes. Backstop works by keeping a repository of reference images. When
+you run a Backstop test, it takes snapshots of pages on your version of the site
+and compares them to those reference images. If anything has changed, the test
+will fail. This helps us catch unintended changes to the UI (for example a CSS
+selector that is broader than expected). Whenever you make a change that affects
+the UI, you will need to check and update the Backstop images if necessary.
 
-The tests are run against a live application, built in production mode. To make sure that the tests
-work consistently and do not depend on a specific schedule or realtime vehicle locations, we use
-[WireMock](http://wiremock.org/) to record and playback the V3 API responses.
+The tests are run against a live application, built in production mode. To make
+sure that the tests work consistently and do not depend on a specific schedule
+or realtime vehicle locations, we use [WireMock](http://wiremock.org/) to record
+and play back the V3 API responses.
 
 Prerequisites for running the tests:
 
@@ -55,19 +57,21 @@ Prerequisites for running the tests:
   the Wiremock JAR file; with brew cask this will be something like
   `/usr/local/Cellar/wiremock-standalone/<VERSION>/libexec/wiremock-standalone-<VERSION>.jar`
 
-Once all the above are in place: `npm run backstop`
+Once all the above are in place:
+
+* `npm run backstop` — run the tests
+* `npm run backstop:record` — run tests with recording of new network requests
+* `npm run backstop:approve` — mark the last set of failed diffs as approved
 
 Note: If you are not running on OSX or Windows, you'll need to modify the
 `STATIC_HOST=host.docker.internal` in the commands.
 
-### Other helpful test scripts
+## Other helpful test scripts
 
-All run from the main folder:
-
-* `npm run backstop:record` - run Backstop tests with recording of new network requests enabled
-* `npm run backstop:approve` - mark failed Backstop diffs as new reference images
-* `npm run webpack:watch` — run webpack-dev-server for local development
-* `npm run webpack:build` — builds the static files for production
 * `semaphore/smoke_test.sh` - tries to hit all the URLs on your server.
   Requires wget (installable with `brew install wget`)
-* `mix run apps/content/bin/validate_fixtures.exs` - compares the attributes in our fixture files to production Drupal API endpoints to see if any are missing. Note that rather than using this script, it is better to update these fixture attributes at the time you are making API changes.
+
+* `mix run apps/content/bin/validate_fixtures.exs` - compares the attributes in
+  our fixture files to production Drupal API endpoints to see if any are
+  missing. Note that rather than using this script, it is better to update these
+  fixture attributes at the time you are making API changes.
