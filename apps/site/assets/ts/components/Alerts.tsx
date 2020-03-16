@@ -148,8 +148,12 @@ const Alert = ({ alert }: { alert: AlertType }): ReactElement<HTMLElement> => {
   const [expanded, toggleExpanded] = useState(false);
   const onClick = (): void => toggleExpanded(!expanded);
   // remove [http:// | https:// | www] from alert URL:
-  const strippedAlertUrl = (alert.url).replace(/(https?:\/\/)?(www\.)?/i, '');
-  const headerContent = alert.url ? `${alert.header} <a href="${alert.url}" target="_blank">${strippedAlertUrl}</a>` : alert.header;
+  const strippedAlertUrl = alert.url.replace(/(https?:\/\/)?(www\.)?/i, "");
+  const headerContent = alert.url
+    ? `${alert.header} <a href="${
+        alert.url
+      }" target="_blank">${strippedAlertUrl}</a>`
+    : alert.header;
 
   return (
     <li
