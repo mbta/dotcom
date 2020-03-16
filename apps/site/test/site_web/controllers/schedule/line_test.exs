@@ -11,12 +11,14 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
   @deps %SiteWeb.ScheduleController.Line.Dependencies{}
 
+  @base_end_date ~D[2020-12-08]
+
   @thirtynine_services [
     %Service{
       added_dates: [],
       added_dates_notes: %{},
       description: "Weekday schedule",
-      end_date: ~D[2020-03-13],
+      end_date: Date.add(@base_end_date, 5),
       id: "BUS120-3-Wdy-02",
       name: "Weekday",
       removed_dates: [
@@ -44,7 +46,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
       added_dates: [],
       added_dates_notes: %{},
       description: "Weekday schedule",
-      end_date: ~D[2020-03-13],
+      end_date: Date.add(@base_end_date, 5),
       id: "BUS120-Z-Wdy-02",
       name: "Weekday",
       removed_dates: [
@@ -148,7 +150,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
       added_dates: [],
       added_dates_notes: %{},
       description: "Saturday schedule",
-      end_date: ~D[2020-03-14],
+      end_date: Date.add(@base_end_date, 6),
       id: "WinterSaturday",
       name: "Saturday",
       removed_dates: [],
@@ -162,7 +164,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
       added_dates: [],
       added_dates_notes: %{},
       description: "Sunday schedule",
-      end_date: ~D[2020-03-08],
+      end_date: @base_end_date,
       id: "WinterSunday",
       name: "Sunday",
       removed_dates: [],
@@ -199,7 +201,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
       added_dates: [],
       added_dates_notes: %{},
       description: "Weekday schedule",
-      end_date: ~D[2020-03-13],
+      end_date: Date.add(@base_end_date, 5),
       id: "WinterWeekday",
       name: "Weekday",
       removed_dates: [
