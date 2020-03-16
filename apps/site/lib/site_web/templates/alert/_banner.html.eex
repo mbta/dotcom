@@ -13,6 +13,9 @@
       </div>
       <div>
         <%= replace_urls_with_links(@alert.header) %>
+        <%= if @alert.url != nil do %>
+          <%= replace_urls_with_links(@alert.url) %>
+        <% end %>
       </div>
     </div>
   </div>
