@@ -8,6 +8,7 @@ defmodule SiteWeb.ScheduleControllerTest do
   alias Stops.RouteStops
 
   @moduletag :external
+  @test_origin "66"
 
   describe "Bus" do
     test "all stops is assigned for a route", %{conn: conn} do
@@ -23,15 +24,15 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "has the origin when it has been selected", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "1", origin: "2167", direction_id: "1"))
+      conn = get(conn, trip_view_path(conn, :show, "1", origin: @test_origin, direction_id: "1"))
       html_response(conn, 200)
-      assert conn.assigns.origin.id == "2167"
+      assert conn.assigns.origin.id == @test_origin
     end
 
     test "finds a trip when origin has been selected", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "1", origin: "2167", direction_id: "1"))
+      conn = get(conn, trip_view_path(conn, :show, "1", origin: @test_origin, direction_id: "1"))
       html_response(conn, 200)
-      assert conn.assigns.origin.id == "2167"
+      assert conn.assigns.origin.id == @test_origin
       assert conn.assigns.trip_info
     end
 
@@ -39,11 +40,15 @@ defmodule SiteWeb.ScheduleControllerTest do
       conn =
         get(
           conn,
-          trip_view_path(conn, :show, "1", origin: "2167", destination: "82", direction_id: "1")
+          trip_view_path(conn, :show, "1",
+            origin: @test_origin,
+            destination: "82",
+            direction_id: "1"
+          )
         )
 
       html_response(conn, 200)
-      assert conn.assigns.origin.id == "2167"
+      assert conn.assigns.origin.id == @test_origin
       assert conn.assigns.destination.id == "82"
       assert conn.assigns.trip_info
       assert conn.assigns.schedules != nil

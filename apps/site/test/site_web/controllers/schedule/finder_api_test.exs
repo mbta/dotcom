@@ -364,7 +364,9 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
   defp get_valid_trip_date(route_id) do
     route_id
     |> ServicesRepo.by_route_id()
-    |> List.first()
+    |> Enum.filter(&(&1.type == :weekday))
+    |> Enum.sort_by(& &1.end_date)
+    |> List.last()
     |> Map.get(:end_date)
     |> Date.to_iso8601()
   end
