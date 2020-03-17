@@ -47,8 +47,8 @@ The easiest way to install this is as a global NPM package:
 
     npm install -g cbt_tunnels
 
-Then click on the "Local Connection" indicator in the CBT menu bar, copy the
-**Authkey**, and start the tunnel using this command:
+Then go to https://app.crossbrowsertesting.com/account, copy the **Authkey**,
+and start the tunnel using this command:
 
     cbt_tunnels --username web-tools@mbtace.com --authkey <AUTHKEY>
 
