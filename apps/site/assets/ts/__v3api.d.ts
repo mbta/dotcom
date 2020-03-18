@@ -204,6 +204,7 @@ export interface Alert {
   updated_at: string;
   description: string;
   priority: Priority;
+  url: string;
 }
 
 interface DatesNotes {

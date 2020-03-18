@@ -147,6 +147,18 @@ const alertDescription = (alert: AlertType): ReactElement<HTMLElement> => (
 const Alert = ({ alert }: { alert: AlertType }): ReactElement<HTMLElement> => {
   const [expanded, toggleExpanded] = useState(false);
   const onClick = (): void => toggleExpanded(!expanded);
+  // remove [http:// | https:// | www.] from alert URL:
+  let strippedAlertUrl = alert.url.replace(/(https?:\/\/)?(www\.)?/i, "");
+
+  // capitalize 'mbta' (special case):
+  strippedAlertUrl = strippedAlertUrl.replace(/mbta/gi, "MBTA");
+
+  const headerContent = alert.url
+    ? `${alert.header}<span>&nbsp;</span><a href="${
+        alert.url
+      }" target="_blank">${strippedAlertUrl}</a>`
+    : alert.header;
+
   return (
     <li
       id={`alert-${alert.id}`}
@@ -166,7 +178,7 @@ const Alert = ({ alert }: { alert: AlertType }): ReactElement<HTMLElement> => {
             {humanLabelForAlert(alert) ? alertLabel(alert) : null}
           </div>
           {/* eslint-disable-next-line react/no-danger */}
-          <div dangerouslySetInnerHTML={{ __html: alert.header }} />
+          <div dangerouslySetInnerHTML={{ __html: headerContent }} />
         </div>
         <div className="c-alert-item__top-caret-container">
           {caretIcon(alert.description === "", expanded)}

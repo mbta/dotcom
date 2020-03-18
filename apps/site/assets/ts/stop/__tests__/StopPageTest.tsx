@@ -46,7 +46,8 @@ const lowAlert: Alert = {
   id: "00005",
   header: "There is construction at this station.",
   effect: "other",
-  description: ""
+  description: "",
+  url: "https://www.mbta.com"
 };
 /* eslint-enable typescript/camelcase */
 

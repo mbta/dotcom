@@ -18,6 +18,10 @@
       </div>
       <div>
         <%= replace_urls_with_links(@alert.header) %>
+        <%= if @alert.url != nil && @alert.url != "" do %>
+          <span>&nbsp;</span>
+          <%= replace_urls_with_links(@alert.url) %>
+        <% end %>
       </div>
     </div>
     <div class="c-alert-item__top-caret-container">

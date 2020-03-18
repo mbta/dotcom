@@ -202,7 +202,19 @@ defmodule SiteWeb.AlertView do
       end
 
     full_url = ensure_scheme(url)
-    ~s(<a target="_blank" href="#{full_url}">#{url}</a>#{suffix})
+
+    # remove [http:// | https:// | www.] from URL:
+    stripped_url = String.replace(full_url, ~r/(https?:\/\/)?(www\.)?/i, "")
+
+    # capitalize 'mbta' (special case):
+    stripped_url =
+      if String.contains?(stripped_url, "mbta") do
+        String.replace(stripped_url, "mbta", "MBTA")
+      else
+        stripped_url
+      end
+
+    ~s(<a target="_blank" href="#{full_url}">#{stripped_url}</a>#{suffix})
   end
 
   defp ensure_scheme("http://" <> _ = url), do: url
