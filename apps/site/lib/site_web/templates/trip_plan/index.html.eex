@@ -7,10 +7,8 @@
       <%= case assigns[:query] do %>
         <% %{itineraries: {:ok, itineraries}} -> %>
         <p class="no-trips page-section">
-          We found
-          <%= l = length(itineraries) %>
-          <%= Inflex.inflect("trip", l) %>
-          for you
+          <% l = length(itineraries) %>
+          <%= "We found #{l} #{Inflex.inflect("trip", l)} for you" %>
         </p>
         <p class="instructions page-section"><%= itinerary_explanation(@query, @modes) %></p>
         <% itinerary_data = itinerary_html(itineraries, %{conn: @conn, expanded: @expanded}) %>
