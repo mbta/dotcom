@@ -48,7 +48,7 @@ exports[`it renders 1`] = `
                 <div
                   dangerouslySetInnerHTML={
                     Object {
-                      "__html": "Route 170 will be rerouted at certain times during the Marathon on Monday, April 15. More: <a href=\\"https://mbta.com/marathon\\">mbta.com/marathon</a>",
+                      "__html": "Route 170 will be rerouted at certain times during the Marathon on Monday, April 15. More: <a href=\\"https://mbta.com/marathon\\">mbta.com/marathon</a><span>&nbsp;</span><a href=\\"https://www.mbta.com\\" target=\\"_blank\\">MBTA.com</a>",
                     }
                   }
                 />
@@ -132,7 +132,7 @@ exports[`it renders 1`] = `
                 <div
                   dangerouslySetInnerHTML={
                     Object {
-                      "__html": "There is construction at this station.",
+                      "__html": "There is construction at this station.<span>&nbsp;</span><a href=\\"https://www.mbta.com\\" target=\\"_blank\\">MBTA.com</a>",
                     }
                   }
                 />

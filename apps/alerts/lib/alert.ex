@@ -1,4 +1,5 @@
 defmodule Alerts.Alert do
+  @moduledoc "Module for representation of an alert, including information such as description, severity or additional URL to learn more"
   alias Alerts.Priority
   alias Alerts.InformedEntitySet, as: IESet
 
@@ -11,7 +12,8 @@ defmodule Alerts.Alert do
             lifecycle: :unknown,
             updated_at: Timex.now(),
             description: "",
-            priority: :low
+            priority: :low,
+            url: ""
 
   @type period_pair :: {DateTime.t() | nil, DateTime.t() | nil}
 
@@ -58,7 +60,8 @@ defmodule Alerts.Alert do
           lifecycle: lifecycle,
           updated_at: DateTime.t(),
           description: String.t() | nil,
-          priority: Priority.priority_level()
+          priority: Priority.priority_level(),
+          url: String.t() | nil
         }
 
   @type icon_type :: :alert | :cancel | :none | :shuttle | :snow

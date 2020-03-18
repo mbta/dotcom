@@ -18,7 +18,8 @@ const highAlert: Alert = {
     "Route 170 will be rerouted at certain times during the Marathon on Monday, April 15.",
   effect: "detour",
   description:
-    "<strong>Affected direction:</strong><br />Inbound<br />\r<br /><strong>Affected stops:</strong><br />Meridian St @ West Eagle St"
+    "<strong>Affected direction:</strong><br />Inbound<br />\r<br /><strong>Affected stops:</strong><br />Meridian St @ West Eagle St",
+  url: "https://www.mbta.com"
 };
 
 const lowAlert: Alert = {
@@ -31,7 +32,8 @@ const lowAlert: Alert = {
   id: "00005",
   header: "There is construction at this station.",
   effect: "other",
-  description: ""
+  description: "",
+  url: "https://www.mbta.com"
 };
 
 const alertsTab: AlertsTabType = {
