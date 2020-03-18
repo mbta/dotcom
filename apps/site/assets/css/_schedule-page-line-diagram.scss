@@ -424,6 +424,10 @@ $line-width: 8px; // width of the colored line in the diagram
   .m-schedule-diagram__lines--merging .m-schedule-diagram__line:not(:first-child) {
     height: calc(#{$base-spacing * 2} + 10px);
   }
+
+  .m-schedule-diagram__line:not(:first-child) {
+    height: calc(100%  - 15px);
+  }
 }
 
 // stop filter
