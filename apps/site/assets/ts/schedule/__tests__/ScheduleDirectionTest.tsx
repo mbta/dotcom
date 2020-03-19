@@ -288,7 +288,7 @@ it.skip("renders with a static map", () => {
   expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
 });
 
-it("changes direction and updates the query param", () => {
+it("changes direction and updates the query params", () => {
   document.body.innerHTML = body;
   const component = getComponent();
   const wrapper = mount(component);
@@ -301,7 +301,7 @@ it("changes direction and updates the query param", () => {
   expect(window.history.replaceState).toBeCalledWith(
     {},
     "",
-    "/?direction_id=0"
+    "/?direction_id=0&variant=pattern-1"
   );
 });
 
@@ -312,15 +312,22 @@ it("does not allow changing direction when no route patterns", () => {
   expect(wrapper.exists(".m-schedule-direction__button")).toEqual(false);
 });
 
-it("can change route pattern for bus mode", () => {
+it("can change route pattern for bus mode, and updates the query params", () => {
   document.body.innerHTML = body;
   const component = getComponent();
   const wrapper = mount(component);
+  window.history.replaceState = jest.fn();
+
   wrapper.find(".m-schedule-direction__button").simulate("click");
   expect(
     wrapper.find(".m-schedule-direction__route-pattern--clickable").text()
   ).toBe("Pattern 1 SVG");
   expect(wrapper.find(".m-schedule-direction__menu").exists()).toEqual(false);
+  expect(window.history.replaceState).toBeCalledWith(
+    {},
+    "",
+    "/?direction_id=0&variant=pattern-1"
+  );
   wrapper
     .find(".m-schedule-direction__route-pattern--clickable")
     .simulate("click");
@@ -329,6 +336,11 @@ it("can change route pattern for bus mode", () => {
   expect(
     wrapper.find(".m-schedule-direction__route-pattern--clickable").text()
   ).toBe("Pattern 3 SVG");
+  expect(window.history.replaceState).toBeCalledWith(
+    {},
+    "",
+    "/?direction_id=0&variant=pattern-3"
+  );
   wrapper
     .find(".m-schedule-direction__route-pattern--clickable")
     .simulate("click");
