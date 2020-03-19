@@ -37,9 +37,15 @@ export type FetchAction =
   | { type: "FETCH_ERROR" }
   | { type: "FETCH_STARTED" };
 
-const updateDirectionInURL = (directionId: DirectionId): void => {
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  const query = { direction_id: directionId.toString() };
+const updateDirectionAndVariantInURL = (
+  directionId: DirectionId,
+  routePatternId: string
+): void => {
+  const query = {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    direction_id: directionId.toString(),
+    variant: routePatternId
+  };
   const newLoc = updateInLocation(query, window.location);
   // newLoc is not a true Location, so toString doesn't work
   window.history.replaceState({}, "", `${newLoc.pathname}${newLoc.search}`);
@@ -47,10 +53,13 @@ const updateDirectionInURL = (directionId: DirectionId): void => {
 
 const toggleDirection = (state: State): State => {
   const nextDirection = state.directionId === 0 ? 1 : 0;
-  updateDirectionInURL(nextDirection);
   const [defaultRoutePatternForDirection] = state.routePatternsByDirection[
     nextDirection
   ];
+  updateDirectionAndVariantInURL(
+    nextDirection,
+    defaultRoutePatternForDirection.id
+  );
   return {
     ...state,
     directionId: nextDirection,
@@ -65,6 +74,18 @@ const toggleRoutePatternMenu = (state: State): State => ({
   routePatternMenuOpen: !state.routePatternMenuOpen,
   itemFocus: "first"
 });
+
+const setRoutePattern = (state: State, data: Payload): State => {
+  const newRoutePattern = data!.routePattern!;
+  updateDirectionAndVariantInURL(state.directionId, newRoutePattern.id);
+  return {
+    ...state,
+    routePattern: newRoutePattern,
+    shape: state.shapesById[newRoutePattern.shape_id],
+    routePatternMenuOpen: false,
+    itemFocus: null
+  };
+};
 
 const showAllRoutePatterns = (state: State): State => ({
   ...state,
@@ -91,13 +112,7 @@ export const menuReducer = (state: State, action: MenuAction): State => {
       };
 
     case "setRoutePattern":
-      return {
-        ...state,
-        routePattern: action.payload!.routePattern!,
-        shape: state.shapesById[action.payload!.routePattern!.shape_id],
-        routePatternMenuOpen: false,
-        itemFocus: null
-      };
+      return setRoutePattern(state, action.payload!);
 
     /* istanbul ignore next */
     default:
