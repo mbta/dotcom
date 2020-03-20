@@ -47,7 +47,8 @@ config :sentry,
   enable_source_code_context: false,
   root_source_code_path: File.cwd!(),
   included_environments: [:prod],
-  json_library: Poison
+  json_library: Poison,
+  filter: Site.SentryFilter
 
 config :site, :former_mbta_site, host: "https://old.mbta.com"
 config :site, tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com"
