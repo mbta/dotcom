@@ -20,6 +20,8 @@ defmodule Site.RealtimeSchedule do
   alias Stops.Repo, as: StopsRepo
   alias Stops.Stop
 
+  require Logger
+
   # the long timeout is to address a worst-case scenario of cold schedule cache
   @long_timeout 15_000
 
@@ -298,6 +300,8 @@ defmodule Site.RealtimeSchedule do
 
   @spec shrink_predicted_schedule(PredictedSchedule.t(), DateTime.t()) :: map
   defp shrink_predicted_schedule(%{schedule: schedule, prediction: prediction}, now) do
+    _ = log_warning_if_missing_trip(prediction)
+
     %{
       prediction:
         prediction
@@ -306,6 +310,13 @@ defmodule Site.RealtimeSchedule do
         |> do_shrink_predicted_schedule(),
       schedule: schedule |> format_schedule_time() |> do_shrink_predicted_schedule()
     }
+  end
+
+  def log_warning_if_missing_trip(prediction) do
+    _ =
+      if prediction && prediction.trip == nil do
+        Logger.warn("prediction_without_trip prediction=#{inspect(prediction)}")
+      end
   end
 
   @spec add_trip_headsign(map) :: map | nil
