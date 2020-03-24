@@ -76,7 +76,10 @@ defmodule SiteWeb.ScheduleController.GreenTest do
     conn =
       get(
         conn,
-        schedule_path(conn, :show, "Green", origin: "place-pktrm", destination: "place-boyls")
+        schedule_path(conn, :show, "Green",
+          "schedule_direction[origin]": "place-pktrm",
+          "schedule_direction[destination]": "place-boyls"
+        )
       )
 
     assert conn.assigns.origin.id == "place-pktrm"
@@ -89,7 +92,7 @@ defmodule SiteWeb.ScheduleController.GreenTest do
   end
 
   test "trip view :all_stops is a list of %Stop{} for all stops on all branches", %{conn: conn} do
-    conn = get(conn, green_path(conn, :trip_view, %{direction_id: 0}))
+    conn = get(conn, green_path(conn, :trip_view, %{schedule_direction: %{direction_id: 0}}))
 
     assert [%Stops.Stop{} | all_stops] = conn.assigns.all_stops
 
@@ -102,7 +105,7 @@ defmodule SiteWeb.ScheduleController.GreenTest do
 
   test "line tab :all_stops is a list of {bubble_info, %RouteStops{}} for all stops on all branches",
        %{conn: conn} do
-    conn = get(conn, green_path(conn, :line, %{direction_id: 0}))
+    conn = get(conn, green_path(conn, :line, %{"schedule_direction[direction_id]": 0}))
     assert [{_, %{id: "place-lech"}} | all_stops] = conn.assigns.all_stops
 
     fenway = Enum.find(all_stops, fn {_, stop} -> stop.id == "place-fenwy" end)
@@ -217,7 +220,14 @@ defmodule SiteWeb.ScheduleController.GreenTest do
   end
 
   test "assigns excluded stops", %{conn: conn} do
-    conn = get(conn, schedule_path(conn, :show, "Green", origin: "place-pktrm", direction_id: 0))
+    conn =
+      get(
+        conn,
+        schedule_path(conn, :show, "Green",
+          "schedule_direction[origin]": "place-pktrm",
+          "schedule_direction[direction_id]": 0
+        )
+      )
 
     assert conn.assigns.excluded_origin_stops ==
              ExcludedStops.excluded_origin_stops(0, "Green", conn.assigns.all_stops)
@@ -239,7 +249,11 @@ defmodule SiteWeb.ScheduleController.GreenTest do
   end
 
   test "assigns stops_on_routes", %{conn: conn} do
-    conn = get(conn, schedule_path(conn, :show, "Green", direction_id: 1))
+    conn =
+      get(
+        conn,
+        schedule_path(conn, :show, "Green", "schedule_direction[direction_id]": 1)
+      )
 
     assert conn.assigns.stops_on_routes == GreenLine.stops_on_routes(1, conn.assigns.date)
   end
@@ -264,9 +278,11 @@ defmodule SiteWeb.ScheduleController.GreenTest do
         conn,
         :show,
         "Green",
-        origin: "place-pktrm",
-        destination: "place-bckhl",
-        direction_id: 1
+        schedule_direction: %{
+          origin: "place-pktrm",
+          destination: "place-bckhl",
+          direction_id: 1
+        }
       )
 
     conn = get(conn, path)
@@ -281,9 +297,9 @@ defmodule SiteWeb.ScheduleController.GreenTest do
         conn,
         :show,
         "Green",
-        origin: "place-bckhl",
-        destination: "place-pktrm",
-        direction_id: 1
+        "schedule_direction[origin]": "place-bckhl",
+        "schedule_direction[destination]": "place-pktrm",
+        "schedule_direction[direction_id]": 1
       )
 
     conn = get(conn, path)

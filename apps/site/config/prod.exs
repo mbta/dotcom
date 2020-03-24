@@ -100,6 +100,7 @@ end
 # to start the server for all endpoints:
 #
 config :phoenix, :serve_endpoints, true
+
 #
 # Alternatively, you can configure exactly which server to
 # start per endpoint:

@@ -301,7 +301,7 @@ it("changes direction and updates the query params", () => {
   expect(window.history.replaceState).toBeCalledWith(
     {},
     "",
-    "/?direction_id=0&variant=pattern-1"
+    "/?schedule_direction%5Bdirection_id%5D=0&schedule_direction%5Bvariant%5D=pattern-1"
   );
 });
 
@@ -326,7 +326,7 @@ it("can change route pattern for bus mode, and updates the query params", () => 
   expect(window.history.replaceState).toBeCalledWith(
     {},
     "",
-    "/?direction_id=0&variant=pattern-1"
+    "/?schedule_direction%5Bdirection_id%5D=0&schedule_direction%5Bvariant%5D=pattern-1"
   );
   wrapper
     .find(".m-schedule-direction__route-pattern--clickable")
@@ -339,7 +339,7 @@ it("can change route pattern for bus mode, and updates the query params", () => 
   expect(window.history.replaceState).toBeCalledWith(
     {},
     "",
-    "/?direction_id=0&variant=pattern-3"
+    "/?schedule_direction%5Bdirection_id%5D=0&schedule_direction%5Bvariant%5D=pattern-3"
   );
   wrapper
     .find(".m-schedule-direction__route-pattern--clickable")

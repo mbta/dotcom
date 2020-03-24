@@ -1,12 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import SchedulePage from "./components/SchedulePage";
-import ScheduleNote from "./components/ScheduleNote";
-import ScheduleDirection from "./components/ScheduleDirection";
+import { Provider } from "react-redux";
+import { updateInLocation } from "use-query-params";
 import Map from "./components/Map";
-import { SchedulePageData } from "./components/__schedule";
-import { MapData, StaticMapData } from "../leaflet/components/__mapdata";
-import ScheduleFinder from "./components/ScheduleFinder";
+import { SchedulePageData, SelectedOrigin } from "./components/__schedule";
+import { MapData } from "../leaflet/components/__mapdata";
+import { DirectionId } from "../__v3api";
+import ScheduleLoader from "./components/ScheduleLoader";
+import {
+  store,
+  createScheduleStore,
+  getCurrentState
+} from "./store/ScheduleStore";
+
+interface Props {
+  schedulePageData: SchedulePageData;
+}
 
 const renderMap = ({
   route_patterns: routePatternsByDirection,
@@ -27,40 +36,55 @@ const renderMap = ({
   );
 };
 
+const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
+  if (window) {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const newQuery = {
+      "schedule_finder[direction_id]":
+        direction !== undefined ? direction.toString() : "",
+      "schedule_finder[origin]": origin
+    };
+    const newLoc = updateInLocation(newQuery, window.location);
+    // newLoc is not a true Location, so toString doesn't work
+    window.history.replaceState({}, "", `${newLoc.pathname}${newLoc.search}`);
+  }
+};
+
 const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
+  const { schedule_note: scheduleNote } = schedulePageData;
+
   ReactDOM.render(
-    <SchedulePage schedulePageData={schedulePageData} />,
+    <Provider store={store}>
+      <ScheduleLoader
+        component="MAIN"
+        schedulePageData={schedulePageData}
+        updateURL={updateURL}
+      />
+    </Provider>,
     document.getElementById("react-root")
   );
-  if (schedulePageData.schedule_note) {
+  // Now we (conditionally) render "secondary" widgets:
+  // (only one will be shown at a time, depending on whether mobile or desktop)
+  if (scheduleNote) {
     ReactDOM.render(
-      <ScheduleNote
-        className="m-schedule-page__schedule-notes--mobile"
-        scheduleNote={schedulePageData.schedule_note}
-      />,
+      <Provider store={store}>
+        <ScheduleLoader
+          component="SCHEDULE_NOTE"
+          schedulePageData={schedulePageData}
+          updateURL={updateURL}
+        />
+      </Provider>,
       document.getElementById("react-schedule-note-root")
     );
-  }
-  const {
-    direction_id: directionId,
-    route,
-    stops,
-    services,
-    route_patterns: routePatternsByDirection,
-    schedule_note: scheduleNote,
-    today
-  } = schedulePageData;
-  if (!scheduleNote) {
+  } else {
     ReactDOM.render(
-      <ScheduleFinder
-        directionId={directionId}
-        route={route}
-        stops={stops}
-        services={services}
-        routePatternsByDirection={routePatternsByDirection}
-        today={today}
-        scheduleNote={null}
-      />,
+      <Provider store={store}>
+        <ScheduleLoader
+          component="SCHEDULE_FINDER"
+          schedulePageData={schedulePageData}
+          updateURL={updateURL}
+        />
+      </Provider>,
       document.getElementById("react-schedule-finder-root")
     );
   }
@@ -70,48 +94,19 @@ const renderDirectionAndMap = (
   schedulePageData: SchedulePageData,
   root: HTMLElement
 ): void => {
-  const {
-    direction_id: directionId,
-    route_patterns: routePatternsByDirection,
-    shape_map: shapesById,
-    route,
-    line_diagram: lineDiagram,
-    services,
-    stops,
-    today,
-    schedule_note: scheduleNote,
-    variant: initialSelectedRoutePatternId
-  } = schedulePageData;
-
-  let mapData: MapData | undefined;
-  const mapDataEl = document.getElementById("js-map-data");
-  if (mapDataEl) {
-    mapData = JSON.parse(mapDataEl.innerHTML);
+  const currentState = getCurrentState();
+  if (!!currentState && Object.keys(currentState).length !== 0) {
+    ReactDOM.render(
+      <Provider store={store}>
+        <ScheduleLoader
+          component="SCHEDULE_DIRECTION"
+          schedulePageData={schedulePageData}
+          updateURL={updateURL}
+        />
+      </Provider>,
+      root
+    );
   }
-
-  let staticMapData: StaticMapData | undefined;
-  const staticDataEl = document.getElementById("static-map-data");
-  if (staticDataEl) {
-    staticMapData = JSON.parse(staticDataEl.innerHTML);
-  }
-
-  ReactDOM.render(
-    <ScheduleDirection
-      directionId={directionId}
-      route={route}
-      routePatternsByDirection={routePatternsByDirection}
-      shapesById={shapesById}
-      mapData={mapData}
-      staticMapData={staticMapData}
-      lineDiagram={lineDiagram}
-      services={services}
-      stops={stops}
-      today={today}
-      scheduleNote={scheduleNote}
-      initialSelectedRoutePatternId={initialSelectedRoutePatternId}
-    />,
-    root
-  );
 };
 
 const renderDirectionOrMap = (schedulePageData: SchedulePageData): void => {
@@ -129,11 +124,13 @@ const render = (): void => {
   const schedulePageData = JSON.parse(
     schedulePageDataEl.innerHTML
   ) as SchedulePageData;
+  const { direction_id: directionId } = schedulePageData;
+  createScheduleStore(directionId);
   renderSchedulePage(schedulePageData);
   renderDirectionOrMap(schedulePageData);
 };
 
-export const onLoad = (): void => {
+const onLoad = (): void => {
   render();
 };
 

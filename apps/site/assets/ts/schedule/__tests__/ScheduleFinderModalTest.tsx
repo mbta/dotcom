@@ -136,15 +136,17 @@ describe("ScheduleFinderModal", () => {
     mount(
       <ScheduleFinderModal
         closeModal={() => {}}
-        initialDirection={0}
         initialMode={"origin"}
-        initialOrigin={null}
         route={route}
         routePatternsByDirection={routePatternsByDirection}
         scheduleNote={null}
         services={services}
         stops={stops}
         today={today}
+        updateURL={() => {}}
+        initialDirection={0}
+        initialOrigin={null}
+        handleOriginSelectClick={() => {}}
       />
     );
 

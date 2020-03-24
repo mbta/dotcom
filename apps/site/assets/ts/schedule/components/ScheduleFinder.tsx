@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import { Route, DirectionId } from "../../__v3api";
 import {
   SimpleStopMap,
@@ -11,8 +11,10 @@ import ScheduleFinderForm from "./schedule-finder/ScheduleFinderForm";
 import ScheduleFinderModal, {
   Mode as ModalMode
 } from "./schedule-finder/ScheduleFinderModal";
+import { getCurrentState, storeHandler } from "../store/ScheduleStore";
 
 interface Props {
+  updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
   services: ServiceInSelector[];
   directionId: DirectionId;
   route: Route;
@@ -20,66 +22,94 @@ interface Props {
   routePatternsByDirection: RoutePatternsByDirection;
   today: string;
   scheduleNote: ScheduleNoteType | null;
+  changeDirection: (direction: DirectionId) => void;
+  selectedOrigin: SelectedOrigin;
+  changeOrigin: (origin: SelectedOrigin) => void;
+  closeModal: () => void;
+  modalMode: ModalMode;
+  modalOpen: boolean;
 }
 
 const ScheduleFinder = ({
+  updateURL,
   directionId,
   route,
   services,
   stops,
   routePatternsByDirection,
   today,
-  scheduleNote
+  scheduleNote,
+  modalMode,
+  selectedOrigin,
+  changeDirection,
+  changeOrigin,
+  modalOpen,
+  closeModal
 }: Props): ReactElement<HTMLElement> => {
-  const [modalMode, setModalMode] = useState<ModalMode>("origin");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedDirection, setSelectedDirection] = useState(directionId);
-  const [selectedOrigin, setSelectedOrigin] = useState<SelectedOrigin>(null);
-
-  const changeDirection = (direction: DirectionId): void => {
-    setSelectedOrigin(null);
-    setSelectedDirection(direction);
-  };
-
   const openOriginModal = (): void => {
-    setModalMode("origin");
-    setModalOpen(true);
+    const currentState = getCurrentState();
+    const { modalOpen: modalIsOpen } = currentState;
+    if (!modalIsOpen) {
+      storeHandler({
+        type: "OPEN_MODAL",
+        newStoreValues: {
+          modalMode: "origin"
+        }
+      });
+    }
   };
 
   const openScheduleModal = (): void => {
-    if (selectedOrigin !== null) {
-      setModalMode("schedule");
-      setModalOpen(true);
+    const currentState = getCurrentState();
+    const { modalOpen: modalIsOpen } = currentState;
+    if (selectedOrigin !== undefined && !modalIsOpen) {
+      storeHandler({
+        type: "OPEN_MODAL",
+        newStoreValues: {
+          modalMode: "schedule"
+        }
+      });
     }
+  };
+
+  const handleOriginSelectClick = (): void => {
+    storeHandler({
+      type: "OPEN_MODAL",
+      newStoreValues: {
+        modalMode: "origin"
+      }
+    });
   };
 
   return (
     <div className="schedule-finder">
       <ScheduleFinderForm
         onDirectionChange={changeDirection}
-        onOriginChange={setSelectedOrigin}
+        onOriginChange={changeOrigin}
         onOriginSelectClick={openOriginModal}
         onSubmit={openScheduleModal}
         route={route}
-        selectedDirection={selectedDirection}
+        selectedDirection={directionId}
         selectedOrigin={selectedOrigin}
         stopsByDirection={stops}
       />
 
       {modalOpen && (
         <ScheduleFinderModal
-          closeModal={() => setModalOpen(false)}
+          closeModal={closeModal}
           directionChanged={changeDirection}
-          initialDirection={selectedDirection}
           initialMode={modalMode}
+          initialDirection={directionId}
           initialOrigin={selectedOrigin}
-          originChanged={setSelectedOrigin}
+          handleOriginSelectClick={handleOriginSelectClick}
+          originChanged={changeOrigin}
           route={route}
           routePatternsByDirection={routePatternsByDirection}
           scheduleNote={scheduleNote}
           services={services}
           stops={stops}
           today={today}
+          updateURL={updateURL}
         />
       )}
     </div>

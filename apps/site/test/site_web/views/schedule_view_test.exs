@@ -194,7 +194,14 @@ defmodule SiteWeb.ScheduleViewTest do
 
   describe "reverse_direction_opts/4" do
     test "reverses direction when the stop exists in the other direction" do
-      expected = [trip: nil, direction_id: "1", destination: "place-harsq", origin: "place-davis"]
+      expected = [
+        trip: nil,
+        schedule_direction: %{
+          direction_id: "1",
+          destination: "place-harsq",
+          origin: "place-davis"
+        }
+      ]
 
       actual =
         reverse_direction_opts(
@@ -207,13 +214,21 @@ defmodule SiteWeb.ScheduleViewTest do
     end
 
     test "reverses direction when origin and destination aren't selected" do
-      expected = [trip: nil, direction_id: "1", destination: nil, origin: nil]
+      expected = [
+        trip: nil,
+        schedule_direction: %{direction_id: "1", destination: nil, origin: nil}
+      ]
+
       actual = reverse_direction_opts(nil, nil, "1")
       assert Enum.sort(expected) == Enum.sort(actual)
     end
 
     test "maintains origin when there's no destination selected" do
-      expected = [trip: nil, direction_id: "1", destination: nil, origin: "place-davis"]
+      expected = [
+        trip: nil,
+        schedule_direction: %{direction_id: "1", destination: nil, origin: "place-davis"}
+      ]
+
       actual = reverse_direction_opts(%Stops.Stop{id: "place-davis"}, nil, "1")
       assert Enum.sort(expected) == Enum.sort(actual)
     end

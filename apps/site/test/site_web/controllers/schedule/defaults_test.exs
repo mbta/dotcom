@@ -29,7 +29,12 @@ defmodule SiteWeb.ScheduleController.DefaultsTest do
 
   describe "assign direction_id to" do
     test "integer when in params", %{conn: conn} do
-      conn = Defaults.call(%{conn | query_params: %{"direction_id" => "1"}}, [])
+      conn =
+        Defaults.call(
+          %{conn | query_params: %{"schedule_direction" => %{"direction_id" => "1"}}},
+          []
+        )
+
       assert conn.assigns.direction_id == 1
     end
 

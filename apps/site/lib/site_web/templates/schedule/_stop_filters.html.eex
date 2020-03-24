@@ -4,7 +4,7 @@
       <% origin = if @origin, do: @origin.id, else: nil %>
       <%= SiteWeb.PartialView.render "_stop_selector.html",
           conn: @conn,
-          query_key: "origin",
+          query_key: "schedule_direction[origin]",
           selected: origin,
           all_stops: @all_stops,
           key_stops: [],
@@ -28,7 +28,7 @@
         <% destination = if @destination, do: @destination.id, else: nil %>
         <%= SiteWeb.PartialView.render "_stop_selector.html",
             conn: @conn,
-            query_key: "destination",
+            query_key: "schedule_direction[destination]",
             selected: destination,
             all_stops: @all_stops,
             key_stops: [],

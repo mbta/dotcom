@@ -3,7 +3,9 @@ defmodule SiteWeb.ScheduleController.Line do
   Actions to support rendering lines for a schedule
   """
   @behaviour Plug
-  import Plug.Conn, only: [assign: 3]
+  import Plug.Conn, only: [assign: 3, halt: 1]
+  import UrlHelpers, only: [update_url: 2]
+  import Phoenix.Controller, only: [redirect: 2]
 
   alias Plug.Conn
   alias RoutePatterns.Repo, as: RoutePatternRepo
@@ -38,18 +40,76 @@ defmodule SiteWeb.ScheduleController.Line do
     Util.log_duration(__MODULE__, :do_call, [conn, opts])
   end
 
+  @spec replace_map_key(map, String.t(), String.t()) :: map
+  defp replace_map_key(input, from, to) do
+    if Map.has_key?(input, from) do
+      input
+      |> Map.put(to, Map.get(input, from))
+      |> Map.delete(from)
+    else
+      input
+    end
+  end
+
+  @spec get_updated_format_for_url_params(map) :: map
+  def get_updated_format_for_url_params(query_params) do
+    new_params =
+      query_params
+      |> replace_map_key("direction_id", "schedule_direction[direction_id]")
+      |> replace_map_key("origin", "schedule_direction[origin]")
+      |> replace_map_key("destination", "schedule_direction[destination]")
+      |> replace_map_key("variant", "schedule_direction[variant]")
+
+    new_params
+  end
+
   def do_call(
-        %Conn{assigns: %{route: %Route{} = route, direction_id: direction_id}} = conn,
+        %Conn{
+          assigns: %{
+            route: %Route{} = route,
+            direction_id: direction_id
+          }
+        } = conn,
         args
       ) do
-    deps = Keyword.get(args, :deps, %Dependencies{})
-    update_conn(conn, route, direction_id, deps)
+    # check if URL has parameters like direction_id, origin or variant
+    # If so, they will get changed to:
+    # e.g. /schedules/31/line?direction_id=1&origin=525 will be changed to
+    # /schedules/31/line?schedule_direction%5Bdirection_id%5D=1&schedule_direction%5Borigin%5D=525
+
+    new_params = get_updated_format_for_url_params(conn.query_params)
+
+    if Map.equal?(new_params, conn.query_params) do
+      # URL parameters have the correct format
+      schedule_direction = Map.get(conn.query_params, "schedule_direction", %{})
+
+      direction_id_value =
+        case schedule_direction["direction_id"] do
+          nil ->
+            direction_id
+
+          _ ->
+            String.to_integer(schedule_direction["direction_id"])
+        end
+
+      deps = Keyword.get(args, :deps, %Dependencies{})
+      update_conn(conn, route, direction_id_value, deps)
+    else
+      # overwrite query_params in `conn` with the correct format:
+      conn = %{conn | query_params: new_params}
+      url = update_url(conn, %{})
+
+      conn
+      |> redirect(to: url)
+      |> halt()
+    end
   end
 
   @spec update_conn(Conn.t(), Route.t(), direction_id, Dependencies.t()) :: Conn.t()
   defp update_conn(conn, route, direction_id, deps) do
-    variant = conn.query_params["variant"]
-    expanded = conn.query_params["expanded"]
+    schedule_direction = Map.get(conn.query_params, "schedule_direction", %{})
+    variant = schedule_direction["variant"]
+    expanded = Map.get(conn.query_params, "expanded")
     reverse_direction_id = reverse_direction(direction_id)
     route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)
     route_stops = LineHelpers.get_route_stops(route.id, direction_id, deps.stops_by_route_fn)

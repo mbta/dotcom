@@ -82,7 +82,13 @@ const ScheduleModalContent = ({
 
   useEffect(
     () => {
-      fetchData(routeId, selectedOrigin, selectedDirection, dispatch);
+      if (
+        routeId !== undefined &&
+        selectedOrigin !== undefined &&
+        selectedDirection !== undefined
+      ) {
+        fetchData(routeId, selectedOrigin, selectedDirection, dispatch);
+      }
     },
     [routeId, selectedDirection, selectedOrigin]
   );
