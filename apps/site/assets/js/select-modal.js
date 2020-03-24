@@ -36,7 +36,7 @@ function openModal(ev, $) {
   ev.stopPropagation();
   const $target = $(ev.currentTarget); // the button we clicked
   const selectName = $target.data("select-modal");
-  const $select = $(`select[name=${selectName}]`); // the <select>
+  const $select = $(`select[name="${selectName}"]`); // the <select>
   const selectData = dataFromSelect($select, $);
   const options = optionsFromSelect($select, $);
   const $modal = $newModal($select.attr("name"), $);
@@ -194,7 +194,7 @@ export function dataFromSelect($el, $) {
 
 export function optionsFromSelect($el, $) {
   return {
-    label: $(`label[for=${$el.attr("id")}]`).html(),
+    label: $(`label[for="${$el.attr("id")}"]`).html(),
     // make search enabled the default
     search: typeof $el.data("no-search") === "undefined"
   };

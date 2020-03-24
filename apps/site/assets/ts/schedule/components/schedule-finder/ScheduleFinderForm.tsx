@@ -44,7 +44,7 @@ export default ({
   const handleSubmit = (event: FormEvent): void => {
     event.preventDefault();
 
-    if (selectedOrigin === null) {
+    if (!selectedOrigin) {
       setOriginError(true);
     } else {
       setOriginError(false);

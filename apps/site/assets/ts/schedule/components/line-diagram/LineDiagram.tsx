@@ -1,6 +1,6 @@
 import React, { ReactElement, useState } from "react";
 import useSWR from "swr";
-
+import { updateInLocation } from "use-query-params";
 import {
   LineDiagramStop,
   LineDiagramVehicle,
@@ -9,10 +9,13 @@ import {
   RouteStop,
   StopData,
   ServiceInSelector,
-  ScheduleNote as ScheduleNoteType
+  ScheduleNote as ScheduleNoteType,
+  SelectedOrigin
 } from "../__schedule";
 import SingleStop from "./SingleStop";
-import ScheduleFinderModal from "../schedule-finder/ScheduleFinderModal";
+import ScheduleFinderModal, {
+  Mode as ModalMode
+} from "../schedule-finder/ScheduleFinderModal";
 import { DirectionId, Headsign, Route } from "../../../__v3api";
 import ExpandableBranch from "./ExpandableBranch";
 import useFilteredList from "../../../hooks/useFilteredList";
@@ -82,15 +85,14 @@ const LineDiagram = ({
 }: Props): ReactElement<HTMLElement> | null => {
   const routeType = route.type;
   const routeColor: string = route.color || "#000";
-  const [modalState, setModalState] = useState<{
-    initialOrigin: RouteStop;
-    initialDirection: DirectionId;
-    isOpen: boolean;
-  }>({
-    initialOrigin: lineDiagram[0].route_stop,
-    initialDirection: directionId,
-    isOpen: false
-  });
+  const [initialDirection, setInitialDirection] = useState<DirectionId>(
+    directionId
+  );
+  const [initialOrigin, setInitialOrigin] = useState<SelectedOrigin>(
+    lineDiagram[0].route_stop.id
+  );
+  const [modalMode, setModalMode] = useState<ModalMode>("schedule");
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { data: maybeLiveData } = useSWR(
     `/schedules/line_api/realtime?id=${
@@ -101,16 +103,32 @@ const LineDiagram = ({
   );
   const liveData = (maybeLiveData || {}) as LiveDataByStop;
 
+  const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
+    if (window) {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      const newQuery = {
+        "schedule_direction[direction_id]":
+          direction !== undefined ? direction.toString() : "",
+        "schedule_direction[origin]": origin
+      };
+      const newLoc = updateInLocation(newQuery, window.location);
+      // newLoc is not a true Location, so toString doesn't work
+      window.history.replaceState({}, "", `${newLoc.pathname}${newLoc.search}`);
+    }
+  };
+
   const handleStopClick = (stop: RouteStop): void => {
     const { "is_beginning?": isBeginning, "is_terminus?": isTerminus } = stop;
     const isDestination = isTerminus && !isBeginning;
     const reverseDirectionId = directionId === 0 ? 1 : 0;
 
-    setModalState({
-      initialDirection: isDestination ? reverseDirectionId : directionId,
-      initialOrigin: stop,
-      isOpen: true
-    });
+    setInitialDirection(isDestination ? reverseDirectionId : directionId);
+    setInitialOrigin(stop.id);
+    setModalMode("schedule");
+    setIsOpen(true);
+
+    // modify URL:
+    updateURL(stop.id, directionId);
   };
 
   const treeDirection = getTreeDirection(lineDiagram);
@@ -201,6 +219,30 @@ const LineDiagram = ({
     </div>
   );
 
+  const handleOriginSelectClick = (): void => {
+    setModalMode("origin");
+    setIsOpen(true);
+  };
+
+  const directionChanged = (newDirection: DirectionId): void => {
+    setInitialDirection(newDirection);
+  };
+
+  const originChanged = (newOrigin: SelectedOrigin): void => {
+    setInitialOrigin(newOrigin);
+    if (newOrigin) {
+      setModalMode("schedule");
+    } else {
+      setModalMode("origin");
+    }
+  };
+
+  const closeModal = (): void => {
+    setIsOpen(false);
+    // clear parameters from URL when closing the modal:
+    updateURL("");
+  };
+
   const stationsOrStops =
     routeType === 0 || routeType === 1 || routeType === 2
       ? "Stations"
@@ -286,18 +328,22 @@ const LineDiagram = ({
         </div>
       )}
 
-      {modalState.isOpen && (
+      {isOpen && (
         <ScheduleFinderModal
-          closeModal={() => setModalState({ ...modalState, isOpen: false })}
-          initialDirection={modalState.initialDirection}
-          initialMode="schedule"
-          initialOrigin={modalState.initialOrigin.id}
+          closeModal={closeModal}
+          initialMode={modalMode}
+          initialDirection={initialDirection}
+          initialOrigin={initialOrigin}
+          handleOriginSelectClick={handleOriginSelectClick}
+          directionChanged={directionChanged}
+          originChanged={originChanged}
           route={route}
           routePatternsByDirection={routePatternsByDirection}
           scheduleNote={scheduleNote}
           services={services}
           stops={stops}
           today={today}
+          updateURL={updateURL}
         />
       )}
     </>

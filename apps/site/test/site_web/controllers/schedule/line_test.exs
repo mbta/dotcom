@@ -239,7 +239,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
     end
 
     test "Does not return branches when route has no trips in given direction", %{conn: conn} do
-      conn = get(conn, line_path(conn, :show, "195", direction_id: 0))
+      conn = get(conn, line_path(conn, :show, "195", "schedule_direction[direction_id]": 0))
       assert conn.assigns.branches == []
     end
 
@@ -478,66 +478,6 @@ defmodule SiteWeb.ScheduleController.LineTest do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
     end
-
-    # test "CR-Providence outbound has correct number of bubbles" do
-    #   route_stops = get_route_stops("CR-Providence", 0, @deps.stops_by_route_fn)
-    #   stops =
-    #     "CR-Providence"
-    #     |> get_route_shapes(0)
-    #     |> get_branches(route_stops, %Routes.Route{id: "CR-Providence"}, 0)
-    #     |> build_stop_list(0)
-    #     |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
-
-    #   [one, two, another_one] = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
-    #   assert Enum.each(one, &(Enum.count(branches(&1)) == 1))
-    #   assert stop_id(List.first(one)) == "place-sstat"
-    #   assert stop_id(List.last(one)) == "Route 128"
-
-    #   assert Enum.each(two, &(Enum.count(branches(&1)) == 2))
-    #   assert stop_id(List.first(two)) == "Canton Junction"
-    #   assert stop_id(List.last(two)) == "Stoughton"
-
-    #   assert Enum.each(another_one, &(Enum.count(branches(&1)) == 1))
-    #   assert stop_id(List.first(another_one)) == "Sharon"
-    #   assert stop_id(List.last(another_one)) == "Wickford Junction"
-    # end
-
-    # test "CR-Providence inbound" do
-    #   route_stops = get_route_stops("CR-Providence", 1, @deps.stops_by_route_fn)
-    #   stops =
-    #     "CR-Providence"
-    #     |> get_route_shapes(1)
-    #     |> get_branches(route_stops, %Routes.Route{id: "CR-Providence"}, 1)
-    #     |> build_stop_list(1)
-    #     |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
-
-    #   for {id, idx} <- [{"place-sstat", 14}, {"Canton Junction", 9}, {"Stoughton", 7}, {"Wickford Junction", 0}] do
-    #     assert stops |> Enum.at(idx) |> elem(1) == id
-    #   end
-    # end
-
-    # test "CR-Providence inboung has correct number of bubbles" do
-    #   route_stops = get_route_stops("CR-Providence", 1, @deps.stops_by_route_fn)
-    #   stops =
-    #     "CR-Providence"
-    #     |> get_route_shapes(1)
-    #     |> get_branches(route_stops, %Routes.Route{id: "CR-Providence"}, 1)
-    #     |> build_stop_list(1)
-    #     |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
-
-    #   [another_one, two, one] = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
-    #   assert Enum.each(another_one, &(Enum.count(branches(&1)) == 1))
-    #   assert stop_id(List.first(another_one)) == "Wickford Junction"
-    #   assert stop_id(List.last(another_one)) == "Sharon"
-
-    #   assert Enum.each(two, &(Enum.count(branches(&1)) == 2))
-    #   assert stop_id(List.first(two)) == "Stoughton"
-    #   assert stop_id(List.last(two)) == "Canton Junction"
-
-    #   assert Enum.each(one, &(Enum.count(branches(&1)) == 1))
-    #   assert stop_id(List.first(one)) == "Route 128"
-    #   assert stop_id(List.last(one)) == "place-sstat"
-    # end
   end
 
   describe "stop_bubble_type/2" do

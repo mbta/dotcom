@@ -43,8 +43,8 @@ const updateDirectionAndVariantInURL = (
 ): void => {
   const query = {
     // eslint-disable-next-line @typescript-eslint/camelcase
-    direction_id: directionId.toString(),
-    variant: routePatternId
+    "schedule_direction[direction_id]": directionId.toString(),
+    "schedule_direction[variant]": routePatternId
   };
   const newLoc = updateInLocation(query, window.location);
   // newLoc is not a true Location, so toString doesn't work

@@ -1,4 +1,7 @@
 defmodule SiteWeb.ScheduleController.Green do
+  @moduledoc """
+    Alternate controller for Green Line schedules
+  """
   use SiteWeb, :controller
 
   import SiteWeb.ScheduleController.Line.Helpers,
@@ -43,7 +46,7 @@ defmodule SiteWeb.ScheduleController.Green do
   def show(%Plug.Conn{query_params: %{"tab" => "alerts"}} = conn, _params),
     do: alerts(conn, [])
 
-  def show(conn, _parmas), do: line(conn, [])
+  def show(conn, _params), do: line(conn, [])
 
   def trip_view(conn, _params) do
     conn
@@ -259,12 +262,19 @@ defmodule SiteWeb.ScheduleController.Green do
   defp arrival_time(schedule), do: schedule.time
 
   defp validate_direction(
-         %{assigns: %{origin: origin, destination: destination, direction_id: direction_id}} =
-           conn,
+         %{
+           assigns: %{
+             origin: origin,
+             destination: destination,
+             direction_id: direction_id
+           }
+         } = conn,
          _
        )
        when not is_nil(origin) and not is_nil(destination) do
     {stops, _map} = conn.assigns.stops_on_routes
+
+    stops = Enum.reverse(stops)
 
     if Util.ListHelpers.find_first(stops, origin, destination) == destination do
       conn

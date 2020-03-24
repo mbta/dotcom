@@ -6,6 +6,7 @@ import {
   RoutePatternsByDirection,
   ServiceInSelector
 } from "../components/__schedule";
+import * as scheduleStoreModule from "../store/ScheduleStore";
 
 const services: ServiceInSelector[] = [
   {
@@ -167,6 +168,13 @@ describe("ScheduleFinder", () => {
         routePatternsByDirection={routePatternsByDirection}
         today={today}
         scheduleNote={null}
+        updateURL={() => {}}
+        changeDirection={() => {}}
+        selectedOrigin={null}
+        changeOrigin={() => {}}
+        closeModal={() => {}}
+        modalMode="schedule"
+        modalOpen={false}
       />
     );
 
@@ -176,18 +184,24 @@ describe("ScheduleFinder", () => {
   });
 
   it("opens the schedule modal via the origin modal", () => {
-    const wrapper = mountComponent();
-
-    // Click on the SelectContainer for the origin select
-    wrapper
-      .find("SelectContainer")
-      .last()
-      // @ts-ignore -- types for `invoke` are too restrictive?
-      .invoke("handleClick")();
-    wrapper
-      .find(".schedule-finder__origin-list-item")
-      .at(1)
-      .simulate("click");
+    const wrapper = mount(
+      <ScheduleFinder
+        route={route}
+        stops={stops}
+        directionId={0}
+        services={services}
+        routePatternsByDirection={routePatternsByDirection}
+        today={today}
+        scheduleNote={null}
+        updateURL={() => {}}
+        changeDirection={() => {}}
+        selectedOrigin="123"
+        changeOrigin={() => {}}
+        closeModal={() => {}}
+        modalMode="schedule"
+        modalOpen={true}
+      />
+    );
 
     // Schedule modal should be open with the chosen origin selected
     expect(
@@ -219,7 +233,7 @@ describe("ScheduleFinder", () => {
   });
 
   it("changes the available origins when the direction is changed", () => {
-    const wrapper = mountComponent();
+    let wrapper = mountComponent();
     expect(
       wrapper
         .find("select")
@@ -227,10 +241,25 @@ describe("ScheduleFinder", () => {
         .text()
     ).not.toContain("Def");
 
-    wrapper
-      .find("select")
-      .first()
-      .simulate("change", { target: { value: "1" } });
+    // re-mount with directionId = 1 (simulate change in direction)
+    wrapper = mount(
+      <ScheduleFinder
+        route={route}
+        stops={stops}
+        directionId={1}
+        services={services}
+        routePatternsByDirection={routePatternsByDirection}
+        today={today}
+        scheduleNote={null}
+        updateURL={() => {}}
+        changeDirection={() => {}}
+        selectedOrigin={null}
+        changeOrigin={() => {}}
+        closeModal={() => {}}
+        modalMode="origin"
+        modalOpen={true}
+      />
+    );
 
     expect(
       wrapper
@@ -238,5 +267,45 @@ describe("ScheduleFinder", () => {
         .last()
         .text()
     ).toContain("Def");
+  });
+
+  it("Opens the origin modal when clicking on the origin drop-down in the schedule modal", () => {
+    const wrapper = mount(
+      <ScheduleFinder
+        route={route}
+        stops={stops}
+        directionId={0}
+        services={services}
+        routePatternsByDirection={routePatternsByDirection}
+        today={today}
+        scheduleNote={null}
+        updateURL={() => {}}
+        changeDirection={() => {}}
+        selectedOrigin="123"
+        changeOrigin={() => {}}
+        closeModal={() => {}}
+        modalMode="schedule"
+        modalOpen={true}
+      />
+    );
+
+    const numNodes = wrapper.find("SelectContainer").length;
+
+    const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
+
+    // select the second-to-last node (i.e. origin drop-down) and choose an option
+    wrapper
+      .find("SelectContainer")
+      .at(numNodes - 2)
+      // @ts-ignore -- types for `invoke` seem to be too restrictive
+      .invoke("handleClick")();
+
+    expect(storeHandlerStub).toHaveBeenCalledWith({
+      type: "OPEN_MODAL",
+      newStoreValues: {
+        modalMode: "origin"
+      }
+    });
+    wrapper.unmount();
   });
 });

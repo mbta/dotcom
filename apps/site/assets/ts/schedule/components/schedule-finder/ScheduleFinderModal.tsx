@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement } from "react";
 import { DirectionId, Route } from "../../../__v3api";
 import {
   SimpleStopMap,
@@ -16,8 +16,8 @@ export type Mode = "origin" | "schedule";
 interface Props {
   closeModal: () => void;
   directionChanged?: (direction: DirectionId) => void;
-  initialDirection: DirectionId;
   initialMode: Mode;
+  initialDirection: DirectionId;
   initialOrigin: SelectedOrigin;
   originChanged?: (origin: SelectedOrigin) => void;
   route: Route;
@@ -26,13 +26,15 @@ interface Props {
   services: ServiceInSelector[];
   stops: SimpleStopMap;
   today: string;
+  updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
+  handleOriginSelectClick: () => void;
 }
 
 export default ({
   closeModal,
   directionChanged,
-  initialDirection,
   initialMode,
+  initialDirection,
   initialOrigin,
   originChanged,
   route,
@@ -40,43 +42,42 @@ export default ({
   scheduleNote,
   services,
   stops,
-  today
+  today,
+  updateURL,
+  handleOriginSelectClick
 }: Props): ReactElement => {
-  const [direction, setDirection] = useState(initialDirection);
-  const [mode, setMode] = useState(initialMode);
-  const [origin, setOrigin] = useState(initialOrigin);
-
   const handleChangeDirection = (newDirection: DirectionId): void => {
-    setDirection(newDirection);
-    setOrigin(null);
-    setMode("origin");
     if (directionChanged) directionChanged(newDirection);
     if (originChanged) originChanged(null);
+    updateURL(initialOrigin, newDirection);
   };
 
   const handleChangeOrigin = (newOrigin: SelectedOrigin): void => {
-    setOrigin(newOrigin);
-    setMode("schedule");
     if (originChanged) originChanged(newOrigin);
+    updateURL(newOrigin, initialDirection);
   };
 
-  const originModalContent = (): ReactElement => (
-    <OriginModalContent
-      handleChangeOrigin={handleChangeOrigin}
-      selectedOrigin={origin}
-      stops={stops[direction] || []}
-    />
-  );
+  const originModalContent = (): ReactElement => {
+    const origin = initialOrigin;
+    const direction = initialDirection;
+    return (
+      <OriginModalContent
+        handleChangeOrigin={handleChangeOrigin}
+        selectedOrigin={origin}
+        stops={stops[direction] || []}
+      />
+    );
+  };
 
   const scheduleModalContent = (scheduleOrigin: string): ReactElement => (
     <ScheduleModalContent
       handleChangeDirection={handleChangeDirection}
       handleChangeOrigin={handleChangeOrigin}
-      handleOriginSelectClick={() => setMode("origin")}
+      handleOriginSelectClick={handleOriginSelectClick}
       route={route}
       routePatternsByDirection={routePatternsByDirection}
       scheduleNote={scheduleNote}
-      selectedDirection={direction}
+      selectedDirection={initialDirection}
       selectedOrigin={scheduleOrigin}
       services={services}
       stops={stops}
@@ -84,20 +85,29 @@ export default ({
     />
   );
 
+  const direction = initialDirection;
+  const origin = initialOrigin;
+
   return (
     <Modal
-      focusElementId={mode === "origin" ? "origin-filter" : "modal-close"}
+      focusElementId={
+        initialMode === "origin" ? "origin-filter" : "modal-close"
+      }
       ariaLabel={{
         label:
-          mode === "origin"
+          initialMode === "origin"
             ? "Choose Origin Stop"
             : `Schedules to ${route.direction_names[direction]}`
       }}
-      className={mode === "origin" ? "schedule-finder__origin-modal" : ""}
+      className={
+        initialMode === "origin" ? "schedule-finder__origin-modal" : ""
+      }
       closeModal={closeModal}
     >
-      {mode === "origin" && originModalContent()}
-      {mode === "schedule" && origin !== null && scheduleModalContent(origin)}
+      {initialMode === "origin" && originModalContent()}
+      {initialMode === "schedule" &&
+        origin !== null &&
+        scheduleModalContent(origin)}
     </Modal>
   );
 };

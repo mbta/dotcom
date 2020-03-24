@@ -24,13 +24,27 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "has the origin when it has been selected", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "1", origin: @test_origin, direction_id: "1"))
+      conn =
+        get(
+          conn,
+          trip_view_path(conn, :show, "1",
+            schedule_direction: %{origin: @test_origin, direction_id: "1"}
+          )
+        )
+
       html_response(conn, 200)
       assert conn.assigns.origin.id == @test_origin
     end
 
     test "finds a trip when origin has been selected", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "1", origin: @test_origin, direction_id: "1"))
+      conn =
+        get(
+          conn,
+          trip_view_path(conn, :show, "1",
+            schedule_direction: %{origin: @test_origin, direction_id: "1"}
+          )
+        )
+
       html_response(conn, 200)
       assert conn.assigns.origin.id == @test_origin
       assert conn.assigns.trip_info
@@ -41,9 +55,11 @@ defmodule SiteWeb.ScheduleControllerTest do
         get(
           conn,
           trip_view_path(conn, :show, "1",
-            origin: @test_origin,
-            destination: "82",
-            direction_id: "1"
+            schedule_direction: %{
+              origin: @test_origin,
+              destination: "82",
+              direction_id: "1"
+            }
           )
         )
 
@@ -61,7 +77,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "uses a direction id to determine which stops to show", %{conn: conn} do
-      conn = get(conn, line_path(conn, :show, "1", direction_id: 0))
+      conn = get(conn, line_path(conn, :show, "1", "schedule_direction[direction_id]": 0))
 
       assert conn.assigns.branches
              |> List.first()
@@ -69,7 +85,7 @@ defmodule SiteWeb.ScheduleControllerTest do
              |> Enum.map(& &1.id)
              |> Enum.member?("109")
 
-      conn = get(conn, line_path(conn, :show, "1", direction_id: 1))
+      conn = get(conn, line_path(conn, :show, "1", "schedule_direction[direction_id]": 1))
 
       refute conn.assigns.branches
              |> List.first()
@@ -86,7 +102,14 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "assigns information for the trip view", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "CR-Worcester", origin: "place-WML-0340"))
+      conn =
+        get(
+          conn,
+          trip_view_path(conn, :show, "CR-Worcester",
+            schedule_direction: %{origin: "place-WML-0340"}
+          )
+        )
+
       assert conn.assigns.tab == "trip-view"
       refute conn.assigns.schedules == nil
       refute conn.assigns.predictions == nil
@@ -109,7 +132,9 @@ defmodule SiteWeb.ScheduleControllerTest do
             {"CR-Haverhill", 0, 4},
             {"CR-Haverhill", 1, 4}
           ] do
-        path = timetable_path(conn, :show, route_id, direction_id: direction_id)
+        path =
+          timetable_path(conn, :show, route_id, schedule_direction: %{direction_id: direction_id})
+
         conn = get(conn, path)
         assert map_size(conn.assigns.trip_messages) == expected_size
       end
@@ -142,9 +167,11 @@ defmodule SiteWeb.ScheduleControllerTest do
             conn,
             :show,
             "Red",
-            origin: "place-sstat",
-            destination: "place-brdwy",
-            direction_id: 0
+            schedule_direction: %{
+              origin: "place-sstat",
+              destination: "place-brdwy",
+              direction_id: 0
+            }
           )
         )
 
@@ -157,7 +184,12 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "assigns schedules, frequency table, and origin", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "Red", origin: "place-sstat"))
+      conn =
+        get(
+          conn,
+          trip_view_path(conn, :show, "Red", schedule_direction: %{origin: "place-sstat"})
+        )
+
       assert conn.assigns.schedules
       assert conn.assigns.frequency_table
       assert conn.assigns.journeys
@@ -202,9 +234,11 @@ defmodule SiteWeb.ScheduleControllerTest do
             conn,
             :show,
             "Green-B",
-            origin: "place-bland",
-            destination: "place-pktrm",
-            direction_id: "1"
+            schedule_direction: %{
+              origin: "place-bland",
+              destination: "place-pktrm",
+              direction_id: "1"
+            }
           )
         )
 
@@ -251,7 +285,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     test "renders react content server-side", %{conn: conn} do
       assert [{"div", _, content}] =
                conn
-               |> get(line_path(conn, :show, "Red", direction_id: 0))
+               |> get(line_path(conn, :show, "Red", "schedule_direction[direction_id]": 0))
                |> html_response(200)
                |> Floki.find("#react-root")
 
@@ -259,7 +293,9 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Commuter Rail data", %{conn: conn} do
-      conn = get(conn, line_path(conn, :show, "CR-Needham", direction_id: 1))
+      conn =
+        get(conn, line_path(conn, :show, "CR-Needham", "schedule_direction[direction_id]": 1))
+
       assert html_response(conn, 200) =~ "Needham Line"
       assert [%RouteStops{stops: stops}] = conn.assigns.branches
 
@@ -289,7 +325,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Ferry data", %{conn: conn} do
-      conn = get(conn, line_path(conn, :show, "Boat-F4", direction_id: 0))
+      conn = get(conn, line_path(conn, :show, "Boat-F4", "schedule_direction[direction_id]": 0))
       assert html_response(conn, 200) =~ "Charlestown Ferry"
       assert %Conn{assigns: %{branches: [%RouteStops{stops: stops}]}} = conn
 
@@ -302,7 +338,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Bus data", %{conn: conn} do
-      conn = get(conn, line_path(conn, :show, "86", direction_id: 1))
+      conn = get(conn, line_path(conn, :show, "86", "schedule_direction[direction_id]": 1))
       assert %Conn{assigns: %{branches: [%RouteStops{stops: stops}]}} = conn
       assert conn.status === 200
       assert List.first(stops).name === "Sullivan Square"
@@ -313,7 +349,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Red Line data", %{conn: conn} do
-      conn = get(conn, line_path(conn, :show, "Red", direction_id: 0))
+      conn = get(conn, line_path(conn, :show, "Red", "schedule_direction[direction_id]": 0))
       assert %Conn{assigns: %{branches: branches}} = conn
       assert html_response(conn, 200) =~ "Red Line"
 
@@ -343,7 +379,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Green Line data", %{conn: conn} do
-      conn = get(conn, line_path(conn, :show, "Green", direction_id: 0))
+      conn = get(conn, line_path(conn, :show, "Green", "schedule_direction[direction_id]": 0))
       assert html_response(conn, 200) =~ "Green Line"
 
       # stops are in West order, Lechmere -> Boston College (last stop on B)
@@ -389,7 +425,15 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     test "Bus line with variant", %{conn: conn} do
       variant = List.last(Repo.get_shapes("9", direction_id: 1)).id
-      conn = get(conn, line_path(conn, :show, "9", direction_id: 1, variant: variant))
+
+      conn =
+        get(
+          conn,
+          line_path(conn, :show, "9",
+            "schedule_direction[direction_id]": 1,
+            "schedule_direction[variant]": variant
+          )
+        )
 
       # during the summer, the 9 only has 2 shapes. It has three when school
       # is in session.
@@ -403,7 +447,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Bus line with correct default shape", %{conn: conn} do
-      conn = get(conn, line_path(conn, :show, "9", direction_id: 1))
+      conn = get(conn, line_path(conn, :show, "9", "schedule_direction[direction_id]": 1))
       default_shape_id = List.first(Repo.get_shapes("9", direction_id: 1)).id
       assert conn.assigns.active_shape.id == default_shape_id
     end

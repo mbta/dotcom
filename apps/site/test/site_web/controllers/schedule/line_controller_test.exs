@@ -93,4 +93,26 @@ defmodule SiteWeb.Schedule.LineControllerTest do
       refute Enum.member?(services, subset_service)
     end
   end
+
+  describe "with old-style query params" do
+    test "redirects to the new style", %{conn: conn} do
+      conn =
+        get(
+          conn,
+          line_path(conn, :show, "39", %{
+            destination: "qwerty",
+            direction_id: "1",
+            origin: "asdfg",
+            variant: "foobar"
+          })
+        )
+
+      assert redirected_to(conn, 302)
+      location = conn |> Plug.Conn.get_resp_header("location") |> List.first()
+      assert String.contains?(location, "schedule_direction%5Bdestination%5D=qwerty")
+      assert String.contains?(location, "schedule_direction%5Bdirection_id%5D=1")
+      assert String.contains?(location, "schedule_direction%5Borigin%5D=asdfg")
+      assert String.contains?(location, "schedule_direction%5Bvariant%5D=foobar")
+    end
+  end
 end

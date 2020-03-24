@@ -20,7 +20,14 @@ defmodule SiteWeb.ScheduleController.OriginDestination do
     Util.log_duration(__MODULE__, :assign_destination, [conn, opts])
   end
 
-  def assign_origin(%Conn{query_params: %{"origin" => _}, assigns: %{route: route}} = conn, _) do
+  def assign_origin(
+        %Conn{
+          query_params: %{"schedule_direction" => %{"origin" => origin_id}},
+          assigns: %{route: route}
+        } = conn,
+        _
+      )
+      when origin_id != "" do
     origin = get_stop(conn, :origin)
 
     excluded_stops =
@@ -34,7 +41,7 @@ defmodule SiteWeb.ScheduleController.OriginDestination do
       assign(conn, :origin, origin)
     else
       conn
-      |> redirect(to: update_url(conn, origin: nil, destination: nil))
+      |> redirect(to: update_url(conn, schedule_direction: %{origin: nil, destination: nil}))
       |> halt
     end
   end
@@ -65,13 +72,22 @@ defmodule SiteWeb.ScheduleController.OriginDestination do
   end
 
   def assign_destination(
-        %Conn{query_params: %{"destination" => destination, "origin" => destination}} = conn,
+        %Conn{
+          query_params: %{
+            "schedule_direction" => %{"destination" => destination, "origin" => destination}
+          }
+        } = conn,
         _
-      ) do
+      )
+      when destination != "" do
     reset_destination(conn)
   end
 
-  def assign_destination(%Conn{query_params: %{"destination" => _}} = conn, _) do
+  def assign_destination(
+        %Conn{query_params: %{"schedule_direction" => %{"destination" => destination_id}}} = conn,
+        _
+      )
+      when destination_id != "" do
     destination = get_stop(conn, :destination)
 
     excluded_stops =
@@ -92,7 +108,7 @@ defmodule SiteWeb.ScheduleController.OriginDestination do
   end
 
   def get_stop(conn, key) do
-    stop_id = Map.get(conn.query_params, Atom.to_string(key))
+    stop_id = Map.get(conn.query_params["schedule_direction"], Atom.to_string(key))
 
     if Enum.find(conn.assigns.all_stops, &(&1.id == stop_id)) do
       Stops.Repo.get_parent(stop_id)
@@ -103,7 +119,7 @@ defmodule SiteWeb.ScheduleController.OriginDestination do
 
   defp reset_destination(conn) do
     conn
-    |> redirect(to: update_url(conn, destination: nil))
+    |> redirect(to: update_url(conn, schedule_direction: %{destination: nil}))
     |> halt
   end
 end

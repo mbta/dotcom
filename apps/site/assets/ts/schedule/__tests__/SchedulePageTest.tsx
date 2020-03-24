@@ -1,13 +1,16 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import { mount } from "enzyme";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import SchedulePage from "../components/SchedulePage";
+import ScheduleFinderModal from "../components/schedule-finder/ScheduleFinderModal";
 import { TypedRoutes } from "../../stop/components/__stop";
 import ScheduleNote from "../components/ScheduleNote";
 import { EnhancedRoute } from "../../__v3api";
 import lineDiagramData from "./lineDiagramData.json"; // Not a full line diagram
 import { LineDiagramStop, ServiceInSelector } from "../components/__schedule";
 const lineDiagram = lineDiagramData as LineDiagramStop[];
+import * as scheduleStoreModule from "../store/ScheduleStore";
 
 const pdfs = [
   {
@@ -150,6 +153,14 @@ it("it renders", () => {
           today: "2019-12-05",
           variant: null
         }}
+        updateURL={() => {}}
+        modalOpen={false}
+        modalMode="schedule"
+        closeModal={() => {}}
+        changeDirection={() => {}}
+        selectedDirection={0}
+        selectedOrigin={null}
+        changeOrigin={() => {}}
       />
     )
     .toJSON();
@@ -188,9 +199,129 @@ it("it renders with conditional components", () => {
         today: "2019-12-05",
         variant: null
       }}
+      updateURL={() => {}}
+      modalOpen={false}
+      modalMode={"origin"}
+      selectedOrigin={null}
+      changeDirection={() => {}}
+      selectedDirection={0}
+      closeModal={() => {}}
+      changeOrigin={() => {}}
     />
   );
   expect(
     tree.root.findByType(ScheduleNote).props.scheduleNote.offpeak_service
   ).toBe("8-12 minutes");
+});
+
+it("it renders with Schedule modal", () => {
+  const stubFn = jest
+    .spyOn(scheduleStoreModule, "getCurrentState")
+    .mockImplementation(() => {
+      return {
+        selectedDirection: 0,
+        selectedOrigin: "place-welln",
+        modalMode: "schedule",
+        modalOpen: true
+      };
+    });
+
+  const wrapper = mount(
+    <SchedulePage
+      schedulePageData={{
+        schedule_note: scheduleNoteData,
+        connections,
+        fares,
+        fare_link: fareLink,
+        hours,
+        holidays,
+        pdfs,
+        teasers,
+        route,
+        services,
+        stops,
+        direction_id: 0,
+        shape_map: {},
+        route_patterns: {},
+        line_diagram: lineDiagram,
+        today: "2019-12-05",
+        variant: null
+      }}
+      updateURL={() => {}}
+      modalOpen={true}
+      modalMode={"schedule"}
+      selectedOrigin={"place-welln"}
+      changeDirection={() => {}}
+      selectedDirection={0}
+      closeModal={() => {}}
+      changeOrigin={() => {}}
+    />
+  );
+
+  expect(wrapper.find(ScheduleFinderModal).exists()).toEqual(true);
+
+  wrapper.unmount();
+});
+
+it("it handles change in origin", () => {
+  const stubFn = jest
+    .spyOn(scheduleStoreModule, "getCurrentState")
+    .mockImplementation(() => {
+      return {
+        selectedDirection: 0,
+        selectedOrigin: "place-welln",
+        modalMode: "schedule",
+        modalOpen: true
+      };
+    });
+
+  const wrapper = mount(
+    <SchedulePage
+      schedulePageData={{
+        schedule_note: scheduleNoteData,
+        connections,
+        fares,
+        fare_link: fareLink,
+        hours,
+        holidays,
+        pdfs,
+        teasers,
+        route,
+        services,
+        stops,
+        direction_id: 0,
+        shape_map: {},
+        route_patterns: {},
+        line_diagram: lineDiagram,
+        today: "2019-12-05",
+        variant: null
+      }}
+      updateURL={() => {}}
+      modalOpen={true}
+      modalMode={"schedule"}
+      selectedOrigin={"place-welln"}
+      changeDirection={() => {}}
+      selectedDirection={0}
+      closeModal={() => {}}
+      changeOrigin={() => {}}
+    />
+  );
+
+  const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
+
+  // trigger selection in origin
+  wrapper
+    .find("SelectContainer")
+    .at(1)
+    // @ts-ignore -- types for `invoke` seem to be too restrictive
+    .invoke("handleClick")();
+
+  expect(storeHandlerStub).toHaveBeenCalledWith({
+    type: "OPEN_MODAL",
+    newStoreValues: {
+      modalMode: "origin"
+    }
+  });
+
+  wrapper.unmount();
 });

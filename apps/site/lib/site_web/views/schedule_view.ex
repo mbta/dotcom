@@ -68,7 +68,14 @@ defmodule SiteWeb.ScheduleView do
     new_origin_id = destination_id || origin_id
     new_dest_id = destination_id && origin_id
 
-    [trip: nil, direction_id: direction_id, destination: new_dest_id, origin: new_origin_id]
+    [
+      trip: nil,
+      schedule_direction: %{
+        direction_id: direction_id,
+        destination: new_dest_id,
+        origin: new_origin_id
+      }
+    ]
   end
 
   @doc """

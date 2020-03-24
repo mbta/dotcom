@@ -29,7 +29,7 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
         setup_conn(%{
           conn
           | params: %{"route" => "1"},
-            query_params: %{"origin" => "2167", "direction_id" => "1"}
+            query_params: %{"schedule_direction" => %{"origin" => "2167", "direction_id" => "1"}}
         })
 
       assert %Stop{id: "2167"} = conn.assigns.origin
@@ -40,7 +40,7 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
         setup_conn(%{
           conn
           | params: %{"route" => "CR-Lowell"},
-            query_params: %{"direction_id" => "0"}
+            query_params: %{"schedule_direction" => %{"direction_id" => "0"}}
         })
 
       assert %Stop{id: "place-north"} = conn.assigns.origin
@@ -51,7 +51,7 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
         setup_conn(%{
           conn
           | params: %{"route" => "CR-Lowell"},
-            query_params: %{"direction_id" => "1"}
+            query_params: %{"schedule_direction" => %{"direction_id" => "1"}}
         })
 
       assert conn.assigns.origin == nil
@@ -59,7 +59,11 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
 
     test "a hub station for a bus", %{conn: conn} do
       conn =
-        setup_conn(%{conn | params: %{"route" => "741"}, query_params: %{"direction_id" => "0"}})
+        setup_conn(%{
+          conn
+          | params: %{"route" => "741"},
+            query_params: %{"schedule_direction" => %{"direction_id" => "0"}}
+        })
 
       assert conn.assigns.origin.id == "place-sstat"
     end
@@ -76,9 +80,11 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
         setup_conn(%{
           conn
           | query_params: %{
-              "origin" => "64",
-              "destination" => "place-hymnl",
-              "direction_id" => "0"
+              "schedule_direction" => %{
+                "origin" => "64",
+                "destination" => "place-hymnl",
+                "direction_id" => "0"
+              }
             },
             params: %{"route" => "1"}
         })
@@ -92,7 +98,7 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
       conn =
         setup_conn(%{
           conn
-          | query_params: %{"direction_id" => "0"},
+          | query_params: %{"schedule_direction" => %{"direction_id" => "0"}},
             params: %{"route" => "Green-E"}
         })
 
@@ -103,7 +109,7 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
       conn =
         setup_conn(%{
           conn
-          | query_params: %{"direction_id" => "1"},
+          | query_params: %{"schedule_direction" => %{"direction_id" => "1"}},
             params: %{"route" => "Green-E"}
         })
 
@@ -118,9 +124,11 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
           conn
           | params: %{"route" => "1"},
             query_params: %{
-              "origin" => "place-hymnl",
-              "destination" => "64",
-              "direction_id" => "1"
+              "schedule_direction" => %{
+                "origin" => "place-hymnl",
+                "destination" => "64",
+                "direction_id" => "1"
+              }
             }
         })
 
@@ -137,7 +145,9 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
         setup_conn(%{
           conn
           | params: %{"route" => "1"},
-            query_params: %{"origin" => "place-hymnl", "direction_id" => "1"}
+            query_params: %{
+              "schedule_direction" => %{"origin" => "place-hymnl", "direction_id" => "1"}
+            }
         })
 
       refute conn.assigns.origin == nil
@@ -156,10 +166,18 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
           conn
           | request_path: path,
             params: %{"route" => "1"},
-            query_params: %{"origin" => "87", "destination" => "64", "direction_id" => "1"}
+            query_params: %{
+              "schedule_direction" => %{
+                "origin" => "87",
+                "destination" => "64",
+                "direction_id" => "1"
+              }
+            }
         })
 
-      assert redirected_to(conn, 302) == path <> "?direction_id=1"
+      assert redirected_to(conn, 302) ==
+               path <>
+                 "?schedule_direction[destination]=&schedule_direction[direction_id]=1&schedule_direction[origin]="
     end
 
     test "when neither origin or destination exist, redirects to schedules page with no stops selected",
@@ -171,10 +189,18 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
           conn
           | params: %{"route" => "1"},
             request_path: path,
-            query_params: %{"origin" => "87", "destination" => "101", "direction_id" => "1"}
+            query_params: %{
+              "schedule_direction" => %{
+                "origin" => "87",
+                "destination" => "101",
+                "direction_id" => "1"
+              }
+            }
         })
 
-      assert redirected_to(conn, 302) == path <> "?direction_id=1"
+      assert redirected_to(conn, 302) ==
+               path <>
+                 "?schedule_direction[destination]=&schedule_direction[direction_id]=1&schedule_direction[origin]="
     end
 
     test "when origin exists but is at the end of the line, redirects to the page with no origin selected",
@@ -184,10 +210,15 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
           conn
           | params: %{"route" => "Orange"},
             request_path: schedule_path(conn, :show, "Orange"),
-            query_params: %{"origin" => "place-ogmnl", "direction_id" => "1"}
+            query_params: %{
+              "schedule_direction" => %{"origin" => "place-ogmnl", "direction_id" => "1"}
+            }
         })
 
-      assert redirected_to(conn, 302) == schedule_path(conn, :show, "Orange", direction_id: "1")
+      assert redirected_to(conn, 302) ==
+               schedule_path(conn, :show, "Orange",
+                 schedule_direction: %{destination: "", direction_id: "1", origin: ""}
+               )
     end
 
     test "when origin and destination are on opposite Red Line branches, redirects to the page with no destination",
@@ -198,14 +229,18 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
           | params: %{"route" => "Red"},
             request_path: schedule_path(conn, :show, "Red"),
             query_params: %{
-              "destination" => "place-asmnl",
-              "origin" => "place-qamnl",
-              "direction_id" => "0"
+              "schedule_direction" => %{
+                "destination" => "place-asmnl",
+                "origin" => "place-qamnl",
+                "direction_id" => "0"
+              }
             }
         })
 
       assert redirected_to(conn, 302) ==
-               schedule_path(conn, :show, "Red", direction_id: "0", origin: "place-qamnl")
+               schedule_path(conn, :show, "Red",
+                 schedule_direction: %{destination: "", direction_id: "0", origin: "place-qamnl"}
+               )
     end
 
     test "when origin and destination are the same, redirects with only origin selected", %{
@@ -217,14 +252,18 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
           | params: %{"route" => "CR-Lowell"},
             request_path: schedule_path(conn, :show, "CR-Lowell"),
             query_params: %{
-              "destination" => "West Medford",
-              "origin" => "West Medford",
-              "direction_id" => "0"
+              "schedule_direction" => %{
+                "destination" => "West Medford",
+                "origin" => "West Medford",
+                "direction_id" => "0"
+              }
             }
         })
 
       assert redirected_to(conn, 302) ==
-               schedule_path(conn, :show, "CR-Lowell", direction_id: "0", origin: "West Medford")
+               schedule_path(conn, :show, "CR-Lowell",
+                 schedule_direction: %{destination: "", direction_id: "0", origin: "West Medford"}
+               )
     end
   end
 
