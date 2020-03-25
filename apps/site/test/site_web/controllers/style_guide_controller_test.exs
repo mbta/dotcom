@@ -7,27 +7,27 @@ defmodule SiteWeb.StyleGuideControllerTest do
     assert html_response(conn, 404)
   end
 
-  test "top level renders index", %{conn: conn} do
+  test "top level redirects to zeroheight landing page", %{conn: conn} do
     conn = get(conn, "style-guide")
-    assert html_response(conn, 200) =~ "MBTA Tech Style Guide"
+    assert redirected_to(conn, 301) =~ "https://zeroheight.com/2fedee66c"
   end
 
-  test "/style-guide/content redirects to /cms/content-style-guide", %{conn: conn} do
+  test "/style-guide/content redirects to zeroheight content page", %{conn: conn} do
     conn = get(conn, "style-guide/content")
-    assert html_response(conn, 302) =~ "/cms/content-style-guide"
+    assert redirected_to(conn, 301) =~ "https://zeroheight.com/2fedee66c/p/43fa10"
   end
 
-  test "/style-guide/components/* redirects to invision dsg", %{conn: conn} do
+  test "/style-guide/components/* redirects to zeroheight", %{conn: conn} do
     conn = get(conn, "/style-guide/components/typography")
-    assert html_response(conn, 301)
+    assert redirected_to(conn, 301) =~ "https://zeroheight.com/2fedee66c/p/36e5cc"
   end
 
-  test "old /style-guide/content/* links redirect to /cms/content-style-guide/", %{conn: conn} do
+  test "old /style-guide/content/* links redirect to zeroheight content page", %{conn: conn} do
     old_sections = ["audience_goals_tone", "grammar_and_mechanics", "terms"]
 
     for section_string <- old_sections do
       conn = get(conn, "/style-guide/content/#{section_string}")
-      assert html_response(conn, 302) =~ "/cms/content-style-guide"
+      assert redirected_to(conn, 301) =~ "https://zeroheight.com/2fedee66c/p/43fa10"
     end
   end
 end
