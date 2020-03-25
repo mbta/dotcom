@@ -1,23 +1,25 @@
 defmodule SiteWeb.StyleGuideController do
+  @moduledoc """
+  Defines the behavior of style guide requests.
+  """
   use SiteWeb, :controller
 
   def index(conn, %{"section" => "content"}) do
-    redirect(conn, to: "/cms/content-style-guide")
+    conn
+    |> put_status(301)
+    |> redirect(external: "https://zeroheight.com/2fedee66c/p/43fa10")
   end
 
   def index(conn, %{"section" => "components"}) do
     conn
     |> put_status(301)
-    |> redirect(
-      external:
-        "https://projects.invisionapp.com/dsm/mbta-customer-technology/digital-style-guide"
-    )
+    |> redirect(external: "https://zeroheight.com/2fedee66c/p/36e5cc")
   end
 
   def index(conn, params) when params == %{} do
     conn
-    |> put_layout("style_guide.html")
-    |> render("index.html")
+    |> put_status(301)
+    |> redirect(external: "https://zeroheight.com/2fedee66c")
   end
 
   def index(conn, _params) do
