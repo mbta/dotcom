@@ -12,6 +12,7 @@ export const cmsRouteToClass = (route: Route): string => {
   if (route.id === "Green") return "green-line";
   if (route.id === "silver_line") return "silver-line";
   if (route.id === "mattapan") return "mattapan";
+  if (route.mode === "commuter_rail") return "commuter-rail";
   if (route.group === "custom" && route.mode === null) return "unknown";
   if (route.group === "custom") return routeToCSSClass(route.mode!);
   if (route.group === "mode" && route.id !== null)
