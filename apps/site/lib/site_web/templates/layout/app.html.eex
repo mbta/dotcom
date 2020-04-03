@@ -12,6 +12,11 @@
     <meta name="author" content="Massachusetts Bay Transportation Authority">
     <%= Turbolinks.cache_meta @conn %>
 
+    <%= # hide any page in /org directory from search engines  
+    if @conn.request_path == "/org" || String.slice(@conn.request_path, 0..4) == "/org/" do %>
+      <meta name="robots" content="noindex, nofollow">
+    <% end %>
+
     <title><%= title_breadcrumbs(@conn) %></title>
     <link rel="apple-touch-icon" href="<%= static_url(@conn, "/images/mbta-logo-t-180.png") %>" type="image/png">
     <link rel="icon" href="<%= static_url(@conn, "/images/mbta-logo-t-favicon.png") %>" sizes="32x32" type="image/png">
