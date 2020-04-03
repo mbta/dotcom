@@ -7,3 +7,4 @@ Disallow: /trip-planner?*
 Disallow: /search?*
 Disallow: /*?*preview*&vid=*
 Disallow: /schedules/*/line?*date*
+Disallow: /org/*
