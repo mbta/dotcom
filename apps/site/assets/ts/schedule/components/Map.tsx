@@ -16,7 +16,7 @@ import {
 interface Props {
   channel: string;
   data: MapData;
-  shapeId?: string;
+  shapeIds: string[];
 }
 
 interface EventData {
@@ -90,12 +90,12 @@ const updateMarker = (marker: Marker): Marker => ({
 const isVehicleMarker = (marker: Marker): boolean =>
   marker.icon ? marker.icon.includes("vehicle") : false;
 
-const isVehicleForShape = (
+const shouldVehicleDisplay = (
   marker: Marker,
-  currentShapeId: string | undefined
+  shapeIdsInDirection: string[]
 ): boolean => {
-  if (marker.shape_id && currentShapeId) {
-    return marker.shape_id === currentShapeId;
+  if (marker.shape_id) {
+    return shapeIdsInDirection.some(shapeId => shapeId === marker.shape_id);
   }
   return true;
 };
@@ -110,7 +110,7 @@ const shouldRemoveMarker = (id: string | null, idHash: IdHash): boolean =>
 interface State {
   channel: string;
   markers: Marker[];
-  shapeId?: string;
+  shapeIds: string[];
 }
 
 export const reducer = (
@@ -118,7 +118,7 @@ export const reducer = (
   actionWithChannel: ActionWithChannel
 ): State => {
   const { action, channel } = actionWithChannel;
-  const { shapeId } = state;
+  const { shapeIds } = state;
   if (channel !== state.channel && action.event !== "setChannel") return state;
   switch (action.event) {
     case "setChannel":
@@ -131,7 +131,7 @@ export const reducer = (
           .concat(
             action.data
               .filter(({ marker }: EventData) =>
-                isVehicleForShape(marker, shapeId)
+                shouldVehicleDisplay(marker, shapeIds)
               )
               .map(({ marker }: EventData) => updateMarker(marker))
           )
@@ -142,7 +142,7 @@ export const reducer = (
         ...state,
         markers: state.markers.concat(
           action.data
-            .filter(({ marker }) => isVehicleForShape(marker, shapeId))
+            .filter(({ marker }) => shouldVehicleDisplay(marker, shapeIds))
             .map(({ marker }) => updateMarker(marker))
         )
       };
@@ -151,7 +151,7 @@ export const reducer = (
       if (action.data.length === 0) {
         return state;
       }
-      if (!isVehicleForShape(action.data[0].marker, shapeId)) return state;
+      if (!shouldVehicleDisplay(action.data[0].marker, shapeIds)) return state;
       // Filter out the existing marker if necessary, always add new marker
       return {
         ...state,
@@ -185,13 +185,13 @@ export const reducer = (
 export default ({
   data,
   channel,
-  shapeId
+  shapeIds
 }: Props): ReactElement<HTMLElement> | null => {
   const bounds = useRef(getBounds(data.markers));
   const [state, dispatch] = useReducer(reducer, {
     channel,
     markers: data.markers,
-    shapeId
+    shapeIds
   });
   useEffect(
     () => {

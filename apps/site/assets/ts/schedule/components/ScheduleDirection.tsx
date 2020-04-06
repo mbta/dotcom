@@ -34,16 +34,14 @@ export interface Props {
 export const fetchMapData = (
   routeId: string,
   directionId: DirectionId,
-  shapeId: string,
+  shapeIds: string[],
   dispatch: Dispatch<FetchAction>
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
   return (
     window.fetch &&
     window
-      .fetch(
-        `/schedules/map_api?id=${routeId}&direction_id=${directionId}&variant=${shapeId}`
-      )
+      .fetch(`/schedules/map_api?id=${routeId}&direction_id=${directionId}`)
       .then(response => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
@@ -115,15 +113,21 @@ const ScheduleDirection = ({
     error: false
   });
 
-  const shapeId = state.shape ? state.shape.id : defaultRoutePattern.shape_id;
+  const currentShapeId = state.shape
+    ? state.shape.id
+    : defaultRoutePattern.shape_id;
+  const shapeIds = state.routePatternsByDirection[state.directionId].map(
+    routePattern => routePattern.shape_id
+  );
 
   useEffect(
     () => {
       if (!staticMapData) {
-        fetchMapData(route.id, state.directionId, shapeId, dispatchMapData);
+        fetchMapData(route.id, state.directionId, shapeIds, dispatchMapData);
       }
     },
-    [route, state.directionId, shapeId, staticMapData]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [route, state.directionId, staticMapData]
   );
 
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
@@ -134,9 +138,14 @@ const ScheduleDirection = ({
 
   useEffect(
     () => {
-      fetchLineData(route.id, state.directionId, shapeId, dispatchLineData);
+      fetchLineData(
+        route.id,
+        state.directionId,
+        currentShapeId,
+        dispatchLineData
+      );
     },
-    [route, state.directionId, shapeId]
+    [route, state.directionId, currentShapeId]
   );
 
   return (
@@ -163,7 +172,7 @@ const ScheduleDirection = ({
         <Map
           channel={`vehicles:${route.id}:${state.directionId}`}
           data={mapState.data}
-          shapeId={shapeId}
+          shapeIds={shapeIds}
         />
       )}
       {staticMapData && (

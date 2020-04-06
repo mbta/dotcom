@@ -8,7 +8,12 @@ import { SchedulePageData } from "./components/__schedule";
 import { MapData, StaticMapData } from "../leaflet/components/__mapdata";
 import ScheduleFinder from "./components/ScheduleFinder";
 
-const renderMap = (): void => {
+const renderMap = ({
+  route_patterns: routePatternsByDirection,
+  direction_id: directionId
+}: SchedulePageData): void => {
+  const routePatterns = routePatternsByDirection[directionId];
+  const shapeIds = routePatterns.map(routePattern => routePattern.shape_id);
   const mapDataEl = document.getElementById("js-map-data");
   if (!mapDataEl) return;
   const channel = mapDataEl.getAttribute("data-channel-id");
@@ -16,7 +21,10 @@ const renderMap = (): void => {
   const mapEl = document.getElementById("map-root");
   if (!mapEl) throw new Error("cannot find #map-root");
   const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
-  ReactDOM.render(<Map data={mapData} channel={channel} />, mapEl);
+  ReactDOM.render(
+    <Map data={mapData} channel={channel} shapeIds={shapeIds} />,
+    mapEl
+  );
 };
 
 const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
@@ -109,7 +117,7 @@ const renderDirectionAndMap = (
 const renderDirectionOrMap = (schedulePageData: SchedulePageData): void => {
   const root = document.getElementById("react-schedule-direction-root");
   if (!root) {
-    renderMap();
+    renderMap(schedulePageData);
     return;
   }
   renderDirectionAndMap(schedulePageData, root);
