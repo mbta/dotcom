@@ -58,11 +58,7 @@ const RouteIcon = ({
     ? "u-bg--silver-line"
     : "u-bg--bus";
   return (
-    <span
-      className={`c-icon__bus-pill--small schedule-table__scheduled-bus-pill ${backgroundClass}`}
-    >
-      {name}
-    </span>
+    <span className={`c-icon__bus-pill--small ${backgroundClass}`}>{name}</span>
   );
 };
 
@@ -77,15 +73,18 @@ const BusTableRow = ({
 }): ReactElement<HTMLElement> => (
   <>
     {anySchoolTrips && (
-      <td className="schedule-table__td--tiny">
+      <td className="schedule-table__cell schedule-table__cell--tiny">
         {isSchoolTrip && <strong>S</strong>}
       </td>
     )}
-    <td className="schedule-table__td schedule-table__time">
+    <td className="schedule-table__cell schedule-table__cell--time u-nowrap u-tabular-nums">
       {journey.departure.time}
     </td>
-    <td className="schedule-table__td">
-      {RouteIcon(journey)} {breakTextAtSlash(journey.trip.headsign)}
+    <td className="schedule-table__cell schedule-table__cell--headsign">
+      <span className="schedule-table__route-pill m-route-pills">
+        {RouteIcon(journey)}
+      </span>
+      {breakTextAtSlash(journey.trip.headsign)}
     </td>
   </>
 );
@@ -96,15 +95,15 @@ const CrTableRow = ({
   journey: Journey;
 }): ReactElement<HTMLElement> => (
   <>
-    <td className="schedule-table__td">
-      <div className="schedule-table__time">{journey.departure.time}</div>
+    <td className="schedule-table__cell schedule-table__cell--time u-nowrap u-tabular-nums">
+      {journey.departure.time}
     </td>
     {journey.trip.name && (
-      <td className="schedule-table__td schedule-table__tab-num">
+      <td className="schedule-table__cell u-tabular-nums">
         {journey.trip.name}
       </td>
     )}
-    <td className="schedule-table__headsign">
+    <td className="schedule-table__cell schedule-table__cell--headsign">
       {modeIcon(journey.route.id)} {breakTextAtSlash(journey.trip.headsign)}
     </td>
   </>
@@ -138,7 +137,7 @@ export const Accordion = ({
     <>
       <tr
         className={
-          expanded ? "schedule-table__row-selected" : "schedule-table__row"
+          expanded ? "schedule-table__row--expanded" : "schedule-table__row"
         }
         aria-controls={`trip-${tripId}`}
         aria-expanded={expanded}
@@ -148,19 +147,18 @@ export const Accordion = ({
         tabIndex={0}
       >
         {contentComponent()}
-        <td className="schedule-table__td schedule-table__td--flex-end">
-          {caret(
-            `c-expandable-block__header-caret${expanded ? "--white" : ""}`,
-            expanded
-          )}
+        <td className="schedule-table__cell schedule-table__cell--tiny">
+          {expanded
+            ? caret("c-expandable-block__header-caret--white", expanded)
+            : caret("c-expandable-block__header-caret", expanded)}
         </td>
       </tr>
       {expanded && (
-        <tr
-          id={`trip-${tripId}-expanded`}
-          className="schedule-table__subtable-container"
-        >
-          <td className="schedule-table__subtable-td">
+        <tr id={`trip-${tripId}-expanded`}>
+          <td
+            colSpan={journey.route.type === 2 ? 4 : 3}
+            className="schedule-table__cell schedule-table__cell--expanded"
+          >
             <TripDetails state={state} showFare={journey.route.type === 2} />
           </td>
         </tr>

@@ -11,21 +11,17 @@ exports[`TableRow it renders 1`] = `
   tabIndex={0}
 >
   <td
-    className="schedule-table__td"
+    className="schedule-table__cell schedule-table__cell--time u-nowrap u-tabular-nums"
   >
-    <div
-      className="schedule-table__time"
-    >
-      05:30 AM
-    </div>
+    05:30 AM
   </td>
   <td
-    className="schedule-table__td schedule-table__tab-num"
+    className="schedule-table__cell u-tabular-nums"
   >
     801
   </td>
   <td
-    className="schedule-table__headsign"
+    className="schedule-table__cell schedule-table__cell--headsign"
   >
     <span
       aria-hidden="false"
@@ -40,7 +36,7 @@ exports[`TableRow it renders 1`] = `
     Wickford Junction
   </td>
   <td
-    className="schedule-table__td schedule-table__td--flex-end"
+    className="schedule-table__cell schedule-table__cell--tiny"
   >
     <span
       className="c-expandable-block__header-caret"

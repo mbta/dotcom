@@ -39,7 +39,7 @@ const ScheduleTable = ({
 
   if (journeys.length === 0) {
     return (
-      <div className="callout schedule-table--empty">
+      <div className="callout u-bold text-center">
         There is no scheduled service for this time period.
       </div>
     );
@@ -71,28 +71,20 @@ const ScheduleTable = ({
       )}
       <table className="schedule-table">
         <thead className="schedule-table__header">
-          <tr className="schedule-table__row-header">
+          <tr>
             {anySchoolTrips && (
-              <th
-                scope="col"
-                className="schedule-table__row-header-label--tiny"
-              />
+              <th scope="col" className="schedule-table__cell" />
             )}
-            <th scope="col" className="schedule-table__row-header-label">
+            <th scope="col" className="schedule-table__cell">
               Departs
             </th>
             {firstTrip.route.type === 2 && (
-              <th
-                scope="col"
-                className="schedule-table__row-header-label--small"
-              >
+              <th scope="col" className="schedule-table__cell">
                 Train
               </th>
             )}
-            <th scope="col" className="schedule-table__row-header-label">
-              Destination
-            </th>
-            <th scope="col" className="schedule-table__th--flex-end">
+            <th scope="col" colSpan={2} className="schedule-table__cell">
+              <span className="pull-left">Destination</span>
               Trip Details
             </th>
           </tr>

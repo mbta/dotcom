@@ -2,37 +2,36 @@
 
 exports[`TripDetails displays both scheduled and predicted times for CR if there is a delay of more than 5 minutes 1`] = `
 <table
-  className="schedule-table__subtable"
+  className="trip-details-table"
 >
   <thead>
-    <tr>
+    <tr
+      className="trip-details-table__summary"
+    >
       <td
+        className="schedule-table__cell"
         colSpan={3}
       >
-        <div
-          className="schedule-table__subtable-trip-info"
-        >
-          <div
-            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
           >
             Trip length
-          </div>
+          </span>
           7
            stops, 
           56
            minutes total
         </div>
-        <div
-          className="schedule-table__subtable-trip-info"
-        >
-          <div
-            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
           >
             Fare
-          </div>
+          </span>
           $12.25
           <a
-            className="schedule-table__subtable-trip-info-link"
+            className="trip-details-table__link"
             href="/fares/commuter_rail?destination=place-NEC-1851&origin=place-bbsta"
           >
             View fares
@@ -42,27 +41,23 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
     </tr>
     <tr>
       <th
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
         scope="col"
       >
         Stops
       </th>
       <th
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted"
         scope="col"
       >
         Arrival
       </th>
     </tr>
   </thead>
-  <tbody
-    className="schedule-table__subtable-tbody"
-  >
-    <tr
-      className="schedule-table__subtable-row"
-    >
+  <tbody>
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-bbsta"
@@ -71,10 +66,10 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         <span
-          className="schedule-table__time--delayed schedule-table__time--delayed-future_stop"
+          className="schedule-table__times--delayed schedule-table__times--delayed-future_stop"
         >
           04:00 PM
         </span>
@@ -84,11 +79,9 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
         04:01 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-rugg"
@@ -97,16 +90,14 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:04 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-NEC-2108"
@@ -115,10 +106,10 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         <span
-          className="schedule-table__time--delayed schedule-table__time--delayed-future_stop"
+          className="schedule-table__times--delayed schedule-table__times--delayed-future_stop"
         >
           04:22 PM
         </span>
@@ -128,11 +119,9 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
         04:22 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-NEC-2040"
@@ -141,16 +130,14 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:30 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-NEC-1969"
@@ -159,10 +146,10 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         <span
-          className="schedule-table__time--delayed schedule-table__time--delayed-future_stop"
+          className="schedule-table__times--delayed schedule-table__times--delayed-future_stop"
         >
           04:38 PM
         </span>
@@ -172,11 +159,9 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
         04:39 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-NEC-1919"
@@ -185,16 +170,14 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:48 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-NEC-1851"
@@ -203,10 +186,10 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         <span
-          className="schedule-table__time--delayed schedule-table__time--delayed-future_stop"
+          className="schedule-table__times--delayed schedule-table__times--delayed-future_stop"
         >
           04:58 PM
         </span>
@@ -230,37 +213,36 @@ exports[`TripDetails it renders an error if fetch failed 1`] = `
 
 exports[`TripDetails it renders trip details for a CR trip 1`] = `
 <table
-  className="schedule-table__subtable"
+  className="trip-details-table"
 >
   <thead>
-    <tr>
+    <tr
+      className="trip-details-table__summary"
+    >
       <td
+        className="schedule-table__cell"
         colSpan={3}
       >
-        <div
-          className="schedule-table__subtable-trip-info"
-        >
-          <div
-            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
           >
             Trip length
-          </div>
+          </span>
           10
            stops, 
           69
            minutes total
         </div>
-        <div
-          className="schedule-table__subtable-trip-info"
-        >
-          <div
-            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
           >
             Fare
-          </div>
+          </span>
           $12.25
           <a
-            className="schedule-table__subtable-trip-info-link"
+            className="trip-details-table__link"
             href="/fares/commuter_rail?destination=place-NEC-1851&origin=place-sstat"
           >
             View fares
@@ -270,33 +252,29 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
     </tr>
     <tr>
       <th
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
         scope="col"
       >
         Stops
       </th>
       <th
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted"
         scope="col"
       >
         Fare
       </th>
       <th
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted"
         scope="col"
       >
         Arrival
       </th>
     </tr>
   </thead>
-  <tbody
-    className="schedule-table__subtable-tbody"
-  >
-    <tr
-      className="schedule-table__subtable-row"
-    >
+  <tbody>
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-sstat"
@@ -305,21 +283,19 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         02:30 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-bbsta"
@@ -328,21 +304,19 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         $2.40
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         02:35 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-rugg"
@@ -351,21 +325,19 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         $2.40
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         02:38 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-NEC-2173"
@@ -374,21 +346,19 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         $7.00
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         02:51 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-NEC-2139"
@@ -397,21 +367,19 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         $8.00
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         02:57 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-NEC-2108"
@@ -420,21 +388,19 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         $8.75
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         03:03 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-NEC-2040"
@@ -443,21 +409,19 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         $10.50
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         03:11 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-NEC-1969"
@@ -466,21 +430,19 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         $11.00
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         03:19 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-NEC-1919"
@@ -489,21 +451,19 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         $11.00
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         03:29 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-NEC-1851"
@@ -512,12 +472,12 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         $12.25
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         03:39 PM
       </td>
@@ -528,37 +488,36 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
 
 exports[`TripDetails it renders trip details for a bus trip 1`] = `
 <table
-  className="schedule-table__subtable"
+  className="trip-details-table"
 >
   <thead>
-    <tr>
+    <tr
+      className="trip-details-table__summary"
+    >
       <td
+        className="schedule-table__cell"
         colSpan={3}
       >
-        <div
-          className="schedule-table__subtable-trip-info"
-        >
-          <div
-            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
           >
             Trip length
-          </div>
+          </span>
           11
            stops, 
           14
            minutes total
         </div>
-        <div
-          className="schedule-table__subtable-trip-info"
-        >
-          <div
-            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
           >
             Fare
-          </div>
+          </span>
           $2.40
           <a
-            className="schedule-table__subtable-trip-info-link"
+            className="trip-details-table__link"
             href="/fares/bus-fares"
           >
             View fares
@@ -568,27 +527,23 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
     </tr>
     <tr>
       <th
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
         scope="col"
       >
         Stops
       </th>
       <th
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted"
         scope="col"
       >
         Arrival
       </th>
     </tr>
   </thead>
-  <tbody
-    className="schedule-table__subtable-tbody"
-  >
-    <tr
-      className="schedule-table__subtable-row"
-    >
+  <tbody>
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-sstat"
@@ -597,16 +552,14 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:46 AM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-crtst"
@@ -615,16 +568,14 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:48 AM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-wtcst"
@@ -633,16 +584,14 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:50 AM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-conrd"
@@ -651,16 +600,14 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:53 AM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/247"
@@ -669,16 +616,14 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:54 AM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/30249"
@@ -687,16 +632,14 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:55 AM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/30250"
@@ -705,16 +648,14 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:56 AM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/30251"
@@ -723,16 +664,14 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:56 AM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/31259"
@@ -741,16 +680,14 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:56 AM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/31258"
@@ -759,16 +696,14 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:57 AM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/31255"
@@ -777,7 +712,7 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         06:00 AM
       </td>
@@ -788,37 +723,36 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
 
 exports[`TripDetails uses a predicted departure time in preference to a scheduled one 1`] = `
 <table
-  className="schedule-table__subtable"
+  className="trip-details-table"
 >
   <thead>
-    <tr>
+    <tr
+      className="trip-details-table__summary"
+    >
       <td
+        className="schedule-table__cell"
         colSpan={3}
       >
-        <div
-          className="schedule-table__subtable-trip-info"
-        >
-          <div
-            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
           >
             Trip length
-          </div>
+          </span>
           39
            stops, 
           32
            minutes total
         </div>
-        <div
-          className="schedule-table__subtable-trip-info"
-        >
-          <div
-            className="schedule-table__subtable-trip-info-title u-small-caps u-bold"
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
           >
             Fare
-          </div>
+          </span>
           $1.70
           <a
-            className="schedule-table__subtable-trip-info-link"
+            className="trip-details-table__link"
             href="/fares/bus-fares"
           >
             View fares
@@ -828,27 +762,23 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
     </tr>
     <tr>
       <th
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
         scope="col"
       >
         Stops
       </th>
       <th
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted"
         scope="col"
       >
         Arrival
       </th>
     </tr>
   </thead>
-  <tbody
-    className="schedule-table__subtable-tbody"
-  >
-    <tr
-      className="schedule-table__subtable-row"
-    >
+  <tbody>
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/place-forhl"
@@ -857,16 +787,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:39 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/596"
@@ -875,16 +803,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:42 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/597"
@@ -893,16 +819,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:42 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/598"
@@ -911,16 +835,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:43 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/599"
@@ -929,16 +851,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:43 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/600"
@@ -947,16 +867,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:44 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/601"
@@ -965,16 +883,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:45 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/602"
@@ -983,16 +899,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:46 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/797"
@@ -1001,16 +915,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:47 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/798"
@@ -1019,16 +931,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:47 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/799"
@@ -1037,16 +947,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:47 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/800"
@@ -1055,16 +963,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:48 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/801"
@@ -1073,16 +979,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:48 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/802"
@@ -1091,16 +995,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:49 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/803"
@@ -1109,16 +1011,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:49 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/804"
@@ -1127,16 +1027,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:50 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/805"
@@ -1145,16 +1043,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:51 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/806"
@@ -1163,16 +1059,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:53 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/807"
@@ -1181,16 +1075,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:54 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/808"
@@ -1199,16 +1091,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:55 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/810"
@@ -1217,16 +1107,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:56 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/821"
@@ -1235,16 +1123,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:58 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/811"
@@ -1253,16 +1139,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:58 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/822"
@@ -1271,16 +1155,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         04:59 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/823"
@@ -1289,16 +1171,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:00 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/824"
@@ -1307,16 +1187,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:00 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/825"
@@ -1325,16 +1203,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:00 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/826"
@@ -1343,16 +1219,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:01 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/10768"
@@ -1361,16 +1235,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:01 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/827"
@@ -1379,16 +1251,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:01 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/828"
@@ -1397,16 +1267,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:02 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/829"
@@ -1415,16 +1283,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:02 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/830"
@@ -1433,16 +1299,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:02 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/831"
@@ -1451,16 +1315,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:03 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/832"
@@ -1469,16 +1331,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:03 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/618"
@@ -1487,16 +1347,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:05 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/10618"
@@ -1505,16 +1363,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:05 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/10835"
@@ -1523,16 +1379,14 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:09 PM
       </td>
     </tr>
-    <tr
-      className="schedule-table__subtable-row"
-    >
+    <tr>
       <td
-        className="schedule-table__subtable-data"
+        className="schedule-table__cell"
       >
         <a
           href="/stops/10833"
@@ -1541,7 +1395,7 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
         </a>
       </td>
       <td
-        className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
         05:11 PM
       </td>
