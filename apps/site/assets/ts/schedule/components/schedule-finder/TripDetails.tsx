@@ -18,23 +18,21 @@ const TripSummary = ({
 }: {
   tripInfo: TripInfo;
 }): ReactElement<HTMLElement> => (
-  <tr>
-    <td colSpan={3}>
-      <div className="schedule-table__subtable-trip-info">
-        <div className="schedule-table__subtable-trip-info-title u-small-caps u-bold">
+  <tr className="trip-details-table__summary">
+    <td colSpan={3} className="schedule-table__cell">
+      <div>
+        <span className="trip-details-table__title u-small-caps u-bold">
           Trip length
-        </div>
+        </span>
         {tripInfo.times.length} stops, {tripInfo.duration} minutes total
       </div>
-      <div className="schedule-table__subtable-trip-info">
-        <div className="schedule-table__subtable-trip-info-title u-small-caps u-bold">
+      <div>
+        <span className="trip-details-table__title u-small-caps u-bold">
           Fare
-        </div>
+        </span>
+
         {tripInfo.fare && tripInfo.fare.price}
-        <a
-          className="schedule-table__subtable-trip-info-link"
-          href={tripInfo.fare.fare_link}
-        >
+        <a className="trip-details-table__link" href={tripInfo.fare.fare_link}>
           View fares
         </a>
       </div>
@@ -72,30 +70,30 @@ export const TripDetails = ({
   if (!tripInfo) return null;
 
   return (
-    <table className="schedule-table__subtable">
+    <table className="trip-details-table">
       <thead>
         <TripSummary tripInfo={tripInfo} />
         <tr>
-          <th scope="col" className="schedule-table__subtable-data">
+          <th scope="col" className="schedule-table__cell">
             Stops
           </th>
           {showFare && (
             <th
               scope="col"
-              className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+              className="schedule-table__cell schedule-table__cell--right-adjusted"
             >
               Fare
             </th>
           )}
           <th
             scope="col"
-            className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted"
+            className="schedule-table__cell schedule-table__cell--right-adjusted"
           >
             Arrival
           </th>
         </tr>
       </thead>
-      <tbody className="schedule-table__subtable-tbody">
+      <tbody>
         {allTimesHaveSchedule(tripInfo)
           ? tripInfo.times.map((departure, index: number) => (
               <TripStop

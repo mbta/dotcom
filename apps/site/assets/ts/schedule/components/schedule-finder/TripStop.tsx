@@ -19,7 +19,7 @@ const formattedDepartureTimes = (
     if (delay && delay >= 300 && prediction && prediction.time) {
       return (
         <>
-          <span className="schedule-table__time--delayed schedule-table__time--delayed-future_stop">
+          <span className="schedule-table__times--delayed schedule-table__times--delayed-future_stop">
             {schedule.time}
           </span>
           <br className="hidden-sm-up" />
@@ -46,18 +46,18 @@ const TripStop = ({
   if (!schedule || !schedule.stop) return null;
 
   return (
-    <tr key={`${schedule.stop.id}`} className="schedule-table__subtable-row">
-      <td className="schedule-table__subtable-data">
+    <tr key={`${schedule.stop.id}`}>
+      <td className="schedule-table__cell">
         <a href={`/stops/${schedule.stop.id}`}>
           {breakTextAtSlash(schedule.stop.name)}
         </a>
       </td>
       {showFare && (
-        <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
+        <td className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums">
           {index === 0 ? "" : schedule.fare.price}
         </td>
       )}
-      <td className="schedule-table__subtable-data schedule-table__subtable-data--right-adjusted">
+      <td className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums">
         {formattedDepartureTimes(departure, routeType)}
       </td>
     </tr>

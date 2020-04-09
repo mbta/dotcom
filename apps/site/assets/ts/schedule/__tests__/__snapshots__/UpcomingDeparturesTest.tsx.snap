@@ -43,13 +43,14 @@ Array [
         className="schedule-table__row-header"
       >
         <th
-          className="schedule-table__row-header-label"
+          className="schedule-table__cell"
           scope="col"
         >
           Destinations
         </th>
         <th
-          className="schedule-table__th--flex-end"
+          className="schedule-table__cell"
+          colSpan={2}
           scope="col"
         >
           Trip Details
@@ -67,32 +68,28 @@ Array [
         tabIndex={0}
       >
         <td
-          className="schedule-table__td schedule-table__td--flex-end"
+          className="schedule-table__cell schedule-table__cell--headsign"
         >
-          <div
-            className="schedule-table__row-route"
+          <span
+            className="schedule-table__route-pill m-route-pills"
           >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
+            <span
+              className="c-icon__bus-pill--small u-bg--silver-line"
             >
-              <div
-                className="u-bg--silver-line"
-              >
-                SL-2
-              </div>
-            </div>
-            Harvard
-          </div>
+              SL-2
+            </span>
+          </span>
+          Harvard
         </td>
         <td
-          className="schedule-table__time schedule-table__td--flex-end u-bold"
+          className="schedule-table__cell schedule-table__cell--time u-nowrap u-bold text-right"
         >
           8
            
           min
         </td>
         <td
-          className="schedule-table__td schedule-table__td--flex-end"
+          className="schedule-table__cell schedule-table__cell--tiny"
         >
           <span
             className="c-expandable-block__header-caret"
@@ -150,13 +147,14 @@ Array [
         className="schedule-table__row-header"
       >
         <th
-          className="schedule-table__row-header-label"
+          className="schedule-table__cell"
           scope="col"
         >
           Destinations
         </th>
         <th
-          className="schedule-table__th--flex-end"
+          className="schedule-table__cell"
+          colSpan={2}
           scope="col"
         >
           Trip Details
@@ -174,32 +172,28 @@ Array [
         tabIndex={0}
       >
         <td
-          className="schedule-table__td schedule-table__td--flex-end"
+          className="schedule-table__cell schedule-table__cell--headsign"
         >
-          <div
-            className="schedule-table__row-route"
+          <span
+            className="schedule-table__route-pill m-route-pills"
           >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
+            <span
+              className="c-icon__bus-pill--small u-bg--bus"
             >
-              <div
-                className="u-bg--bus"
-              >
-                1
-              </div>
-            </div>
-            Harvard
-          </div>
+              1
+            </span>
+          </span>
+          Harvard
         </td>
         <td
-          className="schedule-table__time schedule-table__td--flex-end u-bold"
+          className="schedule-table__cell schedule-table__cell--time u-nowrap u-bold text-right"
         >
           8
            
           min
         </td>
         <td
-          className="schedule-table__td schedule-table__td--flex-end"
+          className="schedule-table__cell schedule-table__cell--tiny"
         >
           <span
             className="c-expandable-block__header-caret"
@@ -221,32 +215,28 @@ Array [
         tabIndex={0}
       >
         <td
-          className="schedule-table__td schedule-table__td--flex-end"
+          className="schedule-table__cell schedule-table__cell--headsign"
         >
-          <div
-            className="schedule-table__row-route"
+          <span
+            className="schedule-table__route-pill m-route-pills"
           >
-            <div
-              className="schedule-table__row-route-pill m-route-pills"
+            <span
+              className="c-icon__bus-pill--small u-bg--bus"
             >
-              <div
-                className="u-bg--bus"
-              >
-                1
-              </div>
-            </div>
-            Harvard
-          </div>
+              1
+            </span>
+          </span>
+          Harvard
         </td>
         <td
-          className="schedule-table__time schedule-table__td--flex-end u-bold"
+          className="schedule-table__cell schedule-table__cell--time u-nowrap u-bold text-right"
         >
           9
            
           min
         </td>
         <td
-          className="schedule-table__td schedule-table__td--flex-end"
+          className="schedule-table__cell schedule-table__cell--tiny"
         >
           <span
             className="c-expandable-block__header-caret"
@@ -304,13 +294,14 @@ Array [
         className="schedule-table__row-header"
       >
         <th
-          className="schedule-table__row-header-label"
+          className="schedule-table__cell"
           scope="col"
         >
           Destinations
         </th>
         <th
-          className="schedule-table__th--flex-end"
+          className="schedule-table__cell"
+          colSpan={2}
           scope="col"
         >
           Trip Details
@@ -328,7 +319,7 @@ Array [
         tabIndex={0}
       >
         <td
-          className="schedule-table__headsign"
+          className="schedule-table__cell schedule-table__cell--headsign"
         >
           <span
             aria-hidden="false"
@@ -339,41 +330,26 @@ Array [
               }
             }
           />
-        </td>
-        <td
-          className="schedule-table__headsign"
-        >
+           
           Worcester
         </td>
         <td
-          className="schedule-table__td schedule-table__td--flex-end"
+          className="schedule-table__cell text-right"
         >
           <div
-            className="schedule-table__time-container"
+            className="u-tabular-nums u-nowrap schedule-table__times"
           >
-            <div
-              className="schedule-table__time"
-            >
-              1:55 PM
-            </div>
+            1:55 PM
           </div>
           <div
-            className="u-nowrap text-right"
+            className="u-nowrap"
           >
-            <span
-              className="schedule-table__status"
-            >
-              Train 515 · On time
-            </span>
-            <span
-              className="schedule-table__track"
-            >
-              
-            </span>
+            Train 515 · On time
+            
           </div>
         </td>
         <td
-          className="schedule-table__td schedule-table__td--flex-end"
+          className="schedule-table__cell schedule-table__cell--tiny"
         >
           <span
             className="c-expandable-block__header-caret"

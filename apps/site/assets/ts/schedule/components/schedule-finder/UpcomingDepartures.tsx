@@ -41,9 +41,11 @@ export const RoutePillSmall = ({
 }: {
   route: Route;
 }): ReactElement<HTMLElement> | null => (
-  <div className="schedule-table__row-route-pill m-route-pills">
-    <div className={modeBgClass(route)}>{route.name}</div>
-  </div>
+  <span className="schedule-table__route-pill m-route-pills">
+    <span className={`c-icon__bus-pill--small ${modeBgClass(route)}`}>
+      {route.name}
+    </span>
+  </span>
 );
 interface TableRowProps {
   input: UserInput;
@@ -58,19 +60,17 @@ const BusTableRow = ({
   const { trip, route, realtime } = journey;
   return (
     <>
-      <td className="schedule-table__td schedule-table__td--flex-end">
-        <div className="schedule-table__row-route">
-          {route.type === 3 ? (
-            <RoutePillSmall route={route} />
-          ) : (
-            <div className="schedule-table__row-route-pill m-route-pills">
-              {modeIcon(route.id)}
-            </div>
-          )}
-          {trip.headsign}
-        </div>
+      <td className="schedule-table__cell schedule-table__cell--headsign">
+        {route.type === 3 ? (
+          <RoutePillSmall route={route} />
+        ) : (
+          <span className="schedule-table__row-route-pill m-route-pills">
+            {modeIcon(route.id)}
+          </span>
+        )}
+        {trip.headsign}
       </td>
-      <td className="schedule-table__time schedule-table__td--flex-end u-bold">
+      <td className="schedule-table__cell schedule-table__cell--time u-nowrap u-bold text-right">
         {realtime.prediction!.time}
       </td>
     </>
@@ -94,19 +94,19 @@ const CrTableRow = ({
 
   return (
     <>
-      <td className="schedule-table__headsign">{modeIcon(route.id)}</td>
-      <td className="schedule-table__headsign">
-        {breakTextAtSlash(trip.headsign)}
+      <td className="schedule-table__cell schedule-table__cell--headsign">
+        {modeIcon(route.id)} {breakTextAtSlash(trip.headsign)}
       </td>
-      <td className="schedule-table__td schedule-table__td--flex-end">
-        <div className="schedule-table__time-container">
-          {timeForCommuterRail(realtime, "schedule-table__time")}
-        </div>
-        <div className="u-nowrap text-right">
-          <span className="schedule-table__status">{statusWithTrain}</span>
-          <span className="schedule-table__track">
-            {track ? ` · ${track}` : ""}
-          </span>
+      <td className="schedule-table__cell text-right">
+        {timeForCommuterRail(
+          realtime,
+          "u-tabular-nums u-nowrap schedule-table__times"
+        )}
+        <div className="u-nowrap">
+          {statusWithTrain}
+          {track && (
+            <span className="schedule-table__track">{` · ${track}`}</span>
+          )}
         </div>
       </td>
     </>
@@ -162,10 +162,10 @@ export const UpcomingDepartures = ({
         <table className="schedule-table schedule-table--upcoming">
           <thead className="schedule-table__header">
             <tr className="schedule-table__row-header">
-              <th scope="col" className="schedule-table__row-header-label">
+              <th scope="col" className="schedule-table__cell">
                 Destinations
               </th>
-              <th scope="col" className="schedule-table__th--flex-end">
+              <th scope="col" colSpan={2} className="schedule-table__cell">
                 Trip Details
               </th>
             </tr>
