@@ -11,9 +11,10 @@ $line-width: 8px; // width of the colored line in the diagram
   }
 }
 
-// Adds a curved line from branch to trunk
-// $top will determine whether it appears to curve up or down
-@mixin linebend($top) {
+// Adds a curved line segment from branch to trunk
+// $top = distance from top
+// $side = "bottom" or "top"
+@mixin linebend($top, $side) {
   position: relative;
 
   &::after {
@@ -23,14 +24,8 @@ $line-width: 8px; // width of the colored line in the diagram
     left: $line-width;
     position: absolute;
     right: $line-width / 2;
-
-    @if $top == 100% {
-      border-bottom-right-radius: $line-width;
-      top: calc(#{$top} - #{$base-spacing});
-    } @else {
-      border-top-right-radius: $line-width;
-      top: $top;
-    }
+    top: $top;
+    border-#{$side}-right-radius: $line-width;
   }
 }
 
@@ -382,7 +377,7 @@ $line-width: 8px; // width of the colored line in the diagram
   // 2. At the start of short branches, which are expanded by default
   .m-schedule-diagram__stop--merging .m-schedule-diagram__lines--collapsed,
   .m-schedule-diagram__expanded .m-schedule-diagram__stop:first-child .m-schedule-diagram__lines {
-    @include linebend(-$line-width);
+    @include linebend(-$line-width, 'top');
   }
 
   // last stop on branch
@@ -397,16 +392,25 @@ $line-width: 8px; // width of the colored line in the diagram
   // Draws the line connecting the branch to the trunk in three places:
   // 1. Inside the <ExpandableBlock /> header element, when the branch is collapsed
   // 2. After the last <SingleStop /> on a branch, when that branch is expanded
-  // 3. At the end of short branches, which are expanded by default
   [aria-expanded='false'] .m-schedule-diagram__stop--merging .m-schedule-diagram__lines--collapsed,
-  .m-schedule-diagram__expander--merging .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines,
-  .m-schedule-diagram__expanded .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines {
-    @include linebend(100%);
+  .m-schedule-diagram__expander--merging .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines {
+    @include linebend(calc(100% - #{$base-spacing}), 'bottom');
+  }
+
+  // 3. At the end of short branches, which are expanded by default
+  .m-schedule-diagram__expanded .m-schedule-diagram__stop:last-child {
+    .m-schedule-diagram__lines {
+      @include linebend(calc(100% - #{$line-width}), 'bottom');
+    }
+
+    .m-schedule-diagram__line:last-child {
+      margin-bottom: $line-width; // avoid overlap with linebend segment
+    }
   }
 
   .m-schedule-diagram__expander--merging .m-schedule-diagram__stop:last-child {
     .m-schedule-diagram__line:not(:first-child) {
-      margin-bottom: $base-spacing;
+      margin-bottom: $base-spacing; // avoid overlap with linebend segmen
     }
 
     // Remove the border-radius where the expanded branch line meets the line bend
