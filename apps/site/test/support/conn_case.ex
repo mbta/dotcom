@@ -15,6 +15,13 @@ defmodule SiteWeb.ConnCase do
 
   use ExUnit.CaseTemplate
 
+  def default_conn() do
+    %Plug.Conn{
+      Phoenix.ConnTest.build_conn()
+      | host: "localhost"
+    }
+  end
+
   using do
     quote do
       # Import conveniences for testing with connections
@@ -39,10 +46,12 @@ defmodule SiteWeb.ConnCase do
 
       # The default endpoint for testing
       @endpoint SiteWeb.Endpoint
+
+      import SiteWeb.ConnCase, only: [default_conn: 0]
     end
   end
 
   setup _tags do
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    {:ok, conn: default_conn()}
   end
 end

@@ -5,7 +5,7 @@ defmodule SiteWeb.ErrorViewTest do
   import Phoenix.Controller
 
   test "adds 'not-found' to body class on 404 pages" do
-    conn = get(build_conn(), "/not-found")
+    conn = get(default_conn(), "/not-found")
     assert html_response(conn, 404) =~ "not-found"
   end
 
