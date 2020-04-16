@@ -1,4 +1,6 @@
 defmodule SiteWeb.Endpoint do
+  @moduledoc false
+
   use Phoenix.Endpoint, otp_app: :site
 
   @doc """
@@ -23,6 +25,7 @@ defmodule SiteWeb.Endpoint do
     longpoll: [check_origin: Application.get_env(:site, :websocket_check_origin, false)]
   )
 
+  plug(SiteWeb.Plugs.CanonicalHostname)
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phx.digest

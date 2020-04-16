@@ -136,7 +136,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
 
   setup do
     conn =
-      build_conn()
+      default_conn()
       |> assign(:location_fn, &location_fn/2)
       |> assign(:data_fn, &data_fn/2)
 
