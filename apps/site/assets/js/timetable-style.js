@@ -1,4 +1,4 @@
-let scrollCallback = false;
+import debounce from "../ts/helpers/debounce.ts";
 
 export default () => {
   document.addEventListener("turbolinks:load", adjustTimetableStyle, {
@@ -41,25 +41,20 @@ const resizeRows = () => {
   [...document.querySelectorAll(".js-tt-row")].forEach(resizeRow);
 };
 
-const toggleScrollButtons = event => {
-  if (scrollCallback !== false) {
-    clearTimeout(scrollCallback);
-  }
-  scrollCallback = setTimeout(() => {
-    const maxScrollLeft = event.target.scrollWidth - event.target.clientWidth;
-    const scrollLeft = event.target.scrollLeft;
-    const leftBtnEl = document.querySelector("button[data-scroll='earlier']");
-    const rightBtnEl = document.querySelector("button[data-scroll='later']");
+const toggleScrollButtons = debounce(event => {
+  const maxScrollLeft = event.target.scrollWidth - event.target.clientWidth;
+  const scrollLeft = event.target.scrollLeft;
+  const leftBtnEl = document.querySelector("button[data-scroll='earlier']");
+  const rightBtnEl = document.querySelector("button[data-scroll='later']");
 
-    if (leftBtnEl) {
-      scrollLeft === 0
-        ? leftBtnEl.setAttribute("disabled", "")
-        : leftBtnEl.removeAttribute("disabled");
-    }
-    if (rightBtnEl) {
-      scrollLeft === maxScrollLeft
-        ? rightBtnEl.setAttribute("disabled", "")
-        : rightBtnEl.removeAttribute("disabled");
-    }
-  }, 250);
-};
+  if (leftBtnEl) {
+    scrollLeft === 0
+      ? leftBtnEl.setAttribute("disabled", "")
+      : leftBtnEl.removeAttribute("disabled");
+  }
+  if (rightBtnEl) {
+    scrollLeft === maxScrollLeft
+      ? rightBtnEl.setAttribute("disabled", "")
+      : rightBtnEl.removeAttribute("disabled");
+  }
+}, 250)
