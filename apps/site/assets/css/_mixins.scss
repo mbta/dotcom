@@ -354,3 +354,11 @@
     /* stylelint-enable declaration-no-important */
   }
 }
+
+// Pull an element's margins out to the left and right in order to make it span
+// full width of the screen while within a limited-width parent (i.e.
+// .container). Optionally leave space to either side with $cushion.
+@mixin full-width($cushion: 0) {
+  margin-left: calc(50% - 50vw + #{$cushion});
+  margin-right: calc(50% - 50vw + #{$cushion});
+}
