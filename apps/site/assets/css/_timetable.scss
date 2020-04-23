@@ -1,4 +1,7 @@
 .m-timetable {
+  max-height: 100vh;
+  overflow: scroll;
+
   @include media-breakpoint-down(sm) {
     margin-left: -$half-gutter;
     margin-right: -$half-gutter;
@@ -58,10 +61,6 @@
   justify-content: space-between;
   padding: $base-spacing / 2;
   text-align: center;
-
-  @include media-breakpoint-down(sm) {
-    justify-content: center;
-  }
 }
 
 .m-timetable__trains-label {
@@ -78,10 +77,6 @@
   font-size: .875rem;
   font-weight: bold;
   padding: $base-spacing / 4 $base-spacing / 2;
-
-  @include media-breakpoint-down(sm) {
-    display: none;
-  }
 
   &:hover {
     border-color: $brand-primary-darkest;
@@ -310,5 +305,55 @@
 [data-sticky-container] {
   [data-sticky] {
     position: relative;
+  }
+}
+
+// enables an extra sticky top header,
+// which is not enabled/supported in IE or Edge. warning: hacky
+.m-timetable--withstickyheader {
+  @include full-width(.5rem);
+
+  height: 100%;
+  overflow: visible;
+  width: 100vw;
+
+  .m-timetable__table-container {
+    border: 0;
+    overflow: visible;
+
+    tr:first-of-type th {
+      box-shadow: 3px 3px transparentize($gray-lighter, .3);
+      position: sticky;
+      top: calc(#{$base-spacing * 3} - 1px);
+
+      &.m-timetable__cell--first-column-header {
+        z-index: 0;
+      }
+    }
+  }
+
+  .m-timetable__cell--first-column[data-absolute] {
+    left: 0;
+    /* stylelint-disable-next-line declaration-no-important */
+    position: sticky !important; // overwrite the inline value added by some javascript triggered by the data-absolute attribute
+  }
+
+  .m-timetable__cell--first-column-header {
+    z-index: 1;
+  }
+
+  .m-timetable__header {
+    border: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+
+    .m-timetable__trains-label {
+      display: none;
+    }
+  }
+
+  td.hidden-no-js {
+    display: none;
   }
 }

@@ -17,21 +17,24 @@ export default $ => {
       direction;
 
     // find the container element that will be scrolled
-    const $el = $("[data-sticky-container]");
-
-    // animate the scroll event
-    $el.animate(
-      { scrollLeft: $el.scrollLeft() + offset },
-      {
-        duration: 200,
-        step: () => {
-          state.animating = true;
-        },
-        done: () => {
-          state.animating = false;
+    if ($(".m-timetable--withstickyheader").length) {
+      window.scrollBy(offset, 0); // no animation but it works
+    } else {
+      const $el = $("[data-sticky-container]");
+      // animate the scroll event
+      $el.animate(
+        { scrollLeft: $el.scrollLeft() + offset },
+        {
+          duration: 200,
+          step: () => {
+            state.animating = true;
+          },
+          done: () => {
+            state.animating = false;
+          }
         }
-      }
-    );
+      );
+    }
   };
 
   $(document).on("click", "button[data-scroll='earlier']", () => scroll(-1));

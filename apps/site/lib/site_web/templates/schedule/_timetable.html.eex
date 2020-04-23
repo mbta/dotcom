@@ -29,7 +29,7 @@
             <div class="m-timetable__row-header"></div>
           </td>
           <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
-            <%= content_tag :th, [scope: "col", class: "m-timetable__header-cell", data: if index == @offset do [scroll: [to: true]] end] do %>
+            <%= content_tag :th, [scope: "col", class: "m-timetable__header-cell #{if index == 0 do "js-tt-first-train" end}", data: if index == @offset do [scroll: [to: true]] end] do %>
               <span class="sr-only">Train <%= schedule.trip.name %></span>
               <span aria-hidden="true"><%= schedule.trip.name %></span>
               <%= if Alerts.Trip.match(@alerts, schedule.trip.id, time: @date, route: @route.id, direction_id: @direction_id) != [] do %>
@@ -89,7 +89,7 @@
             <td class="js-tt-cell hidden-no-js">
               <div class="m-timetable__row-header"></div>
             </td>
-            <%= for schedule <- @header_schedules do %>
+            <%= for {schedule, index} <- Enum.with_index(@header_schedules) do %>
               <%
                 trip_id = schedule.trip.id
                 trip_schedule = @trip_schedules[{trip_id, stop.id} || %{}]
@@ -99,7 +99,7 @@
                 tooltip_attrs = [html: true, toggle: "tooltip"]
               %>
               <%= content_tag :td, [
-                class: "js-tt-cell m-timetable__cell" <> cell_flag_class(trip_schedule) <> cell_via_class(trip_message),
+                class: "js-tt-cell m-timetable__cell #{if index == 0 do "js-tt-first-train" end}" <> cell_flag_class(trip_schedule) <> cell_via_class(trip_message),
                 id: "#{stop.name}-#{trip_id}-tooltip",
                 data: if tooltip do tooltip_attrs ++ [stop: raw(tooltip)] else tooltip_attrs end,
                 title: if tooltip do raw(tooltip) end
