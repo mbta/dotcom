@@ -6,7 +6,7 @@ import ScheduleNote from "../components/ScheduleNote";
 import ScheduleDirection from "../components/ScheduleDirection";
 import {
   SchedulePageData,
-  SelectedOrigin,
+  SelectedStopId,
   ComponentToRender
 } from "../components/__schedule";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
@@ -22,7 +22,7 @@ import {
 interface Props {
   schedulePageData: SchedulePageData;
   component: ComponentToRender;
-  updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
+  updateURL: (origin: SelectedStopId, direction?: DirectionId) => void;
 }
 
 export const ScheduleLoader = ({
@@ -46,7 +46,7 @@ export const ScheduleLoader = ({
     });
   };
 
-  const changeOrigin = (origin: SelectedOrigin): void => {
+  const changeOrigin = (origin: SelectedStopId): void => {
     storeHandler({
       type: "CHANGE_ORIGIN",
       newStoreValues: {
@@ -78,7 +78,7 @@ export const ScheduleLoader = ({
     let { modalOpen, modalMode } = currentState;
 
     let newDirection: DirectionId | undefined;
-    let newOrigin: SelectedOrigin | undefined;
+    let newOrigin: SelectedStopId | undefined;
 
     // modify the store values in case URL has parameters:
     if (query["schedule_finder[direction_id]"] !== undefined) {

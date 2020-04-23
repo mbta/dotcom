@@ -8,7 +8,7 @@ import {
   SelectedOrigin
 } from "../__schedule";
 import Modal from "../../../components/Modal";
-import OriginModalContent from "./OriginModalContent";
+import StopSearchModalContent from "./StopSearchModalContent";
 import ScheduleModalContent from "./ScheduleModalContent";
 
 export type Mode = "origin" | "schedule";
@@ -60,11 +60,14 @@ export default ({
   const originModalContent = (): ReactElement => {
     const origin = initialOrigin;
     const direction = initialDirection;
+    const lastStop = stops[direction][stops[direction].length - 1].id;
     return (
-      <OriginModalContent
-        handleChangeOrigin={handleChangeOrigin}
-        selectedOrigin={origin}
+      <StopSearchModalContent
+        handleChangeStop={handleChangeOrigin}
+        selectedStop={origin}
         stops={stops[direction] || []}
+        searchLabel="Choose an origin stop"
+        disabledStop={lastStop}
       />
     );
   };
@@ -91,7 +94,7 @@ export default ({
   return (
     <Modal
       focusElementId={
-        initialMode === "origin" ? "origin-filter" : "modal-close"
+        initialMode === "origin" ? "stop-search-filter" : "modal-close"
       }
       ariaLabel={{
         label:

@@ -155,23 +155,37 @@
   margin-top: 0;
 }
 
-.schedule-finder__origin-list {
-  @include media-breakpoint-up(sm) {
-    max-height: 40vh;
-    overflow: auto;
+.stop-search {
+  margin-top: 3 * $base-spacing;
+  padding: 0 $base-spacing;
+
+  &__searchbox {
+    margin-bottom: $base-spacing;
+  }
+
+  &__stops-list {
+    margin-left: -$base-spacing;
+    margin-right: -$base-spacing;
+    margin-top: $base-spacing;
+
+    @include media-breakpoint-up(sm) {
+      max-height: 40vh;
+      overflow: auto;
+    }
   }
 }
 
-.schedule-finder__origin-list-item {
+
+.stop-search__stop {
   border-bottom: 1px solid $gray-lightest;
   cursor: pointer;
-  font-weight: bold;
   padding: $base-spacing / 4 $base-spacing * 2.25;
   position: relative;
 
   &.active {
     background-color: $brand-primary;
     color: $white;
+    padding-left: $base-spacing;
 
     &:focus,
     &:hover {
@@ -197,15 +211,6 @@
   }
 }
 
-.schedule-finder__origin-text {
-  margin-top: 0;
-  padding: $base-spacing $base-spacing 0;
-}
-
-.schedule-finder__origin-search-container {
-  margin: 0 $base-spacing;
-}
-
 .schedule-finder__origin-modal {
   &.c-modal {
     padding: 0;
@@ -225,18 +230,10 @@
 
 .schedule-finder__check {
   display: inline-block;
-  fill: $white;
+  fill: currentColor;
   height: $base-spacing * .75;
+  margin-right: $base-spacing * .5;
   width: $base-spacing * .75;
-}
-
-.schedule-finder__origin-list-leftpad {
-  left: 0;
-  line-height: $base-spacing * 2;
-  position: absolute;
-  text-align: center;
-  top: 0;
-  width: $base-spacing * 2.75;
 }
 
 .schedule-finder__label {

@@ -155,6 +155,7 @@ export interface StopPrediction {
 }
 
 export type SelectedOrigin = string | null;
+export type SelectedStopId = string | null;
 export interface UserInput {
   route: string;
   origin: string;

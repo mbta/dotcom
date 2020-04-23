@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StopSearchModalContent renders a modal 1`] = `
+<div
+  className="stop-search"
+>
+  <h3>
+    Choose an origin stop
+  </h3>
+  <div
+    className="stop-search__searchbox c-form__input-container"
+  >
+    <label
+      className="sr-only"
+      htmlFor="stop-search-filter"
+    >
+      Choose an origin stop
+    </label>
+    <input
+      className="c-form__input"
+      id="stop-search-filter"
+      onChange={[Function]}
+      placeholder="Filter stops and stations"
+      type="text"
+      value=""
+    />
+    <button
+      aria-label="search"
+      className="c-form__submit-btn"
+      onClick={[Function]}
+      type="button"
+    >
+      <span
+        aria-hidden="false"
+        className="notranslate c-svg__icon-search-reverse-default"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+    </button>
+  </div>
+  <p>
+    Select from the list below.
+  </p>
+  <div
+    className="stop-search__stops-list"
+  >
+    <div
+      className="stop-search__stop u-bold  "
+      onClick={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      SL
+       
+      <span
+        className="schedule-finder__zone"
+      >
+        Zone 
+        1
+      </span>
+    </div>
+    <div
+      className="stop-search__stop u-bold  "
+      onClick={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      Abc
+       
+    </div>
+    <div
+      className="stop-search__stop u-bold  "
+      onClick={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      Def
+       
+    </div>
+    <div
+      className="stop-search__stop u-bold active disabled"
+      onClick={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <span
+        aria-hidden="true"
+        className="notranslate schedule-finder__check"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+      Wellington
+       
+    </div>
+  </div>
+</div>
+`;
