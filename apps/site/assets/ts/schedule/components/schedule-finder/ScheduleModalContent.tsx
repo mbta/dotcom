@@ -14,6 +14,8 @@ import { reducer } from "../../../helpers/fetch";
 import ScheduleFinderForm from "./ScheduleFinderForm";
 import ServiceSelector from "./ServiceSelector";
 import ScheduleNote from "../ScheduleNote";
+import { isInCurrentService } from "../../../helpers/service";
+import { formattedDate } from "../../../helpers/date";
 
 type fetchAction =
   | { type: "FETCH_COMPLETE"; payload: StopPrediction[] }
@@ -85,6 +87,10 @@ const ScheduleModalContent = ({
     [routeId, selectedDirection, selectedOrigin]
   );
 
+  const serviceToday = services.some(service =>
+    isInCurrentService(service, new Date(today))
+  );
+
   const input: UserInput = {
     route: routeId,
     origin: selectedOrigin,
@@ -106,7 +112,13 @@ const ScheduleModalContent = ({
         />
       </div>
 
-      <UpcomingDepartures state={state} input={input} />
+      {serviceToday ? (
+        <UpcomingDepartures state={state} input={input} />
+      ) : (
+        <div className="callout text-center u-bold">
+          There are no scheduled trips for {formattedDate(today)}.
+        </div>
+      )}
 
       {scheduleNote ? (
         <ScheduleNote

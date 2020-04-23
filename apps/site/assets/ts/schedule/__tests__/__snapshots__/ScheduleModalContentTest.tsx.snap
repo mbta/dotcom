@@ -1,129 +1,138 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ScheduleModalContent renders 1`] = `
-<div
-  className="schedule-finder schedule-finder--modal"
->
-  <form
-    onSubmit={[Function]}
+Array [
+  <div
+    className="schedule-finder schedule-finder--modal"
   >
-    <h2
-      className="h3 schedule-finder__heading"
+    <form
+      onSubmit={[Function]}
     >
-      <span
-        aria-hidden="true"
-        className="notranslate c-svg__icon"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "SVG",
-          }
-        }
-      />
-       Schedule Finder
-    </h2>
-    <div
-      className="schedule-finder__prompt"
-    >
-      Choose a stop to get schedule information and real-time departure predictions.
-    </div>
-    <div
-      className="schedule-finder__inputs"
-    >
-      <label
-        className="schedule-finder__label"
+      <h2
+        className="h3 schedule-finder__heading"
       >
-        Choose a direction
-        <div
-          className="c-select-custom__container "
-          onClick={[Function]}
-          onKeyUp={[Function]}
-          role="button"
-          tabIndex={0}
+        <span
+          aria-hidden="true"
+          className="notranslate c-svg__icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+         Schedule Finder
+      </h2>
+      <div
+        className="schedule-finder__prompt"
+      >
+        Choose a stop to get schedule information and real-time departure predictions.
+      </div>
+      <div
+        className="schedule-finder__inputs"
+      >
+        <label
+          className="schedule-finder__label"
         >
-          <select
-            className="c-select-custom"
-            onChange={[Function]}
-            value={0}
+          Choose a direction
+          <div
+            className="c-select-custom__container "
+            onClick={[Function]}
+            onKeyUp={[Function]}
+            role="button"
+            tabIndex={0}
           >
-            <option
+            <select
+              className="c-select-custom"
+              onChange={[Function]}
               value={0}
             >
-              INBOUND
-               
-              Oak Grove
-            </option>
-            <option
-              value={1}
-            >
-              OUTBOUND
-               
-              Forest Hills
-            </option>
-          </select>
-          <span
-            aria-hidden="true"
-            className="notranslate c-svg__icon c-select-custom__arrow"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
+              <option
+                value={0}
+              >
+                INBOUND
+                 
+                Oak Grove
+              </option>
+              <option
+                value={1}
+              >
+                OUTBOUND
+                 
+                Forest Hills
+              </option>
+            </select>
+            <span
+              aria-hidden="true"
+              className="notranslate c-svg__icon c-select-custom__arrow"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
               }
-            }
-          />
-        </div>
-      </label>
-      <label
-        className="schedule-finder__label"
-      >
-        Choose an origin stop
-        <div
-          className="c-select-custom__container "
-          onClick={[Function]}
-          onKeyUp={[Function]}
-          role="button"
-          tabIndex={0}
+            />
+          </div>
+        </label>
+        <label
+          className="schedule-finder__label"
         >
-          <select
-            className="c-select-custom c-select-custom--noclick"
-            onChange={[Function]}
-            value="place-mlmnl"
+          Choose an origin stop
+          <div
+            className="c-select-custom__container "
+            onClick={[Function]}
+            onKeyUp={[Function]}
+            role="button"
+            tabIndex={0}
           >
-            <option
-              value=""
-            >
-              Select
-            </option>
-            <option
+            <select
+              className="c-select-custom c-select-custom--noclick"
+              onChange={[Function]}
               value="place-mlmnl"
             >
-              Malden Center
-            </option>
-            <option
-              value="place-welln"
-            >
-              Wellington
-            </option>
-          </select>
-          <span
-            aria-hidden="true"
-            className="notranslate c-svg__icon c-select-custom__arrow"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
+              <option
+                value=""
+              >
+                Select
+              </option>
+              <option
+                value="place-mlmnl"
+              >
+                Malden Center
+              </option>
+              <option
+                value="place-welln"
+              >
+                Wellington
+              </option>
+            </select>
+            <span
+              aria-hidden="true"
+              className="notranslate c-svg__icon c-select-custom__arrow"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
               }
-            }
-          />
-        </div>
-      </label>
-    </div>
-    <div
-      className="schedule-finder__submit text-right"
-    >
-      <input
-        className="btn btn-primary"
-        type="submit"
-        value="Get schedules"
-      />
-    </div>
-  </form>
-</div>
+            />
+          </div>
+        </label>
+      </div>
+      <div
+        className="schedule-finder__submit text-right"
+      >
+        <input
+          className="btn btn-primary"
+          type="submit"
+          value="Get schedules"
+        />
+      </div>
+    </form>
+  </div>,
+  <div
+    className="callout text-center u-bold"
+  >
+    There are no scheduled trips for 
+    December 5, 2019
+    .
+  </div>,
+]
 `;

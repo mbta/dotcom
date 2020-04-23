@@ -36,7 +36,7 @@ const isOnValidDay = (
   return service.valid_days.includes(currentDay as DayInteger);
 };
 
-const isInCurrentService = (
+export const isInCurrentService = (
   service: Service,
   currentDate: Date = new Date()
 ): boolean => {
