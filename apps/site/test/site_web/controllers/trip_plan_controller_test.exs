@@ -51,7 +51,7 @@ defmodule SiteWeb.TripPlanControllerTest do
   }
 
   setup do
-    conn = build_conn() |> put_req_cookie("tp_redesign", "true")
+    conn = default_conn() |> put_req_cookie("tp_redesign", "true")
 
     end_of_rating =
       @system_time
