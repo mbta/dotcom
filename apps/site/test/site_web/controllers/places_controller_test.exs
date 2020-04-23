@@ -207,7 +207,7 @@ defmodule SiteWeb.PlacesControllerTest do
 
   setup do
     conn =
-      build_conn()
+      default_conn()
       |> put_req_header("accept", "application/json")
 
     bypass = Bypass.open()

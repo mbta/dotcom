@@ -25,7 +25,7 @@ defmodule SiteWeb.PageControllerTest do
 
   test "body gets assigned a js class", %{conn: conn} do
     [body_class] =
-      build_conn()
+      default_conn()
       |> get(page_path(conn, :index))
       |> html_response(200)
       |> Floki.find("body")

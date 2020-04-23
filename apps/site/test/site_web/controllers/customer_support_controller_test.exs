@@ -3,7 +3,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
 
   setup do
     conn =
-      build_conn()
+      default_conn()
       |> put_req_header("x-forwarded-for", "10.108.98.#{Enum.random(0..999)}")
 
     {:ok, conn: conn}
