@@ -1,9 +1,5 @@
 import React, { ReactElement } from "react";
-import {
-  ServiceGroupNames,
-  serviceDays,
-  startToEnd
-} from "../../../helpers/service";
+import { ServiceGroupNames, serviceDays } from "../../../helpers/service";
 import { Service } from "../../../__v3api";
 import { shortDate } from "../../../helpers/date";
 
@@ -31,12 +27,7 @@ const ServiceOptGroup = ({
         let optionText = "";
 
         if (service.typicality === "unplanned_disruption") {
-          const reducedServicePeriod =
-            startDate === endDate
-              ? shortDate(startDate)
-              : startToEnd(startDate, endDate);
-
-          optionText = `Reduced service, ${reducedServicePeriod}`;
+          optionText = service.description;
         } else if (
           service.typicality === "holiday_service" &&
           service.added_dates_notes

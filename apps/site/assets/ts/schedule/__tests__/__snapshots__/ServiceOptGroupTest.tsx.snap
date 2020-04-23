@@ -32,7 +32,7 @@ exports[`ServiceOptGroup renders 1`] = `
   <option
     value="BUS319-storm"
   >
-    Reduced service, Jul 15 to Jul 15
+    Storm (reduced service)
   </option>
   <option
     value="weekday2020"
