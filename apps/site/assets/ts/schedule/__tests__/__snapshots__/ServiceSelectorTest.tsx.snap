@@ -31,6 +31,11 @@ Array [
           label="Current Schedules (Test, ends Oct 25)"
         >
           <option
+            value="BUS319-O-Wdy-02"
+          >
+            Weekday schedule, Test
+          </option>
+          <option
             value="BUS319-D-Wdy-02"
           >
             Friday schedule, Test

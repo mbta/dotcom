@@ -114,41 +114,11 @@ export const isInFutureRating = (
   return currentDate <= ratingStartDate && currentDate <= ratingEndDate;
 };
 
-// sometimes a current unplanned_disruption supercedes typical_service.
-// in this case both will be present in services, with most of the same
-// properties. when we don't want to show both services, prefer the unplanned
-export const omitReplacedServices = (services: Service[]): Service[] => {
-  const unplannedServices = services.filter(
-    (s: Service) => s.typicality === "unplanned_disruption"
-  );
-
-  if (unplannedServices.length) {
-    // find the corresponding planned services by these properties
-    const matchers: (keyof Service)[] = [
-      "type",
-      "rating_description",
-      "valid_days"
-    ];
-
-    const matchedServices = services
-      .filter(s => s.typicality === "typical_service")
-      .filter((ts: Service) =>
-        unplannedServices.find((us: Service) =>
-          matchers.every(m => _.isEqual(ts[m], us[m]))
-        )
-      );
-
-    return _.difference(services, matchedServices);
-  }
-
-  return services;
-};
-
 export const groupServicesByDateRating = (
   services: Service[],
   currentDate: Date = new Date()
 ): Dictionary<Service[]> =>
-  _.groupBy(omitReplacedServices(services), (service: Service) => {
+  _.groupBy(services, (service: Service) => {
     if (service.typicality === "holiday_service") {
       return ServiceGroupNames.HOLIDAY;
     }
