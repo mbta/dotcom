@@ -21,7 +21,7 @@
     </div>
     <div id="timetable" class="m-timetable__table-container" data-sticky-container>
       <table class="m-timetable__table" aria-label="<%= @direction_name %> timetable for <%= @route.name %>, <%= @formatted_date %>">
-        <tr>
+        <tr class="js-timetable-train-labels">
           <th scope="col" class="m-timetable__cell m-timetable__cell--gray m-timetable__cell--first-column m-timetable__cell--first-column-header" data-absolute>
             <div class="m-timetable__row-header">Stops</div>
           </th>

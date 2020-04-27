@@ -238,15 +238,19 @@
   padding-top: 0;
 }
 
-.m-timetable__cell--first-column::after {
-  background: linear-gradient(to right, transparentize($gray-lighter, .3), transparent);
-  content: '';
-  display: block;
-  height: 100%;
-  position: absolute;
-  right: -4px;
-  top: 0;
-  width: 4px;
+.m-timetable__cell--first-column {
+  z-index: 1;
+
+  &::after {
+    background: linear-gradient(to right, transparentize($gray-lighter, .3), transparent);
+    content: '';
+    display: block;
+    height: 100%;
+    position: absolute;
+    right: -4px;
+    top: 0;
+    width: 4px;
+  }
 }
 
 .m-timetable__schedule {
