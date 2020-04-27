@@ -50,6 +50,16 @@ Array [
           >
             Sunday schedule, Test
           </option>
+          <option
+            value="BUS319-storm"
+          >
+            Storm (reduced service)
+          </option>
+          <option
+            value="BUS319-storm-1"
+          >
+            Storm (reduced service)
+          </option>
         </optgroup>
         <optgroup
           label="Holiday Schedules"
@@ -58,20 +68,6 @@ Array [
             value="Bastille-Day"
           >
             Bastille Day, Jul 14
-          </option>
-        </optgroup>
-        <optgroup
-          label="Other Schedules"
-        >
-          <option
-            value="BUS319-storm"
-          >
-            Reduced service, Jul 15 to Jul 15
-          </option>
-          <option
-            value="BUS319-storm-1"
-          >
-            Reduced service, Jul 22 to Jul 23
           </option>
         </optgroup>
       </select>

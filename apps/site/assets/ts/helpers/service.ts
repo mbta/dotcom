@@ -148,7 +148,8 @@ export const groupServicesByDateRating = (
 
     if (
       isInCurrentRating(service, currentDate) &&
-      service.typicality === "typical_service"
+      (service.typicality === "typical_service" ||
+        service.typicality === "unplanned_disruption")
     ) {
       return `${ServiceGroupNames.CURRENT} (${
         service.rating_description
