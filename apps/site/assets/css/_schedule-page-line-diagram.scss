@@ -43,6 +43,7 @@ $line-width: 8px; // width of the colored line in the diagram
 .m-schedule-diagram__stop-content {
   // Take remaining horizontal space unused by visual lines/stops
   flex-grow: 1;
+  width: 100%;
 }
 
 .m-schedule-diagram__stop-heading {
