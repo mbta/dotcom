@@ -60,7 +60,7 @@ const ServiceOptGroup = ({
         return (
           <option key={service.id} value={service.id}>
             {optionText}
-            {service.id === now && " (Now)"}
+            {service.id === now && " (now)"}
           </option>
         );
       })}
