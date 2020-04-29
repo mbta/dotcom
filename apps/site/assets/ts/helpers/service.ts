@@ -1,5 +1,10 @@
 import _, { Dictionary } from "lodash";
-import { Service, DayInteger } from "../__v3api";
+import {
+  Service,
+  DayInteger,
+  ServiceType,
+  ServiceTypicality
+} from "../__v3api";
 import { shortDate, stringToDateObject, dateObjectToString } from "./date";
 
 export enum ServiceGroupNames {
@@ -45,6 +50,22 @@ export const isInCurrentService = (
   return currentDate >= serviceStartDate && currentDate <= serviceEndDate;
 };
 
+export const isInCurrentRating = (
+  service: Service,
+  currentDate: Date = new Date()
+): boolean => {
+  if (!service.rating_start_date) {
+    return false;
+  }
+  const ratingStartDate = stringToDateObject(service.rating_start_date!);
+  if (!service.rating_end_date) {
+    // this might be a commuter rail or ferry. treat null rating end as infinite?
+    return currentDate >= ratingStartDate;
+  }
+  const ratingEndDate = stringToDateObject(service.rating_end_date!);
+  return currentDate >= ratingStartDate && currentDate <= ratingEndDate;
+};
+
 export const isCurrentValidService = (
   service: Service,
   currentDate: Date = new Date()
@@ -64,23 +85,11 @@ export const isCurrentValidService = (
     return false;
   }
 
-  // check within service dates
-  return isInCurrentService(service, currentDate);
-};
-
-export const hasIncompleteRating = (service: Service): boolean =>
-  !service.rating_start_date || !service.rating_end_date;
-
-export const isInCurrentRating = (
-  service: Service,
-  currentDate: Date = new Date()
-): boolean => {
-  if (hasIncompleteRating(service)) {
-    return false;
-  }
-  const ratingStartDate = stringToDateObject(service.rating_start_date!);
-  const ratingEndDate = stringToDateObject(service.rating_end_date!);
-  return currentDate >= ratingStartDate && currentDate <= ratingEndDate;
+  // check within rating dates
+  return (
+    isInCurrentRating(service, currentDate) &&
+    isInCurrentService(service, currentDate)
+  );
 };
 
 export const startToEnd = (
@@ -94,25 +103,45 @@ export const isInFutureService = (
 ): boolean => {
   const serviceStartDate = stringToDateObject(service.start_date);
   const serviceEndDate = stringToDateObject(service.end_date);
-  return currentDate <= serviceStartDate && currentDate <= serviceEndDate;
+  return currentDate < serviceStartDate && currentDate < serviceEndDate;
 };
 
 export const isInFutureRating = (
   service: Service,
   currentDate: Date = new Date()
 ): boolean => {
-  if (hasIncompleteRating(service)) {
-    // check for rating start date
-    return service.rating_start_date
-      ? currentDate <= stringToDateObject(service.rating_start_date!)
-      : false;
+  if (!service.rating_end_date) {
+    if (service.rating_start_date) {
+      return currentDate < stringToDateObject(service.rating_start_date!);
+    }
+    return false;
   }
 
   const ratingStartDate = stringToDateObject(service.rating_start_date!);
   const ratingEndDate = stringToDateObject(service.rating_end_date!);
-
-  return currentDate <= ratingStartDate && currentDate <= ratingEndDate;
+  return currentDate < ratingStartDate && currentDate < ratingEndDate;
 };
+
+const areSimilarServices = (service1: Service, service2: Service): boolean => {
+  const properties = [
+    "valid_days",
+    "typicality",
+    "type",
+    "rating_start_date",
+    "rating_end_date",
+    "name",
+    "description"
+  ];
+  return _.every(properties, (p: keyof Service) =>
+    _.isEqual(service2[p], service1[p])
+  );
+};
+
+// If two similar services are present, show only one. Choose the first
+// sequentially (this depends on the input list already being sorted by
+// start_date).
+export const dedupeServices = (services: Service[]): Service[] =>
+  _.uniqWith(services, areSimilarServices);
 
 export const groupServicesByDateRating = (
   services: Service[],
@@ -127,30 +156,25 @@ export const groupServicesByDateRating = (
       return ServiceGroupNames.OTHER;
     }
 
-    // if there's no rating end date, this is probably a CR or Ferry.
-    // don't use the rating in that case.
-    if (
-      hasIncompleteRating(service) &&
-      isInCurrentService(service, currentDate)
-    ) {
-      return ServiceGroupNames.CURRENT;
-    }
-    if (
-      (hasIncompleteRating(service) ||
-        !isInFutureRating(service, currentDate)) &&
-      isInFutureService(service, currentDate)
-    ) {
-      return ServiceGroupNames.FUTURE;
+    // if there's no rating end date, this is probably a CR or Ferry
+    // don't use the rating dates in the returned text in that case.
+    // additionally, prioritize current service/rating in grouping
+    if (!service.rating_end_date) {
+      if (
+        isInCurrentService(service, currentDate) ||
+        isInCurrentRating(service, currentDate)
+      ) {
+        return ServiceGroupNames.CURRENT;
+      }
+      if (isInFutureRating(service, currentDate)) {
+        return ServiceGroupNames.FUTURE;
+      }
     }
 
     const ratingStartDate = stringToDateObject(service.rating_start_date!);
     const ratingEndDate = stringToDateObject(service.rating_end_date!);
 
-    if (
-      isInCurrentRating(service, currentDate) &&
-      (service.typicality === "typical_service" ||
-        service.typicality === "unplanned_disruption")
-    ) {
+    if (isInCurrentRating(service, currentDate)) {
       return `${ServiceGroupNames.CURRENT} (${
         service.rating_description
       }, ends ${shortDate(ratingEndDate)})`;
@@ -172,6 +196,47 @@ const optGroupOrder: { [key: string]: number } = {
   [ServiceGroupNames.FUTURE]: 2,
   [ServiceGroupNames.OTHER]: 1
 };
+
+// sort the service types
+const serviceTypeOrder: { [key in ServiceType]: number } = {
+  weekday: 4,
+  saturday: 3,
+  sunday: 2,
+  other: 1
+};
+
+/* eslint-disable @typescript-eslint/camelcase */
+// sort the service typicalities
+const serviceTypicalityOrder: { [key in ServiceTypicality]: number } = {
+  unplanned_disruption: 4,
+  planned_disruption: 3,
+  holiday_service: 2,
+  extra_service: 1,
+  typical_service: 0,
+  unknown: 0
+};
+/* eslint-enable @typescript-eslint/camelcase */
+
+// enable sorting of services by rating dates,
+// service type, service typicality, and service dates
+export const serviceComparator = (
+  {
+    type: type1,
+    valid_days: validDays1,
+    typicality: typicality1,
+    start_date: date1
+  }: Service,
+  {
+    type: type2,
+    valid_days: validDays2,
+    typicality: typicality2,
+    start_date: date2
+  }: Service
+): number =>
+  serviceTypeOrder[type2] - serviceTypeOrder[type1] ||
+  validDays1[0] - validDays2[0] ||
+  serviceTypicalityOrder[typicality2] - serviceTypicalityOrder[typicality1] ||
+  stringToDateObject(date1).getTime() - stringToDateObject(date2).getTime();
 
 // group names may have extra verbiage
 export const optGroupComparator = (groupA: string, groupB: string): number => {

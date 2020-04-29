@@ -6,7 +6,8 @@ import {
   groupServicesByDateRating,
   isCurrentValidService,
   serviceStartDateComparator,
-  optGroupComparator
+  optGroupComparator,
+  serviceComparator
 } from "../../../helpers/service";
 import { reducer } from "../../../helpers/fetch";
 import ScheduleTable from "./ScheduleTable";
@@ -77,14 +78,15 @@ export const ServiceSelector = ({
   const todayDate = stringToDateObject(today);
 
   // By default, show the current day's service
-  const currentServices = services
-    .sort(serviceStartDateComparator)
-    .filter(service => isCurrentValidService(service, todayDate));
+  const sortedServices = services.sort(serviceStartDateComparator);
+  const currentServices = sortedServices.filter(service =>
+    isCurrentValidService(service, todayDate)
+  );
 
   const [defaultSelectedService] = currentServices.length
     ? currentServices
-    : services;
-  const now = currentServices.length ? defaultSelectedService.id : "";
+    : sortedServices;
+  const now = currentServices.length > 0 ? currentServices[0].id : "";
   const [selectedService, setSelectedService] = useState(
     defaultSelectedService
   );
@@ -101,7 +103,7 @@ export const ServiceSelector = ({
   if (services.length <= 0) return null;
 
   const servicesByOptGroup: Dictionary<Service[]> = groupServicesByDateRating(
-    services,
+    sortedServices,
     todayDate
   );
 
@@ -135,7 +137,7 @@ export const ServiceSelector = ({
                   <ServiceOptGroup
                     key={group}
                     label={group}
-                    services={groupedServices}
+                    services={groupedServices.sort(serviceComparator)}
                     multipleWeekdays={hasMultipleWeekdaySchedules(
                       groupedServices
                     )}

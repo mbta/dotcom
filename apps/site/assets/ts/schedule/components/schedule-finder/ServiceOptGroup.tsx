@@ -1,5 +1,9 @@
 import React, { ReactElement } from "react";
-import { ServiceGroupNames, serviceDays } from "../../../helpers/service";
+import {
+  ServiceGroupNames,
+  serviceDays,
+  dedupeServices
+} from "../../../helpers/service";
 import { Service } from "../../../__v3api";
 import { shortDate } from "../../../helpers/date";
 
@@ -18,7 +22,7 @@ const ServiceOptGroup = ({
 }: Props): ReactElement<HTMLElement> | null =>
   services.length === 0 ? null : (
     <optgroup label={label}>
-      {services.map(service => {
+      {dedupeServices(services).map(service => {
         const isMultipleWeekday =
           multipleWeekdays &&
           service.type === "weekday" &&
