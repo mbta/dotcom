@@ -13,6 +13,7 @@ stickyHeaderEl.setAttribute(
   "style",
   "border: 1px solid #b0b5c0; overflow: hidden; position: fixed; top: 0;"
 );
+stickyHeaderEl.setAttribute("aria-hidden", "true");
 let removedLabels = null;
 let isStuck = false;
 
