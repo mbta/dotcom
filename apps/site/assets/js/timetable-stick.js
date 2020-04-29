@@ -36,11 +36,12 @@ const showStickyLabels = () => {
     stickyHeaderEl.style.right = `${tableRight - tableWidth}px`;
     stickyHeaderEl.style.width = `${tableWidth}px`;
     trainLabels.forEach(labelEl => {
-      const labelWidth = labelEl.getBoundingClientRect().width;
+      const { fontSize, width } = window.getComputedStyle(labelEl);
       const stickyLabelEl = labelEl.cloneNode(true);
       stickyLabelEl.className = "m-timetable__header-cell";
-      stickyLabelEl.style.minWidth = `${labelWidth}px`;
-      stickyLabelEl.style.maxWidth = `${labelWidth}px`;
+      stickyLabelEl.style.fontSize = fontSize;
+      stickyLabelEl.style.minWidth = width;
+      stickyLabelEl.style.maxWidth = width;
       stickyHeaderEl.appendChild(stickyLabelEl);
     });
 
@@ -74,9 +75,10 @@ const resizeStickyHeader = () => {
   stickyHeaderEl.style.width = `${tableWidth}px`;
   const stickyLabels = stickyHeaderEl.childNodes;
   trainLabels.forEach((trainLabel, index) => {
-    const newWidth = trainLabel.getBoundingClientRect().width;
-    stickyLabels[index].style.minWidth = `${newWidth}px`;
-    stickyLabels[index].style.maxWidth = `${newWidth}px`;
+    const { fontSize, width } = window.getComputedStyle(trainLabel);
+    stickyLabels[index].style.fontSize = fontSize;
+    stickyLabels[index].style.minWidth = width;
+    stickyLabels[index].style.maxWidth = width;
   });
 };
 
