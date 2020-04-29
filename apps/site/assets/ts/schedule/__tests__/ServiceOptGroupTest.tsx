@@ -13,6 +13,7 @@ describe("ServiceOptGroup", () => {
           label={"Group label"}
           services={services}
           multipleWeekdays={false}
+          now=""
         />
       )
       .toJSON();
@@ -22,7 +23,12 @@ describe("ServiceOptGroup", () => {
   it("returns null if no services", () => {
     createReactRoot();
     const tree = renderer.create(
-      <ServiceOptGroup label={""} services={[]} multipleWeekdays={false} />
+      <ServiceOptGroup
+        label={""}
+        services={[]}
+        multipleWeekdays={false}
+        now=""
+      />
     );
     expect(tree.toJSON()).toBeNull();
   });
