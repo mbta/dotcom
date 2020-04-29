@@ -28,20 +28,6 @@ interface Props {
   today: string;
 }
 
-// By default, show the current day's service
-const getDefaultService = (
-  services: ServiceInSelector[],
-  today: Date
-): Service => {
-  services.sort(serviceStartDateComparator);
-
-  const currentServices = services.filter(service =>
-    isCurrentValidService(service, today)
-  );
-
-  return currentServices.length ? currentServices[0] : services[0];
-};
-
 type fetchAction =
   | { type: "FETCH_COMPLETE"; payload: Journey[] }
   | { type: "FETCH_ERROR" }
@@ -89,8 +75,19 @@ export const ServiceSelector = ({
   });
 
   const todayDate = stringToDateObject(today);
-  const defaultService = getDefaultService(services, todayDate);
-  const [selectedService, setSelectedService] = useState(defaultService);
+
+  // By default, show the current day's service
+  const currentServices = services
+    .sort(serviceStartDateComparator)
+    .filter(service => isCurrentValidService(service, todayDate));
+
+  const [defaultSelectedService] = currentServices.length
+    ? currentServices
+    : services;
+  const now = currentServices.length ? defaultSelectedService.id : "";
+  const [selectedService, setSelectedService] = useState(
+    defaultSelectedService
+  );
 
   useEffect(
     () => {
@@ -98,7 +95,7 @@ export const ServiceSelector = ({
       if (!selectedService) return;
       fetchData(routeId, stopId, selectedService, directionId, false, dispatch);
     },
-    [services, routeId, directionId, stopId, selectedService, defaultService]
+    [services, routeId, directionId, stopId, selectedService]
   );
 
   if (services.length <= 0) return null;
@@ -119,7 +116,7 @@ export const ServiceSelector = ({
           <select
             id="service_selector"
             className="c-select-custom text-center u-bold"
-            defaultValue={defaultService.id}
+            defaultValue={defaultSelectedService.id}
             onChange={(e): void => {
               const chosenService = services.find(s => s.id === e.target.value);
               if (chosenService) {
@@ -142,6 +139,7 @@ export const ServiceSelector = ({
                     multipleWeekdays={hasMultipleWeekdaySchedules(
                       groupedServices
                     )}
+                    now={now}
                   />
                 );
               })}
