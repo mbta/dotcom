@@ -7,7 +7,6 @@ import {
   isCurrentValidService,
   isInFutureRating,
   optGroupComparator,
-  hasIncompleteRating,
   isInFutureService
 } from "../service";
 import { Service, DayInteger } from "../../__v3api";
@@ -193,21 +192,6 @@ describe("groupServicesByDateRating", () => {
     });
   });
 
-  it("lists only typical_service services in the relevant rating as 'current'", () => {
-    const currentKeys = Object.keys(grouped).filter(
-      key => key.split(" ")[0] === ServiceGroupNames.CURRENT.split(" ")[0]
-    );
-    currentKeys.forEach(currentKey => {
-      const currentServices = grouped[currentKey!];
-      currentServices.forEach(service => {
-        expect(service.typicality).toEqual("typical_service");
-        expect(isInCurrentRating(service, testDate)).toBe(
-          !hasIncompleteRating(service)
-        );
-      });
-    });
-  });
-
   it("lists only holiday_service services as 'holiday'", () => {
     grouped[ServiceGroupNames.HOLIDAY].forEach(service => {
       expect(service.typicality).toEqual("holiday_service");
@@ -266,30 +250,6 @@ describe("groupServicesByDateRating", () => {
       });
     });
   });
-
-  it("annotates future schedules optgroup with rating name and rating start date", () => {
-    // well, only if we have identified a future rating
-    const futureKeys = Object.keys(grouped).filter(
-      key => key.split(" ")[0] === ServiceGroupNames.FUTURE.split(" ")[0]
-    );
-    futureKeys.forEach(futureKey => {
-      grouped[futureKey].forEach(futureService => {
-        const noAnnotation =
-          hasIncompleteRating(futureService) ||
-          (isInFutureService(futureService, testDate) &&
-            !isInFutureRating(futureService, testDate));
-
-        const name = noAnnotation
-          ? ServiceGroupNames.FUTURE
-          : `${ServiceGroupNames.FUTURE} (${
-              futureService.rating_description
-            }, starts ${shortDate(
-              stringToDateObject(futureService.rating_start_date!)
-            )})`;
-        expect(futureKey).toEqual(name);
-      });
-    });
-  });
 });
 
 it("optGroupComparator sorts properly", () => {
@@ -344,13 +304,6 @@ it("isInFutureRating evaluates whether date falls within service future rating d
   expect(
     isInFutureRating(serviceWithoutRating, stringToDateObject("2020-08-08"))
   ).toBe(false);
-});
-
-it("hasIncompleteRating evaluates whether service does not fall within a rating", () => {
-  const serviceWithRating = services[0];
-  const serviceWithoutRating = services[8];
-  expect(hasIncompleteRating(serviceWithoutRating)).toEqual(true);
-  expect(hasIncompleteRating(serviceWithRating)).toEqual(false);
 });
 
 it("hasMultipleWeekdaySchedules indicates presence of multiple weekday schedules", () => {
