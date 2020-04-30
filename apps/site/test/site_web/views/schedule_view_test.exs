@@ -11,7 +11,6 @@ defmodule SiteWeb.ScheduleViewTest do
   import SiteWeb.ScheduleView
   import Phoenix.HTML.Tag, only: [content_tag: 3]
   import Phoenix.HTML, only: [safe_to_string: 1]
-  import Mock
 
   @trip %Schedules.Trip{name: "101", headsign: "Headsign", direction_id: 0, id: "1"}
   @stop %Stops.Stop{id: "stop-id", name: "Stop Name"}
@@ -903,34 +902,6 @@ defmodule SiteWeb.ScheduleViewTest do
       assert tabs =~ "alerts-tab"
       refute tabs =~ "info-tab"
       refute tabs =~ "timetable-tab"
-    end
-
-    test "includes shuttles tab if there are any shuttle alerts", %{conn: conn} do
-      with_mock Site.ShuttleDiversion, active?: fn _, _ -> true end do
-        tabs =
-          conn
-          |> assign(:route, %Route{id: "83", type: 3})
-          |> assign(:tab, "alerts")
-          |> assign(:tab_params, [])
-          |> route_header_tabs()
-          |> safe_to_string()
-
-        assert tabs =~ "shuttles-tab"
-      end
-    end
-
-    test "doesn't include shuttles tab, if no shuttle alert", %{conn: conn} do
-      with_mock Site.ShuttleDiversion, active?: fn _, _ -> false end do
-        tabs =
-          conn
-          |> assign(:route, %Route{id: "83", type: 3})
-          |> assign(:tab, "alerts")
-          |> assign(:tab_params, [])
-          |> route_header_tabs()
-          |> safe_to_string()
-
-        refute tabs =~ "shuttles-tab"
-      end
     end
   end
 
