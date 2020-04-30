@@ -12,7 +12,7 @@ defmodule SiteWeb.ScheduleView do
   alias Phoenix.HTML.Safe
   alias Plug.Conn
   alias Routes.Route
-  alias Site.{MapHelpers, ShuttleDiversion}
+  alias Site.MapHelpers
   alias SiteWeb.PartialView.{HeaderTab, HeaderTabs, SvgIconWithCircle}
   alias Stops.{RouteStop, Stop}
 
@@ -58,7 +58,6 @@ defmodule SiteWeb.ScheduleView do
   def template_for_tab("timetable"), do: "_timetable.html"
   def template_for_tab("line"), do: "_line.html"
   def template_for_tab("alerts"), do: "_alerts.html"
-  def template_for_tab("shuttles"), do: "_shuttles.html"
 
   @spec reverse_direction_opts(Stops.Stop.t() | nil, Stops.Stop.t() | nil, 0..1) :: Keyword.t()
   def reverse_direction_opts(origin, destination, direction_id) do
@@ -368,12 +367,10 @@ defmodule SiteWeb.ScheduleView do
   def route_header_tabs(conn) do
     route = conn.assigns.route
     tab_params = conn.assigns.tab_params
-    now = conn.assigns[:date_time] || Util.now()
     schedule_link = trip_view_path(conn, :show, route.id, tab_params)
     info_link = line_path(conn, :show, route.id, tab_params)
     timetable_link = timetable_path(conn, :show, route.id, tab_params)
     alerts_link = alerts_path(conn, :show, route.id, tab_params)
-    shuttles_link = shuttles_path(conn, :show, route.id, tab_params)
 
     tabs = [
       %HeaderTab{
@@ -383,20 +380,6 @@ defmodule SiteWeb.ScheduleView do
         badge: conn |> alert_count() |> alert_badge()
       }
     ]
-
-    tabs =
-      if ShuttleDiversion.active?([route.id], now) do
-        [
-          %HeaderTab{
-            id: "shuttles",
-            name: "Shuttles",
-            href: shuttles_link
-          }
-          | tabs
-        ]
-      else
-        tabs
-      end
 
     tabs =
       case route.type do

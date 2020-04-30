@@ -451,18 +451,6 @@ defmodule SiteWeb.ScheduleControllerTest do
       default_shape_id = List.first(Repo.get_shapes("9", direction_id: 1)).id
       assert conn.assigns.active_shape.id == default_shape_id
     end
-
-    test "assigned :paragraphs key is available to shuttles template", %{conn: conn} do
-      conn = get(conn, shuttles_path(conn, :show, "Red"))
-
-      assert Map.has_key?(conn.assigns, :paragraphs)
-      assert is_list(conn.assigns.paragraphs)
-
-      green_conn = get(conn, green_path(conn, :shuttles))
-
-      assert Map.has_key?(green_conn.assigns, :paragraphs)
-      assert is_list(green_conn.assigns.paragraphs)
-    end
   end
 
   describe "tab redirects" do
