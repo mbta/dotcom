@@ -3,9 +3,8 @@
  * ensure the train numbers are always visible on screen
  */
 
-const trainLabels = Array.from(
-  document.querySelector(".js-timetable-train-labels").children
-);
+const trainLabelRow = document.querySelector(".js-timetable-train-labels");
+const trainLabels = trainLabelRow ? Array.from(trainLabelRow.children) : [];
 const tableEl = document.getElementById("timetable");
 const tableBodyEl = document.querySelector(".m-timetable tbody");
 const stickyHeaderEl = document.createElement("div");
@@ -84,7 +83,7 @@ const resizeStickyHeader = () => {
 };
 
 const setUp = () => {
-  if (trainLabels && tableEl) {
+  if (trainLabelRow && tableEl) {
     /**
      *  listen to the scroll event to check whether we need to pin the train
      *  labels to the top of the screen
