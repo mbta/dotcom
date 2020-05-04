@@ -1,6 +1,10 @@
 import React, { ReactElement, useState } from "react";
+import {
+  useQueryParams,
+  StringParam,
+  updateInLocation
+} from "use-query-params";
 import useSWR from "swr";
-import { updateInLocation } from "use-query-params";
 import {
   LineDiagramStop,
   LineDiagramVehicle,
@@ -93,6 +97,26 @@ const LineDiagram = ({
   );
   const [modalMode, setModalMode] = useState<ModalMode>("schedule");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const [query] = useQueryParams({
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    "schedule_direction[direction_id]": StringParam,
+    "schedule_direction[origin]": StringParam
+  });
+
+  React.useEffect(() => {
+    const newDirection = query["schedule_direction[direction_id]"];
+    const newOrigin = query["schedule_direction[origin]"];
+
+    // modify values in case URL has both parameters:
+    if (newDirection !== undefined && newOrigin !== undefined) {
+      setInitialDirection(newDirection === "0" ? 0 : 1);
+      setInitialOrigin(newOrigin);
+      setModalMode("schedule");
+      setIsOpen(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const { data: maybeLiveData } = useSWR(
     `/schedules/line_api/realtime?id=${
