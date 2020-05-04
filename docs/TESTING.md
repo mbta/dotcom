@@ -6,26 +6,43 @@
 
 `npm test` runs all of these in succession.
 
-### Dialyzer
+## Dialyzer
 
 * `mix dialyzer`
 
 Dialyzer is a static analysis tool which looks at type information. We use it
 verify our type specifications and make sure we're calling functions properly.
 
-### Linting
+## Linting
 
 * Elixir: `mix credo`
 * SCSS: `npm run stylelint`
 * TypeScript: `npm run tslint`
 
-### Formatting
+## Formatting
 
 * Elixir: `mix format`
 * JavaScript/TypeScript: `npm run format`
 
 Frontend code is formatted by Prettier. If using the Prettier plugin for Visual
 Studio Code, ensure it uses the ignore file `apps/site/assets/.prettierignore`.
+
+## ExVCR and ExVCRHelpers
+
+ExVCR is a library that allows mocking out sequences of HTTP requests and
+responses, so that tests can run without requesting live data from
+third-party services. Since almost everything dotcom does involves requesting
+data from the API and/or CMS, this is a valuable capability for our tests to have.
+
+There is a certain amount of boilerplate involved in working with ExVCR. To
+automate that boilerplate, we have a library called `ExVCRHelpers`. See
+`apps/exvcr_helpers/README.md` for more details on that.
+
+Many tests in the Elixir test suite currently do request live data from the API
+and/or CMS. This practice should be avoided for new tests, and ExVCR or
+another strategy to mock out live data requests should be used. When tests
+using live data break due to changes in that data, that is an opportune time
+to convert those tests to use ExVCR.
 
 ## CrossBrowserTesting
 
