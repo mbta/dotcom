@@ -61,15 +61,6 @@ export const ScheduleLoader = ({
     });
   };
 
-  const closeModal = (): void => {
-    storeHandler({
-      type: "CLOSE_MODAL",
-      newStoreValues: {}
-    });
-    // clear parameters from URL when closing the modal:
-    updateURL("");
-  };
-
   React.useEffect(() => {
     // get initial values from the store:
     const currentState = getCurrentState();
@@ -139,7 +130,6 @@ export const ScheduleLoader = ({
         <SchedulePage
           updateURL={updateURL}
           schedulePageData={schedulePageData}
-          closeModal={closeModal}
           selectedDirection={currentDirection}
           changeDirection={changeDirection}
           selectedOrigin={selectedOrigin}
@@ -159,11 +149,7 @@ export const ScheduleLoader = ({
           />
           {modalOpen && (
             <ScheduleFinderModal
-              closeModal={closeModal}
               directionChanged={changeDirection}
-              initialMode={modalMode}
-              initialDirection={currentDirection}
-              initialOrigin={selectedOrigin}
               handleOriginSelectClick={handleOriginSelectClick}
               originChanged={changeOrigin}
               route={route}
@@ -195,7 +181,6 @@ export const ScheduleLoader = ({
           changeDirection={changeDirection}
           selectedOrigin={selectedOrigin}
           changeOrigin={changeOrigin}
-          closeModal={closeModal}
         />
       );
     }

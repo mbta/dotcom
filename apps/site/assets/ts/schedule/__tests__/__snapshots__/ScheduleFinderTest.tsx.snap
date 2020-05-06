@@ -1,66 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ScheduleFinder matches snapshot 1`] = `
-"<ScheduleFinder route={{...}} stops={{...}} directionId={0} services={{...}} routePatternsByDirection={{...}} today=\\"2019-12-05\\" scheduleNote={{...}} updateURL={[Function: updateURL]} changeDirection={[Function: changeDirection]} selectedOrigin={{...}} changeOrigin={[Function: changeOrigin]} closeModal={[Function: closeModal]} modalMode=\\"schedule\\" modalOpen={false}>
-  <div className=\\"schedule-finder\\">
-    <Component onDirectionChange={[Function: changeDirection]} onOriginChange={[Function: changeOrigin]} onOriginSelectClick={[Function: openOriginModal]} onSubmit={[Function: openScheduleModal]} route={{...}} selectedDirection={0} selectedOrigin={{...}} stopsByDirection={{...}}>
-      <form onSubmit={[Function: handleSubmit]}>
-        <h2 className=\\"h3 schedule-finder__heading\\">
-          <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
-           Schedule Finder
-        </h2>
-        <div className=\\"schedule-finder__prompt\\">
-          Choose a stop to get schedule information and real-time departure predictions.
-        </div>
-        <div className=\\"schedule-finder__inputs\\">
-          <label className=\\"schedule-finder__label\\">
-            Choose a direction
-            <SelectContainer>
-              <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
-                <select className=\\"c-select-custom\\" value={0} onChange={[Function: onChange]}>
-                  <option value={0}>
-                    INBOUND
-                     
-                    Oak Grove
-                  </option>
-                  <option value={1}>
-                    OUTBOUND
-                     
-                    Forest Hills
-                  </option>
-                </select>
-                <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
-              </div>
-            </SelectContainer>
-          </label>
-          <label className=\\"schedule-finder__label\\">
-            Choose an origin stop
-            <SelectContainer error={false} handleClick={[Function: handleOriginClick]}>
-              <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
-                <select className=\\"c-select-custom c-select-custom--noclick\\" value=\\"\\" onChange={[Function: onChange]}>
-                  <option value=\\"\\">
-                    Select
-                  </option>
-                  <option value=\\"place-welln\\">
-                    Wellington
-                  </option>
-                  <option value=\\"123\\">
-                    Abc
-                  </option>
-                  <option value=\\"741\\">
-                    SL
-                  </option>
-                </select>
-                <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
-              </div>
-            </SelectContainer>
-          </label>
-        </div>
-        <div className=\\"schedule-finder__submit text-right\\">
-          <input className=\\"btn btn-primary\\" type=\\"submit\\" value=\\"Get schedules\\" />
-        </div>
-      </form>
-    </Component>
-  </div>
-</ScheduleFinder>"
+"<Provider store={{...}}>
+  <ScheduleFinder route={{...}} stops={{...}} directionId={0} services={{...}} routePatternsByDirection={{...}} today=\\"2019-12-05\\" scheduleNote={{...}} updateURL={[Function: updateURL]} changeDirection={[Function: changeDirection]} selectedOrigin={{...}} changeOrigin={[Function: changeOrigin]} modalMode=\\"schedule\\" modalOpen={false}>
+    <div className=\\"schedule-finder\\">
+      <Component onDirectionChange={[Function: changeDirection]} onOriginChange={[Function: changeOrigin]} onOriginSelectClick={[Function: openOriginModal]} onSubmit={[Function: openScheduleModal]} route={{...}} selectedDirection={0} selectedOrigin={{...}} stopsByDirection={{...}}>
+        <form onSubmit={[Function: handleSubmit]}>
+          <h2 className=\\"h3 schedule-finder__heading\\">
+            <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+             Schedule Finder
+          </h2>
+          <div className=\\"schedule-finder__prompt\\">
+            Choose a stop to get schedule information and real-time departure predictions.
+          </div>
+          <div className=\\"schedule-finder__inputs\\">
+            <label className=\\"schedule-finder__label\\">
+              Choose a direction
+              <SelectContainer>
+                <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                  <select className=\\"c-select-custom\\" value={0} onChange={[Function: onChange]}>
+                    <option value={0}>
+                      INBOUND
+                       
+                      Oak Grove
+                    </option>
+                    <option value={1}>
+                      OUTBOUND
+                       
+                      Forest Hills
+                    </option>
+                  </select>
+                  <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                </div>
+              </SelectContainer>
+            </label>
+            <label className=\\"schedule-finder__label\\">
+              Choose an origin stop
+              <SelectContainer error={false} handleClick={[Function: handleOriginClick]}>
+                <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                  <select className=\\"c-select-custom c-select-custom--noclick\\" value=\\"\\" onChange={[Function: onChange]}>
+                    <option value=\\"\\">
+                      Select
+                    </option>
+                    <option value=\\"place-welln\\">
+                      Wellington
+                    </option>
+                    <option value=\\"123\\">
+                      Abc
+                    </option>
+                    <option value=\\"741\\">
+                      SL
+                    </option>
+                  </select>
+                  <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                </div>
+              </SelectContainer>
+            </label>
+          </div>
+          <div className=\\"schedule-finder__submit text-right\\">
+            <input className=\\"btn btn-primary\\" type=\\"submit\\" value=\\"Get schedules\\" />
+          </div>
+        </form>
+      </Component>
+    </div>
+  </ScheduleFinder>
+</Provider>"
 `;

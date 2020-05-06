@@ -1,22 +1,21 @@
 import React, { ReactElement } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { DirectionId, Route } from "../../../__v3api";
 import {
   SimpleStopMap,
   RoutePatternsByDirection,
   ServiceInSelector,
   ScheduleNote as ScheduleNoteType,
-  SelectedOrigin
+  SelectedOrigin,
+  SelectedStopId
 } from "../__schedule";
 import Modal from "../../../components/Modal";
 import StopSearchModalContent from "./StopSearchModalContent";
 import ScheduleModalContent from "./ScheduleModalContent";
+import { StoreProps } from "../../store/ScheduleStore";
 
 interface Props {
-  closeModal: () => void;
   directionChanged?: (direction: DirectionId) => void;
-  initialMode: Mode;
-  initialDirection: DirectionId;
-  initialOrigin: SelectedOrigin;
   originChanged?: (origin: SelectedOrigin) => void;
   route: Route;
   routePatternsByDirection: RoutePatternsByDirection;
@@ -29,11 +28,7 @@ interface Props {
 }
 
 export default ({
-  closeModal,
   directionChanged,
-  initialMode,
-  initialDirection,
-  initialOrigin,
   originChanged,
   route,
   routePatternsByDirection,
@@ -44,33 +39,63 @@ export default ({
   updateURL,
   handleOriginSelectClick
 }: Props): ReactElement => {
+  const dispatch = useDispatch();
+  const selectedDirection = useSelector(
+    (store: StoreProps) => store.selectedDirection
+  );
+  const selectedOrigin = useSelector(
+    (store: StoreProps) => store.selectedOrigin
+  );
+  const selectedDestination = useSelector(
+    (store: StoreProps) => store.selectedDestination
+  );
+  const modalMode = useSelector((store: StoreProps) => store.modalMode);
+
   const handleChangeDirection = (newDirection: DirectionId): void => {
     if (directionChanged) directionChanged(newDirection);
     if (originChanged) originChanged(null);
-    updateURL(initialOrigin, newDirection);
+    updateURL(selectedOrigin, newDirection);
   };
 
   const handleChangeOrigin = (newOrigin: SelectedOrigin): void => {
     if (originChanged) originChanged(newOrigin);
-    updateURL(newOrigin, initialDirection);
+    updateURL(newOrigin, selectedDirection);
   };
 
   const originModalContent = (): ReactElement => {
-    const origin = initialOrigin;
-    const direction = initialDirection;
-    const lastStop = stops[direction][stops[direction].length - 1].id;
+    const lastStop =
+      stops[selectedDirection][stops[selectedDirection].length - 1].id;
     return (
       <StopSearchModalContent
         handleChangeStop={handleChangeOrigin}
-        selectedStop={origin}
-        stops={stops[direction] || []}
+        selectedStop={selectedOrigin}
+        stops={stops[selectedDirection] || []}
         searchLabel="Choose an origin stop"
         disabledStop={lastStop}
       />
     );
   };
 
-  const scheduleModalContent = (scheduleOrigin: string): ReactElement => (
+  const destinationModalContent = (): ReactElement => (
+    <StopSearchModalContent
+      handleChangeStop={(newDestination: SelectedStopId): void => {
+        dispatch({
+          type: "CHANGE_DESTINATION",
+          newStoreValues: { selectedDestination: newDestination }
+        });
+        dispatch({
+          type: "OPEN_MODAL",
+          newStoreValues: { modalMode: "schedule" }
+        });
+      }}
+      selectedStop={selectedDestination}
+      stops={stops[selectedDirection] || []}
+      searchLabel="Arriving at"
+      disabledStop={selectedOrigin}
+    />
+  );
+
+  const scheduleModalContent = (): ReactElement => (
     <ScheduleModalContent
       handleChangeDirection={handleChangeDirection}
       handleChangeOrigin={handleChangeOrigin}
@@ -78,37 +103,38 @@ export default ({
       route={route}
       routePatternsByDirection={routePatternsByDirection}
       scheduleNote={scheduleNote}
-      selectedDirection={initialDirection}
-      selectedOrigin={scheduleOrigin}
+      selectedDirection={selectedDirection}
+      selectedOrigin={selectedOrigin || ""}
       services={services}
       stops={stops}
       today={today}
     />
   );
 
-  const direction = initialDirection;
-  const origin = initialOrigin;
-
   return (
     <Modal
       focusElementId={
-        initialMode === "origin" ? "stop-search-filter" : "modal-close"
+        modalMode === "schedule" ? "modal-close" : "stop-search-filter"
       }
       ariaLabel={{
         label:
-          initialMode === "origin"
+          modalMode === "origin"
             ? "Choose Origin Stop"
-            : `Schedules to ${route.direction_names[direction]}`
+            : `Schedules to ${route.direction_names[selectedDirection]}`
       }}
-      className={
-        initialMode === "origin" ? "schedule-finder__origin-modal" : ""
+      className={modalMode === "origin" ? "schedule-finder__origin-modal" : ""}
+      closeModal={() =>
+        modalMode === "schedule"
+          ? dispatch({ type: "CLOSE_MODAL" })
+          : dispatch({
+              type: "OPEN_MODAL",
+              newStoreValues: { modalMode: "schedule" }
+            })
       }
-      closeModal={closeModal}
     >
-      {initialMode === "origin" && originModalContent()}
-      {initialMode === "schedule" &&
-        origin !== null &&
-        scheduleModalContent(origin)}
+      {modalMode === "origin" && originModalContent()}
+      {modalMode === "destination" && destinationModalContent()}
+      {modalMode === "schedule" && scheduleModalContent()}
     </Modal>
   );
 };

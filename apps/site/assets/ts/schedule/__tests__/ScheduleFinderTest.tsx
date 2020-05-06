@@ -1,4 +1,5 @@
 import React from "react";
+import { Provider } from "react-redux";
 import { mount } from "enzyme";
 import ScheduleFinder from "../components/ScheduleFinder";
 import { EnhancedRoute } from "../../__v3api";
@@ -160,22 +161,23 @@ const routePatternsByDirection = {
 describe("ScheduleFinder", () => {
   const mountComponent = () =>
     mount(
-      <ScheduleFinder
-        route={route}
-        stops={stops}
-        directionId={0}
-        services={services}
-        routePatternsByDirection={routePatternsByDirection}
-        today={today}
-        scheduleNote={null}
-        updateURL={() => {}}
-        changeDirection={() => {}}
-        selectedOrigin={null}
-        changeOrigin={() => {}}
-        closeModal={() => {}}
-        modalMode="schedule"
-        modalOpen={false}
-      />
+      <Provider store={scheduleStoreModule.store}>
+        <ScheduleFinder
+          route={route}
+          stops={stops}
+          directionId={0}
+          services={services}
+          routePatternsByDirection={routePatternsByDirection}
+          today={today}
+          scheduleNote={null}
+          updateURL={() => {}}
+          changeDirection={() => {}}
+          selectedOrigin={null}
+          changeOrigin={() => {}}
+          modalMode="schedule"
+          modalOpen={false}
+        />
+      </Provider>
     );
 
   it("matches snapshot", () => {
@@ -185,28 +187,29 @@ describe("ScheduleFinder", () => {
 
   it("opens the schedule modal via the origin modal", () => {
     const wrapper = mount(
-      <ScheduleFinder
-        route={route}
-        stops={stops}
-        directionId={0}
-        services={services}
-        routePatternsByDirection={routePatternsByDirection}
-        today={today}
-        scheduleNote={null}
-        updateURL={() => {}}
-        changeDirection={() => {}}
-        selectedOrigin="123"
-        changeOrigin={() => {}}
-        closeModal={() => {}}
-        modalMode="schedule"
-        modalOpen={true}
-      />
+      <Provider store={scheduleStoreModule.store}>
+        <ScheduleFinder
+          route={route}
+          stops={stops}
+          directionId={0}
+          services={services}
+          routePatternsByDirection={routePatternsByDirection}
+          today={today}
+          scheduleNote={null}
+          updateURL={() => {}}
+          changeDirection={() => {}}
+          selectedOrigin="123"
+          changeOrigin={() => {}}
+          modalMode="schedule"
+          modalOpen={true}
+        />
+      </Provider>
     );
 
     // Schedule modal should be open with the chosen origin selected
     expect(
       wrapper
-        .find(".schedule-finder--modal select")
+        .find(".schedule-finder__origin-modal select")
         .last()
         .prop("value")
     ).toEqual("123");
@@ -243,22 +246,23 @@ describe("ScheduleFinder", () => {
 
     // re-mount with directionId = 1 (simulate change in direction)
     wrapper = mount(
-      <ScheduleFinder
-        route={route}
-        stops={stops}
-        directionId={1}
-        services={services}
-        routePatternsByDirection={routePatternsByDirection}
-        today={today}
-        scheduleNote={null}
-        updateURL={() => {}}
-        changeDirection={() => {}}
-        selectedOrigin={null}
-        changeOrigin={() => {}}
-        closeModal={() => {}}
-        modalMode="origin"
-        modalOpen={true}
-      />
+      <Provider store={scheduleStoreModule.store}>
+        <ScheduleFinder
+          route={route}
+          stops={stops}
+          directionId={1}
+          services={services}
+          routePatternsByDirection={routePatternsByDirection}
+          today={today}
+          scheduleNote={null}
+          updateURL={() => {}}
+          changeDirection={() => {}}
+          selectedOrigin={null}
+          changeOrigin={() => {}}
+          modalMode="origin"
+          modalOpen={true}
+        />
+      </Provider>
     );
 
     expect(
@@ -271,22 +275,23 @@ describe("ScheduleFinder", () => {
 
   it("Opens the origin modal when clicking on the origin drop-down in the schedule modal", () => {
     const wrapper = mount(
-      <ScheduleFinder
-        route={route}
-        stops={stops}
-        directionId={0}
-        services={services}
-        routePatternsByDirection={routePatternsByDirection}
-        today={today}
-        scheduleNote={null}
-        updateURL={() => {}}
-        changeDirection={() => {}}
-        selectedOrigin="123"
-        changeOrigin={() => {}}
-        closeModal={() => {}}
-        modalMode="schedule"
-        modalOpen={true}
-      />
+      <Provider store={scheduleStoreModule.store}>
+        <ScheduleFinder
+          route={route}
+          stops={stops}
+          directionId={0}
+          services={services}
+          routePatternsByDirection={routePatternsByDirection}
+          today={today}
+          scheduleNote={null}
+          updateURL={() => {}}
+          changeDirection={() => {}}
+          selectedOrigin="123"
+          changeOrigin={() => {}}
+          modalMode="schedule"
+          modalOpen={true}
+        />
+      </Provider>
     );
 
     const numNodes = wrapper.find("SelectContainer").length;

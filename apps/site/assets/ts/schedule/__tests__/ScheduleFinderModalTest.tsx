@@ -1,4 +1,5 @@
 import React from "react";
+import { Provider } from "react-redux";
 import { mount } from "enzyme";
 import ScheduleFinderModal from "../components/schedule-finder/ScheduleFinderModal";
 import { Route } from "../../__v3api";
@@ -7,8 +8,8 @@ import {
   SelectedOrigin,
   ServiceInSelector
 } from "../components/__schedule";
+import { ModalMode, store } from "../store/ScheduleStore";
 import * as routePatternsByDirectionData from "./routePatternsByDirectionData.json";
-import { ModalMode } from "../store/ScheduleStore";
 
 const routePatternsByDirection = routePatternsByDirectionData as RoutePatternsByDirection;
 
@@ -133,20 +134,18 @@ const stops = {
 describe("ScheduleFinderModal", () => {
   const mountComponent = (mode: ModalMode, origin: SelectedOrigin) =>
     mount(
-      <ScheduleFinderModal
-        closeModal={() => {}}
-        initialMode={"origin"}
-        route={route}
-        routePatternsByDirection={routePatternsByDirection}
-        scheduleNote={null}
-        services={services}
-        stops={stops}
-        today={today}
-        updateURL={() => {}}
-        initialDirection={0}
-        initialOrigin={null}
-        handleOriginSelectClick={() => {}}
-      />
+      <Provider store={store}>
+        <ScheduleFinderModal
+          route={route}
+          routePatternsByDirection={routePatternsByDirection}
+          scheduleNote={null}
+          services={services}
+          stops={stops}
+          today={today}
+          updateURL={() => {}}
+          handleOriginSelectClick={() => {}}
+        />
+      </Provider>
     );
 
   it("matches snapshot in origin mode", () => {

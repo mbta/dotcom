@@ -9,17 +9,14 @@ import Fares from "./Fares";
 import UpcomingHolidays from "./UpcomingHolidays";
 import ScheduleNote from "./ScheduleNote";
 import ScheduleFinder from "./ScheduleFinder";
-import ScheduleFinderModal, {
-  Mode as ModalMode
-} from "./schedule-finder/ScheduleFinderModal";
-import { storeHandler } from "../store/ScheduleStore";
+import ScheduleFinderModal from "./schedule-finder/ScheduleFinderModal";
+import { ModalMode, storeHandler } from "../store/ScheduleStore";
 
 interface Props {
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
   schedulePageData: SchedulePageData;
   modalOpen: boolean;
   modalMode: ModalMode;
-  closeModal: () => void;
   changeDirection: (direction: DirectionId) => void;
   selectedDirection: DirectionId;
   selectedOrigin: SelectedOrigin;
@@ -44,7 +41,6 @@ const SchedulePage = ({
     today
   },
   updateURL,
-  closeModal,
   changeDirection,
   changeOrigin,
   modalOpen,
@@ -70,11 +66,7 @@ const SchedulePage = ({
           />
           {modalOpen && (
             <ScheduleFinderModal
-              closeModal={closeModal}
               directionChanged={changeDirection}
-              initialMode={modalMode}
-              initialDirection={selectedDirection}
-              initialOrigin={selectedOrigin}
               handleOriginSelectClick={handleOriginSelectClick}
               originChanged={changeOrigin}
               route={route}
@@ -100,7 +92,6 @@ const SchedulePage = ({
           selectedOrigin={selectedOrigin}
           changeDirection={changeDirection}
           changeOrigin={changeOrigin}
-          closeModal={closeModal}
           modalMode={modalMode}
           modalOpen={modalOpen}
         />

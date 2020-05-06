@@ -27,7 +27,6 @@ interface Props {
   changeDirection: (direction: DirectionId) => void;
   selectedOrigin: SelectedOrigin;
   changeOrigin: (origin: SelectedOrigin) => void;
-  closeModal: () => void;
   modalMode: ModalMode;
   modalOpen: boolean;
 }
@@ -41,12 +40,10 @@ const ScheduleFinder = ({
   routePatternsByDirection,
   today,
   scheduleNote,
-  modalMode,
   selectedOrigin,
   changeDirection,
   changeOrigin,
-  modalOpen,
-  closeModal
+  modalOpen
 }: Props): ReactElement<HTMLElement> => {
   const openOriginModal = (): void => {
     const currentState = getCurrentState();
@@ -98,11 +95,7 @@ const ScheduleFinder = ({
 
       {modalOpen && (
         <ScheduleFinderModal
-          closeModal={closeModal}
           directionChanged={changeDirection}
-          initialMode={modalMode}
-          initialDirection={directionId}
-          initialOrigin={selectedOrigin}
           handleOriginSelectClick={handleOriginSelectClick}
           originChanged={changeOrigin}
           route={route}
