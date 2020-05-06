@@ -1,4 +1,7 @@
 defmodule SiteWeb.TripPlanController do
+  @moduledoc """
+  Page for the Trip Planner. Manages the itineraries.
+  """
   use SiteWeb, :controller
   alias Routes.Route
   alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
@@ -25,6 +28,50 @@ defmodule SiteWeb.TripPlanController do
     render(conn, :index)
   end
 
+  @spec get_normalized_value(TripPlan.NamedPosition.t()) :: TripPlan.NamedPosition.t()
+  defp get_normalized_value(location) do
+    geocoded_location = location.name |> TripPlan.geocode()
+
+    case geocoded_location do
+      {:ok, normalized_location} ->
+        normalized_location
+
+      _ ->
+        location
+    end
+  end
+
+  @spec get_normalized_plan(map, map) :: map
+  defp get_normalized_plan(query, plan) do
+    defaults_from_plan = %{
+      from: %{
+        latitude: plan["from_latitude"],
+        longitude: plan["from_longitude"],
+        name: plan["from"]
+      },
+      to: %{
+        latitude: plan["to_latitude"],
+        longitude: plan["to_longitude"],
+        name: plan["to"]
+      }
+    }
+
+    normalized_from = get_normalized_value(Map.merge(defaults_from_plan.from, query.from))
+    normalized_to = get_normalized_value(Map.merge(defaults_from_plan.to, query.to))
+
+    %{name: name_from, latitude: latitude_from, longitude: longitude_from} = normalized_from
+    %{name: name_to, latitude: latitude_to, longitude: longitude_to} = normalized_to
+
+    Map.merge(plan, %{
+      "from" => name_from,
+      "from_latitude" => latitude_from,
+      "from_longitude" => longitude_from,
+      "to" => name_to,
+      "to_latitude" => latitude_to,
+      "to_longitude" => longitude_to
+    })
+  end
+
   @spec render_plan(Plug.Conn.t(), map) :: Plug.Conn.t()
   defp render_plan(conn, plan) do
     query =
@@ -34,10 +81,20 @@ defmodule SiteWeb.TripPlanController do
         end_of_rating: Map.get(conn.assigns, :end_of_rating, Schedules.Repo.end_of_rating())
       )
 
+    # query.from and query.to can either be TripPlan.NamedPosition's
+    # or tuples such as {:error, :specific_error}.
+    # If they're tuples they cannot be normalized
+    normalized_plan =
+      if is_tuple(query.from) || is_tuple(query.to) do
+        plan
+      else
+        get_normalized_plan(query, plan)
+      end
+
     itineraries = Query.get_itineraries(query)
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
-    itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, plan)
+    itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, normalized_plan)
 
     conn
     |> render(
@@ -59,7 +116,11 @@ defmodule SiteWeb.TripPlanController do
   @spec itinerary_row_lists([Itinerary.t()], route_mapper, map) :: [ItineraryRowList.t()]
   defp itinerary_row_lists(itineraries, route_mapper, plan) do
     deps = %ItineraryRow.Dependencies{route_mapper: route_mapper}
-    Enum.map(itineraries, &ItineraryRowList.from_itinerary(&1, deps, to_and_from(plan)))
+
+    Enum.map(
+      itineraries,
+      &ItineraryRowList.from_itinerary(&1, deps, to_and_from(plan))
+    )
   end
 
   @spec assign_initial_map(Plug.Conn.t(), any()) :: Plug.Conn.t()
