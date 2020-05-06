@@ -62,6 +62,50 @@ export const fetchData = (
   );
 };
 
+const NoScheduledService = (): ReactElement<HTMLElement> => (
+  <div className="callout u-bold text-center">
+    There is no scheduled service for this time period.
+  </div>
+);
+
+export const ScheduleTableWrapper = ({
+  state,
+  routePatterns,
+  routeId,
+  stopId,
+  directionId,
+  selectedService
+}: {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  state: any;
+  routePatterns: EnhancedRoutePattern[];
+  routeId: string;
+  stopId: string;
+  directionId: DirectionId;
+  selectedService: ServiceInSelector;
+}): ReactElement<HTMLElement> => {
+  if (state.isLoading) {
+    return <Loading />;
+  }
+
+  if (state.data && state.data.length) {
+    return (
+      <ScheduleTable
+        journeys={state.data}
+        routePatterns={routePatterns}
+        input={{
+          route: routeId,
+          origin: stopId,
+          direction: directionId,
+          date: selectedService.end_date
+        }}
+      />
+    );
+  }
+
+  return <NoScheduledService />;
+};
+
 export const ServiceSelector = ({
   stopId,
   services,
@@ -150,21 +194,14 @@ export const ServiceSelector = ({
         </SelectContainer>
       </div>
 
-      {state.isLoading && <Loading />}
-
-      {/* istanbul ignore next */ !state.isLoading &&
-        /* istanbul ignore next */ state.data && (
-          /* istanbul ignore next */ <ScheduleTable
-            journeys={state.data!}
-            routePatterns={routePatterns}
-            input={{
-              route: routeId,
-              origin: stopId,
-              direction: directionId,
-              date: selectedService!.end_date
-            }}
-          />
-        )}
+      <ScheduleTableWrapper
+        state={state}
+        routePatterns={routePatterns}
+        routeId={routeId}
+        stopId={stopId}
+        directionId={directionId}
+        selectedService={selectedService}
+      />
     </>
   );
 };

@@ -92,18 +92,6 @@ describe("ScheduleTable", () => {
     expect(enzymeToJsonWithoutProps(wrapper)).toMatchSnapshot();
   });
 
-  it("it renders an empty message", () => {
-    createReactRoot();
-    const wrapper = mount(
-      <ScheduleTable
-        journeys={[]}
-        routePatterns={routePatterns}
-        input={input}
-      />
-    );
-    expect(enzymeToJsonWithoutProps(wrapper)).toMatchSnapshot();
-  });
-
   it("it renders CR schedules", () => {
     createReactRoot();
     const wrapper = mount(

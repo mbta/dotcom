@@ -37,13 +37,6 @@ const ScheduleTable = ({
     [key: string]: EnhancedRoutePattern;
   };
 
-  if (journeys.length === 0) {
-    return (
-      <div className="callout u-bold text-center">
-        There is no scheduled service for this time period.
-      </div>
-    );
-  }
   const firstTrip = journeys[0];
   const lastTrip = journeys.length > 1 ? journeys[journeys.length - 1] : null;
 

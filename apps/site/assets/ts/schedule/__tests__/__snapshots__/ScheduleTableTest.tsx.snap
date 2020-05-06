@@ -12882,16 +12882,6 @@ exports[`ScheduleTable it renders CR schedules with school trips 1`] = `
 </ScheduleTable>
 `;
 
-exports[`ScheduleTable it renders an empty message 1`] = `
-<ScheduleTable>
-  <div
-    className="callout u-bold text-center"
-  >
-    There is no scheduled service for this time period.
-  </div>
-</ScheduleTable>
-`;
-
 exports[`ScheduleTable it renders with school trips 1`] = `
 <ScheduleTable>
   <div

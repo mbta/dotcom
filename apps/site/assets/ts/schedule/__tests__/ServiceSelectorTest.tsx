@@ -1,11 +1,14 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import serviceData from "./serviceData.json";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import {
   fetchData as fetchSchedule,
-  ServiceSelector
+  ServiceSelector,
+  ScheduleTableWrapper
 } from "../components/schedule-finder/ServiceSelector";
 import { ServiceInSelector } from "../components/__schedule";
+import { Journey } from "../components/__trips";
 
 const services: ServiceInSelector[] = [
   {
@@ -151,47 +154,103 @@ describe("ServiceSelector", () => {
     );
     expect(tree).toMatchSnapshot();
   });
+});
 
-  describe("fetchSchedule", () => {
-    it("fetches the selected schedule", async () => {
-      window.fetch = jest.fn().mockImplementation(
-        () =>
-          new Promise((resolve: Function) =>
-            resolve({
-              json: () => ({
-                by_trip: "by_trip_data",
-                trip_order: "trip_order_data"
-              }),
-              ok: true,
-              status: 200,
-              statusText: "OK"
-            })
-          )
-      );
+describe("ScheduleTableWrapper", () => {
+  it("renders a loading message when loading", () => {
+    const state = {
+      isLoading: true
+    };
+    const tree = renderer.create(
+      <ScheduleTableWrapper
+        state={state}
+        routePatterns={[]}
+        routeId="111"
+        stopId="stopId"
+        directionId={0}
+        selectedService={services[0]}
+      />
+    );
+    expect(tree).toMatchSnapshot();
+  });
 
-      const dispatchSpy = jest.fn();
+  it("renders a ScheduleTable when there are journeys", () => {
+    const journeys: Journey[] = serviceData as Journey[];
+    const state = {
+      isLoading: false,
+      data: journeys
+    };
+    const tree = renderer.create(
+      <ScheduleTableWrapper
+        state={state}
+        routePatterns={[]}
+        routeId="111"
+        stopId="stopId"
+        directionId={0}
+        selectedService={services[0]}
+      />
+    );
+    expect(tree).toMatchSnapshot();
+  });
 
-      await await fetchSchedule(
-        "83",
-        "stopId",
-        services.find(service => service.id === "BUS319-P-Sa-02")!,
-        1,
-        true,
-        dispatchSpy
-      );
+  it("renders a no scheduled service message when there are no journeys", () => {
+    const state = {
+      isLoading: false,
+      data: []
+    };
+    const tree = renderer.create(
+      <ScheduleTableWrapper
+        state={state}
+        routePatterns={[]}
+        routeId="111"
+        stopId="stopId"
+        directionId={0}
+        selectedService={services[0]}
+      />
+    );
+    expect(tree).toMatchSnapshot();
+  });
+});
 
-      expect(window.fetch).toHaveBeenCalledWith(
-        "/schedules/finder_api/journeys?id=83&date=2019-08-31&direction=1&stop=stopId&is_current=true"
-      );
+describe("fetchSchedule", () => {
+  it("fetches the selected schedule", async () => {
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => ({
+              by_trip: "by_trip_data",
+              trip_order: "trip_order_data"
+            }),
+            ok: true,
+            status: 200,
+            statusText: "OK"
+          })
+        )
+    );
 
-      expect(dispatchSpy).toHaveBeenCalledTimes(2);
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: "FETCH_STARTED"
-      });
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        payload: { by_trip: "by_trip_data", trip_order: "trip_order_data" },
-        type: "FETCH_COMPLETE"
-      });
+    const dispatchSpy = jest.fn();
+
+    await await fetchSchedule(
+      "83",
+      "stopId",
+      services.find(service => service.id === "BUS319-P-Sa-02")!,
+      1,
+      true,
+      dispatchSpy
+    );
+
+    expect(window.fetch).toHaveBeenCalledWith(
+      "/schedules/finder_api/journeys?id=83&date=2019-08-31&direction=1&stop=stopId&is_current=true"
+    );
+
+    expect(dispatchSpy).toHaveBeenCalledTimes(2);
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: "FETCH_STARTED"
+    });
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      payload: { by_trip: "by_trip_data", trip_order: "trip_order_data" },
+      type: "FETCH_COMPLETE"
     });
   });
 
