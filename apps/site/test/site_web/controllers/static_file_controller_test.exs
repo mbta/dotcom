@@ -40,7 +40,7 @@ defmodule SiteWeb.StaticFileControllerTest do
     Application.put_env(:cms, :drupal, new_config)
 
     on_exit(fn ->
-      Application.put_env(:cms, :drual, old_config)
+      Application.put_env(:cms, :drupal, old_config)
     end)
   end
 end
