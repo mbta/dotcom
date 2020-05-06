@@ -1,15 +1,11 @@
-FROM elixir:1.8.1
+FROM hexpm/elixir:1.10.3-erlang-22.3.3-debian-stretch-20200224
 
 WORKDIR /root
 
-ARG SENTRY_DSN="" 
+ARG SENTRY_DSN=""
 
-# Configure Git to use HTTPS in order to avoid issues with the internal MBTA network
-RUN git config --global url.https://github.com/.insteadOf git://github.com/
-
-# Install Hex+Rebar
-RUN mix local.hex --force && \
-  mix local.rebar --force
+# Debian dependencies
+RUN apt-get update && apt-get install -y curl git make
 
 # Install node/npm
 # Instructions from https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
@@ -20,6 +16,13 @@ RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
 RUN apt-get clean
 
 ENV MIX_ENV=prod
+
+# Configure Git to use HTTPS in order to avoid issues with the internal MBTA network
+RUN git config --global url.https://github.com/.insteadOf git://github.com/
+
+# Install Hex+Rebar
+RUN mix local.hex --force && \
+  mix local.rebar --force
 
 ADD . .
 
