@@ -40,8 +40,7 @@ export const ScheduleLoader = ({
     storeHandler({
       type: "CHANGE_DIRECTION",
       newStoreValues: {
-        selectedDirection: direction,
-        selectedOrigin: null
+        selectedDirection: direction
       }
     });
   };

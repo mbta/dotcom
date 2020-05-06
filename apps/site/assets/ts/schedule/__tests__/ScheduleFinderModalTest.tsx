@@ -1,8 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
-import ScheduleFinderModal, {
-  Mode as ModalMode
-} from "../components/schedule-finder/ScheduleFinderModal";
+import ScheduleFinderModal from "../components/schedule-finder/ScheduleFinderModal";
 import { Route } from "../../__v3api";
 import {
   RoutePatternsByDirection,
@@ -10,6 +8,7 @@ import {
   ServiceInSelector
 } from "../components/__schedule";
 import * as routePatternsByDirectionData from "./routePatternsByDirectionData.json";
+import { ModalMode } from "../store/ScheduleStore";
 
 const routePatternsByDirection = routePatternsByDirectionData as RoutePatternsByDirection;
 

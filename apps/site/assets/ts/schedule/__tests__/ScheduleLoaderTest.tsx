@@ -1,28 +1,16 @@
 import React from "react";
 import { Provider } from "react-redux";
-import {
-  createReactRoot,
-  enzymeToJsonWithoutProps
-} from "../../app/helpers/testUtils";
 import lineDiagramData from "./lineDiagramData.json"; // Not a full line diagram
-import {
-  LineDiagramStop,
-  ServiceInSelector,
-  RoutePatternsByDirection,
-  ShapesById
-} from "../components/__schedule";
+import { LineDiagramStop, ServiceInSelector } from "../components/__schedule";
 import { EnhancedRoute } from "../../__v3api";
-import { mount, ReactWrapper, ShallowWrapper } from "enzyme";
+import { mount, ReactWrapper } from "enzyme";
 import { store } from "../store/ScheduleStore";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import ScheduleLoader from "../components/ScheduleLoader";
-import SchedulePage from "../components/SchedulePage";
 import ScheduleFinder from "../components/ScheduleFinder";
 import ScheduleFinderModal from "../components/schedule-finder/ScheduleFinderModal";
 import ScheduleNote from "../components/ScheduleNote";
-import ScheduleDirection from "../components/ScheduleDirection";
 import * as scheduleStoreModule from "../store/ScheduleStore";
-import * as routePatternsByDirectionData from "./routePatternsByDirectionData.json";
 
 const stops = {
   "1": [
@@ -187,35 +175,6 @@ const staticMapData: StaticMapData = {
   pdf_url: "http://example.com/map.pdf"
 };
 
-const routePatternsByDirection = routePatternsByDirectionData as RoutePatternsByDirection;
-
-const shapesById = {
-  "shape-1": {
-    stop_ids: ["stop"],
-    priority: 3,
-    polyline: "xyz",
-    name: "Shape 1",
-    id: "shape-1",
-    direction_id: 0
-  },
-  "shape-2": {
-    stop_ids: ["stop"],
-    priority: 3,
-    polyline: "xyz",
-    name: "Shape 2",
-    id: "shape-2",
-    direction_id: 1
-  },
-  "shape-3": {
-    stop_ids: ["stop"],
-    priority: 3,
-    polyline: "xyz",
-    name: "Shape 3",
-    id: "shape-3",
-    direction_id: 0
-  }
-} as ShapesById;
-
 jest.mock("../components/ScheduleDirection", () => {
   return {
     __esModule: true,
@@ -228,7 +187,7 @@ jest.mock("../components/ScheduleDirection", () => {
 describe("ScheduleLoader", () => {
   let wrapper: ReactWrapper;
 
-  it("Renders SchedulePage", () => {
+  it("Renders ScheduleLoader", () => {
     wrapper = mount(
       <Provider store={store}>
         <ScheduleLoader
@@ -335,6 +294,7 @@ describe("ScheduleLoader", () => {
         return {
           selectedDirection: 0,
           selectedOrigin: "place-welln",
+          selectedDestination: null,
           modalMode: "schedule",
           modalOpen: true
         };
@@ -411,6 +371,7 @@ describe("ScheduleLoader", () => {
         return {
           selectedDirection: 0,
           selectedOrigin: "place-welln",
+          selectedDestination: null,
           modalMode: "schedule",
           modalOpen: true
         };
@@ -523,6 +484,7 @@ describe("ScheduleLoader", () => {
         return {
           selectedDirection: 0,
           selectedOrigin: "place-welln",
+          selectedDestination: null,
           modalMode: "schedule",
           modalOpen: false
         };
@@ -577,6 +539,7 @@ describe("ScheduleLoader", () => {
         return {
           selectedDirection: 0,
           selectedOrigin: "place-welln",
+          selectedDestination: null,
           modalMode: "origin",
           modalOpen: false
         };
@@ -702,6 +665,7 @@ describe("ScheduleLoader", () => {
         return {
           selectedDirection: 0,
           selectedOrigin: "place-welln",
+          selectedDestination: null,
           modalMode: "schedule",
           modalOpen: true
         };
@@ -786,8 +750,7 @@ describe("ScheduleLoader", () => {
     expect(storeHandlerStub).toHaveBeenNthCalledWith(2, {
       type: "CHANGE_DIRECTION",
       newStoreValues: {
-        selectedDirection: 1,
-        selectedOrigin: null
+        selectedDirection: 1
       }
     });
     wrapper.unmount();
@@ -800,6 +763,7 @@ describe("ScheduleLoader", () => {
         return {
           selectedDirection: 0,
           selectedOrigin: "place-welln",
+          selectedDestination: null,
           modalMode: "schedule",
           modalOpen: true
         };

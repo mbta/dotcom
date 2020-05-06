@@ -167,6 +167,7 @@ export type StoreAction =
   | "INITIALIZE"
   | "CHANGE_DIRECTION"
   | "CHANGE_ORIGIN"
+  | "CHANGE_DESTINATION"
   | "OPEN_MODAL"
   | "CLOSE_MODAL";
 

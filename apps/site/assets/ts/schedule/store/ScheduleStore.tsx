@@ -1,18 +1,21 @@
 import { Reducer, createStore, Store } from "redux";
-import { StoreAction, SelectedOrigin } from "../components/__schedule";
+import { StoreAction, SelectedStopId } from "../components/__schedule";
 import { DirectionId } from "../../__v3api";
-import { Mode as ModalMode } from "../components/schedule-finder/ScheduleFinderModal";
+
+export type ModalMode = "origin" | "schedule" | "destination";
 
 export interface StoreProps {
   selectedDirection: DirectionId;
-  selectedOrigin: SelectedOrigin | "";
+  selectedOrigin: SelectedStopId;
+  selectedDestination: SelectedStopId;
   modalOpen: boolean;
   modalMode: ModalMode;
 }
 
 interface ActionData {
   selectedDirection?: DirectionId;
-  selectedOrigin?: SelectedOrigin | "";
+  selectedOrigin?: SelectedStopId;
+  selectedDestination?: SelectedStopId;
   modalOpen?: boolean;
   modalMode?: ModalMode;
 }
@@ -30,6 +33,7 @@ export const scheduleStoreReducer: Reducer<StoreProps, Action> = (
     {
       selectedDirection: undefined,
       selectedOrigin: undefined,
+      selectedDestination: undefined,
       modalOpen: false,
       modalMode: "schedule"
     },
@@ -43,12 +47,19 @@ export const scheduleStoreReducer: Reducer<StoreProps, Action> = (
       return {
         ...newState,
         selectedDirection: action.newStoreValues.selectedDirection!,
-        selectedOrigin: action.newStoreValues.selectedOrigin!
+        selectedOrigin: null,
+        selectedDestination: null
       };
     case "CHANGE_ORIGIN":
       return {
         ...newState,
-        selectedOrigin: action.newStoreValues.selectedOrigin!
+        selectedOrigin: action.newStoreValues.selectedOrigin!,
+        selectedDestination: null
+      };
+    case "CHANGE_DESTINATION":
+      return {
+        ...newState,
+        selectedDestination: action.newStoreValues.selectedDestination!
       };
     case "OPEN_MODAL":
       return {
@@ -70,7 +81,8 @@ export const createScheduleStore = (directionId: DirectionId): Store =>
   // create store with preloadedState:
   createStore(scheduleStoreReducer, {
     selectedDirection: directionId,
-    selectedOrigin: "",
+    selectedOrigin: null,
+    selectedDestination: null,
     modalOpen: false,
     modalMode: "schedule"
   });

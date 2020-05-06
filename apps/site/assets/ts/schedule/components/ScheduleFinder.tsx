@@ -8,10 +8,12 @@ import {
   SelectedOrigin
 } from "./__schedule";
 import ScheduleFinderForm from "./schedule-finder/ScheduleFinderForm";
-import ScheduleFinderModal, {
-  Mode as ModalMode
-} from "./schedule-finder/ScheduleFinderModal";
-import { getCurrentState, storeHandler } from "../store/ScheduleStore";
+import ScheduleFinderModal from "./schedule-finder/ScheduleFinderModal";
+import {
+  getCurrentState,
+  ModalMode,
+  storeHandler
+} from "../store/ScheduleStore";
 
 interface Props {
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;

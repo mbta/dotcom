@@ -6,7 +6,8 @@ import {
 
 const mockState: StoreProps = {
   selectedDirection: 0,
-  selectedOrigin: "",
+  selectedOrigin: null,
+  selectedDestination: null,
   modalMode: "schedule",
   modalOpen: true
 };
@@ -17,7 +18,8 @@ describe("Schedule store reducer", () => {
       type: "INITIALIZE",
       newStoreValues: {
         selectedDirection: 0,
-        selectedOrigin: "",
+        selectedOrigin: null,
+        selectedDestination: null,
         modalMode: "schedule",
         modalOpen: true
       }
@@ -26,7 +28,8 @@ describe("Schedule store reducer", () => {
       scheduleStoreReducer(
         {
           selectedDirection: 0,
-          selectedOrigin: "",
+          selectedOrigin: null,
+          selectedDestination: null,
           modalMode: "schedule",
           modalOpen: true
         },
@@ -36,6 +39,11 @@ describe("Schedule store reducer", () => {
   });
 
   it("Handles CHANGE_DIRECTION", () => {
+    const initialState = {
+      ...mockState,
+      selectedOrigin: "8279",
+      selectedDestination: "place-ogmnl"
+    };
     const action: Action = {
       type: "CHANGE_DIRECTION",
       newStoreValues: {
@@ -43,22 +51,47 @@ describe("Schedule store reducer", () => {
         selectedOrigin: null
       }
     };
-    expect(scheduleStoreReducer(mockState, action)).toEqual({
-      ...mockState,
+    expect(scheduleStoreReducer(initialState, action)).toEqual({
+      ...initialState,
       selectedDirection: 1,
-      selectedOrigin: null
+      selectedOrigin: null,
+      selectedDestination: null
     });
   });
 
   it("Handles CHANGE_ORIGIN", () => {
+    const initialState = {
+      ...mockState,
+      selectedDestination: "place-ogmnl"
+    };
     const action: Action = {
       type: "CHANGE_ORIGIN",
       newStoreValues: {
         selectedOrigin: "8279"
       }
     };
-    expect(scheduleStoreReducer(mockState, action)).toEqual({
+    expect(scheduleStoreReducer(initialState, action)).toEqual({
+      ...initialState,
+      selectedOrigin: "8279",
+      selectedDestination: null
+    });
+  });
+
+  it("Handles CHANGE_DESTINATION", () => {
+    const initialState = {
       ...mockState,
+      selectedOrigin: "8279"
+    };
+    const action: Action = {
+      type: "CHANGE_DESTINATION",
+      newStoreValues: {
+        selectedDestination: "place-ogmnl"
+      }
+    };
+    const results = scheduleStoreReducer(initialState, action);
+    expect(results).toEqual({
+      ...initialState,
+      selectedDestination: "place-ogmnl",
       selectedOrigin: "8279"
     });
   });
