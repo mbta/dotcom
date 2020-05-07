@@ -33,6 +33,7 @@ export interface StopPageData {
   stop: Stop;
   street_view_url: string | null;
   routes: TypedRoutes[];
+  routes_with_direction?: RouteWithDirection[];
   tabs: Tab[];
   zone_number: string;
   alerts: Alert[];

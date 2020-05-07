@@ -1,0 +1,175 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StopCard renders with routes 1`] = `
+"<StopCard stop={{...}} routes={{...}}>
+  <div className=\\"c-stop-card\\">
+    <a className=\\"c-stop-card__stop-name\\" href=\\"/stops/place-sstat\\">
+      South Station
+    </a>
+    <a className=\\"m-stop-page__access-icon\\" href=\\"#header-accessibility\\" onClick={[Function: onClick]}>
+      <span className=\\"m-stop-page__icon\\">
+        <span className=\\"notranslate c-svg__icon-accessible-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      </span>
+    </a>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/Red\\" className=\\"c-stop-card__route-link\\">
+        Red Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/741\\" className=\\"c-stop-card__route-link\\">
+        Logan Airport - South Station
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/742\\" className=\\"c-stop-card__route-link\\">
+        Design Center - South Station
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/743\\" className=\\"c-stop-card__route-link\\">
+        Chelsea - South Station
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Fairmount\\" className=\\"c-stop-card__route-link\\">
+        Fairmount Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Worcester\\" className=\\"c-stop-card__route-link\\">
+        Framingham/Worcester Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Franklin\\" className=\\"c-stop-card__route-link\\">
+        Franklin Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Greenbush\\" className=\\"c-stop-card__route-link\\">
+        Greenbush Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Kingston\\" className=\\"c-stop-card__route-link\\">
+        Kingston/Plymouth Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Middleborough\\" className=\\"c-stop-card__route-link\\">
+        Middleborough/Lakeville Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Needham\\" className=\\"c-stop-card__route-link\\">
+        Needham Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Providence\\" className=\\"c-stop-card__route-link\\">
+        Providence/Stoughton Line
+      </a>
+    </div>
+  </div>
+</StopCard>"
+`;
+
+exports[`StopCard renders with routes with directions 1`] = `
+"<StopCard stop={{...}} routesWithDirection={{...}}>
+  <div className=\\"c-stop-card\\">
+    <a className=\\"c-stop-card__stop-name\\" href=\\"/stops/place-sstat\\">
+      South Station
+    </a>
+    <a className=\\"m-stop-page__access-icon\\" href=\\"#header-accessibility\\" onClick={[Function: onClick]}>
+      <span className=\\"m-stop-page__icon\\">
+        <span className=\\"notranslate c-svg__icon-accessible-default\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      </span>
+    </a>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/Red?direction_id=0\\" className=\\"c-stop-card__route-link\\">
+        Red Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/741?direction_id=0\\" className=\\"c-stop-card__route-link\\">
+        Logan Airport
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/742?direction_id=0\\" className=\\"c-stop-card__route-link\\">
+        Design Center
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/743?direction_id=0\\" className=\\"c-stop-card__route-link\\">
+        Chelsea
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Fairmount?direction_id=0\\" className=\\"c-stop-card__route-link\\">
+        Fairmount Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Worcester?direction_id=0\\" className=\\"c-stop-card__route-link\\">
+        Framingham/Worcester Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Franklin?direction_id=0\\" className=\\"c-stop-card__route-link\\">
+        Franklin Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Greenbush?direction_id=0\\" className=\\"c-stop-card__route-link\\">
+        Greenbush Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Kingston?direction_id=0\\" className=\\"c-stop-card__route-link\\">
+        Kingston/Plymouth Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Middleborough?direction_id=0\\" className=\\"c-stop-card__route-link\\">
+        Middleborough/Lakeville Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Needham?direction_id=0\\" className=\\"c-stop-card__route-link\\">
+        Needham Line
+      </a>
+    </div>
+    <div className=\\"c-stop-card__route\\">
+      <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+      <a href=\\"/schedules/CR-Providence?direction_id=0\\" className=\\"c-stop-card__route-link\\">
+        Providence/Stoughton Line
+      </a>
+    </div>
+  </div>
+</StopCard>"
+`;

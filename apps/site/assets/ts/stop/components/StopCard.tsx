@@ -10,7 +10,7 @@ const routeNameBasedOnDirection = (
   route: EnhancedRoute,
   directionId: DirectionId | null
 ): string => {
-  if (directionId === null) {
+  if (directionId === null || route.type !== 3) {
     return route.long_name;
   }
 

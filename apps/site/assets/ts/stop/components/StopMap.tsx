@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { StopMapData } from "./__stop";
+import { StopMapData, RouteWithDirection } from "./__stop";
 import { SelectedStopType, Dispatch } from "../state";
 import Map from "../../leaflet/components/Map";
 import MapTooltip from "../../leaflet/components/MapTooltip";
@@ -11,6 +11,7 @@ interface Props {
   dispatch: Dispatch;
   selectedStopId: SelectedStopType;
   stop: Stop;
+  routesWithDirection?: RouteWithDirection[];
   routes: EnhancedRoute[];
 }
 
@@ -18,7 +19,8 @@ export default ({
   // eslint-disable-next-line @typescript-eslint/camelcase
   initialData: { map_data: mapData },
   stop,
-  routes
+  routes,
+  routesWithDirection
 }: Props): ReactElement<HTMLElement> => (
   <Map
     mapData={{
@@ -26,7 +28,13 @@ export default ({
       zoom: mapData.zoom || 12,
       markers: mapData.markers.map(marker => ({
         ...marker,
-        tooltip: <MapTooltip stop={stop} routes={routes} />
+        tooltip: (
+          <MapTooltip
+            stop={stop}
+            routes={routes}
+            routesWithDirection={routesWithDirection}
+          />
+        )
       }))
     }}
   />

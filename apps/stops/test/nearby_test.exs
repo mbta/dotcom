@@ -316,6 +316,26 @@ defmodule Stops.NearbyTest do
     end
   end
 
+  describe "merge_routes/2" do
+    test "sets direction_id for routes present in one direction at stop" do
+      stop_id = "place-kencl"
+      routes_fn = &Routes.Repo.by_stop_and_direction/2
+      {:ok, actual} = merge_routes(stop_id, routes_fn)
+      route_going_1way = Enum.find(actual, &(&1.route.name === "9"))
+
+      refute nil == route_going_1way.direction_id
+    end
+
+    test "sets direction_id to nil for routes present in both directions at stop" do
+      stop_id = "place-kencl"
+      routes_fn = &Routes.Repo.by_stop_and_direction/2
+      {:ok, actual} = merge_routes(stop_id, routes_fn)
+      route_going_2ways = Enum.find(actual, &(&1.route.name === "57A"))
+
+      assert nil == route_going_2ways.direction_id
+    end
+  end
+
   def random_stops(count) do
     Enum.map(1..count, fn _ -> random_stop() end)
   end

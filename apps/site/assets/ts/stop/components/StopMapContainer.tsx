@@ -1,13 +1,14 @@
 import React, { ReactElement } from "react";
 import StopMap from "./StopMap";
 import { Stop, EnhancedRoute } from "../../__v3api";
-import { StopMapData } from "../components/__stop";
+import { StopMapData, RouteWithDirection } from "../components/__stop";
 import { SelectedStopType, Dispatch } from "../state";
 
 interface Props {
   initialData: StopMapData;
   mapId: string;
   stop: Stop;
+  routesWithDirection?: RouteWithDirection[];
   routes: EnhancedRoute[];
   selectedStopId: SelectedStopType;
   dispatch: Dispatch;
@@ -17,6 +18,7 @@ const StopMapContainer = ({
   initialData,
   mapId,
   stop,
+  routesWithDirection,
   routes,
   selectedStopId,
   dispatch
@@ -57,6 +59,7 @@ const StopMapContainer = ({
         initialData={initialData}
         stop={stop}
         routes={routes}
+        routesWithDirection={routesWithDirection}
       />
     </div>
   </div>
