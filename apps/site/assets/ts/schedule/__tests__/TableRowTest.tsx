@@ -1,4 +1,5 @@
 import React from "react";
+import { mount } from "enzyme";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import TableRow from "../components/schedule-finder/TableRow";
@@ -66,6 +67,32 @@ describe("TableRow", () => {
       />
     );
     expect(tree).toMatchSnapshot();
+  });
+
+  it("renders a rail replacement bus using a CR row", () => {
+    const body = '<div id="react-root"></div>';
+    document.body.innerHTML = body;
+
+    const railReplacementRoute = {
+      ...journey.route,
+      type: 3,
+      description: "rail_replacement_bus",
+    };
+    const railReplacementJourney = {
+      ...journey,
+      route: railReplacementRoute,
+    } as Journey;
+
+    const wrapper = mount(
+      <TableRow
+        input={input}
+        journey={railReplacementJourney}
+        isSchoolTrip={false}
+        anySchoolTrips={false}
+      />
+    );
+
+    expect(wrapper.find("td.schedule-table__cell").length).toBe(4);
   });
 
   describe("fetchJourney", () => {

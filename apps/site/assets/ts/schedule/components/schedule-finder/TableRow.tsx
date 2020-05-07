@@ -174,7 +174,8 @@ const TableRow = ({
   isSchoolTrip
 }: TableRowProps): ReactElement<HTMLElement> | null => {
   const contentComponent =
-    journey.route.type !== 2
+    journey.route.type !== 2 &&
+    journey.route.description !== "rail_replacement_bus"
       ? () => (
           <BusTableRow
             journey={journey}
