@@ -110,9 +110,9 @@ defmodule Stops.Nearby do
   def do_routes_for_stop_direction(_, _), do: :error
 
   @spec merge_routes(String.t(), fun()) :: {:ok | :error, [route_with_direction] | :timeout}
-  defp merge_routes(stop_id, routes_fn) do
+  def merge_routes(stop_id, routes_fn) do
     # Find the routes for a stop in both directions.
-    # Merge the routes such that if a route exists for a stip in both
+    # Merge the routes such that if a route exists for a stop in both
     # directions, set the direction_id to nil
 
     direction_0_task = Task.async(__MODULE__, :routes_for_stop_direction, [routes_fn, stop_id, 0])

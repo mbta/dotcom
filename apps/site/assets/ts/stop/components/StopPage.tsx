@@ -41,6 +41,8 @@ export default ({
     street_view_url: streetViewUrl,
     routes,
     // eslint-disable-next-line @typescript-eslint/camelcase
+    routes_with_direction: routesWithDirection,
+    // eslint-disable-next-line @typescript-eslint/camelcase
     retail_locations: retailLocations,
     // eslint-disable-next-line @typescript-eslint/camelcase
     suggested_transfers: suggestedTransfers,
@@ -92,6 +94,7 @@ export default ({
                   ),
                 []
               )}
+              routesWithDirection={routesWithDirection}
               selectedStopId={state.selectedStopId}
               dispatch={dispatch}
             />

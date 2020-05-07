@@ -29,7 +29,10 @@
         "payment": {
           "monthly_rate": "$150 regular, $445 overnight",
           "mobile_app": null,
-          "methods": ["Credit/Debit Card", "Cash"],
+          "methods": [
+            "Credit/Debit Card",
+            "Cash"
+          ],
           "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
         },
         "note": null,
@@ -42,7 +45,11 @@
         },
         "longitude": -71.055963,
         "latitude": 42.349838,
-        "capacity": { "type": "Garage", "total": 210, "accessible": 4 },
+        "capacity": {
+          "type": "Garage",
+          "total": 210,
+          "accessible": 4
+        },
         "address": null
       }
     ],
@@ -61,14 +68,17 @@
       "ticket_window"
     ],
     "closed_stop_info": null,
-    "bike_storage": ["bike_storage_cage"],
+    "bike_storage": [
+      "bike_storage_cage"
+    ],
     "address": "700 Atlantic Ave, Boston, MA 02110",
     "accessibility": [
       "accessible",
       "escalator_both",
       "elevator",
       "fully_elevated_platform"
-    ]
+    ],
+    "type": "station"
   },
   "routes": [
     {
@@ -79,7 +89,10 @@
             "name": "Red Line",
             "long_name": "Red Line",
             "id": "Red",
-            "direction_names": { "1": "North", "0": "South" },
+            "direction_names": {
+              "1": "North",
+              "0": "South"
+            },
             "direction_destinations": {
               "1": "Alewife",
               "0": "Ashmont/Braintree"
@@ -97,7 +110,11 @@
                       "scheduled_time": null,
                       "prediction": {
                         "track": "2",
-                        "time": ["3", " ", "min"],
+                        "time": [
+                          "3",
+                          " ",
+                          "min"
+                        ],
                         "status": null
                       }
                     },
@@ -105,7 +122,11 @@
                       "scheduled_time": null,
                       "prediction": {
                         "track": null,
-                        "time": ["13", " ", "min"],
+                        "time": [
+                          "13",
+                          " ",
+                          "min"
+                        ],
                         "status": null
                       }
                     }
@@ -119,7 +140,11 @@
                       "scheduled_time": null,
                       "prediction": {
                         "track": null,
-                        "time": ["9", " ", "min"],
+                        "time": [
+                          "9",
+                          " ",
+                          "min"
+                        ],
                         "status": null
                       }
                     },
@@ -127,7 +152,11 @@
                       "scheduled_time": null,
                       "prediction": {
                         "track": null,
-                        "time": ["21", " ", "min"],
+                        "time": [
+                          "21",
+                          " ",
+                          "min"
+                        ],
                         "status": null
                       }
                     }
@@ -147,7 +176,11 @@
                       "scheduled_time": null,
                       "prediction": {
                         "track": "2",
-                        "time": ["7", " ", "min"],
+                        "time": [
+                          "7",
+                          " ",
+                          "min"
+                        ],
                         "status": null
                       }
                     },
@@ -155,7 +188,11 @@
                       "scheduled_time": null,
                       "prediction": {
                         "track": null,
-                        "time": ["13", " ", "min"],
+                        "time": [
+                          "13",
+                          " ",
+                          "min"
+                        ],
                         "status": null
                       }
                     }
@@ -179,7 +216,10 @@
             "name": "SL1",
             "long_name": "Logan Airport - South Station",
             "id": "741",
-            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_names": {
+              "1": "Inbound",
+              "0": "Outbound"
+            },
             "direction_destinations": {
               "1": "South Station",
               "0": "Logan Airport"
@@ -194,7 +234,11 @@
                   "train_number": "",
                   "times": [
                     {
-                      "scheduled_time": ["2:30", " ", "AM"],
+                      "scheduled_time": [
+                        "2:30",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -211,7 +255,11 @@
                   "train_number": "",
                   "times": [
                     {
-                      "scheduled_time": ["5:36", " ", "AM"],
+                      "scheduled_time": [
+                        "5:36",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -223,7 +271,11 @@
                   "train_number": "",
                   "times": [
                     {
-                      "scheduled_time": ["5:40", " ", "AM"],
+                      "scheduled_time": [
+                        "5:40",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -242,7 +294,10 @@
             "name": "SL2",
             "long_name": "Design Center - South Station",
             "id": "742",
-            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_names": {
+              "1": "Inbound",
+              "0": "Outbound"
+            },
             "direction_destinations": {
               "1": "South Station",
               "0": "Design Center"
@@ -257,7 +312,11 @@
                   "train_number": "",
                   "times": [
                     {
-                      "scheduled_time": ["4:17", " ", "AM"],
+                      "scheduled_time": [
+                        "4:17",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -274,7 +333,11 @@
                   "train_number": "",
                   "times": [
                     {
-                      "scheduled_time": ["5:36", " ", "AM"],
+                      "scheduled_time": [
+                        "5:36",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -286,7 +349,11 @@
                   "train_number": "",
                   "times": [
                     {
-                      "scheduled_time": ["5:46", " ", "AM"],
+                      "scheduled_time": [
+                        "5:46",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -305,8 +372,14 @@
             "name": "SL3",
             "long_name": "Chelsea - South Station",
             "id": "743",
-            "direction_names": { "1": "Inbound", "0": "Outbound" },
-            "direction_destinations": { "1": "South Station", "0": "Chelsea" },
+            "direction_names": {
+              "1": "Inbound",
+              "0": "Outbound"
+            },
+            "direction_destinations": {
+              "1": "South Station",
+              "0": "Chelsea"
+            },
             "description": "key_bus_route",
             "custom_route?": false
           },
@@ -317,7 +390,11 @@
                   "train_number": "",
                   "times": [
                     {
-                      "scheduled_time": ["4:17", " ", "AM"],
+                      "scheduled_time": [
+                        "4:17",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -334,7 +411,11 @@
                   "train_number": "",
                   "times": [
                     {
-                      "scheduled_time": ["4:25", " ", "AM"],
+                      "scheduled_time": [
+                        "4:25",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -346,7 +427,11 @@
                   "train_number": "",
                   "times": [
                     {
-                      "scheduled_time": ["5:36", " ", "AM"],
+                      "scheduled_time": [
+                        "5:36",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -370,7 +455,10 @@
             "name": "Fairmount Line",
             "long_name": "Fairmount Line",
             "id": "CR-Fairmount",
-            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_names": {
+              "1": "Inbound",
+              "0": "Outbound"
+            },
             "direction_destinations": {
               "1": "South Station",
               "0": "Fairmount"
@@ -385,7 +473,11 @@
                   "train_number": "790",
                   "times": [
                     {
-                      "scheduled_time": ["4:55", " ", "AM"],
+                      "scheduled_time": [
+                        "4:55",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -402,7 +494,11 @@
                   "train_number": "751",
                   "times": [
                     {
-                      "scheduled_time": ["6:24", " ", "AM"],
+                      "scheduled_time": [
+                        "6:24",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -421,7 +517,10 @@
             "name": "Framingham/Worcester Line",
             "long_name": "Framingham/Worcester Line",
             "id": "CR-Worcester",
-            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_names": {
+              "1": "Inbound",
+              "0": "Outbound"
+            },
             "direction_destinations": {
               "1": "South Station",
               "0": "Worcester"
@@ -436,7 +535,11 @@
                   "train_number": "501",
                   "times": [
                     {
-                      "scheduled_time": ["4:40", " ", "AM"],
+                      "scheduled_time": [
+                        "4:40",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -448,7 +551,11 @@
                   "train_number": "583",
                   "times": [
                     {
-                      "scheduled_time": ["5:30", " ", "AM"],
+                      "scheduled_time": [
+                        "5:30",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -460,7 +567,11 @@
                   "train_number": "589",
                   "times": [
                     {
-                      "scheduled_time": ["7:30", " ", "AM"],
+                      "scheduled_time": [
+                        "7:30",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -477,7 +588,11 @@
                   "train_number": "500",
                   "times": [
                     {
-                      "scheduled_time": ["4:45", " ", "AM"],
+                      "scheduled_time": [
+                        "4:45",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -496,7 +611,10 @@
             "name": "Franklin Line",
             "long_name": "Franklin Line",
             "id": "CR-Franklin",
-            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_names": {
+              "1": "Inbound",
+              "0": "Outbound"
+            },
             "direction_destinations": {
               "1": "South Station",
               "0": "Forge Park/495"
@@ -511,7 +629,11 @@
                   "train_number": "701",
                   "times": [
                     {
-                      "scheduled_time": ["3:50", " ", "AM"],
+                      "scheduled_time": [
+                        "3:50",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -523,7 +645,11 @@
                   "train_number": "741",
                   "times": [
                     {
-                      "scheduled_time": ["6:40", " ", "AM"],
+                      "scheduled_time": [
+                        "6:40",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -535,10 +661,18 @@
                   "train_number": "743",
                   "times": [
                     {
-                      "scheduled_time": ["4:15", " ", "PM"],
+                      "scheduled_time": [
+                        "4:15",
+                        " ",
+                        "PM"
+                      ],
                       "prediction": {
                         "track": null,
-                        "time": ["4:15", " ", "PM"],
+                        "time": [
+                          "4:15",
+                          " ",
+                          "PM"
+                        ],
                         "status": "On time"
                       },
                       "delay": 0
@@ -556,7 +690,11 @@
                   "train_number": "790",
                   "times": [
                     {
-                      "scheduled_time": ["4:55", " ", "AM"],
+                      "scheduled_time": [
+                        "4:55",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -575,7 +713,10 @@
             "name": "Greenbush Line",
             "long_name": "Greenbush Line",
             "id": "CR-Greenbush",
-            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_names": {
+              "1": "Inbound",
+              "0": "Outbound"
+            },
             "direction_destinations": {
               "1": "South Station",
               "0": "Greenbush"
@@ -590,7 +731,11 @@
                   "train_number": "070",
                   "times": [
                     {
-                      "scheduled_time": ["5:40", " ", "AM"],
+                      "scheduled_time": [
+                        "5:40",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -607,7 +752,11 @@
                   "train_number": "071",
                   "times": [
                     {
-                      "scheduled_time": ["6:54", " ", "AM"],
+                      "scheduled_time": [
+                        "6:54",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -626,7 +775,10 @@
             "name": "Kingston/Plymouth Line",
             "long_name": "Kingston/Plymouth Line",
             "id": "CR-Kingston",
-            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_names": {
+              "1": "Inbound",
+              "0": "Outbound"
+            },
             "direction_destinations": {
               "1": "South Station",
               "0": "Kingston or Plymouth"
@@ -641,7 +793,11 @@
                   "train_number": "032",
                   "times": [
                     {
-                      "scheduled_time": ["5:30", " ", "AM"],
+                      "scheduled_time": [
+                        "5:30",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -658,7 +814,11 @@
                   "train_number": "033",
                   "times": [
                     {
-                      "scheduled_time": ["7:11", " ", "AM"],
+                      "scheduled_time": [
+                        "7:11",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -670,7 +830,11 @@
                   "train_number": "063",
                   "times": [
                     {
-                      "scheduled_time": ["10:50", " ", "AM"],
+                      "scheduled_time": [
+                        "10:50",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -689,7 +853,10 @@
             "name": "Middleborough/Lakeville Line",
             "long_name": "Middleborough/Lakeville Line",
             "id": "CR-Middleborough",
-            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_names": {
+              "1": "Inbound",
+              "0": "Outbound"
+            },
             "direction_destinations": {
               "1": "South Station",
               "0": "Middleborough/Lakeville"
@@ -704,7 +871,11 @@
                   "train_number": "002",
                   "times": [
                     {
-                      "scheduled_time": ["5:20", " ", "AM"],
+                      "scheduled_time": [
+                        "5:20",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -721,7 +892,11 @@
                   "train_number": "003",
                   "times": [
                     {
-                      "scheduled_time": ["6:35", " ", "AM"],
+                      "scheduled_time": [
+                        "6:35",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -740,7 +915,10 @@
             "name": "Needham Line",
             "long_name": "Needham Line",
             "id": "CR-Needham",
-            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_names": {
+              "1": "Inbound",
+              "0": "Outbound"
+            },
             "direction_destinations": {
               "1": "South Station",
               "0": "Needham Heights"
@@ -755,7 +933,11 @@
                   "train_number": "600",
                   "times": [
                     {
-                      "scheduled_time": ["6:05", " ", "AM"],
+                      "scheduled_time": [
+                        "6:05",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -772,7 +954,11 @@
                   "train_number": "601",
                   "times": [
                     {
-                      "scheduled_time": ["7:05", " ", "AM"],
+                      "scheduled_time": [
+                        "7:05",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -791,7 +977,10 @@
             "name": "Providence/Stoughton Line",
             "long_name": "Providence/Stoughton Line",
             "id": "CR-Providence",
-            "direction_names": { "1": "Inbound", "0": "Outbound" },
+            "direction_names": {
+              "1": "Inbound",
+              "0": "Outbound"
+            },
             "direction_destinations": {
               "1": "South Station",
               "0": "Wickford Junction"
@@ -806,7 +995,11 @@
                   "train_number": "802",
                   "times": [
                     {
-                      "scheduled_time": ["4:45", " ", "AM"],
+                      "scheduled_time": [
+                        "4:45",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -823,7 +1016,11 @@
                   "train_number": "8801",
                   "times": [
                     {
-                      "scheduled_time": ["4:58", " ", "AM"],
+                      "scheduled_time": [
+                        "4:58",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -835,7 +1032,11 @@
                   "train_number": "803",
                   "times": [
                     {
-                      "scheduled_time": ["6:31", " ", "AM"],
+                      "scheduled_time": [
+                        "6:31",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -847,7 +1048,11 @@
                   "train_number": "903",
                   "times": [
                     {
-                      "scheduled_time": ["6:57", " ", "AM"],
+                      "scheduled_time": [
+                        "6:57",
+                        " ",
+                        "AM"
+                      ],
                       "prediction": null,
                       "delay": 0
                     }
@@ -871,7 +1076,9 @@
         "address": "1234 Main St., Boston MA",
         "latitude": 42.0,
         "longitude": -71.0,
-        "payment": ["credit_card"],
+        "payment": [
+          "credit_card"
+        ],
         "phone": "617-555-1234"
       },
       "distance": "500 ft"
@@ -894,7 +1101,9 @@
         "closed_stop_info": null,
         "bike_storage": [],
         "address": null,
-        "accessibility": ["accessible"]
+        "accessibility": [
+          "accessible"
+        ]
       },
       "routes_with_direction": [
         {
@@ -904,8 +1113,14 @@
             "long_name": "Harvard - Dudley via Massachusetts Avenue",
             "id": "1",
             "header": "1",
-            "direction_names": { "0": "Outbound", "1": "Inbound" },
-            "direction_destinations": { "0": "Harvard", "1": "Dudley" },
+            "direction_names": {
+              "0": "Outbound",
+              "1": "Inbound"
+            },
+            "direction_destinations": {
+              "0": "Harvard",
+              "1": "Dudley"
+            },
             "description": "key_bus_route",
             "custom_route?": false
           },
@@ -930,7 +1145,9 @@
         "closed_stop_info": null,
         "bike_storage": [],
         "address": null,
-        "accessibility": ["accessible"]
+        "accessibility": [
+          "accessible"
+        ]
       },
       "routes_with_direction": [
         {
@@ -940,7 +1157,10 @@
             "long_name": "Oak Square - University Park or Kendall/MIT",
             "id": "64",
             "header": "64",
-            "direction_names": { "0": "Outbound", "1": "Inbound" },
+            "direction_names": {
+              "0": "Outbound",
+              "1": "Inbound"
+            },
             "direction_destinations": {
               "0": "Oak Square",
               "1": "University Park or Kendall/MIT"
@@ -957,7 +1177,10 @@
             "long_name": "Central Square, Cambridge - Boston Medical Center",
             "id": "701",
             "header": "CT1",
-            "direction_names": { "0": "Outbound", "1": "Inbound" },
+            "direction_names": {
+              "0": "Outbound",
+              "1": "Inbound"
+            },
             "direction_destinations": {
               "0": "Central Square, Cambridge",
               "1": "Boston Medical Center"
@@ -974,7 +1197,10 @@
             "long_name": "Rindge Avenue - Central Square, Cambridge",
             "id": "83",
             "header": "83",
-            "direction_names": { "0": "Outbound", "1": "Inbound" },
+            "direction_names": {
+              "0": "Outbound",
+              "1": "Inbound"
+            },
             "direction_destinations": {
               "0": "Rindge Avenue",
               "1": "Central Square, Cambridge"
@@ -991,7 +1217,10 @@
             "long_name": "Sullivan - Central Square, Cambridge",
             "id": "91",
             "header": "91",
-            "direction_names": { "0": "Outbound", "1": "Inbound" },
+            "direction_names": {
+              "0": "Outbound",
+              "1": "Inbound"
+            },
             "direction_destinations": {
               "0": "Sullivan",
               "1": "Central Square, Cambridge"
@@ -1020,7 +1249,9 @@
         "closed_stop_info": null,
         "bike_storage": [],
         "address": null,
-        "accessibility": ["accessible"]
+        "accessibility": [
+          "accessible"
+        ]
       },
       "routes_with_direction": [
         {
@@ -1030,7 +1261,10 @@
             "long_name": "Central Square, Cambridge - Broadway Station",
             "id": "47",
             "header": "47",
-            "direction_names": { "0": "Outbound", "1": "Inbound" },
+            "direction_names": {
+              "0": "Outbound",
+              "1": "Inbound"
+            },
             "direction_destinations": {
               "0": "Central Square, Cambridge",
               "1": "Broadway Station"
@@ -1047,7 +1281,10 @@
             "long_name": "Oak Square - University Park or Kendall/MIT",
             "id": "64",
             "header": "64",
-            "direction_names": { "0": "Outbound", "1": "Inbound" },
+            "direction_names": {
+              "0": "Outbound",
+              "1": "Inbound"
+            },
             "direction_destinations": {
               "0": "Oak Square",
               "1": "University Park or Kendall/MIT"
@@ -1064,7 +1301,10 @@
             "long_name": "Cedarwood - Central Square, Cambridge",
             "id": "70",
             "header": "70",
-            "direction_names": { "0": "Outbound", "1": "Inbound" },
+            "direction_names": {
+              "0": "Outbound",
+              "1": "Inbound"
+            },
             "direction_destinations": {
               "0": "Cedarwood",
               "1": "Central Square, Cambridge"
@@ -1081,7 +1321,10 @@
             "long_name": "Central Square, Cambridge - Boston Medical Center",
             "id": "701",
             "header": "CT1",
-            "direction_names": { "0": "Outbound", "1": "Inbound" },
+            "direction_names": {
+              "0": "Outbound",
+              "1": "Inbound"
+            },
             "direction_destinations": {
               "0": "Central Square, Cambridge",
               "1": "Boston Medical Center"
@@ -1098,7 +1341,10 @@
             "long_name": "North Waltham - Central Square, Cambridge",
             "id": "70A",
             "header": "70A",
-            "direction_names": { "0": "Outbound", "1": "Inbound" },
+            "direction_names": {
+              "0": "Outbound",
+              "1": "Inbound"
+            },
             "direction_destinations": {
               "0": "North Waltham",
               "1": "Central Square, Cambridge"

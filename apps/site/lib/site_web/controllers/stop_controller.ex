@@ -70,11 +70,22 @@ defmodule SiteWeb.StopController do
         routes_map = routes_map(grouped_routes, stop.id, conn.assigns.date_time)
         json_safe_routes = json_safe_routes(routes_map)
 
+        {:ok, routes_with_direction} =
+          Nearby.merge_routes(stop.id, &Routes.Repo.by_stop_and_direction/2)
+
+        json_safe_route_with_direction =
+          routes_with_direction
+          |> Enum.sort_by(fn %{route: route} ->
+            {Group.sorter({Route.type_atom(route), nil}), route.sort_order}
+          end)
+          |> Enum.map(&%{route: Route.to_json_safe(&1.route), direction_id: &1.direction_id})
+
         conn
         |> assign(:disable_turbolinks, true)
         |> alerts(stop)
         |> assign(:stop, stop)
         |> assign(:routes, json_safe_routes)
+        |> assign(:routes_with_direction, json_safe_route_with_direction)
         |> assign(:zone_number, Zones.Repo.get(stop.id))
         |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
         |> assign(:tab, tab_value(query_params["tab"]))
@@ -160,7 +171,9 @@ defmodule SiteWeb.StopController do
       %{
         nearby_stops
         | routes_with_direction:
-            Enum.map(routes_with_direction, fn %{route: route} = route_with_direction ->
+            routes_with_direction
+            |> Enum.sort_by(& &1.route.sort_order)
+            |> Enum.map(fn %{route: route} = route_with_direction ->
               %{route_with_direction | route: JsonHelpers.stringified_route(route)}
             end)
       }
@@ -170,6 +183,7 @@ defmodule SiteWeb.StopController do
   @spec grouped_routes([Route.t()]) :: [{Route.gtfs_route_type(), [Route.t()]}]
   defp grouped_routes(routes) do
     routes
+    |> Enum.sort_by(& &1.sort_order)
     |> Enum.group_by(&Route.type_atom/1)
     |> Enum.sort_by(&Group.sorter/1)
   end
@@ -313,6 +327,7 @@ defmodule SiteWeb.StopController do
            assigns: %{
              stop: stop,
              routes: routes,
+             routes_with_direction: routes_with_direction,
              alerts: alerts,
              all_alerts_count: all_alerts_count,
              zone_number: zone_number,
@@ -325,6 +340,7 @@ defmodule SiteWeb.StopController do
       stop: %{stop | parking_lots: Enum.map(stop.parking_lots, &Parking.parking_lot(&1))},
       street_view_url: CuratedStreetView.url(stop.id),
       routes: routes,
+      routes_with_direction: routes_with_direction,
       tabs: [
         %HeaderTab{
           id: "info",
