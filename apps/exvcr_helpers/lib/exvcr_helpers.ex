@@ -13,8 +13,6 @@ defmodule ExVCRHelpers do
   defmacro test_vcr(name, test_opts \\ quote(do: %{}), do: body) do
     quote do
       test unquote(name), unquote(test_opts) do
-        ExVCR.Config.filter_request_headers("x-api-key")
-
         module_name = Atom.to_string(__ENV__.module)
 
         cassette_name =
