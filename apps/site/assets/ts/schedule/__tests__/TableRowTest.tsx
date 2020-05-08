@@ -76,11 +76,11 @@ describe("TableRow", () => {
     const railReplacementRoute = {
       ...journey.route,
       type: 3,
-      description: "rail_replacement_bus",
+      description: "rail_replacement_bus"
     };
     const railReplacementJourney = {
       ...journey,
-      route: railReplacementRoute,
+      route: railReplacementRoute
     } as Journey;
 
     const wrapper = mount(
