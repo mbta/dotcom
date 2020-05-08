@@ -27,7 +27,7 @@ defmodule SiteWeb.FareControllerTest do
       assert response =~ "Logan"
     end
 
-    test_vcr "renders Georges Island ferry when present in the data", %{conn: conn} do
+    test "renders Georges Island ferry when present in the data", %{conn: conn} do
       conn =
         get(
           conn,
