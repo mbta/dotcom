@@ -7,7 +7,7 @@ import * as AlgoliaResult from "../algolia-result";
 describe("AlgoliaResult", () => {
   const drupalHits = {
     searchResult: {
-      _content_type: "search_result",
+      content_type: "search_result",
       _search_result_url: "internal:/search/result",
       content_title: "Search Result Content Title",
       search_result_title: "Search Result Title",
@@ -21,7 +21,7 @@ describe("AlgoliaResult", () => {
       }
     },
     newsEntry: {
-      _content_type: "news_entry",
+      content_type: "news_entry",
       _content_url: "/news/2018-03-30/entry",
       content_title: "News Entry Title",
       _highlightResult: {
@@ -31,7 +31,7 @@ describe("AlgoliaResult", () => {
       }
     },
     event: {
-      _content_type: "event",
+      content_type: "event",
       _content_url: "/events/2018-03-29/event",
       content_title: "Event Title",
       _highlightResult: {
@@ -41,7 +41,7 @@ describe("AlgoliaResult", () => {
       }
     },
     project: {
-      _content_type: "project",
+      content_type: "project",
       _content_url: "/projects/project",
       content_title: "Project Title",
       _highlightResult: {
@@ -51,7 +51,7 @@ describe("AlgoliaResult", () => {
       }
     },
     page: {
-      _content_type: "page",
+      content_type: "page",
       _content_url: "/pages/page",
       content_title: "Page Title",
       _highlightResult: {
@@ -61,7 +61,7 @@ describe("AlgoliaResult", () => {
       }
     },
     landingPage: {
-      _content_type: "landing_page",
+      content_type: "landing_page",
       _content_url: "/landing_page",
       content_title: "Landing Page Title",
       _highlightResult: {
@@ -71,7 +71,7 @@ describe("AlgoliaResult", () => {
       }
     },
     diversion: {
-      _content_type: "diversion",
+      content_type: "diversion",
       _content_url: "/diversions/diversion-1",
       content_title: "Diversion Title",
       _highlightResult: {
@@ -81,7 +81,7 @@ describe("AlgoliaResult", () => {
       }
     },
     person: {
-      _content_type: "person",
+      content_type: "person",
       _content_url: "/people/person",
       content_title: "Person Name",
       _highlightResult: {
@@ -91,7 +91,7 @@ describe("AlgoliaResult", () => {
       }
     },
     other: {
-      _content_type: "random_type",
+      content_type: "random_type",
       _content_url: "/other/page",
       content_title: "Other Title",
       _highlightResult: {
