@@ -304,7 +304,7 @@ defmodule SiteWeb.TripPlanControllerTest do
       assert html_response(conn, 200) =~ "two different locations"
     end
 
-    test "doesn't renders an error if longitudes and latitudes are unique", %{conn: conn} do
+    test "doesn't render an error if longitudes and latitudes are unique", %{conn: conn} do
       params = %{
         "date_time" => @system_time,
         "plan" => %{
@@ -558,6 +558,22 @@ defmodule SiteWeb.TripPlanControllerTest do
         )
 
       assert Enum.count(afternoon_conn.assigns.itinerary_row_lists) == 2
+    end
+
+    test "normalizes address", %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{
+          "date_time" => @afternoon,
+          "from" => "15 pemberton street, cambridge ma",
+          "to" => "115 prospect St, cambridge"
+        }
+      }
+
+      conn = get(conn, trip_plan_path(conn, :index, params))
+      assert html_response(conn, 200)
+      assert conn.assigns.query.from.name == "Geocoded 15 pemberton street, cambridge ma"
+      assert conn.assigns.query.to.name == "Geocoded 115 prospect St, cambridge"
     end
   end
 
