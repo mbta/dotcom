@@ -5,7 +5,7 @@ import { AlgoliaResults } from "../algolia-results";
 
 describe("AlgoliaResults", () => {
   jsdom();
-  var search;
+  let search;
 
   beforeEach(() => {
     document.body.innerHTML = `
@@ -21,14 +21,11 @@ describe("AlgoliaResults", () => {
     window.Turbolinks = {
       visit: sinon.spy()
     };
-    window.encodeURIComponent = string => {
-      return string.replace(/\s/g, "%20").replace(/\&/g, "%26");
-    };
+    window.encodeURIComponent = string =>
+      string.replace(/\s/g, "%20").replace(/\&/g, "%26");
     search = new AlgoliaResults("search-results", {
       onClickShowMore: sinon.spy(),
-      getParams: () => {
-        return { from: "global-search" };
-      }
+      getParams: () => ({ from: "global-search" })
     });
   });
 
@@ -65,7 +62,7 @@ describe("AlgoliaResults", () => {
 
       it("handles search_result", () => {
         const hit = {
-          _content_type: "search_result",
+          content_type: "search_result",
           search_api_datasource: "no_file",
           content_title: "pre_search-results-content-title",
           search_result_title: "pre_search-results-title",
@@ -156,7 +153,7 @@ describe("AlgoliaResults", () => {
         );
 
         expect(result).to.be.a("string");
-        expect(result).to.have.string("/stops/" + hit.stop.id);
+        expect(result).to.have.string(`/stops/${hit.stop.id}`);
         expect(result).to.have.string(hit._highlightResult.stop.name.value);
         expect(result).to.have.string("stop-icon");
         expect(result).to.have.string("green-line-b-icon");
@@ -192,7 +189,7 @@ describe("AlgoliaResults", () => {
         );
 
         expect(result).to.be.a("string");
-        expect(result).to.have.string("/schedules/" + hit.route.id);
+        expect(result).to.have.string(`/schedules/${hit.route.id}`);
         expect(result).to.have.string(hit._highlightResult.route.name.value);
         expect(result).to.have.string("commuter-rail-icon");
       });
@@ -224,7 +221,7 @@ describe("AlgoliaResults", () => {
         );
 
         expect(result).to.be.a("string");
-        expect(result).to.have.string("/schedules/" + hit.route.id);
+        expect(result).to.have.string(`/schedules/${hit.route.id}`);
         expect(result).to.have.string(hit._highlightResult.route.name.value);
         expect(result).to.have.string("orange-line-icon");
       });
@@ -232,7 +229,7 @@ describe("AlgoliaResults", () => {
   });
 
   describe("render", () => {
-    var $;
+    let $;
 
     beforeEach(() => {
       $ = jsdom.rerequire("jquery");

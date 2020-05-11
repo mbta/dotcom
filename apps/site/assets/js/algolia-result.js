@@ -181,7 +181,7 @@ function _contentIcon(hit) {
       person: "fa-user",
       locations: "fa-map-marker"
     };
-    icon = iconMapper[hit._content_type] || "fa-info";
+    icon = iconMapper[hit.content_type] || "fa-info";
   }
 
   return TEMPLATES.fontAwesomeIcon.render({ icon });
@@ -271,7 +271,7 @@ function _contentUrl(hit) {
   if (hit.search_api_datasource === "entity:file") {
     return `/sites/default/files/${hit._file_uri.replace(/public:\/\//, "")}`;
   }
-  if (hit._content_type === "search_result") {
+  if (hit.content_type === "search_result") {
     return hit._search_result_url.replace(/internal:/, "");
   }
   return hit._content_url;
@@ -319,7 +319,7 @@ function getRouteTitle(hit) {
 }
 
 function _contentTitle(hit) {
-  if (hit._content_type === "search_result") {
+  if (hit.content_type === "search_result") {
     return hit._highlightResult.search_result_title.value;
   }
   if (hit.search_api_datasource === "entity:file") {
@@ -544,8 +544,8 @@ export function parseResult(hit, index) {
 }
 
 export function renderResult(hit, index) {
-  if (hit._content_type == "project" || hit._content_type == "project_update") {
-    return TEMPLATES["projects"].render(parseResult(hit, "projects"));
+  if (hit.content_type == "project" || hit.content_type == "project_update") {
+    return TEMPLATES.projects.render(parseResult(hit, "projects"));
   }
   if (TEMPLATES[index]) {
     return TEMPLATES[index].render(parseResult(hit, index));
