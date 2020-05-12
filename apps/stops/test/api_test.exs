@@ -22,7 +22,7 @@ defmodule Stops.ApiTest do
       end
     end
 
-    test_vcr "parses parent_id and child_ids" do
+    test "parses parent_id and child_ids" do
       assert {:ok, %Stop{} = parent} = by_gtfs_id("place-sstat")
       assert parent.parent_id == nil
       assert parent.is_child? == false
@@ -52,6 +52,7 @@ defmodule Stops.ApiTest do
                  "South Station-11",
                  "South Station-12",
                  "South Station-13",
+                 "South Station-S",
                  "door-sstat-atlantic",
                  "door-sstat-bus",
                  "door-sstat-dewey",
