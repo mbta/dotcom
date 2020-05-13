@@ -10,7 +10,8 @@ defmodule Site.MapHelpers.MarkersTest do
     long_name: "Red Line",
     name: "Red Line",
     type: 1,
-    color: "DA291C"
+    color: "DA291C",
+    sort_order: 1
   }
 
   @stop %Stops.Stop{

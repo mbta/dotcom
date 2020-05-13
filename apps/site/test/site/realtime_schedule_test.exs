@@ -24,7 +24,8 @@ defmodule Site.RealtimeScheduleTest do
     long_name: "Orange Line",
     name: "Orange Line",
     type: 1,
-    color: "ED8B00"
+    color: "ED8B00",
+    sort_order: 99_999
   }
 
   @route_with_patterns [
@@ -253,7 +254,8 @@ defmodule Site.RealtimeScheduleTest do
           long_name: "Orange Line",
           name: "Orange Line",
           type: 1,
-          color: "ED8B00"
+          color: "ED8B00",
+          sort_order: 99_999
         }
       }
     ]

@@ -83,6 +83,7 @@ export interface Route {
   id: string;
   long_name: string;
   name: string;
+  sort_order?: number;
   type: RouteType;
 }
 
