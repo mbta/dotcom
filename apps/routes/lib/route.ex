@@ -8,6 +8,7 @@ defmodule Routes.Route do
             name: "",
             long_name: "",
             color: "",
+            sort_order: 99_999,
             direction_names: %{0 => "Outbound", 1 => "Inbound"},
             direction_destinations: :unknown,
             description: :unknown,
@@ -20,6 +21,7 @@ defmodule Routes.Route do
           name: String.t(),
           long_name: String.t(),
           color: String.t(),
+          sort_order: non_neg_integer,
           direction_names: %{0 => String.t() | nil, 1 => String.t() | nil},
           direction_destinations: %{0 => String.t(), 1 => String.t()} | :unknown,
           description: gtfs_route_desc,
@@ -207,6 +209,7 @@ defmodule Routes.Route do
         name: name,
         long_name: long_name,
         color: color,
+        sort_order: sort_order,
         direction_names: direction_names,
         direction_destinations: direction_destinations,
         description: description,
@@ -226,6 +229,7 @@ defmodule Routes.Route do
       name: name,
       long_name: long_name,
       color: color,
+      sort_order: sort_order,
       direction_names: %{
         "0" => direction_names[0],
         "1" => direction_names[1]

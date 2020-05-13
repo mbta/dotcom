@@ -13,6 +13,7 @@ defmodule Routes.Parser do
       name: name(attributes),
       long_name: attributes["long_name"],
       color: attributes["color"],
+      sort_order: attributes["sort_order"],
       direction_names:
         direction_attrs(attributes["direction_names"], parse_route_patterns(relationships)),
       direction_destinations:
