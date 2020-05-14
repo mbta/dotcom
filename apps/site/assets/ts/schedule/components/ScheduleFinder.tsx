@@ -12,7 +12,8 @@ import ScheduleFinderModal from "./schedule-finder/ScheduleFinderModal";
 import {
   getCurrentState,
   ModalMode,
-  storeHandler
+  storeHandler,
+  openModal
 } from "../store/ScheduleStore";
 
 interface Props {
@@ -49,12 +50,7 @@ const ScheduleFinder = ({
     const currentState = getCurrentState();
     const { modalOpen: modalIsOpen } = currentState;
     if (!modalIsOpen) {
-      storeHandler({
-        type: "OPEN_MODAL",
-        newStoreValues: {
-          modalMode: "origin"
-        }
-      });
+      storeHandler(openModal("origin"));
     }
   };
 
@@ -62,22 +58,12 @@ const ScheduleFinder = ({
     const currentState = getCurrentState();
     const { modalOpen: modalIsOpen } = currentState;
     if (selectedOrigin !== undefined && !modalIsOpen) {
-      storeHandler({
-        type: "OPEN_MODAL",
-        newStoreValues: {
-          modalMode: "schedule"
-        }
-      });
+      storeHandler(openModal("schedule"));
     }
   };
 
   const handleOriginSelectClick = (): void => {
-    storeHandler({
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin"
-      }
-    });
+    storeHandler(openModal("origin"));
   };
 
   return (

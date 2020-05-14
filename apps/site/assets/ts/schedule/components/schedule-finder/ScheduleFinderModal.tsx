@@ -12,7 +12,12 @@ import {
 import Modal from "../../../components/Modal";
 import StopSearchModalContent from "./StopSearchModalContent";
 import ScheduleModalContent from "./ScheduleModalContent";
-import { StoreProps } from "../../store/ScheduleStore";
+import {
+  changeDestination,
+  StoreProps,
+  openModal,
+  closeModal
+} from "../../store/ScheduleStore";
 
 interface Props {
   directionChanged?: (direction: DirectionId) => void;
@@ -79,14 +84,8 @@ export default ({
   const destinationModalContent = (): ReactElement => (
     <StopSearchModalContent
       handleChangeStop={(newDestination: SelectedStopId): void => {
-        dispatch({
-          type: "CHANGE_DESTINATION",
-          newStoreValues: { selectedDestination: newDestination }
-        });
-        dispatch({
-          type: "OPEN_MODAL",
-          newStoreValues: { modalMode: "schedule" }
-        });
+        dispatch(changeDestination(newDestination));
+        dispatch(openModal("schedule"));
       }}
       selectedStop={selectedDestination}
       stops={stops[selectedDirection] || []}
@@ -105,6 +104,7 @@ export default ({
       scheduleNote={scheduleNote}
       selectedDirection={selectedDirection}
       selectedOrigin={selectedOrigin || ""}
+      selectedDestination={selectedDestination || ""}
       services={services}
       stops={stops}
       today={today}
@@ -125,11 +125,8 @@ export default ({
       className={modalMode === "origin" ? "schedule-finder__origin-modal" : ""}
       closeModal={() =>
         modalMode === "schedule"
-          ? dispatch({ type: "CLOSE_MODAL" })
-          : dispatch({
-              type: "OPEN_MODAL",
-              newStoreValues: { modalMode: "schedule" }
-            })
+          ? dispatch(closeModal())
+          : dispatch(openModal("schedule"))
       }
     >
       {modalMode === "origin" && originModalContent()}

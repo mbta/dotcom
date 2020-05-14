@@ -3,14 +3,15 @@ import { Route, Trip, Stop, PredictedOrScheduledTime } from "../../__v3api";
 export interface Journey {
   trip: Trip;
   route: Route;
-  departure: Departure;
+  departure: ArrivalOrDeparture;
+  arrival?: ArrivalOrDeparture;
 }
 
 export interface EnhancedJourney extends Journey {
   realtime: PredictedOrScheduledTime;
 }
 
-export interface Departure {
+interface ArrivalOrDeparture {
   time: string;
   schedule: Schedule | null;
   prediction: Prediction | null;

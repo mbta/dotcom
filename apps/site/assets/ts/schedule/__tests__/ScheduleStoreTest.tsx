@@ -1,7 +1,13 @@
 import {
   Action,
+  changeDestination,
+  changeDirection,
+  changeOrigin,
+  closeModal,
+  openModal,
   scheduleStoreReducer,
-  StoreProps
+  StoreProps,
+  initialize
 } from "../store/ScheduleStore";
 
 const mockState: StoreProps = {
@@ -14,16 +20,6 @@ const mockState: StoreProps = {
 
 describe("Schedule store reducer", () => {
   it("Handles INITIALIZE", () => {
-    const action: Action = {
-      type: "INITIALIZE",
-      newStoreValues: {
-        selectedDirection: 0,
-        selectedOrigin: null,
-        selectedDestination: null,
-        modalMode: "schedule",
-        modalOpen: true
-      }
-    };
     expect(
       scheduleStoreReducer(
         {
@@ -33,7 +29,13 @@ describe("Schedule store reducer", () => {
           modalMode: "schedule",
           modalOpen: true
         },
-        action
+        initialize({
+          selectedDirection: 0,
+          selectedOrigin: null,
+          selectedDestination: null,
+          modalMode: "schedule",
+          modalOpen: true
+        })
       )
     ).toEqual(mockState);
   });
@@ -44,14 +46,7 @@ describe("Schedule store reducer", () => {
       selectedOrigin: "8279",
       selectedDestination: "place-ogmnl"
     };
-    const action: Action = {
-      type: "CHANGE_DIRECTION",
-      newStoreValues: {
-        selectedDirection: 1,
-        selectedOrigin: null
-      }
-    };
-    expect(scheduleStoreReducer(initialState, action)).toEqual({
+    expect(scheduleStoreReducer(initialState, changeDirection(1))).toEqual({
       ...initialState,
       selectedDirection: 1,
       selectedOrigin: null,
@@ -64,13 +59,7 @@ describe("Schedule store reducer", () => {
       ...mockState,
       selectedDestination: "place-ogmnl"
     };
-    const action: Action = {
-      type: "CHANGE_ORIGIN",
-      newStoreValues: {
-        selectedOrigin: "8279"
-      }
-    };
-    expect(scheduleStoreReducer(initialState, action)).toEqual({
+    expect(scheduleStoreReducer(initialState, changeOrigin("8279"))).toEqual({
       ...initialState,
       selectedOrigin: "8279",
       selectedDestination: null
@@ -82,13 +71,10 @@ describe("Schedule store reducer", () => {
       ...mockState,
       selectedOrigin: "8279"
     };
-    const action: Action = {
-      type: "CHANGE_DESTINATION",
-      newStoreValues: {
-        selectedDestination: "place-ogmnl"
-      }
-    };
-    const results = scheduleStoreReducer(initialState, action);
+    const results = scheduleStoreReducer(
+      initialState,
+      changeDestination("place-ogmnl")
+    );
     expect(results).toEqual({
       ...initialState,
       selectedDestination: "place-ogmnl",
@@ -97,14 +83,7 @@ describe("Schedule store reducer", () => {
   });
 
   it("Handles OPEN_MODAL", () => {
-    const action: Action = {
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin",
-        modalOpen: true
-      }
-    };
-    expect(scheduleStoreReducer(mockState, action)).toEqual({
+    expect(scheduleStoreReducer(mockState, openModal("origin"))).toEqual({
       ...mockState,
       modalMode: "origin",
       modalOpen: true
@@ -112,13 +91,7 @@ describe("Schedule store reducer", () => {
   });
 
   it("Handles CLOSE_MODAL", () => {
-    const action: Action = {
-      type: "CLOSE_MODAL",
-      newStoreValues: {
-        modalOpen: false
-      }
-    };
-    expect(scheduleStoreReducer(mockState, action)).toEqual({
+    expect(scheduleStoreReducer(mockState, closeModal())).toEqual({
       ...mockState,
       modalOpen: false
     });

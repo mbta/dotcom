@@ -1,11 +1,13 @@
 import React, { useEffect, useState, useReducer, ReactElement } from "react";
+import { useSelector } from "react-redux";
 import { reducer } from "../../../helpers/fetch";
 import { Journey, TripInfo } from "../__trips";
 import { modeIcon, caret } from "../../../helpers/icon";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
 import { breakTextAtSlash } from "../../../helpers/text";
 import { TripDetails } from "./TripDetails";
-import { UserInput } from "../../components/__schedule";
+import { UserInput, SelectedStopId } from "../../components/__schedule";
+import { StoreProps } from "../../store/ScheduleStore";
 
 interface TableRowProps {
   input: UserInput;
@@ -120,6 +122,9 @@ export const Accordion = ({
     isLoading: false,
     error: false
   });
+  const selectedDestination: SelectedStopId | "" = useSelector(
+    (store: StoreProps) => store.selectedDestination
+  );
 
   const toggle = (): void => setExpanded(!expanded);
   const tripId = journey.trip.id;
@@ -147,7 +152,18 @@ export const Accordion = ({
         tabIndex={0}
       >
         {contentComponent()}
-        <td className="schedule-table__cell schedule-table__cell--tiny">
+        <td
+          className={`schedule-table__cell ${
+            selectedDestination
+              ? "schedule-table__cell--arrivals"
+              : "schedule-table__cell--tiny"
+          }`}
+        >
+          {selectedDestination && (
+            <span className="schedule-table__arrival-time u-nowrap u-tabular-nums">
+              {journey.arrival && journey.arrival.time}
+            </span>
+          )}
           {expanded
             ? caret("c-expandable-block__header-caret--white", expanded)
             : caret("c-expandable-block__header-caret", expanded)}

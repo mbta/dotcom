@@ -185,36 +185,6 @@ describe("ScheduleFinder", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("opens the schedule modal via the origin modal", () => {
-    const wrapper = mount(
-      <Provider store={scheduleStoreModule.store}>
-        <ScheduleFinder
-          route={route}
-          stops={stops}
-          directionId={0}
-          services={services}
-          routePatternsByDirection={routePatternsByDirection}
-          today={today}
-          scheduleNote={null}
-          updateURL={() => {}}
-          changeDirection={() => {}}
-          selectedOrigin="123"
-          changeOrigin={() => {}}
-          modalMode="schedule"
-          modalOpen={true}
-        />
-      </Provider>
-    );
-
-    // Schedule modal should be open with the chosen origin selected
-    expect(
-      wrapper
-        .find(".schedule-finder__origin-modal select")
-        .last()
-        .prop("value")
-    ).toEqual("123");
-  });
-
   it("clears the selected origin when the direction is changed", () => {
     const wrapper = mountComponent();
 
@@ -233,44 +203,6 @@ describe("ScheduleFinder", () => {
         .last()
         .prop("value")
     ).toEqual("");
-  });
-
-  it("changes the available origins when the direction is changed", () => {
-    let wrapper = mountComponent();
-    expect(
-      wrapper
-        .find("select")
-        .last()
-        .text()
-    ).not.toContain("Def");
-
-    // re-mount with directionId = 1 (simulate change in direction)
-    wrapper = mount(
-      <Provider store={scheduleStoreModule.store}>
-        <ScheduleFinder
-          route={route}
-          stops={stops}
-          directionId={1}
-          services={services}
-          routePatternsByDirection={routePatternsByDirection}
-          today={today}
-          scheduleNote={null}
-          updateURL={() => {}}
-          changeDirection={() => {}}
-          selectedOrigin={null}
-          changeOrigin={() => {}}
-          modalMode="origin"
-          modalOpen={true}
-        />
-      </Provider>
-    );
-
-    expect(
-      wrapper
-        .find("select")
-        .last()
-        .text()
-    ).toContain("Def");
   });
 
   it("Opens the origin modal when clicking on the origin drop-down in the schedule modal", () => {
@@ -305,12 +237,9 @@ describe("ScheduleFinder", () => {
       // @ts-ignore -- types for `invoke` seem to be too restrictive
       .invoke("handleClick")();
 
-    expect(storeHandlerStub).toHaveBeenCalledWith({
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin"
-      }
-    });
+    expect(storeHandlerStub).toHaveBeenCalledWith(
+      scheduleStoreModule.openModal("origin")
+    );
     wrapper.unmount();
   });
 });

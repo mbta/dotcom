@@ -17,6 +17,21 @@ import ScheduleNote from "../ScheduleNote";
 import { isInCurrentService } from "../../../helpers/service";
 import { formattedDate } from "../../../helpers/date";
 
+interface Props {
+  handleChangeDirection: (direction: DirectionId) => void;
+  handleChangeOrigin: (origin: SelectedOrigin) => void;
+  handleOriginSelectClick: () => void;
+  route: Route;
+  selectedDirection: DirectionId;
+  selectedOrigin: string;
+  selectedDestination: string;
+  services: ServiceInSelector[];
+  stops: SimpleStopMap;
+  routePatternsByDirection: RoutePatternsByDirection;
+  today: string;
+  scheduleNote: ScheduleNoteType | null;
+}
+
 type fetchAction =
   | { type: "FETCH_COMPLETE"; payload: StopPrediction[] }
   | { type: "FETCH_ERROR" }
@@ -45,20 +60,6 @@ export const fetchData = (
   );
 };
 
-interface Props {
-  handleChangeDirection: (direction: DirectionId) => void;
-  handleChangeOrigin: (origin: SelectedOrigin) => void;
-  handleOriginSelectClick: () => void;
-  route: Route;
-  selectedDirection: DirectionId;
-  selectedOrigin: string;
-  services: ServiceInSelector[];
-  stops: SimpleStopMap;
-  routePatternsByDirection: RoutePatternsByDirection;
-  today: string;
-  scheduleNote: ScheduleNoteType | null;
-}
-
 const ScheduleModalContent = ({
   handleChangeDirection,
   handleChangeOrigin,
@@ -66,6 +67,7 @@ const ScheduleModalContent = ({
   route,
   selectedDirection,
   selectedOrigin,
+  selectedDestination,
   services,
   stops,
   routePatternsByDirection,
@@ -139,6 +141,8 @@ const ScheduleModalContent = ({
           directionId={selectedDirection}
           routePatterns={routePatternsByDirection[selectedDirection]}
           today={today}
+          destinationStopId={selectedDestination}
+          stops={stops}
         />
       )}
     </>

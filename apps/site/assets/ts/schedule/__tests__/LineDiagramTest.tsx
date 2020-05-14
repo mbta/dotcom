@@ -1,4 +1,5 @@
 import React from "react";
+import { Provider } from "react-redux";
 import { mount, ReactWrapper, shallow, ShallowWrapper } from "enzyme";
 import { cloneDeep, merge } from "lodash";
 import LineDiagram from "../components/line-diagram/LineDiagram";
@@ -8,6 +9,7 @@ import {
   RoutePatternsByDirection,
   SimpleStop
 } from "../components/__schedule";
+import * as scheduleStoreModule from "../store/ScheduleStore";
 import * as routePatternsByDirection from "./routePatternsByDirectionData.json";
 import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
 import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
@@ -71,18 +73,20 @@ describe("LineDiagram without branches", () => {
   let wrapper: ReactWrapper;
   beforeEach(() => {
     wrapper = mount(
-      <LineDiagram
-        lineDiagram={lineDiagram}
-        route={route as EnhancedRoute}
-        directionId={directionId}
-        routePatternsByDirection={
-          routePatternsByDirection as RoutePatternsByDirection
-        }
-        services={[]}
-        stops={{ 0: stops, 1: stops }}
-        today="2019-12-05"
-        scheduleNote={null}
-      />
+      <Provider store={scheduleStoreModule.store}>
+        <LineDiagram
+          lineDiagram={lineDiagram}
+          route={route as EnhancedRoute}
+          directionId={directionId}
+          routePatternsByDirection={
+            routePatternsByDirection as RoutePatternsByDirection
+          }
+          services={[]}
+          stops={{ 0: stops, 1: stops }}
+          today="2019-12-05"
+          scheduleNote={null}
+        />
+      </Provider>
     );
   });
 
@@ -95,18 +99,23 @@ describe("LineDiagram without branches", () => {
   });
 
   it("includes a button to open Schedule Finder on each stop", () => {
+    const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
+
     expect(wrapper.exists(".schedule-finder--modal")).toBeFalsy();
 
     wrapper
       .find(".m-schedule-diagram__footer > button")
       .first()
       .simulate("click");
-    expect(wrapper.exists(".schedule-finder--modal")).toBeTruthy();
-    expect(wrapper.exists("#modal-close")).toBeTruthy();
-
-    wrapper.find("#modal-close").simulate("click");
-    expect(wrapper.exists(".schedule-finder--modal")).toBeFalsy();
-    expect(wrapper.exists("#modal-close")).toBeFalsy();
+    expect(storeHandlerStub).toHaveBeenCalledWith(
+      scheduleStoreModule.changeDirection(1)
+    );
+    expect(storeHandlerStub).toHaveBeenCalledWith(
+      scheduleStoreModule.changeOrigin("line-origin")
+    );
+    expect(storeHandlerStub).toHaveBeenCalledWith(
+      scheduleStoreModule.openModal("schedule")
+    );
   });
 
   it("has a tooltip for a transit connection", () => {
@@ -170,18 +179,20 @@ describe("LineDiagram with branches going outward", () => {
   let wrapper: ReactWrapper;
   beforeEach(() => {
     wrapper = mount(
-      <LineDiagram
-        lineDiagram={lineDiagramBranchingOut}
-        route={route as EnhancedRoute}
-        directionId={directionId}
-        routePatternsByDirection={
-          routePatternsByDirection as RoutePatternsByDirection
-        }
-        services={[]}
-        stops={{ 0: stops, 1: stops }}
-        today="2019-12-05"
-        scheduleNote={null}
-      />
+      <Provider store={scheduleStoreModule.store}>
+        <LineDiagram
+          lineDiagram={lineDiagramBranchingOut}
+          route={route as EnhancedRoute}
+          directionId={directionId}
+          routePatternsByDirection={
+            routePatternsByDirection as RoutePatternsByDirection
+          }
+          services={[]}
+          stops={{ 0: stops, 1: stops }}
+          today="2019-12-05"
+          scheduleNote={null}
+        />
+      </Provider>
     );
   });
 
@@ -255,18 +266,20 @@ describe("LineDiagram for CR with branches going inward", () => {
 
   beforeEach(() => {
     wrapper = mount(
-      <LineDiagram
-        lineDiagram={lineDiagramBranchingIn}
-        route={CRroute as EnhancedRoute}
-        directionId={directionId}
-        routePatternsByDirection={
-          routePatternsByDirection as RoutePatternsByDirection
-        }
-        services={[]}
-        stops={{ 0: stops, 1: stops }}
-        today="2019-12-05"
-        scheduleNote={null}
-      />
+      <Provider store={scheduleStoreModule.store}>
+        <LineDiagram
+          lineDiagram={lineDiagramBranchingIn}
+          route={CRroute as EnhancedRoute}
+          directionId={directionId}
+          routePatternsByDirection={
+            routePatternsByDirection as RoutePatternsByDirection
+          }
+          services={[]}
+          stops={{ 0: stops, 1: stops }}
+          today="2019-12-05"
+          scheduleNote={null}
+        />
+      </Provider>
     );
   });
 

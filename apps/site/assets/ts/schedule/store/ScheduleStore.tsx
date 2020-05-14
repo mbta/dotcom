@@ -1,5 +1,5 @@
 import { Reducer, createStore, Store } from "redux";
-import { StoreAction, SelectedStopId } from "../components/__schedule";
+import { SelectedStopId } from "../components/__schedule";
 import { DirectionId } from "../../__v3api";
 
 export type ModalMode = "origin" | "schedule" | "destination";
@@ -20,10 +20,56 @@ interface ActionData {
   modalMode?: ModalMode;
 }
 
+type StoreAction =
+  | "INITIALIZE"
+  | "CHANGE_DIRECTION"
+  | "CHANGE_ORIGIN"
+  | "CHANGE_DESTINATION"
+  | "OPEN_MODAL"
+  | "CLOSE_MODAL";
+
 export interface Action {
   type: StoreAction;
   newStoreValues: ActionData;
 }
+
+export const initialize = (newStoreValues: ActionData): Action => ({
+  type: "INITIALIZE",
+  newStoreValues
+});
+
+export const changeDirection = (direction: DirectionId): Action => ({
+  type: "CHANGE_DIRECTION",
+  newStoreValues: {
+    selectedDirection: direction
+  }
+});
+
+export const changeOrigin = (origin: SelectedStopId): Action => ({
+  type: "CHANGE_ORIGIN",
+  newStoreValues: {
+    selectedOrigin: origin
+  }
+});
+
+export const changeDestination = (destination: SelectedStopId): Action => ({
+  type: "CHANGE_DESTINATION",
+  newStoreValues: { selectedDestination: destination }
+});
+
+export const openModal = (mode: ModalMode): Action => ({
+  type: "OPEN_MODAL",
+  newStoreValues: {
+    modalMode: mode
+  }
+});
+
+export const closeModal = (): Action => ({
+  type: "CLOSE_MODAL",
+  newStoreValues: {
+    modalOpen: false
+  }
+});
 
 export const scheduleStoreReducer: Reducer<StoreProps, Action> = (
   state: StoreProps | undefined,

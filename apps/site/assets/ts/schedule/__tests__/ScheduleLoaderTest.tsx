@@ -4,7 +4,6 @@ import lineDiagramData from "./lineDiagramData.json"; // Not a full line diagram
 import { LineDiagramStop, ServiceInSelector } from "../components/__schedule";
 import { EnhancedRoute } from "../../__v3api";
 import { mount, ReactWrapper } from "enzyme";
-import { store } from "../store/ScheduleStore";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import ScheduleLoader from "../components/ScheduleLoader";
 import ScheduleFinder from "../components/ScheduleFinder";
@@ -189,7 +188,7 @@ describe("ScheduleLoader", () => {
 
   it("Renders ScheduleLoader", () => {
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component="MAIN"
           schedulePageData={{
@@ -221,7 +220,7 @@ describe("ScheduleLoader", () => {
 
   it("Renders ScheduleFinder", () => {
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
           schedulePageData={{
@@ -255,7 +254,7 @@ describe("ScheduleLoader", () => {
 
   it("Renders ScheduleNote", () => {
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component="SCHEDULE_NOTE"
           schedulePageData={{
@@ -301,7 +300,7 @@ describe("ScheduleLoader", () => {
       });
 
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component="SCHEDULE_NOTE"
           schedulePageData={{
@@ -334,7 +333,7 @@ describe("ScheduleLoader", () => {
 
   it("Renders empty component", () => {
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component=""
           schedulePageData={{
@@ -378,7 +377,7 @@ describe("ScheduleLoader", () => {
       });
 
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
           schedulePageData={{
@@ -418,7 +417,7 @@ describe("ScheduleLoader", () => {
   </div>`;
 
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component="SCHEDULE_DIRECTION"
           schedulePageData={{
@@ -451,7 +450,7 @@ describe("ScheduleLoader", () => {
 
   it("Opens the schedule modal", () => {
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
           schedulePageData={{
@@ -504,7 +503,7 @@ describe("ScheduleLoader", () => {
 
   it("Opens the origin modal", () => {
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
           schedulePageData={{
@@ -552,12 +551,10 @@ describe("ScheduleLoader", () => {
       .invoke("handleClick")();
 
     // first call is with INITIALIZE
-    expect(storeHandlerStub).toHaveBeenNthCalledWith(2, {
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin"
-      }
-    });
+    expect(storeHandlerStub).toHaveBeenNthCalledWith(
+      2,
+      scheduleStoreModule.openModal("origin")
+    );
 
     wrapper.unmount();
   });
@@ -572,7 +569,7 @@ describe("ScheduleLoader", () => {
     const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
 
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
           schedulePageData={{
@@ -599,15 +596,14 @@ describe("ScheduleLoader", () => {
       </Provider>
     );
 
-    expect(storeHandlerStub).toHaveBeenCalledWith({
-      type: "INITIALIZE",
-      newStoreValues: {
+    expect(storeHandlerStub).toHaveBeenCalledWith(
+      scheduleStoreModule.initialize({
         selectedDirection: 0,
         selectedOrigin: "place-welln",
         modalMode: "schedule",
         modalOpen: true
-      }
-    });
+      })
+    );
 
     wrapper.unmount();
 
@@ -618,7 +614,7 @@ describe("ScheduleLoader", () => {
       "/?schedule_finder%5Bdirection_id%5D=1&schedule_finder%5Borigin%5D=place-welln"
     );
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
           schedulePageData={{
@@ -645,75 +641,21 @@ describe("ScheduleLoader", () => {
       </Provider>
     );
 
-    expect(storeHandlerStub).toHaveBeenCalledWith({
-      type: "INITIALIZE",
-      newStoreValues: {
+    expect(storeHandlerStub).toHaveBeenCalledWith(
+      scheduleStoreModule.initialize({
         selectedDirection: 1,
         selectedOrigin: "place-welln",
         modalMode: "schedule",
         modalOpen: true
-      }
-    });
-
-    wrapper.unmount();
-  });
-
-  it("Closes the schedule modal", () => {
-    const stubFn = jest
-      .spyOn(scheduleStoreModule, "getCurrentState")
-      .mockImplementation(() => {
-        return {
-          selectedDirection: 0,
-          selectedOrigin: "place-welln",
-          selectedDestination: null,
-          modalMode: "schedule",
-          modalOpen: true
-        };
-      });
-
-    const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
-
-    wrapper = mount(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_FINDER"
-          schedulePageData={{
-            schedule_note: null,
-            connections: [],
-            fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
-            hours,
-            holidays,
-            pdfs,
-            teasers,
-            route,
-            services,
-            stops,
-            direction_id: 0,
-            shape_map: {},
-            route_patterns: {},
-            line_diagram: lineDiagram,
-            today: "2019-12-05",
-            variant: null
-          }}
-          updateURL={() => {}}
-        />
-      </Provider>
+      })
     );
-
-    wrapper.find("#modal-close").simulate("click");
-
-    expect(storeHandlerStub).toHaveBeenCalledWith({
-      type: "CLOSE_MODAL",
-      newStoreValues: {}
-    });
 
     wrapper.unmount();
   });
 
   it("Handles change of direction", () => {
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component="MAIN"
           schedulePageData={{
@@ -747,12 +689,10 @@ describe("ScheduleLoader", () => {
       .first()
       .simulate("change", { target: { value: 1 } });
 
-    expect(storeHandlerStub).toHaveBeenNthCalledWith(2, {
-      type: "CHANGE_DIRECTION",
-      newStoreValues: {
-        selectedDirection: 1
-      }
-    });
+    expect(storeHandlerStub).toHaveBeenNthCalledWith(
+      2,
+      scheduleStoreModule.changeDirection(1)
+    );
     wrapper.unmount();
   });
 
@@ -770,7 +710,7 @@ describe("ScheduleLoader", () => {
       });
 
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component="SCHEDULE_NOTE"
           schedulePageData={{
@@ -806,18 +746,15 @@ describe("ScheduleLoader", () => {
       // @ts-ignore -- types for `invoke` seem to be too restrictive
       .invoke("handleClick")();
 
-    expect(storeHandlerStub).toHaveBeenCalledWith({
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin"
-      }
-    });
+    expect(storeHandlerStub).toHaveBeenCalledWith(
+      scheduleStoreModule.openModal("origin")
+    );
     wrapper.unmount();
   });
 
   it("Changes the origin", () => {
     wrapper = mount(
-      <Provider store={store}>
+      <Provider store={scheduleStoreModule.store}>
         <ScheduleLoader
           component="SCHEDULE_FINDER"
           schedulePageData={{

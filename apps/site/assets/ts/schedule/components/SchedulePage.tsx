@@ -10,7 +10,7 @@ import UpcomingHolidays from "./UpcomingHolidays";
 import ScheduleNote from "./ScheduleNote";
 import ScheduleFinder from "./ScheduleFinder";
 import ScheduleFinderModal from "./schedule-finder/ScheduleFinderModal";
-import { ModalMode, storeHandler } from "../store/ScheduleStore";
+import { ModalMode, storeHandler, openModal } from "../store/ScheduleStore";
 
 interface Props {
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
@@ -49,12 +49,7 @@ const SchedulePage = ({
   selectedOrigin
 }: Props): ReactElement<HTMLElement> => {
   const handleOriginSelectClick = (): void => {
-    storeHandler({
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin"
-      }
-    });
+    storeHandler(openModal("origin"));
   };
   return (
     <>

@@ -12,7 +12,11 @@ import {
 } from "../../../helpers/service";
 import { reducer } from "../../../helpers/fetch";
 import ScheduleTable from "./ScheduleTable";
-import { EnhancedRoutePattern, ServiceInSelector } from "../__schedule";
+import {
+  EnhancedRoutePattern,
+  ServiceInSelector,
+  SimpleStopMap
+} from "../__schedule";
 import ServiceOptGroup from "./ServiceOptGroup";
 import { Journey } from "../__trips";
 import { DirectionId, Service } from "../../../__v3api";
@@ -28,6 +32,8 @@ interface Props {
   directionId: DirectionId;
   routePatterns: EnhancedRoutePattern[];
   today: string;
+  destinationStopId: string;
+  stops: SimpleStopMap;
 }
 
 type fetchAction =
@@ -40,23 +46,30 @@ export const fetchData = (
   stopId: string,
   selectedService: Service,
   selectedDirection: DirectionId,
+  destinationStopId: string,
   isCurrent: boolean,
   dispatch: (action: fetchAction) => void
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
+  let url = `/schedules/finder_api/journeys?id=${routeId}&date=${
+    selectedService.end_date
+  }&direction=${selectedDirection}&stop=${stopId}&is_current=${isCurrent}`;
+  if (destinationStopId !== "") {
+    url = `${url}&destination_id=${destinationStopId}`;
+  }
+
   return (
     window.fetch &&
     window
-      .fetch(
-        `/schedules/finder_api/journeys?id=${routeId}&date=${
-          selectedService.end_date
-        }&direction=${selectedDirection}&stop=${stopId}&is_current=${isCurrent}`
-      )
+      .fetch(url)
       .then(response => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
       })
-      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
+      .then(json => {
+        // debugger;
+        dispatch({ type: "FETCH_COMPLETE", payload: json });
+      })
       // @ts-ignore
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
@@ -74,7 +87,8 @@ export const ScheduleTableWrapper = ({
   routeId,
   stopId,
   directionId,
-  selectedService
+  selectedService,
+  stops
 }: {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: any;
@@ -83,6 +97,7 @@ export const ScheduleTableWrapper = ({
   stopId: string;
   directionId: DirectionId;
   selectedService: ServiceInSelector;
+  stops: SimpleStopMap;
 }): ReactElement<HTMLElement> => {
   if (state.isLoading) {
     return <Loading />;
@@ -99,6 +114,7 @@ export const ScheduleTableWrapper = ({
           direction: directionId,
           date: selectedService.end_date
         }}
+        stops={stops}
       />
     );
   }
@@ -111,8 +127,10 @@ export const ServiceSelector = ({
   services,
   routeId,
   directionId,
+  destinationStopId,
   routePatterns,
-  today
+  today,
+  stops
 }: Props): ReactElement<HTMLElement> | null => {
   const [state, dispatch] = useReducer(reducer, {
     data: null,
@@ -140,9 +158,17 @@ export const ServiceSelector = ({
     () => {
       /* istanbul ignore next */
       if (!selectedService) return;
-      fetchData(routeId, stopId, selectedService, directionId, false, dispatch);
+      fetchData(
+        routeId,
+        stopId,
+        selectedService,
+        directionId,
+        destinationStopId,
+        false,
+        dispatch
+      );
     },
-    [services, routeId, directionId, stopId, selectedService]
+    [services, routeId, directionId, stopId, selectedService, destinationStopId]
   );
 
   if (services.length <= 0) return null;
@@ -201,6 +227,7 @@ export const ServiceSelector = ({
         stopId={stopId}
         directionId={directionId}
         selectedService={selectedService}
+        stops={stops}
       />
     </>
   );

@@ -14,9 +14,13 @@ import ScheduleFinder from "../components/ScheduleFinder";
 import ScheduleFinderModal from "../components/schedule-finder/ScheduleFinderModal";
 import { DirectionId } from "../../__v3api";
 import {
-  mapStateToProps,
+  changeDirection,
+  changeOrigin,
   getCurrentState,
-  storeHandler
+  mapStateToProps,
+  storeHandler,
+  openModal,
+  initialize
 } from "../store/ScheduleStore";
 
 interface Props {
@@ -36,29 +40,14 @@ export const ScheduleLoader = ({
     "schedule_finder[origin]": StringParam
   });
 
-  const changeDirection = (direction: DirectionId): void => {
-    storeHandler({
-      type: "CHANGE_DIRECTION",
-      newStoreValues: {
-        selectedDirection: direction
-      }
-    });
+  const handleChangeDirection = (direction: DirectionId): void => {
+    storeHandler(changeDirection(direction));
   };
 
-  const changeOrigin = (origin: SelectedStopId): void => {
-    storeHandler({
-      type: "CHANGE_ORIGIN",
-      newStoreValues: {
-        selectedOrigin: origin
-      }
-    });
+  const handleChangeOrigin = (origin: SelectedStopId): void => {
+    storeHandler(changeOrigin(origin));
     // reopen modal depending on choice:
-    storeHandler({
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: origin ? "schedule" : "origin"
-      }
-    });
+    storeHandler(openModal(origin ? "schedule" : "origin"));
   };
 
   React.useEffect(() => {
@@ -83,26 +72,20 @@ export const ScheduleLoader = ({
       modalOpen = true;
     }
 
-    storeHandler({
-      type: "INITIALIZE",
-      newStoreValues: {
+    storeHandler(
+      initialize({
         selectedDirection: newDirection || selectedDirection,
         selectedOrigin: newOrigin || selectedOrigin,
         modalMode,
         modalOpen
-      }
-    });
+      })
+    );
     // we disable linting in this next line because we DO want to specify an empty array since we want this piece to run only once
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleOriginSelectClick = (): void => {
-    storeHandler({
-      type: "OPEN_MODAL",
-      newStoreValues: {
-        modalMode: "origin"
-      }
-    });
+    storeHandler(openModal("origin"));
   };
 
   const {
@@ -131,9 +114,9 @@ export const ScheduleLoader = ({
           updateURL={updateURL}
           schedulePageData={schedulePageData}
           selectedDirection={currentDirection}
-          changeDirection={changeDirection}
+          changeDirection={handleChangeDirection}
           selectedOrigin={selectedOrigin}
-          changeOrigin={changeOrigin}
+          changeOrigin={handleChangeOrigin}
           modalOpen={modalOpen}
           modalMode={modalMode}
         />
@@ -149,9 +132,9 @@ export const ScheduleLoader = ({
           />
           {modalOpen && (
             <ScheduleFinderModal
-              directionChanged={changeDirection}
+              directionChanged={handleChangeDirection}
               handleOriginSelectClick={handleOriginSelectClick}
-              originChanged={changeOrigin}
+              originChanged={handleChangeOrigin}
               route={route}
               routePatternsByDirection={routePatternsByDirection}
               scheduleNote={scheduleNote}
@@ -178,9 +161,9 @@ export const ScheduleLoader = ({
           modalMode={modalMode}
           modalOpen={modalOpen}
           directionId={currentDirection}
-          changeDirection={changeDirection}
+          changeDirection={handleChangeDirection}
           selectedOrigin={selectedOrigin}
-          changeOrigin={changeOrigin}
+          changeOrigin={handleChangeOrigin}
         />
       );
     }

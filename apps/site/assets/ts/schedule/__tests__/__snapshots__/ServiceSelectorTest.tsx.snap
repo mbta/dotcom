@@ -41,7 +41,24 @@ Array [
           >
             Destination
           </span>
-          Trip Details
+          <button
+            className="schedule-table__button"
+            onClick={[Function]}
+            type="button"
+          >
+            <span>
+              Compare arrivals
+            </span>
+            <span
+              aria-hidden="true"
+              className="notranslate c-svg__icon"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+          </button>
         </th>
       </tr>
     </thead>

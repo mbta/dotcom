@@ -175,7 +175,6 @@
   }
 }
 
-
 .stop-search__stop {
   border-bottom: 1px solid $gray-lightest;
   cursor: pointer;
@@ -266,6 +265,15 @@
     background: $brand-primary-lightest-contrast;
     border: $border;
   }
+
+
+  &__arrivals-header {
+    background: $white;
+
+    td > * {
+      vertical-align: middle;
+    }
+  }
 }
 
 .schedule-table__row {
@@ -321,6 +329,32 @@
   &--tiny {
     width: 1ch;
   }
+}
+
+.schedule-table__button {
+  background: transparent;
+  border: 0;
+  color: $brand-primary;
+  font-weight: 500;
+  line-height: 1;
+  padding: 0;
+  vertical-align: middle;
+
+  path {
+    fill: currentColor;
+  }
+
+  span {
+    vertical-align: inherit;
+  }
+
+  .fa-times-circle {
+    margin-left: $base-spacing / 4;
+  }
+}
+
+.schedule-table__arrival-time {
+  margin-right: $base-spacing / 2;
 }
 
 .trip-details-table {

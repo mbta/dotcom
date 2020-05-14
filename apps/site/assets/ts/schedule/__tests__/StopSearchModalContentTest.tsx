@@ -1,5 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import { mount } from "enzyme";
 import StopSearchModalContent from "../components/schedule-finder/StopSearchModalContent";
 import { createReactRoot } from "../../app/helpers/testUtils";
 
@@ -45,5 +46,26 @@ describe("StopSearchModalContent", () => {
       )
       .toJSON();
     expect(tree).toMatchSnapshot();
+  });
+
+  it("allows you to filter the list of stops", () => {
+    const wrapper = mount(
+      <StopSearchModalContent
+        handleChangeStop={() => {}}
+        selectedStop={"place-welln"}
+        stops={stops}
+        searchLabel="Choose an origin stop"
+        disabledStop={"place-welln"}
+      />
+    );
+
+    expect(wrapper.find(".stop-search__stop").length).toEqual(4);
+
+    wrapper
+      .find(".stop-search__searchbox #stop-search-filter")
+      .last()
+      .simulate("change", { target: { value: "s" } });
+
+    expect(wrapper.find(".stop-search__stop").length).toEqual(1);
   });
 });

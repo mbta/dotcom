@@ -1,4 +1,5 @@
 import React from "react";
+import { Provider } from "react-redux";
 import { mount } from "enzyme";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
@@ -6,6 +7,7 @@ import TableRow from "../components/schedule-finder/TableRow";
 import { fetchData as fetchJourney } from "../components/schedule-finder/TableRow";
 import { Journey } from "../components/__trips";
 import { UserInput } from "../components/__schedule";
+import { store } from "../store/ScheduleStore";
 
 const journey = {
   trip: {
@@ -59,12 +61,14 @@ describe("TableRow", () => {
   it("it renders", () => {
     createReactRoot();
     const tree = renderer.create(
-      <TableRow
-        input={input}
-        journey={journey}
-        isSchoolTrip={false}
-        anySchoolTrips={false}
-      />
+      <Provider store={store}>
+        <TableRow
+          input={input}
+          journey={journey}
+          isSchoolTrip={false}
+          anySchoolTrips={false}
+        />
+      </Provider>
     );
     expect(tree).toMatchSnapshot();
   });
@@ -84,15 +88,48 @@ describe("TableRow", () => {
     } as Journey;
 
     const wrapper = mount(
-      <TableRow
-        input={input}
-        journey={railReplacementJourney}
-        isSchoolTrip={false}
-        anySchoolTrips={false}
-      />
+      <Provider store={store}>
+        <TableRow
+          input={input}
+          journey={railReplacementJourney}
+          isSchoolTrip={false}
+          anySchoolTrips={false}
+        />
+      </Provider>
     );
 
     expect(wrapper.find("td.schedule-table__cell").length).toBe(4);
+  });
+
+  it("dispaly arrival times", () => {
+    const journeyWithArrival = {
+      ...journey,
+      arrival: {
+        time: "05:47 AM",
+        schedule: {
+          time: "2019-11-26T05:30:00-05:00",
+          stop_sequence: 1,
+          stop: null,
+          pickup_type: 0,
+          "last_stop?": false,
+          "flag?": false,
+          "early_departure?": false
+        },
+        prediction: null
+      }
+    };
+    createReactRoot();
+    const tree = renderer.create(
+      <Provider store={store}>
+        <TableRow
+          input={input}
+          journey={journeyWithArrival}
+          isSchoolTrip={false}
+          anySchoolTrips={false}
+        />
+      </Provider>
+    );
+    expect(tree).toMatchSnapshot();
   });
 
   describe("fetchJourney", () => {

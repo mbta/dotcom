@@ -1,4 +1,5 @@
 import React from "react";
+import { Provider } from "react-redux";
 import renderer from "react-test-renderer";
 import serviceData from "./serviceData.json";
 import { createReactRoot } from "../../app/helpers/testUtils";
@@ -7,8 +8,13 @@ import {
   ServiceSelector,
   ScheduleTableWrapper
 } from "../components/schedule-finder/ServiceSelector";
-import { ServiceInSelector } from "../components/__schedule";
+import {
+  ServiceInSelector,
+  SimpleStop,
+  SimpleStopMap
+} from "../components/__schedule";
 import { Journey } from "../components/__trips";
+import { store } from "../store/ScheduleStore";
 
 const services: ServiceInSelector[] = [
   {
@@ -139,6 +145,13 @@ const services: ServiceInSelector[] = [
   }
 ];
 
+const stopList: SimpleStop[] = [
+  { name: "Malden Center", id: "place-mlmnl", is_closed: false, zone: "1" },
+  { name: "Wellington", id: "place-welln", is_closed: false, zone: "2" }
+];
+
+const stops: SimpleStopMap = { 0: stopList, 1: stopList.slice().reverse() };
+
 describe("ServiceSelector", () => {
   it("renders with a date", () => {
     createReactRoot();
@@ -150,6 +163,8 @@ describe("ServiceSelector", () => {
         routePatterns={[]}
         routeId="111"
         today={"2019-08-31"}
+        destinationStopId="destinationStopId"
+        stops={stops}
       />
     );
     expect(tree).toMatchSnapshot();
@@ -169,6 +184,7 @@ describe("ScheduleTableWrapper", () => {
         stopId="stopId"
         directionId={0}
         selectedService={services[0]}
+        stops={stops}
       />
     );
     expect(tree).toMatchSnapshot();
@@ -181,14 +197,17 @@ describe("ScheduleTableWrapper", () => {
       data: journeys
     };
     const tree = renderer.create(
-      <ScheduleTableWrapper
-        state={state}
-        routePatterns={[]}
-        routeId="111"
-        stopId="stopId"
-        directionId={0}
-        selectedService={services[0]}
-      />
+      <Provider store={store}>
+        <ScheduleTableWrapper
+          state={state}
+          routePatterns={[]}
+          routeId="111"
+          stopId="stopId"
+          directionId={0}
+          selectedService={services[0]}
+          stops={stops}
+        />
+      </Provider>
     );
     expect(tree).toMatchSnapshot();
   });
@@ -206,6 +225,7 @@ describe("ScheduleTableWrapper", () => {
         stopId="stopId"
         directionId={0}
         selectedService={services[0]}
+        stops={stops}
       />
     );
     expect(tree).toMatchSnapshot();
@@ -236,12 +256,13 @@ describe("fetchSchedule", () => {
       "stopId",
       services.find(service => service.id === "BUS319-P-Sa-02")!,
       1,
+      "destinationStopId",
       true,
       dispatchSpy
     );
 
     expect(window.fetch).toHaveBeenCalledWith(
-      "/schedules/finder_api/journeys?id=83&date=2019-08-31&direction=1&stop=stopId&is_current=true"
+      "/schedules/finder_api/journeys?id=83&date=2019-08-31&direction=1&stop=stopId&is_current=true&destination_id=destinationStopId"
     );
 
     expect(dispatchSpy).toHaveBeenCalledTimes(2);
@@ -273,6 +294,7 @@ describe("fetchSchedule", () => {
       "stopId",
       services.find(service => service.id === "BUS319-P-Sa-02")!,
       1,
+      "destinationStopId",
       true,
       dispatchSpy
     );

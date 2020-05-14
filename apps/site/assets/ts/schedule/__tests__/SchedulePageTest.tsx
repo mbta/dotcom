@@ -11,6 +11,7 @@ import lineDiagramData from "./lineDiagramData.json"; // Not a full line diagram
 import { LineDiagramStop, ServiceInSelector } from "../components/__schedule";
 const lineDiagram = lineDiagramData as LineDiagramStop[];
 import * as scheduleStoreModule from "../store/ScheduleStore";
+import { Provider } from "react-redux";
 
 const pdfs = [
   {
@@ -156,7 +157,6 @@ it("it renders", () => {
         updateURL={() => {}}
         modalOpen={false}
         modalMode="schedule"
-        closeModal={() => {}}
         changeDirection={() => {}}
         selectedDirection={0}
         selectedOrigin={null}
@@ -205,7 +205,6 @@ it("it renders with conditional components", () => {
       selectedOrigin={null}
       changeDirection={() => {}}
       selectedDirection={0}
-      closeModal={() => {}}
       changeOrigin={() => {}}
     />
   );
@@ -215,47 +214,37 @@ it("it renders with conditional components", () => {
 });
 
 it("it renders with Schedule modal", () => {
-  const stubFn = jest
-    .spyOn(scheduleStoreModule, "getCurrentState")
-    .mockImplementation(() => {
-      return {
-        selectedDirection: 0,
-        selectedOrigin: "place-welln",
-        modalMode: "schedule",
-        modalOpen: true
-      };
-    });
-
   const wrapper = mount(
-    <SchedulePage
-      schedulePageData={{
-        schedule_note: scheduleNoteData,
-        connections,
-        fares,
-        fare_link: fareLink,
-        hours,
-        holidays,
-        pdfs,
-        teasers,
-        route,
-        services,
-        stops,
-        direction_id: 0,
-        shape_map: {},
-        route_patterns: {},
-        line_diagram: lineDiagram,
-        today: "2019-12-05",
-        variant: null
-      }}
-      updateURL={() => {}}
-      modalOpen={true}
-      modalMode={"schedule"}
-      selectedOrigin={"place-welln"}
-      changeDirection={() => {}}
-      selectedDirection={0}
-      closeModal={() => {}}
-      changeOrigin={() => {}}
-    />
+    <Provider store={scheduleStoreModule.store}>
+      <SchedulePage
+        schedulePageData={{
+          schedule_note: scheduleNoteData,
+          connections,
+          fares,
+          fare_link: fareLink,
+          hours,
+          holidays,
+          pdfs,
+          teasers,
+          route,
+          services,
+          stops,
+          direction_id: 0,
+          shape_map: {},
+          route_patterns: {},
+          line_diagram: lineDiagram,
+          today: "2019-12-05",
+          variant: null
+        }}
+        updateURL={() => {}}
+        modalOpen={true}
+        modalMode={"schedule"}
+        selectedOrigin={"place-welln"}
+        changeDirection={() => {}}
+        selectedDirection={0}
+        changeOrigin={() => {}}
+      />
+    </Provider>
   );
 
   expect(wrapper.find(ScheduleFinderModal).exists()).toEqual(true);
@@ -264,47 +253,37 @@ it("it renders with Schedule modal", () => {
 });
 
 it("it handles change in origin", () => {
-  const stubFn = jest
-    .spyOn(scheduleStoreModule, "getCurrentState")
-    .mockImplementation(() => {
-      return {
-        selectedDirection: 0,
-        selectedOrigin: "place-welln",
-        modalMode: "schedule",
-        modalOpen: true
-      };
-    });
-
   const wrapper = mount(
-    <SchedulePage
-      schedulePageData={{
-        schedule_note: scheduleNoteData,
-        connections,
-        fares,
-        fare_link: fareLink,
-        hours,
-        holidays,
-        pdfs,
-        teasers,
-        route,
-        services,
-        stops,
-        direction_id: 0,
-        shape_map: {},
-        route_patterns: {},
-        line_diagram: lineDiagram,
-        today: "2019-12-05",
-        variant: null
-      }}
-      updateURL={() => {}}
-      modalOpen={true}
-      modalMode={"schedule"}
-      selectedOrigin={"place-welln"}
-      changeDirection={() => {}}
-      selectedDirection={0}
-      closeModal={() => {}}
-      changeOrigin={() => {}}
-    />
+    <Provider store={scheduleStoreModule.store}>
+      <SchedulePage
+        schedulePageData={{
+          schedule_note: scheduleNoteData,
+          connections,
+          fares,
+          fare_link: fareLink,
+          hours,
+          holidays,
+          pdfs,
+          teasers,
+          route,
+          services,
+          stops,
+          direction_id: 0,
+          shape_map: {},
+          route_patterns: {},
+          line_diagram: lineDiagram,
+          today: "2019-12-05",
+          variant: null
+        }}
+        updateURL={() => {}}
+        modalOpen={true}
+        modalMode={"schedule"}
+        selectedOrigin={"place-welln"}
+        changeDirection={() => {}}
+        selectedDirection={0}
+        changeOrigin={() => {}}
+      />
+    </Provider>
   );
 
   const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
@@ -316,12 +295,9 @@ it("it handles change in origin", () => {
     // @ts-ignore -- types for `invoke` seem to be too restrictive
     .invoke("handleClick")();
 
-  expect(storeHandlerStub).toHaveBeenCalledWith({
-    type: "OPEN_MODAL",
-    newStoreValues: {
-      modalMode: "origin"
-    }
-  });
+  expect(storeHandlerStub).toHaveBeenCalledWith(
+    scheduleStoreModule.openModal("origin")
+  );
 
   wrapper.unmount();
 });

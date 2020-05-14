@@ -1,9 +1,5 @@
-import React, { ReactElement, useState } from "react";
-import {
-  useQueryParams,
-  StringParam,
-  updateInLocation
-} from "use-query-params";
+import React, { ReactElement } from "react";
+import { updateInLocation } from "use-query-params";
 import useSWR from "swr";
 import {
   LineDiagramStop,
@@ -17,13 +13,18 @@ import {
   SelectedOrigin
 } from "../__schedule";
 import SingleStop from "./SingleStop";
-import ScheduleFinderModal, {
-  Mode as ModalMode
-} from "../schedule-finder/ScheduleFinderModal";
+import ScheduleFinderModal from "../schedule-finder/ScheduleFinderModal";
 import { DirectionId, Headsign, Route } from "../../../__v3api";
 import ExpandableBranch from "./ExpandableBranch";
 import useFilteredList from "../../../hooks/useFilteredList";
 import SearchBox from "../../../components/SearchBox";
+import {
+  changeDirection,
+  changeOrigin,
+  getCurrentState,
+  openModal,
+  storeHandler
+} from "../../store/ScheduleStore";
 
 interface Props {
   lineDiagram: LineDiagramStop[];
@@ -87,36 +88,9 @@ const LineDiagram = ({
   today,
   scheduleNote
 }: Props): ReactElement<HTMLElement> | null => {
+  const { modalOpen: modalIsOpen } = getCurrentState();
   const routeType = route.type;
   const routeColor: string = route.color || "#000";
-  const [initialDirection, setInitialDirection] = useState<DirectionId>(
-    directionId
-  );
-  const [initialOrigin, setInitialOrigin] = useState<SelectedOrigin>(
-    lineDiagram[0].route_stop.id
-  );
-  const [modalMode, setModalMode] = useState<ModalMode>("schedule");
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  const [query] = useQueryParams({
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    "schedule_direction[direction_id]": StringParam,
-    "schedule_direction[origin]": StringParam
-  });
-
-  React.useEffect(() => {
-    const newDirection = query["schedule_direction[direction_id]"];
-    const newOrigin = query["schedule_direction[origin]"];
-
-    // modify values in case URL has both parameters:
-    if (newDirection !== undefined && newOrigin !== undefined) {
-      setInitialDirection(newDirection === "0" ? 0 : 1);
-      setInitialOrigin(newOrigin);
-      setModalMode("schedule");
-      setIsOpen(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const { data: maybeLiveData } = useSWR(
     `/schedules/line_api/realtime?id=${
@@ -146,10 +120,11 @@ const LineDiagram = ({
     const isDestination = isTerminus && !isBeginning;
     const reverseDirectionId = directionId === 0 ? 1 : 0;
 
-    setInitialDirection(isDestination ? reverseDirectionId : directionId);
-    setInitialOrigin(stop.id);
-    setModalMode("schedule");
-    setIsOpen(true);
+    storeHandler(
+      changeDirection(isDestination ? reverseDirectionId : directionId)
+    );
+    storeHandler(changeOrigin(stop.id));
+    storeHandler(openModal("schedule"));
 
     // modify URL:
     updateURL(stop.id, directionId);
@@ -244,27 +219,20 @@ const LineDiagram = ({
   );
 
   const handleOriginSelectClick = (): void => {
-    setModalMode("origin");
-    setIsOpen(true);
+    storeHandler(openModal("origin"));
   };
 
   const directionChanged = (newDirection: DirectionId): void => {
-    setInitialDirection(newDirection);
+    storeHandler(changeDirection(newDirection));
   };
 
   const originChanged = (newOrigin: SelectedOrigin): void => {
-    setInitialOrigin(newOrigin);
+    storeHandler(changeOrigin(newOrigin));
     if (newOrigin) {
-      setModalMode("schedule");
+      storeHandler(openModal("schedule"));
     } else {
-      setModalMode("origin");
+      storeHandler(openModal("origin"));
     }
-  };
-
-  const closeModal = (): void => {
-    setIsOpen(false);
-    // clear parameters from URL when closing the modal:
-    updateURL("");
   };
 
   const stationsOrStops =
@@ -352,12 +320,8 @@ const LineDiagram = ({
         </div>
       )}
 
-      {isOpen && (
+      {modalIsOpen && (
         <ScheduleFinderModal
-          closeModal={closeModal}
-          initialMode={modalMode}
-          initialDirection={initialDirection}
-          initialOrigin={initialOrigin}
           handleOriginSelectClick={handleOriginSelectClick}
           directionChanged={directionChanged}
           originChanged={originChanged}

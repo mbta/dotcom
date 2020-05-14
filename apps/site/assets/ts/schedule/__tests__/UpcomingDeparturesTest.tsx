@@ -6,6 +6,8 @@ import { EnhancedJourney } from "../components/__trips";
 import departuresResponse from "../__tests__/departures.json";
 import crDeparturesResponse from "../__tests__/crDepartures.json";
 import { UserInput } from "../components/__schedule";
+import { Provider } from "react-redux";
+import { store } from "../store/ScheduleStore";
 
 const busDepartures = (departuresResponse as unknown) as EnhancedJourney[];
 const crDepartures = (crDeparturesResponse as unknown) as EnhancedJourney[];
@@ -51,14 +53,16 @@ describe("UpcomingDepartures", () => {
   it("renders bus predictions", () => {
     createReactRoot();
     const tree = renderer.create(
-      <UpcomingDepartures
-        input={input}
-        state={{
-          data: busDepartures,
-          error: false,
-          isLoading: false
-        }}
-      />
+      <Provider store={store}>
+        <UpcomingDepartures
+          input={input}
+          state={{
+            data: busDepartures,
+            error: false,
+            isLoading: false
+          }}
+        />
+      </Provider>
     );
     expect(tree).toMatchSnapshot();
   });
@@ -66,19 +70,21 @@ describe("UpcomingDepartures", () => {
   it("renders SL bus predictions", () => {
     createReactRoot();
     const tree = renderer.create(
-      <UpcomingDepartures
-        input={input}
-        state={{
-          data: [
-            {
-              ...busDepartures[0],
-              route: { ...busDepartures[0].route, name: "SL-2", id: "741" }
-            }
-          ],
-          error: false,
-          isLoading: false
-        }}
-      />
+      <Provider store={store}>
+        <UpcomingDepartures
+          input={input}
+          state={{
+            data: [
+              {
+                ...busDepartures[0],
+                route: { ...busDepartures[0].route, name: "SL-2", id: "741" }
+              }
+            ],
+            error: false,
+            isLoading: false
+          }}
+        />
+      </Provider>
     );
     expect(tree).toMatchSnapshot();
   });
@@ -86,14 +92,16 @@ describe("UpcomingDepartures", () => {
   it("renders cr predictions", () => {
     createReactRoot();
     const tree = renderer.create(
-      <UpcomingDepartures
-        input={input}
-        state={{
-          data: crDepartures,
-          error: false,
-          isLoading: false
-        }}
-      />
+      <Provider store={store}>
+        <UpcomingDepartures
+          input={input}
+          state={{
+            data: crDepartures,
+            error: false,
+            isLoading: false
+          }}
+        />
+      </Provider>
     );
     expect(tree).toMatchSnapshot();
   });

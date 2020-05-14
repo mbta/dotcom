@@ -13,7 +13,7 @@ exports[`ScheduleFinderModal matches snapshot in origin mode 1`] = `
                   Close
                 </button>
                 <div className=\\"c-modal__content\\">
-                  <ScheduleModalContent handleChangeDirection={[Function: handleChangeDirection]} handleChangeOrigin={[Function: handleChangeOrigin]} handleOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} selectedDirection={0} selectedOrigin=\\"\\" services={{...}} stops={{...}} today=\\"2019-12-05\\">
+                  <ScheduleModalContent handleChangeDirection={[Function: handleChangeDirection]} handleChangeOrigin={[Function: handleChangeOrigin]} handleOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} selectedDirection={0} selectedOrigin=\\"\\" selectedDestination=\\"\\" services={{...}} stops={{...}} today=\\"2019-12-05\\">
                     <div className=\\"schedule-finder schedule-finder--modal\\">
                       <Component onDirectionChange={[Function: handleChangeDirection]} onOriginChange={[Function: handleChangeOrigin]} onOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} selectedDirection={0} selectedOrigin=\\"\\" stopsByDirection={{...}}>
                         <form onSubmit={[Function: handleSubmit]}>
@@ -79,7 +79,7 @@ exports[`ScheduleFinderModal matches snapshot in origin mode 1`] = `
                       December 5, 2019
                       .
                     </div>
-                    <Component stopId=\\"\\" services={{...}} routeId=\\"Orange\\" directionId={0} routePatterns={{...}} today=\\"2019-12-05\\">
+                    <Component stopId=\\"\\" services={{...}} routeId=\\"Orange\\" directionId={0} routePatterns={{...}} today=\\"2019-12-05\\" destinationStopId=\\"\\" stops={{...}}>
                       <h3>
                         Daily Schedule
                       </h3>
@@ -108,7 +108,7 @@ exports[`ScheduleFinderModal matches snapshot in origin mode 1`] = `
                           </div>
                         </SelectContainer>
                       </div>
-                      <Component state={{...}} routePatterns={{...}} routeId=\\"Orange\\" stopId=\\"\\" directionId={0} selectedService={{...}}>
+                      <Component state={{...}} routePatterns={{...}} routeId=\\"Orange\\" stopId=\\"\\" directionId={0} selectedService={{...}} stops={{...}}>
                         <Loading>
                           <div className=\\"c-spinner__container\\">
                             <div className=\\"c-spinner\\">
@@ -143,7 +143,7 @@ exports[`ScheduleFinderModal matches snapshot in origin mode with origin selecte
                   Close
                 </button>
                 <div className=\\"c-modal__content\\">
-                  <ScheduleModalContent handleChangeDirection={[Function: handleChangeDirection]} handleChangeOrigin={[Function: handleChangeOrigin]} handleOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} selectedDirection={0} selectedOrigin=\\"\\" services={{...}} stops={{...}} today=\\"2019-12-05\\">
+                  <ScheduleModalContent handleChangeDirection={[Function: handleChangeDirection]} handleChangeOrigin={[Function: handleChangeOrigin]} handleOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} selectedDirection={0} selectedOrigin=\\"\\" selectedDestination=\\"\\" services={{...}} stops={{...}} today=\\"2019-12-05\\">
                     <div className=\\"schedule-finder schedule-finder--modal\\">
                       <Component onDirectionChange={[Function: handleChangeDirection]} onOriginChange={[Function: handleChangeOrigin]} onOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} selectedDirection={0} selectedOrigin=\\"\\" stopsByDirection={{...}}>
                         <form onSubmit={[Function: handleSubmit]}>
@@ -209,7 +209,7 @@ exports[`ScheduleFinderModal matches snapshot in origin mode with origin selecte
                       December 5, 2019
                       .
                     </div>
-                    <Component stopId=\\"\\" services={{...}} routeId=\\"Orange\\" directionId={0} routePatterns={{...}} today=\\"2019-12-05\\">
+                    <Component stopId=\\"\\" services={{...}} routeId=\\"Orange\\" directionId={0} routePatterns={{...}} today=\\"2019-12-05\\" destinationStopId=\\"\\" stops={{...}}>
                       <h3>
                         Daily Schedule
                       </h3>
@@ -238,7 +238,7 @@ exports[`ScheduleFinderModal matches snapshot in origin mode with origin selecte
                           </div>
                         </SelectContainer>
                       </div>
-                      <Component state={{...}} routePatterns={{...}} routeId=\\"Orange\\" stopId=\\"\\" directionId={0} selectedService={{...}}>
+                      <Component state={{...}} routePatterns={{...}} routeId=\\"Orange\\" stopId=\\"\\" directionId={0} selectedService={{...}} stops={{...}}>
                         <Loading>
                           <div className=\\"c-spinner__container\\">
                             <div className=\\"c-spinner\\">
@@ -273,7 +273,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                   Close
                 </button>
                 <div className=\\"c-modal__content\\">
-                  <ScheduleModalContent handleChangeDirection={[Function: handleChangeDirection]} handleChangeOrigin={[Function: handleChangeOrigin]} handleOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} selectedDirection={0} selectedOrigin=\\"\\" services={{...}} stops={{...}} today=\\"2019-12-05\\">
+                  <ScheduleModalContent handleChangeDirection={[Function: handleChangeDirection]} handleChangeOrigin={[Function: handleChangeOrigin]} handleOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} routePatternsByDirection={{...}} scheduleNote={{...}} selectedDirection={0} selectedOrigin=\\"\\" selectedDestination=\\"\\" services={{...}} stops={{...}} today=\\"2019-12-05\\">
                     <div className=\\"schedule-finder schedule-finder--modal\\">
                       <Component onDirectionChange={[Function: handleChangeDirection]} onOriginChange={[Function: handleChangeOrigin]} onOriginSelectClick={[Function: handleOriginSelectClick]} route={{...}} selectedDirection={0} selectedOrigin=\\"\\" stopsByDirection={{...}}>
                         <form onSubmit={[Function: handleSubmit]}>
@@ -339,7 +339,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                       December 5, 2019
                       .
                     </div>
-                    <Component stopId=\\"\\" services={{...}} routeId=\\"Orange\\" directionId={0} routePatterns={{...}} today=\\"2019-12-05\\">
+                    <Component stopId=\\"\\" services={{...}} routeId=\\"Orange\\" directionId={0} routePatterns={{...}} today=\\"2019-12-05\\" destinationStopId=\\"\\" stops={{...}}>
                       <h3>
                         Daily Schedule
                       </h3>
@@ -368,7 +368,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                           </div>
                         </SelectContainer>
                       </div>
-                      <Component state={{...}} routePatterns={{...}} routeId=\\"Orange\\" stopId=\\"\\" directionId={0} selectedService={{...}}>
+                      <Component state={{...}} routePatterns={{...}} routeId=\\"Orange\\" stopId=\\"\\" directionId={0} selectedService={{...}} stops={{...}}>
                         <Loading>
                           <div className=\\"c-spinner__container\\">
                             <div className=\\"c-spinner\\">
