@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
 import TripStop from "./TripStop";
 import { TripInfo } from "../__trips";
+import Loading from "../../../components/Loading";
 
 export interface State {
   data: TripInfo | null;
@@ -50,11 +51,7 @@ export const TripDetails = ({
   const { data: tripInfo, error, isLoading } = state;
 
   if (isLoading) {
-    return (
-      <div className="c-spinner__container">
-        <div className="c-spinner">Loading...</div>
-      </div>
-    );
+    return <Loading />;
   }
 
   const errorLoadingTrip = (
