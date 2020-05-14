@@ -1,5 +1,7 @@
 defmodule Services.Repo do
-  @moduledoc false
+  @moduledoc """
+  Retrieves services for a route.
+  """
 
   use RepoCache, ttl: :timer.hours(1)
   alias Services.Service
@@ -9,6 +11,12 @@ defmodule Services.Repo do
 
   def by_route_id([route_id] = route, params) when is_list(route) do
     by_route_id(route_id, params)
+  end
+
+  def by_route_id("Green", params) do
+    GreenLine.branch_ids()
+    |> Enum.join(",")
+    |> by_route_id(params)
   end
 
   def by_route_id(route_id, params) when is_binary(route_id) do
