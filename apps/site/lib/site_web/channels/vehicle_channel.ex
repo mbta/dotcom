@@ -45,14 +45,6 @@ defmodule SiteWeb.VehicleChannel do
     stop_name = get_stop_name(vehicle.stop_id)
     trip = Schedules.Repo.trip(vehicle.trip_id)
 
-    # Sometimes trip is nil, so to avoid errors, we create a "polished" trip:
-    preprocessed_trip =
-      if trip == nil do
-        %{shape_id: nil}
-      else
-        trip
-      end
-
     %{
       data: %{vehicle: vehicle, stop_name: stop_name},
       marker:
@@ -62,14 +54,14 @@ defmodule SiteWeb.VehicleChannel do
           id: vehicle.id,
           icon: "vehicle-bordered-expanded",
           rotation_angle: vehicle.bearing,
-          shape_id: preprocessed_trip.shape_id,
+          shape_id: (trip && trip.shape_id) || nil,
           tooltip_text:
             %VehicleTooltip{
               prediction: nil,
               vehicle: vehicle,
               route: route,
               stop_name: stop_name,
-              trip: preprocessed_trip
+              trip: trip
             }
             |> VehicleHelpers.tooltip()
             |> Floki.text()
