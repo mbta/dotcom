@@ -54,7 +54,7 @@ defmodule SiteWeb.VehicleChannel do
           id: vehicle.id,
           icon: "vehicle-bordered-expanded",
           rotation_angle: vehicle.bearing,
-          shape_id: (trip && trip.shape_id) || nil,
+          shape_id: trip && trip.shape_id,
           tooltip_text:
             %VehicleTooltip{
               prediction: nil,
