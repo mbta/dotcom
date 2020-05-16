@@ -14,8 +14,7 @@ defmodule Services.Repo do
   end
 
   def by_route_id("Green", params) do
-    GreenLine.branch_ids()
-    |> Enum.join(",")
+    "Green-B,Green-C,Green-D,Green-E"
     |> by_route_id(params)
   end
 
