@@ -15,10 +15,6 @@ import {
   labelOrDescribedBy
 } from "../helpers/aria-props";
 
-interface ContentProps {
-  closeModal: Function;
-}
-
 interface Props {
   children: ReactNode;
   closeText?: string | ReactElement<HTMLElement>;
