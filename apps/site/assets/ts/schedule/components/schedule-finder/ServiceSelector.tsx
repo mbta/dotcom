@@ -1,6 +1,7 @@
 import { Dictionary } from "lodash";
 import React, { ReactElement, useEffect, useState, useReducer } from "react";
 import SelectContainer from "./SelectContainer";
+import Loading from "../../../components/Loading";
 import {
   hasMultipleWeekdaySchedules,
   groupServicesByDateRating,
@@ -149,11 +150,7 @@ export const ServiceSelector = ({
         </SelectContainer>
       </div>
 
-      {state.isLoading && (
-        <div className="c-spinner__container">
-          <div className="c-spinner">Loading...</div>
-        </div>
-      )}
+      {state.isLoading && <Loading />}
 
       {/* istanbul ignore next */ !state.isLoading &&
         /* istanbul ignore next */ state.data && (

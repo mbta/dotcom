@@ -99,15 +99,17 @@ exports[`ScheduleTable it renders 1`] = `
               colSpan={3}
             >
               <Component>
-                <div
-                  className="c-spinner__container"
-                >
+                <Loading>
                   <div
-                    className="c-spinner"
+                    className="c-spinner__container"
                   >
-                    Loading...
+                    <div
+                      className="c-spinner"
+                    >
+                      Loading...
+                    </div>
                   </div>
-                </div>
+                </Loading>
               </Component>
             </td>
           </tr>
@@ -10099,15 +10101,17 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
               colSpan={4}
             >
               <Component>
-                <div
-                  className="c-spinner__container"
-                >
+                <Loading>
                   <div
-                    className="c-spinner"
+                    className="c-spinner__container"
                   >
-                    Loading...
+                    <div
+                      className="c-spinner"
+                    >
+                      Loading...
+                    </div>
                   </div>
-                </div>
+                </Loading>
               </Component>
             </td>
           </tr>
