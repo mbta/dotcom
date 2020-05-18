@@ -1,17 +1,27 @@
-  <div class="m-trip-plan-results__itinerary-legs">
-    <%= @routes |> Enum.map(&icon_for_route/1) |> Enum.intersperse(fa "angle-right") %>
-  </div>
-  <div class="m-trip-plan-results__itinerary-length">
-    <span class="m-trip-plan-results__itinerary-length-time">
-      <%= Timex.format!(@itinerary.start, "{h12}:{m} {AM}") %> - <%= Timex.format!(@itinerary.stop, "{h12}:{m} {AM}") %>
-    </span>
-    <span class="m-trip-plan-results__itinerary-length-distance">
-      <%= svg "walk.svg" %>
-      <%= @itinerary |> TripPlan.Itinerary.walking_distance |> display_meters_as_miles %> mi
-    </span>
+  <h2>Itinerary <%= @index %></h2>
+  <div>
     <%= if @itinerary_row_list.alerts? do %>
       <span class="m-trip-plan-results__itinerary-alerts">
         <%= fa "exclamation-triangle" %>
       </span>
     <% end %>
+    <span class="m-trip-plan-results__itinerary-length-time">
+      <%= Timex.format!(@itinerary.start, "{h12}:{m} {AM}") %> - <%= Timex.format!(@itinerary.stop, "{h12}:{m} {AM}") %>
+    </span>
+    <span>
+      <% duration =  Timex.diff(@itinerary.stop, @itinerary.start, :minutes) %>
+      <%= if duration >= 60 do %>
+        <%= duration |> div(60) %> hr
+        <%= duration |> rem(60) %> min
+      <% else %>
+        <%= duration |> rem(60) %> min
+      <% end %>
+    </span>
+  </div>
+  <div class="m-trip-plan-results__itinerary-legs">
+    <%= @routes |> Enum.map(&icon_for_route/1) |> Enum.intersperse(fa "angle-right") %>
+    <span class="m-trip-plan-results__itinerary-length-distance">
+      <%= svg "walk.svg" %>
+      <%= @itinerary |> TripPlan.Itinerary.walking_distance |> display_meters_as_miles %> mi
+    </span>
   </div>

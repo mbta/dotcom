@@ -5,87 +5,85 @@ exports[`it renders 1`] = `
   className="m-trip-plan-results__itinerary-container"
 >
   <div
-    className="itinerary-accessible"
-    dangerouslySetInnerHTML={
-      Object {
-        "__html": "<div>Accessible</div>",
-      }
-    }
-  />
-  <h3
-    aria-controls="panel-itinerary-1"
-    aria-expanded={false}
     className="c-expandable-block__header"
-    id="header-itinerary-1"
-    onClick={[Function]}
-    onKeyPress={[Function]}
-    role="button"
-    tabIndex={0}
   >
     <div
-      className="c-expandable-block__header-text"
-    >
-      <div
-        className="m-trip-plan-results__itinerary-summary"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<div>HTML for the accordion button</div>",
-          }
+      className="m-trip-plan-results__itinerary-summary"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<div>HTML for the accordion button</div>",
         }
-      />
-      <span
-        className="c-expandable-block__header-caret"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "&#xF107;",
-          }
-        }
-      />
-    </div>
-  </h3>
-  <noscript>
-    <style>
-      #header-itinerary-1 { display: none; }
-    </style>
-    <h3
-      className="c-expandable-block__header"
-    >
-      <div
-        className="m-trip-plan-results__itinerary-summary"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "<div>HTML for the accordion button</div>",
-          }
-        }
-      />
-      <span
-        className="c-expandable-block__header-caret"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "&#xF106;",
-          }
-        }
-      />
-    </h3>
+      }
+    />
     <div
-      className="c-expandable-block__panel"
-      role="region"
+      className="m-trip-plan-results__itinerary-accessible"
+      dangerouslySetInnerHTML={
+        Object {
+          "__html": "<div>Accessible</div>",
+        }
+      }
+    />
+  </div>
+  <div
+    className="c-accordion-ui"
+    id="accordion"
+  >
+    <div
+      className="panel"
+      role="heading"
     >
       <div
-        className="m-trip-plan-results__itinerary-body"
+        className="c-accordion-ui__heading"
+      >
+        <a
+          aria-controls="itinerary-1-section"
+          aria-expanded="false"
+          className="c-accordion-ui__trigger collapsed"
+          data-toggle="collapse"
+          href="#itinerary-1-section"
+          role="button"
+        >
+          <span
+            className="c-accordion-ui__title"
+            id="itinerary-1-title"
+          >
+            Show map and trip details
+          </span>
+          <div
+            className="c-accordion-ui__indicator"
+          >
+            <span
+              className="c-indicator__content c-indicator__content--angle"
+            />
+          </div>
+        </a>
+      </div>
+      <div
+        aria-labelledby="itinerary-1-title"
+        className="c-accordion-ui__target collapse js-focus-on-expand"
+        id="itinerary-1-section"
+        role="region"
       >
         <div
-          className="trip-plan-map map"
-        />
-        <div
-          dangerouslySetInnerHTML={
-            Object {
-              "__html": "<div>Lots of content about the itinerary</div>",
-            }
-          }
-        />
+          className="c-accordion-ui__content"
+        >
+          <div
+            className="m-trip-plan-results__itinerary-body"
+          >
+            <div
+              className="trip-plan-map map"
+            />
+            <div
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "<div>Lots of content about the itinerary</div>",
+                }
+              }
+            />
+          </div>
+        </div>
       </div>
     </div>
-  </noscript>
+  </div>
 </div>
 `;
