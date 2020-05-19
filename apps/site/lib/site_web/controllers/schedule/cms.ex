@@ -34,9 +34,26 @@ defmodule SiteWeb.ScheduleController.CMS do
     end
 
     news_fn = fn ->
-      [route_id: route.id, type: [:news_entry], sidebar: 1]
-      |> Repo.teasers()
-      |> Enum.map(&set_utm_params(&1, route))
+      teasers =
+        [route_id: route.id, type: [:news_entry], sidebar: 1]
+        |> Repo.teasers()
+        |> Enum.map(&set_utm_params(&1, route))
+
+      mode_from_route_desc = get_mode_from_route_description(route.description)
+
+      mode_teasers =
+        if mode_from_route_desc == nil do
+          []
+        else
+          [mode: mode_from_route_desc, type: [:news_entry], sidebar: 1]
+          |> Repo.teasers()
+          |> Enum.map(&set_utm_params(&1, route))
+        end
+
+      non_duplicated_teasers =
+        Enum.uniq_by(teasers ++ mode_teasers, fn teaser -> teaser.title end)
+
+      Enum.sort_by(non_duplicated_teasers, & &1.date, &(Timex.compare(&1, &2) == 1))
     end
 
     conn
@@ -62,4 +79,33 @@ defmodule SiteWeb.ScheduleController.CMS do
 
   defp utm_type(:news_entry), do: :news
   defp utm_type(type), do: type
+
+  @spec get_mode_from_route_description(Route.gtfs_route_desc()) :: String.t() | nil
+  defp get_mode_from_route_description(description) do
+    case description do
+      :commuter_rail ->
+        "commuter-rail"
+
+      :rapid_transit ->
+        "subway"
+
+      bus
+      when bus in [
+             :key_bus_route,
+             :local_bus,
+             :commuter_bus,
+             :supplemental_bus,
+             :rail_replacement_bus,
+             :community_bus,
+             :express_bus
+           ] ->
+        "bus"
+
+      :ferry ->
+        "ferry"
+
+      _ ->
+        nil
+    end
+  end
 end
