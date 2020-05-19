@@ -31,7 +31,6 @@
     </div>
   </div>
 </div>
-</div>
 <div class="trip-plan-related-links">
   <strong>Related Links</strong>
   <%= for link <- @links do %>
