@@ -1,4 +1,4 @@
-.m-trip-plan-results__itinerary-container {
+.m-trip-plan-results__itinerary {
   margin-bottom: $base-spacing * 1.5;
 
   h2 {
@@ -6,70 +6,65 @@
     margin-top: 0;
   }
 
-  .c-expandable-block__header {
+  .c-accordion-ui {
+    margin: 0;
+  }
+
+  &-header {
+    background-color: $brand-primary-lightest-contrast;
     border: 1px solid $brand-primary;
     border-bottom: 0;
-    cursor: initial;
     font-size: $base-spacing;
     line-height: 1.5;
     margin-top: 0;
     padding: $base-spacing;
   }
 
-  .c-expandable-block__header-text {
+  &-accessible {
+    @include icon-size-inline(1em);
+    margin-top: $base-spacing;
+
+    [class*='c-svg__icon'] {
+      margin-right: $base-spacing / 4;
+    }
+  }
+
+  &-legs {
+    @include icon-size-inline(1.5em, .1875em);
     align-items: center;
     display: flex;
+    flex-grow: 1;
+
+    .fa-angle-right {
+      margin: 0 $base-spacing / 4;
+    }
   }
 
-  .c-accordion-ui {
-    margin: 0;
+  &-length-time {
+    font-weight: bold;
+    margin-right: $base-spacing / 2;
   }
-}
 
-.m-trip-plan-results__itinerary-accessible {
-  @include icon-size-inline(1em);
-  margin-top: $base-spacing;
+  &-length-distance {
+    margin-left: $space-12;
+    white-space: nowrap;
 
-  [class*='c-svg__icon'] {
-    margin-right: $base-spacing / 4;
+    g {
+      fill: currentColor;
+    }
   }
-}
 
-.m-trip-plan-results__itinerary-legs {
-  @include icon-size-inline(1.5em, .1875em);
-  align-items: center;
-  display: flex;
-  flex-grow: 1;
-
-  .fa-angle-right {
-    margin: 0 $base-spacing / 4;
+  &-body {
+    padding: 0 $base-spacing;
   }
-}
 
-.m-trip-plan-results__itinerary-length-time {
-  font-weight: bold;
-  margin-right: $base-spacing / 2;
-}
-
-.m-trip-plan-results__itinerary-length-distance {
-  margin-left: $space-12;
-  white-space: nowrap;
-
-  g {
-    fill: currentColor;
+  &-alerts {
+    margin-right: $base-spacing / 2;
   }
-}
 
-.m-trip-plan-results__itinerary-body {
-  padding: 0 $base-spacing;
-}
-
-.m-trip-plan-results__itinerary-alerts {
-  margin-right: $base-spacing / 2;
-}
-
-.m-trip-plan-results__itinerary-alerts-text {
-  background-color: $gray-lightest;
-  margin-bottom: $base-spacing;
-  padding: $base-spacing;
+  &-alerts-text {
+    background-color: $gray-lightest;
+    margin-bottom: $base-spacing;
+    padding: $base-spacing;
+  }
 }

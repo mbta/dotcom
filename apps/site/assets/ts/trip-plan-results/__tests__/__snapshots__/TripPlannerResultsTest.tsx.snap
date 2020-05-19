@@ -2,10 +2,10 @@
 
 exports[`it renders 1`] = `
 <div
-  className="m-trip-plan-results__itinerary-container"
+  className="m-trip-plan-results__itinerary"
 >
   <div
-    className="c-expandable-block__header"
+    className="m-trip-plan-results__itinerary-header"
   >
     <div
       className="m-trip-plan-results__itinerary-summary"
@@ -26,7 +26,6 @@ exports[`it renders 1`] = `
   </div>
   <div
     className="c-accordion-ui"
-    id="accordion"
   >
     <div
       className="panel"

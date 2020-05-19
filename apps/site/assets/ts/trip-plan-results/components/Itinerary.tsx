@@ -73,8 +73,8 @@ const ItineraryBody = (itinerary: Itinerary): ReactElement<HTMLElement> => {
 const ItineraryAccordion = ({
   itinerary
 }: Props): ReactElement<HTMLElement> => (
-  <div className="m-trip-plan-results__itinerary-container">
-    <div className="c-expandable-block__header">
+  <div className="m-trip-plan-results__itinerary">
+    <div className="m-trip-plan-results__itinerary-header">
       <div
         className="m-trip-plan-results__itinerary-summary"
         dangerouslySetInnerHTML={{ __html: itinerary.tab_html }} // eslint-disable-line react/no-danger

@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Accordion component renders 1`] = `
+<div
+  className="c-accordion-ui"
+>
+  <div
+    className="panel"
+    role="heading"
+  >
+    <div
+      className="c-accordion-ui__heading"
+    >
+      <a
+        aria-controls="test-accordion-section"
+        aria-expanded="false"
+        className="c-accordion-ui__trigger collapsed"
+        data-toggle="collapse"
+        href="#test-accordion-section"
+        role="button"
+      >
+        <span
+          className="c-accordion-ui__title"
+          id="test-accordion-title"
+        >
+          Open me for a surprise
+        </span>
+        <div
+          className="c-accordion-ui__indicator"
+        >
+          <span
+            className="c-indicator__content c-indicator__content--angle"
+          />
+        </div>
+      </a>
+    </div>
+    <div
+      aria-labelledby="test-accordion-title"
+      className="c-accordion-ui__target collapse js-focus-on-expand"
+      id="test-accordion-section"
+      role="region"
+    >
+      <div
+        className="c-accordion-ui__content"
+      >
+        <p>
+          The surprise
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+`;

@@ -10,7 +10,7 @@ interface Props {
 const Accordion = (props: Props): ReactElement<HTMLElement> => {
   const { id, title, children } = props;
   return (
-    <div className="c-accordion-ui" id="accordion">
+    <div className="c-accordion-ui">
       <div className="panel" role="heading">
         <div className="c-accordion-ui__heading">
           <a
