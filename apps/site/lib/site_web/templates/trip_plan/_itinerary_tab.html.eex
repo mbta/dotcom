@@ -9,13 +9,7 @@
       <%= Timex.format!(@itinerary.start, "{h12}:{m} {AM}") %> - <%= Timex.format!(@itinerary.stop, "{h12}:{m} {AM}") %>
     </span>
     <span>
-      <% duration =  Timex.diff(@itinerary.stop, @itinerary.start, :minutes) %>
-      <%= if duration >= 60 do %>
-        <%= duration |> div(60) %> hr
-        <%= duration |> rem(60) %> min
-      <% else %>
-        <%= duration |> rem(60) %> min
-      <% end %>
+      <% Timex.diff(@itinerary.stop, @itinerary.start, :minutes) |> format_minutes_duration %>
     </span>
   </div>
   <div class="m-trip-plan-results__itinerary-legs">

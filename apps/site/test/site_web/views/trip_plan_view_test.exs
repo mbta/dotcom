@@ -476,6 +476,16 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
+  describe "format_minutes_duration/1" do
+    test "for at least an hour" do
+      assert format_minutes_duration(66) === "1 h 6 min"
+    end
+
+    test "for less than an hour" do
+      assert format_minutes_duration(17) === "17 min"
+    end
+  end
+
   describe "index.html" do
     @index_assigns %{
       date: Util.now(),
