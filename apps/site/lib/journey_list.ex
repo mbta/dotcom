@@ -17,7 +17,7 @@ defmodule JourneyList do
         }
   @type stop_id :: Stops.Stop.id_t()
   @type schedule_pair :: Group.schedule_pair_t()
-  @type schedule_or_pair :: Schedule.t() | schedule_pair
+  @type schedule_or_pair :: Group.schedule_or_pair()
   @type map_key_t :: Group.map_key_t()
   @type schedule_map :: %{map_key_t => %{stop_id => Schedule.t()}}
   @type schedule_pair_map :: %{map_key_t => schedule_pair}
@@ -43,7 +43,7 @@ defmodule JourneyList do
   current_time (optional): Current time, used to determine the first trip to in filtered/sorted list. If nil, all trips will be returned
   keep_all?: Determines if all journeys should be returned, regardless of filter flag
   """
-  @spec build([schedule_or_pair], [Prediction.t()], filter_flag_t, boolean, Keyword.t()) :: t
+  @spec build([schedule_or_pair()], [Prediction.t()], filter_flag_t(), boolean, Keyword.t()) :: t
   def build(schedules, predictions, filter_flag, keep_all?, user_opts) do
     opts = Keyword.merge(@build_opts, user_opts)
 
@@ -56,7 +56,7 @@ defmodule JourneyList do
   Build a JourneyList using only predictions. This will also filter out predictions that are
   missing departure_predictions. Limits to 5 predictions at most.
   """
-  @spec build_predictions_only([Schedule.t()], [Prediction.t()], opt_string, opt_string) :: t
+  @spec build_predictions_only([Schedule.t()], [Prediction.t()], opt_string(), opt_string()) :: t
   def build_predictions_only(schedules, predictions, origin_id, destination_id) do
     journey_list =
       schedules
@@ -67,9 +67,21 @@ defmodule JourneyList do
     %{journey_list | journeys: Enum.take(journey_list.journeys, 5)}
   end
 
-  @spec build_journeys([schedule_or_pair], [Prediction.t()], opt_string, opt_string) :: [
+  @spec build_journeys([schedule_or_pair()], [Prediction.t()], opt_string(), opt_string()) :: [
           Journey.t()
         ]
+  defp build_journeys([%Schedule{} | _] = schedules, predictions, origin_id, destination_id)
+       when is_binary(origin_id) and is_binary(destination_id) do
+    group_trips(
+      schedules,
+      predictions,
+      origin_id,
+      destination_id,
+      build_schedule_map_fn: &build_schedule_map/2,
+      trip_mapper_fn: &predicted_departures_and_arrivals(&1, &2, &3, origin_id, destination_id)
+    )
+  end
+
   defp build_journeys(schedule_pairs, predictions, origin_id, destination_id)
        when is_binary(origin_id) and is_binary(destination_id) do
     predictions = match_schedule_direction(schedule_pairs, predictions)
@@ -167,6 +179,40 @@ defmodule JourneyList do
         prediction: departure_prediction
       },
       arrival: nil,
+      trip: first_trip([departure_prediction, departure_schedule])
+    }
+  end
+
+  @spec predicted_departures_and_arrivals(
+          map_key_t(),
+          schedule_map(),
+          Group.prediction_map_t(),
+          stop_id(),
+          stop_id()
+        ) ::
+          Journey.t()
+  defp predicted_departures_and_arrivals(
+         key,
+         schedule_map,
+         prediction_map,
+         origin_id,
+         destination_id
+       ) do
+    departure_schedule = schedule_map[key][origin_id]
+    departure_prediction = prediction_map[key][origin_id]
+
+    arrival_schedule = schedule_map[key][destination_id]
+    arrival_prediction = prediction_map[key][destination_id]
+
+    %Journey{
+      departure: %PredictedSchedule{
+        schedule: departure_schedule,
+        prediction: departure_prediction
+      },
+      arrival: %PredictedSchedule{
+        schedule: arrival_schedule,
+        prediction: arrival_prediction
+      },
       trip: first_trip([departure_prediction, departure_schedule])
     }
   end

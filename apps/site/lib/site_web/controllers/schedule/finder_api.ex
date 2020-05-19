@@ -48,6 +48,7 @@ defmodule SiteWeb.ScheduleController.FinderApi do
 
     journey_list_opts = [
       origin_id: stop_id,
+      destination_id: Map.get(params, "destination_id"),
       current_time: current_time(params)
     ]
 
@@ -141,13 +142,16 @@ defmodule SiteWeb.ScheduleController.FinderApi do
 
   # Use internal API to generate list of relevant schedules and predictions
   @spec load_from_repos(Plug.Conn.t(), map) :: {[Schedule.t()], [Prediction.t()]}
-  defp load_from_repos(conn, %{
-         "id" => route_id,
-         "date" => date,
-         "direction" => direction,
-         "stop" => stop_id,
-         "is_current" => is_current
-       }) do
+  defp load_from_repos(
+         conn,
+         %{
+           "id" => route_id,
+           "date" => date,
+           "direction" => direction,
+           "stop" => stop_id,
+           "is_current" => is_current
+         } = params
+       ) do
     {service_end_date, direction_id, current_service?} =
       convert_from_string(
         date: date,
@@ -164,7 +168,8 @@ defmodule SiteWeb.ScheduleController.FinderApi do
     current_date = Util.service_date(conn.assigns.date_time)
     schedule_date = if current_service?, do: current_date, else: service_end_date
 
-    schedule_opts = [date: schedule_date, direction_id: direction_id, stop_ids: [stop_id]]
+    stop_ids = [stop_id, Map.get(params, "destination_id")] |> Enum.reject(&is_nil/1)
+    schedule_opts = [date: schedule_date, direction_id: direction_id, stop_ids: stop_ids]
     schedules_fn = Map.get(conn.assigns, :schedules_fn, &Schedules.Repo.by_route_ids/2)
     schedules = schedules_fn.(route_ids, schedule_opts)
 
@@ -233,17 +238,34 @@ defmodule SiteWeb.ScheduleController.FinderApi do
     |> Enum.map(&destruct_journey/1)
     |> Enum.map(&lift_up_route/1)
     |> Enum.map(&set_departure_time/1)
+    |> Enum.map(&set_arrival_time/1)
     |> Enum.map(&json_safe_journey/1)
   end
 
   # Break down structs in order to use Access functions
-  @spec destruct_journey(Journey.t()) :: map
+  @spec destruct_journey(Journey.t()) :: map()
   defp destruct_journey(journey) do
-    journey
-    |> Map.from_struct()
-    |> update_in([:departure], &Map.from_struct/1)
-    |> update_in([:departure, :schedule], &maybe_destruct_element/1)
-    |> update_in([:departure, :prediction], &maybe_destruct_element/1)
+    map =
+      journey
+      |> Map.from_struct()
+      |> destruct_departure_or_arrival(:departure)
+
+    case map do
+      %{arrival: nil} ->
+        map
+
+      _ ->
+        map
+        |> destruct_departure_or_arrival(:arrival)
+    end
+  end
+
+  @spec destruct_departure_or_arrival(map(), atom()) :: map()
+  defp destruct_departure_or_arrival(journey_map, key) do
+    journey_map
+    |> update_in([key], &Map.from_struct/1)
+    |> update_in([key, :schedule], &maybe_destruct_element/1)
+    |> update_in([key, :prediction], &maybe_destruct_element/1)
   end
 
   # Convert non-binary parameter values into expected formats
@@ -292,22 +314,36 @@ defmodule SiteWeb.ScheduleController.FinderApi do
     update_in(journey, [:departure], &Map.put_new(&1, :time, format_time(departure_time)))
   end
 
+  defp set_arrival_time(%{arrival: nil} = journey), do: journey
+
+  defp set_arrival_time(%{arrival: arrival} = journey) do
+    arrival_time =
+      case arrival do
+        %{schedule: nil, prediction: p} -> p.time
+        %{schedule: s, prediction: _} -> s.time
+      end
+
+    update_in(journey, [:arrival], &Map.put_new(&1, :time, format_time(arrival_time)))
+  end
+
   # Removes problematic/unnecessary data from JSON response:
   # - Journeys' nested %Stop{} data is unused by client and contains integer keys
   # - Removes nested %Route{} and %Trip{} data as it is redundant
-  # - Drops :arrival key from %Journey{}
   @spec json_safe_journey(map) :: map
   defp json_safe_journey(%{departure: departure} = journey) do
-    clean_schedule_and_prediction =
-      departure
-      |> clean_schedule_or_prediction(:schedule)
-      |> clean_schedule_or_prediction(:prediction)
-      |> update_in([:schedule], &maybe_nil_schedule_stop/1)
-      |> update_in([:prediction], &maybe_remove_prediction_stop/1)
+    journey_with_clean_departure =
+      journey
+      |> Map.put(:departure, clean_schedule_and_prediction(departure))
 
-    journey
-    |> Map.drop([:arrival])
-    |> Map.put(:departure, clean_schedule_and_prediction)
+    case journey_with_clean_departure do
+      %{arrival: nil} ->
+        journey_with_clean_departure
+        |> Map.drop([:arrival])
+
+      %{arrival: arrival} ->
+        journey_with_clean_departure
+        |> Map.put(:arrival, clean_schedule_and_prediction(arrival))
+    end
   end
 
   # Removes problematic/unnecessary data from JSON response:
@@ -326,6 +362,15 @@ defmodule SiteWeb.ScheduleController.FinderApi do
     |> put_in([:route_type], trip_info.route.type)
     |> Map.drop([:route, :base_fare])
     |> Map.put(:times, clean_schedules_and_predictions)
+  end
+
+  @spec clean_schedule_and_prediction(map()) :: map()
+  defp clean_schedule_and_prediction(departure_or_arrival) do
+    departure_or_arrival
+    |> clean_schedule_or_prediction(:schedule)
+    |> clean_schedule_or_prediction(:prediction)
+    |> update_in([:schedule], &maybe_nil_schedule_stop/1)
+    |> update_in([:prediction], &maybe_remove_prediction_stop/1)
   end
 
   defp clean_schedule_or_prediction(%{prediction: nil} = no_prediction, :prediction) do

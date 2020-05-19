@@ -636,6 +636,223 @@ defmodule JourneyListTest do
              }
     end
 
+    test "supports a list of subscriptions" do
+      optionals = [origin_id: "stop1", destination_id: "stop3", current_time: nil]
+      result = build(@origin_schedules, [], :predictions_then_schedules, true, optionals)
+
+      expected = %JourneyList{
+        expansion: :none,
+        journeys: [
+          %Journey{
+            arrival: %PredictedSchedule{prediction: nil, schedule: nil},
+            departure: %PredictedSchedule{
+              prediction: nil,
+              schedule: %Schedules.Schedule{
+                early_departure?: false,
+                flag?: false,
+                last_stop?: false,
+                pickup_type: 0,
+                route: %Routes.Route{
+                  color: "",
+                  custom_route?: false,
+                  description: :unknown,
+                  direction_destinations: :unknown,
+                  direction_names: %{0 => "Outbound", 1 => "Inbound"},
+                  id: "86",
+                  long_name: "",
+                  name: "86",
+                  sort_order: 99_999,
+                  type: 3
+                },
+                stop: %Stops.Stop{
+                  accessibility: [],
+                  address: nil,
+                  bike_storage: [],
+                  child_ids: [],
+                  closed_stop_info: nil,
+                  description: nil,
+                  fare_facilities: [],
+                  has_charlie_card_vendor?: false,
+                  has_fare_machine?: false,
+                  id: "stop1",
+                  is_child?: false,
+                  latitude: nil,
+                  longitude: nil,
+                  municipality: nil,
+                  name: nil,
+                  note: nil,
+                  parent_id: nil,
+                  parking_lots: [],
+                  platform_code: nil,
+                  platform_name: nil,
+                  station?: false,
+                  type: nil
+                },
+                stop_sequence: 0,
+                time: ~N[2017-01-01 07:00:00],
+                trip: %Schedules.Trip{
+                  bikes_allowed?: false,
+                  direction_id: nil,
+                  headsign: nil,
+                  id: "trip1",
+                  name: nil,
+                  route_pattern_id: nil,
+                  shape_id: nil
+                }
+              }
+            },
+            trip: %Schedules.Trip{
+              bikes_allowed?: false,
+              direction_id: nil,
+              headsign: nil,
+              id: "trip1",
+              name: nil,
+              route_pattern_id: nil,
+              shape_id: nil
+            }
+          },
+          %Journey{
+            arrival: %PredictedSchedule{prediction: nil, schedule: nil},
+            departure: %PredictedSchedule{
+              prediction: nil,
+              schedule: %Schedules.Schedule{
+                early_departure?: false,
+                flag?: false,
+                last_stop?: false,
+                pickup_type: 0,
+                route: %Routes.Route{
+                  color: "",
+                  custom_route?: false,
+                  description: :unknown,
+                  direction_destinations: :unknown,
+                  direction_names: %{0 => "Outbound", 1 => "Inbound"},
+                  id: "86",
+                  long_name: "",
+                  name: "86",
+                  sort_order: 99_999,
+                  type: 3
+                },
+                stop: %Stops.Stop{
+                  accessibility: [],
+                  address: nil,
+                  bike_storage: [],
+                  child_ids: [],
+                  closed_stop_info: nil,
+                  description: nil,
+                  fare_facilities: [],
+                  has_charlie_card_vendor?: false,
+                  has_fare_machine?: false,
+                  id: "stop1",
+                  is_child?: false,
+                  latitude: nil,
+                  longitude: nil,
+                  municipality: nil,
+                  name: nil,
+                  note: nil,
+                  parent_id: nil,
+                  parking_lots: [],
+                  platform_code: nil,
+                  platform_name: nil,
+                  station?: false,
+                  type: nil
+                },
+                stop_sequence: 0,
+                time: ~N[2017-01-01 08:00:00],
+                trip: %Schedules.Trip{
+                  bikes_allowed?: false,
+                  direction_id: nil,
+                  headsign: nil,
+                  id: "trip2",
+                  name: nil,
+                  route_pattern_id: nil,
+                  shape_id: nil
+                }
+              }
+            },
+            trip: %Schedules.Trip{
+              bikes_allowed?: false,
+              direction_id: nil,
+              headsign: nil,
+              id: "trip2",
+              name: nil,
+              route_pattern_id: nil,
+              shape_id: nil
+            }
+          },
+          %Journey{
+            arrival: %PredictedSchedule{prediction: nil, schedule: nil},
+            departure: %PredictedSchedule{
+              prediction: nil,
+              schedule: %Schedules.Schedule{
+                early_departure?: false,
+                flag?: false,
+                last_stop?: false,
+                pickup_type: 0,
+                route: %Routes.Route{
+                  color: "",
+                  custom_route?: false,
+                  description: :unknown,
+                  direction_destinations: :unknown,
+                  direction_names: %{0 => "Outbound", 1 => "Inbound"},
+                  id: "86",
+                  long_name: "",
+                  name: "86",
+                  sort_order: 99_999,
+                  type: 3
+                },
+                stop: %Stops.Stop{
+                  accessibility: [],
+                  address: nil,
+                  bike_storage: [],
+                  child_ids: [],
+                  closed_stop_info: nil,
+                  description: nil,
+                  fare_facilities: [],
+                  has_charlie_card_vendor?: false,
+                  has_fare_machine?: false,
+                  id: "stop1",
+                  is_child?: false,
+                  latitude: nil,
+                  longitude: nil,
+                  municipality: nil,
+                  name: nil,
+                  note: nil,
+                  parent_id: nil,
+                  parking_lots: [],
+                  platform_code: nil,
+                  platform_name: nil,
+                  station?: false,
+                  type: nil
+                },
+                stop_sequence: 0,
+                time: ~N[2017-01-01 09:00:00],
+                trip: %Schedules.Trip{
+                  bikes_allowed?: false,
+                  direction_id: nil,
+                  headsign: nil,
+                  id: "trip3",
+                  name: nil,
+                  route_pattern_id: nil,
+                  shape_id: nil
+                }
+              }
+            },
+            trip: %Schedules.Trip{
+              bikes_allowed?: false,
+              direction_id: nil,
+              headsign: nil,
+              id: "trip3",
+              name: nil,
+              route_pattern_id: nil,
+              shape_id: nil
+            }
+          }
+        ]
+      }
+
+      assert result == expected
+    end
+
     test "includes arrival predictions without corresponding departure predictions" do
       orig_sched = %Schedule{
         time: ~N[2017-01-01T06:10:00],

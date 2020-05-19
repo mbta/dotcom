@@ -65,6 +65,19 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
       assert date == date_time |> DateTime.to_date() |> Date.to_iso8601()
     end
 
+    test "provides arrival data when given a destination", %{conn: conn} do
+      route_id = "Red"
+      date = get_valid_trip_date(route_id)
+      conn = assign(conn, :date, date)
+
+      journey =
+        %{id: route_id, direction: "0", stop: "place-sstat", destination_id: "place-cntsq"}
+        |> get_valid_journeys(conn)
+        |> List.first()
+
+      assert %{"arrival" => %{"schedule" => %{"time" => date_time_string}}} = journey
+    end
+
     test "handles journeys w/o schedules", %{conn: conn} do
       date = Util.now() |> Date.to_iso8601()
 
