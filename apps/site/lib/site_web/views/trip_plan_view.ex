@@ -324,6 +324,10 @@ defmodule SiteWeb.TripPlanView do
   end
 
   @spec icon_for_route(Route.t()) :: Phoenix.HTML.Safe.t()
+  def icon_for_route(%Route{type: 3} = route) do
+    SiteWeb.ViewHelpers.bus_icon_pill(route)
+  end
+
   def icon_for_route(route) do
     svg_icon_with_circle(%SvgIconWithCircle{icon: route})
   end

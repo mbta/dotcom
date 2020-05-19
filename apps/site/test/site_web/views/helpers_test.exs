@@ -445,4 +445,33 @@ defmodule SiteWeb.ViewHelpersTest do
       assert icon =~ "c-svg__icon-mattapan-line-default"
     end
   end
+
+  describe "bus_icon_pill/1" do
+    test "for silver line" do
+      icon =
+        %Routes.Route{
+          id: "742",
+          long_name: "Design Center - South Station",
+          name: "SL2",
+          type: 3
+        }
+        |> bus_icon_pill
+        |> safe_to_string
+
+      assert icon =~ "u-bg--silver-line"
+    end
+
+    test "for buses" do
+      icon =
+        %Routes.Route{
+          id: "221",
+          type: 3,
+          name: "221"
+        }
+        |> bus_icon_pill
+        |> safe_to_string
+
+      assert icon =~ "u-bg--bus"
+    end
+  end
 end
