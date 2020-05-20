@@ -1,15 +1,16 @@
-defmodule BaseFareTest do
+defmodule MinMaxFareTest do
   use ExUnit.Case, async: true
 
   alias Routes.Route
   alias Schedules.Trip
 
-  import Site.BaseFare
+  import Fares.MinMaxFare
 
   @default_filters [reduced: nil, duration: :single_trip]
 
   test "returns an empty string if no route is provided" do
-    refute base_fare(nil, nil, nil, nil)
+    refute lowest_fare(nil, nil, nil, nil)
+    refute highest_fare(nil, nil, nil, nil)
   end
 
   test "excludes weekend commuter rail rates" do
@@ -18,7 +19,10 @@ defmodule BaseFareTest do
     destination_id = "Haverhill"
 
     assert %Fares.Fare{cents: 1100, duration: :single_trip} =
-             base_fare(route, nil, origin_id, destination_id)
+             lowest_fare(route, nil, origin_id, destination_id)
+
+    assert %Fares.Fare{cents: 1100, duration: :single_trip} =
+             highest_fare(route, nil, origin_id, destination_id)
   end
 
   describe "subway" do
@@ -43,12 +47,13 @@ defmodule BaseFareTest do
       }
     ]
 
-    test "returns the lowest one-way trip fare that is not discounted" do
+    test "returns the lowest and highest one-way trip fare that is not discounted" do
       fare_fn = fn @default_filters ++ [mode: :subway] ->
         @subway_fares
       end
 
-      assert %Fares.Fare{cents: 225} = base_fare(@route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 225} = lowest_fare(@route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 275} = highest_fare(@route, nil, nil, nil, fare_fn)
     end
   end
 
@@ -104,79 +109,86 @@ defmodule BaseFareTest do
       }
     ]
 
-    test "returns the lowest one-way trip fare that is not discounted for the local bus" do
+    test "returns the lowest and highest one-way trip fare that is not discounted for the local bus" do
       local_route = %Route{type: 3, id: "1"}
 
       fare_fn = fn @default_filters ++ [name: :local_bus] ->
         Enum.filter(@bus_fares, &(&1.name == :local_bus))
       end
 
-      assert %Fares.Fare{cents: 170} = base_fare(local_route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 170} = lowest_fare(local_route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 200} = highest_fare(local_route, nil, nil, nil, fare_fn)
     end
 
-    test "returns the lowest one-way trip fare that is not discounted for the inner express bus" do
+    test "returns the lowest and highest one-way trip fare that is not discounted for the inner express bus" do
       inner_express_route = %Route{type: 3, id: "170"}
 
       fare_fn = fn @default_filters ++ [name: :inner_express_bus] ->
         Enum.filter(@bus_fares, &(&1.name == :inner_express_bus))
       end
 
-      assert %Fares.Fare{cents: 400} = base_fare(inner_express_route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 400} = lowest_fare(inner_express_route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 500} = highest_fare(inner_express_route, nil, nil, nil, fare_fn)
     end
 
-    test "returns the lowerst one-way trip fare that is not discounted for the outer express bus" do
+    test "returns the lowest and highest one-way trip fare that is not discounted for the outer express bus" do
       outer_express_route = %Route{type: 3, id: "352"}
 
       fare_fn = fn @default_filters ++ [name: :outer_express_bus] ->
         Enum.filter(@bus_fares, &(&1.name == :outer_express_bus))
       end
 
-      assert %Fares.Fare{cents: 525} = base_fare(outer_express_route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 525} = lowest_fare(outer_express_route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 700} = highest_fare(outer_express_route, nil, nil, nil, fare_fn)
     end
 
-    test "returns the subway fare for for SL1 route (id=741)" do
+    test "returns the lowest and highest subway fare for for SL1 route (id=741)" do
       sl1 = %Route{type: 3, id: "741"}
 
       fare_fn = fn @default_filters ++ [name: :subway] ->
         Enum.filter(@subway_fares, &(&1.name == :subway))
       end
 
-      assert %Fares.Fare{cents: 225} = base_fare(sl1, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 225} = lowest_fare(sl1, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 275} = highest_fare(sl1, nil, nil, nil, fare_fn)
     end
 
-    test "returns the subway fare for for SL2 route (id=742)" do
+    test "returns the lowest and highest subway fare for for SL2 route (id=742)" do
       sl2 = %Route{type: 3, id: "742"}
 
       fare_fn = fn @default_filters ++ [name: :subway] ->
         Enum.filter(@subway_fares, &(&1.name == :subway))
       end
 
-      assert %Fares.Fare{cents: 225} = base_fare(sl2, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 225} = lowest_fare(sl2, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 275} = highest_fare(sl2, nil, nil, nil, fare_fn)
     end
 
-    test "returns the subway fare for for SL3 route (id=743)" do
+    test "returns lowest and highest the subway fare for for SL3 route (id=743)" do
       sl3 = %Route{type: 3, id: "743"}
 
       fare_fn = fn @default_filters ++ [name: :subway] ->
         Enum.filter(@subway_fares, &(&1.name == :subway))
       end
 
-      assert %Fares.Fare{cents: 225} = base_fare(sl3, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 225} = lowest_fare(sl3, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 275} = highest_fare(sl3, nil, nil, nil, fare_fn)
     end
 
-    test "returns the bus fare for for SL4 route (id=751)" do
+    test "returns the lowest and highest bus fare for for SL4 route (id=751)" do
       sl4 = %Route{type: 3, id: "751"}
 
       fare_fn = fn @default_filters ++ [name: :local_bus] ->
         Enum.filter(@bus_fares, &(&1.name == :local_bus))
       end
 
-      assert %Fares.Fare{cents: 170} = base_fare(sl4, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 170} = lowest_fare(sl4, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 200} = highest_fare(sl4, nil, nil, nil, fare_fn)
     end
   end
 
   describe "commuter rail" do
-    test "returns the one-way fare that is not discounted for a trip originating in Zone 1A" do
+    test "returns the lowest and highest one-way fare that is not discounted for a trip originating in Zone 1A" do
       route = %Route{type: 2}
       origin_id = "place-north"
       destination_id = "Haverhill"
@@ -194,10 +206,14 @@ defmodule BaseFareTest do
         ]
       end
 
-      assert %Fares.Fare{cents: 1050} = base_fare(route, nil, origin_id, destination_id, fare_fn)
+      assert %Fares.Fare{cents: 1050} =
+               lowest_fare(route, nil, origin_id, destination_id, fare_fn)
+
+      assert %Fares.Fare{cents: 1050} =
+               highest_fare(route, nil, origin_id, destination_id, fare_fn)
     end
 
-    test "returns the lowest one-way fare that is not discounted for a trip terminating in Zone 1A" do
+    test "returns the lowest and highest one-way fare that is not discounted for a trip terminating in Zone 1A" do
       route = %Route{type: 2}
       origin_id = "Ballardvale"
       destination_id = "place-north"
@@ -215,7 +231,10 @@ defmodule BaseFareTest do
         ]
       end
 
-      assert %Fares.Fare{cents: 825} = base_fare(route, nil, origin_id, destination_id, fare_fn)
+      assert %Fares.Fare{cents: 825} = lowest_fare(route, nil, origin_id, destination_id, fare_fn)
+
+      assert %Fares.Fare{cents: 825} =
+               highest_fare(route, nil, origin_id, destination_id, fare_fn)
     end
 
     test "returns an interzone fare that is not discounted for a trip that does not originate/terminate in Zone 1A" do
@@ -236,7 +255,10 @@ defmodule BaseFareTest do
         ]
       end
 
-      assert %Fares.Fare{cents: 401} = base_fare(route, nil, origin_id, destination_id, fare_fn)
+      assert %Fares.Fare{cents: 401} = lowest_fare(route, nil, origin_id, destination_id, fare_fn)
+
+      assert %Fares.Fare{cents: 401} =
+               highest_fare(route, nil, origin_id, destination_id, fare_fn)
     end
 
     test "returns the appropriate fare for Foxboro Special Events" do
@@ -246,10 +268,16 @@ defmodule BaseFareTest do
       foxboro_id = "place-FS-0049"
 
       assert %Fares.Fare{cents: 2000, duration: :round_trip} =
-               base_fare(route, trip, south_station_id, foxboro_id)
+               lowest_fare(route, trip, south_station_id, foxboro_id)
 
       assert %Fares.Fare{cents: 2000, duration: :round_trip} =
-               base_fare(route, trip, foxboro_id, south_station_id)
+               highest_fare(route, trip, south_station_id, foxboro_id)
+
+      assert %Fares.Fare{cents: 2000, duration: :round_trip} =
+               lowest_fare(route, trip, foxboro_id, south_station_id)
+
+      assert %Fares.Fare{cents: 2000, duration: :round_trip} =
+               highest_fare(route, trip, foxboro_id, south_station_id)
     end
 
     test "returns zone-based fares for standard trips on Foxboro pilot" do
@@ -258,10 +286,10 @@ defmodule BaseFareTest do
       trip_2 = %Trip{name: "759", id: "CR-Weekday-Fall-19-759"}
 
       assert %Fares.Fare{name: {:zone, "4"}} =
-               base_fare(route, trip_1, "place-sstat", "place-FS-0049")
+               lowest_fare(route, trip_1, "place-sstat", "place-FS-0049")
 
       assert %Fares.Fare{name: {:interzone, "3"}} =
-               base_fare(route, trip_2, "place-FB-0118", "place-FS-0049")
+               lowest_fare(route, trip_2, "place-FB-0118", "place-FS-0049")
     end
 
     test "Zone 1A to 1A reverse commute trips on Foxboro pilot retain original pricing" do
@@ -269,7 +297,7 @@ defmodule BaseFareTest do
       trip = %Trip{name: "741", id: "CR-Weekday-Fall-19-741"}
 
       assert %Fares.Fare{name: {:zone, "1A"}} =
-               base_fare(route, trip, "origin=place-DB-2240", "place-DB-2222")
+               lowest_fare(route, trip, "origin=place-DB-2240", "place-DB-2222")
     end
 
     test "does not apply pilot/discounted fare for reverse commutes until Fall 2019" do
@@ -277,7 +305,7 @@ defmodule BaseFareTest do
       trip = %Trip{name: "743", id: "CR-Weekday-Spring-19-743"}
 
       assert %Fares.Fare{name: {:zone, "3"}} =
-               base_fare(route, trip, "place-sstat", "place-FB-0148")
+               lowest_fare(route, trip, "place-sstat", "place-FB-0148")
     end
 
     test "returns interzone fare for reverse commute trips to and from Foxboro" do
@@ -289,10 +317,10 @@ defmodule BaseFareTest do
       foxboro_id = "place-FS-0049"
 
       assert %Fares.Fare{name: {:interzone, "4"}} =
-               base_fare(route, inbound_trip, foxboro_id, south_station_id)
+               lowest_fare(route, inbound_trip, foxboro_id, south_station_id)
 
       assert %Fares.Fare{name: {:interzone, "4"}} =
-               base_fare(route, outbound_trip, south_station_id, foxboro_id)
+               lowest_fare(route, outbound_trip, south_station_id, foxboro_id)
     end
 
     test "returns nil if no matching fares found" do
@@ -302,7 +330,7 @@ defmodule BaseFareTest do
 
       fare_fn = fn _ -> [] end
 
-      assert base_fare(route, nil, origin_id, destination_id, fare_fn) == nil
+      assert lowest_fare(route, nil, origin_id, destination_id, fare_fn) == nil
     end
 
     test "returns a free fare for any bus shuttle rail replacements" do
@@ -317,7 +345,10 @@ defmodule BaseFareTest do
       destination_id = "place-WR-0099"
 
       assert %Fares.Fare{cents: 0, name: :free_fare} =
-               base_fare(route, nil, origin_id, destination_id)
+               lowest_fare(route, nil, origin_id, destination_id)
+
+      assert %Fares.Fare{cents: 0, name: :free_fare} =
+               highest_fare(route, nil, origin_id, destination_id)
     end
   end
 
@@ -340,7 +371,10 @@ defmodule BaseFareTest do
         ]
       end
 
-      assert %Fares.Fare{cents: 350} = base_fare(route, nil, origin_id, destination_id, fare_fn)
+      assert %Fares.Fare{cents: 350} = lowest_fare(route, nil, origin_id, destination_id, fare_fn)
+
+      assert %Fares.Fare{cents: 350} =
+               highest_fare(route, nil, origin_id, destination_id, fare_fn)
     end
   end
 end
