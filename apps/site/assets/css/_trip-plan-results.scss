@@ -10,6 +10,16 @@
     margin: 0;
   }
 
+  .c-accordion-ui__trigger {
+    @extend %button-primary-outline;
+    border: 0;
+    padding: ($base-spacing / 1.5) $base-spacing;
+
+    &[aria-expanded='true'] {
+      border-bottom: 1px $btn-primary-bg solid;
+    }
+  }
+
   &-header {
     background-color: $brand-primary-lightest-contrast;
     border: 1px solid $brand-primary;

@@ -34,13 +34,12 @@ exports[`it renders 1`] = `
       <div
         className="c-accordion-ui__heading"
       >
-        <a
+        <button
           aria-controls="itinerary-1-section"
-          aria-expanded="false"
+          aria-expanded={false}
           className="c-accordion-ui__trigger collapsed"
-          data-toggle="collapse"
-          href="#itinerary-1-section"
-          role="button"
+          onClick={[Function]}
+          type="button"
         >
           <span
             className="c-accordion-ui__title"
@@ -55,33 +54,14 @@ exports[`it renders 1`] = `
               className="c-indicator__content c-indicator__content--angle"
             />
           </div>
-        </a>
+        </button>
       </div>
       <div
         aria-labelledby="itinerary-1-title"
-        className="c-accordion-ui__target collapse js-focus-on-expand"
+        className="c-accordion-ui__target js-focus-on-expand"
         id="itinerary-1-section"
         role="region"
-      >
-        <div
-          className="c-accordion-ui__content"
-        >
-          <div
-            className="m-trip-plan-results__itinerary-body"
-          >
-            <div
-              className="trip-plan-map map"
-            />
-            <div
-              dangerouslySetInnerHTML={
-                Object {
-                  "__html": "<div>Lots of content about the itinerary</div>",
-                }
-              }
-            />
-          </div>
-        </div>
-      </div>
+      />
     </div>
   </div>
 </div>

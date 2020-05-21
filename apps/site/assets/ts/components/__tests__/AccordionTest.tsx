@@ -7,11 +7,13 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 describe("Accordion component", () => {
   it("renders", () => {
     createReactRoot();
-    const tree = renderer.create(
-      <Accordion id="test-accordion" title="Open me for a surprise">
-        <p>The surprise</p>
-      </Accordion>
-    ).toJSON();
+    const tree = renderer
+      .create(
+        <Accordion id="test-accordion" title="Open me for a surprise">
+          <p>The surprise</p>
+        </Accordion>
+      )
+      .toJSON();
     expect(tree).toMatchSnapshot();
   });
 
@@ -22,8 +24,10 @@ describe("Accordion component", () => {
       </Accordion>
     );
     const heading = wrapper.find(".c-accordion-ui__heading");
-    const content = wrapper.find(".c-accordion-ui__content");
-    expect(heading.text()).toContain("Open me for a surprise")
-    expect(content.text()).toContain("The surprise")
+    expect(heading.text()).toContain("Open me for a surprise");
+    expect(wrapper.find(".c-accordion-ui__content").exists()).toBeFalsy();
+    wrapper.find(".c-accordion-ui__trigger").simulate("click");
+    expect(wrapper.find(".c-accordion-ui__content").exists()).toBeTruthy();
+    expect(wrapper.find(".c-accordion-ui__content").text()).toContain("The surprise");
   });
 });
