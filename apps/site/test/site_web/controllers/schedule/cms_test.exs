@@ -37,6 +37,8 @@ defmodule SiteWeb.ScheduleController.CMSTest do
                "utm_source" => "schedule",
                "utm_term" => "subway"
              }
+
+      assert Enum.count(conn.assigns.news) <= 5
     end
   end
 end
