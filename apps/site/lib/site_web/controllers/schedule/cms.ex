@@ -50,10 +50,10 @@ defmodule SiteWeb.ScheduleController.CMS do
           |> Enum.map(&set_utm_params(&1, route))
         end
 
-      non_duplicated_teasers =
-        Enum.uniq_by(teasers ++ mode_teasers, fn teaser -> teaser.title end)
-
-      Enum.sort_by(non_duplicated_teasers, & &1.date, &(Timex.compare(&1, &2) == 1))
+      (teasers ++ mode_teasers)
+      |> Enum.uniq_by(fn teaser -> teaser.title end)
+      |> Enum.sort_by(& &1.date, &(Timex.compare(&1, &2) == 1))
+      |> Enum.slice(0, 5)
     end
 
     conn
