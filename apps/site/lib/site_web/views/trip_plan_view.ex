@@ -355,6 +355,7 @@ defmodule SiteWeb.TripPlanView do
     case duration do
       duration when duration >= 60 ->
         "#{div(duration, 60)} h #{rem(duration, 60)} min"
+
       _ ->
         "#{duration} min"
     end

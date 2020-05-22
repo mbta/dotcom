@@ -28,6 +28,8 @@ describe("Accordion component", () => {
     expect(wrapper.find(".c-accordion-ui__content").exists()).toBeFalsy();
     wrapper.find(".c-accordion-ui__trigger").simulate("click");
     expect(wrapper.find(".c-accordion-ui__content").exists()).toBeTruthy();
-    expect(wrapper.find(".c-accordion-ui__content").text()).toContain("The surprise");
+    expect(wrapper.find(".c-accordion-ui__content").text()).toContain(
+      "The surprise"
+    );
   });
 });
