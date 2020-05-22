@@ -350,6 +350,17 @@ defmodule SiteWeb.TripPlanView do
     ["Depart at ", Timex.format!(time, "{h12}:{m} {AM}, {M}/{D}/{YY}")]
   end
 
+  @spec format_minutes_duration(integer) :: String.t()
+  def format_minutes_duration(duration) do
+    case duration do
+      duration when duration >= 60 ->
+        "#{div(duration, 60)} h #{rem(duration, 60)} min"
+
+      _ ->
+        "#{duration} min"
+    end
+  end
+
   def trip_plan_datetime_select(form, %DateTime{} = datetime) do
     time_options = [
       hour: [options: 1..12, selected: Timex.format!(datetime, "{h12}")],

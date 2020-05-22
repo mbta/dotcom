@@ -1,7 +1,7 @@
 import React, { ReactElement, useEffect } from "react";
+import Accordion from "../../components/Accordion";
 import { Itinerary } from "./TripPlannerResults";
 import Map from "../../leaflet/components/Map";
-import ExpandableBlock from "../../components/ExpandableBlock";
 import {
   addAlertItemEventHandlers,
   removeAlertItemEventHandlers
@@ -73,26 +73,23 @@ const ItineraryBody = (itinerary: Itinerary): ReactElement<HTMLElement> => {
 const ItineraryAccordion = ({
   itinerary
 }: Props): ReactElement<HTMLElement> => (
-  <div className="m-trip-plan-results__itinerary-container">
-    <div
-      className="itinerary-accessible"
-      dangerouslySetInnerHTML={{ __html: itinerary.access_html }} // eslint-disable-line react/no-danger
-    />
-    <ExpandableBlock
+  <div className="m-trip-plan-results__itinerary">
+    <div className="m-trip-plan-results__itinerary-header">
+      <div
+        className="m-trip-plan-results__itinerary-summary"
+        dangerouslySetInnerHTML={{ __html: itinerary.tab_html }} // eslint-disable-line react/no-danger
+      />
+      <div
+        className="m-trip-plan-results__itinerary-accessible"
+        dangerouslySetInnerHTML={{ __html: itinerary.access_html }} // eslint-disable-line react/no-danger
+      />
+    </div>
+    <Accordion
       id={`itinerary-${itinerary.id}`}
-      header={{
-        iconSvgText: null,
-        text: (
-          <div
-            className="m-trip-plan-results__itinerary-summary"
-            dangerouslySetInnerHTML={{ __html: itinerary.tab_html }} // eslint-disable-line react/no-danger
-          />
-        )
-      }}
-      initiallyExpanded={false}
+      title="Show map and trip details"
     >
       <ItineraryBody {...itinerary} />
-    </ExpandableBlock>
+    </Accordion>
   </div>
 );
 
