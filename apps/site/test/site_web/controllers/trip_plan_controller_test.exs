@@ -91,6 +91,7 @@ defmodule SiteWeb.TripPlanControllerTest do
       response = html_response(conn, 200)
       assert response =~ "Trip Planner"
       assert %Query{} = conn.assigns.query
+      assert conn.assigns.itineraries
       assert conn.assigns.routes
       assert conn.assigns.itinerary_maps
       assert conn.assigns.related_links
@@ -280,6 +281,25 @@ defmodule SiteWeb.TripPlanControllerTest do
     test "assigns an ItineraryRowList for each itinerary", %{conn: conn} do
       conn = get(conn, trip_plan_path(conn, :index, @good_params))
       assert conn.assigns.itinerary_row_lists
+    end
+
+    test "adds fare data to each transit leg of each itinerary", %{conn: conn} do
+      conn = get(conn, trip_plan_path(conn, :index, @good_params))
+
+      assert Enum.all?(conn.assigns.itineraries, fn itinerary ->
+               Enum.all?(itinerary.legs, fn leg ->
+                 match?(%TripPlan.PersonalDetail{}, leg.mode) ||
+                   match?(
+                     %TripPlan.TransitDetail{
+                       fares: %{
+                         highest_one_way_fare: %Fares.Fare{},
+                         lowest_one_way_fare: %Fares.Fare{}
+                       }
+                     },
+                     leg.mode
+                   )
+               end)
+             end)
     end
 
     test "renders an error if longitude and latitude from both addresses are the same", %{

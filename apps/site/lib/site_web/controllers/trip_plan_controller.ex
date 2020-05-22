@@ -1,9 +1,13 @@
 defmodule SiteWeb.TripPlanController do
+  @moduledoc """
+  Controller for trip plans.
+  """
+
   use SiteWeb, :controller
   alias Routes.Route
   alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
-  alias TripPlan.{Itinerary, Leg}
+  alias TripPlan.{Itinerary, Leg, PersonalDetail, TransitDetail}
 
   plug(:require_google_maps)
   plug(:assign_initial_map)
@@ -34,7 +38,11 @@ defmodule SiteWeb.TripPlanController do
         end_of_rating: Map.get(conn.assigns, :end_of_rating, Schedules.Repo.end_of_rating())
       )
 
-    itineraries = Query.get_itineraries(query)
+    itineraries =
+      query
+      |> Query.get_itineraries()
+      |> with_fares()
+
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
     itinerary_row_lists = itinerary_row_lists(itineraries, route_mapper, plan)
@@ -42,6 +50,7 @@ defmodule SiteWeb.TripPlanController do
     conn
     |> render(
       query: query,
+      itineraries: itineraries,
       plan_error: MapSet.to_list(query.errors),
       routes: Enum.map(itineraries, &routes_for_itinerary(&1, route_mapper)),
       itinerary_maps:
@@ -54,6 +63,37 @@ defmodule SiteWeb.TripPlanController do
 
   def require_google_maps(conn, _) do
     assign(conn, :requires_google_maps?, true)
+  end
+
+  @spec with_fares([Itinerary.t()]) :: [Itinerary.t()]
+  defp with_fares(itineraries) do
+    Enum.map(itineraries, fn itinerary ->
+      legs_with_fares = itinerary.legs |> Enum.map(&leg_with_fares/1)
+
+      %{itinerary | legs: legs_with_fares}
+    end)
+  end
+
+  @spec leg_with_fares(Leg.t()) :: Leg.t()
+  defp leg_with_fares(%Leg{mode: %PersonalDetail{}} = leg) do
+    leg
+  end
+
+  defp leg_with_fares(%Leg{mode: %TransitDetail{}} = leg) do
+    route = Routes.Repo.get(leg.mode.route_id)
+    trip = Schedules.Repo.trip(leg.mode.trip_id)
+    origin_id = leg.from.stop_id
+    destination_id = leg.to.stop_id
+    lowest_fare = Fares.MinMaxFare.lowest_fare(route, trip, origin_id, destination_id)
+    highest_fare = Fares.MinMaxFare.highest_fare(route, trip, origin_id, destination_id)
+
+    fares = %{
+      highest_one_way_fare: highest_fare,
+      lowest_one_way_fare: lowest_fare
+    }
+
+    mode_with_fares = %TransitDetail{leg.mode | fares: fares}
+    %{leg | mode: mode_with_fares}
   end
 
   @spec itinerary_row_lists([Itinerary.t()], route_mapper, map) :: [ItineraryRowList.t()]
@@ -138,10 +178,10 @@ defmodule SiteWeb.TripPlanController do
     # OpenTripPlanner but do not exist in our repo,
     # such as Logan Express.
 
-    %TripPlan.Itinerary{legs: legs} =
+    %Itinerary{legs: legs} =
       Enum.find(itineraries, &(&1 |> Itinerary.route_ids() |> Enum.member?(id)))
 
-    %TripPlan.Leg{
+    %Leg{
       description: description,
       mode: mode,
       long_name: long_name,
