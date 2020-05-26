@@ -1,4 +1,4 @@
-defmodule Fares.MinMaxFare do
+defmodule Fares.HighestLowestFare do
   @moduledoc """
   Calculates the lowest and highest fare for a particular trip i.e. a regular priced, non-discounted, one-way fare for the given mode.
   Commuter rail and ferry fares distinguish between the possible sets of stops.

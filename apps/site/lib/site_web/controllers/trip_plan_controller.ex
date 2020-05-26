@@ -84,8 +84,8 @@ defmodule SiteWeb.TripPlanController do
     trip = Schedules.Repo.trip(leg.mode.trip_id)
     origin_id = leg.from.stop_id
     destination_id = leg.to.stop_id
-    lowest_fare = Fares.MinMaxFare.lowest_fare(route, trip, origin_id, destination_id)
-    highest_fare = Fares.MinMaxFare.highest_fare(route, trip, origin_id, destination_id)
+    lowest_fare = Fares.HighestLowestFare.lowest_fare(route, trip, origin_id, destination_id)
+    highest_fare = Fares.HighestLowestFare.highest_fare(route, trip, origin_id, destination_id)
 
     fares = %{
       highest_one_way_fare: highest_fare,
