@@ -123,16 +123,8 @@ defmodule Site.TripPlan.RelatedLink do
     new(["View ", text, " fare information"], url)
   end
 
-  defp fare_link_text(:commuter_rail) do
-    "commuter rail"
-  end
-
-  defp fare_link_text(:ferry) do
-    "ferry"
-  end
-
-  defp fare_link_text(_) do
-    "bus/subway"
+  defp fare_link_text(type) when type in [:commuter_rail, :ferry, :bus, :subway] do
+    Atom.to_string(type) |> String.replace("_", " ")
   end
 
   defp fare_link_url_opts(type, leg, opts) when type in [:commuter_rail, :ferry] do
@@ -150,7 +142,7 @@ defmodule Site.TripPlan.RelatedLink do
   end
 
   defp fare_link_url_opts(type, _leg, _opts) when type in [:bus, :subway] do
-    {:bus_subway, []}
+    {"#{type}-fares", []}
   end
 
   defp simplify_fare_text([fare_link]) do

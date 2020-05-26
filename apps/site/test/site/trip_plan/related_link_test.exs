@@ -54,10 +54,10 @@ defmodule Site.TripPlan.RelatedLinkTest do
         expected_text_url = fn leg ->
           case leg.mode do
             %{route_id: "1"} ->
-              {"bus/subway", fare_path(SiteWeb.Endpoint, :show, :bus_subway, [])}
+              {"bus", fare_path(SiteWeb.Endpoint, :show, "bus-fares", [])}
 
             %{route_id: "Blue"} ->
-              {"bus/subway", fare_path(SiteWeb.Endpoint, :show, :bus_subway, [])}
+              {"subway", fare_path(SiteWeb.Endpoint, :show, "subway-fares", [])}
 
             %{route_id: "CR-Lowell"} ->
               {"commuter rail",
