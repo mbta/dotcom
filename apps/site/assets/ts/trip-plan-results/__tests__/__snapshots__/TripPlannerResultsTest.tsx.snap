@@ -8,18 +8,30 @@ exports[`it renders 1`] = `
     className="m-trip-plan-results__itinerary-header"
   >
     <div
-      className="m-trip-plan-results__itinerary-summary"
-      dangerouslySetInnerHTML={
-        Object {
-          "__html": "<div>HTML for the accordion button</div>",
+      className="m-trip-plan-results__itinerary-header-content"
+    >
+      <div
+        className="m-trip-plan-results__itinerary-summary"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<div>HTML for the accordion button</div>",
+          }
         }
-      }
-    />
+      />
+      <div
+        className="m-trip-plan-results__itinerary-accessible"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "<div>Accessible</div>",
+          }
+        }
+      />
+    </div>
     <div
-      className="m-trip-plan-results__itinerary-accessible"
+      className="m-trip-plan-results__itinerary-fares"
       dangerouslySetInnerHTML={
         Object {
-          "__html": "<div>Accessible</div>",
+          "__html": "<div>HTML content for fares</div>",
         }
       }
     />
