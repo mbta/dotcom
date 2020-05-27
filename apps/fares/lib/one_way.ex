@@ -22,7 +22,7 @@ defmodule Fares.OneWay do
           Stops.Stop.id_t(),
           (Keyword.t() -> [Fare.t()])
         ) ::
-          String.t() | nil
+          Fare.t() | nil
   def lowest_fare(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def lowest_fare(nil, _, _, _, _), do: nil
 
@@ -43,7 +43,7 @@ defmodule Fares.OneWay do
           Stops.Stop.id_t(),
           (Keyword.t() -> [Fare.t()])
         ) ::
-          String.t() | nil
+          Fare.t() | nil
   def highest_fare(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def highest_fare(nil, _, _, _, _), do: nil
 
