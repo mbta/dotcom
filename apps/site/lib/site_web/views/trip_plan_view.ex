@@ -4,7 +4,7 @@ defmodule SiteWeb.TripPlanView do
   require Routes.Route
   alias Site.React
   alias Site.TripPlan.{Query, ItineraryRow}
-  alias TripPlan.{Leg}
+  alias TripPlan.{Leg, Itinerary}
   alias Routes.Route
   alias Phoenix.{HTML, HTML.Form}
   alias SiteWeb.PartialView.SvgIconWithCircle
@@ -521,6 +521,47 @@ defmodule SiteWeb.TripPlanView do
 
   def transfer_route_name(%Route{type: type}) do
     SiteWeb.ViewHelpers.mode_name(type)
+  end
+
+  @spec transfer_note(Itinerary.t()) :: String.t() | nil
+  def transfer_note(itinerary) do
+    itinerary
+    |> Itinerary.route_ids()
+    |> Enum.chunk_every(2, 1, :discard)
+    |> Enum.find(&satisfies_transfer_note_conditions?(&1))
+    |> transfer_note_text
+  end
+
+  @spec satisfies_transfer_note_conditions?([Route.id_t()]) :: boolean
+  defp satisfies_transfer_note_conditions?(route_id_pair) do
+    route_atom_pair =
+      route_id_pair
+      |> Enum.map(&Routes.Repo.get(&1))
+      |> Enum.map(&SiteWeb.ScheduleView.to_fare_atom(&1))
+
+    route_atom_pair in [
+      # remove [:subway, :subway], when we reduce base fare for this transfer
+      [:subway, :subway],
+      [:subway, :bus],
+      [:bus, :subway],
+      [:bus, :bus],
+      [:inner_express_bus, :subway],
+      [:outer_express_bus, :subway],
+      [:inner_express_bus, :bus],
+      [:outer_express_bus, :bus]
+    ]
+  end
+
+  defp transfer_note_text(nil), do: nil
+
+  defp transfer_note_text(_) do
+    HTML.Tag.content_tag(
+      :span,
+      [
+        "Total may be less with ",
+        HTML.Tag.content_tag(:a, "transfers", href: "https://www.mbta.com/fares/transfers")
+      ]
+    )
   end
 
   def render_to_string(template, data) do

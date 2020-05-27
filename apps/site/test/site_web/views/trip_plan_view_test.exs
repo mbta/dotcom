@@ -8,6 +8,7 @@ defmodule SiteWeb.TripPlanViewTest do
   alias Routes.Route
   alias Site.TripPlan.{IntermediateStop, ItineraryRow, Query}
   alias TripPlan.Api.MockPlanner
+  alias TripPlan.{Itinerary, Leg, TransitDetail}
 
   describe "itinerary_explanation/2" do
     @base_explanation_query %Query{
@@ -450,6 +451,110 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
+  describe "transfer_note/1" do
+    @note_text "Total may be less with <a href=\"https://www.mbta.com/fares/transfers\">transfers</a>"
+    @base_itinerary %Itinerary{start: nil, stop: nil, legs: []}
+    leg_for_route = &%Leg{mode: %TransitDetail{route_id: &1}}
+    @bus_leg leg_for_route.("77")
+    @subway_leg leg_for_route.("Red")
+    @cr_leg leg_for_route.("CR-Lowell")
+    @ferry_leg leg_for_route.("Boat-F4")
+    @innerxp_leg leg_for_route.("326")
+    @outerxp_leg leg_for_route.("505")
+    @sl_rapid_leg leg_for_route.("741")
+    @sl_bus_leg leg_for_route.("751")
+
+    test "shows note for subway-bus transfer" do
+      note = %{@base_itinerary | legs: [@subway_leg, @bus_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for bus-subway transfer" do
+      note = %{@base_itinerary | legs: [@bus_leg, @subway_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for bus-bus transfer" do
+      note = %{@base_itinerary | legs: [@bus_leg, @bus_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for SL4-bus transfer" do
+      note = %{@base_itinerary | legs: [@sl_bus_leg, @bus_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for SL1-bus transfer" do
+      note = %{@base_itinerary | legs: [@sl_rapid_leg, @bus_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for inner express bus-subway transfer" do
+      note = %{@base_itinerary | legs: [@innerxp_leg, @subway_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for outer express bus-subway transfer" do
+      note = %{@base_itinerary | legs: [@outerxp_leg, @subway_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for inner express bus-local bus transfer" do
+      note = %{@base_itinerary | legs: [@innerxp_leg, @bus_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for outer express bus-local bus transfer" do
+      note = %{@base_itinerary | legs: [@outerxp_leg, @bus_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "no note when transfer involves ferry" do
+      note = %{@base_itinerary | legs: [@ferry_leg, @bus_leg]} |> transfer_note
+      refute note
+    end
+
+    test "no note when transfer involves commuter rail" do
+      note = %{@base_itinerary | legs: [@cr_leg, @bus_leg]} |> transfer_note
+      refute note
+    end
+
+    test "no note where no transit" do
+      note =
+        %{
+          @base_itinerary
+          | legs: [
+              MockPlanner.personal_leg(nil, nil, nil, nil),
+              MockPlanner.personal_leg(nil, nil, nil, nil)
+            ]
+        }
+        |> transfer_note
+
+      refute note
+    end
+
+    test "no note where no transit transfers" do
+      note =
+        %{
+          @base_itinerary
+          | legs: [
+              MockPlanner.personal_leg(nil, nil, nil, nil),
+              @bus_leg,
+              MockPlanner.personal_leg(nil, nil, nil, nil)
+            ]
+        }
+        |> transfer_note
+
+      refute note
+    end
+
+    @tag skip: "This will fail for now"
+    test "no note for subway-subway transfer" do
+      note = %{@base_itinerary | legs: [@subway_leg, @subway_leg]} |> transfer_note
+      refute note
+    end
+  end
+
   describe "format_plan_type_for_title/1" do
     @now Util.now()
     @human_time Timex.format!(@now, "{h12}:{m} {AM}, {M}/{D}/{YY}")
@@ -526,7 +631,10 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
   describe "Fares logic" do
     @fares_assigns %{
-      itinerary: %{
+      itinerary: %Itinerary{
+        start: nil,
+        stop: nil,
+        legs: [],
         passes: %{
           base_month_pass: %Fare{
             additional_valid_modes: [:bus],
@@ -645,6 +753,45 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       }
 
       assert get_highest_one_way_fare(itinerary) == 290
+    end
+
+    test "shows a transfer note", %{conn: conn} do
+      fares_with_transfer =
+        Map.put(@fares_assigns, :itinerary, %{
+          @fares_assigns.itinerary
+          | legs: [
+              %Leg{mode: %TransitDetail{route_id: "77"}},
+              %Leg{mode: %TransitDetail{route_id: "1"}}
+            ]
+        })
+
+      html =
+        "_itinerary_fares.html"
+        |> render(Map.put(fares_with_transfer, :conn, conn))
+        |> safe_to_string()
+
+      [{_, _, transfer_note}] = Floki.find(html, ".m-trip-plan-results__itinerary-note")
+
+      assert transfer_note != []
+    end
+
+    test "shows no transfer note", %{conn: conn} do
+      fares_no_transfer =
+        Map.put(@fares_assigns, "itinerary", %{
+          @fares_assigns.itinerary
+          | legs: [
+              %Leg{mode: %TransitDetail{route_id: "77"}}
+            ]
+        })
+
+      html =
+        "_itinerary_fares.html"
+        |> render(Map.put(fares_no_transfer, :conn, conn))
+        |> safe_to_string()
+
+      [{_, _, transfer_note}] = Floki.find(html, ".m-trip-plan-results__itinerary-note")
+
+      assert transfer_note == []
     end
   end
 
