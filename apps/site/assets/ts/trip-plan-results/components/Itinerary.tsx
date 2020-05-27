@@ -11,7 +11,7 @@ import {
 The following ignored functions are vanilla JS event handlers
 that are for HTML that gets injected into itinerary rows.
 Ideally, all the HTML of this component would be built in React
-which would make it easy to test in this file. Since that HTML is 
+which would make it easy to test in this file. Since that HTML is
 server rendered and injected, it is difficult to test from jest.
 It is being ignored now to prevent a codecov ding.
 */
@@ -75,13 +75,19 @@ const ItineraryAccordion = ({
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-trip-plan-results__itinerary">
     <div className="m-trip-plan-results__itinerary-header">
+      <div className="m-trip-plan-results__itinerary-header-content">
+        <div
+          className="m-trip-plan-results__itinerary-summary"
+          dangerouslySetInnerHTML={{ __html: itinerary.tab_html }} // eslint-disable-line react/no-danger
+        />
+        <div
+          className="m-trip-plan-results__itinerary-accessible"
+          dangerouslySetInnerHTML={{ __html: itinerary.access_html }} // eslint-disable-line react/no-danger
+        />
+      </div>
       <div
-        className="m-trip-plan-results__itinerary-summary"
-        dangerouslySetInnerHTML={{ __html: itinerary.tab_html }} // eslint-disable-line react/no-danger
-      />
-      <div
-        className="m-trip-plan-results__itinerary-accessible"
-        dangerouslySetInnerHTML={{ __html: itinerary.access_html }} // eslint-disable-line react/no-danger
+        className="m-trip-plan-results__itinerary-fares"
+        dangerouslySetInnerHTML={{ __html: itinerary.fares_html }} // eslint-disable-line react/no-danger
       />
     </div>
     <Accordion

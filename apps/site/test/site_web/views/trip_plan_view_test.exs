@@ -522,4 +522,112 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert [{"input", _, _}] = Floki.find(html, ~s(input#plan-date-input[type="text"]))
     end
   end
+
+  describe "Fares logic" do
+    @fares_assigns %{
+      one_way_total: "$2.90",
+      round_trip_total: "$5.80"
+    }
+
+    test "renders fare information", %{conn: conn} do
+      html =
+        "_itinerary_fares.html"
+        |> render(Map.put(@fares_assigns, :conn, conn))
+        |> safe_to_string()
+
+      [{_, _, [one_way_fare]}, {_, _, [round_trip_fare]}] =
+        Floki.find(html, ".m-trip-plan-results__itinerary-fare")
+
+      assert one_way_fare == "$2.90 one way"
+      assert round_trip_fare == "$5.80 round trip"
+    end
+
+    test "gets the highest one-way fare" do
+      itinerary = %TripPlan.Itinerary{
+        start: nil,
+        stop: nil,
+        legs: [
+          %TripPlan.Leg{
+            description: "WALK",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.365486,
+              longitude: -71.103802,
+              name: "Central",
+              stop_id: nil
+            },
+            long_name: nil,
+            mode: %TripPlan.PersonalDetail{
+              distance: 24.274,
+              steps: [
+                %TripPlan.PersonalDetail.Step{
+                  absolute_direction: :southeast,
+                  distance: 24.274,
+                  relative_direction: :depart,
+                  street_name: "Massachusetts Avenue"
+                }
+              ]
+            },
+            name: "",
+            polyline: "eoqaGzm~pLTe@BE@A",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.365304,
+              longitude: -71.103621,
+              name: "Central",
+              stop_id: "70069"
+            },
+            type: nil,
+            url: nil
+          },
+          %TripPlan.Leg{
+            description: "SUBWAY",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.365304,
+              longitude: -71.103621,
+              name: "Central",
+              stop_id: "70069"
+            },
+            long_name: "Red Line",
+            mode: %TripPlan.TransitDetail{
+              fares: %{
+                highest_one_way_fare: %Fares.Fare{
+                  additional_valid_modes: [:bus],
+                  cents: 290,
+                  duration: :single_trip,
+                  media: [:charlie_ticket, :cash],
+                  mode: :subway,
+                  name: :subway,
+                  price_label: nil,
+                  reduced: nil
+                },
+                lowest_one_way_fare: %Fares.Fare{
+                  additional_valid_modes: [:bus],
+                  cents: 240,
+                  duration: :single_trip,
+                  media: [:charlie_card],
+                  mode: :subway,
+                  name: :subway,
+                  price_label: nil,
+                  reduced: nil
+                }
+              },
+              intermediate_stop_ids: ["70071", "70073"],
+              route_id: "Red",
+              trip_id: "43870769C0"
+            },
+            name: "Red Line",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.356395,
+              longitude: -71.062424,
+              name: "Park Street",
+              stop_id: "70075"
+            },
+            type: "1",
+            url: "http://www.mbta.com"
+          }
+        ]
+      }
+
+      assert get_highest_one_way_fare(itinerary) == 290
+    end
+  end
 end

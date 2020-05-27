@@ -1,11 +1,14 @@
 defmodule SiteWeb.TripPlanView do
+  @moduledoc "Contains the logic for the Trip Planner"
   use SiteWeb, :view
   require Routes.Route
   alias Site.React
   alias Site.TripPlan.{Query, ItineraryRow}
+  alias TripPlan.{Leg}
   alias Routes.Route
   alias Phoenix.{HTML, HTML.Form}
   alias SiteWeb.PartialView.SvgIconWithCircle
+  alias Fares.{Format}
 
   import Schedules.Repo, only: [end_of_rating: 0]
 
@@ -551,6 +554,15 @@ defmodule SiteWeb.TripPlanView do
 
       access_html = i |> accessibility_icon() |> HTML.safe_to_string()
 
+      fare = get_highest_one_way_fare(i)
+
+      fares_html =
+        "_itinerary_fares.html"
+        |> render_to_string(
+          one_way_total: Format.price(fare),
+          round_trip_total: Format.price(fare * 2)
+        )
+
       html =
         "_itinerary.html"
         |> render_to_string(
@@ -568,7 +580,8 @@ defmodule SiteWeb.TripPlanView do
         tab_html: tab_html,
         id: index,
         map: itinerary_map(map),
-        access_html: access_html
+        access_html: access_html,
+        fares_html: fares_html
       }
     end
   end
@@ -588,5 +601,23 @@ defmodule SiteWeb.TripPlanView do
         itineraryData: data
       }
     )
+  end
+
+  @spec get_highest_one_way_fare(TripPlan.Itinerary.t()) :: integer
+  def get_highest_one_way_fare(itinerary) do
+    itinerary.legs
+    |> Enum.filter(fn leg -> Leg.transit?(leg) end)
+    |> Enum.reduce(0, fn leg, acc ->
+      highest_one_way_fare =
+        leg
+        |> Kernel.get_in([
+          Access.key(:mode, %{}),
+          Access.key(:fares, %{}),
+          Access.key(:highest_one_way_fare, %{}),
+          Access.key(:cents, 0)
+        ])
+
+      highest_one_way_fare + acc
+    end)
   end
 end

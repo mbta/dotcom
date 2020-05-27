@@ -24,10 +24,16 @@
     background-color: $brand-primary-lightest-contrast;
     border: 1px solid $brand-primary;
     border-bottom: 0;
+    display: flex;
     font-size: $base-spacing;
+    justify-content: space-between;
     line-height: 1.5;
     margin-top: 0;
     padding: $base-spacing;
+
+    @include media-breakpoint-down(sm) {
+      display: block;
+    }
   }
 
   &-accessible {
@@ -80,5 +86,25 @@
     background-color: $gray-lightest;
     margin-bottom: $base-spacing;
     padding: $base-spacing;
+  }
+
+  &-fares {
+    min-width: 40%;
+    padding-left: $base-spacing;
+    padding-top: 0;
+
+    @include media-breakpoint-down(sm) {
+      padding-left: 0;
+      padding-top: $base-spacing;
+    }
+  }
+
+  &-fare-title {
+    font-size: $font-size-h5;
+    font-weight: bold;
+  }
+
+  &-fare {
+    padding-left: $base-spacing;
   }
 }
