@@ -146,7 +146,8 @@ defmodule Site.TripPlan.RelatedLink do
   end
 
   # if there are multiple fare links, show fare overview link
-  defp simplify_fare_text(fare_links) when Kernel.length(fare_links) > 1, do: [fare_overview_link()]
+  defp simplify_fare_text(fare_links) when Kernel.length(fare_links) > 1,
+    do: [fare_overview_link()]
 
   defp simplify_fare_text([fare_link]) do
     # if there's only one fare link, change the text to "View fare information"

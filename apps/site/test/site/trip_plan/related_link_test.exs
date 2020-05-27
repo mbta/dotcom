@@ -40,7 +40,9 @@ defmodule Site.TripPlan.RelatedLinkTest do
       end
     end
 
-    test "with multiple types of fares, returns one link to the fare overview", %{itinerary: itinerary} do
+    test "with multiple types of fares, returns one link to the fare overview", %{
+      itinerary: itinerary
+    } do
       for _i <- 0..10 do
         itinerary =
           itinerary
@@ -88,7 +90,7 @@ defmodule Site.TripPlan.RelatedLinkTest do
             assert url(fare_link) == expected_url
 
           _text_urls ->
-             # only one expected
+            # only one expected
             fare_link = List.last(links)
             assert text(fare_link) == "View fare information"
             assert url(fare_link) == "/fares"
