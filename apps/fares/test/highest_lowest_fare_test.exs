@@ -8,7 +8,7 @@ defmodule HighestLowestFareTest do
 
   @default_filters [reduced: nil, duration: :single_trip]
 
-  test "returns an empty string if no route is provided" do
+  test "returns nil if no route is provided" do
     refute lowest_fare(nil, nil, nil, nil)
     refute highest_fare(nil, nil, nil, nil)
   end
