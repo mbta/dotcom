@@ -1,0 +1,3 @@
+<div class="m-trip-plan-results__itinerary-fare-title">Base Fare Estimate</div>
+<div class="m-trip-plan-results__itinerary-fare"><%= @one_way_total %> one way</div>
+<div class="m-trip-plan-results__itinerary-fare"><%= @round_trip_total %> round trip</div>
