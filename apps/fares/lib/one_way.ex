@@ -1,4 +1,4 @@
-defmodule Fares.HighestLowestFare do
+defmodule Fares.OneWay do
   @moduledoc """
   Calculates the lowest and highest fare for a particular trip i.e. a regular priced, non-discounted, one-way fare for the given mode.
   Commuter rail and ferry fares distinguish between the possible sets of stops.
@@ -57,7 +57,7 @@ defmodule Fares.HighestLowestFare do
     |> Enum.max_by(& &1.cents, fn -> nil end)
   end
 
-  def get_fares(route, trip, origin_id, destination_id, fare_fn) do
+  defp get_fares(route, trip, origin_id, destination_id, fare_fn) do
     route_filters =
       route.type
       |> Route.type_atom()

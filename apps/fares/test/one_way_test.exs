@@ -1,10 +1,10 @@
-defmodule HighestLowestFareTest do
+defmodule OneWayTest do
   use ExUnit.Case, async: true
 
   alias Routes.Route
   alias Schedules.Trip
 
-  import Fares.HighestLowestFare
+  import Fares.OneWay
 
   @default_filters [reduced: nil, duration: :single_trip]
 
