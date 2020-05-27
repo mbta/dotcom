@@ -97,6 +97,16 @@ defmodule SiteWeb.ViewHelpers do
     |> mode_icon(size)
   end
 
+  def bus_icon_pill(route) do
+    bg_class =
+      case Routes.Route.silver_line?(route) do
+        true -> "u-bg--silver-line"
+        _ -> "u-bg--bus"
+      end
+
+    content_tag(:span, route.name, class: "c-icon__bus-pill #{bg_class}")
+  end
+
   @doc """
   Use for links to CMS static content. For now just leaves paths alone,
   but at least earmarks them for easy identification or if we need to change our
