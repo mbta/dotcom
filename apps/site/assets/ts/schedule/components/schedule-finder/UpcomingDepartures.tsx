@@ -135,6 +135,22 @@ const TableRow = ({
   );
 };
 
+const UpcomingDeparturesHeader = (
+  <div className="schedule-table__upcoming-departures-header">
+    <h3>Upcoming Departures</h3>
+    <span className="schedule-table__live-clock" aria-hidden>
+      <span className="icon-realtime animate notranslate">
+        <span
+          className="c-svg__icon-live-clock"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: liveClockSvg }}
+        />
+        <span className="icon-realtime-text">live</span>
+      </span>
+    </span>
+  </div>
+);
+
 export const UpcomingDepartures = ({
   state,
   input
@@ -142,23 +158,10 @@ export const UpcomingDepartures = ({
   const { data: journeys, error, isLoading } = state;
 
   if (error || isLoading) return null;
-
-  if (journeys !== null && hasPredictions(journeys)) {
-    return (
-      <>
-        <div className="schedule-table__upcoming-departures-header">
-          <h3>Upcoming Departures</h3>
-          <span className="schedule-table__live-clock" aria-hidden>
-            <span className="icon-realtime animate notranslate">
-              <span
-                className="c-svg__icon-live-clock"
-                // eslint-disable-next-line react/no-danger
-                dangerouslySetInnerHTML={{ __html: liveClockSvg }}
-              />
-              <span className="icon-realtime-text">live</span>
-            </span>
-          </span>
-        </div>
+  return (
+    <>
+      {UpcomingDeparturesHeader}
+      {journeys !== null && hasPredictions(journeys) ? (
         <table className="schedule-table schedule-table--upcoming">
           <thead className="schedule-table__header">
             <tr className="schedule-table__row-header">
@@ -181,10 +184,13 @@ export const UpcomingDepartures = ({
             ))}
           </tbody>
         </table>
-      </>
-    );
-  }
-  return null;
+      ) : (
+        <div className="callout text-center u-bold">
+          There are currently no realtime departures available.
+        </div>
+      )}
+    </>
+  );
 };
 
 export default UpcomingDepartures;

@@ -1,6 +1,43 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`UpcomingDepartures doesn't renders cr departures that don't have a predicted time yet 1`] = `null`;
+exports[`UpcomingDepartures doesn't renders cr departures that don't have a predicted time yet 1`] = `
+Array [
+  <div
+    className="schedule-table__upcoming-departures-header"
+  >
+    <h3>
+      Upcoming Departures
+    </h3>
+    <span
+      aria-hidden={true}
+      className="schedule-table__live-clock"
+    >
+      <span
+        className="icon-realtime animate notranslate"
+      >
+        <span
+          className="c-svg__icon-live-clock"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        <span
+          className="icon-realtime-text"
+        >
+          live
+        </span>
+      </span>
+    </span>
+  </div>,
+  <div
+    className="callout text-center u-bold"
+  >
+    There are currently no realtime departures available.
+  </div>,
+]
+`;
 
 exports[`UpcomingDepartures renders SL bus predictions 1`] = `
 Array [
@@ -363,5 +400,44 @@ Array [
       </tr>
     </tbody>
   </table>,
+]
+`;
+
+exports[`UpcomingDepartures renders with message if there are no predictions 1`] = `
+Array [
+  <div
+    className="schedule-table__upcoming-departures-header"
+  >
+    <h3>
+      Upcoming Departures
+    </h3>
+    <span
+      aria-hidden={true}
+      className="schedule-table__live-clock"
+    >
+      <span
+        className="icon-realtime animate notranslate"
+      >
+        <span
+          className="c-svg__icon-live-clock"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        <span
+          className="icon-realtime-text"
+        >
+          live
+        </span>
+      </span>
+    </span>
+  </div>,
+  <div
+    className="callout text-center u-bold"
+  >
+    There are currently no realtime departures available.
+  </div>,
 ]
 `;

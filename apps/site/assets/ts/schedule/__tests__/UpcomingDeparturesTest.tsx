@@ -18,7 +18,7 @@ const input: UserInput = {
 };
 
 describe("UpcomingDepartures", () => {
-  it("doesn't render if there are no predictions", () => {
+  it("renders with message if there are no predictions", () => {
     createReactRoot();
     const tree = renderer.create(
       <UpcomingDepartures
@@ -30,7 +30,7 @@ describe("UpcomingDepartures", () => {
         }}
       />
     );
-    expect(tree.toJSON()).toBeNull();
+    expect(tree.toJSON()).toMatchSnapshot();
   });
 
   it("doesn't render if there was an error", () => {
