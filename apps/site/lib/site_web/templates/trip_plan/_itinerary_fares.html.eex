@@ -1,6 +1,6 @@
 <div class="m-trip-plan-results__itinerary-fare-title">Base Fare Estimate</div>
 <div class="m-trip-plan-results__itinerary-fare m-trip-plan-results__itinerary-fare--one-way"><%= @one_way_total %> one way</div>
 <div class="m-trip-plan-results__itinerary-fare m-trip-plan-results__itinerary-fare--round-trip"><%= @round_trip_total %> round trip</div>
-
+<div class="m-trip-plan-results__itinerary-note"><%= transfer_note(@itinerary) %></div>
 <div class="m-trip-plan-results__itinerary-fare-title">Monthly Pass Fare</div>
 <div class="m-trip-plan-results__itinerary-fare m-trip-plan-results__itinerary-fare--month"><%= monthly_pass(@itinerary.passes.base_month_pass) %></div>
