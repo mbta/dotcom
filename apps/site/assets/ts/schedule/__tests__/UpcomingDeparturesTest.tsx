@@ -30,7 +30,7 @@ describe("UpcomingDepartures", () => {
         }}
       />
     );
-    expect(tree.toJSON()).toMatchSnapshot()
+    expect(tree.toJSON()).toMatchSnapshot();
   });
 
   it("doesn't render if there was an error", () => {
