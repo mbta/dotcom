@@ -13,18 +13,6 @@ defmodule HighestLowestFareTest do
     refute highest_fare(nil, nil, nil, nil)
   end
 
-  test "excludes weekend commuter rail rates" do
-    route = %Route{type: 2}
-    origin_id = "place-north"
-    destination_id = "Haverhill"
-
-    assert %Fares.Fare{cents: 1100, duration: :single_trip} =
-             lowest_fare(route, nil, origin_id, destination_id)
-
-    assert %Fares.Fare{cents: 1100, duration: :single_trip} =
-             highest_fare(route, nil, origin_id, destination_id)
-  end
-
   describe "subway" do
     @route %Route{type: 0}
 
@@ -259,6 +247,18 @@ defmodule HighestLowestFareTest do
 
       assert %Fares.Fare{cents: 401} =
                highest_fare(route, nil, origin_id, destination_id, fare_fn)
+    end
+
+    test "excludes weekend commuter rail rates" do
+      route = %Route{type: 2}
+      origin_id = "place-north"
+      destination_id = "Haverhill"
+
+      assert %Fares.Fare{cents: 1100, duration: :single_trip} =
+               lowest_fare(route, nil, origin_id, destination_id)
+
+      assert %Fares.Fare{cents: 1100, duration: :single_trip} =
+               highest_fare(route, nil, origin_id, destination_id)
     end
 
     test "returns the appropriate fare for Foxboro Special Events" do
