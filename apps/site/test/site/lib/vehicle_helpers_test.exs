@@ -5,12 +5,12 @@ defmodule Site.VehicleHelpersTest do
   import SiteWeb.ViewHelpers, only: [format_schedule_time: 1]
 
   @locations %{
-    {"CR-Weekday-Fall-19-515", "place-sstat"} => %Vehicles.Vehicle{
+    {"CR-Weekday-StormB-19-1501C0", "place-sstat"} => %Vehicles.Vehicle{
       latitude: 1.1,
       longitude: 2.2,
       status: :stopped,
       stop_id: "place-sstat",
-      trip_id: "CR-Weekday-Fall-19-515",
+      trip_id: "CR-Weekday-StormB-19-1501C0",
       shape_id: "903_0018"
     }
   }
@@ -20,7 +20,7 @@ defmodule Site.VehicleHelpersTest do
       departing?: true,
       time: ~N[2018-05-01T11:00:00],
       status: "On Time",
-      trip: %Schedules.Trip{id: "CR-Weekday-Fall-19-515", shape_id: "903_0018"},
+      trip: %Schedules.Trip{id: "CR-Weekday-StormB-19-1501C0", shape_id: "903_0018"},
       stop: %Stops.Stop{id: "place-sstat"}
     }
   ]
@@ -34,12 +34,12 @@ defmodule Site.VehicleHelpersTest do
   describe "build_tooltip_index/3" do
     test "translate child stop to parent stop" do
       locations = %{
-        {"CR-Weekday-Fall-19-515", "South Station-02"} => %Vehicles.Vehicle{
+        {"CR-Weekday-StormB-19-1501C0", "South Station-02"} => %Vehicles.Vehicle{
           latitude: 1.1,
           longitude: 2.2,
           status: :stopped,
           stop_id: "South Station-02",
-          trip_id: "CR-Weekday-Fall-19-515",
+          trip_id: "CR-Weekday-StormB-19-1501C0",
           shape_id: "903_0018"
         }
       }
@@ -68,10 +68,10 @@ defmodule Site.VehicleHelpersTest do
 
     test "verify the Vehicle tooltip data" do
       assert length(Map.keys(@tooltips)) == 2
-      assert Map.has_key?(@tooltips, {"CR-Weekday-Fall-19-515", "place-sstat"})
+      assert Map.has_key?(@tooltips, {"CR-Weekday-StormB-19-1501C0", "place-sstat"})
       assert Map.has_key?(@tooltips, "place-sstat")
       assert @tooltip_base.route.type == 2
-      assert @tooltip_base.trip.name == "515"
+      assert @tooltip_base.trip.name == "1501"
       assert @tooltip_base.trip.headsign == "Worcester"
       assert @tooltip_base.prediction.status == "On Time"
       assert @tooltip_base.vehicle.status == :stopped
@@ -80,12 +80,13 @@ defmodule Site.VehicleHelpersTest do
     test "it does not return a tooltip if a vehicle has a null stop_id" do
       null_location = %{{"trip-1", nil} => %Vehicles.Vehicle{}}
       tooltips = build_tooltip_index(@route, Enum.concat(@locations, null_location), @predictions)
+
       tooltip_base = tooltips["place-sstat"]
       assert length(Map.keys(tooltips)) == 2
-      assert Map.has_key?(tooltips, {"CR-Weekday-Fall-19-515", "place-sstat"})
+      assert Map.has_key?(tooltips, {"CR-Weekday-StormB-19-1501C0", "place-sstat"})
       assert Map.has_key?(tooltips, "place-sstat")
       assert tooltip_base.route.type == 2
-      assert tooltip_base.trip.name == "515"
+      assert tooltip_base.trip.name == "1501"
       assert tooltip_base.trip.headsign == "Worcester"
       assert tooltip_base.prediction.status == "On Time"
       assert tooltip_base.vehicle.status == :stopped
@@ -259,9 +260,9 @@ defmodule Site.VehicleHelpersTest do
       tooltip2 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :stopped}}
       tooltip3 = %{@tooltip_base | vehicle: %Vehicles.Vehicle{status: :in_transit}}
 
-      assert tooltip(tooltip1) =~ "Worcester train 515 is arriving at"
-      assert tooltip(tooltip2) =~ "Worcester train 515 has arrived"
-      assert tooltip(tooltip3) =~ "Worcester train 515 is on the way to"
+      assert tooltip(tooltip1) =~ "Worcester train 1501 is arriving at"
+      assert tooltip(tooltip2) =~ "Worcester train 1501 has arrived"
+      assert tooltip(tooltip3) =~ "Worcester train 1501 is on the way to"
     end
 
     test "displays the route when there isn't a trip" do
@@ -284,7 +285,7 @@ defmodule Site.VehicleHelpersTest do
 
       tooltips = build_tooltip_index(@route, @locations, predictions)
       tooltip = tooltips["place-sstat"]
-      assert tooltip(tooltip) =~ "train 515 has arrived"
+      assert tooltip(tooltip) =~ "train 1501 has arrived"
     end
   end
 
