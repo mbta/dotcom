@@ -272,6 +272,17 @@ defmodule Fares.MonthTest do
                Month.lowest_pass(route, trip_2, "place-FB-0118", "place-FS-0049")
     end
 
+    test "accepts a Trip ID" do
+      route = %Route{type: 2, id: "CR-Franklin"}
+      trip_id = "CR-Weekday-Fall-19-751"
+
+      assert %Fare{name: {:zone, "4"}} =
+               Month.lowest_pass(route, trip_id, "place-sstat", "place-FS-0049")
+
+      assert %Fare{name: {:zone, "4"}} =
+               Month.highest_pass(route, trip_id, "place-sstat", "place-FS-0049")
+    end
+
     test "returns nil if no matching fares found" do
       route = %Route{type: 2, id: "CapeFlyer"}
       origin_id = "place-sstat"
