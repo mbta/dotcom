@@ -40,7 +40,9 @@ defmodule Site.TripPlan.RelatedLinkTest do
       end
     end
 
-    test "with multiple types of fares, returns relevant fare links", %{itinerary: itinerary} do
+    test "with multiple types of fares, returns one link to the fare overview", %{
+      itinerary: itinerary
+    } do
       for _i <- 0..10 do
         itinerary =
           itinerary
@@ -54,10 +56,10 @@ defmodule Site.TripPlan.RelatedLinkTest do
         expected_text_url = fn leg ->
           case leg.mode do
             %{route_id: "1"} ->
-              {"bus/subway", fare_path(SiteWeb.Endpoint, :show, :bus_subway, [])}
+              {"bus", fare_path(SiteWeb.Endpoint, :show, "bus-fares", [])}
 
             %{route_id: "Blue"} ->
-              {"bus/subway", fare_path(SiteWeb.Endpoint, :show, :bus_subway, [])}
+              {"subway", fare_path(SiteWeb.Endpoint, :show, "subway-fares", [])}
 
             %{route_id: "CR-Lowell"} ->
               {"commuter rail",
@@ -87,14 +89,11 @@ defmodule Site.TripPlan.RelatedLinkTest do
             assert text(fare_link) == "View fare information"
             assert url(fare_link) == expected_url
 
-          text_urls ->
-            # we reverse the lists since the fare links are at the end
-            links_with_expectations = Enum.zip(Enum.reverse(links), Enum.reverse(text_urls))
-
-            for {link, {expected_text, expected_url}} <- links_with_expectations do
-              assert text(link) =~ "View #{expected_text} fare information"
-              assert url(link) == expected_url
-            end
+          _text_urls ->
+            # only one expected
+            fare_link = List.last(links)
+            assert text(fare_link) == "View fare information"
+            assert url(fare_link) == "/fares"
         end
       end
     end
