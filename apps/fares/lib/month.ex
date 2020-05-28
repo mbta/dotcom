@@ -11,8 +11,8 @@ defmodule Fares.Month do
   @type fare_fn :: (Keyword.t() -> [Fare.t()])
 
   @spec lowest_pass(
-          Route.t(),
-          Trip.t() | nil,
+          Route.t() | Route.id_t(),
+          Trip.t() | Trip.id_t() | nil,
           Stop.id_t(),
           Stop.id_t(),
           fare_fn()
@@ -21,6 +21,16 @@ defmodule Fares.Month do
   def lowest_pass(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def lowest_pass(nil, _, _, _, _), do: nil
 
+  def lowest_pass(route_id, trip, origin_id, destination_id, fare_fn) when is_binary(route_id) do
+    route = Routes.Repo.get(route_id)
+    lowest_pass(route, trip, origin_id, destination_id, fare_fn)
+  end
+
+  def lowest_pass(route, trip_id, origin_id, destination_id, fare_fn) when is_binary(trip_id) do
+    trip = Schedules.Repo.trip(trip_id)
+    lowest_pass(route, trip, origin_id, destination_id, fare_fn)
+  end
+
   def lowest_pass(route, trip, origin_id, destination_id, fare_fn) do
     route
     |> get_fares(trip, origin_id, destination_id, fare_fn)
@@ -28,8 +38,8 @@ defmodule Fares.Month do
   end
 
   @spec highest_pass(
-          Route.t(),
-          Trip.t() | nil,
+          Route.t() | Route.id_t(),
+          Trip.t() | Trip.id_t() | nil,
           Stop.id_t(),
           Stop.id_t(),
           fare_fn()
@@ -37,6 +47,16 @@ defmodule Fares.Month do
           Fare.t() | nil
   def highest_pass(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
   def highest_pass(nil, _, _, _, _), do: nil
+
+  def highest_pass(route_id, trip, origin_id, destination_id, fare_fn) when is_binary(route_id) do
+    route = Routes.Repo.get(route_id)
+    highest_pass(route, trip, origin_id, destination_id, fare_fn)
+  end
+
+  def highest_pass(route, trip_id, origin_id, destination_id, fare_fn) when is_binary(trip_id) do
+    trip = Schedules.Repo.trip(trip_id)
+    highest_pass(route, trip, origin_id, destination_id, fare_fn)
+  end
 
   def highest_pass(route, trip, origin_id, destination_id, fare_fn) do
     route

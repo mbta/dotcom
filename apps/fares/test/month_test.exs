@@ -36,6 +36,13 @@ defmodule Fares.MonthTest do
       assert %Fare{cents: 9_000} = Month.lowest_pass(@subway_route, nil, nil, nil, fare_fn)
       assert %Fare{cents: 9_000} = Month.highest_pass(@subway_route, nil, nil, nil, fare_fn)
     end
+
+    test "accepts a Route ID" do
+      fare_fn = fn @default_filters ++ [mode: :subway] -> @subway_fares end
+
+      assert %Fare{cents: 9_000} = Month.lowest_pass("Red", nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.highest_pass("Red", nil, nil, nil, fare_fn)
+    end
   end
 
   describe "bus" do
