@@ -663,5 +663,20 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
       assert monthly_pass(fare) == "CharlieCard or CharlieTicket: $90.00"
     end
+
+    test "Includes the zone for CR trips" do
+      fare = %Fare{
+        additional_valid_modes: [:subway, :bus, :ferry],
+        cents: 36_000,
+        duration: :month,
+        media: [:commuter_ticket],
+        mode: :commuter_rail,
+        name: {:zone, "7"},
+        price_label: nil,
+        reduced: nil
+      }
+
+      assert monthly_pass(fare) == "Commuter Rail Zone 7 CharlieTicket: $360.00"
+    end
   end
 end

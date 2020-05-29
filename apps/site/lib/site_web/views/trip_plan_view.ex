@@ -624,6 +624,10 @@ defmodule SiteWeb.TripPlanView do
 
   @spec monthly_pass(Fare.t()) :: String.t()
   def monthly_pass(fare) do
-    "#{Format.media(fare)}: #{Format.price(fare)}"
+    "#{zone(fare)}#{Format.media(fare)}: #{Format.price(fare)}"
   end
+
+  @spec zone(Fare.t()) :: String.t()
+  defp zone(%Fare{mode: :commuter_rail, name: {:zone, zone}}), do: "Commuter Rail Zone #{zone} "
+  defp zone(_), do: ""
 end
