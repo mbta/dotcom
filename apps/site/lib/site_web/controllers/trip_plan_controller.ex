@@ -92,10 +92,12 @@ defmodule SiteWeb.TripPlanController do
     destination_id = leg.to.stop_id
     recommended_fare = OneWay.recommended_fare(route, trip, origin_id, destination_id)
     base_fare = OneWay.base_fare(route, trip, origin_id, destination_id)
+    reduced_fare = OneWay.reduced_fare(route, trip, origin_id, destination_id)
 
     fares = %{
       highest_one_way_fare: base_fare,
-      lowest_one_way_fare: recommended_fare
+      lowest_one_way_fare: recommended_fare,
+      reduced_one_way_fare: reduced_fare
     }
 
     mode_with_fares = %TransitDetail{leg.mode | fares: fares}
