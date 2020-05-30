@@ -16,6 +16,7 @@ defmodule TripPlan.TransitDetail do
 
   @type fares :: %{
           highest_one_way_fare: Fare.t(),
-          lowest_one_way_fare: Fare.t()
+          lowest_one_way_fare: Fare.t(),
+          reduced_one_way_fare: Fare.t()
         }
 end

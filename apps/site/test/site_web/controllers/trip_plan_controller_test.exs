@@ -294,7 +294,8 @@ defmodule SiteWeb.TripPlanControllerTest do
                      %TransitDetail{
                        fares: %{
                          highest_one_way_fare: %Fares.Fare{},
-                         lowest_one_way_fare: %Fares.Fare{}
+                         lowest_one_way_fare: %Fares.Fare{},
+                         reduced_one_way_fare: %Fares.Fare{}
                        }
                      },
                      leg.mode

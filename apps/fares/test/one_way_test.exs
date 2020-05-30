@@ -6,7 +6,7 @@ defmodule OneWayTest do
 
   import Fares.OneWay
 
-  @default_filters [reduced: nil, duration: :single_trip]
+  @default_filters [duration: :single_trip]
 
   test "returns nil if no route is provided" do
     refute recommended_fare(nil, nil, nil, nil)
@@ -42,6 +42,33 @@ defmodule OneWayTest do
 
       assert %Fares.Fare{cents: 225} = recommended_fare(@route, nil, nil, nil, fare_fn)
       assert %Fares.Fare{cents: 275} = base_fare(@route, nil, nil, nil, fare_fn)
+    end
+
+    test "returns the reduced fares for subway" do
+      reduced_subway_fare = %Fares.Fare{
+        additional_valid_modes: [],
+        cents: 110,
+        duration: :single_trip,
+        media: [:senior_card],
+        mode: :subway,
+        name: :subway,
+        price_label: nil,
+        reduced: :senior_disabled
+      }
+
+      fare_fn = fn @default_filters ++ [mode: :subway] ->
+        @subway_fares ++ [reduced_subway_fare]
+      end
+
+      assert reduced_subway_fare == reduced_fare(@route, nil, nil, nil, fare_fn)
+    end
+
+    test "returns no reduced fare for subway" do
+      fare_fn = fn @default_filters ++ [mode: :subway] ->
+        @subway_fares
+      end
+
+      assert nil == reduced_fare(@route, nil, nil, nil, fare_fn)
     end
   end
 
@@ -176,6 +203,27 @@ defmodule OneWayTest do
 
       assert %Fares.Fare{cents: 170} = recommended_fare(sl4, nil, nil, nil, fare_fn)
       assert %Fares.Fare{cents: 200} = base_fare(sl4, nil, nil, nil, fare_fn)
+    end
+
+    test "returns the reduced fares for local bus" do
+      reduced_local_bus_fare = %Fares.Fare{
+        additional_valid_modes: [],
+        cents: 85,
+        duration: :single_trip,
+        media: [:senior_card],
+        mode: :bus,
+        name: :local_bus,
+        price_label: nil,
+        reduced: :senior_disabled
+      }
+
+      local_route = %Route{type: 3, id: "1"}
+
+      fare_fn = fn @default_filters ++ [name: :local_bus] ->
+        Enum.filter(@bus_fares ++ [reduced_local_bus_fare], &(&1.name == :local_bus))
+      end
+
+      assert reduced_local_bus_fare == reduced_fare(local_route, nil, nil, nil, fare_fn)
     end
   end
 
@@ -353,6 +401,39 @@ defmodule OneWayTest do
       assert %Fares.Fare{cents: 0, name: :free_fare} =
                base_fare(route, nil, origin_id, destination_id)
     end
+
+    test "returns the reduced fares for commuter rail" do
+      route = %Route{type: 2}
+      origin_id = "place-north"
+      destination_id = "Haverhill"
+
+      reduced_cr_fare = %Fares.Fare{
+        additional_valid_modes: [],
+        cents: 350,
+        duration: :single_trip,
+        media: [:senior_card],
+        mode: :commuter_rail,
+        name: {:interzone, "10"},
+        price_label: nil,
+        reduced: :senior_disabled
+      }
+
+      fare_fn = fn @default_filters ++ [name: {:zone, "7"}] ->
+        [
+          %Fares.Fare{
+            additional_valid_modes: [],
+            cents: 1050,
+            media: [:commuter_ticket, :cash],
+            mode: :commuter_rail,
+            name: {:zone, "7"},
+            reduced: nil
+          },
+          reduced_cr_fare
+        ]
+      end
+
+      assert reduced_cr_fare == reduced_fare(route, nil, origin_id, destination_id, fare_fn)
+    end
   end
 
   describe "ferry" do
@@ -378,6 +459,39 @@ defmodule OneWayTest do
                recommended_fare(route, nil, origin_id, destination_id, fare_fn)
 
       assert %Fares.Fare{cents: 350} = base_fare(route, nil, origin_id, destination_id, fare_fn)
+    end
+
+    test "returns the reduced fares for ferry" do
+      route = %Route{type: 4}
+      origin_id = "Boat-Charlestown"
+      destination_id = "Boat-Long-South"
+
+      reduced_ferry_fare = %Fares.Fare{
+        additional_valid_modes: [],
+        cents: 350,
+        duration: nil,
+        media: [:charlie_ticket],
+        mode: :ferry,
+        name: :ferry_inner_harbor,
+        price_label: nil,
+        reduced: :senior_disabled
+      }
+
+      fare_fn = fn @default_filters ++ [name: :ferry_inner_harbor] ->
+        [
+          %Fares.Fare{
+            additional_valid_modes: [],
+            cents: 350,
+            media: [:charlie_ticket],
+            mode: :ferry,
+            name: :ferry_inner_harbor,
+            reduced: nil
+          },
+          reduced_ferry_fare
+        ]
+      end
+
+      assert reduced_ferry_fare == reduced_fare(route, nil, origin_id, destination_id, fare_fn)
     end
   end
 end
