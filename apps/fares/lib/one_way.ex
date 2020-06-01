@@ -15,7 +15,7 @@ defmodule Fares.OneWay do
 
   @default_trip %Trip{name: "", id: ""}
 
-  @spec lowest_fare(
+  @spec recommended_fare(
           Route.t() | map,
           Trip.t() | map,
           Stops.Stop.id_t(),
@@ -23,20 +23,20 @@ defmodule Fares.OneWay do
           (Keyword.t() -> [Fare.t()])
         ) ::
           Fare.t() | nil
-  def lowest_fare(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
-  def lowest_fare(nil, _, _, _, _), do: nil
+  def recommended_fare(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
+  def recommended_fare(nil, _, _, _, _), do: nil
 
-  def lowest_fare(route, nil, origin_id, destination_id, fare_fn) do
-    lowest_fare(route, @default_trip, origin_id, destination_id, fare_fn)
+  def recommended_fare(route, nil, origin_id, destination_id, fare_fn) do
+    recommended_fare(route, @default_trip, origin_id, destination_id, fare_fn)
   end
 
-  def lowest_fare(route, trip, origin_id, destination_id, fare_fn) do
+  def recommended_fare(route, trip, origin_id, destination_id, fare_fn) do
     route
     |> get_fares(trip, origin_id, destination_id, fare_fn)
     |> Enum.min_by(& &1.cents, fn -> nil end)
   end
 
-  @spec highest_fare(
+  @spec base_fare(
           Route.t() | map,
           Trip.t() | map,
           Stops.Stop.id_t(),
@@ -44,14 +44,14 @@ defmodule Fares.OneWay do
           (Keyword.t() -> [Fare.t()])
         ) ::
           Fare.t() | nil
-  def highest_fare(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
-  def highest_fare(nil, _, _, _, _), do: nil
+  def base_fare(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
+  def base_fare(nil, _, _, _, _), do: nil
 
-  def highest_fare(route, nil, origin_id, destination_id, fare_fn) do
-    highest_fare(route, @default_trip, origin_id, destination_id, fare_fn)
+  def base_fare(route, nil, origin_id, destination_id, fare_fn) do
+    base_fare(route, @default_trip, origin_id, destination_id, fare_fn)
   end
 
-  def highest_fare(route, trip, origin_id, destination_id, fare_fn) do
+  def base_fare(route, trip, origin_id, destination_id, fare_fn) do
     route
     |> get_fares(trip, origin_id, destination_id, fare_fn)
     |> Enum.max_by(& &1.cents, fn -> nil end)

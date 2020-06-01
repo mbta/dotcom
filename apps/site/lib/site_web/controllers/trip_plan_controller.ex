@@ -90,12 +90,12 @@ defmodule SiteWeb.TripPlanController do
     trip = Schedules.Repo.trip(leg.mode.trip_id)
     origin_id = leg.from.stop_id
     destination_id = leg.to.stop_id
-    lowest_fare = OneWay.lowest_fare(route, trip, origin_id, destination_id)
-    highest_fare = OneWay.highest_fare(route, trip, origin_id, destination_id)
+    recommended_fare = OneWay.recommended_fare(route, trip, origin_id, destination_id)
+    base_fare = OneWay.base_fare(route, trip, origin_id, destination_id)
 
     fares = %{
-      highest_one_way_fare: highest_fare,
-      lowest_one_way_fare: lowest_fare
+      highest_one_way_fare: base_fare,
+      lowest_one_way_fare: recommended_fare
     }
 
     mode_with_fares = %TransitDetail{leg.mode | fares: fares}
@@ -124,7 +124,7 @@ defmodule SiteWeb.TripPlanController do
          from: %NamedPosition{stop_id: origin_id},
          to: %NamedPosition{stop_id: destination_id}
        }) do
-    Month.highest_pass(route_id, trip_id, origin_id, destination_id)
+    Month.base_pass(route_id, trip_id, origin_id, destination_id)
   end
 
   @spec lowest_month_pass(Leg.t()) :: Fare.t() | nil
@@ -135,7 +135,7 @@ defmodule SiteWeb.TripPlanController do
          from: %NamedPosition{stop_id: origin_id},
          to: %NamedPosition{stop_id: destination_id}
        }) do
-    Month.lowest_pass(route_id, trip_id, origin_id, destination_id)
+    Month.recommended_pass(route_id, trip_id, origin_id, destination_id)
   end
 
   @spec max_by_cents([Fare.t() | nil]) :: Fare.t() | nil

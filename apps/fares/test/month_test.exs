@@ -9,8 +9,8 @@ defmodule Fares.MonthTest do
 
   describe "nil route" do
     test "returns nil if no route is provided" do
-      assert Month.lowest_pass(nil, nil, nil, nil) == nil
-      assert Month.highest_pass(nil, nil, nil, nil) == nil
+      assert Month.recommended_pass(nil, nil, nil, nil) == nil
+      assert Month.base_pass(nil, nil, nil, nil) == nil
     end
   end
 
@@ -33,15 +33,15 @@ defmodule Fares.MonthTest do
     test "returns the lowest and highest month pass fares that are not discounted" do
       fare_fn = fn @default_filters ++ [mode: :subway] -> @subway_fares end
 
-      assert %Fare{cents: 9_000} = Month.lowest_pass(@subway_route, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.highest_pass(@subway_route, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.recommended_pass(@subway_route, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.base_pass(@subway_route, nil, nil, nil, fare_fn)
     end
 
     test "accepts a Route ID" do
       fare_fn = fn @default_filters ++ [mode: :subway] -> @subway_fares end
 
-      assert %Fare{cents: 9_000} = Month.lowest_pass("Red", nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.highest_pass("Red", nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.recommended_pass("Red", nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.base_pass("Red", nil, nil, nil, fare_fn)
     end
   end
 
@@ -86,8 +86,8 @@ defmodule Fares.MonthTest do
         Enum.filter(@bus_fares, &(&1.name == :local_bus))
       end
 
-      assert %Fare{cents: 5_500} = Month.lowest_pass(local_route, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 5_500} = Month.highest_pass(local_route, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 5_500} = Month.recommended_pass(local_route, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 5_500} = Month.base_pass(local_route, nil, nil, nil, fare_fn)
     end
 
     test "returns the lowest and highest month pass fares that are not discounted for the inner express bus" do
@@ -97,10 +97,10 @@ defmodule Fares.MonthTest do
         Enum.filter(@bus_fares, &(&1.name == :inner_express_bus))
       end
 
-      assert %Fare{cents: 13_600} = Month.lowest_pass(inner_express_route, nil, nil, nil, fare_fn)
-
       assert %Fare{cents: 13_600} =
-               Month.highest_pass(inner_express_route, nil, nil, nil, fare_fn)
+               Month.recommended_pass(inner_express_route, nil, nil, nil, fare_fn)
+
+      assert %Fare{cents: 13_600} = Month.base_pass(inner_express_route, nil, nil, nil, fare_fn)
     end
 
     test "returns the lowest and highest month pass fares that are not discounted for the outer express bus" do
@@ -110,10 +110,10 @@ defmodule Fares.MonthTest do
         Enum.filter(@bus_fares, &(&1.name == :outer_express_bus))
       end
 
-      assert %Fare{cents: 16_800} = Month.lowest_pass(outer_express_route, nil, nil, nil, fare_fn)
-
       assert %Fare{cents: 16_800} =
-               Month.highest_pass(outer_express_route, nil, nil, nil, fare_fn)
+               Month.recommended_pass(outer_express_route, nil, nil, nil, fare_fn)
+
+      assert %Fare{cents: 16_800} = Month.base_pass(outer_express_route, nil, nil, nil, fare_fn)
     end
 
     test "returns the lowest and highest subway pass fares for the SL1, SL2, and SL3 routes" do
@@ -125,12 +125,12 @@ defmodule Fares.MonthTest do
         Enum.filter(@subway_fares, &(&1.name == :subway))
       end
 
-      assert %Fare{cents: 9_000} = Month.lowest_pass(sl1, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.highest_pass(sl1, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.lowest_pass(sl2, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.highest_pass(sl2, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.lowest_pass(sl3, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 9_000} = Month.highest_pass(sl3, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.recommended_pass(sl1, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.base_pass(sl1, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.recommended_pass(sl2, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.base_pass(sl2, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.recommended_pass(sl3, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 9_000} = Month.base_pass(sl3, nil, nil, nil, fare_fn)
     end
 
     test "returns the lowest and highest bus pass fares for the SL4 and SL5 routes" do
@@ -141,10 +141,10 @@ defmodule Fares.MonthTest do
         Enum.filter(@bus_fares, &(&1.name == :local_bus))
       end
 
-      assert %Fare{cents: 5_500} = Month.lowest_pass(sl4, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 5_500} = Month.highest_pass(sl4, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 5_500} = Month.lowest_pass(sl5, nil, nil, nil, fare_fn)
-      assert %Fare{cents: 5_500} = Month.highest_pass(sl5, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 5_500} = Month.recommended_pass(sl4, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 5_500} = Month.base_pass(sl4, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 5_500} = Month.recommended_pass(sl5, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 5_500} = Month.base_pass(sl5, nil, nil, nil, fare_fn)
     end
   end
 
@@ -180,10 +180,10 @@ defmodule Fares.MonthTest do
       end
 
       assert %Fare{cents: 35_000} =
-               Month.lowest_pass(route, nil, origin_id, destination_id, fare_fn)
+               Month.recommended_pass(route, nil, origin_id, destination_id, fare_fn)
 
       assert %Fare{cents: 36_000} =
-               Month.highest_pass(route, nil, origin_id, destination_id, fare_fn)
+               Month.base_pass(route, nil, origin_id, destination_id, fare_fn)
     end
 
     test "returns the lowest and highest one-way fares that are not discounted for a trip terminating in Zone 1A" do
@@ -217,10 +217,10 @@ defmodule Fares.MonthTest do
       end
 
       assert %Fare{cents: 27_100} =
-               Month.lowest_pass(route, nil, origin_id, destination_id, fare_fn)
+               Month.recommended_pass(route, nil, origin_id, destination_id, fare_fn)
 
       assert %Fare{cents: 28_100} =
-               Month.highest_pass(route, nil, origin_id, destination_id, fare_fn)
+               Month.base_pass(route, nil, origin_id, destination_id, fare_fn)
     end
 
     test "returns an interzone fares that are not discounted for a trip that does not originate/terminate in Zone 1A" do
@@ -254,10 +254,10 @@ defmodule Fares.MonthTest do
       end
 
       assert %Fare{cents: 12_900} =
-               Month.lowest_pass(route, nil, origin_id, destination_id, fare_fn)
+               Month.recommended_pass(route, nil, origin_id, destination_id, fare_fn)
 
       assert %Fare{cents: 13_900} =
-               Month.highest_pass(route, nil, origin_id, destination_id, fare_fn)
+               Month.base_pass(route, nil, origin_id, destination_id, fare_fn)
     end
 
     test "returns zone-based fares for standard trips on Foxboro pilot" do
@@ -266,10 +266,10 @@ defmodule Fares.MonthTest do
       trip_2 = %Trip{name: "759", id: "CR-Weekday-Fall-19-759"}
 
       assert %Fare{name: {:zone, "4"}} =
-               Month.lowest_pass(route, trip_1, "place-sstat", "place-FS-0049")
+               Month.recommended_pass(route, trip_1, "place-sstat", "place-FS-0049")
 
       assert %Fare{name: {:interzone, "3"}} =
-               Month.lowest_pass(route, trip_2, "place-FB-0118", "place-FS-0049")
+               Month.recommended_pass(route, trip_2, "place-FB-0118", "place-FS-0049")
     end
 
     test "accepts a Trip ID" do
@@ -277,10 +277,10 @@ defmodule Fares.MonthTest do
       trip_id = "CR-Weekday-Fall-19-751"
 
       assert %Fare{name: {:zone, "4"}} =
-               Month.lowest_pass(route, trip_id, "place-sstat", "place-FS-0049")
+               Month.recommended_pass(route, trip_id, "place-sstat", "place-FS-0049")
 
       assert %Fare{name: {:zone, "4"}} =
-               Month.highest_pass(route, trip_id, "place-sstat", "place-FS-0049")
+               Month.base_pass(route, trip_id, "place-sstat", "place-FS-0049")
     end
 
     test "returns nil if no matching fares found" do
@@ -290,7 +290,7 @@ defmodule Fares.MonthTest do
 
       fare_fn = fn _ -> [] end
 
-      assert Month.lowest_pass(route, nil, origin_id, destination_id, fare_fn) == nil
+      assert Month.recommended_pass(route, nil, origin_id, destination_id, fare_fn) == nil
     end
   end
 
@@ -326,10 +326,9 @@ defmodule Fares.MonthTest do
       end
 
       assert %Fare{cents: 8_000} =
-               Month.lowest_pass(route, nil, origin_id, destination_id, fare_fn)
+               Month.recommended_pass(route, nil, origin_id, destination_id, fare_fn)
 
-      assert %Fare{cents: 9_000} =
-               Month.highest_pass(route, nil, origin_id, destination_id, fare_fn)
+      assert %Fare{cents: 9_000} = Month.base_pass(route, nil, origin_id, destination_id, fare_fn)
     end
   end
 end

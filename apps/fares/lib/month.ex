@@ -10,7 +10,7 @@ defmodule Fares.Month do
 
   @type fare_fn :: (Keyword.t() -> [Fare.t()])
 
-  @spec lowest_pass(
+  @spec recommended_pass(
           Route.t() | Route.id_t(),
           Trip.t() | Trip.id_t() | nil,
           Stop.id_t(),
@@ -18,26 +18,28 @@ defmodule Fares.Month do
           fare_fn()
         ) ::
           Fare.t() | nil
-  def lowest_pass(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
-  def lowest_pass(nil, _, _, _, _), do: nil
+  def recommended_pass(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
+  def recommended_pass(nil, _, _, _, _), do: nil
 
-  def lowest_pass(route_id, trip, origin_id, destination_id, fare_fn) when is_binary(route_id) do
+  def recommended_pass(route_id, trip, origin_id, destination_id, fare_fn)
+      when is_binary(route_id) do
     route = Routes.Repo.get(route_id)
-    lowest_pass(route, trip, origin_id, destination_id, fare_fn)
+    recommended_pass(route, trip, origin_id, destination_id, fare_fn)
   end
 
-  def lowest_pass(route, trip_id, origin_id, destination_id, fare_fn) when is_binary(trip_id) do
+  def recommended_pass(route, trip_id, origin_id, destination_id, fare_fn)
+      when is_binary(trip_id) do
     trip = Schedules.Repo.trip(trip_id)
-    lowest_pass(route, trip, origin_id, destination_id, fare_fn)
+    recommended_pass(route, trip, origin_id, destination_id, fare_fn)
   end
 
-  def lowest_pass(route, trip, origin_id, destination_id, fare_fn) do
+  def recommended_pass(route, trip, origin_id, destination_id, fare_fn) do
     route
     |> get_fares(trip, origin_id, destination_id, fare_fn)
     |> Enum.min_by(& &1.cents, fn -> nil end)
   end
 
-  @spec highest_pass(
+  @spec base_pass(
           Route.t() | Route.id_t(),
           Trip.t() | Trip.id_t() | nil,
           Stop.id_t(),
@@ -45,20 +47,20 @@ defmodule Fares.Month do
           fare_fn()
         ) ::
           Fare.t() | nil
-  def highest_pass(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
-  def highest_pass(nil, _, _, _, _), do: nil
+  def base_pass(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
+  def base_pass(nil, _, _, _, _), do: nil
 
-  def highest_pass(route_id, trip, origin_id, destination_id, fare_fn) when is_binary(route_id) do
+  def base_pass(route_id, trip, origin_id, destination_id, fare_fn) when is_binary(route_id) do
     route = Routes.Repo.get(route_id)
-    highest_pass(route, trip, origin_id, destination_id, fare_fn)
+    base_pass(route, trip, origin_id, destination_id, fare_fn)
   end
 
-  def highest_pass(route, trip_id, origin_id, destination_id, fare_fn) when is_binary(trip_id) do
+  def base_pass(route, trip_id, origin_id, destination_id, fare_fn) when is_binary(trip_id) do
     trip = Schedules.Repo.trip(trip_id)
-    highest_pass(route, trip, origin_id, destination_id, fare_fn)
+    base_pass(route, trip, origin_id, destination_id, fare_fn)
   end
 
-  def highest_pass(route, trip, origin_id, destination_id, fare_fn) do
+  def base_pass(route, trip, origin_id, destination_id, fare_fn) do
     route
     |> get_fares(trip, origin_id, destination_id, fare_fn)
     |> Enum.max_by(& &1.cents, fn -> nil end)
