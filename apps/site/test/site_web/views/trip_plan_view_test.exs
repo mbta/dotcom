@@ -661,7 +661,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         reduced: nil
       }
 
-      assert monthly_pass(fare) == "CharlieCard or CharlieTicket: $90.00"
+      assert monthly_pass(fare) == "Monthly LinkPass: $90.00"
     end
 
     test "Includes the zone for CR trips" do
@@ -676,7 +676,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         reduced: nil
       }
 
-      assert monthly_pass(fare) == "Commuter Rail Zone 7 CharlieTicket: $360.00"
+      assert monthly_pass(fare) == "Commuter Rail Zone 7 Monthly Pass: $360.00"
     end
   end
 end
