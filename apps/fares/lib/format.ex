@@ -1,4 +1,7 @@
 defmodule Fares.Format do
+  @moduledoc """
+  Formatting functions for fare data.
+  """
   alias Fares.{Fare, Summary}
 
   @type mode_type :: :bus_subway | :commuter_rail | :ferry
