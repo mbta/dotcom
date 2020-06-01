@@ -3,4 +3,4 @@
 <div class="m-trip-plan-results__itinerary-fare m-trip-plan-results__itinerary-fare--round-trip"><%= @round_trip_total %> round trip</div>
 
 <div class="m-trip-plan-results__itinerary-fare-title">Monthly Pass Fare</div>
-<div class="m-trip-plan-results__itinerary-fare m-trip-plan-results__itinerary-fare--month"><%= monthly_pass(@itinerary.passes.highest_month_pass) %></div>
+<div class="m-trip-plan-results__itinerary-fare m-trip-plan-results__itinerary-fare--month"><%= monthly_pass(@itinerary.passes.base_month_pass) %></div>

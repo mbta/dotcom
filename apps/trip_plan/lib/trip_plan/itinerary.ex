@@ -27,8 +27,8 @@ defmodule TripPlan.Itinerary do
         }
 
   @type passes :: %{
-          highest_month_pass: Fare.t(),
-          lowest_month_pass: Fare.t()
+          base_month_pass: Fare.t(),
+          recommended_month_pass: Fare.t()
         }
 
   alias TripPlan.NamedPosition

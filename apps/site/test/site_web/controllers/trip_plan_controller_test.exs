@@ -307,7 +307,7 @@ defmodule SiteWeb.TripPlanControllerTest do
       conn = get(conn, trip_plan_path(conn, :index, @good_params))
 
       assert Enum.all?(conn.assigns.itineraries, fn itinerary ->
-               %Itinerary{passes: %{highest_month_pass: %Fare{}, lowest_month_pass: %Fare{}}} =
+               %Itinerary{passes: %{base_month_pass: %Fare{}, recommended_month_pass: %Fare{}}} =
                  itinerary
              end)
     end

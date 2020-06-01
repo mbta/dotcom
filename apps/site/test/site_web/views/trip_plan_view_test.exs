@@ -528,7 +528,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     @fares_assigns %{
       itinerary: %{
         passes: %{
-          highest_month_pass: %Fare{
+          base_month_pass: %Fare{
             additional_valid_modes: [:bus],
             cents: 9_000,
             duration: :month,

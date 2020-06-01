@@ -72,8 +72,8 @@ defmodule SiteWeb.TripPlanController do
       legs_with_fares = itinerary.legs |> Enum.map(&leg_with_fares/1)
 
       passes = %{
-        highest_month_pass: highest_highest_month_pass(itinerary),
-        lowest_month_pass: highest_lowest_month_pass(itinerary)
+        base_month_pass: base_month_pass_for_itinerary(itinerary),
+        recommended_month_pass: recommended_month_pass_for_itinerary(itinerary)
       }
 
       %{itinerary | legs: legs_with_fares, passes: passes}
@@ -102,15 +102,15 @@ defmodule SiteWeb.TripPlanController do
     %{leg | mode: mode_with_fares}
   end
 
-  @spec highest_highest_month_pass(Itinerary.t()) :: Fare.t() | nil
-  defp highest_highest_month_pass(%Itinerary{legs: legs}) do
+  @spec base_month_pass_for_itinerary(Itinerary.t()) :: Fare.t() | nil
+  defp base_month_pass_for_itinerary(%Itinerary{legs: legs}) do
     legs
     |> Enum.map(&highest_month_pass/1)
     |> max_by_cents()
   end
 
-  @spec highest_lowest_month_pass(Itinerary.t()) :: Fare.t() | nil
-  defp highest_lowest_month_pass(%Itinerary{legs: legs}) do
+  @spec recommended_month_pass_for_itinerary(Itinerary.t()) :: Fare.t() | nil
+  defp recommended_month_pass_for_itinerary(%Itinerary{legs: legs}) do
     legs
     |> Enum.map(&lowest_month_pass/1)
     |> max_by_cents()
