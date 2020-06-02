@@ -514,13 +514,30 @@ defmodule SiteWeb.ScheduleController.LineTest do
   end
 
   describe "build_branched_stop" do
-    test "lechmere" do
-      stop = %RouteStop{id: "place-lech"}
+    # As of June 2020, Lechmere is closed for construction.
+    # Replacing with North Station for now
+
+    # test "lechmere" do
+    #   stop = %RouteStop{id: "place-lech"}
+    #   branches = {nil, GreenLine.branch_ids()}
+    #
+    #   bubbles = [
+    #     {"Green-B", :empty},
+    #     {"Green-C", :empty},
+    #     {"Green-D", :empty},
+    #     {"Green-E", :terminus}
+    #   ]
+    #
+    #   assert build_branched_stop(stop, [], branches) == [{bubbles, stop}]
+    # end
+
+    test "North Station" do
+      stop = %RouteStop{id: "place-north"}
       branches = {nil, GreenLine.branch_ids()}
 
       bubbles = [
         {"Green-B", :empty},
-        {"Green-C", :empty},
+        {"Green-C", :terminus},
         {"Green-D", :empty},
         {"Green-E", :terminus}
       ]
