@@ -34,8 +34,12 @@ defmodule SiteWeb.PartialViewTest do
         |> assign(:route, %Routes.Route{id: "Green"})
         |> assign(:stops_on_routes, GreenLine.stops_on_routes(0))
 
-      assert conn |> stop_selector_suffix("place-pktrm") |> IO.iodata_to_binary() == "B,C,D,E"
-      assert conn |> stop_selector_suffix("place-lech") |> IO.iodata_to_binary() == "E"
+      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
+      # We are temporarily adding the fix but this will need to be undone later on.
+      # assert conn |> stop_selector_suffix("place-pktrm") |> IO.iodata_to_binary() == "B,C,D,E"
+      assert conn |> stop_selector_suffix("place-pktrm") |> IO.iodata_to_binary() == "B,C,D"
+      # assert conn |> stop_selector_suffix("place-lech") |> IO.iodata_to_binary() == "E"
+      assert conn |> stop_selector_suffix("place-north") |> IO.iodata_to_binary() == "C"
       assert conn |> stop_selector_suffix("place-kencl") |> IO.iodata_to_binary() == "B,C,D"
       # not on the green line
       assert conn |> stop_selector_suffix("place-alfcl") |> IO.iodata_to_binary() == ""

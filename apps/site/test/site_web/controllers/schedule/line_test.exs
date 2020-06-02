@@ -270,16 +270,25 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
+      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
+      # We are temporarily adding the fix but this will need to be undone later on.
       for {id, idx} <- [
-            {"place-lech", 0},
-            {"place-north", 2},
-            {"place-gover", 4},
-            {"place-pktrm", 5},
-            {"place-coecl", 8},
-            {"place-hsmnl", 19},
-            {"place-river", 34},
-            {"place-clmnl", 47},
-            {"place-lake", 65}
+            # {"place-lech", 0},
+            # {"place-north", 2},
+            # {"place-gover", 4},
+            # {"place-pktrm", 5},
+            # {"place-coecl", 8},
+            # {"place-hsmnl", 19},
+            # {"place-river", 34},
+            # {"place-clmnl", 47},
+            # {"place-lake", 65}
+            {"place-north", 0},
+            {"place-gover", 2},
+            {"place-pktrm", 3},
+            {"place-coecl", 6},
+            {"place-hsmnl", 17},
+            {"place-river", 32},
+            {"place-clmnl", 45}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
@@ -299,7 +308,11 @@ defmodule SiteWeb.ScheduleController.LineTest do
         Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
 
       assert Enum.each(four, &(Enum.count(branches(&1)) == 4))
-      assert stop_id(List.first(four)) == "place-lech"
+
+      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
+      # We are temporarily adding the fix but this will need to be undone later on.
+      # assert stop_id(List.first(four)) == "place-lech"
+      assert stop_id(List.first(four)) == "place-north"
       assert stop_id(List.last(four)) == "place-hsmnl"
 
       assert Enum.each(three, &(Enum.count(branches(&1)) == 3))
@@ -325,9 +338,18 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> build_stop_list(1)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
+      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
+      # We are temporarily adding the fix but this will need to be undone later on.
       for {id, idx} <- [
-            {"place-lech", 65},
-            {"place-north", 63},
+            # {"place-lech", 65},
+            # {"place-north", 63},
+            # {"place-gover", 61},
+            # {"place-pktrm", 60},
+            # {"place-coecl", 57},
+            # {"place-hsmnl", 46},
+            # {"place-river", 31},
+            # {"place-clmnl", 18},
+            # {"place-lake", 0}
             {"place-gover", 61},
             {"place-pktrm", 60},
             {"place-coecl", 57},
@@ -360,7 +382,10 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert stop_id(List.first(three)) == "place-river"
       assert stop_id(List.last(three)) == "place-hymnl"
       assert stop_id(List.first(four)) == "place-hsmnl"
-      assert stop_id(List.last(four)) == "place-lech"
+      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
+      # We are temporarily adding the fix but this will need to be undone later on.
+      # assert stop_id(List.last(four)) == "place-lech"
+      assert stop_id(List.last(four)) == "place-gover"
     end
   end
 
