@@ -19,7 +19,10 @@ defmodule GreenLine do
     {"Green-D", 0} => "place-river",
     {"Green-D", 1} => "place-gover",
     {"Green-E", 0} => "place-hsmnl",
-    {"Green-E", 1} => "place-lech"
+    # As of June 2020, Lechmere is closed for construction and the E-line will
+    # be terminating at Government Center for now.
+    # {"Green-E", 1} => "place-lech"
+    {"Green-E", 1} => "place-gover"
   }
 
   @doc """

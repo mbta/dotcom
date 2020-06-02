@@ -10,7 +10,7 @@ defmodule GreenLineTest do
       # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
       # We are temporarily adding the fix but this will need to be undone later on.
       # assert %Stops.Stop{id: "place-lech", name: "Lechmere"} = List.first(stops)
-      assert %Stops.Stop{id: "place-hsmnl", name: "Heath Street"} = List.first(stops)
+      assert %Stops.Stop{id: "place-north", name: "North Station"} = List.first(stops)
       assert %Stops.Stop{id: "place-lake", name: "Boston College"} = List.last(stops)
     end
 
@@ -55,9 +55,9 @@ defmodule GreenLineTest do
         "Green-E" ->
           [
             %Stops.Stop{id: "place-hsmnl"},
-            %Stops.Stop{id: "place-gover"},
-            %Stops.Stop{id: "place-north"},
-            %Stops.Stop{id: "place-lech"}
+            %Stops.Stop{id: "place-gover"}
+            # %Stops.Stop{id: "place-north"}
+            # %Stops.Stop{id: "place-lech"}
           ]
       end
     end
@@ -68,8 +68,12 @@ defmodule GreenLineTest do
       assert stop_map["Green-C"] == MapSet.new(["place-clmnl", "place-gover", "place-north"])
       assert stop_map["Green-D"] == MapSet.new(["place-river", "place-gover"])
 
+      # As of June 2020, Lechmere is closed for construction and the E-line will
+      # be terminating at Government Center for now.
+      # assert stop_map["Green-E"] ==
+      #          MapSet.new(["place-hsmnl", "place-gover", "place-north", "place-lech"])
       assert stop_map["Green-E"] ==
-               MapSet.new(["place-hsmnl", "place-gover", "place-north", "place-lech"])
+               MapSet.new(["place-hsmnl", "place-gover"])
     end
 
     test "a list of stops without duplicates is returned" do
@@ -80,7 +84,8 @@ defmodule GreenLineTest do
                  %Stops.Stop{id: "place-hsmnl"},
                  %Stops.Stop{id: "place-gover"},
                  %Stops.Stop{id: "place-north"},
-                 %Stops.Stop{id: "place-lech"},
+                 # As of June 2020, Lechmere is closed for construction
+                 #  %Stops.Stop{id: "place-lech"},
                  %Stops.Stop{id: "place-clmnl"},
                  %Stops.Stop{id: "place-river"}
                ])
@@ -113,7 +118,9 @@ defmodule GreenLineTest do
       assert terminus?(stop_id, "Green-D")
     end
 
-    for stop_id <- ["place-lech", "place-hsmnl"] do
+    # As of June 2020, Lechmere is closed for construction and the E-line will
+    # be terminating at Government Center for now.
+    for stop_id <- ["place-gover", "place-hsmnl"] do
       assert terminus?(stop_id, "Green-E")
     end
   end
@@ -121,8 +128,10 @@ defmodule GreenLineTest do
   test "terminus?/3" do
     assert terminus?("place-lake", "Green-B", 0)
     refute terminus?("place-lake", "Green-B", 1)
-    refute terminus?("place-lech", "Green-E", 0)
-    assert terminus?("place-lech", "Green-E", 1)
+    # As of June 2020, Lechmere is closed for construction and the E-line will
+    # be terminating at Government Center for now.
+    refute terminus?("place-gover", "Green-E", 0)
+    assert terminus?("place-gover", "Green-E", 1)
   end
 
   describe "naive_headsign/2" do
@@ -134,7 +143,9 @@ defmodule GreenLineTest do
       assert naive_headsign("Green-D", 0) == "Riverside"
       assert naive_headsign("Green-D", 1) == "Government Center"
       assert naive_headsign("Green-E", 0) == "Heath Street"
-      assert naive_headsign("Green-E", 1) == "Lechmere"
+      # As of June 2020, Lechmere is closed for construction and the E-line will
+      # be terminating at Government Center for now.
+      assert naive_headsign("Green-E", 1) == "Government Center"
     end
   end
 
