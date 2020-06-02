@@ -105,9 +105,16 @@ defmodule Stops.RouteStopsTest do
       stops = Stops.Repo.by_route("Green-E", 0)
       stops = RouteStops.by_direction(stops, shapes, route, 0)
 
+      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
+      # We are temporarily adding the fix but this will need to be undone later on.
+      # assert [
+      #          %Stops.RouteStops{
+      #            stops: [%Stops.RouteStop{id: "place-lech", is_terminus?: true} | _]
+      #          }
+      #        ] = stops
       assert [
                %Stops.RouteStops{
-                 stops: [%Stops.RouteStop{id: "place-lech", is_terminus?: true} | _]
+                 stops: [%Stops.RouteStop{id: "place-north", is_terminus?: true} | _]
                }
              ] = stops
     end

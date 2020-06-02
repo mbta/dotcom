@@ -7,7 +7,10 @@ defmodule GreenLineTest do
     test "returns ordered stops on the green line by direction ID" do
       {stops, _} = stops_on_routes(0)
 
-      assert %Stops.Stop{id: "place-lech", name: "Lechmere"} = List.first(stops)
+      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
+      # We are temporarily adding the fix but this will need to be undone later on.
+      # assert %Stops.Stop{id: "place-lech", name: "Lechmere"} = List.first(stops)
+      assert %Stops.Stop{id: "place-hsmnl", name: "Heath Street"} = List.first(stops)
       assert %Stops.Stop{id: "place-lake", name: "Boston College"} = List.last(stops)
     end
 
@@ -17,7 +20,9 @@ defmodule GreenLineTest do
       refute "place-lech" in route_id_stop_map["Green-B"]
       refute "place-lech" in route_id_stop_map["Green-C"]
       refute "place-lech" in route_id_stop_map["Green-D"]
-      assert "place-lech" in route_id_stop_map["Green-E"]
+      # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
+      # We are temporarily adding the fix but this will need to be undone later on.
+      refute "place-lech" in route_id_stop_map["Green-E"]
 
       assert "place-coecl" in route_id_stop_map["Green-B"]
       assert "place-coecl" in route_id_stop_map["Green-C"]

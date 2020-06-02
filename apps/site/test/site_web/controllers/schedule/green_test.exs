@@ -100,13 +100,21 @@ defmodule SiteWeb.ScheduleController.GreenTest do
     assert "place-lake" in all_stops
     assert "place-clmnl" in all_stops
     assert "place-river" in all_stops
-    assert "place-hsmnl" in all_stops
+
+    # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
+    # We are temporarily adding the fix but this will need to be undone later on.
+    # assert "place-hsmnl" in all_stops
+    assert "place-north" in all_stops
   end
 
   test "line tab :all_stops is a list of {bubble_info, %RouteStops{}} for all stops on all branches",
        %{conn: conn} do
     conn = get(conn, green_path(conn, :line, %{"schedule_direction[direction_id]": 0}))
-    assert [{_, %{id: "place-lech"}} | all_stops] = conn.assigns.all_stops
+
+    # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
+    # We are temporarily adding the fix but this will need to be undone later on.
+    # assert [{_, %{id: "place-lech"}} | all_stops] = conn.assigns.all_stops
+    assert [{_, %{id: "place-north"}} | all_stops] = conn.assigns.all_stops
 
     fenway = Enum.find(all_stops, fn {_, stop} -> stop.id == "place-fenwy" end)
     assert elem(fenway, 0) == [{"Green-B", :line}, {"Green-C", :line}, {"Green-D", :stop}]

@@ -372,11 +372,24 @@ defmodule SiteWeb.ScheduleControllerTest do
       # stops are in West order, Lechmere -> Boston College (last stop on B)
       {_, first_stop} = List.first(conn.assigns.all_stops)
       {_, last_stop} = List.last(conn.assigns.all_stops)
-      assert first_stop.id == "place-lech"
+
+      # As of June 2020, Lechmere has been closed so the commented lines will make the test fail.
+      # We are temporarily adding the fix but this will need to be undone later on.
+
+      # To be uncommented later:
+      # assert first_stop.id == "place-lech"
+      assert first_stop.id == "place-north"
       assert last_stop.id == "place-lake"
 
       # includes the stop features
-      assert first_stop.stop_features == [:bus, :access]
+      # assert first_stop.stop_features == [:bus, :access]
+      assert first_stop.stop_features == [
+               :orange_line,
+               :green_line_c,
+               :commuter_rail,
+               :access,
+               :parking_lot
+             ]
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
