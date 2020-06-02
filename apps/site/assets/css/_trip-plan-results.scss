@@ -107,4 +107,8 @@
   &-fare {
     padding-left: $base-spacing;
   }
+
+  &-fare + &-fare-title {
+    margin-top: 1rem;
+  }
 }

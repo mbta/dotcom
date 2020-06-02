@@ -1,7 +1,7 @@
 defmodule TripInfo do
   require Routes.Route
   alias Routes.Route
-  alias Fares.HighestLowestFare
+  alias Fares.OneWay
 
   @moduledoc """
   Wraps the important information about a trip.
@@ -113,7 +113,7 @@ defmodule TripInfo do
     trip = PredictedSchedule.trip(time)
     duration = duration(times, origin_id)
     stop_count = Enum.count(times)
-    base_fare = HighestLowestFare.lowest_fare(route, trip, origin_id, destination_id)
+    base_fare = OneWay.recommended_fare(route, trip, origin_id, destination_id)
 
     %TripInfo{
       route: route,

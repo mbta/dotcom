@@ -1,8 +1,9 @@
 defmodule SiteWeb.TripPlanControllerTest do
   use SiteWeb.ConnCase
+  alias Fares.Fare
   alias Site.TripPlan.Query
   alias SiteWeb.TripPlanController
-  alias TripPlan.{Api.MockPlanner}
+  alias TripPlan.{Api.MockPlanner, Itinerary, PersonalDetail, TransitDetail}
   import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
   doctest SiteWeb.TripPlanController
 
@@ -288,9 +289,9 @@ defmodule SiteWeb.TripPlanControllerTest do
 
       assert Enum.all?(conn.assigns.itineraries, fn itinerary ->
                Enum.all?(itinerary.legs, fn leg ->
-                 match?(%TripPlan.PersonalDetail{}, leg.mode) ||
+                 match?(%PersonalDetail{}, leg.mode) ||
                    match?(
-                     %TripPlan.TransitDetail{
+                     %TransitDetail{
                        fares: %{
                          highest_one_way_fare: %Fares.Fare{},
                          lowest_one_way_fare: %Fares.Fare{}
@@ -299,6 +300,15 @@ defmodule SiteWeb.TripPlanControllerTest do
                      leg.mode
                    )
                end)
+             end)
+    end
+
+    test "adds monthly pass data to each itinerary", %{conn: conn} do
+      conn = get(conn, trip_plan_path(conn, :index, @good_params))
+
+      assert Enum.all?(conn.assigns.itineraries, fn itinerary ->
+               %Itinerary{passes: %{base_month_pass: %Fare{}, recommended_month_pass: %Fare{}}} =
+                 itinerary
              end)
     end
 

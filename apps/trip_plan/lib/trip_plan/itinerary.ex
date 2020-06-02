@@ -6,10 +6,14 @@ defmodule TripPlan.Itinerary do
   travel. Itineraries are separate even if they use the same modes but happen
   at different times of day.
   """
+
+  alias Fares.Fare
+
   @enforce_keys [:start, :stop]
   defstruct [
     :start,
     :stop,
+    :passes,
     legs: [],
     accessible?: false
   ]
@@ -18,8 +22,15 @@ defmodule TripPlan.Itinerary do
           start: DateTime.t(),
           stop: DateTime.t(),
           legs: [TripPlan.Leg.t()],
-          accessible?: boolean
+          accessible?: boolean,
+          passes: passes()
         }
+
+  @type passes :: %{
+          base_month_pass: Fare.t(),
+          recommended_month_pass: Fare.t()
+        }
+
   alias TripPlan.NamedPosition
 
   @spec destination(t) :: NamedPosition.t()
