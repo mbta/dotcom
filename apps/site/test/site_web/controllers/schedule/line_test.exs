@@ -288,7 +288,8 @@ defmodule SiteWeb.ScheduleController.LineTest do
             {"place-coecl", 6},
             {"place-hsmnl", 17},
             {"place-river", 32},
-            {"place-clmnl", 45}
+            {"place-clmnl", 45},
+            {"place-lake", 63}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end

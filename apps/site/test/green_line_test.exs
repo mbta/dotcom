@@ -69,7 +69,7 @@ defmodule GreenLineTest do
       assert stop_map["Green-D"] == MapSet.new(["place-river", "place-gover"])
 
       # As of June 2020, Lechmere is closed for construction and the E-line will
-      # be terminating at Government Center for now.
+      # be terminating at North Station for now.
       # assert stop_map["Green-E"] ==
       #          MapSet.new(["place-hsmnl", "place-gover", "place-north", "place-lech"])
       assert stop_map["Green-E"] ==
@@ -119,8 +119,8 @@ defmodule GreenLineTest do
     end
 
     # As of June 2020, Lechmere is closed for construction and the E-line will
-    # be terminating at Government Center for now.
-    for stop_id <- ["place-gover", "place-hsmnl"] do
+    # be terminating at North Station for now.
+    for stop_id <- ["place-north", "place-hsmnl"] do
       assert terminus?(stop_id, "Green-E")
     end
   end
@@ -129,9 +129,9 @@ defmodule GreenLineTest do
     assert terminus?("place-lake", "Green-B", 0)
     refute terminus?("place-lake", "Green-B", 1)
     # As of June 2020, Lechmere is closed for construction and the E-line will
-    # be terminating at Government Center for now.
-    refute terminus?("place-gover", "Green-E", 0)
-    assert terminus?("place-gover", "Green-E", 1)
+    # be terminating at North Station for now.
+    refute terminus?("place-north", "Green-E", 0)
+    assert terminus?("place-north", "Green-E", 1)
   end
 
   describe "naive_headsign/2" do
@@ -144,8 +144,8 @@ defmodule GreenLineTest do
       assert naive_headsign("Green-D", 1) == "Government Center"
       assert naive_headsign("Green-E", 0) == "Heath Street"
       # As of June 2020, Lechmere is closed for construction and the E-line will
-      # be terminating at Government Center for now.
-      assert naive_headsign("Green-E", 1) == "Government Center"
+      # be terminating at North Station for now.
+      assert naive_headsign("Green-E", 1) == "North Station"
     end
   end
 
