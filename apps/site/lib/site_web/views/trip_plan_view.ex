@@ -8,7 +8,7 @@ defmodule SiteWeb.TripPlanView do
   alias Routes.Route
   alias Phoenix.{HTML, HTML.Form}
   alias SiteWeb.PartialView.SvgIconWithCircle
-  alias Fares.{Format}
+  alias Fares.{Fare, Format}
 
   import Schedules.Repo, only: [end_of_rating: 0]
 
@@ -559,6 +559,7 @@ defmodule SiteWeb.TripPlanView do
       fares_html =
         "_itinerary_fares.html"
         |> render_to_string(
+          itinerary: i,
           one_way_total: Format.price(fare),
           round_trip_total: Format.price(fare * 2)
         )
@@ -620,4 +621,15 @@ defmodule SiteWeb.TripPlanView do
       highest_one_way_fare + acc
     end)
   end
+
+  @spec monthly_pass(Fare.t() | nil) :: String.t()
+  def monthly_pass(nil), do: Format.full_name(nil)
+
+  def monthly_pass(fare) do
+    "#{cr_prefix(fare)}#{Format.full_name(fare)}: #{Format.price(fare)}"
+  end
+
+  @spec cr_prefix(Fare.t()) :: String.t()
+  defp cr_prefix(%Fare{mode: :commuter_rail}), do: "Commuter Rail "
+  defp cr_prefix(_), do: ""
 end

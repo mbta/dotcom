@@ -4,6 +4,7 @@ defmodule SiteWeb.TripPlanViewTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
   import UrlHelpers, only: [update_url: 2]
   import Schedules.Repo, only: [end_of_rating: 0]
+  alias Fares.Fare
   alias Routes.Route
   alias Site.TripPlan.{IntermediateStop, ItineraryRow, Query}
   alias TripPlan.Api.MockPlanner
@@ -525,6 +526,20 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
   describe "Fares logic" do
     @fares_assigns %{
+      itinerary: %{
+        passes: %{
+          base_month_pass: %Fare{
+            additional_valid_modes: [:bus],
+            cents: 9_000,
+            duration: :month,
+            media: [:charlie_card, :charlie_ticket],
+            mode: :subway,
+            name: :subway,
+            price_label: nil,
+            reduced: nil
+          }
+        }
+      },
       one_way_total: "$2.90",
       round_trip_total: "$5.80"
     }
@@ -535,8 +550,10 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> render(Map.put(@fares_assigns, :conn, conn))
         |> safe_to_string()
 
-      [{_, _, [one_way_fare]}, {_, _, [round_trip_fare]}] =
-        Floki.find(html, ".m-trip-plan-results__itinerary-fare")
+      [{_, _, [one_way_fare]}] = Floki.find(html, ".m-trip-plan-results__itinerary-fare--one-way")
+
+      [{_, _, [round_trip_fare]}] =
+        Floki.find(html, ".m-trip-plan-results__itinerary-fare--round-trip")
 
       assert one_way_fare == "$2.90 one way"
       assert round_trip_fare == "$5.80 round trip"
@@ -628,6 +645,38 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       }
 
       assert get_highest_one_way_fare(itinerary) == 290
+    end
+  end
+
+  describe "monthly_pass" do
+    test "Formats the media type and price" do
+      fare = %Fare{
+        additional_valid_modes: [:bus],
+        cents: 9_000,
+        duration: :month,
+        media: [:charlie_card, :charlie_ticket],
+        mode: :subway,
+        name: :subway,
+        price_label: nil,
+        reduced: nil
+      }
+
+      assert monthly_pass(fare) == "Monthly LinkPass: $90.00"
+    end
+
+    test "Includes the zone for CR trips" do
+      fare = %Fare{
+        additional_valid_modes: [:subway, :bus, :ferry],
+        cents: 36_000,
+        duration: :month,
+        media: [:commuter_ticket],
+        mode: :commuter_rail,
+        name: {:zone, "7"},
+        price_label: nil,
+        reduced: nil
+      }
+
+      assert monthly_pass(fare) == "Commuter Rail Zone 7 Monthly Pass: $360.00"
     end
   end
 end
