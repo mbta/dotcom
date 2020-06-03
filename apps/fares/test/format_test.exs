@@ -75,6 +75,35 @@ defmodule Fares.FormatTest do
     end
   end
 
+  describe "full_name/1" do
+    test "gives a name for monthly Subway passes" do
+      assert full_name(%Fare{mode: :subway, duration: :month}) == "Monthly LinkPass"
+    end
+
+    test "gives a name for weekend CR passes" do
+      assert full_name(%Fare{mode: :commuter_rail, duration: :weekend}) == "Weekend Pass"
+    end
+
+    test "gives a name for week and day passes" do
+      assert full_name(%Fare{duration: :week}) == "7-Day Pass"
+      assert full_name(%Fare{duration: :day}) == "1-Day Pass"
+    end
+
+    test "gives a name for ADA and premium rides" do
+      assert full_name(%Fare{name: :ada_ride}) == "ADA Ride Fare"
+      assert full_name(%Fare{name: :premium_ride}) == "Premium Ride Fare"
+    end
+
+    test "gives a name for a Shuttle which doesn't have an associated fare" do
+      assert full_name(nil) == "Shuttle"
+    end
+
+    test "gives the name and duration for all other fares" do
+      assert full_name(%Fare{name: :commuter_ferry, duration: :month}) ==
+               ["Hingham/Hull Ferry", " ", "Monthly Pass"]
+    end
+  end
+
   test "duration/1" do
     assert duration(%Fare{duration: :single_trip}) == "One-Way"
     assert duration(%Fare{duration: :round_trip}) == "Round Trip"
