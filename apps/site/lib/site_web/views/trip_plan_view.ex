@@ -535,7 +535,7 @@ defmodule SiteWeb.TripPlanView do
         {:ok, route_id} = Leg.route_id(leg)
         route_id
       end)
-      |> Transfer.is_maybe_transfer
+      |> Transfer.is_maybe_transfer()
     end)
     |> transfer_note_text
   end
@@ -659,8 +659,7 @@ defmodule SiteWeb.TripPlanView do
         # Check previous leg to determine if this one is making a transfer, in
         # which case we might want to add an amount different from the highest
         # one-way fare
-        leg_pair =
-          [Enum.at(transit_legs, leg_index - 1), leg]
+        leg_pair = [Enum.at(transit_legs, leg_index - 1), leg]
 
         # if this is part of a free transfer... don't add anything!
         if Transfer.is_free_transfer(leg_pair) do

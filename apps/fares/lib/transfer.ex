@@ -71,8 +71,8 @@ defmodule Fares.Transfer do
   def is_free_transfer(leg_pair) when has_nil(leg_pair), do: nil
 
   def is_free_transfer([%{:to => nil} | _]), do: nil
-  def is_free_transfer([%{:to => %{:stop_id => xfer_stop}} | _] = leg_pair) do
 
+  def is_free_transfer([%{:to => %{:stop_id => xfer_stop}} | _] = leg_pair) do
     xfer_lines = lines_for_xfer_stop(xfer_stop)
 
     if xfer_lines do
