@@ -50,8 +50,6 @@ const ScheduleDirectionMenu = ({
   itemFocus,
   dispatch
 }: Props): ReactElement<HTMLElement> => {
-  const clickableMenu = routePatternsByDirection[directionId].length > 1;
-
   const routePatterns = routePatternsByDirection[directionId];
 
   useEffect(() => {
@@ -64,7 +62,6 @@ const ScheduleDirectionMenu = ({
       {// bus mode
       route.type === 3 && (
         <BusMenuSelect
-          clickableMenu={clickableMenu}
           routePatterns={routePatternsByDirection[directionId]}
           selectedRoutePatternId={selectedRoutePatternId}
           dispatch={dispatch}

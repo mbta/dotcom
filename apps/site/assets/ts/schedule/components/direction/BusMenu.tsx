@@ -29,7 +29,6 @@ interface RoutePatternItem {
 }
 
 interface BusMenuSelectProps {
-  clickableMenu: boolean;
   routePatterns: EnhancedRoutePattern[];
   selectedRoutePatternId: string;
   dispatch: Dispatch<MenuAction>;
@@ -191,19 +190,20 @@ const routePatternNameById = (
   )!.headsign;
 
 export const BusMenuSelect = ({
-  clickableMenu,
   routePatterns,
   selectedRoutePatternId,
   dispatch
 }: BusMenuSelectProps): ReactElement<HTMLElement> => {
-  const handleClick = clickableMenu
+  const isMenuClickable = routePatterns.length > 1;
+
+  const handleClick = isMenuClickable
     ? () => {
         dispatch({ type: "toggleRoutePatternMenu", payload: {} });
       }
     : /* istanbul ignore next */
       () => {};
 
-  const linkClass = clickableMenu
+  const linkClass = isMenuClickable
     ? " m-schedule-direction__route-pattern--clickable"
     : "";
 
@@ -211,8 +211,8 @@ export const BusMenuSelect = ({
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-      tabIndex={clickableMenu ? 0 : undefined}
-      role={clickableMenu ? "button" : undefined}
+      tabIndex={isMenuClickable ? 0 : undefined}
+      role={isMenuClickable ? "button" : undefined}
       className={`m-schedule-direction__route-pattern${linkClass}`}
       onClick={handleClick}
       onKeyUp={e =>
@@ -222,7 +222,7 @@ export const BusMenuSelect = ({
       }
     >
       {routePatternNameById(routePatterns, selectedRoutePatternId)}{" "}
-      {clickableMenu &&
+      {isMenuClickable &&
         renderSvg(
           "c-svg__icon m-schedule-direction__route-pattern-arrow",
           arrowIcon
