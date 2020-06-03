@@ -252,7 +252,7 @@ defmodule SiteWeb.StopControllerTest do
                  lifecycle: :upcoming,
                  priority: :low,
                  severity: 5,
-                 updated_at: "Updated: 4/15/2019 05:54A"
+                 updated_at: "Updated: 4/15/2019 5:54 AM"
                }
              ] =
                StopController.json_safe_alerts(

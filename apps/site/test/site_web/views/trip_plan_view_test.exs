@@ -210,7 +210,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
     test "returns formatted time when trip is not available" do
       row = %ItineraryRow{trip: nil, departure: @time}
-      assert stop_departure_display(row) == {:render, "11:43A"}
+      assert stop_departure_display(row) == {:render, "11:43 AM"}
     end
   end
 
@@ -220,8 +220,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "renders time when given one" do
-      text = {:render, "11:00A"} |> render_stop_departure_display() |> safe_to_string
-      assert text =~ "11:00A"
+      text = {:render, "11:00 AM"} |> render_stop_departure_display() |> safe_to_string
+      assert text =~ "11:00 AM"
     end
   end
 

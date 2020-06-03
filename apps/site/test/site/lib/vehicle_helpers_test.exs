@@ -142,8 +142,8 @@ defmodule Site.VehicleHelpersTest do
   describe "tooltip/1" do
     test "when there is no prediction, there is no prediction time" do
       tooltip = %{@tooltip_base | prediction: nil}
-      assert tooltip(@tooltip_base) =~ "11:00A"
-      refute tooltip(tooltip) =~ "11:00A"
+      assert tooltip(@tooltip_base) =~ "11:00 AM"
+      refute tooltip(tooltip) =~ "11:00 AM"
     end
 
     test "when a prediction has a time, gives the arrival time" do
@@ -156,7 +156,7 @@ defmodule Site.VehicleHelpersTest do
           }
       }
 
-      assert tooltip(tooltip) =~ "Expected arrival at 01:00P"
+      assert tooltip(tooltip) =~ "Expected arrival at 1:00 PM"
     end
 
     test "when a prediction is departing, gives the departing time" do
@@ -169,7 +169,7 @@ defmodule Site.VehicleHelpersTest do
           }
       }
 
-      assert tooltip(tooltip) =~ "Expected departure at 12:00P"
+      assert tooltip(tooltip) =~ "Expected departure at 12:00 PM"
     end
 
     test "when a prediction does not have a time, gives nothing" do
@@ -212,7 +212,7 @@ defmodule Site.VehicleHelpersTest do
         | prediction: %{@tooltip_base.prediction | status: nil, time: ~N[2017-01-01T12:00:00]}
       }
 
-      assert tooltip(tooltip) =~ "12:00P"
+      assert tooltip(tooltip) =~ "12:00 PM"
     end
 
     test "when there is a status but no time for the prediction, gives a tooltip with the status" do

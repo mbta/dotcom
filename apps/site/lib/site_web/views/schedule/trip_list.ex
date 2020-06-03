@@ -80,20 +80,20 @@ defmodule SiteWeb.ScheduleView.TripList do
         %Schedules.Frequency{time_block: :early_morning},
         %Schedules.Departures{} = departure
       ) do
-    "#{ViewHelpers.format_schedule_time(departure.first_departure)} - 6:30A"
+    "#{ViewHelpers.format_schedule_time(departure.first_departure)} - 6:30 AM"
   end
 
-  def frequency_block_name(%Schedules.Frequency{time_block: :am_rush}, _), do: "6:30A - 9:30A"
-  def frequency_block_name(%Schedules.Frequency{time_block: :midday}, _), do: "9:30A - 3:30P"
-  def frequency_block_name(%Schedules.Frequency{time_block: :pm_rush}, _), do: "3:30P - 6:30P"
-  def frequency_block_name(%Schedules.Frequency{time_block: :evening}, _), do: "6:30P - 9:00P"
-  def frequency_block_name(%Schedules.Frequency{time_block: :night}, _), do: "9:00P - 12:00A"
+  def frequency_block_name(%Schedules.Frequency{time_block: :am_rush}, _), do: "6:30 AM - 9:30 AM"
+  def frequency_block_name(%Schedules.Frequency{time_block: :midday}, _), do: "9:30 AM - 3:30 PM"
+  def frequency_block_name(%Schedules.Frequency{time_block: :pm_rush}, _), do: "3:30 PM - 6:30 PM"
+  def frequency_block_name(%Schedules.Frequency{time_block: :evening}, _), do: "6:30 PM - 9:00 PM"
+  def frequency_block_name(%Schedules.Frequency{time_block: :night}, _), do: "9:00 PM - 12:00 AM"
 
   def frequency_block_name(
         %Schedules.Frequency{time_block: :late_night},
         %Schedules.Departures{} = departure
       ) do
-    "12:00A - #{ViewHelpers.format_schedule_time(departure.last_departure)}"
+    "12:00 AM - #{ViewHelpers.format_schedule_time(departure.last_departure)}"
   end
 
   @spec stop_name_link_with_alerts(String.t(), String.t(), [Alerts.Alert.t()]) ::

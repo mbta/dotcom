@@ -65,7 +65,7 @@ defmodule SiteWeb.AlertViewTest do
       date = ~D[2016-10-05]
       alert = %Alert{updated_at: now}
 
-      expected = "Updated: Today at 12:02A"
+      expected = "Updated: Today at 12:02 AM"
       actual = alert |> alert_updated(date) |> :erlang.iolist_to_binary()
       assert actual == expected
     end
@@ -76,7 +76,7 @@ defmodule SiteWeb.AlertViewTest do
 
       alert = %Alert{updated_at: now}
 
-      expected = "Updated: 10/5/2016 12:02A"
+      expected = "Updated: 10/5/2016 12:02 AM"
       actual = alert |> alert_updated(date) |> :erlang.iolist_to_binary()
       assert actual == expected
     end
