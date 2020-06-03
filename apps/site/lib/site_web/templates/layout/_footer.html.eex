@@ -59,6 +59,7 @@
           <li class="m-footer__item"><%= link "Developers", to: cms_static_page_path(@conn, "/developers"), data: [scroll: true] %></li>
           <li class="m-footer__item"><%= link "Financials", to: cms_static_page_path(@conn, "/financials"), data: [scroll: true]  %></li>
           <li class="m-footer__item"><%= link "Innovation", to: cms_static_page_path(@conn, "/innovation") %></li>
+          <li class="m-footer__item"><%= link "Engineering Design Standards", to: cms_static_page_path(@conn, "/engineering/design-standards-and-guidelines") %></li>
         </ul>
       </li>
       <li class="m-footer__group m-footer--mobile__group">

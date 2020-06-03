@@ -22,6 +22,7 @@
       <%= render "_link.html", text: "Developers", href: cms_static_page_path(@conn, "/developers"), class: "col-xs-12 col-sm-4" %>
       <%= render "_link.html", text: "Financials", href: cms_static_page_path(@conn, "/financials"), class: "col-xs-12 col-sm-4" %>
       <%= render "_link.html", text: "Innovation", href: cms_static_page_path(@conn, "/innovation"), class: "col-xs-12 col-sm-4" %>
+      <%= render "_link.html", text: "Engineering Design Standards", href: cms_static_page_path(@conn, "/engineering/design-standards-and-guidelines"), class: "col-xs-12 col-sm-4" %>
     </div>
     <h2>Improvements & Projects</h2>
     <div class="c-grid-buttons">
