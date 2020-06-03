@@ -4,7 +4,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   alias GoogleMapData.Path
   alias Leaflet.{MapData, MapData.Marker, MapData.Polyline}
   alias Stops.{RouteStops, RouteStop, Repo, Stop}
-  alias Routes.{Shape, Route}
+  alias Routes.{Route, Shape}
   alias Site.MapHelpers
   alias Site.MapHelpers.Markers
 
@@ -12,7 +12,8 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   Handles Map information for the line controller
   """
 
-  def map_img_src(_, _, %Routes.Route{type: 4}) do
+  @spec map_img_src({any, [Shape.t()]}, [Shape.t()], Route.t()) :: String.t()
+  def map_img_src(_, _, %Route{type: 4}) do
     MapHelpers.image(:ferry)
   end
 
@@ -117,6 +118,12 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   is the url for the static map, and the second element is the MapData
   struct used to build the dynamic map
   """
+  @spec map_data(
+          Route.t(),
+          {any, [Shape.t()]},
+          [String.t()] | any,
+          VehicleHelpers.tooltip_index() | [] | nil
+        ) :: {String.t(), MapData.t()}
   def map_data(route, map_route_stops, [], []) do
     map_shapes = map_polylines(map_route_stops, route)
     static_data = map_img_src(map_route_stops, [], route)
@@ -139,8 +146,8 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     {static_data, dynamic_data}
   end
 
-  @spec map_polylines({any, [Routes.Shape.t()]}, Route.t()) :: [Shape.t()]
-  defp map_polylines(_, %Routes.Route{type: 4}), do: []
+  @spec map_polylines({any, [Shape.t()]}, Route.t()) :: [Shape.t()]
+  defp map_polylines(_, %Route{type: 4}), do: []
 
   defp map_polylines({_stops, shapes}, _), do: shapes
 

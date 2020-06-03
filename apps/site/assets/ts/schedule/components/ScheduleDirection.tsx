@@ -51,6 +51,7 @@ export const fetchMapData = (
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
 };
+
 export const fetchLineData = (
   routeId: string,
   directionId: DirectionId,
@@ -73,6 +74,7 @@ export const fetchLineData = (
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
 };
+
 const ScheduleDirection = ({
   route,
   directionId,
