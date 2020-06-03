@@ -10,6 +10,7 @@ import { Dispatch } from "../state";
 import { directionIsEmpty } from "../../components/Direction";
 import { modeByV3ModeType } from "../../components/ModeFilter";
 import { alertIcon } from "../../helpers/icon";
+import { isABusRoute } from "../../models/route";
 
 interface Props {
   route: RouteWithStopsWithDirections;
@@ -29,7 +30,7 @@ const filterStops = (
 ): StopWithDirections[] => {
   // show the closest two stops for bus, in order to display both inbound and outbound stops
 
-  const count = route.route.type === 3 ? 2 : 1;
+  const count = isABusRoute(route.route) ? 2 : 1;
   return route.stops_with_directions.slice(0, count);
 };
 
@@ -57,12 +58,12 @@ export const routeBgColor = (route: RouteWithStopsWithDirections): string => {
   if (route.route.id === "Blue") return "blue-line";
   if (route.route.id.startsWith("Green-")) return "green-line";
   if (isSilverLine(route)) return "silver-line";
-  if (route.route.type === 3) return "bus";
+  if (isABusRoute(route.route)) return "bus";
   return "unknown";
 };
 
 export const busClass = (route: RouteWithStopsWithDirections): string =>
-  route.route.type === 3 && !isSilverLine(route) ? "bus-route-sign" : "";
+  isABusRoute(route.route) && !isSilverLine(route) ? "bus-route-sign" : "";
 
 const RouteCard = ({
   route,

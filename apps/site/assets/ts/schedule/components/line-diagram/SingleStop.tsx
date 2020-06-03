@@ -7,6 +7,7 @@ import {
   parkingIcon,
   accessibleIcon
 } from "../../../helpers/icon";
+import { isABusRoute, isAGreenLineRoute } from "../../../models/route";
 import { Alert, Route } from "../../../__v3api";
 import { LiveData } from "./LineDiagram";
 import StopPredictions from "./StopPredictions";
@@ -43,7 +44,7 @@ const busBackgroundClass = (connection: Route): string =>
   connection.name.startsWith("SL") ? "u-bg--silver-line" : "u-bg--bus";
 
 const connectionName = (connection: Route): string => {
-  if (connection.type === 3) {
+  if (isABusRoute(connection)) {
     return connection.name.startsWith("SL")
       ? `Silver Line ${connection.name}`
       : `Route ${connection.name}`;
@@ -68,7 +69,7 @@ const StopConnections = (connections: RouteStopRoute[]): JSX.Element => (
           animation: "false"
         }}
       >
-        {connectingRoute.type === 3 ? (
+        {isABusRoute(connectingRoute) ? (
           <span
             key={connectingRoute.id}
             className={`c-icon__bus-pill--small m-schedule-diagram__connection ${busBackgroundClass(
@@ -135,7 +136,7 @@ const StopFeatures = (routeStop: RouteStop): JSX.Element => (
 const StopBranchLabel = (stop: RouteStop): JSX.Element | null =>
   stop["is_terminus?"] && !!stop.branch && !!stop.route ? (
     <div className="u-bold u-small-caps">
-      {stop.route.id.startsWith("Green")
+      {isAGreenLineRoute(stop.route)
         ? `Green Line ${stop.route.id.split("-")[1]}`
         : stop.name}
       {stop.route.type === 2 ? " Line" : " Branch"}

@@ -5,6 +5,7 @@ import { MenuAction, closeRoutePatternMenuAction } from "./reducer";
 import { GreenLineSelect, ExpandedGreenMenu } from "./GreenLineMenu";
 import { BusMenuSelect, ExpandedBusMenu } from "./BusMenu";
 import { handleNativeEscapeKeyPress } from "../../../helpers/keyboard-events";
+import { isABusRoute, isAGreenLineRoute } from "../../../models/route";
 
 interface Props {
   route: EnhancedRoute;
@@ -60,7 +61,7 @@ const ScheduleDirectionMenu = ({
   return (
     <div className="js-m-schedule-click-boundary">
       {// bus mode
-      route.type === 3 && (
+      isABusRoute(route) && (
         <BusMenuSelect
           routePatterns={routePatternsByDirection[directionId]}
           selectedRoutePatternId={selectedRoutePatternId}
@@ -68,7 +69,7 @@ const ScheduleDirectionMenu = ({
         />
       )}
       {// Green Line
-      route.id.startsWith("Green") && (
+      isAGreenLineRoute(route) && (
         <GreenLineSelect
           routeId={route.id}
           dispatch={dispatch}
@@ -87,7 +88,7 @@ const ScheduleDirectionMenu = ({
           {route.direction_destinations[directionId]}
         </div>
       )}
-      {menuOpen && route.type === 3 && (
+      {menuOpen && isABusRoute(route) && (
         <ExpandedBusMenu
           routePatterns={routePatterns}
           selectedRoutePatternId={selectedRoutePatternId}
@@ -96,7 +97,7 @@ const ScheduleDirectionMenu = ({
           dispatch={dispatch}
         />
       )}
-      {menuOpen && route.id.startsWith("Green") && (
+      {menuOpen && isAGreenLineRoute(route) && (
         <ExpandedGreenMenu directionId={directionId} route={route} />
       )}
     </div>

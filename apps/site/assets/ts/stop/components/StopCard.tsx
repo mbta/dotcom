@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { Stop, EnhancedRoute, DirectionId } from "../../__v3api";
 import { RouteWithDirection } from "./__stop";
 import { modeIcon } from "../../helpers/icon";
+import { isABusRoute } from "../../models/route";
 import accessible from "./StopAccessibilityIcon";
 
 const formatMilesToFeet = (miles: number): number => Math.floor(miles * 5280.0);
@@ -72,7 +73,7 @@ const StopCard = ({
             className="c-stop-card__route"
             key={`suggestedTransferRoute${route.id}`}
           >
-            {route.type === 3 && !route.name.startsWith("SL") ? (
+            {isABusRoute(route) && !route.name.startsWith("SL") ? (
               <div className="c-stop-card__bus-pill u-bg--bus u-small-class">
                 {route.name}
               </div>
