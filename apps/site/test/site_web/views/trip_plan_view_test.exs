@@ -8,7 +8,7 @@ defmodule SiteWeb.TripPlanViewTest do
   alias Routes.Route
   alias Site.TripPlan.{IntermediateStop, ItineraryRow, Query}
   alias TripPlan.Api.MockPlanner
-  alias TripPlan.{Itinerary, Leg, TransitDetail}
+  alias TripPlan.{Itinerary, Leg, TransitDetail, NamedPosition}
 
   describe "itinerary_explanation/2" do
     @base_explanation_query %Query{
@@ -551,7 +551,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "no note for subway-subway transfer" do
-      note = %{@base_itinerary | legs: [@subway_leg, @other_subway_leg]} |> transfer_note
+      leg1 = %{@subway_leg | to: %{stop_id: "place-dwnxg"}}
+      leg2 = %{@other_subway_leg | from: %{stop_id: "place-dwnxg"}}
+      note = %{@base_itinerary | legs: [leg1, leg2]} |> transfer_note
       refute note
     end
   end
@@ -759,6 +761,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     test "gets the highest one-way fare correctly with subway -> subway xfer" do
       subway_leg_for_route =
         &%Leg{
+          from: %NamedPosition{},
+          to: %NamedPosition{},
           mode: %TransitDetail{
             route_id: &1,
             fares: %{
@@ -786,13 +790,24 @@ closest arrival to 12:00 AM, Thursday, January 1st."
           }
         }
 
+      red_leg = %{
+        subway_leg_for_route.("Red")
+        | to: %NamedPosition{
+            stop_id: "place-dwnxg"
+          }
+      }
+
+      orange_leg = %{
+        subway_leg_for_route.("Orange")
+        | from: %NamedPosition{
+            stop_id: "place-dwnxg"
+          }
+      }
+
       itinerary = %TripPlan.Itinerary{
         start: nil,
         stop: nil,
-        legs: [
-          subway_leg_for_route.("Red"),
-          subway_leg_for_route.("Orange")
-        ]
+        legs: [red_leg, orange_leg]
       }
 
       assert get_highest_one_way_fare(itinerary) == 290

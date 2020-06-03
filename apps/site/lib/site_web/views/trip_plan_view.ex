@@ -525,11 +525,18 @@ defmodule SiteWeb.TripPlanView do
 
   @spec transfer_note(Itinerary.t()) :: String.t() | nil
   def transfer_note(itinerary) do
-    itinerary
-    |> Itinerary.route_ids()
+    itinerary.legs
+    |> Stream.filter(&Leg.transit?/1)
     |> Stream.chunk_every(2, 1, :discard)
     |> Stream.reject(&Transfer.is_free_transfer(&1))
-    |> Enum.find(&Transfer.is_maybe_transfer(&1))
+    |> Enum.find(fn leg_pair ->
+      leg_pair
+      |> Enum.map(fn leg ->
+        {:ok, route_id} = Leg.route_id(leg)
+        route_id
+      end)
+      |> Transfer.is_maybe_transfer
+    end)
     |> transfer_note_text
   end
 
@@ -652,20 +659,14 @@ defmodule SiteWeb.TripPlanView do
         # Check previous leg to determine if this one is making a transfer, in
         # which case we might want to add an amount different from the highest
         # one-way fare
-        route_id_pair =
+        leg_pair =
           [Enum.at(transit_legs, leg_index - 1), leg]
-          |> Enum.map(fn leg ->
-            {:ok, route_id} = Leg.route_id(leg)
-            route_id
-          end)
 
         # if this is part of a free transfer... don't add anything!
-        case Transfer.is_free_transfer(route_id_pair) do
-          true ->
-            acc
-
-          _ ->
-            acc + get_highest_one_way_fare_for_leg(leg)
+        if Transfer.is_free_transfer(leg_pair) do
+          acc
+        else
+          acc + get_highest_one_way_fare_for_leg(leg)
         end
       end
     end)

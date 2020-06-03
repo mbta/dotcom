@@ -8,6 +8,7 @@ defmodule Fares.Transfer do
   """
   require Fares
   alias Routes.{Repo, Route}
+  alias TripPlan.Leg
 
   defguard has_nil(pair)
            when is_nil(elem(pair, 0)) or
@@ -52,27 +53,47 @@ defmodule Fares.Transfer do
   # No transfer between the same local bus route.
   def is_maybe_transfer(route_pair) do
     atom_pair = Enum.map(route_pair, &to_fare_atom(&1))
+
     if Enum.at(route_pair, 0) === Enum.at(route_pair, 1) &&
          Enum.all?(atom_pair, &(&1 === :bus)) do
       nil
     else
-
       Enum.member?(@single_ride_valid_transfers, atom_pair)
     end
   end
 
   @doc """
-  Takes a pair of routes and returns true if there is a free transfer between
+  Takes a pair of legs and returns true if there is a free transfer between
   the two, based on the list in @underground_xfers
   """
-  @spec is_free_transfer([Route.id_t()]) :: boolean | nil
-  def is_free_transfer(route_pair) when has_nil(route_pair), do: nil
+  @spec is_free_transfer([Leg.id_t()]) :: boolean | nil
+  def is_free_transfer(leg_pair) when has_nil(leg_pair), do: nil
+  def is_free_transfer(leg_pair) when has_nil(leg_pair), do: nil
 
-  def is_free_transfer(route_pair) do
-    Enum.map(@underground_xfers, &Map.get(&1, :lines))
-    |> Enum.any?(fn xfer_stations ->
-      Enum.all?(route_pair, &Enum.member?(xfer_stations, &1))
+  def is_free_transfer([%{:to => nil} | _]), do: nil
+  def is_free_transfer([%{:to => %{:stop_id => xfer_stop}} | _] = leg_pair) do
+
+    xfer_lines = lines_for_xfer_stop(xfer_stop)
+
+    if xfer_lines do
+      leg_pair
+      |> Enum.map(&Leg.route_id(&1))
+      |> Enum.all?(fn {:ok, route_id} ->
+        Enum.member?(xfer_lines, route_id)
+      end)
+    else
+      false
+    end
+  end
+
+  @spec lines_for_xfer_stop(String.t()) :: [Route.id_t()]
+  defp lines_for_xfer_stop(nil), do: nil
+
+  defp lines_for_xfer_stop(stop_id) do
+    Enum.find(@underground_xfers, %{}, fn %{:stop => stop} ->
+      stop == stop_id
     end)
+    |> Map.get(:lines)
   end
 
   @spec to_fare_atom(fare_atom | Route.id_t() | Route.t()) :: fare_atom

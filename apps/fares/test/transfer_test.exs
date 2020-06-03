@@ -3,6 +3,7 @@ defmodule TransferTest do
   use ExUnit.Case
 
   import Fares.Transfer
+  alias TripPlan.{Leg, TransitDetail, NamedPosition}
 
   describe "is_maybe_transfer/1 correctly identifies the potential presence of a transfer [assumes single ride media]" do
     test "subway -> subway" do
@@ -80,10 +81,47 @@ defmodule TransferTest do
 
   describe "is_free_transfer/1 correctly identifies a free underground subway transfer" do
     test "Red -> Blue" do
-      refute ["Red", "Blue"] |> is_free_transfer
+      red = %Leg{
+        mode: %TransitDetail{
+          route_id: "Red"
+        },
+        to: %NamedPosition{
+          stop_id: "red-blue-connector"
+        }
+      }
+
+      blue = %Leg{
+        mode: %TransitDetail{
+          route_id: "Blue"
+        },
+        from: %NamedPosition{
+          stop_id: "red-blue-connector"
+        }
+      }
+
+      refute [red, blue] |> is_free_transfer
     end
-    test "Red -> Orange" do
-      assert ["Red", "Orange"] |> is_free_transfer
+
+    test "Red -> Orange via DTX" do
+      red_to_dtx = %Leg{
+        mode: %TransitDetail{
+          route_id: "Red"
+        },
+        to: %NamedPosition{
+          stop_id: "place-dwnxg"
+        }
+      }
+
+      orange_from_dtx = %Leg{
+        mode: %TransitDetail{
+          route_id: "Orange"
+        },
+        from: %NamedPosition{
+          stop_id: "place-dwnxg"
+        }
+      }
+
+      assert [red_to_dtx, orange_from_dtx] |> is_free_transfer
     end
   end
 end
