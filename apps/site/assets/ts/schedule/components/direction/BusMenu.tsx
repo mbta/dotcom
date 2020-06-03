@@ -169,14 +169,17 @@ export const ExpandedBusMenu = ({
     showAllRoutePatterns ? true : routePattern.typicality < 3;
 
   const focusIndex = determineFocusIndex(itemFocus, routePatterns);
+
   const toggleButtonIds =
     hasMoreRoutePatterns(routePatterns) && showAllRoutePatterns === false
       ? ["uncommon"]
       : [];
+
   const routePatternIds = routePatterns
     .filter(filterRule)
     .map((routePattern: EnhancedRoutePattern) => routePattern.id)
     .concat(toggleButtonIds);
+
   return (
     <div className="m-schedule-direction__menu" role="menu">
       {routePatterns

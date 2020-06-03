@@ -2,9 +2,13 @@ import React, { Dispatch } from "react";
 import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import { EnhancedRoutePattern } from "../components/__schedule";
-import { BusMenuSelect } from "../components/direction/BusMenu";
+import {
+  BusMenuSelect,
+  ExpandedBusMenu
+} from "../components/direction/BusMenu";
 import {
   MenuAction,
+  setRoutePatternAction,
   toggleRoutePatternMenuAction
 } from "../components/direction/reducer";
 
@@ -89,5 +93,45 @@ describe("BusMenuSelect", () => {
 
     wrapper.find(".m-schedule-direction__route-pattern").simulate("click");
     expect(mockDisptach).toHaveBeenCalledWith(toggleRoutePatternMenuAction());
+  });
+});
+
+describe("ExpandedBusMenu", () => {
+  it("renders a menu", () => {
+    const tree = renderer
+      .create(
+        <ExpandedBusMenu
+          routePatterns={routePatterns}
+          selectedRoutePatternId="66-6-0"
+          showAllRoutePatterns={false}
+          itemFocus={"first"}
+          dispatch={mockDisptach}
+        />
+      )
+      .toJSON();
+
+    expect(tree).toMatchSnapshot();
+  });
+
+  it("selects a new route pattern when an item is clicked on", () => {
+    const wrapper = mount(
+      <ExpandedBusMenu
+        routePatterns={routePatterns}
+        selectedRoutePatternId="66-6-0"
+        showAllRoutePatterns={true}
+        itemFocus={"first"}
+        dispatch={mockDisptach}
+      />
+    );
+
+    expect(wrapper.find(".m-schedule-direction__menu-item")).toHaveLength(2);
+
+    const routePattern = routePatterns[1];
+    expect(wrapper.find(`#route-pattern_${routePattern.id}`)).toHaveLength(1);
+    wrapper.find(`#route-pattern_${routePattern.id}`).simulate("click");
+
+    expect(mockDisptach).toHaveBeenCalledWith(
+      setRoutePatternAction(routePattern)
+    );
   });
 });
