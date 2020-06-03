@@ -33,6 +33,11 @@ interface RoutePatternItem {
   dispatch: Dispatch<MenuAction>;
 }
 
+interface UncommonDestinationsItem {
+  routePatternIds: string[];
+  dispatch: Dispatch<MenuAction>;
+}
+
 interface BusMenuSelectProps {
   routePatterns: EnhancedRoutePattern[];
   selectedRoutePatternId: string;
@@ -54,12 +59,15 @@ const RoutePatternItem = ({
   dispatch
 }: RoutePatternItem): ReactElement<HTMLElement> => {
   const selectedClass = selected ? " m-schedule-direction__menu--selected" : "";
+
   const icon = selected ? (
     <div className="m-schedule-direction__checkmark">
       {renderSvg("c-svg__icon", checkIcon)}
     </div>
   ) : null;
+
   const handleClick = (): void => dispatch(setRoutePatternAction(routePattern));
+
   return (
     <div
       aria-current={selected ? "page" : undefined}
@@ -86,6 +94,40 @@ const RoutePatternItem = ({
         {duplicated && `from ${routePattern.name.split(" - ")[0]}, `}
         {routePattern.time_desc ||
           typicalityDefaultText(routePattern.typicality)}
+      </div>
+    </div>
+  );
+};
+
+const UncommonDestinationsItem = ({
+  routePatternIds,
+  dispatch
+}: UncommonDestinationsItem): ReactElement<HTMLElement> => {
+  const handleClick = (): void => dispatch(showAllRoutePatternsAction());
+
+  return (
+    <div
+      id="route-pattern_uncommon"
+      role="menuitem"
+      tabIndex={0}
+      aria-label="click for additional routes"
+      className="m-schedule-direction__menu-item"
+      onClick={handleClick}
+      onKeyUp={(e: ReactKeyboardEvent) =>
+        handleReactEnterKeyPress(e, () => {
+          handleClick();
+        })
+      }
+      onKeyDown={(e: ReactKeyboardEvent) => {
+        handleNavigation(e, routePatternIds);
+      }}
+    >
+      <div className="m-schedule-direction__menu-item-more">
+        Uncommon destinations{" "}
+        {renderSvg(
+          "c-svg__icon m-schedule-direction__route-pattern-arrow",
+          arrowIcon
+        )}
       </div>
     </div>
   );
@@ -126,8 +168,6 @@ export const ExpandedBusMenu = ({
   const filterRule = (routePattern: EnhancedRoutePattern): boolean =>
     showAllRoutePatterns ? true : routePattern.typicality < 3;
 
-  const handleClick = (): void => dispatch(showAllRoutePatternsAction());
-
   const focusIndex = determineFocusIndex(itemFocus, routePatterns);
   const toggleButtonIds =
     hasMoreRoutePatterns(routePatterns) && showAllRoutePatterns === false
@@ -152,32 +192,13 @@ export const ExpandedBusMenu = ({
             dispatch={dispatch}
           />
         ))}
-      {hasMoreRoutePatterns(routePatterns) && showAllRoutePatterns === false && (
-        <div
-          id="route-pattern_uncommon"
-          role="menuitem"
-          tabIndex={0}
-          aria-label="click for additional routes"
-          className="m-schedule-direction__menu-item"
-          onClick={handleClick}
-          onKeyUp={(e: ReactKeyboardEvent) =>
-            handleReactEnterKeyPress(e, () => {
-              handleClick();
-            })
-          }
-          onKeyDown={(e: ReactKeyboardEvent) => {
-            handleNavigation(e, routePatternIds);
-          }}
-        >
-          <div className="m-schedule-direction__menu-item-more">
-            Uncommon destinations{" "}
-            {renderSvg(
-              "c-svg__icon m-schedule-direction__route-pattern-arrow",
-              arrowIcon
-            )}
-          </div>
-        </div>
-      )}
+      {hasMoreRoutePatterns(routePatterns) &&
+        showAllRoutePatterns === false && (
+          <UncommonDestinationsItem
+            routePatternIds={routePatternIds}
+            dispatch={dispatch}
+          />
+        )}
     </div>
   );
 };
