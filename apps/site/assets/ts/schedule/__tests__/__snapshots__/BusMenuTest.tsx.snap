@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BusMenuSelect renders a menu with a single route pattern 1`] = `
+<div
+  className="m-schedule-direction__route-pattern"
+  onClick={[Function]}
+  onKeyUp={[Function]}
+>
+  Harvard via Allston
+   
+</div>
+`;
+
+exports[`BusMenuSelect renders a menu with multiple route patterns 1`] = `
+<div
+  className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable"
+  onClick={[Function]}
+  onKeyUp={[Function]}
+  role="button"
+  tabIndex={0}
+>
+  Harvard via Allston
+   
+  <span
+    aria-hidden="true"
+    className="notranslate c-svg__icon m-schedule-direction__route-pattern-arrow"
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "SVG",
+      }
+    }
+  />
+</div>
+`;
