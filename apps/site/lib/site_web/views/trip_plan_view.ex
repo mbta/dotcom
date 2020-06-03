@@ -8,7 +8,7 @@ defmodule SiteWeb.TripPlanView do
   alias Routes.Route
   alias Phoenix.{HTML, HTML.Form}
   alias SiteWeb.PartialView.SvgIconWithCircle
-  alias Fares.{Fare, Format}
+  alias Fares.{Fare, Format, Transfer}
 
   import Schedules.Repo, only: [end_of_rating: 0]
 
@@ -527,29 +527,9 @@ defmodule SiteWeb.TripPlanView do
   def transfer_note(itinerary) do
     itinerary
     |> Itinerary.route_ids()
-    |> Enum.chunk_every(2, 1, :discard)
-    |> Enum.find(&satisfies_transfer_note_conditions?(&1))
+    |> Stream.chunk_every(2, 1, :discard)
+    |> Enum.find(&Transfer.is_maybe_transfer(&1))
     |> transfer_note_text
-  end
-
-  @spec satisfies_transfer_note_conditions?([Route.id_t()]) :: boolean
-  defp satisfies_transfer_note_conditions?(route_id_pair) do
-    route_atom_pair =
-      route_id_pair
-      |> Enum.map(&Routes.Repo.get(&1))
-      |> Enum.map(&SiteWeb.ScheduleView.to_fare_atom(&1))
-
-    route_atom_pair in [
-      # remove [:subway, :subway], when we reduce base fare for this transfer
-      [:subway, :subway],
-      [:subway, :bus],
-      [:bus, :subway],
-      [:bus, :bus],
-      [:inner_express_bus, :subway],
-      [:outer_express_bus, :subway],
-      [:inner_express_bus, :bus],
-      [:outer_express_bus, :bus]
-    ]
   end
 
   defp transfer_note_text(nil), do: nil

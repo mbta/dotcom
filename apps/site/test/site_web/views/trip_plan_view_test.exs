@@ -456,6 +456,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     @base_itinerary %Itinerary{start: nil, stop: nil, legs: []}
     leg_for_route = &%Leg{mode: %TransitDetail{route_id: &1}}
     @bus_leg leg_for_route.("77")
+    @other_bus_leg leg_for_route.("28")
     @subway_leg leg_for_route.("Red")
     @cr_leg leg_for_route.("CR-Lowell")
     @ferry_leg leg_for_route.("Boat-F4")
@@ -475,7 +476,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "shows note for bus-bus transfer" do
-      note = %{@base_itinerary | legs: [@bus_leg, @bus_leg]} |> transfer_note
+      note = %{@base_itinerary | legs: [@bus_leg, @other_bus_leg]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
