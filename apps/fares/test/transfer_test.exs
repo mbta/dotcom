@@ -77,4 +77,13 @@ defmodule TransferTest do
       refute ["Boat-F4", "741"] |> is_maybe_transfer
     end
   end
+
+  describe "is_free_transfer/1 correctly identifies a free underground subway transfer" do
+    test "Red -> Blue" do
+      refute ["Red", "Blue"] |> is_free_transfer
+    end
+    test "Red -> Orange" do
+      assert ["Red", "Orange"] |> is_free_transfer
+    end
+  end
 end

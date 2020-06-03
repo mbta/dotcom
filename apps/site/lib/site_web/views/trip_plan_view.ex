@@ -528,6 +528,7 @@ defmodule SiteWeb.TripPlanView do
     itinerary
     |> Itinerary.route_ids()
     |> Stream.chunk_every(2, 1, :discard)
+    |> Stream.reject(&Transfer.is_free_transfer(&1))
     |> Enum.find(&Transfer.is_maybe_transfer(&1))
     |> transfer_note_text
   end
@@ -625,21 +626,48 @@ defmodule SiteWeb.TripPlanView do
     )
   end
 
-  @spec get_highest_one_way_fare(TripPlan.Itinerary.t()) :: integer
-  def get_highest_one_way_fare(itinerary) do
-    itinerary.legs
-    |> Enum.filter(fn leg -> Leg.transit?(leg) end)
-    |> Enum.reduce(0, fn leg, acc ->
-      highest_one_way_fare =
-        leg
-        |> Kernel.get_in([
-          Access.key(:mode, %{}),
-          Access.key(:fares, %{}),
-          Access.key(:highest_one_way_fare, %{}),
-          Access.key(:cents, 0)
-        ])
+  @spec get_highest_one_way_fare_for_leg(Leg.t()) :: non_neg_integer
+  def get_highest_one_way_fare_for_leg(leg) do
+    leg
+    |> Kernel.get_in([
+      Access.key(:mode, %{}),
+      Access.key(:fares, %{}),
+      Access.key(:highest_one_way_fare, %{}),
+      Access.key(:cents, 0)
+    ])
+  end
 
-      highest_one_way_fare + acc
+  @spec get_highest_one_way_fare(TripPlan.Itinerary.t()) :: non_neg_integer
+  def get_highest_one_way_fare(itinerary) do
+    transit_legs =
+      itinerary.legs
+      |> Enum.filter(fn leg -> Leg.transit?(leg) end)
+
+    transit_legs
+    |> Enum.with_index()
+    |> Enum.reduce(0, fn {leg, leg_index}, acc ->
+      if leg_index == 0 do
+        acc + get_highest_one_way_fare_for_leg(leg)
+      else
+        # Check previous leg to determine if this one is making a transfer, in
+        # which case we might want to add an amount different from the highest
+        # one-way fare
+        route_id_pair =
+          [Enum.at(transit_legs, leg_index - 1), leg]
+          |> Enum.map(fn leg ->
+            {:ok, route_id} = Leg.route_id(leg)
+            route_id
+          end)
+
+        # if this is part of a free transfer... don't add anything!
+        case Transfer.is_free_transfer(route_id_pair) do
+          true ->
+            acc
+
+          _ ->
+            acc + get_highest_one_way_fare_for_leg(leg)
+        end
+      end
     end)
   end
 

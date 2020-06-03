@@ -458,6 +458,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     @bus_leg leg_for_route.("77")
     @other_bus_leg leg_for_route.("28")
     @subway_leg leg_for_route.("Red")
+    @other_subway_leg leg_for_route.("Orange")
     @cr_leg leg_for_route.("CR-Lowell")
     @ferry_leg leg_for_route.("Boat-F4")
     @innerxp_leg leg_for_route.("326")
@@ -549,9 +550,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       refute note
     end
 
-    @tag skip: "This will fail for now"
     test "no note for subway-subway transfer" do
-      note = %{@base_itinerary | legs: [@subway_leg, @subway_leg]} |> transfer_note
+      note = %{@base_itinerary | legs: [@subway_leg, @other_subway_leg]} |> transfer_note
       refute note
     end
   end
@@ -750,6 +750,48 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             type: "1",
             url: "http://www.mbta.com"
           }
+        ]
+      }
+
+      assert get_highest_one_way_fare(itinerary) == 290
+    end
+
+    test "gets the highest one-way fare correctly with subway -> subway xfer" do
+      subway_leg_for_route =
+        &%Leg{
+          mode: %TransitDetail{
+            route_id: &1,
+            fares: %{
+              highest_one_way_fare: %Fares.Fare{
+                additional_valid_modes: [:bus],
+                cents: 290,
+                duration: :single_trip,
+                media: [:charlie_ticket, :cash],
+                mode: :subway,
+                name: :subway,
+                price_label: nil,
+                reduced: nil
+              },
+              lowest_one_way_fare: %Fares.Fare{
+                additional_valid_modes: [:bus],
+                cents: 240,
+                duration: :single_trip,
+                media: [:charlie_card],
+                mode: :subway,
+                name: :subway,
+                price_label: nil,
+                reduced: nil
+              }
+            }
+          }
+        }
+
+      itinerary = %TripPlan.Itinerary{
+        start: nil,
+        stop: nil,
+        legs: [
+          subway_leg_for_route.("Red"),
+          subway_leg_for_route.("Orange")
         ]
       }
 

@@ -28,6 +28,20 @@ defmodule Fares.Transfer do
     [:outer_express_bus, :bus]
   ]
 
+  # Our stops don't model underground transfer points, but the system is small
+  # enough that we can just hardcode these for now. Note: unknown directionality
+  @underground_xfers [
+    %{lines: ["Red", "Green-B", "Green-C", "Green-D", "Green-E"], stop: "place-pktrm"},
+    %{lines: ["Red", "Orange"], stop: "place-dwnxg"},
+    %{lines: ["Orange", "Blue"], stop: "place-state"},
+    %{lines: ["Blue", "Green-C", "Green-D", "Green-E"], stop: "place-gover"},
+    %{lines: ["Red", "741", "742", "743"], stop: "place-sstat"},
+    %{lines: ["Orange", "Green-C", "Green-E"], stop: "place-north"},
+    %{lines: ["Orange", "Green-C", "Green-E"], stop: "place-haecl"},
+    %{lines: ["Green-B", "Green-C", "Green-D"], stop: "place-kencl"},
+    %{lines: ["Green-B", "Green-C", "Green-D", "Green-E"], stop: "place-armnl"}
+  ]
+
   @doc """
   Takes a pair of routes and returns true if there might be a transfer between
   the two, based on the list in @single_ride_valid_transfers
@@ -45,6 +59,20 @@ defmodule Fares.Transfer do
 
       Enum.member?(@single_ride_valid_transfers, atom_pair)
     end
+  end
+
+  @doc """
+  Takes a pair of routes and returns true if there is a free transfer between
+  the two, based on the list in @underground_xfers
+  """
+  @spec is_free_transfer([Route.id_t()]) :: boolean | nil
+  def is_free_transfer(route_pair) when has_nil(route_pair), do: nil
+
+  def is_free_transfer(route_pair) do
+    Enum.map(@underground_xfers, &Map.get(&1, :lines))
+    |> Enum.any?(fn xfer_stations ->
+      Enum.all?(route_pair, &Enum.member?(xfer_stations, &1))
+    end)
   end
 
   @spec to_fare_atom(fare_atom | Route.id_t() | Route.t()) :: fare_atom
