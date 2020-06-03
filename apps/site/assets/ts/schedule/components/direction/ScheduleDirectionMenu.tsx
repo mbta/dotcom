@@ -1,7 +1,7 @@
 import React, { ReactElement, Dispatch, useEffect } from "react";
 import { DirectionId, EnhancedRoute } from "../../../__v3api";
 import { RoutePatternsByDirection } from "../__schedule";
-import { MenuAction } from "./reducer";
+import { MenuAction, closeRoutePatternMenuAction } from "./reducer";
 import { GreenLineSelect, ExpandedGreenMenu } from "./GreenLineMenu";
 import { BusMenuSelect, ExpandedBusMenu } from "./BusMenu";
 import { handleNativeEscapeKeyPress } from "../../../helpers/keyboard-events";
@@ -25,7 +25,7 @@ const externalCloseEvent = (dispatch: Dispatch<MenuAction>): void => {
       if (!event.target) return;
       const element = event.target as HTMLElement;
       if (element.closest(".js-m-schedule-click-boundary")) return;
-      dispatch({ type: "closeRoutePatternMenu", payload: {} });
+      dispatch(closeRoutePatternMenuAction());
     },
     true
   );
@@ -34,7 +34,7 @@ const externalCloseEvent = (dispatch: Dispatch<MenuAction>): void => {
     "keydown",
     (event: KeyboardEvent): void => {
       handleNativeEscapeKeyPress(event, () => {
-        dispatch({ type: "closeRoutePatternMenu", payload: {} });
+        dispatch(closeRoutePatternMenuAction());
       });
     }
   );

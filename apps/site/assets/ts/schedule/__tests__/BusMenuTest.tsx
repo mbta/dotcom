@@ -3,7 +3,10 @@ import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import { EnhancedRoutePattern } from "../components/__schedule";
 import { BusMenuSelect } from "../components/direction/BusMenu";
-import { MenuAction } from "../components/direction/reducer";
+import {
+  MenuAction,
+  toggleRoutePatternMenuAction
+} from "../components/direction/reducer";
 
 const mockDisptach: Dispatch<MenuAction> = jest.fn();
 
@@ -85,6 +88,6 @@ describe("BusMenuSelect", () => {
     );
 
     wrapper.find(".m-schedule-direction__route-pattern").simulate("click");
-    expect(mockDisptach).toHaveBeenCalledWith({ type: "toggleRoutePatternMenu", payload: {} })
+    expect(mockDisptach).toHaveBeenCalledWith(toggleRoutePatternMenuAction());
   });
 });

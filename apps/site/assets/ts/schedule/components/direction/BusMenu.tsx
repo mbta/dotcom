@@ -3,7 +3,12 @@ import React, {
   Dispatch,
   KeyboardEvent as ReactKeyboardEvent
 } from "react";
-import { MenuAction } from "./reducer";
+import {
+  MenuAction,
+  setRoutePatternAction,
+  showAllRoutePatternsAction,
+  toggleRoutePatternMenuAction
+} from "./reducer";
 import { EnhancedRoutePattern } from "../__schedule";
 import handleNavigation from "./menu-helpers";
 import renderSvg from "../../../helpers/render-svg";
@@ -54,11 +59,7 @@ const RoutePatternItem = ({
       {renderSvg("c-svg__icon", checkIcon)}
     </div>
   ) : null;
-  const handleClick = (): void =>
-    dispatch({
-      type: "setRoutePattern",
-      payload: { routePattern }
-    });
+  const handleClick = (): void => dispatch(setRoutePatternAction(routePattern));
   return (
     <div
       aria-current={selected ? "page" : undefined}
@@ -124,8 +125,9 @@ export const ExpandedBusMenu = ({
 }: ExpandedBusMenuProps): ReactElement<HTMLElement> => {
   const filterRule = (routePattern: EnhancedRoutePattern): boolean =>
     showAllRoutePatterns ? true : routePattern.typicality < 3;
-  const handleClick = (): void =>
-    dispatch({ type: "showAllRoutePatterns", payload: {} });
+
+  const handleClick = (): void => dispatch(showAllRoutePatternsAction());
+
   const focusIndex = determineFocusIndex(itemFocus, routePatterns);
   const toggleButtonIds =
     hasMoreRoutePatterns(routePatterns) && showAllRoutePatterns === false
@@ -198,7 +200,7 @@ export const BusMenuSelect = ({
 
   const handleClick = isMenuClickable
     ? () => {
-        dispatch({ type: "toggleRoutePatternMenu", payload: {} });
+        dispatch(toggleRoutePatternMenuAction());
       }
     : /* istanbul ignore next */
       () => {};
