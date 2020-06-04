@@ -224,6 +224,10 @@ $line-width: 8px; // width of the colored line in the diagram
     left: -3px;
   }
 
+  &-tooltip {
+    text-align: left;
+  }
+
   &--icon {
     display: block;
     height: $icon-size;

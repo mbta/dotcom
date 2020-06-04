@@ -19,6 +19,28 @@
 
 .m-schedule__map {
   height: $base-spacing * 25;
+
+  .leaflet-popup-content-wrapper,
+  .leaflet-popup-tip {
+    background-color: $tooltip-bg;
+    border: 0;
+    color: $tooltip-color;
+  }
+
+  // style similarly to the Bootstrap tooltip
+  .leaflet-popup-content {
+    max-width: $tooltip-width;
+    padding: $base-spacing / 4 $base-spacing * 1.5 $base-spacing / 4 $base-spacing / 2;
+
+    @include media-breakpoint-down(xs) {
+      max-width: 70vw;
+    }
+  }
+
+  .leaflet-popup-close-button {
+    right: $base-spacing / 4;
+    top: $base-spacing / 4;
+  }
 }
 
 .m-schedule-page__fare {

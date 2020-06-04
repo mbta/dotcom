@@ -60,7 +60,7 @@ const VehicleIcons = ({
       }`}
     >
       <TooltipWrapper
-        tooltipText={tooltipText(routeType, stopName, vehicle)}
+        tooltipText={`<div class="m-schedule-diagram__vehicle-tooltip">${tooltipText(routeType, stopName, vehicle)}</div>`}
         tooltipOptions={{ placement: "right", animation: false, html: true }}
       >
         {vehicleArrowIcon("m-schedule-diagram__vehicle--icon")}
