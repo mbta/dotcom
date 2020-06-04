@@ -65,7 +65,7 @@ const StopConnections = (connections: RouteStopRoute[]): JSX.Element => (
         tooltipText={connectionName(connectingRoute)}
         tooltipOptions={{
           placement: "bottom",
-          animation: "false"
+          animation: false
         }}
       >
         {connectingRoute.type === 3 ? (

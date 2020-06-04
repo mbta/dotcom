@@ -124,10 +124,26 @@ visual appearance itself.
 Note: data-selector="true" and data-original-title are
 specified here in order to preserve `title` text post-trigger
 */
+
+// Corresponds to Bootstrap's tooltip options
+interface TooltipOptions {
+  animation?: boolean;
+  container?: string | HTMLElement | false;
+  delay?: number | object;
+  html?: boolean;
+  placement?: string | Function;
+  selector?: string;
+  template?: string;
+  title?: string | HTMLElement | Function;
+  trigger?: string;
+  constraints?: [];
+  offset?: string;
+}
+
 export const TooltipWrapper: React.FC<{
   children: JSX.Element;
   tooltipText: string;
-  tooltipOptions?: object; // corresponds to Bootstrap tooltip options
+  tooltipOptions?: TooltipOptions;
   href?: string;
 }> = ({ children, tooltipText, tooltipOptions, href }): JSX.Element => {
   const { trigger, placement, animation } = Object.assign(
