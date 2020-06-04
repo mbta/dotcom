@@ -6,7 +6,6 @@ defmodule Fares.Transfer do
 
     This logic may be superseded by the upcoming fares work.
   """
-  require Fares
   alias Routes.{Repo, Route}
   alias TripPlan.Leg
 

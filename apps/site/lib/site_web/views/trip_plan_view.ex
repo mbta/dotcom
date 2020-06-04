@@ -2,10 +2,10 @@ defmodule SiteWeb.TripPlanView do
   @moduledoc "Contains the logic for the Trip Planner"
   use SiteWeb, :view
   require Routes.Route
-  alias Site.React
-  alias Site.TripPlan.{Query, ItineraryRow}
-  alias TripPlan.{Leg, Itinerary}
   alias Routes.Route
+  alias Site.React
+  alias Site.TripPlan.{ItineraryRow, Query}
+  alias TripPlan.{Itinerary, Leg}
   alias Phoenix.{HTML, HTML.Form}
   alias SiteWeb.PartialView.SvgIconWithCircle
   alias Fares.{Fare, Format, Transfer}

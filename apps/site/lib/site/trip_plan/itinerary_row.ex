@@ -1,13 +1,17 @@
 defmodule Site.TripPlan.ItineraryRow do
-  alias TripPlan.{PersonalDetail, TransitDetail, NamedPosition, Leg}
-  alias TripPlan.PersonalDetail.Step
-  alias Site.TripPlan.IntermediateStop
+  @moduledoc false
+
   alias Routes.Route
+  alias Site.TripPlan.IntermediateStop
+  alias TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
+  alias TripPlan.PersonalDetail.Step
 
   @typep name_and_id :: {String.t(), String.t() | nil}
   @typep step :: String.t()
 
   defmodule Dependencies do
+    @moduledoc false
+
     @type stop_mapper :: (Stops.Stop.id_t() -> Stops.Stop.t() | nil)
     @type route_mapper :: (Routes.Route.id_t() -> Routes.Route.t() | nil)
     @type trip_mapper :: (Schedules.Trip.id_t() -> Schedules.Trip.t() | nil)

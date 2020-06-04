@@ -3,7 +3,9 @@ defmodule TransferTest do
   use ExUnit.Case
 
   import Fares.Transfer
-  alias TripPlan.{Leg, TransitDetail, NamedPosition}
+  alias Routes.Route
+  alias TripPlan.{Leg, NamedPosition, TransitDetail}
+
   describe "is_maybe_transfer?/1 correctly identifies the potential presence of a transfer [assumes single ride media]" do
     test "if from or to is nil" do
       refute [nil, nil] |> is_maybe_transfer?

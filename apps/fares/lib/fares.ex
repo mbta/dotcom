@@ -1,4 +1,10 @@
 defmodule Fares do
+  @moduledoc """
+
+  Handling logic around fares.
+
+  """
+
   alias Routes.Route
   alias Schedules.Trip
   alias Stops.Stop
