@@ -436,9 +436,9 @@ describe("fetchMapData", () => {
         )
     );
 
-    return fetchMapData("1", 0, ["2"], spy).then(() => {
+    return fetchMapData("1", 0, "2", spy).then(() => {
       expect(window.fetch).toHaveBeenCalledWith(
-        "/schedules/map_api?id=1&direction_id=0"
+        "/schedules/map_api?id=1&direction_id=0&shape_id=2"
       );
       expect(spy).toHaveBeenCalledWith({
         type: "FETCH_STARTED"
@@ -464,9 +464,9 @@ describe("fetchMapData", () => {
         )
     );
 
-    return fetchMapData("1", 0, ["2"], spy).then(() => {
+    return fetchMapData("1", 0, "2", spy).then(() => {
       expect(window.fetch).toHaveBeenCalledWith(
-        "/schedules/map_api?id=1&direction_id=0"
+        "/schedules/map_api?id=1&direction_id=0&shape_id=2"
       );
       expect(spy).toHaveBeenCalledWith({
         type: "FETCH_STARTED"

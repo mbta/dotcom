@@ -19,8 +19,9 @@ defmodule SiteWeb.ScheduleController.MapApiTest do
              } = response
     end
 
-    test "allows you to specify a variant", %{conn: conn} do
-      conn = get(conn, map_api_path(conn, :show, id: "66", direction_id: "0", variant: "66-B-0"))
+    test "allows you to specify a shape_id", %{conn: conn} do
+      conn =
+        get(conn, map_api_path(conn, :show, id: "66", direction_id: "0", shape_id: "660141-2"))
 
       assert response = json_response(conn, 200)
 

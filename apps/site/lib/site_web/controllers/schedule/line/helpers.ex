@@ -56,25 +56,25 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     end
   end
 
-  @spec get_active_shapes([Shape.t()], Route.t(), Route.branch_name()) :: [
+  @spec get_active_shapes([Shape.t()], Route.t(), Shape.id_t()) :: [
           Shape.t()
         ]
-  def get_active_shapes(shapes, %Route{type: 3}, variant) do
+  def get_active_shapes(shapes, %Route{type: 3}, shape_id) do
     shapes
-    |> get_requested_shape(variant)
+    |> get_requested_shape(shape_id)
     |> get_default_shape(shapes)
   end
 
-  def get_active_shapes(_shapes, %Route{id: "Green"}, _variant) do
+  def get_active_shapes(_shapes, %Route{id: "Green"}, _shape_id) do
     # not used by the green line code
     []
   end
 
-  def get_active_shapes(shapes, _route, _variant), do: shapes
+  def get_active_shapes(shapes, _route, _shape_id), do: shapes
 
   @spec get_requested_shape([Shape.t()], query_param) :: Shape.t() | nil
   defp get_requested_shape(_shapes, nil), do: nil
-  defp get_requested_shape(shapes, variant), do: Enum.find(shapes, &(&1.id == variant))
+  defp get_requested_shape(shapes, shape_id), do: Enum.find(shapes, &(&1.id == shape_id))
 
   @spec get_default_shape(Shape.t() | nil, [Shape.t()]) :: [Shape.t()]
   defp get_default_shape(nil, [default | _]), do: [default]
