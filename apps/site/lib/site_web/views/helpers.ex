@@ -1,4 +1,10 @@
 defmodule SiteWeb.ViewHelpers do
+  @moduledoc """
+
+  Helper functions used across SiteWeb views.
+
+  """
+
   import Site.ContentRewriters.LiquidObjects.Fare, only: [fare_object_request: 1]
   import SiteWeb.Router.Helpers, only: [redirect_path: 3, stop_path: 3]
   import Phoenix.HTML, only: [raw: 1]

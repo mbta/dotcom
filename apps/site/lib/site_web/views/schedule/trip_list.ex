@@ -1,4 +1,10 @@
 defmodule SiteWeb.ScheduleView.TripList do
+  @moduledoc """
+
+  View functions for handling lists of trips from schedules.
+
+  """
+
   alias Site.Components.Icons.SvgIcon
   import Phoenix.HTML, only: [raw: 1]
   import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3]
