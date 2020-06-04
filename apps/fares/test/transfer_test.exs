@@ -5,6 +5,11 @@ defmodule TransferTest do
   import Fares.Transfer
   alias TripPlan.{Leg, TransitDetail, NamedPosition}
   describe "is_maybe_transfer?/1 correctly identifies the potential presence of a transfer [assumes single ride media]" do
+    test "if from or to is nil" do
+      refute [nil, nil] |> is_maybe_transfer?
+      refute ["Red", nil] |> is_maybe_transfer?
+      refute [nil, "Orange"] |> is_maybe_transfer?
+    end
 
     test "subway -> subway" do
       assert ["Blue", "Red"] |> is_maybe_transfer?
@@ -80,6 +85,21 @@ defmodule TransferTest do
   end
 
   describe "is_free_transfer?/1 correctly identifies a free underground subway transfer" do
+    test "if from or to is nil" do
+      leg = %Leg{
+        mode: %TransitDetail{
+          route_id: "Red"
+        },
+        to: %NamedPosition{
+          stop_id: "example"
+        }
+      }
+
+      refute [nil, nil] |> is_free_transfer?
+      refute [leg, nil] |> is_free_transfer?
+      refute [nil, leg] |> is_free_transfer?
+    end
+
     test "Red -> Blue" do
       red = %Leg{
         mode: %TransitDetail{
