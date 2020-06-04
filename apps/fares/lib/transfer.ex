@@ -95,7 +95,7 @@ defmodule Fares.Transfer do
   end
 
   @spec to_fare_atom(fare_atom | Route.id_t() | Route.t()) :: fare_atom
-  defp to_fare_atom(route_or_atom) do
+  def to_fare_atom(route_or_atom) do
     case route_or_atom do
       %Route{type: 3, id: id} ->
         cond do

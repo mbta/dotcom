@@ -144,4 +144,42 @@ defmodule TransferTest do
       assert [red_to_dtx, orange_from_dtx] |> is_free_transfer?
     end
   end
+
+  describe "to_fare_atom/1" do
+    test "silver line rapid transit returns subway" do
+      assert to_fare_atom(%Route{type: 3, id: "741"}) == :subway
+    end
+
+    test "silver line returns bus" do
+      assert to_fare_atom(%Route{type: 3, id: "751"}) == :bus
+    end
+
+    test "inner express bus returns :inner_express_bus" do
+      assert to_fare_atom(%Route{type: 3, id: "170"}) == :inner_express_bus
+    end
+
+    test "outer express bus returns :outer_express_bus" do
+      assert to_fare_atom(%Route{type: 3, id: "352"}) == :outer_express_bus
+    end
+
+    test "other types of routes return specific atoms" do
+      assert to_fare_atom(%Route{type: 0, id: "Green-B"}) == :subway
+      assert to_fare_atom(%Route{type: 1, id: "Red"}) == :subway
+      assert to_fare_atom(%Route{type: 2, id: "CR-Fitchburg"}) == :commuter_rail
+      assert to_fare_atom(%Route{type: 3, id: "1"}) == :bus
+    end
+
+    test "also works with route IDs" do
+      assert to_fare_atom("Green-B") == :subway
+      assert to_fare_atom("Red") == :subway
+      assert to_fare_atom("CR-Fitchburg") == :commuter_rail
+      assert to_fare_atom("1") == :bus
+    end
+
+    test "handles fare atoms" do
+      assert to_fare_atom(:subway) == :subway
+      assert to_fare_atom(:commuter_rail) == :commuter_rail
+      assert to_fare_atom(:bus) == :bus
+    end
+  end
 end
