@@ -34,7 +34,6 @@ export interface Props {
 export const fetchMapData = (
   routeId: string,
   directionId: DirectionId,
-  shapeIds: string[],
   dispatch: Dispatch<FetchAction>
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
@@ -125,7 +124,7 @@ const ScheduleDirection = ({
   useEffect(
     () => {
       if (!staticMapData) {
-        fetchMapData(route.id, state.directionId, shapeIds, dispatchMapData);
+        fetchMapData(route.id, state.directionId, dispatchMapData);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
