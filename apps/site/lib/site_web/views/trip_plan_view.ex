@@ -528,14 +528,14 @@ defmodule SiteWeb.TripPlanView do
     itinerary.legs
     |> Stream.filter(&Leg.transit?/1)
     |> Stream.chunk_every(2, 1, :discard)
-    |> Stream.reject(&Transfer.is_free_transfer(&1))
+    |> Stream.reject(&Transfer.is_free_transfer?(&1))
     |> Enum.find(fn leg_pair ->
       leg_pair
       |> Enum.map(fn leg ->
         {:ok, route_id} = Leg.route_id(leg)
         route_id
       end)
-      |> Transfer.is_maybe_transfer()
+      |> Transfer.is_maybe_transfer?()
     end)
     |> transfer_note_text
   end
@@ -662,7 +662,7 @@ defmodule SiteWeb.TripPlanView do
         leg_pair = [Enum.at(transit_legs, leg_index - 1), leg]
 
         # if this is part of a free transfer... don't add anything!
-        if Transfer.is_free_transfer(leg_pair) do
+        if Transfer.is_free_transfer?(leg_pair) do
           acc
         else
           acc + get_highest_one_way_fare_for_leg(leg)

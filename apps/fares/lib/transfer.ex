@@ -10,9 +10,9 @@ defmodule Fares.Transfer do
   alias Routes.{Repo, Route}
   alias TripPlan.Leg
 
+  @doc "Checks if either term in the pair is nil"
   defguard has_nil(pair)
-           when is_nil(elem(pair, 0)) or
-                  is_nil(elem(pair, 1))
+           when hd(pair) |> is_nil() or tl(pair) |> hd() |> is_nil()
 
   @type fare_atom :: Route.gtfs_route_type() | :inner_express_bus | :outer_express_bus
 
@@ -47,11 +47,11 @@ defmodule Fares.Transfer do
   Takes a pair of routes and returns true if there might be a transfer between
   the two, based on the list in @single_ride_valid_transfers
   """
-  @spec is_maybe_transfer([Route.id_t()]) :: boolean | nil
-  def is_maybe_transfer(route_pair) when has_nil(route_pair), do: nil
+  @spec is_maybe_transfer?([Route.id_t()]) :: boolean
+  def is_maybe_transfer?(route_pair) when has_nil(route_pair), do: false
 
   # No transfer between the same local bus route.
-  def is_maybe_transfer(route_pair) do
+  def is_maybe_transfer?(route_pair) do
     atom_pair = Enum.map(route_pair, &to_fare_atom(&1))
 
     if Enum.at(route_pair, 0) === Enum.at(route_pair, 1) &&
@@ -66,16 +66,14 @@ defmodule Fares.Transfer do
   Takes a pair of legs and returns true if there is a free transfer between
   the two, based on the list in @underground_xfers
   """
-  @spec is_free_transfer([Leg.id_t()]) :: boolean | nil
-  def is_free_transfer(leg_pair) when has_nil(leg_pair), do: nil
-  def is_free_transfer(leg_pair) when has_nil(leg_pair), do: nil
+  @spec is_free_transfer?([Leg.id_t()]) :: boolean
+  def is_free_transfer?(leg_pair) when has_nil(leg_pair), do: false
+  def is_free_transfer?([%{:to => nil} | _]), do: false
 
-  def is_free_transfer([%{:to => nil} | _]), do: nil
-
-  def is_free_transfer([%{:to => %{:stop_id => xfer_stop}} | _] = leg_pair) do
+  def is_free_transfer?([%{:to => %{:stop_id => xfer_stop}} | _] = leg_pair) do
     xfer_lines = lines_for_xfer_stop(xfer_stop)
 
-    if xfer_lines do
+    if length(xfer_lines) > 0 do
       leg_pair
       |> Enum.map(&Leg.route_id(&1))
       |> Enum.all?(fn {:ok, route_id} ->
@@ -87,13 +85,13 @@ defmodule Fares.Transfer do
   end
 
   @spec lines_for_xfer_stop(String.t()) :: [Route.id_t()]
-  defp lines_for_xfer_stop(nil), do: nil
+  defp lines_for_xfer_stop(nil), do: []
 
   defp lines_for_xfer_stop(stop_id) do
     Enum.find(@underground_xfers, %{}, fn %{:stop => stop} ->
       stop == stop_id
     end)
-    |> Map.get(:lines)
+    |> Map.get(:lines, [])
   end
 
   @spec to_fare_atom(fare_atom | Route.id_t() | Route.t()) :: fare_atom
