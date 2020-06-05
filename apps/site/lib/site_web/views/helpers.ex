@@ -1,4 +1,10 @@
 defmodule SiteWeb.ViewHelpers do
+  @moduledoc """
+
+  Helper functions used across SiteWeb views.
+
+  """
+
   import Site.ContentRewriters.LiquidObjects.Fare, only: [fare_object_request: 1]
   import SiteWeb.Router.Helpers, only: [redirect_path: 3, stop_path: 3]
   import Phoenix.HTML, only: [raw: 1]
@@ -258,14 +264,7 @@ defmodule SiteWeb.ViewHelpers do
   @spec format_schedule_time(DateTime.t()) :: String.t()
   def format_schedule_time(time) do
     time
-    |> Timex.format!("{0h12}:{m}{AM}")
-    # remove the M from the end
-    |> String.replace_suffix("M", "")
-  end
-
-  @spec format_schedule_time_for_screenreader(DateTime.t()) :: String.t()
-  def format_schedule_time_for_screenreader(time) do
-    Timex.format!(time, "{0h12}:{m} {AM}")
+    |> Timex.format!("{h12}:{m} {AM}")
   end
 
   @spec format_full_date(Date.t()) :: String.t()

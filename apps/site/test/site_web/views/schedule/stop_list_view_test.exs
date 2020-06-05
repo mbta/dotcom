@@ -482,7 +482,7 @@ defmodule SiteWeb.StopListViewTest do
         |> display_departure_range
         |> IO.iodata_to_binary()
 
-      assert result == "06:15A-01:04A"
+      assert result == "6:15 AM-1:04 AM"
     end
   end
 

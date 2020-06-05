@@ -18,8 +18,8 @@ defmodule PredictedSchedule.DisplayTest do
           prediction: %Prediction{time: @late_time}
         })
 
-      assert safe_to_string(display_time) =~ "2:14P"
-      refute safe_to_string(display_time) =~ "12:00P"
+      assert safe_to_string(display_time) =~ "2:14 PM"
+      refute safe_to_string(display_time) =~ "12:00 PM"
       assert safe_to_string(display_time) =~ "icon-realtime"
     end
 
@@ -27,7 +27,7 @@ defmodule PredictedSchedule.DisplayTest do
       display_time =
         time(%PredictedSchedule{schedule: %Schedule{time: @early_time}, prediction: nil})
 
-      assert safe_to_string(display_time) =~ "12:00P"
+      assert safe_to_string(display_time) =~ "12:00 PM"
       refute safe_to_string(display_time) =~ "fa fa-rss"
     end
 
@@ -52,8 +52,8 @@ defmodule PredictedSchedule.DisplayTest do
         |> time
         |> safe_to_string
 
-      assert result =~ "12:00P"
-      assert result =~ "2:14P"
+      assert result =~ "12:00 PM"
+      assert result =~ "2:14 PM"
       assert result =~ "icon-realtime"
     end
 
@@ -66,8 +66,8 @@ defmodule PredictedSchedule.DisplayTest do
         |> time
         |> safe_to_string
 
-      assert result =~ "2:14P"
-      assert result =~ "12:00P"
+      assert result =~ "2:14 PM"
+      assert result =~ "12:00 PM"
       assert result =~ "icon-realtime"
     end
 
@@ -83,8 +83,8 @@ defmodule PredictedSchedule.DisplayTest do
         |> time
         |> safe_to_string
 
-      assert result =~ "5:40A"
-      assert result =~ "5:39A"
+      assert result =~ "5:40 AM"
+      assert result =~ "5:39 AM"
       assert result =~ "icon-realtime"
     end
 
@@ -97,7 +97,7 @@ defmodule PredictedSchedule.DisplayTest do
         |> time
         |> safe_to_string
 
-      assert result =~ "12:00P"
+      assert result =~ "12:00 PM"
       assert result =~ "icon-realtime"
     end
 
@@ -111,7 +111,7 @@ defmodule PredictedSchedule.DisplayTest do
         |> safe_to_string
 
       assert result =~ "<del"
-      assert result =~ "12:00P"
+      assert result =~ "12:00 PM"
       assert result =~ "icon-realtime"
     end
 
@@ -125,7 +125,7 @@ defmodule PredictedSchedule.DisplayTest do
         |> safe_to_string
 
       assert result =~ "<del"
-      assert result =~ "12:00P"
+      assert result =~ "12:00 PM"
       assert result =~ "icon-realtime"
     end
 
@@ -136,13 +136,13 @@ defmodule PredictedSchedule.DisplayTest do
           prediction: %Prediction{route: @commuter_route, time: @late_time}
         })
 
-      assert safe_to_string(result) =~ "2:14P"
+      assert safe_to_string(result) =~ "2:14 PM"
     end
 
     test "handles nil predictions" do
       result = time(%PredictedSchedule{schedule: %Schedule{time: @early_time}, prediction: nil})
 
-      assert safe_to_string(result) =~ "12:00P"
+      assert safe_to_string(result) =~ "12:00 PM"
     end
   end
 
@@ -218,7 +218,7 @@ defmodule PredictedSchedule.DisplayTest do
         prediction: %Prediction{time: Timex.shift(@base_time, hours: 2)}
       }
 
-      assert safe_to_string(time_difference(ps, @base_time)) =~ "2:00P"
+      assert safe_to_string(time_difference(ps, @base_time)) =~ "2:00 PM"
     end
 
     test "Time shown as `< 1` minute when same time as current_time" do
@@ -230,7 +230,7 @@ defmodule PredictedSchedule.DisplayTest do
       shoulda_been_here = %Prediction{time: Timex.shift(@base_time, minutes: -1)}
       ps = %PredictedSchedule{schedule: @schedule, prediction: shoulda_been_here}
 
-      assert safe_to_string(time_difference(ps, @base_time)) =~ "11:59A"
+      assert safe_to_string(time_difference(ps, @base_time)) =~ "11:59 AM"
     end
 
     test "crossed out schedule shown when prediction doesn't have a time" do
@@ -241,7 +241,7 @@ defmodule PredictedSchedule.DisplayTest do
 
       rendered = safe_to_string(time_difference(ps, @base_time))
       assert rendered =~ ~s(<del class="no-wrap strikethrough">)
-      assert rendered =~ "12:30P"
+      assert rendered =~ "12:30 PM"
       assert rendered =~ "icon-realtime"
     end
 
