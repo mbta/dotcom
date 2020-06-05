@@ -523,20 +523,14 @@ defmodule SiteWeb.TripPlanView do
     SiteWeb.ViewHelpers.mode_name(type)
   end
 
+  @doc "Add a transfer note to the trip plan view when the itinerary might have valid transit transfers (determined by Transfer.is_maybe_transfer?) that are not already accounted for in the fare calculation. Right now the only transfer accounted for in the calculated fare is subway-subway (via Transfer.is_subway_transfer?)"
   @spec transfer_note(Itinerary.t()) :: String.t() | nil
   def transfer_note(itinerary) do
     itinerary.legs
     |> Stream.filter(&Leg.transit?/1)
-    |> Stream.chunk_every(2, 1, :discard)
-    |> Stream.reject(&Transfer.is_free_transfer?(&1))
-    |> Enum.find(fn leg_pair ->
-      leg_pair
-      |> Enum.map(fn leg ->
-        {:ok, route_id} = Leg.route_id(leg)
-        route_id
-      end)
-      |> Transfer.is_maybe_transfer?()
-    end)
+    |> Stream.chunk_every(2, 1)
+    |> Enum.reject(&Transfer.is_subway_transfer?/1)
+    |> Enum.find(&Transfer.is_maybe_transfer?/1)
     |> transfer_note_text
   end
 
@@ -648,21 +642,19 @@ defmodule SiteWeb.TripPlanView do
   def get_highest_one_way_fare(itinerary) do
     transit_legs =
       itinerary.legs
-      |> Enum.filter(fn leg -> Leg.transit?(leg) end)
+      |> Stream.filter(&Leg.transit?/1)
 
     transit_legs
-    |> Enum.with_index()
+    |> Stream.with_index()
     |> Enum.reduce(0, fn {leg, leg_index}, acc ->
-      if leg_index == 0 do
+      if leg_index < 1 do
         acc + get_highest_one_way_fare_for_leg(leg)
       else
-        # Check previous leg to determine if this one is making a transfer, in
-        # which case we might want to add an amount different from the highest
-        # one-way fare
-        leg_pair = [Enum.at(transit_legs, leg_index - 1), leg]
+        # Look at this transit leg and previous transit leg
+        legs = transit_legs |> Enum.slice(leg_index - 1, 2)
 
-        # if this is part of a free transfer... don't add anything!
-        if Transfer.is_free_transfer?(leg_pair) do
+        # If this is part of a free transfer, don't add fare
+        if Transfer.is_subway_transfer?(legs) do
           acc
         else
           acc + get_highest_one_way_fare_for_leg(leg)

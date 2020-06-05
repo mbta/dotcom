@@ -4,146 +4,99 @@ defmodule TransferTest do
 
   import Fares.Transfer
   alias Routes.Route
-  alias TripPlan.{Leg, NamedPosition, TransitDetail}
+  alias TripPlan.{Leg, NamedPosition, PersonalDetail, TransitDetail}
 
   describe "is_maybe_transfer?/1 correctly identifies the potential presence of a transfer [assumes single ride media]" do
+    leg_for_route = fn id -> %Leg{mode: %TransitDetail{route_id: id}} end
+    @bus_leg leg_for_route.("77")
+    @other_bus_leg leg_for_route.("28")
+    @subway_leg leg_for_route.("Red")
+    @other_subway_leg leg_for_route.("Orange")
+    @cr_leg leg_for_route.("CR-Lowell")
+    @ferry_leg leg_for_route.("Boat-F4")
+    @innerxp_leg leg_for_route.("326")
+    @other_innerxp_leg leg_for_route.("351")
+    @outerxp_leg leg_for_route.("505")
+    @other_outerxp_leg leg_for_route.("352")
+    @sl_rapid_leg leg_for_route.("741")
+    @sl_bus_leg leg_for_route.("751")
+
     test "if from or to is nil" do
       refute [nil, nil] |> is_maybe_transfer?
-      refute ["Red", nil] |> is_maybe_transfer?
-      refute [nil, "Orange"] |> is_maybe_transfer?
+      refute [@subway_leg, nil] |> is_maybe_transfer?
+      refute [nil, @bus_leg] |> is_maybe_transfer?
     end
 
     test "subway -> subway" do
-      assert ["Blue", "Red"] |> is_maybe_transfer?
+      assert [@subway_leg, @other_subway_leg] |> is_maybe_transfer?
     end
 
     test "subway -> local bus" do
-      assert ["Orange", "1"] |> is_maybe_transfer?
+      assert [@subway_leg, @bus_leg] |> is_maybe_transfer?
     end
 
     test "local bus -> subway" do
-      assert ["77", "Red"] |> is_maybe_transfer?
+      assert [@bus_leg, @subway_leg] |> is_maybe_transfer?
     end
 
     test "local bus -> local bus" do
-      assert ["77", "1"] |> is_maybe_transfer?
+      assert [@bus_leg, @other_bus_leg] |> is_maybe_transfer?
     end
 
     test "inner express bus -> subway" do
-      assert ["351", "Red"] |> is_maybe_transfer?
+      assert [@innerxp_leg, @subway_leg] |> is_maybe_transfer?
     end
 
     test "outer express bus -> subway" do
-      assert ["505", "Blue"] |> is_maybe_transfer?
+      assert [@outerxp_leg, @subway_leg] |> is_maybe_transfer?
     end
 
     test "inner express bus -> local bus" do
-      assert ["326", "4"] |> is_maybe_transfer?
+      assert [@innerxp_leg, @bus_leg] |> is_maybe_transfer?
     end
 
     test "outer express bus -> local bus" do
-      assert ["505", "39"] |> is_maybe_transfer?
+      assert [@outerxp_leg, @bus_leg] |> is_maybe_transfer?
     end
 
     test "SL4 -> local bus" do
-      assert ["751", "4"] |> is_maybe_transfer?
+      assert [@sl_bus_leg, @bus_leg] |> is_maybe_transfer?
     end
 
     test "SL1 -> local bus" do
-      assert ["741", "39"] |> is_maybe_transfer?
+      assert [@sl_rapid_leg, @bus_leg] |> is_maybe_transfer?
     end
 
     test "local bus -> the same local bus" do
-      refute ["23", "23"] |> is_maybe_transfer?
+      refute [@bus_leg, @bus_leg] |> is_maybe_transfer?
     end
 
     test "inner express bus -> inner express bus" do
-      refute ["326", "351"] |> is_maybe_transfer?
+      refute [@innerxp_leg, @other_innerxp_leg] |> is_maybe_transfer?
     end
 
     test "outer express bus -> outer express bus" do
-      refute ["505", "352"] |> is_maybe_transfer?
+      refute [@outerxp_leg, @other_outerxp_leg] |> is_maybe_transfer?
     end
 
     test "commuter rail -> any other mode" do
-      refute ["CR-Worcester", "CR-Lowell"] |> is_maybe_transfer?
-      refute ["CR-Worcester", "Red"] |> is_maybe_transfer?
-      refute ["CR-Worcester", "39"] |> is_maybe_transfer?
-      refute ["CR-Worcester", "351"] |> is_maybe_transfer?
-      refute ["CR-Worcester", "352"] |> is_maybe_transfer?
-      refute ["CR-Worcester", "751"] |> is_maybe_transfer?
-      refute ["CR-Worcester", "741"] |> is_maybe_transfer?
+      refute [@cr_leg, @cr_leg] |> is_maybe_transfer?
+      refute [@cr_leg, @subway_leg] |> is_maybe_transfer?
+      refute [@cr_leg, @bus_leg] |> is_maybe_transfer?
+      refute [@cr_leg, @innerxp_leg] |> is_maybe_transfer?
+      refute [@cr_leg, @outerxp_leg] |> is_maybe_transfer?
+      refute [@cr_leg, @sl_bus_leg] |> is_maybe_transfer?
+      refute [@cr_leg, @sl_rapid_leg] |> is_maybe_transfer?
     end
 
     test "ferry -> any other mode" do
-      refute ["Boat-F4", "Boat-F1"] |> is_maybe_transfer?
-      refute ["Boat-F4", "Red"] |> is_maybe_transfer?
-      refute ["Boat-F4", "39"] |> is_maybe_transfer?
-      refute ["Boat-F4", "351"] |> is_maybe_transfer?
-      refute ["Boat-F4", "352"] |> is_maybe_transfer?
-      refute ["Boat-F4", "751"] |> is_maybe_transfer?
-      refute ["Boat-F4", "741"] |> is_maybe_transfer?
-    end
-  end
-
-  describe "is_free_transfer?/1 correctly identifies a free underground subway transfer" do
-    test "if from or to is nil" do
-      leg = %Leg{
-        mode: %TransitDetail{
-          route_id: "Red"
-        },
-        to: %NamedPosition{
-          stop_id: "example"
-        }
-      }
-
-      refute [nil, nil] |> is_free_transfer?
-      refute [leg, nil] |> is_free_transfer?
-      refute [nil, leg] |> is_free_transfer?
-    end
-
-    test "Red -> Blue" do
-      red = %Leg{
-        mode: %TransitDetail{
-          route_id: "Red"
-        },
-        to: %NamedPosition{
-          stop_id: "red-blue-connector"
-        }
-      }
-
-      blue = %Leg{
-        mode: %TransitDetail{
-          route_id: "Blue"
-        },
-        from: %NamedPosition{
-          stop_id: "red-blue-connector"
-        }
-      }
-
-      refute [red, blue] |> is_free_transfer?
-    end
-
-    test "Red -> Orange via DTX" do
-      red_to_dtx = %Leg{
-        mode: %TransitDetail{
-          route_id: "Red"
-        },
-        to: %NamedPosition{
-          stop_id: "place-dwnxg"
-        }
-      }
-
-      orange_from_dtx = %Leg{
-        mode: %TransitDetail{
-          route_id: "Orange"
-        },
-        from: %NamedPosition{
-          stop_id: "place-dwnxg"
-        }
-      }
-
-      assert [red_to_dtx, orange_from_dtx] |> is_free_transfer?
+      refute [@ferry_leg, @ferry_leg] |> is_maybe_transfer?
+      refute [@ferry_leg, @subway_leg] |> is_maybe_transfer?
+      refute [@ferry_leg, @bus_leg] |> is_maybe_transfer?
+      refute [@ferry_leg, @innerxp_leg] |> is_maybe_transfer?
+      refute [@ferry_leg, @outerxp_leg] |> is_maybe_transfer?
+      refute [@ferry_leg, @sl_bus_leg] |> is_maybe_transfer?
+      refute [@ferry_leg, @sl_rapid_leg] |> is_maybe_transfer?
     end
   end
 
@@ -182,6 +135,67 @@ defmodule TransferTest do
       assert to_fare_atom(:subway) == :subway
       assert to_fare_atom(:commuter_rail) == :commuter_rail
       assert to_fare_atom(:bus) == :bus
+    end
+  end
+
+  describe "is_subway_transfer?/1" do
+    test "picks a transit-transit sequence" do
+      legs_with_transfer = [
+        %Leg{
+          mode: %PersonalDetail{
+            steps: [
+              %PersonalDetail.Step{
+                street_name: "Path"
+              }
+            ]
+          }
+        },
+        %Leg{
+          mode: %TransitDetail{
+            route_id: "Green-C"
+          },
+          to: %NamedPosition{
+            stop_id: "70202"
+          }
+        },
+        %Leg{
+          mode: %TransitDetail{
+            route_id: "Blue"
+          },
+          from: %NamedPosition{
+            stop_id: "70040"
+          }
+        }
+      ]
+
+      legs_without_transfer = [
+        %Leg{
+          mode: %TransitDetail{
+            route_id: "Green-C"
+          },
+          to: %NamedPosition{
+            stop_id: "70202"
+          }
+        },
+        %Leg{
+          mode: %PersonalDetail{
+            steps: [
+              %PersonalDetail.Step{
+                street_name: "Path"
+              }
+            ]
+          },
+          from: %NamedPosition{
+            stop_id: "70202"
+          },
+          to: %NamedPosition{
+            stop_id: "70040"
+          }
+        }
+      ]
+
+      assert is_subway_transfer?(legs_with_transfer)
+      refute is_subway_transfer?(legs_without_transfer)
     end
   end
 end

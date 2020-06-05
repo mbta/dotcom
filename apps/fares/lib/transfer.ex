@@ -7,91 +7,52 @@ defmodule Fares.Transfer do
     This logic may be superseded by the upcoming fares work.
   """
   alias Routes.{Repo, Route}
-  alias TripPlan.Leg
-
-  @doc "Checks if either term in the pair is nil"
-  defguard has_nil(pair)
-           when hd(pair) |> is_nil() or tl(pair) |> hd() |> is_nil()
+  alias TripPlan.{Leg, TransitDetail}
 
   @type fare_atom :: Route.gtfs_route_type() | :inner_express_bus | :outer_express_bus
 
   # Paying a single-ride fare for the first may get you a transfer to the second
   # (can't be certain, as it depends on media used)!
-  @single_ride_valid_transfers [
-    [:subway, :subway],
-    [:subway, :bus],
-    [:bus, :subway],
-    [:bus, :bus],
-    [:inner_express_bus, :subway],
-    [:outer_express_bus, :subway],
-    [:inner_express_bus, :bus],
-    [:outer_express_bus, :bus]
-  ]
+  @single_ride_transfers %{
+    :bus => [:subway, :bus],
+    :subway => [:subway, :bus],
+    :inner_express_bus => [:subway, :bus],
+    :outer_express_bus => [:subway, :bus]
+  }
 
-  # Our stops don't model underground transfer points, but the system is small
-  # enough that we can just hardcode these for now. Note: unknown directionality
-  @underground_xfers [
-    %{lines: ["Red", "Green-B", "Green-C", "Green-D", "Green-E"], stop: "place-pktrm"},
-    %{lines: ["Red", "Orange"], stop: "place-dwnxg"},
-    %{lines: ["Orange", "Blue"], stop: "place-state"},
-    %{lines: ["Blue", "Green-C", "Green-D", "Green-E"], stop: "place-gover"},
-    %{lines: ["Red", "741", "742", "743"], stop: "place-sstat"},
-    %{lines: ["Orange", "Green-C", "Green-E"], stop: "place-north"},
-    %{lines: ["Orange", "Green-C", "Green-E"], stop: "place-haecl"},
-    %{lines: ["Green-B", "Green-C", "Green-D"], stop: "place-kencl"},
-    %{lines: ["Green-B", "Green-C", "Green-D", "Green-E"], stop: "place-armnl"}
-  ]
-
-  @doc """
-  Takes a pair of routes and returns true if there might be a transfer between
-  the two, based on the list in @single_ride_valid_transfers
-  """
-  @spec is_maybe_transfer?([Route.id_t()]) :: boolean
-  def is_maybe_transfer?(route_pair) when has_nil(route_pair), do: false
-
-  # No transfer between the same local bus route.
-  def is_maybe_transfer?(route_pair) do
-    atom_pair = Enum.map(route_pair, &to_fare_atom(&1))
-
-    if Enum.at(route_pair, 0) === Enum.at(route_pair, 1) &&
-         Enum.all?(atom_pair, &(&1 === :bus)) do
-      nil
-    else
-      Enum.member?(@single_ride_valid_transfers, atom_pair)
-    end
+  @doc "Searches a list of legs for evidence of an in-station subway transfer."
+  @spec is_subway_transfer?([Leg.id_t()]) :: boolean
+  def is_subway_transfer?([
+        %Leg{:to => %{:stop_id => to_stop}, :mode => %TransitDetail{:route_id => route_to}},
+        %Leg{
+          :from => %{:stop_id => from_stop},
+          :mode => %TransitDetail{:route_id => route_from}
+        }
+        | _
+      ]) do
+    same_station?(from_stop, to_stop) and is_subway?(route_to) and is_subway?(route_from)
   end
 
-  @doc """
-  Takes a pair of legs and returns true if there is a free transfer between
-  the two, based on the list in @underground_xfers
-  """
-  @spec is_free_transfer?([Leg.id_t()]) :: boolean
-  def is_free_transfer?(leg_pair) when has_nil(leg_pair), do: false
-  def is_free_transfer?([%{:to => nil} | _]), do: false
+  def is_subway_transfer?([_ | legs]), do: is_subway_transfer?(legs)
 
-  def is_free_transfer?([%{:to => %{:stop_id => xfer_stop}} | _] = leg_pair) do
-    xfer_lines = lines_for_xfer_stop(xfer_stop)
+  def is_subway_transfer?(_), do: false
 
-    if length(xfer_lines) > 0 do
-      leg_pair
-      |> Enum.map(&Leg.route_id(&1))
-      |> Enum.all?(fn {:ok, route_id} ->
-        Enum.member?(xfer_lines, route_id)
-      end)
-    else
+  @doc "Takes a pair of legs and returns true if there might be a transfer between the two, based on the list in @single_ride_transfers. Exception: no transfers from bus route to same bus route."
+  @spec is_maybe_transfer?([Leg.id_t()]) :: boolean
+  def is_maybe_transfer?([
+        %Leg{:mode => %TransitDetail{:route_id => from_route}},
+        %Leg{:mode => %TransitDetail{:route_id => to_route}}
+      ]) do
+    if from_route === to_route and
+         Enum.all?([from_route, to_route], &is_bus?/1) do
       false
+    else
+      Map.get(@single_ride_transfers, to_fare_atom(from_route), [])
+      |> Enum.member?(to_fare_atom(to_route))
     end
   end
 
-  @spec lines_for_xfer_stop(String.t()) :: [Route.id_t()]
-  defp lines_for_xfer_stop(nil), do: []
-
-  defp lines_for_xfer_stop(stop_id) do
-    Enum.find(@underground_xfers, %{}, fn %{:stop => stop} ->
-      stop == stop_id
-    end)
-    |> Map.get(:lines, [])
-  end
+  def is_maybe_transfer?(_), do: false
 
   @spec to_fare_atom(fare_atom | Route.id_t() | Route.t()) :: fare_atom
   def to_fare_atom(route_or_atom) do
@@ -114,4 +75,32 @@ defmodule Fares.Transfer do
         route_or_atom
     end
   end
+
+  defp same_station?(from_stop, to_stop) do
+    to_parent_stop = Stops.Repo.get_parent(to_stop)
+    from_parent_stop = Stops.Repo.get_parent(from_stop)
+
+    cond do
+      is_nil(to_parent_stop) or is_nil(from_parent_stop) ->
+        false
+
+      to_parent_stop == from_parent_stop ->
+        true
+
+      true ->
+        # Check whether this is DTX <-> Park St via. the Winter St. Concourse
+        uses_concourse?(to_parent_stop, from_parent_stop)
+    end
+  end
+
+  defp is_bus?(route), do: to_fare_atom(route) == :bus
+  defp is_subway?(route), do: to_fare_atom(route) == :subway
+
+  defp uses_concourse?(%Stops.Stop{:id => "place-pktrm"}, %Stops.Stop{:id => "place-dwnxg"}),
+    do: true
+
+  defp uses_concourse?(%Stops.Stop{:id => "place-dwnxg"}, %Stops.Stop{:id => "place-pktrm"}),
+    do: true
+
+  defp uses_concourse?(_, _), do: false
 end
