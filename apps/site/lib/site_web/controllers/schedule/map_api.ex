@@ -30,7 +30,7 @@ defmodule SiteWeb.ScheduleController.MapApi do
   defp get_map_data(conn, route_id, direction_id, stops_by_route_fn) do
     route = LineHelpers.get_route(route_id)
     shape_id = conn.query_params["shape_id"]
-    route_shapes = LineHelpers.get_route_shapes(route.id, direction_id, false)
+    route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)
     route_stops = LineHelpers.get_route_stops(route.id, direction_id, stops_by_route_fn)
     active_shapes = LineHelpers.get_active_shapes(route_shapes, route, shape_id)
     filtered_shapes = LineHelpers.filter_route_shapes(route_shapes, active_shapes, route)
