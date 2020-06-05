@@ -136,7 +136,7 @@ const ScheduleDirection = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [route, state.directionId, staticMapData]
+    [route, state.directionId, currentShapeId, staticMapData]
   );
 
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
