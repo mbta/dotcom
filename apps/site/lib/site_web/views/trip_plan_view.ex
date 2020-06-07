@@ -14,6 +14,18 @@ defmodule SiteWeb.TripPlanView do
 
   @meters_per_mile 1609.34
 
+  @type fare_type :: :highest_one_way_fare | :lowest_one_way_fare | :reduced_one_way_fare
+
+  @type fare_calculation :: %{
+          mode: Route.gtfs_route_type(),
+          # e.g. :commuter_rail
+          mode_name: String.t(),
+          # e.g. "Commuter Rail"
+          name: String.t(),
+          # e.g. "Zone 8"
+          fares: %Fares.Fare{}
+        }
+
   @spec itinerary_explanation(Query.t(), map) :: iodata
   def itinerary_explanation(%Query{time: :unknown}, _) do
     []
@@ -581,15 +593,21 @@ defmodule SiteWeb.TripPlanView do
 
       access_html = i |> accessibility_icon() |> HTML.safe_to_string()
 
-      fare = get_highest_one_way_fare(i)
+      one_way_total_fare = get_one_way_total_by_type(i, :highest_one_way_fare)
 
-      fares_html =
+      fares_estimate_html =
         "_itinerary_fares.html"
         |> render_to_string(
           itinerary: i,
-          one_way_total: Format.price(fare),
-          round_trip_total: Format.price(fare * 2)
+          one_way_total: Format.price(one_way_total_fare),
+          round_trip_total: Format.price(one_way_total_fare * 2)
         )
+
+      fares = get_calculated_fares(i)
+
+      fare_calculator_html =
+        "_fare_calculator.html"
+        |> render_to_string(itinerary: i, fares: fares)
 
       html =
         "_itinerary.html"
@@ -609,7 +627,8 @@ defmodule SiteWeb.TripPlanView do
         id: index,
         map: itinerary_map(map),
         access_html: access_html,
-        fares_html: fares_html
+        fares_estimate_html: fares_estimate_html,
+        fare_calculator_html: fare_calculator_html
       }
     end
   end
@@ -631,17 +650,18 @@ defmodule SiteWeb.TripPlanView do
     )
   end
 
-  @spec get_highest_one_way_fare(TripPlan.Itinerary.t()) :: non_neg_integer
-  def get_highest_one_way_fare(itinerary) do
+  @spec get_one_way_total_by_type(TripPlan.Itinerary.t(), fare_type) :: non_neg_integer
+  def get_one_way_total_by_type(itinerary, fare_type) do
     transit_legs =
       itinerary.legs
       |> Stream.filter(&Leg.transit?/1)
+      |> Stream.filter(fn leg -> get_fare_by_type(leg, fare_type) != nil end)
 
     transit_legs
     |> Stream.with_index()
     |> Enum.reduce(0, fn {leg, leg_index}, acc ->
       if leg_index < 1 do
-        acc + get_highest_one_way_fare_for_leg(leg)
+        acc + (leg |> get_fare_by_type(fare_type) |> fare_cents())
       else
         # Look at this transit leg and previous transit leg
         legs = transit_legs |> Enum.slice(leg_index - 1, 2)
@@ -650,21 +670,10 @@ defmodule SiteWeb.TripPlanView do
         if Transfer.is_subway_transfer?(legs) do
           acc
         else
-          acc + get_highest_one_way_fare_for_leg(leg)
+          acc + (leg |> get_fare_by_type(fare_type) |> fare_cents())
         end
       end
     end)
-  end
-
-  @spec get_highest_one_way_fare_for_leg(Leg.t()) :: non_neg_integer
-  defp get_highest_one_way_fare_for_leg(leg) do
-    leg
-    |> Kernel.get_in([
-      Access.key(:mode, %{}),
-      Access.key(:fares, %{}),
-      Access.key(:highest_one_way_fare, %{})
-    ])
-    |> fare_cents()
   end
 
   @spec fare_cents(Fare.t() | nil) :: non_neg_integer()
@@ -681,4 +690,93 @@ defmodule SiteWeb.TripPlanView do
   @spec cr_prefix(Fare.t()) :: String.t()
   defp cr_prefix(%Fare{mode: :commuter_rail}), do: "Commuter Rail "
   defp cr_prefix(_), do: ""
+
+  @spec get_calculated_fares(TripPlan.Itinerary.t()) :: %{mode: fare_calculation}
+  def get_calculated_fares(itinerary) do
+    itinerary.legs
+    |> Enum.filter(fn leg -> Leg.transit?(leg) end)
+    |> Enum.filter(fn leg ->
+      get_fare_by_type(leg, :highest_one_way_fare) != nil &&
+        get_fare_by_type(leg, :reduced_one_way_fare) != nil
+    end)
+    |> Enum.reduce(%{}, fn leg, acc ->
+      highest_fare =
+        leg
+        |> get_fare_by_type(:highest_one_way_fare)
+
+      mode =
+        highest_fare
+        |> Kernel.get_in([Access.key(:mode)])
+
+      mode_key =
+        if is_tuple(highest_fare.name) do
+          mode_detail = Enum.join(Tuple.to_list(highest_fare.name))
+          String.to_atom(Atom.to_string(mode) <> "_" <> mode_detail)
+        else
+          mode
+        end
+
+      if Map.has_key?(acc, mode_key) do
+        acc
+      else
+        Map.put(acc, mode_key, %{
+          mode: %{
+            mode: mode,
+            mode_name: mode_name(mode),
+            name: Format.name(highest_fare.name),
+            fares: %{
+              highest_one_way_fare: highest_fare,
+              lowest_one_way_fare:
+                leg
+                |> get_fare_by_type(:lowest_one_way_fare),
+              reduced_one_way_fare:
+                leg
+                |> get_fare_by_type(:reduced_one_way_fare)
+            }
+          }
+        })
+      end
+    end)
+  end
+
+  @spec get_fare_by_type(TripPlan.Leg.t(), fare_type) :: Fares.Fare.t()
+  def get_fare_by_type(leg, fare_type) do
+    leg
+    |> Kernel.get_in([
+      Access.key(:mode, %{}),
+      Access.key(:fares, %{}),
+      Access.key(fare_type)
+    ])
+  end
+
+  @spec filter_media(Fare.t()) :: [Fare.media()] | Fare.media()
+  # For CR there are some fare surcharges if payment is made in cash on board.
+  # So for this particular case, cash is filtered out:
+  def filter_media(%Fare{mode: :commuter_rail} = fare) do
+    fare
+    |> Kernel.get_in([Access.key(:media)])
+    |> Enum.filter(fn media -> media != :cash end)
+  end
+
+  def filter_media(fare), do: fare |> Kernel.get_in([Access.key(:media)])
+
+  @spec format_media([Fare.media()] | Fare.media()) :: iodata
+  def format_media(:mticket), do: "mTicket"
+
+  def format_media(list) when is_list(list) do
+    list
+    |> Enum.map(&format_media/1)
+    |> Util.AndOr.join(:or)
+  end
+
+  def format_media(media), do: Format.media(media)
+
+  @spec format_mode(fare_calculation) :: String.t()
+  def format_mode(mode_values) do
+    case mode_values.mode do
+      :bus -> "#{mode_values.name}"
+      :commuter_rail -> "#{mode_values.mode_name} #{mode_values.name}"
+      _ -> "#{mode_values.mode_name}"
+    end
+  end
 end

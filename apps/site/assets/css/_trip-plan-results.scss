@@ -8,6 +8,10 @@
 
   .c-accordion-ui {
     margin: 0;
+
+    &:nth-child(n + 3) {
+      border-top: 0;
+    }
   }
 
   .c-accordion-ui__trigger {
