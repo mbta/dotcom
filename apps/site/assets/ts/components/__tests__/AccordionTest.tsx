@@ -9,7 +9,13 @@ describe("Accordion component", () => {
     createReactRoot();
     const tree = renderer
       .create(
-        <Accordion id="test-accordion" title="Open me for a surprise">
+        <Accordion
+          id="test-accordion"
+          title={{
+            collapsed: "Open me for a surprise",
+            expanded: "Close me, surprise seen"
+          }}
+        >
           <p>The surprise</p>
         </Accordion>
       )
@@ -19,7 +25,13 @@ describe("Accordion component", () => {
 
   it("shows title in heading and children in content", () => {
     const wrapper = shallow(
-      <Accordion id="test-accordion" title="Open me for a surprise">
+      <Accordion
+        id="test-accordion"
+        title={{
+          collapsed: "Open me for a surprise",
+          expanded: "Close me, surprise seen"
+        }}
+      >
         <p>The surprise</p>
       </Accordion>
     );
