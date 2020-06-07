@@ -4,7 +4,10 @@ import React, { ReactElement, useState } from "react";
 // This attempts to mimic the usage of <ExpandableBlock />, where the contents rerender with expanded state
 interface Props {
   id: string;
-  title: string;
+  title: {
+    collapsed: string;
+    expanded: string;
+  };
   children: ReactElement<HTMLElement>;
 }
 
@@ -24,7 +27,7 @@ const Accordion = (props: Props): ReactElement<HTMLElement> => {
             type="button"
           >
             <span className="c-accordion-ui__title" id={`${id}-title`}>
-              {title}
+              {isExpanded ? title.expanded : title.collapsed}
             </span>
             <div className="c-accordion-ui__indicator">
               <span className="c-indicator__content c-indicator__content--angle" />

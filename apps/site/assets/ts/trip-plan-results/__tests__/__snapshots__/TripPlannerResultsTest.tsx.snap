@@ -76,5 +76,45 @@ exports[`it renders 1`] = `
       />
     </div>
   </div>
+  <div
+    className="c-accordion-ui"
+  >
+    <div
+      className="panel"
+      role="heading"
+    >
+      <div
+        className="c-accordion-ui__heading"
+      >
+        <button
+          aria-controls="itinerary-1-fare-calculator-section"
+          aria-expanded={false}
+          className="c-accordion-ui__trigger collapsed"
+          onClick={[Function]}
+          type="button"
+        >
+          <span
+            className="c-accordion-ui__title"
+            id="itinerary-1-fare-calculator-title"
+          >
+            Show fare calculator
+          </span>
+          <div
+            className="c-accordion-ui__indicator"
+          >
+            <span
+              className="c-indicator__content c-indicator__content--angle"
+            />
+          </div>
+        </button>
+      </div>
+      <div
+        aria-labelledby="itinerary-1-fare-calculator-title"
+        className="c-accordion-ui__target js-focus-on-expand"
+        id="itinerary-1-fare-calculator-section"
+        role="region"
+      />
+    </div>
+  </div>
 </div>
 `;
