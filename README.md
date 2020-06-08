@@ -6,13 +6,12 @@ The new face of https://www.mbta.com/
 
 - [Getting Started](#getting-started)
 - [Running the Server](#running-the-server)
-- [Environment Variables](#environment-variables)
-    - [`V3_API_KEY`](#v3_api_key)
-    - [`V3_URL`](#v3_url)
-    - [`GOOGLE_API_KEY`](#google_api_key)
-    - [`DRUPAL_ROOT`](#drupal_root)
-    - [`ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_ADMIN_KEY`](#algolia_app_id-algolia_search_key-and-algolia_admin_key)
-    - [Making the variables available to the app](#making-the-variables-available-to-the-app)
+- [Environment Variables](docs/ENVIRONMENT.md)
+    - [`V3_URL`](docs/ENVIRONMENT.md#v3_url)
+    - [`V3_API_KEY`](docs/ENVIRONMENT.md#v3_api_key)
+    - [`DRUPAL_ROOT`](docs/ENVIRONMENT.md#drupal_root)
+    - [`GOOGLE_API_KEY`](docs/ENVIRONMENT.md#google_api_key)
+    - [`ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_ADMIN_KEY`](docs/ENVIRONMENT.md#algolia_app_id-algolia_search_key-and-algolia_admin_key)
 - [Additional documentation](#additional-documentation)
 
 ## Getting Started
