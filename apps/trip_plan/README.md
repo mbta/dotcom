@@ -12,6 +12,6 @@ We run our [own instance](https://github.com/mbta/OpenTripPlanner) of the [OpenT
 
 ## Data Structures
 
-A [TripPlan](http://dev.opentripplanner.org/apidoc/1.0.0/json_TripPlan.html) consists of a list of [Itineraries](http://dev.opentripplanner.org/apidoc/1.0.0/json_Itinerary.html), or possible routes you might take.
+A TripPlan [(OTP data type)](http://dev.opentripplanner.org/apidoc/1.0.0/json_TripPlan.html) consists of a list of Itineraries [(OTP data type)](http://dev.opentripplanner.org/apidoc/1.0.0/json_Itinerary.html) [(Elixir module)](lib/trip_plan/itinerary.ex), or possible routes you might take.
 
-An Itinerary contains a sequenced list of [Legs](http://dev.opentripplanner.org/apidoc/1.0.0/json_Leg.html). Each leg is a portion of the journey on one mode. This could be "Take the Green Line to North Station," or, "Walk to the bus stop at the corner of Porter St. and Garfield Rd."
+An Itinerary contains a sequenced list of Legs [(OTP data type)](http://dev.opentripplanner.org/apidoc/1.0.0/json_Leg.html) [(Elixir module)](lib/trip_plan/leg.ex). Each leg is a portion of the journey on one mode. This could be "Take the Green Line to North Station," or, "Walk to the bus stop at the corner of Porter St. and Garfield Rd."
