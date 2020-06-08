@@ -22,6 +22,29 @@ export interface Payload {
   routePattern?: EnhancedRoutePattern;
 }
 
+export const toggleDirectionAction = (): MenuAction => ({
+  type: "toggleDirection"
+});
+
+export const setRoutePatternAction = (
+  routePattern: EnhancedRoutePattern
+): MenuAction => ({
+  type: "setRoutePattern",
+  payload: { routePattern }
+});
+
+export const toggleRoutePatternMenuAction = (): MenuAction => ({
+  type: "toggleRoutePatternMenu"
+});
+
+export const closeRoutePatternMenuAction = (): MenuAction => ({
+  type: "closeRoutePatternMenu"
+});
+
+export const showAllRoutePatternsAction = (): MenuAction => ({
+  type: "showAllRoutePatterns"
+});
+
 export interface MenuAction {
   type:
     | "toggleDirection"

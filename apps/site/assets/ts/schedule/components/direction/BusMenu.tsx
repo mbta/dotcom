@@ -3,7 +3,12 @@ import React, {
   Dispatch,
   KeyboardEvent as ReactKeyboardEvent
 } from "react";
-import { MenuAction } from "./reducer";
+import {
+  MenuAction,
+  setRoutePatternAction,
+  showAllRoutePatternsAction,
+  toggleRoutePatternMenuAction
+} from "./reducer";
 import { EnhancedRoutePattern } from "../__schedule";
 import handleNavigation from "./menu-helpers";
 import renderSvg from "../../../helpers/render-svg";
@@ -28,8 +33,12 @@ interface RoutePatternItem {
   dispatch: Dispatch<MenuAction>;
 }
 
+interface UncommonDestinationsItem {
+  routePatternIds: string[];
+  dispatch: Dispatch<MenuAction>;
+}
+
 interface BusMenuSelectProps {
-  clickableMenu: boolean;
   routePatterns: EnhancedRoutePattern[];
   selectedRoutePatternId: string;
   dispatch: Dispatch<MenuAction>;
@@ -50,16 +59,15 @@ const RoutePatternItem = ({
   dispatch
 }: RoutePatternItem): ReactElement<HTMLElement> => {
   const selectedClass = selected ? " m-schedule-direction__menu--selected" : "";
+
   const icon = selected ? (
     <div className="m-schedule-direction__checkmark">
       {renderSvg("c-svg__icon", checkIcon)}
     </div>
   ) : null;
-  const handleClick = (): void =>
-    dispatch({
-      type: "setRoutePattern",
-      payload: { routePattern }
-    });
+
+  const handleClick = (): void => dispatch(setRoutePatternAction(routePattern));
+
   return (
     <div
       aria-current={selected ? "page" : undefined}
@@ -86,6 +94,40 @@ const RoutePatternItem = ({
         {duplicated && `from ${routePattern.name.split(" - ")[0]}, `}
         {routePattern.time_desc ||
           typicalityDefaultText(routePattern.typicality)}
+      </div>
+    </div>
+  );
+};
+
+const UncommonDestinationsItem = ({
+  routePatternIds,
+  dispatch
+}: UncommonDestinationsItem): ReactElement<HTMLElement> => {
+  const handleClick = (): void => dispatch(showAllRoutePatternsAction());
+
+  return (
+    <div
+      id="route-pattern_uncommon"
+      role="menuitem"
+      tabIndex={0}
+      aria-label="click for additional routes"
+      className="m-schedule-direction__menu-item"
+      onClick={handleClick}
+      onKeyUp={(e: ReactKeyboardEvent) =>
+        handleReactEnterKeyPress(e, () => {
+          handleClick();
+        })
+      }
+      onKeyDown={(e: ReactKeyboardEvent) => {
+        handleNavigation(e, routePatternIds);
+      }}
+    >
+      <div className="m-schedule-direction__menu-item-more">
+        Uncommon destinations{" "}
+        {renderSvg(
+          "c-svg__icon m-schedule-direction__route-pattern-arrow",
+          arrowIcon
+        )}
       </div>
     </div>
   );
@@ -125,17 +167,19 @@ export const ExpandedBusMenu = ({
 }: ExpandedBusMenuProps): ReactElement<HTMLElement> => {
   const filterRule = (routePattern: EnhancedRoutePattern): boolean =>
     showAllRoutePatterns ? true : routePattern.typicality < 3;
-  const handleClick = (): void =>
-    dispatch({ type: "showAllRoutePatterns", payload: {} });
+
   const focusIndex = determineFocusIndex(itemFocus, routePatterns);
+
   const toggleButtonIds =
     hasMoreRoutePatterns(routePatterns) && showAllRoutePatterns === false
       ? ["uncommon"]
       : [];
+
   const routePatternIds = routePatterns
     .filter(filterRule)
     .map((routePattern: EnhancedRoutePattern) => routePattern.id)
     .concat(toggleButtonIds);
+
   return (
     <div className="m-schedule-direction__menu" role="menu">
       {routePatterns
@@ -151,32 +195,13 @@ export const ExpandedBusMenu = ({
             dispatch={dispatch}
           />
         ))}
-      {hasMoreRoutePatterns(routePatterns) && showAllRoutePatterns === false && (
-        <div
-          id="route-pattern_uncommon"
-          role="menuitem"
-          tabIndex={0}
-          aria-label="click for additional routes"
-          className="m-schedule-direction__menu-item"
-          onClick={handleClick}
-          onKeyUp={(e: ReactKeyboardEvent) =>
-            handleReactEnterKeyPress(e, () => {
-              handleClick();
-            })
-          }
-          onKeyDown={(e: ReactKeyboardEvent) => {
-            handleNavigation(e, routePatternIds);
-          }}
-        >
-          <div className="m-schedule-direction__menu-item-more">
-            Uncommon destinations{" "}
-            {renderSvg(
-              "c-svg__icon m-schedule-direction__route-pattern-arrow",
-              arrowIcon
-            )}
-          </div>
-        </div>
-      )}
+      {hasMoreRoutePatterns(routePatterns) &&
+        showAllRoutePatterns === false && (
+          <UncommonDestinationsItem
+            routePatternIds={routePatternIds}
+            dispatch={dispatch}
+          />
+        )}
     </div>
   );
 };
@@ -191,19 +216,20 @@ const routePatternNameById = (
   )!.headsign;
 
 export const BusMenuSelect = ({
-  clickableMenu,
   routePatterns,
   selectedRoutePatternId,
   dispatch
 }: BusMenuSelectProps): ReactElement<HTMLElement> => {
-  const handleClick = clickableMenu
+  const isMenuClickable = routePatterns.length > 1;
+
+  const handleClick = isMenuClickable
     ? () => {
-        dispatch({ type: "toggleRoutePatternMenu", payload: {} });
+        dispatch(toggleRoutePatternMenuAction());
       }
     : /* istanbul ignore next */
       () => {};
 
-  const linkClass = clickableMenu
+  const linkClass = isMenuClickable
     ? " m-schedule-direction__route-pattern--clickable"
     : "";
 
@@ -211,8 +237,8 @@ export const BusMenuSelect = ({
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
       // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
-      tabIndex={clickableMenu ? 0 : undefined}
-      role={clickableMenu ? "button" : undefined}
+      tabIndex={isMenuClickable ? 0 : undefined}
+      role={isMenuClickable ? "button" : undefined}
       className={`m-schedule-direction__route-pattern${linkClass}`}
       onClick={handleClick}
       onKeyUp={e =>
@@ -222,7 +248,7 @@ export const BusMenuSelect = ({
       }
     >
       {routePatternNameById(routePatterns, selectedRoutePatternId)}{" "}
-      {clickableMenu &&
+      {isMenuClickable &&
         renderSvg(
           "c-svg__icon m-schedule-direction__route-pattern-arrow",
           arrowIcon

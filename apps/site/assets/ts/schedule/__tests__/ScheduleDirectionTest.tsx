@@ -5,9 +5,11 @@ import {
 } from "../../app/helpers/testUtils";
 import { mount } from "enzyme";
 import {
+  closeRoutePatternMenuAction,
+  MenuAction as Action,
   menuReducer as reducer,
-  State,
-  MenuAction as Action
+  showAllRoutePatternsAction,
+  State
 } from "../components/direction/reducer";
 import ScheduleDirection, {
   fetchMapData,
@@ -406,9 +408,7 @@ it("can change route pattern for bus mode (accessible)", () => {
 it("reducer can change state correctly for closeRoutePatternMenu", () => {
   const previousState = { ...state, routePatternMenuOpen: true } as State;
 
-  const action = { type: "closeRoutePatternMenu", payload: {} } as Action;
-
-  const nextState = reducer(previousState, action);
+  const nextState = reducer(previousState, closeRoutePatternMenuAction());
 
   expect(nextState.routePatternMenuOpen).toEqual(false);
 });
@@ -416,9 +416,7 @@ it("reducer can change state correctly for closeRoutePatternMenu", () => {
 it("reducer can change state correctly for showAllRoutePatterns", () => {
   const previousState = { ...state, routePatternMenuAll: false } as State;
 
-  const action = { type: "showAllRoutePatterns", payload: {} } as Action;
-
-  const nextState = reducer(previousState, action);
+  const nextState = reducer(previousState, showAllRoutePatternsAction());
 
   expect(nextState.routePatternMenuAll).toEqual(true);
 });
@@ -438,9 +436,9 @@ describe("fetchMapData", () => {
         )
     );
 
-    return fetchMapData("1", 0, ["2"], spy).then(() => {
+    return fetchMapData("1", 0, "2", spy).then(() => {
       expect(window.fetch).toHaveBeenCalledWith(
-        "/schedules/map_api?id=1&direction_id=0"
+        "/schedules/map_api?id=1&direction_id=0&shape_id=2"
       );
       expect(spy).toHaveBeenCalledWith({
         type: "FETCH_STARTED"
@@ -466,9 +464,9 @@ describe("fetchMapData", () => {
         )
     );
 
-    return fetchMapData("1", 0, ["2"], spy).then(() => {
+    return fetchMapData("1", 0, "2", spy).then(() => {
       expect(window.fetch).toHaveBeenCalledWith(
-        "/schedules/map_api?id=1&direction_id=0"
+        "/schedules/map_api?id=1&direction_id=0&shape_id=2"
       );
       expect(spy).toHaveBeenCalledWith({
         type: "FETCH_STARTED"

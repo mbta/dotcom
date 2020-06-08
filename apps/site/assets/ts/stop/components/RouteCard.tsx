@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import { Direction as DirectionType, EnhancedRoute, Stop } from "../../__v3api";
 import Direction from "../../components/Direction";
 import { isSilverLine } from "../../helpers/silver-line";
+import { isABusRoute } from "../../models/route";
 
 interface Props {
   route: EnhancedRoute;
@@ -17,7 +18,7 @@ const routeBgColor = (route: EnhancedRoute): string => {
   if (route.id === "Blue") return "blue-line";
   if (route.id.startsWith("Green-")) return "green-line";
   if (isSilverLine(route.id)) return "silver-line";
-  if (route.type === 3) return "bus";
+  if (isABusRoute(route)) return "bus";
   return "unknown";
 };
 
@@ -25,7 +26,7 @@ const routeBgClass = (route: EnhancedRoute): string =>
   `u-bg--${routeBgColor(route)}`;
 
 const busClass = (route: EnhancedRoute): string =>
-  route.type === 3 && !isSilverLine(route.id) ? "bus-route-sign" : "";
+  isABusRoute(route) && !isSilverLine(route.id) ? "bus-route-sign" : "";
 
 const routeHeader = (route: EnhancedRoute): string =>
   isSilverLine(route.id) ? `Silver Line ${route.name}` : route.name;

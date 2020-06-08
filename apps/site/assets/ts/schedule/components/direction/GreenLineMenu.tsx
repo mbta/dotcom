@@ -4,7 +4,7 @@ import React, {
   KeyboardEvent as ReactKeyboardEvent
 } from "react";
 import { DirectionId, EnhancedRoute } from "../../../__v3api";
-import { MenuAction } from "./reducer";
+import { MenuAction, toggleRoutePatternMenuAction } from "./reducer";
 import renderSvg from "../../../helpers/render-svg";
 import handleNavigation from "./menu-helpers";
 import arrowIcon from "../../../../static/images/icon-down-arrow.svg";
@@ -154,7 +154,7 @@ export const GreenLineSelect = ({
   directionId
 }: GreenLineSelectProps): ReactElement<HTMLElement> => {
   const handleClick = (): void => {
-    dispatch({ type: "toggleRoutePatternMenu", payload: {} });
+    dispatch(toggleRoutePatternMenuAction());
   };
 
   const route = greenRoutes.find(greenRoute => greenRoute.id === routeId)!;

@@ -5,6 +5,7 @@ import {
   statusForCommuterRail
 } from "../../../helpers/prediction-helpers";
 import { modeIcon } from "../../../helpers/icon";
+import { isABusRoute } from "../../../models/route";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
 import { Route } from "../../../__v3api";
 import { EnhancedJourney } from "../__trips";
@@ -61,7 +62,7 @@ const BusTableRow = ({
   return (
     <>
       <td className="schedule-table__cell schedule-table__cell--headsign">
-        {route.type === 3 ? (
+        {isABusRoute(route) ? (
           <RoutePillSmall route={route} />
         ) : (
           <span className="schedule-table__row-route-pill m-route-pills">

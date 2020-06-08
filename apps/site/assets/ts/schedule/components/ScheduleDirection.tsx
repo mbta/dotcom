@@ -34,14 +34,16 @@ export interface Props {
 export const fetchMapData = (
   routeId: string,
   directionId: DirectionId,
-  shapeIds: string[],
+  shapeId: string,
   dispatch: Dispatch<FetchAction>
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
   return (
     window.fetch &&
     window
-      .fetch(`/schedules/map_api?id=${routeId}&direction_id=${directionId}`)
+      .fetch(
+        `/schedules/map_api?id=${routeId}&direction_id=${directionId}&shape_id=${shapeId}`
+      )
       .then(response => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
@@ -51,6 +53,7 @@ export const fetchMapData = (
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
 };
+
 export const fetchLineData = (
   routeId: string,
   directionId: DirectionId,
@@ -73,6 +76,7 @@ export const fetchLineData = (
       .catch(() => dispatch({ type: "FETCH_ERROR" }))
   );
 };
+
 const ScheduleDirection = ({
   route,
   directionId,
@@ -123,11 +127,16 @@ const ScheduleDirection = ({
   useEffect(
     () => {
       if (!staticMapData) {
-        fetchMapData(route.id, state.directionId, shapeIds, dispatchMapData);
+        fetchMapData(
+          route.id,
+          state.directionId,
+          currentShapeId,
+          dispatchMapData
+        );
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [route, state.directionId, staticMapData]
+    [route, state.directionId, currentShapeId, staticMapData]
   );
 
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {

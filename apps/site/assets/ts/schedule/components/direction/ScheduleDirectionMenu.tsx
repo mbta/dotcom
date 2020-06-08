@@ -1,10 +1,11 @@
 import React, { ReactElement, Dispatch, useEffect } from "react";
 import { DirectionId, EnhancedRoute } from "../../../__v3api";
 import { RoutePatternsByDirection } from "../__schedule";
-import { MenuAction } from "./reducer";
+import { MenuAction, closeRoutePatternMenuAction } from "./reducer";
 import { GreenLineSelect, ExpandedGreenMenu } from "./GreenLineMenu";
 import { BusMenuSelect, ExpandedBusMenu } from "./BusMenu";
 import { handleNativeEscapeKeyPress } from "../../../helpers/keyboard-events";
+import { isABusRoute, isAGreenLineRoute } from "../../../models/route";
 
 interface Props {
   route: EnhancedRoute;
@@ -25,7 +26,7 @@ const externalCloseEvent = (dispatch: Dispatch<MenuAction>): void => {
       if (!event.target) return;
       const element = event.target as HTMLElement;
       if (element.closest(".js-m-schedule-click-boundary")) return;
-      dispatch({ type: "closeRoutePatternMenu", payload: {} });
+      dispatch(closeRoutePatternMenuAction());
     },
     true
   );
@@ -34,7 +35,7 @@ const externalCloseEvent = (dispatch: Dispatch<MenuAction>): void => {
     "keydown",
     (event: KeyboardEvent): void => {
       handleNativeEscapeKeyPress(event, () => {
-        dispatch({ type: "closeRoutePatternMenu", payload: {} });
+        dispatch(closeRoutePatternMenuAction());
       });
     }
   );
@@ -50,8 +51,6 @@ const ScheduleDirectionMenu = ({
   itemFocus,
   dispatch
 }: Props): ReactElement<HTMLElement> => {
-  const clickableMenu = routePatternsByDirection[directionId].length > 1;
-
   const routePatterns = routePatternsByDirection[directionId];
 
   useEffect(() => {
@@ -62,16 +61,15 @@ const ScheduleDirectionMenu = ({
   return (
     <div className="js-m-schedule-click-boundary">
       {// bus mode
-      route.type === 3 && (
+      isABusRoute(route) && (
         <BusMenuSelect
-          clickableMenu={clickableMenu}
           routePatterns={routePatternsByDirection[directionId]}
           selectedRoutePatternId={selectedRoutePatternId}
           dispatch={dispatch}
         />
       )}
       {// Green Line
-      route.id.startsWith("Green") && (
+      isAGreenLineRoute(route) && (
         <GreenLineSelect
           routeId={route.id}
           dispatch={dispatch}
@@ -90,7 +88,7 @@ const ScheduleDirectionMenu = ({
           {route.direction_destinations[directionId]}
         </div>
       )}
-      {menuOpen && route.type === 3 && (
+      {menuOpen && isABusRoute(route) && (
         <ExpandedBusMenu
           routePatterns={routePatterns}
           selectedRoutePatternId={selectedRoutePatternId}
@@ -99,7 +97,7 @@ const ScheduleDirectionMenu = ({
           dispatch={dispatch}
         />
       )}
-      {menuOpen && route.id.startsWith("Green") && (
+      {menuOpen && isAGreenLineRoute(route) && (
         <ExpandedGreenMenu directionId={directionId} route={route} />
       )}
     </div>

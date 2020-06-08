@@ -1,7 +1,7 @@
 import React, { ReactElement, Dispatch } from "react";
 import renderSVG from "../../../helpers/render-svg";
 import icon from "../../../../static/images/icon-change-direction.svg";
-import { MenuAction } from "./reducer";
+import { MenuAction, toggleDirectionAction } from "./reducer";
 
 interface Props {
   dispatch: Dispatch<MenuAction>;
@@ -14,7 +14,7 @@ const ScheduleDirectionButton = ({
     type="button"
     className="m-schedule-direction__button btn btn-primary"
     onClick={() => {
-      dispatch({ type: "toggleDirection" });
+      dispatch(toggleDirectionAction());
     }}
   >
     {renderSVG("m-schedule-direction__icon", icon)}Change Direction
