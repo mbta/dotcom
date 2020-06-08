@@ -6,6 +6,16 @@
 
 `npm test` runs all of these in succession.
 
+IMPORTANT NOTE: As of June 2020, Lechmere is closed for construction and the E line will be terminating at North Station for now. This is the list of files that have been affected (whose changes will need to be reverted at a later time):
+
+- `apps/site/lib/green_line.ex`
+- `apps/site/test/green_line_test.exs`
+- `apps/site/test/site_web/controllers/schedule/line_test.exs`
+- `apps/site/test/site_web/controllers/schedule_controller_test.exs`
+- `apps/site/test/site_web/excluded_stops_test.exs`
+- `apps/site/test/site_web/views/partial_view_test.exs`
+- `apps/stops/test/route_stops_test.exs`
+
 ## Dialyzer
 
 * `mix dialyzer`
