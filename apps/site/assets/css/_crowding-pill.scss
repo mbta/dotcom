@@ -1,0 +1,43 @@
+.c-crowding-pill {
+  background-color: $gray-lightest;
+  border: 2px $gray-dark solid;
+  border-radius: $base-spacing / 4;
+  color: $black;
+  display: inline-block;
+  font-size: small;
+  font-weight: bold;
+  margin: $base-spacing / 4 0;
+  padding: 0 $base-spacing / 2;
+  text-transform: uppercase;
+
+  .c-icon__crowding {
+    color: currentColor;
+    margin-right: $base-spacing / 4;
+    vertical-align: middle;
+  }
+
+  &__label {
+    vertical-align: middle;
+  }
+
+  &--not_crowded {
+    .c-icon__crowding .person-middle,
+    .c-icon__crowding .person-right {
+      display: none;
+    }
+  }
+
+  &--some_crowding {
+    background-color: lighten($crowding-some-crowding, 25%);
+    border-color: $crowding-some-crowding;
+
+    .c-icon__crowding .person-right {
+      display: none;
+    }
+  }
+
+  &--crowded {
+    background-color: lighten($crowding-crowded, 25%);
+    border-color: $crowding-crowded;
+  }
+}
