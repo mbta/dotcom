@@ -19,6 +19,7 @@ import redLineIconSvg from "../../static/images/icon-red-line-small.svg";
 import silverLineIconSvg from "../../static/images/icon-silver-line-small.svg";
 import vehicleArrowSvg from "../../static/images/icon-vehicle-bordered-expanded.svg";
 import searchIconSvg from "../../static/images/icon-search-reverse-default.svg";
+import crowdingIconSvg from "../../static/images/icon-crowding.svg";
 
 export const accessibleIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, accessibleIconSvg, false);
@@ -173,3 +174,6 @@ export const TooltipWrapper: React.FC<{
     </Tag>
   );
 };
+
+export const crowdingIcon = (className: string = ""): JSX.Element =>
+  renderSvg(`c-svg__icon c-icon__crowding ${className}`, crowdingIconSvg, true);
