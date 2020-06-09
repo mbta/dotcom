@@ -5,10 +5,10 @@ defmodule SiteWeb.TripPlanView do
   alias Routes.Route
   alias Site.React
   alias Site.TripPlan.{ItineraryRow, Query}
-  alias TripPlan.{Itinerary, Leg}
+  alias TripPlan.{Itinerary, Leg, Transfer}
   alias Phoenix.{HTML, HTML.Form}
   alias SiteWeb.PartialView.SvgIconWithCircle
-  alias Fares.{Fare, Format, Transfer}
+  alias Fares.{Fare, Format}
 
   import Schedules.Repo, only: [end_of_rating: 0]
 

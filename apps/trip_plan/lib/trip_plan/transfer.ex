@@ -1,4 +1,4 @@
-defmodule Fares.Transfer do
+defmodule TripPlan.Transfer do
   @moduledoc """
     Tools for handling logic around transfers between transit legs and modes.
     The MBTA allows transfers between services depending on the fare media used
@@ -6,10 +6,8 @@ defmodule Fares.Transfer do
 
     This logic may be superseded by the upcoming fares work.
   """
-  alias Routes.{Repo, Route}
+  require Fares
   alias TripPlan.{Leg, NamedPosition, TransitDetail}
-
-  @type fare_atom :: Route.gtfs_route_type() | :inner_express_bus | :outer_express_bus
 
   # Paying a single-ride fare for the first may get you a transfer to the second
   # (can't be certain, as it depends on media used)!
@@ -47,34 +45,12 @@ defmodule Fares.Transfer do
          Enum.all?([from_route, to_route], &is_bus?/1) do
       false
     else
-      Map.get(@single_ride_transfers, to_fare_atom(from_route), [])
-      |> Enum.member?(to_fare_atom(to_route))
+      Map.get(@single_ride_transfers, Fares.to_fare_atom(from_route), [])
+      |> Enum.member?(Fares.to_fare_atom(to_route))
     end
   end
 
   def is_maybe_transfer?(_), do: false
-
-  @spec to_fare_atom(fare_atom | Route.id_t() | Route.t()) :: fare_atom
-  def to_fare_atom(route_or_atom) do
-    case route_or_atom do
-      %Route{type: 3, id: id} ->
-        cond do
-          Fares.silver_line_rapid_transit?(id) -> :subway
-          Fares.inner_express?(id) -> :inner_express_bus
-          Fares.outer_express?(id) -> :outer_express_bus
-          true -> :bus
-        end
-
-      %Route{} ->
-        Route.type_atom(route_or_atom)
-
-      <<id::binary>> ->
-        Repo.get(id) |> to_fare_atom
-
-      _ ->
-        route_or_atom
-    end
-  end
 
   defp same_station?(from_stop, to_stop) do
     to_parent_stop = Stops.Repo.get_parent(to_stop)
@@ -93,8 +69,8 @@ defmodule Fares.Transfer do
     end
   end
 
-  defp is_bus?(route), do: to_fare_atom(route) == :bus
-  defp is_subway?(route), do: to_fare_atom(route) == :subway
+  defp is_bus?(route), do: Fares.to_fare_atom(route) == :bus
+  defp is_subway?(route), do: Fares.to_fare_atom(route) == :subway
 
   defp uses_concourse?(%Stops.Stop{id: "place-pktrm"}, %Stops.Stop{id: "place-dwnxg"}),
     do: true

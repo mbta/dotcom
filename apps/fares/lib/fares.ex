@@ -145,4 +145,28 @@ defmodule Fares do
   def inner_express, do: @inner_express_routes
 
   def outer_express, do: @outer_express_routes
+
+  @type fare_atom :: Route.gtfs_route_type() | :inner_express_bus | :outer_express_bus
+
+  @spec to_fare_atom(fare_atom | Route.id_t() | Route.t()) :: fare_atom
+  def to_fare_atom(route_or_atom) do
+    case route_or_atom do
+      %Route{type: 3, id: id} ->
+        cond do
+          silver_line_rapid_transit?(id) -> :subway
+          inner_express?(id) -> :inner_express_bus
+          outer_express?(id) -> :outer_express_bus
+          true -> :bus
+        end
+
+      %Route{} ->
+        Route.type_atom(route_or_atom)
+
+      <<id::binary>> ->
+        Routes.Repo.get(id) |> to_fare_atom
+
+      _ ->
+        route_or_atom
+    end
+  end
 end
