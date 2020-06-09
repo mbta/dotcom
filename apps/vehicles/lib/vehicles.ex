@@ -2,7 +2,7 @@ defmodule Vehicles do
   use Application
 
   @api_params [
-    "fields[vehicle]": "direction_id,current_status,longitude,latitude,bearing",
+    "fields[vehicle]": "direction_id,current_status,longitude,latitude,bearing,occupancy_status",
     include: "stop,trip"
   ]
 

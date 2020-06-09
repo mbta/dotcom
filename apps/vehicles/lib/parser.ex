@@ -1,4 +1,5 @@
 defmodule Vehicles.Parser do
+  @moduledoc false
   alias Vehicles.Vehicle
 
   @spec parse(JsonApi.Item.t()) :: Vehicle.t()
@@ -13,7 +14,8 @@ defmodule Vehicles.Parser do
       status: status(attributes["current_status"]),
       longitude: attributes["longitude"],
       latitude: attributes["latitude"],
-      bearing: attributes["bearing"] || 0
+      bearing: attributes["bearing"] || 0,
+      crowding: crowding(attributes["occupancy_status"])
     }
   end
 
@@ -47,4 +49,14 @@ defmodule Vehicles.Parser do
   defp shape(_) do
     nil
   end
+
+  @spec crowding(String.t()) :: Vehicle.crowding()
+  defp crowding("EMPTY"), do: :not_crowded
+  defp crowding("MANY_SEATS_AVAILABLE"), do: :not_crowded
+  defp crowding("FEW_SEATS_AVAILABLE"), do: :some_crowding
+  defp crowding("STANDING_ROOM_ONLY"), do: :some_crowding
+  defp crowding("CRUSHED_STANDING_ROOM_ONLY"), do: :some_crowding
+  defp crowding("FULL"), do: :crowded
+  defp crowding("NOT_ACCEPTING_PASSENGERS"), do: :crowded
+  defp crowding(_), do: nil
 end
