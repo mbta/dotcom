@@ -8,7 +8,7 @@ defmodule SiteWeb.TripPlanViewTest do
   alias Routes.Route
   alias Site.TripPlan.{IntermediateStop, ItineraryRow, Query}
   alias TripPlan.Api.MockPlanner
-  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
+  alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
   describe "itinerary_explanation/2" do
     @base_explanation_query %Query{
@@ -454,9 +454,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
   describe "transfer_note/1" do
     @note_text "Total may be less with <a href=\"https://www.mbta.com/fares/transfers\">transfers</a>"
     @base_itinerary %Itinerary{start: nil, stop: nil, legs: []}
-    @personal_transfer_leg %Leg{
-      mode: %PersonalDetail{steps: [%PersonalDetail.Step{street_name: "Transfer"}]}
-    }
     leg_for_route = &%Leg{mode: %TransitDetail{route_id: &1}}
     @bus_leg leg_for_route.("77")
     @other_bus_leg leg_for_route.("28")
@@ -553,17 +550,17 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       refute note
     end
 
-    test "no note for subway-subway transfer" do
-      leg1 = %{@subway_leg | to: %{stop_id: "place-dwnxg"}}
-      leg2 = %{@other_subway_leg | from: %{stop_id: "place-dwnxg"}}
+    test "no note for subway-subway transfer - handles parent stops" do
+      leg1 = %{@subway_leg | to: %NamedPosition{stop_id: "place-dwnxg"}}
+      leg2 = %{@other_subway_leg | from: %NamedPosition{stop_id: "place-dwnxg"}}
       note = %{@base_itinerary | legs: [leg1, leg2]} |> transfer_note
       refute note
     end
 
-    test "no note for subway-subway with transfer" do
-      leg1 = %{@subway_leg | to: %{stop_id: "place-dwnxg"}}
-      leg2 = %{@other_subway_leg | from: %{stop_id: "place-dwnxg"}}
-      note = %{@base_itinerary | legs: [leg1, @personal_transfer_leg, leg2]} |> transfer_note
+    test "no note for subway-subway transfer - handles child stops" do
+      leg1 = %{@subway_leg | to: %NamedPosition{stop_id: "70020"}}
+      leg2 = %{@other_subway_leg | from: %NamedPosition{stop_id: "70021"}}
+      note = %{@base_itinerary | legs: [leg1, leg2]} |> transfer_note
       refute note
     end
   end
