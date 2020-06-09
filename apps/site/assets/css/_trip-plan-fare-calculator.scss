@@ -34,6 +34,12 @@
     @include media-breakpoint-down(xs) {
       margin-left: 20px;
     }
+
+    [class*='c-svg__icon'] {
+      height: $icon-size-sm;
+      margin-right: 0.3rem;
+      width: $icon-size-sm;
+    }
   }
 
   &__label {

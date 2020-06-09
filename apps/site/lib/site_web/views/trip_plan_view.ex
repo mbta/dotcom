@@ -338,6 +338,9 @@ defmodule SiteWeb.TripPlanView do
     )
   end
 
+  @spec icon_for_routes([Route.t()]) :: [Phoenix.HTML.Safe.t()]
+  def icon_for_routes(routes), do: Enum.map(routes, &icon_for_route/1)
+
   @spec icon_for_route(Route.t()) :: Phoenix.HTML.Safe.t()
   def icon_for_route(%Route{description: :rail_replacement_bus}) do
     svg_icon_with_circle(%SvgIconWithCircle{icon: :bus})
