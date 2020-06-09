@@ -6,7 +6,6 @@ defmodule TripPlan.Transfer do
 
     This logic may be superseded by the upcoming fares work.
   """
-  require Fares
   alias TripPlan.{Leg, NamedPosition, TransitDetail}
 
   # Paying a single-ride fare for the first may get you a transfer to the second
