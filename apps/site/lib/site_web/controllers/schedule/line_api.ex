@@ -19,7 +19,8 @@ defmodule SiteWeb.ScheduleController.LineApi do
            id: String.t(),
            headsign: String.t() | nil,
            status: String.t(),
-           trip_name: String.t() | nil
+           trip_name: String.t() | nil,
+           crowding: Vehicle.crowding() | nil
          }
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
@@ -130,7 +131,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
   end
 
   @spec simple_vehicle_map(Vehicle.t()) :: simple_vehicle
-  defp simple_vehicle_map(%Vehicle{id: id, status: status, trip_id: trip_id}) do
+  defp simple_vehicle_map(%Vehicle{id: id, status: status, trip_id: trip_id, crowding: crowding}) do
     case SchedulesRepo.trip(trip_id) do
       nil ->
         %{id: id, status: status}
@@ -140,7 +141,8 @@ defmodule SiteWeb.ScheduleController.LineApi do
           id: id,
           headsign: headsign,
           status: status,
-          trip_name: name
+          trip_name: name,
+          crowding: crowding
         }
     end
   end
