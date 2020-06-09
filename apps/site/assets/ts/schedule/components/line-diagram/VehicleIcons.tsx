@@ -1,7 +1,9 @@
 import React from "react";
+import { renderToString } from "react-dom/server";
 import { RouteType } from "../../../__v3api";
-import { LineDiagramVehicle } from "../__schedule";
+import { LineDiagramVehicle, CrowdingType } from "../__schedule";
 import { TooltipWrapper, vehicleArrowIcon } from "../../../helpers/icon";
+import CrowdingPill from "./CrowdingPill";
 
 interface Props {
   routeType: RouteType | null;
@@ -47,6 +49,10 @@ const tooltipText = (
   return `Vehicle ${status}`;
 };
 
+// need a string for usage in the tooltip text
+const CrowdingIconString = (crowding: CrowdingType): string =>
+  renderToString(<CrowdingPill crowding={crowding} />);
+
 const VehicleIcons = ({
   routeType,
   stopName,
@@ -60,7 +66,9 @@ const VehicleIcons = ({
       }`}
     >
       <TooltipWrapper
-        tooltipText={`<div class="m-schedule-diagram__vehicle-tooltip">${tooltipText(routeType, stopName, vehicle)}</div>`}
+        tooltipText={`<div class="m-schedule-diagram__vehicle-tooltip">${
+          vehicle.crowding ? `${CrowdingIconString(vehicle.crowding)}<br/>` : ""
+        }${tooltipText(routeType, stopName, vehicle)}</div>`}
         tooltipOptions={{ placement: "right", animation: false, html: true }}
       >
         {vehicleArrowIcon("m-schedule-diagram__vehicle--icon")}
