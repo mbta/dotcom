@@ -128,6 +128,10 @@ Start the server with `mix phx.server`
 
 Then, visit the site at http://localhost:4001/
 
-## Additional documentation
+## Additional Documentation
 
 See [docs](docs) for information about [testing](docs/TESTING.md) and other development details.
+
+### Nested Applications
+
+- [TripPlan](apps/trip_plan/README.md)
