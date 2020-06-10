@@ -67,9 +67,12 @@ defmodule Fares.OneWay do
           (Keyword.t() -> [Fare.t()])
         ) ::
           Fare.t() | nil
-  def reduced_fare(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1) do
-    # The reduced fare is always the same so we just return any element from the list
+  def reduced_fare(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
 
+  def reduced_fare(nil, _, _, _, _), do: nil
+
+  def reduced_fare(route, trip, origin_id, destination_id, fare_fn) do
+    # The reduced fare is always the same so we just return any element from the list
     route
     |> get_fares(trip, origin_id, destination_id, fare_fn)
     |> Enum.filter(fn fare -> fare.reduced != nil end)
