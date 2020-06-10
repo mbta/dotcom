@@ -8,7 +8,7 @@ defmodule SiteWeb.TripPlanViewTest do
   alias Routes.Route
   alias Site.TripPlan.{IntermediateStop, ItineraryRow, Query}
   alias TripPlan.Api.MockPlanner
-  alias TripPlan.{Itinerary, Leg, TransitDetail}
+  alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
   describe "itinerary_explanation/2" do
     @base_explanation_query %Query{
@@ -456,7 +456,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     @base_itinerary %Itinerary{start: nil, stop: nil, legs: []}
     leg_for_route = &%Leg{mode: %TransitDetail{route_id: &1}}
     @bus_leg leg_for_route.("77")
+    @other_bus_leg leg_for_route.("28")
     @subway_leg leg_for_route.("Red")
+    @other_subway_leg leg_for_route.("Orange")
     @cr_leg leg_for_route.("CR-Lowell")
     @ferry_leg leg_for_route.("Boat-F4")
     @innerxp_leg leg_for_route.("326")
@@ -475,7 +477,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "shows note for bus-bus transfer" do
-      note = %{@base_itinerary | legs: [@bus_leg, @bus_leg]} |> transfer_note
+      note = %{@base_itinerary | legs: [@bus_leg, @other_bus_leg]} |> transfer_note
       assert note |> safe_to_string() =~ @note_text
     end
 
@@ -548,9 +550,17 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       refute note
     end
 
-    @tag skip: "This will fail for now"
-    test "no note for subway-subway transfer" do
-      note = %{@base_itinerary | legs: [@subway_leg, @subway_leg]} |> transfer_note
+    test "no note for subway-subway transfer - handles parent stops" do
+      leg1 = %{@subway_leg | to: %NamedPosition{stop_id: "place-dwnxg"}}
+      leg2 = %{@other_subway_leg | from: %NamedPosition{stop_id: "place-dwnxg"}}
+      note = %{@base_itinerary | legs: [leg1, leg2]} |> transfer_note
+      refute note
+    end
+
+    test "no note for subway-subway transfer - handles child stops" do
+      leg1 = %{@subway_leg | to: %NamedPosition{stop_id: "70020"}}
+      leg2 = %{@other_subway_leg | from: %NamedPosition{stop_id: "70021"}}
+      note = %{@base_itinerary | legs: [leg1, leg2]} |> transfer_note
       refute note
     end
   end
@@ -750,6 +760,61 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             url: "http://www.mbta.com"
           }
         ]
+      }
+
+      assert get_highest_one_way_fare(itinerary) == 290
+    end
+
+    test "gets the highest one-way fare correctly with subway -> subway xfer" do
+      subway_leg_for_route =
+        &%Leg{
+          from: %NamedPosition{},
+          to: %NamedPosition{},
+          mode: %TransitDetail{
+            route_id: &1,
+            fares: %{
+              highest_one_way_fare: %Fares.Fare{
+                additional_valid_modes: [:bus],
+                cents: 290,
+                duration: :single_trip,
+                media: [:charlie_ticket, :cash],
+                mode: :subway,
+                name: :subway,
+                price_label: nil,
+                reduced: nil
+              },
+              lowest_one_way_fare: %Fares.Fare{
+                additional_valid_modes: [:bus],
+                cents: 240,
+                duration: :single_trip,
+                media: [:charlie_card],
+                mode: :subway,
+                name: :subway,
+                price_label: nil,
+                reduced: nil
+              }
+            }
+          }
+        }
+
+      red_leg = %{
+        subway_leg_for_route.("Red")
+        | to: %NamedPosition{
+            stop_id: "place-dwnxg"
+          }
+      }
+
+      orange_leg = %{
+        subway_leg_for_route.("Orange")
+        | from: %NamedPosition{
+            stop_id: "place-dwnxg"
+          }
+      }
+
+      itinerary = %TripPlan.Itinerary{
+        start: nil,
+        stop: nil,
+        legs: [red_leg, orange_leg]
       }
 
       assert get_highest_one_way_fare(itinerary) == 290

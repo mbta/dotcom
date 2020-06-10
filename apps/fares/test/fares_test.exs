@@ -1,6 +1,7 @@
 defmodule FaresTest do
   use ExUnit.Case, async: true
   doctest Fares
+  alias Routes.Route
 
   describe "calculate_commuter_rail/2" do
     test "when the origin is zone 6, finds the zone 6 fares" do
@@ -106,6 +107,44 @@ defmodule FaresTest do
 
     test "origin_id can be nil" do
       refute Fares.silver_line_airport_stop?("741", nil)
+    end
+  end
+
+  describe "to_fare_atom/1" do
+    test "silver line rapid transit returns subway" do
+      assert Fares.to_fare_atom(%Route{type: 3, id: "741"}) == :subway
+    end
+
+    test "silver line returns bus" do
+      assert Fares.to_fare_atom(%Route{type: 3, id: "751"}) == :bus
+    end
+
+    test "inner express bus returns :inner_express_bus" do
+      assert Fares.to_fare_atom(%Route{type: 3, id: "170"}) == :inner_express_bus
+    end
+
+    test "outer express bus returns :outer_express_bus" do
+      assert Fares.to_fare_atom(%Route{type: 3, id: "352"}) == :outer_express_bus
+    end
+
+    test "other types of routes return specific atoms" do
+      assert Fares.to_fare_atom(%Route{type: 0, id: "Green-B"}) == :subway
+      assert Fares.to_fare_atom(%Route{type: 1, id: "Red"}) == :subway
+      assert Fares.to_fare_atom(%Route{type: 2, id: "CR-Fitchburg"}) == :commuter_rail
+      assert Fares.to_fare_atom(%Route{type: 3, id: "1"}) == :bus
+    end
+
+    test "also works with route IDs" do
+      assert Fares.to_fare_atom("Green-B") == :subway
+      assert Fares.to_fare_atom("Red") == :subway
+      assert Fares.to_fare_atom("CR-Fitchburg") == :commuter_rail
+      assert Fares.to_fare_atom("1") == :bus
+    end
+
+    test "handles fare atoms" do
+      assert Fares.to_fare_atom(:subway) == :subway
+      assert Fares.to_fare_atom(:commuter_rail) == :commuter_rail
+      assert Fares.to_fare_atom(:bus) == :bus
     end
   end
 end
