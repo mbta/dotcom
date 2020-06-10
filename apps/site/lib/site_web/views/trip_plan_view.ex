@@ -627,17 +627,6 @@ defmodule SiteWeb.TripPlanView do
     )
   end
 
-  @spec get_highest_one_way_fare_for_leg(Leg.t()) :: non_neg_integer
-  def get_highest_one_way_fare_for_leg(leg) do
-    leg
-    |> Kernel.get_in([
-      Access.key(:mode, %{}),
-      Access.key(:fares, %{}),
-      Access.key(:highest_one_way_fare, %{}),
-      Access.key(:cents, 0)
-    ])
-  end
-
   @spec get_highest_one_way_fare(TripPlan.Itinerary.t()) :: non_neg_integer
   def get_highest_one_way_fare(itinerary) do
     transit_legs =
@@ -662,6 +651,21 @@ defmodule SiteWeb.TripPlanView do
       end
     end)
   end
+
+  @spec get_highest_one_way_fare_for_leg(Leg.t()) :: non_neg_integer
+  defp get_highest_one_way_fare_for_leg(leg) do
+    leg
+    |> Kernel.get_in([
+      Access.key(:mode, %{}),
+      Access.key(:fares, %{}),
+      Access.key(:highest_one_way_fare, %{})
+    ])
+    |> fare_cents()
+  end
+
+  @spec fare_cents(Fare.t() | nil) :: non_neg_integer()
+  defp fare_cents(nil), do: 0
+  defp fare_cents(%Fare{cents: cents}), do: cents
 
   @spec monthly_pass(Fare.t() | nil) :: String.t()
   def monthly_pass(nil), do: Format.full_name(nil)
