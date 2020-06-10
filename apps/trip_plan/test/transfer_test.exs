@@ -158,5 +158,27 @@ defmodule TransferTest do
       assert is_subway_transfer?(legs_with_transfer)
       refute is_subway_transfer?(legs_without_transfer)
     end
+
+    test "handles transfers within the Winter St. Concourse" do
+      leg_to_park = %Leg{
+        mode: %TransitDetail{
+          route_id: "Green-C"
+        },
+        to: %NamedPosition{
+          stop_id: "71199"
+        }
+      }
+
+      leg_from_dtx = %Leg{
+        mode: %TransitDetail{
+          route_id: "Orange"
+        },
+        from: %NamedPosition{
+          stop_id: "70020"
+        }
+      }
+
+      assert is_subway_transfer?([leg_to_park, leg_from_dtx])
+    end
   end
 end
