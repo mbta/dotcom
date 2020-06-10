@@ -76,9 +76,11 @@ defmodule Site.TripPlan.RelatedLink do
 
   defp route_links(itinerary, opts) do
     route_by_id = Keyword.get(opts, :route_by_id)
+    not_shuttle? = fn route -> route.description !== :rail_replacement_bus end
 
     for {route_id, trip_id} <- Itinerary.route_trip_ids(itinerary),
-        %Route{} = route <- [route_by_id.(route_id)] do
+        %Route{} = route <- [route_by_id.(route_id)],
+        not_shuttle?.(route) do
       route_link(route, trip_id, itinerary)
     end
   end
