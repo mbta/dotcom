@@ -820,6 +820,76 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert get_highest_one_way_fare(itinerary) == 290
     end
 
+    test "returns 0 when there is no highest one-way fare" do
+      itinerary = %TripPlan.Itinerary{
+        start: nil,
+        stop: nil,
+        legs: [
+          %TripPlan.Leg{
+            description: "WALK",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.365486,
+              longitude: -71.103802,
+              name: "Central",
+              stop_id: nil
+            },
+            long_name: nil,
+            mode: %TripPlan.PersonalDetail{
+              distance: 24.274,
+              steps: [
+                %TripPlan.PersonalDetail.Step{
+                  absolute_direction: :southeast,
+                  distance: 24.274,
+                  relative_direction: :depart,
+                  street_name: "Massachusetts Avenue"
+                }
+              ]
+            },
+            name: "",
+            polyline: "eoqaGzm~pLTe@BE@A",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.365304,
+              longitude: -71.103621,
+              name: "Central",
+              stop_id: "70069"
+            },
+            type: nil,
+            url: nil
+          },
+          %TripPlan.Leg{
+            description: "SUBWAY",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.365304,
+              longitude: -71.103621,
+              name: "Central",
+              stop_id: "70069"
+            },
+            long_name: "Red Line",
+            mode: %TripPlan.TransitDetail{
+              fares: %{
+                highest_one_way_fare: nil,
+                lowest_one_way_fare: nil
+              },
+              intermediate_stop_ids: ["70071", "70073"],
+              route_id: "Red",
+              trip_id: "43870769C0"
+            },
+            name: "Red Line",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.356395,
+              longitude: -71.062424,
+              name: "Park Street",
+              stop_id: "70075"
+            },
+            type: "1",
+            url: "http://www.mbta.com"
+          }
+        ]
+      }
+
+      assert get_highest_one_way_fare(itinerary) == 0
+    end
+
     test "shows a transfer note", %{conn: conn} do
       fares_with_transfer =
         Map.put(@fares_assigns, :itinerary, %{
