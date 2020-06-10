@@ -417,6 +417,16 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         assert safe_to_string(icon) =~ expected_icon_class
       end
     end
+
+    test "rail replacement buses" do
+      route = %Routes.Route{
+        description: :rail_replacement_bus,
+        type: 3
+      }
+
+      icon = icon_for_route(route)
+      assert safe_to_string(icon) =~ "bus"
+    end
   end
 
   describe "transfer_route_name/1" do
