@@ -132,7 +132,7 @@ defmodule Fares.FormatTest do
 
     test "returns the full_name for other fares" do
       assert concise_full_name(%Fare{mode: :subway, duration: :month}) == "Monthly LinkPass"
-      assert full_name(%Fare{duration: :day}) == "1-Day Pass"
+      assert concise_full_name(%Fare{duration: :day}) == "1-Day Pass"
     end
   end
 
