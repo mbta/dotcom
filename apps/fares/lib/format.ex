@@ -112,6 +112,15 @@ defmodule Fares.Format do
     [name(fare), " ", duration(fare)]
   end
 
+  @spec concise_full_name(Fare.t()) :: String.t() | iolist()
+  def concise_full_name(%Fare{mode: :commuter_rail} = fare), do: name(fare)
+
+  def concise_full_name(%Fare{mode: :bus, name: name} = fare)
+      when name in [:inner_express_bus, :outer_express_bus],
+      do: name(fare)
+
+  def concise_full_name(fare), do: full_name(fare)
+
   @spec summarize([Fare.t()], mode_type | [mode_type], String.t() | nil) :: [Summary.t()]
   def summarize(fares, mode, url \\ nil)
 

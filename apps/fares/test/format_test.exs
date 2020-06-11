@@ -104,6 +104,38 @@ defmodule Fares.FormatTest do
     end
   end
 
+  describe "concise_full_name/1" do
+    test "returns the full name excluding 'Monthly Pass' for commuter rail and express buses" do
+      cr_fare = %Fare{
+        mode: :commuter_rail,
+        media: [:commuter_ticket],
+        duration: :month,
+        name: {:zone, "7"}
+      }
+
+      inner_express_fare = %Fare{
+        name: :inner_express_bus,
+        mode: :bus,
+        duration: :month
+      }
+
+      outer_express_fare = %Fare{
+        name: :outer_express_bus,
+        mode: :bus,
+        duration: :month
+      }
+
+      assert concise_full_name(cr_fare) == "Zone 7"
+      assert concise_full_name(inner_express_fare) == "Inner Express Bus"
+      assert concise_full_name(outer_express_fare) == "Outer Express Bus"
+    end
+
+    test "returns the full_name for other fares" do
+      assert concise_full_name(%Fare{mode: :subway, duration: :month}) == "Monthly LinkPass"
+      assert concise_full_name(%Fare{duration: :day}) == "1-Day Pass"
+    end
+  end
+
   test "duration/1" do
     assert duration(%Fare{duration: :single_trip}) == "One-Way"
     assert duration(%Fare{duration: :round_trip}) == "Round Trip"

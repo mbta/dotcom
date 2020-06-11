@@ -968,7 +968,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         reduced: nil
       }
 
-      assert monthly_pass(fare) == "Commuter Rail Zone 7 Monthly Pass: $360.00"
+      assert monthly_pass(fare) == "Commuter Rail Zone 7: $360.00"
     end
   end
 end
