@@ -13,8 +13,20 @@ describe("VehicleIcons", () => {
         routeType={0}
         stopName="Test"
         vehicles={[
-          { id: "v1", headsign: null, status: "stopped", trip_name: null },
-          { id: "v2", headsign: null, status: "incoming", trip_name: null }
+          {
+            id: "v1",
+            headsign: null,
+            status: "stopped",
+            trip_name: null,
+            crowding: null
+          },
+          {
+            id: "v2",
+            headsign: null,
+            status: "incoming",
+            trip_name: null,
+            crowding: null
+          }
         ]}
       />
     );
@@ -32,17 +44,29 @@ describe("VehicleIcons", () => {
         routeType={null}
         stopName="Test"
         vehicles={[
-          { id: "v1", headsign: null, status: "incoming", trip_name: null }
+          {
+            id: "v1",
+            headsign: null,
+            status: "incoming",
+            trip_name: null,
+            crowding: null
+          }
         ]}
       />
     );
 
-    expect(tooltipText(wrapper)).toEqual("Vehicle is arriving at Test");
+    expect(tooltipText(wrapper)).toContain("Vehicle is arriving at Test");
   });
 
   it("uses a vehicle name appropriate to the route type", () => {
     const vehicles: LineDiagramVehicle[] = [
-      { id: "v1", headsign: null, status: "incoming", trip_name: null }
+      {
+        id: "v1",
+        headsign: null,
+        status: "incoming",
+        trip_name: null,
+        crowding: null
+      }
     ];
     const tramWrapper = shallow(
       <VehicleIcons routeType={0} stopName="Test" vehicles={vehicles} />
@@ -51,8 +75,8 @@ describe("VehicleIcons", () => {
       <VehicleIcons routeType={3} stopName="Test" vehicles={vehicles} />
     );
 
-    expect(tooltipText(tramWrapper)).toEqual("Train is arriving at Test");
-    expect(tooltipText(busWrapper)).toEqual("Bus is arriving at Test");
+    expect(tooltipText(tramWrapper)).toContain("Train is arriving at Test");
+    expect(tooltipText(busWrapper)).toContain("Bus is arriving at Test");
   });
 
   it("includes the vehicle headsign if available", () => {
@@ -61,17 +85,29 @@ describe("VehicleIcons", () => {
         routeType={0}
         stopName="Test"
         vehicles={[
-          { id: "v1", headsign: "Dest", status: "incoming", trip_name: null }
+          {
+            id: "v1",
+            headsign: "Dest",
+            status: "incoming",
+            trip_name: null,
+            crowding: null
+          }
         ]}
       />
     );
 
-    expect(tooltipText(wrapper)).toEqual("Dest train is arriving at Test");
+    expect(tooltipText(wrapper)).toContain("Dest train is arriving at Test");
   });
 
   it("includes the trip name as a train number for commuter rail", () => {
     const vehicles: LineDiagramVehicle[] = [
-      { id: "v1", headsign: "Dest", status: "incoming", trip_name: "18" }
+      {
+        id: "v1",
+        headsign: "Dest",
+        status: "incoming",
+        trip_name: "18",
+        crowding: null
+      }
     ];
     const crWrapper = shallow(
       <VehicleIcons routeType={2} stopName="Test" vehicles={vehicles} />
@@ -80,7 +116,29 @@ describe("VehicleIcons", () => {
       <VehicleIcons routeType={3} stopName="Test" vehicles={vehicles} />
     );
 
-    expect(tooltipText(crWrapper)).toEqual("Dest train 18 is arriving at Test");
-    expect(tooltipText(busWrapper)).toEqual("Dest bus is arriving at Test");
+    expect(tooltipText(crWrapper)).toContain(
+      "Dest train 18 is arriving at Test"
+    );
+    expect(tooltipText(busWrapper)).toContain("Dest bus is arriving at Test");
+  });
+
+  it("includes the vehicle crowding status if available", () => {
+    const wrapper = shallow(
+      <VehicleIcons
+        routeType={0}
+        stopName="Test"
+        vehicles={[
+          {
+            id: "v1",
+            headsign: "Dest",
+            status: "incoming",
+            trip_name: null,
+            crowding: "some_crowding"
+          }
+        ]}
+      />
+    );
+
+    expect(tooltipText(wrapper)).toContain("Some crowding");
   });
 });

@@ -1,0 +1,11 @@
+ <svg xmlns="http://www.w3.org/2000/svg" role="img" viewBox="0 0 48 48">
+  <title>
+    vehicle crowding status
+  </title>
+  <path class="person person-left" d="m6.86 16.05a6.86 6.86 0 0 0 -6.86 6.86v17.77a3.43 3.43 0 0 0 3.43 3.42h6.86a3.42 3.42 0 0 0 3.42-3.42v-17.77a6.86 6.86 0 0 0 -6.85-6.86z"/>
+  <path class="person person-left" d="m6.9 13.23a4.93 4.93 0 1 0 -4.9-4.93 4.93 4.93 0 0 0 4.9 4.93z"/>
+  <path class="person person-middle" d="m24 16.05a6.86 6.86 0 0 0 -6.86 6.86v17.77a3.43 3.43 0 0 0 3.43 3.42h6.86a3.43 3.43 0 0 0 3.43-3.42v-17.77a6.86 6.86 0 0 0 -6.86-6.86z"/>
+  <path class="person person-middle" d="m24.05 13.23a4.93 4.93 0 1 0 -4.93-4.93 4.93 4.93 0 0 0 4.93 4.93z"/>
+  <path class="person person-right" d="m41.14 16.05a6.86 6.86 0 0 0 -6.85 6.86v17.77a3.42 3.42 0 0 0 3.42 3.42h6.86a3.43 3.43 0 0 0 3.43-3.42v-17.77a6.86 6.86 0 0 0 -6.86-6.86z"/>
+  <path class="person person-right" d="m41.19 13.23a4.93 4.93 0 1 0 -4.93-4.93 4.93 4.93 0 0 0 4.93 4.93z"/>
+</svg>

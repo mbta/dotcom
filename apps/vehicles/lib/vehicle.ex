@@ -1,4 +1,5 @@
 defmodule Vehicles.Vehicle do
+  @moduledoc false
   defstruct [
     :id,
     :route_id,
@@ -9,10 +10,12 @@ defmodule Vehicles.Vehicle do
     :longitude,
     :latitude,
     :status,
-    bearing: 0
+    :bearing,
+    :crowding
   ]
 
   @type status :: :in_transit | :stopped | :incoming
+  @type crowding :: :not_crowded | :some_crowding | :crowded
 
   @type t :: %__MODULE__{
           id: String.t(),
@@ -24,6 +27,7 @@ defmodule Vehicles.Vehicle do
           longitude: float,
           latitude: float,
           bearing: non_neg_integer,
-          status: status
+          status: status,
+          crowding: crowding | nil
         }
 end

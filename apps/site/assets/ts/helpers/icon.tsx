@@ -19,6 +19,7 @@ import redLineIconSvg from "../../static/images/icon-red-line-small.svg";
 import silverLineIconSvg from "../../static/images/icon-silver-line-small.svg";
 import vehicleArrowSvg from "../../static/images/icon-vehicle-bordered-expanded.svg";
 import searchIconSvg from "../../static/images/icon-search-reverse-default.svg";
+import crowdingIconSvg from "../../static/images/icon-crowding.svg";
 
 export const accessibleIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, accessibleIconSvg, false);
@@ -124,20 +125,36 @@ visual appearance itself.
 Note: data-selector="true" and data-original-title are
 specified here in order to preserve `title` text post-trigger
 */
+
+// Corresponds to Bootstrap's tooltip options
+interface TooltipOptions {
+  animation?: boolean;
+  container?: string | HTMLElement | false;
+  delay?: number | object;
+  html?: boolean;
+  placement?: string | Function;
+  selector?: string;
+  template?: string;
+  title?: string | HTMLElement | Function;
+  trigger?: string;
+  constraints?: [];
+  offset?: string;
+}
+
+const defaultTooltipOptions: TooltipOptions = {
+  animation: true,
+  html: false,
+  placement: "top",
+  trigger: "hover focus"
+};
+
 export const TooltipWrapper: React.FC<{
   children: JSX.Element;
   tooltipText: string;
-  tooltipOptions?: object; // corresponds to Bootstrap tooltip options
+  tooltipOptions?: TooltipOptions;
   href?: string;
 }> = ({ children, tooltipText, tooltipOptions, href }): JSX.Element => {
-  const { trigger, placement, animation } = Object.assign(
-    {
-      trigger: "hover focus",
-      placement: "top",
-      animation: "true"
-    },
-    tooltipOptions
-  );
+  const options = Object.assign({}, defaultTooltipOptions, tooltipOptions);
 
   const Tag = href ? "a" : "span";
 
@@ -145,9 +162,10 @@ export const TooltipWrapper: React.FC<{
     <Tag
       href={href}
       data-toggle="tooltip"
-      data-trigger={trigger}
-      data-placement={placement}
-      data-animation={animation}
+      data-trigger={options.trigger}
+      data-placement={options.placement}
+      data-animation={options.animation}
+      data-html={options.html}
       data-selector="true"
       data-original-title={tooltipText}
       title={tooltipText}
@@ -156,3 +174,6 @@ export const TooltipWrapper: React.FC<{
     </Tag>
   );
 };
+
+export const crowdingIcon = (className: string = ""): JSX.Element =>
+  renderSvg(`c-svg__icon c-icon__crowding ${className}`, crowdingIconSvg, true);

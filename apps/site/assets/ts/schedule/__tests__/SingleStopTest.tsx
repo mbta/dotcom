@@ -96,13 +96,15 @@ const liveData: LiveData = {
       id: "veh1",
       headsign: "DestA",
       status: "stopped",
-      trip_name: ""
+      trip_name: "",
+      crowding: null
     },
     {
       id: "veh2",
       headsign: null,
       status: "incoming",
-      trip_name: null
+      trip_name: null,
+      crowding: null
     }
   ]
 };
@@ -141,7 +143,8 @@ const crLiveData: LiveData = {
       id: "veh1",
       headsign: "DestA",
       status: "in_transit",
-      trip_name: "404"
+      trip_name: "404",
+      crowding: null
     }
   ]
 };

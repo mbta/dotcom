@@ -61,11 +61,14 @@ export interface LineDiagramStop {
   alerts: Alert[];
 }
 
+export type CrowdingType = "not_crowded" | "some_crowding" | "crowded" | null;
+
 export interface LineDiagramVehicle {
   id: string;
   headsign: string | null;
   status: "in_transit" | "incoming" | "stopped";
   trip_name: string | null;
+  crowding: CrowdingType;
 }
 
 interface RouteStopRoute extends Route {

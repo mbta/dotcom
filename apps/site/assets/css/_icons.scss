@@ -317,3 +317,35 @@ a {
   padding: 0 $base-spacing / 6;
   text-align: center;
 }
+
+.c-icon__crowding {
+  fill: $gray-lightest;
+  height: $base-spacing;
+  line-height: $base-spacing;
+  width: $base-spacing;
+
+  &--not_crowded {
+    color: $crowding-not-crowded;
+
+    .person-left {
+      fill: currentColor;
+    }
+  }
+
+  &--some_crowding {
+    color: $crowding-some-crowding;
+
+    .person-left,
+    .person-middle {
+      fill: currentColor;
+    }
+  }
+
+  &--crowded {
+    color: $crowding-crowded;
+
+    .person {
+      fill: currentColor;
+    }
+  }
+}
