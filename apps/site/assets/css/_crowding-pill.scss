@@ -4,15 +4,12 @@
   border-radius: $base-spacing / 4;
   color: $black;
   display: inline-block;
-  font-size: small;
-  font-weight: bold;
   margin: $base-spacing / 4 0;
   padding: 0 $base-spacing / 2;
-  text-transform: uppercase;
 
   .c-icon__crowding {
     color: currentColor;
-    margin-right: $base-spacing / 4;
+    margin-right: $base-spacing / 6;
     vertical-align: middle;
   }
 

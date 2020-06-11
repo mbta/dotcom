@@ -18,7 +18,7 @@ const CrowdingPill = ({
   if (!crowding) return null;
 
   return (
-    <div className={`c-crowding-pill c-crowding-pill--${crowding}`}>
+    <div className={`u-small-caps u-bold c-crowding-pill c-crowding-pill--${crowding}`}>
       {crowdingIcon(`c-icon__crowding--${crowding}`)}
       <span className="c-crowding-pill__label">
         {crowdingDescriptions[crowding]}
