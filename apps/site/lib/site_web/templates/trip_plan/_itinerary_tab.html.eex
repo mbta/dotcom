@@ -8,7 +8,7 @@
   <span class="m-trip-plan-results__itinerary-length-time">
     <%= Timex.format!(@itinerary.start, "{h12}:{m} {AM}") %> - <%= Timex.format!(@itinerary.stop, "{h12}:{m} {AM}") %>
   </span>
-  <span>
+  <span class="m-trip-plan-results__itinerary-length-duration">
     <%= Timex.diff(@itinerary.stop, @itinerary.start, :minutes) |> format_minutes_duration %>
   </span>
 </div>

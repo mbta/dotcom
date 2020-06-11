@@ -79,6 +79,10 @@
     margin-right: $base-spacing / 2;
   }
 
+  &-length-duration {
+    white-space: nowrap;
+  }
+
   &-length-distance {
     margin-left: $space-12;
     white-space: nowrap;
