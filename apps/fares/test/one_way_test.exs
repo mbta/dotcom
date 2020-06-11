@@ -8,7 +8,7 @@ defmodule OneWayTest do
 
   @default_filters [duration: :single_trip]
 
-  test "returns nil if no route is provided" do
+  test "returns nil if no route is provided for all fare types" do
     refute recommended_fare(nil, nil, nil, nil)
     refute base_fare(nil, nil, nil, nil)
     refute reduced_fare(nil, nil, nil, nil)
