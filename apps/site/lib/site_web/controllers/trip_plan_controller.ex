@@ -4,10 +4,11 @@ defmodule SiteWeb.TripPlanController do
   """
 
   use SiteWeb, :controller
+  alias Fares.{Fare, Month, OneWay}
   alias Routes.Route
   alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
-  alias TripPlan.{Itinerary, Leg, PersonalDetail, TransitDetail}
+  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
 
   plug(:require_google_maps)
   plug(:assign_initial_map)
@@ -41,7 +42,7 @@ defmodule SiteWeb.TripPlanController do
     itineraries =
       query
       |> Query.get_itineraries()
-      |> with_fares()
+      |> with_fares_and_passes()
 
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
@@ -65,12 +66,17 @@ defmodule SiteWeb.TripPlanController do
     assign(conn, :requires_google_maps?, true)
   end
 
-  @spec with_fares([Itinerary.t()]) :: [Itinerary.t()]
-  defp with_fares(itineraries) do
+  @spec with_fares_and_passes([Itinerary.t()]) :: [Itinerary.t()]
+  defp with_fares_and_passes(itineraries) do
     Enum.map(itineraries, fn itinerary ->
       legs_with_fares = itinerary.legs |> Enum.map(&leg_with_fares/1)
 
-      %{itinerary | legs: legs_with_fares}
+      passes = %{
+        base_month_pass: base_month_pass_for_itinerary(itinerary),
+        recommended_month_pass: recommended_month_pass_for_itinerary(itinerary)
+      }
+
+      %{itinerary | legs: legs_with_fares, passes: passes}
     end)
   end
 
@@ -84,17 +90,62 @@ defmodule SiteWeb.TripPlanController do
     trip = Schedules.Repo.trip(leg.mode.trip_id)
     origin_id = leg.from.stop_id
     destination_id = leg.to.stop_id
-    lowest_fare = Fares.HighestLowestFare.lowest_fare(route, trip, origin_id, destination_id)
-    highest_fare = Fares.HighestLowestFare.highest_fare(route, trip, origin_id, destination_id)
+    recommended_fare = OneWay.recommended_fare(route, trip, origin_id, destination_id)
+    base_fare = OneWay.base_fare(route, trip, origin_id, destination_id)
+    reduced_fare = OneWay.reduced_fare(route, trip, origin_id, destination_id)
 
     fares = %{
-      highest_one_way_fare: highest_fare,
-      lowest_one_way_fare: lowest_fare
+      highest_one_way_fare: base_fare,
+      lowest_one_way_fare: recommended_fare,
+      reduced_one_way_fare: reduced_fare
     }
 
     mode_with_fares = %TransitDetail{leg.mode | fares: fares}
     %{leg | mode: mode_with_fares}
   end
+
+  @spec base_month_pass_for_itinerary(Itinerary.t()) :: Fare.t() | nil
+  defp base_month_pass_for_itinerary(%Itinerary{legs: legs}) do
+    legs
+    |> Enum.map(&highest_month_pass/1)
+    |> max_by_cents()
+  end
+
+  @spec recommended_month_pass_for_itinerary(Itinerary.t()) :: Fare.t() | nil
+  defp recommended_month_pass_for_itinerary(%Itinerary{legs: legs}) do
+    legs
+    |> Enum.map(&lowest_month_pass/1)
+    |> max_by_cents()
+  end
+
+  @spec highest_month_pass(Leg.t()) :: Fare.t() | nil
+  defp highest_month_pass(%Leg{mode: %PersonalDetail{}}), do: nil
+
+  defp highest_month_pass(%Leg{
+         mode: %TransitDetail{route_id: route_id, trip_id: trip_id},
+         from: %NamedPosition{stop_id: origin_id},
+         to: %NamedPosition{stop_id: destination_id}
+       }) do
+    Month.base_pass(route_id, trip_id, origin_id, destination_id)
+  end
+
+  @spec lowest_month_pass(Leg.t()) :: Fare.t() | nil
+  defp lowest_month_pass(%Leg{mode: %PersonalDetail{}}), do: nil
+
+  defp lowest_month_pass(%Leg{
+         mode: %TransitDetail{route_id: route_id, trip_id: trip_id},
+         from: %NamedPosition{stop_id: origin_id},
+         to: %NamedPosition{stop_id: destination_id}
+       }) do
+    Month.recommended_pass(route_id, trip_id, origin_id, destination_id)
+  end
+
+  @spec max_by_cents([Fare.t() | nil]) :: Fare.t() | nil
+  defp max_by_cents(fares), do: Enum.max_by(fares, &cents_for_max/1, fn -> nil end)
+
+  @spec cents_for_max(Fare.t() | nil) :: non_neg_integer
+  defp cents_for_max(nil), do: 0
+  defp cents_for_max(%Fare{cents: cents}), do: cents
 
   @spec itinerary_row_lists([Itinerary.t()], route_mapper, map) :: [ItineraryRowList.t()]
   defp itinerary_row_lists(itineraries, route_mapper, plan) do

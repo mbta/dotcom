@@ -9,6 +9,7 @@ export interface Itinerary {
   map: MapData;
   tab_html: string;
   access_html: string;
+  fares_html: string;
 }
 
 interface Props {

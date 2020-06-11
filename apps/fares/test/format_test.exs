@@ -75,6 +75,67 @@ defmodule Fares.FormatTest do
     end
   end
 
+  describe "full_name/1" do
+    test "gives a name for monthly Subway passes" do
+      assert full_name(%Fare{mode: :subway, duration: :month}) == "Monthly LinkPass"
+    end
+
+    test "gives a name for weekend CR passes" do
+      assert full_name(%Fare{mode: :commuter_rail, duration: :weekend}) == "Weekend Pass"
+    end
+
+    test "gives a name for week and day passes" do
+      assert full_name(%Fare{duration: :week}) == "7-Day Pass"
+      assert full_name(%Fare{duration: :day}) == "1-Day Pass"
+    end
+
+    test "gives a name for ADA and premium rides" do
+      assert full_name(%Fare{name: :ada_ride}) == "ADA Ride Fare"
+      assert full_name(%Fare{name: :premium_ride}) == "Premium Ride Fare"
+    end
+
+    test "gives a name for a Shuttle which doesn't have an associated fare" do
+      assert full_name(nil) == "Shuttle"
+    end
+
+    test "gives the name and duration for all other fares" do
+      assert full_name(%Fare{name: :commuter_ferry, duration: :month}) ==
+               ["Hingham/Hull Ferry", " ", "Monthly Pass"]
+    end
+  end
+
+  describe "concise_full_name/1" do
+    test "returns the full name excluding 'Monthly Pass' for commuter rail and express buses" do
+      cr_fare = %Fare{
+        mode: :commuter_rail,
+        media: [:commuter_ticket],
+        duration: :month,
+        name: {:zone, "7"}
+      }
+
+      inner_express_fare = %Fare{
+        name: :inner_express_bus,
+        mode: :bus,
+        duration: :month
+      }
+
+      outer_express_fare = %Fare{
+        name: :outer_express_bus,
+        mode: :bus,
+        duration: :month
+      }
+
+      assert concise_full_name(cr_fare) == "Zone 7"
+      assert concise_full_name(inner_express_fare) == "Inner Express Bus"
+      assert concise_full_name(outer_express_fare) == "Outer Express Bus"
+    end
+
+    test "returns the full_name for other fares" do
+      assert concise_full_name(%Fare{mode: :subway, duration: :month}) == "Monthly LinkPass"
+      assert concise_full_name(%Fare{duration: :day}) == "1-Day Pass"
+    end
+  end
+
   test "duration/1" do
     assert duration(%Fare{duration: :single_trip}) == "One-Way"
     assert duration(%Fare{duration: :round_trip}) == "Round Trip"

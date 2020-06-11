@@ -4,9 +4,11 @@ defmodule SiteWeb.TripPlanViewTest do
   import Phoenix.HTML, only: [safe_to_string: 1]
   import UrlHelpers, only: [update_url: 2]
   import Schedules.Repo, only: [end_of_rating: 0]
+  alias Fares.Fare
   alias Routes.Route
   alias Site.TripPlan.{IntermediateStop, ItineraryRow, Query}
   alias TripPlan.Api.MockPlanner
+  alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
   describe "itinerary_explanation/2" do
     @base_explanation_query %Query{
@@ -415,6 +417,16 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         assert safe_to_string(icon) =~ expected_icon_class
       end
     end
+
+    test "rail replacement buses" do
+      route = %Routes.Route{
+        description: :rail_replacement_bus,
+        type: 3
+      }
+
+      icon = icon_for_route(route)
+      assert safe_to_string(icon) =~ "bus"
+    end
   end
 
   describe "transfer_route_name/1" do
@@ -449,6 +461,120 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
+  describe "transfer_note/1" do
+    @note_text "Total may be less with <a href=\"https://www.mbta.com/fares/transfers\">transfers</a>"
+    @base_itinerary %Itinerary{start: nil, stop: nil, legs: []}
+    leg_for_route = &%Leg{mode: %TransitDetail{route_id: &1}}
+    @bus_leg leg_for_route.("77")
+    @other_bus_leg leg_for_route.("28")
+    @subway_leg leg_for_route.("Red")
+    @other_subway_leg leg_for_route.("Orange")
+    @cr_leg leg_for_route.("CR-Lowell")
+    @ferry_leg leg_for_route.("Boat-F4")
+    @innerxp_leg leg_for_route.("326")
+    @outerxp_leg leg_for_route.("505")
+    @sl_rapid_leg leg_for_route.("741")
+    @sl_bus_leg leg_for_route.("751")
+
+    test "shows note for subway-bus transfer" do
+      note = %{@base_itinerary | legs: [@subway_leg, @bus_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for bus-subway transfer" do
+      note = %{@base_itinerary | legs: [@bus_leg, @subway_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for bus-bus transfer" do
+      note = %{@base_itinerary | legs: [@bus_leg, @other_bus_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for SL4-bus transfer" do
+      note = %{@base_itinerary | legs: [@sl_bus_leg, @bus_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for SL1-bus transfer" do
+      note = %{@base_itinerary | legs: [@sl_rapid_leg, @bus_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for inner express bus-subway transfer" do
+      note = %{@base_itinerary | legs: [@innerxp_leg, @subway_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for outer express bus-subway transfer" do
+      note = %{@base_itinerary | legs: [@outerxp_leg, @subway_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for inner express bus-local bus transfer" do
+      note = %{@base_itinerary | legs: [@innerxp_leg, @bus_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "shows note for outer express bus-local bus transfer" do
+      note = %{@base_itinerary | legs: [@outerxp_leg, @bus_leg]} |> transfer_note
+      assert note |> safe_to_string() =~ @note_text
+    end
+
+    test "no note when transfer involves ferry" do
+      note = %{@base_itinerary | legs: [@ferry_leg, @bus_leg]} |> transfer_note
+      refute note
+    end
+
+    test "no note when transfer involves commuter rail" do
+      note = %{@base_itinerary | legs: [@cr_leg, @bus_leg]} |> transfer_note
+      refute note
+    end
+
+    test "no note where no transit" do
+      note =
+        %{
+          @base_itinerary
+          | legs: [
+              MockPlanner.personal_leg(nil, nil, nil, nil),
+              MockPlanner.personal_leg(nil, nil, nil, nil)
+            ]
+        }
+        |> transfer_note
+
+      refute note
+    end
+
+    test "no note where no transit transfers" do
+      note =
+        %{
+          @base_itinerary
+          | legs: [
+              MockPlanner.personal_leg(nil, nil, nil, nil),
+              @bus_leg,
+              MockPlanner.personal_leg(nil, nil, nil, nil)
+            ]
+        }
+        |> transfer_note
+
+      refute note
+    end
+
+    test "no note for subway-subway transfer - handles parent stops" do
+      leg1 = %{@subway_leg | to: %NamedPosition{stop_id: "place-dwnxg"}}
+      leg2 = %{@other_subway_leg | from: %NamedPosition{stop_id: "place-dwnxg"}}
+      note = %{@base_itinerary | legs: [leg1, leg2]} |> transfer_note
+      refute note
+    end
+
+    test "no note for subway-subway transfer - handles child stops" do
+      leg1 = %{@subway_leg | to: %NamedPosition{stop_id: "70020"}}
+      leg2 = %{@other_subway_leg | from: %NamedPosition{stop_id: "70021"}}
+      note = %{@base_itinerary | legs: [leg1, leg2]} |> transfer_note
+      refute note
+    end
+  end
+
   describe "format_plan_type_for_title/1" do
     @now Util.now()
     @human_time Timex.format!(@now, "{h12}:{m} {AM}, {M}/{D}/{YY}")
@@ -478,7 +604,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
   describe "format_minutes_duration/1" do
     test "for at least an hour" do
-      assert format_minutes_duration(66) === "1 h 6 min"
+      assert format_minutes_duration(66) === "1 hr 6 min"
     end
 
     test "for less than an hour" do
@@ -520,6 +646,329 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> safe_to_string()
 
       assert [{"input", _, _}] = Floki.find(html, ~s(input#plan-date-input[type="text"]))
+    end
+  end
+
+  describe "Fares logic" do
+    @fares_assigns %{
+      itinerary: %Itinerary{
+        start: nil,
+        stop: nil,
+        legs: [],
+        passes: %{
+          base_month_pass: %Fare{
+            additional_valid_modes: [:bus],
+            cents: 9_000,
+            duration: :month,
+            media: [:charlie_card, :charlie_ticket],
+            mode: :subway,
+            name: :subway,
+            price_label: nil,
+            reduced: nil
+          }
+        }
+      },
+      one_way_total: "$2.90",
+      round_trip_total: "$5.80"
+    }
+
+    test "renders fare information", %{conn: conn} do
+      html =
+        "_itinerary_fares.html"
+        |> render(Map.put(@fares_assigns, :conn, conn))
+        |> safe_to_string()
+
+      [{_, _, [one_way_fare]}] = Floki.find(html, ".m-trip-plan-results__itinerary-fare--one-way")
+
+      [{_, _, [round_trip_fare]}] =
+        Floki.find(html, ".m-trip-plan-results__itinerary-fare--round-trip")
+
+      assert one_way_fare == "$2.90 one way"
+      assert round_trip_fare == "$5.80 round trip"
+    end
+
+    test "gets the highest one-way fare" do
+      itinerary = %TripPlan.Itinerary{
+        start: nil,
+        stop: nil,
+        legs: [
+          %TripPlan.Leg{
+            description: "WALK",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.365486,
+              longitude: -71.103802,
+              name: "Central",
+              stop_id: nil
+            },
+            long_name: nil,
+            mode: %TripPlan.PersonalDetail{
+              distance: 24.274,
+              steps: [
+                %TripPlan.PersonalDetail.Step{
+                  absolute_direction: :southeast,
+                  distance: 24.274,
+                  relative_direction: :depart,
+                  street_name: "Massachusetts Avenue"
+                }
+              ]
+            },
+            name: "",
+            polyline: "eoqaGzm~pLTe@BE@A",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.365304,
+              longitude: -71.103621,
+              name: "Central",
+              stop_id: "70069"
+            },
+            type: nil,
+            url: nil
+          },
+          %TripPlan.Leg{
+            description: "SUBWAY",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.365304,
+              longitude: -71.103621,
+              name: "Central",
+              stop_id: "70069"
+            },
+            long_name: "Red Line",
+            mode: %TripPlan.TransitDetail{
+              fares: %{
+                highest_one_way_fare: %Fares.Fare{
+                  additional_valid_modes: [:bus],
+                  cents: 290,
+                  duration: :single_trip,
+                  media: [:charlie_ticket, :cash],
+                  mode: :subway,
+                  name: :subway,
+                  price_label: nil,
+                  reduced: nil
+                },
+                lowest_one_way_fare: %Fares.Fare{
+                  additional_valid_modes: [:bus],
+                  cents: 240,
+                  duration: :single_trip,
+                  media: [:charlie_card],
+                  mode: :subway,
+                  name: :subway,
+                  price_label: nil,
+                  reduced: nil
+                }
+              },
+              intermediate_stop_ids: ["70071", "70073"],
+              route_id: "Red",
+              trip_id: "43870769C0"
+            },
+            name: "Red Line",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.356395,
+              longitude: -71.062424,
+              name: "Park Street",
+              stop_id: "70075"
+            },
+            type: "1",
+            url: "http://www.mbta.com"
+          }
+        ]
+      }
+
+      assert get_highest_one_way_fare(itinerary) == 290
+    end
+
+    test "gets the highest one-way fare correctly with subway -> subway xfer" do
+      subway_leg_for_route =
+        &%Leg{
+          from: %NamedPosition{},
+          to: %NamedPosition{},
+          mode: %TransitDetail{
+            route_id: &1,
+            fares: %{
+              highest_one_way_fare: %Fares.Fare{
+                additional_valid_modes: [:bus],
+                cents: 290,
+                duration: :single_trip,
+                media: [:charlie_ticket, :cash],
+                mode: :subway,
+                name: :subway,
+                price_label: nil,
+                reduced: nil
+              },
+              lowest_one_way_fare: %Fares.Fare{
+                additional_valid_modes: [:bus],
+                cents: 240,
+                duration: :single_trip,
+                media: [:charlie_card],
+                mode: :subway,
+                name: :subway,
+                price_label: nil,
+                reduced: nil
+              }
+            }
+          }
+        }
+
+      red_leg = %{
+        subway_leg_for_route.("Red")
+        | to: %NamedPosition{
+            stop_id: "place-dwnxg"
+          }
+      }
+
+      orange_leg = %{
+        subway_leg_for_route.("Orange")
+        | from: %NamedPosition{
+            stop_id: "place-dwnxg"
+          }
+      }
+
+      itinerary = %TripPlan.Itinerary{
+        start: nil,
+        stop: nil,
+        legs: [red_leg, orange_leg]
+      }
+
+      assert get_highest_one_way_fare(itinerary) == 290
+    end
+
+    test "returns 0 when there is no highest one-way fare" do
+      itinerary = %TripPlan.Itinerary{
+        start: nil,
+        stop: nil,
+        legs: [
+          %TripPlan.Leg{
+            description: "WALK",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.365486,
+              longitude: -71.103802,
+              name: "Central",
+              stop_id: nil
+            },
+            long_name: nil,
+            mode: %TripPlan.PersonalDetail{
+              distance: 24.274,
+              steps: [
+                %TripPlan.PersonalDetail.Step{
+                  absolute_direction: :southeast,
+                  distance: 24.274,
+                  relative_direction: :depart,
+                  street_name: "Massachusetts Avenue"
+                }
+              ]
+            },
+            name: "",
+            polyline: "eoqaGzm~pLTe@BE@A",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.365304,
+              longitude: -71.103621,
+              name: "Central",
+              stop_id: "70069"
+            },
+            type: nil,
+            url: nil
+          },
+          %TripPlan.Leg{
+            description: "SUBWAY",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.365304,
+              longitude: -71.103621,
+              name: "Central",
+              stop_id: "70069"
+            },
+            long_name: "Red Line",
+            mode: %TripPlan.TransitDetail{
+              fares: %{
+                highest_one_way_fare: nil,
+                lowest_one_way_fare: nil
+              },
+              intermediate_stop_ids: ["70071", "70073"],
+              route_id: "Red",
+              trip_id: "43870769C0"
+            },
+            name: "Red Line",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.356395,
+              longitude: -71.062424,
+              name: "Park Street",
+              stop_id: "70075"
+            },
+            type: "1",
+            url: "http://www.mbta.com"
+          }
+        ]
+      }
+
+      assert get_highest_one_way_fare(itinerary) == 0
+    end
+
+    test "shows a transfer note", %{conn: conn} do
+      fares_with_transfer =
+        Map.put(@fares_assigns, :itinerary, %{
+          @fares_assigns.itinerary
+          | legs: [
+              %Leg{mode: %TransitDetail{route_id: "77"}},
+              %Leg{mode: %TransitDetail{route_id: "1"}}
+            ]
+        })
+
+      html =
+        "_itinerary_fares.html"
+        |> render(Map.put(fares_with_transfer, :conn, conn))
+        |> safe_to_string()
+
+      [{_, _, transfer_note}] = Floki.find(html, ".m-trip-plan-results__itinerary-note")
+
+      assert transfer_note != []
+    end
+
+    test "shows no transfer note", %{conn: conn} do
+      fares_no_transfer =
+        Map.put(@fares_assigns, "itinerary", %{
+          @fares_assigns.itinerary
+          | legs: [
+              %Leg{mode: %TransitDetail{route_id: "77"}}
+            ]
+        })
+
+      html =
+        "_itinerary_fares.html"
+        |> render(Map.put(fares_no_transfer, :conn, conn))
+        |> safe_to_string()
+
+      [{_, _, transfer_note}] = Floki.find(html, ".m-trip-plan-results__itinerary-note")
+
+      assert transfer_note == []
+    end
+  end
+
+  describe "monthly_pass" do
+    test "Formats the media type and price" do
+      fare = %Fare{
+        additional_valid_modes: [:bus],
+        cents: 9_000,
+        duration: :month,
+        media: [:charlie_card, :charlie_ticket],
+        mode: :subway,
+        name: :subway,
+        price_label: nil,
+        reduced: nil
+      }
+
+      assert monthly_pass(fare) == "Monthly LinkPass: $90.00"
+    end
+
+    test "Includes the zone for CR trips" do
+      fare = %Fare{
+        additional_valid_modes: [:subway, :bus, :ferry],
+        cents: 36_000,
+        duration: :month,
+        media: [:commuter_ticket],
+        mode: :commuter_rail,
+        name: {:zone, "7"},
+        price_label: nil,
+        reduced: nil
+      }
+
+      assert monthly_pass(fare) == "Commuter Rail Zone 7: $360.00"
     end
   end
 end

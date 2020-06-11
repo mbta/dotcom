@@ -7,7 +7,7 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
   alias Fares.Format
   alias Routes.Route
   alias Schedules.Repo
-  alias Fares.{HighestLowestFare}
+  alias Fares.{OneWay}
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
   def show(conn, %{
@@ -151,7 +151,7 @@ defmodule SiteWeb.ScheduleController.ScheduleApi do
   @spec fares_for_service(map, map, String.t(), String.t()) :: map
   def fares_for_service(route, trip, origin, destination) do
     %{
-      price: route |> HighestLowestFare.lowest_fare(trip, origin, destination) |> Format.price(),
+      price: route |> OneWay.recommended_fare(trip, origin, destination) |> Format.price(),
       fare_link:
         fare_link(
           Route.type_atom(route.type),

@@ -430,15 +430,15 @@ defmodule SiteWeb.ScheduleView do
   def single_trip_fares(route) do
     summary =
       route
-      |> to_fare_atom()
+      |> to_fare_summary_atom()
       |> mode_summaries()
       |> Enum.find(fn summary -> summary.duration == :single_trip end)
 
     summary.fares
   end
 
-  @spec to_fare_atom(Route.t()) :: atom
-  def to_fare_atom(%Route{type: 3, id: id}) do
+  @spec to_fare_summary_atom(Route.t()) :: atom
+  def to_fare_summary_atom(%Route{type: 3, id: id}) do
     cond do
       Fares.silver_line_rapid_transit?(id) -> :subway
       Fares.inner_express?(id) -> :inner_express_bus
@@ -447,7 +447,7 @@ defmodule SiteWeb.ScheduleView do
     end
   end
 
-  def to_fare_atom(route), do: Route.type_atom(route)
+  def to_fare_summary_atom(route), do: Route.type_atom(route)
 
   @spec sort_connections([Route.t()]) :: [Route.t()]
   def sort_connections(routes) do

@@ -1,11 +1,14 @@
 defmodule SiteWeb.TripPlanView do
+  @moduledoc "Contains the logic for the Trip Planner"
   use SiteWeb, :view
   require Routes.Route
-  alias Site.React
-  alias Site.TripPlan.{Query, ItineraryRow}
   alias Routes.Route
+  alias Site.React
+  alias Site.TripPlan.{ItineraryRow, Query}
+  alias TripPlan.{Itinerary, Leg, Transfer}
   alias Phoenix.{HTML, HTML.Form}
   alias SiteWeb.PartialView.SvgIconWithCircle
+  alias Fares.{Fare, Format}
 
   import Schedules.Repo, only: [end_of_rating: 0]
 
@@ -324,6 +327,10 @@ defmodule SiteWeb.TripPlanView do
   end
 
   @spec icon_for_route(Route.t()) :: Phoenix.HTML.Safe.t()
+  def icon_for_route(%Route{description: :rail_replacement_bus}) do
+    svg_icon_with_circle(%SvgIconWithCircle{icon: :bus})
+  end
+
   def icon_for_route(%Route{type: 3} = route) do
     SiteWeb.ViewHelpers.bus_icon_pill(route)
   end
@@ -358,7 +365,7 @@ defmodule SiteWeb.TripPlanView do
   def format_minutes_duration(duration) do
     case duration do
       duration when duration >= 60 ->
-        "#{div(duration, 60)} h #{rem(duration, 60)} min"
+        "#{div(duration, 60)} hr #{rem(duration, 60)} min"
 
       _ ->
         "#{duration} min"
@@ -520,6 +527,29 @@ defmodule SiteWeb.TripPlanView do
     SiteWeb.ViewHelpers.mode_name(type)
   end
 
+  @doc "Add a transfer note to the trip plan view when the itinerary might have valid transit transfers (determined by Transfer.is_maybe_transfer?) that are not already accounted for in the fare calculation. Right now the only transfer accounted for in the calculated fare is subway-subway (via Transfer.is_subway_transfer?)"
+  @spec transfer_note(Itinerary.t()) :: String.t() | nil
+  def transfer_note(itinerary) do
+    itinerary.legs
+    |> Stream.filter(&Leg.transit?/1)
+    |> Stream.chunk_every(2, 1)
+    |> Enum.reject(&Transfer.is_subway_transfer?/1)
+    |> Enum.find(&Transfer.is_maybe_transfer?/1)
+    |> transfer_note_text
+  end
+
+  defp transfer_note_text(nil), do: nil
+
+  defp transfer_note_text(_) do
+    HTML.Tag.content_tag(
+      :span,
+      [
+        "Total may be less with ",
+        HTML.Tag.content_tag(:a, "transfers", href: "https://www.mbta.com/fares/transfers")
+      ]
+    )
+  end
+
   def render_to_string(template, data) do
     template |> render(data) |> HTML.safe_to_string()
   end
@@ -551,6 +581,16 @@ defmodule SiteWeb.TripPlanView do
 
       access_html = i |> accessibility_icon() |> HTML.safe_to_string()
 
+      fare = get_highest_one_way_fare(i)
+
+      fares_html =
+        "_itinerary_fares.html"
+        |> render_to_string(
+          itinerary: i,
+          one_way_total: Format.price(fare),
+          round_trip_total: Format.price(fare * 2)
+        )
+
       html =
         "_itinerary.html"
         |> render_to_string(
@@ -568,7 +608,8 @@ defmodule SiteWeb.TripPlanView do
         tab_html: tab_html,
         id: index,
         map: itinerary_map(map),
-        access_html: access_html
+        access_html: access_html,
+        fares_html: fares_html
       }
     end
   end
@@ -589,4 +630,55 @@ defmodule SiteWeb.TripPlanView do
       }
     )
   end
+
+  @spec get_highest_one_way_fare(TripPlan.Itinerary.t()) :: non_neg_integer
+  def get_highest_one_way_fare(itinerary) do
+    transit_legs =
+      itinerary.legs
+      |> Stream.filter(&Leg.transit?/1)
+
+    transit_legs
+    |> Stream.with_index()
+    |> Enum.reduce(0, fn {leg, leg_index}, acc ->
+      if leg_index < 1 do
+        acc + get_highest_one_way_fare_for_leg(leg)
+      else
+        # Look at this transit leg and previous transit leg
+        legs = transit_legs |> Enum.slice(leg_index - 1, 2)
+
+        # If this is part of a free transfer, don't add fare
+        if Transfer.is_subway_transfer?(legs) do
+          acc
+        else
+          acc + get_highest_one_way_fare_for_leg(leg)
+        end
+      end
+    end)
+  end
+
+  @spec get_highest_one_way_fare_for_leg(Leg.t()) :: non_neg_integer
+  defp get_highest_one_way_fare_for_leg(leg) do
+    leg
+    |> Kernel.get_in([
+      Access.key(:mode, %{}),
+      Access.key(:fares, %{}),
+      Access.key(:highest_one_way_fare, %{})
+    ])
+    |> fare_cents()
+  end
+
+  @spec fare_cents(Fare.t() | nil) :: non_neg_integer()
+  defp fare_cents(nil), do: 0
+  defp fare_cents(%Fare{cents: cents}), do: cents
+
+  @spec monthly_pass(Fare.t() | nil) :: String.t()
+  def monthly_pass(nil), do: Format.full_name(nil)
+
+  def monthly_pass(fare) do
+    "#{cr_prefix(fare)}#{Format.concise_full_name(fare)}: #{Format.price(fare)}"
+  end
+
+  @spec cr_prefix(Fare.t()) :: String.t()
+  defp cr_prefix(%Fare{mode: :commuter_rail}), do: "Commuter Rail "
+  defp cr_prefix(_), do: ""
 end

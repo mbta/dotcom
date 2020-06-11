@@ -1,4 +1,7 @@
 defmodule Fares.Format do
+  @moduledoc """
+  Formatting functions for fare data.
+  """
   alias Fares.{Fare, Summary}
 
   @type mode_type :: :bus_subway | :commuter_rail | :ferry
@@ -96,7 +99,8 @@ defmodule Fares.Format do
   def name(:premium_ride), do: "Premium Ride"
   def name(:invalid), do: "Invalid Fare"
 
-  @spec full_name(Fare.t()) :: String.t() | iolist
+  @spec full_name(Fare.t() | nil) :: String.t() | iolist
+  def full_name(nil), do: "Shuttle"
   def full_name(%Fare{mode: :subway, duration: :month}), do: "Monthly LinkPass"
   def full_name(%Fare{mode: :commuter_rail, duration: :weekend}), do: "Weekend Pass"
   def full_name(%Fare{duration: :week}), do: "7-Day Pass"
@@ -107,6 +111,15 @@ defmodule Fares.Format do
   def full_name(fare) do
     [name(fare), " ", duration(fare)]
   end
+
+  @spec concise_full_name(Fare.t()) :: String.t() | iolist()
+  def concise_full_name(%Fare{mode: :commuter_rail} = fare), do: name(fare)
+
+  def concise_full_name(%Fare{mode: :bus, name: name} = fare)
+      when name in [:inner_express_bus, :outer_express_bus],
+      do: name(fare)
+
+  def concise_full_name(fare), do: full_name(fare)
 
   @spec summarize([Fare.t()], mode_type | [mode_type], String.t() | nil) :: [Summary.t()]
   def summarize(fares, mode, url \\ nil)
