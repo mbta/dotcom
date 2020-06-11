@@ -10,6 +10,45 @@ defmodule SiteWeb.TripPlanViewTest do
   alias TripPlan.Api.MockPlanner
   alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
+  @highest_one_way_fare %Fares.Fare{
+    additional_valid_modes: [:bus],
+    cents: 290,
+    duration: :single_trip,
+    media: [:charlie_ticket, :cash],
+    mode: :subway,
+    name: :subway,
+    price_label: nil,
+    reduced: nil
+  }
+
+  @lowest_one_way_fare %Fares.Fare{
+    additional_valid_modes: [:bus],
+    cents: 240,
+    duration: :single_trip,
+    media: [:charlie_card],
+    mode: :subway,
+    name: :subway,
+    price_label: nil,
+    reduced: nil
+  }
+
+  @reduced_one_way_fare %Fares.Fare{
+    additional_valid_modes: [],
+    cents: 110,
+    duration: :single_trip,
+    media: [:senior_card],
+    mode: :subway,
+    name: :subway,
+    price_label: nil,
+    reduced: :senior_disabled
+  }
+
+  @fares %{
+    highest_one_way_fare: @highest_one_way_fare,
+    lowest_one_way_fare: @lowest_one_way_fare,
+    reduced_one_way_fare: @reduced_one_way_fare
+  }
+
   describe "itinerary_explanation/2" do
     @base_explanation_query %Query{
       from: {:error, :unknown},
@@ -694,39 +733,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       round_trip_total: "$5.80"
     }
 
-    @highest_one_way_fare %Fares.Fare{
-      additional_valid_modes: [:bus],
-      cents: 290,
-      duration: :single_trip,
-      media: [:charlie_ticket, :cash],
-      mode: :subway,
-      name: :subway,
-      price_label: nil,
-      reduced: nil
-    }
-
-    @lowest_one_way_fare %Fares.Fare{
-      additional_valid_modes: [:bus],
-      cents: 240,
-      duration: :single_trip,
-      media: [:charlie_card],
-      mode: :subway,
-      name: :subway,
-      price_label: nil,
-      reduced: nil
-    }
-
-    @reduced_one_way_fare %Fares.Fare{
-      additional_valid_modes: [],
-      cents: 110,
-      duration: :single_trip,
-      media: [:senior_card],
-      mode: :subway,
-      name: :subway,
-      price_label: nil,
-      reduced: :senior_disabled
-    }
-
     @itinerary %TripPlan.Itinerary{
       start: nil,
       stop: nil,
@@ -772,11 +778,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
           },
           long_name: "Red Line",
           mode: %TripPlan.TransitDetail{
-            fares: %{
-              highest_one_way_fare: @highest_one_way_fare,
-              lowest_one_way_fare: @lowest_one_way_fare,
-              reduced_one_way_fare: @reduced_one_way_fare
-            },
+            fares: @fares,
             intermediate_stop_ids: ["70071", "70073"],
             route_id: "Red",
             trip_id: "43870769C0"
@@ -791,7 +793,39 @@ closest arrival to 12:00 AM, Thursday, January 1st."
           type: "1",
           url: "http://www.mbta.com"
         }
-      ]
+      ],
+      passes: %{
+        base_month_pass: %Fare{
+          additional_valid_modes: [:bus],
+          cents: 9_000,
+          duration: :month,
+          media: [:charlie_card, :charlie_ticket],
+          mode: :subway,
+          name: :subway,
+          price_label: nil,
+          reduced: nil
+        },
+        recommended_month_pass: %Fare{
+          additional_valid_modes: [:bus],
+          cents: 9_000,
+          duration: :month,
+          media: [:charlie_card, :charlie_ticket],
+          mode: :subway,
+          name: :subway,
+          price_label: nil,
+          reduced: nil
+        },
+        reduced_month_pass: %Fare{
+          additional_valid_modes: [:bus],
+          cents: 9_000,
+          duration: :month,
+          media: [:charlie_card, :charlie_ticket],
+          mode: :subway,
+          name: :subway,
+          price_label: nil,
+          reduced: nil
+        }
+      }
     }
 
     test "renders fare information", %{conn: conn} do
@@ -896,11 +930,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             },
             long_name: "Red Line",
             mode: %TripPlan.TransitDetail{
-              fares: %{
-                highest_one_way_fare: @highest_one_way_fare,
-                lowest_one_way_fare: @lowest_one_way_fare,
-                reduced_one_way_fare: @reduced_one_way_fare
-              },
+              fares: @fares,
               intermediate_stop_ids: ["70071", "70073"],
               route_id: "Red",
               trip_id: "43870769C0"
@@ -950,11 +980,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             },
             long_name: "Red Line",
             mode: %TripPlan.TransitDetail{
-              fares: %{
-                highest_one_way_fare: @highest_one_way_fare,
-                lowest_one_way_fare: @lowest_one_way_fare,
-                reduced_one_way_fare: @reduced_one_way_fare
-              },
+              fares: @fares,
               intermediate_stop_ids: ["70071", "70073"],
               route_id: "Red",
               trip_id: "43870769C0"
@@ -975,11 +1001,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       calculated_fares = %{
         subway: %{
           mode: %{
-            fares: %{
-              highest_one_way_fare: @highest_one_way_fare,
-              lowest_one_way_fare: @lowest_one_way_fare,
-              reduced_one_way_fare: @reduced_one_way_fare
-            },
+            fares: @fares,
             mode_name: "Subway",
             name: "Subway",
             mode: :subway
@@ -1213,6 +1235,58 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       [{_, _, transfer_note}] = Floki.find(html, ".m-trip-plan-results__itinerary-note")
 
       assert transfer_note == []
+    end
+
+    test "renders the Fare Calculator", %{conn: conn} do
+      leg_for_route =
+        &%Leg{
+          mode: %TransitDetail{
+            route_id: &1,
+            fares: @fares
+          }
+        }
+
+      bus_leg = leg_for_route.("77")
+      subway_leg = leg_for_route.("Red")
+
+      html =
+        "_fare_calculator.html"
+        |> render_to_string(
+          itinerary: @itinerary,
+          fares: get_calculated_fares(@itinerary),
+          conn: conn
+        )
+
+      fare_calc_tables = Floki.find(html, ".m-trip-plan-farecalc__table")
+      assert Enum.count(fare_calc_tables) == 2
+
+      titles = Floki.find(html, ".m-trip-plan-farecalc__title")
+      assert Enum.count(titles) == 1
+
+      notes_blocks = Floki.find(html, ".m-trip-plan-farecalc__notes-block")
+      assert Enum.count(notes_blocks) == 1
+
+      links = Floki.find(html, "a")
+      assert Enum.count(links) == 2
+
+      itinerary_with_transfers = %{@itinerary | legs: [bus_leg, subway_leg]}
+
+      html_with_transfer_note =
+        "_fare_calculator.html"
+        |> render_to_string(
+          itinerary: itinerary_with_transfers,
+          fares: get_calculated_fares(@itinerary),
+          conn: conn
+        )
+
+      titles = Floki.find(html_with_transfer_note, ".m-trip-plan-farecalc__title")
+      assert Enum.count(titles) == 2
+
+      notes_blocks = Floki.find(html_with_transfer_note, ".m-trip-plan-farecalc__notes-block")
+      assert Enum.count(notes_blocks) == 2
+
+      links = Floki.find(html_with_transfer_note, "a")
+      assert Enum.count(links) == 4
     end
   end
 

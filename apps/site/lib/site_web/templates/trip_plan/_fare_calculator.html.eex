@@ -1,5 +1,5 @@
 
-<div class="h2 m-trip-plan-farecalc__title">Fare Calculator</div>
+<div class="h2 m-trip-plan-farecalc__main-title">Fare Calculator</div>
 
 <div role="table" aria-label="A summary of the different fares by media for each itinerary" class="m-trip-plan-farecalc__table">
   <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-farecalc__subheader">One-Way Fare</div>
@@ -78,4 +78,17 @@
     <%= render "_monthly_pass_row.html", pass: pass, reduced: @itinerary.passes.reduced_month_pass %>
   <% end %>
 
+</div>
+<div class="m-trip-plan-farecalc__notes-block">
+  <span class="m-trip-plan-farecalc__title">Reduced fares:</span> Some riders are eligible for <%= link "reduced fares", to: fare_path(@conn, :show, "reduced") %>. Military personnel and children 11 and under ride for free.
+</div>
+
+<%= if transfer_note != nil do %>
+  <div class="m-trip-plan-farecalc__notes-block">
+    <span class="m-trip-plan-farecalc__title">Transfers:</span> This trip suggestion includes one or more transfers. <%= link "Learn more about transfers", to: fare_path(@conn, :show, "transfers") %>.
+  </div>
+<% end %>
+
+<div>
+  <%= link "See fares overview", to: fare_path(@conn, :show, ""), class: "c-call-to-action" %>
 </div>
