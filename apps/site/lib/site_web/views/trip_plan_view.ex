@@ -365,7 +365,7 @@ defmodule SiteWeb.TripPlanView do
   def format_minutes_duration(duration) do
     case duration do
       duration when duration >= 60 ->
-        "#{div(duration, 60)} h #{rem(duration, 60)} min"
+        "#{div(duration, 60)} hr #{rem(duration, 60)} min"
 
       _ ->
         "#{duration} min"

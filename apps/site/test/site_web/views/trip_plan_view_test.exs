@@ -604,7 +604,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
   describe "format_minutes_duration/1" do
     test "for at least an hour" do
-      assert format_minutes_duration(66) === "1 h 6 min"
+      assert format_minutes_duration(66) === "1 hr 6 min"
     end
 
     test "for less than an hour" do
