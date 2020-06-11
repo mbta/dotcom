@@ -58,3 +58,15 @@
    </span>
   </div>
 </div>
+
+<div class="m-trip-plan-farecalc__transfer-block">
+  <span class="m-trip-plan-farecalc__transfer-title">Reduced fares:</span> Some riders are eligible for <a href="https://www.mbta.com/reduced-fares" target="_blank">reduced fares</a>. Military personnel and children 11 and under ride for free.
+</div>
+
+<div class="m-trip-plan-farecalc__transfer-block">
+  <span class="m-trip-plan-farecalc__transfer-title">Transfers:</span> This trip suggestion includes one or more transfers. <a href="https://www.mbta.com/transfers" target="_blank">Learn more about transfers</a>
+</div>
+
+<div class="m-trip-plan-farecalc__table-cell">
+  <a href="https://www.mbta.com/fares" target="_blank">See fares overview</a>
+</div>

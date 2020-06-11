@@ -68,4 +68,16 @@
       font-weight: bold;
     }
   }
+
+  &__transfer-block {
+    margin-bottom: 8px;
+    margin-top: 7px;
+    @include media-breakpoint-down(xs) {
+      margin: 11px 0 17px 20px;
+    }
+  }
+
+  &__transfer-title {
+    font-weight: bold;
+  }
 }
