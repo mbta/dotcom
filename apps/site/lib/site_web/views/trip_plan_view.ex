@@ -610,7 +610,7 @@ defmodule SiteWeb.TripPlanView do
 
       fare_calculator_html =
         "_fare_calculator.html"
-        |> render_to_string(itinerary: i, fares: fares)
+        |> render_to_string(itinerary: i, fares: fares, conn: conn)
 
       html =
         "_itinerary.html"

@@ -1,5 +1,5 @@
 .m-trip-plan-farecalc {
-  &__title {
+  &__main-title {
     margin-bottom: 0;
   }
 
@@ -72,7 +72,19 @@
   &__transfer-note {
     @include media-breakpoint-down(xs) {
       font-weight: bold;
-      margin-left: 0;
     }
+  }
+
+  &__notes-block {
+    margin-bottom: $space-8;
+    margin-top: $space-8;
+    @include media-breakpoint-down(xs) {
+      margin-bottom: $space-16 * 1.2;
+      margin-top: $space-16 * 0.75;
+    }
+  }
+
+  &__title {
+    font-weight: bold;
   }
 }
