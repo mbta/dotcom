@@ -675,7 +675,7 @@ defmodule SiteWeb.TripPlanView do
   def monthly_pass(nil), do: Format.full_name(nil)
 
   def monthly_pass(fare) do
-    "#{cr_prefix(fare)}#{Format.full_name(fare)}: #{Format.price(fare)}"
+    "#{cr_prefix(fare)}#{Format.concise_full_name(fare)}: #{Format.price(fare)}"
   end
 
   @spec cr_prefix(Fare.t()) :: String.t()
