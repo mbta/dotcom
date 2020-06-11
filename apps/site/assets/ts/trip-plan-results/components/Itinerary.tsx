@@ -87,28 +87,14 @@ const ItineraryAccordion = ({
       </div>
       <div
         className="m-trip-plan-results__itinerary-fares"
-        dangerouslySetInnerHTML={{ __html: itinerary.fares_estimate_html }} // eslint-disable-line react/no-danger
+        dangerouslySetInnerHTML={{ __html: itinerary.fares_html }} // eslint-disable-line react/no-danger
       />
     </div>
     <Accordion
       id={`itinerary-${itinerary.id}`}
-      title={{
-        collapsed: "Show map and trip details",
-        expanded: "Hide map and trip details"
-      }}
+      title="Show map and trip details"
     >
       <ItineraryBody {...itinerary} />
-    </Accordion>
-    <Accordion
-      id={`itinerary-${itinerary.id}-fare-calculator`}
-      title={{
-        collapsed: "Show fare calculator",
-        expanded: "Hide fare calculator"
-      }}
-    >
-      <div
-        dangerouslySetInnerHTML={{ __html: itinerary.fare_calculator_html }} // eslint-disable-line react/no-danger
-      />
     </Accordion>
   </div>
 );
