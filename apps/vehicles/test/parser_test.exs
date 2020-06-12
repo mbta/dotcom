@@ -139,5 +139,25 @@ defmodule Vehicles.ParserTest do
 
       assert Parser.parse(item) == expected
     end
+
+    test "can handle occupancy status" do
+      item = put_in(@item.attributes["occupancy_status"], "CRUSHED_STANDING_ROOM_ONLY")
+
+      expected = %Vehicle{
+        id: "y1799",
+        route_id: "1",
+        stop_id: "72",
+        trip_id: "32893540",
+        shape_id: "12345",
+        direction_id: 1,
+        status: :stopped,
+        latitude: 2.2,
+        longitude: 1.1,
+        bearing: 140,
+        crowding: :some_crowding
+      }
+
+      assert Parser.parse(item) == expected
+    end
   end
 end
