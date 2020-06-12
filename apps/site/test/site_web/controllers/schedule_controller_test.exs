@@ -442,7 +442,6 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert %Shape{stop_ids: [_ | _] = stop_ids} =
                Enum.find(conn.assigns.route_shapes, &(&1.id == variant))
 
-      assert "place-kencl" in stop_ids
       assert variant == conn.assigns.active_shape.id
     end
 

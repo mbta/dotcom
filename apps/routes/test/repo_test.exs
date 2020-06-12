@@ -140,11 +140,11 @@ defmodule Routes.RepoTest do
 
   describe "by_stop_and_direction/2" do
     test "fetching routes for the same stop, but different direction" do
-      kenmore_outbound_routes = Repo.by_stop_and_direction("place-kencl", 0)
-      kenmore_inbound_routes = Repo.by_stop_and_direction("place-kencl", 1)
+      winship_union_outbound_routes = Repo.by_stop_and_direction("1994", 0)
+      winship_union_inbound_routes = Repo.by_stop_and_direction("1994", 1)
 
-      refute Enum.any?(kenmore_outbound_routes, &(&1.id == "9"))
-      assert Enum.any?(kenmore_inbound_routes, &(&1.id == "9"))
+      assert Enum.any?(winship_union_outbound_routes, &(&1.id == "65"))
+      refute Enum.any?(winship_union_inbound_routes, &(&1.id == "65"))
     end
   end
 
