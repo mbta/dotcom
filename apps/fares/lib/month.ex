@@ -66,14 +66,45 @@ defmodule Fares.Month do
     |> Enum.max_by(& &1.cents, fn -> nil end)
   end
 
+  @spec reduced_pass(
+          Route.t() | Route.id_t(),
+          Trip.t() | Trip.id_t() | nil,
+          Stop.id_t(),
+          Stop.id_t(),
+          fare_fn()
+        ) ::
+          Fare.t() | nil
+  def reduced_pass(route, trip, origin_id, destination_id, fare_fn \\ &Repo.all/1)
+  def reduced_pass(nil, _, _, _, _), do: nil
+
+  def reduced_pass(route_id, trip, origin_id, destination_id, fare_fn) when is_binary(route_id) do
+    route = Routes.Repo.get(route_id)
+    reduced_pass(route, trip, origin_id, destination_id, fare_fn)
+  end
+
+  def reduced_pass(route, trip_id, origin_id, destination_id, fare_fn) when is_binary(trip_id) do
+    trip = Schedules.Repo.trip(trip_id)
+    reduced_pass(route, trip, origin_id, destination_id, fare_fn)
+  end
+
+  def reduced_pass(route, trip, origin_id, destination_id, fare_fn) do
+    route
+    |> get_fares(trip, origin_id, destination_id, fare_fn, :any)
+    |> List.first()
+  end
+
   @spec get_fares(Route.t(), Trip.t() | nil, Stop.id_t(), Stop.id_t(), fare_fn()) :: [Fare.t()]
-  defp get_fares(route, trip, origin_id, destination_id, fare_fn) do
+  @spec get_fares(Route.t(), Trip.t() | nil, Stop.id_t(), Stop.id_t(), fare_fn(), Fare.reduced()) ::
+          [
+            Fare.t()
+          ]
+  defp get_fares(route, trip, origin_id, destination_id, fare_fn, reduced \\ nil) do
     route_filters =
       route.type
       |> Route.type_atom()
       |> name_or_mode_filter(route, origin_id, destination_id, trip)
 
-    [reduced: nil, duration: :month]
+    [reduced: reduced, duration: :month]
     |> Keyword.merge(route_filters)
     |> fare_fn.()
   end

@@ -14,6 +14,40 @@ defmodule Fares.MonthTest do
     end
   end
 
+  describe "reduced_pass" do
+    @reduced_fares [
+      %Fares.Fare{
+        additional_valid_modes: [:bus],
+        cents: 3_000,
+        duration: :month,
+        media: [:senior_card, :student_card],
+        mode: :subway,
+        name: :subway,
+        price_label: nil,
+        reduced: :any
+      }
+    ]
+
+    test "returns a reduced month pass" do
+      fare_fn = fn [reduced: :any, duration: :month, mode: :subway] -> @reduced_fares end
+
+      assert %Fare{cents: 3_000} = Month.reduced_pass(%Route{type: 0}, nil, nil, nil, fare_fn)
+    end
+
+    test "accepts a Route ID" do
+      fare_fn = fn [reduced: :any, duration: :month, mode: :subway] -> @reduced_fares end
+
+      assert %Fare{cents: 3_000} = Month.reduced_pass("Red", nil, nil, nil, fare_fn)
+    end
+
+    test "accepts a Trip ID" do
+      route = %Route{type: 2, id: "CR-Franklin"}
+      trip_id = "CR-Weekday-Fall-19-751"
+
+      assert Month.reduced_pass(route, trip_id, "place-sstat", "place-FS-0049") == nil
+    end
+  end
+
   describe "subway" do
     @subway_route %Route{type: 0}
 

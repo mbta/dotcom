@@ -387,10 +387,32 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
+  describe "icon_for_routes/1" do
+    test "returns a list of icons for the given routes" do
+      routes = [
+        %Route{
+          id: "Red",
+          type: 1
+        },
+        %Route{
+          id: "Green",
+          type: 0
+        }
+      ]
+
+      assert icons = icon_for_routes(routes)
+      assert length(icons) == 2
+
+      [rl_icon | [gl_icon | _]] = icons
+      assert safe_to_string(rl_icon) =~ "red-line"
+      assert safe_to_string(gl_icon) =~ "green-line"
+    end
+  end
+
   describe "icon_for_route/1" do
     test "non-subway transit legs" do
       for {gtfs_type, expected_icon_class} <- [{2, "commuter-rail"}, {3, "bus"}, {4, "ferry"}] do
-        route = %Routes.Route{
+        route = %Route{
           id: "id",
           type: gtfs_type
         }
@@ -408,7 +430,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             {"Blue", 1, "blue-line"},
             {"Green", 0, "green-line"}
           ] do
-        route = %Routes.Route{
+        route = %Route{
           id: id,
           type: type
         }
