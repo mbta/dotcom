@@ -1,8 +1,6 @@
 defmodule Fares.Fare do
-  @typedoc """
-
+  @moduledoc """
   Represents a method of paying for transit on the MBTA.
-
   """
 
   alias Routes.Route
