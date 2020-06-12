@@ -12,6 +12,7 @@ import {
   MapData,
   MapMarker as Marker
 } from "../../leaflet/components/__mapdata";
+import CrowdingPill from "./line-diagram/CrowdingPill";
 
 interface Props {
   channel: string;
@@ -82,7 +83,17 @@ const zIndex = (icon: string | null): number | undefined =>
 
 const updateMarker = (marker: Marker): Marker => ({
   ...marker,
-  tooltip: <div>{marker.tooltip_text}</div>,
+  tooltip: (
+    <div>
+      {marker.vehicle_crowding && (
+        <>
+          <CrowdingPill crowding={marker.vehicle_crowding} />
+          <br />
+        </>
+      )}
+      {marker.tooltip_text}
+    </div>
+  ),
   icon_opts: iconOpts(marker.icon), // eslint-disable-line @typescript-eslint/camelcase
   z_index: zIndex(marker.icon) // eslint-disable-line @typescript-eslint/camelcase
 });

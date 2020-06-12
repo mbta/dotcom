@@ -147,6 +147,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
         id: vt.vehicle.id,
         icon: "vehicle-bordered-expanded",
         rotation_angle: vt.vehicle.bearing,
+        vehicle_crowding: vt.vehicle.crowding,
         tooltip_text:
           vt
           |> VehicleHelpers.tooltip()

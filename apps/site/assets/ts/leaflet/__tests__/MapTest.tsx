@@ -3,6 +3,7 @@ import { mount } from "enzyme";
 import Map from "../components/Map";
 import { MapData, MapMarker } from "../components/__mapdata";
 import getBounds from "../bounds";
+import { Marker } from "react-leaflet";
 
 /* eslint-disable @typescript-eslint/camelcase */
 const marker: MapMarker = {
@@ -72,5 +73,19 @@ it("it renders using the default center position", () => {
       .find(".leaflet-tile")
       .prop("src")
   ).toBe(`${data.tile_server_url}/osm_tiles/16/19650/23738.png`);
+});
+
+it("it renders a marker with vehicle crowding info", () => {
+  const dataWithCrowding: MapData = {
+    ...data,
+    markers: [{ ...marker, vehicle_crowding: "some_crowding" }]
+  };
+  const div = document.createElement("div");
+  document.body.appendChild(div);
+  const wrapper = mount(<Map mapData={dataWithCrowding} />, {
+    attachTo: div
+  });
+
+  expect(wrapper.find(Marker)).toHaveLength(1);
 });
 /* eslint-disable @typescript-eslint/camelcase */
