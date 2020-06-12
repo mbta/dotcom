@@ -1,4 +1,9 @@
 <h1>Find Your Fare</h1>
+
+<%= if @mode == :commuter_rail || @mode == :ferry do %>
+  <%= render "_deprecation_message.html", conn: @conn %>
+<% end %>
+
 <h2><%= mode_name(@mode) %></h2>
 <%= origin_destination_description(@mode) %>
 <div class="callout">
