@@ -187,7 +187,6 @@ defmodule Stops.NearbyTest do
         {"65", 1},
         {"8", 0},
         {"8", 1},
-        {"9", 1},
         {"Green-B", 0},
         {"Green-B", 1},
         {"Green-C", 0},
@@ -318,10 +317,10 @@ defmodule Stops.NearbyTest do
 
   describe "merge_routes/2" do
     test "sets direction_id for routes present in one direction at stop" do
-      stop_id = "place-kencl"
+      stop_id = "1994"
       routes_fn = &Routes.Repo.by_stop_and_direction/2
       {:ok, actual} = merge_routes(stop_id, routes_fn)
-      route_going_1way = Enum.find(actual, &(&1.route.name === "9"))
+      route_going_1way = Enum.find(actual, &(&1.route.name === "65"))
 
       refute nil == route_going_1way.direction_id
     end
