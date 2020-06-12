@@ -1,0 +1,3 @@
+<div class="callout c-banner__category">
+You can now find the cost of your fare with our <%= link "Trip Planner", to: trip_plan_path(@conn, :index) %>. We'll be retiring this fare calculator tool on July 31, 2020.
+</div>
