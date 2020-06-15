@@ -5,7 +5,7 @@ defmodule TripPlan.ItineraryRowTest do
   alias Site.TripPlan.ItineraryRow
   alias Routes.Route
   alias Alerts.{Alert, InformedEntity}
-  alias TripPlan.NamedPosition
+  alias TripPlan.{Api.MockPlanner, NamedPosition}
 
   describe "route_id/1" do
     test "returns the route id when a route is present" do
@@ -307,6 +307,16 @@ defmodule TripPlan.ItineraryRowTest do
 
       assert {^name, nil} =
                name_from_position(%NamedPosition{stop_id: stop_id, name: name}, mapper)
+    end
+  end
+
+  describe "from_leg/2" do
+    @deps %ItineraryRow.Dependencies{stop_mapper: &Stops.Repo.get_parent/1}
+    @leg MockPlanner.personal_leg(MockPlanner.random_stop(), MockPlanner.random_stop(), nil, nil)
+
+    test "returns an itinerary row from a Leg" do
+      row = from_leg(@leg, @deps)
+      assert %ItineraryRow{} = row
     end
   end
 end
