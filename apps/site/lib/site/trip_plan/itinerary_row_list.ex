@@ -49,9 +49,9 @@ defmodule Site.TripPlan.ItineraryRowList do
         ]
   defp get_rows(itinerary, deps, opts, alerts) do
     rows =
-      for leg <- itinerary do
+      for {leg, index} <- Enum.with_index(itinerary.legs) do
         leg
-        |> ItineraryRow.from_leg(deps)
+        |> ItineraryRow.from_leg(deps, Enum.at(itinerary.legs, index + 1))
         |> ItineraryRow.fetch_alerts(alerts)
       end
 
