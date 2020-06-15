@@ -28,7 +28,7 @@ defmodule Leaflet.MapData.Marker do
           tooltip_text: String.t() | nil,
           z_index: integer,
           shape_id: String.t() | nil,
-          vehicle_crowding: Vehicle.crowding()
+          vehicle_crowding: Vehicles.Vehicle.crowding()
         }
 
   @spec new(float, float, Keyword.t()) :: t()
