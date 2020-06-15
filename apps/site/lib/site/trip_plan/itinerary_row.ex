@@ -62,8 +62,8 @@ defmodule Site.TripPlan.ItineraryRow do
   @doc """
   Builds an ItineraryRow struct from the given leg and options
   """
-  @spec from_leg(Leg.t(), Dependencies.t()) :: t
-  def from_leg(leg, deps) do
+  @spec from_leg(Leg.t(), Dependencies.t(), Leg.t() | nil) :: t
+  def from_leg(leg, deps, next_leg) do
     trip = leg |> Leg.trip_id() |> parse_trip_id(deps.trip_mapper)
     route = leg |> Leg.route_id() |> parse_route_id(deps.route_mapper)
     stop = name_from_position(leg.from, deps.stop_mapper)
@@ -74,7 +74,7 @@ defmodule Site.TripPlan.ItineraryRow do
       route: route,
       trip: trip,
       departure: leg.start,
-      steps: get_steps(leg.mode, deps.stop_mapper),
+      steps: get_steps(leg.mode, deps.stop_mapper, next_leg),
       additional_routes: get_additional_routes(route, trip, leg, stop, deps)
     }
   end
@@ -160,12 +160,15 @@ defmodule Site.TripPlan.ItineraryRow do
     {name, nil}
   end
 
-  @spec get_steps(TripPlan.Leg.mode(), Dependencies.stop_mapper()) :: [IntermediateStop.t()]
-  defp get_steps(%PersonalDetail{steps: steps}, _stop_mapper) do
-    Enum.map(steps, &format_personal_step/1)
-  end
+  @spec get_steps(Leg.mode(), Dependencies.stop_mapper(), Leg.t()) :: [IntermediateStop.t()]
 
-  defp get_steps(%TransitDetail{intermediate_stop_ids: stop_ids}, stop_mapper) do
+  defp get_steps(%PersonalDetail{steps: steps}, _stop_mapper, %Leg{mode: %TransitDetail{}}),
+    do: Enum.map(steps, &format_personal_to_transit_step/1)
+
+  defp get_steps(%PersonalDetail{steps: steps}, _stop_mapper, _next_leg),
+    do: Enum.map(steps, &format_personal_to_personal_step/1)
+
+  defp get_steps(%TransitDetail{intermediate_stop_ids: stop_ids}, stop_mapper, _next_leg) do
     for {:ok, stop} <- Task.async_stream(stop_ids, stop_mapper), stop do
       %IntermediateStop{
         description: stop.name,
@@ -183,6 +186,16 @@ defmodule Site.TripPlan.ItineraryRow do
           Schedules.Trip.t() | nil
   defp parse_trip_id(:error, _trip_mapper), do: nil
   defp parse_trip_id({:ok, trip_id}, trip_mapper), do: trip_mapper.(trip_id)
+
+  defp format_personal_to_personal_step(%{relative_direction: :depart, street_name: "Transfer"}),
+    do: %IntermediateStop{description: "Depart"}
+
+  defp format_personal_to_personal_step(step), do: format_personal_step(step)
+
+  defp format_personal_to_transit_step(%{relative_direction: :depart, street_name: "Transfer"}),
+    do: %IntermediateStop{description: "Transfer"}
+
+  defp format_personal_to_transit_step(step), do: format_personal_step(step)
 
   defp format_personal_step(step) do
     %IntermediateStop{

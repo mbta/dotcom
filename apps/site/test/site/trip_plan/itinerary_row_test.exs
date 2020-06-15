@@ -5,7 +5,7 @@ defmodule TripPlan.ItineraryRowTest do
   alias Site.TripPlan.ItineraryRow
   alias Routes.Route
   alias Alerts.{Alert, InformedEntity}
-  alias TripPlan.{Api.MockPlanner, NamedPosition}
+  alias TripPlan.{Api.MockPlanner, Leg, NamedPosition, PersonalDetail}
 
   describe "route_id/1" do
     test "returns the route id when a route is present" do
@@ -310,13 +310,41 @@ defmodule TripPlan.ItineraryRowTest do
     end
   end
 
-  describe "from_leg/2" do
+  describe "from_leg/3" do
     @deps %ItineraryRow.Dependencies{stop_mapper: &Stops.Repo.get_parent/1}
     @leg MockPlanner.personal_leg(MockPlanner.random_stop(), MockPlanner.random_stop(), nil, nil)
+    @personal_leg MockPlanner.personal_leg(
+                    MockPlanner.random_stop(),
+                    MockPlanner.random_stop(),
+                    nil,
+                    nil
+                  )
+    @transit_leg MockPlanner.transit_leg(
+                   MockPlanner.random_stop(),
+                   MockPlanner.random_stop(),
+                   nil,
+                   nil
+                 )
 
     test "returns an itinerary row from a Leg" do
-      row = from_leg(@leg, @deps)
+      row = from_leg(@leg, @deps, nil)
       assert %ItineraryRow{} = row
+    end
+
+    test "formats transfer steps differently based on subsequent Leg" do
+      leg = %Leg{
+        @leg
+        | mode: %PersonalDetail{
+            steps: [
+              %PersonalDetail.Step{relative_direction: :depart, street_name: "Transfer"}
+              | @leg.mode.steps
+            ]
+          }
+      }
+
+      %ItineraryRow{steps: [xfer_step_to_personal | _]} = from_leg(leg, @deps, @personal_leg)
+      %ItineraryRow{steps: [xfer_step_to_transit | _]} = from_leg(leg, @deps, @transit_leg)
+      assert xfer_step_to_personal.description != xfer_step_to_transit.description
     end
   end
 end
