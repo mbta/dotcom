@@ -1430,5 +1430,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
       assert monthly_pass(fare) == "Commuter Rail Zone 7: $360.00"
     end
+
+    test "accepts nil" do
+      assert monthly_pass(nil) == "Shuttle: None"
+    end
   end
 end
