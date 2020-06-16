@@ -306,6 +306,20 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
         |> get(path)
         |> json_response(404)
     end
+
+    test "doesn't 500 if given bad params", %{conn: conn} do
+      path =
+        finder_api_path(conn, :trip, %{
+          origin: "29253"
+        })
+
+      assert response =
+               conn
+               |> get(path)
+               |> json_response(400)
+
+      assert response == %{"error" => "Invalid arguments"}
+    end
   end
 
   describe "maybe_add_delay/1" do
