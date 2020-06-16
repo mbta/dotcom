@@ -1,0 +1,25 @@
+import React from "react";
+import { mount, ReactWrapper } from "enzyme";
+import CrowdingPill from "../components/line-diagram/CrowdingPill";
+
+describe("CrowdingPill", () => {
+  let wrapper: ReactWrapper;
+  beforeEach(() => {
+    wrapper = mount(<CrowdingPill crowding="not_crowded" />);
+  });
+
+  afterEach(() => {
+    wrapper.unmount();
+  });
+
+  it("renders and matches snapshot", () => {
+    expect(wrapper.debug()).toMatchSnapshot();
+  });
+
+  it("shows icon and text", () => {
+    expect(wrapper.exists(".c-icon__crowding--not_crowded")).toBeTruthy();
+    expect(
+      wrapper.find("div").containsMatchingElement(<span>Not crowded</span>)
+    ).toBeTruthy();
+  });
+});

@@ -1,4 +1,5 @@
 import { ReactElement } from "react";
+import { CrowdingType } from "../../schedule/components/__schedule";
 
 export type TileServerUrl =
   | "https://cdn.mbta.com"
@@ -23,6 +24,7 @@ export interface MapMarker {
   tooltip_text?: string | null;
   z_index?: number;
   shape_id?: string;
+  vehicle_crowding?: CrowdingType;
 }
 
 export interface Polyline {

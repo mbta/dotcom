@@ -13,7 +13,8 @@ defmodule Leaflet.MapData.Marker do
             tooltip: nil,
             tooltip_text: nil,
             z_index: nil,
-            shape_id: nil
+            shape_id: nil,
+            vehicle_crowding: nil
 
   @type t :: %__MODULE__{
           id: integer | nil,
@@ -26,7 +27,8 @@ defmodule Leaflet.MapData.Marker do
           tooltip: String.t() | nil,
           tooltip_text: String.t() | nil,
           z_index: integer,
-          shape_id: String.t() | nil
+          shape_id: String.t() | nil,
+          vehicle_crowding: Vehicles.Vehicle.crowding()
         }
 
   @spec new(float, float, Keyword.t()) :: t()
@@ -42,7 +44,8 @@ defmodule Leaflet.MapData.Marker do
       tooltip: Keyword.get(opts, :tooltip),
       tooltip_text: Keyword.get(opts, :tooltip_text),
       z_index: Keyword.get(opts, :z_index),
-      shape_id: Keyword.get(opts, :shape_id)
+      shape_id: Keyword.get(opts, :shape_id),
+      vehicle_crowding: Keyword.get(opts, :vehicle_crowding)
     }
   end
 end
