@@ -318,7 +318,7 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
                |> get(path)
                |> json_response(400)
 
-      assert response == %{"error" => "Bad Request"}
+      assert response == %{"error" => "Invalid arguments"}
     end
   end
 

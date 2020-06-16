@@ -141,8 +141,8 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   def trip(conn, _) do
     conn
     |> put_resp_content_type("application/json")
-    |> put_status(400)
-    |> json(%{error: "Bad Request"})
+    |> put_status(:bad_request)
+    |> json(%{error: "Invalid arguments"})
   end
 
   # Use internal API to generate list of relevant schedules and predictions
