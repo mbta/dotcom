@@ -11,6 +11,7 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
   alias Site.TransitNearMe
+  alias SiteWeb.ControllerHelpers
   alias SiteWeb.ScheduleController.TripInfo, as: Trips
   alias SiteWeb.ScheduleController.VehicleLocations, as: Vehicles
 
@@ -139,10 +140,7 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   end
 
   def trip(conn, _) do
-    conn
-    |> put_resp_content_type("application/json")
-    |> put_status(:bad_request)
-    |> json(%{error: "Invalid arguments"})
+    ControllerHelpers.return_invalid_arguments_error(conn)
   end
 
   # Use internal API to generate list of relevant schedules and predictions

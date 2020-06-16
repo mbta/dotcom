@@ -11,7 +11,62 @@ defmodule SiteWeb.ControllerHelpersTest do
       put_private: 3
     ]
 
-  describe "filter_modes/2" do
+  describe "render_404/1" do
+    test "renders the 404 bus" do
+      rendered =
+        build_conn()
+        |> render_404()
+        |> html_response(404)
+
+      assert rendered =~ "Your stop cannot be found."
+    end
+  end
+
+  describe "return_internal_error/1" do
+    test "renders an 'Internal error' 500 json response" do
+      response =
+        build_conn()
+        |> return_internal_error()
+        |> json_response(500)
+
+      assert response == %{"error" => "Internal error"}
+    end
+  end
+
+  describe "return_invalid_arguments_error/1" do
+    test "renders a 400 json response" do
+      response =
+        build_conn()
+        |> return_invalid_arguments_error()
+        |> json_response(400)
+
+      assert response == %{"error" => "Invalid arguments"}
+    end
+  end
+
+  describe "return_zero_results_error/1" do
+    test "renders a 'Zero results' 500 json response" do
+      response =
+        build_conn()
+        |> return_zero_results_error()
+        |> json_response(500)
+
+      assert response == %{"error" => "Zero results"}
+    end
+  end
+
+  describe "return_error/3" do
+    test "renders a generic error code and message" do
+      response =
+        build_conn()
+        |> return_error(418, "I'm a teapot")
+        |> json_response(418)
+
+      assert response == %{"error" => "I'm a teapot"}
+    end
+  end
+
+  describe "filter_routes/2" do
     test "filters the key routes of all modes that are passed" do
       routes = [
         {:subway,
@@ -291,17 +346,6 @@ defmodule SiteWeb.ControllerHelpersTest do
       assert [_wkday, _day, _month, _year, _time, _tz] = String.split(date, " ")
       # we don't pass content-length cuz it causes problems with gzip
       assert get_resp_header(response, "content-length") == []
-    end
-  end
-
-  describe "render_404/1" do
-    test "renders the 404 bus" do
-      rendered =
-        build_conn()
-        |> render_404()
-        |> html_response(404)
-
-      assert rendered =~ "Your stop cannot be found."
     end
   end
 

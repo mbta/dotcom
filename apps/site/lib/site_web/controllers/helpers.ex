@@ -1,7 +1,7 @@
 defmodule SiteWeb.ControllerHelpers do
   @moduledoc false
 
-  import Plug.Conn, only: [put_status: 2, halt: 1]
+  import Plug.Conn, only: [halt: 1, put_resp_content_type: 2, put_status: 2]
   import Phoenix.Controller, only: [render: 3, put_view: 2]
 
   alias Alerts.{Alert, InformedEntity, Match, Repo}
@@ -36,6 +36,22 @@ defmodule SiteWeb.ControllerHelpers do
     |> put_view(SiteWeb.ErrorView)
     |> render("404.html", [])
     |> halt()
+  end
+
+  def return_internal_error(conn),
+    do: return_error(conn, :internal_server_error, "Internal error")
+
+  def return_invalid_arguments_error(conn),
+    do: return_error(conn, :bad_request, "Invalid arguments")
+
+  def return_zero_results_error(conn),
+    do: return_error(conn, :internal_server_error, "Zero results")
+
+  def return_error(conn, response_code, message) do
+    conn
+    |> put_resp_content_type("application/json")
+    |> put_status(response_code)
+    |> Controller.json(%{error: message})
   end
 
   @spec filter_routes([{atom, [Route.t()]}], [atom]) :: [{atom, [Route.t()]}]
@@ -90,17 +106,6 @@ defmodule SiteWeb.ControllerHelpers do
     |> Conn.assign(:all_alerts_count, length(alerts))
   end
 
-  @spec filter_alerts_by_direction([Alert.t()], boolean, map) :: [Alert.t()]
-  defp filter_alerts_by_direction(alerts, false, _), do: alerts
-  defp filter_alerts_by_direction(alerts, true, nil), do: alerts
-
-  defp filter_alerts_by_direction(alerts, true, direction_id) do
-    Enum.filter(alerts, fn %{informed_entity: informed_entity} ->
-      # direction matches if the direction of the alert is the same or nil
-      Enum.any?(informed_entity, &(&1.direction_id == direction_id or &1.direction_id == nil))
-    end)
-  end
-
   @doc """
   Gets a remote static file and forwards it to the client.
   If there's a problem with the response, returns a 404 Not Found.
@@ -120,17 +125,6 @@ defmodule SiteWeb.ControllerHelpers do
     end
   end
 
-  @spec add_headers_if_valid(Conn.t(), [{String.t(), String.t()}]) :: Conn.t()
-  defp add_headers_if_valid(conn, headers) do
-    Enum.reduce(headers, conn, fn {key, value}, conn ->
-      if String.downcase(key) in @valid_resp_headers do
-        Conn.put_resp_header(conn, String.downcase(key), value)
-      else
-        conn
-      end
-    end)
-  end
-
   @spec check_cms_or_404(Conn.t()) :: Conn.t()
   def check_cms_or_404(conn) do
     conn
@@ -147,15 +141,37 @@ defmodule SiteWeb.ControllerHelpers do
     Conn.put_resp_header(conn, "x-robots-tag", "unavailable_after: #{one_year_after(posted_on)}")
   end
 
+  def noindex(conn) do
+    Conn.put_resp_header(conn, "x-robots-tag", "noindex")
+  end
+
+  @spec filter_alerts_by_direction([Alert.t()], boolean, map) :: [Alert.t()]
+  defp filter_alerts_by_direction(alerts, false, _), do: alerts
+  defp filter_alerts_by_direction(alerts, true, nil), do: alerts
+
+  defp filter_alerts_by_direction(alerts, true, direction_id) do
+    Enum.filter(alerts, fn %{informed_entity: informed_entity} ->
+      # direction matches if the direction of the alert is the same or nil
+      Enum.any?(informed_entity, &(&1.direction_id == direction_id or &1.direction_id == nil))
+    end)
+  end
+
+  @spec add_headers_if_valid(Conn.t(), [{String.t(), String.t()}]) :: Conn.t()
+  defp add_headers_if_valid(conn, headers) do
+    Enum.reduce(headers, conn, fn {key, value}, conn ->
+      if String.downcase(key) in @valid_resp_headers do
+        Conn.put_resp_header(conn, String.downcase(key), value)
+      else
+        conn
+      end
+    end)
+  end
+
   # Formats the date using RFC-850 style: "25 Jun 2010 00:00:00 EST"
   # See https://developers.google.com/search/reference/robots_meta_tag for reference
   defp one_year_after(posted_on) do
     one_year_after = posted_on |> Date.add(365)
 
     "#{Strftime.format!(one_year_after, "%d %b %Y")} 00:00:00 EST"
-  end
-
-  def noindex(conn) do
-    Conn.put_resp_header(conn, "x-robots-tag", "noindex")
   end
 end
