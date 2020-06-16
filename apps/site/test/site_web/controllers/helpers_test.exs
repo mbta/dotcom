@@ -11,7 +11,18 @@ defmodule SiteWeb.ControllerHelpersTest do
       put_private: 3
     ]
 
-  describe "filter_modes/2" do
+  describe "render_404/1" do
+    test "renders the 404 bus" do
+      rendered =
+        build_conn()
+        |> render_404()
+        |> html_response(404)
+
+      assert rendered =~ "Your stop cannot be found."
+    end
+  end
+
+  describe "filter_routes/2" do
     test "filters the key routes of all modes that are passed" do
       routes = [
         {:subway,
@@ -291,17 +302,6 @@ defmodule SiteWeb.ControllerHelpersTest do
       assert [_wkday, _day, _month, _year, _time, _tz] = String.split(date, " ")
       # we don't pass content-length cuz it causes problems with gzip
       assert get_resp_header(response, "content-length") == []
-    end
-  end
-
-  describe "render_404/1" do
-    test "renders the 404 bus" do
-      rendered =
-        build_conn()
-        |> render_404()
-        |> html_response(404)
-
-      assert rendered =~ "Your stop cannot be found."
     end
   end
 
