@@ -5,6 +5,7 @@ defmodule SiteWeb.PlacesController do
   use SiteWeb, :controller
   alias GoogleMaps.{Geocode, Place, Place.AutocompleteQuery}
   alias Plug.Conn
+  alias SiteWeb.ControllerHelpers
 
   @spec autocomplete(Conn.t(), map) :: Conn.t()
   def autocomplete(conn, %{"input" => input, "hit_limit" => hit_limit_str, "token" => token}) do
@@ -20,10 +21,10 @@ defmodule SiteWeb.PlacesController do
       json(conn, %{predictions: Poison.encode!(predictions)})
     else
       {:error, :internal_error} ->
-        return_internal_error(conn)
+        ControllerHelpers.return_internal_error(conn)
 
       _ ->
-        return_invalid_arguments_error(conn)
+        ControllerHelpers.return_invalid_arguments_error(conn)
     end
   end
 
@@ -37,10 +38,10 @@ defmodule SiteWeb.PlacesController do
         json(conn, %{result: results |> List.first() |> Poison.encode!()})
 
       {:error, :internal_error} ->
-        return_internal_error(conn)
+        ControllerHelpers.return_internal_error(conn)
 
       {:error, :zero_results} ->
-        return_zero_results_error(conn)
+        ControllerHelpers.return_zero_results_error(conn)
     end
   end
 
@@ -53,13 +54,13 @@ defmodule SiteWeb.PlacesController do
       json(conn, %{results: Poison.encode!(results)})
     else
       :invalid_lat_lng ->
-        return_invalid_arguments_error(conn)
+        ControllerHelpers.return_invalid_arguments_error(conn)
 
       {:error, :internal_error} ->
-        return_internal_error(conn)
+        ControllerHelpers.return_internal_error(conn)
 
       {:error, :zero_results} ->
-        return_zero_results_error(conn)
+        ControllerHelpers.return_zero_results_error(conn)
     end
   end
 
@@ -71,20 +72,5 @@ defmodule SiteWeb.PlacesController do
       _ ->
         :invalid_lat_lng
     end
-  end
-
-  defp return_internal_error(conn),
-    do: return_error(conn, :internal_server_error, "Internal error")
-
-  defp return_invalid_arguments_error(conn),
-    do: return_error(conn, :bad_request, "Invalid arguments")
-
-  defp return_zero_results_error(conn),
-    do: return_error(conn, :internal_server_error, "Zero results")
-
-  defp return_error(conn, response_code, message) do
-    conn
-    |> Conn.put_status(response_code)
-    |> json(%{error: message})
   end
 end

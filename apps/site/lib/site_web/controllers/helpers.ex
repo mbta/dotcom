@@ -1,7 +1,7 @@
 defmodule SiteWeb.ControllerHelpers do
   @moduledoc false
 
-  import Plug.Conn, only: [put_status: 2, halt: 1]
+  import Plug.Conn, only: [halt: 1, put_resp_content_type: 2, put_status: 2]
   import Phoenix.Controller, only: [render: 3, put_view: 2]
 
   alias Alerts.{Alert, InformedEntity, Match, Repo}
@@ -36,6 +36,22 @@ defmodule SiteWeb.ControllerHelpers do
     |> put_view(SiteWeb.ErrorView)
     |> render("404.html", [])
     |> halt()
+  end
+
+  def return_internal_error(conn),
+    do: return_error(conn, :internal_server_error, "Internal error")
+
+  def return_invalid_arguments_error(conn),
+    do: return_error(conn, :bad_request, "Invalid arguments")
+
+  def return_zero_results_error(conn),
+    do: return_error(conn, :internal_server_error, "Zero results")
+
+  def return_error(conn, response_code, message) do
+    conn
+    |> put_resp_content_type("application/json")
+    |> put_status(response_code)
+    |> Controller.json(%{error: message})
   end
 
   @spec filter_routes([{atom, [Route.t()]}], [atom]) :: [{atom, [Route.t()]}]
