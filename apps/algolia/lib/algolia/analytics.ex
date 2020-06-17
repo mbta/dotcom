@@ -1,4 +1,7 @@
 defmodule Algolia.Analytics do
+  @moduledoc """
+    Module for the tracking of clicks using Algolia
+  """
   require Logger
 
   @http_pool Application.get_env(:algolia, :http_pool)
@@ -41,7 +44,9 @@ defmodule Algolia.Analytics do
     _ = Logger.info("module=#{__MODULE__} path=#{path} method=POST params=#{json}")
 
     path
-    |> HTTPoison.post(json, post_headers(), hackney: [pool: @http_pool])
+    |> HTTPoison.post(json, post_headers(),
+      hackney: [pool: @http_pool, ssl: [cacertfile: CAStore.file_path()]]
+    )
     |> handle_click_response(json)
   end
 
