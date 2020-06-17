@@ -1020,6 +1020,116 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert get_calculated_fares(itinerary) == calculated_fares
     end
 
+    test "includes a shuttle fare" do
+      shuttle_fares = %{
+        highest_one_way_fare: %Fare{
+          additional_valid_modes: [],
+          cents: 0,
+          duration: :single_trip,
+          media: [],
+          mode: :bus,
+          name: :free_fare,
+          price_label: nil,
+          reduced: nil
+        },
+        lowest_one_way_fare: %Fare{
+          additional_valid_modes: [],
+          cents: 0,
+          duration: :single_trip,
+          media: [],
+          mode: :bus,
+          name: :free_fare,
+          price_label: nil,
+          reduced: nil
+        },
+        reduced_one_way_fare: nil
+      }
+
+      itinerary = %Itinerary{
+        legs: [
+          %Leg{
+            description: "BUS",
+            from: %NamedPosition{
+              latitude: 42.370864,
+              longitude: -71.077534,
+              name: "Lechmere",
+              stop_id: "9070092"
+            },
+            long_name: "Green Line Shuttle",
+            mode: %TransitDetail{
+              fares: shuttle_fares,
+              intermediate_stop_ids: ["9070093"],
+              route_id: "Shuttle-LechmereNorthStation",
+              trip_id: "43831675C0-LechmereNorthStation1"
+            },
+            name: "Green Line Shuttle",
+            to: %NamedPosition{
+              latitude: 42.36573,
+              longitude: -71.063989,
+              name: "North Station",
+              stop_id: "9070090"
+            },
+            type: "1"
+          },
+          %Leg{
+            description: "TRAM",
+            from: %NamedPosition{
+              latitude: 42.365577,
+              longitude: -71.06129,
+              name: "North Station",
+              stop_id: "70206"
+            },
+            long_name: "Green Line C",
+            mode: %TransitDetail{
+              fares: %{
+                highest_one_way_fare: @highest_one_way_fare,
+                lowest_one_way_fare: @lowest_one_way_fare,
+                reduced_one_way_fare: @reduced_one_way_fare
+              },
+              intermediate_stop_ids: ["70204", "70202", "70197", "70159", "70157"],
+              route_id: "Green-C",
+              trip_id: "43829886C0-LechmereNorthStation"
+            },
+            name: "C",
+            to: %NamedPosition{
+              latitude: 42.350126,
+              longitude: -71.077376,
+              name: "Copley",
+              stop_id: "70155"
+            },
+            type: "1"
+          }
+        ],
+        start: nil,
+        stop: nil
+      }
+
+      expected_fares = %{
+        bus: %{
+          mode: %{
+            fares: shuttle_fares,
+            mode_name: "Bus",
+            name: "Shuttle",
+            mode: :bus
+          }
+        },
+        subway: %{
+          mode: %{
+            fares: %{
+              highest_one_way_fare: @highest_one_way_fare,
+              lowest_one_way_fare: @lowest_one_way_fare,
+              reduced_one_way_fare: @reduced_one_way_fare
+            },
+            mode_name: "Subway",
+            name: "Subway",
+            mode: :subway
+          }
+        }
+      }
+
+      assert get_calculated_fares(itinerary) == expected_fares
+    end
+
     test "gets fare by type" do
       non_transit_leg = @itinerary.legs |> List.first()
       assert get_fare_by_type(non_transit_leg, :highest_one_way_fare) == nil
@@ -1319,6 +1429,10 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       }
 
       assert monthly_pass(fare) == "Commuter Rail Zone 7: $360.00"
+    end
+
+    test "accepts nil" do
+      assert monthly_pass(nil) == "Shuttle: None"
     end
   end
 end
