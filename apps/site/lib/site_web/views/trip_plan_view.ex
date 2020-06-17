@@ -684,7 +684,7 @@ defmodule SiteWeb.TripPlanView do
   defp fare_cents(%Fare{cents: cents}), do: cents
 
   @spec monthly_pass(Fare.t() | nil) :: String.t()
-  def monthly_pass(nil), do: Format.full_name(nil)
+  def monthly_pass(nil), do: "#{Format.full_name(nil)}: None"
 
   def monthly_pass(fare) do
     "#{cr_prefix(fare)}#{Format.concise_full_name(fare)}: #{Format.price(fare)}"
@@ -699,8 +699,7 @@ defmodule SiteWeb.TripPlanView do
     itinerary.legs
     |> Enum.filter(fn leg -> Leg.transit?(leg) end)
     |> Enum.filter(fn leg ->
-      get_fare_by_type(leg, :highest_one_way_fare) != nil &&
-        get_fare_by_type(leg, :reduced_one_way_fare) != nil
+      get_fare_by_type(leg, :highest_one_way_fare) != nil
     end)
     |> Enum.reduce(%{}, fn leg, acc ->
       highest_fare =
@@ -722,11 +721,16 @@ defmodule SiteWeb.TripPlanView do
       if Map.has_key?(acc, mode_key) do
         acc
       else
+        name =
+          if leg.name && leg.name =~ "Shuttle",
+            do: "Shuttle",
+            else: Format.name(highest_fare.name)
+
         Map.put(acc, mode_key, %{
           mode: %{
             mode: mode,
             mode_name: mode_name(mode),
-            name: Format.name(highest_fare.name),
+            name: name,
             fares: %{
               highest_one_way_fare: highest_fare,
               lowest_one_way_fare:
