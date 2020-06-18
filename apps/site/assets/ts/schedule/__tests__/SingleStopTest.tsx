@@ -62,30 +62,36 @@ const liveData: LiveData = {
   headsigns: [
     {
       name: "DestA",
-      times: [
+      time_data_with_crowding_list: [
         {
-          delay: 0,
-          prediction: {
-            status: null,
-            time: ["arriving"],
-            track: null
+          time_data: {
+            delay: 0,
+            prediction: {
+              status: null,
+              time: ["arriving"],
+              track: null
+            },
+            scheduled_time: null
           },
-          scheduled_time: null
+          crowding: null
         }
       ],
       train_number: null
     },
     {
       name: "DestB",
-      times: [
+      time_data_with_crowding_list: [
         {
-          delay: 0,
-          prediction: {
-            status: null,
-            time: ["2", " ", "min"],
-            track: null
+          time_data: {
+            delay: 0,
+            prediction: {
+              status: null,
+              time: ["2", " ", "min"],
+              track: null
+            },
+            scheduled_time: null
           },
-          scheduled_time: null
+          crowding: null
         }
       ],
       train_number: null
@@ -113,26 +119,32 @@ const crLiveData: LiveData = {
   headsigns: [
     {
       name: "DestA",
-      times: [
+      time_data_with_crowding_list: [
         {
-          delay: 5,
-          prediction: {
-            status: null,
-            time: ["5:05", " ", "PM"],
-            track: "3"
+          time_data: {
+            delay: 5,
+            prediction: {
+              status: null,
+              time: ["5:05", " ", "PM"],
+              track: "3"
+            },
+            scheduled_time: ["5:00", " ", "PM"]
           },
-          scheduled_time: ["5:00", " ", "PM"]
+          crowding: null
         }
       ],
       train_number: "404"
     },
     {
       name: "DestB",
-      times: [
+      time_data_with_crowding_list: [
         {
-          delay: 0,
-          prediction: null,
-          scheduled_time: ["5:30", " ", "PM"]
+          time_data: {
+            delay: 0,
+            prediction: null,
+            scheduled_time: ["5:30", " ", "PM"]
+          },
+          crowding: null
         }
       ],
       train_number: "504"
