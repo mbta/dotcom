@@ -285,7 +285,7 @@ defmodule SiteWeb.ScheduleController.TripInfoTest do
     assert conn.assigns.trip_info == nil
   end
 
-  test "redirects if we can't generate a trip info", %{conn: conn} do
+  test "returns nil if we can't generate a trip info", %{conn: conn} do
     conn =
       conn_builder(
         conn,
@@ -296,11 +296,7 @@ defmodule SiteWeb.ScheduleController.TripInfoTest do
         param: "param"
       )
 
-    expected_path =
-      schedule_path(conn, :show, "1", destination: "fake", origin: "fake", param: "param")
-
-    assert conn.halted
-    assert redirected_to(conn) == expected_path
+    assert conn.assigns.trip_info == nil
   end
 
   test "does not redirect if we didn't have a trip already", %{conn: conn} do
@@ -615,7 +611,7 @@ defmodule SiteWeb.ScheduleController.TripInfoTest do
     assert conn.assigns.trip_info == nil
   end
 
-  test "removes the trip from the query string if the API returns an error", %{conn: conn} do
+  test "returns a nil trip if the API returns an error", %{conn: conn} do
     init = init(trip_fn: &trip_fn/2, vehicle_fn: &vehicle_fn/1)
 
     conn =
@@ -630,7 +626,7 @@ defmodule SiteWeb.ScheduleController.TripInfoTest do
       |> assign(:vehicle_locations, %{})
       |> call(init)
 
-    assert redirected_to(conn) == schedule_path(conn, :show, "Red")
+    assert conn.assigns.trip_info == nil
   end
 
   describe "show_trips?/4" do
