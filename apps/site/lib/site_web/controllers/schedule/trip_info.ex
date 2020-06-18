@@ -7,9 +7,7 @@ defmodule SiteWeb.ScheduleController.TripInfo do
   """
   @behaviour Plug
   alias Plug.Conn
-  import Plug.Conn, only: [assign: 3, halt: 1]
-  import Phoenix.Controller, only: [redirect: 2]
-  import UrlHelpers, only: [update_url: 2]
+  import Plug.Conn, only: [assign: 3]
 
   require Routes.Route
   alias Routes.Route
@@ -84,23 +82,11 @@ defmodule SiteWeb.ScheduleController.TripInfo do
   defp handle_trip(conn, selected_trip_id, opts) do
     case build_info(selected_trip_id, conn, opts) do
       {:error, _} ->
-        possibly_remove_trip_query(conn)
+        assign(conn, :trip_info, nil)
 
       info ->
         assign(conn, :trip_info, info)
     end
-  end
-
-  defp possibly_remove_trip_query(%{query_params: %{"trip" => _}} = conn) do
-    url = update_url(conn, trip: nil)
-
-    conn
-    |> redirect(to: url)
-    |> halt
-  end
-
-  defp possibly_remove_trip_query(conn) do
-    assign(conn, :trip_info, nil)
   end
 
   defp build_info(trip_id, conn, opts) do
