@@ -7,7 +7,8 @@ import { TileServerUrl } from "../../leaflet/components/__mapdata";
 const html = "<div>Lots of content about the itinerary</div>";
 const tab_html = "<div>HTML for the accordion button</div>";
 const access_html = "<div>Accessible</div>";
-const fares_html = "<div>HTML content for fares</div>";
+const fares_estimate_html = "<div>HTML content for fares</div>";
+const fare_calculator_html = "<div>HTML content for fare calculator</div>";
 const tile_server_url: TileServerUrl = "";
 
 const positions: [number, number][] = [
@@ -36,12 +37,32 @@ it("it renders", () => {
   createReactRoot();
   const tree = renderer.create(
     <TripPlannerResults
-      itineraryData={[{ html, access_html, fares_html, tab_html, id: 1, map }]}
+      itineraryData={[
+        {
+          html,
+          access_html,
+          fares_estimate_html,
+          tab_html,
+          fare_calculator_html,
+          id: 1,
+          map
+        }
+      ]}
     />
   );
   tree.update(
     <TripPlannerResults
-      itineraryData={[{ html, access_html, fares_html, tab_html, id: 1, map }]}
+      itineraryData={[
+        {
+          html,
+          access_html,
+          fares_estimate_html,
+          tab_html,
+          fare_calculator_html,
+          id: 1,
+          map
+        }
+      ]}
     />
   );
   expect(tree.toJSON()).toMatchSnapshot();

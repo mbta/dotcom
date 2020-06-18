@@ -73,6 +73,10 @@ defmodule Fares.FormatTest do
       assert name(%Fare{name: :ferry_cross_harbor}) == "Cross Harbor Ferry"
       assert name(%Fare{name: :commuter_ferry}) == "Hingham/Hull Ferry"
     end
+
+    test "gives a descriptive name for free fares" do
+      assert name(%Fare{name: :free_fare}), do: "Free Fare"
+    end
   end
 
   describe "full_name/1" do

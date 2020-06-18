@@ -10,6 +10,45 @@ defmodule SiteWeb.TripPlanViewTest do
   alias TripPlan.Api.MockPlanner
   alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
 
+  @highest_one_way_fare %Fares.Fare{
+    additional_valid_modes: [:bus],
+    cents: 290,
+    duration: :single_trip,
+    media: [:charlie_ticket, :cash],
+    mode: :subway,
+    name: :subway,
+    price_label: nil,
+    reduced: nil
+  }
+
+  @lowest_one_way_fare %Fares.Fare{
+    additional_valid_modes: [:bus],
+    cents: 240,
+    duration: :single_trip,
+    media: [:charlie_card],
+    mode: :subway,
+    name: :subway,
+    price_label: nil,
+    reduced: nil
+  }
+
+  @reduced_one_way_fare %Fares.Fare{
+    additional_valid_modes: [],
+    cents: 110,
+    duration: :single_trip,
+    media: [:senior_card],
+    mode: :subway,
+    name: :subway,
+    price_label: nil,
+    reduced: :senior_disabled
+  }
+
+  @fares %{
+    highest_one_way_fare: @highest_one_way_fare,
+    lowest_one_way_fare: @lowest_one_way_fare,
+    reduced_one_way_fare: @reduced_one_way_fare
+  }
+
   describe "itinerary_explanation/2" do
     @base_explanation_query %Query{
       from: {:error, :unknown},
@@ -387,10 +426,32 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
   end
 
+  describe "icon_for_routes/1" do
+    test "returns a list of icons for the given routes" do
+      routes = [
+        %Route{
+          id: "Red",
+          type: 1
+        },
+        %Route{
+          id: "Green",
+          type: 0
+        }
+      ]
+
+      assert icons = icon_for_routes(routes)
+      assert length(icons) == 2
+
+      [rl_icon | [gl_icon | _]] = icons
+      assert safe_to_string(rl_icon) =~ "red-line"
+      assert safe_to_string(gl_icon) =~ "green-line"
+    end
+  end
+
   describe "icon_for_route/1" do
     test "non-subway transit legs" do
       for {gtfs_type, expected_icon_class} <- [{2, "commuter-rail"}, {3, "bus"}, {4, "ferry"}] do
-        route = %Routes.Route{
+        route = %Route{
           id: "id",
           type: gtfs_type
         }
@@ -408,7 +469,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             {"Blue", 1, "blue-line"},
             {"Green", 0, "green-line"}
           ] do
-        route = %Routes.Route{
+        route = %Route{
           id: id,
           type: type
         }
@@ -672,6 +733,101 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       round_trip_total: "$5.80"
     }
 
+    @itinerary %TripPlan.Itinerary{
+      start: nil,
+      stop: nil,
+      legs: [
+        %TripPlan.Leg{
+          description: "WALK",
+          from: %TripPlan.NamedPosition{
+            latitude: 42.365486,
+            longitude: -71.103802,
+            name: "Central",
+            stop_id: nil
+          },
+          long_name: nil,
+          mode: %TripPlan.PersonalDetail{
+            distance: 24.274,
+            steps: [
+              %TripPlan.PersonalDetail.Step{
+                absolute_direction: :southeast,
+                distance: 24.274,
+                relative_direction: :depart,
+                street_name: "Massachusetts Avenue"
+              }
+            ]
+          },
+          name: "",
+          polyline: "eoqaGzm~pLTe@BE@A",
+          to: %TripPlan.NamedPosition{
+            latitude: 42.365304,
+            longitude: -71.103621,
+            name: "Central",
+            stop_id: "70069"
+          },
+          type: nil,
+          url: nil
+        },
+        %TripPlan.Leg{
+          description: "SUBWAY",
+          from: %TripPlan.NamedPosition{
+            latitude: 42.365304,
+            longitude: -71.103621,
+            name: "Central",
+            stop_id: "70069"
+          },
+          long_name: "Red Line",
+          mode: %TripPlan.TransitDetail{
+            fares: @fares,
+            intermediate_stop_ids: ["70071", "70073"],
+            route_id: "Red",
+            trip_id: "43870769C0"
+          },
+          name: "Red Line",
+          to: %TripPlan.NamedPosition{
+            latitude: 42.356395,
+            longitude: -71.062424,
+            name: "Park Street",
+            stop_id: "70075"
+          },
+          type: "1",
+          url: "http://www.mbta.com"
+        }
+      ],
+      passes: %{
+        base_month_pass: %Fare{
+          additional_valid_modes: [:bus],
+          cents: 9_000,
+          duration: :month,
+          media: [:charlie_card, :charlie_ticket],
+          mode: :subway,
+          name: :subway,
+          price_label: nil,
+          reduced: nil
+        },
+        recommended_month_pass: %Fare{
+          additional_valid_modes: [:bus],
+          cents: 9_000,
+          duration: :month,
+          media: [:charlie_card, :charlie_ticket],
+          mode: :subway,
+          name: :subway,
+          price_label: nil,
+          reduced: nil
+        },
+        reduced_month_pass: %Fare{
+          additional_valid_modes: [:bus],
+          cents: 9_000,
+          duration: :month,
+          media: [:charlie_card, :charlie_ticket],
+          mode: :subway,
+          name: :subway,
+          price_label: nil,
+          reduced: nil
+        }
+      }
+    }
+
     test "renders fare information", %{conn: conn} do
       html =
         "_itinerary_fares.html"
@@ -688,6 +844,47 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     end
 
     test "gets the highest one-way fare" do
+      assert get_one_way_total_by_type(@itinerary, :highest_one_way_fare) == 290
+    end
+
+    test "gets the total for a reduced one-way fare" do
+      assert get_one_way_total_by_type(@itinerary, :reduced_one_way_fare) == 110
+    end
+
+    test "gets calculated fares" do
+      bus_fares = %{
+        highest_one_way_fare: %Fares.Fare{
+          additional_valid_modes: [],
+          cents: 200,
+          duration: :single_trip,
+          media: [:charlie_ticket, :cash],
+          mode: :bus,
+          name: :local_bus,
+          price_label: nil,
+          reduced: nil
+        },
+        lowest_one_way_fare: %Fares.Fare{
+          additional_valid_modes: [],
+          cents: 170,
+          duration: :single_trip,
+          media: [:charlie_card],
+          mode: :bus,
+          name: :local_bus,
+          price_label: nil,
+          reduced: nil
+        },
+        reduced_one_way_fare: %Fares.Fare{
+          additional_valid_modes: [],
+          cents: 85,
+          duration: :single_trip,
+          media: [:senior_card],
+          mode: :bus,
+          name: :local_bus,
+          price_label: nil,
+          reduced: :senior_disabled
+        }
+      }
+
       itinerary = %TripPlan.Itinerary{
         start: nil,
         stop: nil,
@@ -733,28 +930,57 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             },
             long_name: "Red Line",
             mode: %TripPlan.TransitDetail{
-              fares: %{
-                highest_one_way_fare: %Fares.Fare{
-                  additional_valid_modes: [:bus],
-                  cents: 290,
-                  duration: :single_trip,
-                  media: [:charlie_ticket, :cash],
-                  mode: :subway,
-                  name: :subway,
-                  price_label: nil,
-                  reduced: nil
-                },
-                lowest_one_way_fare: %Fares.Fare{
-                  additional_valid_modes: [:bus],
-                  cents: 240,
-                  duration: :single_trip,
-                  media: [:charlie_card],
-                  mode: :subway,
-                  name: :subway,
-                  price_label: nil,
-                  reduced: nil
-                }
-              },
+              fares: @fares,
+              intermediate_stop_ids: ["70071", "70073"],
+              route_id: "Red",
+              trip_id: "43870769C0"
+            },
+            name: "Red Line",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.356395,
+              longitude: -71.062424,
+              name: "Park Street",
+              stop_id: "70075"
+            },
+            type: "1",
+            url: "http://www.mbta.com"
+          },
+          %TripPlan.Leg{
+            description: "BUS",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.362804,
+              longitude: -71.099509,
+              name: "Massachusetts Ave @ Sidney St",
+              stop_id: "73"
+            },
+            long_name: "Harvard Square - Dudley Station",
+            mode: %TripPlan.TransitDetail{
+              fares: bus_fares,
+              intermediate_stop_ids: ["74", "75", "77", "79", "80"],
+              route_id: "1",
+              trip_id: "44170977"
+            },
+            name: "1",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.342478,
+              longitude: -71.084701,
+              name: "Massachusetts Ave @ Huntington Ave",
+              stop_id: "82"
+            },
+            type: "1",
+            url: "http://www.mbta.com"
+          },
+          %TripPlan.Leg{
+            description: "SUBWAY",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.365304,
+              longitude: -71.103621,
+              name: "Central",
+              stop_id: "70069"
+            },
+            long_name: "Red Line",
+            mode: %TripPlan.TransitDetail{
+              fares: @fares,
               intermediate_stop_ids: ["70071", "70073"],
               route_id: "Red",
               trip_id: "43870769C0"
@@ -772,7 +998,189 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         ]
       }
 
-      assert get_highest_one_way_fare(itinerary) == 290
+      calculated_fares = %{
+        subway: %{
+          mode: %{
+            fares: @fares,
+            mode_name: "Subway",
+            name: "Subway",
+            mode: :subway
+          }
+        },
+        bus: %{
+          mode: %{
+            fares: bus_fares,
+            mode_name: "Bus",
+            name: "Local Bus",
+            mode: :bus
+          }
+        }
+      }
+
+      assert get_calculated_fares(itinerary) == calculated_fares
+    end
+
+    test "includes a shuttle fare" do
+      shuttle_fares = %{
+        highest_one_way_fare: %Fare{
+          additional_valid_modes: [],
+          cents: 0,
+          duration: :single_trip,
+          media: [],
+          mode: :bus,
+          name: :free_fare,
+          price_label: nil,
+          reduced: nil
+        },
+        lowest_one_way_fare: %Fare{
+          additional_valid_modes: [],
+          cents: 0,
+          duration: :single_trip,
+          media: [],
+          mode: :bus,
+          name: :free_fare,
+          price_label: nil,
+          reduced: nil
+        },
+        reduced_one_way_fare: nil
+      }
+
+      itinerary = %Itinerary{
+        legs: [
+          %Leg{
+            description: "BUS",
+            from: %NamedPosition{
+              latitude: 42.370864,
+              longitude: -71.077534,
+              name: "Lechmere",
+              stop_id: "9070092"
+            },
+            long_name: "Green Line Shuttle",
+            mode: %TransitDetail{
+              fares: shuttle_fares,
+              intermediate_stop_ids: ["9070093"],
+              route_id: "Shuttle-LechmereNorthStation",
+              trip_id: "43831675C0-LechmereNorthStation1"
+            },
+            name: "Green Line Shuttle",
+            to: %NamedPosition{
+              latitude: 42.36573,
+              longitude: -71.063989,
+              name: "North Station",
+              stop_id: "9070090"
+            },
+            type: "1"
+          },
+          %Leg{
+            description: "TRAM",
+            from: %NamedPosition{
+              latitude: 42.365577,
+              longitude: -71.06129,
+              name: "North Station",
+              stop_id: "70206"
+            },
+            long_name: "Green Line C",
+            mode: %TransitDetail{
+              fares: %{
+                highest_one_way_fare: @highest_one_way_fare,
+                lowest_one_way_fare: @lowest_one_way_fare,
+                reduced_one_way_fare: @reduced_one_way_fare
+              },
+              intermediate_stop_ids: ["70204", "70202", "70197", "70159", "70157"],
+              route_id: "Green-C",
+              trip_id: "43829886C0-LechmereNorthStation"
+            },
+            name: "C",
+            to: %NamedPosition{
+              latitude: 42.350126,
+              longitude: -71.077376,
+              name: "Copley",
+              stop_id: "70155"
+            },
+            type: "1"
+          }
+        ],
+        start: nil,
+        stop: nil
+      }
+
+      expected_fares = %{
+        bus: %{
+          mode: %{
+            fares: shuttle_fares,
+            mode_name: "Bus",
+            name: "Shuttle",
+            mode: :bus
+          }
+        },
+        subway: %{
+          mode: %{
+            fares: %{
+              highest_one_way_fare: @highest_one_way_fare,
+              lowest_one_way_fare: @lowest_one_way_fare,
+              reduced_one_way_fare: @reduced_one_way_fare
+            },
+            mode_name: "Subway",
+            name: "Subway",
+            mode: :subway
+          }
+        }
+      }
+
+      assert get_calculated_fares(itinerary) == expected_fares
+    end
+
+    test "gets fare by type" do
+      non_transit_leg = @itinerary.legs |> List.first()
+      assert get_fare_by_type(non_transit_leg, :highest_one_way_fare) == nil
+      assert get_fare_by_type(non_transit_leg, :lowest_one_way_fare) == nil
+      assert get_fare_by_type(non_transit_leg, :reduced_one_way_fare) == nil
+
+      transit_leg = @itinerary.legs |> List.last()
+      assert get_fare_by_type(transit_leg, :highest_one_way_fare) == @highest_one_way_fare
+      assert get_fare_by_type(transit_leg, :lowest_one_way_fare) == @lowest_one_way_fare
+      assert get_fare_by_type(transit_leg, :reduced_one_way_fare) == @reduced_one_way_fare
+    end
+
+    test "removes cash from payment options for Commuter Rail" do
+      cr_fare = %Fare{
+        media: [:commuter_ticket, :cash, :mticket],
+        mode: :commuter_rail
+      }
+
+      subway_fare = %Fare{
+        media: [:commuter_ticket, :cash],
+        mode: :subway
+      }
+
+      assert cr_fare |> filter_media() == [
+               :commuter_ticket,
+               :mticket
+             ]
+
+      assert subway_fare |> filter_media() == subway_fare.media
+    end
+
+    test "formats mode properly" do
+      cr = %{
+        mode_name: "Commuter Rail",
+        name: "Zone 8",
+        mode: :commuter_rail
+      }
+
+      bus = %{
+        name: "Bus",
+        mode: :bus
+      }
+
+      subway = %{
+        mode_name: "Subway",
+        mode: :subway
+      }
+
+      assert format_mode(cr) == "Commuter Rail Zone 8"
+      assert format_mode(bus) == "Bus"
+      assert format_mode(subway) == "Subway"
     end
 
     test "gets the highest one-way fare correctly with subway -> subway xfer" do
@@ -827,7 +1235,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         legs: [red_leg, orange_leg]
       }
 
-      assert get_highest_one_way_fare(itinerary) == 290
+      assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 290
     end
 
     test "returns 0 when there is no highest one-way fare" do
@@ -897,7 +1305,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         ]
       }
 
-      assert get_highest_one_way_fare(itinerary) == 0
+      assert get_one_way_total_by_type(itinerary, :highest_one_way_fare) == 0
     end
 
     test "shows a transfer note", %{conn: conn} do
@@ -938,6 +1346,58 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
       assert transfer_note == []
     end
+
+    test "renders the Fare Calculator", %{conn: conn} do
+      leg_for_route =
+        &%Leg{
+          mode: %TransitDetail{
+            route_id: &1,
+            fares: @fares
+          }
+        }
+
+      bus_leg = leg_for_route.("77")
+      subway_leg = leg_for_route.("Red")
+
+      html =
+        "_fare_calculator.html"
+        |> render_to_string(
+          itinerary: @itinerary,
+          fares: get_calculated_fares(@itinerary),
+          conn: conn
+        )
+
+      fare_calc_tables = Floki.find(html, ".m-trip-plan-farecalc__table")
+      assert Enum.count(fare_calc_tables) == 2
+
+      titles = Floki.find(html, ".m-trip-plan-farecalc__title")
+      assert Enum.count(titles) == 1
+
+      notes_blocks = Floki.find(html, ".m-trip-plan-farecalc__notes-block")
+      assert Enum.count(notes_blocks) == 1
+
+      links = Floki.find(html, "a")
+      assert Enum.count(links) == 2
+
+      itinerary_with_transfers = %{@itinerary | legs: [bus_leg, subway_leg]}
+
+      html_with_transfer_note =
+        "_fare_calculator.html"
+        |> render_to_string(
+          itinerary: itinerary_with_transfers,
+          fares: get_calculated_fares(@itinerary),
+          conn: conn
+        )
+
+      titles = Floki.find(html_with_transfer_note, ".m-trip-plan-farecalc__title")
+      assert Enum.count(titles) == 2
+
+      notes_blocks = Floki.find(html_with_transfer_note, ".m-trip-plan-farecalc__notes-block")
+      assert Enum.count(notes_blocks) == 2
+
+      links = Floki.find(html_with_transfer_note, "a")
+      assert Enum.count(links) == 4
+    end
   end
 
   describe "monthly_pass" do
@@ -969,6 +1429,10 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       }
 
       assert monthly_pass(fare) == "Commuter Rail Zone 7: $360.00"
+    end
+
+    test "accepts nil" do
+      assert monthly_pass(nil) == "Shuttle: None"
     end
   end
 end
