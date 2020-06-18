@@ -170,6 +170,13 @@ defmodule Routes.RouteTest do
     end
   end
 
+  describe "has_occupancy_data?/1" do
+    test "returns true if vehicles on the route might have occupancy/crowding data" do
+      assert "1" |> Repo.get() |> has_occupancy_data?()
+      refute "7" |> Repo.get() |> has_occupancy_data?()
+    end
+  end
+
   describe "to_naive/1" do
     test "turns a green line branch into a generic green line route" do
       for branch <- ["B", "C", "D", "E"] do
