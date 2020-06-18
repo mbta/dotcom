@@ -18,28 +18,34 @@ defmodule SiteWeb.FareControllerTest do
 
     test "renders ferry", %{conn: conn} do
       conn =
-        get(conn, fare_path(conn, :show, :ferry, origin: "Boat-Long", destination: "Boat-Logan"))
-
-      response = html_response(conn, 200)
-      assert response =~ "Ferry"
-      assert response =~ "Valid between"
-      assert response =~ "Long Wharf"
-      assert response =~ "Logan"
-    end
-
-    test "renders Georges Island ferry when present in the data", %{conn: conn} do
-      conn =
         get(
           conn,
-          fare_path(conn, :show, :ferry, origin: "Boat-George", destination: "Boat-Logan")
+          fare_path(conn, :show, :ferry, origin: "Boat-Long", destination: "Boat-Hingham")
         )
 
       response = html_response(conn, 200)
 
-      assert response =~ "Georges Island Fare"
-      assert response =~ "Child under 3"
-      assert response =~ "Family 4-pack"
+      assert response =~ "Ferry"
+      assert response =~ "Valid between"
+      assert response =~ "Long Wharf"
+      assert response =~ "Hingham"
     end
+
+    # Commenting out this test temporarily.
+    # As of Summer 2020 the limited service does not include this ferry.
+    # test "renders Georges Island ferry when present in the data", %{conn: conn} do
+    #   conn =
+    #     get(
+    #       conn,
+    #       fare_path(conn, :show, :ferry, origin: "Boat-George", destination: "Boat-Logan")
+    #     )
+
+    #   response = html_response(conn, 200)
+
+    #   assert response =~ "Georges Island Fare"
+    #   assert response =~ "Child under 3"
+    #   assert response =~ "Family 4-pack"
+    # end
 
     test "renders ferry when no destinations", %{conn: conn} do
       conn = get(conn, fare_path(conn, :show, :ferry))
