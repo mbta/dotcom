@@ -36,6 +36,7 @@ defmodule Algolia.Mixfile do
       {:httpoison, "~> 1.5"},
       {:plug, "~> 1.7.2"},
       {:bypass, "~> 1.0", only: :test},
+      {:castore, "~> 0.1.0"},
       {:exvcr_helpers, in_umbrella: true, only: :test}
       # {:dep_from_hexpm, "~> 0.3.0"},
       # {:dep_from_git, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"},
