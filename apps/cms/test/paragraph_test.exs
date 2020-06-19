@@ -24,6 +24,7 @@ defmodule CMS.ParagraphTest do
     PeopleGrid,
     PhotoGallery,
     TitleCardSet,
+    TripPlanWidget,
     Unknown
   }
 
@@ -262,6 +263,14 @@ defmodule CMS.ParagraphTest do
 
       assert %CustomHTML{body: body} = from_api(api_data)
       assert safe_to_string(body) =~ "<p>library item</p>"
+    end
+
+    test "parses a trip plan widget" do
+      api_data = %{
+        "type" => [%{"target_id" => "trip_plan_widget"}]
+      }
+
+      assert %TripPlanWidget{} = from_api(api_data)
     end
 
     test "parses an unknown paragraph type" do
