@@ -52,24 +52,17 @@ defmodule SiteWeb.ScheduleController.LineApi do
   The line diagram polls this endpoint for its real-time data.
   """
   @spec realtime(Plug.Conn.t(), map()) :: Plug.Conn.t()
-  def realtime(conn, %{"id" => route_id, "direction_id" => direction_id} = query_params) do
-    # We added this since we made some alterations to the corresponding
-    # frontend code, and we only want to service requests from the latest
-    # version of said code
-    if query_params["v"] == "2" do
-      cache_key = {route_id, direction_id, conn.assigns.date}
+  def realtime(conn, %{"id" => route_id, "direction_id" => direction_id}) do
+    cache_key = {route_id, direction_id, conn.assigns.date}
 
-      payload =
-        ConCache.get_or_store(:line_diagram_realtime_cache, cache_key, fn ->
-          do_realtime(route_id, direction_id, conn.assigns.date, conn.assigns.date_time)
-        end)
+    payload =
+      ConCache.get_or_store(:line_diagram_realtime_cache, cache_key, fn ->
+        do_realtime(route_id, direction_id, conn.assigns.date, conn.assigns.date_time)
+      end)
 
-      conn
-      |> put_resp_content_type("application/json")
-      |> send_resp(200, payload)
-    else
-      json(conn, %{})
-    end
+    conn
+    |> put_resp_content_type("application/json")
+    |> send_resp(200, payload)
   end
 
   defp do_realtime(route_id, direction_id, date, now) do
