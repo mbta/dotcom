@@ -143,32 +143,6 @@ defmodule Site.TransitNearMe do
           required(:stops_with_directions) => [stop_with_data]
         }
 
-  @doc """
-  Uses the schedules to build a list of route objects, which each have
-  a list of stops. Each stop has a list of directions. Each direction has a
-  list of headsigns. Each headsign has a schedule, and a prediction if available.
-  """
-  @spec schedules_for_routes(t(), [Alert.t()], Keyword.t()) :: [route_data]
-  def schedules_for_routes(
-        %__MODULE__{
-          schedules: schedules,
-          distances: distances
-        },
-        alerts,
-        opts
-      ) do
-    schedules
-    |> Map.values()
-    |> List.flatten()
-    |> Enum.group_by(&PredictedSchedule.route(&1).id)
-    |> Enum.map(&schedules_for_route(&1, distances, alerts, opts))
-    |> Enum.sort_by(&route_sorter(&1, distances))
-  end
-
-  defp route_sorter(%{stops_with_directions: [%{stop: %{id: stop_id}} | _]}, distances) do
-    Map.fetch!(distances, stop_id)
-  end
-
   @spec schedules_for_route(
           {Route.id_t(), [PredictedSchedule.t()]},
           distance_hash,
