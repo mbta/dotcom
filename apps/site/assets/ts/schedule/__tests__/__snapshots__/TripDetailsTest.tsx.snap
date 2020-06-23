@@ -92,7 +92,11 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:04 PM
+        <span
+          className=""
+        >
+          04:04 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -132,7 +136,11 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:30 PM
+        <span
+          className=""
+        >
+          04:30 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -172,7 +180,11 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:48 PM
+        <span
+          className=""
+        >
+          04:48 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -290,7 +302,11 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        02:30 PM
+        <span
+          className=""
+        >
+          02:30 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -311,7 +327,11 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        02:35 PM
+        <span
+          className=""
+        >
+          02:35 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -332,7 +352,11 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        02:38 PM
+        <span
+          className=""
+        >
+          02:38 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -353,7 +377,11 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        02:51 PM
+        <span
+          className=""
+        >
+          02:51 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -374,7 +402,11 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        02:57 PM
+        <span
+          className=""
+        >
+          02:57 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -395,7 +427,11 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        03:03 PM
+        <span
+          className=""
+        >
+          03:03 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -416,7 +452,11 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        03:11 PM
+        <span
+          className=""
+        >
+          03:11 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -437,7 +477,11 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        03:19 PM
+        <span
+          className=""
+        >
+          03:19 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -458,7 +502,11 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        03:29 PM
+        <span
+          className=""
+        >
+          03:29 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -479,7 +527,11 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        03:39 PM
+        <span
+          className=""
+        >
+          03:39 PM
+        </span>
       </td>
     </tr>
   </tbody>
@@ -554,7 +606,11 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:46 AM
+        <span
+          className=""
+        >
+          05:46 AM
+        </span>
       </td>
     </tr>
     <tr>
@@ -570,7 +626,11 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:48 AM
+        <span
+          className=""
+        >
+          05:48 AM
+        </span>
       </td>
     </tr>
     <tr>
@@ -586,7 +646,11 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:50 AM
+        <span
+          className=""
+        >
+          05:50 AM
+        </span>
       </td>
     </tr>
     <tr>
@@ -602,7 +666,11 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:53 AM
+        <span
+          className=""
+        >
+          05:53 AM
+        </span>
       </td>
     </tr>
     <tr>
@@ -618,7 +686,11 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:54 AM
+        <span
+          className=""
+        >
+          05:54 AM
+        </span>
       </td>
     </tr>
     <tr>
@@ -634,7 +706,11 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:55 AM
+        <span
+          className=""
+        >
+          05:55 AM
+        </span>
       </td>
     </tr>
     <tr>
@@ -650,7 +726,11 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:56 AM
+        <span
+          className=""
+        >
+          05:56 AM
+        </span>
       </td>
     </tr>
     <tr>
@@ -666,7 +746,11 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:56 AM
+        <span
+          className=""
+        >
+          05:56 AM
+        </span>
       </td>
     </tr>
     <tr>
@@ -682,7 +766,11 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:56 AM
+        <span
+          className=""
+        >
+          05:56 AM
+        </span>
       </td>
     </tr>
     <tr>
@@ -698,7 +786,11 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:57 AM
+        <span
+          className=""
+        >
+          05:57 AM
+        </span>
       </td>
     </tr>
     <tr>
@@ -714,7 +806,11 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        06:00 AM
+        <span
+          className=""
+        >
+          06:00 AM
+        </span>
       </td>
     </tr>
   </tbody>
@@ -789,7 +885,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:39 PM
+        <span
+          className=""
+        >
+          04:39 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -805,7 +905,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:42 PM
+        <span
+          className=""
+        >
+          04:42 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -821,7 +925,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:42 PM
+        <span
+          className=""
+        >
+          04:42 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -837,7 +945,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:43 PM
+        <span
+          className=""
+        >
+          04:43 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -853,7 +965,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:43 PM
+        <span
+          className=""
+        >
+          04:43 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -869,7 +985,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:44 PM
+        <span
+          className=""
+        >
+          04:44 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -885,7 +1005,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:45 PM
+        <span
+          className=""
+        >
+          04:45 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -901,7 +1025,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:46 PM
+        <span
+          className=""
+        >
+          04:46 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -917,7 +1045,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:47 PM
+        <span
+          className=""
+        >
+          04:47 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -933,7 +1065,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:47 PM
+        <span
+          className=""
+        >
+          04:47 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -949,7 +1085,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:47 PM
+        <span
+          className=""
+        >
+          04:47 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -965,7 +1105,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:48 PM
+        <span
+          className=""
+        >
+          04:48 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -981,7 +1125,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:48 PM
+        <span
+          className=""
+        >
+          04:48 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -997,7 +1145,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:49 PM
+        <span
+          className=""
+        >
+          04:49 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1013,7 +1165,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:49 PM
+        <span
+          className=""
+        >
+          04:49 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1029,7 +1185,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:50 PM
+        <span
+          className=""
+        >
+          04:50 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1045,7 +1205,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:51 PM
+        <span
+          className=""
+        >
+          04:51 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1061,7 +1225,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:53 PM
+        <span
+          className=""
+        >
+          04:53 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1077,7 +1245,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:54 PM
+        <span
+          className=""
+        >
+          04:54 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1093,7 +1265,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:55 PM
+        <span
+          className=""
+        >
+          04:55 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1109,7 +1285,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:56 PM
+        <span
+          className=""
+        >
+          04:56 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1125,7 +1305,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:58 PM
+        <span
+          className=""
+        >
+          04:58 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1141,7 +1325,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:58 PM
+        <span
+          className=""
+        >
+          04:58 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1157,7 +1345,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        04:59 PM
+        <span
+          className=""
+        >
+          04:59 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1173,7 +1365,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:00 PM
+        <span
+          className=""
+        >
+          05:00 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1189,7 +1385,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:00 PM
+        <span
+          className=""
+        >
+          05:00 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1205,7 +1405,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:00 PM
+        <span
+          className=""
+        >
+          05:00 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1221,7 +1425,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:01 PM
+        <span
+          className=""
+        >
+          05:01 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1237,7 +1445,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:01 PM
+        <span
+          className=""
+        >
+          05:01 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1253,7 +1465,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:01 PM
+        <span
+          className=""
+        >
+          05:01 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1269,7 +1485,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:02 PM
+        <span
+          className=""
+        >
+          05:02 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1285,7 +1505,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:02 PM
+        <span
+          className=""
+        >
+          05:02 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1301,7 +1525,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:02 PM
+        <span
+          className=""
+        >
+          05:02 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1317,7 +1545,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:03 PM
+        <span
+          className=""
+        >
+          05:03 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1333,7 +1565,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:03 PM
+        <span
+          className=""
+        >
+          05:03 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1349,7 +1585,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:05 PM
+        <span
+          className=""
+        >
+          05:05 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1365,7 +1605,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:05 PM
+        <span
+          className=""
+        >
+          05:05 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1381,7 +1625,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:09 PM
+        <span
+          className=""
+        >
+          05:09 PM
+        </span>
       </td>
     </tr>
     <tr>
@@ -1397,7 +1645,11 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
-        05:11 PM
+        <span
+          className=""
+        >
+          05:11 PM
+        </span>
       </td>
     </tr>
   </tbody>

@@ -14,24 +14,36 @@ const formattedDepartureTimes = (
   routeType: number
 ): ReactElement<HTMLElement> => {
   const { schedule, prediction, delay } = departure;
+  const skippedOrCancelled = prediction
+    ? prediction.schedule_relationship === "skipped" ||
+      prediction.schedule_relationship === "cancelled"
+    : null;
+  const predictionOrScheduleTime =
+    prediction && prediction.time ? prediction.time : schedule.time;
 
-  if (routeType === 2) {
-    if (delay && delay >= 300 && prediction && prediction.time) {
-      return (
-        <>
-          <span className="schedule-table__times--delayed schedule-table__times--delayed-future_stop">
-            {schedule.time}
-          </span>
-          <br className="hidden-sm-up" />
-          {prediction.time}
-        </>
-      );
-    }
-
-    return <>{schedule.time}</>;
+  if (
+    routeType === 2 &&
+    delay &&
+    delay >= 300 &&
+    prediction &&
+    prediction.time
+  ) {
+    return (
+      <>
+        <span className="schedule-table__times--delayed schedule-table__times--delayed-future_stop">
+          {schedule.time}
+        </span>
+        <br className="hidden-sm-up" />
+        {prediction.time}
+      </>
+    );
   }
 
-  return <>{prediction && prediction.time ? prediction.time : schedule.time}</>;
+  return (
+    <span className={skippedOrCancelled ? "strikethrough" : ""}>
+      {routeType === 2 ? schedule.time : predictionOrScheduleTime}
+    </span>
+  );
 };
 
 const TripStop = ({
