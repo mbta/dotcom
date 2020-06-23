@@ -41,6 +41,9 @@ const formattedDepartureTimes = (
 
   return (
     <span className={skippedOrCancelled ? "strikethrough" : ""}>
+      {skippedOrCancelled && (
+        <span className="sr-only">This trip skips {schedule.stop.name}.</span>
+      )}
       {routeType === 2 ? schedule.time : predictionOrScheduleTime}
     </span>
   );
