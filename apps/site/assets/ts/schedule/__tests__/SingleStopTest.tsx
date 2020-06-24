@@ -100,7 +100,7 @@ const liveData: LiveData = {
             },
             scheduled_time: null
           },
-          crowding: null,
+          crowding: "crowded",
           predicted_schedule: {
             prediction: mockPrediction,
             schedule: mockSchedule
@@ -220,5 +220,21 @@ describe("SingleStop", () => {
     );
 
     expect(wrapper.debug()).toMatchSnapshot();
+  });
+
+  it("renders crowding information", () => {
+    const wrapper = mount(
+      <SingleStop
+        stop={basicStop}
+        onClick={() => {}}
+        color="000"
+        liveData={liveData}
+      />
+    );
+
+    expect(wrapper.find(".c-icon__crowding--crowded")).toHaveLength(1);
+    expect(
+      wrapper.find(".c-icon__crowding--crowding_unavailable")
+    ).toHaveLength(1);
   });
 });

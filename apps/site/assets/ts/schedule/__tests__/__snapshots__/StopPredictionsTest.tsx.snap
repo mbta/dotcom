@@ -15,6 +15,19 @@ exports[`StopPredictions renders bus predictions 1`] = `
     >
       6   min
     </div>
+    <div
+      className="m-schedule-diagram__prediction-crowding m-schedule-table-crowding"
+    >
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+    </div>
   </div>
 </div>
 `;

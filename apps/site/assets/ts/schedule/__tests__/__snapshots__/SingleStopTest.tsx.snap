@@ -165,6 +165,9 @@ exports[`SingleStop renders with live data 1`] = `
               <div className=\\"m-schedule-diagram__prediction-time\\">
                 Arriving
               </div>
+              <div className=\\"m-schedule-diagram__prediction-crowding m-schedule-table-crowding\\">
+                <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+              </div>
             </div>
             <div className=\\"m-schedule-diagram__prediction\\">
               <div>
@@ -173,6 +176,13 @@ exports[`SingleStop renders with live data 1`] = `
               <div className=\\"m-schedule-diagram__prediction-time\\">
                 2   min
               </div>
+              <Component tooltipText=\\"Currently <strong>crowded</strong>\\" tooltipOptions={{...}}>
+                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"left\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"Currently <strong>crowded</strong>\\" title=\\"Currently <strong>crowded</strong>\\">
+                  <div className=\\"m-schedule-diagram__prediction-crowding m-schedule-table-crowding\\">
+                    <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowded\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                  </div>
+                </span>
+              </Component>
             </div>
           </div>
         </StopPredictions>
