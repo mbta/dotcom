@@ -359,6 +359,9 @@
     border-top: $border;
   }
 
+  th[scope='row'] {
+    font-weight: normal;
+  }
   &__title {
     margin-right: $base-spacing;
   }

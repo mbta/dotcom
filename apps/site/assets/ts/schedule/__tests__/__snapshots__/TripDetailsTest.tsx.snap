@@ -56,15 +56,16 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
   </thead>
   <tbody>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-bbsta"
         >
           Back Bay
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -80,15 +81,16 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-rugg"
         >
           Ruggles
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -100,15 +102,16 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-NEC-2108"
         >
           Sharon
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -124,15 +127,16 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-NEC-2040"
         >
           Mansfield
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -144,15 +148,16 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-NEC-1969"
         >
           Attleboro
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -168,15 +173,16 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-NEC-1919"
         >
           South Attleboro
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -188,15 +194,16 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-NEC-1851"
         >
           Providence
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -285,15 +292,16 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
   </thead>
   <tbody>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-sstat"
         >
           South Station
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -310,15 +318,16 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-bbsta"
         >
           Back Bay
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -335,15 +344,16 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-rugg"
         >
           Ruggles
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -360,15 +370,16 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-NEC-2173"
         >
           Route 128
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -385,15 +396,16 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-NEC-2139"
         >
           Canton Junction
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -410,15 +422,16 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-NEC-2108"
         >
           Sharon
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -435,15 +448,16 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-NEC-2040"
         >
           Mansfield
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -460,15 +474,16 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-NEC-1969"
         >
           Attleboro
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -485,15 +500,16 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-NEC-1919"
         >
           South Attleboro
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -510,15 +526,16 @@ exports[`TripDetails it renders trip details for a CR trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-NEC-1851"
         >
           Providence
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -594,15 +611,16 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
   </thead>
   <tbody>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-sstat"
         >
           South Station
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -614,15 +632,16 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-crtst"
         >
           Courthouse
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -634,15 +653,16 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-wtcst"
         >
           World Trade Center
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -654,15 +674,16 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-conrd"
         >
           Silver Line Way
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -674,15 +695,16 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/247"
         >
           Northern Ave @ Harbor St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -694,15 +716,16 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/30249"
         >
           Northern Ave @ Tide St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -714,15 +737,16 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/30250"
         >
           23 Drydock Ave
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -734,15 +758,16 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/30251"
         >
           27 Drydock Ave
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -754,15 +779,16 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/31259"
         >
           Drydock Ave @ Black Falcon Ave
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -774,15 +800,16 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/31258"
         >
           88 Black Falcon
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -794,15 +821,16 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/31255"
         >
           Drydock Ave @ Design Center Place
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -873,15 +901,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
   </thead>
   <tbody>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/place-forhl"
         >
           Forest Hills
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -893,15 +922,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/596"
         >
           3867 Washington St opp Tollgate Way
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -913,15 +943,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/597"
         >
           Washington St @ Lochdale Rd
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -933,15 +964,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/598"
         >
           Washington St @ Archdale Rd
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -953,15 +985,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/599"
         >
           Washington St @ Mosgrove Ave
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -973,15 +1006,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/600"
         >
           Washington St opp Granfield Ave
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -993,15 +1027,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/601"
         >
           Washington St @ South St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1013,15 +1048,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/602"
         >
           South St @ Taft Hill Terr
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1033,15 +1069,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/797"
         >
           Belgrade Ave @ Robert St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1053,15 +1090,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/798"
         >
           Belgrade Ave opp Pinehurst St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1073,15 +1111,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/799"
         >
           Belgrade Ave opp Penfield St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1093,15 +1132,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/800"
         >
           Belgrade Ave @ Walworth St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1113,15 +1153,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/801"
         >
           Belgrade Ave opp Aldrich St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1133,15 +1174,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/802"
         >
           277 Belgrade Ave opp Rexhame St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1153,15 +1195,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/803"
         >
           Belgrade Ave @ McCraw St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1173,15 +1216,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/804"
         >
           Belgrade Ave @ West Roxbury Pkwy
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1193,15 +1237,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/805"
         >
           Belgrade Ave @ Centre St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1213,15 +1258,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/806"
         >
           Centre St @ Willow St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1233,15 +1279,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/807"
         >
           Centre St @ Corey St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1253,15 +1300,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/808"
         >
           Centre St opp Bellevue st
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1273,15 +1321,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/810"
         >
           Opp 2000 Centre St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1293,15 +1342,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/821"
         >
           Centre St @ Lorette St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1313,15 +1363,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/811"
         >
           Centre St @ Spring St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1333,15 +1384,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/822"
         >
           Centre St @ Autumn St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1353,15 +1405,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/823"
         >
           Centre St @ Cass St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1373,15 +1426,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/824"
         >
           Centre St @ Bronx Rd
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1393,15 +1447,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/825"
         >
           Centre St opp Wedgemere Rd
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1413,15 +1468,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/826"
         >
           Centre St @ Glenhaven Rd
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1433,15 +1489,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/10768"
         >
           Centre St @ Grove St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1453,15 +1510,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/827"
         >
           Centre St @ Northdale Rd
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1473,15 +1531,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/828"
         >
           Centre St @ Fairlane Rd
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1493,15 +1552,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/829"
         >
           2519 Centre St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1513,15 +1573,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/830"
         >
           Stimson St @ Centre St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1533,15 +1594,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/831"
         >
           80 Stimson St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1553,15 +1615,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/832"
         >
           Stimson St @ Washington St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1573,15 +1636,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/618"
         >
           Washington St opp Meshaka St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1593,15 +1657,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/10618"
         >
           Washington St @ Sumner St
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1613,15 +1678,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/10835"
         >
           Dedham Mall @ South Side
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >
@@ -1633,15 +1699,16 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
       </td>
     </tr>
     <tr>
-      <td
+      <th
         className="schedule-table__cell"
+        scope="row"
       >
         <a
           href="/stops/10833"
         >
           Dedham Mall @ Stop & Shop
         </a>
-      </td>
+      </th>
       <td
         className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
       >

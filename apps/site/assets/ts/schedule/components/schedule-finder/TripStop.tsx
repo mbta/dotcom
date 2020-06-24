@@ -62,11 +62,11 @@ const TripStop = ({
 
   return (
     <tr key={`${schedule.stop.id}`}>
-      <td className="schedule-table__cell">
+      <th className="schedule-table__cell" scope="row">
         <a href={`/stops/${schedule.stop.id}`}>
           {breakTextAtSlash(schedule.stop.name)}
         </a>
-      </td>
+      </th>
       {showFare && (
         <td className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums">
           {index === 0 ? "" : schedule.fare.price}
