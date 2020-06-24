@@ -69,7 +69,7 @@ export const crowdingInformation = (
       tripInfo.vehicle.trip_id === tripId;
 
     return (
-      <span className="m-schedule-table-crowding">
+      <span className="m-schedule-diagram__prediction-crowding">
         {crowdingIcon(
           `c-icon__crowding--${
             showCrowding ? tripInfo!.vehicle!.crowding! : "crowding_unavailable"

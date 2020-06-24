@@ -5,6 +5,8 @@ import {
   statusForCommuterRail
 } from "../../../helpers/prediction-helpers";
 import { isSkippedOrCancelled } from "../../../models/prediction";
+import { crowdingIcon, TooltipWrapper } from "../../../helpers/icon";
+import { crowdingDescriptions } from "../../components/line-diagram/CrowdingPill";
 
 interface Props {
   headsigns: HeadsignWithCrowding[];
@@ -55,19 +57,41 @@ const StopPredictions = ({ headsigns, isCommuterRail }: Props): JSX.Element => {
       );
     });
   } else {
-    predictions = liveHeadsigns.map((headsign, index) => (
-      /* eslint-disable-next-line react/no-array-index-key */
-      <div key={index} className="m-schedule-diagram__prediction">
-        <div>{headsign.name}</div>
-        <div className="m-schedule-diagram__prediction-time">
-          {capitalize(
-            headsign.time_data_with_crowding_list[0].time_data.prediction!.time.join(
-              " "
-            )
+    predictions = liveHeadsigns.map((headsign, index) => {
+      const { crowding } = headsign.time_data_with_crowding_list[0];
+      const crowdingText = crowding ? crowdingDescriptions[crowding] : "";
+      return (
+        /* eslint-disable-next-line react/no-array-index-key */
+        <div key={index} className="m-schedule-diagram__prediction">
+          <div>{headsign.name}</div>
+          <div className="m-schedule-diagram__prediction-time">
+            {capitalize(
+              headsign.time_data_with_crowding_list[0].time_data.prediction!.time.join(
+                " "
+              )
+            )}
+          </div>
+          {crowding ? (
+            <TooltipWrapper
+              tooltipText={`Currently <strong>${crowdingText.toLowerCase()}</strong>`}
+              tooltipOptions={{
+                placement: "left",
+                animation: false,
+                html: true
+              }}
+            >
+              <div className="m-schedule-diagram__prediction-crowding m-schedule-table-crowding">
+                {crowdingIcon(`c-icon__crowding--${crowding}`)}
+              </div>
+            </TooltipWrapper>
+          ) : (
+            <div className="m-schedule-diagram__prediction-crowding m-schedule-table-crowding">
+              {crowdingIcon("c-icon__crowding--crowding_unavailable")}
+            </div>
           )}
         </div>
-      </div>
-    ));
+      );
+    });
   }
 
   return <div className="m-schedule-diagram__predictions">{predictions}</div>;
