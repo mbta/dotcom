@@ -4,38 +4,44 @@
       {
         "name": "Dest1",
         "train_number": null,
-        "times": [
+        "time_data_with_crowding_list": [
           {
-            "delay": 0,
-            "scheduled_time": null,
-            "prediction": {
-              "time": [
-                "2",
-                " ",
-                "min"
-              ],
-              "status": null,
-              "track": null
-            }
+            "time_data": {
+              "delay": 0,
+              "scheduled_time": null,
+              "prediction": {
+                "time": [
+                  "2",
+                  " ",
+                  "min"
+                ],
+                "status": null,
+                "track": null
+              }
+            },
+            "crowding": null
           }
         ]
       },
       {
         "name": "Dest2",
         "train_number": null,
-        "times": [
+        "time_data_with_crowding_list": [
           {
-            "delay": 0,
-            "scheduled_time": null,
-            "prediction": {
-              "time": [
-                "5",
-                " ",
-                "min"
-              ],
-              "status": null,
-              "track": null
-            }
+            "time_data": {
+              "delay": 0,
+              "scheduled_time": null,
+              "prediction": {
+                "time": [
+                  "5",
+                  " ",
+                  "min"
+                ],
+                "status": null,
+                "track": null
+              }
+            },
+            "crowding": null
           }
         ]
       }
@@ -60,19 +66,22 @@
       {
         "name": "Dest2",
         "train_number": null,
-        "times": [
+        "time_data_with_crowding_list": [
           {
-            "delay": 0,
-            "scheduled_time": null,
-            "prediction": {
-              "time": [
-                "7",
-                " ",
-                "min"
-              ],
-              "status": null,
-              "track": null
-            }
+            "time_data": {
+              "delay": 0,
+              "scheduled_time": null,
+              "prediction": {
+                "time": [
+                  "7",
+                  " ",
+                  "min"
+                ],
+                "status": null,
+                "track": null
+              }
+            },
+            "crowding": null
           }
         ]
       }
