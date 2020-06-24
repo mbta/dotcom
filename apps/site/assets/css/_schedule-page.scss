@@ -362,6 +362,11 @@
   th[scope='row'] {
     font-weight: normal;
   }
+
+  [class*='c-svg__icon'] path[fill] {
+    fill: currentColor;
+  }
+
   &__title {
     margin-right: $base-spacing;
   }

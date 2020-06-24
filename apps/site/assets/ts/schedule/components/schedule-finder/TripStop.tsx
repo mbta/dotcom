@@ -1,6 +1,7 @@
 import React, { ReactElement } from "react";
-import { TripDeparture } from "../__trips";
+import { TripDeparture, Prediction } from "../__trips";
 import { breakTextAtSlash } from "../../../helpers/text";
+import { alertIcon } from "../../../helpers/icon";
 
 interface Props {
   departure: TripDeparture;
@@ -9,44 +10,34 @@ interface Props {
   routeType: number;
 }
 
+const skippedOrCancelled = (prediction: Prediction | null) =>
+  prediction
+    ? prediction.schedule_relationship === "skipped" ||
+      prediction.schedule_relationship === "cancelled"
+    : null;
+
 const formattedDepartureTimes = (
   departure: TripDeparture,
   routeType: number
 ): ReactElement<HTMLElement> => {
   const { schedule, prediction, delay } = departure;
-  const skippedOrCancelled = prediction
-    ? prediction.schedule_relationship === "skipped" ||
-      prediction.schedule_relationship === "cancelled"
-    : null;
-  const predictionOrScheduleTime =
-    prediction && prediction.time ? prediction.time : schedule.time;
+  if (routeType === 2) {
+    if (delay && delay >= 300 && prediction && prediction.time) {
+      return (
+        <>
+          <span className="schedule-table__times--delayed schedule-table__times--delayed-future_stop">
+            {schedule.time}
+          </span>
+          <br className="hidden-sm-up" />
+          {prediction.time}
+        </>
+      );
+    }
 
-  if (
-    routeType === 2 &&
-    delay &&
-    delay >= 300 &&
-    prediction &&
-    prediction.time
-  ) {
-    return (
-      <>
-        <span className="schedule-table__times--delayed schedule-table__times--delayed-future_stop">
-          {schedule.time}
-        </span>
-        <br className="hidden-sm-up" />
-        {prediction.time}
-      </>
-    );
+    return <>{schedule.time}</>;
   }
 
-  return (
-    <span className={skippedOrCancelled ? "strikethrough" : ""}>
-      {skippedOrCancelled && (
-        <span className="sr-only">This trip skips {schedule.stop.name}.</span>
-      )}
-      {routeType === 2 ? schedule.time : predictionOrScheduleTime}
-    </span>
-  );
+  return <>{prediction && prediction.time ? prediction.time : schedule.time}</>;
 };
 
 const TripStop = ({
@@ -63,7 +54,18 @@ const TripStop = ({
   return (
     <tr key={`${schedule.stop.id}`}>
       <th className="schedule-table__cell" scope="row">
-        <a href={`/stops/${schedule.stop.id}`}>
+        <a
+          href={`/stops/${schedule.stop.id}`}
+          className={
+            skippedOrCancelled(departure.prediction) ? "strikethrough" : ""
+          }
+        >
+          {skippedOrCancelled(departure.prediction) && (
+            <>
+              {alertIcon("c-svg__icon-alerts-triangle")}&nbsp;
+              <span className="sr-only">This trip skips this stop at</span>
+            </>
+          )}
           {breakTextAtSlash(schedule.stop.name)}
         </a>
       </th>
