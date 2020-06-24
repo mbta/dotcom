@@ -10,7 +10,7 @@ interface Props {
   routeType: number;
 }
 
-const skippedOrCancelled = (prediction: Prediction | null) =>
+const skippedOrCancelled = (prediction: Prediction | null): boolean | null =>
   prediction
     ? prediction.schedule_relationship === "skipped" ||
       prediction.schedule_relationship === "cancelled"
@@ -62,7 +62,7 @@ const TripStop = ({
         >
           {skippedOrCancelled(departure.prediction) && (
             <>
-              {alertIcon("c-svg__icon-alerts-triangle")}&nbsp;
+              {alertIcon("c-svg__icon-alerts-triangle")}
               <span className="sr-only">This trip skips this stop at</span>
             </>
           )}
