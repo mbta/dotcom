@@ -141,7 +141,7 @@ defmodule Vehicles.ParserTest do
     end
 
     test "can handle occupancy status" do
-      item = put_in(@item.attributes["occupancy_status"], "CRUSHED_STANDING_ROOM_ONLY")
+      item = put_in(@item.attributes["occupancy_status"], "FEW_SEATS_AVAILABLE")
 
       expected = %Vehicle{
         id: "y1799",
