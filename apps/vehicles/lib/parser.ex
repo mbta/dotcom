@@ -51,12 +51,8 @@ defmodule Vehicles.Parser do
   end
 
   @spec crowding(String.t()) :: Vehicle.crowding()
-  defp crowding("EMPTY"), do: :not_crowded
   defp crowding("MANY_SEATS_AVAILABLE"), do: :not_crowded
   defp crowding("FEW_SEATS_AVAILABLE"), do: :some_crowding
-  defp crowding("STANDING_ROOM_ONLY"), do: :some_crowding
-  defp crowding("CRUSHED_STANDING_ROOM_ONLY"), do: :some_crowding
   defp crowding("FULL"), do: :crowded
-  defp crowding("NOT_ACCEPTING_PASSENGERS"), do: :crowded
   defp crowding(_), do: nil
 end
