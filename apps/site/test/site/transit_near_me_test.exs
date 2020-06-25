@@ -374,26 +374,32 @@ defmodule Site.TransitNearMeTest do
 
   describe "time_data_for_route_by_stop/3" do
     @now Util.now()
-    @schedule_time Timex.shift(@now, minutes: 3)
-    @prediction_time Timex.shift(@now, minutes: 5)
+    @schedule_time1 Timex.shift(@now, minutes: 3)
+    @prediction_time1 Timex.shift(@now, minutes: 5)
+    @schedule_time2 Timex.shift(@now, minutes: 13)
+    @prediction_time2 Timex.shift(@now, minutes: 15)
+    @schedule_time3 Timex.shift(@now, minutes: 23)
+    @prediction_time3 Timex.shift(@now, minutes: 25)
 
     @route %Route{
-      id: "Blue",
-      type: 1,
-      direction_destinations: %{0 => "Bowdoin", 1 => "Wonderland"}
+      id: "1",
+      type: 3,
+      direction_destinations: %{0 => "Harvard Square", 1 => "Nubian Station"}
     }
 
-    @stop %Stop{id: "place-wimnl"}
-    @trip %Trip{direction_id: 1, id: "39783542"}
+    @stop %Stop{id: "95"}
+    @trip1 %Trip{direction_id: 1, id: "44936023"}
+    @trip2 %Trip{direction_id: 1, id: "44936025"}
+    @trip3 %Trip{direction_id: 1, id: "44936030"}
 
-    @schedule %Schedule{
+    @schedule1 %Schedule{
       route: @route,
       stop: @stop,
-      trip: @trip,
-      time: @schedule_time
+      trip: @trip1,
+      time: @schedule_time1
     }
 
-    @prediction %Prediction{
+    @prediction1 %Prediction{
       departing?: true,
       direction_id: 1,
       id: "prediction-39783543-70050-60",
@@ -402,16 +408,58 @@ defmodule Site.TransitNearMeTest do
       status: nil,
       stop: @stop,
       stop_sequence: 60,
-      time: @prediction_time,
+      time: @prediction_time1,
       track: "2",
-      trip: @trip
+      trip: @trip1
     }
 
-    test "get time data for a subway route" do
-      predictions_fn = fn _ -> [@prediction] end
+    @schedule2 %Schedule{
+      route: @route,
+      stop: @stop,
+      trip: @trip2,
+      time: @schedule_time2
+    }
+
+    @prediction2 %Prediction{
+      departing?: true,
+      direction_id: 1,
+      id: "prediction-39783543-70050-61",
+      route: @route,
+      schedule_relationship: nil,
+      status: nil,
+      stop: @stop,
+      stop_sequence: 60,
+      time: @prediction_time2,
+      track: "2",
+      trip: @trip2
+    }
+
+    @schedule3 %Schedule{
+      route: @route,
+      stop: @stop,
+      trip: @trip3,
+      time: @schedule_time3
+    }
+
+    @prediction3 %Prediction{
+      departing?: true,
+      direction_id: 1,
+      id: "prediction-39783543-70050-61",
+      route: @route,
+      schedule_relationship: nil,
+      status: nil,
+      stop: @stop,
+      stop_sequence: 60,
+      time: @prediction_time3,
+      track: "2",
+      trip: @trip3
+    }
+
+    test "returns time data for the next 2 predictions" do
+      predictions_fn = fn _ -> [@prediction1, @prediction2, @prediction3] end
 
       schedules_fn = fn _, _ ->
-        [@schedule]
+        [@schedule1, @schedule2, @schedule3]
       end
 
       actual =
@@ -422,7 +470,7 @@ defmodule Site.TransitNearMeTest do
         )
 
       expected = %{
-        "place-wimnl" => [
+        "95" => [
           %{
             name: nil,
             times: [
@@ -438,6 +486,22 @@ defmodule Site.TransitNearMeTest do
               }
             ],
             train_number: nil
+          },
+          %{
+            name: nil,
+            times: [
+              %{
+                prediction: %{
+                  seconds: 900,
+                  status: nil,
+                  time: ["15", " ", "min"],
+                  track: "2"
+                },
+                scheduled_time: nil,
+                delay: 0
+              }
+            ],
+            train_number: nil
           }
         ]
       }
@@ -445,8 +509,8 @@ defmodule Site.TransitNearMeTest do
       assert actual == expected
     end
 
-    test "get time data for a subway route when schedules is empty" do
-      predictions_fn = fn _ -> [@prediction] end
+    test "get time data when schedules is empty" do
+      predictions_fn = fn _ -> [@prediction1] end
 
       schedules_fn = fn _, _ ->
         []
@@ -459,11 +523,11 @@ defmodule Site.TransitNearMeTest do
           now: @now
         )
 
-      assert %{"place-wimnl" => [%{}]} = actual
+      assert %{"95" => [%{}]} = actual
     end
 
     test "return neither schedules nor predictions if date is outside rating" do
-      predictions_fn = fn _ -> [@prediction] end
+      predictions_fn = fn _ -> [@prediction1] end
 
       schedules_fn = fn _, _ ->
         {:error,
