@@ -237,7 +237,7 @@ defmodule Site.TransitNearMeTest do
     end
   end
 
-  describe "filter_predicted_schedules/3" do
+  describe "filter_predicted_schedules/4" do
     test "does not remove schedules without predictions for commuter rail, bus, or ferry" do
       now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
 
