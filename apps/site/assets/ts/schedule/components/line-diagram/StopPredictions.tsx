@@ -1,12 +1,12 @@
 import React from "react";
-import { HeadsignWithCrowding } from "../../../__v3api";
+import { Headsign } from "../../../__v3api";
 import {
   timeForCommuterRail,
   statusForCommuterRail
 } from "../../../helpers/prediction-helpers";
 
 interface Props {
-  headsigns: HeadsignWithCrowding[];
+  headsigns: Headsign[];
   isCommuterRail: boolean;
 }
 
@@ -17,15 +17,15 @@ const StopPredictions = ({ headsigns, isCommuterRail }: Props): JSX.Element => {
   let predictions: JSX.Element[];
   const liveHeadsigns = headsigns.filter(
     headsign =>
-      headsign.time_data_with_crowding_list[0] &&
-      headsign.time_data_with_crowding_list[0].time_data.prediction &&
-      headsign.time_data_with_crowding_list[0].time_data.prediction.time
+      headsign.times[0] &&
+      headsign.times[0].prediction &&
+      headsign.times[0].prediction.time
   );
 
   if (isCommuterRail) {
     // Display at most 1 prediction for Commuter Rail
     predictions = liveHeadsigns.slice(0, 1).map(headsign => {
-      const time = headsign.time_data_with_crowding_list[0].time_data;
+      const time = headsign.times[0];
       const prediction = time.prediction!;
       const status = statusForCommuterRail(time);
 
@@ -56,11 +56,7 @@ const StopPredictions = ({ headsigns, isCommuterRail }: Props): JSX.Element => {
       <div key={index} className="m-schedule-diagram__prediction">
         <div>{headsign.name}</div>
         <div className="m-schedule-diagram__prediction-time">
-          {capitalize(
-            headsign.time_data_with_crowding_list[0].time_data.prediction!.time.join(
-              " "
-            )
-          )}
+          {capitalize(headsign.times[0].prediction!.time.join(" "))}
         </div>
       </div>
     ));
