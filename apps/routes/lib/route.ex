@@ -51,7 +51,7 @@ defmodule Routes.Route do
   @silver_line ~w(741 742 743 746 749 751)
   @silver_line_set MapSet.new(@silver_line)
 
-  @routes_with_occupancy ~w(1 15 16 22 23 31 32 109 110)
+  @routes_with_occupancy ~w(1 15 16 21 22 23 31 32 57 66 70 71 73 86 104 109 110)
   @routes_with_occupancy_set MapSet.new(@routes_with_occupancy)
 
   @spec type_atom(t | type_int | String.t()) :: gtfs_route_type
