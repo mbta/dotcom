@@ -507,7 +507,7 @@ defmodule CMS.HelpersTest do
       tags = [
         %{
           "data" => %{
-            "gtfs_id" => "limited_service",
+            "gtfs_id" => "supplemental_bus",
             "gtfs_group" => "custom",
             "gtfs_ancestry" => %{
               "mode" => nil,
@@ -517,7 +517,7 @@ defmodule CMS.HelpersTest do
         }
       ]
 
-      assert [%{id: "limited_service", mode: nil, group: "custom"}] = routes(tags)
+      assert [%{id: "supplemental_bus", mode: nil, group: "custom"}] = routes(tags)
     end
   end
 

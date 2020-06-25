@@ -96,8 +96,7 @@ defmodule SiteWeb.ScheduleController.CMS do
              :commuter_bus,
              :supplemental_bus,
              :rail_replacement_bus,
-             :community_bus,
-             :express_bus
+             :community_bus
            ] ->
         "bus"
 

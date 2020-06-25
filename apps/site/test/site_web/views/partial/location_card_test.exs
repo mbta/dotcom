@@ -64,7 +64,7 @@ defmodule SiteWeb.LocationCardTest do
       routes: [
         %{id: "10", description: :local_bus, name: "10", type: 3, href: "/10"},
         %{id: "39", description: :key_bus_route, name: "39", type: 3, href: "/39"},
-        %{id: "170", description: :limited_service, name: "170", type: 3, href: "/170"}
+        %{id: "170", description: :supplemental_bus, name: "170", type: 3, href: "/170"}
       ]
     }
   ]
