@@ -29,7 +29,7 @@ defmodule Routes.ParserTest do
           "type" => 3,
           "short_name" => "short",
           "long_name" => "long",
-          "description" => "Key Bus Route (Frequent Service)",
+          "description" => "Key Bus",
           "direction_names" => ["zero", "one"],
           "direction_destinations" => ["Destination 1", "Destination 2"]
         }

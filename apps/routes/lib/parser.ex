@@ -75,9 +75,6 @@ defmodule Routes.Parser do
   defp parse_gtfs_desc("Supplemental Bus"), do: :supplemental_bus
   defp parse_gtfs_desc("Commuter Bus"), do: :commuter_bus
   defp parse_gtfs_desc("Community Bus"), do: :community_bus
-  defp parse_gtfs_desc("Limited Service"), do: :limited_service
-  defp parse_gtfs_desc("Express Bus"), do: :express_bus
-  defp parse_gtfs_desc("Key Bus Route (Frequent Service)"), do: :key_bus_route
   defp parse_gtfs_desc(_), do: :unknown
 
   @spec parse_shape(Item.t()) :: [Shape.t()]

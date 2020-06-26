@@ -40,8 +40,6 @@ defmodule Routes.Route do
           | :supplemental_bus
           | :commuter_bus
           | :community_bus
-          | :limited_service
-          | :express_bus
           | :unknown
   @type route_type :: gtfs_route_type | :the_ride
   @type type_int :: 0..4

@@ -44,7 +44,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
   }
   @bus_10 %{id: "10", description: :local_bus, name: "10", type: 3, href: "/bus-10"}
   @bus_39 %{id: "39", description: :key_bus_route, name: "39", type: 3, href: "/bus-39"}
-  @bus_170 %{id: "170", description: :limited_service, name: "170", type: 3, href: "/bus-170"}
+  @bus_170 %{id: "170", description: :supplemental_bus, name: "170", type: 3, href: "/bus-170"}
 
   @back_bay %Stop{
     accessibility: ["accessible", "elevator", "tty_phone", "escalator_up"],
@@ -304,7 +304,7 @@ defmodule SiteWeb.TransitNearMeControllerTest do
                 },
                 %{
                   custom_route?: false,
-                  description: :limited_service,
+                  description: :supplemental_bus,
                   direction_destinations: :unknown,
                   direction_names: %{"0" => "Outbound", "1" => "Inbound"},
                   id: "170",
