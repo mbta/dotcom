@@ -388,9 +388,9 @@ defmodule Site.TransitNearMeTest do
     }
 
     @stop %Stop{id: "95"}
-    @trip1 %Trip{direction_id: 1, id: "44936023"}
-    @trip2 %Trip{direction_id: 1, id: "44936025"}
-    @trip3 %Trip{direction_id: 1, id: "44936030"}
+    @trip1 %Trip{direction_id: 1, id: "44936023", headsign: "Nubian Station"}
+    @trip2 %Trip{direction_id: 1, id: "44936025", headsign: "Nubian Station"}
+    @trip3 %Trip{direction_id: 1, id: "44936030", headsign: "Nubian Station"}
 
     @schedule1 %Schedule{
       route: @route,
@@ -472,7 +472,7 @@ defmodule Site.TransitNearMeTest do
       expected = %{
         "95" => [
           %{
-            name: nil,
+            name: "Nubian Station",
             times: [
               %{
                 prediction: %{
@@ -488,7 +488,7 @@ defmodule Site.TransitNearMeTest do
             train_number: nil
           },
           %{
-            name: nil,
+            name: "Nubian Station",
             times: [
               %{
                 prediction: %{
@@ -509,7 +509,7 @@ defmodule Site.TransitNearMeTest do
       assert actual == expected
     end
 
-    test "get time data when schedules is empty" do
+    test "returns no  data when schedules is empty" do
       predictions_fn = fn _ -> [@prediction1] end
 
       schedules_fn = fn _, _ ->
