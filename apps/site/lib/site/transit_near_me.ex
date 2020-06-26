@@ -41,10 +41,10 @@ defmodule Site.TransitNearMe do
   @type error :: {:error, :timeout | :no_stops}
 
   @type time_data_with_crowding_by_stop :: %{
-          Stop.id_t() => [time_data_with_crowding_by_headsign()]
+          Stop.id_t() => [time_data_with_crowding_and_headsign()]
         }
 
-  @type time_data_with_crowding_by_headsign :: %{
+  @type time_data_with_crowding_and_headsign :: %{
           name: String.t(),
           time_data_with_crowding_list: [
             time_data_with_crowding()
@@ -129,7 +129,7 @@ defmodule Site.TransitNearMe do
       _ ->
         schedule_data
         |> get_predicted_schedules([route: route_id, direction_id: direction_id], opts)
-        |> with_crowding()
+        |> with_time_data_and_crowding(opts)
         |> time_data_with_crowding_by_stop(opts)
     end
   end
@@ -379,100 +379,93 @@ defmodule Site.TransitNearMe do
     end
   end
 
-  @type predicted_schedule_with_crowding :: %{
+  @type predicted_schedule_with_time_data_and_crowding :: %{
           predicted_schedule: PredictedSchedule.t(),
+          time_data: time_data(),
           crowding: Vehicle.crowding() | nil
         }
-  @spec with_crowding([PredictedSchedule.t()]) :: [predicted_schedule_with_crowding]
-  defp with_crowding(predicted_schedules) do
+  @spec with_time_data_and_crowding([PredictedSchedule.t()], keyword()) :: [
+          predicted_schedule_with_time_data_and_crowding()
+        ]
+  defp with_time_data_and_crowding(predicted_schedules, opts) do
+    now = Keyword.fetch!(opts, :now)
+
     Enum.map(predicted_schedules, fn predicted_schedule ->
+      route_type =
+        predicted_schedule
+        |> PredictedSchedule.route()
+        |> Route.type_atom()
+
       %{
         predicted_schedule: predicted_schedule,
+        time_data: %{
+          delay: PredictedSchedule.delay(predicted_schedule),
+          scheduled_time: scheduled_time(predicted_schedule),
+          prediction: simple_prediction(predicted_schedule.prediction, route_type, now)
+        },
         crowding: crowding_for_predicted_schedule(predicted_schedule)
       }
     end)
   end
 
-  @spec time_data_with_crowding_by_stop([predicted_schedule_with_crowding()], keyword()) ::
+  @spec time_data_with_crowding_by_stop(
+          [predicted_schedule_with_time_data_and_crowding()],
+          keyword()
+        ) ::
           time_data_with_crowding_by_stop()
-  defp time_data_with_crowding_by_stop(predicted_schedules_with_crowding, opts) do
-    predicted_schedules_with_crowding
+  defp time_data_with_crowding_by_stop(predicted_schedules_with_time_data_and_crowding, opts) do
+    predicted_schedules_with_time_data_and_crowding
     |> Enum.group_by(&predicted_schedule_stop_id/1)
     |> Map.new(&time_data_with_crowding_for_stop(&1, opts))
   end
 
-  @spec predicted_schedule_stop_id(predicted_schedule_with_crowding()) :: Stop.id_t()
+  @spec predicted_schedule_stop_id(predicted_schedule_with_time_data_and_crowding()) ::
+          Stop.id_t()
   defp predicted_schedule_stop_id(%{predicted_schedule: predicted_schedule}),
     do: PredictedSchedule.stop(predicted_schedule).id
 
   @spec time_data_with_crowding_for_stop(
-          {Stop.id_t(), [predicted_schedule_with_crowding()]},
+          {Stop.id_t(), [predicted_schedule_with_time_data_and_crowding()]},
           keyword()
         ) ::
-          {Stop.id_t(), [time_data_with_crowding_by_headsign()]}
+          {Stop.id_t(), [time_data_with_crowding_and_headsign()]}
   defp time_data_with_crowding_for_stop(
          {stop_id,
-          [%{predicted_schedule: predicted_schedule} | _] = predicted_schedules_with_crowding},
+          [%{predicted_schedule: predicted_schedule} | _] =
+            predicted_schedules_with_time_data_and_crowding},
          opts
        ) do
     now = Keyword.fetch!(opts, :now)
     route = PredictedSchedule.route(predicted_schedule)
 
-    time_data_with_crowding_by_headsign_list =
-      predicted_schedules_with_crowding
-      |> filter_predicted_schedules_with_crowding(route, stop_id, now)
-      |> time_data_with_crowding_by_headsign(opts)
+    time_data_with_crowding_and_headsign_list =
+      predicted_schedules_with_time_data_and_crowding
+      |> filter_subway_schedules_without_predictions(route, stop_id, now)
+      |> time_data_with_crowding_and_headsign()
+      |> sort_by_time()
+      |> elem(1)
+      |> Enum.take(2)
 
-    {stop_id, time_data_with_crowding_by_headsign_list}
+    {stop_id, time_data_with_crowding_and_headsign_list}
   end
 
-  @spec time_data_with_crowding_by_headsign(
-          [predicted_schedule_with_crowding()],
-          keyword()
-        ) :: [
-          time_data_with_crowding_by_headsign()
-        ]
-  defp time_data_with_crowding_by_headsign(predicted_schedules_with_crowding, opts) do
-    predicted_schedules_with_crowding
-    |> Enum.group_by(&headsign_for_predicted_schedule_with_crowding/1)
-    |> Enum.map(fn {headsign,
-                    [%{predicted_schedule: predicted_schedule} | _] =
-                      predicted_schedules_with_crowding} ->
-      route = PredictedSchedule.route(predicted_schedule)
-      trip = PredictedSchedule.trip(predicted_schedule)
-
-      time_data_with_crowding_list =
-        predicted_schedules_with_crowding
-        |> Enum.take(schedule_count(route))
-        |> Enum.map(&add_time_data(&1, opts))
-        |> filter_predicted_schedules_with_time_data_and_crowding(route)
-        |> Enum.map(&drop_predicted_schedules/1)
-
-      %{
-        name: headsign && ViewHelpers.break_text_at_slash(headsign),
-        time_data_with_crowding_list: time_data_with_crowding_list,
-        train_number: trip && trip.name
-      }
-    end)
-  end
-
-  @spec filter_predicted_schedules_with_crowding(
-          [predicted_schedule_with_crowding()],
+  @spec filter_subway_schedules_without_predictions(
+          [predicted_schedule_with_time_data_and_crowding()],
           Route.t(),
           Stop.id_t(),
           DateTime.t()
-        ) :: [predicted_schedule_with_crowding()]
-  def filter_predicted_schedules_with_crowding(
-        predicted_schedules_with_crowding,
+        ) :: [predicted_schedule_with_time_data_and_crowding()]
+  def filter_subway_schedules_without_predictions(
+        predicted_schedule_with_time_data_and_crowding,
         _route,
         stop_id,
         _now
       )
       when stop_id in @stops_without_predictions do
-    predicted_schedules_with_crowding
+    predicted_schedule_with_time_data_and_crowding
   end
 
-  def filter_predicted_schedules_with_crowding(
+  def filter_subway_schedules_without_predictions(
         predicted_schedules_with_crowding,
         %Route{type: type},
         _stop_id,
@@ -499,7 +492,7 @@ defmodule Site.TransitNearMe do
     end
   end
 
-  def filter_predicted_schedules_with_crowding(
+  def filter_subway_schedules_without_predictions(
         predicted_schedules_with_crowding,
         _route,
         _stop_id,
@@ -509,30 +502,50 @@ defmodule Site.TransitNearMe do
     predicted_schedules_with_crowding
   end
 
-  @type predicted_schedule_with_time_data_and_crowding :: %{
-          predicted_schedule: PredictedSchedule.t(),
-          time_data: time_data(),
-          crowding: Vehicle.crowding() | nil
-        }
-  @spec add_time_data(predicted_schedule_with_crowding(), keyword()) ::
-          predicted_schedule_with_time_data_and_crowding()
-  defp add_time_data(%{predicted_schedule: predicted_schedule, crowding: crowding}, opts) do
-    now = Keyword.fetch!(opts, :now)
+  @spec time_data_with_crowding_and_headsign([predicted_schedule_with_time_data_and_crowding()]) ::
+          [
+            {DateTime.t() | nil, time_data_with_crowding_and_headsign()}
+          ]
+  defp time_data_with_crowding_and_headsign(predicted_schedules_with_time_data_and_crowding) do
+    predicted_schedules_with_time_data_and_crowding
+    |> Enum.group_by(&trip_for_predicted_schedule_with_time_data_and_crowding/1)
+    |> Enum.flat_map(fn {trip, predicted_schedules_with_time_data_and_crowding} ->
+      predicted_schedules_with_time_data_and_crowding
+      |> Enum.group_by(&headsign_for_predicted_schedule_with_time_data_and_crowding/1)
+      |> Enum.map(fn {headsign, predicted_schedules_with_time_data_and_crowding} ->
+        route =
+          predicted_schedules_with_time_data_and_crowding
+          |> List.first()
+          |> route_for_predicted_schedule_with_time_data_and_crowding()
 
-    route_type =
-      predicted_schedule
-      |> PredictedSchedule.route()
-      |> Route.type_atom()
+        filtered_time_data_with_crowding_list =
+          predicted_schedules_with_time_data_and_crowding
+          |> Enum.sort_by(
+            &(&1.predicted_schedule
+              |> PredictedSchedule.time()
+              |> DateTime.to_unix())
+          )
+          |> Enum.take(schedule_count(route))
+          |> filter_predicted_schedules_with_time_data_and_crowding(route)
 
-    %{
-      predicted_schedule: predicted_schedule,
-      time_data: %{
-        delay: PredictedSchedule.delay(predicted_schedule),
-        scheduled_time: scheduled_time(predicted_schedule),
-        prediction: simple_prediction(predicted_schedule.prediction, route_type, now)
-      },
-      crowding: crowding
-    }
+        first_predicted_schedule_time =
+          filtered_time_data_with_crowding_list
+          |> List.first()
+          |> Map.get(:predicted_schedule)
+          |> PredictedSchedule.time()
+
+        time_data_with_crowding_list =
+          filtered_time_data_with_crowding_list
+          |> Enum.map(&drop_predicted_schedules/1)
+
+        {first_predicted_schedule_time,
+         %{
+           name: headsign && ViewHelpers.break_text_at_slash(headsign),
+           time_data_with_crowding_list: time_data_with_crowding_list,
+           train_number: trip && trip.name
+         }}
+      end)
+    end)
   end
 
   @spec filter_predicted_schedules_with_time_data_and_crowding(
@@ -592,10 +605,34 @@ defmodule Site.TransitNearMe do
     }
   end
 
-  @spec headsign_for_predicted_schedule_with_crowding(predicted_schedule_with_crowding()) ::
+  @spec route_for_predicted_schedule_with_time_data_and_crowding(
+          predicted_schedule_with_time_data_and_crowding()
+        ) ::
+          Route.t()
+  defp route_for_predicted_schedule_with_time_data_and_crowding(%{
+         predicted_schedule: predicted_schedule
+       }),
+       do: PredictedSchedule.route(predicted_schedule)
+
+  @spec trip_for_predicted_schedule_with_time_data_and_crowding(
+          predicted_schedule_with_time_data_and_crowding()
+        ) ::
+          Trip.t() | nil
+  defp trip_for_predicted_schedule_with_time_data_and_crowding(%{
+         predicted_schedule: predicted_schedule
+       }),
+       do: PredictedSchedule.trip(predicted_schedule)
+
+  @spec headsign_for_predicted_schedule_with_time_data_and_crowding(
+          predicted_schedule_with_time_data_and_crowding()
+        ) ::
           String.t() | nil
-  defp headsign_for_predicted_schedule_with_crowding(%{predicted_schedule: predicted_schedule}) do
-    case PredictedSchedule.trip(predicted_schedule) do
+  defp headsign_for_predicted_schedule_with_time_data_and_crowding(
+         predicted_schedule_with_time_data_and_crowding
+       ) do
+    case trip_for_predicted_schedule_with_time_data_and_crowding(
+           predicted_schedule_with_time_data_and_crowding
+         ) do
       %Trip{headsign: headsign} ->
         headsign
 

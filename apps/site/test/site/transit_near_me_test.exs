@@ -373,7 +373,7 @@ defmodule Site.TransitNearMeTest do
     end
   end
 
-  describe "filter_predicted_schedules_with_crowding/4" do
+  describe "filter_subway_schedules_without_predictions/4" do
     test "does not remove schedules without predictions for commuter rail, bus, or ferry" do
       now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
 
@@ -390,7 +390,7 @@ defmodule Site.TransitNearMeTest do
           crowding: :not_crowded
         }
 
-        assert TransitNearMe.filter_predicted_schedules_with_crowding(
+        assert TransitNearMe.filter_subway_schedules_without_predictions(
                  [predicted_schedule_with_crowding],
                  route,
                  stop.id,
@@ -427,7 +427,7 @@ defmodule Site.TransitNearMeTest do
           crowding: :not_crowded
         }
 
-        assert TransitNearMe.filter_predicted_schedules_with_crowding(
+        assert TransitNearMe.filter_subway_schedules_without_predictions(
                  [predicted_schedule_with_crowding_1, predicted_schedule_with_crowding_2],
                  route,
                  stop.id,
@@ -452,7 +452,7 @@ defmodule Site.TransitNearMeTest do
           crowding: :not_crowded
         }
 
-        assert TransitNearMe.filter_predicted_schedules_with_crowding(
+        assert TransitNearMe.filter_subway_schedules_without_predictions(
                  [predicted_schedule_with_crowding],
                  route,
                  stop.id,
@@ -476,7 +476,7 @@ defmodule Site.TransitNearMeTest do
           crowding: :not_crowded
         }
 
-        assert TransitNearMe.filter_predicted_schedules_with_crowding(
+        assert TransitNearMe.filter_subway_schedules_without_predictions(
                  [predicted_schedule_with_crowding],
                  route,
                  stop.id,
