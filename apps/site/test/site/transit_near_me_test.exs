@@ -323,6 +323,7 @@ defmodule Site.TransitNearMeTest do
     @predicted_schedule %PredictedSchedule{
       schedule: %Schedule{time: DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")}
     }
+
     @time_data_with_prediction %{
       delay: 0,
       prediction: %{status: nil, time: ["5", " ", "min"], track: nil},
@@ -369,6 +370,274 @@ defmodule Site.TransitNearMeTest do
                TransitNearMe.filter_headsign_schedules(schedules, %Route{type: 3})
 
       assert time_data.prediction == nil
+    end
+  end
+
+  describe "filter_predicted_schedules_with_crowding/4" do
+    test "does not remove schedules without predictions for commuter rail, bus, or ferry" do
+      now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
+
+      for type <- 2..4 do
+        route = %Route{id: "route", type: type}
+        stop = %Stop{id: "stop"}
+        trip = %Trip{direction_id: 0}
+
+        predicted_schedule_with_crowding = %{
+          predicted_schedule: %PredictedSchedule{
+            schedule: %Schedule{route: route, stop: stop, trip: trip},
+            prediction: nil
+          },
+          crowding: :not_crowded
+        }
+
+        assert TransitNearMe.filter_predicted_schedules_with_crowding(
+                 [predicted_schedule_with_crowding],
+                 route,
+                 stop.id,
+                 now
+               ) == [
+                 predicted_schedule_with_crowding
+               ]
+      end
+    end
+
+    test "filters schedules without predictions for subway if predictions exist" do
+      now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
+      prediction_time = DateTime.from_naive!(~N[2019-02-27T12:05:00], "Etc/UTC")
+
+      for type <- [0, 1] do
+        route = %Route{id: "route", type: type}
+        stop = %Stop{id: "stop"}
+        trip_1 = %Trip{direction_id: 0, id: "trip-1"}
+        trip_2 = %Trip{direction_id: 0, id: "trip-2"}
+
+        predicted_schedule_with_crowding_1 = %{
+          predicted_schedule: %PredictedSchedule{
+            schedule: %Schedule{route: route, stop: stop, trip: trip_1},
+            prediction: %Prediction{route: route, stop: stop, trip: trip_1, time: prediction_time}
+          },
+          crowding: :not_crowded
+        }
+
+        predicted_schedule_with_crowding_2 = %{
+          predicted_schedule: %PredictedSchedule{
+            schedule: %Schedule{route: route, stop: stop, trip: trip_2},
+            prediction: nil
+          },
+          crowding: :not_crowded
+        }
+
+        assert TransitNearMe.filter_predicted_schedules_with_crowding(
+                 [predicted_schedule_with_crowding_1, predicted_schedule_with_crowding_2],
+                 route,
+                 stop.id,
+                 now
+               ) ==
+                 [predicted_schedule_with_crowding_1]
+      end
+    end
+
+    test "returns empty list for subway if no predictions during normal hours" do
+      now = DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
+
+      for type <- [0, 1] do
+        route = %Route{id: "route", type: type}
+        stop = %Stop{id: "stop"}
+        trip = %Trip{direction_id: 0}
+
+        predicted_schedule_with_crowding = %{
+          predicted_schedule: %PredictedSchedule{
+            schedule: %Schedule{route: route, stop: stop, trip: trip}
+          },
+          crowding: :not_crowded
+        }
+
+        assert TransitNearMe.filter_predicted_schedules_with_crowding(
+                 [predicted_schedule_with_crowding],
+                 route,
+                 stop.id,
+                 now
+               ) == []
+      end
+    end
+
+    test "returns schedules for subway if no predictions during late night" do
+      now = DateTime.from_naive!(~N[2019-02-27T02:00:00], "Etc/UTC")
+
+      for type <- [0, 1] do
+        route = %Route{id: "route", type: type}
+        stop = %Stop{id: "stop"}
+        trip = %Trip{direction_id: 0}
+
+        predicted_schedule_with_crowding = %{
+          predicted_schedule: %PredictedSchedule{
+            schedule: %Schedule{route: route, stop: stop, trip: trip}
+          },
+          crowding: :not_crowded
+        }
+
+        assert TransitNearMe.filter_predicted_schedules_with_crowding(
+                 [predicted_schedule_with_crowding],
+                 route,
+                 stop.id,
+                 now
+               ) == [
+                 predicted_schedule_with_crowding
+               ]
+      end
+    end
+  end
+
+  describe "filter_predicted_schedules_with_time_data_and_crowding/2" do
+    @predicted_schedule %PredictedSchedule{
+      schedule: %Schedule{time: DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")}
+    }
+
+    @time_data_with_prediction %{
+      delay: 0,
+      prediction: %{status: nil, time: ["5", " ", "min"], track: nil},
+      scheduled_time: ["3:50", " ", "PM"]
+    }
+
+    @time_data_without_prediction %{
+      delay: 0,
+      prediction: nil,
+      scheduled_time: ["3:50", " ", "PM"]
+    }
+
+    test "at least 1 result contains a prediction, up to 2 predictions are returned" do
+      predicted_schedules_with_time_data_and_crowding = [
+        %{
+          predicted_schedule: @predicted_schedule,
+          time_data: @time_data_without_prediction,
+          crowding: :not_crowded
+        },
+        %{
+          predicted_schedule: %{
+            @predicted_schedule
+            | prediction: %Prediction{
+                time: DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
+              }
+          },
+          time_data: @time_data_with_prediction,
+          crowding: :not_crowded
+        },
+        %{
+          predicted_schedule: %{
+            @predicted_schedule
+            | prediction: %Prediction{
+                time: DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
+              }
+          },
+          time_data: @time_data_with_prediction,
+          crowding: :not_crowded
+        },
+        %{
+          predicted_schedule: %{
+            @predicted_schedule
+            | prediction: %Prediction{
+                time: DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
+              }
+          },
+          time_data: @time_data_with_prediction,
+          crowding: :not_crowded
+        },
+        %{
+          predicted_schedule: @predicted_schedule,
+          time_data: @time_data_without_prediction,
+          crowding: :not_crowded
+        }
+      ]
+
+      assert [
+               predicted_schedule_with_time_data_and_crowding1,
+               predicted_schedule_with_time_data_and_crowding2
+             ] =
+               TransitNearMe.filter_predicted_schedules_with_time_data_and_crowding(
+                 predicted_schedules_with_time_data_and_crowding,
+                 %Route{type: 3}
+               )
+
+      assert predicted_schedule_with_time_data_and_crowding1.time_data.prediction != nil
+      assert predicted_schedule_with_time_data_and_crowding2.time_data.prediction != nil
+    end
+
+    test "1 result contains a prediction, only 1 prediction is returned if rest are schedules" do
+      predicted_schedules_with_time_data_and_crowding = [
+        %{
+          predicted_schedule: @predicted_schedule,
+          time_data: @time_data_without_prediction,
+          crowding: :not_crowded
+        },
+        %{
+          predicted_schedule: %{
+            @predicted_schedule
+            | prediction: %Prediction{
+                time: DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")
+              }
+          },
+          time_data: @time_data_with_prediction,
+          crowding: :not_crowded
+        },
+        %{
+          predicted_schedule: @predicted_schedule,
+          time_data: @time_data_with_prediction,
+          crowding: :not_crowded
+        },
+        %{
+          predicted_schedule: @predicted_schedule,
+          time_data: @time_data_with_prediction,
+          crowding: :not_crowded
+        },
+        %{
+          predicted_schedule: @predicted_schedule,
+          time_data: @time_data_without_prediction,
+          crowding: :not_crowded
+        }
+      ]
+
+      assert [
+               predicted_schedule_with_time_data_and_crowding
+             ] =
+               TransitNearMe.filter_predicted_schedules_with_time_data_and_crowding(
+                 predicted_schedules_with_time_data_and_crowding,
+                 %Route{type: 3}
+               )
+
+      assert predicted_schedule_with_time_data_and_crowding.time_data.prediction != nil
+    end
+
+    test "no results contains a prediction, only return 1 schedule" do
+      predicted_schedules_with_time_data_and_crowding = [
+        %{
+          predicted_schedule: @predicted_schedule,
+          time_data: @time_data_without_prediction,
+          crowding: :not_crowded
+        },
+        %{
+          predicted_schedule: @predicted_schedule,
+          time_data: @time_data_without_prediction,
+          crowding: :not_crowded
+        },
+        %{
+          predicted_schedule: @predicted_schedule,
+          time_data: @time_data_without_prediction,
+          crowding: :not_crowded
+        },
+        %{
+          predicted_schedule: @predicted_schedule,
+          time_data: @time_data_without_prediction,
+          crowding: :not_crowded
+        }
+      ]
+
+      assert [predicted_schedule_with_time_data_and_crowding] =
+               TransitNearMe.filter_predicted_schedules_with_time_data_and_crowding(
+                 predicted_schedules_with_time_data_and_crowding,
+                 %Route{type: 3}
+               )
+
+      assert predicted_schedule_with_time_data_and_crowding.time_data.prediction == nil
     end
   end
 
@@ -462,49 +731,55 @@ defmodule Site.TransitNearMeTest do
         [@schedule1, @schedule2, @schedule3]
       end
 
-      actual =
-        TransitNearMe.time_data_for_route_by_stop(@route.id, 1,
-          schedules_fn: schedules_fn,
-          predictions_fn: predictions_fn,
-          now: @now
-        )
-
       expected = %{
         "95" => [
           %{
             name: "Nubian Station",
-            times: [
+            time_data_with_crowding_list: [
               %{
-                prediction: %{
-                  seconds: 300,
-                  status: nil,
-                  time: ["5", " ", "min"],
-                  track: "2"
+                time_data: %{
+                  delay: 0,
+                  prediction: %{
+                    seconds: 300,
+                    status: nil,
+                    time: ["5", " ", "min"],
+                    track: "2"
+                  },
+                  scheduled_time: nil
                 },
-                scheduled_time: nil,
-                delay: 0
+                crowding: nil
               }
             ],
             train_number: nil
           },
           %{
             name: "Nubian Station",
-            times: [
+            time_data_with_crowding_list: [
               %{
-                prediction: %{
-                  seconds: 900,
-                  status: nil,
-                  time: ["15", " ", "min"],
-                  track: "2"
+                time_data: %{
+                  prediction: %{
+                    seconds: 900,
+                    status: nil,
+                    time: ["15", " ", "min"],
+                    track: "2"
+                  },
+                  scheduled_time: nil,
+                  delay: 0
                 },
-                scheduled_time: nil,
-                delay: 0
+                crowding: nil
               }
             ],
             train_number: nil
           }
         ]
       }
+
+      actual =
+        TransitNearMe.time_data_for_route_by_stop(@route.id, 1,
+          schedules_fn: schedules_fn,
+          predictions_fn: predictions_fn,
+          now: @now
+        )
 
       assert actual == expected
     end
