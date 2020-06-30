@@ -387,7 +387,7 @@ defmodule Site.TransitNearMeTest do
             schedule: %Schedule{route: route, stop: stop, trip: trip},
             prediction: nil
           },
-          crowding: :not_crowded
+          crowding: nil
         }
 
         assert TransitNearMe.filter_subway_schedules_without_predictions(
