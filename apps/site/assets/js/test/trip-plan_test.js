@@ -1,4 +1,4 @@
-import { assert } from "chai";
+import { assert, expect } from "chai";
 import jsdom from "mocha-jsdom";
 import { TripPlannerTimeControls } from "../trip-planner-time-controls";
 import { TripPlannerLocControls } from "../trip-planner-location-controls";
@@ -127,6 +127,14 @@ describe("trip-plan", () => {
       );
     });
 
+    it("gets element with getById", () => {
+      $("body").append(tripPlanForm);
+      const tplc = new TripPlannerLocControls();
+      const input = tplc.getById("to");
+      expect(input).to.exist;
+      expect(input instanceof window.HTMLElement).to.be.true;
+    });
+
     describe("when initialized with containerEl", () => {
       beforeEach(() => {
         // two forms!
@@ -134,6 +142,24 @@ describe("trip-plan", () => {
           <div class="tp one">${tripPlanForm}</div>
           <div class="tp two">${tripPlanForm}</div>
         `);
+      });
+
+      it("gets element with getById", () => {
+        const tplc1 = new TripPlannerLocControls({
+          containerEl: document.querySelector(".tp.one")
+        });
+        const tplc2 = new TripPlannerLocControls({
+          containerEl: document.querySelector(".tp.two")
+        });
+        const input1 = tplc1.getById("from");
+        const input2 = tplc2.getById("from");
+        expect(input1 instanceof window.HTMLElement).to.be.true;
+        expect(input2 instanceof window.HTMLElement).to.be.true;
+        expect(input1.closest(".tp.one")).to.exist;
+        expect(input2.closest(".tp.two")).to.exist;
+        expect(input1.closest(".tp.two")).not.to.exist;
+        expect(input2.closest(".tp.one")).not.to.exist;
+        assert.notDeepEqual(input1, input2, "they aren't different elements");
       });
 
       it("works within its container", () => {

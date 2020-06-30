@@ -101,8 +101,7 @@ describe("input-location", () => {
           }
         }
       };
-      const expected =
-        `${testURL}/?latitude=8&longitude=5&location[address]=Boston#input`;
+      const expected = `${testURL}/?latitude=8&longitude=5&location[address]=Boston#input`;
       assert.equal(expected, constructUrl(fake_place, placeInput));
     });
 
