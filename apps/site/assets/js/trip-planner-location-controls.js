@@ -13,25 +13,14 @@ export function init() {
 }
 
 export class TripPlannerLocControls {
-  constructor() {
-    this.toInput = document.getElementById(
-      TripPlannerLocControls.SELECTORS.to.input
-    );
-    this.fromInput = document.getElementById(
-      TripPlannerLocControls.SELECTORS.from.input
-    );
-    this.toLat = document.getElementById(
-      TripPlannerLocControls.SELECTORS.to.lat
-    );
-    this.toLng = document.getElementById(
-      TripPlannerLocControls.SELECTORS.to.lng
-    );
-    this.fromLat = document.getElementById(
-      TripPlannerLocControls.SELECTORS.from.lat
-    );
-    this.fromLng = document.getElementById(
-      TripPlannerLocControls.SELECTORS.from.lng
-    );
+  constructor({ containerEl } = {}) {
+    this.containerElement = containerEl;
+    this.toInput = this.getById(TripPlannerLocControls.SELECTORS.to.input);
+    this.fromInput = this.getById(TripPlannerLocControls.SELECTORS.from.input);
+    this.toLat = this.getById(TripPlannerLocControls.SELECTORS.to.lat);
+    this.toLng = this.getById(TripPlannerLocControls.SELECTORS.to.lng);
+    this.fromLat = this.getById(TripPlannerLocControls.SELECTORS.from.lat);
+    this.fromLng = this.getById(TripPlannerLocControls.SELECTORS.from.lng);
     this.controller = null;
 
     this.markers = {
@@ -43,6 +32,12 @@ export class TripPlannerLocControls {
     if (this.toInput && this.fromInput) {
       this.init();
     }
+  }
+
+  getById(id) {
+    return this.containerElement
+      ? this.containerElement.querySelector(`#${id}`)
+      : document.getElementById(id);
   }
 
   init() {
@@ -60,7 +55,8 @@ export class TripPlannerLocControls {
       indices: Object.keys(TripPlannerLocControls.INDICES.to),
       locationParams: { position: 1, hitLimit: 3 },
       popular: TripPlannerLocControls.POPULAR,
-      parent: this
+      parent: this,
+      containerEl: this.containerElement
     });
 
     this.fromAutocomplete = new AlgoliaAutocompleteWithGeo({
@@ -69,7 +65,8 @@ export class TripPlannerLocControls {
       indices: Object.keys(TripPlannerLocControls.INDICES.from),
       locationParams: { position: 1, hitLimit: 3 },
       popular: TripPlannerLocControls.POPULAR,
-      parent: this
+      parent: this,
+      containerEl: this.containerElement
     });
     this.autocompletes = [this.toAutocomplete, this.fromAutocomplete];
 
@@ -78,8 +75,8 @@ export class TripPlannerLocControls {
       ac.setError(null);
       ac.onHitSelected = this.onHitSelected(
         ac,
-        document.getElementById(ac._selectors.lat),
-        document.getElementById(ac._selectors.lng)
+        this.getById(ac._selectors.lat),
+        this.getById(ac._selectors.lng)
       );
       ac._resetButton.addEventListener("click", () => {
         this.removeMarker(ac);
@@ -89,9 +86,10 @@ export class TripPlannerLocControls {
 
     this.toController.addWidget(this.toAutocomplete);
     this.fromController.addWidget(this.fromAutocomplete);
-    document
-      .getElementById("trip-plan-reverse-control")
-      .addEventListener("click", this.reverseTrip);
+    this.getById("trip-plan-reverse-control").addEventListener(
+      "click",
+      this.reverseTrip
+    );
     this.setupFormValidation();
   }
 
@@ -108,17 +106,17 @@ export class TripPlannerLocControls {
   }
 
   setupFormValidation() {
-    document
-      .getElementById("planner-form")
-      .addEventListener("submit", this.onSubmit);
+    this.getById("planner-form").addEventListener("submit", this.onSubmit);
 
     this.autocompletes.forEach(ac => {
-      document
-        .getElementById(ac._selectors.input)
-        .addEventListener("change", this.onInputChange(ac));
-      document
-        .getElementById(ac._selectors.input)
-        .addEventListener("input", this.onInputChange(ac));
+      this.getById(ac._selectors.input).addEventListener(
+        "change",
+        this.onInputChange(ac)
+      );
+      this.getById(ac._selectors.input).addEventListener(
+        "input",
+        this.onInputChange(ac)
+      );
     });
 
     document.addEventListener("autocomplete:empty", this.onInvalidAddress);
@@ -127,8 +125,8 @@ export class TripPlannerLocControls {
   }
 
   onSubmit(ev) {
-    const missingFrom = document.getElementById("from").value === "";
-    const missingTo = document.getElementById("to").value === "";
+    const missingFrom = this.getById("from").value === "";
+    const missingTo = this.getById("to").value === "";
 
     if (
       this.fromAutocomplete.error ||
@@ -180,9 +178,9 @@ export class TripPlannerLocControls {
   }
 
   toggleError(ac, errorType) {
-    const required = document.getElementById(ac._selectors.required);
-    const container = document.getElementById(ac._selectors.container);
-    const input = document.getElementById(ac._selectors.input);
+    const required = this.getById(ac._selectors.required);
+    const container = this.getById(ac._selectors.container);
+    const input = this.getById(ac._selectors.input);
     if (required && container && input) {
       if (errorType === "missing" || errorType === "invalid") {
         container.classList.add("c-form__input-container--error");
@@ -214,7 +212,6 @@ export class TripPlannerLocControls {
   }
 
   updateMarker(ac, lat, lng, title) {
-    const $ = window.jQuery;
     const label = ac._input.getAttribute("data-label");
     const detail = {
       latitude: lat,
@@ -228,7 +225,6 @@ export class TripPlannerLocControls {
   }
 
   removeMarker(ac) {
-    const $ = window.jQuery;
     const label = ac._input.getAttribute("data-label");
     const detail = { label };
     const event = new Event("trip-plan:remove-marker");
@@ -244,7 +240,6 @@ export class TripPlannerLocControls {
   }
 
   swapMarkers() {
-    const $ = window.jQuery;
     const from = this.fromAutocomplete;
     const to = this.toAutocomplete;
 
@@ -254,8 +249,8 @@ export class TripPlannerLocControls {
     if (fromVal) {
       this.updateMarker(
         from,
-        $("#from_latitude").val(),
-        $("#from_longitude").val(),
+        this.getById("from_latitude").value,
+        this.getById("from_longitude").value,
         fromVal
       );
     } else {
@@ -265,8 +260,8 @@ export class TripPlannerLocControls {
     if (toVal) {
       this.updateMarker(
         to,
-        $("#to_latitude").val(),
-        $("#to_longitude").val(),
+        this.getById("to_latitude").value,
+        this.getById("to_longitude").value,
         to
       );
     } else {
@@ -276,8 +271,8 @@ export class TripPlannerLocControls {
 
   useMyLocation(ac) {
     return (lat, lng) => {
-      document.getElementById(ac._selectors.lat).value = lat;
-      document.getElementById(ac._selectors.lng).value = lng;
+      this.getById(ac._selectors.lat).value = lat;
+      this.getById(ac._selectors.lng).value = lng;
       const address = ac._input.value;
       this.updateMarker(ac, lat, lng, address);
     };
@@ -363,17 +358,16 @@ export class TripPlannerLocControls {
     const toAc = this.toAutocomplete;
     const fromError = fromAc.error;
     const toError = toAc.error;
-    const $ = window.jQuery;
     const from = fromAc.getValue();
     const to = toAc.getValue();
-    const fromLat = $("#from_latitude").val();
-    const fromLng = $("#from_longitude").val();
-    const toLat = $("#to_latitude").val();
-    const toLng = $("#to_longitude").val();
-    $("#from_latitude").val(toLat);
-    $("#from_longitude").val(toLng);
-    $("#to_latitude").val(fromLat);
-    $("#to_longitude").val(fromLng);
+    const fromLat = this.getById("from_latitude").value;
+    const fromLng = this.getById("from_longitude").value;
+    const toLat = this.getById("to_latitude").value;
+    const toLng = this.getById("to_longitude").value;
+    this.getById("from_latitude").value = toLat;
+    this.getById("from_longitude").value = toLng;
+    this.getById("to_latitude").value = fromLat;
+    this.getById("to_longitude").value = fromLng;
     fromAc.setValue(to);
     toAc.setValue(from);
     this.swapMarkers();
