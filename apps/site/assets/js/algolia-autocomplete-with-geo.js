@@ -27,17 +27,23 @@ export const addFilterParam = (params, path) => {
 };
 
 class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
-  constructor({ id, selectors, indices, locationParams, popular, parent }) {
-    super({ id, selectors, indices, parent });
+  constructor({
+    id,
+    selectors,
+    indices,
+    locationParams,
+    popular,
+    parent,
+    containerEl = null
+  }) {
+    super({ id, selectors, indices, parent, containerEl });
     this.sessionToken = null;
     this.debounceInterval = 250;
     if (!this._parent.getParams) {
       this._parent.getParams = () => ({});
     }
     this._popular = popular;
-    this._loadingIndicator = document.getElementById(
-      selectors.locationLoadingIndicator
-    );
+    this._loadingIndicator = this.getById(selectors.locationLoadingIndicator);
     this.addUseMyLocationErrorEl();
     this._locationParams = Object.assign(
       AlgoliaAutocompleteWithGeo.DEFAULT_LOCATION_PARAMS,
@@ -69,7 +75,7 @@ class AlgoliaAutocompleteWithGeo extends AlgoliaAutocomplete {
   }
 
   addUseMyLocationErrorEl() {
-    const container = document.getElementById(this._selectors.container);
+    const container = this.getById(this._selectors.container);
     this.useMyLocationErrorEl = document.createElement("div");
     this.useMyLocationErrorEl.classList.add("u-error");
     this.useMyLocationErrorEl.style.display = "none";

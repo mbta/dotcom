@@ -6,29 +6,34 @@ import * as QueryHelpers from "../ts/helpers/query";
 /* eslint-disable class-methods-use-this */
 
 export default class AlgoliaAutocomplete {
-  constructor({ id, selectors, indices, parent }) {
+  constructor({ id, selectors, indices, parent, containerEl = null }) {
     if (typeof id !== "string") {
       throw new window.Error("autocomplete must have an id");
     }
     this.id = id;
+    this.containerElement = containerEl;
     this._parent = parent;
     this.error = null;
     this._selectors = Object.assign(selectors, {
       resultsContainer: `${selectors.input}-autocomplete-results`
     });
-    this._input = document.getElementById(this._selectors.input);
-    this._resultsContainer = document.getElementById(
-      this._selectors.resultsContainer
-    );
-    this._searchContainer = document.getElementById(this._selectors.container);
-    this._resetButton = document.getElementById(this._selectors.resetButton);
-    this.announcer = document.getElementById(this._selectors.announcer);
+    this._input = this.getById(this._selectors.input);
+    this._resultsContainer = this.getById(this._selectors.resultsContainer);
+    this._searchContainer = this.getById(this._selectors.container);
+    this._resetButton = this.getById(this._selectors.resetButton);
+    this.announcer = this.getById(this._selectors.announcer);
     this._indices = indices;
     this._datasets = [];
     this._results = {};
     this._highlightedHit = null;
     this._autocomplete = null;
     this.bind();
+  }
+
+  getById(id) {
+    return this.containerElement
+      ? this.containerElement.querySelector(`#${id}`)
+      : document.getElementById(id);
   }
 
   bind() {
@@ -79,7 +84,7 @@ export default class AlgoliaAutocomplete {
     this._autocomplete = window.autocomplete(
       this._input,
       {
-        appendTo: `#${this._selectors.resultsContainer}`,
+        appendTo: this._resultsContainer,
         debug: false,
         autoselectOnBlur: false,
         openOnFocus: true,
@@ -184,7 +189,7 @@ export default class AlgoliaAutocomplete {
   }
 
   _addErrorMsg() {
-    if (document.getElementById("algolia-error")) {
+    if (this.getById("algolia-error")) {
       return;
     }
 
@@ -207,7 +212,7 @@ export default class AlgoliaAutocomplete {
 
   onOpen() {
     const acDialog = window
-      .jQuery(`#${this._selectors.resultsContainer}`)
+      .jQuery(this._resultsContainer)
       .find(".c-search-bar__-dropdown-menu")[0];
     if (acDialog) {
       this.positionDropdown(acDialog);
@@ -220,8 +225,8 @@ export default class AlgoliaAutocomplete {
       $(`#${this._selectors.container}`).css("border-left-width"),
       10
     );
-    const { offsetLeft } = document.getElementById(`${this._selectors.input}`);
-    const { offsetTop } = document.getElementById(`${this._selectors.input}`);
+    const { offsetLeft } = this.getById(this._selectors.input);
+    const { offsetTop } = this.getById(this._selectors.input);
 
     /* eslint-disable no-param-reassign */
     acDialog.style.width = `${this._searchContainer.offsetWidth}px`;

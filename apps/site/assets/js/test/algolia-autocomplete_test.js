@@ -64,6 +64,27 @@ describe("AlgoliaAutocomplete", () => {
     expect(ac._autocomplete).to.equal(null);
   });
 
+  it("constructor can use a containerEl argument", () => {
+    document.body.innerHTML = `
+      <input id="autocomplete-input"></input>
+      <div id="container">
+        <div id="powered-by-google-logo"></div>
+        <input id="autocomplete-input"></input>
+        <i id="autocomplete-reset"></i>
+      </div>
+    `;
+    const containerEl = document.getElementById("container");
+    const ac = new AlgoliaAutocomplete({
+      id: "id",
+      selectors,
+      indices,
+      parent,
+      containerEl
+    });
+    expect(ac._input.parentNode.id).to.equal("container");
+    expect(ac.containerElement.id).to.equal("container");
+  });
+
   describe("init", () => {
     it("initializes autocomplete if input exists", () => {
       expect(document.getElementById(selectors.input)).to.be.an.instanceOf(
@@ -361,6 +382,44 @@ describe("AlgoliaAutocomplete", () => {
         expect(callback.args[0][0]).to.have.members([]);
         done();
       });
+    });
+  });
+
+  describe("getById", () => {
+    it("gets element", () => {
+      const ac = new AlgoliaAutocomplete({
+        id: "id",
+        selectors,
+        indices,
+        parent
+      });
+
+      const input = ac.getById("autocomplete-input");
+      expect(input).to.exist;
+      expect(input instanceof window.HTMLElement).to.be.true;
+    });
+
+    it("gets element with containerEl", () => {
+      document.body.innerHTML = `
+        <input id="autocomplete-input"></input>
+        <div id="container">
+          <div id="powered-by-google-logo"></div>
+          <input id="autocomplete-input"></input>
+          <i id="autocomplete-reset"></i>
+        </div>
+      `;
+      const containerEl = document.getElementById("container");
+      const ac = new AlgoliaAutocomplete({
+        id: "id",
+        selectors,
+        indices,
+        parent,
+        containerEl
+      });
+
+      const input = ac.getById("autocomplete-input");
+      expect(input instanceof window.HTMLElement).to.be.true;
+      expect(input.parentNode.id).to.equal("container");
     });
   });
 });
