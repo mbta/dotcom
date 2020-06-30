@@ -75,7 +75,7 @@ describe("support form", () => {
 
     beforeEach(() => {
       toUpload = [];
-      
+
       // convert to Blob because JSDOM?
       const file = new File({
         name: "test-file",
@@ -92,12 +92,7 @@ describe("support form", () => {
      <input type="file" id="photo" name="photo" />
      <a class="upload-photo-link"></a>
      `);
-      handleUploadedPhoto(
-        $,
-        blob,
-        $(".photo-preview-container"),
-        toUpload
-      );
+      handleUploadedPhoto($, blob, $(".photo-preview-container"), toUpload);
     });
 
     it("displays a preview of uploaded files", () => {
@@ -124,14 +119,9 @@ describe("support form", () => {
       });
       // convert to Blob because JSDOM?
       const blob = new window.Blob([file], { type: "image/png" });
-      blob.name = "test-file-2"
+      blob.name = "test-file-2";
 
-      handleUploadedPhoto(
-        $,
-        blob,
-        $(".photo-preview-container"),
-        toUpload
-      );
+      handleUploadedPhoto($, blob, $(".photo-preview-container"), toUpload);
 
       const $preview = $(".photo-preview");
       assert.equal($preview.length, 2);
@@ -149,12 +139,7 @@ describe("support form", () => {
       const blob = new window.Blob([file], { type: "image/png" });
       blob.name = "test-file-2";
 
-      handleUploadedPhoto(
-        $,
-        blob,
-        $(".photo-preview-container"),
-        toUpload
-      );
+      handleUploadedPhoto($, blob, $(".photo-preview-container"), toUpload);
 
       let fileNames = toUpload.map(file => {
         return file.name;
@@ -169,15 +154,13 @@ describe("support form", () => {
         type: "image/png"
       });
       // convert to Blob because JSDOM?
-      const blob = new window.Blob([file], { name: "test-file-2", type: "image/png" });
+      const blob = new window.Blob([file], {
+        name: "test-file-2",
+        type: "image/png"
+      });
       blob.name = "test-file-2";
 
-      handleUploadedPhoto(
-        $,
-        blob,
-        $(".photo-preview-container"),
-        toUpload
-      );
+      handleUploadedPhoto($, blob, $(".photo-preview-container"), toUpload);
 
       const $preview = $(".photo-preview");
       const $first_photo = $preview.first();
@@ -196,14 +179,12 @@ describe("support form", () => {
         type: "image/png"
       });
       // convert to Blob because JSDOM?
-      const blob = new window.Blob([file], { name: "test-file-2", type: "image/png" });
+      const blob = new window.Blob([file], {
+        name: "test-file-2",
+        type: "image/png"
+      });
 
-      handleUploadedPhoto(
-        $,
-        blob,
-        $(".photo-preview-container"),
-        toUpload
-      );
+      handleUploadedPhoto($, blob, $(".photo-preview-container"), toUpload);
 
       const $preview = $(".photo-preview");
       const $first_photo = $preview.first();

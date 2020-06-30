@@ -7,7 +7,9 @@ import testConfig from "./../../ts/jest.config";
 const { testURL } = testConfig;
 
 describe("AlgoliaResults", () => {
-  jsdom();
+  jsdom({
+    url: testURL
+  });
   var search;
 
   beforeEach(() => {
