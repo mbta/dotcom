@@ -1,4 +1,7 @@
 defmodule Algolia.Analytics do
+  @moduledoc """
+  Handles sending analytics data to Algolia base on interactions with search results.
+  """
   require Logger
 
   @http_pool Application.get_env(:algolia, :http_pool)
@@ -66,12 +69,12 @@ defmodule Algolia.Analytics do
   end
 
   defp post_headers do
-    %Algolia.Config{app_id: <<app_id::binary>>, admin: <<admin_key::binary>>} =
+    %Algolia.Config{app_id: <<app_id::binary>>, write: <<write_key::binary>>} =
       Algolia.Config.config()
 
     [
       {"X-Algolia-Application-Id", app_id},
-      {"X-Algolia-API-Key", admin_key},
+      {"X-Algolia-API-Key", write_key},
       {"Content-Type", "application/json"}
     ]
   end

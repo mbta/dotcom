@@ -1,4 +1,7 @@
 defmodule Algolia.Api do
+  @moduledoc """
+  Interact with Algolia via their API.
+  """
   alias Algolia.Config
   require Logger
 
@@ -20,7 +23,7 @@ defmodule Algolia.Api do
     post(opts, Config.config())
   end
 
-  def post(%__MODULE__{} = opts, %Config{admin: <<_::binary>>, app_id: <<_::binary>>} = config) do
+  def post(%__MODULE__{} = opts, %Config{write: <<_::binary>>, app_id: <<_::binary>>} = config) do
     do_post(opts, config)
   end
 
@@ -57,7 +60,7 @@ defmodule Algolia.Api do
   @spec headers(Config.t()) :: [{String.t(), String.t()}]
   defp headers(%Config{} = config) do
     [
-      {"X-Algolia-API-Key", config.admin},
+      {"X-Algolia-API-Key", config.write},
       {"X-Algolia-Application-Id", config.app_id}
     ]
   end

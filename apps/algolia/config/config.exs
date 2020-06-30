@@ -4,8 +4,8 @@ use Mix.Config
 
 config :algolia, :config,
   app_id: {:system, "ALGOLIA_APP_ID"},
-  admin: {:system, "ALGOLIA_ADMIN_KEY"},
-  search: {:system, "ALGOLIA_SEARCH_KEY"}
+  search: {:system, "ALGOLIA_SEARCH_KEY"},
+  write: {:system, "ALGOLIA_WRITE_KEY"}
 
 config :algolia, :repos,
   stops: Stops.Api,

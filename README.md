@@ -11,7 +11,7 @@ The new face of https://www.mbta.com/
     - [`V3_API_KEY`](docs/ENVIRONMENT.md#v3_api_key)
     - [`DRUPAL_ROOT`](docs/ENVIRONMENT.md#drupal_root)
     - [`GOOGLE_API_KEY`](docs/ENVIRONMENT.md#google_api_key)
-    - [`ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_ADMIN_KEY`](docs/ENVIRONMENT.md#algolia_app_id-algolia_search_key-and-algolia_admin_key)
+    - [`ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_WRITE_KEY`](docs/ENVIRONMENT.md#algolia_app_id-algolia_search_key-and-algolia_write_key)
 - [Additional documentation](#additional-documentation)
 
 ## Getting Started

@@ -2,9 +2,9 @@
 # and fill in any additional values you need. Will be automatically loaded and
 # unloaded by `direnv` if installed, or execute manually using `source .envrc`.
 
-# export ALGOLIA_ADMIN_KEY=
 # export ALGOLIA_APP_ID=
 # export ALGOLIA_SEARCH_KEY=
+# export ALGOLIA_WRITE_KEY=
 export DRUPAL_ROOT=https://live-mbta.pantheonsite.io
 # export GOOGLE_API_KEY=
 export OPEN_TRIP_PLANNER_URL=https://dev.otp.mbtace.com

@@ -9,8 +9,8 @@ defmodule Algolia.ConfigTest do
 
       assert %Algolia.Config{
                app_id: <<_::binary>>,
-               admin: <<_::binary>>,
-               search: <<_::binary>>
+               search: <<_::binary>>,
+               write: <<_::binary>>
              } = Algolia.Config.config()
     end
   end
