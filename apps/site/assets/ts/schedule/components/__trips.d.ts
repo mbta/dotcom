@@ -33,7 +33,16 @@ export interface TripInfo {
   route_type: number;
 }
 
+type ScheduleRelationship =
+  | "added"
+  | "unscheduled"
+  | "cancelled"
+  | "skipped"
+  | "no_data"
+  | null;
+
 export interface Prediction {
+  schedule_relationship: ScheduleRelationship;
   delay: number;
   status: string | null;
   track: string | null;

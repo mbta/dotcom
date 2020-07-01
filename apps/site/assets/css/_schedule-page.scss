@@ -359,6 +359,19 @@
     border-top: $border;
   }
 
+  th[scope='row'] {
+    @include icon-size-inline($base-spacing * .85, .05em);
+    font-weight: normal;
+  }
+
+  [class*='c-svg__icon'] path[fill] {
+    fill: currentColor;
+  }
+
+  .c-svg__icon-alerts-triangle {
+    margin-right: $base-spacing * .35;
+  }
+
   &__title {
     margin-right: $base-spacing;
   }
