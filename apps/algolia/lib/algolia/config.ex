@@ -1,12 +1,15 @@
 defmodule Algolia.Config do
+  @moduledoc """
+  Algolia account configuration.
+  """
   require Logger
 
-  defstruct [:app_id, :admin, :search]
+  defstruct [:app_id, :search, :write]
 
   @type t :: %__MODULE__{
           app_id: String.t() | nil,
-          admin: String.t() | nil,
-          search: String.t() | nil
+          search: String.t() | nil,
+          write: String.t() | nil
         }
 
   @spec config :: t

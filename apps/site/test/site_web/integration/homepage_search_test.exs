@@ -28,7 +28,7 @@ defmodule SiteWeb.HomepageSearchTest do
     @tag :capture_log
     test "displays an error message", %{session: session} do
       config = Application.get_env(:algolia, :config)
-      bad_config = Keyword.delete(config, :admin)
+      bad_config = Keyword.delete(config, :write)
       Application.put_env(:algolia, :config, bad_config)
       on_exit(fn -> Application.put_env(:algolia, :config, config) end)
 

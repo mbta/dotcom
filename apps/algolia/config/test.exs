@@ -2,8 +2,8 @@ use Mix.Config
 
 config :algolia, :config,
   app_id: "ALGOLIA_APP_ID",
-  admin: "ALGOLIA_ADMIN_KEY",
-  search: "ALGOLIA_SEARCH_KEY"
+  search: "ALGOLIA_SEARCH_KEY",
+  write: "ALGOLIA_WRITE_KEY"
 
 config :algolia, :repos,
   stops: Algolia.MockStopsRepo,

@@ -57,12 +57,12 @@ limited. See below for how to get a Google API Key.
         * "Maps Javascript API"
         * "Maps Static API"
 
-### `ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_ADMIN_KEY`
+### `ALGOLIA_APP_ID`, `ALGOLIA_SEARCH_KEY`, and `ALGOLIA_WRITE_KEY`
 
 These keys are used to interact with the Algolia search api. The values can be found under the `Api Keys` section in Algolia (you'll need to be added as a team member to get access).
 
 `ALGOLIA_APP_ID` is the id of the Algolia account that holds all of our search indexes. This is 'Application ID' in Algolia.  
-`ALGOLIA_ADMIN_KEY` allows write access and is used by the Algolia app to keep our search indexes updated. This is '**Write API Key**' and **not** 'Admin API Key' in Algolia.  
+`ALGOLIA_WRITE_KEY` allows write access and is used by the Algolia app to keep our search indexes updated. This is 'Write API Key'  in Algolia.  
 `ALGOLIA_SEARCH_KEY` is a read-only key that is used by the Site app to perform searches from the front-end. This is 'Search API Key' in Algolia.
 
 ### `OPEN_TRIP_PLANNER_URL`
