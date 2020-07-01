@@ -508,7 +508,7 @@ defmodule Site.TransitNearMe do
           ]
   defp time_data_with_crowding_and_headsign(predicted_schedules_with_time_data_and_crowding) do
     predicted_schedules_with_time_data_and_crowding
-    |> Enum.group_by(&trip_for_predicted_schedule_with_time_data_and_crowding/1)
+    |> Enum.group_by(&PredictedSchedule.trip(&1.predicted_schedule))
     |> Enum.flat_map(fn {trip, predicted_schedules_with_time_data_and_crowding} ->
       predicted_schedules_with_time_data_and_crowding
       |> Enum.group_by(&headsign_for_predicted_schedule_with_time_data_and_crowding/1)
@@ -516,7 +516,8 @@ defmodule Site.TransitNearMe do
         route =
           predicted_schedules_with_time_data_and_crowding
           |> List.first()
-          |> route_for_predicted_schedule_with_time_data_and_crowding()
+          |> Map.get(:predicted_schedule)
+          |> PredictedSchedule.route()
 
         filtered_time_data_with_crowding_list =
           predicted_schedules_with_time_data_and_crowding
@@ -535,8 +536,7 @@ defmodule Site.TransitNearMe do
           |> PredictedSchedule.time()
 
         time_data_with_crowding_list =
-          filtered_time_data_with_crowding_list
-          |> Enum.map(&drop_predicted_schedules/1)
+          Enum.map(filtered_time_data_with_crowding_list, &Map.drop(&1, [:predicted_schedule]))
 
         {first_predicted_schedule_time,
          %{
@@ -593,36 +593,6 @@ defmodule Site.TransitNearMe do
     predicted_schedules_with_time_data_and_crowding
   end
 
-  @spec drop_predicted_schedules(predicted_schedule_with_time_data_and_crowding()) ::
-          time_data_with_crowding()
-  defp drop_predicted_schedules(%{
-         time_data: time_data,
-         crowding: crowding
-       }) do
-    %{
-      time_data: time_data,
-      crowding: crowding
-    }
-  end
-
-  @spec route_for_predicted_schedule_with_time_data_and_crowding(
-          predicted_schedule_with_time_data_and_crowding()
-        ) ::
-          Route.t()
-  defp route_for_predicted_schedule_with_time_data_and_crowding(%{
-         predicted_schedule: predicted_schedule
-       }),
-       do: PredictedSchedule.route(predicted_schedule)
-
-  @spec trip_for_predicted_schedule_with_time_data_and_crowding(
-          predicted_schedule_with_time_data_and_crowding()
-        ) ::
-          Trip.t() | nil
-  defp trip_for_predicted_schedule_with_time_data_and_crowding(%{
-         predicted_schedule: predicted_schedule
-       }),
-       do: PredictedSchedule.trip(predicted_schedule)
-
   @spec headsign_for_predicted_schedule_with_time_data_and_crowding(
           predicted_schedule_with_time_data_and_crowding()
         ) ::
@@ -630,9 +600,7 @@ defmodule Site.TransitNearMe do
   defp headsign_for_predicted_schedule_with_time_data_and_crowding(
          predicted_schedule_with_time_data_and_crowding
        ) do
-    case trip_for_predicted_schedule_with_time_data_and_crowding(
-           predicted_schedule_with_time_data_and_crowding
-         ) do
+    case PredictedSchedule.trip(predicted_schedule_with_time_data_and_crowding.predicted_schedule) do
       %Trip{headsign: headsign} ->
         headsign
 
