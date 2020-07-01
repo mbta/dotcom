@@ -510,7 +510,7 @@ defmodule Site.TransitNearMeTest do
         %{
           predicted_schedule: @predicted_schedule,
           time_data: @time_data_without_prediction,
-          crowding: :not_crowded
+          crowding: nil
         },
         %{
           predicted_schedule: %{
@@ -545,7 +545,7 @@ defmodule Site.TransitNearMeTest do
         %{
           predicted_schedule: @predicted_schedule,
           time_data: @time_data_without_prediction,
-          crowding: :not_crowded
+          crowding: nil
         }
       ]
 
