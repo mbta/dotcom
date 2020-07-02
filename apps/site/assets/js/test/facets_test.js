@@ -5,6 +5,9 @@ import { FacetItem } from "../facet-item.js";
 import { FacetBar } from "../facet-bar.js";
 import { FacetGroup } from "../facet-group.js";
 import { FacetLocationGroup } from "../facet-location-group.js";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 function getFeatureIcon(feature) {
   return `<span id=${feature}></span>`;
@@ -12,7 +15,7 @@ function getFeatureIcon(feature) {
 
 describe("facet", function() {
   let $;
-  jsdom();
+  jsdom({ url: testURL });
 
   const testData = {
     routes: {

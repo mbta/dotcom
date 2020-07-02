@@ -2,18 +2,21 @@ import { assert } from "chai";
 import jsdom from "mocha-jsdom";
 import menuCtrlClick, { clickHandler } from "../menu-ctrl-click";
 import sinon from "sinon";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("menuCtrlClick", () => {
   let $, openSpy;
-  jsdom();
+  jsdom({ url: testURL });
 
   beforeEach(() => {
     $ = jsdom.rerequire("jquery");
     openSpy = sinon.spy(window, "open");
     $("body").append(`
        <div id="test">
-         <a id="link1" href="/link1" class="nav-link" data-parent="#desktop-menu">link 1</a>
-         <a id="link2" href="/link2" class="nav-link" data-parent="#something-else">link 2</a>
+         <a id="link1" href="${testURL}/link1" class="nav-link" data-parent="#desktop-menu">link 1</a>
+         <a id="link2" href="${testURL}/link2" class="nav-link" data-parent="#something-else">link 2</a>
        </div>
     `);
     menuCtrlClick($);

@@ -1,7 +1,9 @@
 import jsdom from "mocha-jsdom";
 import { expect, assert } from "chai";
 import * as AlgoliaResult from "../algolia-result";
+import testConfig from "./../../ts/jest.config";
 
+const { testURL } = testConfig;
 /* eslint-disable no-underscore-dangle */
 
 describe("AlgoliaResult", () => {
@@ -349,7 +351,7 @@ describe("AlgoliaResult", () => {
     none: { related_transit_gtfs_id: null, related_transit_gtfs_ancestry: null }
   };
 
-  jsdom();
+  jsdom({ url: testURL });
   before(() => {
     document.body.innerHTML = `
       <div id="icon-feature-commuter_rail"><span>commuter rail icon</span></div>

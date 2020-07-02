@@ -10,10 +10,13 @@ import {
   handleSubmitClick,
   rescale
 } from "../support-form";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("support form", () => {
   let $;
-  jsdom();
+  jsdom({ url: testURL });
 
   beforeEach(() => {
     $ = jsdom.rerequire("jquery");
@@ -72,6 +75,16 @@ describe("support form", () => {
 
     beforeEach(() => {
       toUpload = [];
+      
+      // convert to Blob because JSDOM?
+      const file = new File({
+        name: "test-file",
+        buffer: new Buffer("this is a 24 byte string"),
+        type: "image/png"
+      });
+      const blob = new window.Blob([file], { type: "image/png" });
+      blob.name = "test-file";
+
       $("#test").html(`
      <div class="photo-preview-container hidden-xs-up" tabindex="-1">
        <strong></strong>
@@ -81,11 +94,7 @@ describe("support form", () => {
      `);
       handleUploadedPhoto(
         $,
-        new File({
-          name: "test-file",
-          buffer: new Buffer("this is a 24 byte string"),
-          type: "image/png"
-        }),
+        blob,
         $(".photo-preview-container"),
         toUpload
       );
@@ -108,13 +117,18 @@ describe("support form", () => {
     });
 
     it("handles multiple uploaded photos", () => {
+      const file = new File({
+        name: "test-file-2",
+        buffer: new Buffer("this is now a 28 byte string"),
+        type: "image/png"
+      });
+      // convert to Blob because JSDOM?
+      const blob = new window.Blob([file], { type: "image/png" });
+      blob.name = "test-file-2"
+
       handleUploadedPhoto(
         $,
-        new File({
-          name: "test-file-2",
-          buffer: new Buffer("this is now a 28 byte string"),
-          type: "image/png"
-        }),
+        blob,
         $(".photo-preview-container"),
         toUpload
       );
@@ -126,13 +140,18 @@ describe("support form", () => {
     });
 
     it("stores all the photos to be uploaded in the toUpload array", () => {
+      const file = new File({
+        name: "test-file-2",
+        buffer: new Buffer("this is now a 28 byte string"),
+        type: "image/png"
+      });
+      // convert to Blob because JSDOM?
+      const blob = new window.Blob([file], { type: "image/png" });
+      blob.name = "test-file-2";
+
       handleUploadedPhoto(
         $,
-        new File({
-          name: "test-file-2",
-          buffer: new Buffer("this is now a 28 byte string"),
-          type: "image/png"
-        }),
+        blob,
         $(".photo-preview-container"),
         toUpload
       );
@@ -144,13 +163,18 @@ describe("support form", () => {
     });
 
     it("clears the photo that was clicked; the previews are not hidden if there are any photos left", () => {
+      const file = new File({
+        name: "test-file-2",
+        buffer: new Buffer("this is now a 28 byte string"),
+        type: "image/png"
+      });
+      // convert to Blob because JSDOM?
+      const blob = new window.Blob([file], { name: "test-file-2", type: "image/png" });
+      blob.name = "test-file-2";
+
       handleUploadedPhoto(
         $,
-        new File({
-          name: "test-file-2",
-          buffer: new Buffer("this is now a 28 byte string"),
-          type: "image/png"
-        }),
+        blob,
         $(".photo-preview-container"),
         toUpload
       );
@@ -166,13 +190,17 @@ describe("support form", () => {
     });
 
     it("removes the photo that was clicked from the toUpload array", () => {
+      const file = new File({
+        name: "test-file-2",
+        buffer: new Buffer("this is now a 28 byte string"),
+        type: "image/png"
+      });
+      // convert to Blob because JSDOM?
+      const blob = new window.Blob([file], { name: "test-file-2", type: "image/png" });
+
       handleUploadedPhoto(
         $,
-        new File({
-          name: "test-file-2",
-          buffer: new Buffer("this is now a 28 byte string"),
-          type: "image/png"
-        }),
+        blob,
         $(".photo-preview-container"),
         toUpload
       );
@@ -437,8 +465,10 @@ describe("support form", () => {
         buffer: new Buffer("this is now a 28 byte string"),
         type: "image/png"
       });
-      toUpload.push(file_1);
-      toUpload.push(file_2);
+
+      // convert to Blobs because JSDOM?
+      toUpload.push(new window.Blob([file_1], { type: "image/png" }));
+      toUpload.push(new window.Blob([file_2], { type: "image/png" }));
 
       $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $("#comments").val("A comment");

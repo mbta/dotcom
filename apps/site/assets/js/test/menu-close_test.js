@@ -1,11 +1,14 @@
 import { assert } from "chai";
 import jsdom from "mocha-jsdom";
 import menuClose from "../menu-close";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("menuClose", () => {
   var $;
   var clicked;
-  jsdom();
+  jsdom({ url: testURL });
 
   before(() => {
     $ = jsdom.rerequire("jquery");

@@ -1,10 +1,13 @@
 import { assert } from "chai";
 import jsdom from "mocha-jsdom";
 import { handlePageLoad, default as photoGallery } from "../photo-gallery";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("photo-gallery", () => {
   var $;
-  jsdom();
+  jsdom({ url: testURL });
 
   beforeEach(() => {
     $ = jsdom.rerequire("jquery");

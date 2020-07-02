@@ -8,6 +8,9 @@ import {
   renderModal,
   filterData
 } from "../select-modal";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("selectModal", () => {
   const data = [
@@ -17,7 +20,7 @@ describe("selectModal", () => {
   ];
 
   var $;
-  jsdom();
+  jsdom({ url: testURL });
 
   beforeEach(() => {
     $ = jsdom.rerequire("jquery");

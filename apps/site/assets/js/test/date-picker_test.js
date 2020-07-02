@@ -1,11 +1,14 @@
 import { assert } from "chai";
 import jsdom from "mocha-jsdom";
 import datePicker from "../date-picker";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("date-picker", () => {
   let $;
 
-  jsdom();
+  jsdom({ url: testURL });
 
   beforeEach(() => {
     $ = jsdom.rerequire("jquery");

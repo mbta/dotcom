@@ -2,9 +2,12 @@ import { expect } from "chai";
 import jsdom from "mocha-jsdom";
 import sinon from "sinon";
 import Algolia from "../algolia-search";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("Algolia", function() {
-  jsdom();
+  jsdom({ url: testURL });
 
   beforeEach(function() {
     window.jQuery = jsdom.rerequire("jquery");

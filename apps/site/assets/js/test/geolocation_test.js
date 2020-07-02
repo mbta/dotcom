@@ -7,10 +7,13 @@ import {
   locationError
 } from "../geolocation";
 import sinon from "sinon";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("geolocation", () => {
   var $;
-  jsdom();
+  jsdom({ url: testURL });
 
   beforeEach(() => {
     $ = jsdom.rerequire("jquery");

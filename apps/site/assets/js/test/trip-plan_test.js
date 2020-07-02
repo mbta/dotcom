@@ -2,10 +2,32 @@ import { assert } from "chai";
 import jsdom from "mocha-jsdom";
 import { TripPlannerTimeControls } from "../trip-planner-time-controls";
 import { TripPlannerLocControls } from "../trip-planner-location-controls";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
+
+const tripPlanForm = `<form id="planner-form">
+        <input class="location-input" data-autocomplete="true" id="from" name="plan[from]" placeholder="Ex: 10 Park Plaza" type="text" autocomplete="off">
+        <input type="hidden" id="from_latitude" name="plan[from_latitude]">
+        <input type="hidden" id="from_longitude" name="plan[from_longitude]">
+        <input class="location-input" data-autocomplete="true" id="to" name="plan[to]" placeholder="Ex: Boston Children's Museum" type="text" autocomplete="off">
+        <div id="trip-plan-reverse-control"></div>
+        <div id="trip-plan__container--to"></div>
+        <div id="trip-plan__container--from"></div>
+        <div id="trip-plan__required--to"></div>
+        <div id="trip-plan__required--from"></div>
+        <div id="trip-plan__reset--from"></div>
+        <div id="trip-plan__reset--to"></div>
+        <div id="powered-by-google-logo"></div>
+        <div id="trip-plan__submit"></div>
+        <input type="hidden" id="to_latitude" name="plan[to_latitude]">
+        <input type="hidden" id="to_longitude" name="plan[to_longitude]">
+      </form>`;
 
 describe("trip-plan", () => {
   var $;
   jsdom({
+    url: testURL,
     scripts: [
       "https://maps.googleapis.com/maps/api/js?libraries=places,geometry"
     ]

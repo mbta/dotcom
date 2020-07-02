@@ -5,10 +5,13 @@ import {
   validateLocationForm,
   constructUrl
 } from "../address-search";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("input-location", () => {
   var $;
-  jsdom();
+  jsdom({ url: testURL });
 
   beforeEach(() => {
     $ = jsdom.rerequire("jquery");
@@ -99,13 +102,13 @@ describe("input-location", () => {
         }
       };
       const expected =
-        "about://blank?latitude=8&longitude=5&location[address]=Boston#input";
+        `${testURL}/?latitude=8&longitude=5&location[address]=Boston#input`;
       assert.equal(expected, constructUrl(fake_place, placeInput));
     });
 
     it("Builds URL with place name when place has no geometry", () => {
       const named_place = { name: "Park" };
-      const expected = "about://blank?location[address]=Park#input";
+      const expected = `${testURL}/?location[address]=Park#input`;
       assert.equal(expected, constructUrl(named_place, placeInput));
     });
   });

@@ -3,9 +3,12 @@ import jsdom from "mocha-jsdom";
 import googleMapsLoaded, {
   doWhenGoogleMapsIsReady
 } from "../google-maps-loaded";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("google-map-loaded", () => {
-  jsdom();
+  jsdom({ url: testURL });
 
   before(() => {
     googleMapsLoaded();

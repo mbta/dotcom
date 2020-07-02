@@ -3,9 +3,13 @@ import jsdom from "mocha-jsdom";
 import sinon from "sinon";
 import { AlgoliaWithGeo } from "../algolia-search-with-geo";
 import * as GoogleMapsHelpers from "../google-maps-helpers";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("AlgoliaWithGeo", function() {
   jsdom({
+    url: testURL,
     scripts: [
       "https://maps.googleapis.com/maps/api/js?libraries=places,geometry"
     ]

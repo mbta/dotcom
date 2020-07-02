@@ -5,6 +5,9 @@ import Algolia from "../algolia-search";
 import { AlgoliaEmbeddedSearch } from "../algolia-embedded-search";
 import AlgoliaAutocomplete from "../algolia-autocomplete";
 import { PAGE_IDS, buildOptions } from "../algolia-embedded-search-options";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 function setup(idx) {
   const id = PAGE_IDS[idx];
@@ -27,7 +30,7 @@ function setup(idx) {
 }
 
 describe("AlgoliaEmbeddedSearch", () => {
-  jsdom();
+  jsdom({ url: testURL });
   beforeEach(() => {
     window.jQuery = jsdom.rerequire("jquery");
     window.autocomplete = jsdom.rerequire("autocomplete.js");

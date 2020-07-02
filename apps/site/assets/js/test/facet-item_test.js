@@ -1,9 +1,12 @@
 import jsdom from "mocha-jsdom";
 import { expect } from "chai";
 import { FacetItem } from "../facet-item";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("FacetItem", () => {
-  jsdom();
+  jsdom({ url: testURL });
 
   function getFeatureIcon(feature) {
     return `<span id=${feature}></span>`;
