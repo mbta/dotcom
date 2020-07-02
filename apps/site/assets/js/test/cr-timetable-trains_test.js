@@ -3,9 +3,12 @@ import sinon from "sinon";
 import { expect } from "chai";
 import { CRTimetableTrains, channelDataId } from "../cr-timetable-trains";
 import { trainIcon } from "../cr-timetable-train-icons";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("CRTimetableTrains", () => {
-  jsdom();
+  jsdom({ url: testURL });
 
   beforeEach(() => {
     window.$ = jsdom.rerequire("jquery");

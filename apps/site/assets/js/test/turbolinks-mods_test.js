@@ -5,11 +5,14 @@ import {
   samePathWithQueryString,
   samePathWithAnchor
 } from "../turbolinks-mods";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("turbolinks", () => {
   describe("on turbolinks:render", () => {
     var $;
-    jsdom();
+    jsdom({ url: testURL });
 
     before(() => {
       $ = jsdom.rerequire("jquery");

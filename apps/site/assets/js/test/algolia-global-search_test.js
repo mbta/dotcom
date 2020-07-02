@@ -3,12 +3,16 @@ import sinon from "sinon";
 import jsdom from "mocha-jsdom";
 import Algolia from "../algolia-search";
 import { AlgoliaGlobalSearch } from "../algolia-global-search";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable func-names */
 
 describe("AlgoliaGlobalSearch", function() {
   jsdom({
+    url: testURL,
     scripts: [
       "https://maps.googleapis.com/maps/api/js?libraries=places,geometry"
     ]

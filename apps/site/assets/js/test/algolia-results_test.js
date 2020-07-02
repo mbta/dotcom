@@ -2,6 +2,9 @@ import { assert, expect } from "chai";
 import jsdom from "mocha-jsdom";
 import sinon from "sinon";
 import { AlgoliaResults } from "../algolia-results";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("AlgoliaResults", () => {
   jsdom();

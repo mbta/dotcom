@@ -3,11 +3,14 @@ import jsdom from "mocha-jsdom";
 import sinon from "sinon";
 import AlgoliaAutocomplete from "../algolia-autocomplete";
 import Algolia from "../algolia-search";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 /* eslint-disable no-underscore-dangle */
 
 describe("AlgoliaAutocomplete", () => {
-  jsdom();
+  jsdom({ url: testURL });
   const selectors = {
     input: "autocomplete-input",
     resetButton: "autocomplete-reset"

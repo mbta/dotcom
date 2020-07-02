@@ -6,6 +6,9 @@ import AlgoliaAutocompleteWithGeo, {
 } from "../algolia-autocomplete-with-geo";
 import * as GoogleMapsHelpers from "../google-maps-helpers";
 import google from "./google-stubs";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 /* eslint-disable func-names */
 /* eslint-disable prefer-arrow-callback */
@@ -13,7 +16,7 @@ import google from "./google-stubs";
 
 describe("AlgoliaAutocompleteWithGeo", function() {
   let $;
-  jsdom();
+  jsdom({ url: testURL });
   const selectors = {
     input: "autocomplete-input",
     container: "autocomplete-container",

@@ -2,9 +2,12 @@ import { expect } from "chai";
 import jsdom from "mocha-jsdom";
 import { initCarets } from "../header-dropdowns";
 import sinon from "sinon";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("headerDropdowns", function() {
-  jsdom();
+  jsdom({ url: testURL });
 
   beforeEach(function() {
     document.body.innerHTML = `

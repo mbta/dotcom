@@ -3,9 +3,12 @@ import sinon from "sinon";
 import { expect } from "chai";
 import { doInit, SELECTORS } from "../algolia-homepage-search";
 import { AlgoliaEmbeddedSearch } from "../algolia-embedded-search";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("HomepageSearch", () => {
-  jsdom();
+  jsdom({ url: testURL });
 
   beforeEach(() => {
     window.jQuery = jsdom.rerequire("jquery");

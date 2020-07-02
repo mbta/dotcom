@@ -1,10 +1,13 @@
 import { assert } from "chai";
 import jsdom from "mocha-jsdom";
 import { default as submitOnEvents, mergeAction } from "../submit-on-events";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("submit-on-event", () => {
   var $;
-  jsdom();
+  jsdom({ url: testURL });
 
   before(() => {
     $ = jsdom.rerequire("jquery");

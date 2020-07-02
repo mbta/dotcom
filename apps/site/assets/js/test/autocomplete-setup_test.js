@@ -1,10 +1,13 @@
 import { assert } from "chai";
 import jsdom from "mocha-jsdom";
 import { addLatLngListeners } from "../autocomplete-setup";
+import testConfig from "./../../ts/jest.config";
+
+const { testURL } = testConfig;
 
 describe("trip-plan", () => {
   var $;
-  jsdom();
+  jsdom({ url: testURL });
 
   beforeEach(() => {
     $ = jsdom.rerequire("jquery");
