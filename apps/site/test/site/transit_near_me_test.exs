@@ -488,7 +488,7 @@ defmodule Site.TransitNearMeTest do
     end
   end
 
-  describe "filter_predicted_schedules_with_time_data_and_crowding/2" do
+  describe "filter_enhanced_predicted_schedules/2" do
     @predicted_schedule %PredictedSchedule{
       schedule: %Schedule{time: DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")}
     }
@@ -506,7 +506,7 @@ defmodule Site.TransitNearMeTest do
     }
 
     test "at least 1 result contains a prediction, up to 2 predictions are returned" do
-      predicted_schedules_with_time_data_and_crowding = [
+      enhanced_predicted_schedules = [
         %{
           predicted_schedule: @predicted_schedule,
           time_data: @time_data_without_prediction,
@@ -550,20 +550,20 @@ defmodule Site.TransitNearMeTest do
       ]
 
       assert [
-               predicted_schedule_with_time_data_and_crowding1,
-               predicted_schedule_with_time_data_and_crowding2
+               enhanced_predicted_schedule1,
+               enhanced_predicted_schedule2
              ] =
-               TransitNearMe.filter_predicted_schedules_with_time_data_and_crowding(
-                 predicted_schedules_with_time_data_and_crowding,
+               TransitNearMe.filter_enhanced_predicted_schedules(
+                 enhanced_predicted_schedules,
                  %Route{type: 3}
                )
 
-      assert predicted_schedule_with_time_data_and_crowding1.time_data.prediction != nil
-      assert predicted_schedule_with_time_data_and_crowding2.time_data.prediction != nil
+      assert enhanced_predicted_schedule1.time_data.prediction != nil
+      assert enhanced_predicted_schedule2.time_data.prediction != nil
     end
 
     test "1 result contains a prediction, only 1 prediction is returned if rest are schedules" do
-      predicted_schedules_with_time_data_and_crowding = [
+      enhanced_predicted_schedules = [
         %{
           predicted_schedule: @predicted_schedule,
           time_data: @time_data_without_prediction,
@@ -597,18 +597,18 @@ defmodule Site.TransitNearMeTest do
       ]
 
       assert [
-               predicted_schedule_with_time_data_and_crowding
+               enhanced_predicted_schedule
              ] =
-               TransitNearMe.filter_predicted_schedules_with_time_data_and_crowding(
-                 predicted_schedules_with_time_data_and_crowding,
+               TransitNearMe.filter_enhanced_predicted_schedules(
+                 enhanced_predicted_schedules,
                  %Route{type: 3}
                )
 
-      assert predicted_schedule_with_time_data_and_crowding.time_data.prediction != nil
+      assert enhanced_predicted_schedule.time_data.prediction != nil
     end
 
     test "no results contains a prediction, only return 1 schedule" do
-      predicted_schedules_with_time_data_and_crowding = [
+      enhanced_predicted_schedules = [
         %{
           predicted_schedule: @predicted_schedule,
           time_data: @time_data_without_prediction,
@@ -631,13 +631,13 @@ defmodule Site.TransitNearMeTest do
         }
       ]
 
-      assert [predicted_schedule_with_time_data_and_crowding] =
-               TransitNearMe.filter_predicted_schedules_with_time_data_and_crowding(
-                 predicted_schedules_with_time_data_and_crowding,
+      assert [enhanced_predicted_schedule] =
+               TransitNearMe.filter_enhanced_predicted_schedules(
+                 enhanced_predicted_schedules,
                  %Route{type: 3}
                )
 
-      assert predicted_schedule_with_time_data_and_crowding.time_data.prediction == nil
+      assert enhanced_predicted_schedule.time_data.prediction == nil
     end
   end
 
