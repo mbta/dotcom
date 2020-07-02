@@ -488,7 +488,7 @@ defmodule Site.TransitNearMeTest do
     end
   end
 
-  describe "filter_enhanced_predicted_schedules/2" do
+  describe "filter_predicted_schedules_for_display/2" do
     @predicted_schedule %PredictedSchedule{
       schedule: %Schedule{time: DateTime.from_naive!(~N[2019-02-27T12:00:00], "Etc/UTC")}
     }
@@ -553,7 +553,7 @@ defmodule Site.TransitNearMeTest do
                enhanced_predicted_schedule1,
                enhanced_predicted_schedule2
              ] =
-               TransitNearMe.filter_enhanced_predicted_schedules(
+               TransitNearMe.filter_predicted_schedules_for_display(
                  enhanced_predicted_schedules,
                  %Route{type: 3}
                )
@@ -599,7 +599,7 @@ defmodule Site.TransitNearMeTest do
       assert [
                enhanced_predicted_schedule
              ] =
-               TransitNearMe.filter_enhanced_predicted_schedules(
+               TransitNearMe.filter_predicted_schedules_for_display(
                  enhanced_predicted_schedules,
                  %Route{type: 3}
                )
@@ -632,7 +632,7 @@ defmodule Site.TransitNearMeTest do
       ]
 
       assert [enhanced_predicted_schedule] =
-               TransitNearMe.filter_enhanced_predicted_schedules(
+               TransitNearMe.filter_predicted_schedules_for_display(
                  enhanced_predicted_schedules,
                  %Route{type: 3}
                )
