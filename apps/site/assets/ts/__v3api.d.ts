@@ -1,3 +1,5 @@
+import { CrowdingType } from "./schedule/components/__schedule";
+
 export interface Direction {
   direction_id: DirectionId;
   headsigns: Headsign[];
@@ -15,6 +17,17 @@ export interface Headsign {
   headsign?: string;
   times: PredictedOrScheduledTime[];
   train_number: string | null;
+}
+
+export interface HeadsignWithCrowding {
+  name: string;
+  time_data_with_crowding_list: PredictedOrScheduledTimeWithCrowding[];
+  train_number: string | null;
+}
+
+export interface PredictedOrScheduledTimeWithCrowding {
+  time_data: PredictedOrScheduledTime;
+  crowding: CrowdingType;
 }
 
 export type Mode = "commuter_rail" | "subway" | "bus" | "ferry";

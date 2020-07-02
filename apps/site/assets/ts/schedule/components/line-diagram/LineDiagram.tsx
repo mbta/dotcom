@@ -20,7 +20,7 @@ import SingleStop from "./SingleStop";
 import ScheduleFinderModal, {
   Mode as ModalMode
 } from "../schedule-finder/ScheduleFinderModal";
-import { DirectionId, Headsign, Route } from "../../../__v3api";
+import { DirectionId, HeadsignWithCrowding, Route } from "../../../__v3api";
 import ExpandableBranch from "./ExpandableBranch";
 import useFilteredList from "../../../hooks/useFilteredList";
 import SearchBox from "../../../components/SearchBox";
@@ -41,7 +41,7 @@ export interface LiveDataByStop {
 }
 
 export interface LiveData {
-  headsigns: Headsign[];
+  headsigns: HeadsignWithCrowding[];
   vehicles: LineDiagramVehicle[];
 }
 
