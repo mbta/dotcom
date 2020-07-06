@@ -383,6 +383,15 @@
   &__summary .schedule-table__cell {
     padding: 0;
   }
+
+  .c-crowding-pill {
+    &__label {
+      vertical-align: baseline;
+    }
+    .c-icon__crowding {
+      vertical-align: baseline;
+    }
+  }
 }
 
 .schedule-table__times {

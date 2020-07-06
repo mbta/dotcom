@@ -84,12 +84,16 @@ describe("TableRow", () => {
     } as Journey;
 
     const wrapper = mount(
-      <TableRow
-        input={input}
-        journey={railReplacementJourney}
-        isSchoolTrip={false}
-        anySchoolTrips={false}
-      />
+      <table>
+        <tbody>
+          <TableRow
+            input={input}
+            journey={railReplacementJourney}
+            isSchoolTrip={false}
+            anySchoolTrips={false}
+          />
+        </tbody>
+      </table>
     );
 
     expect(wrapper.find("td.schedule-table__cell").length).toBe(4);
@@ -146,26 +150,26 @@ describe("TableRow", () => {
         type: "FETCH_COMPLETE"
       });
     });
-  });
 
-  it("throws an error if the fetch fails", async () => {
-    window.fetch = jest.fn().mockImplementation(
-      () =>
-        new Promise((resolve: Function) =>
-          resolve({
-            ok: false,
-            status: 500,
-            statusText: "you broke it"
-          })
-        )
-    );
+    it("throws an error if the fetch fails", async () => {
+      window.fetch = jest.fn().mockImplementation(
+        () =>
+          new Promise((resolve: Function) =>
+            resolve({
+              ok: false,
+              status: 500,
+              statusText: "you broke it"
+            })
+          )
+      );
 
-    const dispatchSpy = jest.fn();
+      const dispatchSpy = jest.fn();
 
-    await await fetchJourney(journey.trip.id, input, dispatchSpy);
+      await await fetchJourney(journey.trip.id, input, dispatchSpy);
 
-    expect(dispatchSpy).toHaveBeenCalledTimes(2);
-    expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_STARTED" });
-    expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_ERROR" });
+      expect(dispatchSpy).toHaveBeenCalledTimes(2);
+      expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_STARTED" });
+      expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_ERROR" });
+    });
   });
 });

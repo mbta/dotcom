@@ -141,6 +141,14 @@ $line-width: 8px; // width of the colored line in the diagram
   }
 }
 
+.m-schedule-table-crowding {
+  margin-left: .5rem;
+}
+
+.m-schedule-diagram__prediction-crowding span {
+  vertical-align: text-top;
+}
+
 // "View schedules" link
 .m-schedule-diagram__footer {
   margin-top: $base-spacing / 2;

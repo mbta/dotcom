@@ -1,22 +1,21 @@
 import React, { useEffect, useState, useReducer, ReactElement } from "react";
 import { reducer } from "../../../helpers/fetch";
-import { Journey, TripInfo } from "../__trips";
-import { modeIcon, caret } from "../../../helpers/icon";
-import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
+import { Journey, EnhancedJourney, TripInfo } from "../__trips";
+import { modeIcon } from "../../../helpers/icon";
 import { breakTextAtSlash } from "../../../helpers/text";
-import { TripDetails } from "./TripDetails";
 import { UserInput } from "../../components/__schedule";
+import AccordionRow from "./AccordionRow";
 
 interface TableRowProps {
   input: UserInput;
-  journey: Journey;
+  journey: Journey | EnhancedJourney;
   isSchoolTrip: boolean;
   anySchoolTrips: boolean;
 }
 
 interface AccordionProps {
   input: UserInput;
-  journey: Journey;
+  journey: Journey | EnhancedJourney;
   contentComponent: () => ReactElement<HTMLElement>;
 }
 
@@ -134,36 +133,13 @@ export const Accordion = ({
   );
 
   return (
-    <>
-      <tr
-        className={
-          expanded ? "schedule-table__row--expanded" : "schedule-table__row"
-        }
-        aria-controls={`trip-${tripId}`}
-        aria-expanded={expanded}
-        role="button"
-        onClick={toggle}
-        onKeyPress={e => handleReactEnterKeyPress(e, toggle)}
-        tabIndex={0}
-      >
-        {contentComponent()}
-        <td className="schedule-table__cell schedule-table__cell--tiny">
-          {expanded
-            ? caret("c-expandable-block__header-caret--white", expanded)
-            : caret("c-expandable-block__header-caret", expanded)}
-        </td>
-      </tr>
-      {expanded && (
-        <tr id={`trip-${tripId}-expanded`}>
-          <td
-            colSpan={journey.route.type === 2 ? 4 : 3}
-            className="schedule-table__cell schedule-table__cell--expanded"
-          >
-            <TripDetails state={state} showFare={journey.route.type === 2} />
-          </td>
-        </tr>
-      )}
-    </>
+    <AccordionRow
+      state={state}
+      journey={journey}
+      contentComponent={contentComponent}
+      expanded={expanded}
+      toggle={toggle}
+    />
   );
 };
 

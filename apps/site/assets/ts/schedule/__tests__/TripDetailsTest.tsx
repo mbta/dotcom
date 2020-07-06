@@ -7,11 +7,12 @@ import tripData from "./tripInfo.json";
 import crTripData from "./crTripInfo.json";
 import tripDataWithPredictions from "./tripInfoWithPredictions.json";
 import crTripDataWithDelays from "./crTripInfoWithDelays.json";
+import CrowdingPill from "../components/line-diagram/CrowdingPill";
 
-const tripInfo: TripInfo = tripData as TripInfo;
-const crTripInfo: TripInfo = crTripData as TripInfo;
-const tripInfoWithPredictions: TripInfo = tripDataWithPredictions as TripInfo;
-const crTripInfoWithDelays: TripInfo = crTripDataWithDelays as TripInfo;
+const tripInfo: TripInfo = (tripData as unknown) as TripInfo;
+const crTripInfo: TripInfo = (crTripData as unknown) as TripInfo;
+const tripInfoWithPredictions: TripInfo = (tripDataWithPredictions as unknown) as TripInfo;
+const crTripInfoWithDelays: TripInfo = (crTripDataWithDelays as unknown) as TripInfo;
 
 const successState = {
   data: tripInfo,
@@ -82,5 +83,33 @@ describe("TripDetails", () => {
       <TripDetails state={crSuccessStateWithDelays} showFare={false} />
     );
     expect(tree).toMatchSnapshot();
+  });
+
+  it("renders the pill containing crowding information", () => {
+    const tripInfoWithCrowding: TripInfo = {
+      ...tripInfo,
+      vehicle: {
+        crowding: "some_crowding",
+        trip_id: "",
+        stop_id: "",
+        status: "in_transit"
+      }
+    };
+
+    createReactRoot();
+    const tree = renderer.create(
+      <TripDetails
+        state={{
+          data: tripInfoWithCrowding,
+          isLoading: false,
+          error: false
+        }}
+        showFare={false}
+      />
+    );
+
+    expect(tree.root.findByType(CrowdingPill).props.crowding).toBe(
+      "some_crowding"
+    );
   });
 });

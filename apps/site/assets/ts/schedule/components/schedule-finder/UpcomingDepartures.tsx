@@ -1,18 +1,21 @@
-import React, { ReactElement } from "react";
+import React, { ReactElement, useEffect, useReducer, useState } from "react";
 import {
   timeForCommuterRail,
   trackForCommuterRail,
   statusForCommuterRail
 } from "../../../helpers/prediction-helpers";
-import { modeIcon } from "../../../helpers/icon";
+import { modeIcon, crowdingIcon } from "../../../helpers/icon";
+import { reducer } from "../../../helpers/fetch";
 import { isABusRoute } from "../../../models/route";
 import { modeBgClass } from "../../../stop/components/RoutePillList";
 import { Route } from "../../../__v3api";
 import { EnhancedJourney } from "../__trips";
 import { breakTextAtSlash } from "../../../helpers/text";
-import { Accordion } from "./TableRow";
+import { Accordion as LazyAccordion } from "./TableRow";
+import AccordionRow from "./AccordionRow";
 import { UserInput } from "../../components/__schedule";
 import liveClockSvg from "../../../../static/images/icon-live-clock.svg";
+import Loading from "../../../components/Loading";
 
 interface State {
   data: EnhancedJourney[] | null;
@@ -25,19 +28,23 @@ interface Props {
   input: UserInput;
 }
 
+interface AccordionProps {
+  state: State;
+  journey: EnhancedJourney;
+  contentComponent: () => ReactElement<HTMLElement>;
+}
+
+type FetchAction =
+  | { type: "FETCH_COMPLETE"; payload: EnhancedJourney[] }
+  | { type: "FETCH_ERROR" }
+  | { type: "FETCH_STARTED" };
+
 // Predictions are nil unless they have a time. This helps
 // prevent far-future trips from appearing in Upcoming Departures.
 const hasPredictions = (journeys: EnhancedJourney[]): boolean =>
   journeys.filter(journey => journey.realtime.prediction !== null).length > 0;
 
-// Sometimes using the route.id from the journey is desired over the route.id
-// from input (e.g. so we can get trips for "Green-D" instead of "Green")
-const getAdjustedInput = (
-  input: UserInput,
-  journey: EnhancedJourney
-): UserInput => ({ ...input, ...{ route: journey.route.id } });
-
-export const RoutePillSmall = ({
+const RoutePillSmall = ({
   route
 }: {
   route: Route;
@@ -48,17 +55,40 @@ export const RoutePillSmall = ({
     </span>
   </span>
 );
-interface TableRowProps {
-  input: UserInput;
-  journey: EnhancedJourney;
-}
 
-const BusTableRow = ({
+export const crowdingInformation = (
+  journey: EnhancedJourney,
+  tripId: string
+): ReactElement<HTMLElement> | null => {
+  const { tripInfo } = journey;
+  if (isABusRoute(journey.route) && tripInfo) {
+    // Only display the crowding information if the trip ID of the vehicle matches the trip ID of the prediction being displayed.
+    const showCrowding =
+      !!tripInfo.vehicle &&
+      !!tripInfo.vehicle.crowding &&
+      tripInfo.vehicle.trip_id === tripId;
+
+    return (
+      <span className="m-schedule-table-crowding">
+        {crowdingIcon(
+          `c-icon__crowding--${
+            showCrowding ? tripInfo!.vehicle!.crowding! : "crowding_unavailable"
+          }`
+        )}
+      </span>
+    );
+  }
+
+  return null;
+};
+
+export const BusTableRow = ({
   journey
 }: {
   journey: EnhancedJourney;
 }): ReactElement<HTMLElement> | null => {
   const { trip, route, realtime } = journey;
+
   return (
     <>
       <td className="schedule-table__cell schedule-table__cell--headsign">
@@ -73,12 +103,13 @@ const BusTableRow = ({
       </td>
       <td className="schedule-table__cell schedule-table__cell--time u-nowrap u-bold text-right">
         {realtime.prediction!.time}
+        {crowdingInformation(journey, trip.id)}
       </td>
     </>
   );
 };
 
-const CrTableRow = ({
+export const CrTableRow = ({
   journey
 }: {
   journey: EnhancedJourney;
@@ -115,9 +146,14 @@ const CrTableRow = ({
 };
 
 const TableRow = ({
+  state,
   input,
   journey
-}: TableRowProps): ReactElement<HTMLElement> | null => {
+}: {
+  state: State;
+  input: UserInput;
+  journey: EnhancedJourney;
+}): ReactElement<HTMLElement> | null => {
   const { realtime } = journey;
 
   if (realtime.prediction === null) return null;
@@ -127,11 +163,46 @@ const TableRow = ({
       ? () => <BusTableRow journey={journey} />
       : () => <CrTableRow journey={journey} />;
 
+  if (isABusRoute(journey.route)) {
+    return (
+      <Accordion
+        state={state}
+        journey={journey}
+        contentComponent={contentComponent}
+      />
+    );
+  }
+
   return (
-    <Accordion
-      input={getAdjustedInput(input, journey)}
+    <LazyAccordion
+      input={input}
       journey={journey}
       contentComponent={contentComponent}
+    />
+  );
+};
+
+const Accordion = ({
+  state,
+  journey,
+  contentComponent
+}: AccordionProps): ReactElement<HTMLElement> => {
+  const adjustedState = {
+    data: journey.tripInfo,
+    isLoading: state.isLoading,
+    error: state.error
+  };
+
+  const [expanded, setExpanded] = useState(false);
+  const toggle = (): void => setExpanded(!expanded);
+
+  return (
+    <AccordionRow
+      state={adjustedState}
+      journey={journey}
+      contentComponent={contentComponent}
+      expanded={expanded}
+      toggle={toggle}
     />
   );
 };
@@ -152,17 +223,50 @@ const UpcomingDeparturesHeader = (
   </div>
 );
 
-export const UpcomingDepartures = ({
-  state,
-  input
-}: Props): ReactElement<HTMLElement> | null => {
-  const { data: journeys, error, isLoading } = state;
+export const fetchData = async (
+  input: UserInput,
+  journeys: EnhancedJourney[],
+  dispatch: (action: FetchAction) => void
+): Promise<EnhancedJourney[]> => {
+  const { route, origin, direction, date } = input;
 
-  if (error || isLoading) return null;
+  dispatch({ type: "FETCH_STARTED" });
+
+  return Promise.all(
+    journeys
+      .filter(journey => journey.realtime.prediction !== null)
+      .map(async journey => {
+        // Sometimes using the route.id from the journey is desired over the route.id
+        // from input (e.g. so we can get trips for "Green-D" instead of "Green")
+        const adjustedRoute = journey.route.id;
+
+        const tripId = journey.trip.id;
+
+        const tripInfo = await await fetch(
+          `/schedules/finder_api/trip?id=${tripId}&route=${adjustedRoute ||
+            route}&date=${date}&direction=${direction}&stop=${origin}`
+        )
+          .then(res => res.json())
+          .catch(() => {
+            dispatch({ type: "FETCH_ERROR" });
+          });
+
+        return { ...journey, tripInfo };
+      })
+  );
+};
+
+export const upcomingDeparturesTable = (
+  journeysWithTripInfo: EnhancedJourney[],
+  state: State,
+  input: UserInput
+): ReactElement<HTMLElement> => {
+  const headerLabel = "Trip Details";
+
   return (
     <>
       {UpcomingDeparturesHeader}
-      {journeys !== null && hasPredictions(journeys) ? (
+      {journeysWithTripInfo !== null && hasPredictions(journeysWithTripInfo) ? (
         <table className="schedule-table schedule-table--upcoming">
           <thead className="schedule-table__header">
             <tr className="schedule-table__row-header">
@@ -170,19 +274,28 @@ export const UpcomingDepartures = ({
                 Destinations
               </th>
               <th scope="col" colSpan={2} className="schedule-table__cell">
-                Trip Details
+                {isABusRoute(journeysWithTripInfo[0].route) ? (
+                  <span className="trip-details-table__title">
+                    {headerLabel}
+                  </span>
+                ) : (
+                  headerLabel
+                )}
               </th>
             </tr>
           </thead>
           <tbody>
-            {journeys.map((journey: EnhancedJourney, idx: number) => (
-              <TableRow
-                journey={journey}
-                input={getAdjustedInput(input, journey)}
-                // eslint-disable-next-line react/no-array-index-key
-                key={idx}
-              />
-            ))}
+            {journeysWithTripInfo.map(
+              (journey: EnhancedJourney, idx: number) => (
+                <TableRow
+                  state={state}
+                  input={input}
+                  journey={journey}
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={idx}
+                />
+              )
+            )}
           </tbody>
         </table>
       ) : (
@@ -192,6 +305,75 @@ export const UpcomingDepartures = ({
       )}
     </>
   );
+};
+
+export const UpcomingDepartures = ({
+  state: stateFromProps,
+  input
+}: Props): ReactElement<HTMLElement> | null => {
+  const [state, dispatch] = useReducer(reducer, {
+    data: null,
+    isLoading: false,
+    error: false
+  });
+
+  const { error, isLoading } = stateFromProps;
+
+  useEffect(
+    () => {
+      if (
+        stateFromProps.data !== null &&
+        !stateFromProps.isLoading &&
+        !stateFromProps.error &&
+        (state.data === null && !state.isLoading && !state.error)
+      ) {
+        const journeys = stateFromProps.data;
+
+        const { route, origin, direction, date } = input;
+
+        if (
+          journeys.length > 0 &&
+          isABusRoute(journeys[0].route) &&
+          (route !== undefined &&
+            origin !== undefined &&
+            direction !== undefined &&
+            date !== undefined)
+        ) {
+          fetchData(input, journeys, dispatch)
+            .then((retrievedJourneysWithTripInfo: EnhancedJourney[]) => {
+              dispatch({
+                type: "FETCH_COMPLETE",
+                payload: retrievedJourneysWithTripInfo
+              });
+            })
+            .catch(() => dispatch({ type: "FETCH_ERROR" }));
+        } else {
+          dispatch({
+            type: "FETCH_COMPLETE",
+            payload: journeys
+          });
+        }
+      }
+    },
+    // including 'input' will call 'fetch' again so it should not be included
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [
+      state.data,
+      state.error,
+      state.isLoading,
+      stateFromProps.data,
+      stateFromProps.error,
+      stateFromProps.isLoading
+    ]
+  );
+
+  if (error || isLoading || state.error) return null;
+
+  if (state.isLoading) return <Loading />;
+
+  const journeysWithTripInfo = state.data;
+
+  return <>{upcomingDeparturesTable(journeysWithTripInfo, state, input)}</>;
 };
 
 export default UpcomingDepartures;
