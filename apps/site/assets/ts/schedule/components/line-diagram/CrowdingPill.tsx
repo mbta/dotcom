@@ -2,7 +2,7 @@ import React from "react";
 import { CrowdingType } from "../../components/__schedule";
 import { crowdingIcon } from "../../../helpers/icon";
 
-const crowdingDescriptions = {
+export const crowdingDescriptions: { [key: string]: string } = {
   // eslint-disable-next-line @typescript-eslint/camelcase
   not_crowded: "Not crowded",
   // eslint-disable-next-line @typescript-eslint/camelcase

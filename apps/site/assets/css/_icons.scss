@@ -319,7 +319,7 @@ a {
 }
 
 .c-icon__crowding {
-  fill: $gray-lightest;
+  fill: $gray-lighter;
   height: $base-spacing;
   line-height: $base-spacing;
   width: $base-spacing;
@@ -343,6 +343,14 @@ a {
 
   &--crowded {
     color: $crowding-crowded;
+
+    .person {
+      fill: currentColor;
+    }
+  }
+
+  &--crowding_unavailable {
+    color: transparent;
 
     .person {
       fill: currentColor;

@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 import TripStop from "./TripStop";
 import { TripInfo } from "../__trips";
 import Loading from "../../../components/Loading";
+import CrowdingPill from "../line-diagram/CrowdingPill";
 
 export interface State {
   data: TripInfo | null;
@@ -66,9 +67,18 @@ export const TripDetails = ({
 
   if (!tripInfo) return null;
 
+  const crowding = tripInfo.vehicle ? tripInfo.vehicle.crowding : null;
+
   return (
     <table className="trip-details-table">
       <thead>
+        {crowding && (
+          <tr>
+            <th>
+              <CrowdingPill crowding={crowding} />
+            </th>
+          </tr>
+        )}
         <TripSummary tripInfo={tripInfo} />
         <tr>
           <th scope="col" className="schedule-table__cell">

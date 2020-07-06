@@ -1,4 +1,5 @@
 import { Route, Trip, Stop, PredictedOrScheduledTime } from "../../__v3api";
+import { CrowdingType } from "./__schedule";
 
 export interface Journey {
   trip: Trip;
@@ -8,6 +9,7 @@ export interface Journey {
 
 export interface EnhancedJourney extends Journey {
   realtime: PredictedOrScheduledTime;
+  tripInfo: TripInfo | null;
 }
 
 export interface Departure {
@@ -67,6 +69,7 @@ export interface Vehicle {
   trip_id: string;
   stop_id: string;
   status: string;
+  crowding: CrowdingType | null;
 }
 
 export interface Fare {
