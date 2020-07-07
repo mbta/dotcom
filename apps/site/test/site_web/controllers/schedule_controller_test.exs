@@ -205,7 +205,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "assigns schedules, frequency table, and origin for green line", %{conn: conn} do
-      conn = get(conn, trip_view_path(conn, :show, "Green-C", origin: "place-pktrm"))
+      conn = get(conn, trip_view_path(conn, :show, "Green-D", origin: "place-pktrm"))
       assert conn.assigns.schedules
       assert conn.assigns.journeys.journeys
       assert conn.assigns.frequency_table
