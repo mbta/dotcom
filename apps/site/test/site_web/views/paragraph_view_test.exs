@@ -23,6 +23,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
     PeopleGrid,
     PhotoGallery,
     TitleCardSet,
+    TripPlanWidget,
     Unknown
   }
 
@@ -696,6 +697,35 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       assert parent_1 == parent_2
       assert Floki.raw_html(body_1, encode: false) =~ "First section's content"
       assert Floki.raw_html(body_2, encode: false) =~ "Second section's content"
+    end
+
+    test "renders a CMS.Partial.Paragraph.TripPlanWidget with default content", %{conn: conn} do
+      rendered =
+        %TripPlanWidget{}
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "<h2>Plan a trip</h2>"
+      refute rendered =~ "<p>"
+
+      assert rendered =~
+               "Get trip suggestions"
+    end
+
+    test "renders a CMS.Partial.Paragraph.TripPlanWidget with custom content", %{conn: conn} do
+      rendered =
+        %TripPlanWidget{
+          right_rail: true,
+          title: "Secret Trip Plan Tool",
+          text: "Find the newest travel tips for your origin and destination.",
+          button_text: "Go fast"
+        }
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      assert rendered =~ "<h2>Secret Trip Plan Tool</h2>"
+      assert rendered =~ "<p>Find the newest travel tips for your origin and destination.</p>"
+      assert rendered =~ "Go fast"
     end
 
     test "renders a Paragraph.Unknown", %{conn: conn} do
