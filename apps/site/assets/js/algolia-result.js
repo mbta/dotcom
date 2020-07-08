@@ -222,7 +222,7 @@ function getPopularIcon(icon) {
 export function getIcon(hit, type) {
   switch (type) {
     case "locations":
-      return _contentIcon({ ...hit, content_type: "locations" });
+      return _contentIcon({ ...hit, _content_type: "locations" });
     case "stops":
       return _getStopOrStationIcon(hit);
 
@@ -545,7 +545,7 @@ export function parseResult(hit, index) {
 
 export function renderResult(hit, index) {
   if (hit._content_type == "project" || hit._content_type == "project_update") {
-    return TEMPLATES["projects"].render(parseResult(hit, "projects"));
+    return TEMPLATES.projects.render(parseResult(hit, "projects"));
   }
   if (TEMPLATES[index]) {
     return TEMPLATES[index].render(parseResult(hit, index));
