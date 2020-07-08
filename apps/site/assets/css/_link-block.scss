@@ -1,0 +1,35 @@
+// This component is for use cases involving displaying a link inside of another
+// link. This can happen when displaying an hyperlinked icon inside of a larger
+// hyperlink area. A bit of a workaround is needed because <a></a> inside of
+// <a></a> isn't valid HTML.. h/t https://stackoverflow.com/a/46707009 for this.
+
+// Expected markup example:
+//   <div class="c-link-block">
+//     <a class="c-link-block__outer-link" href="#overlay-link"></a>
+//     <div class="c-link-block__inner">
+//       This entire box is a hyperlink. (Kind of)<br><br><br><br>
+//       <a class="c-link-block__inner-link" href="#inner-link">I'm a W3C compliant hyperlink inside that box</a>
+//     </div>
+//   </div>
+
+.c-link-block {
+  position: relative;
+
+  &__outer-link {
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  &__inner {
+    pointer-events: none;
+    position: relative;
+    z-index: 1;
+  }
+
+  &__inner-link {
+    pointer-events: all;
+  }
+}
