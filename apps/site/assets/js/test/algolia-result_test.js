@@ -1,7 +1,7 @@
 import jsdom from "mocha-jsdom";
 import { expect, assert } from "chai";
 import * as AlgoliaResult from "../algolia-result";
-import testConfig from "./../../ts/jest.config";
+import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
 /* eslint-disable no-underscore-dangle */
@@ -435,6 +435,7 @@ describe("AlgoliaResult", () => {
         "fa-file-o"
       );
     });
+
     it("renders correct icon for route type", () => {
       expect(AlgoliaResult.getIcon(routeHits.commuterRail, "routes")).to.equal(
         "<span>commuter rail icon</span>"
@@ -462,6 +463,7 @@ describe("AlgoliaResult", () => {
         "<span>mattapan line icon</span>"
       );
     });
+
     it("renders stop icon for stops", () => {
       expect(AlgoliaResult.getIcon(stopHits.northStation, "stops")).to.equal(
         "<span>stop icon</span>"
@@ -505,6 +507,13 @@ describe("AlgoliaResult", () => {
       assert.notInclude(
         AlgoliaResult.getIcon(projectHits.subway, "projects"),
         "subway"
+      );
+    });
+
+    it("renders a map marker icon for locations", () => {
+      assert.include(
+        AlgoliaResult.getIcon(locationHits.bostonCommon, "locations"),
+        "fa-map-marker"
       );
     });
   });
