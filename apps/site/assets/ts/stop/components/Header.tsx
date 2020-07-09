@@ -3,7 +3,7 @@ import { Stop, EnhancedRoute } from "../../__v3api";
 import TabComponent from "./Tab";
 import { Tab, TypedRoutes, RouteWithDirections } from "./__stop";
 import { parkingIcon, modeIcon } from "../../helpers/icon";
-import { isSilverLine } from "../../helpers/silver-line";
+import { isASilverLineRoute } from "../../models/route";
 import accessible from "./StopAccessibilityIcon";
 import {
   Dispatch,
@@ -80,7 +80,7 @@ const doSplitSilverLine = (
   acc: BusRoutesAcc,
   route: RouteWithDirections
 ): BusRoutesAcc =>
-  isSilverLine(route.route.id)
+  isASilverLineRoute(route.route.id)
     ? { ...acc, silverLine: acc.silverLine.concat([route]) }
     : { ...acc, bus: acc.bus.concat([route]) };
 

@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { isSilverLine } from "../../helpers/silver-line";
+import { isASilverLineRoute } from "../../models/route";
 import formattedDate from "../../helpers/date";
 import { Teaser as Project, Route } from "../../__cms";
 import RouteIcon from "./RouteIcon";
@@ -61,7 +61,7 @@ const subwayTags = (routes: Route[]): string[] => {
     result.push("red");
   }
 
-  if (routes.find(route => isSilverLine(route.id))) {
+  if (routes.find(route => isASilverLineRoute(route.id))) {
     result.push("silver");
   }
 

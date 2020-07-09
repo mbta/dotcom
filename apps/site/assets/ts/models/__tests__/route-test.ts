@@ -1,5 +1,5 @@
 import { Route } from "../../__v3api";
-import { isABusRoute, isAGreenLineRoute } from "../route";
+import { isABusRoute, isAGreenLineRoute, isASilverLineRoute } from "../route";
 
 describe("isABusRoute", () => {
   test("returns whether or not this is a bus route", () => {
@@ -28,5 +28,24 @@ describe("isAGreenLineRoute", () => {
 
     expect(isAGreenLineRoute(greenLineRoute)).toBeTruthy();
     expect(isAGreenLineRoute(redLineRoute)).toBeFalsy();
+  });
+});
+
+describe("isASilverLineRoute", () => {
+  it("identifies silver line routes by ID", () => {
+    ["741", "742", "743", "746", "749", "751"].forEach(id => {
+      expect(isASilverLineRoute(id)).toEqual(true);
+    });
+  });
+
+  it("returns false if route is not silver line", () => {
+    expect(isASilverLineRoute("1")).toEqual(false);
+  });
+
+  it("handles routes as well as route IDs", () => {
+    const route: Route = {
+      id: "1"
+    } as Route;
+    expect(isASilverLineRoute(route)).toEqual(false);
   });
 });
