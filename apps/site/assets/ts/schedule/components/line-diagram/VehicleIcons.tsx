@@ -34,7 +34,7 @@ const tooltipText = (
   vehicle: LineDiagramVehicle
 ): string => {
   const status =
-    stopName !== null && stopName.length
+    stopName && stopName.length
       ? `${statusDescriptions[vehicle.status]} ${stopName}`
       : "";
 
