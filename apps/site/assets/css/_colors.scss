@@ -25,19 +25,34 @@ $gray-lightest: #e9eaed;
 $gray-bordered-background: #f2f3f5; // use as background color for gray elements that need a border
 $gray-image-overlay: rgba(28, 30, 35, .8);
 
+$mbta-line-colors: (
+  blue-line: #003da5,
+  green-line: #00843d,
+  orange-line: #ed8b00,
+  red-line: #da291c,
+  silver-line: #7c878e,
+  subway: $gray,
+  bus: #ffc72c,
+  logan-express: #003383,
+  massport-shuttle: #003383,
+  commuter-rail: #80276c,
+  ferry: #008eaa,
+  the-ride: #52bbc5
+);
+
 // Modes and Lines
-$brand-blue-line: #003da5;
-$brand-green-line: #00843d;
-$brand-orange-line: #ed8b00;
-$brand-red-line: #da291c;
-$brand-silver-line: #7c878e;
-$brand-subway: $gray;
-$brand-bus: #ffc72c;
-$brand-logan-express: #003383;
-$brand-massport-shuttle: #003383;
-$brand-commuter-rail: #80276c;
-$brand-ferry: #008eaa;
-$brand-the-ride: #52bbc5;
+$brand-blue-line: map-get($mbta-line-colors, 'blue-line');
+$brand-green-line: map-get($mbta-line-colors, 'green-line');
+$brand-orange-line: map-get($mbta-line-colors, 'orange-line');
+$brand-red-line: map-get($mbta-line-colors, 'red-line');
+$brand-silver-line: map-get($mbta-line-colors, 'silver-line');
+$brand-subway: map-get($mbta-line-colors, 'subway');
+$brand-bus: map-get($mbta-line-colors, 'bus');
+$brand-logan-express: map-get($mbta-line-colors, 'logan-express');
+$brand-massport-shuttle: map-get($mbta-line-colors, 'massport-shuttle');
+$brand-commuter-rail: map-get($mbta-line-colors, 'commuter-rail');
+$brand-ferry: map-get($mbta-line-colors, 'ferry');
+$brand-the-ride: map-get($mbta-line-colors, 'the-ride');
 
 // Alerts
 $alert-color: $brand-secondary;
