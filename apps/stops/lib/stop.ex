@@ -35,7 +35,7 @@ defmodule Stops.Stop do
           id: id_t,
           parent_id: id_t | nil,
           child_ids: [id_t],
-          name: String.t(),
+          name: String.t() | nil,
           note: String.t() | nil,
           accessibility: [String.t()],
           address: String.t() | nil,

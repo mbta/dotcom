@@ -141,4 +141,42 @@ describe("VehicleIcons", () => {
 
     expect(tooltipText(wrapper)).toContain("Some crowding");
   });
+
+  it("does not include the status if we don't know the stop name", () => {
+    const nullWrapper = shallow(
+      <VehicleIcons
+        routeType={3}
+        stopName={null}
+        vehicles={[
+          {
+            id: "v1",
+            headsign: "Dest",
+            status: "incoming",
+            trip_name: "18",
+            crowding: null
+          }
+        ]}
+      />
+    );
+    const emptyWrapper = shallow(
+      <VehicleIcons
+        routeType={3}
+        stopName=""
+        vehicles={[
+          {
+            id: "v1",
+            headsign: "Dest",
+            status: "incoming",
+            trip_name: "18",
+            crowding: null
+          }
+        ]}
+      />
+    );
+
+    expect(tooltipText(nullWrapper)).toContain("Dest bus");
+    expect(tooltipText(nullWrapper)).not.toContain("is arriving at");
+    expect(tooltipText(emptyWrapper)).toContain("Dest bus");
+    expect(tooltipText(emptyWrapper)).not.toContain("is arriving at");
+  });
 });
