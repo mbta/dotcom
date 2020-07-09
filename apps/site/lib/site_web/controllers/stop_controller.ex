@@ -13,6 +13,7 @@ defmodule SiteWeb.StopController do
   alias Routes.{Group, Route}
   alias Site.TransitNearMe
   alias SiteWeb.AlertView
+  alias SiteWeb.ModeView
   alias SiteWeb.PartialView.HeaderTab
   alias SiteWeb.StopController.{CuratedStreetView, StopMap}
   alias SiteWeb.StopView.Parking
@@ -80,12 +81,24 @@ defmodule SiteWeb.StopController do
           end)
           |> Enum.map(&%{route: Route.to_json_safe(&1.route), direction_id: &1.direction_id})
 
+        high_alerts_for_routes =
+          Enum.map(routes_by_stop, & &1.id)
+          |> Alerts.Repo.by_route_ids(conn.assigns.date_time)
+          |> Enum.filter(&(&1.priority == :high))
+
+        routes_having_alerts =
+          routes_by_stop
+          |> Map.new(fn route ->
+            {route.id, ModeView.has_alert?(route, high_alerts_for_routes, conn.assigns.date_time)}
+          end)
+
         conn
         |> assign(:disable_turbolinks, true)
         |> alerts(stop)
         |> assign(:stop, stop)
         |> assign(:routes, json_safe_routes)
         |> assign(:routes_with_direction, json_safe_route_with_direction)
+        |> assign(:routes_having_alerts, routes_having_alerts)
         |> assign(:zone_number, Zones.Repo.get(stop.id))
         |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
         |> assign(:tab, tab_value(query_params["tab"]))
@@ -328,6 +341,7 @@ defmodule SiteWeb.StopController do
              stop: stop,
              routes: routes,
              routes_with_direction: routes_with_direction,
+             routes_having_alerts: routes_having_alerts,
              alerts: alerts,
              all_alerts_count: all_alerts_count,
              zone_number: zone_number,
@@ -341,6 +355,7 @@ defmodule SiteWeb.StopController do
       street_view_url: CuratedStreetView.url(stop.id),
       routes: routes,
       routes_with_direction: routes_with_direction,
+      routes_having_alerts: routes_having_alerts,
       tabs: [
         %HeaderTab{
           id: "info",

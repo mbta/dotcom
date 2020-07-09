@@ -41,6 +41,7 @@ export interface StopPageData {
   retail_locations: RetailLocationWithDistance[];
   tab: string;
   alerts_tab: AlertsTab;
+  routes_having_alerts: { [key: string]: boolean };
 }
 
 interface AlertData {

@@ -81,16 +81,23 @@ exports[`it renders 1`] = `
     <div
       className="m-stop-page__departures-route"
     >
-      <a
-        className="h3 m-tnm-sidebar__route-name u-bg--red-line"
-        href="/schedules/Red"
+      <div
+        className="c-link-block h3 m-tnm-sidebar__route-name u-bg--red-line"
       >
-        <span
-          className=""
+        <a
+          className="c-link-block__outer-link"
+          href="/schedules/Red"
+        />
+        <div
+          className="c-link-block__inner"
         >
-          Red Line
-        </span>
-      </a>
+          <span
+            className=""
+          >
+            Red Line
+          </span>
+        </div>
+      </div>
       <div
         className="m-tnm-sidebar__direction"
       >
@@ -280,16 +287,23 @@ exports[`it renders 1`] = `
     <div
       className="m-stop-page__departures-route"
     >
-      <a
-        className="h3 m-tnm-sidebar__route-name u-bg--silver-line"
-        href="/schedules/741"
+      <div
+        className="c-link-block h3 m-tnm-sidebar__route-name u-bg--silver-line"
       >
-        <span
-          className=""
+        <a
+          className="c-link-block__outer-link"
+          href="/schedules/741"
+        />
+        <div
+          className="c-link-block__inner"
         >
-          Silver Line SL1
-        </span>
-      </a>
+          <span
+            className=""
+          >
+            Silver Line SL1
+          </span>
+        </div>
+      </div>
       <div
         className="m-tnm-sidebar__direction"
       >
@@ -430,16 +444,23 @@ exports[`it renders 1`] = `
     <div
       className="m-stop-page__departures-route"
     >
-      <a
-        className="h3 m-tnm-sidebar__route-name u-bg--silver-line"
-        href="/schedules/742"
+      <div
+        className="c-link-block h3 m-tnm-sidebar__route-name u-bg--silver-line"
       >
-        <span
-          className=""
+        <a
+          className="c-link-block__outer-link"
+          href="/schedules/742"
+        />
+        <div
+          className="c-link-block__inner"
         >
-          Silver Line SL2
-        </span>
-      </a>
+          <span
+            className=""
+          >
+            Silver Line SL2
+          </span>
+        </div>
+      </div>
       <div
         className="m-tnm-sidebar__direction"
       >
@@ -580,16 +601,23 @@ exports[`it renders 1`] = `
     <div
       className="m-stop-page__departures-route"
     >
-      <a
-        className="h3 m-tnm-sidebar__route-name u-bg--silver-line"
-        href="/schedules/743"
+      <div
+        className="c-link-block h3 m-tnm-sidebar__route-name u-bg--silver-line"
       >
-        <span
-          className=""
+        <a
+          className="c-link-block__outer-link"
+          href="/schedules/743"
+        />
+        <div
+          className="c-link-block__inner"
         >
-          Silver Line SL3
-        </span>
-      </a>
+          <span
+            className=""
+          >
+            Silver Line SL3
+          </span>
+        </div>
+      </div>
       <div
         className="m-tnm-sidebar__direction"
       >
@@ -730,16 +758,23 @@ exports[`it renders 1`] = `
     <div
       className="m-stop-page__departures-route"
     >
-      <a
-        className="h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
-        href="/schedules/CR-Fairmount"
+      <div
+        className="c-link-block h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
       >
-        <span
-          className=""
+        <a
+          className="c-link-block__outer-link"
+          href="/schedules/CR-Fairmount"
+        />
+        <div
+          className="c-link-block__inner"
         >
-          Fairmount Line
-        </span>
-      </a>
+          <span
+            className=""
+          >
+            Fairmount Line
+          </span>
+        </div>
+      </div>
       <div
         className="m-tnm-sidebar__direction"
       >
@@ -850,16 +885,23 @@ exports[`it renders 1`] = `
     <div
       className="m-stop-page__departures-route"
     >
-      <a
-        className="h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
-        href="/schedules/CR-Worcester"
+      <div
+        className="c-link-block h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
       >
-        <span
-          className=""
+        <a
+          className="c-link-block__outer-link"
+          href="/schedules/CR-Worcester"
+        />
+        <div
+          className="c-link-block__inner"
         >
-          Framingham/Worcester Line
-        </span>
-      </a>
+          <span
+            className=""
+          >
+            Framingham/Worcester Line
+          </span>
+        </div>
+      </div>
       <div
         className="m-tnm-sidebar__direction"
       >
@@ -1050,16 +1092,23 @@ exports[`it renders 1`] = `
     <div
       className="m-stop-page__departures-route"
     >
-      <a
-        className="h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
-        href="/schedules/CR-Franklin"
+      <div
+        className="c-link-block h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
       >
-        <span
-          className=""
+        <a
+          className="c-link-block__outer-link"
+          href="/schedules/CR-Franklin"
+        />
+        <div
+          className="c-link-block__inner"
         >
-          Franklin Line
-        </span>
-      </a>
+          <span
+            className=""
+          >
+            Franklin Line
+          </span>
+        </div>
+      </div>
       <div
         className="m-tnm-sidebar__direction"
       >
@@ -1250,16 +1299,23 @@ exports[`it renders 1`] = `
     <div
       className="m-stop-page__departures-route"
     >
-      <a
-        className="h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
-        href="/schedules/CR-Greenbush"
+      <div
+        className="c-link-block h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
       >
-        <span
-          className=""
+        <a
+          className="c-link-block__outer-link"
+          href="/schedules/CR-Greenbush"
+        />
+        <div
+          className="c-link-block__inner"
         >
-          Greenbush Line
-        </span>
-      </a>
+          <span
+            className=""
+          >
+            Greenbush Line
+          </span>
+        </div>
+      </div>
       <div
         className="m-tnm-sidebar__direction"
       >
@@ -1370,16 +1426,23 @@ exports[`it renders 1`] = `
     <div
       className="m-stop-page__departures-route"
     >
-      <a
-        className="h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
-        href="/schedules/CR-Kingston"
+      <div
+        className="c-link-block h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
       >
-        <span
-          className=""
+        <a
+          className="c-link-block__outer-link"
+          href="/schedules/CR-Kingston"
+        />
+        <div
+          className="c-link-block__inner"
         >
-          Kingston/Plymouth Line
-        </span>
-      </a>
+          <span
+            className=""
+          >
+            Kingston/Plymouth Line
+          </span>
+        </div>
+      </div>
       <div
         className="m-tnm-sidebar__direction"
       >
@@ -1530,16 +1593,23 @@ exports[`it renders 1`] = `
     <div
       className="m-stop-page__departures-route"
     >
-      <a
-        className="h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
-        href="/schedules/CR-Middleborough"
+      <div
+        className="c-link-block h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
       >
-        <span
-          className=""
+        <a
+          className="c-link-block__outer-link"
+          href="/schedules/CR-Middleborough"
+        />
+        <div
+          className="c-link-block__inner"
         >
-          Middleborough/Lakeville Line
-        </span>
-      </a>
+          <span
+            className=""
+          >
+            Middleborough/Lakeville Line
+          </span>
+        </div>
+      </div>
       <div
         className="m-tnm-sidebar__direction"
       >
@@ -1650,16 +1720,23 @@ exports[`it renders 1`] = `
     <div
       className="m-stop-page__departures-route"
     >
-      <a
-        className="h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
-        href="/schedules/CR-Needham"
+      <div
+        className="c-link-block h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
       >
-        <span
-          className=""
+        <a
+          className="c-link-block__outer-link"
+          href="/schedules/CR-Needham"
+        />
+        <div
+          className="c-link-block__inner"
         >
-          Needham Line
-        </span>
-      </a>
+          <span
+            className=""
+          >
+            Needham Line
+          </span>
+        </div>
+      </div>
       <div
         className="m-tnm-sidebar__direction"
       >
@@ -1770,16 +1847,23 @@ exports[`it renders 1`] = `
     <div
       className="m-stop-page__departures-route"
     >
-      <a
-        className="h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
-        href="/schedules/CR-Providence"
+      <div
+        className="c-link-block h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
       >
-        <span
-          className=""
+        <a
+          className="c-link-block__outer-link"
+          href="/schedules/CR-Providence"
+        />
+        <div
+          className="c-link-block__inner"
         >
-          Providence/Stoughton Line
-        </span>
-      </a>
+          <span
+            className=""
+          >
+            Providence/Stoughton Line
+          </span>
+        </div>
+      </div>
       <div
         className="m-tnm-sidebar__direction"
       >
@@ -2052,16 +2136,23 @@ exports[`it renders filtered data 1`] = `
     <div
       className="m-stop-page__departures-route"
     >
-      <a
-        className="h3 m-tnm-sidebar__route-name u-bg--red-line"
-        href="/schedules/Red"
+      <div
+        className="c-link-block h3 m-tnm-sidebar__route-name u-bg--red-line"
       >
-        <span
-          className=""
+        <a
+          className="c-link-block__outer-link"
+          href="/schedules/Red"
+        />
+        <div
+          className="c-link-block__inner"
         >
-          Red Line
-        </span>
-      </a>
+          <span
+            className=""
+          >
+            Red Line
+          </span>
+        </div>
+      </div>
       <div
         className="m-tnm-sidebar__direction"
       >

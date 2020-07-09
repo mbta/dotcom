@@ -48,6 +48,7 @@ export default ({
     suggested_transfers: suggestedTransfers,
     alerts,
     alerts_tab: alertsTab,
+    routes_having_alerts: routesHavingAlerts,
     tab
   } = stopPageData;
 
@@ -112,6 +113,7 @@ export default ({
                   />
                   <Departures
                     routes={state.routes}
+                    routesHavingAlerts={routesHavingAlerts}
                     stop={stop}
                     selectedModes={state.selectedModes}
                     dispatch={dispatch}
