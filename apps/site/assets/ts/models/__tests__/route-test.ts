@@ -3,7 +3,7 @@ import { isABusRoute, isAGreenLineRoute } from "../route";
 
 describe("isABusRoute", () => {
   test("returns whether or not this is a bus route", () => {
-    const busRoutue: Route = {
+    const busRoute: Route = {
       id: "1",
       type: 3
     } as Route;
@@ -12,7 +12,7 @@ describe("isABusRoute", () => {
       type: 1
     } as Route;
 
-    expect(isABusRoute(busRoutue)).toBeTruthy();
+    expect(isABusRoute(busRoute)).toBeTruthy();
     expect(isABusRoute(subwayRoute)).toBeFalsy();
   });
 });
