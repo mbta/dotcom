@@ -2,8 +2,6 @@
   <%= raw Poison.encode!(@schedule_page_data) %>
 </script>
 
-<% redesign_direction? = !Laboratory.enabled?(@conn, :old_line_diagram) %>
-
 <div class="page-section m-schedule-line">
   <div class="row">
     <div class="col-md-12">
@@ -38,38 +36,15 @@
           <% end %>
         </h2>
 
-        <%= if redesign_direction? do %>
-          <div id="react-schedule-direction-root">
-          </div>
-        <% else %>
-          <%= render "_line_filters.html",
-            conn: @conn,
-            direction_id: @direction_id,
-            route: @route,
-            origin: assigns[:origin],
-            destination: assigns[:destination],
-            show_date_select?: @show_date_select?,
-            force_six_column: true,
-            route_shapes: @route_shapes,
-            active_shape: @active_shape,
-            show_variant_selector: assigns[:show_variant_selector]
-          %>
-        <% end %>
+        <div id="react-schedule-direction-root">
+        </div>
 
         <div class="line-map-container">
           <% map_pdf_url = @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>
           <%= if display_map_link?(@route.type) do %>
-            <%= if redesign_direction? do %>
-              <script id="static-map-data" type="text/plain">
-                <%= raw Poison.encode!(%{img_src: @map_img_src, pdf_url: map_pdf_url}) %>
-              </script>
-            <% else %>
-              <img src="<%= @map_img_src %>" class="img-fluid">
-              <a href="<%= map_pdf_url %>" target="_blank">
-                <%= fa "search-plus" %>
-                View map as a PDF
-              </a>
-            <% end %>
+            <script id="static-map-data" type="text/plain">
+              <%= raw Poison.encode!(%{img_src: @map_img_src, pdf_url: map_pdf_url}) %>
+            </script>
           <% else %>
             <%= render "_line_map.html",
               conn: @conn,
@@ -79,10 +54,6 @@
             %>
           <% end %>
         </div>
-
-        <%= if !redesign_direction? do %>
-          <%= render "_stop_list.html", assigns %>
-        <% end %>
     </div>
     <% end %>
     <div class="col-xs-12 col-md-5 col-lg-4 col-lg-offset-1 m-schedule-line__side-content">
