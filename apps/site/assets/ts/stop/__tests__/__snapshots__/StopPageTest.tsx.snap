@@ -564,7 +564,13 @@ Array [
                   <a
                     className="c-link-block__outer-link"
                     href="/schedules/Red"
-                  />
+                  >
+                    <span
+                      className="sr-only"
+                    >
+                      Go to route
+                    </span>
+                  </a>
                   <div
                     className="c-link-block__inner"
                   >
@@ -770,7 +776,13 @@ Array [
                   <a
                     className="c-link-block__outer-link"
                     href="/schedules/741"
-                  />
+                  >
+                    <span
+                      className="sr-only"
+                    >
+                      Go to route
+                    </span>
+                  </a>
                   <div
                     className="c-link-block__inner"
                   >
@@ -927,7 +939,13 @@ Array [
                   <a
                     className="c-link-block__outer-link"
                     href="/schedules/742"
-                  />
+                  >
+                    <span
+                      className="sr-only"
+                    >
+                      Go to route
+                    </span>
+                  </a>
                   <div
                     className="c-link-block__inner"
                   >
@@ -1084,7 +1102,13 @@ Array [
                   <a
                     className="c-link-block__outer-link"
                     href="/schedules/743"
-                  />
+                  >
+                    <span
+                      className="sr-only"
+                    >
+                      Go to route
+                    </span>
+                  </a>
                   <div
                     className="c-link-block__inner"
                   >
@@ -1241,7 +1265,13 @@ Array [
                   <a
                     className="c-link-block__outer-link"
                     href="/schedules/CR-Fairmount"
-                  />
+                  >
+                    <span
+                      className="sr-only"
+                    >
+                      Go to route
+                    </span>
+                  </a>
                   <div
                     className="c-link-block__inner"
                   >
@@ -1368,7 +1398,13 @@ Array [
                   <a
                     className="c-link-block__outer-link"
                     href="/schedules/CR-Worcester"
-                  />
+                  >
+                    <span
+                      className="sr-only"
+                    >
+                      Go to route
+                    </span>
+                  </a>
                   <div
                     className="c-link-block__inner"
                   >
@@ -1575,7 +1611,13 @@ Array [
                   <a
                     className="c-link-block__outer-link"
                     href="/schedules/CR-Franklin"
-                  />
+                  >
+                    <span
+                      className="sr-only"
+                    >
+                      Go to route
+                    </span>
+                  </a>
                   <div
                     className="c-link-block__inner"
                   >
@@ -1782,7 +1824,13 @@ Array [
                   <a
                     className="c-link-block__outer-link"
                     href="/schedules/CR-Greenbush"
-                  />
+                  >
+                    <span
+                      className="sr-only"
+                    >
+                      Go to route
+                    </span>
+                  </a>
                   <div
                     className="c-link-block__inner"
                   >
@@ -1909,7 +1957,13 @@ Array [
                   <a
                     className="c-link-block__outer-link"
                     href="/schedules/CR-Kingston"
-                  />
+                  >
+                    <span
+                      className="sr-only"
+                    >
+                      Go to route
+                    </span>
+                  </a>
                   <div
                     className="c-link-block__inner"
                   >
@@ -2076,7 +2130,13 @@ Array [
                   <a
                     className="c-link-block__outer-link"
                     href="/schedules/CR-Middleborough"
-                  />
+                  >
+                    <span
+                      className="sr-only"
+                    >
+                      Go to route
+                    </span>
+                  </a>
                   <div
                     className="c-link-block__inner"
                   >
@@ -2203,7 +2263,13 @@ Array [
                   <a
                     className="c-link-block__outer-link"
                     href="/schedules/CR-Needham"
-                  />
+                  >
+                    <span
+                      className="sr-only"
+                    >
+                      Go to route
+                    </span>
+                  </a>
                   <div
                     className="c-link-block__inner"
                   >
@@ -2330,7 +2396,13 @@ Array [
                   <a
                     className="c-link-block__outer-link"
                     href="/schedules/CR-Providence"
-                  />
+                  >
+                    <span
+                      className="sr-only"
+                    >
+                      Go to route
+                    </span>
+                  </a>
                   <div
                     className="c-link-block__inner"
                   >

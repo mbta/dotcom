@@ -110,25 +110,44 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="subway"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--orange-line"
-          href="/schedules/Orange"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--orange-line"
         >
-          <span
-            className=""
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/Orange"
           >
-            Orange Line
-          </span>
-          <span
-            aria-hidden="false"
-            className="notranslate m-tnm-sidebar__route-alert"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className=""
+            >
+              Orange Line
+            </span>
+            <a
+              className="c-link-block__inner-link"
+              href="/schedules/Orange/alerts"
+              title="alert"
+            >
+              <span
+                aria-hidden="false"
+                className="notranslate c-svg__icon-alerts-triangle m-tnm-sidebar__route-alert"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+            </a>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -302,16 +321,29 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="commuter_rail"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
-          href="/schedules/CR-Haverhill"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--commuter-rail"
         >
-          <span
-            className=""
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/CR-Haverhill"
           >
-            Haverhill
-          </span>
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className=""
+            >
+              Haverhill Line
+            </span>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -495,16 +527,29 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="bus"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/97"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
         >
-          <span
-            className="bus-route-sign"
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/97"
           >
-            97
-          </span>
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className="bus-route-sign"
+            >
+              97
+            </span>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -678,16 +723,29 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="bus"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/99"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
         >
-          <span
-            className="bus-route-sign"
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/99"
           >
-            99
-          </span>
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className="bus-route-sign"
+            >
+              99
+            </span>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -861,16 +919,29 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="bus"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/101"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
         >
-          <span
-            className="bus-route-sign"
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/101"
           >
-            101
-          </span>
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className="bus-route-sign"
+            >
+              101
+            </span>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -1042,25 +1113,44 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="bus"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/104"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
         >
-          <span
-            className="bus-route-sign"
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/104"
           >
-            104
-          </span>
-          <span
-            aria-hidden="false"
-            className="notranslate m-tnm-sidebar__route-alert"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className="bus-route-sign"
+            >
+              104
+            </span>
+            <a
+              className="c-link-block__inner-link"
+              href="/schedules/104/alerts"
+              title="alert"
+            >
+              <span
+                aria-hidden="false"
+                className="notranslate c-svg__icon-alerts-triangle m-tnm-sidebar__route-alert"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+            </a>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -1234,25 +1324,44 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="bus"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/105"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
         >
-          <span
-            className="bus-route-sign"
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/105"
           >
-            105
-          </span>
-          <span
-            aria-hidden="false"
-            className="notranslate m-tnm-sidebar__route-alert"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "SVG",
-              }
-            }
-          />
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className="bus-route-sign"
+            >
+              105
+            </span>
+            <a
+              className="c-link-block__inner-link"
+              href="/schedules/105/alerts"
+              title="alert"
+            >
+              <span
+                aria-hidden="false"
+                className="notranslate c-svg__icon-alerts-triangle m-tnm-sidebar__route-alert"
+                dangerouslySetInnerHTML={
+                  Object {
+                    "__html": "SVG",
+                  }
+                }
+              />
+            </a>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -1426,16 +1535,29 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="bus"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/106"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
         >
-          <span
-            className="bus-route-sign"
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/106"
           >
-            106
-          </span>
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className="bus-route-sign"
+            >
+              106
+            </span>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -1707,16 +1829,29 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="bus"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/108"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
         >
-          <span
-            className="bus-route-sign"
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/108"
           >
-            108
-          </span>
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className="bus-route-sign"
+            >
+              108
+            </span>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -1890,16 +2025,29 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="bus"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/131"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
         >
-          <span
-            className="bus-route-sign"
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/131"
           >
-            131
-          </span>
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className="bus-route-sign"
+            >
+              131
+            </span>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -2007,16 +2155,29 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="bus"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/132"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
         >
-          <span
-            className="bus-route-sign"
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/132"
           >
-            132
-          </span>
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className="bus-route-sign"
+            >
+              132
+            </span>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -2190,16 +2351,29 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="bus"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/136"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
         >
-          <span
-            className="bus-route-sign"
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/136"
           >
-            136
-          </span>
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className="bus-route-sign"
+            >
+              136
+            </span>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -2355,16 +2529,29 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="bus"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/137"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
         >
-          <span
-            className="bus-route-sign"
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/137"
           >
-            137
-          </span>
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className="bus-route-sign"
+            >
+              137
+            </span>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -2538,16 +2725,29 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="bus"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/411"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
         >
-          <span
-            className="bus-route-sign"
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/411"
           >
-            411
-          </span>
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className="bus-route-sign"
+            >
+              411
+            </span>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
@@ -2779,16 +2979,29 @@ exports[`render it renders 1`] = `
         className="m-tnm-sidebar__route"
         data-mode="bus"
       >
-        <a
-          className="h3 m-tnm-sidebar__route-name u-bg--bus"
-          href="/schedules/430"
+        <div
+          className="c-link-block h3 m-tnm-sidebar__route-name u-bg--bus"
         >
-          <span
-            className="bus-route-sign"
+          <a
+            className="c-link-block__outer-link"
+            href="/schedules/430"
           >
-            430
-          </span>
-        </a>
+            <span
+              className="sr-only"
+            >
+              Go to route
+            </span>
+          </a>
+          <div
+            className="c-link-block__inner"
+          >
+            <span
+              className="bus-route-sign"
+            >
+              430
+            </span>
+          </div>
+        </div>
         <div
           className="m-tnm-sidebar__route-stop"
           onClick={[Function]}
