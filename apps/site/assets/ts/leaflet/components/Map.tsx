@@ -115,11 +115,7 @@ const Component = ({
             zIndexOffset={marker.z_index}
             keyboard={false}
           >
-            {marker.tooltip && (
-              <Popup minWidth={320} maxHeight={175}>
-                {marker.tooltip}
-              </Popup>
-            )}
+            {marker.tooltip && <Popup maxHeight={175}>{marker.tooltip}</Popup>}
           </Marker>
         ))}
         <FullscreenControl />
