@@ -1,5 +1,5 @@
 import React from "react";
-import { mount, ReactWrapper, shallow, ShallowWrapper } from "enzyme";
+import { mount, ReactWrapper } from "enzyme";
 import { cloneDeep, merge } from "lodash";
 import LineDiagram from "../components/line-diagram/LineDiagram";
 import { EnhancedRoute, RouteType } from "../../__v3api";

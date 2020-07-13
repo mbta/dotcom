@@ -4,6 +4,7 @@ import {
   timeForCommuterRail,
   statusForCommuterRail
 } from "../../../helpers/prediction-helpers";
+import { isSkippedOrCancelled } from "../../../models/prediction";
 
 interface Props {
   headsigns: HeadsignWithCrowding[];
@@ -25,17 +26,20 @@ const StopPredictions = ({ headsigns, isCommuterRail }: Props): JSX.Element => {
   if (isCommuterRail) {
     // Display at most 1 prediction for Commuter Rail
     predictions = liveHeadsigns.slice(0, 1).map(headsign => {
-      const time = headsign.time_data_with_crowding_list[0].time_data;
+      const enhancedTimeData = headsign.time_data_with_crowding_list[0];
+      const time = enhancedTimeData.time_data;
       const prediction = time.prediction!;
       const status = statusForCommuterRail(time);
+      const predictionTimeClass = isSkippedOrCancelled(
+        enhancedTimeData.predicted_schedule.prediction
+      )
+        ? "m-schedule-diagram__cr-prediction-time strikethrough"
+        : "m-schedule-diagram__cr-prediction-time";
 
       return (
         <div key={headsign.name}>
           <div className="m-schedule-diagram__cr-prediction">
-            {timeForCommuterRail(
-              time,
-              "m-schedule-diagram__cr-prediction-time"
-            )}
+            {timeForCommuterRail(time, predictionTimeClass)}
           </div>
           <div className="m-schedule-diagram__cr-prediction-details">
             <span>{`${headsign.name}`}</span>
