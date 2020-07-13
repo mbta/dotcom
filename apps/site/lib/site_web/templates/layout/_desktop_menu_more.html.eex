@@ -75,6 +75,9 @@
     <div class="col-xs-12 p-a-0">
       <ul>
         <li>
+          <%= link "Building a Better T", to: cms_static_page_path(@conn, "/projects/building-better-t-2020"), class: "ga-nav-sublink" %>
+        </li>
+        <li>
           <%= link "Commuter Rail Positive Train Control", to: project_path(@conn, :show, "commuter-rail-positive-train-control-ptc"), class: "ga-nav-sublink" %>
         </li>
         <li>
@@ -82,9 +85,6 @@
         </li>
         <li>
           <%= link "Green Line Extension", to: "https://www.mass.gov/green-line-extension-project-glx", target: "_blank", class: "ga-nav-sublink" %>
-        </li>
-        <li>
-          <%= link "Wollaston Station", to: cms_static_page_path(@conn, "/wollaston"), class: "ga-nav-sublink" %>
         </li>
         <li>
           <%= link "See All Projects", to: project_path(@conn, :index), class: "ga-nav-sublink" %>
