@@ -81,15 +81,16 @@ defmodule SiteWeb.StopController do
           end)
           |> Enum.map(&%{route: Route.to_json_safe(&1.route), direction_id: &1.direction_id})
 
-        high_alerts_for_routes =
+        high_priority_alerts_for_routes =
           Enum.map(routes_by_stop, & &1.id)
           |> Alerts.Repo.by_route_ids(conn.assigns.date_time)
-          |> Enum.filter(&(&1.priority == :high))
+          |> Enum.filter(&(&1.priority == :high || &1.severity >= 7))
 
         routes_having_alerts =
           routes_by_stop
           |> Map.new(fn route ->
-            {route.id, ModeView.has_alert?(route, high_alerts_for_routes, conn.assigns.date_time)}
+            {route.id,
+             ModeView.has_alert?(route, high_priority_alerts_for_routes, conn.assigns.date_time)}
           end)
 
         conn

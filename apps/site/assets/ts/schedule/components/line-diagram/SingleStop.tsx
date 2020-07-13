@@ -92,7 +92,9 @@ const StopConnections = (connections: RouteStopRoute[]): JSX.Element => (
 );
 
 const MaybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
-  const highPriorityAlerts = alerts.filter(alert => alert.priority === "high");
+  const highPriorityAlerts = alerts.filter(
+    alert => alert.priority === "high" || alert.severity >= 7
+  );
   if (highPriorityAlerts.length === 0) return null;
   return (
     <>
