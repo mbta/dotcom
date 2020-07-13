@@ -1,7 +1,8 @@
 import React, { ReactElement } from "react";
-import { TripDeparture, Prediction } from "../__trips";
+import { TripDeparture } from "../__trips";
 import { breakTextAtSlash } from "../../../helpers/text";
 import { alertIcon } from "../../../helpers/icon";
+import { isSkippedOrCancelled } from "../../../models/prediction";
 
 interface Props {
   departure: TripDeparture;
@@ -9,12 +10,6 @@ interface Props {
   showFare: boolean;
   routeType: number;
 }
-
-const skippedOrCancelled = (prediction: Prediction | null): boolean | null =>
-  prediction
-    ? prediction.schedule_relationship === "skipped" ||
-      prediction.schedule_relationship === "cancelled"
-    : null;
 
 const formattedDepartureTimes = (
   departure: TripDeparture,
@@ -57,10 +52,10 @@ const TripStop = ({
         <a
           href={`/stops/${schedule.stop.id}`}
           className={
-            skippedOrCancelled(departure.prediction) ? "strikethrough" : ""
+            isSkippedOrCancelled(departure.prediction) ? "strikethrough" : ""
           }
         >
-          {skippedOrCancelled(departure.prediction) && (
+          {isSkippedOrCancelled(departure.prediction) && (
             <>
               {alertIcon("c-svg__icon-alerts-triangle")}
               <span className="sr-only">This trip skips this stop at</span>
