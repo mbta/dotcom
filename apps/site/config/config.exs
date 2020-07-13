@@ -25,9 +25,7 @@ config :logster, :allowed_headers, ["referer"]
 config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
 
 config :laboratory,
-  features: [
-    {:old_line_diagram, "Go back to the old line diagram", ""}
-  ],
+  features: [],
   cookie: [
     # one month,
     max_age: 3600 * 24 * 30,

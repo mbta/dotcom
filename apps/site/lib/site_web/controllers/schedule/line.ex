@@ -142,11 +142,7 @@ defmodule SiteWeb.ScheduleController.Line do
     |> assign(:direction_id, direction_id)
     |> assign(
       :all_stops,
-      DiagramHelpers.build_stop_list(
-        branches,
-        direction_id,
-        !Laboratory.enabled?(conn, :old_line_diagram)
-      )
+      DiagramHelpers.build_stop_list(branches, direction_id)
     )
     |> assign(:branches, branches)
     |> assign(:route_shapes, route_shapes)

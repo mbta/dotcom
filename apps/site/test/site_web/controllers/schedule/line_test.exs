@@ -305,28 +305,36 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> build_stop_list(0)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      [four, three, two, one] =
+      [trunk, e, hynes, bcd_combined, bc_combined, b] =
         Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
 
-      assert Enum.each(four, &(Enum.count(branches(&1)) == 4))
-
+      assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
       # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
       # We are temporarily adding the fix but this will need to be undone later on.
-      # assert stop_id(List.first(four)) == "place-lech"
-      assert stop_id(List.first(four)) == "place-north"
-      assert stop_id(List.last(four)) == "place-hsmnl"
+      # assert stop_id(List.first(trunk)) == "place-lech"
+      assert trunk |> List.first() |> stop_id() == "place-north"
+      assert trunk |> List.last() |> stop_id() == "place-armnl"
 
-      assert Enum.each(three, &(Enum.count(branches(&1)) == 3))
-      assert stop_id(List.first(three)) == "place-hymnl"
-      assert stop_id(List.last(three)) == "place-river"
+      # E branch + merge
+      assert Enum.all?(e, &(&1 |> branches() |> length() == 2))
+      assert e |> List.first() |> stop_id() == "place-coecl"
+      assert e |> List.last() |> stop_id() == "place-hsmnl"
 
-      assert Enum.each(two, &(Enum.count(branches(&1)) == 2))
-      assert stop_id(List.first(two)) == "place-smary"
-      assert stop_id(List.last(two)) == "place-clmnl"
+      assert Enum.all?(hynes, &(&1 |> branches() |> length() == 1))
+      assert length(hynes) == 1
+      assert hynes |> List.first() |> stop_id() == "place-hymnl"
 
-      assert Enum.each(one, &(Enum.count(branches(&1)) == 1))
-      assert stop_id(List.first(one)) == "place-bland"
-      assert stop_id(List.last(one)) == "place-lake"
+      assert Enum.all?(bcd_combined, &(&1 |> branches() |> length() == 3))
+      assert bcd_combined |> List.first() |> stop_id() == "place-kencl"
+      assert bcd_combined |> List.last() |> stop_id() == "place-river"
+
+      assert Enum.all?(bc_combined, &(&1 |> branches() |> length() == 2))
+      assert bc_combined |> List.first() |> stop_id() == "place-smary"
+      assert bc_combined |> List.last() |> stop_id() == "place-clmnl"
+
+      assert Enum.all?(b, &(&1 |> branches() |> length() == 1))
+      assert b |> List.first() |> stop_id() == "place-bland"
+      assert b |> List.last() |> stop_id() == "place-lake"
     end
 
     test "direction 1 returns a list of all stops in order from west to east" do
@@ -373,20 +381,37 @@ defmodule SiteWeb.ScheduleController.LineTest do
         |> build_stop_list(1)
         |> Enum.map(fn {branches, stop} -> {branches, stop.id} end)
 
-      assert [one, two, three, four] =
-               Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
+      chunked = Enum.chunk_by(stops, fn {branches, _stop} -> Enum.count(branches) end)
 
-      assert stop_id(List.first(one)) == "place-lake"
-      assert stop_id(List.last(one)) == "place-bland"
-      assert stop_id(List.first(two)) == "place-clmnl"
-      assert stop_id(List.last(two)) == "place-smary"
-      assert stop_id(List.first(three)) == "place-river"
-      assert stop_id(List.last(three)) == "place-hymnl"
-      assert stop_id(List.first(four)) == "place-hsmnl"
+      assert [b, bc_combined, bcd_combined, hynes, e, trunk] = chunked
+
+      assert Enum.all?(b, &(&1 |> branches() |> length() == 1))
+      assert b |> List.first() |> stop_id() == "place-lake"
+      assert b |> List.last() |> stop_id() == "place-bland"
+
+      assert Enum.all?(bc_combined, &(&1 |> branches() |> length() == 2))
+      assert bc_combined |> List.first() |> stop_id() == "place-clmnl"
+      assert bc_combined |> List.last() |> stop_id() == "place-smary"
+
+      assert Enum.all?(bcd_combined, &(&1 |> branches() |> length() == 3))
+      assert bcd_combined |> List.first() |> stop_id() == "place-river"
+      assert bcd_combined |> List.last() |> stop_id() == "place-kencl"
+
+      assert Enum.all?(hynes, &(&1 |> branches() |> length() == 1))
+      assert length(hynes) == 1
+      assert hynes |> List.first() |> stop_id() == "place-hymnl"
+
+      # E branch + merge
+      assert Enum.all?(e, &(&1 |> branches() |> length() == 2))
+      assert e |> List.first() |> stop_id() == "place-hsmnl"
+      assert e |> List.last() |> stop_id() == "place-coecl"
+
+      assert Enum.all?(trunk, &(&1 |> branches() |> length() == 1))
+      assert trunk |> List.first() |> stop_id() == "place-armnl"
       # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
       # We are temporarily adding the fix but this will need to be undone later on.
-      # assert stop_id(List.last(four)) == "place-lech"
-      assert stop_id(List.last(four)) == "place-gover"
+      # assert stop_id(List.last(trunk)) == "place-lech"
+      assert trunk |> List.last() |> stop_id() == "place-gover"
     end
   end
 
@@ -536,12 +561,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
       stop = %RouteStop{id: "place-north"}
       branches = {nil, GreenLine.branch_ids()}
 
-      bubbles = [
-        {"Green-B", :empty},
-        {"Green-C", :terminus},
-        {"Green-D", :empty},
-        {"Green-E", :terminus}
-      ]
+      bubbles = [{nil, :terminus}]
 
       assert build_branched_stop(stop, [], branches) == [{bubbles, stop}]
     end
@@ -550,12 +570,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
       stop = %RouteStop{id: "place-pktrm"}
       branches = {nil, GreenLine.branch_ids()}
 
-      bubbles = [
-        {"Green-B", :terminus},
-        {"Green-C", :stop},
-        {"Green-D", :stop},
-        {"Green-E", :stop}
-      ]
+      bubbles = [{nil, :stop}]
 
       assert build_branched_stop(stop, [], branches) == [{bubbles, stop}]
     end
@@ -563,7 +578,12 @@ defmodule SiteWeb.ScheduleController.LineTest do
     test "copley" do
       stop = %RouteStop{id: "place-coecl"}
       branches = {nil, GreenLine.branch_ids()}
-      bubbles = [{"Green-B", :stop}, {"Green-C", :stop}, {"Green-D", :stop}, {"Green-E", :stop}]
+
+      bubbles = [
+        {nil, :merge},
+        {"Green-E", :merge}
+      ]
+
       assert build_branched_stop(stop, [], branches) == [{bubbles, stop}]
     end
 
@@ -573,9 +593,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
       branches = {nil, GreenLine.branch_ids()}
 
       bubbles = [
-        {"Green-B", :line},
-        {"Green-C", :line},
-        {"Green-D", :line},
+        {nil, :line},
         {"Green-E", :terminus}
       ]
 

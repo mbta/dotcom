@@ -26,12 +26,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, %{"id" => route_id, "direction_id" => direction_id}) do
     line_data =
-      get_line_data(
-        route_id,
-        String.to_integer(direction_id),
-        conn.query_params["variant"],
-        !Laboratory.enabled?(conn, :old_line_diagram)
-      )
+      get_line_data(route_id, String.to_integer(direction_id), conn.query_params["variant"])
 
     conn =
       conn
@@ -110,9 +105,9 @@ defmodule SiteWeb.ScheduleController.LineApi do
   defp expand_route_id("Green"), do: GreenLine.branch_ids()
   defp expand_route_id(route_id), do: [route_id]
 
-  @spec get_line_data(Route.id_t(), LineHelpers.direction_id(), Route.branch_name(), boolean()) ::
+  @spec get_line_data(Route.id_t(), LineHelpers.direction_id(), Route.branch_name()) ::
           [DiagramHelpers.stop_with_bubble_info()]
-  defp get_line_data(route_id, direction_id, variant, redesign_enabled?) do
+  defp get_line_data(route_id, direction_id, variant) do
     route = LineHelpers.get_route(route_id)
     route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)
     route_stops = LineHelpers.get_route_stops(route.id, direction_id, &StopsRepo.by_route/3)
@@ -120,7 +115,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
     filtered_shapes = LineHelpers.filter_route_shapes(route_shapes, active_shapes, route)
     branches = LineHelpers.get_branches(filtered_shapes, route_stops, route, direction_id)
 
-    DiagramHelpers.build_stop_list(branches, direction_id, redesign_enabled?)
+    DiagramHelpers.build_stop_list(branches, direction_id)
   end
 
   @spec simple_vehicle_map(Vehicle.t()) :: simple_vehicle
