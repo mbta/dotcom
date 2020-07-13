@@ -1,4 +1,10 @@
 defmodule Schedules.Schedule do
+  @moduledoc """
+  Representation of GTFS schedules.
+  """
+
+  @derive Jason.Encoder
+
   defstruct route: nil,
             trip: nil,
             stop: nil,
@@ -26,9 +32,7 @@ end
 
 defmodule Schedules.ScheduleCondensed do
   @moduledoc """
-
   Light weight alternate to Schedule.t()
-
   """
   defstruct stop_id: nil,
             time: nil,
@@ -50,6 +54,12 @@ defmodule Schedules.ScheduleCondensed do
 end
 
 defmodule Schedules.Trip do
+  @moduledoc """
+  Representation of GTFS trips.
+  """
+
+  @derive Jason.Encoder
+
   defstruct [
     :id,
     :name,
@@ -74,6 +84,10 @@ defmodule Schedules.Trip do
 end
 
 defmodule Schedules.Frequency do
+  @moduledoc """
+  Schedule headways.
+  """
+
   defstruct time_block: nil,
             min_headway: :infinity,
             max_headway: :infinity

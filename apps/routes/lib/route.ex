@@ -3,6 +3,8 @@ defmodule Routes.Route do
 
   alias Routes.Repo
 
+  @derive Jason.Encoder
+
   defstruct id: "",
             type: 0,
             name: "",

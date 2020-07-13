@@ -4,6 +4,8 @@ defmodule Stops.Stop do
   """
   alias Stops.{Api, Stop}
 
+  @derive {Jason.Encoder, except: [:bike_storage, :fare_facilities]}
+
   defstruct id: nil,
             parent_id: nil,
             child_ids: [],
@@ -82,6 +84,8 @@ defmodule Stops.Stop.ParkingLot do
   @moduledoc """
   A group of parking spots at a Stop.
   """
+  @derive Jason.Encoder
+
   defstruct [
     :name,
     :address,
@@ -115,6 +119,8 @@ defmodule Stops.Stop.ParkingLot.Payment do
   :mobile_app - {payment-app, payment-app-id, payment-app-url}
   :rate - {fee-daily, fee-monthly}
   """
+  @derive Jason.Encoder
+
   defstruct [:methods, :mobile_app, :daily_rate, :monthly_rate]
 
   @type t :: %__MODULE__{
@@ -143,6 +149,8 @@ defmodule Stops.Stop.ParkingLot.Payment.MobileApp do
   :id - payment-app-id
   :url - payment-app-url
   """
+  @derive Jason.Encoder
+
   defstruct [:name, :id, :url]
 
   @type t :: %__MODULE__{
@@ -170,6 +178,7 @@ defmodule Stops.Stop.ParkingLot.Capacity do
   :overnight - overnight-allowed
   :type - enclosed
   """
+  @derive Jason.Encoder
 
   defstruct [:total, :accessible, :overnight, :type]
 
@@ -218,6 +227,8 @@ defmodule Stops.Stop.ParkingLot.Manager do
   :phone - contact-phone
   :url - contact-url
   """
+  @derive Jason.Encoder
+
   defstruct [:name, :contact, :phone, :url]
 
   @type t :: %__MODULE__{
@@ -245,6 +256,8 @@ defmodule Stops.Stop.ParkingLot.Utilization do
   :arrive_before - weekday-arrive-before
   :typical: - weekday-typical-utilization
   """
+  @derive Jason.Encoder
+
   defstruct [:arrive_before, :typical]
 
   @type t :: %__MODULE__{
@@ -278,6 +291,8 @@ defmodule Stops.Stop.ClosedStopInfo do
   @moduledoc """
   Information about stations not in API data.
   """
+  @derive Jason.Encoder
+
   defstruct reason: "",
             info_link: ""
 

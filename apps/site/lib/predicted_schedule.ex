@@ -8,6 +8,8 @@ defmodule PredictedSchedule do
   alias Predictions.Prediction
   alias Schedules.{Schedule, ScheduleCondensed}
 
+  @derive Jason.Encoder
+
   defstruct schedule: nil,
             prediction: nil
 

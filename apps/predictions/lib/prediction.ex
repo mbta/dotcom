@@ -1,4 +1,10 @@
 defmodule Predictions.Prediction do
+  @moduledoc """
+  A prediction of when a vehicle will arrive at a stop.
+  """
+
+  @derive Jason.Encoder
+
   defstruct id: nil,
             trip: nil,
             stop: nil,
