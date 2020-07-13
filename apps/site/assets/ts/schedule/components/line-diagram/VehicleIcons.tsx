@@ -7,7 +7,7 @@ import CrowdingPill from "./CrowdingPill";
 
 interface Props {
   routeType: RouteType | null;
-  stopName: string;
+  stopName: string | null;
   vehicles: LineDiagramVehicle[];
 }
 
@@ -30,10 +30,13 @@ const statusDescriptions = {
 
 const tooltipText = (
   routeType: RouteType | null,
-  stopName: string,
+  stopName: string | null,
   vehicle: LineDiagramVehicle
 ): string => {
-  const status = `${statusDescriptions[vehicle.status]} ${stopName}`;
+  const status =
+    stopName && stopName.length
+      ? `${statusDescriptions[vehicle.status]} ${stopName}`
+      : "";
 
   if (routeType !== null) {
     let vehicleName = vehicleTypeNames[routeType];

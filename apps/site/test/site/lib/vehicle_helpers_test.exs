@@ -265,6 +265,17 @@ defmodule Site.VehicleHelpersTest do
       assert tooltip(tooltip3) =~ "Worcester train 509 is on the way to"
     end
 
+    test "does not include vehicle status if we don't have the name of the next stop" do
+      tooltip = %{
+        @tooltip_base
+        | vehicle: %Vehicles.Vehicle{status: :in_transit},
+          stop_name: ""
+      }
+
+      assert tooltip(tooltip) =~ "Worcester train 509"
+      refute tooltip(tooltip) =~ "is on the way to"
+    end
+
     test "displays the route when there isn't a trip" do
       actual = tooltip(%{@tooltip_base | prediction: nil, trip: nil})
       assert actual =~ "Framingham/Worcester Line"

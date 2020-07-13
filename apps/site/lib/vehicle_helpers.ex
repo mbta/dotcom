@@ -177,16 +177,27 @@ defmodule VehicleHelpers do
     [
       display_headsign_text(route, trip),
       String.downcase(vehicle_name(route)),
-      display_trip_name(route, trip),
-      realtime_status_text(status),
-      stop_name
-    ]
+      display_trip_name(route, trip)
+    ] ++
+      realtime_status_with_stop(status, stop_name)
   end
 
   @spec display_headsign_text(Route.t(), Trip.t() | nil) :: iodata
   defp display_headsign_text(_, %{headsign: headsign}), do: [headsign, " "]
   defp display_headsign_text(%{name: name}, _), do: [name, " "]
   defp display_headsign_text(_, _), do: ""
+
+  @spec realtime_status_with_stop(atom, String.t()) :: iodata()
+  defp realtime_status_with_stop(_status, "") do
+    []
+  end
+
+  defp realtime_status_with_stop(status, stop_name) do
+    [
+      realtime_status_text(status),
+      stop_name
+    ]
+  end
 
   @spec realtime_status_text(atom) :: String.t()
   defp realtime_status_text(:incoming), do: " is arriving at "
