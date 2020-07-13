@@ -3,6 +3,7 @@ import { EnhancedRoute } from "../__v3api";
 import { routeBgClass, busClass } from "../helpers/css";
 import { isASilverLineRoute } from "../models/route";
 import { alertIcon } from "../helpers/icon";
+import { breakTextAtSlash } from "../helpers/text";
 
 const RouteCardHeader = ({
   route,
@@ -23,7 +24,7 @@ const RouteCardHeader = ({
       <span className={busClass(route)}>
         {isASilverLineRoute(route.id)
           ? `Silver Line ${route.name}`
-          : route.name}
+          : breakTextAtSlash(route.name)}
       </span>
       {hasAlert && (
         <a

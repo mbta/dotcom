@@ -934,7 +934,7 @@ exports[`it renders 1`] = `
           <span
             className=""
           >
-            Framingham/Worcester Line
+            Framingham/​Worcester Line
           </span>
         </div>
       </div>
@@ -1493,7 +1493,7 @@ exports[`it renders 1`] = `
           <span
             className=""
           >
-            Kingston/Plymouth Line
+            Kingston/​Plymouth Line
           </span>
         </div>
       </div>
@@ -1666,7 +1666,7 @@ exports[`it renders 1`] = `
           <span
             className=""
           >
-            Middleborough/Lakeville Line
+            Middleborough/​Lakeville Line
           </span>
         </div>
       </div>
@@ -1932,7 +1932,7 @@ exports[`it renders 1`] = `
           <span
             className=""
           >
-            Providence/Stoughton Line
+            Providence/​Stoughton Line
           </span>
         </div>
       </div>

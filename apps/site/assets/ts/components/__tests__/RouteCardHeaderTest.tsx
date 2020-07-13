@@ -10,6 +10,7 @@ describe("RouteCardHeader component", () => {
         route={
           {
             id: "1",
+            name: "",
             type: 3
           } as EnhancedRoute
         }
@@ -26,6 +27,7 @@ describe("RouteCardHeader component", () => {
           route={
             {
               id: "1",
+              name: "",
               type: 3
             } as EnhancedRoute
           }
@@ -41,6 +43,7 @@ describe("RouteCardHeader component", () => {
           route={
             {
               id: "1",
+              name: "",
               type: 3
             } as EnhancedRoute
           }
