@@ -602,9 +602,8 @@ defmodule Site.TransitNearMe do
   @spec crowding_for_predicted_schedule(PredictedSchedule.t()) :: Vehicle.crowding() | nil
   defp crowding_for_predicted_schedule(predicted_schedule) do
     with %Trip{id: trip_id} <- PredictedSchedule.trip(predicted_schedule),
-         route <- PredictedSchedule.route(predicted_schedule),
          %Vehicle{crowding: crowding} <- Vehicles.Repo.trip(trip_id) do
-      if Route.has_occupancy_data?(route), do: crowding, else: nil
+      crowding
     else
       _ ->
         nil
