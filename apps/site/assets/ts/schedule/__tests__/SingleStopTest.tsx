@@ -1,9 +1,11 @@
 import React from "react";
 import { mount } from "enzyme";
 import { cloneDeep, merge } from "lodash";
+import { Schedule } from "../../__v3api";
 import SingleStop from "../components/line-diagram/SingleStop";
 import { LiveData } from "../components/line-diagram/LineDiagram";
 import { LineDiagramStop, RouteStopRoute } from "../components/__schedule";
+import { Prediction } from "../components/__trips";
 
 const basicStop: LineDiagramStop = {
   alerts: [],
@@ -58,6 +60,9 @@ const crStop: LineDiagramStop = merge(cloneDeep(basicStop), {
   route_stop: { route: crRouteStub }
 });
 
+const mockPrediction = {} as Prediction & { headsign: string };
+const mockSchedule = {} as Schedule & { headsign: string };
+
 const liveData: LiveData = {
   headsigns: [
     {
@@ -73,7 +78,11 @@ const liveData: LiveData = {
             },
             scheduled_time: null
           },
-          crowding: null
+          crowding: null,
+          predicted_schedule: {
+            prediction: mockPrediction,
+            schedule: mockSchedule
+          }
         }
       ],
       train_number: null
@@ -91,7 +100,11 @@ const liveData: LiveData = {
             },
             scheduled_time: null
           },
-          crowding: null
+          crowding: null,
+          predicted_schedule: {
+            prediction: mockPrediction,
+            schedule: mockSchedule
+          }
         }
       ],
       train_number: null
@@ -130,7 +143,11 @@ const crLiveData: LiveData = {
             },
             scheduled_time: ["5:00", " ", "PM"]
           },
-          crowding: null
+          crowding: null,
+          predicted_schedule: {
+            prediction: mockPrediction,
+            schedule: mockSchedule
+          }
         }
       ],
       train_number: "404"
@@ -144,7 +161,11 @@ const crLiveData: LiveData = {
             prediction: null,
             scheduled_time: ["5:30", " ", "PM"]
           },
-          crowding: null
+          crowding: null,
+          predicted_schedule: {
+            prediction: mockPrediction,
+            schedule: mockSchedule
+          }
         }
       ],
       train_number: "504"

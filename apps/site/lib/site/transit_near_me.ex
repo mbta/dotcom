@@ -55,7 +55,8 @@ defmodule Site.TransitNearMe do
 
   @type time_data_with_crowding :: %{
           time_data: time_data(),
-          crowding: Vehicle.crowding() | nil
+          crowding: Vehicle.crowding() | nil,
+          predicted_schedule: PredictedSchedule
         }
 
   @type time_data :: %{
@@ -530,13 +531,10 @@ defmodule Site.TransitNearMe do
           |> Map.get(:predicted_schedule)
           |> PredictedSchedule.time()
 
-        time_data_with_crowding_list =
-          Enum.map(filtered_time_data_with_crowding_list, &Map.drop(&1, [:predicted_schedule]))
-
         {first_predicted_schedule_time,
          %{
            name: headsign && ViewHelpers.break_text_at_slash(headsign),
-           time_data_with_crowding_list: time_data_with_crowding_list,
+           time_data_with_crowding_list: filtered_time_data_with_crowding_list,
            train_number: trip && trip.name
          }}
       end)

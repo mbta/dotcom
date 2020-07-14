@@ -747,7 +747,11 @@ defmodule Site.TransitNearMeTest do
                   },
                   scheduled_time: nil
                 },
-                crowding: nil
+                crowding: nil,
+                predicted_schedule: %PredictedSchedule{
+                  prediction: @prediction1,
+                  schedule: nil
+                }
               }
             ],
             train_number: nil
@@ -766,7 +770,11 @@ defmodule Site.TransitNearMeTest do
                   scheduled_time: nil,
                   delay: 0
                 },
-                crowding: nil
+                crowding: nil,
+                predicted_schedule: %PredictedSchedule{
+                  prediction: @prediction2,
+                  schedule: nil
+                }
               }
             ],
             train_number: nil
