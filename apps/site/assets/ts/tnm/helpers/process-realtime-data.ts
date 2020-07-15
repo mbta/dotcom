@@ -121,7 +121,9 @@ const buildHeadsign = (
           ? {
               track: prediction.track,
               time: prediction.time,
-              status: null
+              status: null,
+              // eslint-disable-next-line @typescript-eslint/camelcase
+              schedule_relationship: prediction.schedule_relationship
             }
           : null;
         const scheduledTime = schedule ? schedule.time : null;

@@ -15,6 +15,7 @@ it("it renders 2 predictions", () => {
         delay: 0,
         scheduled_time: ["4:30", " ", "PM"],
         prediction: {
+          schedule_relationship: null,
           time: ["14", " ", "min"],
           status: null,
           track: null
@@ -24,6 +25,7 @@ it("it renders 2 predictions", () => {
         delay: 0,
         scheduled_time: ["5:00", " ", "PM"],
         prediction: {
+          schedule_relationship: null,
           time: ["44", " ", "min"],
           status: null,
           track: null
@@ -74,6 +76,7 @@ it("it splits the headsign name when it contains 'via' ", () => {
         delay: 0,
         scheduled_time: ["4:30", " ", "PM"],
         prediction: {
+          schedule_relationship: null,
           time: ["14", " ", "min"],
           status: null,
           track: null
@@ -83,6 +86,7 @@ it("it splits the headsign name when it contains 'via' ", () => {
         delay: 0,
         scheduled_time: ["5:00", " ", "PM"],
         prediction: {
+          schedule_relationship: null,
           time: ["44", " ", "min"],
           status: null,
           track: null
@@ -110,6 +114,7 @@ it("it renders a status and train name for Commuter Rail", () => {
         delay: 0,
         scheduled_time: ["4:30", " ", "PM"],
         prediction: {
+          schedule_relationship: null,
           time: ["4:30", " ", "PM"],
           status: "On time",
           track: null
@@ -137,6 +142,7 @@ it("it renders a status and train name for Commuter Rail with track number if av
         delay: 0,
         scheduled_time: ["4:30", " ", "PM"],
         prediction: {
+          schedule_relationship: null,
           time: ["4:30", " ", "PM"],
           status: "Now boarding",
           track: "1"
@@ -164,6 +170,7 @@ it("it renders uncondensed bus headsign name as --small", () => {
         delay: 0,
         scheduled_time: ["7:00", " ", "PM"],
         prediction: {
+          schedule_relationship: null,
           time: ["14", " ", "min"],
           status: null,
           track: null
@@ -173,6 +180,7 @@ it("it renders uncondensed bus headsign name as --small", () => {
         delay: 0,
         scheduled_time: ["7:10", " ", "PM"],
         prediction: {
+          schedule_relationship: null,
           time: ["44", " ", "min"],
           status: null,
           track: null
@@ -201,6 +209,7 @@ it("it displays delayed status for CR", () => {
         delay: 5,
         scheduled_time: ["7:00", " ", "PM"],
         prediction: {
+          schedule_relationship: null,
           time: ["7:03", " ", "PM"],
           status: null,
           track: null

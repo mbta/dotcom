@@ -9,7 +9,8 @@ describe("statusForCommuterRail", () => {
       prediction: {
         status: "Held for reasons",
         time: ["11:11", " ", "AM"],
-        track: null
+        track: null,
+        schedule_relationship: null
       }
     };
 
@@ -20,12 +21,22 @@ describe("statusForCommuterRail", () => {
     const onTime: PredictedOrScheduledTime = {
       delay: 4,
       scheduled_time: ["11:00", " ", "AM"],
-      prediction: { status: null, time: ["11:04", " ", "AM"], track: null }
+      prediction: {
+        status: null,
+        time: ["11:04", " ", "AM"],
+        track: null,
+        schedule_relationship: null
+      }
     };
     const delayed: PredictedOrScheduledTime = {
       delay: 5,
       scheduled_time: ["11:00", " ", "AM"],
-      prediction: { status: null, time: ["11:05", " ", "AM"], track: null }
+      prediction: {
+        status: null,
+        time: ["11:05", " ", "AM"],
+        track: null,
+        schedule_relationship: null
+      }
     };
 
     expect(statusForCommuterRail(onTime)).toEqual("On time");
@@ -46,7 +57,12 @@ describe("statusForCommuterRail", () => {
     const data: PredictedOrScheduledTime = {
       delay: 4,
       scheduled_time: null,
-      prediction: { status: null, time: ["11:11", " ", "AM"], track: null }
+      prediction: {
+        status: null,
+        time: ["11:11", " ", "AM"],
+        track: null,
+        schedule_relationship: null
+      }
     };
 
     expect(statusForCommuterRail(data)).toBeNull();
