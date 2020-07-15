@@ -13,6 +13,7 @@ import { LiveData } from "./LineDiagram";
 import StopPredictions from "./StopPredictions";
 import VehicleIcons from "./VehicleIcons";
 import MatchHighlight from "../../../components/MatchHighlight";
+import { isHighSeverityOrHighPriority } from "../../../models/alert";
 
 interface Props {
   stop: LineDiagramStop;
@@ -92,9 +93,7 @@ const StopConnections = (connections: RouteStopRoute[]): JSX.Element => (
 );
 
 const MaybeAlert = (alerts: Alert[]): ReactElement<HTMLElement> | null => {
-  const highPriorityAlerts = alerts.filter(
-    alert => alert.priority === "high" || alert.severity >= 7
-  );
+  const highPriorityAlerts = alerts.filter(isHighSeverityOrHighPriority);
   if (highPriorityAlerts.length === 0) return null;
   return (
     <>

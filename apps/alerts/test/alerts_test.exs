@@ -122,4 +122,24 @@ defmodule AlertsTest do
       assert icon(%Alert{effect: :delay, priority: :high}) == :alert
     end
   end
+
+  describe "is_high_severity_or_high_priority/1" do
+    test "returns true for severity >= 7" do
+      assert is_high_severity_or_high_priority(%Alert{severity: 8})
+      assert is_high_severity_or_high_priority(%Alert{severity: 8, priority: :low})
+    end
+
+    test "returns true for priority == :high" do
+      assert is_high_severity_or_high_priority(%Alert{priority: :high})
+      assert is_high_severity_or_high_priority(%Alert{severity: 2, priority: :high})
+    end
+
+    test "returns true for high severity and high priority" do
+      assert is_high_severity_or_high_priority(%Alert{severity: 7, priority: :high})
+    end
+
+    test "returns false otherwise" do
+      refute is_high_severity_or_high_priority(%Alert{severity: 3, priority: :low})
+    end
+  end
 end
