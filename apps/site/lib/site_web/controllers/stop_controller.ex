@@ -90,7 +90,11 @@ defmodule SiteWeb.StopController do
           routes_by_stop
           |> Map.new(fn route ->
             {route.id,
-             ModeView.has_alert?(route, all_high_priority_alerts_for_routes, conn.assigns.date_time)}
+             ModeView.has_alert?(
+               route,
+               all_high_priority_alerts_for_routes,
+               conn.assigns.date_time
+             )}
           end)
 
         conn
