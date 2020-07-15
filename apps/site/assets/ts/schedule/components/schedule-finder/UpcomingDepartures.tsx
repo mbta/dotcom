@@ -1,4 +1,5 @@
 import React, { ReactElement, useEffect, useReducer, useState } from "react";
+import { get, isEmpty } from "lodash";
 import {
   timeForCommuterRail,
   trackForCommuterRail,
@@ -58,10 +59,11 @@ const RoutePillSmall = ({
 
 export const crowdingInformation = (
   journey: EnhancedJourney,
-  tripId: string
+  tripId: string,
+  someCrowdingInfoExists: boolean
 ): ReactElement<HTMLElement> | null => {
   const { tripInfo } = journey;
-  if (isABusRoute(journey.route) && tripInfo) {
+  if (tripInfo && someCrowdingInfoExists) {
     // Only display the crowding information if the trip ID of the vehicle matches the trip ID of the prediction being displayed.
     const showCrowding =
       !!tripInfo.vehicle &&
@@ -83,9 +85,11 @@ export const crowdingInformation = (
 };
 
 export const BusTableRow = ({
-  journey
+  journey,
+  someCrowdingInfoExists
 }: {
   journey: EnhancedJourney;
+  someCrowdingInfoExists: boolean;
 }): ReactElement<HTMLElement> | null => {
   const { trip, route, realtime } = journey;
 
@@ -103,7 +107,7 @@ export const BusTableRow = ({
       </td>
       <td className="schedule-table__cell schedule-table__cell--time u-nowrap u-bold text-right">
         {realtime.prediction!.time}
-        {crowdingInformation(journey, trip.id)}
+        {crowdingInformation(journey, trip.id, someCrowdingInfoExists)}
       </td>
     </>
   );
@@ -148,11 +152,13 @@ export const CrTableRow = ({
 const TableRow = ({
   state,
   input,
-  journey
+  journey,
+  someCrowdingInfoExists
 }: {
   state: State;
   input: UserInput;
   journey: EnhancedJourney;
+  someCrowdingInfoExists: boolean;
 }): ReactElement<HTMLElement> | null => {
   const { realtime } = journey;
 
@@ -160,7 +166,12 @@ const TableRow = ({
 
   const contentComponent =
     journey.route.type !== 2
-      ? () => <BusTableRow journey={journey} />
+      ? () => (
+          <BusTableRow
+            journey={journey}
+            someCrowdingInfoExists={someCrowdingInfoExists}
+          />
+        )
       : () => <CrTableRow journey={journey} />;
 
   if (isABusRoute(journey.route)) {
@@ -263,6 +274,17 @@ export const upcomingDeparturesTable = (
 ): ReactElement<HTMLElement> => {
   const headerLabel = "Trip Details";
 
+  // We use this condition for cosmetic purposes: if there's no crowding information for _any_ of the upcoming departures, we don't want to show a gap/empty column.
+  const someCrowdingInfoExists =
+    !isEmpty(journeysWithTripInfo) && isABusRoute(journeysWithTripInfo[0].route)
+      ? journeysWithTripInfo.some(journey => {
+          const { tripInfo } = journey;
+          if (!tripInfo) return false;
+          const crowding = get(tripInfo, "vehicle.crowding", null);
+          return crowding !== null;
+        })
+      : false;
+
   return (
     <>
       {UpcomingDeparturesHeader}
@@ -274,7 +296,7 @@ export const upcomingDeparturesTable = (
                 Destinations
               </th>
               <th scope="col" colSpan={2} className="schedule-table__cell">
-                {isABusRoute(journeysWithTripInfo[0].route) ? (
+                {someCrowdingInfoExists ? (
                   <span className="trip-details-table__title">
                     {headerLabel}
                   </span>
@@ -293,6 +315,7 @@ export const upcomingDeparturesTable = (
                   journey={journey}
                   // eslint-disable-next-line react/no-array-index-key
                   key={idx}
+                  someCrowdingInfoExists={someCrowdingInfoExists}
                 />
               )
             )}

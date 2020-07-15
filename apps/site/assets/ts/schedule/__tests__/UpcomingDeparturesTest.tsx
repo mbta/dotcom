@@ -237,16 +237,26 @@ describe("UpcomingDepartures", () => {
 
     const tripId = enhancedBusJourneys[0].trip.id;
 
-    wrapper = mount(<>{crowdingInformation(journey, tripId)}</>);
+    wrapper = mount(<>{crowdingInformation(journey, tripId, true)}</>);
 
     expect(wrapper.find(".c-icon__crowding--some_crowding").length).toBe(1);
+  });
+
+  it("should not display crowding information for buses if it doesn't exist", () => {
+    const journey = enhancedBusJourneys[0];
+
+    const tripId = enhancedBusJourneys[0].trip.id;
+
+    wrapper = mount(<>{crowdingInformation(journey, tripId, false)}</>);
+
+    expect(wrapper.find(".c-icon__crowding--some_crowding").length).toBe(0);
   });
 
   it("should not display crowding information for CR", () => {
     act(() => {
       const journey: EnhancedJourney = enhancedCRjourneysResponse[0];
 
-      wrapper = mount(<>{crowdingInformation(journey, "")}</>);
+      wrapper = mount(<>{crowdingInformation(journey, "", false)}</>);
 
       expect(wrapper).toEqual({});
     });
