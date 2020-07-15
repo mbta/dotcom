@@ -1,4 +1,10 @@
-import { Route, Trip, Stop, PredictedOrScheduledTime } from "../../__v3api";
+import {
+  Route,
+  Trip,
+  Stop,
+  PredictedOrScheduledTime,
+  ScheduleRelationship
+} from "../../__v3api";
 import { CrowdingType } from "./__schedule";
 
 export interface Journey {
@@ -34,14 +40,6 @@ export interface TripInfo {
   fare: Fare;
   route_type: number;
 }
-
-type ScheduleRelationship =
-  | "added"
-  | "unscheduled"
-  | "cancelled"
-  | "skipped"
-  | "no_data"
-  | null;
 
 export interface Prediction {
   schedule_relationship: ScheduleRelationship;
