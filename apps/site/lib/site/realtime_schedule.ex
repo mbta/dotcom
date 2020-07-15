@@ -128,7 +128,7 @@ defmodule Site.RealtimeSchedule do
   defp get_high_priority_alert_count_for_route(route_id, now, alerts_fn) do
     [route_id]
     |> alerts_fn.(now)
-    |> Enum.filter(&(&1.priority == :high))
+    |> Enum.filter(&(&1.priority == :high || &1.severity >= 7))
     |> length
   end
 
