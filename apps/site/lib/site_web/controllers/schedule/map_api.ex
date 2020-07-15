@@ -6,6 +6,7 @@ defmodule SiteWeb.ScheduleController.MapApi do
 
   alias Leaflet.MapData
   alias Routes.Route
+  alias SiteWeb.ControllerHelpers
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias SiteWeb.ScheduleController.Line.Maps
   alias Stops.Repo, as: StopsRepo
@@ -22,6 +23,10 @@ defmodule SiteWeb.ScheduleController.MapApi do
       get_map_data(conn, route_id, String.to_integer(direction_id), &StopsRepo.by_route/3)
 
     json(conn, map_data)
+  end
+
+  def show(conn, _) do
+    ControllerHelpers.return_invalid_arguments_error(conn)
   end
 
   @type stops_by_route_fn :: (Route.id_t(), 0 | 1, Keyword.t() -> [Stop.t()] | {:error, any})
