@@ -216,6 +216,31 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   margin: 0;
   padding: $base-spacing / 2;
   text-transform: uppercase;
+
+  // adjust icon colors and sizing based on background color
+  @each $line in map-keys($mbta-line-colors) {
+    &.u-bg--#{$line} {
+      @include icon-mbta-colored($line, true);
+      @if $line == 'bus' {
+        @include icon-size-inline($base-spacing * 1.5, .275em);
+      } @else {
+        @include icon-size-inline($base-spacing * 1.5, .1em);
+      }
+    }
+  }
+
+  &.c-link-block {
+    display: block;
+
+    .c-link-block__inner {
+      display: flex;
+      justify-content: space-between;
+
+      > span {
+        overflow-wrap: anywhere; // long CR line names need this to fit
+      }
+    }
+  }
 }
 
 .m-tnm-sidebar__route-alert {

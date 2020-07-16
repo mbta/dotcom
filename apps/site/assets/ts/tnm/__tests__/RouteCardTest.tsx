@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import RouteCard, { routeBgColor, busClass } from "../components/RouteCard";
+import RouteCard from "../components/RouteCard";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import {
   Direction,
@@ -104,62 +104,4 @@ it("it renders a stop card for the silver line", () => {
     .create(<RouteCard route={sl} dispatch={() => {}} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
-});
-
-describe("routeBgColor", () => {
-  it("determines the background color by route", () => {
-    const cr: RouteWithStopsWithDirections = {
-      route: { ...route.route, type: 2 },
-      stops_with_directions: route.stops_with_directions
-    };
-    expect(routeBgColor(cr)).toBe("commuter-rail");
-
-    const ferry: RouteWithStopsWithDirections = {
-      route: { ...route.route, type: 4 },
-      stops_with_directions: route.stops_with_directions
-    };
-    expect(routeBgColor(ferry)).toBe("ferry");
-
-    ["Red", "Orange", "Blue"].forEach(id => {
-      const subway: RouteWithStopsWithDirections = {
-        route: { ...route.route, type: 1, id },
-        stops_with_directions: route.stops_with_directions
-      };
-      expect(routeBgColor(subway)).toBe(`${id.toLowerCase()}-line`);
-    });
-
-    const greenLine: RouteWithStopsWithDirections = {
-      route: { ...route.route, type: 0, id: "Green-B" },
-      stops_with_directions: route.stops_with_directions
-    };
-    expect(routeBgColor(greenLine)).toBe("green-line");
-
-    const bus: RouteWithStopsWithDirections = {
-      route: { ...route.route, type: 3, id: "1" },
-      stops_with_directions: route.stops_with_directions
-    };
-    expect(routeBgColor(bus)).toBe("bus");
-
-    const fake: RouteWithStopsWithDirections = {
-      route: { ...route.route, type: 0, id: "fakeID" },
-      stops_with_directions: route.stops_with_directions
-    };
-    expect(routeBgColor(fake)).toBe("unknown");
-  });
-});
-
-describe("busClass", () => {
-  it("determines a route is a bus route", () => {
-    const bus: RouteWithStopsWithDirections = {
-      route: { ...route.route, type: 3, id: "1" },
-      stops_with_directions: route.stops_with_directions
-    };
-    expect(busClass(bus)).toBe("bus-route-sign");
-
-    const notBus: RouteWithStopsWithDirections = {
-      route: { ...route.route, type: 1, id: "Red" },
-      stops_with_directions: route.stops_with_directions
-    };
-    expect(busClass(notBus)).toBe("");
-  });
 });

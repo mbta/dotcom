@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import renderSvg from "./render-svg";
+import { isASilverLineRoute } from "../models/route";
 import accessibleIconSvg from "../../static/images/icon-accessible-small.svg";
 import alertIconSvg from "../../static/images/icon-alerts-triangle.svg";
 import blueLineIconSvg from "../../static/images/icon-blue-line-default.svg";
@@ -78,14 +79,6 @@ export const vehicleArrowIcon = (className: string = ""): JSX.Element =>
 export const searchIcon = (className: string = ""): JSX.Element =>
   renderSvg(className, searchIconSvg, false);
 
-const isSilverRoute = (routeId: string): boolean =>
-  routeId === "741" ||
-  routeId === "742" ||
-  routeId === "743" ||
-  routeId === "746" ||
-  routeId === "749" ||
-  routeId === "751";
-
 export const modeIcon = (routeId: string): JSX.Element | undefined => {
   if (routeId.startsWith("CR-")) return commuterRailIcon("c-svg__icon");
   if (routeId.startsWith("Boat-")) return ferryIcon("c-svg__icon");
@@ -98,7 +91,7 @@ export const modeIcon = (routeId: string): JSX.Element | undefined => {
   if (routeId === "Mattapan") return mattapanLineIcon("c-svg__icon");
   if (routeId === "Orange") return orangeLineIcon("c-svg__icon");
   if (routeId === "Red") return redLineIcon("c-svg__icon");
-  if (isSilverRoute(routeId)) return silverLineIcon("c-svg__icon");
+  if (isASilverLineRoute(routeId)) return silverLineIcon("c-svg__icon");
 
   return busIcon("c-svg__icon-bus-small");
 };

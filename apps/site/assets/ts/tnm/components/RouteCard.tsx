@@ -9,7 +9,7 @@ import {
 import { Dispatch } from "../state";
 import { directionIsEmpty } from "../../components/Direction";
 import { modeByV3ModeType } from "../../components/ModeFilter";
-import { alertIcon } from "../../helpers/icon";
+import RouteCardHeader from "../../components/RouteCardHeader";
 import { isABusRoute } from "../../models/route";
 
 interface Props {
@@ -34,43 +34,11 @@ const filterStops = (
   return route.stops_with_directions.slice(0, count);
 };
 
-export const isSilverLine = ({
-  route
-}: RouteWithStopsWithDirections): boolean => {
-  const mapSet: { [routeId: string]: boolean } = {
-    "741": true,
-    "742": true,
-    "743": true,
-    "746": true,
-    "749": true,
-    "751": true
-  };
-
-  return mapSet[route.id] || false;
-};
-
-export const routeBgColor = (route: RouteWithStopsWithDirections): string => {
-  if (route.route.type === 2) return "commuter-rail";
-  if (route.route.type === 4) return "ferry";
-  if (route.route.id === "Red" || route.route.id === "Mattapan")
-    return "red-line";
-  if (route.route.id === "Orange") return "orange-line";
-  if (route.route.id === "Blue") return "blue-line";
-  if (route.route.id.startsWith("Green-")) return "green-line";
-  if (isSilverLine(route)) return "silver-line";
-  if (isABusRoute(route.route)) return "bus";
-  return "unknown";
-};
-
-export const busClass = (route: RouteWithStopsWithDirections): string =>
-  isABusRoute(route.route) && !isSilverLine(route) ? "bus-route-sign" : "";
-
 const RouteCard = ({
   route,
   dispatch
 }: Props): ReactElement<HTMLElement> | null => {
   const mode = modeByV3ModeType[route.route.type];
-  const bgClass = `u-bg--${routeBgColor(route)}`;
 
   if (routeIsEmpty(route)) {
     return null;
@@ -78,15 +46,10 @@ const RouteCard = ({
 
   return (
     <div className="m-tnm-sidebar__route" data-mode={mode}>
-      <a
-        href={`/schedules/${route.route.id}`}
-        className={`h3 m-tnm-sidebar__route-name ${bgClass}`}
-      >
-        <span className={busClass(route)}>{route.route.header}</span>
-        {route.route.alert_count
-          ? alertIcon("m-tnm-sidebar__route-alert")
-          : null}
-      </a>
+      <RouteCardHeader
+        route={route.route}
+        hasAlert={route.route.alert_count > 0}
+      />
       {filterStops(route).map(
         stopWithDirections =>
           !everyDirectionIsEmpty(stopWithDirections.directions) && (

@@ -11,6 +11,7 @@ import Sidebar from "./Sidebar";
 import LocationBlock from "./LocationBlock";
 import Departures from "./Departures";
 import SuggestedTransfers from "./SuggestedTransfers";
+import { isHighSeverityOrHighPriority } from "../../models/alert";
 
 interface Props {
   stopPageData: StopPageData;
@@ -48,6 +49,7 @@ export default ({
     suggested_transfers: suggestedTransfers,
     alerts,
     alerts_tab: alertsTab,
+    routes_having_alerts: routesHavingAlerts,
     tab
   } = stopPageData;
 
@@ -58,7 +60,7 @@ export default ({
     // fetchData(stop.id, dispatch);
   }, 15000);
 
-  const highPriorityAlerts = alerts.filter(alert => alert.priority === "high");
+  const highPriorityAlerts = alerts.filter(isHighSeverityOrHighPriority);
 
   return (
     <>
@@ -112,6 +114,7 @@ export default ({
                   />
                   <Departures
                     routes={state.routes}
+                    routesHavingAlerts={routesHavingAlerts}
                     stop={stop}
                     selectedModes={state.selectedModes}
                     dispatch={dispatch}

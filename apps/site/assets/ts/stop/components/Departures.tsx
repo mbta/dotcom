@@ -7,6 +7,7 @@ import { ModeFilter, modeByV3ModeType } from "../../components/ModeFilter";
 
 interface Props {
   routes: TypedRoutes[];
+  routesHavingAlerts?: { [key: string]: boolean };
   stop: Stop;
   selectedModes: Mode[];
   dispatch: Dispatch;
@@ -40,6 +41,7 @@ const filteredByModes = (
 
 const Departures = ({
   routes,
+  routesHavingAlerts,
   stop,
   selectedModes,
   dispatch
@@ -69,6 +71,11 @@ const Departures = ({
             route={routeWithDirections.route}
             directions={routeWithDirections.directions}
             stop={stop}
+            hasAlert={
+              (routesHavingAlerts &&
+                routesHavingAlerts[routeWithDirections.route.id]) ||
+              false
+            }
           />
         ))}
       </div>

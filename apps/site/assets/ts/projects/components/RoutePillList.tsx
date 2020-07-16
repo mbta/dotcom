@@ -2,14 +2,14 @@ import React, { ReactElement } from "react";
 import RouteIcon from "./RouteIcon";
 import RoutePill from "./RoutePill";
 import { Route } from "../../__cms";
-import { isSilverLine } from "../../helpers/silver-line";
+import { isASilverLineRoute } from "../../models/route";
 
 interface Props {
   routes: Route[];
 }
 
 const busName = (id: string): string =>
-  isSilverLine(id) ? "silver-line" : "bus";
+  isASilverLineRoute(id) ? "silver-line" : "bus";
 
 export const routeToModeName = ({ mode, id }: Route): string => {
   switch (mode) {
