@@ -1,7 +1,8 @@
 import {
-  isASilverLineRoute,
   isABusRoute,
-  isAGreenLineRoute
+  isACommuterRailRoute,
+  isAGreenLineRoute,
+  isASilverLineRoute
 } from "../models/route";
 import { Route } from "../__v3api";
 
@@ -12,7 +13,7 @@ export const busClass = (route: Route): string =>
   isABusRoute(route) && !isASilverLineRoute(route) ? "bus-route-sign" : "";
 
 export const routeToModeName = (route: Route): string => {
-  if (route.type === 2) return "commuter-rail";
+  if (isACommuterRailRoute(route)) return "commuter-rail";
   if (route.type === 4) return "ferry";
   if (route.id === "Red" || route.id === "Mattapan") return "red-line";
   if (route.id === "Orange") return "orange-line";

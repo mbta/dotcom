@@ -1,8 +1,9 @@
 import React, { ReactElement } from "react";
+import { isACommuterRailRoute } from "../../../models/route";
+import { UserInput } from "../../components/__schedule";
 import { EnhancedRoutePattern } from "../__schedule";
 import { Journey } from "../__trips";
 import TableRow from "./TableRow";
-import { UserInput } from "../../components/__schedule";
 
 interface Props {
   journeys: Journey[];
@@ -78,7 +79,7 @@ const ScheduleTable = ({
             <th scope="col" className="schedule-table__cell">
               Departs
             </th>
-            {firstTrip.route.type === 2 && (
+            {isACommuterRailRoute(firstTrip.route) && (
               <th scope="col" className="schedule-table__cell">
                 Train
               </th>

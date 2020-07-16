@@ -1,5 +1,10 @@
 import { Route } from "../../__v3api";
-import { isABusRoute, isAGreenLineRoute, isASilverLineRoute } from "../route";
+import {
+  isABusRoute,
+  isACommuterRailRoute,
+  isAGreenLineRoute,
+  isASilverLineRoute
+} from "../route";
 
 describe("isABusRoute", () => {
   test("returns whether or not this is a bus route", () => {
@@ -14,6 +19,22 @@ describe("isABusRoute", () => {
 
     expect(isABusRoute(busRoute)).toBeTruthy();
     expect(isABusRoute(subwayRoute)).toBeFalsy();
+  });
+});
+
+describe("isACommuterRailRoute", () => {
+  test("returns whether or not this is a commuter rail route", () => {
+    const crRoutue: Route = {
+      id: "CR-Haverhill",
+      type: 2
+    } as Route;
+    const subwayRoute: Route = {
+      id: "Red",
+      type: 1
+    } as Route;
+
+    expect(isACommuterRailRoute(crRoutue)).toBeTruthy();
+    expect(isACommuterRailRoute(subwayRoute)).toBeFalsy();
   });
 });
 

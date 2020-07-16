@@ -5,7 +5,7 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 import { importData, importRealtimeResponse } from "./helpers/testUtils";
 import { RouteWithStopsWithDirections } from "../../__v3api";
 import { transformRoutes } from "../helpers/process-realtime-data";
-import { isABusRoute } from "../../models/route";
+import { isABusRoute, isACommuterRailRoute } from "../../models/route";
 
 const realtimeData = importRealtimeResponse();
 const stopsWithDistances = importData();
@@ -219,8 +219,8 @@ describe("filterData", () => {
     );
     expect(filteredRailData).toHaveLength(1);
     expect(
-      filteredRailData.every(
-        (route: RouteWithStopsWithDirections) => route.route.type === 2
+      filteredRailData.every((route: RouteWithStopsWithDirections) =>
+        isACommuterRailRoute(route.route)
       )
     ).toEqual(true);
 
