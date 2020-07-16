@@ -72,6 +72,7 @@ const liveData: LiveData = {
           time_data: {
             delay: 0,
             prediction: {
+              schedule_relationship: null,
               status: null,
               time: ["arriving"],
               track: null
@@ -94,6 +95,7 @@ const liveData: LiveData = {
           time_data: {
             delay: 0,
             prediction: {
+              schedule_relationship: null,
               status: null,
               time: ["2", " ", "min"],
               track: null
@@ -137,6 +139,7 @@ const crLiveData: LiveData = {
           time_data: {
             delay: 5,
             prediction: {
+              schedule_relationship: null,
               status: null,
               time: ["5:05", " ", "PM"],
               track: "3"
