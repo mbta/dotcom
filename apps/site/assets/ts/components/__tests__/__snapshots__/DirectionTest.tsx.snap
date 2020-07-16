@@ -87,17 +87,17 @@ exports[`it does not display the route direction for commuter rail 1`] = `
           className="m-tnm-sidebar__schedule"
         >
           <div
-            className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+            className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
           >
             <div
-              className="m-tnm-sidebar__time-number"
+              className="m-tnm-sidebar__time-number "
             >
               4:30 PM
             </div>
             <div
               className="m-tnm-sidebar__status"
             >
-              On time
+              Scheduled
             </div>
           </div>
         </div>
@@ -127,17 +127,17 @@ exports[`it does not display the route direction for commuter rail 1`] = `
           className="m-tnm-sidebar__schedule"
         >
           <div
-            className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+            className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
           >
             <div
-              className="m-tnm-sidebar__time-number"
+              className="m-tnm-sidebar__time-number "
             >
               4:30 PM
             </div>
             <div
               className="m-tnm-sidebar__status"
             >
-              On time
+              Scheduled
             </div>
           </div>
         </div>

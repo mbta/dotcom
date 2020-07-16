@@ -43,14 +43,55 @@ describe("statusForCommuterRail", () => {
     expect(statusForCommuterRail(delayed)).toEqual("Delayed 5 min");
   });
 
-  test("indicates 'on time' as long as there is a scheduled time", () => {
+  test("indicates if stop is skipped or trip is canceled", () => {
+    const skipped: PredictedOrScheduledTime = {
+      delay: 0,
+      scheduled_time: ["11:00", " ", "AM"],
+      prediction: {
+        status: null,
+        time: ["11:00", " ", "AM"],
+        track: null,
+        schedule_relationship: "skipped"
+      }
+    };
+    const canceled: PredictedOrScheduledTime = {
+      delay: 0,
+      scheduled_time: ["11:00", " ", "AM"],
+      prediction: {
+        status: null,
+        time: ["11:00", " ", "AM"],
+        track: null,
+        schedule_relationship: "cancelled"
+      }
+    };
+
+    expect(statusForCommuterRail(skipped)).toEqual("Canceled");
+    expect(statusForCommuterRail(canceled)).toEqual("Canceled");
+  });
+
+  test("indicates 'on time' for other predictions", () => {
+    const data: PredictedOrScheduledTime = {
+      delay: 0,
+      scheduled_time: ["11:00", " ", "AM"],
+      prediction: {
+        status: null,
+        time: ["11:00", " ", "AM"],
+        track: null,
+        schedule_relationship: null
+      }
+    };
+
+    expect(statusForCommuterRail(data)).toEqual("On time");
+  });
+
+  test("indicates 'scheduled' as long as there is a scheduled time", () => {
     const data: PredictedOrScheduledTime = {
       delay: 4,
       scheduled_time: ["11:00", " ", "AM"],
       prediction: null
     };
 
-    expect(statusForCommuterRail(data)).toEqual("On time");
+    expect(statusForCommuterRail(data)).toEqual("Scheduled");
   });
 
   test("returns null if there is no scheduled time to compare to", () => {

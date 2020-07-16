@@ -840,17 +840,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     4:55 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -893,17 +893,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     6:24 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -973,17 +973,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     4:40 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1013,17 +1013,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     5:30 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1053,17 +1053,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     7:30 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1106,17 +1106,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     4:45 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1186,17 +1186,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     3:50 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1226,17 +1226,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     6:40 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1266,10 +1266,10 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  "
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     4:15 PM
                   </div>
@@ -1319,17 +1319,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     4:55 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1399,17 +1399,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     5:40 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1452,17 +1452,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     6:54 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1532,17 +1532,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     5:30 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1585,17 +1585,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     7:11 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1625,17 +1625,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     10:50 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1705,17 +1705,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     5:20 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1758,17 +1758,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     6:35 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1838,17 +1838,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     6:05 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1891,17 +1891,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     7:05 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -1971,17 +1971,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     4:45 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -2024,17 +2024,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     4:58 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -2064,17 +2064,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     6:31 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
@@ -2104,17 +2104,17 @@ exports[`it renders 1`] = `
                 className="m-tnm-sidebar__schedule"
               >
                 <div
-                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail "
+                  className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
                 >
                   <div
-                    className="m-tnm-sidebar__time-number"
+                    className="m-tnm-sidebar__time-number "
                   >
                     6:57 AM
                   </div>
                   <div
                     className="m-tnm-sidebar__status"
                   >
-                    On time
+                    Scheduled
                   </div>
                 </div>
               </div>
