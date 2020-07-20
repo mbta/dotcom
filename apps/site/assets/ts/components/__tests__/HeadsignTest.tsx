@@ -3,6 +3,7 @@ import renderer from "react-test-renderer";
 import HeadsignComponent from "../Headsign";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { Headsign } from "../../__v3api";
+import { shallow } from "enzyme";
 
 /* eslint-disable @typescript-eslint/camelcase */
 
@@ -224,4 +225,29 @@ it("it displays delayed status for CR", () => {
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
+});
+
+it("it displays cancelled status for CR", () => {
+  const headsign: Headsign = {
+    name: "Cancelled Train",
+    headsign: "Cancelled Train",
+    train_number: "404",
+    times: [
+      {
+        delay: 5,
+        scheduled_time: ["7:00", " ", "PM"],
+        prediction: {
+          schedule_relationship: "cancelled",
+          time: ["7:03", " ", "PM"],
+          status: null,
+          track: null
+        }
+      }
+    ]
+  };
+  const wrapper = shallow(
+    <HeadsignComponent headsign={headsign} condensed={false} routeType={2} />
+  );
+
+  expect(wrapper.find(".m-tnm-sidebar__time-number.strikethrough").exists()).toBeTruthy()
 });
