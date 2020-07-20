@@ -7,7 +7,11 @@ import {
   parkingIcon,
   accessibleIcon
 } from "../../../helpers/icon";
-import { isABusRoute, isAGreenLineRoute } from "../../../models/route";
+import {
+  isABusRoute,
+  isACommuterRailRoute,
+  isAGreenLineRoute
+} from "../../../models/route";
 import { Alert, Route } from "../../../__v3api";
 import { LiveData } from "./LineDiagram";
 import StopPredictions from "./StopPredictions";
@@ -126,11 +130,13 @@ const StopFeatures = (routeStop: RouteStop): JSX.Element => (
         )}
       </TooltipWrapper>
     ) : null}
-    {routeStop.zone && routeStop.route && routeStop.route.type === 2 && (
-      <span className="c-icon__cr-zone m-schedule-diagram__feature-icon">{`Zone ${
-        routeStop.zone
-      }`}</span>
-    )}
+    {routeStop.zone &&
+      routeStop.route &&
+      isACommuterRailRoute(routeStop.route) && (
+        <span className="c-icon__cr-zone m-schedule-diagram__feature-icon">{`Zone ${
+          routeStop.zone
+        }`}</span>
+      )}
   </div>
 );
 
@@ -140,7 +146,7 @@ const StopBranchLabel = (stop: RouteStop): JSX.Element | null =>
       {isAGreenLineRoute(stop.route)
         ? `Green Line ${stop.route.id.split("-")[1]}`
         : stop.name}
-      {stop.route.type === 2 ? " Line" : " Branch"}
+      {isACommuterRailRoute(stop.route) ? " Line" : " Branch"}
     </div>
   ) : null;
 
@@ -249,7 +255,9 @@ const SingleStop = ({
           {!isDestination && liveData && (
             <StopPredictions
               headsigns={liveData.headsigns}
-              isCommuterRail={!!routeStop.route && routeStop.route.type === 2}
+              isCommuterRail={
+                !!routeStop.route && isACommuterRailRoute(routeStop.route)
+              }
             />
           )}
         </div>

@@ -98,78 +98,78 @@ describe("TableRow", () => {
 
     expect(wrapper.find("td.schedule-table__cell").length).toBe(4);
   });
+});
 
-  describe("fetchJourney", () => {
-    it("fetches the selected journey", async () => {
-      window.fetch = jest.fn().mockImplementation(
-        () =>
-          new Promise((resolve: Function) =>
-            resolve({
-              json: () => ({
-                vehicle_stop_name: "",
-                vehicle: null,
-                times: [],
-                stop_count: 1,
-                status: "",
-                origin_id: "",
-                fare: {},
-                duration: 1,
-                destination_id: ""
-              }),
-              ok: true,
-              status: 200,
-              statusText: "OK"
-            })
-          )
-      );
+describe("fetchJourney", () => {
+  it("fetches the selected journey", async () => {
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            json: () => ({
+              vehicle_stop_name: "",
+              vehicle: null,
+              times: [],
+              stop_count: 1,
+              status: "",
+              origin_id: "",
+              fare: {},
+              duration: 1,
+              destination_id: ""
+            }),
+            ok: true,
+            status: 200,
+            statusText: "OK"
+          })
+        )
+    );
 
-      const dispatchSpy = jest.fn();
+    const dispatchSpy = jest.fn();
 
-      await await fetchJourney(journey.trip.id, input, dispatchSpy);
+    await await fetchJourney(journey.trip.id, input, dispatchSpy);
 
-      expect(window.fetch).toHaveBeenCalledWith(
-        "/schedules/finder_api/trip?id=CR-Weekday-Fall-19-801&route=CR-Providence&date=2019-11-26&direction=0&stop=place-sstat"
-      );
+    expect(window.fetch).toHaveBeenCalledWith(
+      "/schedules/finder_api/trip?id=CR-Weekday-Fall-19-801&route=CR-Providence&date=2019-11-26&direction=0&stop=place-sstat"
+    );
 
-      expect(dispatchSpy).toHaveBeenCalledTimes(2);
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        type: "FETCH_STARTED"
-      });
-      expect(dispatchSpy).toHaveBeenCalledWith({
-        payload: {
-          destination_id: "",
-          duration: 1,
-          fare: {},
-          origin_id: "",
-          status: "",
-          stop_count: 1,
-          times: [],
-          vehicle: null,
-          vehicle_stop_name: ""
-        },
-        type: "FETCH_COMPLETE"
-      });
+    expect(dispatchSpy).toHaveBeenCalledTimes(2);
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      type: "FETCH_STARTED"
     });
-
-    it("throws an error if the fetch fails", async () => {
-      window.fetch = jest.fn().mockImplementation(
-        () =>
-          new Promise((resolve: Function) =>
-            resolve({
-              ok: false,
-              status: 500,
-              statusText: "you broke it"
-            })
-          )
-      );
-
-      const dispatchSpy = jest.fn();
-
-      await await fetchJourney(journey.trip.id, input, dispatchSpy);
-
-      expect(dispatchSpy).toHaveBeenCalledTimes(2);
-      expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_STARTED" });
-      expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_ERROR" });
+    expect(dispatchSpy).toHaveBeenCalledWith({
+      payload: {
+        destination_id: "",
+        duration: 1,
+        fare: {},
+        origin_id: "",
+        status: "",
+        stop_count: 1,
+        times: [],
+        vehicle: null,
+        vehicle_stop_name: ""
+      },
+      type: "FETCH_COMPLETE"
     });
+  });
+
+  it("throws an error if the fetch fails", async () => {
+    window.fetch = jest.fn().mockImplementation(
+      () =>
+        new Promise((resolve: Function) =>
+          resolve({
+            ok: false,
+            status: 500,
+            statusText: "you broke it"
+          })
+        )
+    );
+
+    const dispatchSpy = jest.fn();
+
+    await await fetchJourney(journey.trip.id, input, dispatchSpy);
+
+    expect(dispatchSpy).toHaveBeenCalledTimes(2);
+    expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_STARTED" });
+    expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_ERROR" });
   });
 });

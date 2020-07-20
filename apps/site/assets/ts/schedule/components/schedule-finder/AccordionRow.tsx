@@ -1,8 +1,9 @@
 import React, { ReactElement } from "react";
 import { caret } from "../../../helpers/icon";
-import { State, TripDetails } from "./TripDetails";
 import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
+import { isACommuterRailRoute } from "../../../models/route";
 import { Journey, EnhancedJourney } from "../__trips";
+import { State, TripDetails } from "./TripDetails";
 
 interface Props {
   state: State;
@@ -20,6 +21,7 @@ const AccordionRow = ({
   toggle
 }: Props): ReactElement<HTMLElement> => {
   const tripId = journey.trip.id;
+  const isCommuterRail = isACommuterRailRoute(journey.route);
 
   return (
     <>
@@ -44,10 +46,10 @@ const AccordionRow = ({
       {expanded && (
         <tr id={`trip-${tripId}-expanded`}>
           <td
-            colSpan={journey.route.type === 2 ? 4 : 3}
+            colSpan={isCommuterRail ? 4 : 3}
             className="schedule-table__cell schedule-table__cell--expanded"
           >
-            <TripDetails state={state} showFare={journey.route.type === 2} />
+            <TripDetails state={state} showFare={isCommuterRail} />
           </td>
         </tr>
       )}

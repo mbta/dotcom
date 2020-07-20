@@ -100,7 +100,11 @@ defmodule SiteWeb.ScheduleController.FinderApi do
       }) do
     {service_end_date, direction_id, _} = convert_from_string(date: date, direction: direction)
 
-    route = Routes.Repo.get(route_id)
+    route =
+      route_id
+      |> get_route_id(trip_id)
+      |> Routes.Repo.get()
+
     opts = Map.get(conn.assigns, :trip_info_functions, [])
     params = %{"origin" => origin, "trip" => trip_id}
 
@@ -445,4 +449,16 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   @spec maybe_remove_prediction_stop(map | nil) :: map | nil
   defp maybe_remove_prediction_stop(nil), do: nil
   defp maybe_remove_prediction_stop(p), do: Map.put(p, :stop, nil)
+
+  @spec get_route_id(Route.id_t(), Trip.id_t()) :: Route.id_t()
+  defp get_route_id("Green", trip_id) do
+    schedule =
+      trip_id
+      |> Schedules.Repo.schedule_for_trip()
+      |> List.first()
+
+    schedule.route.id
+  end
+
+  defp get_route_id(route_id, _trip_id), do: route_id
 end
