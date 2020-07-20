@@ -118,9 +118,10 @@ const HeadsignComponent = (props: Props): ReactElement<HTMLElement> => {
         {routeType === 2 && renderTrainName(`Train ${headsign.train_number}`)}
       </div>
       <div className="m-tnm-sidebar__schedules">
-        {headsign.times.map((time, idx) =>
-          renderTime(time, headsign.name, routeType, idx)
-        )}
+        {headsign.times.map((time, idx) => {
+          if (routeType === 2 && idx > 0) return null; // limit to 1 headsign
+          return renderTime(time, headsign.name, routeType, idx);
+        })}
       </div>
     </div>
   );

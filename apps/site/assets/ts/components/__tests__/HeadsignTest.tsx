@@ -45,6 +45,42 @@ it("it renders 2 predictions", () => {
   expect(tree).toMatchSnapshot();
 });
 
+it("it renders 1 prediction for CR", () => {
+  const headsign: Headsign = {
+    name: "Watertown",
+    headsign: "Watertown",
+    times: [
+      {
+        delay: 0,
+        scheduled_time: ["4:30", " ", "PM"],
+        prediction: {
+          schedule_relationship: null,
+          time: ["14", " ", "min"],
+          status: null,
+          track: null
+        }
+      },
+      {
+        delay: 0,
+        scheduled_time: ["5:00", " ", "PM"],
+        prediction: {
+          schedule_relationship: null,
+          time: ["44", " ", "min"],
+          status: null,
+          track: null
+        }
+      }
+    ],
+    train_number: null
+  };
+
+  const wrapper = shallow(
+    <HeadsignComponent headsign={headsign} condensed={false} routeType={2} />
+  );
+
+  expect(wrapper.find(".m-tnm-sidebar__schedule")).toHaveLength(1);
+});
+
 it("it renders scheduled time when prediction is null", () => {
   const headsign: Headsign = {
     name: "Watertown",
@@ -249,5 +285,7 @@ it("it displays cancelled status for CR", () => {
     <HeadsignComponent headsign={headsign} condensed={false} routeType={2} />
   );
 
-  expect(wrapper.find(".m-tnm-sidebar__time-number.strikethrough").exists()).toBeTruthy()
+  expect(
+    wrapper.find(".m-tnm-sidebar__time-number.strikethrough").exists()
+  ).toBeTruthy();
 });

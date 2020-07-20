@@ -428,24 +428,6 @@ exports[`render it renders 1`] = `
                       </div>
                     </div>
                   </div>
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  "
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number "
-                      >
-                        5:46 PM
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__status"
-                      >
-                        On time
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -496,24 +478,6 @@ exports[`render it renders 1`] = `
                         className="m-tnm-sidebar__status"
                       >
                         On time
-                      </div>
-                    </div>
-                  </div>
-                  <div
-                    className="m-tnm-sidebar__schedule"
-                  >
-                    <div
-                      className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  text-muted"
-                    >
-                      <div
-                        className="m-tnm-sidebar__time-number "
-                      >
-                        7:11 PM
-                      </div>
-                      <div
-                        className="m-tnm-sidebar__status"
-                      >
-                        Scheduled
                       </div>
                     </div>
                   </div>
