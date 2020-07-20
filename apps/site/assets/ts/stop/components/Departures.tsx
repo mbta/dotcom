@@ -71,7 +71,11 @@ const Departures = ({
             route={routeWithDirections.route}
             directions={routeWithDirections.directions}
             stop={stop}
-            alerts={routesAndAlerts ? routesAndAlerts[routeWithDirections.route.id] : []}
+            alerts={
+              routesAndAlerts
+                ? routesAndAlerts[routeWithDirections.route.id]
+                : []
+            }
           />
         ))}
       </div>

@@ -241,7 +241,18 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
         overflow-wrap: anywhere; // long CR line names need this to fit
       }
     }
+
+    + .m-tnm-sidebar__route-stop,
+    + .m-tnm-sidebar__route-alert-effect {
+      margin-top: - $base-spacing / 2;
+    }
   }
+}
+
+.m-tnm-sidebar__route-alert-effect {
+  background: $white;
+  box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
+  margin-bottom: $base-spacing / 2;
 }
 
 .m-tnm-sidebar__route-alert {

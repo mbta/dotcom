@@ -244,7 +244,7 @@ defmodule Site.RealtimeScheduleTest do
         },
         route: %{
           __struct__: Routes.Route,
-          alert_count: 2,
+          alerts: @alerts,
           custom_route?: false,
           description: :rapid_transit,
           direction_destinations: %{"0" => "Forest Hills", "1" => "Oak Grove"},

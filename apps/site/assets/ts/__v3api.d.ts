@@ -109,7 +109,7 @@ export interface Route {
 
 export interface EnhancedRoute extends Route {
   header: string;
-  alert_count: number;
+  alerts: Alert[];
   href?: string;
 }
 
