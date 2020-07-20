@@ -231,6 +231,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
 
   &.c-link-block {
     display: block;
+    margin-bottom: $base-spacing / 2;
 
     .c-link-block__inner {
       display: flex;

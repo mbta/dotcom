@@ -109,7 +109,7 @@ export const alertLabel = (alert: AlertType): ReactElement<HTMLElement> => {
   );
 };
 
-const effectNameForAlert = (alert: AlertType): string =>
+export const effectNameForAlert = (alert: AlertType): string =>
   alert.effect
     .split("_")
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))

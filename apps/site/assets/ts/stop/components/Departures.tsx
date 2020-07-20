@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Stop, Mode } from "../../__v3api";
+import { Stop, Mode, Alert } from "../../__v3api";
 import { Dispatch, clickModeAction } from "../state";
 import { TypedRoutes, RouteWithDirections } from "./__stop";
 import RouteCard from "./RouteCard";
@@ -7,7 +7,7 @@ import { ModeFilter, modeByV3ModeType } from "../../components/ModeFilter";
 
 interface Props {
   routes: TypedRoutes[];
-  routesHavingAlerts?: { [key: string]: boolean };
+  routesAndAlerts?: { [key: string]: Alert[] };
   stop: Stop;
   selectedModes: Mode[];
   dispatch: Dispatch;
@@ -41,7 +41,7 @@ const filteredByModes = (
 
 const Departures = ({
   routes,
-  routesHavingAlerts,
+  routesAndAlerts,
   stop,
   selectedModes,
   dispatch
@@ -71,11 +71,7 @@ const Departures = ({
             route={routeWithDirections.route}
             directions={routeWithDirections.directions}
             stop={stop}
-            hasAlert={
-              (routesHavingAlerts &&
-                routesHavingAlerts[routeWithDirections.route.id]) ||
-              false
-            }
+            alerts={routesAndAlerts ? routesAndAlerts[routeWithDirections.route.id] : []}
           />
         ))}
       </div>
