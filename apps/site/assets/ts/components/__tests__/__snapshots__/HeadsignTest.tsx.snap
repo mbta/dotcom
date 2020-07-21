@@ -28,12 +28,12 @@ exports[`it displays delayed status for CR 1`] = `
         className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  "
       >
         <div
-          className="m-tnm-sidebar__time-number --delayed"
+          className=" m-tnm-sidebar__time-number--delayed"
         >
           7:00 PM
         </div>
         <div
-          className="m-tnm-sidebar__time-number "
+          className=" m-tnm-sidebar__time-number"
         >
           7:03 PM
         </div>
@@ -132,7 +132,7 @@ exports[`it renders a status and train name for Commuter Rail 1`] = `
         className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  "
       >
         <div
-          className="m-tnm-sidebar__time-number "
+          className=" m-tnm-sidebar__time-number"
         >
           4:30 PM
         </div>
@@ -175,7 +175,7 @@ exports[`it renders a status and train name for Commuter Rail with track number 
         className="m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail  "
       >
         <div
-          className="m-tnm-sidebar__time-number "
+          className=" m-tnm-sidebar__time-number"
         >
           4:30 PM
         </div>

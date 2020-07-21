@@ -58,9 +58,9 @@ const renderTimeCommuterRail = (
     >
       {timeForCommuterRail(
         data,
-        `m-tnm-sidebar__time-number ${
+        `${
           status === "Canceled" ? "strikethrough" : ""
-        }`
+        } m-tnm-sidebar__time-number`
       )}
       <div className="m-tnm-sidebar__status">
         {`${status}${trackForCommuterRail(data)}`}
