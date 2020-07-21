@@ -803,11 +803,20 @@ defmodule SiteWeb.TripPlanView do
 
   @spec sl_only_trip_from_airport?(Itinerary.t()) :: boolean()
   defp sl_only_trip_from_airport?(itinerary) do
-    transit_legs = Itinerary.transit_legs(itinerary)
-    first_leg = List.first(transit_legs)
-    route_id = first_leg.mode.route_id
-    from_stop_id = first_leg.from.stop_id
-
-    length(transit_legs) == 1 && Fares.silver_line_airport_stop?(route_id, from_stop_id)
+    itinerary
+    |> Itinerary.transit_legs()
+    |> sl_only_legs_from_airport?()
   end
+
+  @spec sl_only_legs_from_airport?([Leg.t()]) :: boolean()
+  defp sl_only_legs_from_airport?([]), do: false
+
+  defp sl_only_legs_from_airport?([leg]) do
+    route_id = leg.mode.route_id
+    from_stop_id = leg.from.stop_id
+
+    Fares.silver_line_airport_stop?(route_id, from_stop_id)
+  end
+
+  defp sl_only_legs_from_airport?(_), do: false
 end

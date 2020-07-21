@@ -1543,5 +1543,337 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
       refute show_monthly_passes?(sl_from_logan_itinerary)
     end
+
+    test "returns true for all other itineraries" do
+      login_sl_plus_subway_itinerary = %TripPlan.Itinerary{
+        accessible?: false,
+        legs: [
+          %TripPlan.Leg{
+            description: "WALK",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.365396,
+              longitude: -71.017547,
+              name: "Boston Logan Airport",
+              stop_id: nil
+            },
+            long_name: nil,
+            mode: %TripPlan.PersonalDetail{
+              distance: 385.75800000000004,
+              steps: [
+                %TripPlan.PersonalDetail.Step{
+                  absolute_direction: :southwest,
+                  distance: 382.50800000000004,
+                  relative_direction: :depart,
+                  street_name: "footbridge"
+                },
+                %TripPlan.PersonalDetail.Step{
+                  absolute_direction: :northwest,
+                  distance: 3.25,
+                  relative_direction: :left,
+                  street_name: "service road"
+                }
+              ]
+            },
+            name: "",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.364612,
+              longitude: -71.020862,
+              name: "Terminal A",
+              stop_id: "17091"
+            },
+            type: nil,
+            url: nil
+          },
+          %TripPlan.Leg{
+            description: "BUS",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.364612,
+              longitude: -71.020862,
+              name: "Terminal A",
+              stop_id: "17091"
+            },
+            long_name: "Logan Airport Terminals - South Station",
+            mode: %TripPlan.TransitDetail{
+              fares: %{
+                highest_one_way_fare: %Fares.Fare{
+                  additional_valid_modes: [],
+                  cents: 0,
+                  duration: :single_trip,
+                  media: [],
+                  mode: :bus,
+                  name: :free_fare,
+                  price_label: nil,
+                  reduced: nil
+                },
+                lowest_one_way_fare: %Fares.Fare{
+                  additional_valid_modes: [],
+                  cents: 0,
+                  duration: :single_trip,
+                  media: [],
+                  mode: :bus,
+                  name: :free_fare,
+                  price_label: nil,
+                  reduced: nil
+                },
+                reduced_one_way_fare: nil
+              },
+              intermediate_stop_ids: [
+                "27092",
+                "17093",
+                "17094",
+                "17095",
+                "17096",
+                "74614",
+                "74615",
+                "74616"
+              ],
+              route_id: "741",
+              trip_id: "44812260"
+            },
+            name: "SL1",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.352271,
+              longitude: -71.055242,
+              name: "South Station",
+              stop_id: "74617"
+            },
+            type: "1",
+            url: "http://www.mbta.com"
+          },
+          %TripPlan.Leg{
+            description: "WALK",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.352271,
+              longitude: -71.055242,
+              name: "South Station",
+              stop_id: "74617"
+            },
+            long_name: nil,
+            mode: %TripPlan.PersonalDetail{
+              distance: 0.0,
+              steps: [
+                %TripPlan.PersonalDetail.Step{
+                  absolute_direction: :south,
+                  distance: 0.0,
+                  relative_direction: :depart,
+                  street_name: "Transfer"
+                }
+              ]
+            },
+            name: "",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.352271,
+              longitude: -71.055242,
+              name: "South Station",
+              stop_id: "70080"
+            },
+            type: nil,
+            url: nil
+          },
+          %TripPlan.Leg{
+            description: "SUBWAY",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.352271,
+              longitude: -71.055242,
+              name: "South Station",
+              stop_id: "70080"
+            },
+            long_name: "Red Line",
+            mode: %TripPlan.TransitDetail{
+              fares: %{
+                highest_one_way_fare: %Fares.Fare{
+                  additional_valid_modes: [:bus],
+                  cents: 290,
+                  duration: :single_trip,
+                  media: [:charlie_ticket, :cash],
+                  mode: :subway,
+                  name: :subway,
+                  price_label: nil,
+                  reduced: nil
+                },
+                lowest_one_way_fare: %Fares.Fare{
+                  additional_valid_modes: [:bus],
+                  cents: 240,
+                  duration: :single_trip,
+                  media: [:charlie_card],
+                  mode: :subway,
+                  name: :subway,
+                  price_label: nil,
+                  reduced: nil
+                },
+                reduced_one_way_fare: %Fares.Fare{
+                  additional_valid_modes: [],
+                  cents: 110,
+                  duration: :single_trip,
+                  media: [:senior_card],
+                  mode: :subway,
+                  name: :subway,
+                  price_label: nil,
+                  reduced: :senior_disabled
+                }
+              },
+              intermediate_stop_ids: [],
+              route_id: "Red",
+              trip_id: "44080180-20:45-BraintreeQuincyCenterExtended"
+            },
+            name: "Red Line",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.355518,
+              longitude: -71.060225,
+              name: "Downtown Crossing",
+              stop_id: "70078"
+            },
+            type: "1",
+            url: "http://www.mbta.com"
+          }
+        ],
+        passes: %{
+          base_month_pass: %Fares.Fare{
+            additional_valid_modes: [:bus],
+            cents: 9000,
+            duration: :month,
+            media: [:charlie_card, :charlie_ticket],
+            mode: :subway,
+            name: :subway,
+            price_label: nil,
+            reduced: nil
+          },
+          recommended_month_pass: %Fares.Fare{
+            additional_valid_modes: [:bus],
+            cents: 9000,
+            duration: :month,
+            media: [:charlie_card, :charlie_ticket],
+            mode: :subway,
+            name: :subway,
+            price_label: nil,
+            reduced: nil
+          },
+          reduced_month_pass: %Fares.Fare{
+            additional_valid_modes: [:bus],
+            cents: 3000,
+            duration: :month,
+            media: [:senior_card, :student_card],
+            mode: :subway,
+            name: :subway,
+            price_label: nil,
+            reduced: :any
+          }
+        },
+        start: DateTime.now!("Etc/UTC"),
+        stop: DateTime.now!("Etc/UTC")
+      }
+
+      assert show_monthly_passes?(login_sl_plus_subway_itinerary)
+    end
+
+    test "returns true for an itinerary without any transit legs" do
+      no_transit_legs_itinerary = %TripPlan.Itinerary{
+        accessible?: false,
+        legs: [
+          %TripPlan.Leg{
+            description: "WALK",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.365396,
+              longitude: -71.017547,
+              name: "Boston Logan Airport",
+              stop_id: nil
+            },
+            long_name: nil,
+            mode: %TripPlan.PersonalDetail{
+              distance: 385.75800000000004,
+              steps: [
+                %TripPlan.PersonalDetail.Step{
+                  absolute_direction: :southwest,
+                  distance: 382.50800000000004,
+                  relative_direction: :depart,
+                  street_name: "footbridge"
+                },
+                %TripPlan.PersonalDetail.Step{
+                  absolute_direction: :northwest,
+                  distance: 3.25,
+                  relative_direction: :left,
+                  street_name: "service road"
+                }
+              ]
+            },
+            name: "",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.364612,
+              longitude: -71.020862,
+              name: "Terminal A",
+              stop_id: "17091"
+            },
+            type: nil,
+            url: nil
+          },
+          %TripPlan.Leg{
+            description: "WALK",
+            from: %TripPlan.NamedPosition{
+              latitude: 42.352271,
+              longitude: -71.055242,
+              name: "South Station",
+              stop_id: "74617"
+            },
+            long_name: nil,
+            mode: %TripPlan.PersonalDetail{
+              distance: 0.0,
+              steps: [
+                %TripPlan.PersonalDetail.Step{
+                  absolute_direction: :south,
+                  distance: 0.0,
+                  relative_direction: :depart,
+                  street_name: "Transfer"
+                }
+              ]
+            },
+            name: "",
+            to: %TripPlan.NamedPosition{
+              latitude: 42.352271,
+              longitude: -71.055242,
+              name: "South Station",
+              stop_id: "70080"
+            },
+            type: nil,
+            url: nil
+          }
+        ],
+        passes: %{
+          base_month_pass: %Fares.Fare{
+            additional_valid_modes: [:bus],
+            cents: 9000,
+            duration: :month,
+            media: [:charlie_card, :charlie_ticket],
+            mode: :subway,
+            name: :subway,
+            price_label: nil,
+            reduced: nil
+          },
+          recommended_month_pass: %Fares.Fare{
+            additional_valid_modes: [:bus],
+            cents: 9000,
+            duration: :month,
+            media: [:charlie_card, :charlie_ticket],
+            mode: :subway,
+            name: :subway,
+            price_label: nil,
+            reduced: nil
+          },
+          reduced_month_pass: %Fares.Fare{
+            additional_valid_modes: [:bus],
+            cents: 3000,
+            duration: :month,
+            media: [:senior_card, :student_card],
+            mode: :subway,
+            name: :subway,
+            price_label: nil,
+            reduced: :any
+          }
+        },
+        start: DateTime.now!("Etc/UTC"),
+        stop: DateTime.now!("Etc/UTC")
+      }
+
+      assert show_monthly_passes?(no_transit_legs_itinerary)
+    end
   end
 end
