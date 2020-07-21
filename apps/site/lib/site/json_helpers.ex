@@ -25,21 +25,24 @@ defmodule Site.JsonHelpers do
   def stringified_alert(alert, date) do
     alert
     |> Map.from_struct()
-    |> Map.update!(:active_period, &alert_active_period(&1))
+    |> Map.update!(
+      :active_period,
+      &Enum.map(&1, fn active_period -> alert_active_period(active_period) end)
+    )
     |> Map.update!(:updated_at, &IO.iodata_to_binary(AlertView.alert_updated(&1, date)))
     |> Map.update!(:header, &HTML.safe_to_string(AlertView.replace_urls_with_links(&1)))
     |> Map.update!(:description, &HTML.safe_to_string(AlertView.format_alert_description(&1)))
   end
 
-  @spec alert_active_period([Alerts.Alert.period_pair()]) :: String.t()
-  defp alert_active_period([{first, last}]) do
-    if first && last do
-      [
-        Timex.format!(first, "{YYYY}-{M}-{D} {h12}:{m}"),
-        Timex.format!(last, "{YYYY}-{M}-{D} {h12}:{m}")
-      ]
-    else
-      [nil, nil]
+  @spec alert_active_period(Alerts.Alert.period_pair()) :: [nil | binary]
+  defp alert_active_period({first, last}) do
+    [first, last] |> Enum.map(&format_time(&1))
+  end
+
+  defp format_time(t) do
+    case Timex.format(t, "{YYYY}-{M}-{D} {h12}:{m}") do
+      {:ok, formatted_time} -> formatted_time
+      _ -> nil
     end
   end
 
