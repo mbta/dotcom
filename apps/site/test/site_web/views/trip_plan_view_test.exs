@@ -1534,8 +1534,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
           recommended_month_pass: nil,
           reduced_month_pass: nil
         },
-        start: DateTime.now!("Etc/UTC"),
-        stop: DateTime.now!("Etc/UTC")
+        start: DateTime.from_unix!(0),
+        stop: DateTime.from_unix!(0)
       }
 
       refute show_monthly_passes?(sl_from_logan_itinerary)
@@ -1756,8 +1756,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             reduced: :any
           }
         },
-        start: DateTime.now!("Etc/UTC"),
-        stop: DateTime.now!("Etc/UTC")
+        start: DateTime.from_unix!(0),
+        stop: DateTime.from_unix!(0)
       }
 
       assert show_monthly_passes?(login_sl_plus_subway_itinerary)
@@ -1866,8 +1866,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             reduced: :any
           }
         },
-        start: DateTime.now!("Etc/UTC"),
-        stop: DateTime.now!("Etc/UTC")
+        start: DateTime.from_unix!(0),
+        stop: DateTime.from_unix!(0)
       }
 
       assert show_monthly_passes?(no_transit_legs_itinerary)
