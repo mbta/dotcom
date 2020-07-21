@@ -1,4 +1,5 @@
 defmodule SiteWeb.ModeView do
+  @moduledoc false
   use SiteWeb, :view
 
   alias Alerts.Match
