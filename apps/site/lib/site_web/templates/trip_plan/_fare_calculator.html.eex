@@ -66,7 +66,7 @@
 </div>
 
 
-<%= if @show_monthly_passes? do %>
+<%= if show_monthly_passes?(@itinerary) do %>
   <div class="m-trip-plan-farecalc__table">
     <div class="m-trip-plan-farecalc__table-cell m-trip-plan-farecalc__subheader">
       Monthly Passes

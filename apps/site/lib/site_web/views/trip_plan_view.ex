@@ -599,15 +599,12 @@ defmodule SiteWeb.TripPlanView do
 
       one_way_total_fare = get_one_way_total_by_type(i, :highest_one_way_fare)
 
-      show_monthly_passes? = show_monthly_passes?(i)
-
       fares_estimate_html =
         "_itinerary_fares.html"
         |> render_to_string(
           itinerary: i,
           one_way_total: Format.price(one_way_total_fare),
-          round_trip_total: Format.price(one_way_total_fare * 2),
-          show_monthly_passes?: show_monthly_passes?
+          round_trip_total: Format.price(one_way_total_fare * 2)
         )
 
       fares = get_calculated_fares(i)
@@ -617,8 +614,7 @@ defmodule SiteWeb.TripPlanView do
         |> render_to_string(
           itinerary: i,
           fares: fares,
-          conn: conn,
-          show_monthly_passes?: show_monthly_passes?
+          conn: conn
         )
 
       html =
@@ -797,7 +793,6 @@ defmodule SiteWeb.TripPlanView do
   end
 
   # Hide monthly pass sections in the case of a Silver Line trip with no transfers from Logain Airport.
-  # Public solely for testing.
   @spec show_monthly_passes?(Itinerary.t()) :: boolean()
   def show_monthly_passes?(itinerary), do: !sl_only_trip_from_airport?(itinerary)
 

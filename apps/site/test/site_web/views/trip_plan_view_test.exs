@@ -730,8 +730,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         }
       },
       one_way_total: "$2.90",
-      round_trip_total: "$5.80",
-      show_monthly_passes?: true
+      round_trip_total: "$5.80"
     }
 
     @itinerary %TripPlan.Itinerary{
@@ -1365,8 +1364,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> render_to_string(
           itinerary: @itinerary,
           fares: get_calculated_fares(@itinerary),
-          conn: conn,
-          show_monthly_passes?: true
+          conn: conn
         )
 
       fare_calc_tables = Floki.find(html, ".m-trip-plan-farecalc__table")
@@ -1388,8 +1386,7 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> render_to_string(
           itinerary: itinerary_with_transfers,
           fares: get_calculated_fares(@itinerary),
-          conn: conn,
-          show_monthly_passes?: true
+          conn: conn
         )
 
       titles = Floki.find(html_with_transfer_note, ".m-trip-plan-farecalc__title")
