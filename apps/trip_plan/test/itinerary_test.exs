@@ -13,6 +13,14 @@ defmodule TripPlan.ItineraryTest do
     end
   end
 
+  describe "transit_legs/1" do
+    test "returns all transit legs excluding personal legs" do
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+
+      assert Enum.all?(transit_legs(itinerary), &Leg.transit?/1)
+    end
+  end
+
   describe "route_ids/1" do
     test "returns all the route IDs from the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])

@@ -2,13 +2,13 @@ defmodule SiteWeb.TripPlanView do
   @moduledoc "Contains the logic for the Trip Planner"
   use SiteWeb, :view
   require Routes.Route
+  alias Fares.{Fare, Format}
+  alias Phoenix.{HTML, HTML.Form}
   alias Routes.Route
   alias Site.React
   alias Site.TripPlan.{ItineraryRow, Query}
-  alias TripPlan.{Itinerary, Leg, Transfer}
-  alias Phoenix.{HTML, HTML.Form}
   alias SiteWeb.PartialView.SvgIconWithCircle
-  alias Fares.{Fare, Format}
+  alias TripPlan.{Itinerary, Leg, Transfer}
 
   import Schedules.Repo, only: [end_of_rating: 0]
 
@@ -575,6 +575,7 @@ defmodule SiteWeb.TripPlanView do
     |> Map.put(:src, map_src)
   end
 
+  @spec itinerary_html(any, %{conn: atom | %{assigns: atom | map}, expanded: any}) :: [any]
   def itinerary_html(itineraries, %{conn: conn, expanded: expanded}) do
     for {i, routes, map, links, itinerary_row_list, index} <-
           Enum.zip([
@@ -598,19 +599,27 @@ defmodule SiteWeb.TripPlanView do
 
       one_way_total_fare = get_one_way_total_by_type(i, :highest_one_way_fare)
 
+      show_monthly_passes? = show_monthly_passes?(i)
+
       fares_estimate_html =
         "_itinerary_fares.html"
         |> render_to_string(
           itinerary: i,
           one_way_total: Format.price(one_way_total_fare),
-          round_trip_total: Format.price(one_way_total_fare * 2)
+          round_trip_total: Format.price(one_way_total_fare * 2),
+          show_monthly_passes?: show_monthly_passes?
         )
 
       fares = get_calculated_fares(i)
 
       fare_calculator_html =
         "_fare_calculator.html"
-        |> render_to_string(itinerary: i, fares: fares, conn: conn)
+        |> render_to_string(
+          itinerary: i,
+          fares: fares,
+          conn: conn,
+          show_monthly_passes?: show_monthly_passes?
+        )
 
       html =
         "_itinerary.html"
@@ -785,5 +794,20 @@ defmodule SiteWeb.TripPlanView do
       :commuter_rail -> "#{mode_values.mode_name} #{mode_values.name}"
       _ -> "#{mode_values.mode_name}"
     end
+  end
+
+  # Hide monthly pass sections in the case of a Silver Line trip with no transfers from Logain Airport.
+  # Public solely for testing.
+  @spec show_monthly_passes?(Itinerary.t()) :: boolean()
+  def show_monthly_passes?(itinerary), do: !sl_only_trip_from_airport?(itinerary)
+
+  @spec sl_only_trip_from_airport?(Itinerary.t()) :: boolean()
+  defp sl_only_trip_from_airport?(itinerary) do
+    transit_legs = Itinerary.transit_legs(itinerary)
+    first_leg = List.first(transit_legs)
+    route_id = first_leg.mode.route_id
+    from_stop_id = first_leg.from.stop_id
+
+    length(transit_legs) == 1 && Fares.silver_line_airport_stop?(route_id, from_stop_id)
   end
 end

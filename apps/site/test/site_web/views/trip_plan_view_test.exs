@@ -730,7 +730,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         }
       },
       one_way_total: "$2.90",
-      round_trip_total: "$5.80"
+      round_trip_total: "$5.80",
+      show_monthly_passes?: true
     }
 
     @itinerary %TripPlan.Itinerary{
@@ -1364,7 +1365,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> render_to_string(
           itinerary: @itinerary,
           fares: get_calculated_fares(@itinerary),
-          conn: conn
+          conn: conn,
+          show_monthly_passes?: true
         )
 
       fare_calc_tables = Floki.find(html, ".m-trip-plan-farecalc__table")
@@ -1386,7 +1388,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> render_to_string(
           itinerary: itinerary_with_transfers,
           fares: get_calculated_fares(@itinerary),
-          conn: conn
+          conn: conn,
+          show_monthly_passes?: true
         )
 
       titles = Floki.find(html_with_transfer_note, ".m-trip-plan-farecalc__title")
@@ -1433,6 +1436,112 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
     test "accepts nil" do
       assert monthly_pass(nil) == "Shuttle: None"
+    end
+  end
+
+  describe "show_monthly_passes?/1" do
+    test "returns false if the itinerary contains a single transit leg that's specifically a Silver Line trip from the airport" do
+      sl_from_logan_itinerary = %Itinerary{
+        accessible?: true,
+        legs: [
+          %Leg{
+            description: "WALK",
+            from: %NamedPosition{
+              latitude: 42.365396,
+              longitude: -71.017547,
+              name: "Boston Logan Airport"
+            },
+            mode: %TripPlan.PersonalDetail{
+              distance: 510.20700000000005,
+              steps: [
+                %TripPlan.PersonalDetail.Step{
+                  absolute_direction: :southwest,
+                  distance: 456.485,
+                  relative_direction: :depart,
+                  street_name: "footbridge"
+                },
+                %TripPlan.PersonalDetail.Step{
+                  absolute_direction: :west,
+                  distance: 44.900999999999996,
+                  relative_direction: :hard_left,
+                  street_name: "path"
+                },
+                %TripPlan.PersonalDetail.Step{
+                  absolute_direction: :south,
+                  distance: 8.821,
+                  relative_direction: :left,
+                  street_name: "service road"
+                }
+              ]
+            },
+            name: "",
+            to: %NamedPosition{
+              latitude: 42.366494,
+              longitude: -71.017289,
+              name: "Terminal C - Arrivals Level",
+              stop_id: "17094"
+            },
+            type: nil,
+            url: nil
+          },
+          %Leg{
+            description: "BUS",
+            from: %NamedPosition{
+              latitude: 42.366494,
+              longitude: -71.017289,
+              name: "Terminal C - Arrivals Level",
+              stop_id: "17094"
+            },
+            long_name: "Logan Airport Terminals - South Station",
+            mode: %TransitDetail{
+              fares: %{
+                highest_one_way_fare: %Fare{
+                  additional_valid_modes: [],
+                  cents: 0,
+                  duration: :single_trip,
+                  media: [],
+                  mode: :bus,
+                  name: :free_fare,
+                  price_label: nil,
+                  reduced: nil
+                },
+                lowest_one_way_fare: %Fare{
+                  additional_valid_modes: [],
+                  cents: 0,
+                  duration: :single_trip,
+                  media: [],
+                  mode: :bus,
+                  name: :free_fare,
+                  price_label: nil,
+                  reduced: nil
+                },
+                reduced_one_way_fare: nil
+              },
+              intermediate_stop_ids: ["17095", "17096", "74614", "74615", "74616"],
+              route_id: "741",
+              trip_id: "44812182"
+            },
+            name: "SL1",
+            to: %NamedPosition{
+              latitude: 42.352271,
+              longitude: -71.055242,
+              name: "South Station",
+              stop_id: "74617"
+            },
+            type: "1",
+            url: "http://www.mbta.com"
+          }
+        ],
+        passes: %{
+          base_month_pass: nil,
+          recommended_month_pass: nil,
+          reduced_month_pass: nil
+        },
+        start: DateTime.now!("Etc/UTC"),
+        stop: DateTime.now!("Etc/UTC")
+      }
+
+      refute show_monthly_passes?(sl_from_logan_itinerary)
     end
   end
 end
