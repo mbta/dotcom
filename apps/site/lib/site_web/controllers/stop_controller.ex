@@ -8,7 +8,6 @@ defmodule SiteWeb.StopController do
   alias Alerts.Stop, as: AlertsStop
   alias Plug.Conn
   alias Fares.{RetailLocations, RetailLocations.Location}
-  alias Phoenix.HTML
   alias Site.JsonHelpers
   alias Routes.{Group, Route}
   alias Site.TransitNearMe
@@ -289,31 +288,7 @@ defmodule SiteWeb.StopController do
 
   @spec json_safe_alerts([Alert.t()], DateTime.t()) :: [map]
   def json_safe_alerts(alerts, date) do
-    Enum.map(alerts, fn alert ->
-      alert
-      |> Map.from_struct()
-      |> Map.update!(:active_period, fn active_periods ->
-        Enum.map(active_periods, &active_period_to_string(&1))
-      end)
-      |> Map.update!(:updated_at, &IO.iodata_to_binary(AlertView.alert_updated(&1, date)))
-      |> Map.update!(:header, &HTML.safe_to_string(AlertView.replace_urls_with_links(&1)))
-      |> Map.update!(:description, &HTML.safe_to_string(AlertView.format_alert_description(&1)))
-    end)
-  end
-
-  def active_period_to_string({first, last}) do
-    [
-      format_time(first),
-      format_time(last)
-    ]
-  end
-
-  def format_time(nil) do
-    nil
-  end
-
-  def format_time(time) do
-    Timex.format!(time, "{YYYY}-{M}-{D} {h12}:{m}")
+    Enum.map(alerts, &JsonHelpers.stringified_alert(&1, date))
   end
 
   @type json_safe_routes :: %{

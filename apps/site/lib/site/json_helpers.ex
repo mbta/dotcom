@@ -3,9 +3,11 @@ defmodule Site.JsonHelpers do
   Helper functions for converting structs to JSON encodable values.
   """
 
+  alias Alerts.Alert
+  alias Phoenix.HTML
   alias Phoenix.HTML.Safe
   alias Routes.Route
-  alias SiteWeb.{ScheduleView, ViewHelpers}
+  alias SiteWeb.{AlertView, ScheduleView, ViewHelpers}
 
   @spec stringified_route(Route.t()) :: map
   def stringified_route(route) do
@@ -17,6 +19,28 @@ defmodule Site.JsonHelpers do
     end)
     |> Map.update!(:direction_destinations, &update_map_for_encoding(&1))
     |> Map.put(:header, route_header(route))
+  end
+
+  @spec stringified_alert(Alert.t(), DateTime.t()) :: map
+  def stringified_alert(alert, date) do
+    alert
+    |> Map.from_struct()
+    |> Map.update!(:active_period, &alert_active_period(&1))
+    |> Map.update!(:updated_at, &IO.iodata_to_binary(AlertView.alert_updated(&1, date)))
+    |> Map.update!(:header, &HTML.safe_to_string(AlertView.replace_urls_with_links(&1)))
+    |> Map.update!(:description, &HTML.safe_to_string(AlertView.format_alert_description(&1)))
+  end
+
+  @spec alert_active_period([Alerts.Alert.period_pair()]) :: String.t()
+  defp alert_active_period([{first, last}]) do
+    if first && last do
+      [
+        Timex.format!(first, "{YYYY}-{M}-{D} {h12}:{m}"),
+        Timex.format!(last, "{YYYY}-{M}-{D} {h12}:{m}")
+      ]
+    else
+      [nil, nil]
+    end
   end
 
   @spec route_header(Route.t()) :: String.t()

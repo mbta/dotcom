@@ -8,6 +8,7 @@ defmodule Site.RealtimeScheduleTest do
   alias RoutePatterns.RoutePattern
   alias Routes.Route
   alias Schedules.{Schedule, Trip}
+  alias Site.JsonHelpers
   alias Site.RealtimeSchedule
   alias Stops.Stop
 
@@ -244,7 +245,7 @@ defmodule Site.RealtimeScheduleTest do
         },
         route: %{
           __struct__: Routes.Route,
-          alerts: @alerts,
+          alerts: @alerts |> Enum.map(&JsonHelpers.stringified_alert(&1, @now)),
           custom_route?: false,
           description: :rapid_transit,
           direction_destinations: %{"0" => "Forest Hills", "1" => "Oak Grove"},
