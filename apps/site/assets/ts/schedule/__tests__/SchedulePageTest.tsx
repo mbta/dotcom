@@ -54,7 +54,7 @@ const holidays = [
 ];
 
 const route: EnhancedRoute = {
-  alert_count: 0,
+  alerts: [],
   description: "",
   direction_destinations: { 0: "Oak Grove", 1: "Forest Hills" },
   direction_names: { 0: "Inbound", 1: "Outbound" },

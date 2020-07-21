@@ -7,7 +7,8 @@ import {
   Headsign,
   PredictedOrScheduledTime,
   Stop,
-  RouteWithStopsWithDirections
+  RouteWithStopsWithDirections,
+  Alert
 } from "../../__v3api";
 
 /* eslint-disable @typescript-eslint/camelcase */
@@ -53,9 +54,11 @@ const stop: Stop = {
   type: "station"
 };
 
+const alert = {} as Alert;
+
 const route: RouteWithStopsWithDirections = {
   route: {
-    alert_count: 1,
+    alerts: [alert],
     direction_destinations: ["Outbound Destination", "Inbound Destination"],
     direction_names: ["Outbound", "Inbound"],
     id: "route-id",

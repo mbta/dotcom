@@ -21,7 +21,7 @@
       "direction_destinations": { "1": "Oak Grove", "0": "Forest Hills" },
       "description": "rapid_transit",
       "custom_route?": false,
-      "alert_count": 1
+      "alerts": [{}]
     },
     "predicted_schedules_by_route_pattern": {
       "Oak Grove": {
@@ -114,7 +114,7 @@
       "direction_destinations": { "1": "North Station", "0": "Haverhill" },
       "description": "commuter_rail",
       "custom_route?": false,
-      "alert_count": 0
+      "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
       "North Station - Haverhill via Reading": {
@@ -221,7 +221,7 @@
       "direction_destinations": { "1": "Wellington", "0": "Malden Center" },
       "description": "local_bus",
       "custom_route?": false,
-      "alert_count": 0
+      "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
       "Wellington Station - Malden Center Station": {
@@ -341,7 +341,7 @@
       },
       "description": "local_bus",
       "custom_route?": false,
-      "alert_count": 0
+      "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
       "Woodland Rd - Wellington Station": {
@@ -452,7 +452,7 @@
       "direction_destinations": { "1": "Sullivan", "0": "Malden Center" },
       "description": "local_bus",
       "custom_route?": false,
-      "alert_count": 0
+      "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
       "Sullivan Square Station - Malden Center Station": {
@@ -563,7 +563,7 @@
       "direction_destinations": { "1": "Sullivan", "0": "Malden Center" },
       "description": "local_bus",
       "custom_route?": false,
-      "alert_count": 1
+      "alerts": [{}]
     },
     "predicted_schedules_by_route_pattern": {
       "Sullivan Square Station - Malden Center Station": {
@@ -680,7 +680,7 @@
       "direction_destinations": { "1": "Sullivan", "0": "Malden Center" },
       "description": "local_bus",
       "custom_route?": false,
-      "alert_count": 1
+      "alerts": [{}]
     },
     "predicted_schedules_by_route_pattern": {
       "Sullivan Square Station - Malden Center Station": {
@@ -788,7 +788,7 @@
       },
       "description": "local_bus",
       "custom_route?": false,
-      "alert_count": 0
+      "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
       "Wellington Station - Lebanon Loop": {
@@ -965,7 +965,7 @@
       "direction_destinations": { "1": "Wellington", "0": "Linden Square" },
       "description": "local_bus",
       "custom_route?": false,
-      "alert_count": 0
+      "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
       "Wellington Station - Linden Square": {
@@ -1079,7 +1079,7 @@
       },
       "description": "commuter_bus",
       "custom_route?": false,
-      "alert_count": 0
+      "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
       "Melrose Highlands Station - Malden Center Station": {
@@ -1134,7 +1134,7 @@
       },
       "description": "local_bus",
       "custom_route?": false,
-      "alert_count": 0
+      "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
       "Redstone Shopping Center - Malden Center Station": {
@@ -1254,7 +1254,7 @@
       },
       "description": "local_bus",
       "custom_route?": false,
-      "alert_count": 0
+      "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
       "Reading Depot - Malden Center Station": {
@@ -1354,7 +1354,7 @@
       },
       "description": "local_bus",
       "custom_route?": false,
-      "alert_count": 0
+      "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
       "Reading Depot - Malden Center Station": {
@@ -1474,7 +1474,7 @@
       },
       "description": "local_bus",
       "custom_route?": false,
-      "alert_count": 0
+      "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
       "Malden Center Station - Kennedy Dr": {
@@ -1639,7 +1639,7 @@
       },
       "description": "local_bus",
       "custom_route?": false,
-      "alert_count": 0
+      "alerts": []
     },
     "predicted_schedules_by_route_pattern": {
       "Saugus Center - Malden Center Station via Kennedy Dr": {

@@ -38,7 +38,7 @@ const route = {
   description: "key_bus_route",
   "custom_route?": false,
   header: "",
-  alert_count: 0
+  alerts: []
 };
 
 lineDiagram.forEach(({ route_stop }) => {

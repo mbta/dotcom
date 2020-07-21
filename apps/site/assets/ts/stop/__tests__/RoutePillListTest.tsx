@@ -31,7 +31,7 @@ it("renders a ferry route", () => {
             direction_names: { "0": "Outbound", "1": "Inbound" },
             direction_destinations: { "0": "Charlestown", "1": "Long Wharf" },
             description: "ferry",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         }

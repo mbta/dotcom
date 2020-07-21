@@ -37,7 +37,7 @@ it("renders ferry routes", () => {
     direction_names: { "0": "Outbound", "1": "Inbound" },
     direction_destinations: { "0": "Charlestown", "1": "Long Wharf" },
     description: "ferry",
-    alert_count: 0
+    alerts: []
   };
   /* eslint-enable typescript/camelcase */
 
@@ -67,7 +67,7 @@ it("renders orange line routes", () => {
       "1": "Alewife"
     },
     description: "rapid_transit",
-    alert_count: 0
+    alerts: []
   };
   /* eslint-enable typescript/camelcase */
 
@@ -97,7 +97,7 @@ it("renders blue line routes", () => {
       "1": "Alewife"
     },
     description: "rapid_transit",
-    alert_count: 0
+    alerts: []
   };
   /* eslint-enable typescript/camelcase */
 
@@ -127,7 +127,7 @@ it("renders red line routes", () => {
       "1": "Alewife"
     },
     description: "rapid_transit",
-    alert_count: 0
+    alerts: []
   };
   /* eslint-enable typescript/camelcase */
 
@@ -157,7 +157,7 @@ it("renders green line routes", () => {
       "1": "Alewife"
     },
     description: "rapid_transit",
-    alert_count: 0
+    alerts: []
   };
   /* eslint-enable typescript/camelcase */
 
@@ -187,7 +187,7 @@ it("renders bus routes", () => {
       "1": "Alewife"
     },
     description: "rapid_transit",
-    alert_count: 0
+    alerts: []
   };
   /* eslint-enable typescript/camelcase */
 

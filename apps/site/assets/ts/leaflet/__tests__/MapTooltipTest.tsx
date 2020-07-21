@@ -17,7 +17,7 @@ const routes: EnhancedRoute[] = [
     direction_names: { "0": "South", "1": "North" }, // eslint-disable-line @typescript-eslint/camelcase
     direction_destinations: { "0": "Forest Hills", "1": "Oak Grove" }, // eslint-disable-line @typescript-eslint/camelcase
     description: "rapid_transit",
-    alert_count: 0, // eslint-disable-line @typescript-eslint/camelcase
+    alerts: [], // eslint-disable-line @typescript-eslint/camelcase
     header: ""
   }
 ];
