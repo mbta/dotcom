@@ -345,7 +345,7 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   }
 
   &--schedule {
-    color: $gray-light;
+    color: $gray;
 
     // double-selector required to override .m-tnm-sidebar__schedule:first-of-type selector
     .m-tnm-sidebar__time-number.m-tnm-sidebar__time-number,
