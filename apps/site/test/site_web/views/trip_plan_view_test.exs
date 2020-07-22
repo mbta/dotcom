@@ -1435,4 +1435,118 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert monthly_pass(nil) == "Shuttle: None"
     end
   end
+
+  describe "show_monthly_passes?/1" do
+    test "returns false if the itinerary contains a single transit leg that's specifically a Silver Line trip from the airport" do
+      sl_from_logan_itinerary = %Itinerary{
+        legs: [
+          %Leg{
+            description: "WALK",
+            mode: %TripPlan.PersonalDetail{
+              distance: 510.2
+            }
+          },
+          %Leg{
+            description: "BUS",
+            from: %NamedPosition{
+              name: "Terminal C - Arrivals Level",
+              stop_id: "17094"
+            },
+            mode: %TransitDetail{
+              route_id: "741"
+            },
+            name: "SL1",
+            to: %NamedPosition{
+              name: "South Station",
+              stop_id: "74617"
+            },
+            type: "1"
+          }
+        ],
+        start: DateTime.from_unix!(0),
+        stop: DateTime.from_unix!(0)
+      }
+
+      refute show_monthly_passes?(sl_from_logan_itinerary)
+    end
+
+    test "returns true for all other itineraries" do
+      login_sl_plus_subway_itinerary = %TripPlan.Itinerary{
+        legs: [
+          %TripPlan.Leg{
+            description: "WALK",
+            mode: %TripPlan.PersonalDetail{
+              distance: 385.75800000000004
+            }
+          },
+          %TripPlan.Leg{
+            description: "BUS",
+            from: %TripPlan.NamedPosition{
+              name: "Terminal A",
+              stop_id: "17091"
+            },
+            mode: %TripPlan.TransitDetail{
+              route_id: "741"
+            },
+            name: "SL1",
+            to: %TripPlan.NamedPosition{
+              name: "South Station",
+              stop_id: "74617"
+            },
+            type: "1"
+          },
+          %TripPlan.Leg{
+            description: "WALK",
+            mode: %TripPlan.PersonalDetail{
+              distance: 0.0
+            },
+            name: ""
+          },
+          %TripPlan.Leg{
+            description: "SUBWAY",
+            from: %TripPlan.NamedPosition{
+              name: "South Station",
+              stop_id: "70080"
+            },
+            mode: %TripPlan.TransitDetail{
+              route_id: "Red"
+            },
+            name: "Red Line",
+            to: %TripPlan.NamedPosition{
+              name: "Downtown Crossing",
+              stop_id: "70078"
+            },
+            type: "1"
+          }
+        ],
+        start: DateTime.from_unix!(0),
+        stop: DateTime.from_unix!(0)
+      }
+
+      assert show_monthly_passes?(login_sl_plus_subway_itinerary)
+    end
+
+    test "returns true for an itinerary without any transit legs" do
+      no_transit_legs_itinerary = %TripPlan.Itinerary{
+        legs: [
+          %TripPlan.Leg{
+            description: "WALK",
+            mode: %TripPlan.PersonalDetail{
+              distance: 385.75800000000004
+            }
+          },
+          %TripPlan.Leg{
+            description: "WALK",
+            mode: %TripPlan.PersonalDetail{
+              distance: 0.0
+            }
+          }
+        ],
+        start: DateTime.from_unix!(0),
+        stop: DateTime.from_unix!(0)
+      }
+
+      assert show_monthly_passes?(no_transit_legs_itinerary)
+    end
+  end
 end

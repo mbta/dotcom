@@ -2,13 +2,13 @@ defmodule SiteWeb.TripPlanView do
   @moduledoc "Contains the logic for the Trip Planner"
   use SiteWeb, :view
   require Routes.Route
+  alias Fares.{Fare, Format}
+  alias Phoenix.{HTML, HTML.Form}
   alias Routes.Route
   alias Site.React
   alias Site.TripPlan.{ItineraryRow, Query}
-  alias TripPlan.{Itinerary, Leg, Transfer}
-  alias Phoenix.{HTML, HTML.Form}
   alias SiteWeb.PartialView.SvgIconWithCircle
-  alias Fares.{Fare, Format}
+  alias TripPlan.{Itinerary, Leg, Transfer}
 
   import Schedules.Repo, only: [end_of_rating: 0]
 
@@ -575,6 +575,7 @@ defmodule SiteWeb.TripPlanView do
     |> Map.put(:src, map_src)
   end
 
+  @spec itinerary_html(any, %{conn: atom | %{assigns: atom | map}, expanded: any}) :: [any]
   def itinerary_html(itineraries, %{conn: conn, expanded: expanded}) do
     for {i, routes, map, links, itinerary_row_list, index} <-
           Enum.zip([
@@ -610,7 +611,11 @@ defmodule SiteWeb.TripPlanView do
 
       fare_calculator_html =
         "_fare_calculator.html"
-        |> render_to_string(itinerary: i, fares: fares, conn: conn)
+        |> render_to_string(
+          itinerary: i,
+          fares: fares,
+          conn: conn
+        )
 
       html =
         "_itinerary.html"
@@ -786,4 +791,27 @@ defmodule SiteWeb.TripPlanView do
       _ -> "#{mode_values.mode_name}"
     end
   end
+
+  # Hide monthly pass sections in the case of a Silver Line trip with no transfers from Logain Airport.
+  @spec show_monthly_passes?(Itinerary.t()) :: boolean()
+  def show_monthly_passes?(itinerary), do: !sl_only_trip_from_airport?(itinerary)
+
+  @spec sl_only_trip_from_airport?(Itinerary.t()) :: boolean()
+  defp sl_only_trip_from_airport?(itinerary) do
+    itinerary
+    |> Itinerary.transit_legs()
+    |> sl_only_legs_from_airport?()
+  end
+
+  @spec sl_only_legs_from_airport?([Leg.t()]) :: boolean()
+  defp sl_only_legs_from_airport?([]), do: false
+
+  defp sl_only_legs_from_airport?([leg]) do
+    route_id = leg.mode.route_id
+    from_stop_id = leg.from.stop_id
+
+    Fares.silver_line_airport_stop?(route_id, from_stop_id)
+  end
+
+  defp sl_only_legs_from_airport?(_), do: false
 end

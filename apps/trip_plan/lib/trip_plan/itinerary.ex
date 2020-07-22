@@ -8,6 +8,10 @@ defmodule TripPlan.Itinerary do
   """
 
   alias Fares.Fare
+  alias Routes.Route
+  alias Schedules.Trip
+  alias Stops.Stop
+  alias TripPlan.{Leg, NamedPosition, TransitDetail}
 
   @enforce_keys [:start, :stop]
   defstruct [
@@ -21,7 +25,7 @@ defmodule TripPlan.Itinerary do
   @type t :: %__MODULE__{
           start: DateTime.t(),
           stop: DateTime.t(),
-          legs: [TripPlan.Leg.t()],
+          legs: [Leg.t()],
           accessible?: boolean,
           passes: passes()
         }
@@ -32,39 +36,40 @@ defmodule TripPlan.Itinerary do
           reduced_month_pass: Fare.t()
         }
 
-  alias TripPlan.NamedPosition
-
   @spec destination(t) :: NamedPosition.t()
   def destination(%__MODULE__{legs: legs}) do
     List.last(legs).to
   end
 
+  @spec transit_legs(t()) :: [Leg.t()]
+  def transit_legs(%__MODULE__{legs: legs}), do: Enum.filter(legs, &Leg.transit?/1)
+
   @doc "Return a list of all the route IDs used for this Itinerary"
-  @spec route_ids(t) :: [Routes.Route.id_t()]
+  @spec route_ids(t) :: [Route.id_t()]
   def route_ids(%__MODULE__{legs: legs}) do
-    flat_map_over_legs(legs, &TripPlan.Leg.route_id/1)
+    flat_map_over_legs(legs, &Leg.route_id/1)
   end
 
   @doc "Return a list of all the trip IDs used for this Itinerary"
-  @spec trip_ids(t) :: [Schedules.Trip.id_t()]
+  @spec trip_ids(t) :: [Trip.id_t()]
   def trip_ids(%__MODULE__{legs: legs}) do
-    flat_map_over_legs(legs, &TripPlan.Leg.trip_id/1)
+    flat_map_over_legs(legs, &Leg.trip_id/1)
   end
 
   @doc "Return a list of {route ID, trip ID} pairs for this Itinerary"
-  @spec route_trip_ids(t) :: [{Routes.Route.id_t(), Schedules.Trip.id_t()}]
+  @spec route_trip_ids(t) :: [{Route.id_t(), Trip.id_t()}]
   def route_trip_ids(%__MODULE__{legs: legs}) do
-    flat_map_over_legs(legs, &TripPlan.Leg.route_trip_ids/1)
+    flat_map_over_legs(legs, &Leg.route_trip_ids/1)
   end
 
   @doc "Returns a list of all the named positions for this Itinerary"
-  @spec positions(t) :: [TripPlan.NamedPosition.t()]
+  @spec positions(t) :: [NamedPosition.t()]
   def positions(%__MODULE__{legs: legs}) do
     Enum.flat_map(legs, &[&1.from, &1.to])
   end
 
   @doc "Return a list of all the stop IDs used for this Itinerary"
-  @spec stop_ids(t) :: [Schedules.Trip.id_t()]
+  @spec stop_ids(t) :: [Trip.id_t()]
   def stop_ids(%__MODULE__{} = itinerary) do
     itinerary
     |> positions
@@ -76,14 +81,8 @@ defmodule TripPlan.Itinerary do
   @spec walking_distance(t) :: float
   def walking_distance(itinerary) do
     itinerary
-    |> Enum.map(&TripPlan.Leg.walking_distance/1)
+    |> Enum.map(&Leg.walking_distance/1)
     |> Enum.sum()
-  end
-
-  defp flat_map_over_legs(legs, mapper) do
-    for leg <- legs, {:ok, value} <- leg |> mapper.() |> List.wrap() do
-      value
-    end
   end
 
   @doc "Determines if two itineraries represent the same sequence of legs at the same time"
@@ -93,21 +92,27 @@ defmodule TripPlan.Itinerary do
       same_legs?(itinerary_2, itinerary_2)
   end
 
-  @spec same_legs?(t, t) :: boolean
-  defp same_legs?(%__MODULE__{legs: legs_1}, %__MODULE__{legs: legs_2}) do
-    Enum.count(legs_1) == Enum.count(legs_2) &&
-      legs_1 |> Enum.zip(legs_2) |> Enum.all?(fn {l1, l2} -> TripPlan.Leg.same_leg?(l1, l2) end)
-  end
-
   @doc "Return a lost of all of the "
-  @spec intermediate_stop_ids(t) :: [Stops.Stop.id_t()]
+  @spec intermediate_stop_ids(t) :: [Stop.id_t()]
   def intermediate_stop_ids(itinerary) do
     itinerary
     |> Enum.flat_map(&leg_intermediate/1)
     |> Enum.uniq()
   end
 
-  defp leg_intermediate(%TripPlan.Leg{mode: %TripPlan.TransitDetail{intermediate_stop_ids: ids}}) do
+  defp flat_map_over_legs(legs, mapper) do
+    for leg <- legs, {:ok, value} <- leg |> mapper.() |> List.wrap() do
+      value
+    end
+  end
+
+  @spec same_legs?(t, t) :: boolean
+  defp same_legs?(%__MODULE__{legs: legs_1}, %__MODULE__{legs: legs_2}) do
+    Enum.count(legs_1) == Enum.count(legs_2) &&
+      legs_1 |> Enum.zip(legs_2) |> Enum.all?(fn {l1, l2} -> Leg.same_leg?(l1, l2) end)
+  end
+
+  defp leg_intermediate(%Leg{mode: %TransitDetail{intermediate_stop_ids: ids}}) do
     ids
   end
 
@@ -117,11 +122,13 @@ defmodule TripPlan.Itinerary do
 end
 
 defimpl Enumerable, for: TripPlan.Itinerary do
+  alias TripPlan.Leg
+
   def count(_itinerary) do
     {:error, __MODULE__}
   end
 
-  def member?(_itinerary, %TripPlan.Leg{}) do
+  def member?(_itinerary, %Leg{}) do
     {:error, __MODULE__}
   end
 

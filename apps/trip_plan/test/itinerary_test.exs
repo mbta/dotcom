@@ -6,6 +6,21 @@ defmodule TripPlan.ItineraryTest do
   @from MockPlanner.random_stop()
   @to MockPlanner.random_stop()
 
+  describe "destination/1" do
+    test "returns the final destination of the itinerary" do
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+      assert destination(itinerary) == @to
+    end
+  end
+
+  describe "transit_legs/1" do
+    test "returns all transit legs excluding personal legs" do
+      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
+
+      assert Enum.all?(transit_legs(itinerary), &Leg.transit?/1)
+    end
+  end
+
   describe "route_ids/1" do
     test "returns all the route IDs from the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
@@ -60,13 +75,6 @@ defmodule TripPlan.ItineraryTest do
       [first, second] = itinerary.legs
       expected = [first.from, first.to, second.from, second.to]
       assert positions(itinerary) == expected
-    end
-  end
-
-  describe "destination/1" do
-    test "returns the final destination of the itinerary" do
-      {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
-      assert destination(itinerary) == @to
     end
   end
 

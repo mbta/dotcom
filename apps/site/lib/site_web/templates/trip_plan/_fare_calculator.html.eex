@@ -66,25 +66,27 @@
 </div>
 
 
-<div class="m-trip-plan-farecalc__table">
-  <div class="m-trip-plan-farecalc__table-cell m-trip-plan-farecalc__subheader">
-    Monthly Passes
-  </div>
-  <div class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">
-    Base
-  </div>
-  <div class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">
-    Reduced
-  </div>
-  <div class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">
-    Valid On
-  </div>
+<%= if show_monthly_passes?(@itinerary) do %>
+  <div class="m-trip-plan-farecalc__table">
+    <div class="m-trip-plan-farecalc__table-cell m-trip-plan-farecalc__subheader">
+      Monthly Passes
+    </div>
+    <div class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">
+      Base
+    </div>
+    <div class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">
+      Reduced
+    </div>
+    <div class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">
+      Valid On
+    </div>
 
-  <%= for pass <- Enum.uniq([@itinerary.passes.base_month_pass, @itinerary.passes.recommended_month_pass]) do %>
-    <%= render "_monthly_pass_row.html", pass: pass, reduced: @itinerary.passes.reduced_month_pass %>
-  <% end %>
+    <%= for pass <- Enum.uniq([@itinerary.passes.base_month_pass, @itinerary.passes.recommended_month_pass]) do %>
+      <%= render "_monthly_pass_row.html", pass: pass, reduced: @itinerary.passes.reduced_month_pass %>
+    <% end %>
+  </div>
+<% end %>
 
-</div>
 <div class="m-trip-plan-farecalc__notes-block">
   <span class="m-trip-plan-farecalc__title">Reduced fares:</span> Some riders are eligible for <%= link "reduced fares", to: fare_path(@conn, :show, "reduced") %>. Military personnel and children 11 and under ride for free.
 </div>
