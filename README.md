@@ -39,6 +39,7 @@ any given time, the site may not be compatible with the very latest API version.
      asdf plugin-add erlang
      asdf plugin-add elixir
      asdf plugin-add nodejs
+     asdf plugin-add python
      ```
      You can verify the plugins were installed with `asdf plugin-list`
 
@@ -86,6 +87,11 @@ any given time, the site may not be compatible with the very latest API version.
 1. Install our Elixir dependencies. From the root of this repo:
     ```
     mix deps.get
+    ```
+
+1. Install python dependencies
+    ```
+    pip install -r requirements.txt
     ```
 
 1. Install npm globally

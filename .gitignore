@@ -20,7 +20,6 @@ ts-build
 stats.json
 npm-debug.log
 /apps/news/posts.zip
-/bin
 excoveralls.json
 doc/
 coverage
