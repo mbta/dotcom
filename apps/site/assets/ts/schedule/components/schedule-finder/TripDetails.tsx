@@ -55,14 +55,12 @@ export const TripDetails = ({
     return <Loading />;
   }
 
-  const errorLoadingTrip = (
-    <p>
-      <em>Error loading trip details. Please try again later.</em>
-    </p>
-  );
-
   if (error) {
-    return errorLoadingTrip;
+    return (
+      <p>
+        <em>Error loading trip details. Please try again later.</em>
+      </p>
+    );
   }
 
   if (!tripInfo) return null;
@@ -101,17 +99,24 @@ export const TripDetails = ({
         </tr>
       </thead>
       <tbody>
-        {allTimesHaveSchedule(tripInfo)
-          ? tripInfo.times.map((departure, index: number) => (
-              <TripStop
-                departure={departure}
-                index={index}
-                showFare={showFare}
-                routeType={tripInfo.route_type}
-                key={departure.schedule.stop.id}
-              />
-            ))
-          : errorLoadingTrip}
+        {allTimesHaveSchedule(tripInfo) ? (
+          tripInfo.times.map((departure, index: number) => (
+            <TripStop
+              departure={departure}
+              index={index}
+              showFare={showFare}
+              routeType={tripInfo.route_type}
+              key={departure.schedule.stop.id}
+            />
+          ))
+        ) : (
+          <tr>
+            <td colSpan={2}>
+              <strong>Additional Service:</strong> We’re unable to display
+              arrival times for supplemental service.
+            </td>
+          </tr>
+        )}
       </tbody>
     </table>
   );
