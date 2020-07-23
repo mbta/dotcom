@@ -62,6 +62,63 @@ export const fetchData = (
   );
 };
 
+const SchedulesSelect = ({
+  sortedServices,
+  todayServiceId,
+  defaultSelectedServiceId,
+  todayDate,
+  onSelectService
+}: {
+  sortedServices: ServiceInSelector[];
+  defaultSelectedServiceId: string;
+  todayServiceId: string;
+  todayDate: Date;
+  onSelectService: (service: ServiceInSelector | undefined) => void;
+}): ReactElement<HTMLElement> => {
+  const servicesByOptGroup: Dictionary<Service[]> = groupServicesByDateRating(
+    sortedServices,
+    todayDate
+  );
+
+  return (
+    <div className="schedule-finder__service-selector">
+      <label htmlFor="service_selector" className="sr-only">
+        Schedules
+      </label>
+      <SelectContainer>
+        <select
+          id="service_selector"
+          className="c-select-custom text-center u-bold"
+          defaultValue={defaultSelectedServiceId}
+          onChange={e =>
+            onSelectService(sortedServices.find(s => s.id === e.target.value))
+          }
+        >
+          {Object.keys(servicesByOptGroup)
+            .sort(optGroupComparator)
+            .map((group: string) => {
+              const groupedServices = servicesByOptGroup[group];
+              /* istanbul ignore next */
+              if (groupedServices.length <= 0) return null;
+
+              return (
+                <ServiceOptGroup
+                  key={group}
+                  label={group}
+                  services={groupedServices.sort(serviceComparator)}
+                  multipleWeekdays={hasMultipleWeekdaySchedules(
+                    groupedServices
+                  )}
+                  todayServiceId={todayServiceId}
+                />
+              );
+            })}
+        </select>
+      </SelectContainer>
+    </div>
+  );
+};
+
 export const DailySchedule = ({
   stopId,
   services,
@@ -83,11 +140,12 @@ export const DailySchedule = ({
   const currentServices = sortedServices.filter(service =>
     isCurrentValidService(service, todayDate)
   );
-
+  const todayServiceId =
+    currentServices.length > 0 ? currentServices[0].id : "";
   const [defaultSelectedService] = currentServices.length
     ? currentServices
     : sortedServices;
-  const now = currentServices.length > 0 ? currentServices[0].id : "";
+
   const [selectedService, setSelectedService] = useState(
     defaultSelectedService
   );
@@ -103,52 +161,21 @@ export const DailySchedule = ({
 
   if (services.length <= 0) return null;
 
-  const servicesByOptGroup: Dictionary<Service[]> = groupServicesByDateRating(
-    sortedServices,
-    todayDate
-  );
-
   return (
     <>
       <h3>Daily Schedule</h3>
-      <div className="schedule-finder__service-selector">
-        <label htmlFor="service_selector" className="sr-only">
-          Schedules
-        </label>
-        <SelectContainer>
-          <select
-            id="service_selector"
-            className="c-select-custom text-center u-bold"
-            defaultValue={defaultSelectedService.id}
-            onChange={(e): void => {
-              const chosenService = services.find(s => s.id === e.target.value);
-              if (chosenService) {
-                setSelectedService(chosenService);
-              }
-            }}
-          >
-            {Object.keys(servicesByOptGroup)
-              .sort(optGroupComparator)
-              .map((group: string) => {
-                const groupedServices = servicesByOptGroup[group];
-                /* istanbul ignore next */
-                if (groupedServices.length <= 0) return null;
 
-                return (
-                  <ServiceOptGroup
-                    key={group}
-                    label={group}
-                    services={groupedServices.sort(serviceComparator)}
-                    multipleWeekdays={hasMultipleWeekdaySchedules(
-                      groupedServices
-                    )}
-                    now={now}
-                  />
-                );
-              })}
-          </select>
-        </SelectContainer>
-      </div>
+      <SchedulesSelect
+        sortedServices={sortedServices}
+        todayServiceId={todayServiceId}
+        defaultSelectedServiceId={defaultSelectedService.id}
+        todayDate={todayDate}
+        onSelectService={chosenService => {
+          if (chosenService) {
+            setSelectedService(chosenService);
+          }
+        }}
+      />
 
       {state.isLoading && <Loading />}
 

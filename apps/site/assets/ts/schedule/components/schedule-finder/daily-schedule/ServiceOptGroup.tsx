@@ -11,14 +11,14 @@ interface Props {
   label: string;
   services: Service[];
   multipleWeekdays: boolean;
-  now: string;
+  todayServiceId: string;
 }
 
 const ServiceOptGroup = ({
   label,
   services,
   multipleWeekdays,
-  now
+  todayServiceId
 }: Props): ReactElement<HTMLElement> | null =>
   services.length === 0 ? null : (
     <optgroup label={label}>
@@ -64,10 +64,11 @@ const ServiceOptGroup = ({
         return (
           <option key={service.id} value={service.id}>
             {optionText}
-            {service.id === now && " (now)"}
+            {service.id === todayServiceId && " (now)"}
           </option>
         );
       })}
     </optgroup>
   );
+
 export default ServiceOptGroup;

@@ -13,7 +13,7 @@ describe("ServiceOptGroup", () => {
           label={"Group label"}
           services={services}
           multipleWeekdays={false}
-          now=""
+          todayServiceId=""
         />
       )
       .toJSON();
@@ -27,7 +27,7 @@ describe("ServiceOptGroup", () => {
         label={""}
         services={[]}
         multipleWeekdays={false}
-        now=""
+        todayServiceId=""
       />
     );
     expect(tree.toJSON()).toBeNull();
