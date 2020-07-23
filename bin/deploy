@@ -3,10 +3,11 @@
 Deploy a dotcom build to the production Elastic Beanstalk servers.
 
 Usage:
-    deploy <sha>
+    deploy <environment> <sha>
     deploy -h | --help
 
 Arguments:
+    <environment>  The environment to deploy to, e.g. "dotcom-prod"
     <sha>  The hash of a commit that has been deployed to dotcom-dev
 """
 
@@ -15,15 +16,12 @@ import boto3
 
 
 def main(args):
-  environment_name = "dotcom-prod"
-  sha = args["<sha>"]
-  eb = boto3.client('elasticbeanstalk', region_name='us-east-1')
+    environment_name = args["<environment>"]
+    sha = args["<sha>"]
+    eb = boto3.client('elasticbeanstalk', region_name='us-east-1')
 
-  print("Deploying %s to %s" % (sha, environment_name))
-  eb.update_environment(
-    EnvironmentName=environment_name,
-    VersionLabel=sha
-  )
+    print("Deploying %s to %s" % (sha, environment_name))
+    eb.update_environment(EnvironmentName=environment_name, VersionLabel=sha)
 
 
 if __name__ == '__main__':

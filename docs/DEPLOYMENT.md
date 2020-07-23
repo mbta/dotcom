@@ -11,7 +11,7 @@ Prerequisites:
 
 Run the production deploy using our deploy script:
 
-    ./bin/deploy <commit-hash>
+    ./bin/deploy dotcom-prod <commit-hash>
 
 Monitor the deploy in AWS Elastic Beanstalk:
 
