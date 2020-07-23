@@ -1,7 +1,9 @@
 import { Dictionary } from "lodash";
 import React, { ReactElement, useEffect, useState, useReducer } from "react";
-import SelectContainer from "./SelectContainer";
-import Loading from "../../../components/Loading";
+import { DirectionId, Service } from "../../../../__v3api";
+import Loading from "../../../../components/Loading";
+import { stringToDateObject } from "../../../../helpers/date";
+import { reducer } from "../../../../helpers/fetch";
 import {
   hasMultipleWeekdaySchedules,
   groupServicesByDateRating,
@@ -9,14 +11,12 @@ import {
   serviceStartDateComparator,
   optGroupComparator,
   serviceComparator
-} from "../../../helpers/service";
-import { reducer } from "../../../helpers/fetch";
+} from "../../../../helpers/service";
+import { EnhancedRoutePattern, ServiceInSelector } from "../../__schedule";
+import { Journey } from "../../__trips";
+import SelectContainer from "../SelectContainer";
 import ScheduleTable from "./ScheduleTable";
-import { EnhancedRoutePattern, ServiceInSelector } from "../__schedule";
 import ServiceOptGroup from "./ServiceOptGroup";
-import { Journey } from "../__trips";
-import { DirectionId, Service } from "../../../__v3api";
-import { stringToDateObject } from "../../../helpers/date";
 
 // until we come up with a good integration test for async with loading
 // some lines in this file have been ignored from codecov

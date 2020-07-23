@@ -1,13 +1,13 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { createReactRoot } from "../../../../app/helpers/testUtils";
-import { TripDetails, State } from "../TripDetails";
-import { TripInfo } from "../../__trips";
-import tripData from "./test-data/tripInfo.json";
-import crTripData from "./test-data/crTripInfo.json";
-import tripDataWithPredictions from "./test-data/tripInfoWithPredictions.json";
-import crTripDataWithDelays from "./test-data/crTripInfoWithDelays.json";
-import CrowdingPill from "../../line-diagram/CrowdingPill";
+import { createReactRoot } from "../../../../../app/helpers/testUtils";
+import { TripInfo } from "../../../__trips";
+import CrowdingPill from "../../../line-diagram/CrowdingPill";
+import crTripData from "../../__tests__/test-data/crTripInfo.json";
+import crTripDataWithDelays from "../../__tests__/test-data/crTripInfoWithDelays.json";
+import tripData from "../../__tests__/test-data/tripInfo.json";
+import tripDataWithPredictions from "../../__tests__/test-data/tripInfoWithPredictions.json";
+import TripDetails, { State } from "../TripDetails";
 
 const tripInfo: TripInfo = (tripData as unknown) as TripInfo;
 const crTripInfo: TripInfo = (crTripData as unknown) as TripInfo;

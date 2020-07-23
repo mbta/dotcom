@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
-import { TripDeparture } from "../__trips";
-import { breakTextAtSlash } from "../../../helpers/text";
-import { alertIcon } from "../../../helpers/icon";
-import { isSkippedOrCancelled } from "../../../models/prediction";
+import { alertIcon } from "../../../../helpers/icon";
+import { breakTextAtSlash } from "../../../../helpers/text";
+import { isSkippedOrCancelled } from "../../../../models/prediction";
+import { TripDeparture } from "../../__trips";
 
 interface Props {
   departure: TripDeparture;

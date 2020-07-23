@@ -1,5 +1,5 @@
 import React, { ReactElement, useReducer, useEffect } from "react";
-import UpcomingDepartures from "./UpcomingDepartures";
+import UpcomingDepartures from "./upcoming-departures/UpcomingDepartures";
 import { DirectionId, Route } from "../../../__v3api";
 import {
   SimpleStopMap,
@@ -12,7 +12,7 @@ import {
 } from "../__schedule";
 import { reducer } from "../../../helpers/fetch";
 import ScheduleFinderForm from "./ScheduleFinderForm";
-import DailySchedule from "./DailySchedule";
+import DailySchedule from "./daily-schedule/DailySchedule";
 import ScheduleNote from "../ScheduleNote";
 import { isInCurrentService } from "../../../helpers/service";
 import { formattedDate } from "../../../helpers/date";

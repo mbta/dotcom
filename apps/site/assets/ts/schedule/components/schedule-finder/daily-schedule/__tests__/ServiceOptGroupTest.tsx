@@ -1,8 +1,8 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { createReactRoot } from "../../../../app/helpers/testUtils";
+import { createReactRoot } from "../../../../../app/helpers/testUtils";
+import { services } from "../../../../../helpers/__tests__/service-test";
 import ServiceOptGroup from "../ServiceOptGroup";
-import { services } from "../../../../helpers/__tests__/service-test";
 
 describe("ServiceOptGroup", () => {
   it("renders", () => {

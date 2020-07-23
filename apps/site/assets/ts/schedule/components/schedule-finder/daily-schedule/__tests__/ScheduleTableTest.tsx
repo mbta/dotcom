@@ -1,14 +1,14 @@
 import React from "react";
 import { mount } from "enzyme";
-import serviceData from "./test-data/serviceData.json";
-import crServiceData from "./test-data/crServiceData.json";
-import ScheduleTable from "../ScheduleTable";
-import { EnhancedRoutePattern, UserInput } from "../../__schedule";
 import {
   createReactRoot,
   enzymeToJsonWithoutProps
-} from "../../../../app/helpers/testUtils";
-import { Journey } from "../../__trips.js";
+} from "../../../../../app/helpers/testUtils";
+import { EnhancedRoutePattern, UserInput } from "../../../__schedule";
+import { Journey } from "../../../__trips.js";
+import ScheduleTable from "../ScheduleTable";
+import crServiceData from "./test-data/crServiceData.json";
+import serviceData from "./test-data/serviceData.json";
 
 const journeys: Journey[] = serviceData as Journey[];
 

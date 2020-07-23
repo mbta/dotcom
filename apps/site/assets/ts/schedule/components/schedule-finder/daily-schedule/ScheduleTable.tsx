@@ -1,8 +1,7 @@
 import React, { ReactElement } from "react";
-import { isACommuterRailRoute } from "../../../models/route";
-import { UserInput } from "../../components/__schedule";
-import { EnhancedRoutePattern } from "../__schedule";
-import { Journey } from "../__trips";
+import { isACommuterRailRoute } from "../../../../models/route";
+import { EnhancedRoutePattern, UserInput } from "../../__schedule";
+import { Journey } from "../../__trips";
 import TableRow from "./TableRow";
 
 interface Props {

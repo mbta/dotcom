@@ -1,22 +1,21 @@
 import React, { ReactElement, useEffect, useReducer, useState } from "react";
 import { get, isEmpty } from "lodash";
+import { Route } from "../../../../__v3api";
+import Loading from "../../../../components/Loading";
+import { reducer } from "../../../../helpers/fetch";
+import { modeIcon, crowdingIcon } from "../../../../helpers/icon";
 import {
   timeForCommuterRail,
   trackForCommuterRail,
   statusForCommuterRail
-} from "../../../helpers/prediction-helpers";
-import { modeIcon, crowdingIcon } from "../../../helpers/icon";
-import { reducer } from "../../../helpers/fetch";
-import { isABusRoute } from "../../../models/route";
-import { modeBgClass } from "../../../stop/components/RoutePillList";
-import { Route } from "../../../__v3api";
-import { EnhancedJourney } from "../__trips";
-import { breakTextAtSlash } from "../../../helpers/text";
-import { Accordion as LazyAccordion } from "./TableRow";
-import AccordionRow from "./AccordionRow";
-import { UserInput } from "../../components/__schedule";
-import liveClockSvg from "../../../../static/images/icon-live-clock.svg";
-import Loading from "../../../components/Loading";
+} from "../../../../helpers/prediction-helpers";
+import { breakTextAtSlash } from "../../../../helpers/text";
+import { isABusRoute } from "../../../../models/route";
+import liveClockSvg from "../../../../../static/images/icon-live-clock.svg";
+import { modeBgClass } from "../../../../stop/components/RoutePillList";
+import { UserInput } from "../../__schedule";
+import { EnhancedJourney } from "../../__trips";
+import LazyAccordion, { AccordionRow } from "./LazyAccordion";
 
 interface State {
   data: EnhancedJourney[] | null;

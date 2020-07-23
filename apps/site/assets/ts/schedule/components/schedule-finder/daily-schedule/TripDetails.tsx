@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
+import Loading from "../../../../components/Loading";
+import { TripInfo } from "../../__trips";
+import CrowdingPill from "../../line-diagram/CrowdingPill";
 import TripStop from "./TripStop";
-import { TripInfo } from "../__trips";
-import Loading from "../../../components/Loading";
-import CrowdingPill from "../line-diagram/CrowdingPill";
 
 export interface State {
   data: TripInfo | null;

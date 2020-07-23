@@ -1,8 +1,8 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { createReactRoot } from "../../../../app/helpers/testUtils";
+import { createReactRoot } from "../../../../../app/helpers/testUtils";
 import DailySchedule, { fetchData as fetchSchedule } from "../DailySchedule";
-import { ServiceInSelector } from "../../__schedule";
+import { ServiceInSelector } from "../../../__schedule";
 
 const services: ServiceInSelector[] = [
   {

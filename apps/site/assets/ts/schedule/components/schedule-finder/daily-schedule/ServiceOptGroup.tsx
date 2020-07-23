@@ -1,11 +1,11 @@
 import React, { ReactElement } from "react";
+import { Service } from "../../../../__v3api";
+import { shortDate } from "../../../../helpers/date";
 import {
   ServiceGroupNames,
   serviceDays,
   dedupeServices
-} from "../../../helpers/service";
-import { Service } from "../../../__v3api";
-import { shortDate } from "../../../helpers/date";
+} from "../../../../helpers/service";
 
 interface Props {
   label: string;

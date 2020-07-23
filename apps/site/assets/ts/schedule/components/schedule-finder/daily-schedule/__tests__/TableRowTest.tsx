@@ -1,11 +1,10 @@
 import React from "react";
 import { mount } from "enzyme";
 import renderer from "react-test-renderer";
-import { createReactRoot } from "../../../../app/helpers/testUtils";
-import TableRow from "../TableRow";
-import { fetchData as fetchJourney } from "../TableRow";
-import { Journey } from "../../__trips";
-import { UserInput } from "../../__schedule";
+import { createReactRoot } from "../../../../../app/helpers/testUtils";
+import { UserInput } from "../../../__schedule";
+import { Journey } from "../../../__trips";
+import TableRow, { fetchData as fetchJourney } from "../TableRow";
 
 const journey = {
   trip: {

@@ -1,11 +1,11 @@
 import React from "react";
 import { mount, ReactWrapper } from "enzyme";
-import { DirectionId, RouteType } from "../../../../__v3api";
-import { TripInfo } from "../../__trips";
-import AccordionRow from "../AccordionRow";
-import tripData from "./test-data/tripInfo.json";
+import { DirectionId, RouteType } from "../../../../../__v3api";
+import { TripInfo } from "../../../__trips";
+import tripData from "../../__tests__/test-data/tripInfo.json";
+import { AccordionRow } from "../LazyAccordion";
 
-const tripInfo: TripInfo = tripData as TripInfo;
+const tripInfo: TripInfo = (tripData as unknown) as TripInfo;
 
 const journey = {
   trip: {

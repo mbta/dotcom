@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useReducer, ReactElement } from "react";
-import { reducer } from "../../../helpers/fetch";
-import { Journey, EnhancedJourney, TripInfo } from "../__trips";
-import { modeIcon } from "../../../helpers/icon";
-import { breakTextAtSlash } from "../../../helpers/text";
-import { UserInput } from "../../components/__schedule";
+import { reducer } from "../../../../helpers/fetch";
+import { modeIcon } from "../../../../helpers/icon";
+import { breakTextAtSlash } from "../../../../helpers/text";
+import { UserInput } from "../../__schedule";
+import { Journey, EnhancedJourney, TripInfo } from "../../__trips";
 import AccordionRow from "./AccordionRow";
 
 interface TableRowProps {
@@ -108,7 +108,7 @@ const CrTableRow = ({
   </>
 );
 
-export const Accordion = ({
+const Accordion = ({
   input,
   journey,
   contentComponent

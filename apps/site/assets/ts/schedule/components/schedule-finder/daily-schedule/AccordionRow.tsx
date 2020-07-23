@@ -1,8 +1,8 @@
 import React, { ReactElement } from "react";
-import { caret } from "../../../helpers/icon";
-import { handleReactEnterKeyPress } from "../../../helpers/keyboard-events";
-import { isACommuterRailRoute } from "../../../models/route";
-import { Journey, EnhancedJourney } from "../__trips";
+import { caret } from "../../../../helpers/icon";
+import { handleReactEnterKeyPress } from "../../../../helpers/keyboard-events";
+import { isACommuterRailRoute } from "../../../../models/route";
+import { Journey, EnhancedJourney } from "../../__trips";
 import { State, TripDetails } from "./TripDetails";
 
 interface Props {

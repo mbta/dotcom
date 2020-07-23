@@ -1,6 +1,9 @@
 import React from "react";
 import { act } from "react-test-renderer";
 import { mount, ReactWrapper } from "enzyme";
+import { UserInput } from "../../../__schedule";
+import { EnhancedJourney } from "../../../__trips";
+import departuresResponse from "../../__tests__/test-data/departures.json";
 import UpcomingDepartures, {
   upcomingDeparturesTable,
   fetchData,
@@ -8,12 +11,9 @@ import UpcomingDepartures, {
   BusTableRow,
   CrTableRow
 } from "../UpcomingDepartures";
-import { EnhancedJourney } from "../../__trips";
-import departuresResponse from "./test-data/departures.json";
 import crDeparturesResponse from "./test-data/crDepartures.json";
 import enhancedBusJourneysResponse from "./test-data/enhancedBusJourneys.json";
 import enhancedCRjourneysResponse from "./test-data/enhancedCRjourneys.json";
-import { UserInput } from "../../__schedule";
 
 const busDepartures = (departuresResponse as unknown) as EnhancedJourney[];
 const crDepartures = (crDeparturesResponse as unknown) as EnhancedJourney[];

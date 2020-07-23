@@ -1,0 +1,1539 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TripDetails displays both scheduled and predicted times for CR if there is a delay of more than 5 minutes 1`] = `
+<table
+  className="trip-details-table"
+>
+  <thead>
+    <tr
+      className="trip-details-table__summary"
+    >
+      <td
+        className="schedule-table__cell"
+        colSpan={3}
+      >
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
+          >
+            Trip length
+          </span>
+          7
+           stops, 
+          56
+           minutes total
+        </div>
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
+          >
+            Fare
+          </span>
+          $12.25
+          <a
+            className="trip-details-table__link"
+            href="/fares/commuter_rail?destination=place-NEC-1851&origin=place-bbsta"
+          >
+            View fares
+          </a>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="col"
+      >
+        Stops
+      </th>
+      <th
+        className="schedule-table__cell schedule-table__cell--right-adjusted"
+        scope="col"
+      >
+        Arrival
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-bbsta"
+        >
+          Back Bay
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        <span
+          className="schedule-table__times--delayed schedule-table__times--delayed-future_stop"
+        >
+          04:00 PM
+        </span>
+        <br
+          className="hidden-sm-up"
+        />
+        04:01 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-rugg"
+        >
+          Ruggles
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:04 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-NEC-2108"
+        >
+          Sharon
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        <span
+          className="schedule-table__times--delayed schedule-table__times--delayed-future_stop"
+        >
+          04:22 PM
+        </span>
+        <br
+          className="hidden-sm-up"
+        />
+        04:22 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-NEC-2040"
+        >
+          Mansfield
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:30 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-NEC-1969"
+        >
+          Attleboro
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        <span
+          className="schedule-table__times--delayed schedule-table__times--delayed-future_stop"
+        >
+          04:38 PM
+        </span>
+        <br
+          className="hidden-sm-up"
+        />
+        04:39 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-NEC-1919"
+        >
+          South Attleboro
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:48 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-NEC-1851"
+        >
+          Providence
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        <span
+          className="schedule-table__times--delayed schedule-table__times--delayed-future_stop"
+        >
+          04:58 PM
+        </span>
+        <br
+          className="hidden-sm-up"
+        />
+        04:57 PM
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`TripDetails it renders an error if fetch failed 1`] = `
+<p>
+  <em>
+    Error loading trip details. Please try again later.
+  </em>
+</p>
+`;
+
+exports[`TripDetails it renders trip details for a CR trip 1`] = `
+<table
+  className="trip-details-table"
+>
+  <thead>
+    <tr
+      className="trip-details-table__summary"
+    >
+      <td
+        className="schedule-table__cell"
+        colSpan={3}
+      >
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
+          >
+            Trip length
+          </span>
+          10
+           stops, 
+          69
+           minutes total
+        </div>
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
+          >
+            Fare
+          </span>
+          $12.25
+          <a
+            className="trip-details-table__link"
+            href="/fares/commuter_rail?destination=place-NEC-1851&origin=place-sstat"
+          >
+            View fares
+          </a>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="col"
+      >
+        Stops
+      </th>
+      <th
+        className="schedule-table__cell schedule-table__cell--right-adjusted"
+        scope="col"
+      >
+        Fare
+      </th>
+      <th
+        className="schedule-table__cell schedule-table__cell--right-adjusted"
+        scope="col"
+      >
+        Arrival
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-sstat"
+        >
+          South Station
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        
+      </td>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        02:30 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-bbsta"
+        >
+          Back Bay
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        $2.40
+      </td>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        02:35 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-rugg"
+        >
+          Ruggles
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        $2.40
+      </td>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        02:38 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-NEC-2173"
+        >
+          Route 128
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        $7.00
+      </td>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        02:51 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-NEC-2139"
+        >
+          Canton Junction
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        $8.00
+      </td>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        02:57 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-NEC-2108"
+        >
+          Sharon
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        $8.75
+      </td>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        03:03 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-NEC-2040"
+        >
+          Mansfield
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        $10.50
+      </td>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        03:11 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-NEC-1969"
+        >
+          Attleboro
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        $11.00
+      </td>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        03:19 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-NEC-1919"
+        >
+          South Attleboro
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        $11.00
+      </td>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        03:29 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-NEC-1851"
+        >
+          Providence
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        $12.25
+      </td>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        03:39 PM
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`TripDetails it renders trip details for a bus trip 1`] = `
+<table
+  className="trip-details-table"
+>
+  <thead>
+    <tr
+      className="trip-details-table__summary"
+    >
+      <td
+        className="schedule-table__cell"
+        colSpan={3}
+      >
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
+          >
+            Trip length
+          </span>
+          11
+           stops, 
+          14
+           minutes total
+        </div>
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
+          >
+            Fare
+          </span>
+          $2.40
+          <a
+            className="trip-details-table__link"
+            href="/fares/bus-fares"
+          >
+            View fares
+          </a>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="col"
+      >
+        Stops
+      </th>
+      <th
+        className="schedule-table__cell schedule-table__cell--right-adjusted"
+        scope="col"
+      >
+        Arrival
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-sstat"
+        >
+          South Station
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:46 AM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-crtst"
+        >
+          Courthouse
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:48 AM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-wtcst"
+        >
+          World Trade Center
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:50 AM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-conrd"
+        >
+          Silver Line Way
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:53 AM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/247"
+        >
+          Northern Ave @ Harbor St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:54 AM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/30249"
+        >
+          Northern Ave @ Tide St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:55 AM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/30250"
+        >
+          23 Drydock Ave
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:56 AM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/30251"
+        >
+          27 Drydock Ave
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:56 AM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/31259"
+        >
+          Drydock Ave @ Black Falcon Ave
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:56 AM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/31258"
+        >
+          88 Black Falcon
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:57 AM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/31255"
+        >
+          Drydock Ave @ Design Center Place
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        06:00 AM
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
+
+exports[`TripDetails uses a predicted departure time in preference to a scheduled one 1`] = `
+<table
+  className="trip-details-table"
+>
+  <thead>
+    <tr
+      className="trip-details-table__summary"
+    >
+      <td
+        className="schedule-table__cell"
+        colSpan={3}
+      >
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
+          >
+            Trip length
+          </span>
+          39
+           stops, 
+          32
+           minutes total
+        </div>
+        <div>
+          <span
+            className="trip-details-table__title u-small-caps u-bold"
+          >
+            Fare
+          </span>
+          $1.70
+          <a
+            className="trip-details-table__link"
+            href="/fares/bus-fares"
+          >
+            View fares
+          </a>
+        </div>
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="col"
+      >
+        Stops
+      </th>
+      <th
+        className="schedule-table__cell schedule-table__cell--right-adjusted"
+        scope="col"
+      >
+        Arrival
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/place-forhl"
+        >
+          Forest Hills
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:39 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/596"
+        >
+          3867 Washington St opp Tollgate Way
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:42 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/597"
+        >
+          Washington St @ Lochdale Rd
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:42 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/598"
+        >
+          Washington St @ Archdale Rd
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:43 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/599"
+        >
+          Washington St @ Mosgrove Ave
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:43 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/600"
+        >
+          Washington St opp Granfield Ave
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:44 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/601"
+        >
+          Washington St @ South St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:45 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/602"
+        >
+          South St @ Taft Hill Terr
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:46 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/797"
+        >
+          Belgrade Ave @ Robert St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:47 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/798"
+        >
+          Belgrade Ave opp Pinehurst St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:47 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/799"
+        >
+          Belgrade Ave opp Penfield St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:47 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/800"
+        >
+          Belgrade Ave @ Walworth St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:48 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/801"
+        >
+          Belgrade Ave opp Aldrich St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:48 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/802"
+        >
+          277 Belgrade Ave opp Rexhame St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:49 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/803"
+        >
+          Belgrade Ave @ McCraw St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:49 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/804"
+        >
+          Belgrade Ave @ West Roxbury Pkwy
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:50 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/805"
+        >
+          Belgrade Ave @ Centre St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:51 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/806"
+        >
+          Centre St @ Willow St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:53 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/807"
+        >
+          Centre St @ Corey St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:54 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/808"
+        >
+          Centre St opp Bellevue st
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:55 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/810"
+        >
+          Opp 2000 Centre St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:56 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/821"
+        >
+          Centre St @ Lorette St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:58 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/811"
+        >
+          Centre St @ Spring St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:58 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/822"
+        >
+          Centre St @ Autumn St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        04:59 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/823"
+        >
+          Centre St @ Cass St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:00 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/824"
+        >
+          Centre St @ Bronx Rd
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:00 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/825"
+        >
+          Centre St opp Wedgemere Rd
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:00 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/826"
+        >
+          Centre St @ Glenhaven Rd
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:01 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/10768"
+        >
+          Centre St @ Grove St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:01 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/827"
+        >
+          Centre St @ Northdale Rd
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:01 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/828"
+        >
+          Centre St @ Fairlane Rd
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:02 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/829"
+        >
+          2519 Centre St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:02 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/830"
+        >
+          Stimson St @ Centre St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:02 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/831"
+        >
+          80 Stimson St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:03 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/832"
+        >
+          Stimson St @ Washington St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:03 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/618"
+        >
+          Washington St opp Meshaka St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:05 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/10618"
+        >
+          Washington St @ Sumner St
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:05 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/10835"
+        >
+          Dedham Mall @ South Side
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:09 PM
+      </td>
+    </tr>
+    <tr>
+      <th
+        className="schedule-table__cell"
+        scope="row"
+      >
+        <a
+          className=""
+          href="/stops/10833"
+        >
+          Dedham Mall @ Stop & Shop
+        </a>
+      </th>
+      <td
+        className="schedule-table__cell schedule-table__cell--right-adjusted u-tabular-nums"
+      >
+        05:11 PM
+      </td>
+    </tr>
+  </tbody>
+</table>
+`;
