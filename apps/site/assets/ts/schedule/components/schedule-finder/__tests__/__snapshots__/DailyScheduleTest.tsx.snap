@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`ServiceSelector renders with a date 1`] = `
+exports[`DailySchedule renders with a date 1`] = `
 Array [
   <h3>
     Daily Schedule

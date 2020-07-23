@@ -1,10 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../../../app/helpers/testUtils";
-import {
-  fetchData as fetchSchedule,
-  ServiceSelector
-} from "../ServiceSelector";
+import DailySchedule, { fetchData as fetchSchedule } from "../DailySchedule";
 import { ServiceInSelector } from "../../__schedule";
 
 const services: ServiceInSelector[] = [
@@ -136,11 +133,11 @@ const services: ServiceInSelector[] = [
   }
 ];
 
-describe("ServiceSelector", () => {
+describe("DailySchedule", () => {
   it("renders with a date", () => {
     createReactRoot();
     const tree = renderer.create(
-      <ServiceSelector
+      <DailySchedule
         stopId="stopId"
         services={services}
         directionId={0}

@@ -12,7 +12,7 @@ import {
 } from "../__schedule";
 import { reducer } from "../../../helpers/fetch";
 import ScheduleFinderForm from "./ScheduleFinderForm";
-import ServiceSelector from "./ServiceSelector";
+import DailySchedule from "./DailySchedule";
 import ScheduleNote from "../ScheduleNote";
 import { isInCurrentService } from "../../../helpers/service";
 import { formattedDate } from "../../../helpers/date";
@@ -132,7 +132,7 @@ const ScheduleModalContent = ({
           scheduleNote={scheduleNote}
         />
       ) : (
-        <ServiceSelector
+        <DailySchedule
           stopId={selectedOrigin}
           services={services}
           routeId={routeId}

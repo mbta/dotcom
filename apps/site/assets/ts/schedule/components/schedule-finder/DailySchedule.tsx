@@ -62,7 +62,7 @@ export const fetchData = (
   );
 };
 
-export const ServiceSelector = ({
+export const DailySchedule = ({
   stopId,
   services,
   routeId,
@@ -169,4 +169,4 @@ export const ServiceSelector = ({
   );
 };
 
-export default ServiceSelector;
+export default DailySchedule;
