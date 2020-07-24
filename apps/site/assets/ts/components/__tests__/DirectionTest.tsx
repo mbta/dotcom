@@ -29,7 +29,7 @@ const direction: DirectionType = {
 };
 
 const route: EnhancedRoute = {
-  alert_count: 0,
+  alerts: [],
   direction_destinations: ["Outbound Destination", "Inbound Destination"],
   direction_names: ["Outbound", "Inbound"],
   id: "route-id",

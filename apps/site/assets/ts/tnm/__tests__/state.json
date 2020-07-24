@@ -497,7 +497,7 @@
         "direction_destinations": { "0": "Forest Hills", "1": "Oak Grove" },
         "description": "rapid_transit",
         "custom_route?": false,
-        "alert_count": 1
+        "alerts": [{}]
       },
       "stops_with_directions": [
         {
@@ -593,7 +593,7 @@
         "direction_destinations": { "0": "Haverhill", "1": "North Station" },
         "description": "commuter_rail",
         "custom_route?": false,
-        "alert_count": 0
+        "alerts": []
       },
       "stops_with_directions": [
         {
@@ -684,7 +684,7 @@
         "direction_destinations": { "0": "Malden Center", "1": "Wellington" },
         "description": "local_bus",
         "custom_route?": false,
-        "alert_count": 0
+        "alerts": []
       },
       "stops_with_directions": [
         {
@@ -783,7 +783,7 @@
         },
         "description": "local_bus",
         "custom_route?": false,
-        "alert_count": 0
+        "alerts": []
       },
       "stops_with_directions": [
         {
@@ -879,7 +879,7 @@
         "direction_destinations": { "0": "Malden Center", "1": "Sullivan" },
         "description": "local_bus",
         "custom_route?": false,
-        "alert_count": 0
+        "alerts": []
       },
       "stops_with_directions": [
         {
@@ -975,7 +975,7 @@
         "direction_destinations": { "0": "Malden Center", "1": "Sullivan" },
         "description": "local_bus",
         "custom_route?": false,
-        "alert_count": 1
+        "alerts": [{}]
       },
       "stops_with_directions": [
         {
@@ -1071,7 +1071,7 @@
         "direction_destinations": { "0": "Malden Center", "1": "Sullivan" },
         "description": "local_bus",
         "custom_route?": false,
-        "alert_count": 1
+        "alerts": [{}]
       },
       "stops_with_directions": [
         {
@@ -1170,7 +1170,7 @@
         },
         "description": "local_bus",
         "custom_route?": false,
-        "alert_count": 0
+        "alerts": []
       },
       "stops_with_directions": [
         {
@@ -1305,7 +1305,7 @@
         "direction_destinations": { "0": "Linden Square", "1": "Wellington" },
         "description": "local_bus",
         "custom_route?": false,
-        "alert_count": 0
+        "alerts": []
       },
       "stops_with_directions": [
         {
@@ -1404,7 +1404,7 @@
         },
         "description": "commuter_bus",
         "custom_route?": false,
-        "alert_count": 0
+        "alerts": []
       },
       "stops_with_directions": [
         {
@@ -1462,7 +1462,7 @@
         },
         "description": "local_bus",
         "custom_route?": false,
-        "alert_count": 0
+        "alerts": []
       },
       "stops_with_directions": [
         {
@@ -1561,7 +1561,7 @@
         },
         "description": "local_bus",
         "custom_route?": false,
-        "alert_count": 0
+        "alerts": []
       },
       "stops_with_directions": [
         {
@@ -1650,7 +1650,7 @@
         },
         "description": "local_bus",
         "custom_route?": false,
-        "alert_count": 0
+        "alerts": []
       },
       "stops_with_directions": [
         {
@@ -1749,7 +1749,7 @@
         },
         "description": "local_bus",
         "custom_route?": false,
-        "alert_count": 0
+        "alerts": []
       },
       "stops_with_directions": [
         {
@@ -1875,7 +1875,7 @@
         },
         "description": "local_bus",
         "custom_route?": false,
-        "alert_count": 0
+        "alerts": []
       },
       "stops_with_directions": [
         {
@@ -2025,7 +2025,7 @@
               },
               "description": "rapid_transit",
               "custom_route?": false,
-              "alert_count": 1
+              "alerts": [{}]
             }
           ]
         },
@@ -2045,7 +2045,7 @@
               },
               "description": "commuter_rail",
               "custom_route?": false,
-              "alert_count": 0
+              "alerts": []
             }
           ]
         },
@@ -2065,7 +2065,7 @@
               },
               "description": "local_bus",
               "custom_route?": false,
-              "alert_count": 0
+              "alerts": []
             },
             {
               "type": 3,
@@ -2080,7 +2080,7 @@
               },
               "description": "local_bus",
               "custom_route?": false,
-              "alert_count": 0
+              "alerts": []
             },
             {
               "type": 3,
@@ -2095,7 +2095,7 @@
               },
               "description": "local_bus",
               "custom_route?": false,
-              "alert_count": 0
+              "alerts": []
             },
             {
               "type": 3,
@@ -2110,7 +2110,7 @@
               },
               "description": "local_bus",
               "custom_route?": false,
-              "alert_count": 1
+              "alerts": [{}]
             },
             {
               "type": 3,
@@ -2125,7 +2125,7 @@
               },
               "description": "local_bus",
               "custom_route?": false,
-              "alert_count": 1
+              "alerts": [{}]
             },
             {
               "type": 3,
@@ -2140,7 +2140,7 @@
               },
               "description": "local_bus",
               "custom_route?": false,
-              "alert_count": 0
+              "alerts": []
             },
             {
               "type": 3,
@@ -2155,7 +2155,7 @@
               },
               "description": "local_bus",
               "custom_route?": false,
-              "alert_count": 0
+              "alerts": []
             },
             {
               "type": 3,
@@ -2170,7 +2170,7 @@
               },
               "description": "commuter_bus",
               "custom_route?": false,
-              "alert_count": 0
+              "alerts": []
             },
             {
               "type": 3,
@@ -2185,7 +2185,7 @@
               },
               "description": "local_bus",
               "custom_route?": false,
-              "alert_count": 0
+              "alerts": []
             },
             {
               "type": 3,
@@ -2200,7 +2200,7 @@
               },
               "description": "local_bus",
               "custom_route?": false,
-              "alert_count": 0
+              "alerts": []
             },
             {
               "type": 3,
@@ -2215,7 +2215,7 @@
               },
               "description": "local_bus",
               "custom_route?": false,
-              "alert_count": 0
+              "alerts": []
             },
             {
               "type": 3,
@@ -2230,7 +2230,7 @@
               },
               "description": "local_bus",
               "custom_route?": false,
-              "alert_count": 0
+              "alerts": []
             },
             {
               "type": 3,
@@ -2245,7 +2245,7 @@
               },
               "description": "local_bus",
               "custom_route?": false,
-              "alert_count": 0
+              "alerts": []
             }
           ]
         }

@@ -109,6 +109,7 @@
                     {
                       "scheduled_time": null,
                       "prediction": {
+                        "schedule_relationship": null,
                         "track": "2",
                         "time": [
                           "3",
@@ -121,6 +122,7 @@
                     {
                       "scheduled_time": null,
                       "prediction": {
+                        "schedule_relationship": null,
                         "track": null,
                         "time": [
                           "13",
@@ -139,6 +141,7 @@
                     {
                       "scheduled_time": null,
                       "prediction": {
+                        "schedule_relationship": null,
                         "track": null,
                         "time": [
                           "9",
@@ -151,6 +154,7 @@
                     {
                       "scheduled_time": null,
                       "prediction": {
+                        "schedule_relationship": null,
                         "track": null,
                         "time": [
                           "21",
@@ -175,6 +179,7 @@
                     {
                       "scheduled_time": null,
                       "prediction": {
+                        "schedule_relationship": null,
                         "track": "2",
                         "time": [
                           "7",
@@ -187,6 +192,7 @@
                     {
                       "scheduled_time": null,
                       "prediction": {
+                        "schedule_relationship": null,
                         "track": null,
                         "time": [
                           "13",
@@ -667,6 +673,7 @@
                         "PM"
                       ],
                       "prediction": {
+                        "schedule_relationship": null,
                         "track": null,
                         "time": [
                           "4:15",

@@ -72,7 +72,7 @@ describe("filterData", () => {
             "1": "Oak Grove"
           },
           description: "rapid_transit",
-          alert_count: 0
+          alerts: []
         },
         stops_with_directions: [
           {

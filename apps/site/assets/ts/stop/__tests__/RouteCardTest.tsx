@@ -1,10 +1,11 @@
 import React from "react";
 import renderer from "react-test-renderer";
+import { shallow, mount } from "enzyme";
 import stopData from "./stopData.json";
 import { StopPageData, RouteWithDirections } from "../components/__stop";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import RouteCard from "../components/RouteCard";
-import { EnhancedRoute } from "../../__v3api";
+import { EnhancedRoute, Alert } from "../../__v3api";
 
 const data: StopPageData = JSON.parse(JSON.stringify(stopData));
 
@@ -18,6 +19,7 @@ it("it renders", () => {
         route={routeWithDirections.route}
         directions={routeWithDirections.directions}
         stop={data.stop}
+        alerts={[]}
       />
     )
     .toJSON();
@@ -35,13 +37,15 @@ it("renders ferry routes", () => {
     direction_names: { "0": "Outbound", "1": "Inbound" },
     direction_destinations: { "0": "Charlestown", "1": "Long Wharf" },
     description: "ferry",
-    alert_count: 0
+    alerts: []
   };
   /* eslint-enable typescript/camelcase */
 
   createReactRoot();
   const tree = renderer
-    .create(<RouteCard route={route} directions={[]} stop={data.stop} />)
+    .create(
+      <RouteCard route={route} directions={[]} stop={data.stop} alerts={[]} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -63,13 +67,15 @@ it("renders orange line routes", () => {
       "1": "Alewife"
     },
     description: "rapid_transit",
-    alert_count: 0
+    alerts: []
   };
   /* eslint-enable typescript/camelcase */
 
   createReactRoot();
   const tree = renderer
-    .create(<RouteCard route={route} directions={[]} stop={data.stop} />)
+    .create(
+      <RouteCard route={route} directions={[]} stop={data.stop} alerts={[]} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -91,13 +97,15 @@ it("renders blue line routes", () => {
       "1": "Alewife"
     },
     description: "rapid_transit",
-    alert_count: 0
+    alerts: []
   };
   /* eslint-enable typescript/camelcase */
 
   createReactRoot();
   const tree = renderer
-    .create(<RouteCard route={route} directions={[]} stop={data.stop} />)
+    .create(
+      <RouteCard route={route} directions={[]} stop={data.stop} alerts={[]} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -119,13 +127,15 @@ it("renders red line routes", () => {
       "1": "Alewife"
     },
     description: "rapid_transit",
-    alert_count: 0
+    alerts: []
   };
   /* eslint-enable typescript/camelcase */
 
   createReactRoot();
   const tree = renderer
-    .create(<RouteCard route={route} directions={[]} stop={data.stop} />)
+    .create(
+      <RouteCard route={route} directions={[]} stop={data.stop} alerts={[]} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -147,13 +157,15 @@ it("renders green line routes", () => {
       "1": "Alewife"
     },
     description: "rapid_transit",
-    alert_count: 0
+    alerts: []
   };
   /* eslint-enable typescript/camelcase */
 
   createReactRoot();
   const tree = renderer
-    .create(<RouteCard route={route} directions={[]} stop={data.stop} />)
+    .create(
+      <RouteCard route={route} directions={[]} stop={data.stop} alerts={[]} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -175,13 +187,66 @@ it("renders bus routes", () => {
       "1": "Alewife"
     },
     description: "rapid_transit",
-    alert_count: 0
+    alerts: []
   };
   /* eslint-enable typescript/camelcase */
 
   createReactRoot();
   const tree = renderer
-    .create(<RouteCard route={route} directions={[]} stop={data.stop} />)
+    .create(
+      <RouteCard route={route} directions={[]} stop={data.stop} alerts={[]} />
+    )
     .toJSON();
   expect(tree).toMatchSnapshot();
+});
+
+it.each`
+  severity
+  ${3}
+  ${7}
+`("renders icon for high priority alerts if present", ({ severity }) => {
+  const route = {
+    type: 3,
+    id: "Bus",
+    name: "Bus"
+  } as EnhancedRoute;
+
+  const alert = { severity: severity } as Alert;
+  const wrapper = mount(
+    <RouteCard
+      route={route}
+      directions={[]}
+      stop={data.stop}
+      alerts={[alert]}
+    />
+  );
+
+  if (severity >= 7) {
+    expect(wrapper.find(".c-svg__icon-alerts-triangle").exists()).toBeTruthy();
+  } else {
+    expect(wrapper.find(".c-svg__icon-alerts-triangle").exists()).toBeFalsy();
+  }
+});
+
+it("renders effect for diversion-related alerts if present", () => {
+  const route = {
+    type: 3,
+    id: "Bus",
+    name: "Bus"
+  } as EnhancedRoute;
+
+  const alerts = [
+    { id: "1", effect: "detour" } as Alert,
+    { id: "2", effect: "dock_issue" } as Alert,
+    { id: "3", effect: "snow_route" } as Alert,
+    { id: "4", effect: "track_change" } as Alert
+  ];
+  const wrapper = mount(
+    <RouteCard route={route} directions={[]} stop={data.stop} alerts={alerts} />
+  );
+  expect(wrapper.find(".m-stop-page__departures-alert").exists()).toBeTruthy();
+  expect(wrapper.find(".m-stop-page__departures-alert")).toHaveLength(1);
+  expect(wrapper.find(".m-stop-page__departures-alert").text()).toContain(
+    "Detour"
+  );
 });

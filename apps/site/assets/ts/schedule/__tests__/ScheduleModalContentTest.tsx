@@ -12,7 +12,7 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 
 const today = "2019-12-05";
 const route: EnhancedRoute = {
-  alert_count: 0,
+  alerts: [],
   description: "",
   direction_destinations: { 0: "Oak Grove", 1: "Forest Hills" },
   direction_names: { 0: "Inbound", 1: "Outbound" },
@@ -24,7 +24,7 @@ const route: EnhancedRoute = {
 };
 
 const greenRoute: EnhancedRoute = {
-  alert_count: 0,
+  alerts: [],
   description: "",
   direction_destinations: { 0: "East", 1: "West" },
   direction_names: { 0: "East", 1: "West" },
@@ -36,7 +36,7 @@ const greenRoute: EnhancedRoute = {
 };
 
 const oneDirectionRoute: EnhancedRoute = {
-  alert_count: 0,
+  alerts: [],
   description: "",
   direction_destinations: { 0: "Oak Grove", 1: null },
   direction_names: { 0: "Inbound", 1: null },

@@ -8,12 +8,10 @@ defmodule SiteWeb.StopController do
   alias Alerts.Stop, as: AlertsStop
   alias Plug.Conn
   alias Fares.{RetailLocations, RetailLocations.Location}
-  alias Phoenix.HTML
   alias Site.JsonHelpers
   alias Routes.{Group, Route}
   alias Site.TransitNearMe
   alias SiteWeb.AlertView
-  alias SiteWeb.ModeView
   alias SiteWeb.PartialView.HeaderTab
   alias SiteWeb.StopController.{CuratedStreetView, StopMap}
   alias SiteWeb.StopView.Parking
@@ -81,20 +79,22 @@ defmodule SiteWeb.StopController do
           end)
           |> Enum.map(&%{route: Route.to_json_safe(&1.route), direction_id: &1.direction_id})
 
-        all_high_priority_alerts_for_routes =
-          Enum.map(routes_by_stop, & &1.id)
+        all_alerts =
+          routes_by_stop
+          |> Enum.map(& &1.id)
           |> Alerts.Repo.by_route_ids(conn.assigns.date_time)
-          |> Enum.filter(&Alerts.Alert.is_high_severity_or_high_priority(&1))
 
-        routes_having_alerts =
+        routes_and_alerts =
           routes_by_stop
           |> Map.new(fn route ->
-            {route.id,
-             ModeView.has_alert?(
-               route,
-               all_high_priority_alerts_for_routes,
-               conn.assigns.date_time
-             )}
+            entity = %Alerts.InformedEntity{route_type: route.type, route: route.id}
+
+            alerts =
+              all_alerts
+              |> Enum.filter(&(Alerts.Match.match([&1], entity) == [&1]))
+              |> json_safe_alerts(conn.assigns.date_time)
+
+            {route.id, alerts}
           end)
 
         conn
@@ -103,7 +103,7 @@ defmodule SiteWeb.StopController do
         |> assign(:stop, stop)
         |> assign(:routes, json_safe_routes)
         |> assign(:routes_with_direction, json_safe_route_with_direction)
-        |> assign(:routes_having_alerts, routes_having_alerts)
+        |> assign(:routes_and_alerts, routes_and_alerts)
         |> assign(:zone_number, Zones.Repo.get(stop.id))
         |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
         |> assign(:tab, tab_value(query_params["tab"]))
@@ -288,31 +288,7 @@ defmodule SiteWeb.StopController do
 
   @spec json_safe_alerts([Alert.t()], DateTime.t()) :: [map]
   def json_safe_alerts(alerts, date) do
-    Enum.map(alerts, fn alert ->
-      alert
-      |> Map.from_struct()
-      |> Map.update!(:active_period, fn active_periods ->
-        Enum.map(active_periods, &active_period_to_string(&1))
-      end)
-      |> Map.update!(:updated_at, &IO.iodata_to_binary(AlertView.alert_updated(&1, date)))
-      |> Map.update!(:header, &HTML.safe_to_string(AlertView.replace_urls_with_links(&1)))
-      |> Map.update!(:description, &HTML.safe_to_string(AlertView.format_alert_description(&1)))
-    end)
-  end
-
-  def active_period_to_string({first, last}) do
-    [
-      format_time(first),
-      format_time(last)
-    ]
-  end
-
-  def format_time(nil) do
-    nil
-  end
-
-  def format_time(time) do
-    Timex.format!(time, "{YYYY}-{M}-{D} {h12}:{m}")
+    Enum.map(alerts, &JsonHelpers.stringified_alert(&1, date))
   end
 
   @type json_safe_routes :: %{
@@ -346,7 +322,7 @@ defmodule SiteWeb.StopController do
              stop: stop,
              routes: routes,
              routes_with_direction: routes_with_direction,
-             routes_having_alerts: routes_having_alerts,
+             routes_and_alerts: routes_and_alerts,
              alerts: alerts,
              all_alerts_count: all_alerts_count,
              zone_number: zone_number,
@@ -360,7 +336,7 @@ defmodule SiteWeb.StopController do
       street_view_url: CuratedStreetView.url(stop.id),
       routes: routes,
       routes_with_direction: routes_with_direction,
-      routes_having_alerts: routes_having_alerts,
+      routes_and_alerts: routes_and_alerts,
       tabs: [
         %HeaderTab{
           id: "info",

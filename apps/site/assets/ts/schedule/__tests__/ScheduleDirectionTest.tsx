@@ -53,7 +53,7 @@ const route = {
   description: "key_bus_route",
   "custom_route?": false,
   header: "",
-  alert_count: 0
+  alerts: []
 } as EnhancedRoute;
 
 const oneDirectionRoute = {
@@ -72,7 +72,7 @@ const oneDirectionRoute = {
   description: "key_bus_route",
   "custom_route?": false,
   header: "",
-  alert_count: 0
+  alerts: []
 } as EnhancedRoute;
 
 const directionId = 1;
@@ -232,7 +232,7 @@ const getGreenLineComponent = () => {
     },
     description: "rapid_transit",
     header: "",
-    alert_count: 0
+    alerts: []
   };
 
   return (

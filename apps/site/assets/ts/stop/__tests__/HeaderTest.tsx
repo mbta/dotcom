@@ -49,7 +49,7 @@ it("renders with green line routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         },
@@ -69,7 +69,7 @@ it("renders with green line routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         },
@@ -89,7 +89,7 @@ it("renders with green line routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         },
@@ -109,7 +109,7 @@ it("renders with green line routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         },
@@ -129,7 +129,7 @@ it("renders with green line routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         }
@@ -176,7 +176,7 @@ it("renders all subway routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         },
@@ -196,7 +196,7 @@ it("renders all subway routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         },
@@ -216,7 +216,7 @@ it("renders all subway routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         },
@@ -236,7 +236,7 @@ it("renders all subway routes", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         }
@@ -277,7 +277,7 @@ it("renders a ferry route", () => {
             direction_names: { "0": "Outbound", "1": "Inbound" },
             direction_destinations: { "0": "Charlestown", "1": "Long Wharf" },
             description: "ferry",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         }
@@ -324,7 +324,7 @@ it("upcases name of non-bus stops", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         }
@@ -349,7 +349,7 @@ it("upcases name of non-bus stops", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         }
@@ -394,7 +394,7 @@ it("does not upcase name of bus-only stops", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         }
@@ -434,7 +434,7 @@ it("separates bus and silver line pills", () => {
       "1": "Alewife"
     },
     description: "rapid_transit",
-    alert_count: 0
+    alerts: []
   };
 
   const routesWithoutSilverLine: TypedRoutes[] = [
@@ -511,7 +511,7 @@ it("dispatches clickRoutePillAction when route pill is clicked", () => {
               "1": "Alewife"
             },
             description: "rapid_transit",
-            alert_count: 0
+            alerts: []
           },
           directions: []
         }

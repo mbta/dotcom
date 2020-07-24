@@ -20,7 +20,7 @@ const route: EnhancedRoute = {
     "1": "Alewife"
   },
   description: "rapid_transit",
-  alert_count: 0
+  alerts: []
 };
 /* eslint-enable typescript/camelcase */
 
