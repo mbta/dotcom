@@ -1,11 +1,17 @@
 import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import { DirectionId, RouteType } from "../../../../../__v3api";
+import * as KeyboardEvents from "../../../../../helpers/keyboard-events";
 import { TripInfo } from "../../../__trips";
 import tripData from "../../__tests__/test-data/tripInfo.json";
 import AccordionRow from "../AccordionRow";
 
 const tripInfo: TripInfo = (tripData as unknown) as TripInfo;
+
+jest.mock("../../../../../helpers/keyboard-events", () => ({
+  __esModule: true,
+  handleReactEnterKeyPress: jest.fn()
+}));
 
 const journey = {
   trip: {
@@ -128,5 +134,27 @@ describe("AccordionRow", () => {
     );
     expect(wrapper.debug()).toMatchSnapshot();
     wrapper.unmount();
+  });
+
+  it("accepts the Enter key as input", () => {
+    const mockHandleReactEnterKeyPress: jest.Mock = KeyboardEvents.handleReactEnterKeyPress as jest.Mock;
+
+    const wrapper: ReactWrapper = mount(
+      <table>
+        <tbody>
+          <AccordionRow
+            state={state}
+            journey={journey}
+            contentComponent={contentComponent}
+            expanded={false}
+            toggle={() => {}}
+          />
+        </tbody>
+      </table>
+    );
+
+    wrapper.find(".schedule-table__row").simulate("keypress", { key: "Enter" });
+
+    expect(mockHandleReactEnterKeyPress).toHaveBeenCalled();
   });
 });
