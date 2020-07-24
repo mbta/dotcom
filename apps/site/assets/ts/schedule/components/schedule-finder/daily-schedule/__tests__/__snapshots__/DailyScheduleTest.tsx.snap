@@ -78,14 +78,5 @@ Array [
       />
     </div>
   </div>,
-  <div
-    className="c-spinner__container"
-  >
-    <div
-      className="c-spinner"
-    >
-      Loading...
-    </div>
-  </div>,
 ]
 `;

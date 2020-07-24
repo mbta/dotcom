@@ -1,7 +1,7 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../../../../app/helpers/testUtils";
-import DailySchedule, { fetchData as fetchSchedule } from "../DailySchedule";
+import DailySchedule, { fetchJourneys, parseResults } from "../DailySchedule";
 import { ServiceInSelector } from "../../../__schedule";
 
 const services: ServiceInSelector[] = [
@@ -150,73 +150,130 @@ describe("DailySchedule", () => {
   });
 });
 
-describe("fetchSchedule", () => {
-  it("fetches the selected schedule", async () => {
-    window.fetch = jest.fn().mockImplementation(
-      () =>
-        new Promise((resolve: Function) =>
-          resolve({
-            json: () => ({
-              by_trip: "by_trip_data",
-              trip_order: "trip_order_data"
-            }),
-            ok: true,
-            status: 200,
-            statusText: "OK"
-          })
-        )
-    );
+describe("fetchJourneys", () => {
+  it("returns a function that fetches the selected journey", () => {
+    window.fetch = jest.fn();
+    const service = services.find(service => service.id === "BUS319-P-Sa-02")!;
 
-    const dispatchSpy = jest.fn();
+    const fetcher = fetchJourneys("83", "stopId", service, 1, true);
 
-    await await fetchSchedule(
-      "83",
-      "stopId",
-      services.find(service => service.id === "BUS319-P-Sa-02")!,
-      1,
-      true,
-      dispatchSpy
-    );
+    expect(typeof fetcher).toBe("function");
+
+    fetcher();
 
     expect(window.fetch).toHaveBeenCalledWith(
       "/schedules/finder_api/journeys?id=83&date=2019-08-31&direction=1&stop=stopId&is_current=true"
     );
-
-    expect(dispatchSpy).toHaveBeenCalledTimes(2);
-    expect(dispatchSpy).toHaveBeenCalledWith({
-      type: "FETCH_STARTED"
-    });
-    expect(dispatchSpy).toHaveBeenCalledWith({
-      payload: { by_trip: "by_trip_data", trip_order: "trip_order_data" },
-      type: "FETCH_COMPLETE"
-    });
   });
+});
 
-  it("throws an error if the fetch fails", async () => {
-    window.fetch = jest.fn().mockImplementation(
-      () =>
-        new Promise((resolve: Function) =>
-          resolve({
-            ok: false,
-            status: 500,
-            statusText: "you broke it"
-          })
-        )
-    );
+describe("parseResults", () => {
+  it("passes the results through", () => {
+    const response = [
+      {
+        trip: {
+          shape_id: "010070",
+          route_pattern_id: "1-_-0",
+          name: "",
+          id: "45030860",
+          headsign: "Harvard",
+          direction_id: 0,
+          "bikes_allowed?": true
+        },
+        route: {
+          type: 3,
+          sort_order: 50010,
+          name: "1",
+          long_name: "Harvard Square - Nubian Station",
+          id: "1",
+          direction_names: {
+            "0": "Outbound",
+            "1": "Inbound"
+          },
+          direction_destinations: {
+            "0": "Harvard Square",
+            "1": "Nubian Station"
+          },
+          description: "key_bus_route",
+          "custom_route?": false,
+          color: "FFC72C"
+        },
+        departure: {
+          time: "04:54 AM",
+          schedule: {
+            trip: {
+              shape_id: "010070",
+              route_pattern_id: "1-_-0",
+              name: "",
+              id: "45030860",
+              headsign: "Harvard",
+              direction_id: 0,
+              "bikes_allowed?": true
+            },
+            time: "2020-08-14T04:54:00-04:00",
+            stop_sequence: 19,
+            stop: null,
+            pickup_type: 0,
+            "last_stop?": false,
+            "flag?": false,
+            "early_departure?": true
+          },
+          prediction: null
+        }
+      },
+      {
+        trip: {
+          shape_id: "010070",
+          route_pattern_id: "1-_-0",
+          name: "",
+          id: "45030861",
+          headsign: "Harvard",
+          direction_id: 0,
+          "bikes_allowed?": true
+        },
+        route: {
+          type: 3,
+          sort_order: 50010,
+          name: "1",
+          long_name: "Harvard Square - Nubian Station",
+          id: "1",
+          direction_names: {
+            "0": "Outbound",
+            "1": "Inbound"
+          },
+          direction_destinations: {
+            "0": "Harvard Square",
+            "1": "Nubian Station"
+          },
+          description: "key_bus_route",
+          "custom_route?": false,
+          color: "FFC72C"
+        },
+        departure: {
+          time: "05:09 AM",
+          schedule: {
+            trip: {
+              shape_id: "010070",
+              route_pattern_id: "1-_-0",
+              name: "",
+              id: "45030861",
+              headsign: "Harvard",
+              direction_id: 0,
+              "bikes_allowed?": true
+            },
+            time: "2020-08-14T05:09:00-04:00",
+            stop_sequence: 19,
+            stop: null,
+            pickup_type: 0,
+            "last_stop?": false,
+            "flag?": false,
+            "early_departure?": true
+          },
+          prediction: null
+        }
+      }
+    ];
 
-    const dispatchSpy = jest.fn();
-
-    await await fetchSchedule(
-      "83",
-      "stopId",
-      services.find(service => service.id === "BUS319-P-Sa-02")!,
-      1,
-      true,
-      dispatchSpy
-    );
-
-    expect(dispatchSpy).toHaveBeenCalledTimes(2);
-    expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_STARTED" });
-    expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_ERROR" });
+    expect(parseResults((response as unknown) as JSON)).toEqual(response);
   });
 });

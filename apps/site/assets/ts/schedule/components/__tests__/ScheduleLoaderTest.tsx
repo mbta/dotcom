@@ -18,6 +18,14 @@ import ScheduleNote from "../ScheduleNote";
 import * as scheduleStoreModule from "../../store/ScheduleStore";
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
 
+jest.mock("../../../helpers/use-fetch", () => ({
+  __esModule: true,
+  hasData: () => false,
+  isLoading: () => true,
+  isNotStarted: () => false,
+  default: jest.fn().mockImplementation(() => [{ status: 2 }, jest.fn()])
+}));
+
 const stops = {
   "1": [
     {

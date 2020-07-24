@@ -1,9 +1,8 @@
+import React, { ReactElement, useEffect, useState } from "react";
 import { Dictionary } from "lodash";
-import React, { ReactElement, useEffect, useState, useReducer } from "react";
 import { DirectionId, Service } from "../../../../__v3api";
 import Loading from "../../../../components/Loading";
 import { stringToDateObject } from "../../../../helpers/date";
-import { reducer } from "../../../../helpers/fetch";
 import {
   hasMultipleWeekdaySchedules,
   groupServicesByDateRating,
@@ -12,6 +11,10 @@ import {
   optGroupComparator,
   serviceComparator
 } from "../../../../helpers/service";
+import useFetch, {
+  isLoading,
+  isNotStarted
+} from "../../../../helpers/use-fetch";
 import { EnhancedRoutePattern, ServiceInSelector } from "../../__schedule";
 import { Journey } from "../../__trips";
 import SelectContainer from "../SelectContainer";
@@ -30,37 +33,24 @@ interface Props {
   today: string;
 }
 
-type fetchAction =
-  | { type: "FETCH_COMPLETE"; payload: Journey[] }
-  | { type: "FETCH_ERROR" }
-  | { type: "FETCH_STARTED" };
-
-export const fetchData = (
+// Exported solely for testing
+export const fetchJourneys = (
   routeId: string,
   stopId: string,
   selectedService: Service,
   selectedDirection: DirectionId,
-  isCurrent: boolean,
-  dispatch: (action: fetchAction) => void
-): Promise<void> => {
-  dispatch({ type: "FETCH_STARTED" });
-  return (
-    window.fetch &&
-    window
-      .fetch(
-        `/schedules/finder_api/journeys?id=${routeId}&date=${
-          selectedService.end_date
-        }&direction=${selectedDirection}&stop=${stopId}&is_current=${isCurrent}`
-      )
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
-      // @ts-ignore
-      .catch(() => dispatch({ type: "FETCH_ERROR" }))
+  isCurrent: boolean
+): (() => Promise<Response>) => () =>
+  window.fetch &&
+  window.fetch(
+    `/schedules/finder_api/journeys?id=${routeId}&date=${
+      selectedService.end_date
+    }&direction=${selectedDirection}&stop=${stopId}&is_current=${isCurrent}`
   );
-};
+
+// Exported solely for testing
+export const parseResults = (json: JSON): Journey[] =>
+  (json as unknown) as Journey[];
 
 const SchedulesSelect = ({
   sortedServices,
@@ -127,11 +117,7 @@ export const DailySchedule = ({
   routePatterns,
   today
 }: Props): ReactElement<HTMLElement> | null => {
-  const [state, dispatch] = useReducer(reducer, {
-    data: null,
-    isLoading: true,
-    error: false
-  });
+  const [fetchState, fetch] = useFetch<Journey[]>();
 
   const todayDate = stringToDateObject(today);
 
@@ -153,10 +139,20 @@ export const DailySchedule = ({
   useEffect(
     () => {
       /* istanbul ignore next */
-      if (!selectedService) return;
-      fetchData(routeId, stopId, selectedService, directionId, false, dispatch);
+      if (selectedService && isNotStarted(fetchState)) {
+        fetch({
+          fetcher: fetchJourneys(
+            routeId,
+            stopId,
+            selectedService,
+            directionId,
+            false
+          ),
+          parser: parseResults
+        });
+      }
     },
-    [services, routeId, directionId, stopId, selectedService]
+    [services, routeId, directionId, stopId, selectedService, fetch, fetchState]
   );
 
   if (services.length <= 0) return null;
@@ -177,12 +173,12 @@ export const DailySchedule = ({
         }}
       />
 
-      {state.isLoading && <Loading />}
+      {isLoading(fetchState) && <Loading />}
 
-      {/* istanbul ignore next */ !state.isLoading &&
-        /* istanbul ignore next */ state.data && (
+      {/* istanbul ignore next */ !isLoading(fetchState) &&
+        /* istanbul ignore next */ fetchState.data && (
           /* istanbul ignore next */ <ScheduleTable
-            journeys={state.data!}
+            journeys={fetchState.data}
             routePatterns={routePatterns}
             input={{
               route: routeId,
