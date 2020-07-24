@@ -1,5 +1,7 @@
 import React, { ReactElement } from "react";
 import { PredictedOrScheduledTime } from "../__v3api";
+import { isSkippedOrCancelled } from "../models/prediction";
+import { Prediction } from "../schedule/components/__trips";
 
 const delayForCommuterRail = (
   data: PredictedOrScheduledTime,
@@ -38,12 +40,17 @@ export const statusForCommuterRail = ({
   // If there is a human-entered status string, prioritize that
   if (prediction && prediction.status) return prediction.status;
 
+  if (isSkippedOrCancelled((prediction as unknown) as Prediction))
+    return "Canceled";
+
   // Indicate "Delayed" if train is delayed 5+ minutes
   if (delay >= 5) return `Delayed ${delay} min`;
 
-  // Indicate "On time" if train is not "Delayed" and we have a scheduled time
+  // Indicate "On time" if train otherwise has a prediction
+  // Indicate "Scheduled" if train is not "Delayed" and we have a scheduled time
   // (even if there is no real-time prediction)
-  if (scheduledTime) return "On time";
+  if (scheduledTime && prediction) return "On time";
+  if (scheduledTime) return "Scheduled";
 
   // We have just a prediction with no scheduled time, so we can't say whether
   // the train is on time, delayed, etc.

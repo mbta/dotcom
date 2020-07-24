@@ -69,7 +69,8 @@ defmodule Site.TransitNearMe do
           required(:seconds) => integer,
           required(:time) => [String.t()],
           required(:status) => String.t() | nil,
-          required(:track) => String.t() | nil
+          required(:track) => String.t() | nil,
+          required(:schedule_relationship) => Prediction.schedule_relationship()
         }
 
   @default_opts [
@@ -633,7 +634,7 @@ defmodule Site.TransitNearMe do
     seconds = DateTime.diff(prediction.time, now)
 
     prediction
-    |> Map.take([:status, :track])
+    |> Map.take([:status, :track, :schedule_relationship])
     |> Map.put(:time, format_prediction_time(prediction.time, now, route_type, seconds))
     |> Map.put(:seconds, seconds)
   end

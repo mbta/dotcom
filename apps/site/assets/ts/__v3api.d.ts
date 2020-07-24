@@ -89,10 +89,19 @@ export interface PredictedOrScheduledTime {
   prediction: Prediction | null;
 }
 
+export type ScheduleRelationship =
+  | "added"
+  | "unscheduled"
+  | "cancelled"
+  | "skipped"
+  | "no_data"
+  | null;
+
 export interface Prediction {
   time: string[];
   status: string | null;
   track: string | null;
+  schedule_relationship: ScheduleRelationship;
 }
 
 export interface Route {

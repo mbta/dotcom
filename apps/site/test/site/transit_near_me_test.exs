@@ -743,7 +743,8 @@ defmodule Site.TransitNearMeTest do
                     seconds: 300,
                     status: nil,
                     time: ["5", " ", "min"],
-                    track: "2"
+                    track: "2",
+                    schedule_relationship: nil
                   },
                   scheduled_time: nil
                 },
@@ -765,7 +766,8 @@ defmodule Site.TransitNearMeTest do
                     seconds: 900,
                     status: nil,
                     time: ["15", " ", "min"],
-                    track: "2"
+                    track: "2",
+                    schedule_relationship: nil
                   },
                   scheduled_time: nil,
                   delay: 0

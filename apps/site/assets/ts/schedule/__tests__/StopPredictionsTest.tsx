@@ -23,6 +23,7 @@ describe("StopPredictions", () => {
             time_data: {
               delay: 0,
               prediction: {
+                schedule_relationship: null,
                 status: null,
                 time: ["6", " ", "min"],
                 track: null
@@ -56,6 +57,7 @@ describe("StopPredictions", () => {
             time_data: {
               delay: 0,
               prediction: {
+                schedule_relationship: null,
                 status: null,
                 time: ["6", " ", "min"],
                 track: null
@@ -94,6 +96,7 @@ describe("StopPredictions", () => {
             time_data: {
               delay: 0,
               prediction: {
+                schedule_relationship: null,
                 status: null,
                 time: ["6", " ", "min"],
                 track: null

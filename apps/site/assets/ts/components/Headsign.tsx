@@ -45,22 +45,29 @@ const renderTrainName = (trainName: string): ReactElement<HTMLElement> => (
   <div className="m-tnm-sidebar__headsign-train">{trainName}</div>
 );
 
-const crTime = (data: PredictedOrScheduledTime): ReactElement<HTMLElement> =>
-  timeForCommuterRail(data, "m-tnm-sidebar__time-number");
-
 const renderTimeCommuterRail = (
   data: PredictedOrScheduledTime,
   modifier: string
-): ReactElement<HTMLElement> => (
-  <div
-    className={`m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail ${modifier}`}
-  >
-    {crTime(data)}
-    <div className="m-tnm-sidebar__status">
-      {`${statusForCommuterRail(data) || ""}${trackForCommuterRail(data)}`}
+): ReactElement<HTMLElement> => {
+  const status = statusForCommuterRail(data) || "";
+  return (
+    <div
+      className={`m-tnm-sidebar__time m-tnm-sidebar__time--commuter-rail ${modifier} ${
+        status === "Scheduled" ? "text-muted" : ""
+      }`}
+    >
+      {timeForCommuterRail(
+        data,
+        `${
+          status === "Canceled" ? "strikethrough" : ""
+        } m-tnm-sidebar__time-number`
+      )}
+      <div className="m-tnm-sidebar__status">
+        {`${status}${trackForCommuterRail(data)}`}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 const renderTimeDefault = (
   time: string[],
@@ -111,9 +118,10 @@ const HeadsignComponent = (props: Props): ReactElement<HTMLElement> => {
         {routeType === 2 && renderTrainName(`Train ${headsign.train_number}`)}
       </div>
       <div className="m-tnm-sidebar__schedules">
-        {headsign.times.map((time, idx) =>
-          renderTime(time, headsign.name, routeType, idx)
-        )}
+        {headsign.times.map((time, idx) => {
+          if (routeType === 2 && idx > 0) return null; // limit to 1 headsign
+          return renderTime(time, headsign.name, routeType, idx);
+        })}
       </div>
     </div>
   );
