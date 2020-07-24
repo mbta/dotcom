@@ -99,7 +99,7 @@ exports[`ScheduleTable it renders 1`] = `
                 className="schedule-table__cell schedule-table__cell--expanded"
                 colSpan={3}
               >
-                <Component>
+                <TripDetails>
                   <Loading>
                     <div
                       className="c-spinner__container"
@@ -111,7 +111,7 @@ exports[`ScheduleTable it renders 1`] = `
                       </div>
                     </div>
                   </Loading>
-                </Component>
+                </TripDetails>
               </td>
             </tr>
           </AccordionRow>
@@ -10523,7 +10523,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                 className="schedule-table__cell schedule-table__cell--expanded"
                 colSpan={4}
               >
-                <Component>
+                <TripDetails>
                   <Loading>
                     <div
                       className="c-spinner__container"
@@ -10535,7 +10535,7 @@ exports[`ScheduleTable it renders CR schedules 1`] = `
                       </div>
                     </div>
                   </Loading>
-                </Component>
+                </TripDetails>
               </td>
             </tr>
           </AccordionRow>

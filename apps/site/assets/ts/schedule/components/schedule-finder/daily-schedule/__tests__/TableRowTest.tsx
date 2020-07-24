@@ -4,7 +4,7 @@ import renderer from "react-test-renderer";
 import { createReactRoot } from "../../../../../app/helpers/testUtils";
 import { UserInput } from "../../../__schedule";
 import { Journey } from "../../../__trips";
-import TableRow, { fetchData as fetchJourney } from "../TableRow";
+import TableRow, { fetchTripInfo, parseResults } from "../TableRow";
 
 const journey = {
   trip: {
@@ -99,76 +99,137 @@ describe("TableRow", () => {
   });
 });
 
-describe("fetchJourney", () => {
-  it("fetches the selected journey", async () => {
-    window.fetch = jest.fn().mockImplementation(
-      () =>
-        new Promise((resolve: Function) =>
-          resolve({
-            json: () => ({
-              vehicle_stop_name: "",
-              vehicle: null,
-              times: [],
-              stop_count: 1,
-              status: "",
-              origin_id: "",
-              fare: {},
-              duration: 1,
-              destination_id: ""
-            }),
-            ok: true,
-            status: 200,
-            statusText: "OK"
-          })
-        )
-    );
+describe("fetchTripInfo", () => {
+  it("returns a function that fetches the selected journey", () => {
+    window.fetch = jest.fn();
 
-    const dispatchSpy = jest.fn();
+    const fetcher = fetchTripInfo(journey.trip.id, input);
 
-    await await fetchJourney(journey.trip.id, input, dispatchSpy);
+    expect(typeof fetcher).toBe("function");
+
+    fetcher();
 
     expect(window.fetch).toHaveBeenCalledWith(
       "/schedules/finder_api/trip?id=CR-Weekday-Fall-19-801&route=CR-Providence&date=2019-11-26&direction=0&stop=place-sstat"
     );
-
-    expect(dispatchSpy).toHaveBeenCalledTimes(2);
-    expect(dispatchSpy).toHaveBeenCalledWith({
-      type: "FETCH_STARTED"
-    });
-    expect(dispatchSpy).toHaveBeenCalledWith({
-      payload: {
-        destination_id: "",
-        duration: 1,
-        fare: {},
-        origin_id: "",
-        status: "",
-        stop_count: 1,
-        times: [],
-        vehicle: null,
-        vehicle_stop_name: ""
-      },
-      type: "FETCH_COMPLETE"
-    });
   });
+});
 
-  it("throws an error if the fetch fails", async () => {
-    window.fetch = jest.fn().mockImplementation(
-      () =>
-        new Promise((resolve: Function) =>
-          resolve({
-            ok: false,
-            status: 500,
-            statusText: "you broke it"
-          })
-        )
-    );
+describe("parseResults", () => {
+  it("passes the results through", () => {
+    const response = {
+      vehicle_stop_name: "",
+      vehicle: null,
+      times: [
+        {
+          schedule: {
+            trip: {
+              shape_id: "010070",
+              route_pattern_id: "1-_-0",
+              name: "",
+              id: "45030860",
+              headsign: "Harvard",
+              direction_id: 0,
+              "bikes_allowed?": true
+            },
+            time: "04:54 AM",
+            stop_sequence: 19,
+            stop: {
+              type: "stop",
+              "station?": false,
+              platform_name: null,
+              platform_code: null,
+              parking_lots: [],
+              parent_id: null,
+              note: null,
+              name: "Massachusetts Ave @ Prospect St",
+              municipality: "Cambridge",
+              longitude: -71.103404,
+              latitude: 42.365291,
+              "is_child?": false,
+              id: "102",
+              "has_fare_machine?": false,
+              "has_charlie_card_vendor?": false,
+              fare_facilities: [],
+              description: null,
+              closed_stop_info: null,
+              child_ids: [],
+              bike_storage: [],
+              address: null,
+              accessibility: ["accessible"]
+            },
+            pickup_type: 0,
+            "last_stop?": false,
+            "flag?": false,
+            fare: {
+              price: "$1.70",
+              fare_link: "/fares/bus-fares"
+            },
+            "early_departure?": true
+          },
+          prediction: null
+        },
+        {
+          schedule: {
+            trip: {
+              shape_id: "010070",
+              route_pattern_id: "1-_-0",
+              name: "",
+              id: "45030860",
+              headsign: "Harvard",
+              direction_id: 0,
+              "bikes_allowed?": true
+            },
+            time: "04:55 AM",
+            stop_sequence: 20,
+            stop: {
+              type: "stop",
+              "station?": false,
+              platform_name: null,
+              platform_code: null,
+              parking_lots: [],
+              parent_id: null,
+              note: null,
+              name: "Massachusetts Ave @ Bigelow St",
+              municipality: "Cambridge",
+              longitude: -71.106017,
+              latitude: 42.366837,
+              "is_child?": false,
+              id: "104",
+              "has_fare_machine?": false,
+              "has_charlie_card_vendor?": false,
+              fare_facilities: [],
+              description: null,
+              closed_stop_info: null,
+              child_ids: [],
+              bike_storage: [],
+              address: null,
+              accessibility: ["unknown"]
+            },
+            pickup_type: 0,
+            "last_stop?": false,
+            "flag?": false,
+            fare: {
+              price: "$1.70",
+              fare_link: "/fares/bus-fares"
+            },
+            "early_departure?": true
+          },
+          prediction: null
+        }
+      ],
+      stop_count: 7,
+      status: "operating at normal schedule",
+      route_type: 3,
+      origin_id: "102",
+      fare: {
+        price: "$1.70",
+        fare_link: "/fares/bus-fares"
+      },
+      duration: 3,
+      destination_id: "110"
+    };
 
-    const dispatchSpy = jest.fn();
-
-    await await fetchJourney(journey.trip.id, input, dispatchSpy);
-
-    expect(dispatchSpy).toHaveBeenCalledTimes(2);
-    expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_STARTED" });
-    expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_ERROR" });
+    expect(parseResults((response as unknown) as JSON)).toEqual(response);
   });
 });

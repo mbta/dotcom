@@ -5,6 +5,7 @@ import * as KeyboardEvents from "../../../../../helpers/keyboard-events";
 import { TripInfo } from "../../../__trips";
 import tripData from "../../__tests__/test-data/tripInfo.json";
 import AccordionRow from "../AccordionRow";
+import { FetchState, FetchStatus } from "../../../../../helpers/use-fetch";
 
 const tripInfo: TripInfo = (tripData as unknown) as TripInfo;
 
@@ -91,10 +92,9 @@ const journey = {
   }
 };
 
-const state = {
-  data: tripInfo,
-  isLoading: false,
-  error: false
+const fetchState: FetchState<TripInfo> = {
+  status: FetchStatus.Data,
+  data: tripInfo
 };
 
 const contentComponent = () => <></>;
@@ -105,7 +105,7 @@ describe("AccordionRow", () => {
       <table>
         <tbody>
           <AccordionRow
-            state={state}
+            fetchState={fetchState}
             journey={journey}
             contentComponent={contentComponent}
             expanded={true}
@@ -123,7 +123,7 @@ describe("AccordionRow", () => {
       <table>
         <tbody>
           <AccordionRow
-            state={state}
+            fetchState={fetchState}
             journey={journey}
             contentComponent={contentComponent}
             expanded={false}
@@ -143,7 +143,7 @@ describe("AccordionRow", () => {
       <table>
         <tbody>
           <AccordionRow
-            state={state}
+            fetchState={fetchState}
             journey={journey}
             contentComponent={contentComponent}
             expanded={false}

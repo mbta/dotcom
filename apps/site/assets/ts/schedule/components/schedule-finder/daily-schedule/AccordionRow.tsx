@@ -1,12 +1,13 @@
 import React, { ReactElement } from "react";
 import { caret } from "../../../../helpers/icon";
 import { handleReactEnterKeyPress } from "../../../../helpers/keyboard-events";
+import { FetchState } from "../../../../helpers/use-fetch";
 import { isACommuterRailRoute } from "../../../../models/route";
-import { Journey, EnhancedJourney } from "../../__trips";
-import { State, TripDetails } from "./TripDetails";
+import { EnhancedJourney, Journey, TripInfo } from "../../__trips";
+import TripDetails from "./TripDetails";
 
 interface Props {
-  state: State;
+  fetchState: FetchState<TripInfo>;
   journey: Journey | EnhancedJourney;
   contentComponent: () => ReactElement<HTMLElement>;
   expanded: boolean;
@@ -14,7 +15,7 @@ interface Props {
 }
 
 const AccordionRow = ({
-  state,
+  fetchState,
   journey,
   contentComponent,
   expanded,
@@ -49,7 +50,7 @@ const AccordionRow = ({
             colSpan={isCommuterRail ? 4 : 3}
             className="schedule-table__cell schedule-table__cell--expanded"
           >
-            <TripDetails state={state} showFare={isCommuterRail} />
+            <TripDetails fetchState={fetchState} showFare={isCommuterRail} />
           </td>
         </tr>
       )}

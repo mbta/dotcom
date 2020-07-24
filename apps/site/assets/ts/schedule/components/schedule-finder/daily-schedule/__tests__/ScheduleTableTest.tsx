@@ -10,6 +10,14 @@ import ScheduleTable from "../ScheduleTable";
 import crServiceData from "./test-data/crServiceData.json";
 import serviceData from "./test-data/serviceData.json";
 
+jest.mock("../../../../../helpers/use-fetch", () => ({
+  __esModule: true,
+  hasData: () => false,
+  isLoading: () => true,
+  isNotStarted: () => false,
+  default: jest.fn().mockImplementation(() => [{ status: 2 }, jest.fn()])
+}));
+
 const journeys: Journey[] = serviceData as Journey[];
 
 const routePatterns = [

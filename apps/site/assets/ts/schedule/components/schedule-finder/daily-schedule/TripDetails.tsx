@@ -1,17 +1,12 @@
 import React, { ReactElement } from "react";
 import Loading from "../../../../components/Loading";
+import { FetchState, hasData, isLoading } from "../../../../helpers/use-fetch";
 import { TripInfo } from "../../__trips";
 import CrowdingPill from "../../line-diagram/CrowdingPill";
 import TripStop from "./TripStop";
 
-export interface State {
-  data: TripInfo | null;
-  isLoading: boolean;
-  error: boolean;
-}
-
 interface Props {
-  state: State;
+  fetchState: FetchState<TripInfo>;
   showFare: boolean;
 }
 
@@ -45,28 +40,13 @@ const TripSummary = ({
 const allTimesHaveSchedule = (tripInfo: TripInfo): boolean =>
   tripInfo.times.every(time => !!time.schedule);
 
-export const TripDetails = ({
-  state,
+const TripDetailsTable = ({
+  tripInfo,
   showFare
-}: Props): ReactElement<HTMLElement> | null => {
-  const { data: tripInfo, error, isLoading } = state;
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  const errorLoadingTrip = (
-    <p>
-      <em>Error loading trip details. Please try again later.</em>
-    </p>
-  );
-
-  if (error) {
-    return errorLoadingTrip;
-  }
-
-  if (!tripInfo) return null;
-
+}: {
+  tripInfo: TripInfo;
+  showFare: boolean;
+}): ReactElement<HTMLElement> => {
   const crowding = tripInfo.vehicle ? tripInfo.vehicle.crowding : null;
 
   return (
@@ -101,18 +81,43 @@ export const TripDetails = ({
         </tr>
       </thead>
       <tbody>
-        {allTimesHaveSchedule(tripInfo)
-          ? tripInfo.times.map((departure, index: number) => (
-              <TripStop
-                departure={departure}
-                index={index}
-                showFare={showFare}
-                routeType={tripInfo.route_type}
-                key={departure.schedule.stop.id}
-              />
-            ))
-          : errorLoadingTrip}
+        {allTimesHaveSchedule(tripInfo) ? (
+          tripInfo.times.map((departure, index: number) => (
+            <TripStop
+              departure={departure}
+              index={index}
+              showFare={showFare}
+              routeType={tripInfo.route_type}
+              key={departure.schedule.stop.id}
+            />
+          ))
+        ) : (
+          <ErrorLoadingTrip />
+        )}
       </tbody>
     </table>
   );
 };
+
+const ErrorLoadingTrip = (): ReactElement<HTMLElement> => (
+  <p>
+    <em>Error loading trip details. Please try again later.</em>
+  </p>
+);
+
+const TripDetails = ({
+  fetchState,
+  showFare
+}: Props): ReactElement<HTMLElement> => {
+  if (hasData(fetchState) && !!fetchState.data) {
+    return <TripDetailsTable tripInfo={fetchState.data} showFare={showFare} />;
+  }
+
+  if (isLoading(fetchState)) {
+    return <Loading />;
+  }
+
+  return <ErrorLoadingTrip />;
+};
+
+export default TripDetails;

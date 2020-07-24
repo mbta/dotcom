@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useReducer, ReactElement } from "react";
-import { reducer } from "../../../../helpers/fetch";
+import React, { useEffect, useState, ReactElement } from "react";
 import { modeIcon } from "../../../../helpers/icon";
 import { breakTextAtSlash } from "../../../../helpers/text";
+import useFetch, { isNotStarted } from "../../../../helpers/use-fetch";
 import { UserInput } from "../../__schedule";
 import { Journey, EnhancedJourney, TripInfo } from "../../__trips";
 import AccordionRow from "./AccordionRow";
@@ -19,32 +19,19 @@ interface AccordionProps {
   contentComponent: () => ReactElement<HTMLElement>;
 }
 
-type fetchAction =
-  | { type: "FETCH_COMPLETE"; payload: TripInfo }
-  | { type: "FETCH_ERROR" }
-  | { type: "FETCH_STARTED" };
-
-export const fetchData = (
+// Exported solely for testing
+export const fetchTripInfo = (
   tripId: string,
-  { route, direction, date, origin }: UserInput,
-  dispatch: (action: fetchAction) => void
-): Promise<void> => {
-  dispatch({ type: "FETCH_STARTED" });
-  return (
-    window.fetch &&
-    window
-      .fetch(
-        `/schedules/finder_api/trip?id=${tripId}&route=${route}&date=${date}&direction=${direction}&stop=${origin}`
-      )
-      .then(response => {
-        if (response.ok) return response.json();
-        throw new Error(response.statusText);
-      })
-      .then(json => dispatch({ type: "FETCH_COMPLETE", payload: json }))
-      // @ts-ignore
-      .catch(() => dispatch({ type: "FETCH_ERROR" }))
+  { route, direction, date, origin }: UserInput
+): (() => Promise<Response>) => () =>
+  window.fetch &&
+  window.fetch(
+    `/schedules/finder_api/trip?id=${tripId}&route=${route}&date=${date}&direction=${direction}&stop=${origin}`
   );
-};
+
+// Exported solely for testing
+export const parseResults = (json: JSON): TripInfo =>
+  (json as unknown) as TripInfo;
 
 const RouteIcon = ({
   route: { type, name, id }
@@ -114,27 +101,26 @@ const Accordion = ({
   contentComponent
 }: AccordionProps): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
-  const [state, dispatch] = useReducer(reducer, {
-    data: null,
-    isLoading: false,
-    error: false
-  });
+  const [fetchState, fetch] = useFetch<TripInfo>();
 
   const toggle = (): void => setExpanded(!expanded);
   const tripId = journey.trip.id;
 
   useEffect(
     () => {
-      if (expanded && state.data === null && !state.isLoading && !state.error) {
-        fetchData(tripId, input, dispatch);
+      if (expanded && isNotStarted(fetchState)) {
+        fetch({
+          fetcher: fetchTripInfo(tripId, input),
+          parser: parseResults
+        });
       }
     },
-    [tripId, input, expanded, state]
+    [tripId, input, expanded, fetchState, fetch]
   );
 
   return (
     <AccordionRow
-      state={state}
+      fetchState={fetchState}
       journey={journey}
       contentComponent={contentComponent}
       expanded={expanded}

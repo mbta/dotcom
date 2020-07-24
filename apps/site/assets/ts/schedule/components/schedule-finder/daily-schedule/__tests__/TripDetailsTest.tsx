@@ -1,13 +1,14 @@
 import React from "react";
 import renderer from "react-test-renderer";
 import { createReactRoot } from "../../../../../app/helpers/testUtils";
+import { FetchState, FetchStatus } from "../../../../../helpers/use-fetch";
 import { TripInfo } from "../../../__trips";
 import CrowdingPill from "../../../line-diagram/CrowdingPill";
 import crTripData from "../../__tests__/test-data/crTripInfo.json";
 import crTripDataWithDelays from "../../__tests__/test-data/crTripInfoWithDelays.json";
 import tripData from "../../__tests__/test-data/tripInfo.json";
 import tripDataWithPredictions from "../../__tests__/test-data/tripInfoWithPredictions.json";
-import { TripDetails, State } from "../TripDetails";
+import TripDetails from "../TripDetails";
 
 const tripInfo: TripInfo = (tripData as unknown) as TripInfo;
 const crTripInfo: TripInfo = (crTripData as unknown) as TripInfo;
@@ -15,40 +16,34 @@ const tripInfoWithPredictions: TripInfo = (tripDataWithPredictions as unknown) a
 const crTripInfoWithDelays: TripInfo = (crTripDataWithDelays as unknown) as TripInfo;
 
 const successState = {
-  data: tripInfo,
-  isLoading: false,
-  error: false
-} as State;
+  status: FetchStatus.Data,
+  data: tripInfo
+} as FetchState<TripInfo>;
 
 const crSuccessState = {
-  data: crTripInfo,
-  isLoading: false,
-  error: false
-} as State;
+  status: FetchStatus.Data,
+  data: crTripInfo
+} as FetchState<TripInfo>;
 
 const successStateWithPredictions = {
-  data: tripInfoWithPredictions,
-  isLoading: false,
-  error: false
-} as State;
+  status: FetchStatus.Data,
+  data: tripInfoWithPredictions
+} as FetchState<TripInfo>;
 
 const crSuccessStateWithDelays = {
-  data: crTripInfoWithDelays,
-  isLoading: false,
-  error: false
-} as State;
+  status: FetchStatus.Data,
+  data: crTripInfoWithDelays
+} as FetchState<TripInfo>;
 
 const errorState = {
-  data: null,
-  isLoading: false,
-  error: true
-} as State;
+  status: FetchStatus.Error
+} as FetchState<TripInfo>;
 
 describe("TripDetails", () => {
   it("it renders trip details for a bus trip", () => {
     createReactRoot();
     const tree = renderer.create(
-      <TripDetails state={successState} showFare={false} />
+      <TripDetails fetchState={successState} showFare={false} />
     );
     expect(tree).toMatchSnapshot();
   });
@@ -56,7 +51,7 @@ describe("TripDetails", () => {
   it("it renders trip details for a CR trip", () => {
     createReactRoot();
     const tree = renderer.create(
-      <TripDetails state={crSuccessState} showFare={true} />
+      <TripDetails fetchState={crSuccessState} showFare={true} />
     );
     expect(tree).toMatchSnapshot();
   });
@@ -64,7 +59,7 @@ describe("TripDetails", () => {
   it("it renders an error if fetch failed", () => {
     createReactRoot();
     const tree = renderer.create(
-      <TripDetails state={errorState} showFare={false} />
+      <TripDetails fetchState={errorState} showFare={false} />
     );
     expect(tree).toMatchSnapshot();
   });
@@ -72,7 +67,7 @@ describe("TripDetails", () => {
   it("uses a predicted departure time in preference to a scheduled one", () => {
     createReactRoot();
     const tree = renderer.create(
-      <TripDetails state={successStateWithPredictions} showFare={false} />
+      <TripDetails fetchState={successStateWithPredictions} showFare={false} />
     );
     expect(tree).toMatchSnapshot();
   });
@@ -80,7 +75,7 @@ describe("TripDetails", () => {
   it("displays both scheduled and predicted times for CR if there is a delay of more than 5 minutes", () => {
     createReactRoot();
     const tree = renderer.create(
-      <TripDetails state={crSuccessStateWithDelays} showFare={false} />
+      <TripDetails fetchState={crSuccessStateWithDelays} showFare={false} />
     );
     expect(tree).toMatchSnapshot();
   });
@@ -99,10 +94,9 @@ describe("TripDetails", () => {
     createReactRoot();
     const tree = renderer.create(
       <TripDetails
-        state={{
-          data: tripInfoWithCrowding,
-          isLoading: false,
-          error: false
+        fetchState={{
+          status: FetchStatus.Data,
+          data: tripInfoWithCrowding
         }}
         showFare={false}
       />
