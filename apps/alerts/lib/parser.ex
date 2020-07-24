@@ -1,5 +1,11 @@
 defmodule Alerts.Parser do
+  @moduledoc """
+  This is the logic for parsing the different alerts on the website.
+  """
   defmodule Alert do
+    @moduledoc """
+    This is the module to parse alerts
+    """
     @spec parse(JsonApi.Item.t()) :: Alerts.Alert.t()
     def parse(%JsonApi.Item{type: "alert", id: id, attributes: attributes}) do
       Alerts.Alert.new(
@@ -11,7 +17,8 @@ defmodule Alerts.Parser do
         severity: severity(attributes["severity"]),
         lifecycle: lifecycle(attributes["lifecycle"]),
         updated_at: parse_time(attributes["updated_at"]),
-        description: description(attributes["description"])
+        description: description(attributes["description"]),
+        url: description(attributes["url"])
       )
     end
 
@@ -176,6 +183,9 @@ defmodule Alerts.Parser do
   end
 
   defmodule Banner do
+    @moduledoc """
+    This is the module to parse the banner
+    """
     alias Alerts.{Banner, InformedEntitySet, Parser.Alert}
 
     @spec parse(JsonApi.Item.t()) :: [Banner.t()]
