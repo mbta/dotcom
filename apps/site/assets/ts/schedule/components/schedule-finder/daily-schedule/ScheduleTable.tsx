@@ -10,10 +10,12 @@ interface Props {
   input: UserInput;
 }
 
+interface RoutePatternsById {
+  [key: string]: EnhancedRoutePattern;
+}
+
 const isSchoolTrip = (
-  routePatternsById: {
-    [key: string]: EnhancedRoutePattern;
-  },
+  routePatternsById: RoutePatternsById,
   routePatternId: string
 ): boolean =>
   (
@@ -27,16 +29,6 @@ const ScheduleTable = ({
   routePatterns,
   input
 }: Props): ReactElement<HTMLElement> => {
-  const routePatternsById = routePatterns.reduce(
-    (accumulator, routePattern) => ({
-      ...accumulator,
-      [routePattern.id]: routePattern
-    }),
-    {}
-  ) as {
-    [key: string]: EnhancedRoutePattern;
-  };
-
   if (journeys.length === 0) {
     return (
       <div className="callout u-bold text-center">
@@ -44,13 +36,21 @@ const ScheduleTable = ({
       </div>
     );
   }
-  const firstTrip = journeys[0];
-  const lastTrip = journeys.length > 1 ? journeys[journeys.length - 1] : null;
 
+  const routePatternsById = routePatterns.reduce(
+    (accumulator, routePattern) => ({
+      ...accumulator,
+      [routePattern.id]: routePattern
+    }),
+    {}
+  ) as RoutePatternsById;
   const anySchoolTrips = Object.values(journeys).some(
     ({ trip: { route_pattern_id: routePatternId } }) =>
       isSchoolTrip(routePatternsById, routePatternId)
   );
+
+  const firstTrip = journeys[0];
+  const lastTrip = journeys.length > 1 ? journeys[journeys.length - 1] : null;
 
   return (
     <>
@@ -64,11 +64,13 @@ const ScheduleTable = ({
           </>
         )}
       </div>
+
       {anySchoolTrips && (
         <p className="text-center">
           <strong>S</strong> - Does NOT run on school vacation
         </p>
       )}
+
       <table className="schedule-table">
         <thead className="schedule-table__header">
           <tr>
