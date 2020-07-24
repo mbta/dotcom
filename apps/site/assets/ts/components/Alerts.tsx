@@ -147,8 +147,11 @@ const alertDescription = (alert: AlertType): ReactElement<HTMLElement> => (
 const Alert = ({ alert }: { alert: AlertType }): ReactElement<HTMLElement> => {
   const [expanded, toggleExpanded] = useState(false);
   const onClick = (): void => toggleExpanded(!expanded);
+
+  const alertUrl = alert.url ? alert.url : "";
+
   // remove [http:// | https:// | www.] from alert URL:
-  let strippedAlertUrl = alert.url.replace(/(https?:\/\/)?(www\.)?/i, "");
+  let strippedAlertUrl = alertUrl.replace(/(https?:\/\/)?(www\.)?/i, "");
 
   // capitalize 'mbta' (special case):
   strippedAlertUrl = strippedAlertUrl.replace(/mbta/gi, "MBTA");

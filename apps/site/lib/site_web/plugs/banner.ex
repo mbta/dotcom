@@ -4,7 +4,7 @@ defmodule SiteWeb.Plugs.Banner do
   A module Plug to handle the banner at the top of every page.
 
   * If there's a banner alert, that should always be displayed with the alert styling.
-  * Otherwise, display the beta announcment banner if necessary.
+  * Otherwise, display the beta announcement banner if necessary.
   """
 
   @behaviour Plug

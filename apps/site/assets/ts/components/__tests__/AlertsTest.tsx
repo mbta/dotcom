@@ -73,6 +73,26 @@ test("it renders", () => {
   expect(enzymeToJsonWithoutProps(wrapper)).toMatchSnapshot();
 });
 
+test("it includes the URL field when it exists", () => {
+  document.body.innerHTML = body;
+
+  const highAlertID = `#alert-${highAlert.id}`;
+
+  let wrapper = mount(<Alerts alerts={[highAlert]} />);
+
+  wrapper.find(highAlertID).simulate("click");
+  expect(wrapper.html()).toContain(
+    `<a href="https://www.mbta.com" target="_blank">MBTA.com</a>`
+  );
+
+  wrapper.unmount();
+
+  wrapper = mount(<Alerts alerts={[{ url: null, ...highAlert }]} />);
+
+  wrapper.find(highAlertID).simulate("click");
+  expect(wrapper.find("a")).toEqual({});
+});
+
 describe("iconForAlert", () => {
   test("renders no icon for low priority alerts", () => {
     expect(iconForAlert(lowAlert)).toBeNull();

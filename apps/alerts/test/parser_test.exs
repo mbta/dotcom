@@ -34,7 +34,8 @@ defmodule Alerts.ParserTest do
                  "effect_name" => "Delay",
                  "updated_at" => "2016-06-20T16:09:29-04:00",
                  "description" => "Affected routes: 18",
-                 "banner" => "Test banner copy"
+                 "banner" => "Test banner copy",
+                 "url" => "www.mbta.com"
                }
              }) ==
                %Alerts.Alert{
@@ -64,7 +65,8 @@ defmodule Alerts.ParserTest do
                  effect: :delay,
                  updated_at: ~N[2016-06-20T16:09:29] |> Timex.to_datetime("Etc/GMT+4"),
                  description: "Affected routes: 18",
-                 priority: :high
+                 priority: :high,
+                 url: "www.mbta.com"
                }
     end
 
