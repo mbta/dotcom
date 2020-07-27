@@ -30,6 +30,10 @@ export interface TripDeparture {
   delay: number | null;
 }
 
+export interface TripDepartureWithPrediction extends TripDeparture {
+  prediction: Prediction;
+}
+
 export interface TripInfo {
   times: TripDeparture[];
   vehicle: Vehicle | null;
@@ -45,6 +49,7 @@ export interface Prediction {
   schedule_relationship: ScheduleRelationship;
   delay: number;
   status: string | null;
+  stop: Stop;
   track: string | null;
   time: string | null;
 }

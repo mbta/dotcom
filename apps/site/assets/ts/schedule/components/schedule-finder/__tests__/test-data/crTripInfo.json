@@ -189,7 +189,190 @@
         },
         "early_departure?": false
       },
-      "prediction": null
+      "prediction": {
+        "time": "02:30 PM",
+        "stop_sequence": 1,
+        "stop": {
+          "type": "station",
+          "station?": true,
+          "platform_name": null,
+          "platform_code": null,
+          "parking_lots": [
+            {
+              "utilization": null,
+              "payment": {
+                "monthly_rate": "$445 regular, $150 overnight",
+                "mobile_app": null,
+                "methods": ["Credit/Debit Card", "Cash"],
+                "daily_rate": "Hourly: 30 min: $5, 1 hr: $10, 1.5 hrs: $15, 2 hrs: $20, 2.5 hrs: $25, 3+ hrs: $30 | Daily Max: $30 | Early Bird (in by 8:30 AM, out by 6 PM): $26 | Nights/Weekends: $10"
+              },
+              "note": null,
+              "name": "South Station Bus Terminal Garage",
+              "manager": {
+                "url": "https://www.propark.com/propark-locator2/south-station-garage/",
+                "phone": "617-345-0202",
+                "name": "ProPark",
+                "contact": "ProPark"
+              },
+              "longitude": -71.055963,
+              "latitude": 42.349838,
+              "capacity": {
+                "type": "Garage",
+                "total": 210,
+                "overnight": "Available. During snow emergencies, check posted signs.",
+                "accessible": 4
+              },
+              "address": null
+            }
+          ],
+          "parent_id": null,
+          "note": null,
+          "name": "South Station",
+          "longitude": -71.055242,
+          "latitude": 42.352271,
+          "is_child?": false,
+          "id": "place-sstat",
+          "has_fare_machine?": true,
+          "has_charlie_card_vendor?": true,
+          "fare_facilities": [
+            "fare_media_assistant",
+            "fare_vending_machine",
+            "ticket_window"
+          ],
+          "description": null,
+          "closed_stop_info": null,
+          "child_ids": [
+            "70079",
+            "70080",
+            "74611",
+            "74617",
+            "South Station",
+            "South Station-01",
+            "South Station-02",
+            "South Station-03",
+            "South Station-04",
+            "South Station-05",
+            "South Station-06",
+            "South Station-07",
+            "South Station-08",
+            "South Station-09",
+            "South Station-10",
+            "South Station-11",
+            "South Station-12",
+            "South Station-13",
+            "South Station-S",
+            "door-sstat-atlantic",
+            "door-sstat-bus",
+            "door-sstat-dewey",
+            "door-sstat-finctr",
+            "door-sstat-main",
+            "door-sstat-outmain",
+            "door-sstat-reserve",
+            "door-sstat-summer",
+            "door-sstat-usps",
+            "node-382-lobby",
+            "node-382-rl",
+            "node-386-lobby",
+            "node-387-lobby",
+            "node-388-lobby",
+            "node-388-sl",
+            "node-389-lobby",
+            "node-389-rl",
+            "node-390-rl",
+            "node-390-sl",
+            "node-398-rl",
+            "node-398-sl",
+            "node-399-lobby",
+            "node-399-middle",
+            "node-400-middle",
+            "node-400-rl",
+            "node-411-lobby",
+            "node-411-sl",
+            "node-419-lobby",
+            "node-419-middle",
+            "node-420-middle",
+            "node-420-rl",
+            "node-424-lobby",
+            "node-6476-ground",
+            "node-6476-lobby",
+            "node-901-lobby",
+            "node-901-rl",
+            "node-901-sl",
+            "node-918-lobby",
+            "node-918-rl",
+            "node-918-sl",
+            "node-919-rl",
+            "node-919-sl",
+            "node-926-lobby",
+            "node-927-rl",
+            "node-927-sl",
+            "node-949-lobby",
+            "node-sstat-382stair-lobby",
+            "node-sstat-382stair-rl",
+            "node-sstat-388stair-lobby",
+            "node-sstat-388stair-sl",
+            "node-sstat-389stair-lobby",
+            "node-sstat-389stair-rl",
+            "node-sstat-390stair-rl",
+            "node-sstat-390stair-sl",
+            "node-sstat-398stair-rl",
+            "node-sstat-398stair-sl",
+            "node-sstat-399stair-lobby",
+            "node-sstat-399stair-middle",
+            "node-sstat-400sl-middle",
+            "node-sstat-400sl-sl",
+            "node-sstat-400stair-middle",
+            "node-sstat-400stair-rl",
+            "node-sstat-411stair-lobby",
+            "node-sstat-411stair-sl",
+            "node-sstat-419stair-lobby",
+            "node-sstat-419stair-middle",
+            "node-sstat-420sl-middle",
+            "node-sstat-420sl-sl",
+            "node-sstat-420stair-middle",
+            "node-sstat-420stair-rl",
+            "node-sstat-918stair-lobby",
+            "node-sstat-918stair-sl",
+            "node-sstat-919stair-rl",
+            "node-sstat-919stair-sl",
+            "node-sstat-alewife-farepaid",
+            "node-sstat-alewife-fareunpaid",
+            "node-sstat-ashbrain-farepaid",
+            "node-sstat-ashbrain-fareunpaid",
+            "node-sstat-bldgescdown-ground",
+            "node-sstat-bldgescdown-lobby",
+            "node-sstat-bldgescup-ground",
+            "node-sstat-bldgescup-lobby",
+            "node-sstat-bldgstair-ground",
+            "node-sstat-bldgstair-lobby",
+            "node-sstat-cr-lobby",
+            "node-sstat-deweystair-lobby",
+            "node-sstat-finctrstair-lobby",
+            "node-sstat-north-farepaid",
+            "node-sstat-north-fareunpaid",
+            "node-sstat-outmainstair-lobby",
+            "node-sstat-reservestair-lobby",
+            "node-sstat-south-farepaid",
+            "node-sstat-south-fareunpaid"
+          ],
+          "bike_storage": ["bike_storage_cage"],
+          "address": "700 Atlantic Ave, Boston, MA 02110",
+          "accessibility": [
+            "accessible",
+            "escalator_both",
+            "elevator",
+            "fully_elevated_platform"
+          ]
+        },
+        "pickup_type": 0,
+        "last_stop?": false,
+        "flag?": false,
+        "fare": {
+          "price": "$2.40",
+          "fare_link": "/fares/commuter_rail?destination=place-sstat&origin=place-sstat"
+        },
+        "early_departure?": false
+      }
     },
     {
       "delay": null,
@@ -308,7 +491,121 @@
         },
         "early_departure?": false
       },
-      "prediction": null
+      "prediction": {
+        "time": "02:35 PM",
+        "stop_sequence": 2,
+        "stop": {
+          "type": "station",
+          "station?": true,
+          "platform_name": null,
+          "platform_code": null,
+          "parking_lots": [],
+          "parent_id": null,
+          "note": null,
+          "name": "Back Bay",
+          "longitude": -71.075727,
+          "latitude": 42.34735,
+          "is_child?": false,
+          "id": "place-bbsta",
+          "has_fare_machine?": true,
+          "has_charlie_card_vendor?": true,
+          "fare_facilities": [
+            "fare_media_assistant",
+            "fare_vending_machine",
+            "ticket_window"
+          ],
+          "description": null,
+          "closed_stop_info": null,
+          "child_ids": [
+            "23391",
+            "70014",
+            "70015",
+            "Back Bay",
+            "Back Bay-01",
+            "Back Bay-02",
+            "Back Bay-03",
+            "Back Bay-05",
+            "Back Bay-07",
+            "door-bbsta-buswayn",
+            "door-bbsta-busways",
+            "door-bbsta-clarcolum",
+            "door-bbsta-clarendon1",
+            "door-bbsta-clarendon2",
+            "door-bbsta-dartmn",
+            "door-bbsta-dartms",
+            "door-bbsta-dartmw",
+            "door-bbsta-garage",
+            "door-bbsta-underpass",
+            "node-140-lobby",
+            "node-140-platform",
+            "node-141-lobby",
+            "node-141-platform",
+            "node-142-lobby",
+            "node-142-platform",
+            "node-143-lobby",
+            "node-143-platform",
+            "node-144-lobby",
+            "node-144-platform",
+            "node-853-lobby",
+            "node-853-platform",
+            "node-854-lobby",
+            "node-854-platform",
+            "node-855-lobby",
+            "node-855-platform",
+            "node-856-lobby",
+            "node-856-platform",
+            "node-bbsta-13clarexit-bottom",
+            "node-bbsta-13clarexit-farepaid",
+            "node-bbsta-13clarexit-fareunpaid",
+            "node-bbsta-13stairs-lobby",
+            "node-bbsta-13stairs-platform",
+            "node-bbsta-2clarexit-bottom",
+            "node-bbsta-2clarexit-farepaid",
+            "node-bbsta-2clarexit-fareunpaid",
+            "node-bbsta-2stairs-lobby",
+            "node-bbsta-2stairs-platform",
+            "node-bbsta-clar-farepaid",
+            "node-bbsta-clar-fareunpaid",
+            "node-bbsta-dartexit-farepaid",
+            "node-bbsta-dartexit-fareunpaid",
+            "node-bbsta-dartexit-platform",
+            "node-bbsta-e57stairs-lobby",
+            "node-bbsta-e57stairs-platform",
+            "node-bbsta-lower-farepaid",
+            "node-bbsta-lower-fareunpaid",
+            "node-bbsta-olclarexit-bottom",
+            "node-bbsta-olestairs-lobby",
+            "node-bbsta-olestairs-platform",
+            "node-bbsta-olwstairs-lobby",
+            "node-bbsta-olwstairs-platform",
+            "node-bbsta-upassestairs-bottom",
+            "node-bbsta-upassestairs-top",
+            "node-bbsta-upassmezstairs-top",
+            "node-bbsta-upasswstairs-bottom",
+            "node-bbsta-upper-farepaid",
+            "node-bbsta-upper-fareunpaid",
+            "node-bbsta-w57stairs-lobby",
+            "node-bbsta-w57stairs-platform"
+          ],
+          "bike_storage": ["bike_storage_cage"],
+          "address": "145 Dartmouth St Boston, MA 02116",
+          "accessibility": [
+            "accessible",
+            "escalator_both",
+            "elevated_subplatform",
+            "elevator",
+            "fully_elevated_platform"
+          ]
+        },
+        "pickup_type": 0,
+        "last_stop?": false,
+        "flag?": false,
+        "fare": {
+          "price": "$2.40",
+          "fare_link": "/fares/commuter_rail?destination=place-bbsta&origin=place-sstat"
+        },
+        "early_departure?": false
+      }
     },
     {
       "delay": null,
@@ -401,7 +698,95 @@
         },
         "early_departure?": false
       },
-      "prediction": null
+      "prediction": {
+        "time": "02:38 PM",
+        "stop_sequence": 3,
+        "stop": {
+          "type": "station",
+          "station?": true,
+          "platform_name": null,
+          "platform_code": null,
+          "parking_lots": [],
+          "parent_id": null,
+          "note": null,
+          "name": "Ruggles",
+          "longitude": -71.088961,
+          "latitude": 42.336377,
+          "is_child?": false,
+          "id": "place-rugg",
+          "has_fare_machine?": true,
+          "has_charlie_card_vendor?": true,
+          "fare_facilities": ["fare_media_assistant", "fare_vending_machine"],
+          "description": null,
+          "closed_stop_info": null,
+          "child_ids": [
+            "17861",
+            "17862",
+            "17863",
+            "70010",
+            "70011",
+            "Ruggles",
+            "Ruggles-01",
+            "Ruggles-02",
+            "Ruggles-03",
+            "door-rugg-buses",
+            "door-rugg-columbus",
+            "door-rugg-forsyth",
+            "door-rugg-ruggles",
+            "door-rugg-upper",
+            "node-135-busway",
+            "node-135-lobby",
+            "node-136-lobby",
+            "node-136-platform",
+            "node-137-lobby",
+            "node-137-platform",
+            "node-138-bottom",
+            "node-138-top",
+            "node-848-busway",
+            "node-848-lobby",
+            "node-849-lobby",
+            "node-849-platform",
+            "node-850-lobby",
+            "node-850-platform",
+            "node-851-bottom",
+            "node-851-top",
+            "node-rugg-bus1stairs-busway",
+            "node-rugg-bus1stairs-lobby",
+            "node-rugg-bus2stairs-busway",
+            "node-rugg-bus2stairs-lobby",
+            "node-rugg-columbusstairs-top",
+            "node-rugg-crstairs-lobby",
+            "node-rugg-crstairs-platform",
+            "node-rugg-farepaid",
+            "node-rugg-fareunpaid",
+            "node-rugg-forsythstairs-bottom",
+            "node-rugg-forsythstairs-top",
+            "node-rugg-olexit-farepaid",
+            "node-rugg-olexit-fareunpaid",
+            "node-rugg-olexit-platform",
+            "node-rugg-olnstairs-lobby",
+            "node-rugg-olnstairs-platform",
+            "node-rugg-olsstairs-lobby",
+            "node-rugg-olsstairs-platform"
+          ],
+          "bike_storage": ["bike_storage_rack"],
+          "address": "1150 Tremont St, Roxbury, MA 02120",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "fully_elevated_platform"
+          ]
+        },
+        "pickup_type": 0,
+        "last_stop?": false,
+        "flag?": false,
+        "fare": {
+          "price": "$2.40",
+          "fare_link": "/fares/commuter_rail?destination=place-rugg&origin=place-sstat"
+        },
+        "early_departure?": false
+      }
     },
     {
       "delay": null,
@@ -472,7 +857,73 @@
         },
         "early_departure?": false
       },
-      "prediction": null
+      "prediction": {
+        "time": "02:51 PM",
+        "stop_sequence": 4,
+        "stop": {
+          "type": "station",
+          "station?": true,
+          "platform_name": null,
+          "platform_code": null,
+          "parking_lots": [
+            {
+              "utilization": null,
+              "payment": {
+                "monthly_rate": "Monthly passes are not available at MBTA garages.",
+                "mobile_app": null,
+                "methods": ["Tap Card", "EZ Pass", "Credit/Debit Card", "Cash"],
+                "daily_rate": "Mon-Fri: $7 | Sat-Sun: $3 (Prices are valid for up to 14 hours of parking. After the first 14 hours, the daily rate is $15.)"
+              },
+              "note": null,
+              "name": "Route 128 Garage",
+              "manager": {
+                "url": "https://www.mbta.com/parking",
+                "phone": "617-222-3200",
+                "name": "Republic Parking System",
+                "contact": "MBTA Customer Support"
+              },
+              "longitude": -71.1471,
+              "latitude": 42.209884,
+              "capacity": {
+                "type": "Garage",
+                "total": 2578,
+                "overnight": "Available",
+                "accessible": 40
+              },
+              "address": null
+            }
+          ],
+          "parent_id": null,
+          "note": null,
+          "name": "Route 128",
+          "longitude": -71.147134,
+          "latitude": 42.210308,
+          "is_child?": false,
+          "id": "place-NEC-2173",
+          "has_fare_machine?": false,
+          "has_charlie_card_vendor?": false,
+          "fare_facilities": ["fare_vending_retailer"],
+          "description": null,
+          "closed_stop_info": null,
+          "child_ids": ["Route 128"],
+          "bike_storage": ["bike_storage_rack"],
+          "address": "50 University Ave, Westwood, MA 02090",
+          "accessibility": [
+            "accessible",
+            "escalator_up",
+            "elevator",
+            "fully_elevated_platform"
+          ]
+        },
+        "pickup_type": 0,
+        "last_stop?": false,
+        "flag?": false,
+        "fare": {
+          "price": "$7.00",
+          "fare_link": "/fares/commuter_rail?destination=place-NEC-2173&origin=place-sstat"
+        },
+        "early_departure?": false
+      }
     },
     {
       "delay": null,
@@ -545,7 +996,75 @@
         },
         "early_departure?": false
       },
-      "prediction": null
+      "prediction": {
+        "time": "02:57 PM",
+        "stop_sequence": 5,
+        "stop": {
+          "type": "station",
+          "station?": true,
+          "platform_name": null,
+          "platform_code": null,
+          "parking_lots": [
+            {
+              "utilization": {
+                "typical": 635,
+                "arrive_before": null
+              },
+              "payment": {
+                "monthly_rate": "$70",
+                "mobile_app": {
+                  "url": "https://www.paybyphone.com/",
+                  "name": "PayByPhone",
+                  "id": 4362
+                },
+                "methods": ["Mobile App", "Invoice"],
+                "daily_rate": "Mon-Fri: $4 | Sat-Sun: $2"
+              },
+              "note": null,
+              "name": "Canton Junction Parking Lot",
+              "manager": {
+                "url": "https://www.mbta.com/parking",
+                "phone": "617-222-3200",
+                "name": "Republic Parking System",
+                "contact": "MBTA Customer Support"
+              },
+              "longitude": -71.153035,
+              "latitude": 42.163075,
+              "capacity": {
+                "type": "Surface Lot",
+                "total": 762,
+                "overnight": "Not available",
+                "accessible": 11
+              },
+              "address": null
+            }
+          ],
+          "parent_id": null,
+          "note": null,
+          "name": "Canton Junction",
+          "longitude": -71.15376,
+          "latitude": 42.163204,
+          "is_child?": false,
+          "id": "place-NEC-2139",
+          "has_fare_machine?": false,
+          "has_charlie_card_vendor?": false,
+          "fare_facilities": [],
+          "description": null,
+          "closed_stop_info": null,
+          "child_ids": ["Canton Junction"],
+          "bike_storage": ["bike_storage_rack"],
+          "address": "Beaumont St and Sherman St, Canton, MA 02021",
+          "accessibility": ["accessible", "elevated_subplatform", "ramp"]
+        },
+        "pickup_type": 0,
+        "last_stop?": false,
+        "flag?": false,
+        "fare": {
+          "price": "$8.00",
+          "fare_link": "/fares/commuter_rail?destination=place-NEC-2139&origin=place-sstat"
+        },
+        "early_departure?": false
+      }
     },
     {
       "delay": null,
@@ -615,7 +1134,72 @@
         },
         "early_departure?": false
       },
-      "prediction": null
+      "prediction": {
+        "time": "03:03 PM",
+        "stop_sequence": 6,
+        "stop": {
+          "type": "station",
+          "station?": true,
+          "platform_name": null,
+          "platform_code": null,
+          "parking_lots": [
+            {
+              "utilization": null,
+              "payment": {
+                "monthly_rate": null,
+                "mobile_app": {
+                  "url": "https://www.paybyphone.com/",
+                  "name": "PayByPhone",
+                  "id": 2232
+                },
+                "methods": ["Mobile App", "Credit/Debit Card"],
+                "daily_rate": "$4"
+              },
+              "note": "Town of Sharon is responsible for parking maintenance, payments, and snow removal.",
+              "name": "Sharon Parking Lot",
+              "manager": {
+                "url": "https://www.townofsharon.net/home/pages/railroad-parking",
+                "phone": "508-381-5456",
+                "name": "Town of Sharon",
+                "contact": "Sharon City Hall Systems"
+              },
+              "longitude": -71.184743,
+              "latitude": 42.124661,
+              "capacity": {
+                "type": "Surface Lot",
+                "total": 542,
+                "overnight": "Unknown",
+                "accessible": null
+              },
+              "address": null
+            }
+          ],
+          "parent_id": null,
+          "note": null,
+          "name": "Sharon",
+          "longitude": -71.184468,
+          "latitude": 42.124553,
+          "is_child?": false,
+          "id": "place-NEC-2108",
+          "has_fare_machine?": false,
+          "has_charlie_card_vendor?": false,
+          "fare_facilities": [],
+          "description": null,
+          "closed_stop_info": null,
+          "child_ids": ["Sharon"],
+          "bike_storage": ["bike_storage_rack"],
+          "address": "1 Upland Rd, Sharon, MA 02067",
+          "accessibility": ["accessible", "elevated_subplatform", "ramp"]
+        },
+        "pickup_type": 0,
+        "last_stop?": false,
+        "flag?": false,
+        "fare": {
+          "price": "$8.75",
+          "fare_link": "/fares/commuter_rail?destination=place-NEC-2108&origin=place-sstat"
+        },
+        "early_departure?": false
+      }
     },
     {
       "delay": null,
@@ -685,7 +1269,72 @@
         },
         "early_departure?": false
       },
-      "prediction": null
+      "prediction": {
+        "time": "03:11 PM",
+        "stop_sequence": 7,
+        "stop": {
+          "type": "station",
+          "station?": true,
+          "platform_name": null,
+          "platform_code": null,
+          "parking_lots": [
+            {
+              "utilization": null,
+              "payment": {
+                "monthly_rate": null,
+                "mobile_app": {
+                  "url": "https://www.paybyphone.com/",
+                  "name": "PayByPhone",
+                  "id": 1588
+                },
+                "methods": ["Mobile App", "Credit/Debit Card", "Cash"],
+                "daily_rate": "$3 residents with sticker, $4 non-residents (free on weekends)"
+              },
+              "note": "Town of Mansfield is responsible for parking maintenance, payments, and snow removal.",
+              "name": "Mansfield Parking Lot",
+              "manager": {
+                "url": "http://www.mansfieldma.com/public-safety/police-2/mbta-parking/",
+                "phone": "508-261-7466",
+                "name": "Town of Mansfield",
+                "contact": "Mansfield Town Hall"
+              },
+              "longitude": -71.220919,
+              "latitude": 42.032689,
+              "capacity": {
+                "type": "Surface Lot",
+                "total": 806,
+                "overnight": "Unknown",
+                "accessible": null
+              },
+              "address": null
+            }
+          ],
+          "parent_id": null,
+          "note": null,
+          "name": "Mansfield",
+          "longitude": -71.219917,
+          "latitude": 42.032787,
+          "is_child?": false,
+          "id": "place-NEC-2040",
+          "has_fare_machine?": false,
+          "has_charlie_card_vendor?": false,
+          "fare_facilities": ["fare_vending_retailer"],
+          "description": null,
+          "closed_stop_info": null,
+          "child_ids": ["Mansfield"],
+          "bike_storage": [],
+          "address": "1 Crocker St, Mansfield, MA 02048",
+          "accessibility": ["accessible", "elevated_subplatform"]
+        },
+        "pickup_type": 0,
+        "last_stop?": false,
+        "flag?": false,
+        "fare": {
+          "price": "$10.50",
+          "fare_link": "/fares/commuter_rail?destination=place-NEC-2040&origin=place-sstat"
+        },
+        "early_departure?": false
+      }
     },
     {
       "delay": null,
@@ -755,7 +1404,72 @@
         },
         "early_departure?": false
       },
-      "prediction": null
+      "prediction": {
+        "time": "03:19 PM",
+        "stop_sequence": 8,
+        "stop": {
+          "type": "station",
+          "station?": true,
+          "platform_name": null,
+          "platform_code": null,
+          "parking_lots": [
+            {
+              "utilization": null,
+              "payment": {
+                "monthly_rate": "$90",
+                "mobile_app": {
+                  "url": "https://parkmobile.io/",
+                  "name": "Parkmobile",
+                  "id": 881
+                },
+                "methods": ["Mobile App"],
+                "daily_rate": "$5"
+              },
+              "note": "Greater Attleboro/Taunton RTA is responsible for parking maintenance, payments, and snow removal.",
+              "name": "Attleboro Parking Lot",
+              "manager": {
+                "url": "http://www.gatra.org/index.php/special-services/parking-passes/",
+                "phone": "401-274-5586",
+                "name": "Greater Attleboro/Taunton Regional Transit Authority",
+                "contact": "SP Plus Corporation"
+              },
+              "longitude": -71.28599,
+              "latitude": 41.940349,
+              "capacity": {
+                "type": "Surface Lot",
+                "total": 780,
+                "overnight": "Unknown",
+                "accessible": 16
+              },
+              "address": null
+            }
+          ],
+          "parent_id": null,
+          "note": null,
+          "name": "Attleboro",
+          "longitude": -71.285094,
+          "latitude": 41.940739,
+          "is_child?": false,
+          "id": "place-NEC-1969",
+          "has_fare_machine?": false,
+          "has_charlie_card_vendor?": false,
+          "fare_facilities": ["fare_vending_retailer"],
+          "description": null,
+          "closed_stop_info": null,
+          "child_ids": ["Attleboro"],
+          "bike_storage": ["bike_storage_rack"],
+          "address": "133 S Main St, Attleboro, MA 02703",
+          "accessibility": ["accessible", "elevated_subplatform", "ramp"]
+        },
+        "pickup_type": 0,
+        "last_stop?": false,
+        "flag?": false,
+        "fare": {
+          "price": "$11.00",
+          "fare_link": "/fares/commuter_rail?destination=place-NEC-1969&origin=place-sstat"
+        },
+        "early_departure?": false
+      }
     },
     {
       "delay": null,
@@ -828,7 +1542,75 @@
         },
         "early_departure?": false
       },
-      "prediction": null
+      "prediction": {
+        "time": "03:29 PM",
+        "stop_sequence": 9,
+        "stop": {
+          "type": "station",
+          "station?": true,
+          "platform_name": null,
+          "platform_code": null,
+          "parking_lots": [
+            {
+              "utilization": {
+                "typical": 579,
+                "arrive_before": "06:30 AM"
+              },
+              "payment": {
+                "monthly_rate": "$105",
+                "mobile_app": {
+                  "url": "https://www.paybyphone.com/",
+                  "name": "PayByPhone",
+                  "id": 4380
+                },
+                "methods": ["Mobile App", "Invoice"],
+                "daily_rate": "Mon-Fri: $6 | Sat-Sun: $2"
+              },
+              "note": null,
+              "name": "South Attleboro Parking Lot",
+              "manager": {
+                "url": "https://www.mbta.com/parking",
+                "phone": "617-222-3200",
+                "name": "Republic Parking System",
+                "contact": "MBTA Customer Support"
+              },
+              "longitude": -71.355751,
+              "latitude": 41.898357,
+              "capacity": {
+                "type": "Surface Lot",
+                "total": 579,
+                "overnight": "Not available",
+                "accessible": 13
+              },
+              "address": null
+            }
+          ],
+          "parent_id": null,
+          "note": null,
+          "name": "South Attleboro",
+          "longitude": -71.354621,
+          "latitude": 41.897943,
+          "is_child?": false,
+          "id": "place-NEC-1919",
+          "has_fare_machine?": false,
+          "has_charlie_card_vendor?": false,
+          "fare_facilities": [],
+          "description": null,
+          "closed_stop_info": null,
+          "child_ids": ["South Attleboro"],
+          "bike_storage": [],
+          "address": "1315 Newport Ave, Attleboro, MA 02703",
+          "accessibility": ["accessible", "elevated_subplatform", "ramp"]
+        },
+        "pickup_type": 0,
+        "last_stop?": false,
+        "flag?": false,
+        "fare": {
+          "price": "$11.00",
+          "fare_link": "/fares/commuter_rail?destination=place-NEC-1919&origin=place-sstat"
+        },
+        "early_departure?": false
+      }
     },
     {
       "delay": null,
@@ -894,7 +1676,68 @@
         },
         "early_departure?": false
       },
-      "prediction": null
+      "prediction": {
+        "time": "03:39 PM",
+        "stop_sequence": 10,
+        "stop": {
+          "type": "station",
+          "station?": true,
+          "platform_name": null,
+          "platform_code": null,
+          "parking_lots": [
+            {
+              "utilization": null,
+              "payment": {
+                "monthly_rate": null,
+                "mobile_app": null,
+                "methods": ["Credit/Debit Card", "Cash"],
+                "daily_rate": null
+              },
+              "note": "Metropark is responsible for parking maintenance, payments, and snow removal.",
+              "name": "Providence Garage",
+              "manager": {
+                "url": "http://www.metroparkltd.com/",
+                "phone": "401-274-9290",
+                "name": "Metropark",
+                "contact": "Metropark"
+              },
+              "longitude": -71.412743,
+              "latitude": 41.829157,
+              "capacity": {
+                "type": "Garage",
+                "total": 330,
+                "overnight": "Unknown",
+                "accessible": 13
+              },
+              "address": null
+            }
+          ],
+          "parent_id": null,
+          "note": null,
+          "name": "Providence",
+          "longitude": -71.413301,
+          "latitude": 41.829293,
+          "is_child?": false,
+          "id": "place-NEC-1851",
+          "has_fare_machine?": false,
+          "has_charlie_card_vendor?": false,
+          "fare_facilities": [],
+          "description": null,
+          "closed_stop_info": null,
+          "child_ids": ["Providence"],
+          "bike_storage": [],
+          "address": "100 Gaspee St, Providence, RI 02903",
+          "accessibility": ["accessible", "fully_elevated_platform"]
+        },
+        "pickup_type": 1,
+        "last_stop?": true,
+        "flag?": false,
+        "fare": {
+          "price": "$12.25",
+          "fare_link": "/fares/commuter_rail?destination=place-NEC-1851&origin=place-sstat"
+        },
+        "early_departure?": false
+      }
     }
   ],
   "stop_count": 10,

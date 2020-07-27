@@ -2,17 +2,17 @@ import React, { ReactElement } from "react";
 import { alertIcon } from "../../../../helpers/icon";
 import { breakTextAtSlash } from "../../../../helpers/text";
 import { isSkippedOrCancelled } from "../../../../models/prediction";
-import { TripDeparture } from "../../__trips";
+import { TripDepartureWithPrediction } from "../../__trips";
 
 interface Props {
-  departure: TripDeparture;
+  departure: TripDepartureWithPrediction;
   index: number;
   showFare: boolean;
   routeType: number;
 }
 
 const formattedDepartureTimes = (
-  departure: TripDeparture,
+  departure: TripDepartureWithPrediction,
   routeType: number
 ): ReactElement<HTMLElement> => {
   const { schedule, prediction, delay } = departure;
@@ -41,27 +41,25 @@ const TripStop = ({
   showFare,
   routeType
 }: Props): ReactElement<HTMLElement> | null => {
-  const { schedule } = departure;
+  const { prediction, schedule } = departure;
 
   /* istanbul ignore next */
-  if (!schedule || !schedule.stop) return null;
+  if (!prediction.stop) return null;
 
   return (
-    <tr key={`${schedule.stop.id}`}>
+    <tr key={`${prediction.stop.id}`}>
       <th className="schedule-table__cell" scope="row">
         <a
-          href={`/stops/${schedule.stop.id}`}
-          className={
-            isSkippedOrCancelled(departure.prediction) ? "strikethrough" : ""
-          }
+          href={`/stops/${prediction.stop.id}`}
+          className={isSkippedOrCancelled(prediction) ? "strikethrough" : ""}
         >
-          {isSkippedOrCancelled(departure.prediction) && (
+          {isSkippedOrCancelled(prediction) && (
             <>
               {alertIcon("c-svg__icon-alerts-triangle")}
               <span className="sr-only">This trip skips this stop at</span>
             </>
           )}
-          {breakTextAtSlash(schedule.stop.name)}
+          {breakTextAtSlash(prediction.stop.name)}
         </a>
       </th>
       {showFare && (

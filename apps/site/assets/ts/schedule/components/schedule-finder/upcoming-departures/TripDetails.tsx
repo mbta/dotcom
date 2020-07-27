@@ -1,5 +1,9 @@
 import React, { ReactElement } from "react";
-import { TripInfo } from "../../__trips";
+import {
+  TripDeparture,
+  TripDepartureWithPrediction,
+  TripInfo
+} from "../../__trips";
 import Loading from "../../../../components/Loading";
 import CrowdingPill from "../../line-diagram/CrowdingPill";
 import TripStop from "./TripStop";
@@ -14,6 +18,14 @@ interface Props {
   state: State;
   showFare: boolean;
 }
+
+const hasAPrediction = (
+  departure: TripDeparture
+): departure is TripDepartureWithPrediction => departure.prediction !== null;
+
+const departuresWithPredictions = (
+  departures: TripDeparture[]
+): TripDepartureWithPrediction[] => departures.filter(hasAPrediction);
 
 const TripSummary = ({
   tripInfo
@@ -41,9 +53,6 @@ const TripSummary = ({
     </td>
   </tr>
 );
-
-const allTimesHaveSchedule = (tripInfo: TripInfo): boolean =>
-  tripInfo.times.every(time => !!time.schedule);
 
 const TripDetails = ({
   state,
@@ -101,17 +110,20 @@ const TripDetails = ({
         </tr>
       </thead>
       <tbody>
-        {allTimesHaveSchedule(tripInfo)
-          ? tripInfo.times.map((departure, index: number) => (
-              <TripStop
-                departure={departure}
-                index={index}
-                showFare={showFare}
-                routeType={tripInfo.route_type}
-                key={departure.schedule.stop.id}
-              />
-            ))
-          : errorLoadingTrip}
+        {departuresWithPredictions(tripInfo.times).map(
+          (departure, index: number) => (
+            <TripStop
+              departure={departure}
+              index={index}
+              showFare={showFare}
+              routeType={tripInfo.route_type}
+              key={
+                (departure.prediction.stop && departure.prediction.stop.id) ||
+                departure.schedule.stop.id
+              }
+            />
+          )
+        )}
       </tbody>
     </table>
   );
