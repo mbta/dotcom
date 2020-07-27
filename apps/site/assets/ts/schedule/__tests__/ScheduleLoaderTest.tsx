@@ -247,7 +247,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -279,7 +279,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -313,7 +313,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -358,7 +358,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -391,7 +391,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -434,7 +434,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -474,7 +474,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -507,7 +507,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -559,7 +559,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -626,7 +626,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -672,7 +672,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -727,7 +727,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -766,7 +766,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -823,7 +823,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -870,7 +870,7 @@ describe("ScheduleLoader", () => {
             stops,
             direction_id: 0,
             shape_map: {},
-            route_patterns: {},
+            route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
             variant: null
@@ -880,18 +880,64 @@ describe("ScheduleLoader", () => {
       </Provider>
     );
 
-    const numNodes = wrapper.find("select").length;
-
     const storeHandlerStub = jest.spyOn(scheduleStoreModule, "storeHandler");
 
     //change the origin
     wrapper
       .find("select")
-      .at(numNodes - 2)
+      .at(1)
       .simulate("change", { target: { value: "123" } });
 
     expect(storeHandlerStub).toHaveBeenCalledTimes(3);
 
+    storeHandlerStub.mockRestore();
+    wrapper.unmount();
+  });
+
+  it("Checks if it is a unidirectional route", () => {
+    const routes: RoutePatternsByDirection = {
+      "1": routePatternsByDirection["1"]
+    };
+
+    const changeDirectionStub = jest.spyOn(scheduleStoreModule, "storeHandler");
+
+    wrapper = mount(
+      <Provider store={store}>
+        <ScheduleLoader
+          component="SCHEDULE_FINDER"
+          schedulePageData={{
+            schedule_note: null,
+            connections: [],
+            fares,
+            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            hours,
+            holidays,
+            pdfs,
+            teasers,
+            route,
+            services,
+            stops,
+            direction_id: 0,
+            shape_map: {},
+            route_patterns: routes,
+            line_diagram: lineDiagram,
+            today: "2019-12-05",
+            variant: null
+          }}
+          updateURL={() => {}}
+        />
+      </Provider>
+    );
+
+    expect(changeDirectionStub).toHaveBeenNthCalledWith(1, {
+      type: "CHANGE_DIRECTION",
+      newStoreValues: {
+        selectedDirection: 1,
+        selectedOrigin: null
+      }
+    });
+
+    changeDirectionStub.mockRestore();
     wrapper.unmount();
   });
 });

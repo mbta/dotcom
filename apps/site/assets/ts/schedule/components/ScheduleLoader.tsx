@@ -135,13 +135,30 @@ export const ScheduleLoader = ({
       modalOpen,
       modalMode
     } = currentState;
+
+    // check first if this is a unidirectional route:
+    let readjustedDirectionId: DirectionId = currentDirection;
+    if (
+      !Object.keys(routePatternsByDirection).includes(
+        currentDirection.toString()
+      )
+    ) {
+      // This route doesn't have this direction, so pick first existing direction
+      readjustedDirectionId = parseInt(
+        Object.keys(routePatternsByDirection)[0],
+        10
+      ) as DirectionId;
+      changeDirection(readjustedDirectionId);
+      updateURL(selectedOrigin, readjustedDirectionId);
+    }
+
     if (component === "MAIN") {
       return (
         <SchedulePage
           updateURL={updateURL}
           schedulePageData={schedulePageData}
           closeModal={closeModal}
-          selectedDirection={currentDirection}
+          selectedDirection={readjustedDirectionId}
           changeDirection={changeDirection}
           selectedOrigin={selectedOrigin}
           changeOrigin={changeOrigin}
@@ -163,7 +180,7 @@ export const ScheduleLoader = ({
               closeModal={closeModal}
               directionChanged={changeDirection}
               initialMode={modalMode}
-              initialDirection={currentDirection}
+              initialDirection={readjustedDirectionId}
               initialOrigin={selectedOrigin}
               handleOriginSelectClick={handleOriginSelectClick}
               originChanged={changeOrigin}
@@ -192,7 +209,7 @@ export const ScheduleLoader = ({
           scheduleNote={null}
           modalMode={modalMode}
           modalOpen={modalOpen}
-          directionId={currentDirection}
+          directionId={readjustedDirectionId}
           changeDirection={changeDirection}
           selectedOrigin={selectedOrigin}
           changeOrigin={changeOrigin}
@@ -216,7 +233,7 @@ export const ScheduleLoader = ({
 
       return (
         <ScheduleDirection
-          directionId={currentDirection}
+          directionId={readjustedDirectionId}
           route={route}
           routePatternsByDirection={routePatternsByDirection}
           shapesById={shapesById}
