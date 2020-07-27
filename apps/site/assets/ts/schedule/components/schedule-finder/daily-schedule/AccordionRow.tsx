@@ -3,12 +3,12 @@ import { caret } from "../../../../helpers/icon";
 import { handleReactEnterKeyPress } from "../../../../helpers/keyboard-events";
 import { FetchState } from "../../../../helpers/use-fetch";
 import { isACommuterRailRoute } from "../../../../models/route";
-import { EnhancedJourney, Journey, TripInfo } from "../../__trips";
+import { Journey, TripInfo } from "../../__trips";
 import TripDetails from "./TripDetails";
 
 interface Props {
   fetchState: FetchState<TripInfo>;
-  journey: Journey | EnhancedJourney;
+  journey: Journey;
   contentComponent: () => ReactElement<HTMLElement>;
   expanded: boolean;
   toggle: () => void;

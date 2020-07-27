@@ -3,19 +3,19 @@ import { modeIcon } from "../../../../helpers/icon";
 import { breakTextAtSlash } from "../../../../helpers/text";
 import useFetch, { isNotStarted } from "../../../../helpers/use-fetch";
 import { UserInput } from "../../__schedule";
-import { Journey, EnhancedJourney, TripInfo } from "../../__trips";
+import { Journey, TripInfo } from "../../__trips";
 import AccordionRow from "./AccordionRow";
 
 interface TableRowProps {
   input: UserInput;
-  journey: Journey | EnhancedJourney;
+  journey: Journey;
   isSchoolTrip: boolean;
   anySchoolTrips: boolean;
 }
 
 interface AccordionProps {
   input: UserInput;
-  journey: Journey | EnhancedJourney;
+  journey: Journey;
   contentComponent: () => ReactElement<HTMLElement>;
 }
 
