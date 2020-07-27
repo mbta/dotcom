@@ -4,7 +4,7 @@ exports[`AccordionRow renders the collapsed AccordionRow markup 1`] = `
 "<table>
   <tbody>
     <AccordionRow fetchState={{...}} journey={{...}} contentComponent={[Function: contentComponent]} expanded={false} toggle={[Function: toggle]}>
-      <tr className=\\"schedule-table__row\\" aria-controls=\\"trip-41894293\\" aria-expanded={false} role=\\"button\\" onClick={[Function: toggle]} onKeyPress={[Function: onKeyPress]} tabIndex={0}>
+      <tr className=\\"schedule-table__row\\" aria-controls=\\"trip-45030860\\" aria-expanded={false} role=\\"button\\" onClick={[Function: toggle]} onKeyPress={[Function: onKeyPress]} tabIndex={0}>
         <td className=\\"schedule-table__cell schedule-table__cell--tiny\\">
           <span className=\\"c-expandable-block__header-caret\\" dangerouslySetInnerHTML={{...}} />
         </td>
@@ -18,12 +18,12 @@ exports[`AccordionRow renders the expanded AccordionRow markup 1`] = `
 "<table>
   <tbody>
     <AccordionRow fetchState={{...}} journey={{...}} contentComponent={[Function: contentComponent]} expanded={true} toggle={[Function: toggle]}>
-      <tr className=\\"schedule-table__row--expanded\\" aria-controls=\\"trip-41894293\\" aria-expanded={true} role=\\"button\\" onClick={[Function: toggle]} onKeyPress={[Function: onKeyPress]} tabIndex={0}>
+      <tr className=\\"schedule-table__row--expanded\\" aria-controls=\\"trip-45030860\\" aria-expanded={true} role=\\"button\\" onClick={[Function: toggle]} onKeyPress={[Function: onKeyPress]} tabIndex={0}>
         <td className=\\"schedule-table__cell schedule-table__cell--tiny\\">
           <span className=\\"c-expandable-block__header-caret--white\\" dangerouslySetInnerHTML={{...}} />
         </td>
       </tr>
-      <tr id=\\"trip-41894293-expanded\\">
+      <tr id=\\"trip-45030860-expanded\\">
         <td colSpan={3} className=\\"schedule-table__cell schedule-table__cell--expanded\\">
           <TripDetails fetchState={{...}} showFare={false}>
             <TripDetailsTable tripInfo={{...}} showFare={false}>
