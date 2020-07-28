@@ -1,24 +1,24 @@
 import React, { ReactElement, useReducer, useEffect } from "react";
-import UpcomingDepartures from "./upcoming-departures/UpcomingDepartures";
 import { DirectionId, Route } from "../../../__v3api";
+import { formattedDate } from "../../../helpers/date";
+import { reducer } from "../../../helpers/fetch";
+import { isInCurrentService } from "../../../helpers/service";
 import {
   SimpleStopMap,
-  StopPrediction,
   RoutePatternsByDirection,
   ServiceInSelector,
   ScheduleNote as ScheduleNoteType,
   SelectedOrigin,
   UserInput
 } from "../__schedule";
-import { reducer } from "../../../helpers/fetch";
+import { EnhancedJourney } from "../__trips";
+import ScheduleNote from "../ScheduleNote";
 import ScheduleFinderForm from "./ScheduleFinderForm";
 import DailySchedule from "./daily-schedule/DailySchedule";
-import ScheduleNote from "../ScheduleNote";
-import { isInCurrentService } from "../../../helpers/service";
-import { formattedDate } from "../../../helpers/date";
+import UpcomingDepartures from "./upcoming-departures/UpcomingDepartures";
 
 type fetchAction =
-  | { type: "FETCH_COMPLETE"; payload: StopPrediction[] }
+  | { type: "FETCH_COMPLETE"; payload: EnhancedJourney[] }
   | { type: "FETCH_ERROR" }
   | { type: "FETCH_STARTED" };
 

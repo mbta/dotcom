@@ -49,7 +49,7 @@ export interface Prediction {
   schedule_relationship: ScheduleRelationship;
   delay: number;
   status: string | null;
-  stop: Stop;
+  stop: Stop | null;
   track: string | null;
   time: string | null;
 }
