@@ -2,9 +2,11 @@ import React, { useEffect, useState, ReactElement } from "react";
 import { modeIcon } from "../../../../helpers/icon";
 import { breakTextAtSlash } from "../../../../helpers/text";
 import useFetch, { isNotStarted } from "../../../../helpers/use-fetch";
+import { isACommuterRailRoute } from "../../../../models/route";
 import { UserInput } from "../../__schedule";
 import { Journey, TripInfo } from "../../__trips";
 import AccordionRow from "./AccordionRow";
+import TripDetails from "./TripDetails";
 
 interface TableRowProps {
   input: UserInput;
@@ -118,14 +120,18 @@ const Accordion = ({
     [tripId, input, expanded, fetchState, fetch]
   );
 
+  const isCommuterRail = isACommuterRailRoute(journey.route);
+
   return (
     <AccordionRow
-      fetchState={fetchState}
-      journey={journey}
+      id={`trip-${tripId}`}
+      colSpan={isCommuterRail ? 4 : 3}
       contentComponent={contentComponent}
       expanded={expanded}
       toggle={toggle}
-    />
+    >
+      <TripDetails fetchState={fetchState} showFare={isCommuterRail} />
+    </AccordionRow>
   );
 };
 
