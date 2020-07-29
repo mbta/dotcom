@@ -8,14 +8,6 @@ defmodule SiteWeb.ModeViewTest do
   alias Routes.Route
   alias SiteWeb.ModeView
 
-  describe "fares_note/1" do
-    test "Commuter Rail has note" do
-      commuter_note = ModeView.fares_note("Commuter Rail")
-      refute safe_to_string(commuter_note) == ""
-      assert ModeView.fares_note("Ferry") == ""
-    end
-  end
-
   describe "mode_group_header/3" do
     test "renders an h2 if is_homepage? == false" do
       assert {tag, _, _} =
