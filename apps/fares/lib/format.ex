@@ -34,13 +34,6 @@ defmodule Fares.Format do
   def media(:paper_ferry), do: "Paper Ferry Ticket"
   def media(:special_event), do: "Special Event Ticket"
 
-  @doc "Formats the customers that are served by the given fare based on reduced type"
-  @spec customers(Fare.t() | Fare.reduced()) :: String.t()
-  def customers(%Fare{reduced: reduced}), do: customers(reduced)
-  def customers(:student), do: "Student Fares"
-  def customers(nil), do: "Standard Fares"
-  def customers(_), do: "Reduced Fares"
-
   @doc "Formats the duration of the Fare"
   @spec duration(Fare.t() | Summary.t()) :: String.t()
   def duration(%{duration: :single_trip}) do

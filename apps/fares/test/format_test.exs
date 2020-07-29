@@ -33,24 +33,6 @@ defmodule Fares.FormatTest do
     end
   end
 
-  describe "customers/1" do
-    test "gets 'Reduced Fares' when the fare applies to any reduced media" do
-      assert customers(%Fare{reduced: :any}) == "Reduced Fares"
-    end
-
-    test "gets 'Reduced Fares' when the fare applies to students" do
-      assert customers(%Fare{reduced: :senior_disabled}) == "Reduced Fares"
-    end
-
-    test "gets 'Student Fares' when the fare applies to students" do
-      assert customers(%Fare{reduced: :student}) == "Student Fares"
-    end
-
-    test "gets 'Standard Fares' when the fare does not have a reduced field" do
-      assert customers(%Fare{}) == "Standard Fares"
-    end
-  end
-
   describe "name/1" do
     test "uses the name of the CR zone" do
       assert name(%Fare{name: {:zone, "2"}}) == "Zone 2"

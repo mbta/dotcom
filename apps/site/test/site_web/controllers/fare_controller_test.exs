@@ -1,36 +1,8 @@
 defmodule SiteWeb.FareControllerTest do
   use SiteWeb.ConnCase
   import SiteWeb.FareController
-  alias Fares.Fare
-  alias SiteWeb.FareController.Filter
-  use ExVCRHelpers
 
   describe "show" do
-    test "renders commuter rail", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          fare_path(conn, :show, "commuter-rail", origin: "place-sstat", destination: "Readville")
-        )
-
-      assert html_response(conn, 200) =~ "Commuter Rail"
-    end
-
-    test "renders ferry", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          fare_path(conn, :show, :ferry, origin: "Boat-Long", destination: "Boat-Hingham")
-        )
-
-      response = html_response(conn, 200)
-
-      assert response =~ "Ferry"
-      assert response =~ "Valid between"
-      assert response =~ "Long Wharf"
-      assert response =~ "Hingham"
-    end
-
     @tag skip:
            "Commenting out this test temporarily. As of Summer 2020 the limited service does not include this ferry."
     test "renders Georges Island ferry when present in the data", %{conn: conn} do
@@ -45,12 +17,6 @@ defmodule SiteWeb.FareControllerTest do
       assert response =~ "Georges Island Fare"
       assert response =~ "Child under 3"
       assert response =~ "Family 4-pack"
-    end
-
-    test "renders ferry when no destinations", %{conn: conn} do
-      conn = get(conn, fare_path(conn, :show, :ferry))
-      response = html_response(conn, 200)
-      assert response =~ "Find Your Fare"
     end
 
     test "renders a page about retail sale locations", %{conn: conn} do
@@ -169,49 +135,6 @@ defmodule SiteWeb.FareControllerTest do
         )
 
       assert html_response(conn, 200) =~ "January 2013"
-    end
-  end
-
-  describe "filter_reduced/2" do
-    @fares [
-      %Fare{name: {:zone, "6"}, reduced: nil},
-      %Fare{name: {:zone, "5"}, reduced: nil},
-      %Fare{name: {:zone, "6"}, reduced: :student}
-    ]
-
-    test "filters out non-standard fares" do
-      expected_fares = [
-        %Fare{name: {:zone, "6"}, reduced: nil},
-        %Fare{name: {:zone, "5"}, reduced: nil}
-      ]
-
-      assert filter_reduced(@fares, nil) == expected_fares
-    end
-
-    test "filters out non-student fares" do
-      expected_fares = [%Fare{name: {:zone, "6"}, reduced: :student}]
-      assert filter_reduced(@fares, :student) == expected_fares
-    end
-  end
-
-  describe "selected_filter" do
-    @filters [
-      %Filter{id: "1"},
-      %Filter{id: "2"}
-    ]
-
-    test "defaults to returning the first filter" do
-      assert selected_filter(@filters, nil) == List.first(@filters)
-      assert selected_filter(@filters, "unknown") == List.first(@filters)
-    end
-
-    test "returns the filter based on the id" do
-      assert selected_filter(@filters, "1") == List.first(@filters)
-      assert selected_filter(@filters, "2") == List.last(@filters)
-    end
-
-    test "if there are no filters, return nil" do
-      assert selected_filter([], "1") == nil
     end
   end
 end

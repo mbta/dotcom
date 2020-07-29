@@ -1,6 +1,8 @@
 defmodule SiteWeb.FareController do
+  @moduledoc """
+  Controller for the Fares section of the website.
+  """
   use SiteWeb, :controller
-  alias SiteWeb.FareController.{Commuter, Ferry, Filter}
   alias Fares.RetailLocations
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
 
@@ -30,14 +32,6 @@ defmodule SiteWeb.FareController do
       address: formatted,
       search_position: position
     )
-  end
-
-  def show(conn, %{"id" => "commuter-rail"}) do
-    render_fare_module(Commuter, conn)
-  end
-
-  def show(conn, %{"id" => "ferry"}) do
-    render_fare_module(Ferry, conn)
   end
 
   def show(conn, _) do
@@ -105,61 +99,6 @@ defmodule SiteWeb.FareController do
 
   def fare_sales_locations(%{}, _nearby_fn) do
     []
-  end
-
-  @spec render_fare_module(module, Plug.Conn.t()) :: Plug.Conn.t()
-  defp render_fare_module(module, conn) do
-    conn =
-      conn
-      |> assign(:fare_type, fare_type(conn))
-      |> module.before_render
-
-    fares =
-      conn
-      |> module.fares
-      |> filter_reduced(conn.assigns.fare_type)
-
-    filters = module.filters(fares)
-    selected_filter = selected_filter(filters, conn.params["filter"])
-
-    render(
-      conn,
-      "show.html",
-      fare_template: apply(module, :template, []),
-      selected_filter: selected_filter,
-      filters: filters
-    )
-  end
-
-  defp fare_type(%{params: %{"fare_type" => fare_type}})
-       when fare_type in ["senior_disabled", "student", "any"] do
-    String.to_existing_atom(fare_type)
-  end
-
-  defp fare_type(_) do
-    nil
-  end
-
-  def filter_reduced(fares, reduced) when is_atom(reduced) do
-    fares
-    |> Enum.filter(&match?(%{reduced: ^reduced}, &1))
-  end
-
-  def selected_filter(filters, filter_id)
-
-  def selected_filter([], _) do
-    nil
-  end
-
-  def selected_filter([filter | _], nil) do
-    filter
-  end
-
-  def selected_filter(filters, filter_id) do
-    case Enum.find(filters, &match?(%Filter{id: ^filter_id}, &1)) do
-      nil -> selected_filter(filters, nil)
-      found -> found
-    end
   end
 
   defp meta_description(conn, _) do

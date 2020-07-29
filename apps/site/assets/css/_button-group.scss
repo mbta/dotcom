@@ -74,20 +74,6 @@
   }
 }
 
-.tab-select-btn-group-partial {
-  @include media-breakpoint-up(md) {
-    .btn {
-      border-right: 0;
-      display: inline-block;
-      width: 33.33%;
-
-      &:last-child {
-        border-right: $tab-border;
-      }
-    }
-  }
-}
-
 .tab-select-btn-group-table-layout-auto {
   .tab-select-btn-group {
     table-layout: auto;
