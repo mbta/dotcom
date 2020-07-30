@@ -22,4 +22,10 @@ describe("CrowdingPill", () => {
       wrapper.find("div").containsMatchingElement(<span>Not crowded</span>)
     ).toBeTruthy();
   });
+
+  it("returns null if crowding does not have a value", () => {
+    wrapper = mount(<CrowdingPill crowding={null} />);
+
+    expect(wrapper.html()).toEqual(null);
+  });
 });

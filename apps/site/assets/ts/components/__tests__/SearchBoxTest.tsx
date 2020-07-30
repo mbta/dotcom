@@ -38,4 +38,19 @@ describe("SearchBox", () => {
       .simulate("change", { target: { value: "foo" } });
     expect(wrapper.find(".c-form__reset-btn").exists()).toBeTruthy();
   });
+
+  it("clears the contents of the SearchBox", () => {
+    // add some text
+    wrapper
+      .find("input#test-search")
+      .simulate("change", { target: { value: "foo" } });
+
+    // click on button to delete contents
+    wrapper
+      .find("button")
+      .at(0)
+      .simulate("click");
+
+    expect(wrapper.find("input#test-search").props().value).toEqual("");
+  });
 });

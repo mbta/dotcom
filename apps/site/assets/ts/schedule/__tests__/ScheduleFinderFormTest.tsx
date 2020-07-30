@@ -1,8 +1,9 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 import ScheduleFinderForm from "../components/schedule-finder/ScheduleFinderForm";
 import { Route } from "../../__v3api";
 import { SimpleStopMap } from "../components/__schedule";
+import SelectContainer from "../components/schedule-finder/SelectContainer";
 
 const route: Route = {
   description: "",
@@ -136,6 +137,12 @@ describe("ScheduleFinderForm", () => {
 
     expect(wrapper.text()).toContain("Please provide an origin");
     expect(submitted).not.toHaveBeenCalled();
+    expect(
+      wrapper
+        .find(SelectContainer)
+        .last()
+        .props().error
+    ).toEqual(true);
   });
 
   it("calls the submit handler and clears the error", () => {
@@ -216,5 +223,43 @@ describe("ScheduleFinderForm", () => {
 
     expect(directionChanged).toHaveBeenCalledWith(1);
     expect(originChanged).toHaveBeenCalledWith("123");
+  });
+
+  it("detects click and keyUp events in SelectContainer elements", () => {
+    const originSpy = jest.fn();
+
+    const wrapper = mount(
+      <ScheduleFinderForm
+        onDirectionChange={() => {}}
+        onOriginChange={() => {}}
+        onOriginSelectClick={originSpy}
+        onSubmit={noCall}
+        route={route}
+        selectedDirection={0}
+        selectedOrigin={null}
+        stopsByDirection={stops}
+      />
+    );
+
+    // detect click event:
+    wrapper
+      .find(SelectContainer)
+      .at(1)
+      .simulate("click");
+
+    expect(originSpy).toHaveBeenCalledTimes(1);
+
+    // detect keyUp event:
+    originSpy.mockRestore();
+
+    wrapper
+      .find(".c-select-custom__container")
+      .at(1)
+      .simulate("keyUp", { key: "Enter" });
+
+    expect(originSpy).toHaveBeenCalledTimes(1);
+
+    originSpy.mockRestore();
+    wrapper.unmount();
   });
 });

@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 import ScheduleFinderModal, {
   Mode as ModalMode
 } from "../components/schedule-finder/ScheduleFinderModal";
-import { Route } from "../../__v3api";
+import { Route, DirectionId } from "../../__v3api";
 import {
   RoutePatternsByDirection,
   SelectedOrigin,
@@ -132,11 +132,17 @@ const stops = {
 };
 
 describe("ScheduleFinderModal", () => {
-  const mountComponent = (mode: ModalMode, origin: SelectedOrigin) =>
+  const mountComponent = (
+    mode: ModalMode,
+    direction: DirectionId,
+    origin: SelectedOrigin,
+    directionChanged?: (direction: DirectionId) => void,
+    originChanged?: (origin: SelectedOrigin) => void
+  ) =>
     mount(
       <ScheduleFinderModal
         closeModal={() => {}}
-        initialMode={"origin"}
+        initialMode={mode}
         route={route}
         routePatternsByDirection={routePatternsByDirection}
         scheduleNote={null}
@@ -144,24 +150,119 @@ describe("ScheduleFinderModal", () => {
         stops={stops}
         today={today}
         updateURL={() => {}}
-        initialDirection={0}
-        initialOrigin={null}
+        initialDirection={direction}
+        directionChanged={directionChanged}
+        initialOrigin={origin}
+        originChanged={originChanged}
         handleOriginSelectClick={() => {}}
       />
     );
 
   it("matches snapshot in origin mode", () => {
-    const wrapper = mountComponent("origin", null);
+    const wrapper = mountComponent("origin", 0, null, undefined, undefined);
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
   it("matches snapshot in origin mode with origin selected", () => {
-    const wrapper = mountComponent("origin", "place-welln");
+    const wrapper = mountComponent("origin", 0, null, undefined, undefined);
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
   it("matches snapshot in schedule mode", () => {
-    const wrapper = mountComponent("schedule", "place-welln");
+    const wrapper = mountComponent(
+      "schedule",
+      0,
+      "place-welln",
+      undefined,
+      undefined
+    );
     expect(wrapper.debug()).toMatchSnapshot();
+  });
+
+  it("detects click and keyUp events in OriginListItem elements", () => {
+    const originChangedSpy = jest.fn();
+
+    const wrapper = mountComponent(
+      "origin",
+      0,
+      null,
+      undefined,
+      originChangedSpy
+    );
+
+    // detect click event:
+    wrapper
+      .find(".schedule-finder__origin-list-item")
+      .at(1)
+      .simulate("click");
+
+    expect(originChangedSpy).toHaveBeenCalledTimes(1);
+
+    // detect keyUp event:
+    originChangedSpy.mockRestore();
+
+    wrapper
+      .find(".schedule-finder__origin-list-item")
+      .at(1)
+      .simulate("keyUp", { key: "Enter" });
+
+    expect(originChangedSpy).toHaveBeenCalledTimes(1);
+
+    originChangedSpy.mockRestore();
+    wrapper.unmount();
+  });
+
+  it("detects change in direction", () => {
+    const spy = jest.fn();
+
+    const wrapper = mountComponent(
+      "schedule",
+      0,
+      "place-welln",
+      jest.fn(),
+      jest.fn()
+    );
+
+    wrapper.setProps({ updateURL: spy });
+
+    // trigger change in direction:
+    wrapper
+      .find("select")
+      .at(0)
+      .simulate("change", { target: { value: "1" } });
+
+    expect(spy).toHaveBeenCalledTimes(1);
+
+    spy.mockRestore();
+    wrapper.unmount();
+  });
+
+  it("searches for existing and non-existing stops", () => {
+    const wrapper = mountComponent(
+      "origin",
+      0,
+      "place-welln",
+      jest.fn(),
+      jest.fn()
+    );
+
+    // type on input field:
+    wrapper
+      .find("#origin-filter")
+      .at(1) // select the input, not the SearchBox
+      .simulate("change", { target: { value: "555 Street" } });
+
+    expect(
+      wrapper.find(".schedule-finder__origin-list").children().length
+    ).toEqual(0);
+
+    wrapper
+      .find("#origin-filter")
+      .at(1) // select the input, not the SearchBox
+      .simulate("change", { target: { value: "Abc" } });
+
+    expect(
+      wrapper.find(".schedule-finder__origin-list").children().length
+    ).toEqual(1);
   });
 });

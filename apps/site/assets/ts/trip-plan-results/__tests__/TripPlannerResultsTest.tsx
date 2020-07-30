@@ -1,5 +1,5 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import renderer, { act } from "react-test-renderer";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import TripPlannerResults from "../components/TripPlannerResults";
 import { TileServerUrl } from "../../leaflet/components/__mapdata";
@@ -66,4 +66,33 @@ it("it renders", () => {
     />
   );
   expect(tree.toJSON()).toMatchSnapshot();
+});
+
+it("it renders ItineraryBody when clicking to expand", () => {
+  createReactRoot();
+  const tree = renderer.create(
+    <TripPlannerResults
+      itineraryData={[
+        {
+          html,
+          access_html,
+          fares_estimate_html,
+          tab_html,
+          fare_calculator_html,
+          id: 1,
+          map
+        }
+      ]}
+    />
+  );
+
+  const button = tree.root.findAllByType("button")[0];
+
+  act(button.props.onClick);
+
+  expect(
+    tree.root.findAllByProps({
+      html: "<div>Lots of content about the itinerary</div>"
+    }).length
+  ).toBe(1);
 });
