@@ -66,6 +66,7 @@ it("has the right header text", () => {
   expect(tableHeaderText({ ...state, currentMode: "subway" })).toEqual(
     "Subway"
   );
+  expect(tableHeaderText({ ...state, currentMode: undefined })).toEqual("More");
 });
 
 it("triggers event when clicked", () => {
@@ -93,4 +94,25 @@ it("triggers event when clicked", () => {
 
   wrapper.find(".m-more-projects__show-more-button").simulate("click");
   expect(spy).toHaveBeenCalled();
+});
+
+it("returns null if there are no projects", () => {
+  const state = {
+    banner: project,
+    featuredProjects: [],
+    fetchInProgress: false,
+    projects: [],
+    projectUpdates: [],
+    offsetStart: 0
+  };
+
+  const wrapper = mount(
+    <MoreProjectsTable
+      state={state}
+      placeholderImageUrl={"https://www.example.com/aphoto.jpg"}
+      setState={f => f}
+      fetchMoreProjects={() => {}}
+    />
+  );
+  expect(wrapper.html()).toBeNull();
 });

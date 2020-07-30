@@ -332,4 +332,47 @@ describe("LineDiagram for CR with branches going inward", () => {
     );
     expect(moreStops.exists()).toBeTruthy();
   });
+
+  it("opens the ScheduleFinderModal and detects a change in direction (and hence in origin)", () => {
+    // open modal:
+    wrapper
+      .find(".m-schedule-diagram__footer > button")
+      .first()
+      .simulate("click");
+
+    // change direction
+    wrapper
+      .find("select")
+      .at(0)
+      .simulate("change", { target: { value: "0" } });
+  });
+
+  it("opens the ScheduleFinderModal and detects a change in origin", () => {
+    // open modal:
+    wrapper
+      .find(".m-schedule-diagram__footer > button")
+      .first()
+      .simulate("click");
+
+    // change origin
+    wrapper
+      .find("select")
+      .at(1)
+      .simulate("change", { target: { value: "line-stop2" } });
+  });
+
+  it("detects an origin selection", () => {
+    // open modal:
+    wrapper
+      .find(".m-schedule-diagram__footer > button")
+      .first()
+      .simulate("click");
+
+    // Click on the SelectContainer for the origin select
+    wrapper
+      .find("SelectContainer")
+      .last()
+      // @ts-ignore -- types for `invoke` are too restrictive?
+      .invoke("handleClick")();
+  });
 });

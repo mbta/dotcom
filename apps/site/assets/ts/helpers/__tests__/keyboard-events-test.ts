@@ -1,4 +1,9 @@
-import { isEnter, handleNativeEnterKeyPress } from "../keyboard-events";
+import {
+  isEnter,
+  handleNativeEnterKeyPress,
+  isEscape,
+  handleNativeEscapeKeyPress
+} from "../keyboard-events";
 
 test("isEnter works for words and numbers", () => {
   expect(isEnter("Enter")).toEqual(true);
@@ -21,4 +26,21 @@ test("handleNativeEnterKeyPress calls a callback on the Enter key event", () => 
     called = true;
   });
   expect(called).toEqual(true);
+});
+
+test("checks if key pressed is ESC", () => {
+  expect(isEscape(27)).toEqual(true);
+});
+
+test("tests handleNativeEscapeKeyPress", () => {
+  const spy = jest.fn();
+
+  let e = new KeyboardEvent("Escape", { key: "Escape" });
+  handleNativeEscapeKeyPress(e, spy);
+  expect(spy).toHaveBeenCalledTimes(1);
+
+  e = new KeyboardEvent("Enter", { key: "Enter" });
+  spy.mockRestore();
+  handleNativeEscapeKeyPress(e, spy);
+  expect(spy).toHaveBeenCalledTimes(0);
 });
