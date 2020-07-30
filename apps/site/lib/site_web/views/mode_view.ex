@@ -25,6 +25,7 @@ defmodule SiteWeb.ModeView do
 
   def get_route_group(route_type, route_groups), do: route_groups[route_type]
 
+  # TODO: Remove this once it is no longer being used in the content on any environment -- MSS 20200730
   @spec fares_note(String) :: Phoenix.HTML.safe() | String.t()
   def fares_note(_mode) do
     ""
