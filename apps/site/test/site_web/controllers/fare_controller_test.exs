@@ -30,11 +30,7 @@ defmodule SiteWeb.FareControllerTest do
     end
 
     test "sets a custom meta description", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          fare_path(conn, :show, "commuter-rail", origin: "place-sstat", destination: "Readville")
-        )
+      conn = get(conn, fare_path(conn, :show, "retail-sales-locations"))
 
       assert conn.assigns.meta_description
     end
