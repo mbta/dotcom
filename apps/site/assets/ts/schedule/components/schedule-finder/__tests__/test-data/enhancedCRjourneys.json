@@ -1,0 +1,121 @@
+[
+  {
+    "trip": {
+      "shape_id": "9850002",
+      "route_pattern_id": "CR-Worcester-0-0",
+      "name": "515",
+      "id": "CR-Weekday-Fall-19-515",
+      "headsign": "Worcester",
+      "direction_id": 0,
+      "bikes_allowed?": true
+    },
+    "route": {
+      "type": 2,
+      "name": "Framingham/Worcester Line",
+      "long_name": "Framingham/Worcester Line",
+      "id": "CR-Worcester",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Worcester",
+        "1": "South Station"
+      },
+      "description": "commuter_rail",
+      "custom_route?": false,
+      "color": "80276C"
+    },
+    "realtime": {
+      "scheduled_time": ["1:55", " ", "PM"],
+      "prediction": {
+        "track": null,
+        "time": ["1:55", " ", "PM"],
+        "status": "On time",
+        "seconds": 1368
+      },
+      "delay": 0
+    },
+    "departure": {
+      "time": "01:55 PM",
+      "schedule": {
+        "time": "2019-12-04T13:55:00-05:00",
+        "stop_sequence": 1,
+        "stop": null,
+        "pickup_type": 0,
+        "last_stop?": false,
+        "flag?": false,
+        "early_departure?": false
+      },
+      "prediction": {
+        "track": null,
+        "time": "2019-12-04T13:55:00-05:00",
+        "stop_sequence": 1,
+        "stop": null,
+        "status": "On time",
+        "schedule_relationship": null,
+        "id": "prediction-CR-Weekday-Fall-19-515-South Station-1",
+        "direction_id": 0,
+        "departing?": true
+      }
+    },
+    "tripInfo": {}
+  },
+  {
+    "trip": {
+      "shape_id": "9850002",
+      "route_pattern_id": "CR-Worcester-0-0",
+      "name": "517",
+      "id": "CR-Weekday-Fall-19-517",
+      "headsign": "Worcester",
+      "direction_id": 0,
+      "bikes_allowed?": false
+    },
+    "route": {
+      "type": 2,
+      "name": "Framingham/Worcester Line",
+      "long_name": "Framingham/Worcester Line",
+      "id": "CR-Worcester",
+      "direction_names": {
+        "0": "Outbound",
+        "1": "Inbound"
+      },
+      "direction_destinations": {
+        "0": "Worcester",
+        "1": "South Station"
+      },
+      "description": "commuter_rail",
+      "custom_route?": false,
+      "color": "80276C"
+    },
+    "realtime": {
+      "scheduled_time": ["3:30", " ", "PM"],
+      "prediction": null,
+      "delay": 0
+    },
+    "departure": {
+      "time": "03:30 PM",
+      "schedule": {
+        "time": "2019-12-04T15:30:00-05:00",
+        "stop_sequence": 1,
+        "stop": null,
+        "pickup_type": 0,
+        "last_stop?": false,
+        "flag?": false,
+        "early_departure?": false
+      },
+      "prediction": {
+        "track": null,
+        "time": null,
+        "stop_sequence": 1,
+        "stop": null,
+        "status": "On time",
+        "schedule_relationship": null,
+        "id": "prediction-CR-Weekday-Fall-19-517-South Station-1",
+        "direction_id": 0,
+        "departing?": false
+      },
+      "tripInfo": {}
+    }
+  }
+]
