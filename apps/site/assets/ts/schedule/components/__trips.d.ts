@@ -3,7 +3,8 @@ import {
   Trip,
   Stop,
   PredictedOrScheduledTime,
-  ScheduleRelationship
+  ScheduleRelationship,
+  RouteType
 } from "../../__v3api";
 import { CrowdingType } from "./__schedule";
 
@@ -42,7 +43,7 @@ export interface TripInfo {
   status: string;
   duration: number;
   fare: Fare;
-  route_type: number;
+  route_type: RouteType;
 }
 
 export interface Prediction {

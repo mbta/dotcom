@@ -1,4 +1,4 @@
-import { Route } from "../../__v3api";
+import { Route, RouteType } from "../../__v3api";
 import {
   isABusRoute,
   isACommuterRailRoute,
@@ -35,6 +35,14 @@ describe("isACommuterRailRoute", () => {
 
     expect(isACommuterRailRoute(crRoutue)).toBeTruthy();
     expect(isACommuterRailRoute(subwayRoute)).toBeFalsy();
+  });
+
+  test("accepts a route type directly", () => {
+    const crRouteType: RouteType = 2;
+    const subwayRouteType: RouteType = 1;
+
+    expect(isACommuterRailRoute(crRouteType)).toBeTruthy();
+    expect(isACommuterRailRoute(subwayRouteType)).toBeFalsy();
   });
 });
 

@@ -1,22 +1,24 @@
 import React, { ReactElement } from "react";
+import { RouteType } from "../../../../__v3api";
 import { alertIcon } from "../../../../helpers/icon";
 import { breakTextAtSlash } from "../../../../helpers/text";
 import { isSkippedOrCancelled } from "../../../../models/prediction";
+import { isACommuterRailRoute } from "../../../../models/route";
 import { TripDepartureWithPrediction } from "../../__trips";
 
 interface Props {
   departure: TripDepartureWithPrediction;
   index: number;
   showFare: boolean;
-  routeType: number;
+  routeType: RouteType;
 }
 
 const formattedDepartureTimes = (
   departure: TripDepartureWithPrediction,
-  routeType: number
+  routeType: RouteType
 ): ReactElement<HTMLElement> => {
   const { schedule, prediction, delay } = departure;
-  if (routeType === 2) {
+  if (isACommuterRailRoute(routeType)) {
     if (delay && delay >= 300 && prediction && prediction.time) {
       return (
         <>
