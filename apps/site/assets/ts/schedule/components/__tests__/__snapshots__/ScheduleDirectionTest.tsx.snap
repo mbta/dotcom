@@ -1,0 +1,214 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`can render green line 1`] = `
+<ScheduleDirection>
+  <div
+    className="m-schedule-direction"
+  >
+    <div
+      className="m-schedule-direction__direction"
+      id="direction-name"
+    >
+      Eastbound
+    </div>
+    <ScheduleDirectionMenu>
+      <div
+        className="js-m-schedule-click-boundary"
+      >
+        <Component>
+          <div
+            className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable"
+            onClick={[Function]}
+            onKeyUp={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            All branches
+             
+            <span
+              aria-hidden="true"
+              className="notranslate c-svg__icon m-schedule-direction__route-pattern-arrow"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+          </div>
+        </Component>
+      </div>
+    </ScheduleDirectionMenu>
+    <ScheduleDirectionButton>
+      <button
+        className="m-schedule-direction__button btn btn-primary"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          className="notranslate m-schedule-direction__icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Change Direction
+      </button>
+    </ScheduleDirectionButton>
+  </div>
+</ScheduleDirection>
+`;
+
+exports[`renders a bus component 1`] = `
+<ScheduleDirection>
+  <div
+    className="m-schedule-direction"
+  >
+    <div
+      className="m-schedule-direction__direction"
+      id="direction-name"
+    >
+      Inbound
+    </div>
+    <ScheduleDirectionMenu>
+      <div
+        className="js-m-schedule-click-boundary"
+      >
+        <Component>
+          <div
+            className="m-schedule-direction__route-pattern"
+            onClick={[Function]}
+            onKeyUp={[Function]}
+          >
+            Pattern 2
+             
+          </div>
+        </Component>
+      </div>
+    </ScheduleDirectionMenu>
+    <ScheduleDirectionButton>
+      <button
+        className="m-schedule-direction__button btn btn-primary"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          className="notranslate m-schedule-direction__icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Change Direction
+      </button>
+    </ScheduleDirectionButton>
+  </div>
+</ScheduleDirection>
+`;
+
+exports[`renders a subway component 1`] = `
+<ScheduleDirection>
+  <div
+    className="m-schedule-direction"
+  >
+    <div
+      className="m-schedule-direction__direction"
+      id="direction-name"
+    >
+      Inbound
+    </div>
+    <ScheduleDirectionMenu>
+      <div
+        className="js-m-schedule-click-boundary"
+      >
+        <div
+          className="m-schedule-direction__route-pattern"
+        >
+          End
+        </div>
+      </div>
+    </ScheduleDirectionMenu>
+    <ScheduleDirectionButton>
+      <button
+        className="m-schedule-direction__button btn btn-primary"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          className="notranslate m-schedule-direction__icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Change Direction
+      </button>
+    </ScheduleDirectionButton>
+  </div>
+</ScheduleDirection>
+`;
+
+exports[`respects the initially selected pattern ID, if specified 1`] = `
+<ScheduleDirection>
+  <div
+    className="m-schedule-direction"
+  >
+    <div
+      className="m-schedule-direction__direction"
+      id="direction-name"
+    >
+      Outbound
+    </div>
+    <ScheduleDirectionMenu>
+      <div
+        className="js-m-schedule-click-boundary"
+      >
+        <Component>
+          <div
+            className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable"
+            onClick={[Function]}
+            onKeyUp={[Function]}
+            role="button"
+            tabIndex={0}
+          >
+            Pattern 3
+             
+            <span
+              aria-hidden="true"
+              className="notranslate c-svg__icon m-schedule-direction__route-pattern-arrow"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "SVG",
+                }
+              }
+            />
+          </div>
+        </Component>
+      </div>
+    </ScheduleDirectionMenu>
+    <ScheduleDirectionButton>
+      <button
+        className="m-schedule-direction__button btn btn-primary"
+        onClick={[Function]}
+        type="button"
+      >
+        <span
+          aria-hidden="true"
+          className="notranslate m-schedule-direction__icon"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+        Change Direction
+      </button>
+    </ScheduleDirectionButton>
+  </div>
+</ScheduleDirection>
+`;

@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SelectContainer renders 1`] = `
+<div
+  className="c-select-custom__container "
+  onClick={[Function]}
+  onKeyUp={[Function]}
+  role="button"
+  tabIndex={0}
+>
+  <div>
+    Children
+  </div>
+  <span
+    aria-hidden="true"
+    className="notranslate c-svg__icon c-select-custom__arrow"
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "SVG",
+      }
+    }
+  />
+</div>
+`;

@@ -101,7 +101,7 @@ export interface Prediction {
   time: string[];
   status: string | null;
   track: string | null;
-  schedule_relationship: ScheduleRelationship;
+  schedule_relationship?: ScheduleRelationship;
 }
 
 export interface Route {

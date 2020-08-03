@@ -1,0 +1,82 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DailySchedule renders with a date 1`] = `
+Array [
+  <h3>
+    Daily Schedule
+  </h3>,
+  <div
+    className="schedule-finder__service-selector"
+  >
+    <label
+      className="sr-only"
+      htmlFor="service_selector"
+    >
+      Schedules
+    </label>
+    <div
+      className="c-select-custom__container "
+      onClick={[Function]}
+      onKeyUp={[Function]}
+      role="button"
+      tabIndex={0}
+    >
+      <select
+        className="c-select-custom text-center u-bold"
+        defaultValue="BUS319-P-Sa-02"
+        id="service_selector"
+        onChange={[Function]}
+      >
+        <optgroup
+          label="Current Schedules (Test, ends Oct 25)"
+        >
+          <option
+            value="BUS319-storm"
+          >
+            Storm (reduced service)
+          </option>
+          <option
+            value="BUS319-O-Wdy-02"
+          >
+            Weekday schedule, Test
+          </option>
+          <option
+            value="BUS319-D-Wdy-02"
+          >
+            Friday schedule, Test
+          </option>
+          <option
+            value="BUS319-P-Sa-02"
+          >
+            Saturday schedule, Test
+             (now)
+          </option>
+          <option
+            value="BUS319-Q-Su-02"
+          >
+            Sunday schedule, Test
+          </option>
+        </optgroup>
+        <optgroup
+          label="Holiday Schedules"
+        >
+          <option
+            value="Bastille-Day"
+          >
+            Bastille Day, Jul 14
+          </option>
+        </optgroup>
+      </select>
+      <span
+        aria-hidden="true"
+        className="notranslate c-svg__icon c-select-custom__arrow"
+        dangerouslySetInnerHTML={
+          Object {
+            "__html": "SVG",
+          }
+        }
+      />
+    </div>
+  </div>,
+]
+`;

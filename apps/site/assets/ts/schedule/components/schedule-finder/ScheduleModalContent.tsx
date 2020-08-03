@@ -1,24 +1,24 @@
 import React, { ReactElement, useReducer, useEffect } from "react";
-import UpcomingDepartures from "./UpcomingDepartures";
 import { DirectionId, Route } from "../../../__v3api";
+import { formattedDate } from "../../../helpers/date";
+import { reducer } from "../../../helpers/fetch";
+import { isInCurrentService } from "../../../helpers/service";
 import {
   SimpleStopMap,
-  StopPrediction,
   RoutePatternsByDirection,
   ServiceInSelector,
   ScheduleNote as ScheduleNoteType,
   SelectedOrigin,
   UserInput
 } from "../__schedule";
-import { reducer } from "../../../helpers/fetch";
-import ScheduleFinderForm from "./ScheduleFinderForm";
-import ServiceSelector from "./ServiceSelector";
+import { EnhancedJourney } from "../__trips";
 import ScheduleNote from "../ScheduleNote";
-import { isInCurrentService } from "../../../helpers/service";
-import { formattedDate } from "../../../helpers/date";
+import ScheduleFinderForm from "./ScheduleFinderForm";
+import DailySchedule from "./daily-schedule/DailySchedule";
+import UpcomingDepartures from "./upcoming-departures/UpcomingDepartures";
 
 type fetchAction =
-  | { type: "FETCH_COMPLETE"; payload: StopPrediction[] }
+  | { type: "FETCH_COMPLETE"; payload: EnhancedJourney[] }
   | { type: "FETCH_ERROR" }
   | { type: "FETCH_STARTED" };
 
@@ -132,7 +132,7 @@ const ScheduleModalContent = ({
           scheduleNote={scheduleNote}
         />
       ) : (
-        <ServiceSelector
+        <DailySchedule
           stopId={selectedOrigin}
           services={services}
           routeId={routeId}
