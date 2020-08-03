@@ -232,31 +232,33 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                     <h3>
                       Daily Schedule
                     </h3>
-                    <div className=\\"schedule-finder__service-selector\\">
-                      <label htmlFor=\\"service_selector\\" className=\\"sr-only\\">
-                        Schedules
-                      </label>
-                      <SelectContainer>
-                        <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
-                          <select id=\\"service_selector\\" className=\\"c-select-custom text-center u-bold\\" defaultValue=\\"BUS319-J-Wdy-02\\" onChange={[Function: onChange]}>
-                            <ServiceOptGroup label=\\"Other Schedules\\" services={{...}} multipleWeekdays={false} now=\\"\\">
-                              <optgroup label=\\"Other Schedules\\">
-                                <option value=\\"BUS319-J-Wdy-02\\">
-                                  Weekday schedule, Jul 8 to Aug 30
-                                </option>
-                                <option value=\\"BUS319-K-Sa-02\\">
-                                  Saturday schedule, Jul 13 to Aug 31
-                                </option>
-                                <option value=\\"BUS319-L-Su-02\\">
-                                  Sunday schedule, Jul 14 to Aug 25
-                                </option>
-                              </optgroup>
-                            </ServiceOptGroup>
-                          </select>
-                          <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
-                        </div>
-                      </SelectContainer>
-                    </div>
+                    <SchedulesSelect sortedServices={{...}} todayServiceId=\\"\\" defaultSelectedServiceId=\\"BUS319-J-Wdy-02\\" todayDate={{...}} onSelectService={[Function: onSelectService]}>
+                      <div className=\\"schedule-finder__service-selector\\">
+                        <label htmlFor=\\"service_selector\\" className=\\"sr-only\\">
+                          Schedules
+                        </label>
+                        <SelectContainer>
+                          <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                            <select id=\\"service_selector\\" className=\\"c-select-custom text-center u-bold\\" defaultValue=\\"BUS319-J-Wdy-02\\" onChange={[Function: onChange]}>
+                              <ServiceOptGroup label=\\"Other Schedules\\" services={{...}} multipleWeekdays={false} todayServiceId=\\"\\">
+                                <optgroup label=\\"Other Schedules\\">
+                                  <option value=\\"BUS319-J-Wdy-02\\">
+                                    Weekday schedule, Jul 8 to Aug 30
+                                  </option>
+                                  <option value=\\"BUS319-K-Sa-02\\">
+                                    Saturday schedule, Jul 13 to Aug 31
+                                  </option>
+                                  <option value=\\"BUS319-L-Su-02\\">
+                                    Sunday schedule, Jul 14 to Aug 25
+                                  </option>
+                                </optgroup>
+                              </ServiceOptGroup>
+                            </select>
+                            <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                          </div>
+                        </SelectContainer>
+                      </div>
+                    </SchedulesSelect>
                     <Loading>
                       <div className=\\"c-spinner__container\\">
                         <div className=\\"c-spinner\\">

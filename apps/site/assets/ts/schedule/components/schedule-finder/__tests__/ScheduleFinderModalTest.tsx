@@ -9,6 +9,14 @@ import {
 import * as routePatternsByDirectionData from "../../__tests__/test-data/routePatternsByDirectionData.json";
 import ScheduleFinderModal, { Mode as ModalMode } from "../ScheduleFinderModal";
 
+jest.mock("../../../../helpers/use-fetch", () => ({
+  __esModule: true,
+  hasData: () => false,
+  isLoading: () => true,
+  isNotStarted: () => false,
+  default: jest.fn().mockImplementation(() => [{ status: 2 }, jest.fn()])
+}));
+
 const routePatternsByDirection = routePatternsByDirectionData as RoutePatternsByDirection;
 
 const services: ServiceInSelector[] = [
