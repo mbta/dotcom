@@ -91,17 +91,18 @@ defmodule SiteWeb.ScheduleController.GreenTest do
     assert conn.assigns.meta_description
   end
 
-  # "Skipping the check for Cleveland Circle in this test temporarily. In Summer 2020 the Green Line C branch is undergoing improvements"
+  # "Skipping the check for Heath Street in this test temporarily. In Summer 2020 the Green Line E branch is undergoing improvements"
   test "trip view :all_stops is a list of %Stop{} for all stops on all branches", %{conn: conn} do
     conn = get(conn, green_path(conn, :trip_view, %{schedule_direction: %{direction_id: 0}}))
 
     assert [%Stops.Stop{} | all_stops] = conn.assigns.all_stops
 
     all_stops = Enum.map(all_stops, & &1.id)
+
     assert "place-lake" in all_stops
-    # assert "place-clmnl" in all_stops
+    assert "place-clmnl" in all_stops
     assert "place-river" in all_stops
-    assert "place-hsmnl" in all_stops
+    # assert "place-hsmnl" in all_stops
   end
 
   test "line tab :all_stops is a list of {bubble_info, %RouteStops{}} for all stops on all branches",
@@ -285,7 +286,7 @@ defmodule SiteWeb.ScheduleController.GreenTest do
         "Green",
         schedule_direction: %{
           origin: "place-pktrm",
-          destination: "place-bckhl",
+          destination: "place-coecl",
           direction_id: 1
         }
       )
