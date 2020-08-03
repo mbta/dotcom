@@ -44,8 +44,6 @@
         <h2 class="h2">Fares</h2>
         <%= mode |> mode_fare_card() |> PartialView.paragraph(@conn) %>
 
-        <%= SiteWeb.FareView.fare_finder_link(mode, @conn) %>
-
         <div class="m-mode__passes">
           <%= mode |> SiteWeb.FareView.fare_passes() |> SiteWeb.CMS.ParagraphView.render_paragraph(@conn) %>
         </div>
