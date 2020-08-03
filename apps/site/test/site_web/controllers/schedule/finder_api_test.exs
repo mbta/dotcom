@@ -208,21 +208,22 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
       |> json_response(200)
     end
 
-    # "Skipping this test temporarily. In Summer 2020 the Green Line E branch is undergoing improvements"
-    # test "handles green line trips from the generic Green page", %{conn: conn} do
-    #   params = %{
-    #     id: "Green",
-    #     direction: "0",
-    #     stop: "place-north"
-    #   }
+    @tag skip:
+           "Skipping this test temporarily. In Summer 2020 the Green Line E branch is undergoing improvements"
+    test "handles green line trips from the generic Green page", %{conn: conn} do
+      params = %{
+        id: "Green",
+        direction: "0",
+        stop: "place-north"
+      }
 
-    #   params_for_trip = get_valid_trip_params(params, conn)
-    #   trip_path = finder_api_path(conn, :trip, params_for_trip)
+      params_for_trip = get_valid_trip_params(params, conn)
+      trip_path = finder_api_path(conn, :trip, params_for_trip)
 
-    #   conn
-    #   |> get(trip_path)
-    #   |> json_response(200)
-    # end
+      conn
+      |> get(trip_path)
+      |> json_response(200)
+    end
 
     test "only shows times starting at selected origin onward - outbound", %{conn: conn} do
       origin_stop = "place-sstat"
