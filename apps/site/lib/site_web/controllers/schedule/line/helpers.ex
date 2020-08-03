@@ -12,11 +12,23 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   @type direction_id :: 0 | 1
   @typep stops_by_route :: %{String.t() => [Stop.t()]}
 
-  def get_route("Green") do
+  @spec get_route(String.t()) :: {:ok, Route.t()} | :not_found
+  def get_route(route_id) do
+    route = do_get_route(route_id)
+
+    if route != nil do
+      {:ok, route}
+    else
+      :not_found
+    end
+  end
+
+  @spec do_get_route(String.t()) :: Route.t() | nil
+  defp do_get_route("Green") do
     RoutesRepo.green_line()
   end
 
-  def get_route(route_id) do
+  defp do_get_route(route_id) do
     RoutesRepo.get(route_id)
   end
 

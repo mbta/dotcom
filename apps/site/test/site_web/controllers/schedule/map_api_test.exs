@@ -37,6 +37,14 @@ defmodule SiteWeb.ScheduleController.MapApiTest do
              } = response
     end
 
+    test "returns 400 if given a bad route", %{conn: conn} do
+      conn = get(conn, map_api_path(conn, :show, id: "Puce"))
+
+      assert response = json_response(conn, 400)
+
+      assert response == %{"error" => "Invalid arguments"}
+    end
+
     test "doesn't 500 if given bad params", %{conn: conn} do
       conn = get(conn, map_api_path(conn, :show, id: "66"))
 
