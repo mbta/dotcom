@@ -20,6 +20,8 @@ defmodule RoutePatterns.RoutePattern do
   """
 
   alias JsonApi.Item
+  alias Routes.Route
+  alias Schedules.Trip
 
   defstruct [
     :direction_id,
@@ -31,14 +33,16 @@ defmodule RoutePatterns.RoutePattern do
     :typicality
   ]
 
+  @type id_t :: String.t()
+  @type typicality_t :: 0 | 1 | 2 | 3 | 4
   @type t :: %__MODULE__{
           direction_id: 0 | 1,
-          id: String.t(),
+          id: id_t(),
           name: String.t(),
-          representative_trip_id: String.t(),
-          route_id: String.t(),
+          representative_trip_id: Trip.id_t(),
+          route_id: Route.id_t(),
           time_desc: String.t(),
-          typicality: 0 | 1 | 2 | 3 | 4
+          typicality: typicality_t()
         }
 
   def new(%Item{

@@ -58,6 +58,9 @@ defmodule Schedules.Trip do
   Representation of GTFS trips.
   """
 
+  alias RoutePatterns.RoutePattern
+  alias Routes.Shape
+
   @derive Jason.Encoder
 
   defstruct [
@@ -77,8 +80,8 @@ defmodule Schedules.Trip do
           name: String.t(),
           headsign: headsign,
           direction_id: 0 | 1,
-          shape_id: String.t() | nil,
-          route_pattern_id: String.t() | nil,
+          shape_id: Shape.id_t() | nil,
+          route_pattern_id: RoutePattern.id_t() | nil,
           bikes_allowed?: boolean
         }
 end
