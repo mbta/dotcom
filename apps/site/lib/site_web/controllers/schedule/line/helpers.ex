@@ -32,6 +32,21 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     RoutesRepo.get(route_id)
   end
 
+  @doc """
+  Gets a list of RouteStops representing all of the branches on the route. Routes without branches will always be a
+  list with a single RouteStops struct.
+  """
+  @spec get_branch_route_stops(Route.t(), direction_id(), Route.branch_name()) :: [RouteStops.t()]
+  def get_branch_route_stops(route, direction_id, variant) do
+    route_shapes = get_route_shapes(route.id, direction_id)
+    route_stops = get_route_stops(route.id, direction_id, &StopsRepo.by_route/3)
+    active_shapes = get_active_shapes(route_shapes, route, variant)
+
+    route_shapes
+    |> filter_route_shapes(active_shapes, route)
+    |> get_branches(route_stops, route, direction_id)
+  end
+
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
   @spec get_route_shapes(Route.id_t(), direction_id | nil) :: [Shape.t()]
   def get_route_shapes(route_id, direction_id \\ nil, filter_by_priority \\ true)
