@@ -48,22 +48,26 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   end
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
+  @spec get_route_shapes(Route.id_t()) :: [Shape.t()]
   @spec get_route_shapes(Route.id_t(), direction_id | nil) :: [Shape.t()]
-  def get_route_shapes(route_id, direction_id \\ nil, filter_by_priority \\ true)
+  @spec get_route_shapes(Route.id_t(), direction_id | nil, boolean()) :: [Shape.t()]
+  @spec get_route_shapes(Route.id_t(), direction_id | nil, boolean(), keyword()) :: [Shape.t()]
+  def get_route_shapes(route_id, direction_id \\ nil, filter_by_priority? \\ true, opts \\ [])
 
-  def get_route_shapes("Green", direction_id, filter_by_priority) do
+  def get_route_shapes("Green", direction_id, filter_by_priority?, opts) do
     GreenLine.branch_ids()
     |> Enum.join(",")
-    |> get_route_shapes(direction_id, filter_by_priority)
+    |> get_route_shapes(direction_id, filter_by_priority?, opts)
   end
 
-  def get_route_shapes(route_id, direction_id, filter_by_priority) do
-    opts = if direction_id == nil, do: [], else: [direction_id: direction_id]
-    RoutesRepo.get_shapes(route_id, opts, filter_by_priority)
+  def get_route_shapes(route_id, direction_id, filter_by_priority?, opts) do
+    get_shapes_fn = Keyword.get(opts, :get_shapes_fn, &RoutesRepo.get_shapes/3)
+    shapes_opts = if direction_id == nil, do: [], else: [direction_id: direction_id]
+    get_shapes_fn.(route_id, shapes_opts, filter_by_priority?)
   end
 
   @spec get_route_stops(Route.id_t(), direction_id, StopsRepo.stop_by_route()) ::
-          stops_by_route
+          stops_by_route()
   def get_route_stops("Green", direction_id, stops_by_route_fn) do
     GreenLine.branch_ids()
     |> Task.async_stream(&do_get_route_stops(&1, direction_id, stops_by_route_fn))
@@ -75,7 +79,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   end
 
   @spec do_get_route_stops(Route.id_t(), direction_id, StopsRepo.stop_by_route()) ::
-          stops_by_route
+          stops_by_route()
   defp do_get_route_stops(route_id, direction_id, stops_by_route_fn) do
     case stops_by_route_fn.(route_id, direction_id, []) do
       {:error, _} -> %{}
