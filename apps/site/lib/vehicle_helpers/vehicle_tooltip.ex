@@ -1,6 +1,6 @@
 defmodule VehicleTooltip do
   @moduledoc """
-  Represents a vehicle with it's associated status information, used to render tooltips on schedule and
+  Represents a vehicle with its associated status information, used to render tooltips on schedule and
   line representations
   """
   alias Vehicles.Vehicle
