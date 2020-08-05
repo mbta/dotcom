@@ -1,4 +1,6 @@
 defmodule Util do
+  @moduledoc "Utilities module"
+
   require Logger
   use Timex
 
@@ -23,6 +25,15 @@ defmodule Util do
   @doc "Today's date in the America/New_York timezone."
   def today do
     now() |> Timex.to_date()
+  end
+
+  @spec time_is_greater_or_equal?(DateTime.t(), DateTime.t()) :: boolean
+  def time_is_greater_or_equal?(time, ref_time) do
+    case DateTime.compare(time, ref_time) do
+      :gt -> true
+      :eq -> true
+      :lt -> false
+    end
   end
 
   @doc "Gives the date for tomorrow based on the provided date"

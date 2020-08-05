@@ -238,11 +238,7 @@ defmodule Schedules.Repo do
                                 _stop_sequence,
                                 _pickup_type
                               } ->
-      case DateTime.compare(schedule_time, min_time) do
-        :gt -> true
-        :eq -> true
-        :lt -> false
-      end
+      Util.time_is_greater_or_equal?(schedule_time, min_time)
     end)
   end
 

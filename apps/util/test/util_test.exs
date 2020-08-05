@@ -448,4 +448,13 @@ defmodule UtilTest do
       assert log =~ "duration="
     end
   end
+
+  describe "time_is_greater_or_equal?/2" do
+    test "properly determines if date is before reference date" do
+      day = Util.to_local_time(~N[2020-07-13T00:00:00])
+      ten_days_later = Util.to_local_time(~N[2020-07-23T00:00:00])
+      assert time_is_greater_or_equal?(ten_days_later, day) == true
+      assert time_is_greater_or_equal?(day, ten_days_later) == false
+    end
+  end
 end
