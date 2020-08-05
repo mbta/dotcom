@@ -1,6 +1,10 @@
 defmodule Predictions.Repo do
+  @moduledoc "Predictions repo module"
+
   use RepoCache, ttl: :timer.seconds(10), ttl_check: :timer.seconds(2)
   require Logger
+  require Routes.Route
+  alias Routes.Route
   alias Predictions.Parser
   alias Stops.Stop
 
@@ -137,11 +141,7 @@ defmodule Predictions.Repo do
          },
          min_time
        ) do
-    case DateTime.compare(prediction_time, min_time) do
-      :gt -> true
-      :eq -> true
-      :lt -> false
-    end
+    Util.time_is_greater_or_equal?(prediction_time, min_time)
   end
 
   def load_from_other_repos([]) do
@@ -163,6 +163,7 @@ defmodule Predictions.Repo do
     stop_id
     |> Stops.Repo.get_parent()
     |> do_record_to_structs(record)
+    |> discard_if_subway_past_prediction()
   end
 
   defp do_record_to_structs(nil, {_, _, <<stop_id::binary>>, _, _, _, _, _, _, _, _} = record) do
@@ -203,5 +204,36 @@ defmodule Predictions.Repo do
         departing?: departing?
       }
     ]
+  end
+
+  @spec discard_if_subway_past_prediction([Predictions.Prediction.t()] | []) ::
+          [Predictions.Prediction.t()] | []
+  defp discard_if_subway_past_prediction([]) do
+    []
+  end
+
+  defp discard_if_subway_past_prediction([prediction]) do
+    # For subway, drop predictions if the predicted time is earlier than the current time:
+    prediction_in_the_past =
+      if prediction.time == nil do
+        false
+      else
+        !Util.time_is_greater_or_equal?(
+          Util.to_local_time(prediction.time),
+          Util.to_local_time(Util.now())
+        )
+      end
+
+    if prediction.route == nil do
+      []
+    else
+      route = Routes.Repo.get(prediction.route.id)
+
+      if Route.subway?(route.type, prediction.route.id) && prediction_in_the_past do
+        []
+      else
+        [prediction]
+      end
+    end
   end
 end
