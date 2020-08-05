@@ -5,49 +5,9 @@ defmodule Stops.RouteStopTest do
   alias Stops.RouteStop
   alias Stops.Stop
   alias Routes.{Route, Shape}
+
   @stop %Stop{name: "Braintree", id: "place-brntn"}
   @route %Routes.Route{id: "Red", type: 1}
-  describe "build_route_stop/3" do
-    test "creates a RouteStop object with all expected attributes" do
-      result = build_route_stop(@stop, @route, first?: true, last?: true, branch: "Braintree")
-      assert result.id == "place-brntn"
-      assert result.name == "Braintree"
-      assert result.station_info == @stop
-      assert result.is_terminus?
-      assert result.is_beginning?
-      assert result.branch == "Braintree"
-      assert result.zone == {:error, :not_fetched}
-      # ~w(bus commuter_rail)a
-      assert result.stop_features == {:error, :not_fetched}
-      assert result.connections == {:error, :not_fetched}
-    end
-  end
-
-  describe "fetch_zone/1" do
-    test "returns a RouteStop with the zone data" do
-      route_stop = build_route_stop(@stop, @route)
-      fetched = fetch_zone(route_stop)
-      refute fetched.zone == route_stop.zone
-    end
-  end
-
-  describe "fetch_stop_features/1" do
-    test "returns a RouteStop with the stop feature data" do
-      route_stop = build_route_stop(@stop, @route)
-      fetched = fetch_stop_features(route_stop)
-      refute fetched.stop_features == route_stop.stop_features
-    end
-  end
-
-  describe "fetch_connections/1" do
-    test "builds a list of connecting routes at a stop" do
-      route_stop = build_route_stop(@stop, @route)
-      assert route_stop.connections == {:error, :not_fetched}
-      fetched = fetch_connections(route_stop)
-      assert [%Route{} | _] = fetched.connections
-      assert Enum.find(fetched.connections, &(&1.id == fetched.route.id)) == nil
-    end
-  end
 
   describe "list_from_shapes/4" do
     test "handles Red line when Ashmont/Braintree are first" do
@@ -201,6 +161,48 @@ defmodule Stops.RouteStopTest do
         actual,
         ~w(Boat-Long Boat-Logan Boat-Hull Boat-Rowes Boat-Hingham)
       )
+    end
+  end
+
+  describe "build_route_stop/3" do
+    test "creates a RouteStop object with all expected attributes" do
+      result = build_route_stop(@stop, @route, first?: true, last?: true, branch: "Braintree")
+      assert result.id == "place-brntn"
+      assert result.name == "Braintree"
+      assert result.station_info == @stop
+      assert result.is_terminus?
+      assert result.is_beginning?
+      assert result.branch == "Braintree"
+      assert result.zone == {:error, :not_fetched}
+      # ~w(bus commuter_rail)a
+      assert result.stop_features == {:error, :not_fetched}
+      assert result.connections == {:error, :not_fetched}
+    end
+  end
+
+  describe "fetch_zone/1" do
+    test "returns a RouteStop with the zone data" do
+      route_stop = build_route_stop(@stop, @route)
+      fetched = fetch_zone(route_stop)
+      refute fetched.zone == route_stop.zone
+    end
+  end
+
+  describe "fetch_stop_features/1" do
+    test "returns a RouteStop with the stop feature data" do
+      route_stop = build_route_stop(@stop, @route)
+      fetched = fetch_stop_features(route_stop)
+      refute fetched.stop_features == route_stop.stop_features
+    end
+  end
+
+  describe "fetch_connections/1" do
+    test "builds a list of connecting routes at a stop" do
+      route_stop = build_route_stop(@stop, @route)
+      assert route_stop.connections == {:error, :not_fetched}
+      fetched = fetch_connections(route_stop)
+      assert [%Route{} | _] = fetched.connections
+      assert Enum.find(fetched.connections, &(&1.id == fetched.route.id)) == nil
     end
   end
 
