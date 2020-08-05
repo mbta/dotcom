@@ -58,6 +58,19 @@ defmodule Predictions.RepoTest do
       assert Repo.all(route: "test_down_server") == []
     end
 
+    @red_route ~s({
+        "data": {
+          "attributes": {
+            "direction_destinations": ["Ashmont/Braintree", "Alewife"],
+            "direction_names": ["South", "North"],
+            "long_name": "Red Line",
+            "type": 1
+          },
+          "id": "Red",
+          "type": "route"
+        }
+        })
+
     @tag :capture_log
     test "returns valid entries even if some don't parse" do
       # make sure it's cached
@@ -73,45 +86,58 @@ defmodule Predictions.RepoTest do
       Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
 
       Bypass.expect(bypass, fn %{request_path: request_path} = conn ->
-        if request_path == "/predictions/" do
-          # return a Prediction with a valid stop, and one with an invalid stop
-          Conn.resp(conn, 200, ~s(
-              {
-                "included": [
-                  {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["South", "North"], "description": "Rapid Transit"}, "relationships": {}},
-                  {"type": "trip", "id": "trip", "attributes": {"headsign": "headsign", "name": "name", "direction_id": "1"}, "relationships": {}},
-                  {"type": "stop", "id": "stop", "attributes": {"platform_code": null}, "relationships": {}}
-                ],
-                "data": [
-                  {
-                    "type": "prediction",
-                    "id": "1",
-                    "attributes": {
-                      "arrival_time": "2016-01-01T00:00:00-05:00"
+        case request_path do
+          "/predictions/" ->
+            in_five_mins =
+              Util.now()
+              |> Timex.shift(minutes: 5)
+              |> Timex.format!("{ISO:Extended}")
+
+            # return a Prediction with a valid stop, and one with an invalid stop
+            Conn.resp(
+              conn,
+              200,
+              ~s(
+                {
+                  "included": [
+                    {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["South", "North"], "description": "Rapid Transit"}, "relationships": {}},
+                    {"type": "trip", "id": "trip", "attributes": {"headsign": "headsign", "name": "name", "direction_id": "1"}, "relationships": {}},
+                    {"type": "stop", "id": "stop", "attributes": {"platform_code": null}, "relationships": {}}
+                  ],
+                  "data": [
+                    {
+                      "type": "prediction",
+                      "id": "1",
+                      "attributes": {
+                        "arrival_time": "2016-01-01T00:00:00-05:00"
+                      },
+                      "relationships": {
+                        "route": {"data": {"type": "route", "id": "Red"}},
+                        "trip": {"data": {"type": "trip", "id": "trip"}},
+                        "stop": null
+                      }
                     },
-                    "relationships": {
-                      "route": {"data": {"type": "route", "id": "Red"}},
-                      "trip": {"data": {"type": "trip", "id": "trip"}},
-                      "stop": null
+                    {
+                      "type": "prediction",
+                      "id": "1",
+                      "attributes": {
+                        "arrival_time": "#{in_five_mins}"
+                      },
+                      "relationships": {
+                        "route": {"data": {"type": "route", "id": "Red"}},
+                        "trip": {"data": {"type": "trip", "id": "trip", "headsign": "Headsign"}},
+                        "stop": {"data": {"type": "stop", "id": "place-pktrm"}}
+                      }
                     }
-                  },
-                  {
-                    "type": "prediction",
-                    "id": "1",
-                    "attributes": {
-                      "arrival_time": "2016-01-01T00:00:00-05:00"
-                    },
-                    "relationships": {
-                      "route": {"data": {"type": "route", "id": "Red"}},
-                      "trip": {"data": {"type": "trip", "id": "trip", "headsign": "Headsign"}},
-                      "stop": {"data": {"type": "stop", "id": "place-pktrm"}}
-                    }
-                  }
-                ]
-              }))
-        else
-          # Don't worry about requests for /routes or other.
-          Conn.resp(conn, 200, "")
+                  ]
+                })
+            )
+
+          "/routes/Red" ->
+            Conn.resp(conn, 200, @red_route)
+
+          _ ->
+            Conn.resp(conn, 200, "")
         end
       end)
 
@@ -129,41 +155,56 @@ defmodule Predictions.RepoTest do
 
       Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
 
-      Bypass.expect(bypass, fn %{request_path: "/predictions/"} = conn ->
+      Bypass.expect(bypass, fn %{request_path: request_path} = conn ->
         # return a Prediction with a valid stop, and one with an invalid stop
-        Conn.resp(conn, 200, ~s(
-              {
-                "included": [
-                  {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["South", "North"], "description": "Rapid Transit"}, "relationships": {}},
-                  {"type": "trip", "id": "trip", "attributes": {"headsign": "headsign", "name": "name", "direction_id": "1"}, "relationships": {}},
-                  {"type": "stop", "id": "stop", "attributes": {"platform_code": null}, "relationships": {}}
-                ],
-                "data": [
-                  {
-                    "type": "prediction",
-                    "id": "1",
-                    "attributes": {
-                      "arrival_time": "2016-01-01T00:00:00-05:00"
-                    },
-                    "relationships": {
-                      "route": {"data": {"type": "route", "id": "Red"}},
-                      "stop": null
-                    }
+
+        case request_path do
+          "/predictions/" ->
+            in_five_mins =
+              Util.now()
+              |> Timex.shift(minutes: 5)
+              |> Timex.format!("{ISO:Extended}")
+
+            Conn.resp(conn, 200, ~s(
+            {
+              "included": [
+                {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["South", "North"], "description": "Rapid Transit"}, "relationships": {}},
+                {"type": "trip", "id": "trip", "attributes": {"headsign": "headsign", "name": "name", "direction_id": "1"}, "relationships": {}},
+                {"type": "stop", "id": "stop", "attributes": {"platform_code": null}, "relationships": {}}
+              ],
+              "data": [
+                {
+                  "type": "prediction",
+                  "id": "1",
+                  "attributes": {
+                    "arrival_time": "2016-01-01T00:00:00-05:00"
                   },
-                  {
-                    "type": "prediction",
-                    "id": "2",
-                    "attributes": {
-                      "arrival_time": "2016-01-01T00:00:00-05:00"
-                    },
-                    "relationships": {
-                      "route": {"data": {"type": "route", "id": "Red"}},
-                      "trip": {"data": {"type": "trip", "id": "trip", "headsign": "Headsign"}},
-                      "stop": {"data": {"type": "stop", "id": "place-pktrm"}}
-                    }
+                  "relationships": {
+                    "route": {"data": {"type": "route", "id": "Red"}},
+                    "stop": null
                   }
-                ]
-              }))
+                },
+                {
+                  "type": "prediction",
+                  "id": "2",
+                  "attributes": {
+                    "arrival_time": "#{in_five_mins}"
+                  },
+                  "relationships": {
+                    "route": {"data": {"type": "route", "id": "Red"}},
+                    "trip": {"data": {"type": "trip", "id": "trip", "headsign": "Headsign"}},
+                    "stop": {"data": {"type": "stop", "id": "place-pktrm"}}
+                  }
+                }
+              ]
+            }))
+
+          "/routes/Red" ->
+            Conn.resp(conn, 200, @red_route)
+
+          _ ->
+            Conn.resp(conn, 200, "")
+        end
       end)
 
       refute Repo.all(route: "Red", trip: "trip") == []
@@ -213,7 +254,7 @@ defmodule Predictions.RepoTest do
         "place-sstat",
         "Red",
         0,
-        Util.now(),
+        Util.now() |> Timex.shift(minutes: 5),
         :stop_sequence,
         :schedule_relationship,
         1,
@@ -278,5 +319,77 @@ defmodule Predictions.RepoTest do
       end)
 
     assert log =~ "Discarding prediction"
+  end
+
+  test "drops subway prediction if it is in the past" do
+    prediction_in_the_past = {
+      "past_prediction",
+      "trip_id",
+      "place-sstat",
+      "Red",
+      0,
+      Util.now() |> Timex.shift(minutes: -15),
+      :stop_sequence,
+      :schedule_relationship,
+      1,
+      :on_time,
+      false
+    }
+
+    in_15_min = Util.now() |> Timex.shift(minutes: 15)
+
+    prediction_in_the_future = {
+      "future_prediction",
+      "trip_id",
+      "place-sstat",
+      "Red",
+      0,
+      in_15_min,
+      :stop_sequence,
+      :schedule_relationship,
+      1,
+      :on_time,
+      false
+    }
+
+    # Prediction in the past gets discarded:
+    total_predictions =
+      Predictions.Repo.load_from_other_repos([
+        prediction_in_the_future,
+        prediction_in_the_past
+      ])
+
+    assert Enum.count(total_predictions) == 1 &&
+             total_predictions |> Enum.at(0) |> Map.get(:id) == "future_prediction"
+
+    # Prediction in the future does not get discarded:
+    total_predictions =
+      Predictions.Repo.load_from_other_repos([
+        prediction_in_the_future,
+        prediction_in_the_future
+      ])
+
+    assert Enum.count(total_predictions) == 2
+  end
+
+  test "does not drop prediction though it is in the past" do
+    # predictions in the past are only dropped for subway
+    bus_prediction_in_the_past = {
+      "bus_prediction",
+      "trip_id",
+      "66",
+      "1",
+      1,
+      Util.now() |> Timex.shift(minutes: -15),
+      :stop_sequence,
+      :schedule_relationship,
+      1,
+      :on_time,
+      false
+    }
+
+    total_predictions = Predictions.Repo.load_from_other_repos([bus_prediction_in_the_past])
+
+    assert Enum.count(total_predictions) == 1
   end
 end
