@@ -112,11 +112,7 @@ defmodule Schedules.RepoCondensed do
 
   defp filter_by_min_time(schedules, %DateTime{} = min_time) do
     Enum.filter(schedules, fn schedule ->
-      case DateTime.compare(schedule.time, min_time) do
-        :gt -> true
-        :eq -> true
-        :lt -> false
-      end
+      Util.time_is_greater_or_equal?(schedule.time, min_time)
     end)
   end
 
