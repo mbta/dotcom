@@ -72,9 +72,10 @@ defmodule Predictions.RepoTest do
 
       Application.put_env(:v3_api, :base_url, "http://localhost:#{bypass.port}")
 
-      Bypass.expect(bypass, fn %{request_path: "/predictions/"} = conn ->
-        # return a Prediction with a valid stop, and one with an invalid stop
-        Conn.resp(conn, 200, ~s(
+      Bypass.expect(bypass, fn %{request_path: request_path} = conn ->
+        if request_path == "/predictions/" do
+          # return a Prediction with a valid stop, and one with an invalid stop
+          Conn.resp(conn, 200, ~s(
               {
                 "included": [
                   {"type": "route", "id": "Red", "attributes": {"type": 1, "long_name": "Red Line", "direction_names": ["South", "North"], "description": "Rapid Transit"}, "relationships": {}},
@@ -108,6 +109,10 @@ defmodule Predictions.RepoTest do
                   }
                 ]
               }))
+        else
+          # Don't worry about requests for /routes or other.
+          Conn.resp(conn, 200, "")
+        end
       end)
 
       refute Repo.all(route: "Red", trip: "made_up_trip") == []
