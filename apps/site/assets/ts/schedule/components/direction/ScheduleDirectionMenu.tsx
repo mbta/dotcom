@@ -18,29 +18,6 @@ interface Props {
   dispatch: Dispatch<MenuAction>;
 }
 
-/* istanbul ignore next */
-const externalCloseEvent = (dispatch: Dispatch<MenuAction>): void => {
-  document.addEventListener(
-    "click",
-    (event: Event): void => {
-      if (!event.target) return;
-      const element = event.target as HTMLElement;
-      if (element.closest(".js-m-schedule-click-boundary")) return;
-      dispatch(closeRoutePatternMenuAction());
-    },
-    true
-  );
-
-  document.addEventListener(
-    "keydown",
-    (event: KeyboardEvent): void => {
-      handleNativeEscapeKeyPress(event, () => {
-        dispatch(closeRoutePatternMenuAction());
-      });
-    }
-  );
-};
-
 const ScheduleDirectionMenu = ({
   route,
   routePatternsByDirection,
@@ -53,10 +30,35 @@ const ScheduleDirectionMenu = ({
 }: Props): ReactElement<HTMLElement> => {
   const routePatterns = routePatternsByDirection[directionId];
 
-  useEffect(() => {
-    externalCloseEvent(dispatch);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useEffect(
+    () => {
+      if (!menuOpen) return () => {};
+      // if the menu is open, add event listeners to enable closing the menu by
+      // clicking outside the menu or with keypress
+      const clickToClose = (event: Event): void => {
+        if (!event.target) return;
+        const element = event.target as HTMLElement;
+        if (element.closest(".js-m-schedule-click-boundary")) return;
+        dispatch(closeRoutePatternMenuAction());
+      };
+
+      const keyToClose = (event: KeyboardEvent): void => {
+        handleNativeEscapeKeyPress(event, () => {
+          dispatch(closeRoutePatternMenuAction());
+        });
+      };
+
+      document.addEventListener("click", clickToClose, true);
+      document.addEventListener("keydown", keyToClose);
+
+      return () => {
+        // remove the event listeners
+        document.removeEventListener("click", clickToClose, true);
+        document.removeEventListener("keydown", keyToClose);
+      };
+    },
+    [menuOpen, dispatch]
+  );
 
   return (
     <div className="js-m-schedule-click-boundary">
