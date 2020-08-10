@@ -77,16 +77,21 @@ const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
       document.getElementById("react-schedule-note-root")
     );
   } else {
-    ReactDOM.render(
-      <Provider store={store}>
-        <ScheduleLoader
-          component="SCHEDULE_FINDER"
-          schedulePageData={schedulePageData}
-          updateURL={updateURL}
-        />
-      </Provider>,
-      document.getElementById("react-schedule-finder-root")
+    const scheduleFinderRoot = document.getElementById(
+      "react-schedule-finder-root"
     );
+    if (scheduleFinderRoot) {
+      ReactDOM.render(
+        <Provider store={store}>
+          <ScheduleLoader
+            component="SCHEDULE_FINDER"
+            schedulePageData={schedulePageData}
+            updateURL={updateURL}
+          />
+        </Provider>,
+        scheduleFinderRoot
+      );
+    }
   }
 };
 
