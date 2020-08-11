@@ -16,6 +16,7 @@ import ScheduleFinder from "../ScheduleFinder";
 import ScheduleFinderModal from "../schedule-finder/ScheduleFinderModal";
 import ScheduleNote from "../ScheduleNote";
 import * as scheduleStoreModule from "../../store/ScheduleStore";
+import * as scheduleLoader from "../../schedule-loader";
 import * as routePatternsByDirectionData from "./test-data/routePatternsByDirectionData.json";
 
 jest.mock("../../../helpers/use-fetch", () => ({
@@ -941,5 +942,31 @@ describe("ScheduleLoader", () => {
 
     changeDirectionStub.mockRestore();
     wrapper.unmount();
+  });
+
+  it("Does not render schedule page nor line diagram because route information is empty", () => {
+    const schedulePageData = {
+      route_patterns: {}
+    };
+
+    document.body.innerHTML = `<div id="react-root">
+  <script id="js-schedule-page-data" type="text/plain">${JSON.stringify(
+    schedulePageData
+  )}</script>
+  </div>`;
+
+    const renderSchedulePageStub = jest.spyOn(
+      scheduleLoader,
+      "renderSchedulePage"
+    );
+    const renderDirectionOrMapPageStub = jest.spyOn(
+      scheduleLoader,
+      "renderDirectionOrMap"
+    );
+
+    scheduleLoader.default(); //onLoad
+
+    expect(renderSchedulePageStub).not.toHaveBeenCalled();
+    expect(renderDirectionOrMapPageStub).not.toHaveBeenCalled();
   });
 });

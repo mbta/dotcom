@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { isEmpty } from "lodash";
 import { updateInLocation } from "use-query-params";
 import Map from "./components/Map";
 import { SchedulePageData, SelectedOrigin } from "./components/__schedule";
@@ -50,7 +51,9 @@ const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
   }
 };
 
-const renderSchedulePage = (schedulePageData: SchedulePageData): void => {
+export const renderSchedulePage = (
+  schedulePageData: SchedulePageData
+): void => {
   const { schedule_note: scheduleNote } = schedulePageData;
 
   ReactDOM.render(
@@ -114,7 +117,9 @@ const renderDirectionAndMap = (
   }
 };
 
-const renderDirectionOrMap = (schedulePageData: SchedulePageData): void => {
+export const renderDirectionOrMap = (
+  schedulePageData: SchedulePageData
+): void => {
   const root = document.getElementById("react-schedule-direction-root");
   if (!root) {
     renderMap(schedulePageData);
@@ -129,10 +134,16 @@ const render = (): void => {
   const schedulePageData = JSON.parse(
     schedulePageDataEl.innerHTML
   ) as SchedulePageData;
-  const { direction_id: directionId } = schedulePageData;
+  const {
+    direction_id: directionId,
+    route_patterns: routePatterns
+  } = schedulePageData;
   createScheduleStore(directionId);
-  renderSchedulePage(schedulePageData);
-  renderDirectionOrMap(schedulePageData);
+
+  if (!isEmpty(routePatterns)) {
+    renderSchedulePage(schedulePageData);
+    renderDirectionOrMap(schedulePageData);
+  }
 };
 
 const onLoad = (): void => {
