@@ -19,7 +19,7 @@ defmodule Routes.Route do
   @type id_t :: String.t()
   @type t :: %__MODULE__{
           id: id_t,
-          type: 0..4,
+          type: type_int(),
           name: String.t(),
           long_name: String.t(),
           color: String.t(),
