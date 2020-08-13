@@ -44,6 +44,111 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                %RouteStops{branch: "Alewife - Ashmont"}
              ] = Helpers.get_branch_route_stops(%Route{id: "Red"}, 0, "931_0009")
     end
+
+    test "handles the combined Green line" do
+      assert [
+               %Stops.RouteStops{branch: "Green-E", stops: e_stops},
+               %Stops.RouteStops{branch: "Green-D", stops: d_stops},
+               %Stops.RouteStops{branch: "Green-C", stops: c_stops},
+               %Stops.RouteStops{branch: "Green-B", stops: b_stops}
+             ] = Helpers.get_branch_route_stops(%Route{id: "Green"}, 0, "123")
+
+      assert_stop_ids(e_stops, [
+        "place-north",
+        "place-haecl",
+        "place-gover",
+        "place-pktrm",
+        "place-boyls",
+        "place-armnl",
+        "place-coecl",
+        "place-prmnl",
+        "place-symcl",
+        "place-nuniv",
+        "place-mfa",
+        "place-lngmd",
+        "place-brmnl",
+        "place-fenwd",
+        "place-mispk",
+        "place-rvrwy",
+        "place-bckhl",
+        "place-hsmnl"
+      ])
+
+      assert_stop_ids(d_stops, [
+        "place-gover",
+        "place-pktrm",
+        "place-boyls",
+        "place-armnl",
+        "place-coecl",
+        "place-hymnl",
+        "place-kencl",
+        "place-fenwy",
+        "place-longw",
+        "place-bvmnl",
+        "place-brkhl",
+        "place-bcnfd",
+        "place-rsmnl",
+        "place-chhil",
+        "place-newto",
+        "place-newtn",
+        "place-eliot",
+        "place-waban",
+        "place-woodl",
+        "place-river"
+      ])
+
+      assert_stop_ids(c_stops, [
+        "place-north",
+        "place-haecl",
+        "place-gover",
+        "place-pktrm",
+        "place-boyls",
+        "place-armnl",
+        "place-coecl",
+        "place-hymnl",
+        "place-kencl",
+        "place-smary",
+        "place-hwsst",
+        "place-kntst",
+        "place-stpul",
+        "place-cool",
+        "place-sumav",
+        "place-bndhl",
+        "place-fbkst",
+        "place-bcnwa",
+        "place-tapst",
+        "place-denrd",
+        "place-engav",
+        "place-clmnl"
+      ])
+
+      assert_stop_ids(b_stops, [
+        "place-pktrm",
+        "place-boyls",
+        "place-armnl",
+        "place-coecl",
+        "place-hymnl",
+        "place-kencl",
+        "place-bland",
+        "place-buest",
+        "place-bucen",
+        "place-buwst",
+        "place-stplb",
+        "place-plsgr",
+        "place-babck",
+        "place-brico",
+        "place-harvd",
+        "place-grigg",
+        "place-alsgr",
+        "place-wrnst",
+        "place-wascm",
+        "place-sthld",
+        "place-chswk",
+        "place-chill",
+        "place-sougr",
+        "place-lake"
+      ])
+    end
   end
 
   describe "get_route_shapes" do
@@ -170,5 +275,9 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
       assert Helpers.get_branches(shapes, stops, %Route{id: "Red"}, 0) == []
     end
+  end
+
+  def assert_stop_ids(actual, stop_ids) do
+    assert Enum.map(actual, & &1.id) == stop_ids
   end
 end
