@@ -1,0 +1,2 @@
+# Ignore wiremock jar files
+*.jar
