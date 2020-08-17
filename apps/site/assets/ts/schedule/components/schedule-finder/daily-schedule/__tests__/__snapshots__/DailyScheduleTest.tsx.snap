@@ -78,5 +78,86 @@ Array [
       />
     </div>
   </div>,
+  <div
+    className="schedule-finder__first-last-trip"
+  >
+    <div
+      className="u-small-caps u-bold"
+    >
+      First Trip
+    </div>
+    04:45 AM
+  </div>,
+  <table
+    className="schedule-table"
+  >
+    <thead
+      className="schedule-table__header"
+    >
+      <tr>
+        <th
+          className="schedule-table__cell"
+          scope="col"
+        >
+          Departs
+        </th>
+        <th
+          className="schedule-table__cell"
+          colSpan={2}
+          scope="col"
+        >
+          <span
+            className="pull-left"
+          >
+            Destination
+          </span>
+          Trip Details
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        aria-controls="trip-45030860"
+        aria-expanded={false}
+        className="schedule-table__row"
+        onClick={[Function]}
+        onKeyPress={[Function]}
+        role="button"
+        tabIndex={0}
+      >
+        <td
+          className="schedule-table__cell schedule-table__cell--time u-nowrap u-tabular-nums"
+        >
+          04:45 AM
+        </td>
+        <td
+          className="schedule-table__cell schedule-table__cell--headsign"
+        >
+          <span
+            className="schedule-table__route-pill m-route-pills"
+          >
+            <span
+              className="c-icon__bus-pill--small u-bg--bus"
+            >
+              1
+            </span>
+          </span>
+          Harvard
+        </td>
+        <td
+          className="schedule-table__cell schedule-table__cell--tiny"
+        >
+          <span
+            className="c-expandable-block__header-caret"
+            dangerouslySetInnerHTML={
+              Object {
+                "__html": "&#xF107;",
+              }
+            }
+          />
+        </td>
+      </tr>
+    </tbody>
+  </table>,
 ]
 `;
