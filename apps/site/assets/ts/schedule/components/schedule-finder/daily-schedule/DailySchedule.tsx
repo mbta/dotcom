@@ -136,23 +136,22 @@ export const DailySchedule = ({
     defaultSelectedService
   );
 
+  const getJourneysForSelectedService = (service: Service): void => {
+    fetch({
+      fetcher: fetchJourneys(routeId, stopId, service, directionId, false),
+      parser: parseResults
+    });
+  };
+
   useEffect(
     () => {
       /* istanbul ignore next */
       if (selectedService && isNotStarted(fetchState)) {
-        fetch({
-          fetcher: fetchJourneys(
-            routeId,
-            stopId,
-            selectedService,
-            directionId,
-            false
-          ),
-          parser: parseResults
-        });
+        getJourneysForSelectedService(selectedService);
       }
     },
-    [services, routeId, directionId, stopId, selectedService, fetch, fetchState]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
   );
 
   if (services.length <= 0) return null;
@@ -169,6 +168,7 @@ export const DailySchedule = ({
         onSelectService={chosenService => {
           if (chosenService) {
             setSelectedService(chosenService);
+            getJourneysForSelectedService(chosenService);
           }
         }}
       />

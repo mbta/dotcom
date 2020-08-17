@@ -1,8 +1,73 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import renderer, { act } from "react-test-renderer";
+import { ReactWrapper, mount } from "enzyme";
 import { createReactRoot } from "../../../../../app/helpers/testUtils";
-import DailySchedule, { fetchJourneys, parseResults } from "../DailySchedule";
+import * as dailyScheduleModule from "../DailySchedule";
+import { DirectionId, Service } from "../../../../../__v3api";
 import { ServiceInSelector } from "../../../__schedule";
+
+jest.mock("../../../../../helpers/use-fetch", () => ({
+  __esModule: true,
+  hasData: () => true,
+  isLoading: () => false,
+  isNotStarted: () => true,
+  default: jest.fn().mockImplementation(() => [
+    {
+      status: 3,
+      data: [
+        {
+          trip: {
+            shape_id: "010070",
+            route_pattern_id: "1-_-0",
+            name: "",
+            id: "45030860",
+            headsign: "Harvard",
+            direction_id: 0,
+            bikes_allowed: true
+          },
+          route: {
+            type: 3,
+            sort_order: 50010,
+            name: "1",
+            long_name: "Harvard Square - Nubian Station",
+            id: "1",
+            direction_names: { 0: "Outbound", 1: "Inbound" },
+            direction_destinations: {
+              0: "Harvard Square",
+              1: "Nubian Station"
+            },
+            description: "key_bus_route",
+            custom_route: false,
+            color: "FFC72C"
+          },
+          departure: {
+            time: "04:45 AM",
+            schedule: {
+              trip: {
+                shape_id: "010070",
+                route_pattern_id: "1-_-0",
+                name: "",
+                id: "45030860",
+                headsign: "Harvard",
+                direction_id: 0,
+                bikes_allowed: true
+              },
+              time: "2020-08-28T04:45:00-04:00",
+              stop_sequence: 12,
+              stop: null,
+              pickup_type: 0,
+              last_stop: false,
+              flag: false,
+              early_departure: true
+            },
+            prediction: null
+          }
+        }
+      ]
+    },
+    jest.fn()
+  ])
+}));
 
 const services: ServiceInSelector[] = [
   {
@@ -137,7 +202,7 @@ describe("DailySchedule", () => {
   it("renders with a date", () => {
     createReactRoot();
     const tree = renderer.create(
-      <DailySchedule
+      <dailyScheduleModule.DailySchedule
         stopId="stopId"
         services={services}
         directionId={0}
@@ -155,7 +220,13 @@ describe("fetchJourneys", () => {
     window.fetch = jest.fn();
     const service = services.find(service => service.id === "BUS319-P-Sa-02")!;
 
-    const fetcher = fetchJourneys("83", "stopId", service, 1, true);
+    const fetcher = dailyScheduleModule.fetchJourneys(
+      "83",
+      "stopId",
+      service,
+      1,
+      true
+    );
 
     expect(typeof fetcher).toBe("function");
 
@@ -164,6 +235,32 @@ describe("fetchJourneys", () => {
     expect(window.fetch).toHaveBeenCalledWith(
       "/schedules/finder_api/journeys?id=83&date=2019-08-31&direction=1&stop=stopId&is_current=true"
     );
+  });
+
+  it("fetches journeys again when selecting a different service", async () => {
+    const fetchJourneysMock = jest.spyOn(dailyScheduleModule, "fetchJourneys");
+
+    act(() => {
+      const wrapper: ReactWrapper = mount(
+        <dailyScheduleModule.DailySchedule
+          stopId="stopId"
+          services={services}
+          directionId={0}
+          routePatterns={[]}
+          routeId="111"
+          today={"2019-08-31"}
+        />
+      );
+
+      // change value in the dropdown:
+      wrapper
+        .find("SchedulesSelect")
+        // @ts-ignore -- types for `invoke` are too restrictive
+        .invoke("onSelectService")("BUS319-P-Sa-02");
+
+      expect(fetchJourneysMock).toHaveBeenCalledTimes(2);
+      fetchJourneysMock.mockRestore();
+    });
   });
 });
 
@@ -274,6 +371,8 @@ describe("parseResults", () => {
       }
     ];
 
-    expect(parseResults((response as unknown) as JSON)).toEqual(response);
+    expect(
+      dailyScheduleModule.parseResults((response as unknown) as JSON)
+    ).toEqual(response);
   });
 });
