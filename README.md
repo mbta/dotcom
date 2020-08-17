@@ -18,7 +18,7 @@ The new face of https://www.mbta.com/
 
 1. Request a V3 API key at https://dev.api.mbtace.com/, and request an increased
 rate limit for it (someone with access will need to approve this). Note that, at
-any given time, the site may not be compatible with the very latest API version.
+any given time, the site may not be compatible with the very latest API version - as of Aug 2020 the site is using API version `2019-07-01`.
 
 1. Install [Homebrew](https://docs.brew.sh/Installation.html):
     ```
