@@ -6,30 +6,33 @@ defmodule V3Api.RoutesTest do
   @opts ["page[limit]": 1, sort: "long_name"]
 
   describe "all/1" do
-    %JsonApi{data: [%JsonApi.Item{}]} = Routes.all(@opts)
+    test "gets all routes" do
+      assert %JsonApi{data: [%JsonApi.Item{}]} = Routes.all(@opts)
+    end
   end
 
   describe "get/1" do
     test "gets the route by ID" do
-      %JsonApi{data: [%JsonApi.Item{} = route]} = Routes.get("80")
-      assert route.id == "80"
+      assert %JsonApi{data: [%JsonApi.Item{id: "80"}]} = Routes.get("80")
     end
   end
 
   describe "by_type/1" do
-    %JsonApi{data: [%JsonApi.Item{} = route]} = Routes.by_type(1, @opts)
-    assert route.id == "Blue"
+    test "gets routes by type" do
+      assert %JsonApi{data: [%JsonApi.Item{id: "Blue"}]} = Routes.by_type(1, @opts)
+    end
   end
 
   describe "by_stop/2" do
-    %JsonApi{data: [%JsonApi.Item{} = route]} = Routes.by_stop("place-ogmnl", @opts)
-    assert route.id == "131"
+    test "gets routes by stop ID" do
+      assert %JsonApi{data: [%JsonApi.Item{id: "131"}]} = Routes.by_stop("place-ogmnl", @opts)
+    end
   end
 
   describe "by_stop_and_direction/3" do
-    %JsonApi{data: [%JsonApi.Item{} = route]} =
-      Routes.by_stop_and_direction("place-sstat", 0, @opts)
-
-    assert route.id == "743"
+    test "gets routes by stop ID and direction ID" do
+      assert %JsonApi{data: [%JsonApi.Item{id: "743"}]} =
+               Routes.by_stop_and_direction("place-sstat", 0, @opts)
+    end
   end
 end

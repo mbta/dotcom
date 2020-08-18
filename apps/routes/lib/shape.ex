@@ -1,4 +1,9 @@
 defmodule Routes.Shape do
+  @moduledoc """
+  Data model corresponding to the V3 API Shape resource.
+  """
+  alias Stops.Stop
+
   defstruct id: "",
             name: "",
             stop_ids: [],
@@ -10,7 +15,7 @@ defmodule Routes.Shape do
   @type t :: %__MODULE__{
           id: id_t,
           name: String.t(),
-          stop_ids: [],
+          stop_ids: [Stop.id_t()],
           direction_id: 0 | 1,
           polyline: String.t(),
           priority: integer
