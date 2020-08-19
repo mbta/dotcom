@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import { HeadsignWithCrowding, Schedule } from "../../../../__v3api";
 import StopPredictions from "../StopPredictions";
-import { Prediction } from "../../__trips";
+import { TripPrediction as Prediction } from "../../__trips";
 
 const mockPrediction = {} as Prediction & { headsign: string };
 const mockSchedule = {} as Schedule & { headsign: string };

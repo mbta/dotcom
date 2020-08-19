@@ -22,12 +22,12 @@ export interface EnhancedJourney extends Journey {
 export interface Departure {
   time: string;
   schedule: Schedule | null;
-  prediction: Prediction | null;
+  prediction: TripPrediction | null;
 }
 
 export interface TripDeparture {
   schedule: TripSchedule;
-  prediction: Prediction | null;
+  prediction: TripPrediction | null;
   delay: number | null;
 }
 
@@ -46,7 +46,7 @@ export interface TripInfo {
   route_type: RouteType;
 }
 
-export interface Prediction {
+export interface TripPrediction {
   schedule_relationship: ScheduleRelationship;
   delay: number;
   status: string | null;

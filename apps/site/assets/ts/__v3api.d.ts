@@ -1,5 +1,5 @@
 import { CrowdingType } from "./schedule/components/__schedule";
-import { Prediction as TripsPrediction } from "./schedule/components/__trips";
+import { TripPrediction as TripsPrediction } from "./schedule/components/__trips";
 
 export interface Direction {
   direction_id: DirectionId;
