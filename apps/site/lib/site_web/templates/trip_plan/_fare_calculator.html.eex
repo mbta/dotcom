@@ -87,6 +87,15 @@
   </div>
 <% end %>
 
+<%= if itinerary_is_from_or_to_airport?(@itinerary) do %>
+  <div class="m-trip-plan-farecalc__notes-block">
+    <span class="m-trip-plan-farecalc__title">Logan Airport:</span> Silver Line service from Logan Airport is always free. If you are headed to Logan Airport, transfers from the Red Line to the SL1 are also free.
+    <%= link to: "/destinations/logan-airport", target: "_blank" do %>
+      Learn more about travel to and from Logan Airport.
+    <% end %>
+  </div>
+<% end %>
+
 <div class="m-trip-plan-farecalc__notes-block">
   <span class="m-trip-plan-farecalc__title">Reduced fares:</span> Some riders are eligible for <%= link "reduced fares", to: fare_path(@conn, :show, "reduced") %>. Military personnel and children 11 and under ride for free.
 </div>

@@ -728,7 +728,7 @@ defmodule SiteWeb.TripPlanView do
       else
         name =
           if leg.name && leg.name =~ "Shuttle",
-            do: "Shuttle",
+            do: Format.name(:shuttle),
             else: Format.name(highest_fare.name)
 
         Map.put(acc, mode_key, %{
@@ -792,7 +792,7 @@ defmodule SiteWeb.TripPlanView do
     end
   end
 
-  # Hide monthly pass sections in the case of a Silver Line trip with no transfers from Logain Airport.
+  # Hide monthly pass sections in the case of a Silver Line trip with no transfers from Logan Airport.
   @spec show_monthly_passes?(Itinerary.t()) :: boolean()
   def show_monthly_passes?(itinerary), do: !sl_only_trip_from_airport?(itinerary)
 
@@ -800,18 +800,33 @@ defmodule SiteWeb.TripPlanView do
   defp sl_only_trip_from_airport?(itinerary) do
     itinerary
     |> Itinerary.transit_legs()
-    |> sl_only_legs_from_airport?()
+    |> stop_is_silver_line_airport?(:from)
   end
 
-  @spec sl_only_legs_from_airport?([Leg.t()]) :: boolean()
-  defp sl_only_legs_from_airport?([]), do: false
+  @spec stop_is_silver_line_airport?([Leg.t()], atom) :: boolean()
+  defp stop_is_silver_line_airport?([], _), do: false
 
-  defp sl_only_legs_from_airport?([leg]) do
+  defp stop_is_silver_line_airport?([leg], key) do
     route_id = leg.mode.route_id
-    from_stop_id = leg.from.stop_id
 
-    Fares.silver_line_airport_stop?(route_id, from_stop_id)
+    stop_id =
+      leg
+      |> Kernel.get_in([Access.key(key), Access.key(:stop_id)])
+
+    Fares.silver_line_airport_stop?(route_id, stop_id)
   end
 
-  defp sl_only_legs_from_airport?(_), do: false
+  defp stop_is_silver_line_airport?(_, _), do: false
+
+  @spec leg_is_from_or_to_airport?(Leg.t()) :: boolean()
+  defp leg_is_from_or_to_airport?(leg) do
+    stop_is_silver_line_airport?([leg], :from) or stop_is_silver_line_airport?([leg], :to)
+  end
+
+  @spec itinerary_is_from_or_to_airport?(Itinerary.t()) :: boolean()
+  defp itinerary_is_from_or_to_airport?(itinerary) do
+    itinerary
+    |> Itinerary.transit_legs()
+    |> Enum.any?(fn leg -> leg_is_from_or_to_airport?(leg) end)
+  end
 end

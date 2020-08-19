@@ -1313,8 +1313,24 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         Map.put(@fares_assigns, :itinerary, %{
           @fares_assigns.itinerary
           | legs: [
-              %Leg{mode: %TransitDetail{route_id: "77"}},
-              %Leg{mode: %TransitDetail{route_id: "1"}}
+              %Leg{
+                mode: %TransitDetail{route_id: "77"},
+                from: %TripPlan.NamedPosition{
+                  stop_id: ""
+                },
+                to: %TripPlan.NamedPosition{
+                  stop_id: ""
+                }
+              },
+              %Leg{
+                mode: %TransitDetail{route_id: "1"},
+                from: %TripPlan.NamedPosition{
+                  stop_id: ""
+                },
+                to: %TripPlan.NamedPosition{
+                  stop_id: ""
+                }
+              }
             ]
         })
 
@@ -1350,9 +1366,15 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     test "renders the Fare Calculator", %{conn: conn} do
       leg_for_route =
         &%Leg{
+          from: %TripPlan.NamedPosition{
+            stop_id: ""
+          },
           mode: %TransitDetail{
             route_id: &1,
             fares: @fares
+          },
+          to: %TripPlan.NamedPosition{
+            stop_id: ""
           }
         }
 
@@ -1397,6 +1419,93 @@ closest arrival to 12:00 AM, Thursday, January 1st."
 
       links = Floki.find(html_with_transfer_note, "a")
       assert Enum.count(links) == 4
+    end
+
+    test "includes Logan in the trip", %{conn: conn} do
+      legs = [
+        %TripPlan.Leg{
+          description: "BUS",
+          from: %TripPlan.NamedPosition{
+            latitude: 42.366494,
+            longitude: -71.017289,
+            name: "Terminal C - Arrivals Level",
+            stop_id: "17094"
+          },
+          long_name: "Logan Airport Terminals - South Station",
+          mode: %TripPlan.TransitDetail{
+            fares: %{
+              highest_one_way_fare: %Fares.Fare{
+                additional_valid_modes: [],
+                cents: 0,
+                duration: :single_trip,
+                media: [],
+                mode: :bus,
+                name: :free_fare,
+                price_label: nil,
+                reduced: nil
+              },
+              lowest_one_way_fare: %Fares.Fare{
+                additional_valid_modes: [],
+                cents: 0,
+                duration: :single_trip,
+                media: [],
+                mode: :bus,
+                name: :free_fare,
+                price_label: nil,
+                reduced: nil
+              },
+              reduced_one_way_fare: nil
+            },
+            intermediate_stop_ids: ["17095", "17096", "74614", "74615", "74616"],
+            route_id: "741",
+            trip_id: "44812009"
+          },
+          name: "SL1",
+          to: %TripPlan.NamedPosition{
+            latitude: 42.352271,
+            longitude: -71.055242,
+            name: "South Station",
+            stop_id: "74617"
+          },
+          type: "1",
+          url: "http://www.mbta.com"
+        }
+      ]
+
+      itinerary = %{@itinerary | legs: legs}
+
+      # Render blue summary
+      fares_estimate_html =
+        "_itinerary_fares.html"
+        |> render_to_string(
+          itinerary: itinerary,
+          one_way_total: nil,
+          round_trip_total: nil
+        )
+
+      [{_, [{_, _}], [{_, [{_, _}, {_, _}], [logan_guide_link]}]}] =
+        Floki.find(fares_estimate_html, ".m-trip-plan-results__itinerary-fare--round-trip")
+
+      assert logan_guide_link =~ "Logan Airport destination guide"
+
+      # Render fare calculator
+      itinerary_html =
+        "_fare_calculator.html"
+        |> render_to_string(
+          itinerary: itinerary,
+          fares: get_calculated_fares(itinerary),
+          conn: conn
+        )
+
+      [{_, [{_, _}, {_, _}], [free_service_text]}] =
+        Floki.find(itinerary_html, ".m-trip-plan-farecalc__mode-name")
+
+      assert free_service_text =~ "Free Service"
+
+      [{_, [{_, _}], [{_, [{_, _}], [_]}, logan_blurb, {_, [{_, _}, {_, _}], [_]}]}, _] =
+        Floki.find(itinerary_html, ".m-trip-plan-farecalc__notes-block")
+
+      assert logan_blurb =~ "Silver Line service from Logan Airport is always free"
     end
   end
 
