@@ -4,29 +4,13 @@ import { RouteType } from "../../../__v3api";
 import { LineDiagramVehicle, CrowdingType } from "../__schedule";
 import { TooltipWrapper, vehicleArrowIcon } from "../../../helpers/icon";
 import CrowdingPill from "./CrowdingPill";
+import { statusDescriptions, vehicleTypeNames } from "../../../models/vehicle";
 
 interface Props {
   routeType: RouteType | null;
   stopName: string | null;
   vehicles: LineDiagramVehicle[];
 }
-
-// See also Routes.Route.vehicle_name/1
-const vehicleTypeNames = {
-  0: "Train",
-  1: "Train",
-  2: "Train",
-  3: "Bus",
-  4: "Ferry"
-};
-
-// See also VehicleHelpers.realtime_status_text/1
-const statusDescriptions = {
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  in_transit: "is on the way to",
-  incoming: "is arriving at",
-  stopped: "has arrived at"
-};
 
 const tooltipText = (
   routeType: RouteType | null,
