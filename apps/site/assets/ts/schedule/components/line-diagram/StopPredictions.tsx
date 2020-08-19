@@ -7,14 +7,13 @@ import {
 import { isSkippedOrCancelled } from "../../../models/prediction";
 import { crowdingIcon, TooltipWrapper } from "../../../helpers/icon";
 import { crowdingDescriptions } from "../../components/line-diagram/CrowdingPill";
+import { capitalize } from "../../../helpers/text";
 
 interface Props {
   headsigns: HeadsignWithCrowding[];
   isCommuterRail: boolean;
 }
 
-const capitalize = (string: string): string =>
-  string[0].toUpperCase() + string.slice(1);
 
 const StopPredictions = ({ headsigns, isCommuterRail }: Props): JSX.Element => {
   let predictions: JSX.Element[];
