@@ -1,3 +1,4 @@
+import React from "react";
 import { AnyAction, Reducer, Store, createStore } from "redux";
 import { LineDiagramStop } from "../../__schedule";
 
@@ -48,3 +49,19 @@ export const createLineDiagramCoordStore = (
 
   return store;
 };
+
+export const DiagonalHatchPattern = (
+  <pattern
+    id="diagonalHatch"
+    width="10"
+    height="10"
+    patternTransform="rotate(45 0 0)"
+    patternUnits="userSpaceOnUse"
+  >
+    <line
+      className="line-diagram-svg__line"
+      y2={CIRC_DIAMETER}
+      strokeWidth={`${BRANCH_LINE_WIDTH}px`}
+    />
+  </pattern>
+);

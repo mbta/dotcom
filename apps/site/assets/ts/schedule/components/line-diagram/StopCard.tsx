@@ -6,11 +6,15 @@ import { isMergeStop, diagramWidth } from "./line-diagram-helpers";
 import StopConnections from "./StopConnections";
 import StopPredictions from "./StopPredictions";
 import { alertIcon } from "../../../helpers/icon";
-import { isHighSeverityOrHighPriority } from "../../../models/alert";
+import {
+  isHighSeverityOrHighPriority,
+  isDiversion
+} from "../../../models/alert";
 import { Alert, Route } from "../../../__v3api";
 import MatchHighlight from "../../../components/MatchHighlight";
 import StopFeatures from "./StopFeatures";
 import { StopRefContext } from "./LineDiagramWithStops";
+import { effectNameForAlert } from "../../../components/Alerts";
 
 interface StopCardProps {
   stop: LineDiagramStop;
@@ -60,6 +64,8 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
     : diagramWidth(stopData.length);
   const refs = useContext(StopRefContext)[0];
 
+  const hasDiversion = stopAlerts.some(isDiversion);
+
   return (
     <li
       className="m-schedule-diagram__stop"
@@ -84,14 +90,22 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
 
         <div className="m-schedule-diagram__stop-details">
           {StopConnections(routeStop.connections)}
-          {!isDestination && liveData && (
-            <StopPredictions
-              headsigns={liveData.headsigns}
-              isCommuterRail={
-                !!routeStop.route && isACommuterRailRoute(routeStop.route)
-              }
-            />
-          )}
+          {hasDiversion
+            ? stopAlerts.filter(isDiversion).map(alert => (
+                <div key={alert.id} className="m-schedule-diagram__alert">
+                  {alertIcon("c-svg__icon-alerts-triangle")}
+                  {effectNameForAlert(alert)}
+                </div>
+              ))
+            : !isDestination &&
+              liveData && (
+                <StopPredictions
+                  headsigns={liveData.headsigns}
+                  isCommuterRail={
+                    !!routeStop.route && isACommuterRailRoute(routeStop.route)
+                  }
+                />
+              )}
         </div>
 
         <footer className="m-schedule-diagram__footer">
