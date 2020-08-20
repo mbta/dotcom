@@ -3,8 +3,12 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   Helpers for the line page
   """
 
+  alias RoutePatterns.Repo, as: RoutePatternsRepo
+  alias RoutePatterns.RoutePattern
   alias Routes.Repo, as: RoutesRepo
   alias Routes.{Route, Shape}
+  alias Schedules.Repo, as: SchedulesRepo
+  alias Schedules.Trip
   alias Stops.Repo, as: StopsRepo
   alias Stops.{RouteStop, RouteStops, Stop}
 
@@ -36,15 +40,48 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   Gets a list of RouteStops representing all of the branches on the route. Routes without branches will always be a
   list with a single RouteStops struct.
   """
-  @spec get_branch_route_stops(Route.t(), direction_id(), Route.branch_name()) :: [RouteStops.t()]
-  def get_branch_route_stops(route, direction_id, variant) do
-    route_shapes = get_route_shapes(route.id, direction_id)
-    route_stops = get_route_stops(route.id, direction_id, &StopsRepo.by_route/3)
-    active_shapes = get_active_shapes(route_shapes, route, variant)
+  @spec get_branch_route_stops(Route.t(), direction_id()) :: [RouteStops.t()]
+  @spec get_branch_route_stops(Route.t(), direction_id(), RoutePattern.id_t() | nil) :: [
+          RouteStops.t()
+        ]
+  def get_branch_route_stops(route, direction_id, route_pattern_id \\ nil)
 
-    route_shapes
-    |> filter_route_shapes(active_shapes, route)
-    |> get_branches(route_stops, route, direction_id)
+  def get_branch_route_stops(%Route{id: "Green"}, direction_id, route_pattern_id) do
+    GreenLine.branch_ids()
+    |> Enum.reduce([], fn route_id, acc ->
+      case get_route(route_id) do
+        {:ok, route} ->
+          [route | acc]
+
+        :not_found ->
+          acc
+      end
+    end)
+    |> Enum.map(fn route ->
+      route
+      |> do_get_branch_route_stops(direction_id, route_pattern_id)
+      |> RouteStop.list_from_route_patterns(route, direction_id)
+    end)
+    |> nil_out_shared_stop_branches()
+    |> RouteStops.from_route_stop_groups()
+  end
+
+  def get_branch_route_stops(route, direction_id, route_pattern_id) do
+    route
+    |> do_get_branch_route_stops(direction_id, route_pattern_id)
+    |> RouteStop.list_from_route_patterns(route, direction_id)
+    |> Enum.chunk_by(& &1.branch)
+    |> RouteStops.from_route_stop_groups()
+  end
+
+  @spec do_get_branch_route_stops(Route.t(), direction_id(), RoutePattern.id_t() | nil) :: [
+          {RoutePattern.t(), [Stop.t()]}
+        ]
+  defp do_get_branch_route_stops(route, direction_id, route_pattern_id) do
+    route.id
+    |> get_route_patterns(direction_id, route_pattern_id)
+    |> Enum.filter(&(&1.typicality == 1))
+    |> Enum.map(&stops_for_route_pattern/1)
   end
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
@@ -182,4 +219,95 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   @spec do_update_green_branch_stop(boolean, RouteStop.t(), Route.branch_name()) :: RouteStop.t()
   defp do_update_green_branch_stop(true, stop, _branch_id), do: %{stop | branch: nil}
   defp do_update_green_branch_stop(false, stop, branch_id), do: %{stop | branch: branch_id}
+
+  @spec stops_for_route_pattern(RoutePattern.t()) :: {RoutePattern.t(), [Stop.t()]}
+  defp stops_for_route_pattern(route_pattern) do
+    stops =
+      route_pattern
+      |> trip_for_route_pattern()
+      |> shape_for_trip()
+      |> stops_for_shape()
+
+    {route_pattern, stops}
+  end
+
+  @spec trip_for_route_pattern(RoutePattern.t()) :: Trip.t() | nil
+  defp trip_for_route_pattern(%RoutePattern{representative_trip_id: representative_trip_id}),
+    do: SchedulesRepo.trip(representative_trip_id)
+
+  @spec shape_for_trip(Trip.t() | nil) :: Shape.t() | nil
+  defp shape_for_trip(nil), do: nil
+
+  defp shape_for_trip(%Trip{shape_id: shape_id}) do
+    shape_id
+    |> RoutesRepo.get_shape()
+    |> List.first()
+  end
+
+  @spec stops_for_shape(Shape.t() | nil) :: [Stop.t()]
+  defp stops_for_shape(nil), do: []
+  defp stops_for_shape(%Shape{stop_ids: stop_ids}), do: Enum.map(stop_ids, &StopsRepo.get!/1)
+
+  @spec get_route_patterns(Route.id_t(), direction_id(), RoutePattern.id_t() | nil) :: [
+          RoutePattern.t()
+        ]
+  defp get_route_patterns(route_id, direction_id, nil),
+    do: RoutePatternsRepo.by_route_id(route_id, direction_id: direction_id)
+
+  defp get_route_patterns(_route_id, _direction_id, route_pattern_id) do
+    case RoutePatternsRepo.get(route_pattern_id) do
+      %RoutePattern{} = route_pattern ->
+        [route_pattern]
+
+      nil ->
+        []
+    end
+  end
+
+  @spec nil_out_shared_stop_branches([[RouteStop.t()]]) :: [[RouteStop.t()]]
+  defp nil_out_shared_stop_branches(route_stop_groups) do
+    shared_ids = shared_ids(route_stop_groups)
+
+    Enum.map(route_stop_groups, &do_nil_out_shared_stop_branches(&1, shared_ids))
+  end
+
+  @spec do_nil_out_shared_stop_branches([RouteStop.t()], MapSet.t(Stop.id_t())) :: [RouteStop.t()]
+  defp do_nil_out_shared_stop_branches(route_pattern_group, shared_ids) do
+    Enum.map(route_pattern_group, fn route_stop ->
+      if MapSet.member?(shared_ids, route_stop.id) do
+        %RouteStop{
+          route_stop
+          | branch: nil
+        }
+      else
+        route_stop
+      end
+    end)
+  end
+
+  @spec shared_ids([[RouteStop.t()]]) :: MapSet.t(Stop.id_t())
+  defp shared_ids(route_stop_groups) do
+    stop_id_sets =
+      route_stop_groups
+      |> Enum.map(fn group ->
+        group
+        |> Enum.map(& &1.id)
+        |> MapSet.new()
+      end)
+
+    [
+      [0, 1],
+      [0, 2],
+      [0, 3],
+      [1, 2],
+      [1, 3],
+      [2, 3]
+    ]
+    |> Enum.map(&intersection(&1, stop_id_sets))
+    |> Enum.reduce(MapSet.new(), fn set, acc -> MapSet.union(set, acc) end)
+  end
+
+  @spec intersection([non_neg_integer()], [MapSet.t()]) :: MapSet.t()
+  defp intersection(indices, map_sets),
+    do: apply(MapSet, :intersection, Enum.map(indices, &Enum.at(map_sets, &1)))
 end

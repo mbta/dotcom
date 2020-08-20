@@ -3,6 +3,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
   use SiteWeb, :controller
 
   alias Alerts.Stop, as: AlertsStop
+  alias RoutePatterns.RoutePattern
   alias Routes.Route
   alias Schedules.Repo, as: SchedulesRepo
   alias Site.TransitNearMe
@@ -34,7 +35,11 @@ defmodule SiteWeb.ScheduleController.LineApi do
           |> assign_alerts(filter_by_direction?: true)
 
         line_data =
-          get_line_data(route, String.to_integer(direction_id), conn.query_params["variant"])
+          get_line_data(
+            route,
+            String.to_integer(direction_id),
+            conn.query_params["route_pattern"]
+          )
 
         json(
           conn,
@@ -102,11 +107,12 @@ defmodule SiteWeb.ScheduleController.LineApi do
   defp expand_route_id("Green"), do: GreenLine.branch_ids()
   defp expand_route_id(route_id), do: [route_id]
 
-  @spec get_line_data(Route.t(), LineHelpers.direction_id(), Route.branch_name()) ::
-          [DiagramHelpers.stop_with_bubble_info()]
-  defp get_line_data(route, direction_id, variant) do
+  @spec get_line_data(Route.t(), LineHelpers.direction_id(), RoutePattern.id_t() | nil) :: [
+          DiagramHelpers.stop_with_bubble_info()
+        ]
+  defp get_line_data(route, direction_id, route_pattern_id) do
     route
-    |> LineHelpers.get_branch_route_stops(direction_id, variant)
+    |> LineHelpers.get_branch_route_stops(direction_id, route_pattern_id)
     |> DiagramHelpers.build_stop_list(direction_id)
   end
 

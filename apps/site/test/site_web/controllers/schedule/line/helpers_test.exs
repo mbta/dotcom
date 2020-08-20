@@ -42,7 +42,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                %RouteStops{branch: nil, stops: trunk_route_stops},
                %RouteStops{branch: "Alewife - Braintree", stops: braintree_route_stops},
                %RouteStops{branch: "Alewife - Ashmont", stops: ashmont_route_stops}
-             ] = Helpers.get_branch_route_stops(%Route{id: "Red"}, 0, "931_0009")
+             ] = Helpers.get_branch_route_stops(%Route{id: "Red"}, 0)
 
       assert Enum.all?(trunk_route_stops, &(&1.branch == nil))
 
@@ -103,7 +103,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                %Stops.RouteStops{branch: "Green-D", stops: d_stops},
                %Stops.RouteStops{branch: "Green-C", stops: c_stops},
                %Stops.RouteStops{branch: "Green-B", stops: b_stops}
-             ] = Helpers.get_branch_route_stops(%Route{id: "Green"}, 0, "123")
+             ] = Helpers.get_branch_route_stops(%Route{id: "Green"}, 0, nil)
 
       assert Enum.map(e_stops, & &1.branch) ==
                [
