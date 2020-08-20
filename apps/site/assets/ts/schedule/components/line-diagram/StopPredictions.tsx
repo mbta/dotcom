@@ -5,9 +5,8 @@ import {
   statusForCommuterRail
 } from "../../../helpers/prediction-helpers";
 import { isSkippedOrCancelled } from "../../../models/prediction";
-import { crowdingIcon, TooltipWrapper } from "../../../helpers/icon";
-import { crowdingDescriptions } from "../../components/line-diagram/CrowdingPill";
 import { capitalize } from "../../../helpers/text";
+import LiveCrowdingIcon from "./LiveCrowdingIcon";
 
 interface Props {
   headsigns: HeadsignWithCrowding[];
@@ -58,7 +57,6 @@ const StopPredictions = ({ headsigns, isCommuterRail }: Props): JSX.Element => {
   } else {
     predictions = liveHeadsigns.map((headsign, index) => {
       const { crowding } = headsign.time_data_with_crowding_list[0];
-      const crowdingText = crowding ? crowdingDescriptions[crowding] : "";
       return (
         /* eslint-disable-next-line react/no-array-index-key */
         <div key={index} className="m-schedule-diagram__prediction">
@@ -70,24 +68,7 @@ const StopPredictions = ({ headsigns, isCommuterRail }: Props): JSX.Element => {
               )
             )}
           </div>
-          {crowding ? (
-            <TooltipWrapper
-              tooltipText={`Currently <strong>${crowdingText.toLowerCase()}</strong>`}
-              tooltipOptions={{
-                placement: "left",
-                animation: false,
-                html: true
-              }}
-            >
-              <div className="m-schedule-diagram__prediction-crowding m-schedule-table-crowding">
-                {crowdingIcon(`c-icon__crowding--${crowding}`)}
-              </div>
-            </TooltipWrapper>
-          ) : (
-            <div className="m-schedule-diagram__prediction-crowding m-schedule-table-crowding">
-              {crowdingIcon("c-icon__crowding--crowding_unavailable")}
-            </div>
-          )}
+          <LiveCrowdingIcon crowding={crowding} />
         </div>
       );
     });
