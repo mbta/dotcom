@@ -25,9 +25,10 @@ exports[`StopCard renders and matches snapshot 1`] = `
         </header>
         <div className=\\"m-schedule-diagram__stop-details\\">
           <div className=\\"m-schedule-diagram__connections\\" />
-          <StopPredictions headsigns={{...}} isCommuterRail={false}>
-            <div className=\\"m-schedule-diagram__predictions\\" />
-          </StopPredictions>
+          <div className=\\"m-schedule-diagram__alert\\">
+            <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+            Detour
+          </div>
         </div>
         <footer className=\\"m-schedule-diagram__footer\\">
           <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>

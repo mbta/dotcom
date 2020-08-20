@@ -13,6 +13,7 @@ import {
   BASE_LINE_WIDTH,
   BRANCH_SPACING
 } from "./graphic-helpers";
+import { isDiversion } from "../../../../models/alert";
 
 interface PathGraphicsProps {
   from: LineDiagramStop;
@@ -43,6 +44,9 @@ const Line = ({ from, to }: PathGraphicsProps): ReactElement | null => {
     lineProps.x2 = lineProps.x1;
     lineProps.y1 = `${y1}px`;
     lineProps.y2 = `${y2}px`;
+    if (from.alerts.some(isDiversion)) {
+      lineProps.stroke = "url(#diagonalHatch)";
+    }
     return <line className="line-diagram-svg__line" {...lineProps} />;
   }
 
@@ -69,6 +73,9 @@ const Line = ({ from, to }: PathGraphicsProps): ReactElement | null => {
         lineProps.x2 = lineProps.x1;
         lineProps.y1 = `${y1}px`;
         lineProps.y2 = `${y2}px`;
+        if (branchLine.type !== "line" && from.alerts.some(isDiversion)) {
+          lineProps.stroke = "url(#diagonalHatch)";
+        }
         return <line className="line-diagram-svg__line" {...lineProps} />;
       })}
     </>

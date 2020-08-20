@@ -90,6 +90,13 @@ describe("StopCard", () => {
       expect(Object.entries(props)).toContainEqual(["data-toggle", "tooltip"]);
     });
   });
+
+  it("indicates detours, stop closures, etc", () => {
+    expect(wrapper.exists(".m-schedule-diagram__alert")).toBeTruthy();
+    expect(wrapper.find(".m-schedule-diagram__alert").text()).toContain(
+      "Detour"
+    );
+  });
 });
 
 it.each`
