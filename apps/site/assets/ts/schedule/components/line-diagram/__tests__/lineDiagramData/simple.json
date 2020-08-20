@@ -36,7 +36,13 @@
     },
     "alerts": [
       {
+        "id": "1",
         "priority": "low"
+      },
+      {
+        "id": "2",
+        "severity": "3",
+        "effect": "detour"
       }
     ]
   },
@@ -99,7 +105,11 @@
       "closed_stop_info": null,
       "branch": null
     },
-    "alerts": []
+    "alerts": [
+      {
+        "severity": 7
+      }
+    ]
   },
   {
     "stop_data": [{ "type": "stop", "branch": null }],

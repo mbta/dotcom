@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StopCard renders and matches snapshot 1`] = `
+"<Provider store={{...}}>
+  <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={{...}}>
+    <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
+      <section className=\\"m-schedule-diagram__content\\">
+        <header className=\\"m-schedule-diagram__stop-heading\\">
+          <h4 className=\\"m-schedule-diagram__stop-link\\">
+            <a href=\\"/stops/line-origin\\">
+              <MatchHighlight text=\\"Origin\\" matchQuery={[undefined]}>
+                <span>
+                  Origin
+                </span>
+              </MatchHighlight>
+            </a>
+          </h4>
+          <div className=\\"m-schedule-diagram__features\\">
+            <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
+              <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\" title=\\"Parking\\">
+                <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+              </span>
+            </Component>
+          </div>
+        </header>
+        <div className=\\"m-schedule-diagram__stop-details\\">
+          <div className=\\"m-schedule-diagram__connections\\" />
+          <StopPredictions headsigns={{...}} isCommuterRail={false}>
+            <div className=\\"m-schedule-diagram__predictions\\" />
+          </StopPredictions>
+        </div>
+        <footer className=\\"m-schedule-diagram__footer\\">
+          <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+            View schedule
+          </button>
+        </footer>
+      </section>
+    </li>
+  </StopCard>
+</Provider>"
+`;
