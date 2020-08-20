@@ -1,15 +1,17 @@
 import React from "react";
 import { renderToString } from "react-dom/server";
-import { RouteType } from "../../../__v3api";
-import { LineDiagramVehicle, CrowdingType } from "../__schedule";
-import { TooltipWrapper, vehicleArrowIcon } from "../../../helpers/icon";
+import { useSelector } from "react-redux";
+import { CrowdingType, RouteStop, LineDiagramVehicle } from "../__schedule";
 import CrowdingPill from "./CrowdingPill";
+import { TooltipWrapper, vehicleArrowIcon } from "../../../helpers/icon";
+import { StopCoord, CoordState } from "./state-helpers";
+import { BRANCH_LINE_WIDTH, CIRC_RADIUS } from "./graphics/graphic-helpers";
+import { RouteType } from "../../../__v3api";
 import { statusDescriptions, vehicleTypeNames } from "../../../models/vehicle";
 
-interface Props {
-  routeType: RouteType | null;
-  stopName: string | null;
-  vehicles: LineDiagramVehicle[];
+interface VehicleIconsProps {
+  stop: RouteStop;
+  vehicles: LineDiagramVehicle[] | null;
 }
 
 const tooltipText = (
@@ -36,32 +38,47 @@ const tooltipText = (
   return `Vehicle ${status}`;
 };
 
-// need a string for usage in the tooltip text
 const CrowdingIconString = (crowding: CrowdingType): string =>
   renderToString(<CrowdingPill crowding={crowding} />);
 
 const VehicleIcons = ({
-  routeType,
-  stopName,
+  stop,
   vehicles
-}: Props): JSX.Element => {
-  const tooltips = vehicles.map(vehicle => (
-    <div
-      key={vehicle.id}
-      className={`m-schedule-diagram__vehicle m-schedule-diagram__vehicle--${
-        vehicle.status
-      }`}
-    >
-      <TooltipWrapper
-        tooltipText={`<div class="m-schedule-diagram__vehicle-tooltip">${
-          vehicle.crowding ? `${CrowdingIconString(vehicle.crowding)}<br/>` : ""
-        }${tooltipText(routeType, stopName, vehicle)}</div>`}
-        tooltipOptions={{ placement: "right", animation: false, html: true }}
+}: VehicleIconsProps): JSX.Element | null => {
+  const coords: StopCoord | null = useSelector(
+    (state: CoordState) => state[stop.id]
+  );
+  if (!vehicles || !coords) return null;
+  const [x, y] = coords;
+  const left = `${x - BRANCH_LINE_WIDTH + CIRC_RADIUS + 1}px`;
+  const routeType = stop.route ? stop.route.type : null;
+  const tooltips = vehicles.map(vehicle => {
+    const top = `${{
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      in_transit: y - 50,
+      incoming: y - 25,
+      stopped: y - 10
+    }[vehicle.status] || y}px`;
+
+    return (
+      <div
+        key={vehicle.id}
+        className="m-schedule-diagram__vehicle"
+        style={{ top, left }}
       >
-        {vehicleArrowIcon("m-schedule-diagram__vehicle--icon")}
-      </TooltipWrapper>
-    </div>
-  ));
+        <TooltipWrapper
+          tooltipText={`<div class="m-schedule-diagram__vehicle-tooltip">${
+            vehicle.crowding
+              ? `${CrowdingIconString(vehicle.crowding)}<br/>`
+              : ""
+          }${tooltipText(routeType, stop.name, vehicle)}</div>`}
+          tooltipOptions={{ placement: "right", animation: false, html: true }}
+        >
+          {vehicleArrowIcon("m-schedule-diagram__vehicle--icon")}
+        </TooltipWrapper>
+      </div>
+    );
+  });
 
   return <>{tooltips}</>;
 };

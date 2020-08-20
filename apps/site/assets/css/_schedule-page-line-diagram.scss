@@ -1,96 +1,96 @@
-$line-width: 8px; // width of the colored line in the diagram
-
-// Translates a circle up or down the line
-// Note: CSS-based SVG transforms do not work in IE11, so
-// circle positions are present in the SVG circle transform property
-// to render them in the right locations on IE. Adjustments added
-// via the circleposition mixin are for the rest of our browsers.
-@mixin circleposition($y) {
-  circle {
-    transform: translateY($y);
-  }
-}
-
-// Adds a curved line segment from branch to trunk
-// $top = distance from top
-// $side = "bottom" or "top"
-@mixin linebend($top, $side) {
+.m-schedule-diagram {
+  list-style: none;
+  padding: 0;
   position: relative;
-
-  &::after {
-    background-color: currentColor;
-    content: '';
-    height: $line-width;
-    left: $line-width;
-    position: absolute;
-    right: $line-width / 2;
-    top: $top;
-    border-#{$side}-right-radius: $line-width;
-  }
 }
 
 .m-schedule-diagram__stop {
   border: $border;
   border-bottom: 0;
   display: flex;
-  padding: $base-spacing $base-spacing / 2 $base-spacing / 2;
+  padding: $base-spacing / 2;
 
   &:last-child {
     border-bottom: $border;
   }
 }
 
-.m-schedule-diagram__stop-content {
+.line-diagram-svg {
+  left: 0;
+  position: absolute;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  top: 0;
+
+  &__line:not([stroke]),
+  &__stop {
+    stroke: currentColor;
+  }
+
+  &__stop {
+    fill: $white;
+    stroke-width: 1px;
+  }
+
+  &__merge {
+    path {
+      fill: none;
+      stroke: currentColor;
+    }
+  }
+
+  &__toggle {
+    rect {
+      fill: currentColor;
+    }
+    circle {
+      fill: $white;
+    }
+  }
+
+  @each $line in map-keys($mbta-line-colors) {
+    $fill-color: map-get($mbta-line-colors, $line);
+
+    &.#{$line},
+    &__toggle.#{$line} {
+      color: $fill-color;
+    }
+  }
+}
+
+.m-schedule-diagram__content {
   // Take remaining horizontal space unused by visual lines/stops
   flex-grow: 1;
   width: 100%;
 }
 
 .m-schedule-diagram__stop-heading {
+  align-items: baseline;
   display: flex;
   justify-content: space-between;
+  margin-bottom: $base-spacing / 4;
 }
 
-.m-schedule-diagram__stop-details {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.m-schedule-diagram__stop-name {
-  font-weight: bold;
-
-  h4 {
-    margin-top: $base-spacing / -4;
-  }
-}
-
-// Listing of transit connections
-.m-schedule-diagram__connections {
-  .m-schedule-diagram__connection {
-    margin: 0 ($base-spacing / 8);
-  }
-
-  .c-svg__icon {
-    height: $base-spacing;
-    vertical-align: middle;
-    width: $base-spacing;
-  }
+.m-schedule-diagram__stop-link {
+  @include icon-size-inline($base-spacing, .0675em);
+  margin: 0;
 
   a {
-    display: inline-block;
-    line-height: 0;
-    max-height: $base-spacing * 1.5;
-    vertical-align: top;
+    font-weight: bold;
+  }
+
+  // renders blue (link color) alert icons instead of black
+  .c-svg__icon-alerts-triangle path:not(:nth-child(1)) {
+    fill: currentColor;
   }
 }
 
 // Access, parking, commuter rail zone etc. icons
 .m-schedule-diagram__features {
+  @include icon-size-inline($base-spacing * 1.25);
+
   .m-schedule-diagram__feature-icon {
-    height: $base-spacing;
-    line-height: $base-spacing;
     margin-left: $base-spacing / 4;
-    width: $base-spacing;
   }
 
   .c-icon__cr-zone {
@@ -98,6 +98,114 @@ $line-width: 8px; // width of the colored line in the diagram
     vertical-align: text-top;
     width: auto;
   }
+}
+
+.m-schedule-diagram__stop-details {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+// stop-details has connections and predictions
+
+// Listing of transit connections
+.m-schedule-diagram__connections {
+  @include icon-size-inline($base-spacing);
+
+  a {
+    margin-right: $base-spacing / 4;
+    vertical-align: top;
+  }
+
+  .m-schedule-diagram__connection {
+    vertical-align: middle;
+  }
+}
+
+// 'View schedules' link
+.m-schedule-diagram__footer {
+  margin-top: $base-spacing / 2;
+  text-align: center;
+
+  .btn {
+    padding: 0;
+  }
+}
+
+// <ExpandableBlock /> adjustments
+.m-schedule-diagram__expander {
+  border: $border;
+  border-bottom: 0;
+  padding: 0;
+
+  [tabindex='0']:focus {
+    outline: none;
+  }
+
+  &-header {
+    display: inline-flex;
+  }
+
+  .line-diagram-svg__toggle {
+    height: 2rem;
+    overflow: visible;
+    position: absolute;
+    z-index: 2;
+  }
+
+  .c-expandable-block__header {
+    background-color: initial;
+    margin-top: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
+  // The 'show/hide stops' toggle
+  .c-expandable-block__header-text {
+    align-items: center;
+    display: flex;
+    font-size: 1rem;
+
+    .c-expandable-block__header-caret {
+      float: none;
+    }
+
+    .stop-bubble {
+      display: none;
+    }
+  }
+
+  [aria-expanded='true'] {
+    // hide icon when branch is expanded
+    .m-schedule-diagram__collapsed-icon {
+      display: none;
+    }
+
+    // adjust text when branch is expanded/closed
+    .m-schedule-diagram__toggle::before {
+      content: 'Hide ';
+    }
+  }
+
+  [aria-expanded='false'] .m-schedule-diagram__toggle::before {
+    content: 'Show ';
+  }
+
+  // Contains the expanded branch list of stops
+  .c-expandable-block__panel {
+    border: 0;
+    padding: 0;
+
+    .m-schedule-diagram__stop {
+      border-left: 0;
+      border-right: 0;
+    }
+  }
+}
+
+// the 'show/hide n stops' button
+.m-schedule-diagram__toggle {
+  font-weight: bold;
+  padding: $base-spacing / 2;
 }
 
 // Live departure predictions
@@ -142,92 +250,16 @@ $line-width: 8px; // width of the colored line in the diagram
 }
 
 .m-schedule-diagram__prediction-crowding {
-  @include icon-size-inline(1.125em, 0.125em);
+  @include icon-size-inline(1.125em, .125em);
   margin-left: .5rem;
-}
-
-// "View schedules" link
-.m-schedule-diagram__footer {
-  margin-top: $base-spacing / 2;
-  text-align: center;
-
-  .btn {
-    padding: 0;
-  }
-}
-
-
-.m-schedule-diagram {
-  // renders blue (link color) alert icons instead of black
-  .c-svg__icon-alerts-triangle path:not(:nth-child(1)) {
-    fill: currentColor;
-  }
-
-  // stops along the diagram are SVG circles
-  .m-schedule-diagram__line-stop {
-    // override Bootstrap setting overflow:hidden for SVGs by default
-    overflow: visible;
-
-    circle {
-      fill: $white;
-      stroke: currentColor;
-      stroke-width: 0;
-    }
-  }
-
-  // stops at the edge of the <div> need a stroke to be visible
-  .m-schedule-diagram__line--terminus circle {
-    stroke-width: 1.15px;
-  }
-}
-
-//  .m-schedule-diagram__lines contains all the
-//  graphics for the line diagram, and uses negative
-//  margins to counter the padding from its parent
-//  .m-schedule-diagram__stop.
-//  A .m-schedule-diagram__line is drawn for each
-//  branch, and creates the line.
-.m-schedule-diagram__lines {
-  display: flex;
-  margin: calc(#{-$base-spacing} - (#{$border-width} * 2)) 0;
-  margin-right: $base-spacing / 2;
-}
-
-// each line is just a <div> with a color
-.m-schedule-diagram__line {
-  background-color: currentColor;
-  margin: 0 $line-width / 2;
-  position: relative;
-  width: $line-width;
-}
-
-// the very first stop - line should begin at the stop
-.m-schedule-diagram > .m-schedule-diagram__stop:first-child .m-schedule-diagram__lines {
-  margin-top: $base-spacing;
-}
-
-// any last stop (includes branches)
-.m-schedule-diagram__stop:last-child .m-schedule-diagram__line--terminus {
-  @include circleposition(5px);
-}
-
-// the very last stop - line should terminate at the stop
-.m-schedule-diagram > .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines {
-  height: $base-spacing * 2;
 }
 
 // live vehicle located along line diagram
 .m-schedule-diagram__vehicle {
   $icon-size: 18px;
-
-  left: -5px;
   position: absolute;
-  transform: scale(1, -1);
-
-  .m-schedule-diagram__expander & {
-    // Expanded branches have a wider line
-    left: -3px;
-  }
+  transform: scale(1, -1); // point down
+  z-index: 3;
 
   &-tooltip {
     text-align: left;
@@ -237,206 +269,6 @@ $line-width: 8px; // width of the colored line in the diagram
     display: block;
     height: $icon-size;
     width: $icon-size;
-  }
-
-  &--in_transit {
-    top: -2.5rem;
-  }
-
-  &--incoming {
-    // Has to be positioned very close to the stop so we don't misleadingly
-    // display it above the merge point, if there is one
-    top: -.25rem;
-  }
-
-  &--stopped {
-    top: 1rem;
-  }
-
-  .m-schedule-diagram__stop--origin &--stopped {
-    // The origin stop is positioned differently from others
-    top: -.5rem;
-  }
-
-  .m-schedule-diagram__stop--terminus:not(.m-schedule-diagram__stop--origin) &--stopped {
-    top: 1.4rem;
-  }
-
-  // Hide vehicles arriving to the origin from "off the line"
-  .m-schedule-diagram__stop--origin &--in_transit,
-  .m-schedule-diagram__stop--origin &--incoming {
-    display: none;
-  }
-
-  // Display vehicles in transit to a merge stop in the same position used for
-  // incoming vehicles, since there's only enough space on the diagram for one
-  // icon at the merge point
-  //
-  // FIXME: This currently also applies to terminus stops even when the branch
-  // leading to them is expanded and there's enough space, because "--merging"
-  // is applied both to expanders before a merge point *and* expanders after a
-  // branch point. Ideally we'd split out these two conditions.
-  .m-schedule-diagram__expander--merging + .m-schedule-diagram__stop &--in_transit {
-    top: -.25rem;
-  }
-}
-
-// <ExpandableBlock /> adjustments
-.m-schedule-diagram__expander {
-  [tabindex='0']:focus {
-    outline: none;
-  }
-
-  .c-expandable-block__header {
-    background-color: initial;
-    border: $border;
-    border-bottom: 0;
-    margin-top: 0;
-    padding: 0;
-  }
-
-  // The "show/hide stops" toggle
-  .c-expandable-block__header-text {
-    align-items: center;
-    display: flex;
-    font-size: 1rem;
-
-    .c-expandable-block__header-caret {
-      float: none;
-    }
-
-    .m-schedule-diagram__stop {
-      border: 0;
-      padding-bottom: 0;
-      padding-top: 0;
-    }
-
-    .m-schedule-diagram__toggle {
-      font-weight: bold;
-      padding-left: $base-spacing;
-      padding-right: 0;
-    }
-
-    .m-schedule-diagram__lines--collapsed {
-      padding-bottom: $base-spacing;
-    }
-  }
-
-  // the three-dot icon representing a branch
-  .m-schedule-diagram__collapsed-icon {
-    background-color: inherit;
-    border-radius: $base-spacing;
-    margin: $base-spacing -4px 0;
-    padding: $line-width / 2;
-  }
-
-  [aria-expanded='true'] {
-    // hide icon when branch is expanded
-    .m-schedule-diagram__collapsed-icon {
-      display: none;
-    }
-
-    // adjust text when branch is expanded/closed
-    .m-schedule-diagram__toggle::before {
-      content: 'Hide ';
-    }
-  }
-
-  [aria-expanded='false'] .m-schedule-diagram__toggle::before {
-    content: 'Show ';
-  }
-
-  // Contains the expanded branch list of stops
-  .c-expandable-block__panel {
-    border: 0;
-    padding: 0;
-
-    // thicker line for expanded list
-    .m-schedule-diagram__line:last-child {
-      margin-left: 2px;
-      padding: 0 2px;
-      width: $line-width * 1.5;
-    }
-
-    // rounded corners at top and bottom this thicker line
-    .m-schedule-diagram__stop:first-child .m-schedule-diagram__line:last-child {
-      border-top-left-radius: $base-spacing / 4;
-      border-top-right-radius: $base-spacing / 4;
-    }
-
-    .m-schedule-diagram__stop:last-child .m-schedule-diagram__line:last-child {
-      border-bottom-left-radius: $base-spacing / 4;
-      border-bottom-right-radius: $base-spacing / 4;
-    }
-  }
-
-  // first and last stops on branch
-  .m-schedule-diagram__stop--origin .m-schedule-diagram__lines {
-    margin-top: calc(#{-$base-spacing} - #{$border-width});
-  }
-
-  .m-schedule-diagram__stop--destination .m-schedule-diagram__lines {
-    height: inherit;
-  }
-}
-
-// Adjustments specific to tree branching direction
-.m-schedule-diagram--outward {
-  // Draws the line connecting the branch to the trunk in two places:
-  // 1. Inside the <ExpandableBlock /> header element
-  // 2. At the start of short branches, which are expanded by default
-  .m-schedule-diagram__stop--merging .m-schedule-diagram__lines--collapsed,
-  .m-schedule-diagram__expanded .m-schedule-diagram__stop:first-child .m-schedule-diagram__lines {
-    @include linebend(-$line-width, 'top');
-  }
-
-  // last stop on branch
-  .m-schedule-diagram__line + .m-schedule-diagram__line--terminus {
-    @include circleposition(5px);
-
-    height: $base-spacing * 2;
-  }
-}
-
-.m-schedule-diagram--inward {
-  // Draws the line connecting the branch to the trunk in three places:
-  // 1. Inside the <ExpandableBlock /> header element, when the branch is collapsed
-  // 2. After the last <SingleStop /> on a branch, when that branch is expanded
-  [aria-expanded='false'] .m-schedule-diagram__stop--merging .m-schedule-diagram__lines--collapsed,
-  .m-schedule-diagram__expander--merging .m-schedule-diagram__stop:last-child .m-schedule-diagram__lines {
-    @include linebend(calc(100% - #{$base-spacing}), 'bottom');
-  }
-
-  // 3. At the end of short branches, which are expanded by default
-  .m-schedule-diagram__expanded .m-schedule-diagram__stop:last-child {
-    .m-schedule-diagram__lines {
-      @include linebend(calc(100% - #{$line-width}), 'bottom');
-    }
-
-    .m-schedule-diagram__line:last-child {
-      margin-bottom: $line-width; // avoid overlap with linebend segment
-    }
-  }
-
-  .m-schedule-diagram__expander--merging .m-schedule-diagram__stop:last-child {
-    .m-schedule-diagram__line:not(:first-child) {
-      margin-bottom: $base-spacing; // avoid overlap with linebend segmen
-    }
-
-    // Remove the border-radius where the expanded branch line meets the line bend
-    .m-schedule-diagram__line:last-child {
-      border-bottom-left-radius: initial;
-      border-bottom-right-radius: initial;
-    }
-  }
-
-  // first stop on branch
-  .m-schedule-diagram__line + .m-schedule-diagram__line--terminus {
-    margin-top: $base-spacing * 2;
-  }
-
-  .m-schedule-diagram__lines--merging .m-schedule-diagram__line:not(:first-child) {
-    height: calc(#{$base-spacing * 2} + 10px);
   }
 }
 
