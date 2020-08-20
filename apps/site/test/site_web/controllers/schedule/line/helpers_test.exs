@@ -39,10 +39,62 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   describe "get_branch_route_stops/3" do
     test "returns a list of RouteStops, one for each branch of the line" do
       assert [
-               %RouteStops{branch: nil},
-               %RouteStops{branch: "Alewife - Braintree"},
-               %RouteStops{branch: "Alewife - Ashmont"}
+               %RouteStops{branch: nil, stops: trunk_route_stops},
+               %RouteStops{branch: "Alewife - Braintree", stops: braintree_route_stops},
+               %RouteStops{branch: "Alewife - Ashmont", stops: ashmont_route_stops}
              ] = Helpers.get_branch_route_stops(%Route{id: "Red"}, 0, "931_0009")
+
+      assert Enum.all?(trunk_route_stops, &(&1.branch == nil))
+
+      assert Enum.map(trunk_route_stops, & &1.is_terminus?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false
+               ]
+
+      assert Enum.map(trunk_route_stops, & &1.is_beginning?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false
+               ]
+
+      assert Enum.all?(braintree_route_stops, &(&1.branch == "Alewife - Braintree"))
+
+      assert Enum.map(braintree_route_stops, & &1.is_terminus?) ==
+               [false, false, false, false, true]
+
+      assert Enum.map(braintree_route_stops, & &1.is_beginning?) ==
+               [false, false, false, false, false]
+
+      assert Enum.all?(ashmont_route_stops, &(&1.branch == "Alewife - Ashmont"))
+
+      assert Enum.map(ashmont_route_stops, & &1.is_terminus?) ==
+               [false, false, false, true]
+
+      assert Enum.map(ashmont_route_stops, & &1.is_beginning?) ==
+               [false, false, false, false]
     end
 
     test "handles the combined Green line" do
@@ -52,6 +104,28 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                %Stops.RouteStops{branch: "Green-C", stops: c_stops},
                %Stops.RouteStops{branch: "Green-B", stops: b_stops}
              ] = Helpers.get_branch_route_stops(%Route{id: "Green"}, 0, "123")
+
+      assert Enum.map(e_stops, & &1.branch) ==
+               [
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 "Green-E",
+                 "Green-E",
+                 "Green-E",
+                 "Green-E",
+                 "Green-E",
+                 "Green-E",
+                 "Green-E",
+                 "Green-E",
+                 "Green-E",
+                 "Green-E",
+                 "Green-E"
+               ]
 
       assert_stop_ids(e_stops, [
         "place-north",
@@ -73,6 +147,74 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
         "place-bckhl",
         "place-hsmnl"
       ])
+
+      assert Enum.map(e_stops, & &1.is_terminus?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true
+               ]
+
+      assert Enum.map(e_stops, & &1.is_beginning?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false
+               ]
+
+      assert Enum.map(d_stops, & &1.branch) ==
+               [
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 "Green-D",
+                 "Green-D",
+                 "Green-D",
+                 "Green-D",
+                 "Green-D",
+                 "Green-D",
+                 "Green-D",
+                 "Green-D",
+                 "Green-D",
+                 "Green-D",
+                 "Green-D",
+                 "Green-D",
+                 "Green-D"
+               ]
 
       assert_stop_ids(d_stops, [
         "place-gover",
@@ -96,6 +238,80 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
         "place-woodl",
         "place-river"
       ])
+
+      assert Enum.map(d_stops, & &1.is_terminus?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true
+               ]
+
+      assert Enum.map(d_stops, & &1.is_beginning?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false
+               ]
+
+      assert Enum.map(c_stops, & &1.branch) ==
+               [
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 "Green-C",
+                 "Green-C",
+                 "Green-C",
+                 "Green-C",
+                 "Green-C",
+                 "Green-C",
+                 "Green-C",
+                 "Green-C",
+                 "Green-C",
+                 "Green-C",
+                 "Green-C",
+                 "Green-C",
+                 "Green-C"
+               ]
 
       assert_stop_ids(c_stops, [
         "place-north",
@@ -121,6 +337,86 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
         "place-engav",
         "place-clmnl"
       ])
+
+      assert Enum.map(c_stops, & &1.is_terminus?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true
+               ]
+
+      assert Enum.map(c_stops, & &1.is_beginning?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false
+               ]
+
+      assert Enum.map(b_stops, & &1.branch) ==
+               [
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 nil,
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B",
+                 "Green-B"
+               ]
 
       assert_stop_ids(b_stops, [
         "place-pktrm",
@@ -148,6 +444,62 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
         "place-sougr",
         "place-lake"
       ])
+
+      assert Enum.map(b_stops, & &1.is_terminus?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true
+               ]
+
+      assert Enum.map(b_stops, & &1.is_beginning?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false
+               ]
     end
   end
 
