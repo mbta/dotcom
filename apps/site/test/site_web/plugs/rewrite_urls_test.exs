@@ -19,7 +19,7 @@ defmodule SiteWeb.Plugs.RewriteUrlsTest do
       assert conn.halted
     end
 
-    test "temporarily redirects route 76 to the combined 627 pages, for service adjustments in Fall 200",
+    test "temporarily redirects route 76 to the combined 627 pages, for service adjustments in Fall 2020",
          %{conn: conn} do
       conn = %{conn | path_info: ["schedules", "76", "line"], request_path: "/schedules/76/line"}
       conn = call(conn, [])
