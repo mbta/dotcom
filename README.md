@@ -2,7 +2,8 @@
 
 # Dotcom
 
-The new face of https://www.mbta.com/
+The new face of https://www.mbta.com/. Supported browsers are noted in [the site .browserslistrc](apps/site/assets/.browserslistrc), and can be viewed in more detail [on browsersl.ist](https://browsersl.ist/?q=%3E+0.25%25%2C+safari+%3E%3D+4%2C+ie+%3E%3D+11%2C+last+2+versions).
+
 
 - [Getting Started](#getting-started)
 - [Running the Server](#running-the-server)
