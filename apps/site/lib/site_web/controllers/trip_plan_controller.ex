@@ -8,7 +8,7 @@ defmodule SiteWeb.TripPlanController do
   alias Routes.Route
   alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
-  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail}
+  alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail, Transfer}
 
   plug(:require_google_maps)
   plug(:assign_initial_map)
@@ -43,6 +43,7 @@ defmodule SiteWeb.TripPlanController do
       query
       |> Query.get_itineraries()
       |> with_fares_and_passes()
+      |> with_free_legs_if_from_airport()
 
     route_map = routes_for_query(itineraries)
     route_mapper = &Map.get(route_map, &1)
@@ -285,5 +286,78 @@ defmodule SiteWeb.TripPlanController do
       "Plan a trip on public transit in the Greater Boston region with directions " <>
         "and suggestions based on real-time data."
     )
+  end
+
+  @spec with_free_legs_if_from_airport([Itinerary.t()]) :: [Itinerary.t()]
+  defp with_free_legs_if_from_airport(itineraries) do
+    Enum.map(itineraries, fn itinerary ->
+      # If Logan airport is the origin, all subsequent subway trips from there should be free
+      first_transit_leg = itinerary |> Itinerary.transit_legs() |> List.first()
+
+      if Leg.stop_is_silver_line_airport?([first_transit_leg], :from) do
+        readjust_itinerary_with_free_fares(itinerary)
+      else
+        itinerary
+      end
+    end)
+  end
+
+  @spec readjust_itinerary_with_free_fares(Itinerary.t()) :: Itinerary.t()
+  def readjust_itinerary_with_free_fares(itinerary) do
+    transit_legs =
+      itinerary.legs
+      |> Enum.with_index()
+      |> Enum.filter(fn {leg, _idx} -> Leg.transit?(leg) end)
+
+    # set the subsequent subway legs' highest_fare to nil so they get ignored by the fare calculations afterwards:
+    legs_after_airport = List.delete_at(transit_legs, 0)
+
+    free_subway_legs =
+      if Enum.empty?(legs_after_airport) do
+        []
+      else
+        Enum.chunk_by(
+          legs_after_airport,
+          fn {leg, _idx} ->
+            highest_fare =
+              leg
+              |> Fares.get_fare_by_type(:highest_one_way_fare)
+
+            Transfer.is_subway?(highest_fare.mode)
+          end
+        )
+        |> Enum.at(0)
+      end
+
+    free_subway_indexes =
+      if Enum.empty?(free_subway_legs) do
+        []
+      else
+        free_subway_legs
+        |> Enum.map(fn {_leg, index} ->
+          index
+        end)
+      end
+
+    readjusted_legs =
+      itinerary.legs
+      |> Enum.with_index()
+      |> Enum.map(fn {leg, index} ->
+        if index in free_subway_indexes do
+          %{
+            leg
+            | mode: %{
+                leg.mode
+                | fares: %{
+                    highest_one_way_fare: nil
+                  }
+              }
+          }
+        else
+          leg
+        end
+      end)
+
+    %{itinerary | legs: readjusted_legs}
   end
 end

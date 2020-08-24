@@ -31,6 +31,8 @@ defmodule Fares do
           | :commuter_ferry
           | :ferry_george
 
+  @type fare_type :: :highest_one_way_fare | :lowest_one_way_fare | :reduced_one_way_fare
+
   @doc """
   Calculate the fare between a pair of stops.
 
@@ -195,5 +197,15 @@ defmodule Fares do
       _ ->
         route_or_atom
     end
+  end
+
+  @spec get_fare_by_type(TripPlan.Leg.t(), fare_type) :: Fares.Fare.t()
+  def get_fare_by_type(leg, fare_type) do
+    leg
+    |> Kernel.get_in([
+      Access.key(:mode, %{}),
+      Access.key(:fares, %{}),
+      Access.key(fare_type)
+    ])
   end
 end

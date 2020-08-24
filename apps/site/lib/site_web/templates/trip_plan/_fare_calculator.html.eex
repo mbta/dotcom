@@ -14,11 +14,11 @@
     </div>
     <div role="cell" class="m-trip-plan-farecalc__table-cell">
       <span class="m-trip-plan-farecalc__label">Base: </span>
-      <%= fare_values|>SiteWeb.TripPlanView.get_fare_by_type(:highest_one_way_fare)|> fare_cents()|>Format.price() %>
+      <%= fare_values|>Fares.get_fare_by_type(:highest_one_way_fare)|> fare_cents()|>Format.price() %>
     </div>
     <div role="cell" class="m-trip-plan-farecalc__table-cell">
       <span class="m-trip-plan-farecalc__label">Recommended: </span>
-      <% recommended = fare_values|>SiteWeb.TripPlanView.get_fare_by_type(:lowest_one_way_fare) %>
+      <% recommended = fare_values|>Fares.get_fare_by_type(:lowest_one_way_fare) %>
       <% media = recommended |> SiteWeb.TripPlanView.filter_media() %>
       <%=
         cents = recommended |> fare_cents()
@@ -28,7 +28,7 @@
     <div role="cell" class="m-trip-plan-farecalc__table-cell">
       <span class="m-trip-plan-farecalc__label">Reduced: </span>
       <%=
-        cents = fare_values|> SiteWeb.TripPlanView.get_fare_by_type(:reduced_one_way_fare) |> fare_cents()
+        cents = fare_values|> Fares.get_fare_by_type(:reduced_one_way_fare) |> fare_cents()
         if cents == 0, do: "None", else: Format.price(cents)
       %>
     </div>

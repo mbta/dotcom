@@ -51,6 +51,90 @@ defmodule SiteWeb.TripPlanControllerTest do
     "plan" => %{"from" => "no results", "to" => "too many results", "date_time" => @afternoon}
   }
 
+  @subway_fare %Fare{
+    additional_valid_modes: [:bus],
+    cents: 290,
+    duration: :single_trip,
+    media: [:charlie_ticket, :cash],
+    mode: :subway,
+    name: :subway,
+    price_label: nil,
+    reduced: nil
+  }
+
+  @free_sl_fare %Fare{
+    additional_valid_modes: [],
+    cents: 0,
+    duration: :single_trip,
+    media: [],
+    mode: :bus,
+    name: :free_fare,
+    price_label: nil,
+    reduced: nil
+  }
+
+  @login_sl_plus_subway_itinerary %Itinerary{
+    legs: [
+      %TripPlan.Leg{
+        description: "WALK",
+        mode: %TripPlan.PersonalDetail{
+          distance: 385.75800000000004
+        }
+      },
+      %TripPlan.Leg{
+        description: "BUS",
+        from: %TripPlan.NamedPosition{
+          name: "Terminal A",
+          stop_id: "17091"
+        },
+        mode: %TripPlan.TransitDetail{
+          route_id: "741",
+          fares: %{
+            highest_one_way_fare: @free_sl_fare,
+            lowest_one_way_fare: @free_sl_fare,
+            reduced_one_way_fare: @free_sl_fare
+          }
+        },
+        name: "SL1",
+        to: %TripPlan.NamedPosition{
+          name: "South Station",
+          stop_id: "74617"
+        },
+        type: "1"
+      },
+      %TripPlan.Leg{
+        description: "WALK",
+        mode: %TripPlan.PersonalDetail{
+          distance: 0.0
+        },
+        name: ""
+      },
+      %TripPlan.Leg{
+        description: "SUBWAY",
+        from: %TripPlan.NamedPosition{
+          name: "South Station",
+          stop_id: "70080"
+        },
+        mode: %TripPlan.TransitDetail{
+          route_id: "Red",
+          fares: %{
+            highest_one_way_fare: @subway_fare,
+            lowest_one_way_fare: @subway_fare,
+            reduced_one_way_fare: @subway_fare
+          }
+        },
+        name: "Red Line",
+        to: %TripPlan.NamedPosition{
+          name: "Downtown Crossing",
+          stop_id: "70078"
+        },
+        type: "1"
+      }
+    ],
+    start: DateTime.from_unix!(0),
+    stop: DateTime.from_unix!(0)
+  }
+
   setup do
     conn = default_conn() |> put_req_cookie("tp_redesign", "true")
 
@@ -625,6 +709,52 @@ defmodule SiteWeb.TripPlanControllerTest do
 
       rfq = TripPlanController.routes_for_query(itineraries)
       assert Enum.all?(rfq, fn {_route_id, route} -> route.custom_route? end)
+    end
+
+    test "identifies subsequent subway legs as free when trip is from the airport" do
+      it = TripPlanController.readjust_itinerary_with_free_fares(@login_sl_plus_subway_itinerary)
+
+      fares = SiteWeb.TripPlanView.get_calculated_fares(it)
+
+      assert fares == %{
+               free_service: %{
+                 mode: %{
+                   fares: %{
+                     highest_one_way_fare: @free_sl_fare,
+                     lowest_one_way_fare: @free_sl_fare,
+                     reduced_one_way_fare: @free_sl_fare
+                   },
+                   mode: :bus,
+                   mode_name: "Bus",
+                   name: "Free Service"
+                 }
+               }
+             }
+    end
+
+    test "does not modify itinerary since trip is not from the airport" do
+      # reuse @login_sl_plus_subway_itinerary except the SL leg:
+      subway_legs = List.delete_at(@login_sl_plus_subway_itinerary.legs, 1)
+      subway_itinerary = %Itinerary{@login_sl_plus_subway_itinerary | legs: subway_legs}
+
+      it = TripPlanController.readjust_itinerary_with_free_fares(subway_itinerary)
+
+      fares = SiteWeb.TripPlanView.get_calculated_fares(it)
+
+      assert fares == %{
+               subway: %{
+                 mode: %{
+                   fares: %{
+                     highest_one_way_fare: @subway_fare,
+                     lowest_one_way_fare: @subway_fare,
+                     reduced_one_way_fare: @subway_fare
+                   },
+                   mode: :subway,
+                   mode_name: "Subway",
+                   name: "Subway"
+                 }
+               }
+             }
     end
   end
 end
