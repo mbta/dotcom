@@ -14,8 +14,6 @@ defmodule SiteWeb.TripPlanView do
 
   @meters_per_mile 1609.34
 
-  @type fare_type :: :highest_one_way_fare | :lowest_one_way_fare | :reduced_one_way_fare
-
   @type fare_calculation :: %{
           mode: Route.gtfs_route_type(),
           # e.g. :commuter_rail
@@ -658,18 +656,18 @@ defmodule SiteWeb.TripPlanView do
     )
   end
 
-  @spec get_one_way_total_by_type(TripPlan.Itinerary.t(), fare_type) :: non_neg_integer
+  @spec get_one_way_total_by_type(TripPlan.Itinerary.t(), Fares.fare_type()) :: non_neg_integer
   def get_one_way_total_by_type(itinerary, fare_type) do
     transit_legs =
       itinerary.legs
       |> Stream.filter(&Leg.transit?/1)
-      |> Stream.filter(fn leg -> get_fare_by_type(leg, fare_type) != nil end)
+      |> Stream.filter(fn leg -> Fares.get_fare_by_type(leg, fare_type) != nil end)
 
     transit_legs
     |> Stream.with_index()
     |> Enum.reduce(0, fn {leg, leg_index}, acc ->
       if leg_index < 1 do
-        acc + (leg |> get_fare_by_type(fare_type) |> fare_cents())
+        acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
       else
         # Look at this transit leg and previous transit leg
         legs = transit_legs |> Enum.slice(leg_index - 1, 2)
@@ -678,7 +676,7 @@ defmodule SiteWeb.TripPlanView do
         if Transfer.is_subway_transfer?(legs) do
           acc
         else
-          acc + (leg |> get_fare_by_type(fare_type) |> fare_cents())
+          acc + (leg |> Fares.get_fare_by_type(fare_type) |> fare_cents())
         end
       end
     end)
@@ -704,23 +702,28 @@ defmodule SiteWeb.TripPlanView do
     itinerary.legs
     |> Enum.filter(fn leg -> Leg.transit?(leg) end)
     |> Enum.filter(fn leg ->
-      get_fare_by_type(leg, :highest_one_way_fare) != nil
+      Fares.get_fare_by_type(leg, :highest_one_way_fare) != nil
     end)
     |> Enum.reduce(%{}, fn leg, acc ->
       highest_fare =
         leg
-        |> get_fare_by_type(:highest_one_way_fare)
+        |> Fares.get_fare_by_type(:highest_one_way_fare)
 
       mode =
         highest_fare
         |> Kernel.get_in([Access.key(:mode)])
 
       mode_key =
-        if is_tuple(highest_fare.name) do
-          mode_detail = Enum.join(Tuple.to_list(highest_fare.name))
-          String.to_atom(Atom.to_string(mode) <> "_" <> mode_detail)
-        else
-          mode
+        cond do
+          is_tuple(highest_fare.name) ->
+            mode_detail = Enum.join(Tuple.to_list(highest_fare.name))
+            String.to_atom(Atom.to_string(mode) <> "_" <> mode_detail)
+
+          Leg.stop_is_silver_line_airport?([leg], :from) and highest_fare.name == :free_fare ->
+            :free_service
+
+          true ->
+            mode
         end
 
       if Map.has_key?(acc, mode_key) do
@@ -740,25 +743,15 @@ defmodule SiteWeb.TripPlanView do
               highest_one_way_fare: highest_fare,
               lowest_one_way_fare:
                 leg
-                |> get_fare_by_type(:lowest_one_way_fare),
+                |> Fares.get_fare_by_type(:lowest_one_way_fare),
               reduced_one_way_fare:
                 leg
-                |> get_fare_by_type(:reduced_one_way_fare)
+                |> Fares.get_fare_by_type(:reduced_one_way_fare)
             }
           }
         })
       end
     end)
-  end
-
-  @spec get_fare_by_type(TripPlan.Leg.t(), fare_type) :: Fares.Fare.t()
-  def get_fare_by_type(leg, fare_type) do
-    leg
-    |> Kernel.get_in([
-      Access.key(:mode, %{}),
-      Access.key(:fares, %{}),
-      Access.key(fare_type)
-    ])
   end
 
   @spec filter_media(Fare.t()) :: [Fare.media()] | Fare.media()
@@ -800,27 +793,12 @@ defmodule SiteWeb.TripPlanView do
   defp sl_only_trip_from_airport?(itinerary) do
     itinerary
     |> Itinerary.transit_legs()
-    |> stop_is_silver_line_airport?(:from)
+    |> Leg.stop_is_silver_line_airport?(:from)
   end
-
-  @spec stop_is_silver_line_airport?([Leg.t()], atom) :: boolean()
-  defp stop_is_silver_line_airport?([], _), do: false
-
-  defp stop_is_silver_line_airport?([leg], key) do
-    route_id = leg.mode.route_id
-
-    stop_id =
-      leg
-      |> Kernel.get_in([Access.key(key), Access.key(:stop_id)])
-
-    Fares.silver_line_airport_stop?(route_id, stop_id)
-  end
-
-  defp stop_is_silver_line_airport?(_, _), do: false
 
   @spec leg_is_from_or_to_airport?(Leg.t()) :: boolean()
   defp leg_is_from_or_to_airport?(leg) do
-    stop_is_silver_line_airport?([leg], :from) or stop_is_silver_line_airport?([leg], :to)
+    Leg.stop_is_silver_line_airport?([leg], :from) or Leg.stop_is_silver_line_airport?([leg], :to)
   end
 
   @spec itinerary_is_from_or_to_airport?(Itinerary.t()) :: boolean()

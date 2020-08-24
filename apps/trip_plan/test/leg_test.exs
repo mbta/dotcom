@@ -77,4 +77,40 @@ defmodule TripPlan.LegTest do
       refute same_leg?(leg, different_leg)
     end
   end
+
+  describe "stop_is_silver_line_airport?/2" do
+    test "stop is not the Silver Line" do
+      leg = MockPlanner.transit_leg(@from, @to, @start, @stop)
+      assert stop_is_silver_line_airport?([leg], :from) == false
+    end
+
+    test "stop is the Silver Line" do
+      leg = %TripPlan.Leg{
+        description: "BUS",
+        from: %TripPlan.NamedPosition{
+          latitude: 42.364612,
+          longitude: -71.020862,
+          name: "Terminal A",
+          stop_id: "17091"
+        },
+        mode: %TripPlan.TransitDetail{
+          route_id: "741",
+          trip_id: "44780822"
+        },
+        name: "SL1",
+        to: %TripPlan.NamedPosition{
+          latitude: 42.352271,
+          longitude: -71.055242,
+          name: "South Station",
+          stop_id: "74617"
+        }
+      }
+
+      assert stop_is_silver_line_airport?([leg], :from) == true
+    end
+
+    test "returns false when checking for Silver Line" do
+      assert stop_is_silver_line_airport?([], :from) == false
+    end
+  end
 end

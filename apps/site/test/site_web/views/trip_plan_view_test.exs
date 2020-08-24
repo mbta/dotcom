@@ -1130,18 +1130,6 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       assert get_calculated_fares(itinerary) == expected_fares
     end
 
-    test "gets fare by type" do
-      non_transit_leg = @itinerary.legs |> List.first()
-      assert get_fare_by_type(non_transit_leg, :highest_one_way_fare) == nil
-      assert get_fare_by_type(non_transit_leg, :lowest_one_way_fare) == nil
-      assert get_fare_by_type(non_transit_leg, :reduced_one_way_fare) == nil
-
-      transit_leg = @itinerary.legs |> List.last()
-      assert get_fare_by_type(transit_leg, :highest_one_way_fare) == @highest_one_way_fare
-      assert get_fare_by_type(transit_leg, :lowest_one_way_fare) == @lowest_one_way_fare
-      assert get_fare_by_type(transit_leg, :reduced_one_way_fare) == @reduced_one_way_fare
-    end
-
     test "removes cash from payment options for Commuter Rail" do
       cr_fare = %Fare{
         media: [:commuter_ticket, :cash, :mticket],
