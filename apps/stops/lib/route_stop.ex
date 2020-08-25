@@ -71,7 +71,7 @@ defmodule Stops.RouteStop do
   def list_from_route_patterns([], _route, _direction_id), do: []
 
   def list_from_route_patterns([route_pattern_with_stops], route, _direction_id) do
-    # If there is only one route pattern, we know that we won't need to deal with merging branches so we just return whatever the list of stops is without calling &breanch_branch_list/2.
+    # If there is only one route pattern, we know that we won't need to deal with merging branches so we just return whatever the list of stops is without calling &merge_branch_list/2.
     do_list_from_route_pattern(route_pattern_with_stops, route)
   end
 
