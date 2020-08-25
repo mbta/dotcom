@@ -1,5 +1,5 @@
 import { CrowdingType } from "./schedule/components/__schedule";
-import { TripPrediction as TripsPrediction } from "./schedule/components/__trips";
+import { TripPrediction } from "./schedule/components/__trips";
 
 export interface Direction {
   direction_id: DirectionId;
@@ -34,7 +34,7 @@ export interface PredictedOrScheduledTimeWithCrowding {
 
 export interface PredictedSchedule {
   schedule: Schedule;
-  prediction: TripsPrediction;
+  prediction: TripPrediction;
 }
 
 export type Mode = "commuter_rail" | "subway" | "bus" | "ferry";
