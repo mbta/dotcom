@@ -16,7 +16,7 @@ const CrowdingPill = ({
     >
       {crowdingIcon(`c-icon__crowding--${crowding}`)}
       <span className="c-crowding-pill__label">
-        {crowdingDescriptions[crowding]}
+        {crowdingDescriptions(crowding)}
       </span>
     </div>
   );

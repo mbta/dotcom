@@ -1,13 +1,16 @@
 import React from "react";
 import { renderToString } from "react-dom/server";
 import { useSelector } from "react-redux";
-import { CrowdingType, RouteStop, LineDiagramVehicle } from "../__schedule";
+import { RouteStop, LineDiagramVehicle } from "../__schedule";
 import CrowdingPill from "./CrowdingPill";
 import { TooltipWrapper, vehicleArrowIcon } from "../../../helpers/icon";
 import { StopCoord, CoordState } from "./state-helpers";
 import { BRANCH_LINE_WIDTH, CIRC_RADIUS } from "./graphics/graphic-helpers";
 import { RouteType } from "../../../__v3api";
-import { statusDescriptions, vehicleTypeNames } from "../../../models/vehicle";
+import {
+  vehicleRealtimeStatusText,
+  vehicleName
+} from "../../../models/vehicle";
 
 interface VehicleIconsProps {
   stop: RouteStop;
@@ -21,25 +24,25 @@ const tooltipText = (
 ): string => {
   const status =
     stopName && stopName.length
-      ? `${statusDescriptions[vehicle.status]} ${stopName}`
+      ? `${vehicleRealtimeStatusText(vehicle)} ${stopName}`
       : "";
 
   if (routeType !== null) {
-    let vehicleName = vehicleTypeNames[routeType];
-    if (routeType === 2) vehicleName = `${vehicleName} ${vehicle.trip_name}`;
+    let baseText = vehicleName(routeType);
+    if (routeType === 2) baseText += ` ${vehicle.trip_name}`;
 
     if (vehicle.headsign) {
-      return `${vehicle.headsign} ${vehicleName.toLowerCase()} ${status}`;
+      return `${vehicle.headsign} ${baseText.toLowerCase()} ${status}`;
     }
 
-    return `${vehicleName} ${status}`;
+    return `${baseText} ${status}`;
   }
 
   return `Vehicle ${status}`;
 };
 
-const CrowdingIconString = (crowding: CrowdingType): string =>
-  renderToString(<CrowdingPill crowding={crowding} />);
+const CrowdingIconString = (vehicle: LineDiagramVehicle): string =>
+  renderToString(<CrowdingPill crowding={vehicle.crowding} />);
 
 const VehicleIcons = ({
   stop,
@@ -68,9 +71,7 @@ const VehicleIcons = ({
       >
         <TooltipWrapper
           tooltipText={`<div class="m-schedule-diagram__vehicle-tooltip">${
-            vehicle.crowding
-              ? `${CrowdingIconString(vehicle.crowding)}<br/>`
-              : ""
+            vehicle.crowding ? `${CrowdingIconString(vehicle)}<br/>` : ""
           }${tooltipText(routeType, stop.name, vehicle)}</div>`}
           tooltipOptions={{ placement: "right", animation: false, html: true }}
         >

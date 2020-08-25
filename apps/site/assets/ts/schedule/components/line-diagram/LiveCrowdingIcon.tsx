@@ -11,9 +11,9 @@ const LiveCrowdingIcon = ({ crowding }: LiveCrowdingIconProps): JSX.Element => (
   <div className="m-schedule-diagram__prediction-crowding m-schedule-table-crowding">
     {crowding ? (
       <TooltipWrapper
-        tooltipText={`Currently <strong>${crowdingDescriptions[
+        tooltipText={`Currently <strong>${crowdingDescriptions(
           crowding
-        ].toLowerCase()}</strong>`}
+        ).toLowerCase()}</strong>`}
         tooltipOptions={{
           placement: "left",
           animation: false,
