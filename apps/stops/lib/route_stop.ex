@@ -82,7 +82,7 @@ defmodule Stops.RouteStop do
   end
 
   @spec do_list_from_route_pattern({RoutePattern.t(), [Stop.t()]}, Route.t()) :: [t()]
-  def do_list_from_route_pattern({route_pattern, stops}, route) do
+  defp do_list_from_route_pattern({route_pattern, stops}, route) do
     if String.starts_with?(route.id, "Green") and !String.starts_with?(route_pattern.id, "Green") do
       # Hide the Lechemere shuttle for the moment
       []
