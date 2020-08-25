@@ -7,9 +7,6 @@ import {
 } from "../__schedule";
 import { Mode as ModalMode } from "../schedule-finder/ScheduleFinderModal";
 
-export type LineDiagramStopOrStops = LineDiagramStop | LineDiagramStop[];
-export type LineDiagramStopOrStopsList = LineDiagramStopOrStops[];
-
 export interface CommonLineDiagramProps {
   stops: LineDiagramStop[];
   handleStopClick: (stop: RouteStop) => void;
