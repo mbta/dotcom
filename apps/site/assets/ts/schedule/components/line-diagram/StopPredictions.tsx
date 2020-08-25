@@ -1,11 +1,11 @@
 import React from "react";
+import { capitalize } from "lodash";
 import { HeadsignWithCrowding } from "../../../__v3api";
 import {
   timeForCommuterRail,
   statusForCommuterRail
 } from "../../../helpers/prediction-helpers";
 import { isSkippedOrCancelled } from "../../../models/prediction";
-import { capitalize } from "../../../helpers/text";
 import LiveCrowdingIcon from "./LiveCrowdingIcon";
 
 interface StopPredictions {

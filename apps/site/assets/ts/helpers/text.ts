@@ -5,6 +5,3 @@
 // eslint-disable-next-line import/prefer-default-export
 export const breakTextAtSlash = (str: string): string =>
   str.replace(/\//g, "/​");
-
-export const capitalize = (string: string): string =>
-  string[0].toUpperCase() + string.slice(1);
