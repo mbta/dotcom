@@ -43,9 +43,9 @@ defmodule Fares do
     with origin_zone when not is_nil(origin_zone) <- Repo.get(origin),
          dest_zone when not is_nil(dest_zone) <- Repo.get(destination) do
       if foxboro_pilot?(trip_details) do
-        {:ok, calculate_foxboro_zones(Repo.get(origin), Repo.get(destination))}
+        {:ok, calculate_foxboro_zones(origin_zone, dest_zone)}
       else
-        {:ok, calculate_commuter_rail(Repo.get(origin), Repo.get(destination))}
+        {:ok, calculate_commuter_rail(origin_zone, dest_zone)}
       end
     else
       _ -> :error
