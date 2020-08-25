@@ -15,25 +15,25 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
             4 stops going Outbound to Begin
           </desc>
           <Line from={{...}} to={{...}}>
-            <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"8px\\" x1=\\"9px\\" x2=\\"9px\\" y1=\\"0px\\" y2=\\"0px\\" />
+            <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"8px\\" x1=\\"9px\\" x2=\\"9px\\" y1=\\"30px\\" y2=\\"50px\\" />
           </Line>
           <Line from={{...}} to={{...}}>
-            <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"8px\\" x1=\\"9px\\" x2=\\"9px\\" y1=\\"0px\\" y2=\\"0px\\" />
+            <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"8px\\" x1=\\"9px\\" x2=\\"9px\\" y1=\\"50px\\" y2=\\"70px\\" />
           </Line>
           <Line from={{...}} to={{...}}>
-            <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"8px\\" x1=\\"9px\\" x2=\\"9px\\" y1=\\"0px\\" y2=\\"0px\\" />
+            <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"8px\\" x1=\\"9px\\" x2=\\"9px\\" y1=\\"70px\\" y2=\\"90px\\" />
           </Line>
           <Stop stop={{...}}>
-            <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"9px\\" cy=\\"0px\\" />
+            <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"30px\\" />
           </Stop>
           <Stop stop={{...}}>
-            <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"9px\\" cy=\\"0px\\" />
+            <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"50px\\" />
           </Stop>
           <Stop stop={{...}}>
-            <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"9px\\" cy=\\"0px\\" />
+            <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"70px\\" />
           </Stop>
           <Stop stop={{...}}>
-            <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"9px\\" cy=\\"0px\\" />
+            <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"10px\\" cy=\\"90px\\" />
           </Stop>
         </svg>
       </Diagram>

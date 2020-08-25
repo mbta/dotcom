@@ -37,18 +37,44 @@ describe("useStopPositions", () => {
     });
     const updateFn = result.current[1];
 
+    // useDispatch() fired for every stop on initialization
+    expect(mockDispatchFn).toHaveBeenCalledTimes(lineDiagram.length);
+
     act(() => {
       updateFn();
     });
 
-    // useDispatch() fires for every stop
-    expect(mockDispatchFn).toHaveBeenCalledTimes(lineDiagram.length);
+    // useDispatch() fired for every stop when invoked manually
+    expect(mockDispatchFn).toHaveBeenCalledTimes(lineDiagram.length * 2);
+
     expect(mockDispatchFn).toHaveBeenCalledWith({
       type: "set",
       stop: lineDiagram[0].route_stop.id,
       coords: null
     });
 
+    useDispatchSpy.mockClear();
+  });
+
+  it("can update the values on window resize", () => {
+    const useDispatchSpy = jest.spyOn(redux, "useDispatch");
+    const mockDispatchFn = jest.fn();
+    useDispatchSpy.mockReturnValue(mockDispatchFn);
+    const { result } = renderHook(() => useStopPositions(lineDiagram), {
+      wrapper
+    });
+    const updateFn = result.current[1];
+
+    // useDispatch() fired for every stop on initialization
+    expect(mockDispatchFn).toHaveBeenCalledTimes(lineDiagram.length);
+
+    act(() => {
+      // Trigger the window resize event.
+      window.dispatchEvent(new Event('resize'));
+    });
+
+    // useDispatch() fired for every stop when invoked manually
+    expect(mockDispatchFn).toHaveBeenCalledTimes(lineDiagram.length * 2);
     useDispatchSpy.mockClear();
   });
 

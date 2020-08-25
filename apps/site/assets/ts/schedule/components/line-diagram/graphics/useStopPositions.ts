@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { useRef } from "react";
+import { useRef, useEffect, useCallback } from "react";
 import { LineDiagramStop } from "../../__schedule";
 import { isMergeStop } from "../line-diagram-helpers";
 import { BASE_LINE_WIDTH, BRANCH_SPACING } from "./graphic-helpers";
@@ -32,22 +32,35 @@ export default function useStopPositions(
 ): [RefList, () => void] {
   const stopRefsMap: RefList = stops.reduce(useStopRef, {});
   const dispatchStopCoords = useDispatch();
-  const updateAllStops = (): void => {
-    Object.entries(stopRefsMap).forEach(([stopId, ref]) => {
-      const x = xCoordForStop(stops.find(stopById(stopId))!);
-      let coordinates = null;
-      if (ref && ref.current) {
-        const { offsetTop, offsetHeight } = ref.current;
-        const y = offsetTop + offsetHeight / 2;
-        coordinates = [x, y];
-      }
-      dispatchStopCoords({
-        type: "set",
-        stop: stopId,
-        coords: coordinates
+  const updateAllStops = useCallback(
+    (): void => {
+      Object.entries(stopRefsMap).forEach(([stopId, ref]) => {
+        const x = xCoordForStop(stops.find(stopById(stopId))!);
+        let coordinates = null;
+        if (ref && ref.current) {
+          const { offsetTop, offsetHeight } = ref.current;
+          const y = offsetTop + offsetHeight / 2;
+          coordinates = [x, y];
+        }
+        dispatchStopCoords({
+          type: "set",
+          stop: stopId,
+          coords: coordinates
+        });
       });
-    });
-  };
+    },
+    [dispatchStopCoords, stopRefsMap, stops]
+  );
+
+  useEffect(
+    () => {
+      window.addEventListener("resize", updateAllStops);
+      return () => window.removeEventListener("resize", updateAllStops);
+    },
+    [updateAllStops]
+  );
+
+  updateAllStops();
 
   return [stopRefsMap, updateAllStops];
 }

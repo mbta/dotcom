@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect } from "react";
+import React, { ReactElement } from "react";
 import { hasBranchLines } from "./line-diagram-helpers";
 import Diagram from "./graphics/Diagram";
 import StopListWithBranches from "./StopListWithBranches";
@@ -18,15 +18,6 @@ const LineDiagramWithStops = (
 
   // create a ref for each stop - we will use this to track the location of the stop so we can place the line diagram bubbles
   const [stopRefsMap, updateAllStopCoords] = useStopPositions(stops);
-
-  useEffect(
-    () => {
-      window.addEventListener("resize", updateAllStopCoords);
-      updateAllStopCoords();
-      return () => window.removeEventListener("resize", updateAllStopCoords);
-    },
-    [updateAllStopCoords]
-  );
 
   return (
     <StopRefContext.Provider value={[stopRefsMap, updateAllStopCoords]}>
