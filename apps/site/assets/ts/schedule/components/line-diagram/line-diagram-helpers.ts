@@ -58,7 +58,7 @@ export const getTreeDirection = (
 };
 
 // eslint-disable-next-line @typescript-eslint/camelcase
-export const stopOnMainLine = ({ stop_data }: LineDiagramStop): boolean =>
+export const isStopOnMainLine = ({ stop_data }: LineDiagramStop): boolean =>
   // eslint-disable-next-line @typescript-eslint/camelcase
   stop_data[0].type === "stop";
 

@@ -1,6 +1,6 @@
 import React, { MutableRefObject } from "react";
 import * as redux from "react-redux";
-import { createLineDiagramCoordStore } from "../state-helpers";
+import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
 import { act, renderHook } from "@testing-library/react-hooks";
 import useStopPositions from "../graphics/useStopPositions";
 import simpleLineDiagram from "./lineDiagramData/simple.json";

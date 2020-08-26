@@ -1,13 +1,14 @@
 import React, { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { LineDiagramStop } from "../../__schedule";
-import { StopCoord, CoordState } from "../state-helpers";
 import {
   areOnDifferentBranchLines,
   isMergeStop,
   isBranchTerminusStop
 } from "../line-diagram-helpers";
 import {
+  StopCoord,
+  CoordState,
   BRANCH_LINE_WIDTH,
   BASE_LINE_WIDTH,
   BRANCH_SPACING

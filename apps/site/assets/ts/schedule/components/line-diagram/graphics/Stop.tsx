@@ -1,8 +1,7 @@
 import React, { ReactElement } from "react";
 import { useSelector } from "react-redux";
 import { LineDiagramStop } from "../../__schedule";
-import { StopCoord, CoordState } from "../state-helpers";
-import { CIRC_RADIUS } from "./graphic-helpers";
+import { StopCoord, CoordState, CIRC_RADIUS } from "./graphic-helpers";
 
 const Stop = ({
   stop

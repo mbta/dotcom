@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 import { RouteStop, LineDiagramVehicle } from "../__schedule";
 import CrowdingPill from "./CrowdingPill";
 import { TooltipWrapper, vehicleArrowIcon } from "../../../helpers/icon";
-import { StopCoord, CoordState } from "./state-helpers";
-import { CIRC_RADIUS } from "./graphics/graphic-helpers";
+import { StopCoord, CoordState, CIRC_RADIUS } from "./graphics/graphic-helpers";
 import { RouteType } from "../../../__v3api";
 import {
   vehicleRealtimeStatusText,

@@ -8,7 +8,7 @@ import {
   RouteStopRoute
 } from "../../__schedule";
 import VehicleIcons from "../VehicleIcons";
-import { createLineDiagramCoordStore } from "../state-helpers";
+import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
 
 // mock the redux state
 jest.spyOn(redux, "useSelector").mockImplementation(selector =>

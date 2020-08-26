@@ -7,10 +7,14 @@ import {
   isBranchTerminusStop,
   isMergeStop,
   lineDiagramIndexes,
-  stopOnMainLine
+  isStopOnMainLine
 } from "../line-diagram-helpers";
-import { CoordState, StopCoord } from "../state-helpers";
-import { BASE_LINE_WIDTH, MERGE_RADIUS } from "./graphic-helpers";
+import {
+  CoordState,
+  StopCoord,
+  BASE_LINE_WIDTH,
+  MERGE_RADIUS
+} from "./graphic-helpers";
 import Line from "./Line";
 
 interface MergeGraphicsProps {
@@ -24,10 +28,10 @@ const Merges = ({ lineDiagram }: MergeGraphicsProps): ReactElement | null => {
     let to: LineDiagramStop;
     if (branchingOutward) {
       from = lineDiagram[i];
-      [to] = lineDiagram.slice(i).filter(stopOnMainLine);
+      [to] = lineDiagram.slice(i).filter(isStopOnMainLine);
     } else {
       to = lineDiagram[i];
-      from = last(lineDiagram.slice(0, i - 1).filter(stopOnMainLine))!;
+      from = last(lineDiagram.slice(0, i - 1).filter(isStopOnMainLine))!;
     }
 
     return [from, to];

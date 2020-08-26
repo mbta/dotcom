@@ -6,7 +6,7 @@ import { RouteType } from "../../../../__v3api";
 import { LineDiagramStop } from "../../__schedule";
 import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
 import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
-import { createLineDiagramCoordStore } from "../state-helpers";
+import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
 import StopCard from "../StopCard";
 
 const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];

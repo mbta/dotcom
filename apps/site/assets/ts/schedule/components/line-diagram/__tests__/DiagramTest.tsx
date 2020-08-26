@@ -8,7 +8,7 @@ import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full lin
 import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
 import simpleLiveData from "./lineDiagramData/live-data.json";
 import LineDiagramWithStops from "../LineDiagramWithStops";
-import { createLineDiagramCoordStore } from "../state-helpers";
+import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
 import Diagram from "../graphics/Diagram";
 
 const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
