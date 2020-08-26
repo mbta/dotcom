@@ -26,7 +26,6 @@ exports[`StopCard renders and matches snapshot 1`] = `
         <div className=\\"m-schedule-diagram__stop-details\\">
           <div className=\\"m-schedule-diagram__connections\\" />
           <div className=\\"m-schedule-diagram__alert\\">
-            <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
             Detour
           </div>
         </div>
