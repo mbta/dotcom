@@ -20,31 +20,37 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
     <LineDiagramWithStops stops={{...}} handleStopClick={[Function]} liveData={{...}}>
       <div className=\\"m-schedule-diagram\\">
         <Diagram lineDiagram={{...}} liveData={{...}}>
-          <VehicleIcons stop={{...}} vehicles={{...}}>
-            <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
-              <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\" tooltipOptions={{...}}>
-                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\">
-                  <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                </span>
-              </Component>
-            </div>
-            <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
-              <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\" tooltipOptions={{...}}>
-                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\">
-                  <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                </span>
-              </Component>
-            </div>
-          </VehicleIcons>
-          <VehicleIcons stop={{...}} vehicles={{...}}>
-            <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
-              <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\" tooltipOptions={{...}}>
-                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\">
-                  <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                </span>
-              </Component>
-            </div>
-          </VehicleIcons>
+          <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+          <LiveVehicleIconSet stop={{...}} liveData={{...}}>
+            <VehicleIcons stop={{...}} vehicles={{...}}>
+              <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
+                <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\" tooltipOptions={{...}}>
+                  <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\">
+                    <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                  </span>
+                </Component>
+              </div>
+              <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
+                <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\" tooltipOptions={{...}}>
+                  <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\">
+                    <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                  </span>
+                </Component>
+              </div>
+            </VehicleIcons>
+          </LiveVehicleIconSet>
+          <LiveVehicleIconSet stop={{...}} liveData={{...}}>
+            <VehicleIcons stop={{...}} vehicles={{...}}>
+              <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
+                <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\" tooltipOptions={{...}}>
+                  <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\">
+                    <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                  </span>
+                </Component>
+              </div>
+            </VehicleIcons>
+          </LiveVehicleIconSet>
+          <LiveVehicleIconSet stop={{...}} liveData={{...}} />
           <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"28px\\" height=\\"100%\\">
             <title id=\\"diagram-title\\">
               Line diagram for

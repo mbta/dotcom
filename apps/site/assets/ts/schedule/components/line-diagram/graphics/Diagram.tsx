@@ -51,6 +51,30 @@ const diagramDescription = (
   return text;
 };
 
+interface VehicleIconSetProps {
+  stop: LineDiagramStop;
+  liveData: LiveDataByStop | null;
+}
+
+const LiveVehicleIconSet = ({
+  stop,
+  liveData
+}: VehicleIconSetProps): ReactElement<HTMLElement> | null => {
+  const stopId = stop.route_stop.id;
+  if (!liveData || !liveData[stopId]) return null;
+  // Hide vehicles arriving to the origin from 'off the line'
+  const vehicleData = stop.route_stop["is_beginning?"]
+    ? liveData[stopId].vehicles.filter(vehicle => vehicle.status === "stopped")
+    : liveData[stopId].vehicles;
+  return (
+    <VehicleIcons
+      key={`${stopId}-vehicles`}
+      stop={stop.route_stop}
+      vehicles={vehicleData}
+    />
+  );
+};
+
 const Diagram = (props: DiagramProps): ReactElement<HTMLElement> | null => {
   const { lineDiagram, liveData } = props;
   const { selectedDirection } = getCurrentState();
@@ -58,31 +82,15 @@ const Diagram = (props: DiagramProps): ReactElement<HTMLElement> | null => {
     max(lineDiagram.map(ld => ld.stop_data.length)) || 1
   );
 
-  const vehicleIcons = liveData
-    ? // eslint-disable-next-line @typescript-eslint/camelcase
-      lineDiagram.map(({ route_stop: stop }, index) => {
-        if (!liveData[stop.id]) return null;
-        // Hide vehicles arriving to the origin from 'off the line'
-        const vehicleData =
-          index === 0
-            ? liveData[stop.id].vehicles.filter(
-                vehicle => vehicle.status === "stopped"
-              )
-            : liveData[stop.id].vehicles;
-
-        return (
-          <VehicleIcons
-            key={`${stop.id}-vehicles`}
-            stop={stop}
-            vehicles={vehicleData}
-          />
-        );
-      })
-    : null;
-
   return (
     <>
-      {vehicleIcons}
+      {lineDiagram.map(stop => (
+        <LiveVehicleIconSet
+          key={stop.route_stop.id}
+          stop={stop}
+          liveData={liveData}
+        />
+      ))}
       <svg
         xmlns="http://www.w3.org/2000/svg"
         role="img"

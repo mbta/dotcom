@@ -3,6 +3,10 @@
 exports[`Diagram for simple lines renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
   <Diagram lineDiagram={{...}} liveData={{...}}>
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
     <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"28px\\" height=\\"100%\\">
       <title id=\\"diagram-title\\">
         Line diagram for
@@ -41,6 +45,19 @@ exports[`Diagram for simple lines renders and matches snapshot 1`] = `
 exports[`Diagram with branches going inward renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
   <Diagram lineDiagram={{...}} liveData={{...}}>
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
     <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg commuter-rail\\" width=\\"60px\\" height=\\"100%\\">
       <title id=\\"diagram-title\\">
         Line diagram for
@@ -149,6 +166,19 @@ exports[`Diagram with branches going inward renders and matches snapshot 1`] = `
 exports[`Diagram with branches going outward renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
   <Diagram lineDiagram={{...}} liveData={{...}}>
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+    <LiveVehicleIconSet stop={{...}} liveData={{...}} />
     <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"60px\\" height=\\"100%\\">
       <title id=\\"diagram-title\\">
         Line diagram for

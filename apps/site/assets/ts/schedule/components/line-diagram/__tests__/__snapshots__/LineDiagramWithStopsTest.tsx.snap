@@ -5,6 +5,10 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
   <LineDiagramWithStops stops={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
     <div className=\\"m-schedule-diagram\\">
       <Diagram lineDiagram={{...}} liveData={{...}}>
+        <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet stop={{...}} liveData={{...}} />
         <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"28px\\" height=\\"100%\\">
           <title id=\\"diagram-title\\">
             Line diagram for
