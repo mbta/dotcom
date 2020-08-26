@@ -1,7 +1,7 @@
 import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import { cloneDeep, merge } from "lodash";
-import LineDiagram from "../LineDiagram";
+import LineDiagramAndStopListPage from "../LineDiagram";
 import { EnhancedRoute, RouteType } from "../../../../__v3api";
 import {
   LineDiagramStop,
@@ -72,7 +72,7 @@ describe("LineDiagram", () => {
   let wrapper: ReactWrapper;
   beforeEach(() => {
     wrapper = mount(
-      <LineDiagram
+      <LineDiagramAndStopListPage
         lineDiagram={lineDiagram}
         route={route as EnhancedRoute}
         directionId={directionId}
@@ -174,7 +174,7 @@ it.each`
   "LineDiagram names stops or stations for route type $type",
   ({ type, name }) => {
     const wrapper = mount(
-      <LineDiagram
+      <LineDiagramAndStopListPage
         lineDiagram={lineDiagram}
         route={
           {

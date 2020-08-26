@@ -47,23 +47,7 @@ const directionIdToNumber = (direction: string): DirectionId =>
 const reversedDirectionId = (direction: DirectionId): DirectionId =>
   direction === 0 ? 1 : 0;
 
-const DiagramHeading = (routeType: number): JSX.Element => (
-  <h3 className="m-schedule-diagram__heading">{stationsOrStops(routeType)}</h3>
-);
-
-const DiagramSearchBox = (
-  labelText: string,
-  onChange: React.Dispatch<React.SetStateAction<string>>
-): React.ReactElement => (
-  <SearchBox
-    id="stop-search"
-    labelText={labelText}
-    onChange={onChange}
-    className="m-schedule-diagram__filter"
-  />
-);
-
-const LineDiagram = ({
+const LineDiagramAndStopListPage = ({
   lineDiagram,
   route,
   directionId,
@@ -163,14 +147,6 @@ const LineDiagram = ({
     lineDiagram,
     "route_stop.name"
   );
-  const NoStopMatch = (
-    <div className="c-alert-item c-alert-item--low c-alert-item__top-text-container">
-      No stops {route.direction_names[directionId]} to{" "}
-      {route.direction_destinations[directionId]} matching{" "}
-      <b className="u-highlight">{stopQuery}</b>. Try changing your direction or
-      adjusting your search.
-    </div>
-  );
 
   /**
    * Live data, including realtime vehicle locations and predictions
@@ -187,29 +163,39 @@ const LineDiagram = ({
    */
   return (
     <>
-      {DiagramHeading(route.type)}
-      {DiagramSearchBox(
-        `Search for a ${stationsOrStops(route.type)
+      <h3 className="m-schedule-diagram__heading">
+        {stationsOrStops(route.type)}
+      </h3>
+      <SearchBox
+        id="stop-search"
+        labelText={`Search for a ${stationsOrStops(route.type)
           .toLowerCase()
-          .slice(0, -1)}`,
-        setStopQuery
-      )}
-
+          .slice(0, -1)}`}
+        onChange={setStopQuery}
+        className="m-schedule-diagram__filter"
+      />
       {stopQuery !== "" ? (
         <ol className="m-schedule-diagram m-schedule-diagram--searched">
-          {filteredStops.length
-            ? (filteredStops as LineDiagramStop[]).map(
-                (stop: LineDiagramStop) => (
-                  <StopCard
-                    key={stop.route_stop.id}
-                    stop={stop}
-                    onClick={handleStopClick}
-                    liveData={liveData[stop.route_stop.id]}
-                    searchQuery={stopQuery}
-                  />
-                )
+          {filteredStops.length ? (
+            (filteredStops as LineDiagramStop[]).map(
+              (stop: LineDiagramStop) => (
+                <StopCard
+                  key={stop.route_stop.id}
+                  stop={stop}
+                  onClick={handleStopClick}
+                  liveData={liveData[stop.route_stop.id]}
+                  searchQuery={stopQuery}
+                />
               )
-            : NoStopMatch}
+            )
+          ) : (
+            <div className="c-alert-item c-alert-item--low c-alert-item__top-text-container">
+              No stops {route.direction_names[directionId]} to{" "}
+              {route.direction_destinations[directionId]} matching{" "}
+              <b className="u-highlight">{stopQuery}</b>. Try changing your
+              direction or adjusting your search.
+            </div>
+          )}
         </ol>
       ) : (
         <Provider store={lineDiagramCoordStore}>
@@ -243,4 +229,4 @@ const LineDiagram = ({
   );
 };
 
-export default LineDiagram;
+export default LineDiagramAndStopListPage;
