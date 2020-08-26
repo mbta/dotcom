@@ -295,14 +295,9 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
         |> MapSet.new()
       end)
 
-    [
-      [0, 1],
-      [0, 2],
-      [0, 3],
-      [1, 2],
-      [1, 3],
-      [2, 3]
-    ]
+    stop_id_sets
+    |> length()
+    |> combination_pairs()
     |> Enum.map(&intersection(&1, stop_id_sets))
     |> Enum.reduce(MapSet.new(), fn set, acc -> MapSet.union(set, acc) end)
   end
@@ -310,4 +305,27 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   @spec intersection([non_neg_integer()], [MapSet.t()]) :: MapSet.t()
   defp intersection(indices, map_sets),
     do: apply(MapSet, :intersection, Enum.map(indices, &Enum.at(map_sets, &1)))
+
+  @doc """
+  Generates every combination of pairs for the given number of possibilities.
+
+  Public solely for testing.
+
+  iex> SiteWeb.ScheduleController.Line.Helpers.combination_pairs(4)
+  [
+    [0, 1],
+    [0, 2],
+    [0, 3],
+    [1, 2],
+    [1, 3],
+    [2, 3]
+  ]
+  """
+  @spec combination_pairs(non_neg_integer()) :: [[non_neg_integer()]]
+  def combination_pairs(count) do
+    for i <- 0..(count - 2),
+        j <- (i + 1)..(count - 1) do
+      [i, j]
+    end
+  end
 end

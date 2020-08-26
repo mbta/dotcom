@@ -5,6 +5,8 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   alias SiteWeb.ScheduleController.Line.Helpers
   alias Stops.{RouteStops, Stop}
 
+  doctest Helpers
+
   @shape %Shape{
     direction_id: 1,
     id: "SHAPE_ID",
