@@ -2,6 +2,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   use ExUnit.Case, async: true
 
   alias Routes.{Route, Shape}
+  alias RoutePatterns.RoutePattern
   alias SiteWeb.ScheduleController.Line.Helpers
   alias Stops.{RouteStops, Stop}
 
@@ -692,6 +693,18 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
       shapes = Routes.Repo.get_shapes("Red", direction_id: 0)
 
       assert Helpers.get_branches(shapes, stops, %Route{id: "Red"}, 0) == []
+    end
+  end
+
+  describe "by_typicality/2" do
+    test "without a selected route pattern, allows (returns true) only RoutePattern with a typicality of 1 through the filter" do
+      assert Helpers.by_typicality(%RoutePattern{typicality: 1}, nil)
+      refute Helpers.by_typicality(%RoutePattern{typicality: 2}, nil)
+    end
+
+    test "with a selected route pattern, allows (returns true) all RoutePatterns through the filter" do
+      assert Helpers.by_typicality(%RoutePattern{typicality: 1}, "123")
+      assert Helpers.by_typicality(%RoutePattern{typicality: 2}, "123")
     end
   end
 

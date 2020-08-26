@@ -80,7 +80,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   defp do_get_branch_route_stops(route, direction_id, route_pattern_id) do
     route.id
     |> get_route_patterns(direction_id, route_pattern_id)
-    |> Enum.filter(&(&1.typicality == 1))
+    |> Enum.filter(&by_typicality(&1, route_pattern_id))
     |> Enum.map(&stops_for_route_pattern/1)
   end
 
@@ -263,6 +263,10 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
         []
     end
   end
+
+  @spec by_typicality(RoutePattern.t(), RoutePattern.id_t() | nil) :: boolean()
+  def by_typicality(%RoutePattern{typicality: typicality}, nil), do: typicality == 1
+  def by_typicality(_, _), do: true
 
   @spec nil_out_shared_stop_branches([[RouteStop.t()]]) :: [[RouteStop.t()]]
   defp nil_out_shared_stop_branches(route_stop_groups) do
