@@ -51,7 +51,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
             </VehicleIcons>
           </LiveVehicleIconSet>
           <LiveVehicleIconSet stop={{...}} liveData={{...}} />
-          <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"28px\\" height=\\"100%\\">
+          <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"40px\\" height=\\"100%\\" style={{...}}>
             <title id=\\"diagram-title\\">
               Line diagram for
                
@@ -61,25 +61,25 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
               4 stops going Outbound to Begin
             </desc>
             <Line from={{...}} to={{...}}>
-              <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"8px\\" x1=\\"9px\\" x2=\\"9px\\" y1=\\"0px\\" y2=\\"0px\\" />
+              <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
             </Line>
             <Line from={{...}} to={{...}}>
-              <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"8px\\" x1=\\"9px\\" x2=\\"9px\\" y1=\\"0px\\" y2=\\"0px\\" />
+              <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
             </Line>
             <Line from={{...}} to={{...}}>
-              <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"8px\\" x1=\\"9px\\" x2=\\"9px\\" y1=\\"0px\\" y2=\\"0px\\" />
+              <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"0px\\" y2=\\"0px\\" />
             </Line>
             <Stop stop={{...}}>
-              <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"9px\\" cy=\\"0px\\" />
+              <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"11px\\" cy=\\"0px\\" />
             </Stop>
             <Stop stop={{...}}>
-              <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"9px\\" cy=\\"0px\\" />
+              <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"11px\\" cy=\\"0px\\" />
             </Stop>
             <Stop stop={{...}}>
-              <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"9px\\" cy=\\"0px\\" />
+              <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"11px\\" cy=\\"0px\\" />
             </Stop>
             <Stop stop={{...}}>
-              <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"9px\\" cy=\\"0px\\" />
+              <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"11px\\" cy=\\"0px\\" />
             </Stop>
           </svg>
         </Diagram>

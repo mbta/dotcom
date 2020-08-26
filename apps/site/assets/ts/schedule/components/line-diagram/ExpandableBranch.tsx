@@ -8,7 +8,7 @@ import { diagramWidth } from "./line-diagram-helpers";
 import {
   CIRC_DIAMETER,
   CIRC_RADIUS,
-  BRANCH_SPACING
+  BRANCH_LINE_WIDTH
 } from "./graphics/graphic-helpers";
 import { routeToModeName } from "../../../helpers/css";
 import StopCard from "./StopCard";
@@ -30,7 +30,7 @@ const BranchToggle = (
             width={width}
             height="100%"
           >
-            <g transform={`translate(${width - BRANCH_SPACING - 2}, -1)`}>
+            <g transform={`translate(${BRANCH_LINE_WIDTH - 1}, -1)`}>
               <rect width={CIRC_DIAMETER * 2} height="42" rx={CIRC_DIAMETER} />
               {times(3, i => (
                 <circle

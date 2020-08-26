@@ -63,4 +63,4 @@ export const stopOnMainLine = ({ stop_data }: LineDiagramStop): boolean =>
   stop_data[0].type === "stop";
 
 export const diagramWidth = (maxBranches: number): number =>
-  maxBranches * BRANCH_SPACING + BASE_LINE_WIDTH;
+  BASE_LINE_WIDTH + maxBranches * BRANCH_SPACING + BASE_LINE_WIDTH;

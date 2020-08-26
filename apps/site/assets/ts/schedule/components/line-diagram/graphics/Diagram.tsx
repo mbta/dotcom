@@ -17,6 +17,7 @@ import VehicleIcons from "../VehicleIcons";
 import { getCurrentState } from "../../../store/ScheduleStore";
 import { DirectionId } from "../../../../__v3api";
 import { isAGreenLineRoute } from "../../../../models/route";
+import { BASE_LINE_WIDTH } from "./graphic-helpers";
 
 interface DiagramProps {
   lineDiagram: LineDiagramStop[];
@@ -100,6 +101,7 @@ const Diagram = (props: DiagramProps): ReactElement<HTMLElement> | null => {
         )}`}
         width={`${width + 4}px`}
         height="100%"
+        style={{ left: BASE_LINE_WIDTH / 2 }}
       >
         <title id="diagram-title">
           Line diagram for{" "}

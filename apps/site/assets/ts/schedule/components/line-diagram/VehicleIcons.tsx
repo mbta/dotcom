@@ -5,7 +5,7 @@ import { RouteStop, LineDiagramVehicle } from "../__schedule";
 import CrowdingPill from "./CrowdingPill";
 import { TooltipWrapper, vehicleArrowIcon } from "../../../helpers/icon";
 import { StopCoord, CoordState } from "./state-helpers";
-import { BRANCH_LINE_WIDTH, CIRC_RADIUS } from "./graphics/graphic-helpers";
+import { CIRC_RADIUS } from "./graphics/graphic-helpers";
 import { RouteType } from "../../../__v3api";
 import {
   vehicleRealtimeStatusText,
@@ -53,7 +53,7 @@ const VehicleIcons = ({
   );
   if (!vehicles || !coords) return null;
   const [x, y] = coords;
-  const left = `${x - BRANCH_LINE_WIDTH + CIRC_RADIUS + 1}px`;
+  const left = `${x - CIRC_RADIUS}px`;
   const routeType = stop.route ? stop.route.type : null;
   const tooltips = vehicles.map(vehicle => {
     const top = `${{

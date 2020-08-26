@@ -2,6 +2,11 @@
   list-style: none;
   padding: 0;
   position: relative;
+
+  ol {
+    list-style: none;
+    padding: 0;
+  }
 }
 
 .m-schedule-diagram__stop {
@@ -16,7 +21,6 @@
 }
 
 .line-diagram-svg {
-  left: 0;
   position: absolute;
   stroke-linecap: round;
   stroke-linejoin: round;
@@ -29,7 +33,7 @@
 
   &__stop {
     fill: $white;
-    stroke-width: 1px;
+    stroke-width: 0;
   }
 
   &__merge {
