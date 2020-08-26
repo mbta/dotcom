@@ -54,7 +54,7 @@ lineDiagramBranchingIn.forEach(({ route_stop }) => {
 const handleStopClick = () => {};
 const liveData = {};
 const store = createLineDiagramCoordStore(lineDiagram);
-const spy = jest.spyOn(UseStopPositions, 'default');
+const spy = jest.spyOn(UseStopPositions, "default");
 
 // mock the redux state so that snapshot has positioned stops
 const mockState = lineDiagram.reduce(
@@ -92,7 +92,7 @@ describe("LineDiagramWithStops", () => {
 
   it("uses the useStopPositions hook", () => {
     expect(spy).toHaveBeenCalled();
-  })
+  });
 
   it("shows <StopListWithBranches /> if the line has branches", () => {
     // wrapper's line diagram has no branches

@@ -7,14 +7,17 @@ import { LineDiagramVehicle } from "../../schedule/components/__schedule";
 
 it.each`
   routeType | expectedName
-  ${0} | ${"Train"}
-  ${1} | ${"Train"}
-  ${2} | ${"Train"}
-  ${3} | ${"Bus"}
-  ${4} | ${"Ferry"}
-`("vehicleName returns appropriate text for a route type $routeType", ({ routeType, expectedName }) => {
-  expect(vehicleName(routeType)).toBe(expectedName);
-});
+  ${0}      | ${"Train"}
+  ${1}      | ${"Train"}
+  ${2}      | ${"Train"}
+  ${3}      | ${"Bus"}
+  ${4}      | ${"Ferry"}
+`(
+  "vehicleName returns appropriate text for a route type $routeType",
+  ({ routeType, expectedName }) => {
+    expect(vehicleName(routeType)).toBe(expectedName);
+  }
+);
 
 const v1 = { status: "in_transit" } as LineDiagramVehicle;
 const v2 = { status: "incoming" } as LineDiagramVehicle;
@@ -26,10 +29,10 @@ it("vehicleRealtimeStatusText returns appropriate text for a vehicle", () => {
 });
 
 it.each`
-  crowding | description
-  ${"not_crowded"} | ${"Not crowded"}
+  crowding           | description
+  ${"not_crowded"}   | ${"Not crowded"}
   ${"some_crowding"} | ${"Some crowding"}
-  ${"crowded"} | ${"Crowded"}
+  ${"crowded"}       | ${"Crowded"}
 `("crowdingDescriptions for $crowding", ({ crowding, description }) => {
   expect(crowdingDescriptions(crowding)).toBe(description);
 });

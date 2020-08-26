@@ -18,9 +18,7 @@ import {
   RouteStop
 } from "../__schedule";
 import { DirectionId, Route } from "../../../__v3api";
-import {
-  createLineDiagramCoordStore
-} from "./graphics/graphic-helpers";
+import { createLineDiagramCoordStore } from "./graphics/graphic-helpers";
 import { lineDiagramReducer } from "./reducer";
 import { LiveDataByStop } from "./__line-diagram";
 import ScheduleFinderModal from "../schedule-finder/ScheduleFinderModal";

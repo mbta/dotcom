@@ -1,4 +1,8 @@
-import { lineDiagramReducer, LineDiagramStateAction, LineDiagramState } from "../reducer";
+import {
+  lineDiagramReducer,
+  LineDiagramStateAction,
+  LineDiagramState
+} from "../reducer";
 
 const initialState: LineDiagramState = {
   direction: 0,
@@ -8,7 +12,11 @@ const initialState: LineDiagramState = {
 };
 
 it("lineDiagramReducer handles 'initialize'", () => {
-  const action: LineDiagramStateAction = { type: "initialize", direction: 0, origin: "place-sstat" };
+  const action: LineDiagramStateAction = {
+    type: "initialize",
+    direction: 0,
+    origin: "place-sstat"
+  };
   expect(lineDiagramReducer(initialState, action)).toEqual({
     direction: 0,
     origin: "place-sstat",
@@ -18,7 +26,10 @@ it("lineDiagramReducer handles 'initialize'", () => {
 });
 
 it("lineDiagramReducer handles 'set_direction'", () => {
-  const action: LineDiagramStateAction = { type: "set_direction", direction: 1 };
+  const action: LineDiagramStateAction = {
+    type: "set_direction",
+    direction: 1
+  };
   const finalState = {};
   expect(lineDiagramReducer(initialState, action)).toEqual({
     direction: 1,
@@ -29,7 +40,10 @@ it("lineDiagramReducer handles 'set_direction'", () => {
 });
 
 it("lineDiagramReducer handles 'set_origin' with origin", () => {
-  const action: LineDiagramStateAction = { type: "set_origin", origin: "place-north" };
+  const action: LineDiagramStateAction = {
+    type: "set_origin",
+    origin: "place-north"
+  };
   expect(lineDiagramReducer(initialState, action)).toEqual({
     direction: 0,
     origin: "place-north",
@@ -49,7 +63,10 @@ it("lineDiagramReducer handles 'set_origin' without origin", () => {
 });
 
 it("lineDiagramReducer handles 'toggle_modal'", () => {
-  const action: LineDiagramStateAction = { type: "toggle_modal", modalOpen: true };
+  const action: LineDiagramStateAction = {
+    type: "toggle_modal",
+    modalOpen: true
+  };
   const finalState = {};
   expect(lineDiagramReducer(initialState, action)).toEqual({
     direction: 0,

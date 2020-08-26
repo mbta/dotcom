@@ -70,7 +70,7 @@ describe("useStopPositions", () => {
 
     act(() => {
       // Trigger the window resize event.
-      window.dispatchEvent(new Event('resize'));
+      window.dispatchEvent(new Event("resize"));
     });
 
     // useDispatch() fired for every stop when invoked manually

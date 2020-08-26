@@ -6,10 +6,10 @@ const tooltipText = (wrapper: ReactWrapper) =>
   wrapper.find("[tooltipText]").prop("tooltipText");
 
 describe.each`
-  crowding | description
-  ${"not_crowded"} | ${"not crowded"}
+  crowding           | description
+  ${"not_crowded"}   | ${"not crowded"}
   ${"some_crowding"} | ${"some crowding"}
-  ${"crowded"} | ${"crowded"}
+  ${"crowded"}       | ${"crowded"}
 `("LiveCrowdingIcon with $crowding", ({ crowding, description }) => {
   let wrapper: ReactWrapper;
   beforeEach(() => {
@@ -22,10 +22,10 @@ describe.each`
 
   it("renders and matches snapshot", () => {
     expect(wrapper.debug()).toMatchSnapshot();
-  })
+  });
 
   it("displays correct text", () => {
     const node = wrapper.find(".m-schedule-diagram__prediction-crowding").at(0);
     expect(tooltipText(node)).toContain(description);
-  })
+  });
 });
