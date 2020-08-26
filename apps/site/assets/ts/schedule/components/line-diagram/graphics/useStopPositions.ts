@@ -54,13 +54,12 @@ export default function useStopPositions(
 
   useEffect(
     () => {
+      updateAllStops();
       window.addEventListener("resize", updateAllStops);
       return () => window.removeEventListener("resize", updateAllStops);
     },
     [updateAllStops]
   );
-
-  updateAllStops();
 
   return [stopRefsMap, updateAllStops];
 }

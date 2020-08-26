@@ -99,10 +99,10 @@ describe("useStopPositions", () => {
     });
 
     const expectedY = 22 + 66 / 2;
-    expect(mockDispatchFn).toHaveBeenCalledWith({
+    expect(mockDispatchFn).toHaveBeenNthCalledWith(1, {
       type: "set",
       stop: lineDiagram[0].route_stop.id,
-      coords: [9, expectedY]
+      coords: [11, expectedY]
     });
 
     useDispatchSpy.mockClear();
