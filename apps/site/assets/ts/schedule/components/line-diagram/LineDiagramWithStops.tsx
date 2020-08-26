@@ -21,25 +21,23 @@ const LineDiagramWithStops = (
 
   return (
     <StopRefContext.Provider value={[stopRefsMap, updateAllStopCoords]}>
-      <ol className="m-schedule-diagram">
+      <div className="m-schedule-diagram">
         <Diagram lineDiagram={stops} liveData={liveData} />
         {hasBranchLines(stops) ? (
-          <StopListWithBranches
-            stops={stops}
-            handleStopClick={handleStopClick}
-            liveData={liveData}
-          />
+          <StopListWithBranches {...props} />
         ) : (
-          stops.map(stop => (
-            <StopCard
-              key={stop.route_stop.id}
-              stop={stop}
-              onClick={handleStopClick}
-              liveData={liveData[stop.route_stop.id]}
-            />
-          ))
+          <ol>
+            {stops.map(stop => (
+              <StopCard
+                key={stop.route_stop.id}
+                stop={stop}
+                onClick={handleStopClick}
+                liveData={liveData[stop.route_stop.id]}
+              />
+            ))}
+          </ol>
         )}
-      </ol>
+      </div>
     </StopRefContext.Provider>
   );
 };

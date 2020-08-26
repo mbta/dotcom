@@ -18,7 +18,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
   </SearchBox>
   <Provider store={{...}}>
     <LineDiagramWithStops stops={{...}} handleStopClick={[Function]} liveData={{...}}>
-      <ol className=\\"m-schedule-diagram\\">
+      <div className=\\"m-schedule-diagram\\">
         <Diagram lineDiagram={{...}} liveData={{...}}>
           <VehicleIcons stop={{...}} vehicles={{...}}>
             <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
@@ -77,229 +77,231 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
             </Stop>
           </svg>
         </Diagram>
-        <StopCard stop={{...}} onClick={[Function]} liveData={[undefined]}>
-          <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
-            <section className=\\"m-schedule-diagram__content\\">
-              <header className=\\"m-schedule-diagram__stop-heading\\">
-                <h4 className=\\"m-schedule-diagram__stop-link\\">
-                  <a href=\\"/stops/line-origin\\">
-                    <MatchHighlight text=\\"Origin\\" matchQuery={[undefined]}>
-                      <span>
-                        Origin
-                      </span>
-                    </MatchHighlight>
-                  </a>
-                </h4>
-                <div className=\\"m-schedule-diagram__features\\">
-                  <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
-                    <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\" title=\\"Parking\\">
-                      <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                    </span>
-                  </Component>
-                </div>
-              </header>
-              <div className=\\"m-schedule-diagram__stop-details\\">
-                <div className=\\"m-schedule-diagram__connections\\" />
-              </div>
-              <footer className=\\"m-schedule-diagram__footer\\">
-                <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                  View schedule
-                </button>
-              </footer>
-            </section>
-          </li>
-        </StopCard>
-        <StopCard stop={{...}} onClick={[Function]} liveData={{...}}>
-          <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
-            <section className=\\"m-schedule-diagram__content\\">
-              <header className=\\"m-schedule-diagram__stop-heading\\">
-                <h4 className=\\"m-schedule-diagram__stop-link\\">
-                  <a href=\\"/stops/line-stop1\\">
-                    <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                    <span className=\\"sr-only\\">
-                      Service alert or delay
-                    </span>
-                     
-                    <MatchHighlight text=\\"Stop 1\\" matchQuery={[undefined]}>
-                      <span>
-                        Stop 1
-                      </span>
-                    </MatchHighlight>
-                  </a>
-                </h4>
-                <div className=\\"m-schedule-diagram__features\\" />
-              </header>
-              <div className=\\"m-schedule-diagram__stop-details\\">
-                <div className=\\"m-schedule-diagram__connections\\">
-                  <Component href=\\"/schedules/Orange/line\\" tooltipText=\\"Orange Line\\" tooltipOptions={{...}}>
-                    <a href=\\"/schedules/Orange/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Orange Line\\" title=\\"Orange Line\\">
-                      <span className=\\"m-schedule-diagram__connection\\">
-                        <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                      </span>
+        <ol>
+          <StopCard stop={{...}} onClick={[Function]} liveData={[undefined]}>
+            <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
+              <section className=\\"m-schedule-diagram__content\\">
+                <header className=\\"m-schedule-diagram__stop-heading\\">
+                  <h4 className=\\"m-schedule-diagram__stop-link\\">
+                    <a href=\\"/stops/line-origin\\">
+                      <MatchHighlight text=\\"Origin\\" matchQuery={[undefined]}>
+                        <span>
+                          Origin
+                        </span>
+                      </MatchHighlight>
                     </a>
-                  </Component>
-                  <Component href=\\"/schedules/Green-C/line\\" tooltipText=\\"Green Line C\\" tooltipOptions={{...}}>
-                    <a href=\\"/schedules/Green-C/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Green Line C\\" title=\\"Green Line C\\">
-                      <span className=\\"m-schedule-diagram__connection\\">
-                        <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                  </h4>
+                  <div className=\\"m-schedule-diagram__features\\">
+                    <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
+                      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\" title=\\"Parking\\">
+                        <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                       </span>
-                    </a>
-                  </Component>
-                </div>
-                <StopPredictions headsigns={{...}} isCommuterRail={false}>
-                  <div className=\\"m-schedule-diagram__predictions\\">
-                    <div className=\\"m-schedule-diagram__prediction\\">
-                      <div>
-                        Dest1
-                      </div>
-                      <div className=\\"m-schedule-diagram__prediction-time\\">
-                        2   min
-                      </div>
-                      <LiveCrowdingIcon crowding={{...}}>
-                        <div className=\\"m-schedule-diagram__prediction-crowding m-schedule-table-crowding\\">
-                          <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
-                        </div>
-                      </LiveCrowdingIcon>
-                    </div>
-                    <div className=\\"m-schedule-diagram__prediction\\">
-                      <div>
-                        Dest2
-                      </div>
-                      <div className=\\"m-schedule-diagram__prediction-time\\">
-                        5   min
-                      </div>
-                      <LiveCrowdingIcon crowding={{...}}>
-                        <div className=\\"m-schedule-diagram__prediction-crowding m-schedule-table-crowding\\">
-                          <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
-                        </div>
-                      </LiveCrowdingIcon>
-                    </div>
+                    </Component>
                   </div>
-                </StopPredictions>
-              </div>
-              <footer className=\\"m-schedule-diagram__footer\\">
-                <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                  View schedule
-                </button>
-              </footer>
-            </section>
-          </li>
-        </StopCard>
-        <StopCard stop={{...}} onClick={[Function]} liveData={{...}}>
-          <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
-            <section className=\\"m-schedule-diagram__content\\">
-              <header className=\\"m-schedule-diagram__stop-heading\\">
-                <h4 className=\\"m-schedule-diagram__stop-link\\">
-                  <a href=\\"/stops/line-stop2\\">
-                    <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                    <span className=\\"sr-only\\">
-                      Service alert or delay
-                    </span>
-                     
-                    <MatchHighlight text=\\"Stop 2\\" matchQuery={[undefined]}>
-                      <span>
-                        Stop 2
-                      </span>
-                    </MatchHighlight>
-                  </a>
-                </h4>
-                <div className=\\"m-schedule-diagram__features\\">
-                  <Component tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-                    <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
-                      <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                    </span>
-                  </Component>
+                </header>
+                <div className=\\"m-schedule-diagram__stop-details\\">
+                  <div className=\\"m-schedule-diagram__connections\\" />
                 </div>
-              </header>
-              <div className=\\"m-schedule-diagram__stop-details\\">
-                <div className=\\"m-schedule-diagram__connections\\">
-                  <Component href=\\"/schedules/62/line\\" tooltipText=\\"Route 62\\" tooltipOptions={{...}}>
-                    <a href=\\"/schedules/62/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Route 62\\" title=\\"Route 62\\">
-                      <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
-                        62
+                <footer className=\\"m-schedule-diagram__footer\\">
+                  <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+                    View schedule
+                  </button>
+                </footer>
+              </section>
+            </li>
+          </StopCard>
+          <StopCard stop={{...}} onClick={[Function]} liveData={{...}}>
+            <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
+              <section className=\\"m-schedule-diagram__content\\">
+                <header className=\\"m-schedule-diagram__stop-heading\\">
+                  <h4 className=\\"m-schedule-diagram__stop-link\\">
+                    <a href=\\"/stops/line-stop1\\">
+                      <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      <span className=\\"sr-only\\">
+                        Service alert or delay
                       </span>
+                       
+                      <MatchHighlight text=\\"Stop 1\\" matchQuery={[undefined]}>
+                        <span>
+                          Stop 1
+                        </span>
+                      </MatchHighlight>
                     </a>
-                  </Component>
-                  <Component href=\\"/schedules/67/line\\" tooltipText=\\"Route 67\\" tooltipOptions={{...}}>
-                    <a href=\\"/schedules/67/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Route 67\\" title=\\"Route 67\\">
-                      <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
-                        67
-                      </span>
-                    </a>
-                  </Component>
-                </div>
-                <StopPredictions headsigns={{...}} isCommuterRail={false}>
-                  <div className=\\"m-schedule-diagram__predictions\\">
-                    <div className=\\"m-schedule-diagram__prediction\\">
-                      <div>
-                        Dest2
-                      </div>
-                      <div className=\\"m-schedule-diagram__prediction-time\\">
-                        7   min
-                      </div>
-                      <LiveCrowdingIcon crowding={{...}}>
-                        <div className=\\"m-schedule-diagram__prediction-crowding m-schedule-table-crowding\\">
-                          <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
-                        </div>
-                      </LiveCrowdingIcon>
-                    </div>
+                  </h4>
+                  <div className=\\"m-schedule-diagram__features\\" />
+                </header>
+                <div className=\\"m-schedule-diagram__stop-details\\">
+                  <div className=\\"m-schedule-diagram__connections\\">
+                    <Component href=\\"/schedules/Orange/line\\" tooltipText=\\"Orange Line\\" tooltipOptions={{...}}>
+                      <a href=\\"/schedules/Orange/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Orange Line\\" title=\\"Orange Line\\">
+                        <span className=\\"m-schedule-diagram__connection\\">
+                          <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                        </span>
+                      </a>
+                    </Component>
+                    <Component href=\\"/schedules/Green-C/line\\" tooltipText=\\"Green Line C\\" tooltipOptions={{...}}>
+                      <a href=\\"/schedules/Green-C/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Green Line C\\" title=\\"Green Line C\\">
+                        <span className=\\"m-schedule-diagram__connection\\">
+                          <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                        </span>
+                      </a>
+                    </Component>
                   </div>
-                </StopPredictions>
-              </div>
-              <footer className=\\"m-schedule-diagram__footer\\">
-                <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                  View schedule
-                </button>
-              </footer>
-            </section>
-          </li>
-        </StopCard>
-        <StopCard stop={{...}} onClick={[Function]} liveData={[undefined]}>
-          <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
-            <section className=\\"m-schedule-diagram__content\\">
-              <header className=\\"m-schedule-diagram__stop-heading\\">
-                <h4 className=\\"m-schedule-diagram__stop-link\\">
-                  <a href=\\"/stops/line-destination\\">
-                    <MatchHighlight text=\\"Destination\\" matchQuery={[undefined]}>
-                      <span>
-                        Destination
-                      </span>
-                    </MatchHighlight>
-                  </a>
-                </h4>
-                <div className=\\"m-schedule-diagram__features\\">
-                  <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
-                    <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\" title=\\"Parking\\">
-                      <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                    </span>
-                  </Component>
-                  <Component tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
-                    <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
-                      <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
-                    </span>
-                  </Component>
+                  <StopPredictions headsigns={{...}} isCommuterRail={false}>
+                    <div className=\\"m-schedule-diagram__predictions\\">
+                      <div className=\\"m-schedule-diagram__prediction\\">
+                        <div>
+                          Dest1
+                        </div>
+                        <div className=\\"m-schedule-diagram__prediction-time\\">
+                          2   min
+                        </div>
+                        <LiveCrowdingIcon crowding={{...}}>
+                          <div className=\\"m-schedule-diagram__prediction-crowding m-schedule-table-crowding\\">
+                            <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                          </div>
+                        </LiveCrowdingIcon>
+                      </div>
+                      <div className=\\"m-schedule-diagram__prediction\\">
+                        <div>
+                          Dest2
+                        </div>
+                        <div className=\\"m-schedule-diagram__prediction-time\\">
+                          5   min
+                        </div>
+                        <LiveCrowdingIcon crowding={{...}}>
+                          <div className=\\"m-schedule-diagram__prediction-crowding m-schedule-table-crowding\\">
+                            <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                          </div>
+                        </LiveCrowdingIcon>
+                      </div>
+                    </div>
+                  </StopPredictions>
                 </div>
-              </header>
-              <div className=\\"m-schedule-diagram__stop-details\\">
-                <div className=\\"m-schedule-diagram__connections\\">
-                  <Component href=\\"/schedules/BOAT-A/line\\" tooltipText=\\"Atlantis\\" tooltipOptions={{...}}>
-                    <a href=\\"/schedules/BOAT-A/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Atlantis\\" title=\\"Atlantis\\">
-                      <span className=\\"m-schedule-diagram__connection\\">
-                        <span className=\\"notranslate c-svg__icon-bus-small\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                <footer className=\\"m-schedule-diagram__footer\\">
+                  <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+                    View schedule
+                  </button>
+                </footer>
+              </section>
+            </li>
+          </StopCard>
+          <StopCard stop={{...}} onClick={[Function]} liveData={{...}}>
+            <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
+              <section className=\\"m-schedule-diagram__content\\">
+                <header className=\\"m-schedule-diagram__stop-heading\\">
+                  <h4 className=\\"m-schedule-diagram__stop-link\\">
+                    <a href=\\"/stops/line-stop2\\">
+                      <span className=\\"notranslate c-svg__icon-alerts-triangle\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      <span className=\\"sr-only\\">
+                        Service alert or delay
                       </span>
+                       
+                      <MatchHighlight text=\\"Stop 2\\" matchQuery={[undefined]}>
+                        <span>
+                          Stop 2
+                        </span>
+                      </MatchHighlight>
                     </a>
-                  </Component>
+                  </h4>
+                  <div className=\\"m-schedule-diagram__features\\">
+                    <Component tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
+                      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
+                        <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      </span>
+                    </Component>
+                  </div>
+                </header>
+                <div className=\\"m-schedule-diagram__stop-details\\">
+                  <div className=\\"m-schedule-diagram__connections\\">
+                    <Component href=\\"/schedules/62/line\\" tooltipText=\\"Route 62\\" tooltipOptions={{...}}>
+                      <a href=\\"/schedules/62/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Route 62\\" title=\\"Route 62\\">
+                        <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
+                          62
+                        </span>
+                      </a>
+                    </Component>
+                    <Component href=\\"/schedules/67/line\\" tooltipText=\\"Route 67\\" tooltipOptions={{...}}>
+                      <a href=\\"/schedules/67/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Route 67\\" title=\\"Route 67\\">
+                        <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
+                          67
+                        </span>
+                      </a>
+                    </Component>
+                  </div>
+                  <StopPredictions headsigns={{...}} isCommuterRail={false}>
+                    <div className=\\"m-schedule-diagram__predictions\\">
+                      <div className=\\"m-schedule-diagram__prediction\\">
+                        <div>
+                          Dest2
+                        </div>
+                        <div className=\\"m-schedule-diagram__prediction-time\\">
+                          7   min
+                        </div>
+                        <LiveCrowdingIcon crowding={{...}}>
+                          <div className=\\"m-schedule-diagram__prediction-crowding m-schedule-table-crowding\\">
+                            <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                          </div>
+                        </LiveCrowdingIcon>
+                      </div>
+                    </div>
+                  </StopPredictions>
                 </div>
-              </div>
-              <footer className=\\"m-schedule-diagram__footer\\">
-                <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
-                  View schedule
-                </button>
-              </footer>
-            </section>
-          </li>
-        </StopCard>
-      </ol>
+                <footer className=\\"m-schedule-diagram__footer\\">
+                  <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+                    View schedule
+                  </button>
+                </footer>
+              </section>
+            </li>
+          </StopCard>
+          <StopCard stop={{...}} onClick={[Function]} liveData={[undefined]}>
+            <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
+              <section className=\\"m-schedule-diagram__content\\">
+                <header className=\\"m-schedule-diagram__stop-heading\\">
+                  <h4 className=\\"m-schedule-diagram__stop-link\\">
+                    <a href=\\"/stops/line-destination\\">
+                      <MatchHighlight text=\\"Destination\\" matchQuery={[undefined]}>
+                        <span>
+                          Destination
+                        </span>
+                      </MatchHighlight>
+                    </a>
+                  </h4>
+                  <div className=\\"m-schedule-diagram__features\\">
+                    <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
+                      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\" title=\\"Parking\\">
+                        <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      </span>
+                    </Component>
+                    <Component tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
+                      <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
+                        <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                      </span>
+                    </Component>
+                  </div>
+                </header>
+                <div className=\\"m-schedule-diagram__stop-details\\">
+                  <div className=\\"m-schedule-diagram__connections\\">
+                    <Component href=\\"/schedules/BOAT-A/line\\" tooltipText=\\"Atlantis\\" tooltipOptions={{...}}>
+                      <a href=\\"/schedules/BOAT-A/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Atlantis\\" title=\\"Atlantis\\">
+                        <span className=\\"m-schedule-diagram__connection\\">
+                          <span className=\\"notranslate c-svg__icon-bus-small\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                        </span>
+                      </a>
+                    </Component>
+                  </div>
+                </div>
+                <footer className=\\"m-schedule-diagram__footer\\">
+                  <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
+                    View schedule
+                  </button>
+                </footer>
+              </section>
+            </li>
+          </StopCard>
+        </ol>
+      </div>
     </LineDiagramWithStops>
   </Provider>
 </LineDiagram>"

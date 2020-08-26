@@ -50,24 +50,23 @@ const buildBranchedLineDiagram = (
 
 const Branch = (props: CommonLineDiagramProps): React.ReactElement => {
   const { stops, handleStopClick, liveData } = props;
-  if (stops.length > 2) {
-    return (
-      <ExpandableBranch key={`${stops[0].route_stop.id}-branch`} {...props} />
-    );
-  }
-
-  // is only a few stops — show as expanded
   return (
-    <>
-      {stops.map(stop => (
-        <StopCard
-          key={stop.route_stop.id}
-          stop={stop}
-          onClick={handleStopClick}
-          liveData={liveData[stop.route_stop.id]}
-        />
-      ))}
-    </>
+    <li>
+      {stops.length > 2 ? (
+        <ExpandableBranch key={`${stops[0].route_stop.id}-branch`} {...props} />
+      ) : (
+        <ol>
+          {stops.map(stop => (
+            <StopCard
+              key={stop.route_stop.id}
+              stop={stop}
+              onClick={handleStopClick}
+              liveData={liveData[stop.route_stop.id]}
+            />
+          ))}
+        </ol>
+      )}
+    </li>
   );
 };
 
@@ -77,7 +76,7 @@ const StopListWithBranches = (
   const { stops, ...other } = props;
   const lineDiagramWithBranches = buildBranchedLineDiagram(stops);
   return (
-    <>
+    <ol>
       {lineDiagramWithBranches.map(stopOrStops => {
         if (isArray(stopOrStops)) {
           return (
@@ -99,7 +98,7 @@ const StopListWithBranches = (
           />
         );
       })}
-    </>
+    </ol>
   );
 };
 
