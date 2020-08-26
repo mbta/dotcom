@@ -148,9 +148,9 @@ defmodule Stops.RouteStopTest do
       assert_stop_ids(actual, ~w(place-pktrm place-bucen place-lake)s)
 
       assert_branch_names(actual, [
-        "Green-B",
-        "Green-B",
-        "Green-B"
+        "Park Street - Boston College",
+        "Park Street - Boston College",
+        "Park Street - Boston College"
       ])
     end
 
@@ -173,9 +173,9 @@ defmodule Stops.RouteStopTest do
       assert_stop_ids(actual, ~w(place-lake place-bucen place-pktrm)s)
 
       assert_branch_names(actual, [
-        "Green-B",
-        "Green-B",
-        "Green-B"
+        "Boston College - Park Street",
+        "Boston College - Park Street",
+        "Boston College - Park Street"
       ])
     end
 
@@ -249,7 +249,7 @@ defmodule Stops.RouteStopTest do
         {lechmere_shuttle_route_pattern, lechmere_shuttle_stops}
       ]
 
-      actual = list_from_route_patterns(route_patterns_with_stops, @green_route, 0)
+      actual = list_from_route_patterns(route_patterns_with_stops, @green_route, 0, true)
 
       assert_stop_ids(
         actual,
@@ -307,6 +307,52 @@ defmodule Stops.RouteStopTest do
 
     test "handles an empty list of route patterns" do
       assert list_from_route_patterns([], @red_route, 0) == []
+    end
+
+    test "optionally uses the route ID for the branch name" do
+      route_pattern_0 = %RoutePattern{
+        direction_id: 0,
+        id: "Green-B-3-0",
+        name: "Park Street - Boston College",
+        representative_trip_id: "45809685",
+        route_id: "Green-B",
+        typicality: 1
+      }
+
+      stops_0 = make_stops(~w(place-pktrm place-bucen place-lake)s)
+
+      route_pattern_with_stops_0 = [{route_pattern_0, stops_0}]
+
+      route_pattern_1 = %RoutePattern{
+        direction_id: 0,
+        id: "Green-B-3-1",
+        name: "Boston College - Park Street",
+        representative_trip_id: "45809684",
+        route_id: "Green-B",
+        typicality: 1
+      }
+
+      stops_1 = make_stops(~w(place-lake place-bucen place-pktrm)s)
+
+      route_pattern_with_stops_1 = [{route_pattern_1, stops_1}]
+
+      assert_branch_names(
+        list_from_route_patterns(route_pattern_with_stops_0, @green_b_route, 0, true),
+        [
+          "Green-B",
+          "Green-B",
+          "Green-B"
+        ]
+      )
+
+      assert_branch_names(
+        list_from_route_patterns(route_pattern_with_stops_1, @green_b_route, 1, true),
+        [
+          "Green-B",
+          "Green-B",
+          "Green-B"
+        ]
+      )
     end
   end
 

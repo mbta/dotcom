@@ -105,7 +105,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                %Stops.RouteStops{branch: "Green-D", stops: d_stops},
                %Stops.RouteStops{branch: "Green-C", stops: c_stops},
                %Stops.RouteStops{branch: "Green-B", stops: b_stops}
-             ] = Helpers.get_branch_route_stops(%Route{id: "Green"}, 0, nil)
+             ] = Helpers.get_branch_route_stops(%Route{id: "Green"}, 0)
 
       assert Enum.map(e_stops, & &1.branch) ==
                [
@@ -507,7 +507,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
     test "handles a single Green line" do
       assert [
                %RouteStops{branch: "Park Street - Boston College", stops: stops}
-             ] = Helpers.get_branch_route_stops(%Route{id: "Green-B"}, 0, "123")
+             ] = Helpers.get_branch_route_stops(%Route{id: "Green-B"}, 0)
 
       assert Enum.all?(stops, &(&1.branch == "Park Street - Boston College"))
 

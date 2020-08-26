@@ -60,7 +60,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     |> Enum.map(fn route ->
       route
       |> do_get_branch_route_stops(direction_id, route_pattern_id)
-      |> RouteStop.list_from_route_patterns(route, direction_id)
+      |> RouteStop.list_from_route_patterns(route, direction_id, true)
     end)
     |> nil_out_shared_stop_branches()
     |> RouteStops.from_route_stop_groups()

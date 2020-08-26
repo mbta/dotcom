@@ -66,23 +66,45 @@ defmodule Stops.RouteStop do
   @doc """
   Given a list of route patterns with stops and a route, generates a list of RouteStops representing all stops on that route. If the route has branches, the branched stops appear grouped together in order as part of the list.
   """
-  @spec list_from_route_patterns([{RoutePattern.t(), [Stop.t()]}], Route.t(), direction_id_t()) ::
+  @spec list_from_route_patterns(
+          [{RoutePattern.t(), [Stop.t()]}],
+          Route.t(),
+          direction_id_t(),
+          boolean
+        ) ::
           [t()]
-  def list_from_route_patterns([], _route, _direction_id), do: []
+  def list_from_route_patterns(
+        route_patterns_with_stops,
+        route,
+        direction_id,
+        use_route_id_for_branch_name? \\ false
+      )
 
-  def list_from_route_patterns([route_pattern_with_stops], route, _direction_id) do
+  def list_from_route_patterns([], _route, _direction_id, _use_route_id?), do: []
+
+  def list_from_route_patterns(
+        [route_pattern_with_stops],
+        route,
+        _direction_id,
+        use_route_id_for_branch_name?
+      ) do
     # If there is only one route pattern, we know that we won't need to deal with merging branches so we just return whatever the list of stops is without calling &merge_branch_list/2.
-    do_list_from_route_pattern(route_pattern_with_stops, route)
+    do_list_from_route_pattern(route_pattern_with_stops, route, use_route_id_for_branch_name?)
   end
 
-  def list_from_route_patterns(route_patterns_with_stops, route, direction_id) do
+  def list_from_route_patterns(
+        route_patterns_with_stops,
+        route,
+        direction_id,
+        use_route_id_for_branch_name?
+      ) do
     route_patterns_with_stops
-    |> Enum.map(&do_list_from_route_pattern(&1, route))
+    |> Enum.map(&do_list_from_route_pattern(&1, route, use_route_id_for_branch_name?))
     |> merge_branch_list(direction_id)
   end
 
-  @spec do_list_from_route_pattern({RoutePattern.t(), [Stop.t()]}, Route.t()) :: [t()]
-  defp do_list_from_route_pattern({route_pattern, stops}, route) do
+  @spec do_list_from_route_pattern({RoutePattern.t(), [Stop.t()]}, Route.t(), boolean()) :: [t()]
+  defp do_list_from_route_pattern({route_pattern, stops}, route, use_route_id_for_branch_name?) do
     if String.starts_with?(route.id, "Green") and !String.starts_with?(route_pattern.id, "Green") do
       # Hide the Lechemere shuttle for the moment
       []
@@ -91,7 +113,7 @@ defmodule Stops.RouteStop do
       |> Util.EnumHelpers.with_first_last()
       |> Enum.with_index()
       |> Enum.map(fn {{stop, first_or_last?}, idx} ->
-        branch = branch_name(route_pattern)
+        branch = branch_name(route_pattern, use_route_id_for_branch_name?)
         first? = idx == 0
         last? = first_or_last? and idx > 0
 
@@ -104,14 +126,9 @@ defmodule Stops.RouteStop do
     end
   end
 
-  @spec branch_name(RoutePattern.t()) :: String.t()
-  defp branch_name(%RoutePattern{name: name, route_id: route_id}) do
-    if String.starts_with?(route_id, "Green") do
-      route_id
-    else
-      name
-    end
-  end
+  @spec branch_name(RoutePattern.t(), boolean()) :: String.t()
+  defp branch_name(%RoutePattern{route_id: route_id}, true), do: route_id
+  defp branch_name(%RoutePattern{name: name}, false), do: name
 
   @doc """
   Given a route and a list of that route's shapes, generates a list of RouteStops representing all stops on that route. If the route has branches,
