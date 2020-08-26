@@ -127,14 +127,9 @@
 
 // Diversions may be shown in lieu of predictions
 .m-schedule-diagram__alert {
-  @include icon-size-inline($base-spacing);
   flex-grow: 1;
   font-weight: bold;
   text-align: right;
-
-  .c-svg__icon-alerts-triangle {
-    margin-right: $base-spacing * .35;
-  }
 }
 
 // 'View schedules' link

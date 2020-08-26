@@ -93,7 +93,6 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
           {hasDiversion
             ? stopAlerts.filter(isDiversion).map(alert => (
                 <div key={alert.id} className="m-schedule-diagram__alert">
-                  {alertIcon("c-svg__icon-alerts-triangle")}
                   {effectNameForAlert(alert)}
                 </div>
               ))
