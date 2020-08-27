@@ -7,7 +7,7 @@ import { LineDiagramStop } from "../../__schedule";
 import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
 import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
 import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
-import StopListWithBranches from "../StopListWithBranches";
+import StopListWithBranches, { Branch } from "../StopListWithBranches";
 import StopCard from "../StopCard";
 import ExpandableBranch from "../ExpandableBranch";
 
@@ -80,6 +80,15 @@ describe("StopListWithBranches", () => {
   it("renders branches as well as individual stops", () => {
     expect(wrapper.find(ExpandableBranch)).toHaveLength(1);
     expect(wrapper.find(StopCard)).toHaveLength(10);
+  });
+
+  it("renders short branches as expanded", () => {
+    const branches = wrapper.find(Branch);
+    expect(branches).toHaveLength(2);
+    const shortBranch = branches.first();
+    const longBranch = branches.last();
+    expect(longBranch.exists(ExpandableBranch)).toBeTruthy();
+    expect(shortBranch.exists(ExpandableBranch)).toBeFalsy();
   });
 
   describe("where branching inward", () => {

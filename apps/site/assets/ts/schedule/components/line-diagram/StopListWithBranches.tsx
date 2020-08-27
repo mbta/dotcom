@@ -48,7 +48,7 @@ const buildBranchedLineDiagram = (
   return branchedDiagram;
 };
 
-const Branch = (props: CommonLineDiagramProps): React.ReactElement => {
+export const Branch = (props: CommonLineDiagramProps): React.ReactElement => {
   const { stops, handleStopClick, liveData } = props;
   return (
     <li>

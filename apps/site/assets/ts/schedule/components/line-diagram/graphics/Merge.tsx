@@ -22,8 +22,9 @@ interface MergeGraphicsProps {
 }
 const Merges = ({ lineDiagram }: MergeGraphicsProps): ReactElement | null => {
   const branchingOutward = getTreeDirection(lineDiagram) === "outward";
+  const mergeIndices = lineDiagramIndexes(lineDiagram, isMergeStop);
   // walk through the diagram to find where all the merges go.
-  const stopGaps = lineDiagramIndexes(lineDiagram, isMergeStop).map(i => {
+  const stopGaps = mergeIndices.map(i => {
     let from: LineDiagramStop;
     let to: LineDiagramStop;
     if (branchingOutward) {
@@ -94,6 +95,8 @@ const Merges = ({ lineDiagram }: MergeGraphicsProps): ReactElement | null => {
       );
     });
   });
+
+  if (!stopGaps.length && !mergeBends.length) return null;
 
   return (
     <g className="line-diagram-svg__merge">
