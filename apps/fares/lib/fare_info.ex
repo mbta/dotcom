@@ -7,6 +7,7 @@ defmodule Fares.FareInfo do
 
   @doc "Load fare info from a CSV file."
   @september_1_2020 1_598_918_400
+  @september_1_2020_modes ["subway", "local_bus", "inner_express_bus", "outer_express_bus"]
 
   @spec fare_info() :: [Fare.t()]
   @spec fare_info(integer) :: [Fare.t()]
@@ -14,7 +15,7 @@ defmodule Fares.FareInfo do
     now
     |> filename()
     |> fare_data()
-    |> Enum.flat_map(&mapper/1)
+    |> Enum.flat_map(&mapper(&1, now))
     |> Enum.concat(free_fare())
     |> split_reduced_fares()
   end
@@ -23,6 +24,29 @@ defmodule Fares.FareInfo do
   defp filename(now) when now >= @september_1_2020, do: "priv/fares-sept1.csv"
 
   defp filename(_), do: "priv/fares-july1.csv"
+
+  @doc "Combines paper and plastic fare into a single price for certain modes"
+  @spec mapper([String.t()], integer) :: [Fare.t()]
+  def mapper([mode | _] = data, now)
+      when mode in @september_1_2020_modes and now >= @september_1_2020 do
+    Enum.reduce(mapper(data), [], fn fare, acc ->
+      case fare do
+        # Remove the plastic media fare
+        %{duration: :single_trip, media: [:charlie_card]} ->
+          acc
+
+        # Add the plastic media into the paper fare
+        %{duration: :single_trip, media: [:charlie_ticket, :cash] = paper} ->
+          [%{fare | media: [:charlie_card | paper]} | acc]
+
+        # All other media is unchanged
+        _ ->
+          [fare | acc]
+      end
+    end)
+  end
+
+  def mapper(data, _), do: mapper(data)
 
   @spec mapper([String.t()]) :: [Fare.t()]
   def mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
