@@ -133,6 +133,12 @@ function render(id, focusId) {
     (_el, offset) => offset >= firstImage && offset < lastImage
   );
 
+  // IE returns null for getAttribute(...) whereas other browsers do return a value --> using .nodeValue as fallback for these specific cases
+  const imgSource =
+    mainImage.getAttribute("src") || mainImage.attributes.src.nodeValue;
+  const imgAlt =
+    mainImage.getAttribute("alt") || mainImage.attributes.alt.nodeValue;
+
   // render group of images
   const markUp = `
     <div class="c-photo-gallery__main-container">
@@ -140,8 +146,8 @@ function render(id, focusId) {
         <div class="c-photo-gallery__main-window">
           <img class="c-photo-gallery__main-image"
             id="${`${id}primary`}"
-            alt="${mainImage.getAttribute("alt")}"
-            src="${mainImage.getAttribute("src")}">
+            alt="${imgAlt}"
+            src="${imgSource}">
         </div>
         <figcaption id="${`${id}name`}" class="c-photo-gallery__main-title">${
     mainCaption.innerHTML
@@ -185,29 +191,28 @@ function renderNavigation(id, pagination) {
 
 function renderImages(images, firstImage, id) {
   return images
-    .map(
-      (image, offset) =>
-        `<a href="#gallery-image"
+    .map((image, offset) => {
+      const firstImg = image.querySelectorAll("img").item(0);
+
+      // IE returns null for getAttribute(...) whereas other browsers do return a value --> using .nodeValue as fallback for these specific cases
+      const imgSource =
+        firstImg.getAttribute("src") || firstImg.attributes.src.nodeValue;
+
+      const imgAlt =
+        firstImg.getAttribute("alt") || firstImg.attributes.alt.nodeValue;
+
+      return `<a href="#gallery-image"
         data-image="gallery"
         data-gallery="${id}"
         id="${id + (firstImage + offset)}"
         role="navigation"
-        title="change photo to ${image
-          .querySelectorAll("img")
-          .item(0)
-          .getAttribute("alt")}"
+        title="change photo to '${imgAlt}'"
         data-offset="${firstImage + offset}">
           <img
             class="c-photo-gallery__thumbnail"
-            alt="${image
-              .querySelectorAll("img")
-              .item(0)
-              .getAttribute("alt")}"
-            src="${image
-              .querySelectorAll("img")
-              .item(0)
-              .getAttribute("src")}"></a>`
-    )
+            alt="${imgAlt}"
+            src="${imgSource}"></a>`;
+    })
     .join("");
 }
 
