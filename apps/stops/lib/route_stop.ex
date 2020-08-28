@@ -8,9 +8,9 @@ defmodule Stops.RouteStop do
       id: "place-sstat",                                  # The id that the stop is typically identified by (i.e. the parent stop's id)
       name: "South Station"                               # Stop's display name
       zone: "1A"                                          # Commuter rail zone (will be nil if stop doesn't have CR routes)
-      route: %Routes.Route{id: "Red"...}                  # The full Routes.Route for the parent route
+      route: %Route{id: "Red"...}                         # The full Route for the parent route
       branch: nil                                         # Name of the branch that this stop is on for this route. will be nil unless the stop is actually on a branch.
-      station_info: %Stops.Stop{id: "place-sstat"...}     # Full Stops.Stop struct for the parent stop.
+      station_info: %Stop{id: "place-sstat"...}           # Full Stops.Stop struct for the parent stop.
 
       stop_features: [:commuter_rail, :bus, :accessible]  # List of atoms representing the icons that should be displayed for this stop.
       is_terminus?: false                                 # Whether this is either the first or last stop on the route.
@@ -18,22 +18,25 @@ defmodule Stops.RouteStop do
   ```
 
   """
-  alias Routes.{Route}
+  alias Routes.{Route, Shape}
+  alias RoutePatterns.RoutePattern
+  alias Stops.Stop
+
   @type branch_name_t :: String.t() | nil
   @type direction_id_t :: 0 | 1
 
   @type t :: %__MODULE__{
-          id: Stops.Stop.id_t(),
+          id: Stop.id_t(),
           name: String.t(),
           zone: String.t() | {:error, :not_fetched},
           branch: branch_name_t,
-          station_info: Stops.Stop.t(),
-          route: Routes.Route.t() | nil,
-          connections: [Routes.Route.t()] | {:error, :not_fetched},
+          station_info: Stop.t(),
+          route: Route.t() | nil,
+          connections: [Route.t()] | {:error, :not_fetched},
           stop_features: [Stops.Repo.stop_feature()] | {:error, :not_fetched},
           is_terminus?: boolean,
           is_beginning?: boolean,
-          closed_stop_info: Stops.Stop.ClosedStopInfo.t() | nil
+          closed_stop_info: Stop.ClosedStopInfo.t() | nil
         }
 
   defstruct [
@@ -61,15 +64,82 @@ defmodule Stops.RouteStop do
   end
 
   @doc """
+  Given a list of route patterns with stops and a route, generates a list of RouteStops representing all stops on that route. If the route has branches, the branched stops appear grouped together in order as part of the list.
+  """
+  @spec list_from_route_patterns(
+          [{RoutePattern.t(), [Stop.t()]}],
+          Route.t(),
+          direction_id_t(),
+          boolean
+        ) ::
+          [t()]
+  def list_from_route_patterns(
+        route_patterns_with_stops,
+        route,
+        direction_id,
+        use_route_id_for_branch_name? \\ false
+      )
+
+  def list_from_route_patterns([], _route, _direction_id, _use_route_id?), do: []
+
+  def list_from_route_patterns(
+        [route_pattern_with_stops],
+        route,
+        _direction_id,
+        use_route_id_for_branch_name?
+      ) do
+    # If there is only one route pattern, we know that we won't need to deal with merging branches so we just return whatever the list of stops is without calling &merge_branch_list/2.
+    do_list_from_route_pattern(route_pattern_with_stops, route, use_route_id_for_branch_name?)
+  end
+
+  def list_from_route_patterns(
+        route_patterns_with_stops,
+        route,
+        direction_id,
+        use_route_id_for_branch_name?
+      ) do
+    route_patterns_with_stops
+    |> Enum.map(&do_list_from_route_pattern(&1, route, use_route_id_for_branch_name?))
+    |> merge_branch_list(direction_id)
+  end
+
+  @spec do_list_from_route_pattern({RoutePattern.t(), [Stop.t()]}, Route.t(), boolean()) :: [t()]
+  defp do_list_from_route_pattern({route_pattern, stops}, route, use_route_id_for_branch_name?) do
+    if String.starts_with?(route.id, "Green") and !String.starts_with?(route_pattern.id, "Green") do
+      # Hide the Lechemere shuttle for the moment
+      []
+    else
+      stops
+      |> Util.EnumHelpers.with_first_last()
+      |> Enum.with_index()
+      |> Enum.map(fn {{stop, first_or_last?}, idx} ->
+        branch = branch_name(route_pattern, use_route_id_for_branch_name?)
+        first? = idx == 0
+        last? = first_or_last? and idx > 0
+
+        stop
+        |> build_route_stop(route, branch: branch, first?: first?, last?: last?)
+        |> fetch_zone()
+        |> fetch_connections()
+        |> fetch_stop_features()
+      end)
+    end
+  end
+
+  @spec branch_name(RoutePattern.t(), boolean()) :: String.t()
+  defp branch_name(%RoutePattern{route_id: route_id}, true), do: route_id
+  defp branch_name(%RoutePattern{name: name}, false), do: name
+
+  @doc """
   Given a route and a list of that route's shapes, generates a list of RouteStops representing all stops on that route. If the route has branches,
   the branched stops appear grouped together in order as part of the list.
   """
-  @spec list_from_shapes([Routes.Shape.t()], [Stops.Stop.t()], Routes.Route.t(), direction_id_t) ::
+  @spec list_from_shapes([Shape.t()], [Stop.t()], Route.t(), direction_id_t) ::
           [RouteStop.t()]
   # Can't build route stops if there are no stops or shapes
   def list_from_shapes([], [], _route, _direction_id), do: []
 
-  def list_from_shapes([], [%Stops.Stop{} | _] = stops, route, _direction_id) do
+  def list_from_shapes([], [%Stop{} | _] = stops, route, _direction_id) do
     # if the repo doesn't have any shapes, just fake one since we only need the name and stop_ids.
 
     stops
@@ -79,8 +149,8 @@ defmodule Stops.RouteStop do
   end
 
   def list_from_shapes(
-        [%Routes.Shape{} = shape],
-        [%Stops.Stop{} | _] = stops,
+        [%Shape{} = shape],
+        [%Stop{} | _] = stops,
         route,
         _direction_id
       ) do
@@ -90,9 +160,9 @@ defmodule Stops.RouteStop do
   end
 
   def list_from_shapes(
-        [%Routes.Shape{} = shape | _],
+        [%Shape{} = shape | _],
         stops,
-        %Routes.Route{type: 4} = route,
+        %Route{type: 4} = route,
         _direction_id
       ) do
     # for the ferry, for now, just return a single branch
@@ -157,9 +227,9 @@ defmodule Stops.RouteStop do
     |> merge_branch_list(direction_id)
   end
 
-  @spec do_list_from_shapes(String.t(), [Stops.Stop.id_t()], [Stops.Stop.t()], Routes.Route.t()) ::
+  @spec do_list_from_shapes(String.t(), [Stop.id_t()], [Stop.t()], Route.t()) ::
           [RouteStop.t()]
-  defp do_list_from_shapes(shape_name, stop_ids, [%Stops.Stop{} | _] = stops, route) do
+  defp do_list_from_shapes(shape_name, stop_ids, [%Stop{} | _] = stops, route) do
     stops = Map.new(stops, &{&1.id, &1})
 
     stop_ids
@@ -190,8 +260,8 @@ defmodule Stops.RouteStop do
   @doc """
   Builds a RouteStop from information about a stop.
   """
-  @spec build_route_stop(Stops.Stop.t(), Routes.Route.t(), Keyword.t()) :: RouteStop.t()
-  def build_route_stop(%Stops.Stop{} = stop, route, opts \\ []) do
+  @spec build_route_stop(Stop.t(), Route.t(), Keyword.t()) :: RouteStop.t()
+  def build_route_stop(%Stop{} = stop, route, opts \\ []) do
     branch = Keyword.get(opts, :branch)
     first? = Keyword.get(opts, :first?) == true
     last? = Keyword.get(opts, :last?) == true
@@ -219,7 +289,7 @@ defmodule Stops.RouteStop do
   end
 
   def fetch_connections(
-        %__MODULE__{route: %Routes.Route{}, connections: {:error, :not_fetched}} = route_stop
+        %__MODULE__{route: %Route{}, connections: {:error, :not_fetched}} = route_stop
       ) do
     connections =
       route_stop.id
@@ -230,7 +300,7 @@ defmodule Stops.RouteStop do
   end
 
   @spec route_stop_features(t) :: [Stops.Repo.stop_feature()]
-  defp route_stop_features(%__MODULE__{station_info: %Stops.Stop{}} = route_stop) do
+  defp route_stop_features(%__MODULE__{station_info: %Stop{}} = route_stop) do
     Stops.Repo.stop_features(route_stop.station_info, connections: route_stop.connections)
   end
 
