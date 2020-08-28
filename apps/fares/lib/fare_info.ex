@@ -6,7 +6,7 @@ defmodule Fares.FareInfo do
   alias Fares.Fare
 
   @doc "Load fare info from a CSV file."
-  @september_1_2020 1_598_918_400
+  @september_1_2020 1_598_932_800
   @september_1_2020_modes ["subway", "local_bus", "inner_express_bus", "outer_express_bus"]
 
   @spec fare_info() :: [Fare.t()]
