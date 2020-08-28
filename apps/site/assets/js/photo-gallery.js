@@ -39,9 +39,11 @@ function initializeData($) {
   return output;
 }
 
+// In IE11, images get overwritten with empty content, so as backup we also save the HTML content inside the <figure>'s in 'figures':
 const makeGallery = ($el, images) => ({
   el: $el,
   images,
+  figures: images.map(img => img.innerHTML),
   imageOffset: 0,
   pageOffset: 0,
   lastPage: calculateLastPage(images.length)
@@ -50,7 +52,16 @@ const makeGallery = ($el, images) => ({
 const calculateLastPage = photoCount =>
   Math.max(0, Math.ceil(photoCount / PAGE_SIZE) - 1);
 
-const getGalleryImageByOffset = (id, offset) => galleries[id].images[offset];
+const getGalleryImageByOffset = (id, offset) => {
+  const imageByOffset = galleries[id].images[offset];
+
+  // empty content will likely happen for IE11
+  if (!imageByOffset.innerHTML) {
+    imageByOffset.innerHTML = galleries[id].figures[offset];
+  }
+
+  return imageByOffset;
+};
 
 function setGalleryImageOffset(id, offset) {
   const lastOffset = galleries[id].images.length - 1;
@@ -219,20 +230,11 @@ function renderImages(images, firstImage, id) {
 function replaceActiveImage(id, image) {
   const activeImage = document.getElementById(`${id}primary`);
   const activeImageName = document.getElementById(`${id}name`);
-  activeImage.setAttribute(
-    "src",
-    image
-      .querySelectorAll("img")
-      .item(0)
-      .getAttribute("src")
-  );
-  activeImage.setAttribute(
-    "alt",
-    image
-      .querySelectorAll("img")
-      .item(0)
-      .getAttribute("alt")
-  );
+
+  const firstImage = image.querySelectorAll("img").item(0);
+
+  activeImage.setAttribute("src", firstImage.getAttribute("src"));
+  activeImage.setAttribute("alt", firstImage.getAttribute("alt"));
   activeImageName.innerHTML = image
     .querySelectorAll("figcaption")
     .item(0).innerHTML;
