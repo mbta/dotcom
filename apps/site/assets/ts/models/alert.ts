@@ -6,10 +6,8 @@ export const isHighSeverityOrHighPriority = ({
 }: Alert): boolean => priority === "high" || severity >= 7;
 
 export const isDiversion = ({ effect }: Alert): boolean =>
-  [
-    "detour",
-    "shuttle",
-    "stop_closure",
-    "station_closure",
-    "suspension"
-  ].includes(effect);
+  effect === "shuttle" ||
+  effect === "stop_closure" ||
+  effect === "station_closure" ||
+  effect === "detour" ||
+  effect === "suspension";
