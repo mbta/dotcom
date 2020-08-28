@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Stop component renders and matches snapshot 1`] = `
+"<Provider store={{...}}>
+  <Stop stop={{...}}>
+    <circle className=\\"line-diagram-svg__stop\\" r=\\"4px\\" cx=\\"7px\\" cy=\\"17px\\" />
+  </Stop>
+</Provider>"
+`;

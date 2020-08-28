@@ -1,14 +1,7 @@
 import React from "react";
-import { CrowdingType } from "../../components/__schedule";
+import { CrowdingType } from "../__schedule";
 import { crowdingIcon } from "../../../helpers/icon";
-
-export const crowdingDescriptions: { [key: string]: string } = {
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  not_crowded: "Not crowded",
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  some_crowding: "Some crowding",
-  crowded: "Crowded"
-};
+import { crowdingDescriptions } from "../../../models/vehicle";
 
 const CrowdingPill = ({
   crowding
@@ -23,7 +16,7 @@ const CrowdingPill = ({
     >
       {crowdingIcon(`c-icon__crowding--${crowding}`)}
       <span className="c-crowding-pill__label">
-        {crowdingDescriptions[crowding]}
+        {crowdingDescriptions(crowding)}
       </span>
     </div>
   );

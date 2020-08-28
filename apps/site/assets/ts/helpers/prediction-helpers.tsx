@@ -1,7 +1,7 @@
 import React, { ReactElement } from "react";
 import { PredictedOrScheduledTime } from "../__v3api";
 import { isSkippedOrCancelled } from "../models/prediction";
-import { Prediction } from "../schedule/components/__trips";
+import { TripPrediction } from "../schedule/components/__trips";
 
 const delayForCommuterRail = (
   data: PredictedOrScheduledTime,
@@ -40,7 +40,7 @@ export const statusForCommuterRail = ({
   // If there is a human-entered status string, prioritize that
   if (prediction && prediction.status) return prediction.status;
 
-  if (isSkippedOrCancelled((prediction as unknown) as Prediction))
+  if (isSkippedOrCancelled((prediction as unknown) as TripPrediction))
     return "Canceled";
 
   // Indicate "Delayed" if train is delayed 5+ minutes

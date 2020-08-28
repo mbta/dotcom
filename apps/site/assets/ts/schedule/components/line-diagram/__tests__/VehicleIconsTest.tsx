@@ -1,64 +1,95 @@
 import React from "react";
-import { shallow, ShallowWrapper } from "enzyme";
-import { LineDiagramVehicle } from "../../__schedule";
+import * as redux from "react-redux";
+import { mount, ReactWrapper } from "enzyme";
+import {
+  LineDiagramVehicle,
+  RouteStop,
+  LineDiagramStop,
+  RouteStopRoute
+} from "../../__schedule";
 import VehicleIcons from "../VehicleIcons";
+import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
+
+// mock the redux state
+jest.spyOn(redux, "useSelector").mockImplementation(selector =>
+  selector({
+    "test-stop": [12, 80]
+  })
+);
+const stop = { id: "test-stop", name: "Test Stop" } as RouteStop;
+const vehicles = [
+  { id: "vehicle-1", status: "in_transit" },
+  { id: "vehicle-2", status: "incoming" },
+  { id: "vehicle-3", status: "stopped" }
+] as LineDiagramVehicle[];
+const store = createLineDiagramCoordStore([
+  { route_stop: stop } as LineDiagramStop
+]);
+
+const tooltipText = (wrapper: ReactWrapper) =>
+  wrapper.find("[tooltipText]").prop("tooltipText");
 
 describe("VehicleIcons", () => {
-  const tooltipText = (wrapper: ShallowWrapper) =>
-    wrapper.find("[tooltipText]").prop("tooltipText");
-
-  it("renders a div with a status-based class for each vehicle", () => {
-    const wrapper = shallow(
-      <VehicleIcons
-        routeType={0}
-        stopName="Test"
-        vehicles={[
-          {
-            id: "v1",
-            headsign: null,
-            status: "stopped",
-            trip_name: null,
-            crowding: null
-          },
-          {
-            id: "v2",
-            headsign: null,
-            status: "incoming",
-            trip_name: null,
-            crowding: null
-          }
-        ]}
-      />
+  let wrapper: ReactWrapper;
+  beforeEach(() => {
+    wrapper = mount(
+      <redux.Provider store={store}>
+        <VehicleIcons stop={stop} vehicles={vehicles} />
+      </redux.Provider>
     );
-    const icons = wrapper.children();
-    const baseClass = "m-schedule-diagram__vehicle";
-
-    expect(icons.length).toBe(2);
-    expect(icons.at(0).hasClass(`${baseClass}--stopped`)).toBe(true);
-    expect(icons.at(1).hasClass(`${baseClass}--incoming`)).toBe(true);
   });
 
-  it("uses a basic fallback if the route type is not known", () => {
-    const wrapper = shallow(
-      <VehicleIcons
-        routeType={null}
-        stopName="Test"
-        vehicles={[
-          {
-            id: "v1",
-            headsign: null,
-            status: "incoming",
-            trip_name: null,
-            crowding: null
-          }
-        ]}
-      />
-    );
-
-    expect(tooltipText(wrapper)).toContain("Vehicle is arriving at Test");
+  afterEach(() => {
+    wrapper.unmount();
   });
 
-  it("uses a vehicle name appropriate to the route type", () => {
+  it("renders and matches snapshot", () => {
+    expect(wrapper.debug()).toMatchSnapshot();
+  });
+
+  it("renders each vehicle", () => {
+    const vehicleNodes = wrapper.find(".m-schedule-diagram__vehicle");
+    expect(vehicleNodes).toHaveLength(vehicles.length);
+  });
+
+  it.each`
+    index | expectedPosition | status
+    ${0}  | ${30}            | ${"in_transit"}
+    ${1}  | ${55}            | ${"incoming"}
+    ${2}  | ${70}            | ${"stopped"}
+  `(
+    "positions vehicles according to status $status",
+    ({ index, expectedPosition }) => {
+      const node = wrapper.find(".m-schedule-diagram__vehicle").at(index);
+      const { top } = node.get(0).props.style; // e.g. "30px"
+      const top_number = parseInt(top.substring(0, 2)); // e.g. 30
+      expect(top_number).toEqual(expectedPosition);
+    }
+  );
+
+  it.each`
+    index | expectedText
+    ${0}  | ${"Vehicle is on the way to Test Stop"}
+    ${1}  | ${"Vehicle is arriving at Test Stop"}
+    ${2}  | ${"Vehicle has arrived at Test Stop"}
+  `(
+    "uses fallback text if the route type is not known",
+    ({ index, expectedText }) => {
+      const node = wrapper.find(".m-schedule-diagram__vehicle").at(index);
+      expect(tooltipText(node)).toContain(expectedText);
+    }
+  );
+});
+
+it.each`
+  name       | type
+  ${"Train"} | ${0}
+  ${"Train"} | ${1}
+  ${"Train"} | ${2}
+  ${"Bus"}   | ${3}
+`(
+  "VehicleIcons uses a vehicle name $name appropriate to the route type $type",
+  ({ type, name }) => {
     const vehicles: LineDiagramVehicle[] = [
       {
         id: "v1",
@@ -68,22 +99,23 @@ describe("VehicleIcons", () => {
         crowding: null
       }
     ];
-    const tramWrapper = shallow(
-      <VehicleIcons routeType={0} stopName="Test" vehicles={vehicles} />
+    const wrapper = mount(
+      <redux.Provider store={store}>
+        <VehicleIcons
+          stop={{ ...stop, route: { type } as RouteStopRoute }}
+          vehicles={vehicles}
+        />
+      </redux.Provider>
     );
-    const busWrapper = shallow(
-      <VehicleIcons routeType={3} stopName="Test" vehicles={vehicles} />
-    );
+    expect(tooltipText(wrapper)).toContain(name);
+  }
+);
 
-    expect(tooltipText(tramWrapper)).toContain("Train is arriving at Test");
-    expect(tooltipText(busWrapper)).toContain("Bus is arriving at Test");
-  });
-
-  it("includes the vehicle headsign if available", () => {
-    const wrapper = shallow(
+it("VehicleIcons includes the vehicle headsign if available", () => {
+  const wrapper = mount(
+    <redux.Provider store={store}>
       <VehicleIcons
-        routeType={0}
-        stopName="Test"
+        stop={{ ...stop, route: { type: 1 } as RouteStopRoute }}
         vehicles={[
           {
             id: "v1",
@@ -94,39 +126,46 @@ describe("VehicleIcons", () => {
           }
         ]}
       />
-    );
+    </redux.Provider>
+  );
+  expect(tooltipText(wrapper)).toContain("Dest train is arriving at Test");
+});
 
-    expect(tooltipText(wrapper)).toContain("Dest train is arriving at Test");
-  });
-
-  it("includes the trip name as a train number for commuter rail", () => {
-    const vehicles: LineDiagramVehicle[] = [
-      {
-        id: "v1",
-        headsign: "Dest",
-        status: "incoming",
-        trip_name: "18",
-        crowding: null
-      }
-    ];
-    const crWrapper = shallow(
-      <VehicleIcons routeType={2} stopName="Test" vehicles={vehicles} />
-    );
-    const busWrapper = shallow(
-      <VehicleIcons routeType={3} stopName="Test" vehicles={vehicles} />
-    );
-
-    expect(tooltipText(crWrapper)).toContain(
-      "Dest train 18 is arriving at Test"
-    );
-    expect(tooltipText(busWrapper)).toContain("Dest bus is arriving at Test");
-  });
-
-  it("includes the vehicle crowding status if available", () => {
-    const wrapper = shallow(
+it("VehicleIcons includes the trip name as a train number for commuter rail", () => {
+  const vehicles: LineDiagramVehicle[] = [
+    {
+      id: "v1",
+      headsign: "Dest",
+      status: "incoming",
+      trip_name: "18",
+      crowding: null
+    }
+  ];
+  const crWrapper = mount(
+    <redux.Provider store={store}>
       <VehicleIcons
-        routeType={0}
-        stopName="Test"
+        stop={{ ...stop, route: { type: 2 } as RouteStopRoute }}
+        vehicles={vehicles}
+      />
+    </redux.Provider>
+  );
+  const busWrapper = mount(
+    <redux.Provider store={store}>
+      <VehicleIcons
+        stop={{ ...stop, route: { type: 3 } as RouteStopRoute }}
+        vehicles={vehicles}
+      />
+    </redux.Provider>
+  );
+  expect(tooltipText(crWrapper)).toContain("Dest train 18 is arriving at Test");
+  expect(tooltipText(busWrapper)).toContain("Dest bus is arriving at Test");
+});
+
+it("VehicleIcons includes the vehicle crowding status if available", () => {
+  const wrapper = mount(
+    <redux.Provider store={store}>
+      <VehicleIcons
+        stop={stop}
         vehicles={[
           {
             id: "v1",
@@ -137,46 +176,34 @@ describe("VehicleIcons", () => {
           }
         ]}
       />
-    );
+    </redux.Provider>
+  );
+  expect(tooltipText(wrapper)).toContain("Some crowding");
+});
 
-    expect(tooltipText(wrapper)).toContain("Some crowding");
-  });
-
-  it("does not include the status if we don't know the stop name", () => {
-    const nullWrapper = shallow(
+it("VehicleIcons does not include the status if we don't know the stop name", () => {
+  const emptyNameStop = {
+    id: "test-stop",
+    name: "",
+    route: { type: 3 } as RouteStopRoute
+  } as RouteStop;
+  const wrapper = mount(
+    <redux.Provider store={store}>
       <VehicleIcons
-        routeType={3}
-        stopName={null}
+        stop={emptyNameStop}
         vehicles={[
           {
             id: "v1",
             headsign: "Dest",
             status: "incoming",
-            trip_name: "18",
-            crowding: null
+            trip_name: null,
+            crowding: "some_crowding"
           }
         ]}
       />
-    );
-    const emptyWrapper = shallow(
-      <VehicleIcons
-        routeType={3}
-        stopName=""
-        vehicles={[
-          {
-            id: "v1",
-            headsign: "Dest",
-            status: "incoming",
-            trip_name: "18",
-            crowding: null
-          }
-        ]}
-      />
-    );
+    </redux.Provider>
+  );
 
-    expect(tooltipText(nullWrapper)).toContain("Dest bus");
-    expect(tooltipText(nullWrapper)).not.toContain("is arriving at");
-    expect(tooltipText(emptyWrapper)).toContain("Dest bus");
-    expect(tooltipText(emptyWrapper)).not.toContain("is arriving at");
-  });
+  expect(tooltipText(wrapper)).toContain("Dest bus");
+  expect(tooltipText(wrapper)).not.toContain("is arriving at");
 });

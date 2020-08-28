@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VehicleIcons renders and matches snapshot 1`] = `
+"<Provider store={{...}}>
+  <VehicleIcons stop={{...}} vehicles={{...}}>
+    <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
+      <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is on the way to Test Stop</div>\\" tooltipOptions={{...}}>
+        <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is on the way to Test Stop</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is on the way to Test Stop</div>\\">
+          <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+        </span>
+      </Component>
+    </div>
+    <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
+      <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is arriving at Test Stop</div>\\" tooltipOptions={{...}}>
+        <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is arriving at Test Stop</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle is arriving at Test Stop</div>\\">
+          <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+        </span>
+      </Component>
+    </div>
+    <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
+      <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle has arrived at Test Stop</div>\\" tooltipOptions={{...}}>
+        <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle has arrived at Test Stop</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Vehicle has arrived at Test Stop</div>\\">
+          <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+        </span>
+      </Component>
+    </div>
+  </VehicleIcons>
+</Provider>"
+`;

@@ -14,7 +14,7 @@ import { reducer as fetchReducer } from "../../helpers/fetch";
 import { menuReducer, FetchAction } from "./direction/reducer";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "../components/Map";
-import LineDiagram from "../components/line-diagram/LineDiagram";
+import LineDiagramAndStopListPage from "../components/line-diagram/LineDiagram";
 import { isABusRoute } from "../../models/route";
 
 export interface Props {
@@ -214,7 +214,7 @@ const ScheduleDirection = ({
         </>
       )}
       {lineState.data && (
-        <LineDiagram
+        <LineDiagramAndStopListPage
           lineDiagram={lineState.data}
           route={route}
           directionId={state.directionId}

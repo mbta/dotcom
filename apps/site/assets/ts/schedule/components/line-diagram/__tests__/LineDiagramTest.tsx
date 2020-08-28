@@ -1,7 +1,7 @@
 import React from "react";
 import { mount, ReactWrapper } from "enzyme";
 import { cloneDeep, merge } from "lodash";
-import LineDiagram from "../LineDiagram";
+import LineDiagramAndStopListPage from "../LineDiagram";
 import { EnhancedRoute, RouteType } from "../../../../__v3api";
 import {
   LineDiagramStop,
@@ -12,6 +12,7 @@ import * as routePatternsByDirection from "../../__tests__/test-data/routePatter
 import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
 import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
 import simpleLiveData from "./lineDiagramData/live-data.json";
+import SearchBox from "../../../../components/SearchBox";
 
 const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
 let lineDiagramBranchingOut = (outwardLineDiagram as unknown) as LineDiagramStop[];
@@ -67,11 +68,11 @@ const stops = lineDiagram.map(({ route_stop }) => ({
 
 const directionId = 1;
 
-describe("LineDiagram without branches", () => {
+describe("LineDiagram", () => {
   let wrapper: ReactWrapper;
   beforeEach(() => {
     wrapper = mount(
-      <LineDiagram
+      <LineDiagramAndStopListPage
         lineDiagram={lineDiagram}
         route={route as EnhancedRoute}
         directionId={directionId}
@@ -94,14 +95,22 @@ describe("LineDiagram without branches", () => {
     expect(wrapper.debug()).toMatchSnapshot();
   });
 
-  it("includes a button to open Schedule Finder on each stop", () => {
+  it("can filter stops by name", () => {
+    const filter = wrapper.find(".m-schedule-diagram__filter").at(0);
+    expect(filter.exists()).toBeTruthy();
+    expect(filter.type()).toEqual(SearchBox);
+  });
+
+  it("includes buttons to open the Schedule Finder modal", () => {
     expect(wrapper.exists(".schedule-finder--modal")).toBeFalsy();
 
     wrapper
       .find(".m-schedule-diagram__footer > button")
       .first()
       .simulate("click");
+
     expect(wrapper.exists(".schedule-finder--modal")).toBeTruthy();
+
     expect(wrapper.exists("#modal-close")).toBeTruthy();
 
     wrapper.find("#modal-close").simulate("click");
@@ -109,70 +118,70 @@ describe("LineDiagram without branches", () => {
     expect(wrapper.exists("#modal-close")).toBeFalsy();
   });
 
-  it("has a tooltip for a transit connection", () => {
-    const stopConnections = wrapper.find(".m-schedule-diagram__connections a");
-    stopConnections.forEach(connectionLink => {
-      const props = connectionLink.props();
-      expect(props.title).toBeTruthy();
-      expect(Object.entries(props)).toContainEqual(["data-toggle", "tooltip"]);
+  describe("opens the ScheduleFinderModal", () => {
+    it("detects a change in direction (and hence in origin)", () => {
+      // open modal:
+      wrapper
+        .find(".m-schedule-diagram__footer > button")
+        .first()
+        .simulate("click");
+
+      // change direction
+      wrapper
+        .find("select")
+        .at(0)
+        .simulate("change", { target: { value: "0" } });
+    });
+
+    it("detects a change in origin", () => {
+      // open modal:
+      wrapper
+        .find(".m-schedule-diagram__footer > button")
+        .first()
+        .simulate("click");
+
+      // change origin
+      wrapper
+        .find("select")
+        .at(1)
+        .simulate("change", { target: { value: "line-stop2" } });
+    });
+
+    it("detects an origin selection", () => {
+      // open modal:
+      wrapper
+        .find(".m-schedule-diagram__footer > button")
+        .first()
+        .simulate("click");
+
+      // Click on the SelectContainer for the origin select
+      wrapper
+        .find("SelectContainer")
+        .last()
+        // @ts-ignore -- types for `invoke` are too restrictive?
+        .invoke("handleClick")();
     });
   });
-
-  it.each`
-    index | expectedAlerts
-    ${0}  | ${0}
-    ${1}  | ${0}
-    ${2}  | ${1}
-    ${3}  | ${0}
-  `(
-    "shows $expectedAlerts high priority alerts for stop $index",
-    ({ index, expectedAlerts }) => {
-      const alerts = wrapper
-        .find(".m-schedule-diagram__stop")
-        .at(index)
-        .find(".c-svg__icon-alerts-triangle");
-      expect(alerts.length).toEqual(expectedAlerts);
-    }
-  );
-
-  it.each`
-    index | expectedNames                      | expectedFeatures
-    ${0}  | ${[]}                              | ${["Parking"]}
-    ${1}  | ${["Orange Line", "Green Line C"]} | ${[]}
-    ${2}  | ${["Route 62", "Route 67"]}        | ${["Accessible"]}
-    ${3}  | ${["Atlantis"]}                    | ${["Parking", "Accessible"]}
-  `(
-    "has appropriate tooltip content for stop $index",
-    ({ index, expectedNames, expectedFeatures }) => {
-      const connections = wrapper
-        .find(".m-schedule-diagram__connections")
-        .at(index);
-
-      const names = connections.find("a").map(c => c.props().title);
-      expect(names).toEqual(expectedNames);
-
-      const features = wrapper.find(".m-schedule-diagram__features").at(index);
-
-      const featureNames = features
-        .find("span[data-toggle='tooltip']")
-        .map(c => c.props().title);
-      expect(featureNames).toEqual(expectedFeatures);
-    }
-  );
-
-  it("uses the route color", () => {
-    const line = wrapper.find(".m-schedule-diagram__lines").first();
-    expect(line.prop("style")!.color).toBe("#F00B42");
-  });
 });
 
-describe("LineDiagram with branches going outward", () => {
-  let wrapper: ReactWrapper;
-  beforeEach(() => {
-    wrapper = mount(
-      <LineDiagram
-        lineDiagram={lineDiagramBranchingOut}
-        route={route as EnhancedRoute}
+it.each`
+  type | name
+  ${0} | ${"Stations"}
+  ${1} | ${"Stations"}
+  ${2} | ${"Stations"}
+  ${3} | ${"Stops"}
+`(
+  "LineDiagram names stops or stations for route type $type",
+  ({ type, name }) => {
+    const wrapper = mount(
+      <LineDiagramAndStopListPage
+        lineDiagram={lineDiagram}
+        route={
+          {
+            ...route,
+            type: type as RouteType
+          } as EnhancedRoute
+        }
         directionId={directionId}
         routePatternsByDirection={
           routePatternsByDirection as RoutePatternsByDirection
@@ -183,196 +192,6 @@ describe("LineDiagram with branches going outward", () => {
         scheduleNote={null}
       />
     );
-  });
-
-  afterEach(() => {
-    wrapper.unmount();
-  });
-
-  it("renders and matches snapshot", () => {
-    expect(wrapper.debug()).toMatchSnapshot();
-  });
-
-  it("identifies stops rather than stations", () => {
-    expect(wrapper.find(".m-schedule-diagram__heading").text()).toEqual(
-      "Stops"
-    );
-  });
-
-  it("identifies the tree direction as outward", () => {
-    expect(wrapper.find(".m-schedule-diagram--outward").exists()).toBeTruthy();
-  });
-
-  it.each`
-    index | expectedBranchNaming
-    ${0}  | ${null}
-    ${1}  | ${null}
-    ${2}  | ${null}
-    ${3}  | ${null}
-    ${4}  | ${"Branch Destination Branch"}
-    ${5}  | ${null}
-    ${6}  | ${"Twig Destination Branch"}
-    ${7}  | ${null}
-    ${8}  | ${"Destination Branch"}
-  `(
-    "shows branch name $expectedBranchNaming at stop $index",
-    ({ index, expectedBranchNaming }) => {
-      const branchNameNode = wrapper
-        .find(".m-schedule-diagram__stop")
-        .at(index)
-        .find(".u-small-caps");
-
-      if (expectedBranchNaming) {
-        expect(branchNameNode.text()).toEqual(expectedBranchNaming);
-      } else {
-        expect(branchNameNode.exists()).toBeFalsy();
-      }
-    }
-  );
-
-  it("renders different parts of branches with different markup", () => {
-    const terminus = wrapper
-      .find(".m-schedule-diagram__line--terminus")
-      .first()
-      .html();
-    const stop = wrapper
-      .find(".m-schedule-diagram__line--stop")
-      .first()
-      .html();
-    const line = wrapper
-      .find(".m-schedule-diagram__line--line")
-      .first()
-      .html();
-
-    expect(terminus).not.toEqual(stop);
-    expect(terminus).not.toEqual(line);
-    expect(stop).not.toEqual(line);
-  });
-});
-
-describe("LineDiagram for CR with branches going inward", () => {
-  let wrapper: ReactWrapper;
-
-  beforeEach(() => {
-    wrapper = mount(
-      <LineDiagram
-        lineDiagram={lineDiagramBranchingIn}
-        route={CRroute as EnhancedRoute}
-        directionId={directionId}
-        routePatternsByDirection={
-          routePatternsByDirection as RoutePatternsByDirection
-        }
-        services={[]}
-        stops={{ 0: stops, 1: stops }}
-        today="2019-12-05"
-        scheduleNote={null}
-      />
-    );
-  });
-
-  afterEach(() => {
-    wrapper.unmount();
-  });
-
-  it("renders and matches snapshot", () => {
-    expect(wrapper.debug()).toMatchSnapshot();
-  });
-
-  it("identifies stations rather than stops", () => {
-    expect(wrapper.find(".m-schedule-diagram__heading").text()).toEqual(
-      "Stations"
-    );
-  });
-
-  it("identifies the tree direction as inward", () => {
-    expect(wrapper.find(".m-schedule-diagram--inward").exists()).toBeTruthy();
-  });
-
-  it.each`
-    index | expectedBranchNaming
-    ${8}  | ${null}
-    ${7}  | ${null}
-    ${6}  | ${null}
-    ${5}  | ${null}
-    ${4}  | ${"Branch Destination Line"}
-    ${3}  | ${null}
-    ${2}  | ${"Twig Destination Line"}
-    ${1}  | ${null}
-    ${0}  | ${"Destination Line"}
-  `(
-    "shows branch name $expectedBranchNaming at stop $index",
-    ({ index, expectedBranchNaming }) => {
-      const branchNameNode = wrapper
-        .find(".m-schedule-diagram__stop")
-        .at(index)
-        .find(".u-small-caps");
-
-      if (expectedBranchNaming) {
-        expect(branchNameNode.text()).toEqual(expectedBranchNaming);
-      } else {
-        expect(branchNameNode.exists()).toBeFalsy();
-      }
-    }
-  );
-
-  it("expands a branch", () => {
-    expect(
-      wrapper
-        .find(".c-expandable-block__panel .m-schedule-diagram__stop")
-        .exists()
-    ).toBeFalsy();
-    wrapper
-      .find(
-        ".m-schedule-diagram__expander .c-expandable-block__header[role='button']"
-      )
-      .first()
-      .simulate("click");
-    const moreStops = wrapper.find(
-      ".c-expandable-block__panel .m-schedule-diagram__stop"
-    );
-    expect(moreStops.exists()).toBeTruthy();
-  });
-
-  it("opens the ScheduleFinderModal and detects a change in direction (and hence in origin)", () => {
-    // open modal:
-    wrapper
-      .find(".m-schedule-diagram__footer > button")
-      .first()
-      .simulate("click");
-
-    // change direction
-    wrapper
-      .find("select")
-      .at(0)
-      .simulate("change", { target: { value: "0" } });
-  });
-
-  it("opens the ScheduleFinderModal and detects a change in origin", () => {
-    // open modal:
-    wrapper
-      .find(".m-schedule-diagram__footer > button")
-      .first()
-      .simulate("click");
-
-    // change origin
-    wrapper
-      .find("select")
-      .at(1)
-      .simulate("change", { target: { value: "line-stop2" } });
-  });
-
-  it("detects an origin selection", () => {
-    // open modal:
-    wrapper
-      .find(".m-schedule-diagram__footer > button")
-      .first()
-      .simulate("click");
-
-    // Click on the SelectContainer for the origin select
-    wrapper
-      .find("SelectContainer")
-      .last()
-      // @ts-ignore -- types for `invoke` are too restrictive?
-      .invoke("handleClick")();
-  });
-});
+    expect(wrapper.find(".m-schedule-diagram__heading").text()).toContain(name);
+  }
+);

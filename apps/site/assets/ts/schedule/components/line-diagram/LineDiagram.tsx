@@ -1,31 +1,31 @@
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useReducer, useCallback } from "react";
+import { Provider } from "react-redux";
 import {
   useQueryParams,
   StringParam,
   updateInLocation
 } from "use-query-params";
 import useSWR from "swr";
-import {
-  LineDiagramStop,
-  LineDiagramVehicle,
-  RoutePatternsByDirection,
-  SimpleStopMap,
-  RouteStop,
-  StopData,
-  ServiceInSelector,
-  ScheduleNote as ScheduleNoteType,
-  SelectedOrigin
-} from "../__schedule";
-import SingleStop from "./SingleStop";
-import ScheduleFinderModal, {
-  Mode as ModalMode
-} from "../schedule-finder/ScheduleFinderModal";
-import { DirectionId, HeadsignWithCrowding, Route } from "../../../__v3api";
-import ExpandableBranch from "./ExpandableBranch";
 import useFilteredList from "../../../hooks/useFilteredList";
 import SearchBox from "../../../components/SearchBox";
+import {
+  LineDiagramStop,
+  RoutePatternsByDirection,
+  ScheduleNote as ScheduleNoteType,
+  ServiceInSelector,
+  SimpleStopMap,
+  SelectedOrigin,
+  RouteStop
+} from "../__schedule";
+import { DirectionId, Route } from "../../../__v3api";
+import { createLineDiagramCoordStore } from "./graphics/graphic-helpers";
+import { lineDiagramReducer } from "./reducer";
+import { LiveDataByStop } from "./__line-diagram";
+import ScheduleFinderModal from "../schedule-finder/ScheduleFinderModal";
+import StopCard from "./StopCard";
+import LineDiagramWithStops from "./LineDiagramWithStops";
 
-interface Props {
+interface LineDiagramProps {
   lineDiagram: LineDiagramStop[];
   route: Route;
   directionId: DirectionId;
@@ -36,48 +36,16 @@ interface Props {
   scheduleNote: ScheduleNoteType | null;
 }
 
-export interface LiveDataByStop {
-  [stopId: string]: LiveData;
-}
+const stationsOrStops = (routeType: number): string =>
+  [0, 1, 2].includes(routeType) ? "Stations" : "Stops";
 
-export interface LiveData {
-  headsigns: HeadsignWithCrowding[];
-  vehicles: LineDiagramVehicle[];
-}
+const directionIdToNumber = (direction: string): DirectionId =>
+  direction === "0" ? 0 : 1;
 
-const getMergeStops = (lineDiagram: LineDiagramStop[]): LineDiagramStop[] =>
-  lineDiagram.filter(
-    ({ stop_data: stopData }: LineDiagramStop) =>
-      stopData.some(sd => sd.type === "merge") && stopData.length > 1
-  );
+const reversedDirectionId = (direction: DirectionId): DirectionId =>
+  direction === 0 ? 1 : 0;
 
-const getTreeDirection = (
-  lineDiagram: LineDiagramStop[]
-): "outward" | "inward" => {
-  // determines if tree should fan out or collect branches as we go down the page
-  // use the position of the merge stop to find this. assume default of outward
-  const mergeStops = getMergeStops(lineDiagram);
-  let direction: "outward" | "inward" = "outward";
-  if (mergeStops) {
-    const mergeIndices = mergeStops.map((ms: LineDiagramStop) =>
-      lineDiagram.indexOf(ms)
-    );
-    const branchTerminiIndices = lineDiagram
-      .filter(
-        (lds: LineDiagramStop) =>
-          lds.route_stop["is_terminus?"] && lds.stop_data.length > 1
-      )
-      .map((lds: LineDiagramStop) => lineDiagram.indexOf(lds));
-
-    direction = branchTerminiIndices.some(i => mergeIndices[0] > i)
-      ? "inward"
-      : "outward";
-  }
-
-  return direction;
-};
-
-const LineDiagram = ({
+const LineDiagramAndStopListPage = ({
   lineDiagram,
   route,
   directionId,
@@ -86,45 +54,44 @@ const LineDiagram = ({
   stops,
   today,
   scheduleNote
-}: Props): ReactElement<HTMLElement> | null => {
-  const routeType = route.type;
-  const routeColor: string = route.color || "#000";
-  const [initialDirection, setInitialDirection] = useState<DirectionId>(
-    directionId
-  );
-  const [initialOrigin, setInitialOrigin] = useState<SelectedOrigin>(
-    lineDiagram[0].route_stop.id
-  );
-  const [modalMode, setModalMode] = useState<ModalMode>("schedule");
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+}: LineDiagramProps): ReactElement<HTMLElement> | null => {
+  /**
+   * Setup state handling etc
+   */
+  const [state, dispatch] = useReducer(lineDiagramReducer, {
+    direction: directionId,
+    origin: lineDiagram[0].route_stop.id,
+    modalMode: "schedule",
+    modalOpen: false
+  });
 
+  // also track the location of text to align the diagram points to
+  const lineDiagramCoordStore = createLineDiagramCoordStore(lineDiagram);
+
+  /**
+   * Handle URL params
+   */
   const [query] = useQueryParams({
     // eslint-disable-next-line @typescript-eslint/camelcase
     "schedule_direction[direction_id]": StringParam,
     "schedule_direction[origin]": StringParam
   });
 
-  React.useEffect(() => {
-    const newDirection = query["schedule_direction[direction_id]"];
-    const newOrigin = query["schedule_direction[origin]"];
-
-    // modify values in case URL has both parameters:
-    if (newDirection !== undefined && newOrigin !== undefined) {
-      setInitialDirection(newDirection === "0" ? 0 : 1);
-      setInitialOrigin(newOrigin);
-      setModalMode("schedule");
-      setIsOpen(true);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const { data: maybeLiveData } = useSWR(
-    `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`,
-    url => fetch(url).then(response => response.json()),
-    { refreshInterval: 15000 }
+  React.useEffect(
+    () => {
+      const newDirection = query["schedule_direction[direction_id]"];
+      const newOrigin = query["schedule_direction[origin]"];
+      // modify values in case URL either parameters:
+      if (newDirection !== undefined && newOrigin !== undefined) {
+        dispatch({
+          type: "initialize",
+          origin: newOrigin,
+          direction: directionIdToNumber(newDirection)
+        });
+      }
+    },
+    [query]
   );
-  const liveData = (maybeLiveData || {}) as LiveDataByStop;
-
   const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
     if (window) {
       // eslint-disable-next-line @typescript-eslint/camelcase
@@ -139,223 +106,111 @@ const LineDiagram = ({
     }
   };
 
-  const handleStopClick = (stop: RouteStop): void => {
-    const { "is_beginning?": isBeginning, "is_terminus?": isTerminus } = stop;
-    const isDestination = isTerminus && !isBeginning;
-    const reverseDirectionId = directionId === 0 ? 1 : 0;
-
-    setInitialDirection(isDestination ? reverseDirectionId : directionId);
-    setInitialOrigin(stop.id);
-    setModalMode("schedule");
-    setIsOpen(true);
-
-    // modify URL:
-    updateURL(stop.id, directionId);
+  /**
+   * Events - clicking a stop, changing various params for the resulting modal
+   */
+  const handleStopClick = useCallback(
+    (stop: RouteStop): void => {
+      const { "is_beginning?": isBeginning, "is_terminus?": isTerminus } = stop;
+      const isDestination = isTerminus && !isBeginning;
+      const direction = isDestination
+        ? reversedDirectionId(directionId)
+        : directionId;
+      dispatch({ type: "initialize", origin: stop.id, direction });
+      // modify URL:
+      updateURL(stop.id, directionId);
+    },
+    [directionId]
+  ); // only update function when stop or directionId changes
+  const handleOriginSelectClick = (): void => {
+    dispatch({ type: "set_origin", origin: null });
+    dispatch({ type: "toggle_modal", modalOpen: true });
+  };
+  const directionChanged = (direction: DirectionId): void => {
+    dispatch({ type: "set_direction", direction });
+  };
+  const originChanged = (origin: SelectedOrigin): void => {
+    dispatch({ type: "set_origin", origin });
+  };
+  const closeModal = (): void => {
+    dispatch({ type: "toggle_modal", modalOpen: false });
+    // clear parameters from URL when closing the modal:
+    updateURL("");
   };
 
-  const treeDirection = getTreeDirection(lineDiagram);
-
-  // identify stops where the diagram will branch off
-  const mergeIndices = lineDiagram
-    .filter((lds: LineDiagramStop, idx: number) => {
-      if (idx > 0 && idx < lineDiagram.length - 1) {
-        let adjacentStopData: StopData[];
-        if (treeDirection === "inward") {
-          adjacentStopData = lineDiagram[idx + 1].stop_data;
-        } else {
-          adjacentStopData = lineDiagram[idx - 1].stop_data;
-        }
-        return adjacentStopData.some(sd => sd.type === "merge");
-      }
-      return false;
-    })
-    .map((ms: LineDiagramStop) => {
-      const i = lineDiagram.indexOf(ms);
-      return treeDirection === "inward" ? i + 1 : i - 1;
-    });
-
-  // identify the stops where we should collapse branches
-  const toggledStopIndices = mergeIndices.length
-    ? lineDiagram
-        .filter(
-          ({ route_stop: routeStop, stop_data: stopData }: LineDiagramStop) =>
-            (stopData.some(sd => sd.type === "stop") &&
-              stopData.some(sd => sd.type === "line")) ||
-            (stopData.length === 1 &&
-              routeStop.branch &&
-              stopData[0].type !== "terminus")
-        )
-        .map((ms: LineDiagramStop) => lineDiagram.indexOf(ms))
-    : [];
-
-  // build list of stops including branching
-  let branchedLineDiagram: (LineDiagramStop | LineDiagramStop[])[] = [];
-  if (mergeIndices.length) {
-    lineDiagram.forEach((ld, ldIndex) => {
-      if (toggledStopIndices.includes(ldIndex)) {
-        if (
-          Array.isArray(branchedLineDiagram[branchedLineDiagram.length - 1])
-        ) {
-          (branchedLineDiagram[
-            branchedLineDiagram.length - 1
-          ] as LineDiagramStop[]).push(ld);
-        } else {
-          branchedLineDiagram.push([ld]);
-        }
-      } else {
-        branchedLineDiagram.push(ld);
-      }
-    });
-  } else {
-    branchedLineDiagram = lineDiagram;
-  }
-
+  /**
+   * Provide a search box for filtering stops
+   */
   const [stopQuery, setStopQuery, filteredStops] = useFilteredList(
     lineDiagram,
     "route_stop.name"
   );
 
-  const FilteredStopList = (
-    <div
-      className={`m-schedule-diagram m-schedule-diagram--${treeDirection} m-schedule-diagram--searched`}
-    >
-      {filteredStops.length ? (
-        (filteredStops as LineDiagramStop[]).map((stop: LineDiagramStop) => (
-          <SingleStop
-            key={stop.route_stop.id}
-            stop={stop}
-            onClick={handleStopClick}
-            color={routeColor}
-            liveData={liveData[stop.route_stop.id]}
-            searchQuery={stopQuery}
-          />
-        ))
-      ) : (
-        /* istanbul ignore next */ <div className="c-alert-item c-alert-item--low c-alert-item__top-text-container">
-          No stops {route.direction_names[directionId]} to{" "}
-          {route.direction_destinations[directionId]} matching{" "}
-          <b className="u-highlight">{stopQuery}</b>. Try changing your
-          direction or adjusting your search.
-        </div>
-      )}
-    </div>
+  /**
+   * Live data, including realtime vehicle locations and predictions
+   */
+  const { data: maybeLiveData } = useSWR(
+    `/schedules/line_api/realtime?id=${route.id}&direction_id=${directionId}`,
+    url => fetch(url).then(response => response.json()),
+    { refreshInterval: 15000 }
   );
+  const liveData = (maybeLiveData || {}) as LiveDataByStop;
 
-  const handleOriginSelectClick = (): void => {
-    setModalMode("origin");
-    setIsOpen(true);
-  };
-
-  const directionChanged = (newDirection: DirectionId): void => {
-    setInitialDirection(newDirection);
-  };
-
-  const originChanged = (newOrigin: SelectedOrigin): void => {
-    setInitialOrigin(newOrigin);
-    if (newOrigin) {
-      setModalMode("schedule");
-    } else {
-      setModalMode("origin");
-    }
-  };
-
-  const closeModal = (): void => {
-    setIsOpen(false);
-    // clear parameters from URL when closing the modal:
-    updateURL("");
-  };
-
-  const stationsOrStops =
-    routeType === 0 || routeType === 1 || routeType === 2
-      ? "Stations"
-      : "Stops";
-
+  /**
+   * Putting it all together
+   */
   return (
     <>
-      <h3 className="m-schedule-diagram__heading">{stationsOrStops}</h3>
+      <h3 className="m-schedule-diagram__heading">
+        {stationsOrStops(route.type)}
+      </h3>
       <SearchBox
         id="stop-search"
-        labelText={`Search for a ${stationsOrStops.toLowerCase().slice(0, -1)}`}
+        labelText={`Search for a ${stationsOrStops(route.type)
+          .toLowerCase()
+          .slice(0, -1)}`}
         onChange={setStopQuery}
         className="m-schedule-diagram__filter"
       />
       {stopQuery !== "" ? (
-        FilteredStopList
-      ) : (
-        <div
-          className={`m-schedule-diagram m-schedule-diagram--${treeDirection}`}
-        >
-          {branchedLineDiagram.map(
-            (stopOrStops: LineDiagramStop | LineDiagramStop[], bldIndex) => {
-              if (Array.isArray(stopOrStops)) {
-                if (stopOrStops.length > 2) {
-                  let willMerge = false;
-                  const adjacentIndex =
-                    treeDirection === "inward" ? bldIndex + 1 : bldIndex - 1;
-                  const adjacentStop = branchedLineDiagram[
-                    adjacentIndex
-                  ] as LineDiagramStop;
-                  if (adjacentStop && !Array.isArray(adjacentStop)) {
-                    willMerge = mergeIndices.includes(
-                      lineDiagram.indexOf(adjacentStop)
-                    );
-                  }
-
-                  return (
-                    <ExpandableBranch
-                      key={`${stopOrStops[0].route_stop.id}-${
-                        stopOrStops.length
-                      }-stops`}
-                      branchData={stopOrStops}
-                      onStopClick={handleStopClick}
-                      color={routeColor}
-                      willMerge={willMerge}
-                      liveDataByStop={liveData}
-                    />
-                  );
-                }
-
-                // is an array of 1-2 stops; show as expanded
-                return (
-                  <div
-                    key={`${stopOrStops[0].route_stop.id}-${
-                      stopOrStops.length
-                    }-stops`}
-                    className="m-schedule-diagram__expanded"
-                  >
-                    {stopOrStops.map(stop => (
-                      <SingleStop
-                        key={stop.route_stop.id}
-                        stop={stop}
-                        onClick={handleStopClick}
-                        color={routeColor}
-                        liveData={liveData[stop.route_stop.id]}
-                      />
-                    ))}
-                  </div>
-                );
-              }
-
-              return (
-                <SingleStop
-                  key={stopOrStops.route_stop.id}
-                  stop={stopOrStops}
+        <ol className="m-schedule-diagram m-schedule-diagram--searched">
+          {filteredStops.length ? (
+            (filteredStops as LineDiagramStop[]).map(
+              (stop: LineDiagramStop) => (
+                <StopCard
+                  key={stop.route_stop.id}
+                  stop={stop}
                   onClick={handleStopClick}
-                  color={routeColor}
-                  liveData={liveData[stopOrStops.route_stop.id]}
+                  liveData={liveData[stop.route_stop.id]}
+                  searchQuery={stopQuery}
                 />
-              );
-            }
+              )
+            )
+          ) : (
+            <div className="c-alert-item c-alert-item--low c-alert-item__top-text-container">
+              No stops {route.direction_names[directionId]} to{" "}
+              {route.direction_destinations[directionId]} matching{" "}
+              <b className="u-highlight">{stopQuery}</b>. Try changing your
+              direction or adjusting your search.
+            </div>
           )}
-        </div>
+        </ol>
+      ) : (
+        <Provider store={lineDiagramCoordStore}>
+          <LineDiagramWithStops
+            stops={lineDiagram}
+            handleStopClick={handleStopClick}
+            liveData={liveData}
+          />
+        </Provider>
       )}
 
-      {isOpen && (
+      {state.modalOpen && (
         <ScheduleFinderModal
           closeModal={closeModal}
-          initialMode={modalMode}
-          initialDirection={initialDirection}
-          initialOrigin={initialOrigin}
+          initialMode={state.modalMode}
+          initialDirection={state.direction}
+          initialOrigin={state.origin}
           handleOriginSelectClick={handleOriginSelectClick}
           directionChanged={directionChanged}
           originChanged={originChanged}
@@ -372,4 +227,4 @@ const LineDiagram = ({
   );
 };
 
-export default LineDiagram;
+export default LineDiagramAndStopListPage;

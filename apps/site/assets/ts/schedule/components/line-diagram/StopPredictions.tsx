@@ -1,37 +1,62 @@
 import React from "react";
+import { capitalize } from "lodash";
 import { HeadsignWithCrowding } from "../../../__v3api";
 import {
   timeForCommuterRail,
   statusForCommuterRail
 } from "../../../helpers/prediction-helpers";
 import { isSkippedOrCancelled } from "../../../models/prediction";
-import { crowdingIcon, TooltipWrapper } from "../../../helpers/icon";
-import { crowdingDescriptions } from "../../components/line-diagram/CrowdingPill";
+import LiveCrowdingIcon from "./LiveCrowdingIcon";
 
-interface Props {
+interface StopPredictions {
   headsigns: HeadsignWithCrowding[];
   isCommuterRail: boolean;
 }
 
-const capitalize = (string: string): string =>
-  string[0].toUpperCase() + string.slice(1);
-
-const StopPredictions = ({ headsigns, isCommuterRail }: Props): JSX.Element => {
-  let predictions: JSX.Element[];
-  const liveHeadsigns = headsigns.filter(
-    headsign =>
-      headsign.time_data_with_crowding_list[0] &&
-      headsign.time_data_with_crowding_list[0].time_data.prediction &&
-      headsign.time_data_with_crowding_list[0].time_data.prediction.time
+const hasPredictionTime = ({
+  time_data_with_crowding_list: timeDataList
+}: HeadsignWithCrowding): boolean =>
+  !!(
+    timeDataList &&
+    timeDataList[0] &&
+    timeDataList[0].time_data &&
+    timeDataList[0].time_data.prediction &&
+    timeDataList[0].time_data.prediction.time
   );
+
+const predictionTexts = (headsign: HeadsignWithCrowding): string[] => {
+  const texts = [headsign.name];
+  if (headsign.train_number) {
+    texts.push(` · Train ${headsign.train_number}`);
+  }
+
+  const predictedOrScheduledTime =
+    headsign.time_data_with_crowding_list[0].time_data;
+  const { prediction } = predictedOrScheduledTime;
+
+  if (prediction && prediction.track) {
+    texts.push(` · Track ${prediction.track}`);
+  }
+
+  const status = statusForCommuterRail(predictedOrScheduledTime);
+  if (status) {
+    texts.push(` · ${status}`);
+  }
+  return texts;
+};
+
+const StopPredictions = ({
+  headsigns,
+  isCommuterRail
+}: StopPredictions): JSX.Element => {
+  let predictions: JSX.Element[];
+  const liveHeadsigns = headsigns.filter(hasPredictionTime);
 
   if (isCommuterRail) {
     // Display at most 1 prediction for Commuter Rail
     predictions = liveHeadsigns.slice(0, 1).map(headsign => {
       const enhancedTimeData = headsign.time_data_with_crowding_list[0];
-      const time = enhancedTimeData.time_data;
-      const prediction = time.prediction!;
-      const status = statusForCommuterRail(time);
+      const predictedOrScheduledTime = enhancedTimeData.time_data;
       const predictionTimeClass = isSkippedOrCancelled(
         enhancedTimeData.predicted_schedule.prediction
       )
@@ -39,30 +64,24 @@ const StopPredictions = ({ headsigns, isCommuterRail }: Props): JSX.Element => {
         : "m-schedule-diagram__cr-prediction-time";
 
       return (
-        <div key={headsign.name}>
+        <div key={`${headsign.name}-cr`}>
           <div className="m-schedule-diagram__cr-prediction">
-            {timeForCommuterRail(time, predictionTimeClass)}
+            {timeForCommuterRail(predictedOrScheduledTime, predictionTimeClass)}
           </div>
           <div className="m-schedule-diagram__cr-prediction-details">
-            <span>{`${headsign.name}`}</span>
-            <span>
-              {headsign.train_number ? ` · Train ${headsign.train_number}` : ""}
-            </span>
-            <span>
-              {prediction.track ? ` · Track ${prediction.track}` : ""}
-            </span>
-            <span>{status ? ` · ${status}` : ""}</span>
+            {predictionTexts(headsign).map((text: string) => (
+              <span key={text}>{text}</span>
+            ))}
           </div>
         </div>
       );
     });
   } else {
-    predictions = liveHeadsigns.map((headsign, index) => {
+    predictions = liveHeadsigns.map(headsign => {
       const { crowding } = headsign.time_data_with_crowding_list[0];
-      const crowdingText = crowding ? crowdingDescriptions[crowding] : "";
       return (
         /* eslint-disable-next-line react/no-array-index-key */
-        <div key={index} className="m-schedule-diagram__prediction">
+        <div key={headsign.name} className="m-schedule-diagram__prediction">
           <div>{headsign.name}</div>
           <div className="m-schedule-diagram__prediction-time">
             {capitalize(
@@ -71,24 +90,7 @@ const StopPredictions = ({ headsigns, isCommuterRail }: Props): JSX.Element => {
               )
             )}
           </div>
-          {crowding ? (
-            <TooltipWrapper
-              tooltipText={`Currently <strong>${crowdingText.toLowerCase()}</strong>`}
-              tooltipOptions={{
-                placement: "left",
-                animation: false,
-                html: true
-              }}
-            >
-              <div className="m-schedule-diagram__prediction-crowding m-schedule-table-crowding">
-                {crowdingIcon(`c-icon__crowding--${crowding}`)}
-              </div>
-            </TooltipWrapper>
-          ) : (
-            <div className="m-schedule-diagram__prediction-crowding m-schedule-table-crowding">
-              {crowdingIcon("c-icon__crowding--crowding_unavailable")}
-            </div>
-          )}
+          <LiveCrowdingIcon crowding={crowding} />
         </div>
       );
     });
