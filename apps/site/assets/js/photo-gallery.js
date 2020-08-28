@@ -39,9 +39,11 @@ function initializeData($) {
   return output;
 }
 
+// In IE11, images get overwritten with empty content, so as backup we also save the HTML content inside the <figure>'s in 'figures':
 const makeGallery = ($el, images) => ({
   el: $el,
   images,
+  figures: images.map(img => img.innerHTML),
   imageOffset: 0,
   pageOffset: 0,
   lastPage: calculateLastPage(images.length)
@@ -50,7 +52,16 @@ const makeGallery = ($el, images) => ({
 const calculateLastPage = photoCount =>
   Math.max(0, Math.ceil(photoCount / PAGE_SIZE) - 1);
 
-const getGalleryImageByOffset = (id, offset) => galleries[id].images[offset];
+const getGalleryImageByOffset = (id, offset) => {
+  const imageByOffset = galleries[id].images[offset];
+
+  // empty content will likely happen for IE11
+  if (!imageByOffset.innerHTML) {
+    imageByOffset.innerHTML = galleries[id].figures[offset];
+  }
+
+  return imageByOffset;
+};
 
 function setGalleryImageOffset(id, offset) {
   const lastOffset = galleries[id].images.length - 1;
@@ -133,6 +144,12 @@ function render(id, focusId) {
     (_el, offset) => offset >= firstImage && offset < lastImage
   );
 
+  // IE returns null for getAttribute(...) whereas other browsers do return a value --> using .nodeValue as fallback for these specific cases
+  const imgSource =
+    mainImage.getAttribute("src") || mainImage.attributes.src.nodeValue;
+  const imgAlt =
+    mainImage.getAttribute("alt") || mainImage.attributes.alt.nodeValue;
+
   // render group of images
   const markUp = `
     <div class="c-photo-gallery__main-container">
@@ -140,8 +157,8 @@ function render(id, focusId) {
         <div class="c-photo-gallery__main-window">
           <img class="c-photo-gallery__main-image"
             id="${`${id}primary`}"
-            alt="${mainImage.getAttribute("alt")}"
-            src="${mainImage.getAttribute("src")}">
+            alt="${imgAlt}"
+            src="${imgSource}">
         </div>
         <figcaption id="${`${id}name`}" class="c-photo-gallery__main-title">${
     mainCaption.innerHTML
@@ -185,49 +202,39 @@ function renderNavigation(id, pagination) {
 
 function renderImages(images, firstImage, id) {
   return images
-    .map(
-      (image, offset) =>
-        `<a href="#gallery-image"
+    .map((image, offset) => {
+      const firstImg = image.querySelectorAll("img").item(0);
+
+      // IE returns null for getAttribute(...) whereas other browsers do return a value --> using .nodeValue as fallback for these specific cases
+      const imgSource =
+        firstImg.getAttribute("src") || firstImg.attributes.src.nodeValue;
+
+      const imgAlt =
+        firstImg.getAttribute("alt") || firstImg.attributes.alt.nodeValue;
+
+      return `<a href="#gallery-image"
         data-image="gallery"
         data-gallery="${id}"
         id="${id + (firstImage + offset)}"
         role="navigation"
-        title="change photo to ${image
-          .querySelectorAll("img")
-          .item(0)
-          .getAttribute("alt")}"
+        title="change photo to '${imgAlt}'"
         data-offset="${firstImage + offset}">
           <img
             class="c-photo-gallery__thumbnail"
-            alt="${image
-              .querySelectorAll("img")
-              .item(0)
-              .getAttribute("alt")}"
-            src="${image
-              .querySelectorAll("img")
-              .item(0)
-              .getAttribute("src")}"></a>`
-    )
+            alt="${imgAlt}"
+            src="${imgSource}"></a>`;
+    })
     .join("");
 }
 
 function replaceActiveImage(id, image) {
   const activeImage = document.getElementById(`${id}primary`);
   const activeImageName = document.getElementById(`${id}name`);
-  activeImage.setAttribute(
-    "src",
-    image
-      .querySelectorAll("img")
-      .item(0)
-      .getAttribute("src")
-  );
-  activeImage.setAttribute(
-    "alt",
-    image
-      .querySelectorAll("img")
-      .item(0)
-      .getAttribute("alt")
-  );
+
+  const firstImage = image.querySelectorAll("img").item(0);
+
+  activeImage.setAttribute("src", firstImage.getAttribute("src"));
+  activeImage.setAttribute("alt", firstImage.getAttribute("alt"));
   activeImageName.innerHTML = image
     .querySelectorAll("figcaption")
     .item(0).innerHTML;

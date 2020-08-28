@@ -11,6 +11,22 @@ defmodule SiteWeb.Plugs.RewriteUrlsTest do
       assert conn.halted
     end
 
+    test "temporarily redirects route 62 to the combined 627 pages, for service adjustments in Fall 2020",
+         %{conn: conn} do
+      conn = %{conn | path_info: ["schedules", "62", "line"], request_path: "/schedules/62/line"}
+      conn = call(conn, [])
+      assert redirected_to(conn, 302) == "/schedules/627/line"
+      assert conn.halted
+    end
+
+    test "temporarily redirects route 76 to the combined 627 pages, for service adjustments in Fall 2020",
+         %{conn: conn} do
+      conn = %{conn | path_info: ["schedules", "76", "line"], request_path: "/schedules/76/line"}
+      conn = call(conn, [])
+      assert redirected_to(conn, 302) == "/schedules/627/line"
+      assert conn.halted
+    end
+
     test "includes a query string if present", %{conn: conn} do
       conn = %{
         conn

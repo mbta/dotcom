@@ -495,7 +495,7 @@ describe("fetchLineData", () => {
 
     return fetchLineData("Orange", 1, "1", spy).then(() => {
       expect(window.fetch).toHaveBeenCalledWith(
-        "/schedules/line_api?id=Orange&direction_id=1&variant=1"
+        "/schedules/line_api?id=Orange&direction_id=1&route_pattern=1"
       );
       expect(spy).toHaveBeenCalledWith({
         type: "FETCH_STARTED"
@@ -523,7 +523,7 @@ describe("fetchLineData", () => {
 
     return fetchLineData("Red", 0, "1", spy).then(() => {
       expect(window.fetch).toHaveBeenCalledWith(
-        "/schedules/line_api?id=Red&direction_id=0&variant=1"
+        "/schedules/line_api?id=Red&direction_id=0&route_pattern=1"
       );
       expect(spy).toHaveBeenCalledWith({
         type: "FETCH_STARTED"

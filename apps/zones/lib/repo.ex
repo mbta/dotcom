@@ -1,4 +1,8 @@
 defmodule Zones.Repo.StationZones do
+  @moduledoc """
+  Provide zone info for all stations.
+  """
+
   @filename "priv/crzones.csv"
   @external_resource @filename
 
@@ -13,6 +17,10 @@ defmodule Zones.Repo.StationZones do
 end
 
 defmodule Zones.Repo do
+  @moduledoc """
+  Manages a repository of station zone data.
+  """
+
   import Zones.Repo.StationZones
   @station_zones zone_info()
 

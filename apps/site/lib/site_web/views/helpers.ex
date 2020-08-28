@@ -177,9 +177,16 @@ defmodule SiteWeb.ViewHelpers do
   def mode_name(:the_ride), do: "The Ride"
   def mode_name(:mattapan_trolley), do: "Mattapan Trolley"
   def mode_name(:mattapan_line), do: "Mattapan Trolley"
+  def mode_name(:free_fare), do: "Free Service"
 
   def mode_name(mode_atom)
-      when mode_atom in [:red_line, :blue_line, :orange_line, :green_line, :silver_line] do
+      when mode_atom in [
+             :red_line,
+             :blue_line,
+             :orange_line,
+             :green_line,
+             :silver_line
+           ] do
     mode_atom
     |> Atom.to_string()
     |> String.split("_")

@@ -56,6 +56,34 @@ defmodule FaresTest do
         assert Fares.fare_for_stops(:ferry, origin_id, destination_id) == {:ok, expected_name}
       end
     end
+
+    test "trips between a 'combo' zone stop and either South or North station are treated as zone 1A" do
+      assert Fares.fare_for_stops(:commuter_rail, "place-qnctr", "place-sstat") ==
+               {:ok, {:zone, "1A"}}
+
+      assert Fares.fare_for_stops(:commuter_rail, "place-sstat", "place-qnctr") ==
+               {:ok, {:zone, "1A"}}
+
+      assert Fares.fare_for_stops(:commuter_rail, "place-ER-0115", "place-north") ==
+               {:ok, {:zone, "1A"}}
+
+      assert Fares.fare_for_stops(:commuter_rail, "place-north", "place-ER-0115") ==
+               {:ok, {:zone, "1A"}}
+    end
+
+    test "trips between a 'combo' zone and a non-terminus stop are treated as the general zone" do
+      assert Fares.fare_for_stops(:commuter_rail, "place-qnctr", "place-PB-0245") ==
+               {:ok, {:interzone, "6"}}
+
+      assert Fares.fare_for_stops(:commuter_rail, "place-PB-0245", "place-qnctr") ==
+               {:ok, {:interzone, "6"}}
+
+      assert Fares.fare_for_stops(:commuter_rail, "place-ER-0115", "place-GB-0254") ==
+               {:ok, {:interzone, "5"}}
+
+      assert Fares.fare_for_stops(:commuter_rail, "place-GB-0254", "place-ER-0115") ==
+               {:ok, {:interzone, "5"}}
+    end
   end
 
   describe "silver line rapid transit routes" do
@@ -145,6 +173,92 @@ defmodule FaresTest do
       assert Fares.to_fare_atom(:subway) == :subway
       assert Fares.to_fare_atom(:commuter_rail) == :commuter_rail
       assert Fares.to_fare_atom(:bus) == :bus
+    end
+  end
+
+  describe "get_fare_by_type/2" do
+    test "gets fare by type" do
+      non_transit_leg = %TripPlan.Leg{
+        description: "WALK",
+        from: %TripPlan.NamedPosition{
+          latitude: 42.365486,
+          longitude: -71.103802,
+          name: "Central",
+          stop_id: nil
+        },
+        long_name: nil,
+        mode: %TripPlan.PersonalDetail{
+          distance: 24.274,
+          steps: [
+            %TripPlan.PersonalDetail.Step{
+              absolute_direction: :southeast,
+              distance: 24.274,
+              relative_direction: :depart,
+              street_name: "Massachusetts Avenue"
+            }
+          ]
+        },
+        name: "",
+        polyline: "eoqaGzm~pLTe@BE@A",
+        to: %TripPlan.NamedPosition{
+          latitude: 42.365304,
+          longitude: -71.103621,
+          name: "Central",
+          stop_id: "70069"
+        },
+        type: nil,
+        url: nil
+      }
+
+      assert Fares.get_fare_by_type(non_transit_leg, :highest_one_way_fare) == nil
+      assert Fares.get_fare_by_type(non_transit_leg, :lowest_one_way_fare) == nil
+      assert Fares.get_fare_by_type(non_transit_leg, :reduced_one_way_fare) == nil
+
+      highest_one_way_fare = %{
+        cents: 290
+      }
+
+      lowest_one_way_fare = %{
+        cents: 240
+      }
+
+      reduced_one_way_fare = %{
+        cents: 110
+      }
+
+      transit_leg = %TripPlan.Leg{
+        description: "SUBWAY",
+        from: %TripPlan.NamedPosition{
+          latitude: 42.365304,
+          longitude: -71.103621,
+          name: "Central",
+          stop_id: "70069"
+        },
+        long_name: "Red Line",
+        mode: %TripPlan.TransitDetail{
+          fares: %{
+            highest_one_way_fare: highest_one_way_fare,
+            lowest_one_way_fare: lowest_one_way_fare,
+            reduced_one_way_fare: reduced_one_way_fare
+          },
+          intermediate_stop_ids: ["70071", "70073"],
+          route_id: "Red",
+          trip_id: "43870769C0"
+        },
+        name: "Red Line",
+        to: %TripPlan.NamedPosition{
+          latitude: 42.356395,
+          longitude: -71.062424,
+          name: "Park Street",
+          stop_id: "70075"
+        },
+        type: "1",
+        url: "http://www.mbta.com"
+      }
+
+      assert Fares.get_fare_by_type(transit_leg, :highest_one_way_fare) == highest_one_way_fare
+      assert Fares.get_fare_by_type(transit_leg, :lowest_one_way_fare) == lowest_one_way_fare
+      assert Fares.get_fare_by_type(transit_leg, :reduced_one_way_fare) == reduced_one_way_fare
     end
   end
 end

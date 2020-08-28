@@ -14,11 +14,11 @@
     </div>
     <div role="cell" class="m-trip-plan-farecalc__table-cell">
       <span class="m-trip-plan-farecalc__label">Base: </span>
-      <%= fare_values|>SiteWeb.TripPlanView.get_fare_by_type(:highest_one_way_fare)|> fare_cents()|>Format.price() %>
+      <%= fare_values|>Fares.get_fare_by_type(:highest_one_way_fare)|> fare_cents()|>Format.price() %>
     </div>
     <div role="cell" class="m-trip-plan-farecalc__table-cell">
       <span class="m-trip-plan-farecalc__label">Recommended: </span>
-      <% recommended = fare_values|>SiteWeb.TripPlanView.get_fare_by_type(:lowest_one_way_fare) %>
+      <% recommended = fare_values|>Fares.get_fare_by_type(:lowest_one_way_fare) %>
       <% media = recommended |> SiteWeb.TripPlanView.filter_media() %>
       <%=
         cents = recommended |> fare_cents()
@@ -28,7 +28,7 @@
     <div role="cell" class="m-trip-plan-farecalc__table-cell">
       <span class="m-trip-plan-farecalc__label">Reduced: </span>
       <%=
-        cents = fare_values|> SiteWeb.TripPlanView.get_fare_by_type(:reduced_one_way_fare) |> fare_cents()
+        cents = fare_values|> Fares.get_fare_by_type(:reduced_one_way_fare) |> fare_cents()
         if cents == 0, do: "None", else: Format.price(cents)
       %>
     </div>
@@ -83,6 +83,15 @@
 
     <%= for pass <- Enum.uniq([@itinerary.passes.base_month_pass, @itinerary.passes.recommended_month_pass]) do %>
       <%= render "_monthly_pass_row.html", pass: pass, reduced: @itinerary.passes.reduced_month_pass %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= if itinerary_is_from_or_to_airport?(@itinerary) do %>
+  <div class="m-trip-plan-farecalc__notes-block">
+    <span class="m-trip-plan-farecalc__title">Logan Airport:</span> Silver Line service from Logan Airport is always free. If you are headed to Logan Airport, transfers from the Red Line to the SL1 are also free.
+    <%= link to: "/destinations/logan-airport", target: "_blank" do %>
+      Learn more about travel to and from Logan Airport.
     <% end %>
   </div>
 <% end %>

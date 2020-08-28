@@ -75,4 +75,19 @@ defmodule TripPlan.Leg do
   @spec same_leg?(t, t) :: boolean
   def same_leg?(%__MODULE__{from: from, to: to}, %__MODULE__{from: from, to: to}), do: true
   def same_leg?(_leg_1, _leg_2), do: false
+
+  @spec stop_is_silver_line_airport?([t], atom) :: boolean()
+  def stop_is_silver_line_airport?([], _), do: false
+
+  def stop_is_silver_line_airport?([leg], key) do
+    route_id = leg.mode.route_id
+
+    stop_id =
+      leg
+      |> Kernel.get_in([Access.key(key), Access.key(:stop_id)])
+
+    Fares.silver_line_airport_stop?(route_id, stop_id)
+  end
+
+  def stop_is_silver_line_airport?(_, _), do: false
 end

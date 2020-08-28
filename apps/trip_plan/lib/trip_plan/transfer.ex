@@ -69,7 +69,7 @@ defmodule TripPlan.Transfer do
   end
 
   defp is_bus?(route), do: Fares.to_fare_atom(route) == :bus
-  defp is_subway?(route), do: Fares.to_fare_atom(route) == :subway
+  def is_subway?(route), do: Fares.to_fare_atom(route) == :subway
 
   defp uses_concourse?(%Stops.Stop{id: "place-pktrm"}, %Stops.Stop{id: "place-dwnxg"}),
     do: true

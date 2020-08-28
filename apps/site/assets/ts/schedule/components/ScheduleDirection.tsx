@@ -15,6 +15,7 @@ import { menuReducer, FetchAction } from "./direction/reducer";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "../components/Map";
 import LineDiagramAndStopListPage from "../components/line-diagram/LineDiagram";
+import { isABusRoute } from "../../models/route";
 
 export interface Props {
   route: EnhancedRoute;
@@ -34,16 +35,19 @@ export interface Props {
 export const fetchMapData = (
   routeId: string,
   directionId: DirectionId,
-  shapeId: string,
+  currentRoutePatternIdForData: string | undefined,
   dispatch: Dispatch<FetchAction>
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
+  const baseURL = `/schedules/map_api?id=${routeId}&direction_id=${directionId}`;
+  const url = currentRoutePatternIdForData
+    ? `${baseURL}&shape_id=${currentRoutePatternIdForData}`
+    : baseURL;
+
   return (
     window.fetch &&
     window
-      .fetch(
-        `/schedules/map_api?id=${routeId}&direction_id=${directionId}&shape_id=${shapeId}`
-      )
+      .fetch(url)
       .then(response => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
@@ -57,16 +61,20 @@ export const fetchMapData = (
 export const fetchLineData = (
   routeId: string,
   directionId: DirectionId,
-  shapeId: string,
+  currentRoutePatternIdForData: string | undefined,
   dispatch: Dispatch<FetchAction>
 ): Promise<void> => {
   dispatch({ type: "FETCH_STARTED" });
+
+  const baseURL = `/schedules/line_api?id=${routeId}&direction_id=${directionId}`;
+  const url = currentRoutePatternIdForData
+    ? `${baseURL}&route_pattern=${currentRoutePatternIdForData}`
+    : baseURL;
+
   return (
     window.fetch &&
     window
-      .fetch(
-        `/schedules/line_api?id=${routeId}&direction_id=${directionId}&variant=${shapeId}`
-      )
+      .fetch(url)
       .then(response => {
         if (response.ok) return response.json();
         throw new Error(response.statusText);
@@ -123,6 +131,10 @@ const ScheduleDirection = ({
   const shapeIds = state.routePatternsByDirection[state.directionId].map(
     routePattern => routePattern.shape_id
   );
+  const currentRoutePatternIdForData =
+    isABusRoute(route) && routePatternsInCurrentDirection.length > 1
+      ? state.routePattern.id
+      : undefined;
 
   useEffect(
     () => {
@@ -130,7 +142,7 @@ const ScheduleDirection = ({
         fetchMapData(
           route.id,
           state.directionId,
-          currentShapeId,
+          currentRoutePatternIdForData,
           dispatchMapData
         );
       }
@@ -150,11 +162,11 @@ const ScheduleDirection = ({
       fetchLineData(
         route.id,
         state.directionId,
-        currentShapeId,
+        currentRoutePatternIdForData,
         dispatchLineData
       );
     },
-    [route, state.directionId, currentShapeId]
+    [route, state.directionId, currentShapeId, currentRoutePatternIdForData]
   );
 
   return (

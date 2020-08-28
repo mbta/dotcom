@@ -88,7 +88,8 @@ defmodule Fares.Format do
   def name({:interzone, zone}), do: "Interzone #{zone}"
   def name(:foxboro), do: "Foxboro Special Event"
   # A free fare might be an SL1 trip from airport stops or shuttle bus service
-  def name(:free_fare), do: "Free Fare"
+  def name(:free_fare), do: "Free Service"
+  def name(:shuttle), do: "Shuttle"
   def name(:ada_ride), do: "ADA Ride"
   def name(:premium_ride), do: "Premium Ride"
   def name(:invalid), do: "Invalid Fare"
