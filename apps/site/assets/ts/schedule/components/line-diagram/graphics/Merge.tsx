@@ -56,7 +56,7 @@ const Merges = ({ lineDiagram }: MergeGraphicsProps): ReactElement | null => {
       // along the branch might be subsequent stops or prior stops
       const downBranch = (branchingOutward
         ? lineDiagram.slice(mergeStopIndex)
-        : lineDiagram.slice(0, mergeStopIndex - 1)
+        : lineDiagram.slice(0, mergeStopIndex)
       ).filter(stop => stop.route_stop.branch === branch);
       const nextStopOnBranch = branchingOutward
         ? first(downBranch)
