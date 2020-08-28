@@ -64,7 +64,7 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
     : diagramWidth(stopData.length);
   const refs = useContext(StopRefContext)[0];
 
-  const hasDiversion = stopAlerts.some(isDiversion);
+  const diversionAlert = stopAlerts.find(isDiversion);
 
   return (
     <li
@@ -90,21 +90,23 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
 
         <div className="m-schedule-diagram__stop-details">
           {StopConnections(routeStop.connections)}
-          {hasDiversion
-            ? stopAlerts.filter(isDiversion).map(alert => (
-                <div key={alert.id} className="m-schedule-diagram__alert">
-                  {effectNameForAlert(alert)}
-                </div>
-              ))
-            : !isDestination &&
-              liveData && (
-                <StopPredictions
-                  headsigns={liveData.headsigns}
-                  isCommuterRail={
-                    !!routeStop.route && isACommuterRailRoute(routeStop.route)
-                  }
-                />
-              )}
+          {!isDestination && liveData && liveData.headsigns.length ? (
+            <StopPredictions
+              headsigns={liveData.headsigns}
+              isCommuterRail={
+                !!routeStop.route && isACommuterRailRoute(routeStop.route)
+              }
+            />
+          ) : (
+            diversionAlert && (
+              <div
+                key={diversionAlert.id}
+                className="m-schedule-diagram__alert"
+              >
+                {effectNameForAlert(diversionAlert)}
+              </div>
+            )
+          )}
         </div>
 
         <footer className="m-schedule-diagram__footer">
