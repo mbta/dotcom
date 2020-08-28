@@ -181,17 +181,17 @@ defmodule Fares.FareInfoTest do
       ]
 
       assert Enum.count(
-               Enum.flat_map(fare_map_expected_modes, &mapper(&1, 1_598_918_400)),
+               Enum.flat_map(fare_map_expected_modes, &mapper(&1, 1_598_932_800)),
                &match?(%Fare{media: [:charlie_card, :charlie_ticket, :cash]}, &1)
              ) == 4
 
       refute Enum.any?(
-               Enum.flat_map(fare_map_expected_modes, &mapper(&1, 1_598_918_400)),
+               Enum.flat_map(fare_map_expected_modes, &mapper(&1, 1_598_932_800)),
                &match?(%Fare{media: [:charlie_card]}, &1)
              )
 
       refute Enum.any?(
-               Enum.flat_map(fare_map_expected_modes, &mapper(&1, 1_598_918_400)),
+               Enum.flat_map(fare_map_expected_modes, &mapper(&1, 1_598_932_800)),
                &match?(%Fare{media: [:charlie_ticket, :cash]}, &1)
              )
 
@@ -203,7 +203,7 @@ defmodule Fares.FareInfoTest do
       ]
 
       refute Enum.any?(
-               Enum.flat_map(fare_map_expected_unchanged_modes, &mapper(&1, 1_598_918_400)),
+               Enum.flat_map(fare_map_expected_unchanged_modes, &mapper(&1, 1_598_932_800)),
                &match?(%Fare{media: [:charlie_card, :charlie_ticket, :cash]}, &1)
              )
     end
