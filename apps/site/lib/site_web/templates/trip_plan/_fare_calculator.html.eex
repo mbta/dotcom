@@ -1,11 +1,15 @@
-
 <div class="h2 m-trip-plan-farecalc__main-title">Fare Calculator</div>
 
 <div role="table" aria-label="A summary of the different fares by media for each itinerary" class="m-trip-plan-farecalc__table">
   <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-farecalc__subheader">One-Way Fare</div>
   <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">Base</div>
-  <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">Recommended</div>
+  <%= unless Fares.FareInfo.charging_september_2020_fares? do %>
+    <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">Recommended</div>
+  <% end %>
   <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">Reduced</div>
+  <%= if Fares.FareInfo.charging_september_2020_fares? do %>
+    <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header"></div>
+  <% end %>
 
   <%= for {_mode_key, fare_values} <- @fares do %>
 
@@ -16,15 +20,17 @@
       <span class="m-trip-plan-farecalc__label">Base: </span>
       <%= fare_values|>Fares.get_fare_by_type(:highest_one_way_fare)|> fare_cents()|>Format.price() %>
     </div>
-    <div role="cell" class="m-trip-plan-farecalc__table-cell">
-      <span class="m-trip-plan-farecalc__label">Recommended: </span>
-      <% recommended = fare_values|>Fares.get_fare_by_type(:lowest_one_way_fare) %>
-      <% media = recommended |> SiteWeb.TripPlanView.filter_media() %>
-      <%=
-        cents = recommended |> fare_cents()
-        if cents == 0, do: "None", else: "#{Format.price(cents)} #{format_media(media)}"
-      %>
-    </div>
+    <%= unless Fares.FareInfo.charging_september_2020_fares? do %>
+      <div role="cell" class="m-trip-plan-farecalc__table-cell">
+        <span class="m-trip-plan-farecalc__label">Recommended: </span>
+        <% recommended = fare_values|>Fares.get_fare_by_type(:lowest_one_way_fare) %>
+        <% media = recommended |> SiteWeb.TripPlanView.filter_media() %>
+        <%=
+          cents = recommended |> fare_cents()
+          if cents == 0, do: "None", else: "#{Format.price(cents)} #{format_media(media)}"
+        %>
+      </div>
+    <% end %>
     <div role="cell" class="m-trip-plan-farecalc__table-cell">
       <span class="m-trip-plan-farecalc__label">Reduced: </span>
       <%=
@@ -32,6 +38,9 @@
         if cents == 0, do: "None", else: Format.price(cents)
       %>
     </div>
+    <%= if Fares.FareInfo.charging_september_2020_fares? do %>
+      <div role="cell" class="m-trip-plan-farecalc__table-cell"></div>
+    <% end %>
 
   <% end %>
 
@@ -53,7 +62,9 @@
        %></strong>
    </span>
  </div>
-  <div role="cell" class="m-trip-plan-farecalc__table-cell"></div>
+  <%= unless Fares.FareInfo.charging_september_2020_fares? do %>
+    <div role="cell" class="m-trip-plan-farecalc__table-cell"></div>
+  <% end %>
   <div role="cell" class="m-trip-plan-farecalc__table-cell">
     <span class="m-trip-plan-farecalc__label">Reduced: </span>
     <span>
@@ -63,6 +74,9 @@
        %></strong>
    </span>
   </div>
+  <%= if Fares.FareInfo.charging_september_2020_fares? do %>
+    <div role="cell" class="m-trip-plan-farecalc__table-cell"></div>
+  <% end %>
 </div>
 
 
