@@ -2,6 +2,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
   @moduledoc "Provides JSON endpoints for retrieving line diagram data."
   use SiteWeb, :controller
 
+  alias Alerts.Match
   alias Alerts.Stop, as: AlertsStop
   alias RoutePatterns.RoutePattern
   alias Routes.Route
@@ -119,7 +120,11 @@ defmodule SiteWeb.ScheduleController.LineApi do
   @spec update_route_stop_data({any, RouteStop.t()}, any, DateTime.t()) :: map()
   def update_route_stop_data({data, %RouteStop{id: stop_id} = map}, alerts, date) do
     %{
-      alerts: alerts |> AlertsStop.match(stop_id) |> json_safe_alerts(date),
+      alerts:
+        alerts
+        |> Enum.filter(&Match.any_time_match?(&1, date))
+        |> AlertsStop.match(stop_id)
+        |> json_safe_alerts(date),
       route_stop: RouteStop.to_json_safe(map),
       stop_data: Enum.map(data, fn {key, value} -> %{branch: key, type: value} end)
     }
