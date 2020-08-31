@@ -5,6 +5,7 @@ import { LiveData } from "./__line-diagram";
 import { isMergeStop, diagramWidth } from "./line-diagram-helpers";
 import StopConnections from "./StopConnections";
 import StopPredictions from "./StopPredictions";
+import { hasPredictionTime } from "../../../models/prediction";
 import { alertIcon } from "../../../helpers/icon";
 import {
   isHighSeverityOrHighPriority,
@@ -90,7 +91,10 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
 
         <div className="m-schedule-diagram__stop-details">
           {StopConnections(routeStop.connections)}
-          {!isDestination && liveData && liveData.headsigns.length ? (
+          {!isDestination &&
+          liveData &&
+          liveData.headsigns.length &&
+          liveData.headsigns.some(hasPredictionTime) ? (
             <StopPredictions
               headsigns={liveData.headsigns}
               isCommuterRail={
