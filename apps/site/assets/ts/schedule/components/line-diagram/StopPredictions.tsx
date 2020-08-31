@@ -13,7 +13,7 @@ interface StopPredictions {
   isCommuterRail: boolean;
 }
 
-const hasPredictionTime = ({
+export const hasPredictionTime = ({
   time_data_with_crowding_list: timeDataList
 }: HeadsignWithCrowding): boolean =>
   !!(
