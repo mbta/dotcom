@@ -438,6 +438,11 @@ defmodule Fares.FareInfo do
     ]
   end
 
+  @spec charging_september_2020_fares?() :: boolean()
+  @spec charging_september_2020_fares?(integer()) :: boolean()
+  def charging_september_2020_fares?(now \\ System.system_time(:second)),
+    do: now >= @september_1_2020
+
   defp fare_data(filename) do
     :fares
     |> Application.app_dir()
