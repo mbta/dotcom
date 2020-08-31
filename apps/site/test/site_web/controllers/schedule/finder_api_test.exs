@@ -396,7 +396,7 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
     route_id
     |> ServicesRepo.by_route_id()
     |> Enum.filter(&(&1.type == :weekday))
-    |> Enum.sort_by(& &1.end_date)
+    |> Enum.sort_by(&{&1.end_date.year, &1.end_date.month, &1.end_date.day})
     |> List.last()
     |> Map.get(:end_date)
     |> Date.to_iso8601()
