@@ -29,6 +29,7 @@ defmodule Site.Mixfile do
       :phoenix_html,
       :plug_cowboy,
       :gettext,
+      :route_patterns,
       :stops,
       :routes,
       :alerts,
@@ -57,7 +58,6 @@ defmodule Site.Mixfile do
       :util,
       :trip_plan,
       :services,
-      :route_patterns,
       :con_cache,
       :recaptcha
     ]
@@ -116,6 +116,7 @@ defmodule Site.Mixfile do
       # Required to mock challenge failures. Upgrade once a version > 3.0.0 is released.
       {:recaptcha,
        github: "samueljseay/recaptcha", ref: "8ea13f63990ca18725ac006d30e55d42c3a58457"},
+      {:route_patterns, in_umbrella: true},
       {:stops, in_umbrella: true},
       {:routes, in_umbrella: true},
       {:alerts, in_umbrella: true},
@@ -132,7 +133,6 @@ defmodule Site.Mixfile do
       {:predictions, in_umbrella: true},
       {:trip_plan, in_umbrella: true},
       {:services, in_umbrella: true},
-      {:route_patterns, in_umbrella: true},
       {:repo_cache, in_umbrella: true},
       {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
