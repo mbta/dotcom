@@ -211,7 +211,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
                     <div className=\\"m-schedule-diagram__expander-header\\">
                       <div style={{...}}>
                         <svg className=\\"line-diagram-svg__toggle commuter-rail\\" width={54} height=\\"100%\\">
-                          <g transform=\\"translate(15, -1)\\">
+                          <g transform=\\"translate(31, 1)\\">
                             <rect width={16} height=\\"42\\" rx={8} />
                             <circle cx={8} cy={11} r={4} />
                             <circle cx={8} cy={21} r={4} />
