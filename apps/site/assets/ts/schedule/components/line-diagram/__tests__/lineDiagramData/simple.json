@@ -1,6 +1,6 @@
 [
   {
-    "stop_data": [{ "type": "terminus", "branch": null }],
+    "stop_data": [{ "type": "terminus", "branch": null, "has_disruption?": true }],
     "route_stop": {
       "zone": null,
       "stop_features": ["parking_lot"],
@@ -47,7 +47,7 @@
     ]
   },
   {
-    "stop_data": [{ "type": "stop", "branch": null }],
+    "stop_data": [{ "type": "stop", "branch": null, "has_disruption?": false }],
     "route_stop": {
       "zone": null,
       "stop_features": [],
@@ -112,7 +112,7 @@
     ]
   },
   {
-    "stop_data": [{ "type": "stop", "branch": null }],
+    "stop_data": [{ "type": "stop", "branch": null, "has_disruption?": false }],
     "route_stop": {
       "zone": null,
       "stop_features": ["access"],
@@ -177,7 +177,7 @@
     ]
   },
   {
-    "stop_data": [{ "type": "terminus", "branch": null }],
+    "stop_data": [{ "type": "terminus", "branch": null, "has_disruption?": false }],
     "route_stop": {
       "zone": null,
       "stop_features": ["parking_lot", "access"],

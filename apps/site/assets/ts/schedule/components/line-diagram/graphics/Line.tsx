@@ -13,7 +13,6 @@ import {
   BASE_LINE_WIDTH,
   BRANCH_SPACING
 } from "./graphic-helpers";
-import { isDiversion } from "../../../../models/alert";
 
 interface PathGraphicsProps {
   from: LineDiagramStop;
