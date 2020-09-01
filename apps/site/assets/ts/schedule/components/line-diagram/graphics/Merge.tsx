@@ -85,14 +85,15 @@ const Merges = ({ lineDiagram }: MergeGraphicsProps): ReactElement | null => {
       const arc = branchingOutward
         ? `-${MERGE_RADIUS},-${MERGE_RADIUS} 0 0 0 -${MERGE_RADIUS},-${MERGE_RADIUS}`
         : `-${MERGE_RADIUS},${MERGE_RADIUS} 0 0 1 -${MERGE_RADIUS},${MERGE_RADIUS}`;
-      const d = `M${x},${y} v${dy} a${arc} h${dx}`;
-      return (
-        <path
-          key={`${mergeStop.route_stop.id}-${terminus!.route_stop.id}-merge`}
-          strokeWidth={`${BASE_LINE_WIDTH}px`}
-          d={d}
-        />
-      );
+      const pathProps: React.SVGProps<SVGPathElement> = {
+        key: `${mergeStop.route_stop.id}-${terminus!.route_stop.id}-merge`,
+        strokeWidth: `${BASE_LINE_WIDTH}px`,
+        d: `M${x},${y} v${dy} a${arc} h${dx}`
+      };
+      if (nextStop!.stop_data.some(sd => sd["has_disruption?"])) {
+        pathProps.stroke = "url(#diagonalHatch)";
+      }
+      return <path {...pathProps} />;
     });
   });
 
