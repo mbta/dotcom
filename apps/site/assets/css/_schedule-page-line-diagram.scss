@@ -39,6 +39,9 @@
   &__merge {
     path {
       fill: none;
+    }
+
+    path:not([stroke]) {
       stroke: currentColor;
     }
   }

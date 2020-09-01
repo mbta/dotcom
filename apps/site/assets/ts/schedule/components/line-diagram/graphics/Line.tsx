@@ -44,7 +44,10 @@ const Line = ({ from, to }: PathGraphicsProps): ReactElement | null => {
     lineProps.x2 = lineProps.x1;
     lineProps.y1 = `${y1}px`;
     lineProps.y2 = `${y2}px`;
-    if (from.alerts.some(isDiversion)) {
+    if (
+      from.stop_data.some(sd => sd["has_disruption?"]) &&
+      to.stop_data.some(sd => sd["has_disruption?"])
+    ) {
       lineProps.stroke = "url(#diagonalHatch)";
     }
     return <line className="line-diagram-svg__line" {...lineProps} />;
@@ -73,7 +76,7 @@ const Line = ({ from, to }: PathGraphicsProps): ReactElement | null => {
         lineProps.x2 = lineProps.x1;
         lineProps.y1 = `${y1}px`;
         lineProps.y2 = `${y2}px`;
-        if (branchLine.type !== "line" && from.alerts.some(isDiversion)) {
+        if (branchLine["has_disruption?"]) {
           lineProps.stroke = "url(#diagonalHatch)";
         }
         return <line className="line-diagram-svg__line" {...lineProps} />;
