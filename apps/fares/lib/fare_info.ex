@@ -12,14 +12,14 @@ defmodule Fares.FareInfo do
   def fare_info() do
     "priv/fares-sept1.csv"
     |> fare_data()
-    |> Enum.flat_map(&mapper(&1))
+    |> Enum.flat_map(&maybe_combine_and_map/1)
     |> Enum.concat(free_fare())
     |> split_reduced_fares()
   end
 
   @doc "Combines paper and plastic fare into a single price for certain modes"
-  @spec mapper([String.t()]) :: [Fare.t()]
-  def mapper([mode | _] = data)
+  @spec maybe_combine_and_map([String.t()]) :: [Fare.t()]
+  def maybe_combine_and_map([mode | _] = data)
       when mode in @september_1_2020_modes do
     Enum.reduce(mapper(data), [], fn fare, acc ->
       case fare do
@@ -37,6 +37,8 @@ defmodule Fares.FareInfo do
       end
     end)
   end
+
+  def maybe_combine_and_map(data), do: mapper(data)
 
   @spec mapper([String.t()]) :: [Fare.t()]
   def mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
