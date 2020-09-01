@@ -148,7 +148,7 @@ defmodule SiteWeb.FareView.DescriptionTest do
         mode: :bus,
         name: :local_bus,
         duration: :single_trip,
-        media: [:charlie_card],
+        media: [:charlie_card, :charlie_ticket, :cash],
         cents: 1
       }
 
@@ -163,7 +163,7 @@ defmodule SiteWeb.FareView.DescriptionTest do
         mode: :bus,
         name: :local_bus,
         duration: :single_trip,
-        media: [:charlie_card],
+        media: [:charlie_card, :charlie_ticket, :cash],
         cents: 40_000
       }
 
@@ -178,14 +178,18 @@ defmodule SiteWeb.FareView.DescriptionTest do
     test "if fare is somewhere in the middle, lists fare differences along with transfers" do
       inner_express_fare =
         List.first(
-          Fares.Repo.all(name: :inner_express_bus, duration: :single_trip, media: [:charlie_card])
+          Fares.Repo.all(
+            name: :inner_express_bus,
+            duration: :single_trip,
+            media: [:charlie_card, :charlie_ticket, :cash]
+          )
         )
 
       fare = %Fare{
         mode: :bus,
         name: :local_bus,
         duration: :single_trip,
-        media: [:charlie_card],
+        media: [:charlie_card, :charlie_ticket, :cash],
         cents: inner_express_fare.cents - 1
       }
 
