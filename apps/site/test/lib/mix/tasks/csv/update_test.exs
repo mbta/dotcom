@@ -6,7 +6,6 @@ defmodule Csv.Update.ZonesTest do
   import Mock
 
   describe "run/1" do
-    @tag skip: "I don't know why this is suddenly breaking"
     test "mix runs the csv and generates expected output" do
       with_mock FileWrapper,
         read_file: fn _file -> "place-brntn,2\r\n" end,
@@ -16,7 +15,7 @@ defmodule Csv.Update.ZonesTest do
         assert_called(
           FileWrapper.write_file(
             Application.app_dir(:zones, "priv/crzones.csv"),
-            "place-brntn,2\r\n38671,2\r\n70105,2\r\nBraintree,2\r\nBraintree-01,2\r\nBraintree-02,2\r\n"
+            "place-brntn,2\r\n38671,2\r\n70105,2\r\nBraintree,2\r\nBraintree-01,2\r\nBraintree-02,2\r\nMM-0109,2\r\nMM-0109-CS,2\r\nMM-0109-S,2\r\n"
           )
         )
       end

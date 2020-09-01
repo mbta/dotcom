@@ -44,7 +44,7 @@ defmodule Fares.MonthTest do
       route = %Route{type: 2, id: "CR-Franklin"}
       trip_id = "CR-Weekday-Fall-19-751"
 
-      assert Month.reduced_pass(route, trip_id, "place-sstat", "place-FS-0049") == nil
+      assert Month.reduced_pass(route, trip_id, "place-sstat", "place-PB-0194") == nil
     end
   end
 
@@ -300,10 +300,10 @@ defmodule Fares.MonthTest do
       trip_2 = %Trip{name: "759", id: "CR-Weekday-Fall-19-759"}
 
       assert %Fare{name: {:zone, "4"}} =
-               Month.recommended_pass(route, trip_1, "place-sstat", "place-FS-0049")
+               Month.recommended_pass(route, trip_1, "place-sstat", "place-PB-0194")
 
       assert %Fare{name: {:interzone, "3"}} =
-               Month.recommended_pass(route, trip_2, "place-FB-0118", "place-FS-0049")
+               Month.recommended_pass(route, trip_2, "place-FB-0118", "place-PB-0194")
     end
 
     test "accepts a Trip ID" do
@@ -311,10 +311,10 @@ defmodule Fares.MonthTest do
       trip_id = "CR-Weekday-Fall-19-751"
 
       assert %Fare{name: {:zone, "4"}} =
-               Month.recommended_pass(route, trip_id, "place-sstat", "place-FS-0049")
+               Month.recommended_pass(route, trip_id, "place-sstat", "place-PB-0194")
 
       assert %Fare{name: {:zone, "4"}} =
-               Month.base_pass(route, trip_id, "place-sstat", "place-FS-0049")
+               Month.base_pass(route, trip_id, "place-sstat", "place-PB-0194")
     end
 
     test "returns nil if no matching fares found" do
