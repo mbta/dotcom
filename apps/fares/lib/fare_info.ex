@@ -9,22 +9,17 @@ defmodule Fares.FareInfo do
 
   @doc "Load fare info from a CSV file."
   @spec fare_info() :: [Fare.t()]
-  @spec fare_info(integer) :: [Fare.t()]
-  def fare_info(now \\ System.system_time(:second)) do
-    now
-    |> filename()
+  def fare_info() do
+    "priv/fares-sept1.csv"
     |> fare_data()
-    |> Enum.flat_map(&mapper(&1, now))
+    |> Enum.flat_map(&mapper(&1))
     |> Enum.concat(free_fare())
     |> split_reduced_fares()
   end
 
-  @spec filename(integer) :: Path.t()
-  defp filename(_), do: "priv/fares-sept1.csv"
-
   @doc "Combines paper and plastic fare into a single price for certain modes"
-  @spec mapper([String.t()], integer) :: [Fare.t()]
-  def mapper([mode | _] = data, now)
+  @spec mapper([String.t()]) :: [Fare.t()]
+  def mapper([mode | _] = data)
       when mode in @september_1_2020_modes do
     Enum.reduce(mapper(data), [], fn fare, acc ->
       case fare do
@@ -42,8 +37,6 @@ defmodule Fares.FareInfo do
       end
     end)
   end
-
-  def mapper(data, _), do: mapper(data)
 
   @spec mapper([String.t()]) :: [Fare.t()]
   def mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
