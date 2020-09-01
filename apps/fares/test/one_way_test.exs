@@ -317,7 +317,7 @@ defmodule OneWayTest do
       route = %Route{type: 2, id: "CR-Foxboro"}
       trip = %Trip{name: "9743"}
       south_station_id = "place-sstat"
-      foxboro_id = "place-FS-0049"
+      foxboro_id = "place-PB-0194"
 
       assert %Fares.Fare{cents: 2000, duration: :round_trip} =
                recommended_fare(route, trip, south_station_id, foxboro_id)
@@ -338,10 +338,10 @@ defmodule OneWayTest do
       trip_2 = %Trip{name: "759", id: "CR-Weekday-Fall-19-759"}
 
       assert %Fares.Fare{name: {:zone, "4"}} =
-               recommended_fare(route, trip_1, "place-sstat", "place-FS-0049")
+               recommended_fare(route, trip_1, "place-sstat", "place-PB-0194")
 
       assert %Fares.Fare{name: {:interzone, "3"}} =
-               recommended_fare(route, trip_2, "place-FB-0118", "place-FS-0049")
+               recommended_fare(route, trip_2, "place-FB-0118", "place-PB-0194")
     end
 
     test "Zone 1A to 1A reverse commute trips on Foxboro pilot retain original pricing" do
@@ -366,7 +366,7 @@ defmodule OneWayTest do
       outbound_trip = %Trip{name: "741", id: "CR-Weekday-Fall-19-741"}
 
       south_station_id = "place-sstat"
-      foxboro_id = "place-FS-0049"
+      foxboro_id = "place-PB-0194"
 
       assert %Fares.Fare{name: {:interzone, "4"}} =
                recommended_fare(route, inbound_trip, foxboro_id, south_station_id)
