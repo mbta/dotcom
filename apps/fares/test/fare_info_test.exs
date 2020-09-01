@@ -157,13 +157,6 @@ defmodule Fares.FareInfoTest do
     end
   end
 
-  describe "charging_september_2020_fares?/1" do
-    test "returns whether we are post the 9/1/20 fare transition" do
-      assert charging_september_2020_fares?(1_598_932_801)
-      refute charging_september_2020_fares?(1_598_932_799)
-    end
-  end
-
   describe "mticket_price/1" do
     test "subtracts 10 dollars from the monthly price" do
       assert mticket_price(2000) == 1000

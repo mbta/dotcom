@@ -5,10 +5,9 @@ defmodule Fares.FareInfo do
 
   alias Fares.Fare
 
-  @doc "Load fare info from a CSV file."
-  @september_1_2020 1_598_932_800
   @september_1_2020_modes ["subway", "local_bus", "inner_express_bus", "outer_express_bus"]
 
+  @doc "Load fare info from a CSV file."
   @spec fare_info() :: [Fare.t()]
   @spec fare_info(integer) :: [Fare.t()]
   def fare_info(now \\ System.system_time(:second)) do
@@ -21,14 +20,12 @@ defmodule Fares.FareInfo do
   end
 
   @spec filename(integer) :: Path.t()
-  defp filename(now) when now >= @september_1_2020, do: "priv/fares-sept1.csv"
-
-  defp filename(_), do: "priv/fares-july1.csv"
+  defp filename(_), do: "priv/fares-sept1.csv"
 
   @doc "Combines paper and plastic fare into a single price for certain modes"
   @spec mapper([String.t()], integer) :: [Fare.t()]
   def mapper([mode | _] = data, now)
-      when mode in @september_1_2020_modes and now >= @september_1_2020 do
+      when mode in @september_1_2020_modes do
     Enum.reduce(mapper(data), [], fn fare, acc ->
       case fare do
         # Remove the plastic media fare
@@ -437,11 +434,6 @@ defmodule Fares.FareInfo do
       }
     ]
   end
-
-  @spec charging_september_2020_fares?() :: boolean()
-  @spec charging_september_2020_fares?(integer()) :: boolean()
-  def charging_september_2020_fares?(now \\ System.system_time(:second)),
-    do: now >= @september_1_2020
 
   defp fare_data(filename) do
     :fares
