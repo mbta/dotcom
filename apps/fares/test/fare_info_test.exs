@@ -157,13 +157,6 @@ defmodule Fares.FareInfoTest do
     end
   end
 
-  describe "charging_september_2020_fares?/1" do
-    test "returns whether we are post the 9/1/20 fare transition" do
-      assert charging_september_2020_fares?(1_598_932_801)
-      refute charging_september_2020_fares?(1_598_932_799)
-    end
-  end
-
   describe "mticket_price/1" do
     test "subtracts 10 dollars from the monthly price" do
       assert mticket_price(2000) == 1000
@@ -178,7 +171,7 @@ defmodule Fares.FareInfoTest do
     end
   end
 
-  describe "mapper/2" do
+  describe "maybe_combine_and_map/2" do
     test "merges paper and plastic fares for subway and bus" do
       fare_map_expected_modes = [
         ["subway", "2.40", "2.40", "1.10", "30.00", "12.75", "22.50", "90.00", ""],
@@ -188,17 +181,17 @@ defmodule Fares.FareInfoTest do
       ]
 
       assert Enum.count(
-               Enum.flat_map(fare_map_expected_modes, &mapper(&1, 1_598_932_800)),
+               Enum.flat_map(fare_map_expected_modes, &maybe_combine_and_map(&1)),
                &match?(%Fare{media: [:charlie_card, :charlie_ticket, :cash]}, &1)
              ) == 4
 
       refute Enum.any?(
-               Enum.flat_map(fare_map_expected_modes, &mapper(&1, 1_598_932_800)),
+               Enum.flat_map(fare_map_expected_modes, &maybe_combine_and_map(&1)),
                &match?(%Fare{media: [:charlie_card]}, &1)
              )
 
       refute Enum.any?(
-               Enum.flat_map(fare_map_expected_modes, &mapper(&1, 1_598_932_800)),
+               Enum.flat_map(fare_map_expected_modes, &maybe_combine_and_map(&1)),
                &match?(%Fare{media: [:charlie_ticket, :cash]}, &1)
              )
 
@@ -210,7 +203,7 @@ defmodule Fares.FareInfoTest do
       ]
 
       refute Enum.any?(
-               Enum.flat_map(fare_map_expected_unchanged_modes, &mapper(&1, 1_598_932_800)),
+               Enum.flat_map(fare_map_expected_unchanged_modes, &maybe_combine_and_map(&1)),
                &match?(%Fare{media: [:charlie_card, :charlie_ticket, :cash]}, &1)
              )
     end

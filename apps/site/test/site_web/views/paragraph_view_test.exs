@@ -362,12 +362,10 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       assert rendered =~ "Subway"
       assert rendered =~ "One-Way"
       assert rendered =~ "$2.40"
-      assert rendered =~ "with a CharlieCard"
-      assert rendered =~ "$2.90 with CharlieTicket"
+      assert rendered =~ "with CharlieCard, CharlieTicket, or Cash"
       assert rendered =~ "/fares/subway"
 
       assert rendered =~ "Local Bus"
-      assert rendered =~ "$2.00"
       assert rendered =~ "$1.70 with a CharlieCard"
       refute rendered =~ "with a CharlieTicket or Cash"
     end
@@ -449,7 +447,6 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       assert rendered =~ "$1.70"
       assert rendered =~ "with CharlieCard"
       assert rendered =~ "1 free transfer"
-      assert rendered =~ "$2.00"
       refute rendered =~ "with CharlieTicket or Cash"
       assert rendered =~ "Limited transfers"
       assert rendered =~ "/fares/bus-fare"

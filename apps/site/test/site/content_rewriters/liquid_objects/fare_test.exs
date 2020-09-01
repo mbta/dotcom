@@ -14,9 +14,9 @@ defmodule Site.ContentRewriters.LiquidObjects.FareTest do
                duration: :single_trip
              ]
              |> Repo.all()
-             |> fare_result() == "$2.00"
+             |> fare_result() == "$1.70"
 
-      assert fare_request("local_bus:cash") == {:ok, "$2.00"}
+      assert fare_request("local_bus:cash") == {:ok, "$1.70"}
     end
 
     test "it uses the :name key for fare requests where both :mode and :name keys are valid" do
