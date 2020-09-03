@@ -2,7 +2,14 @@
 
 # Dotcom
 
-The new face of https://www.mbta.com/. Supported browsers are noted in [the site .browserslistrc](apps/site/assets/.browserslistrc), and can be viewed in more detail [on browsersl.ist](https://browsersl.ist/?q=%3E+0.25%25%2C+safari+%3E%3D+4%2C+ie+%3E%3D+11%2C+last+2+versions).
+The new face of https://www.mbta.com/. 
+
+## Supported browsers 
+
+We strive to support all users – but the variety of browsers, operating systems and devices available necessitates a more intentioned approach. Generally speaking, Dotcom supports the stable latest releases of all major web browsers (Chrome, Safari, Firefox, Microsoft Edge, and Internet Explorer 11) and platforms (Windows, MacOS, iOS, Android). 
+Other interfaces using the underlying engines of the aforementioned browsers – that's WebKit, Blink, Gecko – are not explicitly supported but are expected to function correctly.
+
+From a development standpoint, polyfills and code transforms are implemented via [Babel](https://babeljs.io/docs/en/next/babel-preset-env.html#browserslist-integration) with the target browsers noted in [the site .browserslistrc](apps/site/assets/.browserslistrc).
 
 
 - [Getting Started](#getting-started)
