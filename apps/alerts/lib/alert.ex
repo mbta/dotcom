@@ -103,8 +103,7 @@ defmodule Alerts.Alert do
     :shuttle,
     :stop_closure,
     :station_closure,
-    :detour,
-    :suspension
+    :detour
   ]
 
   @spec new(Keyword.t()) :: t()
