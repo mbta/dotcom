@@ -9,5 +9,4 @@ export const isDiversion = ({ effect }: Alert): boolean =>
   effect === "shuttle" ||
   effect === "stop_closure" ||
   effect === "station_closure" ||
-  effect === "detour" ||
-  effect === "suspension";
+  effect === "detour";

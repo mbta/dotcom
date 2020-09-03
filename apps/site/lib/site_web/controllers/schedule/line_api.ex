@@ -151,15 +151,14 @@ defmodule SiteWeb.ScheduleController.LineApi do
     Enum.any?(alerts, &Alerts.Alert.is_diversion(&1))
   end
 
-  # for each list of disrupted stops,
-  # make adjustment to the diagram
-  # based on the nature of the disruption.
-  # e.g. for detour we modify the stop LEADING to it
-  # but for shuttle we DON'T modify the FINAL stop
-  # note: there might be more logic than that.
+  # for each list of disrupted stops, make adjustment to the diagram based on
+  # the nature of the disruption. e.g. for detour or stop/station closure we
+  # modify the stop preceding it but for shuttle we don't style the final stop
   defp shift_indices_by_disruption_effect(indices, effects) do
+    effect_avoids_stop? = effects -- effects -- [:stop_closure, :station_closure, :detour]
+
     cond do
-      :detour in effects and List.first(indices) > 0 ->
+      effect_avoids_stop? and List.first(indices) > 0 ->
         [List.first(indices) - 1] ++ indices
 
       :shuttle in effects ->
@@ -168,11 +167,6 @@ defmodule SiteWeb.ScheduleController.LineApi do
       true ->
         indices
     end
-  end
-
-  defp get_index(list_with_index) do
-    list_with_index
-    |> Enum.map(fn {_stop, index} -> index end)
   end
 
   defp get_effects_for_indexed_stops(stops_list) do
@@ -208,7 +202,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
         effects = get_effects_for_indexed_stops(indexed_stops_list)
 
         indexed_stops_list
-        |> get_index()
+        |> Enum.map(fn {_stop, index} -> index end)
         |> shift_indices_by_disruption_effect(effects)
       end)
       |> List.flatten()
