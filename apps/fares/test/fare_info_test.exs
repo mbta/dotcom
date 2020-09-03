@@ -170,42 +170,4 @@ defmodule Fares.FareInfoTest do
       assert Enum.all?(fares, fn %Fare{name: :ferry_george} -> true end)
     end
   end
-
-  describe "maybe_combine_and_map/2" do
-    test "merges paper and plastic fares for subway and bus" do
-      fare_map_expected_modes = [
-        ["subway", "2.40", "2.40", "1.10", "30.00", "12.75", "22.50", "90.00", ""],
-        ["local_bus", "1.70", "1.70", "0.85", "30.00", "12.75", "22.50", "55.00", ""],
-        ["inner_express_bus", "4.25", "4.25", "2.10", "30.00", "12.75", "22.50", "136.00", ""],
-        ["outer_express_bus", "5.25", "5.25", "2.60", "30.00", "12.75", "22.50", "168.00", ""]
-      ]
-
-      assert Enum.count(
-               Enum.flat_map(fare_map_expected_modes, &maybe_combine_and_map(&1)),
-               &match?(%Fare{media: [:charlie_card, :charlie_ticket, :cash]}, &1)
-             ) == 4
-
-      refute Enum.any?(
-               Enum.flat_map(fare_map_expected_modes, &maybe_combine_and_map(&1)),
-               &match?(%Fare{media: [:charlie_card]}, &1)
-             )
-
-      refute Enum.any?(
-               Enum.flat_map(fare_map_expected_modes, &maybe_combine_and_map(&1)),
-               &match?(%Fare{media: [:charlie_ticket, :cash]}, &1)
-             )
-
-      fare_map_expected_unchanged_modes = [
-        ["commuter", "interzone_10", "7.25", "3.50", "257.00", "", "", "", ""],
-        ["foxboro", "20.00", "", "", "", "", "", "", ""],
-        ["ferry", "3.70", "90.00", "9.75", "9.75", "329.00", "9.75", "12.75", "22.50"],
-        ["the_ride", "3.35", "5.60", "", "", "", "", "", ""]
-      ]
-
-      refute Enum.any?(
-               Enum.flat_map(fare_map_expected_unchanged_modes, &maybe_combine_and_map(&1)),
-               &match?(%Fare{media: [:charlie_card, :charlie_ticket, :cash]}, &1)
-             )
-    end
-  end
 end

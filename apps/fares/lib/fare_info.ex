@@ -5,40 +5,15 @@ defmodule Fares.FareInfo do
 
   alias Fares.Fare
 
-  @september_1_2020_modes ["subway", "local_bus", "inner_express_bus", "outer_express_bus"]
-
   @doc "Load fare info from a CSV file."
   @spec fare_info() :: [Fare.t()]
   def fare_info() do
     "priv/fares-sept1.csv"
     |> fare_data()
-    |> Enum.flat_map(&maybe_combine_and_map/1)
+    |> Enum.flat_map(&mapper/1)
     |> Enum.concat(free_fare())
     |> split_reduced_fares()
   end
-
-  @doc "Combines paper and plastic fare into a single price for certain modes"
-  @spec maybe_combine_and_map([String.t()]) :: [Fare.t()]
-  def maybe_combine_and_map([mode | _] = data)
-      when mode in @september_1_2020_modes do
-    Enum.reduce(mapper(data), [], fn fare, acc ->
-      case fare do
-        # Remove the plastic media fare
-        %{duration: :single_trip, media: [:charlie_card]} ->
-          acc
-
-        # Add the plastic media into the paper fare
-        %{duration: :single_trip, media: [:charlie_ticket, :cash] = paper} ->
-          [%{fare | media: [:charlie_card | paper]} | acc]
-
-        # All other media is unchanged
-        _ ->
-          [fare | acc]
-      end
-    end)
-  end
-
-  def maybe_combine_and_map(data), do: mapper(data)
 
   @spec mapper([String.t()]) :: [Fare.t()]
   def mapper(["commuter", zone, single_trip, single_trip_reduced, monthly | _]) do
@@ -104,13 +79,11 @@ defmodule Fares.FareInfo do
   def mapper([
         "subway",
         charlie_card_price,
-        ticket_price,
         day_reduced_price,
         month_reduced_price,
         day_pass_price,
         week_pass_price,
-        month_pass_price,
-        ""
+        month_pass_price | _
       ]) do
     base = %Fare{
       mode: :subway,
@@ -137,17 +110,9 @@ defmodule Fares.FareInfo do
       %{
         base
         | duration: :single_trip,
-          media: [:charlie_card],
+          media: [:charlie_card, :charlie_ticket, :cash],
           reduced: nil,
           cents: dollars_to_cents(charlie_card_price),
-          additional_valid_modes: [:bus]
-      },
-      %{
-        base
-        | duration: :single_trip,
-          media: [:charlie_ticket, :cash],
-          reduced: nil,
-          cents: dollars_to_cents(ticket_price),
           additional_valid_modes: [:bus]
       },
       %{
@@ -179,13 +144,11 @@ defmodule Fares.FareInfo do
   def mapper([
         "local_bus",
         charlie_card_price,
-        ticket_price,
         day_reduced_price,
         _month_reduced_price,
         _day_pass_price,
         _week_pass_price,
-        month_pass_price,
-        ""
+        month_pass_price | _
       ]) do
     base = %Fare{
       mode: :bus,
@@ -196,16 +159,9 @@ defmodule Fares.FareInfo do
       %{
         base
         | duration: :single_trip,
-          media: [:charlie_card],
+          media: [:charlie_card, :charlie_ticket, :cash],
           reduced: nil,
           cents: dollars_to_cents(charlie_card_price)
-      },
-      %{
-        base
-        | duration: :single_trip,
-          media: [:charlie_ticket, :cash],
-          reduced: nil,
-          cents: dollars_to_cents(ticket_price)
       },
       %{
         base
@@ -227,13 +183,11 @@ defmodule Fares.FareInfo do
   def mapper([
         mode,
         charlie_card_price,
-        ticket_price,
         day_reduced_price,
         _month_reduced_price,
         _day_pass_price,
         _week_pass_price,
-        month_pass_price,
-        ""
+        month_pass_price | _
       ])
       when mode in ["inner_express_bus", "outer_express_bus"] do
     base = %Fare{
@@ -245,16 +199,9 @@ defmodule Fares.FareInfo do
       %{
         base
         | duration: :single_trip,
-          media: [:charlie_card],
+          media: [:charlie_card, :charlie_ticket, :cash],
           reduced: nil,
           cents: dollars_to_cents(charlie_card_price)
-      },
-      %{
-        base
-        | duration: :single_trip,
-          media: [:charlie_ticket, :cash],
-          reduced: nil,
-          cents: dollars_to_cents(ticket_price)
       },
       %{
         base
