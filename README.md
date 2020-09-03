@@ -134,6 +134,10 @@ Start the server with `mix phx.server`
 
 Then, visit the site at http://localhost:4001/
 
+## Algolia
+
+[Algolia](https://www.algolia.com) powers our search features. Sometimes after content updates or GTFS releases we will find that the search results do not contain up-to-date results. When this happens you can re-index the Algolia data by running: `mix algolia.update`.
+
 ## Additional Documentation
 
 See [docs](docs) for information about [testing](docs/TESTING.md) and other development details.

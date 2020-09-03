@@ -1,11 +1,16 @@
 defmodule Mix.Tasks.Algolia.Update do
+  @moduledoc """
+  Updates data in Algolia indexes
+
+  Run:
+    mix algolia.update
+  """
+
   use Mix.Task
   alias Algolia.Update
 
-  @moduledoc """
-  Updates data in algolia indexes
-  """
-
+  @shortdoc "Update data in Algolia indexes"
+  @impl Mix.Task
   def run(args) do
     _ = Application.ensure_all_started(:site)
 
