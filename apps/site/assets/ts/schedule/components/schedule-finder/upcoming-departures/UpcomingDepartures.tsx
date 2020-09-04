@@ -3,7 +3,7 @@ import { get, isEmpty } from "lodash";
 import { Route } from "../../../../__v3api";
 import Loading from "../../../../components/Loading";
 import { reducer } from "../../../../helpers/fetch";
-import { modeIcon, crowdingIcon } from "../../../../helpers/icon";
+import { modeIcon } from "../../../../helpers/icon";
 import {
   timeForCommuterRail,
   trackForCommuterRail,
@@ -16,6 +16,7 @@ import { modeBgClass } from "../../../../stop/components/RoutePillList";
 import { UserInput } from "../../__schedule";
 import { EnhancedJourney } from "../../__trips";
 import LazyAccordion, { AccordionRow } from "./LazyAccordion";
+import LiveCrowdingIcon from "../../line-diagram/LiveCrowdingIcon";
 
 interface State {
   data: EnhancedJourney[] | null;
@@ -70,13 +71,9 @@ export const crowdingInformation = (
       tripInfo.vehicle.trip_id === tripId;
 
     return (
-      <span className="m-schedule-diagram__prediction-crowding">
-        {crowdingIcon(
-          `c-icon__crowding--${
-            showCrowding ? tripInfo!.vehicle!.crowding! : "crowding_unavailable"
-          }`
-        )}
-      </span>
+      <LiveCrowdingIcon
+        crowding={showCrowding ? tripInfo!.vehicle!.crowding! : null}
+      />
     );
   }
 

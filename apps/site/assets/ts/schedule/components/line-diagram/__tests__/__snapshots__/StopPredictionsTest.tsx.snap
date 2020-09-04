@@ -16,7 +16,7 @@ exports[`StopPredictions renders bus predictions 1`] = `
       6   min
     </div>
     <div
-      className="m-schedule-diagram__prediction-crowding m-schedule-table-crowding"
+      className="m-schedule-diagram__prediction-crowding"
     >
       <span
         aria-hidden="true"

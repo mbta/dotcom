@@ -8,7 +8,7 @@ interface LiveCrowdingIconProps {
 }
 
 const LiveCrowdingIcon = ({ crowding }: LiveCrowdingIconProps): JSX.Element => (
-  <div className="m-schedule-diagram__prediction-crowding m-schedule-table-crowding">
+  <div className="m-schedule-diagram__prediction-crowding">
     {crowding ? (
       <TooltipWrapper
         tooltipText={`Currently <strong>${crowdingDescriptions(
