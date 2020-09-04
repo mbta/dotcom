@@ -5,24 +5,16 @@ import {
   timeForCommuterRail,
   statusForCommuterRail
 } from "../../../helpers/prediction-helpers";
-import { isSkippedOrCancelled } from "../../../models/prediction";
+import {
+  isSkippedOrCancelled,
+  hasPredictionTime
+} from "../../../models/prediction";
 import LiveCrowdingIcon from "./LiveCrowdingIcon";
 
 interface StopPredictions {
   headsigns: HeadsignWithCrowding[];
   isCommuterRail: boolean;
 }
-
-const hasPredictionTime = ({
-  time_data_with_crowding_list: timeDataList
-}: HeadsignWithCrowding): boolean =>
-  !!(
-    timeDataList &&
-    timeDataList[0] &&
-    timeDataList[0].time_data &&
-    timeDataList[0].time_data.prediction &&
-    timeDataList[0].time_data.prediction.time
-  );
 
 const predictionTexts = (headsign: HeadsignWithCrowding): string[] => {
   const texts = [headsign.name];
