@@ -59,11 +59,10 @@ const RoutePillSmall = ({
 
 export const crowdingInformation = (
   journey: EnhancedJourney,
-  tripId: string,
-  someCrowdingInfoExists: boolean
+  tripId: string
 ): ReactElement<HTMLElement> | null => {
   const { tripInfo } = journey;
-  if (tripInfo && someCrowdingInfoExists) {
+  if (tripInfo) {
     // Only display the crowding information if the trip ID of the vehicle matches the trip ID of the prediction being displayed.
     const showCrowding =
       !!tripInfo.vehicle &&
@@ -81,11 +80,9 @@ export const crowdingInformation = (
 };
 
 export const BusTableRow = ({
-  journey,
-  someCrowdingInfoExists
+  journey
 }: {
   journey: EnhancedJourney;
-  someCrowdingInfoExists: boolean;
 }): ReactElement<HTMLElement> | null => {
   const { trip, route, realtime } = journey;
 
@@ -103,7 +100,7 @@ export const BusTableRow = ({
       </td>
       <td className="schedule-table__cell schedule-table__cell--time u-nowrap u-bold text-right">
         {realtime.prediction!.time}
-        {crowdingInformation(journey, trip.id, someCrowdingInfoExists)}
+        {crowdingInformation(journey, trip.id)}
       </td>
     </>
   );
@@ -148,13 +145,11 @@ export const CrTableRow = ({
 const TableRow = ({
   state,
   input,
-  journey,
-  someCrowdingInfoExists
+  journey
 }: {
   state: State;
   input: UserInput;
   journey: EnhancedJourney;
-  someCrowdingInfoExists: boolean;
 }): ReactElement<HTMLElement> | null => {
   const { realtime } = journey;
 
@@ -162,12 +157,7 @@ const TableRow = ({
 
   const contentComponent =
     journey.route.type !== 2
-      ? () => (
-          <BusTableRow
-            journey={journey}
-            someCrowdingInfoExists={someCrowdingInfoExists}
-          />
-        )
+      ? () => <BusTableRow journey={journey} />
       : () => <CrTableRow journey={journey} />;
 
   if (isABusRoute(journey.route)) {
@@ -285,7 +275,11 @@ export const upcomingDeparturesTable = (
     <>
       {UpcomingDeparturesHeader}
       {journeysWithTripInfo !== null && hasPredictions(journeysWithTripInfo) ? (
-        <table className="schedule-table schedule-table--upcoming">
+        <table
+          className={`schedule-table schedule-table--upcoming ${
+            !someCrowdingInfoExists ? "u-no-crowding-data" : ""
+          }`}
+        >
           <thead className="schedule-table__header">
             <tr className="schedule-table__row-header">
               <th scope="col" className="schedule-table__cell">
@@ -311,7 +305,6 @@ export const upcomingDeparturesTable = (
                   journey={journey}
                   // eslint-disable-next-line react/no-array-index-key
                   key={idx}
-                  someCrowdingInfoExists={someCrowdingInfoExists}
                 />
               )
             )}

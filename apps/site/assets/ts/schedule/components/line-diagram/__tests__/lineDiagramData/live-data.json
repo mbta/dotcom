@@ -43,13 +43,15 @@
         "id": "veh1",
         "headsign": "Dest1",
         "status": "incoming",
-        "trip_name": ""
+        "trip_name": "",
+        "crowding": null
       },
       {
         "id": "veh2",
         "headsign": null,
         "status": "in_transit",
-        "trip_name": ""
+        "trip_name": "",
+        "crowding": null
       }
     ]
   },
@@ -79,7 +81,8 @@
         "id": "veh3",
         "headsign": "Dest2",
         "status": "in_transit",
-        "trip_name": ""
+        "trip_name": "",
+        "crowding": null
       }
     ]
   }

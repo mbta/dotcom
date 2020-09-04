@@ -3,7 +3,7 @@
 exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
   <LineDiagramWithStops stops={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-    <div className=\\"m-schedule-diagram\\">
+    <div className=\\"m-schedule-diagram u-no-crowding-data\\">
       <Diagram lineDiagram={{...}} liveData={{...}}>
         <LiveVehicleIconSet stop={{...}} liveData={{...}} />
         <LiveVehicleIconSet stop={{...}} liveData={{...}} />

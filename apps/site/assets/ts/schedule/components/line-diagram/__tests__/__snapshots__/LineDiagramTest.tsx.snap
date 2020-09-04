@@ -18,7 +18,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
   </SearchBox>
   <Provider store={{...}}>
     <LineDiagramWithStops stops={{...}} handleStopClick={[Function]} liveData={{...}}>
-      <div className=\\"m-schedule-diagram\\">
+      <div className=\\"m-schedule-diagram u-no-crowding-data\\">
         <Diagram lineDiagram={{...}} liveData={{...}}>
           <LiveVehicleIconSet stop={{...}} liveData={{...}} />
           <LiveVehicleIconSet stop={{...}} liveData={{...}}>
