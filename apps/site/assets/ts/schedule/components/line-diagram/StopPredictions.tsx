@@ -77,11 +77,14 @@ const StopPredictions = ({
       );
     });
   } else {
-    predictions = liveHeadsigns.map(headsign => {
+    predictions = liveHeadsigns.map((headsign, index) => {
       const { crowding } = headsign.time_data_with_crowding_list[0];
       return (
-        /* eslint-disable-next-line react/no-array-index-key */
-        <div key={headsign.name} className="m-schedule-diagram__prediction">
+        <div
+          // eslint-disable-next-line react/no-array-index-key
+          key={`headsign.name-${index}`}
+          className="m-schedule-diagram__prediction"
+        >
           <div>{headsign.name}</div>
           <div className="m-schedule-diagram__prediction-time">
             {capitalize(
