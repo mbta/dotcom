@@ -18,6 +18,9 @@
   }
 
   &--not_crowded {
+    background-color: $crowding-not-crowded-bg;
+    border-color: $crowding-not-crowded;
+
     .c-icon__crowding .person-middle,
     .c-icon__crowding .person-right {
       display: none;
@@ -25,7 +28,7 @@
   }
 
   &--some_crowding {
-    background-color: lighten($crowding-some-crowding, 25%);
+    background-color: $crowding-some-crowding-bg;
     border-color: $crowding-some-crowding;
 
     .c-icon__crowding .person-right {
@@ -34,7 +37,7 @@
   }
 
   &--crowded {
-    background-color: lighten($crowding-crowded, 25%);
+    background-color: $crowding-crowded-bg;
     border-color: $crowding-crowded;
   }
 }
