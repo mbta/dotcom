@@ -158,7 +158,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
     effect_avoids_stop? = effects -- effects -- [:stop_closure, :station_closure, :detour]
 
     cond do
-      effect_avoids_stop? and List.first(indices) > 0 ->
+      effect_avoids_stop? && List.first(indices) > 0 ->
         [List.first(indices) - 1] ++ indices
 
       :shuttle in effects ->
@@ -179,7 +179,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
 
   defp add_disruption(stop) do
     Map.update(stop, :stop_data, [], fn stop_data ->
-      stop_or_terminus = List.last(stop_data)
+      stop_or_terminus = Kernel.length(stop_data) - 1
 
       stop_data
       |> List.update_at(stop_or_terminus, fn sd ->
