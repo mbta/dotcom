@@ -1,6 +1,8 @@
 defmodule SiteWeb.CustomerSupportControllerTest do
   use SiteWeb.ConnCase
 
+  import Phoenix.HTML, only: [safe_to_string: 1, html_escape: 1]
+
   setup do
     conn =
       default_conn()
@@ -245,6 +247,51 @@ defmodule SiteWeb.CustomerSupportControllerTest do
         )
 
       assert "recaptcha" in conn.assigns.errors
+    end
+  end
+
+  describe "Expandable blocks" do
+    test "renders an expandable block", %{conn: conn} do
+      block = [
+        %{
+          header: %{text: "Call Us", iconSvgText: nil},
+          id: "call_us",
+          initially_expanded: true
+        }
+      ]
+
+      conn = assign(conn, :view_module, SiteWeb.CustomerSupportView)
+
+      rendered =
+        safe_to_string(
+          html_escape(
+            SiteWeb.CustomerSupportController.render_expandable_blocks(conn.assigns, block)
+          )
+        )
+
+      anchor = Floki.find(rendered, ".c-expandable-block__link")
+      assert Enum.count(anchor) == 1
+    end
+
+    test "fails gracefully if template does not exist", %{conn: conn} do
+      block = [
+        %{
+          header: %{text: "Does not exist", iconSvgText: nil},
+          id: "nonexistent",
+          initially_expanded: true
+        }
+      ]
+
+      conn = assign(conn, :view_module, SiteWeb.CustomerSupportView)
+
+      rendered =
+        safe_to_string(
+          html_escape(
+            SiteWeb.CustomerSupportController.render_expandable_blocks(conn.assigns, block)
+          )
+        )
+
+      assert rendered == ""
     end
   end
 

@@ -1,0 +1,31 @@
+
+<% header_id = "header-#{@id}" %>
+<% panel_id = "panel-#{@id}" %>
+
+<a class="c-expandable-block__link"
+  href="#<%= panel_id %>"
+  tabIndex="0"
+  id="<%= header_id %>"
+  aria-expanded="<%= @initially_expanded %>"
+  aria-controls="<%= panel_id %>"
+  role="button"
+  data-toggle="collapse">
+  <h3 class="c-expandable-block__header">
+    <%= if @header.iconSvgText do %>
+      <%= content_tag(:span, svg(@header.iconSvgText), class: "notranslate c-expandable-block__header-icon", aria: [hidden: "true"]) %>
+    <% end %>
+    <div class="c-expandable-block__header-container">
+      <%= @header.text %>
+      <span class="c-expandable-block-caret"></span>
+    </div>
+  </h3>
+</a>
+<div
+  class="c-expandable-block__panel collapse<%= if @initially_expanded do %> in<% end %> js-focus-on-expand"
+  tabIndex="0"
+  role="region"
+  id="<%= panel_id %>"
+  aria-labelledby="<%= header_id %>"
+>
+<%= render @view_module, @view_template, assigns %>
+</div>
