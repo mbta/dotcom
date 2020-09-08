@@ -5,6 +5,44 @@ defmodule SiteWeb.CustomerSupportController do
 
   @allowed_attachment_types ~w(image/bmp image/gif image/jpeg image/png image/tiff image/webp)
 
+  @content_blocks [
+    %{
+      header: %{text: "Call Us", iconSvgText: nil},
+      id: "call_us",
+      initially_expanded: true
+    },
+    %{
+      header: %{text: "Lost and Found", iconSvgText: nil},
+      id: "lost_and_found",
+      initially_expanded: true
+    },
+    %{
+      header: %{text: "Get Service Updates", iconSvgText: nil},
+      id: "service_updates",
+      initially_expanded: true
+    },
+    %{
+      header: %{text: "Transit Police", iconSvgText: nil},
+      id: "transit_police",
+      initially_expanded: false
+    },
+    %{
+      header: %{text: "Request Public Records", iconSvgText: nil},
+      id: "request_public_records",
+      initially_expanded: false
+    },
+    %{
+      header: %{text: "Write to Us", iconSvgText: nil},
+      id: "write_to_us",
+      initially_expanded: false
+    },
+    %{
+      header: %{text: "Report Fraud, Waste, or Abuse", iconSvgText: nil},
+      id: "report",
+      initially_expanded: false
+    }
+  ]
+
   plug(Turbolinks.Plug.NoCache)
   plug(:set_service_options)
   plug(:assign_ip)
@@ -39,6 +77,29 @@ defmodule SiteWeb.CustomerSupportController do
         |> put_status(400)
         |> render_form(%{errors: errors, comments: Map.get(params, "comments")})
     end
+  end
+
+  @spec render_expandable_blocks(Plug.Conn.t(), list) :: [Phoenix.HTML.safe()]
+  def render_expandable_blocks(assigns, content_blocks \\ @content_blocks) do
+    content_blocks
+    |> Enum.map(fn block ->
+      view_template = "_#{block.id}.html"
+
+      try do
+        SiteWeb.PartialView.render(
+          "_expandable_block.html",
+          Map.merge(assigns, %{
+            header: block.header,
+            id: block.id,
+            initially_expanded: block.initially_expanded,
+            view_template: view_template
+          })
+        )
+      rescue
+        # We still want to render the page, so we just return empty content:
+        _ -> ""
+      end
+    end)
   end
 
   @spec do_submit(Plug.Conn.t(), map) :: Plug.Conn.t()
