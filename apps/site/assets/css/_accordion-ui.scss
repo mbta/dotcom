@@ -97,21 +97,15 @@
 }
 
 .c-expandable-block__header-caret--black {
-  color: $black;
-  float: right;
-  font-family: FontAwesome;
+  @include caret($color: $black);
 }
 
 .c-expandable-block__header-caret {
-  color: $brand-primary;
-  float: right;
-  font-family: FontAwesome;
+  @include caret($color: $brand-primary);
 }
 
 .c-expandable-block__header-caret--white {
-  color: $white;
-  float: right;
-  font-family: FontAwesome;
+  @include caret($color: $white);
 }
 
 .c-expandable-block__panel {

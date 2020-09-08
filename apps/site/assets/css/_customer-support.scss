@@ -169,3 +169,40 @@ button .waiting {
   top: -$base-spacing / 2;
   width: $base-spacing;
 }
+
+.c-expandable-block__link {
+  color: inherit;
+  text-decoration: none;
+  &:hover {
+    text-decoration: inherit;
+  }
+  &:link {
+    text-decoration: inherit;
+  }
+}
+
+
+a:first-of-type > h3 {
+  margin-top: 0;
+}
+
+.c-expandable-block__header-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.c-expandable-block-caret {
+  @include caret($color: $brand-primary);
+  align-items: flex-end;
+  display: flex;
+
+  [aria-expanded='false'] &::after {
+    content: $fa-var-angle-down;
+    display: flex;
+  }
+
+  [aria-expanded='true'] &::after {
+    content: $fa-var-angle-up;
+    display: flex;
+  }
+}
