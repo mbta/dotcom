@@ -158,11 +158,11 @@ defmodule SiteWeb.ScheduleController.LineApi do
     effect_avoids_stop? = effects -- effects -- [:stop_closure, :station_closure, :detour]
 
     cond do
-      effect_avoids_stop? && List.first(indices) > 0 ->
-        [List.first(indices) - 1] ++ indices
-
       :shuttle in effects ->
         List.delete_at(indices, -1)
+
+      effect_avoids_stop? && List.first(indices) > 0 ->
+        [List.first(indices) - 1] ++ indices
 
       true ->
         indices
