@@ -49,10 +49,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
 
         json(
           conn,
-          Enum.map(line_data, fn stop ->
-            update_route_stop_data(stop, conn.assigns.alerts, conn.assigns.date)
-          end)
-          |> maybe_add_stop_disruptions()
+          update_route_stop_data(line_data, conn.assigns.alerts, conn.assigns.date)
         )
 
       :not_found ->
@@ -123,23 +120,43 @@ defmodule SiteWeb.ScheduleController.LineApi do
     |> DiagramHelpers.build_stop_list(direction_id)
   end
 
-  @spec update_route_stop_data({any, RouteStop.t()}, any, DateTime.t()) :: line_diagram_stop()
-  def update_route_stop_data({data, %RouteStop{id: stop_id} = map}, alerts, date) do
+  @spec update_route_stop_data(any, any, DateTime.t()) :: line_diagram_stop()
+  def update_route_stop_data(all_stops, alerts, date) do
+    Enum.map(all_stops, fn stop ->
+      compose_route_stop_data(stop, alerts, date)
+    end)
+    |> maybe_add_stop_disruptions(date)
+    |> json_safe_route_stop_data(date)
+  end
+
+  @spec compose_route_stop_data(any, any, DateTime.t()) :: any
+  defp compose_route_stop_data({data, %RouteStop{id: stop_id} = route_stop}, alerts, date) do
     %{
       alerts:
         alerts
         |> Enum.filter(&Match.any_time_match?(&1, date))
-        |> AlertsStop.match(stop_id)
-        |> json_safe_alerts(date),
-      route_stop: RouteStop.to_json_safe(map),
+        |> AlertsStop.match(stop_id),
+      route_stop: route_stop,
       stop_data:
         Enum.map(data, fn {key, value} -> %{branch: key, type: value, has_disruption?: false} end)
     }
   end
 
-  @spec maybe_add_stop_disruptions([line_diagram_stop]) :: [line_diagram_stop]
-  defp maybe_add_stop_disruptions(stops_list) do
-    if Enum.any?(stops_list, &stop_has_disruption?(&1)) do
+  @spec json_safe_route_stop_data(line_diagram_stop(), DateTime.t()) :: line_diagram_stop()
+  defp json_safe_route_stop_data(all_stops, date) do
+    all_stops
+    |> Enum.map(fn %{alerts: alerts, route_stop: route_stop} = stop_map ->
+      %{
+        stop_map
+        | alerts: json_safe_alerts(alerts, date),
+          route_stop: RouteStop.to_json_safe(route_stop)
+      }
+    end)
+  end
+
+  @spec maybe_add_stop_disruptions([line_diagram_stop], DateTime.t()) :: [line_diagram_stop]
+  defp maybe_add_stop_disruptions(stops_list, date) do
+    if Enum.any?(stops_list, &stop_has_disruption_now?(&1, date)) do
       do_stops_list_with_disruptions(stops_list)
     else
       stops_list

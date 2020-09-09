@@ -79,9 +79,7 @@ defmodule SiteWeb.ScheduleController.LineController do
         route_patterns: conn.assigns.route_patterns,
         shape_map: conn.assigns.shape_map,
         line_diagram:
-          Enum.map(conn.assigns.all_stops, fn stop ->
-            update_route_stop_data(stop, conn.assigns.alerts, conn.assigns.date)
-          end),
+          update_route_stop_data(conn.assigns.all_stops, conn.assigns.alerts, conn.assigns.date),
         today: conn.assigns.date_time |> DateTime.to_date() |> Date.to_iso8601(),
         variant: conn.assigns.variant
       }
