@@ -42,7 +42,11 @@
       {
         "id": "2",
         "severity": "3",
-        "effect": "detour"
+        "effect": "detour",
+        "lifecycle": "ongoing",
+        "active_period": [
+          ["2020-09-01 12:00", "2022-01-01 01:00"]
+        ]
       }
     ]
   },
