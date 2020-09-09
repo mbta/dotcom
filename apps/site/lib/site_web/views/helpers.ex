@@ -128,10 +128,6 @@ defmodule SiteWeb.ViewHelpers do
     end
   end
 
-  def font_awesome_id do
-    env(:font_awesome_id)
-  end
-
   defp env(key) do
     Application.get_env(:site, __MODULE__)[key]
   end
