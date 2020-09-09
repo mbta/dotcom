@@ -18,7 +18,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
   </SearchBox>
   <Provider store={{...}}>
     <LineDiagramWithStops stops={{...}} handleStopClick={[Function]} liveData={{...}}>
-      <div className=\\"m-schedule-diagram\\">
+      <div className=\\"m-schedule-diagram u-no-crowding-data\\">
         <Diagram lineDiagram={{...}} liveData={{...}}>
           <LiveVehicleIconSet stop={{...}} liveData={{...}} />
           <LiveVehicleIconSet stop={{...}} liveData={{...}}>
@@ -163,7 +163,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                           2   min
                         </div>
                         <LiveCrowdingIcon crowding={{...}}>
-                          <div className=\\"m-schedule-diagram__prediction-crowding m-schedule-table-crowding\\">
+                          <div className=\\"m-schedule-diagram__prediction-crowding\\">
                             <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
                           </div>
                         </LiveCrowdingIcon>
@@ -176,7 +176,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                           5   min
                         </div>
                         <LiveCrowdingIcon crowding={{...}}>
-                          <div className=\\"m-schedule-diagram__prediction-crowding m-schedule-table-crowding\\">
+                          <div className=\\"m-schedule-diagram__prediction-crowding\\">
                             <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
                           </div>
                         </LiveCrowdingIcon>
@@ -245,7 +245,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
                           7   min
                         </div>
                         <LiveCrowdingIcon crowding={{...}}>
-                          <div className=\\"m-schedule-diagram__prediction-crowding m-schedule-table-crowding\\">
+                          <div className=\\"m-schedule-diagram__prediction-crowding\\">
                             <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
                           </div>
                         </LiveCrowdingIcon>

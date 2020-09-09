@@ -5,6 +5,7 @@ import StopListWithBranches from "./StopListWithBranches";
 import { CommonLineDiagramProps } from "./__line-diagram";
 import useStopPositions, { RefList } from "./graphics/useStopPositions";
 import StopCard from "./StopCard";
+import { hasPredictionTime } from "../../../models/prediction";
 
 export const StopRefContext = React.createContext<[RefList, () => void]>([
   {},
@@ -19,9 +20,25 @@ const LineDiagramWithStops = (
   // create a ref for each stop - we will use this to track the location of the stop so we can place the line diagram bubbles
   const [stopRefsMap, updateAllStopCoords] = useStopPositions(stops);
 
+  const anyCrowding = Object.values(liveData).some(
+    ({ headsigns }): boolean =>
+      headsigns
+        ? headsigns
+            .filter(hasPredictionTime)
+            .some(
+              ({ time_data_with_crowding_list: timeData }): boolean =>
+                !!timeData[0].crowding
+            )
+        : false
+  );
+
   return (
     <StopRefContext.Provider value={[stopRefsMap, updateAllStopCoords]}>
-      <div className="m-schedule-diagram">
+      <div
+        className={`m-schedule-diagram ${
+          !anyCrowding ? "u-no-crowding-data" : ""
+        }`}
+      >
         <Diagram lineDiagram={stops} liveData={liveData} />
         {hasBranchLines(stops) ? (
           <StopListWithBranches {...props} />

@@ -3,11 +3,38 @@
 exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
 "<Provider store={{...}}>
   <LineDiagramWithStops stops={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
-    <div className=\\"m-schedule-diagram\\">
+    <div className=\\"m-schedule-diagram u-no-crowding-data\\">
       <Diagram lineDiagram={{...}} liveData={{...}}>
         <LiveVehicleIconSet stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet stop={{...}} liveData={{...}} />
-        <LiveVehicleIconSet stop={{...}} liveData={{...}} />
+        <LiveVehicleIconSet stop={{...}} liveData={{...}}>
+          <VehicleIcons stop={{...}} vehicles={{...}}>
+            <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
+              <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\" tooltipOptions={{...}}>
+                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\">
+                  <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                </span>
+              </Component>
+            </div>
+            <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
+              <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\" tooltipOptions={{...}}>
+                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\">
+                  <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                </span>
+              </Component>
+            </div>
+          </VehicleIcons>
+        </LiveVehicleIconSet>
+        <LiveVehicleIconSet stop={{...}} liveData={{...}}>
+          <VehicleIcons stop={{...}} vehicles={{...}}>
+            <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
+              <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\" tooltipOptions={{...}}>
+                <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\">
+                  <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
+                </span>
+              </Component>
+            </div>
+          </VehicleIcons>
+        </LiveVehicleIconSet>
         <LiveVehicleIconSet stop={{...}} liveData={{...}} />
         <svg xmlns=\\"http://www.w3.org/2000/svg\\" role=\\"img\\" aria-labelledby=\\"diagram-title diagram-desc\\" className=\\"line-diagram-svg bus\\" width=\\"40px\\" height=\\"100%\\" style={{...}}>
           <title id=\\"diagram-title\\">
@@ -74,7 +101,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
             </section>
           </li>
         </StopCard>
-        <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+        <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={{...}}>
           <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
             <section className=\\"m-schedule-diagram__content\\">
               <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -111,6 +138,36 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                     </a>
                   </Component>
                 </div>
+                <StopPredictions headsigns={{...}} isCommuterRail={false}>
+                  <div className=\\"m-schedule-diagram__predictions\\">
+                    <div className=\\"m-schedule-diagram__prediction\\">
+                      <div>
+                        Dest1
+                      </div>
+                      <div className=\\"m-schedule-diagram__prediction-time\\">
+                        2   min
+                      </div>
+                      <LiveCrowdingIcon crowding={{...}}>
+                        <div className=\\"m-schedule-diagram__prediction-crowding\\">
+                          <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                        </div>
+                      </LiveCrowdingIcon>
+                    </div>
+                    <div className=\\"m-schedule-diagram__prediction\\">
+                      <div>
+                        Dest2
+                      </div>
+                      <div className=\\"m-schedule-diagram__prediction-time\\">
+                        5   min
+                      </div>
+                      <LiveCrowdingIcon crowding={{...}}>
+                        <div className=\\"m-schedule-diagram__prediction-crowding\\">
+                          <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                        </div>
+                      </LiveCrowdingIcon>
+                    </div>
+                  </div>
+                </StopPredictions>
               </div>
               <footer className=\\"m-schedule-diagram__footer\\">
                 <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>
@@ -120,7 +177,7 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
             </section>
           </li>
         </StopCard>
-        <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
+        <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={{...}}>
           <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
             <section className=\\"m-schedule-diagram__content\\">
               <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -163,6 +220,23 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                     </a>
                   </Component>
                 </div>
+                <StopPredictions headsigns={{...}} isCommuterRail={false}>
+                  <div className=\\"m-schedule-diagram__predictions\\">
+                    <div className=\\"m-schedule-diagram__prediction\\">
+                      <div>
+                        Dest2
+                      </div>
+                      <div className=\\"m-schedule-diagram__prediction-time\\">
+                        7   min
+                      </div>
+                      <LiveCrowdingIcon crowding={{...}}>
+                        <div className=\\"m-schedule-diagram__prediction-crowding\\">
+                          <span className=\\"notranslate c-svg__icon c-icon__crowding c-icon__crowding--crowding_unavailable\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                        </div>
+                      </LiveCrowdingIcon>
+                    </div>
+                  </div>
+                </StopPredictions>
               </div>
               <footer className=\\"m-schedule-diagram__footer\\">
                 <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>

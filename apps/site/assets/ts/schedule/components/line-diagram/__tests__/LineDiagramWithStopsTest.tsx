@@ -3,13 +3,15 @@ import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
 import { cloneDeep, merge } from "lodash";
 import { RouteType } from "../../../../__v3api";
-import { LineDiagramStop } from "../../__schedule";
+import { LineDiagramStop, CrowdingType } from "../../__schedule";
 import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
 import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
 import LineDiagramWithStops from "../LineDiagramWithStops";
 import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
 import StopListWithBranches from "../StopListWithBranches";
 import * as UseStopPositions from "../graphics/useStopPositions";
+import * as simpleLiveData from "./lineDiagramData/live-data.json";
+import { LiveDataByStop } from "../__line-diagram";
 
 const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
 let lineDiagramBranchingOut = (outwardLineDiagram as unknown) as LineDiagramStop[];
@@ -52,7 +54,12 @@ lineDiagramBranchingIn.forEach(({ route_stop }) => {
 });
 
 const handleStopClick = () => {};
-const liveData = {};
+const liveData = (simpleLiveData as unknown) as LiveDataByStop;
+const liveDataWithCrowding = (cloneDeep(
+  simpleLiveData
+) as unknown) as LiveDataByStop;
+(liveDataWithCrowding["line-stop2"].headsigns[0].time_data_with_crowding_list[0]
+  .crowding as CrowdingType) = "not_crowded";
 const store = createLineDiagramCoordStore(lineDiagram);
 const spy = jest.spyOn(UseStopPositions, "default");
 
@@ -107,5 +114,19 @@ describe("LineDiagramWithStops", () => {
       </redux.Provider>
     );
     expect(wrapperWithBranches.find(StopListWithBranches)).toHaveLength(1);
+  });
+
+  it("toggles u-no-crowding-data class if crowding present", () => {
+    expect(wrapper.exists(".u-no-crowding-data")).toBeTruthy();
+    const wrapperWithCrowding = mount(
+      <redux.Provider store={store}>
+        <LineDiagramWithStops
+          stops={lineDiagram}
+          handleStopClick={handleStopClick}
+          liveData={liveDataWithCrowding}
+        />
+      </redux.Provider>
+    );
+    expect(wrapperWithCrowding.exists(".u-no-crowding-data")).toBeFalsy();
   });
 });

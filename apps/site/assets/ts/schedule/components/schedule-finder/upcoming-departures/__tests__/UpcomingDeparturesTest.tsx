@@ -14,6 +14,7 @@ import UpcomingDepartures, {
 import crDeparturesResponse from "./test-data/crDepartures.json";
 import enhancedBusJourneysResponse from "./test-data/enhancedBusJourneys.json";
 import enhancedCRjourneysResponse from "./test-data/enhancedCRjourneys.json";
+import LiveCrowdingIcon from "../../../line-diagram/LiveCrowdingIcon";
 
 const busDepartures = (departuresResponse as unknown) as EnhancedJourney[];
 const crDepartures = (crDeparturesResponse as unknown) as EnhancedJourney[];
@@ -235,30 +236,20 @@ describe("UpcomingDepartures", () => {
   it("should display crowding information for buses", () => {
     const journey = enhancedBusJourneys[0];
 
-    const tripId = enhancedBusJourneys[0].trip.id;
+    wrapper = mount(<>{crowdingInformation(journey, journey.trip.id)}</>);
 
-    wrapper = mount(<>{crowdingInformation(journey, tripId, true)}</>);
-
-    expect(wrapper.find(".c-icon__crowding--some_crowding").length).toBe(1);
-  });
-
-  it("should not display crowding information for buses if it doesn't exist", () => {
-    const journey = enhancedBusJourneys[0];
-
-    const tripId = enhancedBusJourneys[0].trip.id;
-
-    wrapper = mount(<>{crowdingInformation(journey, tripId, false)}</>);
-
-    expect(wrapper.find(".c-icon__crowding--some_crowding").length).toBe(0);
+    expect(wrapper.exists(LiveCrowdingIcon)).toBeTruthy();
+    expect(wrapper.find(LiveCrowdingIcon).prop("crowding")).toBe(
+      "some_crowding"
+    );
   });
 
   it("should not display crowding information for CR", () => {
     act(() => {
       const journey: EnhancedJourney = enhancedCRjourneysResponse[0];
 
-      wrapper = mount(<>{crowdingInformation(journey, "", false)}</>);
-
-      expect(wrapper).toEqual({});
+      wrapper = mount(<>{crowdingInformation(journey, journey.trip.id)}</>);
+      expect(wrapper.find(LiveCrowdingIcon).prop("crowding")).toBeFalsy();
     });
   });
 });
