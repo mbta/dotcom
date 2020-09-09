@@ -146,9 +146,12 @@ defmodule SiteWeb.ScheduleController.LineApi do
     end
   end
 
-  @spec stop_has_disruption?(line_diagram_stop) :: boolean
-  defp stop_has_disruption?(%{alerts: alerts}) do
-    Enum.any?(alerts, &Alerts.Alert.is_diversion(&1))
+  @spec stop_has_disruption_now?(line_diagram_stop, DateTime.t()) :: boolean
+  defp stop_has_disruption_now?(%{alerts: alerts}, now \\ Util.now()) do
+    Enum.any?(
+      alerts,
+      &(Alerts.Alert.is_diversion(&1) && Match.any_period_match?(&1.active_period, now))
+    )
   end
 
   # for each list of disrupted stops, make adjustment to the diagram based on
@@ -192,7 +195,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
     disrupted_stop_indices =
       stops_list
       |> Enum.with_index()
-      |> Enum.filter(&stop_has_disruption?(elem(&1, 0)))
+      |> Enum.filter(&stop_has_disruption_now?(elem(&1, 0)))
       |> Enum.chunk_by(fn {%{alerts: alerts}, _index} ->
         alerts
         |> Enum.filter(&Alerts.Alert.is_diversion(&1))
