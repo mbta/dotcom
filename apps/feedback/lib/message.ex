@@ -9,7 +9,8 @@ defmodule Feedback.Message do
   @service_options [
     {"Complaint", "Complaint"},
     {"Comment", "Suggestion"},
-    {"Question", "Inquiry"}
+    {"Question", "Inquiry"},
+    {"Compliment", "Commendation"}
   ]
 
   @enforce_keys [:comments, :service, :request_response]
