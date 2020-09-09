@@ -9,7 +9,8 @@ import { hasPredictionTime } from "../../../models/prediction";
 import { alertIcon } from "../../../helpers/icon";
 import {
   isHighSeverityOrHighPriority,
-  isDiversion
+  isDiversion,
+  isCurrentAlert
 } from "../../../models/alert";
 import { Alert, Route } from "../../../__v3api";
 import MatchHighlight from "../../../components/MatchHighlight";
@@ -65,7 +66,16 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
     : diagramWidth(stopData.length);
   const refs = useContext(StopRefContext)[0];
 
-  const diversionAlert = stopAlerts.find(isDiversion);
+  const diversionAlert = stopAlerts.find(
+    alert => isDiversion(alert) && isCurrentAlert(alert)
+  );
+  const hasLivePredictions =
+    liveData &&
+    liveData.headsigns.length &&
+    liveData.headsigns.some(hasPredictionTime);
+  const showPrediction = hasLivePredictions && !isDestination;
+  const showDiversion =
+    diversionAlert && !(hasLivePredictions && isDestination);
 
   return (
     <li
@@ -91,23 +101,20 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
 
         <div className="m-schedule-diagram__stop-details">
           {StopConnections(routeStop.connections)}
-          {!isDestination &&
-          liveData &&
-          liveData.headsigns.length &&
-          liveData.headsigns.some(hasPredictionTime) ? (
+          {showPrediction ? (
             <StopPredictions
-              headsigns={liveData.headsigns}
+              headsigns={liveData!.headsigns}
               isCommuterRail={
                 !!routeStop.route && isACommuterRailRoute(routeStop.route)
               }
             />
           ) : (
-            diversionAlert && (
+            showDiversion && (
               <div
-                key={diversionAlert.id}
+                key={diversionAlert!.id}
                 className="m-schedule-diagram__alert"
               >
-                {effectNameForAlert(diversionAlert)}
+                {effectNameForAlert(diversionAlert!)}
               </div>
             )
           )}
