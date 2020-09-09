@@ -40,7 +40,7 @@ defmodule Site.JsonHelpers do
   end
 
   defp format_time(t) do
-    case Timex.format(t, "{YYYY}-{M}-{D} {h12}:{m}") do
+    case Timex.format(t, "{YYYY}-{M}-{D} {h24}:{m}") do
       {:ok, formatted_time} -> formatted_time
       _ -> nil
     end
