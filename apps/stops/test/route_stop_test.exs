@@ -705,6 +705,16 @@ defmodule Stops.RouteStopTest do
         typicality: 1
       }
 
+      shuttle_route_pattern = %RoutePattern{
+        direction_id: 0,
+        id: "Shuttle-RockportWestGloucester-0-0",
+        name: "West Gloucester - Rockport",
+        representative_trip_id: "CR-Weekday-Summer-20-103-RockportWestGloucester1",
+        route_id: "Shuttle-RockportWestGloucester",
+        time_desc: nil,
+        typicality: 1
+      }
+
       newburyport_stops =
         make_stops(
           ~w(place-north place-ER-0046 place-ER-0099 place-ER-0115 place-ER-0128 place-ER-0168 place-ER-0183 place-ER-0208 place-ER-0227 place-ER-0276 place-ER-0312 place-ER-0362)s
@@ -712,12 +722,15 @@ defmodule Stops.RouteStopTest do
 
       rockport_stops =
         make_stops(
-          ~w(place-north place-ER-0046 place-ER-0099 place-ER-0115 place-ER-0128 place-ER-0168 place-ER-0183 place-GB-0198 place-GB-0222 place-GB-0229 place-GB-0254 place-GB-0296 place-GB-0316 place-GB-0353)s
+          ~w(place-north place-ER-0046 place-ER-0099 place-ER-0115 place-ER-0128 place-ER-0168 place-ER-0183 place-GB-0198 place-GB-0222 place-GB-0229 place-GB-0254 place-GB-0296)s
         )
+
+      shuttle_stops = make_stops(~w(place-GB-0296 place-GB-0316 place-GB-0353)s)
 
       route_patterns_with_stops = [
         {newburyport_route_pattern, newburyport_stops},
-        {rockport_route_pattern, rockport_stops}
+        {rockport_route_pattern, rockport_stops},
+        {shuttle_route_pattern, shuttle_stops}
       ]
 
       actual = list_from_route_patterns(route_patterns_with_stops, @newburyport_route, 0)

@@ -107,6 +107,7 @@ defmodule Stops.RouteStop do
     |> Enum.map(
       &do_list_from_route_pattern(&1, route, direction_id, use_route_id_for_branch_name?)
     )
+    |> maybe_stitch_chunks()
     |> merge_branch_list(direction_id)
     |> maybe_correct_for_lechmere_shuttle()
   end
@@ -382,6 +383,74 @@ defmodule Stops.RouteStop do
   defp route_stop_features(%__MODULE__{}) do
     []
   end
+
+  # Sometimes we'll get a list of stops that extend another line.
+  # The CR-Newburyport direction 0 test shows a common example of this -
+  # a shuttle replaces normal service for the end one branch.
+  # In this sort of case we want to stitch the stops for this shuttle onto
+  # the existing branch.
+  @spec maybe_stitch_chunks([[RouteStop.t()]]) :: [[RouteStop.t()]]
+  defp maybe_stitch_chunks(route_stop_groups) do
+    route_stop_groups
+    |> Enum.reduce([], fn route_stops, acc ->
+      case Enum.find_index(acc, &(linked_patterns(&1, route_stops) != 0)) do
+        nil ->
+          acc ++ [route_stops]
+
+        index ->
+          List.update_at(acc, index, &stitch(&1, route_stops))
+      end
+    end)
+  end
+
+  # Determine whether 2 route stop lists are linked.
+  # Returns:
+  #   -1 if b starts where a ended
+  #   1 if a starts where b ended
+  #   0 otherwise
+  @spec linked_patterns([RouteStop.t()], [RouteStop.t()]) :: -1 | 0 | 1
+  defp linked_patterns(a, b),
+    do: do_linked_patterns(first_last_stops(a), first_last_stops(b))
+
+  @typep first_last_stop_ids :: {Stop.id_t(), Stop.id_t()}
+  @spec first_last_stops([RouteStop.t()]) :: first_last_stop_ids()
+  defp first_last_stops(route_stops) do
+    {
+      route_stops |> List.first() |> Map.get(:id),
+      route_stops |> List.last() |> Map.get(:id)
+    }
+  end
+
+  @spec do_linked_patterns(
+          first_last_stop_ids(),
+          first_last_stop_ids()
+        ) :: -1 | 0 | 1
+  defp do_linked_patterns({first_stop_a, _}, {_, last_stop_b})
+       when first_stop_a == last_stop_b,
+       do: 1
+
+  defp do_linked_patterns({_, last_stop_a}, {first_stop_b, _})
+       when last_stop_a == first_stop_b,
+       do: -1
+
+  defp do_linked_patterns(_, _), do: 0
+
+  @spec stitch([RouteStop.t()], [RouteStop.t()]) :: [RouteStop.t()]
+  defp stitch(a, b) do
+    if linked_patterns(a, b) == -1, do: do_stitch(a, b), else: do_stitch(b, a)
+  end
+
+  @spec do_stitch([RouteStop.t()], [RouteStop.t()]) :: [RouteStop.t()]
+  defp do_stitch(first, second) do
+    {first_last, first_body} = List.pop_at(first, -1)
+
+    first_body ++
+      [%RouteStop{first_last | is_terminus?: false}] ++
+      (second |> tl() |> Enum.map(&%RouteStop{&1 | branch: branch(first)}))
+  end
+
+  @spec branch([RouteStop.t()]) :: RouteStop.branch_name_t()
+  defp branch([%RouteStop{branch: branch} | _]), do: branch
 
   @spec merge_branch_list([[RouteStop.t()]], direction_id_t, boolean) :: [RouteStop.t()]
   defp merge_branch_list(branches, direction_id, prefer_shorter_trunk \\ false) do
