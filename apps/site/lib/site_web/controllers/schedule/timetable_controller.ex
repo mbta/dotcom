@@ -112,13 +112,13 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   end
 
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
-    ["740", "746", "748", "750", "754", "726", "758"]
+    ["740", "746", "748", "750", "754", "726", "758", "7742", "7744", "7722"]
     |> Enum.flat_map(&franklin_via_fairmount(&1, 1))
     |> Enum.into(%{})
   end
 
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 0) do
-    ["741", "743", "747", "749", "755", "757", "759"]
+    ["741", "743", "747", "749", "755", "757", "759", "7703", "7751", "7753", "7755"]
     |> Enum.flat_map(&franklin_via_fairmount(&1, 0))
     |> Enum.into(%{})
   end
