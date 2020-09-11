@@ -4,7 +4,7 @@ defmodule Feedback.Message do
   """
 
   # The integration with HEAT only accepts certain values for the message type
-  # Only "Complaint", "Suggestion" and "Inquiry" are supported
+  # Only "Complaint", "Suggestion", "Inquiry" and "Commendation" are supported.
   # Other values will cause HEAT to throw an error and reject the ticket
   @service_options [
     {"Complaint", "Complaint"},
@@ -14,12 +14,22 @@ defmodule Feedback.Message do
   ]
 
   @enforce_keys [:comments, :service, :request_response]
-  defstruct [:email, :phone, :name, :comments, :service, :request_response, :photos]
+  defstruct [
+    :email,
+    :phone,
+    :first_name,
+    :last_name,
+    :comments,
+    :service,
+    :request_response,
+    :photos
+  ]
 
   @type t :: %__MODULE__{
           email: String.t() | nil,
           phone: String.t() | nil,
-          name: String.t() | nil,
+          first_name: String.t(),
+          last_name: String.t(),
           comments: String.t(),
           service: String.t(),
           request_response: boolean,
