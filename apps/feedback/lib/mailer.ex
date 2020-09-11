@@ -1,5 +1,5 @@
 defmodule Feedback.Mailer do
-  @moduledoc false
+  @moduledoc "Module to send a HEAT ticket and some previous pre-processing of the data received from the customer support form"
 
   require Logger
 
@@ -12,6 +12,10 @@ defmodule Feedback.Mailer do
         Logger.info("HEAT Ticket submitted by #{format_email(message.email)}")
       end
 
+    first_name = format_name(message.first_name, "Riding")
+    last_name = format_name(message.last_name, "Public")
+    full_name = "#{first_name} #{last_name}"
+
     body = """
     <INCIDENT>
       <SERVICE>#{message.service}</SERVICE>
@@ -23,9 +27,9 @@ defmodule Feedback.Mailer do
       <STATION></STATION>
       <INCIDENTDATE>#{formatted_utc_timestamp()}</INCIDENTDATE>
       <VEHICLE></VEHICLE>
-      <FIRSTNAME>#{format_first_name(message.name)}</FIRSTNAME>
-      <LASTNAME>#{format_last_name(message.name)}</LASTNAME>
-      <FULLNAME>#{format_name(message.name)}</FULLNAME>
+      <FIRSTNAME>#{first_name}</FIRSTNAME>
+      <LASTNAME>#{last_name}</LASTNAME>
+      <FULLNAME>#{full_name}</FULLNAME>
       <CITY></CITY>
       <STATE></STATE>
       <ZIPCODE></ZIPCODE>
@@ -67,36 +71,15 @@ defmodule Feedback.Mailer do
       |> exaws_perform_fn.(exaws_config_fn.(:ses))
   end
 
-  defp format_name(nil) do
-    "Riding Public"
+  @spec format_name(String.t() | nil, String.t()) :: String.t()
+  defp format_name(nil, default) do
+    default
   end
 
-  defp format_name(name) do
+  defp format_name(name, default) do
     case String.trim(name) do
-      "" -> "Riding Public"
+      "" -> default
       name -> name
-    end
-  end
-
-  defp format_first_name(nil) do
-    "Riding"
-  end
-
-  defp format_first_name(name) do
-    case String.trim(name) do
-      "" -> "Riding"
-      name -> name
-    end
-  end
-
-  defp format_last_name(nil) do
-    "Public"
-  end
-
-  defp format_last_name(name) do
-    case String.trim(name) do
-      "" -> "Public"
-      _name -> "-"
     end
   end
 
