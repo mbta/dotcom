@@ -242,7 +242,8 @@ defmodule SiteWeb.CustomerSupportController do
       photos: params["photos"],
       email: params["email"],
       phone: params["phone"],
-      name: params["name"],
+      first_name: params["first_name"],
+      last_name: params["last_name"],
       comments: params["comments"],
       service: params["service"],
       request_response: params["request_response"] == "on"
