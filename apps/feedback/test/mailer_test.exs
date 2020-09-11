@@ -99,23 +99,27 @@ defmodule Feedback.MailerTest do
     end
 
     test "gives the full name as the name the user provided" do
-      Mailer.send_heat_ticket(%{@base_message | name: "My Full Name"}, nil)
-      assert Test.latest_message()["text"] =~ "<FULLNAME>My Full Name</FULLNAME>"
+      Mailer.send_heat_ticket(%{@base_message | first_name: "Full", last_name: "Name"}, nil)
+      assert Test.latest_message()["text"] =~ "<FIRSTNAME>Full</FIRSTNAME>"
+      assert Test.latest_message()["text"] =~ "<LASTNAME>Name</LASTNAME>"
+      assert Test.latest_message()["text"] =~ "<FULLNAME>Full Name</FULLNAME>"
     end
 
-    test "also puts the full name in the first name field" do
-      Mailer.send_heat_ticket(%{@base_message | name: "My Full Name"}, nil)
-      assert Test.latest_message()["text"] =~ "<FIRSTNAME>My Full Name</FIRSTNAME>"
+    test "uses default first name if not provided" do
+      Mailer.send_heat_ticket(%{@base_message | first_name: "", last_name: "Smith"}, nil)
+      assert Test.latest_message()["text"] =~ "<FIRSTNAME>Riding</FIRSTNAME>"
+      assert Test.latest_message()["text"] =~ "<LASTNAME>Smith</LASTNAME>"
     end
 
-    test "if the user does not provide a name, sets the full name to riding public" do
-      Mailer.send_heat_ticket(%{@base_message | name: ""}, nil)
+    test "uses default last name if not provided" do
+      Mailer.send_heat_ticket(%{@base_message | first_name: "James", last_name: ""}, nil)
+      assert Test.latest_message()["text"] =~ "<FIRSTNAME>James</FIRSTNAME>"
+      assert Test.latest_message()["text"] =~ "<LASTNAME>Public</LASTNAME>"
+    end
+
+    test "if the user does not provide a name, sets the full name to 'Riding Public'" do
+      Mailer.send_heat_ticket(%{@base_message | first_name: "", last_name: ""}, nil)
       assert Test.latest_message()["text"] =~ "<FULLNAME>Riding Public</FULLNAME>"
-    end
-
-    test "if the user provides a name, sets the last name to -" do
-      Mailer.send_heat_ticket(%{@base_message | name: "My Full Name"}, nil)
-      assert Test.latest_message()["text"] =~ "<LASTNAME>-</LASTNAME>"
     end
 
     test "sets customer requests response to no" do
@@ -167,7 +171,8 @@ defmodule Feedback.MailerTest do
         comments: "major issue to report",
         email: "disgruntled@user.com",
         phone: "1231231234",
-        name: "Disgruntled User",
+        first_name: "Disgruntled",
+        last_name: "User",
         request_response: true,
         service: "Complaint"
       }
