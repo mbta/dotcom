@@ -176,13 +176,14 @@ defmodule SiteWeb.ScheduleController.LineApi do
   # modify the stop preceding it but for shuttle we don't style the final stop
   @spec shift_indices_by_disruption_effect([number], [Alerts.Alert.effect()]) :: [number]
   defp shift_indices_by_disruption_effect(indices, effects) do
-    effects_avoiding_stop = effects -- effects -- [:stop_closure, :station_closure, :detour]
+    effect_avoids_stop? =
+      Enum.any?(effects, &Enum.member?([:stop_closure, :station_closure, :detour], &1))
 
     cond do
       :shuttle in effects ->
         List.delete_at(indices, -1)
 
-      Kernel.length(effects_avoiding_stop) > 0 && List.first(indices) > 0 ->
+      effect_avoids_stop? and List.first(indices) > 0 ->
         [List.first(indices) - 1] ++ indices
 
       true ->

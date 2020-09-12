@@ -45,12 +45,12 @@ export const isCurrentAlert = (
 ): boolean => {
   if (!alert.active_period) return false;
   const dateRanges = alert.active_period.map(ap => activePeriodToDates(ap));
-  const isInARange = dateRanges.find(
+  const isInARange = dateRanges.some(
     (range): boolean => {
       const [start, end] = range;
       if (!start) return false; // end might be null for ongoing alerts
       return currentDate >= start && (end ? currentDate <= end : true);
     }
   );
-  return isCurrentLifecycle(alert) && !!isInARange;
+  return isCurrentLifecycle(alert) && isInARange;
 };
