@@ -105,7 +105,7 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
                "758",
                "7722",
                "7742",
-               "7744",
+               "7744"
              ] =
                %Routes.Route{id: "CR-Franklin"}
                |> trip_messages(1)
