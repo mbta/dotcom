@@ -49,7 +49,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
 
         json(
           conn,
-          update_route_stop_data(line_data, conn.assigns.alerts, conn.assigns.date)
+          update_route_stop_data(line_data, conn.assigns.alerts, conn.assigns.date_time)
         )
 
       :not_found ->
