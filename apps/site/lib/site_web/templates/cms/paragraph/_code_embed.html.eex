@@ -1,0 +1,5 @@
+<%= if @content.header do %>
+  <%= ContentRewriter.rewrite(@content.header.text, @conn) %>
+<% end %>
+
+<%= ContentRewriter.rewrite_raw(@content.body, @conn) %>

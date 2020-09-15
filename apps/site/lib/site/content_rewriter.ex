@@ -33,6 +33,17 @@ defmodule Site.ContentRewriter do
     rewrite(Enum.join(content), conn)
   end
 
+  @doc """
+  Certain CMS content should have its HTML content passed through (scripts, iframes, etc.).
+  This content is not scrubbed, santitized, or rewritten due to its variability and complexity.
+  """
+  @spec rewrite_raw(Phoenix.HTML.safe() | String.t(), Plug.Conn.t()) :: Phoenix.HTML.safe()
+  def rewrite_raw(content, _conn) do
+    content
+    |> render
+    |> Phoenix.HTML.raw()
+  end
+
   # necessary since foo |> Floki.parse |> Floki.raw_html blows up
   # if there are no HTML tags in foo.
   defp render(content) when is_binary(content), do: content
