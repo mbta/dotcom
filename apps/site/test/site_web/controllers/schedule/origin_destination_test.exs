@@ -135,7 +135,10 @@ defmodule SiteWeb.ScheduleController.OriginDestinationTest do
       refute conn.assigns.origin == nil
       assert conn.assigns.origin.id == "place-hymnl"
       refute conn.assigns.destination == nil
-      assert conn.assigns.destination.id == "place-dudly"
+
+      # Temporary fix to cover the transition period from the stop ID "place-dudly" to the new "place-nubn". Once the "place-nubn" data change is live in production, we can revert to the simple equality check. -- MSS 20200914
+      # assert conn.assigns.destination.id == "place-dudly"
+      assert Enum.member?(["place-dudly", "place-nubn"], conn.assigns.destination.id)
       assert conn.assigns.direction_id == 1
     end
 
