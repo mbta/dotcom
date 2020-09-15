@@ -153,8 +153,7 @@ $layout-media: (
       '.c-media--wide'
     ),
     text: (
-      '.c-media--table',
-      '.c-media--embed'
+      '.c-media--table'
     ),
     left: (
       '.c-media--align-left'
@@ -264,10 +263,6 @@ $layout-media: (
         @include restore-media-defaults();
       }
     }
-  }
-
-  &.c-media--embed {
-    @include restore-media-defaults();
   }
 }
 

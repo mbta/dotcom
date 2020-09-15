@@ -2119,12 +2119,6 @@ defmodule CMS.CustomHTML5Scrubber do
     "wbr"
   ])
 
-  Meta.allow_tags_and_scrub_their_attributes(["script", "noscript"])
-
-  Meta.allow_tag_with_this_attribute_values("script", "src", [
-    "https://mbta-customer-tech.formstack.com/forms/js.php/perq_employer_intake"
-  ])
-
   Meta.strip_everything_not_covered()
 
   @spec html5(String.t()) :: String.t()
