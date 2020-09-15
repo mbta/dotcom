@@ -192,10 +192,10 @@ defmodule Site.ContentRewriters.EmbeddedMedia do
   end
 
   defp get_attribute(classes, :type) do
-    if "media--type-image" in classes do
-      :image
-    else
-      :unknown
+    cond do
+      "media--type-image" in classes -> :image
+      "media--type-code" in classes -> :embed
+      true -> :unknown
     end
   end
 end
