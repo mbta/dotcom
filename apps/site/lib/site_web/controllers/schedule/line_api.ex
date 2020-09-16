@@ -124,9 +124,13 @@ defmodule SiteWeb.ScheduleController.LineApi do
     diagram itself - branch name, stop/line/terminus/merge, and whether it needs
     to show a disruption
   """
-  @spec update_route_stop_data([
-    DiagramHelpers.stop_with_bubble_info()
-  ], [Alerts.Alert.t()], DateTime.t()) :: [DiagramFormat.line_diagram_stop()]
+  @spec update_route_stop_data(
+          [
+            DiagramHelpers.stop_with_bubble_info()
+          ],
+          [Alerts.Alert.t()],
+          DateTime.t()
+        ) :: [DiagramFormat.line_diagram_stop()]
   def update_route_stop_data(all_stops, alerts, date) do
     Enum.map(all_stops, fn stop ->
       compose_route_stop_data(stop, alerts, date)
