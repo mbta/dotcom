@@ -8,6 +8,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
   alias Routes.Route
   alias Schedules.Repo, as: SchedulesRepo
   alias Site.TransitNearMe
+  alias SiteWeb.ScheduleController.Line.DiagramFormat
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias Stops.Repo, as: StopsRepo
@@ -23,11 +24,6 @@ defmodule SiteWeb.ScheduleController.LineApi do
            status: String.t(),
            trip_name: String.t() | nil,
            crowding: Vehicle.crowding() | nil
-         }
-  @typep line_diagram_stop :: %{
-           alerts: [map],
-           route_stop: map,
-           stop_data: [map]
          }
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
@@ -120,12 +116,22 @@ defmodule SiteWeb.ScheduleController.LineApi do
     |> DiagramHelpers.build_stop_list(direction_id)
   end
 
-  @spec update_route_stop_data(any, any, DateTime.t()) :: [line_diagram_stop]
+  @doc """
+  Builds a dataset for the line diagram from line_data, alerts, and the current
+  datetime.
+  * Selects alerts to associate with each stop based on stop_id and datetime
+  * Creates a stop_data map to encode information relating to the stop on the
+    diagram itself - branch name, stop/line/terminus/merge, and whether it needs
+    to show a disruption
+  """
+  @spec update_route_stop_data([
+    DiagramHelpers.stop_with_bubble_info()
+  ], [Alerts.Alert.t()], DateTime.t()) :: [DiagramFormat.line_diagram_stop()]
   def update_route_stop_data(all_stops, alerts, date) do
     Enum.map(all_stops, fn stop ->
       compose_route_stop_data(stop, alerts, date)
     end)
-    |> maybe_add_stop_disruptions(date)
+    |> DiagramFormat.do_stops_list_with_disruptions(date)
     |> json_safe_route_stop_data(date)
   end
 
@@ -142,7 +148,9 @@ defmodule SiteWeb.ScheduleController.LineApi do
     }
   end
 
-  @spec json_safe_route_stop_data([line_diagram_stop], DateTime.t()) :: [line_diagram_stop]
+  @spec json_safe_route_stop_data([DiagramFormat.line_diagram_stop()], DateTime.t()) :: [
+          DiagramFormat.line_diagram_stop()
+        ]
   defp json_safe_route_stop_data(all_stops, date) do
     all_stops
     |> Enum.map(fn %{alerts: alerts, route_stop: route_stop} = stop_map ->
@@ -151,93 +159,6 @@ defmodule SiteWeb.ScheduleController.LineApi do
         | alerts: json_safe_alerts(alerts, date),
           route_stop: RouteStop.to_json_safe(route_stop)
       }
-    end)
-  end
-
-  @spec maybe_add_stop_disruptions([line_diagram_stop], DateTime.t()) :: [line_diagram_stop]
-  defp maybe_add_stop_disruptions(stops_list, date) do
-    if Enum.any?(stops_list, &stop_has_disruption_now?(&1, date)) do
-      do_stops_list_with_disruptions(stops_list)
-    else
-      stops_list
-    end
-  end
-
-  @spec stop_has_disruption_now?(line_diagram_stop, DateTime.t()) :: boolean
-  defp stop_has_disruption_now?(%{alerts: alerts}, now \\ Util.now()) do
-    Enum.any?(
-      alerts,
-      &(Alerts.Alert.is_diversion(&1) && Match.any_period_match?(&1.active_period, now))
-    )
-  end
-
-  # for each list of disrupted stops, make adjustment to the diagram based on
-  # the nature of the disruption. e.g. for detour or stop/station closure we
-  # modify the stop preceding it but for shuttle we don't style the final stop
-  @spec shift_indices_by_disruption_effect([number], [Alerts.Alert.effect()]) :: [number]
-  defp shift_indices_by_disruption_effect(indices, effects) do
-    effect_avoids_stop? =
-      Enum.any?(effects, &Enum.member?([:stop_closure, :station_closure, :detour], &1))
-
-    cond do
-      :shuttle in effects ->
-        List.delete_at(indices, -1)
-
-      effect_avoids_stop? and List.first(indices) > 0 ->
-        [List.first(indices) - 1] ++ indices
-
-      true ->
-        indices
-    end
-  end
-
-  defp get_effects_for_indexed_stops(stops_list) do
-    stops_list
-    |> Enum.flat_map(fn {%{alerts: alerts}, _index} ->
-      Enum.map(alerts, & &1.effect)
-    end)
-    |> Enum.uniq()
-  end
-
-  defp add_disruption(stop) do
-    Map.update(stop, :stop_data, [], fn stop_data ->
-      stop_or_terminus = Kernel.length(stop_data) - 1
-
-      stop_data
-      |> List.update_at(stop_or_terminus, fn sd ->
-        Map.replace!(sd, :has_disruption?, true)
-      end)
-    end)
-  end
-
-  defp do_stops_list_with_disruptions(stops_list) do
-    disrupted_stop_indices =
-      stops_list
-      |> Enum.with_index()
-      |> Enum.filter(&stop_has_disruption_now?(elem(&1, 0)))
-      |> Enum.chunk_by(fn {%{alerts: alerts}, _index} ->
-        alerts
-        |> Enum.filter(&Alerts.Alert.is_diversion(&1))
-        |> Enum.map(& &1.id)
-      end)
-      |> Enum.map(fn indexed_stops_list ->
-        effects = get_effects_for_indexed_stops(indexed_stops_list)
-
-        indexed_stops_list
-        |> Enum.map(fn {_stop, index} -> index end)
-        |> shift_indices_by_disruption_effect(effects)
-      end)
-      |> List.flatten()
-      |> Enum.uniq()
-
-    stops_list
-    |> Enum.with_index()
-    |> Enum.map(fn {stop, index} ->
-      if index in disrupted_stop_indices do
-        add_disruption(stop)
-      else
-        stop
-      end
     end)
   end
 
