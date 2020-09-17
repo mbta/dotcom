@@ -3,7 +3,7 @@ defmodule Site.ContentRewriter do
   Rewrites the content that comes from the CMS before rendering it to the page.
   """
 
-  alias Site.ContentRewriters.{ResponsiveTables, LiquidObjects, Links, EmbeddedMedia}
+  alias Site.ContentRewriters.{EmbeddedMedia, Links, LiquidObjects, ResponsiveTables}
   alias Site.FlokiHelpers
 
   @typep tree_or_binary :: Floki.html_tree() | binary
@@ -31,17 +31,6 @@ defmodule Site.ContentRewriter do
 
   def rewrite(content, conn) when is_list(content) do
     rewrite(Enum.join(content), conn)
-  end
-
-  @doc """
-  Certain CMS content should have its HTML content passed through (scripts, iframes, etc.).
-  This content is not scrubbed, santitized, or rewritten due to its variability and complexity.
-  """
-  @spec rewrite_raw(Phoenix.HTML.safe() | String.t(), Plug.Conn.t()) :: Phoenix.HTML.safe()
-  def rewrite_raw(content, _conn) do
-    content
-    |> render
-    |> Phoenix.HTML.raw()
   end
 
   # necessary since foo |> Floki.parse |> Floki.raw_html blows up

@@ -745,8 +745,10 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
       <noscript><a href=\"https://mbta-customer-tech.formstack.com/forms/perq_employer_intake\" title=\"Online Form\">Online Form - Perq: Employer Intake</a></noscript>
       """
 
+      prepared_input = HTML.raw(raw_input)
+
       rendered_code_embed =
-        %CodeEmbed{body: raw_input}
+        %CodeEmbed{body: prepared_input}
         |> render_paragraph(conn)
         |> HTML.safe_to_string()
 

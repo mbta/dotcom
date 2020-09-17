@@ -1,7 +1,7 @@
 defmodule CMS.Partial.Paragraph.CodeEmbed do
   @moduledoc """
   Represents a CodeEmbed Paragraph in the CMS.
-  Body is raw HTML from CMS, and is not scrubbed or rewritten.
+  Body is raw HTML from CMS, and should not be scrubbed or rewritten.
   """
 
   alias CMS.Partial.Paragraph.ColumnMultiHeader
@@ -24,7 +24,7 @@ defmodule CMS.Partial.Paragraph.CodeEmbed do
     %__MODULE__{
       header: data |> parse_paragraphs(preview_opts, "field_multi_column_header") |> List.first(),
       right_rail: field_value(data, "field_right_rail"),
-      body: field_value(data, "field_code")
+      body: data |> field_value("field_code") |> HTML.raw()
     }
   end
 end

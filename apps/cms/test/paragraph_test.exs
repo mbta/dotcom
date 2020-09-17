@@ -279,7 +279,7 @@ defmodule CMS.ParagraphTest do
 
       assert %CodeEmbed{
                header: header,
-               body: code
+               body: {:safe, code}
              } = from_api(code_embed_data)
 
       assert %ColumnMultiHeader{} = header
