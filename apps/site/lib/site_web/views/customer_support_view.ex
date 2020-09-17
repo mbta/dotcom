@@ -55,6 +55,17 @@ defmodule SiteWeb.CustomerSupportView do
   def placeholder_text("phone"), do: "(555)-555-5555"
   def placeholder_text(_), do: ""
 
+  def help_text("phone"),
+    do:
+      content_tag(
+        :p,
+        "If you'd like us to give you a call, please give us the best number where we can reach you.",
+        id: "phoneHelp",
+        class: "help-text"
+      )
+
+  def help_text(_), do: ""
+
   @doc """
   Also see SiteWeb.ErrorHelpers.error_tag for a slightly different implementation of this functionality.
   """

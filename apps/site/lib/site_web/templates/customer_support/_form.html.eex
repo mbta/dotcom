@@ -63,6 +63,7 @@
                                   autocomplete: "email", id: "email" %>
       </div>
       <div class="form-group">
+        <%= help_text "phone" %>
         <%= label f, :phone, "Phone number", [for: "phone", class: "form-control-label"] %>
         <%= telephone_input f, :phone, placeholder: placeholder_text("phone"), class: "support-form-text-input support-form-text-input--small form-control", "aria-describedby": "phoneHelp",
                                         autocomplete: "tel", id: "phone" %>
