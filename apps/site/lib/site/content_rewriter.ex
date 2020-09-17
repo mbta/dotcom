@@ -3,7 +3,7 @@ defmodule Site.ContentRewriter do
   Rewrites the content that comes from the CMS before rendering it to the page.
   """
 
-  alias Site.ContentRewriters.{ResponsiveTables, LiquidObjects, Links, EmbeddedMedia}
+  alias Site.ContentRewriters.{EmbeddedMedia, Links, LiquidObjects, ResponsiveTables}
   alias Site.FlokiHelpers
 
   @typep tree_or_binary :: Floki.html_tree() | binary

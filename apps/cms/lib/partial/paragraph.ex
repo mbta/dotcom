@@ -24,6 +24,7 @@ defmodule CMS.Partial.Paragraph do
     Accordion,
     AccordionSection,
     Callout,
+    CodeEmbed,
     Column,
     ColumnMulti,
     ColumnMultiHeader,
@@ -45,6 +46,7 @@ defmodule CMS.Partial.Paragraph do
     Accordion,
     AccordionSection,
     Callout,
+    CodeEmbed,
     Column,
     ColumnMulti,
     ColumnMultiHeader,
@@ -66,6 +68,7 @@ defmodule CMS.Partial.Paragraph do
           Accordion.t()
           | AccordionSection.t()
           | Callout.t()
+          | CodeEmbed.t()
           | Column.t()
           | ColumnMulti.t()
           | ColumnMultiHeader.t()
@@ -86,6 +89,7 @@ defmodule CMS.Partial.Paragraph do
           Accordion
           | AccordionSection
           | Callout
+          | CodeEmbed
           | Column
           | ColumnMulti
           | ColumnMultiHeader
@@ -127,6 +131,10 @@ defmodule CMS.Partial.Paragraph do
 
   def from_api(%{"type" => [%{"target_id" => "custom_html"}]} = para, _preview_opts) do
     CustomHTML.from_api(para)
+  end
+
+  def from_api(%{"type" => [%{"target_id" => "code_embed"}]} = para, preview_opts) do
+    CodeEmbed.from_api(para, preview_opts)
   end
 
   def from_api(%{"type" => [%{"target_id" => "definition"}]} = para, _preview_opts) do

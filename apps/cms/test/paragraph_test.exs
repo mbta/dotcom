@@ -11,6 +11,7 @@ defmodule CMS.ParagraphTest do
     Accordion,
     AccordionSection,
     Callout,
+    CodeEmbed,
     Column,
     ColumnMulti,
     ColumnMultiHeader,
@@ -271,6 +272,22 @@ defmodule CMS.ParagraphTest do
       }
 
       assert %TripPlanWidget{} = from_api(api_data)
+    end
+
+    test "parses a code embed paragraph" do
+      code_embed_data = api_paragraph("code_embed")
+
+      assert %CodeEmbed{
+               header: header,
+               body: {:safe, code}
+             } = from_api(code_embed_data)
+
+      # header is still scrubbed, but body is not
+      assert %ColumnMultiHeader{} = header
+      assert {:safe, "<h2>Perq Form</h2>\n"} == header.text
+
+      assert code =~ "<script type=\"text/javascript\""
+      assert code =~ "<noscript>"
     end
 
     test "parses an unknown paragraph type" do

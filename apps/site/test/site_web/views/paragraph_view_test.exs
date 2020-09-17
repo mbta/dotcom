@@ -10,6 +10,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
     Accordion,
     AccordionSection,
     Callout,
+    CodeEmbed,
     Column,
     ColumnMulti,
     ColumnMultiHeader,
@@ -736,6 +737,34 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
         |> HTML.safe_to_string()
 
       assert rendered =~ paragraph.type
+    end
+
+    test "renders a CMS.Partial.Paragraph.CodeEmbed and ensures input === output", %{conn: conn} do
+      raw_input = """
+      <script type=\"text/javascript\" src=\"https://mbta-customer-tech.formstack.com/forms/js.php/perq_employer_intake\">var test = true;</script>
+      <noscript><a href=\"https://mbta-customer-tech.formstack.com/forms/perq_employer_intake\" title=\"Online Form\">Online Form - Perq: Employer Intake</a></noscript>
+      """
+
+      prepared_input = HTML.raw(raw_input)
+
+      rendered_code_embed =
+        %CodeEmbed{body: prepared_input}
+        |> render_paragraph(conn)
+        |> HTML.safe_to_string()
+
+      [{"script", [{"type", type}, {"src", src}], [inline_js]}] =
+        Floki.find(rendered_code_embed, "script")
+
+      [{"noscript", [], no_script_children}] = Floki.find(rendered_code_embed, "noscript")
+
+      [{"a", [{"href", href}, {"title", title}], [text_node]}] = no_script_children
+
+      assert type == "text/javascript"
+      assert src == "https://mbta-customer-tech.formstack.com/forms/js.php/perq_employer_intake"
+      assert inline_js == "var test = true;"
+      assert href == "https://mbta-customer-tech.formstack.com/forms/perq_employer_intake"
+      assert title == "Online Form"
+      assert text_node == "Online Form - Perq: Employer Intake"
     end
   end
 
