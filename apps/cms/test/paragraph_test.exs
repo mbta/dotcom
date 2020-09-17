@@ -282,7 +282,9 @@ defmodule CMS.ParagraphTest do
                body: {:safe, code}
              } = from_api(code_embed_data)
 
+      # header is still scrubbed, but body is not
       assert %ColumnMultiHeader{} = header
+      assert {:safe, "<h2>Perq Form</h2>\n"} == header.text
 
       assert code =~ "<script type=\"text/javascript\""
       assert code =~ "<noscript>"
