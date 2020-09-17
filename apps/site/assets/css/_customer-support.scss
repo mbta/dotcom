@@ -54,10 +54,25 @@
       width: 100%;
     }
   }
-}
 
-.support-success {
-  background-color: $form-success-message;
+  // Form validation styling
+  .has-danger {
+    .c-radio__label::before,
+    .c-checkbox__label::before, {
+      border-color: $brand-danger;
+    }
+  }
+
+  .has-success {
+    .c-radio__label::after {
+      background-color: $brand-success;
+    }
+
+    .c-radio__label::before,
+    .c-checkbox__label::before, {
+      border-color: $brand-success;
+    }
+  }
 }
 
 .support-confirmation {

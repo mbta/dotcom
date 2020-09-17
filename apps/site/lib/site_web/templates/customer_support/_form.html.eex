@@ -5,7 +5,8 @@
   <%= preamble_text() %>
   <section>
     <h3>Message</h3>
-    <fieldset class="form-group <%= class_for_error("service", @errors, "has-danger", "") %>">
+    <%= support_error_tag @errors, "service" %>
+    <fieldset class="form-group <%= class_for_error("service", @errors, "has-danger", "has-success") %>">
       <legend class="form-control-label">Category*</legend>
       <div id="service" class="service-radios">
         <%= for {text, value} <- @service_options do %>
@@ -17,7 +18,8 @@
         <% end %>
       </div>
     </fieldset>
-    <div class="form-group <%= class_for_error("comments", @errors, "has-danger", "") %>">
+    <div class="form-group <%= class_for_error("comments", @errors, "has-danger", "has-success") %>">
+      <%= support_error_tag @errors, "comments" %>
       <%= label f, :comments, "Let us know how we can help*", [for: "comments", class: "form-control-label"] %>
       <%= textarea f, :comments, id: "comments", class: "support-form-text-input form-control #{class_for_error("comments", @errors, "form-control-danger", "form-control-success")}", "aria-describedby": "commentsHelp", maxlength: "3000",
                                 rows: "3", placeholder: "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number.", required: "required", value: assigns[:comments] %>
@@ -26,7 +28,8 @@
   </section>
   <section>
     <%# <h3>Additional Details (optional)</h3> %>
-    <div class="form-group <%= if @errors do class_for_error("upload", @errors, "has-danger", "") end %>">
+    <div class="form-group <%= if @errors do class_for_error("upload", @errors, "has-danger", "has-success") end %>">
+      <%= support_error_tag @errors, "upload" %>
       <span id="upload-photo-error"></span>
       <div class="photo-preview-container <%= unless Map.has_key?(f.params, "photo"), do: "hidden-xs-up" %>" tabindex="-1">
       </div>
@@ -47,13 +50,15 @@
     </div>
     <div id="contactInfoForm" style="display: none;">
       <h3>Contact Info</h3>
-      <div class="form-group <%= class_for_error("name", @errors, "has-danger", "") %>">
+      <div class="form-group <%= class_for_error("name", @errors, "has-danger", "has-success") %>">
         <%= label f, :name, "Full Name*", [for: "name", class: "form-control-label"] %>
+        <%= support_error_tag @errors, "name" %>
         <%= text_input f, :name, placeholder: "Jane Smith", class: "support-form-text-input support-form-text-input--small form-control #{class_for_error("name", @errors, "form-control-danger", "form-control-success")}",
                                   autocomplete: "name", id: "name" %>
       </div>
-      <div class="form-group <%= class_for_error("email", @errors, "has-danger", "") %>">
+      <div class="form-group <%= class_for_error("email", @errors, "has-danger", "has-success") %>">
         <%= label f, :email, "Email*", [for: "email", class: "form-control-label"] %>
+        <%= support_error_tag @errors, "email" %>
         <%= text_input f, :email, placeholder: "janesmith@email.com", class: "form-control support-form-text-input support-form-text-input--small #{class_for_error("email", @errors, "form-control-danger", "form-control-success")}",
                                   autocomplete: "email", id: "email" %>
       </div>
@@ -62,7 +67,8 @@
         <%= telephone_input f, :phone, placeholder: "(555)-555-5555", class: "support-form-text-input support-form-text-input--small form-control", "aria-describedby": "phoneHelp",
                                         autocomplete: "tel", id: "phone" %>
       </div>
-      <div class="form-group <%= class_for_error("privacy", @errors, "has-danger", "") %>">
+      <div class="form-group <%= class_for_error("privacy", @errors, "has-danger", "has-success") %>">
+        <%= support_error_tag @errors, "privacy" %>
         <%= SiteWeb.PartialView.render("_checkbox.html", %{
           form: f,
           field: :privacy,
@@ -83,7 +89,8 @@
         %>
       </div>
     </div> <!-- End contact info section -->
-    <div class="form-group <%= class_for_error("recaptcha", @errors, "has-danger", "") %>">
+    <div class="form-group <%= class_for_error("recaptcha", @errors, "has-danger", "has-success") %>">
+      <%= support_error_tag @errors, "recaptcha" %>
       <%= raw Recaptcha.Template.display(noscript: true) %>
       <button class="btn btn-primary submit-button" type="submit" id="support-submit">
         Submit

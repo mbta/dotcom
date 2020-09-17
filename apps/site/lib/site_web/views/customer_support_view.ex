@@ -26,6 +26,8 @@ defmodule SiteWeb.CustomerSupportView do
   end
 
   @spec class_for_error(String.t(), [String.t()], String.t(), String.t()) :: String.t()
+  def class_for_error(_, [], _, _), do: ""
+
   def class_for_error(value, errors, on_class, off_class) do
     if Enum.member?(errors, value), do: on_class, else: off_class
   end
@@ -42,4 +44,37 @@ defmodule SiteWeb.CustomerSupportView do
       ]
     )
   end
+
+  @doc """
+  Also see SiteWeb.ErrorHelpers.error_tag for a slightly different implementation of this functionality.
+  """
+  def support_error_tag(errors, field) when is_list(errors) do
+    if Enum.member?(errors, field) do
+      content_tag(
+        :div,
+        content_tag(:span, error_msg(field),
+          role: "alert",
+          "aria-live": "assertive",
+          class: "support-#{field}-error"
+        ),
+        class: "error-container support-#{field}-error-container form-control-feedback"
+      )
+    else
+      nil
+    end
+  end
+
+  defp error_msg("service"), do: "Please select the type of concern."
+  defp error_msg("comments"), do: "Please enter a comment to continue."
+  defp error_msg("upload"), do: "Sorry. We had trouble uploading your image. Please try again."
+  defp error_msg("email"), do: "Please enter a valid email."
+  defp error_msg("name"), do: "Please enter your full name to continue."
+
+  defp error_msg("privacy"),
+    do: "You must agree to our Privacy Policy before submitting your feedback."
+
+  defp error_msg("recaptcha"),
+    do: "You must complete the reCAPTCHA before submitting your feedback."
+
+  defp error_msg(_), do: "Sorry. Something went wrong. Please try again."
 end
