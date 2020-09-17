@@ -1,121 +1,94 @@
 <% form_action = "#{customer_support_path(@conn, :submit)}#support-result" %>
-<div class="row">
-  <div class="col-xs-12">
-      <%= form_for @conn, form_action, [as: :support, multipart: true, method: :post, id: "support-form",
-                                        class: "support-form"], fn f -> %>
-        <div class="form-group contrast <%= class_for_error("service", @errors, "has-danger", "") %>">
-          <div class="error-container support-service-error-container hidden-xs-up">
-            <span role="alert" class="support-service-error">Please select the type of concern</span>
-          </div>
-          <fieldset>
-            <legend class="service-legend">What kind of concern do you have? (Required)</legend>
-            <div id="service" class="service-radios">
-              <%= for {text, value} <- @service_options do %>
-                <span class="form-check service-radio">
-                  <%= radio_button f, :service, value, class: "support-form-control service c-radio",
-                                                      id: "service-#{value}" %>
-                  <%= label f, :service, text, [for: "service-#{value}", class: "c-radio__label"] %>
-                </span>
-              <% end %>
-            </div>
-          </fieldset>
-        </div>
-        <div class="form-group contrast <%= class_for_error("comments", @errors, "has-danger", "") %>">
-          <div class="error-container support-comments-error-container <%= class_for_error("comments", @errors, "", "hidden-xs-up") %>" tabindex="-1">
-            <span role="alert" class="support-comments-error">Please enter a comment to continue.</span>
-          </div>
-          <div>
-            <p>Let us know how we can help</p>
-          </div>
-          <% comments_placeholder = "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number." %>
-          <%= textarea f, :comments, id: "comments", class: "support-form-text-input form-control", maxlength: "3000",
-                                     rows: "3", placeholder: comments_placeholder, required: "required", value: assigns[:comments] %>
 
-          <span></span>
-          <small class="form-text">3000 characters maximum</small>
-        </div>
-        <div class="form-group contrast">
-          <div id="support-upload-error-container" class="support-upload-error-container error-container <%= class_for_error("upload", @errors, "", "hidden-xs-up") %>" tabindex="-1">
-            <span id="upload-photo-error" class="upload-photo-error support-comments-error">Sorry. We had trouble uploading your image. Please try again.</span>
-          </div>
-          <div class="photo-preview-container contrast <%= unless Map.has_key?(f.params, "photo"), do: "hidden-xs-up" %>" tabindex="-1">
-          </div>
-          <a id="upload-photo-link" class="upload-photo-link" tabindex="-1"><%= fa "camera" %>Upload Photo</a>
-          <%= file_input f, :photo, accept: "image/*", id: "photo" %>
-        </div>
-        <div class="form-group support-check-container contrast">
-          <%= SiteWeb.PartialView.render("_checkbox.html", %{
-            form: f,
-            field: :request_response,
-            id: "request_response",
-            label_text: "I would like a response from the Customer Support team."
+<%= form_for @conn, form_action, [as: :support, multipart: true, method: :post, id: "support-form", class: "support-form"], fn f -> %>
+  <h2>Email Us</h2>
+  <%= preamble_text() %>
+  <section>
+    <h3>Message</h3>
+    <fieldset class="form-group <%= class_for_error("service", @errors, "has-danger", "") %>">
+      <legend class="form-control-label">Category*</legend>
+      <div id="service" class="service-radios">
+        <%= for {text, value} <- @service_options do %>
+          <span class="form-check service-radio">
+            <%= radio_button f, :service, value, class: "support-form-control service c-radio",
+                                                id: "service-#{value}" %>
+            <%= label f, :service, text, [for: "service-#{value}", class: "c-radio__label"] %>
+          </span>
+        <% end %>
+      </div>
+    </fieldset>
+    <div class="form-group <%= class_for_error("comments", @errors, "has-danger", "") %>">
+      <%= label f, :comments, "Let us know how we can help*", [for: "comments", class: "form-control-label"] %>
+      <%= textarea f, :comments, id: "comments", class: "support-form-text-input form-control #{class_for_error("comments", @errors, "form-control-danger", "form-control-success")}", "aria-describedby": "commentsHelp", maxlength: "3000",
+                                rows: "3", placeholder: "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number.", required: "required", value: assigns[:comments] %>
+      <small id="commentsHelp" class="form-text">3000 characters maximum</small>
+    </div>
+  </section>
+  <section>
+    <%# <h3>Additional Details (optional)</h3> %>
+    <div class="form-group <%= if @errors do class_for_error("upload", @errors, "has-danger", "") end %>">
+      <span id="upload-photo-error"></span>
+      <div class="photo-preview-container <%= unless Map.has_key?(f.params, "photo"), do: "hidden-xs-up" %>" tabindex="-1">
+      </div>
+      <a id="upload-photo-link" class="upload-photo-link" tabindex="-1"><%= fa "camera" %>Upload Photo</a>
+      <%= file_input f, :photo, accept: "image/*", id: "photo" %>
+    </div>
+  </section>
+  <section>
+    <div class="form-group">
+      <%= SiteWeb.PartialView.render("_checkbox.html", %{
+        form: f,
+        field: :request_response,
+        id: "request_response",
+        checked: false,
+        label_text: "I would like a response from the Customer Support team."
+      })
+      %>
+    </div>
+    <div id="contactInfoForm" style="display: none;">
+      <h3>Contact Info</h3>
+      <div class="form-group <%= class_for_error("name", @errors, "has-danger", "") %>">
+        <%= label f, :name, "Full Name*", [for: "name", class: "form-control-label"] %>
+        <%= text_input f, :name, placeholder: "Jane Smith", class: "support-form-text-input support-form-text-input--small form-control #{class_for_error("name", @errors, "form-control-danger", "form-control-success")}",
+                                  autocomplete: "name", id: "name" %>
+      </div>
+      <div class="form-group <%= class_for_error("email", @errors, "has-danger", "") %>">
+        <%= label f, :email, "Email*", [for: "email", class: "form-control-label"] %>
+        <%= text_input f, :email, placeholder: "janesmith@email.com", class: "form-control support-form-text-input support-form-text-input--small #{class_for_error("email", @errors, "form-control-danger", "form-control-success")}",
+                                  autocomplete: "email", id: "email" %>
+      </div>
+      <div class="form-group">
+        <%= label f, :phone, "Phone number", [for: "phone", class: "form-control-label"] %>
+        <%= telephone_input f, :phone, placeholder: "(555)-555-5555", class: "support-form-text-input support-form-text-input--small form-control", "aria-describedby": "phoneHelp",
+                                        autocomplete: "tel", id: "phone" %>
+      </div>
+      <div class="form-group <%= class_for_error("privacy", @errors, "has-danger", "") %>">
+        <%= SiteWeb.PartialView.render("_checkbox.html", %{
+          form: f,
+          field: :privacy,
+          id: "privacy",
+          required: "required",
+          label_text: ["I have read and agree to the ", link("Privacy Policy", target: "_blank", to: cms_static_page_path(@conn, "/policies/privacy-policy"))]
+        })
+        %>
+      </div>
+      <div class="form-group">
+        <%= SiteWeb.PartialView.render("_checkbox.html", %{
+          form: f,
+          field: :promotions,
+          id: "promotions",
+          required: false,
+          label_text: "I would like to receive email updates on new MBTA services and promotions"
           })
-          %>
-        </div>
-        <div class="support-form-expanded form-group contrast">
-          <div class="form-group">
-            <label for="name" class="col-form-label"><strong>Full Name</strong> (Required)</label>
-            <div class="error-container support-name-error-container <%= class_for_error("name", @errors, "", "hidden-xs-up") %>" tabindex="-1">
-              <span role="alert" class="support-name-error">Please enter your full name to continue.</span>
-            </div>
-            <%= text_input f, :name, placeholder: "Jane Smith", class: "support-form-text-input support-form-text-input--small form-control",
-                                      autocomplete: "name", id: "name" %>
-          </div>
-          <div class="form-group <%= class_for_error("email", @errors, "has-danger", "") %>">
-            <label for="email"><strong>Email</strong> (Required)</label>
-            <div class="error-container support-email-error-container <%= class_for_error("email", @errors, "", "hidden-xs-up") %>" tabindex="-1">
-              <span role="alert" class="support-email-error">Please enter a valid email.</span>
-            </div>
-            <%= text_input f, :email, placeholder: "janesmith@email.com", class: "support-form-text-input support-form-text-input--small form-control",
-                                      autocomplete: "email", id: "email" %>
-          </div>
-          <p class="phone-description">
-            If you'd like us to give you a call, please give us the best number where we can reach you.
-          </p>
-          <div class="form-group">
-            <label for="phone"><strong>Phone number</strong></label>
-            <%= telephone_input f, :phone, placeholder: "(555)-555-5555", class: "support-form-text-input support-form-text-input--small form-control",
-                                            autocomplete: "tel", id: "phone" %>
-          </div>
-          <div class="support-check-container">
-            <div class="error-container support-privacy-error-container <%= class_for_error("privacy", @errors, "", "hidden-xs-up") %>" tabindex="-1">
-              <span role="alert" class="support-privacy-error">You must agree to our Privacy Policy before submitting your feedback.</span>
-            </div>
-          <%= SiteWeb.PartialView.render("_checkbox.html", %{
-            form: f,
-            field: :privacy,
-            id: "privacy",
-            required: "required",
-            label_text: ["I have read and agree to the ", link("Privacy Policy", target: "_blank", to: cms_static_page_path(@conn, "/policies/privacy-policy"))]
-          })
-          %>
-          </div>
-          <div class="support-check-container">
-            <%= SiteWeb.PartialView.render("_checkbox.html", %{
-              form: f,
-              field: :promotions,
-              id: "promotions",
-              required: "required",
-              label_text: "I would like to receive email updates on new MBTA services and promotions"
-              })
-            %>
-          </div>
-        </div>
-        <div class="form-group contrast">
-          <div class="error-container support-g-recaptcha-response-error-container <%= class_for_error("recaptcha", @errors, "", "hidden-xs-up") %>" tabindex="-1">
-            <span role="alert" class="support-g-recaptcha-response-error">You must complete the reCAPTCHA before submitting your feedback.</span>
-          </div>
-          <%= raw Recaptcha.Template.display(noscript: true) %>
-        </div>
-        <div class="response-time-disclaimer">
-          Responses may take up to 5 business days. If this is an emergency, please <%= link("contact the Transit Police", to: "/transit-police") %>.
-        </div>
-        <div class="form-group">
-          <button class="btn btn-primary submit-button" type="submit" id="support-submit">
-            Send comments
-            <span class="waiting" hidden><%= fa "refresh fa-spin" %></span>
-          </button>
-        </div>
-      <% end %>
-  </div>
-</div>
+        %>
+      </div>
+    </div> <!-- End contact info section -->
+    <div class="form-group <%= class_for_error("recaptcha", @errors, "has-danger", "") %>">
+      <%= raw Recaptcha.Template.display(noscript: true) %>
+      <button class="btn btn-primary submit-button" type="submit" id="support-submit">
+        Submit
+        <span class="waiting" hidden><%= fa "refresh fa-spin" %></span>
+      </button>
+    </div>
+  </section>
+<% end %>

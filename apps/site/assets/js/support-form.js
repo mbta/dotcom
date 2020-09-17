@@ -209,12 +209,8 @@ function removeClass(node, className) {
 }
 
 export function setupRequestResponse($) {
-  $("#request_response").click(function() {
-    if ($(this).is(":checked")) {
-      showExpandedForm($);
-    } else {
-      hideExpandedForm($);
-    }
+  $("#request_response").change(function() {
+    $("#contactInfoForm").toggle($(this).is(":checked"));
   });
 }
 
@@ -398,12 +394,4 @@ export function handleSubmitClick($, toUpload) {
       }
     });
   });
-}
-
-function showExpandedForm($) {
-  $(".support-form-expanded").show();
-}
-
-function hideExpandedForm($) {
-  $(".support-form-expanded").hide();
 }
