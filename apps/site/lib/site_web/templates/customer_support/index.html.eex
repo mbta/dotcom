@@ -1,32 +1,28 @@
 <div class="container">
   <div class="page-section">
-    <h1>Contact Us</h1>
-
-    <div class="col-xs-12 col-md-8">
-
-      <div class="row">
-        <div class="col-xs-12 support-thank-you <%= if @show_form, do: "hidden-xs-up" %>" tabindex="-1">
-          <div class="support-success" id="<%= if !show_error_message(@conn), do: "support-result" %>">
+    <h1>Customer Support</h1>
+    <div class="row">
+      <div class="col-md-8">
+        <div class="support-confirmation support-confirmation--success <%= if @show_form, do: "hidden-xs-up" %>" tabindex="-1">
+          <div id="<%= if !show_error_message(@conn), do: "support-result" %>">
             <%= fa "check-circle" %>
             Thank you for your feedback.
           </div>
           <p>Your comments have been sent to our Customer Support team.</p>
         </div>
-        <div class="col-xs-12 support-form-error <%= if !show_error_message(@conn), do: "hidden-xs-up" %>" tabindex="-1">
-          <div class="support-error" id="<%= if show_error_message(@conn), do: "support-result" %>">
+        <div class="support-confirmation support-confirmation--error <%= if !show_error_message(@conn), do: "hidden-xs-up" %>" tabindex="-1">
+          <div id="<%= if show_error_message(@conn), do: "support-result" %>">
             <%= fa "exclamation-circle" %>
             We had an issue submitting your feedback -- please call us at the Main Hotline below, or try again in a few minutes.
           </div>
         </div>
+        <%= if @show_form do %>
+          <%= render "_form.html", forward_assigns(@conn) %>
+        <% end %>
       </div>
-      <%= if @show_form do %>
-        <%= render "_form.html", forward_assigns(@conn) %>
-      <% end %>
-
-    </div>
-
-    <div class="col-xs-12 col-md-4">
-      <%= SiteWeb.CustomerSupportController.render_expandable_blocks(assigns) %>
+      <div class="col-md-4">
+        <%= SiteWeb.CustomerSupportController.render_expandable_blocks(assigns) %>
+      </div>
     </div>
   </div>
 </div>

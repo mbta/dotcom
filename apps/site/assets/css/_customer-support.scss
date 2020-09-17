@@ -1,11 +1,5 @@
 @import 'variables';
 
-.support-success,
-.support-error {
-  margin-top: .5em;
-  padding: .5em;
-}
-
 .support-form {
   .error-container {
     margin: 0 0 .5em;
@@ -16,9 +10,18 @@
   background-color: $form-success-message;
 }
 
-.support-error {
-  background-color: $form-error-message;
-  color: $error-text;
+.support-confirmation {
+  margin-bottom: .5em;
+  padding: .5em;
+
+  &--success {
+    background-color: $form-success-message;
+  }
+
+  &--error {
+    background-color: $form-error-message;
+    color: $error-text;
+  }
 }
 
 .photo-preview-container {
