@@ -22,7 +22,7 @@
       <%= support_error_tag @errors, "comments" %>
       <%= label f, :comments, "Let us know how we can help*", [for: "comments", class: "form-control-label"] %>
       <%= textarea f, :comments, id: "comments", class: "support-form-text-input form-control #{class_for_error("comments", @errors, "form-control-danger", "form-control-success")}", "aria-describedby": "commentsHelp", maxlength: "3000",
-                                rows: "3", placeholder: "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number.", required: "required", value: assigns[:comments] %>
+                                rows: "3", placeholder: placeholder_text("comments"), required: "required", value: assigns[:comments] %>
       <small id="commentsHelp" class="form-text">3000 characters maximum</small>
     </div>
   </section>
@@ -53,18 +53,18 @@
       <div class="form-group <%= class_for_error("name", @errors, "has-danger", "has-success") %>">
         <%= label f, :name, "Full Name*", [for: "name", class: "form-control-label"] %>
         <%= support_error_tag @errors, "name" %>
-        <%= text_input f, :name, placeholder: "Jane Smith", class: "support-form-text-input support-form-text-input--small form-control #{class_for_error("name", @errors, "form-control-danger", "form-control-success")}",
+        <%= text_input f, :name, placeholder: placeholder_text("name"), class: "support-form-text-input support-form-text-input--small form-control #{class_for_error("name", @errors, "form-control-danger", "form-control-success")}",
                                   autocomplete: "name", id: "name" %>
       </div>
       <div class="form-group <%= class_for_error("email", @errors, "has-danger", "has-success") %>">
         <%= label f, :email, "Email*", [for: "email", class: "form-control-label"] %>
         <%= support_error_tag @errors, "email" %>
-        <%= text_input f, :email, placeholder: "janesmith@email.com", class: "form-control support-form-text-input support-form-text-input--small #{class_for_error("email", @errors, "form-control-danger", "form-control-success")}",
+        <%= text_input f, :email, placeholder: placeholder_text("email"), class: "form-control support-form-text-input support-form-text-input--small #{class_for_error("email", @errors, "form-control-danger", "form-control-success")}",
                                   autocomplete: "email", id: "email" %>
       </div>
       <div class="form-group">
         <%= label f, :phone, "Phone number", [for: "phone", class: "form-control-label"] %>
-        <%= telephone_input f, :phone, placeholder: "(555)-555-5555", class: "support-form-text-input support-form-text-input--small form-control", "aria-describedby": "phoneHelp",
+        <%= telephone_input f, :phone, placeholder: placeholder_text("phone"), class: "support-form-text-input support-form-text-input--small form-control", "aria-describedby": "phoneHelp",
                                         autocomplete: "tel", id: "phone" %>
       </div>
       <div class="form-group <%= class_for_error("privacy", @errors, "has-danger", "has-success") %>">

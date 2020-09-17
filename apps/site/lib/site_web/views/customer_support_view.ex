@@ -45,6 +45,16 @@ defmodule SiteWeb.CustomerSupportView do
     )
   end
 
+  @spec placeholder_text(String.t()) :: String.t()
+  def placeholder_text("comments"),
+    do:
+      "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number."
+
+  def placeholder_text("name"), do: "Jane Smith"
+  def placeholder_text("email"), do: "janesmith@email.com"
+  def placeholder_text("phone"), do: "(555)-555-5555"
+  def placeholder_text(_), do: ""
+
   @doc """
   Also see SiteWeb.ErrorHelpers.error_tag for a slightly different implementation of this functionality.
   """
