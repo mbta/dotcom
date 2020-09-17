@@ -142,15 +142,6 @@ button .waiting {
   font-size: inherit;
 }
 
-.service-radios {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.service-radio {
-  margin: 0 $base-spacing 0 0;
-}
-
 .response-time-disclaimer {
   margin-top: $base-spacing / 2;
 }
