@@ -449,12 +449,20 @@ defmodule UtilTest do
     end
   end
 
-  describe "time_is_greater_or_equal?/2" do
+  describe "Comparing dates" do
     test "properly determines if date is before reference date" do
       day = Util.to_local_time(~N[2020-07-13T00:00:00])
       ten_days_later = Util.to_local_time(~N[2020-07-23T00:00:00])
       assert time_is_greater_or_equal?(ten_days_later, day) == true
       assert time_is_greater_or_equal?(day, ten_days_later) == false
+    end
+
+    test "24-hour difference check" do
+      ref_day = Util.to_local_time(~N[2020-09-01T00:00:00])
+      less_than_24hrs_later = Util.to_local_time(~N[2020-09-01T00:30:00])
+      two_days_later = Util.to_local_time(~N[2020-09-03T00:00:00])
+      assert is_within_24_hours?(less_than_24hrs_later, ref_day) == true
+      assert is_within_24_hours?(two_days_later, ref_day) == false
     end
   end
 end

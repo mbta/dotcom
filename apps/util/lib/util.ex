@@ -287,4 +287,11 @@ defmodule Util do
 
     result
   end
+
+  @spec is_within_24_hours?(DateTime.t(), DateTime.t()) :: boolean
+  def is_within_24_hours?(time, ref_time) do
+    # diff returns seconds by default
+    diff_in_hours = DateTime.diff(time, ref_time) / (60 * 60)
+    abs(diff_in_hours) <= 24
+  end
 end

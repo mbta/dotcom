@@ -33,29 +33,40 @@ defmodule PredictedSchedule do
         date: Util.service_date(now)
       )
 
-    [route: route_id, stop: stop_id, direction_id: direction_id]
-    |> predictions_fn.()
-    |> PredictedSchedule.group(schedules, sort_fn: sort_fn)
-    |> case do
-      [_ | _] = ps ->
-        ps
+    predicted_schedules =
+      [route: route_id, stop: stop_id, direction_id: direction_id]
+      |> predictions_fn.()
+      |> PredictedSchedule.group(schedules, sort_fn: sort_fn)
+      |> case do
+        [_ | _] = ps ->
+          ps
 
-      [] ->
-        # if there are no schedules left for today, get schedules for tomorrow
-        PredictedSchedule.group(
-          [],
-          schedules_fn.(
-            [route_id],
-            stop_ids: stop_id,
-            direction_id: direction_id,
-            date: Util.tomorrow_date(now)
-          ),
-          sort_fn: sort_fn
-        )
+        [] ->
+          # if there are no schedules left for today, get schedules for tomorrow
+          PredictedSchedule.group(
+            [],
+            schedules_fn.(
+              [route_id],
+              stop_ids: stop_id,
+              direction_id: direction_id,
+              date: Util.tomorrow_date(now)
+            ),
+            sort_fn: sort_fn
+          )
+      end
+      |> Enum.reject(&PredictedSchedule.last_stop?/1)
+      |> Enum.reject(&(PredictedSchedule.time(&1) == nil))
+
+    predicted_schedules_with_valid_dates =
+      predicted_schedules
+      |> Enum.reject(&(DateTime.compare(PredictedSchedule.time(&1), now) == :lt))
+
+    if Enum.empty?(predicted_schedules_with_valid_dates) do
+      predicted_schedules
+      |> Enum.filter(fn x -> Util.is_within_24_hours?(PredictedSchedule.time(x), now) end)
+    else
+      predicted_schedules_with_valid_dates
     end
-    |> Enum.reject(&PredictedSchedule.last_stop?/1)
-    |> Enum.reject(&(PredictedSchedule.time(&1) == nil))
-    |> Enum.reject(&(DateTime.compare(PredictedSchedule.time(&1), now) == :lt))
   end
 
   @doc """

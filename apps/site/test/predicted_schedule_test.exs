@@ -161,6 +161,11 @@ defmodule PredictedScheduleTest do
                %{schedule: %{trip: %{id: "Trip 3"}}, prediction: %{trip: %{id: "Trip 3"}}}
              ] = predicted_schedules
     end
+
+    test "returns a list of predicted schedules, including ones that are within the next 24 hours" do
+      predicted_schedules = get("15", 1, direction_id: 1, now: Util.now())
+      refute Enum.empty?(predicted_schedules)
+    end
   end
 
   describe "group/2" do
