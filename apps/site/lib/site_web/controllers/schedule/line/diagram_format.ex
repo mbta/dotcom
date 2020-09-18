@@ -15,12 +15,12 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
   # the nature of the disruption.
   #   * if there is a shuttle we don't style the final stop
   #   * if there is a detour or stop/station
-  @spec shift_indices_by_effect([number], [Alerts.Alert.effect()]) :: [number]
-  defp shift_indices_by_effect(indices, [:shuttle | _]) do
+  @spec shift_indices_by_effect([number], [{String.t(), Alerts.Alert.effect()}]) :: [number]
+  defp shift_indices_by_effect(indices, [{_alert_id, :shuttle} | _]) do
     List.delete_at(indices, -1)
   end
 
-  defp shift_indices_by_effect(indices, [effect | _])
+  defp shift_indices_by_effect(indices, [{_alert_id, effect} | _])
        when effect in [:stop_closure, :station_closure, :detour]
        when hd(indices) > 0 do
     [hd(indices) - 1] ++ indices
@@ -30,13 +30,6 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
     do: shift_indices_by_effect(indices, effects)
 
   defp shift_indices_by_effect(indices, _), do: indices
-
-  @spec effects_for_stop(line_diagram_stop) :: [Alerts.Alert.effect()]
-  defp effects_for_stop(%{alerts: []}), do: []
-
-  defp effects_for_stop(%{alerts: alerts}) do
-    Enum.map(alerts, & &1.effect)
-  end
 
   @spec stop_with_disruption({line_diagram_stop, number}, [number]) :: line_diagram_stop
   defp stop_with_disruption({%{stop_data: stop_data} = stop, index}, disrupted_stop_indices) do
@@ -70,17 +63,17 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
 
   defp chunk_by_diversions({stop, index}, chunk, date) do
     if stop_has_diversion_now?(stop, date) do
-      stop_effect = effects_for_stop(stop)
+      stop_effects = Enum.map(stop.alerts, &{&1.id, &1.effect})
 
       case chunk do
         [] ->
-          {:cont, [{index, stop_effect}]}
+          {:cont, [{index, stop_effects}]}
 
-        [{_, last_effect} | _] ->
-          if stop_effect == last_effect do
-            {:cont, [{index, stop_effect} | chunk]}
+        [{_, last_effects} | _] ->
+          if stop_effects == last_effects do
+            {:cont, Enum.reverse([{index, stop_effects} | chunk]), []}
           else
-            {:cont, [{index, stop_effect}]}
+            {:cont, [{index, stop_effects}]}
           end
       end
     else
