@@ -4,6 +4,7 @@ defmodule PredictedScheduleTest do
   alias Stops.Stop
   alias Predictions.Prediction
   import PredictedSchedule
+  import Mock
 
   # set to the end of a month to uncover issues with sorting times as
   # structs, rather than as integers
@@ -160,6 +161,27 @@ defmodule PredictedScheduleTest do
                %{schedule: %{trip: %{id: "Trip 2"}}, prediction: %{trip: %{id: "Trip 2"}}},
                %{schedule: %{trip: %{id: "Trip 3"}}, prediction: %{trip: %{id: "Trip 3"}}}
              ] = predicted_schedules
+    end
+
+    test "attempts to return a list of predicted schedules for tomorrow, after no valid ones are left for today" do
+      predictions_fn = fn _opts ->
+        @trip_predictions
+      end
+
+      schedules_fn = fn ["Teal"], _opts ->
+        @trip_schedules
+      end
+
+      with_mock PredictedSchedule, [:passthrough],
+        group: fn _predictions, _schedules, _opts -> [] end do
+        get("Teal", "stop1",
+          now: Timex.shift(@base_time, minutes: 30),
+          schedules_fn: schedules_fn,
+          predictions_fn: predictions_fn
+        )
+
+        assert :meck.num_calls(PredictedSchedule, :group, :_) == 2
+      end
     end
   end
 
