@@ -33,26 +33,32 @@ defmodule PredictedSchedule do
         date: Util.service_date(now)
       )
 
-    [route: route_id, stop: stop_id, direction_id: direction_id]
-    |> predictions_fn.()
-    |> PredictedSchedule.group(schedules, sort_fn: sort_fn)
-    |> case do
-      [_ | _] = ps ->
-        ps
+    predicted_schedules =
+      [route: route_id, stop: stop_id, direction_id: direction_id]
+      |> predictions_fn.()
+      |> PredictedSchedule.group(schedules, sort_fn: sort_fn)
+      |> filter_predicted_schedules(now)
 
-      [] ->
-        # if there are no schedules left for today, get schedules for tomorrow
-        PredictedSchedule.group(
-          [],
-          schedules_fn.(
-            [route_id],
-            stop_ids: stop_id,
-            direction_id: direction_id,
-            date: Util.tomorrow_date(now)
-          ),
-          sort_fn: sort_fn
-        )
+    if Enum.empty?(predicted_schedules) do
+      # if there are no schedules left for today, get schedules for tomorrow
+      PredictedSchedule.group(
+        [],
+        schedules_fn.(
+          [route_id],
+          stop_ids: stop_id,
+          direction_id: direction_id,
+          date: Util.tomorrow_date(now)
+        ),
+        sort_fn: sort_fn
+      )
+      |> filter_predicted_schedules(now)
+    else
+      predicted_schedules
     end
+  end
+
+  def filter_predicted_schedules(predicted_schedules, now) do
+    predicted_schedules
     |> Enum.reject(&PredictedSchedule.last_stop?/1)
     |> Enum.reject(&(PredictedSchedule.time(&1) == nil))
     |> Enum.reject(&(DateTime.compare(PredictedSchedule.time(&1), now) == :lt))
