@@ -66,19 +66,35 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
 
   defp has_active_diversion?(_, _), do: false
 
-  defp chunk_by_diversions({stop, index}, chunk, date) do
+  @spec effects_for_stop(line_diagram_stop) :: [{String.t(), Alerts.Alert.effect()}]
+  defp effects_for_stop(%{alerts: alerts}) do
+    Enum.map(alerts, &{&1.id, &1.effect})
+  end
+
+  @spec chunk_by_diversions(line_diagram_stop(), [line_diagram_stop()], DateTime.t()) ::
+  {:cont, any(), [line_diagram_stop()]}
+  | {:cont, [line_diagram_stop()]}
+  | {:halt, [line_diagram_stop()]}
+  defp chunk_by_diversions(stop, chunk, date) do
     if stop_has_diversion_now?(stop, date) do
-      stop_effects = Enum.map(stop.alerts, &{&1.id, &1.effect})
+      stop_fx = effects_for_stop(stop)
 
       case chunk do
         [] ->
-          {:cont, [{index, stop_effects}]}
+          {:cont, [stop]}
 
-        [{_, last_effects} | _] ->
-          if stop_effects == last_effects do
-            {:cont, Enum.reverse([{index, stop_effects} | chunk]), []}
+        chunk ->
+          last_stop = List.last(chunk)
+          if stop_fx == effects_for_stop(last_stop) do
+            {:cont, chunk ++ [stop]}
           else
-            {:cont, [{index, stop_effects}]}
+            case stop_fx do
+              [] ->
+                {:cont, chunk, []}
+
+              _ ->
+                {:cont, chunk, [stop]}
+            end
           end
       end
     else
@@ -97,7 +113,6 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
   def do_stops_list_with_disruptions(stops_list, date) do
     disrupted_stop_indices =
       stops_list
-      |> Stream.with_index()
       |> Stream.chunk_while(
         [],
         &chunk_by_diversions(&1, &2, date),
@@ -107,8 +122,8 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
         end
       )
       |> Stream.flat_map(fn chunked_stops ->
-        {indices, effects} = Enum.unzip(chunked_stops)
-        shift_indices_by_effect(indices, List.flatten(effects) |> Enum.uniq())
+        effects = chunked_stops |> Enum.map(&effects_for_stop/1) |> List.flatten() |> Enum.uniq()
+        shift_indices_by_effect(0..Kernel.length(chunked_stops), effects)
       end)
       |> Enum.uniq()
 
