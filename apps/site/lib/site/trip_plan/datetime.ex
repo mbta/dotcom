@@ -12,7 +12,7 @@ defmodule Site.TripPlan.DateTime do
     type = get_departure_type(params)
 
     dt
-    |> parse()
+    |> Util.parse()
     |> future_date_or_error(now)
     |> verify_inside_rating(end_of_rating)
     |> round_minute()
@@ -41,49 +41,6 @@ defmodule Site.TripPlan.DateTime do
 
   defp do_validate(%DateTime{} = dt, "arrive", query) do
     %{query | time: {:arrive_by, dt}}
-  end
-
-  @spec parse(map | DateTime.t()) :: NaiveDateTime.t() | DateTime.t() | {:error, :invalid_date}
-  defp parse(date_params) do
-    case date_to_string(date_params) do
-      <<str::binary>> ->
-        str
-        |> Timex.parse("{YYYY}-{M}-{D} {_h24}:{_m} {AM}")
-        |> do_parse()
-
-      error ->
-        error
-    end
-  end
-
-  defp do_parse({:ok, %NaiveDateTime{} = naive}) do
-    if Timex.is_valid?(naive) do
-      naive
-    else
-      {:error, :invalid_date}
-    end
-  end
-
-  defp do_parse({:error, _}), do: {:error, :invalid_date}
-
-  @spec date_to_string(map | DateTime.t()) :: String.t() | DateTime.t() | {:error, :invalid_date}
-  defp date_to_string(%{
-         "year" => year,
-         "month" => month,
-         "day" => day,
-         "hour" => hour,
-         "minute" => minute,
-         "am_pm" => am_pm
-       }) do
-    "#{year}-#{month}-#{day} #{hour}:#{minute} #{am_pm}"
-  end
-
-  defp date_to_string(%DateTime{} = date) do
-    date
-  end
-
-  defp date_to_string(%{}) do
-    {:error, :invalid_date}
   end
 
   @spec future_date_or_error(
