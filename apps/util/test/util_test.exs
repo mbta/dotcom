@@ -457,4 +457,38 @@ defmodule UtilTest do
       assert time_is_greater_or_equal?(day, ten_days_later) == false
     end
   end
+
+  describe "parse/1" do
+    test "returns error" do
+      assert Util.parse(%{}) == {:error, :invalid_date}
+    end
+
+    test "parses destructured date" do
+      assert Util.parse(%{
+               "year" => 2020,
+               "month" => 10,
+               "day" => 15,
+               "hour" => 10,
+               "minute" => 21,
+               "am_pm" => "AM"
+             }) == ~N[2020-10-15 10:21:00]
+    end
+
+    test "parses DateTime" do
+      dt = %DateTime{
+        year: 2020,
+        month: 9,
+        day: 1,
+        hour: 13,
+        minute: 26,
+        second: 8,
+        utc_offset: -18_000,
+        std_offset: 3_600,
+        time_zone: "Etc/UTC",
+        zone_abbr: "EDT"
+      }
+
+      assert DateTime.to_naive(Util.parse(dt)) == ~N[2020-09-01 13:26:08]
+    end
+  end
 end
