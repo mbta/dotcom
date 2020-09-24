@@ -1,5 +1,5 @@
 defmodule SiteWeb.EventView do
-  @moduledoc false
+  @moduledoc "Module to display fields on the events view"
   use SiteWeb, :view
 
   import Site.FontAwesomeHelpers
@@ -13,7 +13,7 @@ defmodule SiteWeb.EventView do
     |> Timex.parse!("{ISOdate}")
     |> Timex.shift(months: shift_value)
     |> Timex.beginning_of_month()
-    |> Timex.format!("{ISOdate}")
+    |> Util.convert_to_iso_format()
   end
 
   @spec calendar_title(String.t()) :: String.t()

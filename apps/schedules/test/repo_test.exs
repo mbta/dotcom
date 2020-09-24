@@ -154,7 +154,7 @@ defmodule Schedules.RepoTest do
 
   describe "origin_destination/3" do
     test "returns pairs of Schedule items" do
-      today = Util.service_date() |> Timex.format!("{ISOdate}")
+      today = Util.service_date() |> Util.convert_to_iso_format()
 
       response =
         origin_destination("place-NHRML-0127", "North Station", date: today, direction_id: 1)
@@ -168,7 +168,7 @@ defmodule Schedules.RepoTest do
     end
 
     test "does not require a direction id" do
-      today = Util.service_date() |> Timex.format!("{ISOdate}")
+      today = Util.service_date() |> Util.convert_to_iso_format()
       no_direction_id = origin_destination("place-NHRML-0127", "North Station", date: today)
 
       direction_id =
@@ -182,7 +182,7 @@ defmodule Schedules.RepoTest do
         "America/New_York"
         |> Timex.now()
         |> Timex.end_of_week(:wed)
-        |> Timex.format!("{ISOdate}")
+        |> Util.convert_to_iso_format()
 
       # stops multiple times at ruggles
       response = origin_destination("place-rugg", "1237", route: "43", date: next_tuesday)
