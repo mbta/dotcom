@@ -13,6 +13,84 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormatTest do
      inward_line_diagram: setup_inward_line_diagram()}
   end
 
+  test "prior_stop/2 finds prior stop", %{simple_line_diagram: stops} do
+    expected_stop_with_previous = [
+      {"place-alfcl", nil},
+      {"place-jfk", "place-alfcl"},
+      {"place-nqncy", "place-jfk"},
+      {"place-brntn", "place-nqncy"},
+      {"place-shmnl", "place-brntn"},
+      {"place-asmnl", "place-shmnl"}
+    ]
+
+    for {stop_id, prev_id} <- expected_stop_with_previous do
+      stop = Enum.find(stops, &(&1.route_stop.id == stop_id))
+      prior = prior_stop(stop, stops)
+
+      if prev_id do
+        id = prior |> List.first() |> Map.get(:route_stop) |> Map.get(:id)
+        assert id == prev_id, "stop before #{stop_id} should be #{prev_id} but is #{id}"
+      else
+        refute prior_stop(stop, stops), "stop before #{stop_id} should be nil"
+      end
+    end
+  end
+
+  test "prior_stop/2 finds prior stop (in)", %{inward_line_diagram: stops} do
+    expected_stop_with_previous = [
+      {"place-asmnl", nil},
+      {"place-shmnl", "place-asmnl"},
+      {"place-brntn", nil},
+      {"place-nqncy", "place-brntn"},
+      {"place-jfk", ["place-nqncy", "place-shmnl"]},
+      {"place-alfcl", "place-jfk"}
+    ]
+
+    for {stop_id, prev_ids} <- expected_stop_with_previous do
+      stop = Enum.find(stops, &(&1.route_stop.id == stop_id))
+      prior_stops = prior_stop(stop, stops)
+
+      if prev_ids do
+        if is_list(prev_ids) do
+          for p_stop <- prior_stops do
+            %{route_stop: %Stops.RouteStop{id: id}} = p_stop
+
+            assert id in prev_ids,
+                   "stop before #{stop_id} should be in #{Enum.join(prev_ids, ",")} but is #{id}"
+          end
+        else
+          [%{route_stop: %Stops.RouteStop{id: id}}] = prior_stops
+          assert id == prev_ids, "stop before #{stop_id} should be #{prev_ids}"
+        end
+      else
+        assert is_nil(prior_stops), "stop before #{stop_id} should be nil"
+      end
+    end
+  end
+
+  test "prior_stop/2 finds prior stop (out)", %{outward_line_diagram: stops} do
+    expected_stop_with_previous = [
+      {"place-alfcl", nil},
+      {"place-jfk", "place-alfcl"},
+      {"place-nqncy", "place-jfk"},
+      {"place-brntn", "place-nqncy"},
+      {"place-shmnl", "place-jfk"},
+      {"place-asmnl", "place-shmnl"}
+    ]
+
+    for {stop_id, prev_id} <- expected_stop_with_previous do
+      stop = Enum.find(stops, &(&1.route_stop.id == stop_id))
+      prior = prior_stop(stop, stops)
+
+      if prev_id do
+        id = prior |> List.first() |> Map.get(:route_stop) |> Map.get(:id)
+        assert id == prev_id, "stop before #{stop_id} should be #{prev_id} but is #{id}"
+      else
+        refute prior_stop(stop, stops), "stop before #{stop_id} should be nil"
+      end
+    end
+  end
+
   describe "do_stops_list_with_disruptions/2" do
     test "formats shuttle stops", %{outward_line_diagram: line_diagram} do
       stops =
