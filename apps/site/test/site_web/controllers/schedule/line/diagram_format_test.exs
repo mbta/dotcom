@@ -92,6 +92,144 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormatTest do
   end
 
   describe "do_stops_list_with_disruptions/2" do
+    test "formats shuttle stops", %{simple_line_diagram: line_diagram} do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-nqncy", "place-brntn"],
+          :shuttle,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert ["place-nqncy"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats detour stops", %{simple_line_diagram: line_diagram} do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-nqncy", "place-brntn"],
+          :detour,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert ["place-jfk", "place-nqncy", "place-brntn"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats stop closure stops", %{simple_line_diagram: line_diagram} do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-nqncy", "place-brntn"],
+          :stop_closure,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert ["place-jfk", "place-nqncy", "place-brntn"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats stops list with first shuttle", %{simple_line_diagram: line_diagram} do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-alfcl", "place-jfk"],
+          :shuttle,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert ["place-alfcl"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats stops list with second shuttle", %{simple_line_diagram: line_diagram} do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-shmnl", "place-asmnl"],
+          :shuttle,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert ["place-shmnl"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats stops list with first and second shuttle", %{
+      simple_line_diagram: line_diagram
+    } do
+      adjusted_stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-alfcl", "place-jfk"],
+          :shuttle,
+          @now
+        )
+        |> stops_with_current_effect(["place-shmnl", "place-asmnl"], :shuttle, @now, 2)
+        |> do_stops_list_with_disruptions(@now)
+
+      assert ["place-alfcl", "place-shmnl"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats stops list with detour and shuttle", %{
+      simple_line_diagram: line_diagram
+    } do
+      adjusted_stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-alfcl", "place-jfk"],
+          :detour,
+          @now
+        )
+        |> stops_with_current_effect(["place-shmnl", "place-asmnl"], :shuttle, @now, 2)
+        |> do_stops_list_with_disruptions(@now)
+
+      disrupted_stops = adjusted_stops |> disrupted_stop_ids()
+
+      assert ["place-alfcl", "place-jfk"] |> Enum.all?(&Enum.member?(disrupted_stops, &1)),
+             "detour disruption"
+
+      assert "place-shmnl" in disrupted_stops, "shuttle disruption (styled)"
+      refute "place-asmnl" in disrupted_stops, "shuttle disruption (unstyled)"
+    end
+
+    test "formats stops list through merge stop", %{simple_line_diagram: line_diagram} do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-jfk", "place-shmnl", "place-asmnl"],
+          :shuttle,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert ["place-jfk", "place-shmnl"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats stops for some other alert effect", %{
+      simple_line_diagram: line_diagram
+    } do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-nqncy", "place-brntn"],
+          :unknown,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert [] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "handles no alerts", %{simple_line_diagram: line_diagram} do
+      adjusted_stops = do_stops_list_with_disruptions(line_diagram, @now)
+      refute Enum.any?(adjusted_stops, &disruption(&1.stop_data))
+    end
+  end
+
+  describe "do_stops_list_with_disruptions/2 (out)" do
     test "formats shuttle stops", %{outward_line_diagram: line_diagram} do
       stops =
         stops_with_current_effect(line_diagram, ["place-nqncy", "place-brntn"], :shuttle, @now)
