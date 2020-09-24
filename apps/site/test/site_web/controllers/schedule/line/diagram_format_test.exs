@@ -195,6 +195,150 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormatTest do
     end
   end
 
+  describe "do_stops_list_with_disruptions/2 (in)" do
+    test "formats shuttle stops", %{inward_line_diagram: line_diagram} do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-brntn", "place-nqncy"],
+          :shuttle,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert ["place-brntn"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats detour stops", %{inward_line_diagram: line_diagram} do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-brntn", "place-nqncy"],
+          :detour,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert ["place-brntn", "place-nqncy"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats stop closure stops", %{inward_line_diagram: line_diagram} do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-brntn", "place-nqncy"],
+          :stop_closure,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert ["place-brntn", "place-nqncy"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats stops list with first shuttle", %{inward_line_diagram: line_diagram} do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-jfk", "place-alfcl"],
+          :shuttle,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert ["place-jfk"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats stops list with second shuttle", %{inward_line_diagram: line_diagram} do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-asmnl", "place-shmnl"],
+          :shuttle,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert ["place-asmnl"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats stops list with first and second shuttle", %{
+      inward_line_diagram: line_diagram
+    } do
+      adjusted_stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-jfk", "place-alfcl"],
+          :shuttle,
+          @now
+        )
+        |> stops_with_current_effect(["place-asmnl", "place-shmnl"], :shuttle, @now, 2)
+        |> do_stops_list_with_disruptions(@now)
+
+      assert ["place-asmnl", "place-jfk"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats stops list with detour and shuttle", %{
+      inward_line_diagram: line_diagram
+    } do
+      adjusted_stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-jfk", "place-alfcl"],
+          :detour,
+          @now
+        )
+        |> stops_with_current_effect(["place-asmnl", "place-shmnl"], :shuttle, @now, 2)
+        |> do_stops_list_with_disruptions(@now)
+
+      disrupted_stops = adjusted_stops |> disrupted_stop_ids()
+
+      # detour should show on the previous stop on BOTH branches
+      assert "place-nqncy" in disrupted_stops, "detour disruption should mark prior stop"
+      assert "place-shmnl" in disrupted_stops, "detour disruption should mark prior stop"
+      assert "place-jfk" in disrupted_stops, "detour disruption should mark detoured stop"
+      assert "place-alfcl" in disrupted_stops, "detour disruption should mark detoured stop"
+
+      # shuttle should impact all the affected stops except the last
+      assert "place-asmnl" in disrupted_stops, "shuttle disruption should mark shuttled stop"
+
+      # refute "place-shmnl" in disrupted_stops, "shuttle disruption should not mark final shuttled stop"
+      # this is disrupted by the detour above
+    end
+
+    test "formats stops list through merge stop", %{inward_line_diagram: line_diagram} do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-asmnl", "place-shmnl", "place-jfk"],
+          :shuttle,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert ["place-asmnl", "place-shmnl"] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "formats stops for some other alert effect", %{
+      inward_line_diagram: line_diagram
+    } do
+      stops =
+        stops_with_current_effect(
+          line_diagram,
+          ["place-brntn", "place-nqncy"],
+          :unknown,
+          @now
+        )
+
+      adjusted_stops = do_stops_list_with_disruptions(stops, @now)
+      assert [] = adjusted_stops |> disrupted_stop_ids()
+    end
+
+    test "handles no alerts", %{inward_line_diagram: line_diagram} do
+      adjusted_stops = do_stops_list_with_disruptions(line_diagram, @now)
+      refute Enum.any?(adjusted_stops, &disruption(&1.stop_data))
+    end
+  end
+
   defp disruption(stop_data) do
     %{has_disruption?: has_disruption} = List.last(stop_data)
     has_disruption
