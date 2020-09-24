@@ -36,6 +36,54 @@ defmodule Util do
     end
   end
 
+  @spec parse(map | DateTime.t()) :: NaiveDateTime.t() | DateTime.t() | {:error, :invalid_date}
+  def parse(date_params) do
+    case date_to_string(date_params) do
+      <<str::binary>> ->
+        str
+        |> Timex.parse("{YYYY}-{M}-{D} {_h24}:{_m} {AM}")
+        |> do_parse()
+
+      error ->
+        error
+    end
+  end
+
+  defp do_parse({:ok, %NaiveDateTime{} = naive}) do
+    if Timex.is_valid?(naive) do
+      naive
+    else
+      {:error, :invalid_date}
+    end
+  end
+
+  defp do_parse({:error, _}), do: {:error, :invalid_date}
+
+  @spec date_to_string(map | DateTime.t()) :: String.t() | DateTime.t() | {:error, :invalid_date}
+  defp date_to_string(%{
+         "year" => year,
+         "month" => month,
+         "day" => day,
+         "hour" => hour,
+         "minute" => minute,
+         "am_pm" => am_pm
+       }) do
+    "#{year}-#{month}-#{day} #{hour}:#{minute} #{am_pm}"
+  end
+
+  defp date_to_string(%DateTime{} = date) do
+    date
+  end
+
+  defp date_to_string(%{}) do
+    {:error, :invalid_date}
+  end
+
+  def convert_to_iso_format(date) do
+    date
+    |> Timex.format!("{ISOdate}")
+  end
+
   @doc "Gives the date for tomorrow based on the provided date"
   def tomorrow_date(%DateTime{} = datetime) do
     datetime
