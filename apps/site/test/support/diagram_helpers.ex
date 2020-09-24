@@ -2,10 +2,43 @@ defmodule SiteWeb.DiagramHelpers do
   @moduledoc """
   Helper functions for generating test data structures for `SiteWeb.ScheduleController.Line.DiagramFormatTest`.
   """
+  alias Alerts.Alert
+  alias Alerts.InformedEntity, as: IE
   alias Site.StopBubble
   alias SiteWeb.ScheduleController.Line.DiagramFormat
   alias Stops.RouteStop
   alias Stops.Stop
+
+  @doc "Creates a new alert and adds it to stops list"
+  @spec stops_with_current_effect(
+          [DiagramFormat.line_diagram_stop()],
+          [Stop.id_t()],
+          Alert.effect(),
+          DateTime.t(),
+          number()
+        ) :: [DiagramFormat.line_diagram_stop()]
+  def stops_with_current_effect(base_list, stop_ids, effect, date, alert_id \\ 1) do
+    base_list
+    |> Enum.map(fn %{route_stop: %RouteStop{id: id}, alerts: alerts} = stop ->
+      if id in stop_ids do
+        %{
+          stop
+          | alerts: [
+              Alert.new(
+                id: alert_id,
+                lifecycle: :new,
+                effect: effect,
+                informed_entity: Enum.map(stop_ids, &%IE{stop: &1}),
+                active_period: [{Timex.shift(date, days: -1), Timex.shift(date, days: 1)}]
+              )
+              | alerts
+            ]
+        }
+      else
+        stop
+      end
+    end)
+  end
 
   @doc "Builds a list of line diagram stops from some route stop info"
   @spec route_stops_to_line_diagram_stops([
