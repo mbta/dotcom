@@ -209,8 +209,8 @@ function removeClass(node, className) {
 }
 
 export function setupRequestResponse($) {
-  $("#request_response").change(function() {
-    $("#contactInfoForm").toggle($(this).is(":checked"));
+  $("#no_request_response").change(function() {
+    $("#contactInfoForm").toggle(!$(this).is(":checked"));
   });
 }
 
@@ -250,7 +250,7 @@ const validators = {
 };
 
 function responseRequested($) {
-  return $("#request_response")[0].checked;
+  return !$("#no_request_response")[0].checked;
 }
 
 function setupValidation($) {
