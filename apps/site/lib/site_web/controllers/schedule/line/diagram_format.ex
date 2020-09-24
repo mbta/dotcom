@@ -44,9 +44,14 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
 
   @spec stop_data_with_disruption([map()]) :: [map()]
   defp stop_data_with_disruption(stop_data) do
-    {stop_or_terminus, other_stop_data} = List.pop_at(stop_data, -1)
-    stop_or_terminus_with_disruption = %{stop_or_terminus | has_disruption?: true}
-    other_stop_data ++ [stop_or_terminus_with_disruption]
+    stop_data
+    |> Enum.map(fn %{type: type} = sd ->
+      if type != :line do
+        %{sd | has_disruption?: true}
+      else
+        sd
+      end
+    end)
   end
 
   @spec stop_has_diversion_now?(line_diagram_stop, DateTime.t()) :: boolean
