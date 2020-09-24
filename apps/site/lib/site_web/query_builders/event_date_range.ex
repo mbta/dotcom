@@ -21,12 +21,8 @@ defmodule SiteWeb.EventDateRange do
 
   defp date_range(start_date: start_date, end_date: end_date) do
     %{
-      start_time_gt: start_date |> convert_to_iso_format,
-      start_time_lt: end_date |> convert_to_iso_format
+      start_time_gt: start_date |> Util.convert_to_iso_format(),
+      start_time_lt: end_date |> Util.convert_to_iso_format()
     }
-  end
-
-  defp convert_to_iso_format(date) do
-    date |> Timex.format!("{ISOdate}")
   end
 end
