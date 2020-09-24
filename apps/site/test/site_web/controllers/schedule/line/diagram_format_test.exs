@@ -1,83 +1,19 @@
 defmodule SiteWeb.ScheduleController.Line.DiagramFormatTest do
   use ExUnit.Case, async: true
 
+  import SiteWeb.DiagramHelpers
   import SiteWeb.ScheduleController.Line.DiagramFormat
   alias Alerts.Alert
   alias Alerts.InformedEntity, as: IE
-  alias Routes.Route
-  alias Stops.RouteStop
 
   @now Timex.now()
 
-  @stops_list_base [
-    %{
-      alerts: [],
-      route_stop: %RouteStop{
-        connections: [],
-        id: "place-alfcl",
-        route: %Route{id: "Red"}
-      },
-      stop_data: [%{branch: nil, has_disruption?: false, type: :terminus}]
-    },
-    %{
-      alerts: [],
-      route_stop: %RouteStop{
-        connections: [],
-        id: "place-jfk",
-        route: %Route{id: "Red"}
-      },
-      stop_data: [
-        %{branch: "Alewife - Ashmont", has_disruption?: false, type: :merge},
-        %{branch: "Alewife - Braintree", has_disruption?: false, type: :merge}
-      ]
-    },
-    %{
-      alerts: [],
-      route_stop: %RouteStop{
-        connections: [],
-        id: "place-nqncy",
-        route: %Route{id: "Red"}
-      },
-      stop_data: [
-        %{branch: "Alewife - Ashmont", has_disruption?: false, type: :line},
-        %{branch: "Alewife - Braintree", has_disruption?: false, type: :stop}
-      ]
-    },
-    %{
-      alerts: [],
-      route_stop: %RouteStop{
-        connections: [],
-        id: "place-brntn",
-        route: %Route{id: "Red"}
-      },
-      stop_data: [
-        %{branch: "Alewife - Ashmont", has_disruption?: false, type: :line},
-        %{branch: "Alewife - Braintree", has_disruption?: false, type: :terminus}
-      ]
-    },
-    %{
-      alerts: [],
-      route_stop: %RouteStop{
-        connections: [],
-        id: "place-shmnl",
-        route: %Route{id: "Red"}
-      },
-      stop_data: [
-        %{branch: "Alewife - Ashmont", has_disruption?: false, type: :stop}
-      ]
-    },
-    %{
-      alerts: [],
-      route_stop: %RouteStop{
-        connections: [],
-        id: "place-asmnl",
-        route: %Route{id: "Red"}
-      },
-      stop_data: [
-        %{branch: "Alewife - Ashmont", has_disruption?: false, type: :terminus}
-      ]
-    }
-  ]
+  setup_all do
+    {:ok,
+     simple_line_diagram: setup_simple_line_diagram(),
+     outward_line_diagram: setup_outward_line_diagram(),
+     inward_line_diagram: setup_inward_line_diagram()}
+  end
 
   @doc "Creates a new alert and adds it to stops list"
   def stops_with_effect(effect, stop_ids, base_list \\ @stops_list_base, alert_id \\ 1) do
@@ -170,5 +106,41 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormatTest do
       adjusted_stops = do_stops_list_with_disruptions(@stops_list_base, @now)
       refute Enum.any?(adjusted_stops, &disruption(&1.stop_data))
     end
+  end
+
+  defp setup_simple_line_diagram do
+    [
+      {"place-alfcl", [stop: nil]},
+      {"place-jfk", [stop: nil]},
+      {"place-nqncy", [stop: nil]},
+      {"place-brntn", [stop: nil]},
+      {"place-shmnl", [stop: nil]},
+      {"place-asmnl", [stop: nil]}
+    ]
+    |> route_stops_to_line_diagram_stops()
+  end
+
+  defp setup_inward_line_diagram do
+    [
+      {"place-asmnl", [terminus: "Alewife - Ashmont"]},
+      {"place-shmnl", [stop: "Alewife - Ashmont"]},
+      {"place-brntn", [line: "Alewife - Ashmont", terminus: "Alewife - Braintree"]},
+      {"place-nqncy", [line: "Alewife - Ashmont", stop: "Alewife - Braintree"]},
+      {"place-jfk", [merge: "Alewife - Ashmont", merge: "Alewife - Braintree"]},
+      {"place-alfcl", [terminus: nil]}
+    ]
+    |> route_stops_to_line_diagram_stops()
+  end
+
+  defp setup_outward_line_diagram do
+    [
+      {"place-alfcl", [terminus: nil]},
+      {"place-jfk", [merge: "Alewife - Ashmont", merge: "Alewife - Braintree"]},
+      {"place-nqncy", [line: "Alewife - Ashmont", stop: "Alewife - Braintree"]},
+      {"place-brntn", [line: "Alewife - Ashmont", terminus: "Alewife - Braintree"]},
+      {"place-shmnl", [stop: "Alewife - Ashmont"]},
+      {"place-asmnl", [terminus: "Alewife - Ashmont"]}
+    ]
+    |> route_stops_to_line_diagram_stops()
   end
 end
