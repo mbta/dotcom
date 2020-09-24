@@ -31,23 +31,4 @@ defmodule Site.Validation do
   defp do_add_errors_to_mapset(error, errors) do
     MapSet.put(errors, error)
   end
-
-  @doc """
-  Takes a map with string keys of field names associates to a validation function.
-  Returns a map containing the field names associated to field errors, or and empty map.
-  Expects validation functions to return :ok or String.t
-  """
-  @spec validate_by_field(map, map) :: map
-  def validate_by_field(validations, params) do
-    validations
-    |> Enum.reduce(%{}, fn {field, validator}, errors_map ->
-      error = validator.(params)
-
-      case {error, is_binary(error)} do
-        {:ok, _} -> errors_map
-        {_, true} -> Map.merge(errors_map, %{field => error})
-        {_, _} -> Map.merge(errors_map, %{field => "error"})
-      end
-    end)
-  end
 end
