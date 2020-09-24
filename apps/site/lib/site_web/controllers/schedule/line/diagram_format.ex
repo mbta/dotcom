@@ -103,17 +103,6 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
     end)
   end
 
-  @spec stop_with_disruption({line_diagram_stop, number}, [number]) :: line_diagram_stop
-  defp stop_with_disruption({%{stop_data: stop_data} = stop, index}, disrupted_stop_indices) do
-    if index in disrupted_stop_indices do
-      %{stop | stop_data: stop_data_with_disruption(stop_data)}
-    else
-      stop
-    end
-  end
-
-  defp stop_with_disruption({stop, _}, _), do: stop
-
   @spec stop_data_with_disruption([map()]) :: [map()]
   defp stop_data_with_disruption(stop_data) do
     stop_data
@@ -175,30 +164,43 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormat do
     end
   end
 
+  @spec get_disrupted_stops([line_diagram_stop], DateTime.t()) :: [Stops.Stop.id_t()]
+  defp get_disrupted_stops(stops_list, date) do
+    stops_list
+    |> Enum.chunk_while(
+      [],
+      &chunk_by_diversions(&1, &2, date),
+      fn
+        [] -> {:cont, []}
+        chunk -> {:cont, chunk, []}
+      end
+    )
+    |> Enum.map(fn chunk ->
+      chunk
+      |> shift_chunk_by_effect(stops_list)
+      |> Enum.map(& &1.route_stop.id)
+    end)
+    |> List.flatten()
+  end
+
   @doc """
   Identify sequences of disrupted stops and makes adjustments to the line
   diagram stop data. Disruptions include diversions, such as shuttles, detours,
   and stop closures.
   """
   @spec do_stops_list_with_disruptions([line_diagram_stop], DateTime.t()) :: [line_diagram_stop]
-  def do_stops_list_with_disruptions(_, nil), do: []
+  def do_stops_list_with_disruptions(stops_list, nil), do: stops_list
 
   def do_stops_list_with_disruptions(stops_list, date) do
-    disrupted_stop_indices =
-      stops_list
-      |> Stream.chunk_while(
-        [],
-        &chunk_by_diversions(&1, &2, date),
-        fn
-          [] -> {:cont, []}
-          chunk -> {:cont, Enum.reverse(chunk), []}
-        end
-      )
-      |> Stream.flat_map(&shift_chunk_by_effect(&1, stops_list))
-      |> Enum.uniq()
+    disrupted_ids = get_disrupted_stops(stops_list, date)
 
     stops_list
-    |> Enum.with_index()
-    |> Enum.map(&stop_with_disruption(&1, disrupted_stop_indices))
+    |> Enum.map(fn %{stop_data: stop_data, route_stop: %RouteStop{id: id}} = stop ->
+      if id in disrupted_ids do
+        %{stop | stop_data: stop_data_with_disruption(stop_data)}
+      else
+        stop
+      end
+    end)
   end
 end
