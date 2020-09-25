@@ -379,12 +379,11 @@ export function handleSubmitClick($, toUpload) {
       data: formData,
       contentType: false,
       success: () => {
-        $("#support-form")
-          .parent()
-          .remove();
+        $("#support-form").remove();
         $(".support-thank-you").removeClass("hidden-xs-up");
         $(".support-success").focus();
         $(".support-form-error").addClass("hidden-xs-up");
+        reactivateSubmitButton($);
       },
       error: () => {
         $(".support-form-error")

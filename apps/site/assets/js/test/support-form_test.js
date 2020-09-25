@@ -234,6 +234,7 @@ describe("support form", () => {
       spy = sinon.spy($, "ajax");
       $("#test").html(`
         <div class="form-container">
+          <div class="support-thank-you hidden-xs-up"></div>
           <form id="support-form" action="/customer-support">
             <div class="support-service-error-container hidden-xs-up" tabindex="-1"><div class="support-service-error"></div></div>
             <input name="support[service]" value="Complaint">Complaint</input>
@@ -258,7 +259,6 @@ describe("support form", () => {
             <span class="waiting" hidden>waiting...</span>
           </form>
         </div>
-        <div class="support-thank-you hidden-xs-up"></div>
       `);
       handleSubmitClick($, toUpload);
     });
@@ -392,6 +392,7 @@ describe("support form", () => {
     });
 
     it("hides the form and shows a message on success", () => {
+      $("#request_response").click();
       $("#email").val("test@email.com");
       $("#name").val("tom brady");
       $("#comments").val("A comment");
@@ -404,7 +405,7 @@ describe("support form", () => {
       assert.propertyVal(ajaxArgs, "method", "POST");
       assert.propertyVal(ajaxArgs, "url", "/customer-support");
       ajaxArgs.success();
-      assert.equal($(".form-container").length, 0);
+      assert.equal($("#support-form").length, 0);
       assert.isFalse($(".support-thank-you").hasClass("hidden-xs-up"));
     });
 
