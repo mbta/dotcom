@@ -8,7 +8,7 @@ defmodule Feedback.Mailer do
     no_request_response = if message.no_request_response, do: "No", else: "Yes"
 
     _ =
-      if message.no_request_response do
+      unless message.no_request_response do
         Logger.info("HEAT Ticket submitted by #{format_email(message.email)}")
       end
 
