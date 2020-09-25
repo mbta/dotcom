@@ -92,6 +92,11 @@ defmodule SiteWeb.ScheduleController.Line.DiagramFormatTest do
   end
 
   describe "do_stops_list_with_disruptions/2" do
+    test "handles no date input", %{simple_line_diagram: line_diagram} do
+      adjusted_stops = do_stops_list_with_disruptions(line_diagram, nil)
+      assert [] = adjusted_stops |> disrupted_stop_ids()
+    end
+
     test "formats shuttle stops", %{simple_line_diagram: line_diagram} do
       stops =
         stops_with_current_effect(
