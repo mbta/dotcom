@@ -60,7 +60,7 @@ export const getTreeDirection = (
 // eslint-disable-next-line @typescript-eslint/camelcase
 export const isStopOnMainLine = ({ stop_data }: LineDiagramStop): boolean =>
   // eslint-disable-next-line @typescript-eslint/camelcase
-  stop_data[0].type === "stop";
+  stop_data[0].type === "stop" || stop_data[0].type === "terminus";
 
 export const diagramWidth = (maxBranches: number): number =>
   BASE_LINE_WIDTH + maxBranches * BRANCH_SPACING + BASE_LINE_WIDTH;
