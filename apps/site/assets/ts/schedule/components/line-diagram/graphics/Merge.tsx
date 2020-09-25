@@ -100,13 +100,17 @@ const Merges = ({ lineDiagram }: MergeGraphicsProps): ReactElement | null => {
 
   return (
     <g className="line-diagram-svg__merge">
-      {stopGaps.map(([from, to]) => (
-        <Line
-          key={`${from.route_stop.id}-${to.route_stop.id}-line`}
-          from={from}
-          to={to}
-        />
-      ))}
+      {stopGaps.map(
+        ([from, to]) =>
+          from &&
+          to && (
+            <Line
+              key={`${from.route_stop.id}-${to.route_stop.id}-line`}
+              from={from}
+              to={to}
+            />
+          )
+      )}
       {mergeBends}
     </g>
   );
