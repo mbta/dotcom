@@ -152,4 +152,5 @@ See [docs](docs) for information about [testing](docs/TESTING.md) and other deve
 
 ### Nested Applications
 
+- [Feedback](apps/feedback/README.md)
 - [TripPlan](apps/trip_plan/README.md)

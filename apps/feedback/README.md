@@ -1,24 +1,7 @@
 # Feedback
 
-**TODO: Add description**
+The Feedback app supports customer support submissions. We receive a user's feedback through our customer support form and submit it as a structured XML email to the Customer Experience team's Iris Heat software.
 
-## Installation
+## Development Logging
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed as:
-
-  1. Add `feedback` to your list of dependencies in `mix.exs`:
-
-    ```elixir
-    def deps do
-      [{:feedback, "~> 0.1.0"}]
-    end
-    ```
-
-  2. Ensure `feedback` is started before your application:
-
-    ```elixir
-    def application do
-      [applications: [:feedback]]
-    end
-    ```
-
+In development, the application is configured to print the contents of the email to the log instead of sending an actual email. This is logged at the `info` log level, but the default log level is set to `warn`. Add `LOGGER_LEVEL=info` to your `.env` file to see the feedback emails in your logs.
