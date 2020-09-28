@@ -72,6 +72,7 @@ defmodule Feedback.Message do
     :comments,
     :service,
     :subject,
+    :incident_date_time,
     :no_request_response,
     :photos
   ]
@@ -85,6 +86,7 @@ defmodule Feedback.Message do
           service: String.t(),
           subject: String.t(),
           no_request_response: boolean,
+          incident_date_time: DateTime.t(),
           photos: [Plug.Upload.t()] | nil
         }
 
