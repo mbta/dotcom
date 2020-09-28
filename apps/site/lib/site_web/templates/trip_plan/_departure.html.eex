@@ -18,7 +18,9 @@
   </div>
 </fieldset>
 <div id="trip-plan-datepicker" class="m-trip-plan__departure-last">
-  <%= trip_plan_datetime_select(@parent_form, @datetime) %>
+  <script id="form-data" type="text/plain"><%= raw(Poison.encode!(%{formId: "plan"})) %></script>
+  <% date_ranges = %{min_date: Util.now(), max_date: end_of_rating()} %>
+  <%= DateTimeSelector.custom_date_time_select(@parent_form, date_ranges, @datetime) %>
   <div class="error-container">
     <%= date_error(@errors) %>
   </div>
