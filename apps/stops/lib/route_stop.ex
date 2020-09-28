@@ -85,11 +85,16 @@ defmodule Stops.RouteStop do
   def list_from_route_patterns(
         [route_pattern_with_stops],
         route,
-        _direction_id,
+        direction_id,
         use_route_id_for_branch_name?
       ) do
     # If there is only one route pattern, we know that we won't need to deal with merging branches so we just return whatever the list of stops is without calling &merge_branch_list/2.
-    do_list_from_route_pattern(route_pattern_with_stops, route, use_route_id_for_branch_name?)
+    do_list_from_route_pattern(
+      route_pattern_with_stops,
+      route,
+      direction_id,
+      use_route_id_for_branch_name?
+    )
   end
 
   def list_from_route_patterns(
@@ -99,15 +104,79 @@ defmodule Stops.RouteStop do
         use_route_id_for_branch_name?
       ) do
     route_patterns_with_stops
-    |> Enum.map(&do_list_from_route_pattern(&1, route, use_route_id_for_branch_name?))
+    |> Enum.map(
+      &do_list_from_route_pattern(&1, route, direction_id, use_route_id_for_branch_name?)
+    )
     |> merge_branch_list(direction_id)
+    |> maybe_correct_for_lechmere_shuttle()
   end
 
-  @spec do_list_from_route_pattern({RoutePattern.t(), [Stop.t()]}, Route.t(), boolean()) :: [t()]
-  defp do_list_from_route_pattern({route_pattern, stops}, route, use_route_id_for_branch_name?) do
-    if String.starts_with?(route.id, "Green") and !String.starts_with?(route_pattern.id, "Green") do
-      # Hide the Lechemere shuttle for the moment
-      []
+  # Special-case the Lechmere shuttle
+  @spec maybe_correct_for_lechmere_shuttle([t()]) :: [t()]
+  defp maybe_correct_for_lechmere_shuttle([
+         %__MODULE__{id: "place-lech"} = lechmere,
+         %__MODULE__{} = second,
+         %__MODULE__{id: "place-north"} = north
+         | rest
+       ]) do
+    [
+      lechmere,
+      %__MODULE__{
+        second
+        | is_terminus?: false,
+          is_beginning?: false
+      },
+      %__MODULE__{
+        north
+        | is_terminus?: false,
+          is_beginning?: false
+      }
+    ] ++ rest
+  end
+
+  defp maybe_correct_for_lechmere_shuttle(route_stops) do
+    if List.last(route_stops).id == "place-lech" do
+      route_stops
+      |> Enum.reverse()
+      |> maybe_correct_for_lechmere_shuttle()
+      |> Enum.reverse()
+    else
+      route_stops
+    end
+  end
+
+  @lechmere_shuttle_route_pattern_ids ["602-1-0", "602-1-1"]
+  @spec do_list_from_route_pattern(
+          {RoutePattern.t(), [Stop.t()]},
+          Route.t(),
+          direction_id_t(),
+          boolean()
+        ) :: [t()]
+  defp do_list_from_route_pattern(
+         {route_pattern, stops},
+         route,
+         direction_id,
+         use_route_id_for_branch_name?
+       ) do
+    if String.starts_with?(route.id, "Green") and
+         route_pattern.id in @lechmere_shuttle_route_pattern_ids do
+      # Special-case the Lechmere shuttle
+      stops
+      # Filter out the bus stop at North Station
+      |> Enum.reject(fn %Stop{id: id} -> id == "21458" end)
+      |> Util.EnumHelpers.with_first_last()
+      |> Enum.with_index()
+      |> Enum.map(fn {{stop, first_or_last?}, idx} ->
+        branch = shuttle_branch_name(route, direction_id, use_route_id_for_branch_name?)
+        first? = idx == 0
+        last? = first_or_last? and idx > 0
+
+        stop
+        |> build_route_stop(route, branch: branch, first?: first?, last?: last?)
+        |> fetch_zone()
+        |> fetch_connections()
+        |> fetch_stop_features()
+      end)
     else
       stops
       |> Util.EnumHelpers.with_first_last()
@@ -129,6 +198,12 @@ defmodule Stops.RouteStop do
   @spec branch_name(RoutePattern.t(), boolean()) :: String.t()
   defp branch_name(%RoutePattern{route_id: route_id}, true), do: route_id
   defp branch_name(%RoutePattern{name: name}, false), do: name
+
+  @spec shuttle_branch_name(Route.t(), direction_id_t(), boolean()) :: String.t()
+  defp shuttle_branch_name(_, _, true), do: nil
+  defp shuttle_branch_name(%Route{id: "Green"}, _, false), do: "Green-E"
+  defp shuttle_branch_name(%Route{id: "Green-E"}, 0, false), do: "North Station - Heath Street"
+  defp shuttle_branch_name(%Route{id: "Green-E"}, 1, false), do: "Heath Street - North Station"
 
   @doc """
   Given a route and a list of that route's shapes, generates a list of RouteStops representing all stops on that route. If the route has branches,
