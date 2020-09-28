@@ -264,15 +264,21 @@ defmodule SiteWeb.CustomerSupportController do
     now = Util.now() |> Util.to_local_time()
 
     parsed_date_time =
-      incident_date_time
-      |> Util.parse()
-      |> Util.to_local_time()
+      case Util.parse(incident_date_time) do
+        {:error, :invalid_date} ->
+          now
+
+        parsed_dt ->
+          parsed_dt
+      end
+
+    local_parsed_date_time = Util.to_local_time(parsed_date_time)
 
     # if date and time is in the future, set it to now
     # otherwise leave as it is
 
-    if DateTime.compare(parsed_date_time, now) in [:lt, :eq] do
-      parsed_date_time
+    if DateTime.compare(local_parsed_date_time, now) in [:lt, :eq] do
+      local_parsed_date_time
     else
       now
     end
@@ -287,6 +293,7 @@ defmodule SiteWeb.CustomerSupportController do
       last_name: params["last_name"],
       comments: params["comments"],
       service: params["service"],
+      subject: params["subject"],
       no_request_response: params["no_request_response"] == "on",
       incident_date_time: params["date_time"]
     })
