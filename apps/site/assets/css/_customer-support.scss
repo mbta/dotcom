@@ -1,96 +1,24 @@
 @import 'variables';
 
+.support-success,
+.support-error {
+  margin-top: .5em;
+  padding: .5em;
+}
+
 .support-form {
-  margin-bottom: $base-spacing;
-
-  h2,
-  h3 {
-    margin-top: 0;
-  }
-
-  section {
-    background-color: $gray-bordered-background;
-    margin-bottom: $base-spacing / 4;
-    padding: $base-spacing * .75;
-
-    > .form-group:last-child {
-      margin-bottom: 0;
-    }
-  }
-
-  #contactInfoForm {
-    margin-bottom: $base-spacing;
-  }
-
-  legend {
-    font-size: inherit;
-  }
-
-  .form-control-label {
-    font-weight: bold;
-    padding-left: 0;
-  }
-
-  .help-text {
-    margin-bottom: 0;
-  }
-
-  .service-radio {
-    margin: 0 $base-spacing 0 0;
-
-    .c-radio {
-      border-color: $brand-primary;
-    }
-  }
-
   .error-container {
     margin: 0 0 .5em;
   }
-
-  .submit-button {
-    margin-top: $base-spacing / 2;
-
-    .waiting {
-      margin: 5%;
-    }
-
-    @include media-breakpoint-down(xs) {
-      width: 100%;
-    }
-  }
-
-  // Form validation styling
-  .has-danger {
-    .c-radio__label::before,
-    .c-checkbox__label::before, {
-      border-color: $brand-danger;
-    }
-  }
-
-  .has-success {
-    .c-radio__label::after {
-      background-color: $brand-success;
-    }
-
-    .c-radio__label::before,
-    .c-checkbox__label::before, {
-      border-color: $brand-success;
-    }
-  }
 }
 
-.support-confirmation {
-  margin-bottom: .5em;
-  padding: .5em;
+.support-success {
+  background-color: $form-success-message;
+}
 
-  &--success {
-    background-color: $form-success-message;
-  }
-
-  &--error {
-    background-color: $form-error-message;
-    color: $error-text;
-  }
+.support-error {
+  background-color: $form-error-message;
+  color: $error-text;
 }
 
 .photo-preview-container {
@@ -152,6 +80,14 @@ body {
   }
 }
 
+.support-comment-success {
+  color: $brand-success;
+}
+
+.support-tel-number:nth-child(2) {
+  margin-left: 1rem;
+}
+
 .support-form-text-input {
   border: 2px solid $brand-primary;
   font-size: inherit; // Bootstrap override
@@ -167,6 +103,10 @@ body {
   }
 }
 
+.support-form-control {
+  border-color: $brand-primary;
+}
+
 .has-success .support-form-control + span::before {
   @include fa-icon();
   color: $brand-success;
@@ -175,6 +115,44 @@ body {
   left: -.5rem;
   position: relative;
   top: -1.75rem;
+}
+
+.submit-button {
+  margin-top: $base-spacing / 2;
+
+  @include media-breakpoint-down(xs) {
+    width: 100%;
+  }
+}
+
+button .waiting {
+  margin: 5%;
+}
+
+.contrast {
+  background-color: $gray-bordered-background;
+
+  &.form-group {
+    margin-bottom: $base-spacing / 8;
+    padding: $base-spacing * .75;
+  }
+}
+
+.service-legend {
+  font-size: inherit;
+}
+
+.service-radios {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.service-radio {
+  margin: 0 $base-spacing 0 0;
+}
+
+.response-time-disclaimer {
+  margin-top: $base-spacing / 2;
 }
 
 .clear-upload-container {

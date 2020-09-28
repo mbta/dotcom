@@ -182,22 +182,3 @@
 .u-tabular-nums {
   font-variant-numeric: tabular-nums;
 }
-
-// quick margin utilities loosely based off Bootstrap v4
-/* stylelint-disable declaration-no-important */
-.mb-0 {
-  margin-bottom: 0 !important;
-}
-
-.mb-1 {
-  margin-bottom: $base-spacing !important;
-}
-
-.mt-0 {
-  margin-top: 0 !important;
-}
-
-.mt-1 {
-  margin-top: $base-spacing !important;
-}
-/* stylelint-enable declaration-no-important */
