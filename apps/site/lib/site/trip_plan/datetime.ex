@@ -1,4 +1,5 @@
 defmodule Site.TripPlan.DateTime do
+  @moduledoc "Useful functions for time and date manipulations"
   alias Site.TripPlan.Query
 
   @type time_type :: :depart_at | :arrive_by
