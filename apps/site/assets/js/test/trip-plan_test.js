@@ -1,9 +1,8 @@
 import { assert, expect } from "chai";
 import jsdom from "mocha-jsdom";
-import { TripPlannerTimeControls } from "../trip-planner-time-controls";
 import { TripPlannerLocControls } from "../trip-planner-location-controls";
 import AlgoliaAutocompleteWithGeo from "../algolia-autocomplete-with-geo";
-import testConfig from "./../../ts/jest.config";
+import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
 
@@ -26,7 +25,7 @@ const tripPlanForm = `<form id="planner-form">
       </form>`;
 
 describe("trip-plan", () => {
-  var $;
+  let $;
   jsdom({
     url: testURL,
     scripts: [
@@ -38,32 +37,6 @@ describe("trip-plan", () => {
     $ = jsdom.rerequire("jquery");
     window.jQuery = jsdom.rerequire("jquery");
     window.autocomplete = jsdom.rerequire("autocomplete.js");
-  });
-
-  describe("getFriendlyTime", () => {
-    it("returns a friendly string given a JavaScript date", () => {
-      const date = new Date(2017, 10, 9, 8, 7);
-
-      assert.equal(TripPlannerTimeControls.getFriendlyTime(date), "8:07 AM");
-    });
-
-    it("converts times after 13:00 to PM", () => {
-      const date = new Date(2017, 10, 9, 18, 19);
-
-      assert.equal(TripPlannerTimeControls.getFriendlyTime(date), "6:19 PM");
-    });
-
-    it("interprets 12:00 as 12:00 PM", () => {
-      const date = new Date(2017, 10, 9, 12, 7);
-
-      assert.equal(TripPlannerTimeControls.getFriendlyTime(date), "12:07 PM");
-    });
-
-    it("interprets 0:00 as 12:00 AM", () => {
-      const date = new Date(2017, 10, 9, 0, 7);
-
-      assert.equal(TripPlannerTimeControls.getFriendlyTime(date), "12:07 AM");
-    });
   });
 
   describe("reverseTrip", () => {
@@ -204,7 +177,8 @@ describe("trip-plan", () => {
       });
 
       describe("shows suggestions dropdown for", () => {
-        let tplc1, tplc2;
+        let tplc1;
+        let tplc2;
         const suggestions = "c-search-bar__-suggestions";
 
         beforeEach(() => {
@@ -216,8 +190,8 @@ describe("trip-plan", () => {
           });
         });
 
-        for (let widgetContainer of [".tp.one", ".tp.two"]) {
-          for (let input of ["#to", "#from"]) {
+        for (const widgetContainer of [".tp.one", ".tp.two"]) {
+          for (const input of ["#to", "#from"]) {
             it(`${input} in ${widgetContainer}`, () => {
               document.querySelector(`${widgetContainer} ${input}`).focus();
               assert.include(
