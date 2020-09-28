@@ -1,4 +1,5 @@
 defmodule SiteWeb.EventDateRange do
+  @moduledoc "Useful functions for date ranges"
   @spec build(%{String.t() => String.t()}, Date.t()) :: map
   def build(%{"month" => month}, current_date) do
     case Date.from_iso8601(month) do
