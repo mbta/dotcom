@@ -336,8 +336,23 @@ defmodule SiteWeb.CustomerSupportControllerTest do
 
     test "sets date to today if it's in the future", %{conn: conn} do
       current_year = DateTime.utc_now().year
-      current_month = DateTime.utc_now().month
-      current_day = DateTime.utc_now().day
+      m = DateTime.utc_now().month
+      d = DateTime.utc_now().day
+
+      current_day =
+        if d < 10 do
+          "0#{d}"
+        else
+          d
+        end
+
+      current_month =
+        if m < 10 do
+          "0#{m}"
+        else
+          m
+        end
+
       two_months_from_now = Util.now() |> Timex.shift(months: 2)
 
       conn =
@@ -361,8 +376,22 @@ defmodule SiteWeb.CustomerSupportControllerTest do
 
     test "submits the date as is because it's not in the future", %{conn: conn} do
       current_year = DateTime.utc_now().year
-      current_month = DateTime.utc_now().month
-      current_day = DateTime.utc_now().day
+      m = DateTime.utc_now().month
+      d = DateTime.utc_now().day
+
+      current_day =
+        if d < 10 do
+          "0#{d}"
+        else
+          d
+        end
+
+      current_month =
+        if m < 10 do
+          "0#{m}"
+        else
+          m
+        end
 
       conn =
         post(
@@ -381,6 +410,21 @@ defmodule SiteWeb.CustomerSupportControllerTest do
                date_from_message,
                "#{current_month}/#{current_day}/#{current_year}"
              )
+    end
+  end
+
+  describe "Date and time selector" do
+    test "renders a date and time selector", %{conn: conn} do
+      conn = get(conn, customer_support_path(conn, :index))
+      rendered = html_response(conn, 200)
+
+      # check there are date and time selectors:
+      refute Floki.find(rendered, "div[id=\"support-time-select\"]") == []
+      refute Floki.find(rendered, "select[id=\"support_date_time_hour\"]") == []
+      refute Floki.find(rendered, "select[id=\"support_date_time_minute\"]") == []
+      refute Floki.find(rendered, "select[id=\"support_date_time_am_pm\"]") == []
+
+      refute Floki.find(rendered, "div[id=\"support-date\"]") == []
     end
   end
 
