@@ -52,7 +52,15 @@ defmodule SiteWeb.CustomerSupportControllerTest do
           "last_name" => "brady",
           "no_request_response" => "off",
           "service" => "Inquiry",
-          "subject" => "Website"
+          "subject" => "Website",
+          "date_time" => %{
+            "year" => 2020,
+            "month" => 10,
+            "day" => 20,
+            "hour" => 10,
+            "minute" => 15,
+            "am_pm" => "AM"
+          }
         },
         "g-recaptcha-response" => "valid_response"
       }
@@ -63,7 +71,15 @@ defmodule SiteWeb.CustomerSupportControllerTest do
         "support" => %{
           "comments" => "comments",
           "no_request_response" => "on",
-          "service" => "Inquiry"
+          "service" => "Inquiry",
+          "date_time" => %{
+            "year" => 2020,
+            "month" => 10,
+            "day" => 20,
+            "hour" => 10,
+            "minute" => 15,
+            "am_pm" => "AM"
+          }
         },
         "g-recaptcha-response" => "valid_response"
       }
@@ -316,6 +332,55 @@ defmodule SiteWeb.CustomerSupportControllerTest do
         )
 
       assert rendered == ""
+    end
+
+    test "sets date to today if it's in the future", %{conn: conn} do
+      current_year = DateTime.utc_now().year
+      current_month = DateTime.utc_now().month
+      current_day = DateTime.utc_now().day
+      two_months_from_now = Util.now() |> Timex.shift(months: 2)
+
+      conn =
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "date_time"], two_months_from_now)
+        )
+
+      wait_for_ticket_task(conn)
+      message = Feedback.Test.latest_message()["text"]
+
+      regex = ~r"\<INCIDENTDATE\>(.+?)\<\/INCIDENTDATE\>"
+      [_, date_from_message] = Regex.run(regex, message)
+
+      assert String.contains?(
+               date_from_message,
+               "#{current_month}/#{current_day}/#{current_year}"
+             )
+    end
+
+    test "submits the date as is because it's not in the future", %{conn: conn} do
+      current_year = DateTime.utc_now().year
+      current_month = DateTime.utc_now().month
+      current_day = DateTime.utc_now().day
+
+      conn =
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "date_time"], Util.now())
+        )
+
+      wait_for_ticket_task(conn)
+      message = Feedback.Test.latest_message()["text"]
+
+      regex = ~r"\<INCIDENTDATE\>(.+?)\<\/INCIDENTDATE\>"
+      [_, date_from_message] = Regex.run(regex, message)
+
+      assert String.contains?(
+               date_from_message,
+               "#{current_month}/#{current_day}/#{current_year}"
+             )
     end
   end
 

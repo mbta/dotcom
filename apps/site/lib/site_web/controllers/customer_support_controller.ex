@@ -66,7 +66,11 @@ defmodule SiteWeb.CustomerSupportController do
   end
 
   def submit(conn, %{"support" => form_data, "g-recaptcha-response" => recaptcha_response}) do
-    params = Map.put(form_data, "recaptcha_response", recaptcha_response)
+    params =
+      form_data
+      |> Map.put("recaptcha_response", recaptcha_response)
+      # date and time is not mandatory so if it's blank or in the future, we set it to now
+      |> Map.update!("date_time", &validate_incident_date_time/1)
 
     case do_validation(params) do
       [] ->
@@ -166,7 +170,12 @@ defmodule SiteWeb.CustomerSupportController do
           &validate_recaptcha/1
         ]
       else
-        [&validate_comments/1, &validate_service/1, &validate_photos/1, &validate_recaptcha/1]
+        [
+          &validate_comments/1,
+          &validate_service/1,
+          &validate_photos/1,
+          &validate_recaptcha/1
+        ]
       end
 
     Site.Validation.validate(validators, params)
@@ -250,6 +259,25 @@ defmodule SiteWeb.CustomerSupportController do
     end
   end
 
+  @spec validate_incident_date_time(map) :: DateTime.t()
+  defp validate_incident_date_time(incident_date_time) do
+    now = Util.now() |> Util.to_local_time()
+
+    parsed_date_time =
+      incident_date_time
+      |> Util.parse()
+      |> Util.to_local_time()
+
+    # if date and time is in the future, set it to now
+    # otherwise leave as it is
+
+    if DateTime.compare(parsed_date_time, now) in [:lt, :eq] do
+      parsed_date_time
+    else
+      now
+    end
+  end
+
   def send_ticket(params) do
     Feedback.Repo.send_ticket(%Feedback.Message{
       photos: params["photos"],
@@ -259,8 +287,8 @@ defmodule SiteWeb.CustomerSupportController do
       last_name: params["last_name"],
       comments: params["comments"],
       service: params["service"],
-      subject: params["subject"],
-      no_request_response: params["no_request_response"] == "on"
+      no_request_response: params["no_request_response"] == "on",
+      incident_date_time: params["date_time"]
     })
   end
 

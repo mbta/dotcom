@@ -1,5 +1,5 @@
 defmodule Feedback.Repo do
-  @moduledoc false
+  @moduledoc "module to send a HEAT ticket with optional attachments"
 
   @spec send_ticket(Feedback.Message.t()) :: {:ok, any} | {:error, any}
   def send_ticket(message) do
