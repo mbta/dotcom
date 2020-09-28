@@ -27,7 +27,7 @@ defmodule Feedback.Mailer do
       <MODE></MODE>
       <LINE></LINE>
       <STATION></STATION>
-      <INCIDENTDATE>#{formatted_utc_timestamp()}</INCIDENTDATE>
+      <INCIDENTDATE>#{formatted_utc_timestamp(message.incident_date_time)}</INCIDENTDATE>
       <VEHICLE></VEHICLE>
       <FIRSTNAME>#{first_name}</FIRSTNAME>
       <LASTNAME>#{last_name}</LASTNAME>
@@ -109,10 +109,8 @@ defmodule Feedback.Mailer do
     end
   end
 
-  defp formatted_utc_timestamp do
-    time_fetcher = Application.get_env(:feedback, :time_fetcher) || DateTime
-
-    time_fetcher.utc_now
+  defp formatted_utc_timestamp(date) do
+    date
     |> Timex.format!("{0M}/{0D}/{YYYY} {h24}:{m}")
   end
 end

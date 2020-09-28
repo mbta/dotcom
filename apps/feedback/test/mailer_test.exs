@@ -8,7 +8,8 @@ defmodule Feedback.MailerTest do
     comments: "",
     service: "Inquiry",
     subject: "Website",
-    no_request_response: true
+    no_request_response: true,
+    incident_date_time: ~D[2020-09-01]
   }
 
   describe "send_heat_ticket/2" do
@@ -39,7 +40,7 @@ defmodule Feedback.MailerTest do
                  <MODE></MODE>
                  <LINE></LINE>
                  <STATION></STATION>
-                 <INCIDENTDATE>07/08/2019 08:04</INCIDENTDATE>
+                 <INCIDENTDATE>09/01/2020 00:00</INCIDENTDATE>
                  <VEHICLE></VEHICLE>
                  <FIRSTNAME>Riding</FIRSTNAME>
                  <LASTNAME>Public</LASTNAME>
@@ -198,7 +199,8 @@ defmodule Feedback.MailerTest do
         first_name: "Disgruntled",
         last_name: "User",
         no_request_response: false,
-        service: "Complaint"
+        service: "Complaint",
+        incident_date_time: ~D[2020-09-01]
       }
 
       assert CaptureLog.capture_log(fn ->
