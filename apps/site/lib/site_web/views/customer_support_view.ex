@@ -1,4 +1,7 @@
 defmodule SiteWeb.CustomerSupportView do
+  @moduledoc """
+  Helper functions for handling interaction with and submitting the customer support form
+  """
   use SiteWeb, :view
 
   def photo_info(%{
