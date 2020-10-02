@@ -8,9 +8,11 @@ defmodule Routes.Repo do
 
   alias JsonApi
   alias Routes.{Route, Shape}
-  alias V3Api.{Routes, Shapes}
+  alias V3Api.Shapes
 
   @default_opts [include: "route_patterns"]
+
+  @routes_api Application.get_env(:routes, :routes_api)
 
   @doc """
 
@@ -20,7 +22,7 @@ defmodule Routes.Repo do
   @spec all() :: [Route.t()]
   def all do
     case cache(@default_opts, fn _ ->
-           result = handle_response(Routes.all(@default_opts))
+           result = handle_response(@routes_api.all(@default_opts))
 
            for {:ok, routes} <- [result],
                route <- routes do
@@ -44,7 +46,7 @@ defmodule Routes.Repo do
     opts = @default_opts
 
     case cache({id, opts}, fn {id, opts} ->
-           with %{data: [route]} <- Routes.get(id, opts) do
+           with %{data: [route]} <- @routes_api.get(id, opts) do
              {:ok, parse_route(route)}
            end
          end) do
@@ -139,7 +141,7 @@ defmodule Routes.Repo do
     opts = Keyword.merge(@default_opts, opts)
 
     case cache({stop_id, opts}, fn {stop_id, opts} ->
-           stop_id |> Routes.by_stop(opts) |> handle_response
+           stop_id |> @routes_api.by_stop(opts) |> handle_response
          end) do
       {:ok, routes} -> routes
       {:error, _} -> []
@@ -157,7 +159,7 @@ defmodule Routes.Repo do
 
     case cache({stop_id, direction_id, opts}, fn {stop_id, direction_id, opts} ->
            stop_id
-           |> Routes.by_stop_and_direction(direction_id, opts)
+           |> @routes_api.by_stop_and_direction(direction_id, opts)
            |> handle_response
          end) do
       {:ok, routes} -> routes
@@ -168,7 +170,7 @@ defmodule Routes.Repo do
   def by_stop_with_route_pattern(stop_id) do
     cache({stop_id, [include: "route_patterns"]}, fn {stop_id, _opts} ->
       [stop: stop_id, include: "route_patterns"]
-      |> Routes.all()
+      |> @routes_api.all()
       |> Map.get(:data, [])
       |> Enum.map(&parse_route_with_route_pattern/1)
     end)

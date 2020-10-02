@@ -30,3 +30,7 @@ use Mix.Config
 #     import_config "#{Mix.env}.exs"
 config :routes,
   populate_caches?: Mix.env() == :prod
+
+config :routes, :routes_api, V3Api.Routes
+
+import_config "#{Mix.env()}.exs"

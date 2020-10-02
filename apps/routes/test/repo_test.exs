@@ -108,12 +108,12 @@ defmodule Routes.RepoTest do
     test "returns a hidden route" do
       assert %Route{id: "746"} = Repo.get("746")
     end
-  end
 
-  test "key bus routes are tagged" do
-    assert %Route{description: :key_bus_route} = Repo.get("1")
-    assert %Route{description: :key_bus_route} = Repo.get("741")
-    assert %Route{description: :local_bus} = Repo.get("47")
+    test "key bus routes are tagged" do
+      assert %Route{description: :key_bus_route} = Repo.get("1")
+      assert %Route{description: :key_bus_route} = Repo.get("741")
+      assert %Route{description: :local_bus} = Repo.get("47")
+    end
   end
 
   describe "by_stop/1" do
