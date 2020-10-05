@@ -9,6 +9,7 @@ defmodule Stops.RouteStopTest do
   @stop %Stop{name: "Braintree", id: "place-brntn"}
   @green_route %Route{id: "Green", type: 0}
   @green_b_route %Route{id: "Green-B", type: 1}
+  @green_e_route %Route{id: "Green-E", type: 1}
   @orange_route %Route{id: "Orange", type: 1}
   @red_route %Route{id: "Red", type: 1}
 
@@ -179,6 +180,230 @@ defmodule Stops.RouteStopTest do
       ])
     end
 
+    test "Green-E, direction 0" do
+      e_route_pattern = %RoutePattern{
+        direction_id: 0,
+        id: "Green-E-1-0",
+        name: "North Station - Heath Street",
+        representative_trip_id: "45803749",
+        route_id: "Green-E",
+        time_desc: nil,
+        typicality: 1
+      }
+
+      e_stops =
+        make_stops(
+          ~w(place-north place-haecl place-gover place-pktrm place-boyls place-armnl place-coecl place-prmnl place-symcl place-nuniv place-mfa place-lngmd place-brmnl place-fenwd place-mispk place-rvrwy place-bckhl place-hsmnl)s
+        )
+
+      lechmere_shuttle_route_pattern = %RoutePattern{
+        direction_id: 0,
+        id: "602-1-0",
+        name: "Lechmere - Nashua St @ North Station",
+        representative_trip_id: "46001155",
+        route_id: "602",
+        time_desc: nil,
+        typicality: 1
+      }
+
+      lechmere_shuttle_stops = make_stops(~w(place-lech 14159 21458)s)
+
+      route_pattern_with_stops = [
+        {e_route_pattern, e_stops},
+        {lechmere_shuttle_route_pattern, lechmere_shuttle_stops}
+      ]
+
+      actual = list_from_route_patterns(route_pattern_with_stops, @green_e_route, 0)
+
+      assert_stop_ids(
+        actual,
+        ~w(place-lech 14159 place-north place-haecl place-gover place-pktrm place-boyls place-armnl place-coecl place-prmnl place-symcl place-nuniv place-mfa place-lngmd place-brmnl place-fenwd place-mispk place-rvrwy place-bckhl place-hsmnl)s
+      )
+
+      assert_branch_names(actual, [
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street",
+        "North Station - Heath Street"
+      ])
+
+      assert Enum.map(actual, & &1.is_terminus?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true
+               ]
+
+      assert Enum.map(actual, & &1.is_beginning?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false
+               ]
+    end
+
+    test "Green-E, direction 1" do
+      e_route_pattern = %RoutePattern{
+        direction_id: 1,
+        id: "Green-E-1-1",
+        name: "Heath Street - North Station",
+        representative_trip_id: "45803750",
+        route_id: "Green-E",
+        time_desc: nil,
+        typicality: 1
+      }
+
+      e_stops =
+        make_stops(
+          ~w(place-hsmnl place-bckhl place-rvrwy place-mispk place-fenwd place-brmnl place-lngmd place-mfa place-nuniv place-symcl place-prmnl place-coecl place-armnl place-boyls place-pktrm place-gover place-haecl place-north)s
+        )
+
+      lechmere_shuttle_route_pattern = %RoutePattern{
+        direction_id: 1,
+        id: "602-1-1",
+        name: "Nashua St @ North Station - Lechmere",
+        representative_trip_id: "46001157",
+        route_id: "602",
+        time_desc: nil,
+        typicality: 1
+      }
+
+      lechmere_shuttle_stops = make_stops(~w(21458 14155 place-lech)s)
+
+      route_pattern_with_stops = [
+        {e_route_pattern, e_stops},
+        {lechmere_shuttle_route_pattern, lechmere_shuttle_stops}
+      ]
+
+      actual = list_from_route_patterns(route_pattern_with_stops, @green_e_route, 1)
+
+      assert_stop_ids(
+        actual,
+        ~w(place-hsmnl place-bckhl place-rvrwy place-mispk place-fenwd place-brmnl place-lngmd place-mfa place-nuniv place-symcl place-prmnl place-coecl place-armnl place-boyls place-pktrm place-gover place-haecl place-north 14155 place-lech)s
+      )
+
+      assert_branch_names(actual, [
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station",
+        "Heath Street - North Station"
+      ])
+
+      assert Enum.map(actual, & &1.is_terminus?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true
+               ]
+
+      assert Enum.map(actual, & &1.is_beginning?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false
+               ]
+    end
+
     test "Green, direction 0" do
       b_route_pattern = %RoutePattern{
         direction_id: 0,
@@ -229,7 +454,7 @@ defmodule Stops.RouteStopTest do
       e_stops =
         make_stops(~w(place-north place-gover place-pktrm place-coecl place-prmnl place-hsmnl)s)
 
-      lechmere_shuttle_route_pattern = %RoutePatterns.RoutePattern{
+      lechmere_shuttle_route_pattern = %RoutePattern{
         direction_id: 0,
         id: "602-1-0",
         name: "Lechmere - Nashua St @ North Station",
@@ -253,10 +478,12 @@ defmodule Stops.RouteStopTest do
 
       assert_stop_ids(
         actual,
-        ~w(place-north place-gover place-pktrm place-coecl place-prmnl place-hsmnl place-gover place-pktrm place-coecl place-kencl place-fenwy place-river place-north place-gover place-pktrm place-coecl place-kencl place-smary place-clmnl place-pktrm place-coecl place-kencl place-bland place-lake)s
+        ~w(place-lech 14159 place-north place-gover place-pktrm place-coecl place-prmnl place-hsmnl place-gover place-pktrm place-coecl place-kencl place-fenwy place-river place-north place-gover place-pktrm place-coecl place-kencl place-smary place-clmnl place-pktrm place-coecl place-kencl place-bland place-lake)s
       )
 
       assert_branch_names(actual, [
+        nil,
+        nil,
         "Green-E",
         "Green-E",
         "Green-E",
@@ -282,6 +509,178 @@ defmodule Stops.RouteStopTest do
         "Green-B",
         "Green-B"
       ])
+
+      assert Enum.map(actual, & &1.is_terminus?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true,
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true,
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true,
+                 true,
+                 false,
+                 false,
+                 false,
+                 true
+               ]
+
+      assert Enum.map(actual, & &1.is_beginning?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true,
+                 false,
+                 false,
+                 false,
+                 false
+               ]
+    end
+
+    test "Green, direction 1" do
+      trunk_route_pattern = %RoutePattern{
+        direction_id: 1,
+        id: "Green-E-1-1",
+        name: "Heath Street - North Station",
+        representative_trip_id: "45803750",
+        route_id: "Green-E",
+        time_desc: nil,
+        typicality: 1
+      }
+
+      trunk_stops =
+        make_stops(
+          ~w(place-hsmnl place-bckhl place-rvrwy place-mispk place-fenwd place-brmnl place-lngmd place-mfa place-nuniv place-symcl place-prmnl place-coecl place-armnl place-boyls place-pktrm place-gover place-haecl place-north)s
+        )
+
+      lechmere_shuttle_route_pattern = %RoutePattern{
+        direction_id: 1,
+        id: "602-1-1",
+        name: "Nashua St @ North Station - Lechmere",
+        representative_trip_id: "46001157",
+        route_id: "602",
+        time_desc: nil,
+        typicality: 1
+      }
+
+      lechmere_shuttle_stops = make_stops(~w(21458 14155 place-lech))
+
+      route_patterns_with_stops = [
+        {trunk_route_pattern, trunk_stops},
+        {lechmere_shuttle_route_pattern, lechmere_shuttle_stops}
+      ]
+
+      actual = list_from_route_patterns(route_patterns_with_stops, @green_route, 1, true)
+
+      assert_stop_ids(
+        actual,
+        ~w(place-hsmnl place-bckhl place-rvrwy place-mispk place-fenwd place-brmnl place-lngmd place-mfa place-nuniv place-symcl place-prmnl place-coecl place-armnl place-boyls place-pktrm place-gover place-haecl place-north 14155 place-lech)s
+      )
+
+      assert_branch_names(actual, [
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        "Green-E",
+        nil,
+        nil
+      ])
+
+      assert Enum.map(actual, & &1.is_terminus?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 true
+               ]
+
+      assert Enum.map(actual, & &1.is_beginning?) ==
+               [
+                 true,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false,
+                 false
+               ]
     end
 
     test "Hingham/Hull Ferry, direction 0" do
