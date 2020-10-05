@@ -7,13 +7,13 @@ defmodule Feedback.MailerTest do
   @base_message %Message{
     comments: "",
     service: "Inquiry",
-    request_response: false
+    no_request_response: true
   }
 
   describe "send_heat_ticket/2" do
     test "sends an email for heat 2" do
       Mailer.send_heat_ticket(
-        %Message{comments: "", service: "Complaint", request_response: false},
+        %Message{comments: "", service: "Complaint", no_request_response: true},
         nil
       )
 
@@ -24,7 +24,7 @@ defmodule Feedback.MailerTest do
 
     test "has the body format that heat 2 expects" do
       Mailer.send_heat_ticket(
-        %Message{comments: "", service: "Complaint", request_response: false},
+        %Message{comments: "", service: "Complaint", no_request_response: true},
         nil
       )
 
@@ -173,7 +173,7 @@ defmodule Feedback.MailerTest do
         phone: "1231231234",
         first_name: "Disgruntled",
         last_name: "User",
-        request_response: true,
+        no_request_response: false,
         service: "Complaint"
       }
 
