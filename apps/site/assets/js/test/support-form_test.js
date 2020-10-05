@@ -433,6 +433,7 @@ describe("support form", () => {
     });
 
     it("sends multiple files down to the server", () => {
+      $("#no_request_response").click();
       let file_1 = new File({
         name: "test-file",
         buffer: new Buffer("this is a 24 byte string"),
