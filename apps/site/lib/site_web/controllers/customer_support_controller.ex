@@ -154,7 +154,7 @@ defmodule SiteWeb.CustomerSupportController do
   @spec do_validation(map) :: [String.t()]
   defp do_validation(params) do
     validators =
-      if params["request_response"] == "on" do
+      if params["no_request_response"] == "off" do
         [
           &validate_comments/1,
           &validate_service/1,
@@ -246,7 +246,7 @@ defmodule SiteWeb.CustomerSupportController do
       last_name: params["last_name"],
       comments: params["comments"],
       service: params["service"],
-      request_response: params["request_response"] == "on"
+      no_request_response: params["no_request_response"] == "on"
     })
   end
 

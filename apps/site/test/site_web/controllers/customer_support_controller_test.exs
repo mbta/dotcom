@@ -49,7 +49,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
           "privacy" => "on",
           "phone" => "",
           "name" => "tom brady",
-          "request_response" => "on",
+          "no_request_response" => "off",
           "service" => "Inquiry"
         },
         "g-recaptcha-response" => "valid_response"
@@ -60,7 +60,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       %{
         "support" => %{
           "comments" => "comments",
-          "request_response" => "off",
+          "no_request_response" => "on",
           "service" => "Inquiry"
         },
         "g-recaptcha-response" => "valid_response"
