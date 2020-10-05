@@ -234,7 +234,7 @@ describe("support form", () => {
       spy = sinon.spy($, "ajax");
       $("#test").html(`
         <div class="form-container">
-          <div class="support-thank-you hidden-xs-up"></div>
+          <div class="support-confirmation support-confirmation--success hidden-xs-up"></div>
           <form id="support-form" action="/customer-support">
             <div class="support-service-error-container hidden-xs-up" tabindex="-1"><div class="support-service-error"></div></div>
             <input name="support[service]" value="Complaint">Complaint</input>
@@ -270,7 +270,9 @@ describe("support form", () => {
     it("expands the form if it is hidden", () => {
       $("#support-submit").click();
       assert.isFalse($(".support-form-expanded").hasClass("hidden-xs-up"));
-      assert.isTrue($(".support-thank-you").hasClass("hidden-xs-up"));
+      assert.isTrue(
+        $(".support-confirmation--success").hasClass("hidden-xs-up")
+      );
     });
 
     it("requires text in the main textarea", () => {
@@ -283,7 +285,9 @@ describe("support form", () => {
     it("requires a service to be selected", () => {
       $("#support-submit").click();
       assert.isFalse($(".support-form-expanded").hasClass("hidden-xs-up"));
-      assert.isTrue($(".support-thank-you").hasClass("hidden-xs-up"));
+      assert.isTrue(
+        $(".support-confirmation--success").hasClass("hidden-xs-up")
+      );
     });
 
     it("requires the privacy box to be checked if the customer wants a response", () => {
@@ -406,7 +410,9 @@ describe("support form", () => {
       assert.propertyVal(ajaxArgs, "url", "/customer-support");
       ajaxArgs.success();
       assert.equal($("#support-form").length, 0);
-      assert.isFalse($(".support-thank-you").hasClass("hidden-xs-up"));
+      assert.isFalse(
+        $(".support-confirmation--success").hasClass("hidden-xs-up")
+      );
     });
 
     it("shows a message on error", () => {
@@ -423,7 +429,9 @@ describe("support form", () => {
       $("#g-recaptcha-response").val("response");
       $("#support-submit").click();
       spy.firstCall.args[0].error();
-      assert.isFalse($(".support-form-error").hasClass("hidden-xs-up"));
+      assert.isFalse(
+        $(".support-confirmation--error").hasClass("hidden-xs-up")
+      );
     });
 
     it("shows comment validation when other fields provided", () => {
