@@ -5,10 +5,10 @@ defmodule Feedback.Mailer do
 
   @spec send_heat_ticket(Feedback.Message.t(), [map()]) :: {:ok, any} | {:error, any}
   def send_heat_ticket(message, photo_info) do
-    request_response = if message.request_response, do: "Yes", else: "No"
+    no_request_response = if message.no_request_response, do: "No", else: "Yes"
 
     _ =
-      if message.request_response do
+      unless message.no_request_response do
         Logger.info("HEAT Ticket submitted by #{format_email(message.email)}")
       end
 
@@ -36,7 +36,7 @@ defmodule Feedback.Mailer do
       <EMAILID>#{format_email(message.email)}</EMAILID>
       <PHONE>#{message.phone}</PHONE>
       <DESCRIPTION>#{message.comments}</DESCRIPTION>
-      <CUSTREQUIRERESP>#{request_response}</CUSTREQUIRERESP>
+      <CUSTREQUIRERESP>#{no_request_response}</CUSTREQUIRERESP>
       <MBTASOURCE>Auto Ticket 2</MBTASOURCE>
     </INCIDENT>
     """
