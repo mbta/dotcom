@@ -380,13 +380,14 @@ export function handleSubmitClick($, toUpload) {
       contentType: false,
       success: () => {
         $("#support-form").remove();
-        $(".support-thank-you").removeClass("hidden-xs-up");
-        $(".support-success").focus();
-        $(".support-form-error").addClass("hidden-xs-up");
+        $(".support-confirmation--success")
+          .removeClass("hidden-xs-up")
+          .focus();
+        $(".support-confirmation--error").addClass("hidden-xs-up");
         reactivateSubmitButton($);
       },
       error: () => {
-        $(".support-form-error")
+        $(".support-confirmation--error")
           .removeClass("hidden-xs-up")
           .focus();
         reactivateSubmitButton($);
