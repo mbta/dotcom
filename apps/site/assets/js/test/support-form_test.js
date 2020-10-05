@@ -244,7 +244,7 @@ describe("support form", () => {
             <div class="support-comments-error-container hidden-xs-up" tabindex="-1"><div class="support-comments-error"></div></div>
             <textarea name="support[comments]" id="comments"></textarea>
             <input name="support[photo]" id="photo" type="file" />
-            <input name="support[request_response]" id="request_response" type="checkbox" />
+            <input name="support[no_request_response]" id="no_request_response" type="checkbox" />
             <input name="support[name]" id="name" />
             <input name="support[phone]" id="phone" />
             <input name="support[email]" id="email" />
@@ -291,7 +291,6 @@ describe("support form", () => {
     });
 
     it("requires the privacy box to be checked if the customer wants a response", () => {
-      $("#request_response").click();
       $("#support-submit").click();
       assert.isFalse(
         $(".support-privacy-error-container").hasClass("hidden-xs-up")
@@ -299,6 +298,7 @@ describe("support form", () => {
     });
 
     it("does not require the privacy box to be checked if the customer does not want a response", () => {
+      $("#no_request_response").click();
       $("#support-submit").click();
       assert.isTrue(
         $(".support-privacy-error-container").hasClass("hidden-xs-up")
@@ -306,7 +306,6 @@ describe("support form", () => {
     });
 
     it("requires a name if the customer wants a response", () => {
-      $("#request_response").click();
       $("#support-submit").click();
       assert.isFalse(
         $(".support-name-error-container").hasClass("hidden-xs-up")
@@ -314,7 +313,6 @@ describe("support form", () => {
     });
 
     it("requires an email when the customer wants a response", () => {
-      $("#request_response").click();
       $("#support-submit").click();
       assert.isFalse(
         $(".support-email-error-container").hasClass("hidden-xs-up")
@@ -322,6 +320,7 @@ describe("support form", () => {
     });
 
     it("does not require a phone number or an email when the customer does not want a response", () => {
+      $("#no_request_response").click();
       $("#support-submit").click();
       assert.isTrue(
         $(".support-email-error-container").hasClass("hidden-xs-up")
@@ -329,7 +328,6 @@ describe("support form", () => {
     });
 
     it("requires a valid email", () => {
-      $("#request_response").click();
       $("#email").val("not an email");
       $("#support-submit").click();
       assert.isFalse(
@@ -343,7 +341,6 @@ describe("support form", () => {
     });
 
     it("focuses to the highest error message on the page", () => {
-      $("#request_response").click();
       $("#support-submit").click();
       assert.equal(
         document.activeElement,
@@ -445,6 +442,7 @@ describe("support form", () => {
     });
 
     it("sends multiple files down to the server", () => {
+      $("#no_request_response").click();
       let file_1 = new File({
         name: "test-file",
         buffer: new Buffer("this is a 24 byte string"),

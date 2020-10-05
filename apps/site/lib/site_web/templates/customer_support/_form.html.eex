@@ -41,14 +41,14 @@
     <div class="form-group">
       <%= SiteWeb.PartialView.render("_checkbox.html", %{
         form: f,
-        field: :request_response,
-        id: "request_response",
+        field: :no_request_response,
+        id: "no_request_response",
         checked: false,
-        label_text: "I would like a response from the Customer Support team."
+        label_text: "I do not want a response from the Customer Support Team."
       })
       %>
     </div>
-    <div id="contactInfoForm" style="display: none;">
+    <div id="contactInfoForm">
       <h3>Contact Info</h3>
       <div class="form-group <%= class_for_error("name", @errors, "has-danger", "has-success") %>">
         <%= label f, :name, "Full Name*", [for: "name", class: "form-control-label"] %>

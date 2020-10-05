@@ -28,9 +28,9 @@ defmodule CustomerSupportTest do
     } do
       session
       |> visit("/customer-support")
-      |> click(css("#request_response_label"))
+      |> click(css("#no_request_response_label"))
 
-      assert selected?(session, css("#request_response", visible: false))
+      assert selected?(session, css("#no_request_response", visible: false))
     end
 
     @tag :wallaby
@@ -39,7 +39,7 @@ defmodule CustomerSupportTest do
     } do
       session
       |> visit("/customer-support")
-      |> click(css("#request_response_label"))
+      |> click(css("#no_request_response_label"))
       |> assert_has(css("#name"))
       |> assert_has(css("#email"))
     end

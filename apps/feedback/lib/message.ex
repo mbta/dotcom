@@ -13,7 +13,7 @@ defmodule Feedback.Message do
     {"Compliment", "Commendation"}
   ]
 
-  @enforce_keys [:comments, :service, :request_response]
+  @enforce_keys [:comments, :service, :no_request_response]
   defstruct [
     :email,
     :phone,
@@ -21,7 +21,7 @@ defmodule Feedback.Message do
     :last_name,
     :comments,
     :service,
-    :request_response,
+    :no_request_response,
     :photos
   ]
 
@@ -32,7 +32,7 @@ defmodule Feedback.Message do
           last_name: String.t(),
           comments: String.t(),
           service: String.t(),
-          request_response: boolean,
+          no_request_response: boolean,
           photos: [Plug.Upload.t()] | nil
         }
 
