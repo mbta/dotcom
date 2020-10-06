@@ -44,7 +44,7 @@
       <% end %>
       <%= link to: cms_static_page_path(@conn, "/sustainability"), class: "m-homepage__important-link" do %>
         <div class="m-homepage__important-link-content">
-          <div class="m-homepage__important-link-title">Sustainability</div>
+          <div class="m-homepage__important-link-title">Climate Change</div>
           <div class="m-homepage__important-link-icon">
             <%= fa "recycle" %>
           </div>
