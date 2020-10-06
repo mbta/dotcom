@@ -50,7 +50,8 @@ defmodule SiteWeb.CustomerSupportView do
     do:
       "If applicable, please make sure to include the time and date of the incident, the route, and the vehicle number."
 
-  def placeholder_text("name"), do: "Jane Smith"
+  def placeholder_text("first_name"), do: "Jane"
+  def placeholder_text("last_name"), do: "Smith"
   def placeholder_text("email"), do: "janesmith@email.com"
   def placeholder_text("phone"), do: "(555)-555-5555"
   def placeholder_text(_), do: ""
@@ -89,7 +90,8 @@ defmodule SiteWeb.CustomerSupportView do
   defp error_msg("comments"), do: "Please enter a comment to continue."
   defp error_msg("upload"), do: "Sorry. We had trouble uploading your image. Please try again."
   defp error_msg("email"), do: "Please enter a valid email."
-  defp error_msg("name"), do: "Please enter your full name to continue."
+  defp error_msg("first_name"), do: "Please enter your first name to continue."
+  defp error_msg("last_name"), do: "Please enter your last name to continue."
 
   defp error_msg("privacy"),
     do: "You must agree to our Privacy Policy before submitting your feedback."

@@ -39,8 +39,21 @@ defmodule CustomerSupportTest do
     } do
       session
       |> visit("/customer-support")
-      |> assert_has(css("#name"))
+      |> assert_has(css("#first_name"))
+      |> assert_has(css("#last_name"))
       |> assert_has(css("#email"))
+    end
+
+    @tag :wallaby
+    test "Hides additional fields when 'would like a response' is not enabled", %{
+      session: session
+    } do
+      session
+      |> visit("/customer-support")
+      |> click(css("#no_request_response_label"))
+      |> refute_has(css("#first_name"))
+      |> refute_has(css("#last_name"))
+      |> refute_has(css("#email"))
     end
 
     @tag :wallaby
