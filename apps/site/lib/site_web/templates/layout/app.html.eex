@@ -10,11 +10,9 @@
     <% meta_description = assigns[:meta_description] || "Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines." %>
     <meta name="description" content="<%= Phoenix.HTML.raw(meta_description) %>">
     <meta name="author" content="Massachusetts Bay Transportation Authority">
-    <%# Temporary verification to authenticate our domain for our Facebook account. This can be removed as soon as the verification process is complete. -- MSS 20200910 %>
-    <meta name="facebook-domain-verification" content="2jxewkdklzlgsdvn57f6s6gpa1cx0g" />
     <%= Turbolinks.cache_meta @conn %>
 
-    <%= # hide any page in /org directory from search engines
+    <%= # hide any page in /org directory from search engines  
     if @conn.request_path == "/org" || String.slice(@conn.request_path, 0..4) == "/org/" do %>
       <meta name="robots" content="noindex, nofollow">
     <% end %>
