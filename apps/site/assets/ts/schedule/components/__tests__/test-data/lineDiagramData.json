@@ -1,6 +1,6 @@
 [
   {
-    "stop_data": [{ "type": "terminus", "branch": null }],
+    "stop_data": [{ "type": "terminus", "branch": null, "has_disruption?": false }],
     "route_stop": {
       "zone": "1A",
       "stop_features": ["bus"],
@@ -60,7 +60,7 @@
     "alerts": []
   },
   {
-    "stop_data": [{ "type": "stop", "branch": "Lowell" }],
+    "stop_data": [{ "type": "stop", "branch": "Lowell", "has_disruption?": false }],
     "route_stop": {
       "zone": "",
       "stop_features": [],
@@ -95,7 +95,7 @@
     "alerts": []
   },
   {
-    "stop_data": [{ "type": "stop", "branch": "Lowell" }],
+    "stop_data": [{ "type": "stop", "branch": "Lowell", "has_disruption?": false }],
     "route_stop": {
       "zone": "1A",
       "stop_features": [
@@ -278,7 +278,7 @@
     "alerts": []
   },
   {
-    "stop_data": [{ "type": "terminus", "branch": null }],
+    "stop_data": [{ "type": "terminus", "branch": null, "has_disruption?": false }],
     "route_stop": {
       "zone": null,
       "stop_features": ["bus", "access", "parking_lot"],

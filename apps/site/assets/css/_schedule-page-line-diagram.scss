@@ -39,6 +39,9 @@
   &__merge {
     path {
       fill: none;
+    }
+
+    path:not([stroke]) {
       stroke: currentColor;
     }
   }
@@ -123,6 +126,13 @@
   .m-schedule-diagram__connection {
     vertical-align: middle;
   }
+}
+
+// Diversions may be shown in lieu of predictions
+.m-schedule-diagram__alert {
+  flex-grow: 1;
+  font-weight: bold;
+  text-align: right;
 }
 
 // 'View schedules' link

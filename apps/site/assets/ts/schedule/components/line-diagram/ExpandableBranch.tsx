@@ -30,7 +30,9 @@ const BranchToggle = (
             width={width}
             height="100%"
           >
-            <g transform={`translate(${BRANCH_LINE_WIDTH - 1}, -1)`}>
+            <g
+              transform={`translate(${maxBranches * BRANCH_LINE_WIDTH - 1}, 1)`}
+            >
               <rect width={CIRC_DIAMETER * 2} height="42" rx={CIRC_DIAMETER} />
               {times(3, i => (
                 <circle

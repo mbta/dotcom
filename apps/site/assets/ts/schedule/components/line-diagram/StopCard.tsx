@@ -5,12 +5,18 @@ import { LiveData } from "./__line-diagram";
 import { isMergeStop, diagramWidth } from "./line-diagram-helpers";
 import StopConnections from "./StopConnections";
 import StopPredictions from "./StopPredictions";
+import { hasPredictionTime } from "../../../models/prediction";
 import { alertIcon } from "../../../helpers/icon";
-import { isHighSeverityOrHighPriority } from "../../../models/alert";
+import {
+  isHighSeverityOrHighPriority,
+  isDiversion,
+  isCurrentAlert
+} from "../../../models/alert";
 import { Alert, Route } from "../../../__v3api";
 import MatchHighlight from "../../../components/MatchHighlight";
 import StopFeatures from "./StopFeatures";
 import { StopRefContext } from "./LineDiagramWithStops";
+import { effectNameForAlert } from "../../../components/Alerts";
 
 interface StopCardProps {
   stop: LineDiagramStop;
@@ -60,6 +66,17 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
     : diagramWidth(stopData.length);
   const refs = useContext(StopRefContext)[0];
 
+  const diversionAlert = stopAlerts.find(
+    alert => isDiversion(alert) && isCurrentAlert(alert)
+  );
+  const hasLivePredictions =
+    liveData &&
+    liveData.headsigns.length &&
+    liveData.headsigns.some(hasPredictionTime);
+  const showPrediction = hasLivePredictions && !isDestination;
+  const showDiversion =
+    diversionAlert && !(hasLivePredictions && isDestination);
+
   return (
     <li
       className="m-schedule-diagram__stop"
@@ -84,13 +101,22 @@ const StopCard = (props: StopCardProps): ReactElement<HTMLElement> => {
 
         <div className="m-schedule-diagram__stop-details">
           {StopConnections(routeStop.connections)}
-          {!isDestination && liveData && (
+          {showPrediction ? (
             <StopPredictions
-              headsigns={liveData.headsigns}
+              headsigns={liveData!.headsigns}
               isCommuterRail={
                 !!routeStop.route && isACommuterRailRoute(routeStop.route)
               }
             />
+          ) : (
+            showDiversion && (
+              <div
+                key={diversionAlert!.id}
+                className="m-schedule-diagram__alert"
+              >
+                {effectNameForAlert(diversionAlert!)}
+              </div>
+            )
           )}
         </div>
 

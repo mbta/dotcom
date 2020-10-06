@@ -142,4 +142,37 @@ defmodule AlertsTest do
       refute is_high_severity_or_high_priority(%Alert{severity: 3, priority: :low})
     end
   end
+
+  describe "is_diversion/1" do
+    test "returns true for certain effects" do
+      assert is_diversion(%Alert{effect: :shuttle})
+      assert is_diversion(%Alert{effect: :stop_closure})
+      assert is_diversion(%Alert{effect: :station_closure})
+      assert is_diversion(%Alert{effect: :detour})
+    end
+
+    test "returns false for other effects" do
+      refute is_diversion(%Alert{effect: :access_issue})
+      refute is_diversion(%Alert{effect: :amber_alert})
+      refute is_diversion(%Alert{effect: :delay})
+      refute is_diversion(%Alert{effect: :dock_closure})
+      refute is_diversion(%Alert{effect: :dock_issue})
+      refute is_diversion(%Alert{effect: :extra_service})
+      refute is_diversion(%Alert{effect: :elevator_closure})
+      refute is_diversion(%Alert{effect: :escalator_closure})
+      refute is_diversion(%Alert{effect: :policy_change})
+      refute is_diversion(%Alert{effect: :schedule_change})
+      refute is_diversion(%Alert{effect: :station_issue})
+      refute is_diversion(%Alert{effect: :stop_moved})
+      refute is_diversion(%Alert{effect: :summary})
+      refute is_diversion(%Alert{effect: :suspension})
+      refute is_diversion(%Alert{effect: :track_change})
+      refute is_diversion(%Alert{effect: :unknown})
+      refute is_diversion(%Alert{effect: :cancellation})
+      refute is_diversion(%Alert{effect: :no_service})
+      refute is_diversion(%Alert{effect: :service_change})
+      refute is_diversion(%Alert{effect: :snow_route})
+      refute is_diversion(%Alert{effect: :stop_shoveling})
+    end
+  end
 end

@@ -45,8 +45,13 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
           <desc id=\\"diagram-desc\\">
             4 stops going Outbound to Begin
           </desc>
+          <defs>
+            <pattern id=\\"diagonalHatch\\" width=\\"10\\" height=\\"10\\" patternTransform=\\"rotate(45 0 0)\\" patternUnits=\\"userSpaceOnUse\\">
+              <line className=\\"line-diagram-svg__line\\" y2={8} strokeWidth=\\"16px\\" />
+            </pattern>
+          </defs>
           <Line from={{...}} to={{...}}>
-            <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"30px\\" y2=\\"50px\\" />
+            <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"30px\\" y2=\\"50px\\" stroke=\\"url(#diagonalHatch)\\" />
           </Line>
           <Line from={{...}} to={{...}}>
             <line className=\\"line-diagram-svg__line\\" strokeWidth=\\"10px\\" x1=\\"11px\\" x2=\\"11px\\" y1=\\"50px\\" y2=\\"70px\\" />
@@ -92,6 +97,9 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
               </header>
               <div className=\\"m-schedule-diagram__stop-details\\">
                 <div className=\\"m-schedule-diagram__connections\\" />
+                <div className=\\"m-schedule-diagram__alert\\">
+                  Detour
+                </div>
               </div>
               <footer className=\\"m-schedule-diagram__footer\\">
                 <button className=\\"btn btn-link\\" type=\\"button\\" onClick={[Function: onClick]}>

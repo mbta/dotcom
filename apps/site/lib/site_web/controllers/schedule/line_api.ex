@@ -2,11 +2,13 @@ defmodule SiteWeb.ScheduleController.LineApi do
   @moduledoc "Provides JSON endpoints for retrieving line diagram data."
   use SiteWeb, :controller
 
+  alias Alerts.Match
   alias Alerts.Stop, as: AlertsStop
   alias RoutePatterns.RoutePattern
   alias Routes.Route
   alias Schedules.Repo, as: SchedulesRepo
   alias Site.TransitNearMe
+  alias SiteWeb.ScheduleController.Line.DiagramFormat
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias Stops.Repo, as: StopsRepo
@@ -43,9 +45,7 @@ defmodule SiteWeb.ScheduleController.LineApi do
 
         json(
           conn,
-          Enum.map(line_data, fn stop ->
-            update_route_stop_data(stop, conn.assigns.alerts, conn.assigns.date)
-          end)
+          update_route_stop_data(line_data, conn.assigns.alerts, conn.assigns.date_time)
         )
 
       :not_found ->
@@ -116,13 +116,54 @@ defmodule SiteWeb.ScheduleController.LineApi do
     |> DiagramHelpers.build_stop_list(direction_id)
   end
 
-  @spec update_route_stop_data({any, RouteStop.t()}, any, DateTime.t()) :: map()
-  def update_route_stop_data({data, %RouteStop{id: stop_id} = map}, alerts, date) do
+  @doc """
+  Builds a dataset for the line diagram from line_data, alerts, and the current
+  datetime.
+  * Selects alerts to associate with each stop based on stop_id and datetime
+  * Creates a stop_data map to encode information relating to the stop on the
+    diagram itself - branch name, stop/line/terminus/merge, and whether it needs
+    to show a disruption
+  """
+  @spec update_route_stop_data(
+          [
+            DiagramHelpers.stop_with_bubble_info()
+          ],
+          [Alerts.Alert.t()],
+          DateTime.t()
+        ) :: [DiagramFormat.line_diagram_stop()]
+  def update_route_stop_data(all_stops, alerts, date) do
+    Enum.map(all_stops, fn stop ->
+      compose_route_stop_data(stop, alerts, date)
+    end)
+    |> DiagramFormat.do_stops_list_with_disruptions(date)
+    |> json_safe_route_stop_data(date)
+  end
+
+  @spec compose_route_stop_data(any, any, DateTime.t()) :: any
+  defp compose_route_stop_data({data, %RouteStop{id: stop_id} = route_stop}, alerts, date) do
     %{
-      alerts: alerts |> AlertsStop.match(stop_id) |> json_safe_alerts(date),
-      route_stop: RouteStop.to_json_safe(map),
-      stop_data: Enum.map(data, fn {key, value} -> %{branch: key, type: value} end)
+      alerts:
+        alerts
+        |> Enum.filter(&Match.any_time_match?(&1, date))
+        |> AlertsStop.match(stop_id),
+      route_stop: route_stop,
+      stop_data:
+        Enum.map(data, fn {key, value} -> %{branch: key, type: value, has_disruption?: false} end)
     }
+  end
+
+  @spec json_safe_route_stop_data([DiagramFormat.line_diagram_stop()], DateTime.t()) :: [
+          DiagramFormat.line_diagram_stop()
+        ]
+  defp json_safe_route_stop_data(all_stops, date) do
+    all_stops
+    |> Enum.map(fn %{alerts: alerts, route_stop: route_stop} = stop_map ->
+      %{
+        stop_map
+        | alerts: json_safe_alerts(alerts, date),
+          route_stop: RouteStop.to_json_safe(route_stop)
+      }
+    end)
   end
 
   @spec simple_vehicle_map(Vehicle.t()) :: simple_vehicle

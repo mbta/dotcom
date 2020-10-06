@@ -1,5 +1,6 @@
 import React from "react";
 import * as redux from "react-redux";
+import { cloneDeep, last } from "lodash";
 import { mount, ReactWrapper } from "enzyme";
 import { LineDiagramStop } from "../../__schedule";
 import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
@@ -95,5 +96,40 @@ describe("Line component between stops with branches", () => {
     expect(x2).toEqual(`${BRANCH_SPACING * 2 + BASE_LINE_WIDTH + 1}px`);
     expect(y1).toEqual(`${testY}px`);
     expect(y2).toEqual(`${testY + 7}px`);
+  });
+});
+
+describe("Line component between stops with disruptions", () => {
+  let wrapper: ReactWrapper;
+  beforeAll(() => {
+    const fromWithDetour = cloneDeep(from);
+    last(fromWithDetour.stop_data)!["has_disruption?"] = true;
+
+    wrapper = mount(
+      <redux.Provider store={store}>
+        <Line from={fromWithDetour} to={to} />
+      </redux.Provider>
+    );
+  });
+
+  it("renders and matches snapshot", () => {
+    expect(wrapper.debug()).toMatchSnapshot();
+  });
+
+  it("shows an SVG line between the stops", () => {
+    expect(wrapper.exists("line.line-diagram-svg__line")).toBeTruthy();
+  });
+
+  it("has expected props, including stroke pattern", () => {
+    const { x1, y1, x2, y2, strokeWidth, stroke } = wrapper
+      .find("line.line-diagram-svg__line")
+      .last()
+      .props();
+    expect(strokeWidth).toEqual(`${BASE_LINE_WIDTH}px`);
+    expect(x1).toEqual(`${BASE_LINE_WIDTH + 1}px`);
+    expect(x2).toEqual(`${BASE_LINE_WIDTH + 1}px`);
+    expect(y1).toEqual(`${testY}px`);
+    expect(y2).toEqual(`${testY + 7}px`);
+    expect(stroke).toContain("url(#diagonalHatch)");
   });
 });

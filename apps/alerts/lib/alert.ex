@@ -99,6 +99,13 @@ defmodule Alerts.Alert do
     :unknown | @ongoing_effects
   ]
 
+  @diversion_effects [
+    :shuttle,
+    :stop_closure,
+    :station_closure,
+    :detour
+  ]
+
   @spec new(Keyword.t()) :: t()
   def new(keywords \\ [])
 
@@ -243,4 +250,8 @@ defmodule Alerts.Alert do
     do: true
 
   def is_high_severity_or_high_priority(_), do: false
+
+  @spec is_diversion(t) :: boolean()
+  def is_diversion(%{effect: effect}),
+    do: effect in @diversion_effects
 end

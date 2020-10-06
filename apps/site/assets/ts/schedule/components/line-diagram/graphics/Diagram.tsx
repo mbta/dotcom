@@ -17,7 +17,7 @@ import VehicleIcons from "../VehicleIcons";
 import { getCurrentState } from "../../../store/ScheduleStore";
 import { DirectionId } from "../../../../__v3api";
 import { isAGreenLineRoute } from "../../../../models/route";
-import { BASE_LINE_WIDTH } from "./graphic-helpers";
+import { BASE_LINE_WIDTH, DiagonalHatchPattern } from "./graphic-helpers";
 
 interface DiagramProps {
   lineDiagram: LineDiagramStop[];
@@ -114,6 +114,7 @@ const Diagram = (props: DiagramProps): ReactElement<HTMLElement> | null => {
           {hasBranchLines(lineDiagram) && branchingDescription(lineDiagram)}
         </desc>
 
+        <defs>{DiagonalHatchPattern}</defs>
         {/* If there are multiple branches, draw the lines and curves for those */
         hasBranchLines(lineDiagram) && <Merges lineDiagram={lineDiagram} />}
 

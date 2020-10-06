@@ -145,14 +145,17 @@ defmodule SiteWeb.ControllerHelpers do
     Conn.put_resp_header(conn, "x-robots-tag", "noindex")
   end
 
-  @spec filter_alerts_by_direction([Alert.t()], boolean, map) :: [Alert.t()]
+  @spec filter_alerts_by_direction([Alert.t()], boolean, String.t() | number | nil) :: [Alert.t()]
   defp filter_alerts_by_direction(alerts, false, _), do: alerts
   defp filter_alerts_by_direction(alerts, true, nil), do: alerts
 
-  defp filter_alerts_by_direction(alerts, true, direction_id) do
+  defp filter_alerts_by_direction(alerts, true, direction_id) when is_bitstring(direction_id),
+    do: filter_alerts_by_direction(alerts, true, String.to_integer(direction_id))
+
+  defp filter_alerts_by_direction(alerts, true, direction_id) when is_number(direction_id) do
     Enum.filter(alerts, fn %{informed_entity: informed_entity} ->
       # direction matches if the direction of the alert is the same or nil
-      Enum.any?(informed_entity, &(&1.direction_id == direction_id or &1.direction_id == nil))
+      Enum.any?(informed_entity, &(&1.direction_id == direction_id or is_nil(&1.direction_id)))
     end)
   end
 

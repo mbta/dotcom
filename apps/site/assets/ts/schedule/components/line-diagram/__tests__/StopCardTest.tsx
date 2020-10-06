@@ -2,12 +2,19 @@ import React from "react";
 import * as redux from "react-redux";
 import { mount, ReactWrapper } from "enzyme";
 import { cloneDeep, merge } from "lodash";
-import { RouteType } from "../../../../__v3api";
+import {
+  RouteType,
+  HeadsignWithCrowding,
+  Schedule,
+  Prediction
+} from "../../../../__v3api";
 import { LineDiagramStop } from "../../__schedule";
 import simpleLineDiagram from "./lineDiagramData/simple.json"; // not a full line diagram
 import outwardLineDiagram from "./lineDiagramData/outward.json"; // not a full line diagram
 import { createLineDiagramCoordStore } from "../graphics/graphic-helpers";
 import StopCard from "../StopCard";
+import { TripPrediction } from "../../__trips";
+import StopPredictions from "../StopPredictions";
 
 const lineDiagram = (simpleLineDiagram as unknown) as LineDiagramStop[];
 let lineDiagramBranchingOut = (outwardLineDiagram as unknown) as LineDiagramStop[];
@@ -90,6 +97,61 @@ describe("StopCard", () => {
       expect(Object.entries(props)).toContainEqual(["data-toggle", "tooltip"]);
     });
   });
+
+  it("indicates detours, stop closures, etc", () => {
+    expect(wrapper.exists(".m-schedule-diagram__alert")).toBeTruthy();
+    expect(wrapper.find(".m-schedule-diagram__alert").text()).toContain(
+      "Detour"
+    );
+  });
+});
+
+const predictionHeadsign: HeadsignWithCrowding = {
+  name: "Somewhere",
+  time_data_with_crowding_list: [
+    {
+      time_data: {
+        delay: 0,
+        scheduled_time: ["4:30", " ", "PM"],
+        prediction: {
+          time: ["14", " ", "min"],
+          status: null,
+          track: null
+        } as Prediction
+      },
+      crowding: null,
+      predicted_schedule: {
+        schedule: {} as Schedule,
+        prediction: {} as TripPrediction
+      }
+    }
+  ],
+  train_number: null
+};
+const liveDataWithPrediction = {
+  headsigns: [predictionHeadsign],
+  vehicles: []
+};
+it.only("indicates predictions if available", () => {
+  const wrapper = mount(
+    <redux.Provider store={store}>
+      <StopCard
+        stop={lineDiagram[2]}
+        onClick={handleStopClick}
+        liveData={liveDataWithPrediction}
+      />
+    </redux.Provider>
+  );
+
+  expect(wrapper.exists(StopPredictions)).toBeTruthy();
+  const predictions = wrapper.find(StopPredictions);
+  expect(predictions.text()).toContain("Somewhere");
+  expect(
+    predictions.find(".m-schedule-diagram__prediction-time").text()
+  ).toContain("14");
+  expect(
+    predictions.find(".m-schedule-diagram__prediction-time").text()
+  ).toContain("min");
 });
 
 it.each`

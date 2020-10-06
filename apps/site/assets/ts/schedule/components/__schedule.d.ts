@@ -53,6 +53,7 @@ export interface SchedulePageData {
 interface StopData {
   branch: string | null;
   type: "line" | "merge" | "stop" | "terminus" | null;
+  "has_disruption?": boolean;
 }
 
 export interface LineDiagramStop {
