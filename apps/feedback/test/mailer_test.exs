@@ -7,13 +7,14 @@ defmodule Feedback.MailerTest do
   @base_message %Message{
     comments: "",
     service: "Inquiry",
+    subject: "Website",
     no_request_response: true
   }
 
   describe "send_heat_ticket/2" do
     test "sends an email for heat 2" do
       Mailer.send_heat_ticket(
-        %Message{comments: "", service: "Complaint", no_request_response: true},
+        @base_message,
         nil
       )
 
@@ -24,15 +25,15 @@ defmodule Feedback.MailerTest do
 
     test "has the body format that heat 2 expects" do
       Mailer.send_heat_ticket(
-        %Message{comments: "", service: "Complaint", no_request_response: true},
+        @base_message,
         nil
       )
 
       assert Test.latest_message()["text"] ==
                """
                <INCIDENT>
-                 <SERVICE>Complaint</SERVICE>
-                 <CATEGORY>Other</CATEGORY>
+                 <SERVICE>Inquiry</SERVICE>
+                 <CATEGORY>Website</CATEGORY>
                  <TOPIC></TOPIC>
                  <SUBTOPIC></SUBTOPIC>
                  <MODE></MODE>
@@ -63,6 +64,29 @@ defmodule Feedback.MailerTest do
 
       assert Test.latest_message()["text"] =~
                "<DESCRIPTION>major issue to report</DESCRIPTION>"
+    end
+
+    test "generates the topic based on the service and subject" do
+      Mailer.send_heat_ticket(
+        %{@base_message | service: "Complaint", subject: "Bus Stop"},
+        nil
+      )
+
+      assert Test.latest_message()["text"] =~ "<TOPIC>Other</TOPIC>"
+
+      Mailer.send_heat_ticket(
+        %{@base_message | service: "Inquiry", subject: "Disability ID Cards"},
+        nil
+      )
+
+      assert Test.latest_message()["text"] =~ "<TOPIC>Other</TOPIC>"
+
+      Mailer.send_heat_ticket(
+        %{@base_message | service: "Inquiry", subject: "Other"},
+        nil
+      )
+
+      assert Test.latest_message()["text"] =~ "<TOPIC></TOPIC>"
     end
 
     test "uses the phone from the message in the phone field" do
