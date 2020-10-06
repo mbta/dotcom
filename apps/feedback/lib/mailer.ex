@@ -3,7 +3,9 @@ defmodule Feedback.Mailer do
 
   require Logger
 
-  @spec send_heat_ticket(Feedback.Message.t(), [map()]) :: {:ok, any} | {:error, any}
+  alias Feedback.Message
+
+  @spec send_heat_ticket(Message.t(), [map()]) :: {:ok, any} | {:error, any}
   def send_heat_ticket(message, photo_info) do
     no_request_response = if message.no_request_response, do: "No", else: "Yes"
 
@@ -19,8 +21,8 @@ defmodule Feedback.Mailer do
     body = """
     <INCIDENT>
       <SERVICE>#{message.service}</SERVICE>
-      <CATEGORY>Other</CATEGORY>
-      <TOPIC></TOPIC>
+      <CATEGORY>#{message.subject}</CATEGORY>
+      <TOPIC>#{topic(message)}</TOPIC>
       <SUBTOPIC></SUBTOPIC>
       <MODE></MODE>
       <LINE></LINE>
@@ -70,6 +72,19 @@ defmodule Feedback.Mailer do
       |> ExAws.SES.send_raw_email()
       |> exaws_perform_fn.(exaws_config_fn.(:ses))
   end
+
+  @spec topic(Message.t()) :: String.t()
+  defp topic(%Message{service: "Complaint", subject: "Bus Stop"}), do: "Other"
+  defp topic(%Message{service: "Complaint", subject: "CharlieCards & Tickets"}), do: "Other"
+  defp topic(%Message{service: "Complaint", subject: "Employee Complaint"}), do: "Other"
+  defp topic(%Message{service: "Complaint", subject: "Fare Evasion"}), do: "Other"
+  defp topic(%Message{service: "Complaint", subject: "Maintenance Complaint"}), do: "Other"
+  defp topic(%Message{service: "Complaint", subject: "Parking"}), do: "Other"
+  defp topic(%Message{service: "Complaint", subject: "Service Complaint"}), do: "Other"
+  defp topic(%Message{service: "Complaint", subject: "T-Alerts/Apps/Countdown"}), do: "Other"
+  defp topic(%Message{service: "Inquiry", subject: "Disability ID Cards"}), do: "Other"
+  defp topic(%Message{service: "Inquiry", subject: "Senior ID Cards"}), do: "Other"
+  defp topic(_), do: ""
 
   @spec format_name(String.t() | nil, String.t()) :: String.t()
   defp format_name(nil, default) do
