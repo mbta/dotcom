@@ -158,6 +158,7 @@ defmodule SiteWeb.CustomerSupportController do
         [
           &validate_comments/1,
           &validate_service/1,
+          &validate_subject/1,
           &validate_photos/1,
           &validate_name/1,
           &validate_email/1,
@@ -185,6 +186,17 @@ defmodule SiteWeb.CustomerSupportController do
   end
 
   defp validate_service(_), do: "service"
+
+  @spec validate_subject(map) :: :ok | String.t()
+  defp validate_subject(%{"subject" => subject, "service" => service}) do
+    if Feedback.Message.valid_subject_for_service?(subject, service) do
+      :ok
+    else
+      "subject"
+    end
+  end
+
+  defp validate_subject(_), do: "subject"
 
   @spec validate_name(map) :: :ok | String.t()
   defp validate_name(%{"name" => ""}), do: "name"
@@ -246,6 +258,7 @@ defmodule SiteWeb.CustomerSupportController do
       last_name: params["last_name"],
       comments: params["comments"],
       service: params["service"],
+      subject: params["subject"],
       no_request_response: params["no_request_response"] == "on"
     })
   end

@@ -9,7 +9,7 @@
     <fieldset class="form-group <%= class_for_error("service", @errors, "has-danger", "has-success") %>">
       <legend class="form-control-label">Category*</legend>
       <div id="service" class="service-radios">
-        <%= for {text, value} <- @service_options do %>
+        <%= for {text, value, _subjects} <- @service_options do %>
           <span class="form-check service-radio">
             <%= radio_button f, :service, value, class: "support-form-control service c-radio",
                                                 id: "service-#{value}" %>

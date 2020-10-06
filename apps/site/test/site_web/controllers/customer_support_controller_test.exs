@@ -50,7 +50,8 @@ defmodule SiteWeb.CustomerSupportControllerTest do
           "phone" => "",
           "name" => "tom brady",
           "no_request_response" => "off",
-          "service" => "Inquiry"
+          "service" => "Inquiry",
+          "subject" => "Website"
         },
         "g-recaptcha-response" => "valid_response"
       }
@@ -125,6 +126,17 @@ defmodule SiteWeb.CustomerSupportControllerTest do
         )
 
       assert "service" in conn.assigns.errors
+    end
+
+    test "validates that the subject is one of the allowed values for the service", %{conn: conn} do
+      conn =
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "subject"], "Bad")
+        )
+
+      assert "subject" in conn.assigns.errors
     end
 
     test "requires name if customer does want a response", %{conn: conn} do
