@@ -48,7 +48,8 @@ defmodule SiteWeb.CustomerSupportControllerTest do
           "email" => "test@gmail.com",
           "privacy" => "on",
           "phone" => "",
-          "name" => "tom brady",
+          "first_name" => "tom",
+          "last_name" => "brady",
           "no_request_response" => "off",
           "service" => "Inquiry",
           "subject" => "Website"
@@ -139,15 +140,26 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       assert "subject" in conn.assigns.errors
     end
 
-    test "requires name if customer does want a response", %{conn: conn} do
+    test "requires first_name if customer does want a response", %{conn: conn} do
       conn =
         post(
           conn,
           customer_support_path(conn, :submit),
-          put_in(valid_request_response_data(), ["support", "name"], "")
+          put_in(valid_request_response_data(), ["support", "first_name"], "")
         )
 
-      assert "name" in conn.assigns.errors
+      assert "first_name" in conn.assigns.errors
+    end
+
+    test "requires last_name if customer does want a response", %{conn: conn} do
+      conn =
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "last_name"], "")
+        )
+
+      assert "last_name" in conn.assigns.errors
     end
 
     test "invalid with no email when the customer wants a response", %{conn: conn} do
