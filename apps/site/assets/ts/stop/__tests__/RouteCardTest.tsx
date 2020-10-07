@@ -211,7 +211,7 @@ it.each`
     name: "Bus"
   } as EnhancedRoute;
 
-  const alert = { severity: severity } as Alert;
+  const alert = { severity: severity, informed_entity: {} } as Alert;
   const wrapper = mount(
     <RouteCard
       route={route}

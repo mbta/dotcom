@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import { mount } from "enzyme";
 import StopPage, { fetchData } from "../components/StopPage";
 import stopData from "./stopData.json";
-import { Alert } from "../../__v3api";
+import { Alert, InformedEntitySet } from "../../__v3api";
 import { StopPageData, AlertsTab, StopMapData } from "../components/__stop";
 import { MapData } from "../../leaflet/components/__mapdata";
 import { createReactRoot } from "../../app/helpers/testUtils";
@@ -42,7 +42,7 @@ const lowAlert: Alert = {
   priority: "low",
   lifecycle: "upcoming",
   active_period: [],
-  informed_entity: [],
+  informed_entity: {} as InformedEntitySet,
   id: "00005",
   header: "There is construction at this station.",
   effect: "other",
