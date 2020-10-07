@@ -208,5 +208,48 @@ defmodule Feedback.MailerTest do
                Mailer.send_heat_ticket(message, nil)
              end) =~ "disgruntled@user.com"
     end
+
+    test "prepends ticket number to the description for charliecard/ticket complaints" do
+      Mailer.send_heat_ticket(
+        %{
+          @base_message
+          | service: "Complaint",
+            subject: "CharlieCards & Tickets",
+            ticket_number: "123abc"
+        },
+        nil
+      )
+
+      assert Test.latest_message()["text"]
+             |> String.contains?("CharlieCard or Ticket number: 123abc")
+    end
+
+    test "does not add ticket number for non-complaints" do
+      Mailer.send_heat_ticket(
+        %{
+          @base_message
+          | service: "Question",
+            subject: "CharlieCards & Tickets",
+            ticket_number: "123abc"
+        },
+        nil
+      )
+
+      refute Test.latest_message()["text"]
+             |> String.contains?("CharlieCard or Ticket number: 123abc")
+    end
+
+    test "does not add ticket number for other subjects" do
+      Mailer.send_heat_ticket(
+        %{
+          @base_message
+          | ticket_number: "123abc"
+        },
+        nil
+      )
+
+      refute Test.latest_message()["text"]
+             |> String.contains?("123abc")
+    end
   end
 end
