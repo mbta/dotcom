@@ -2,7 +2,8 @@ import { Alert, InformedEntitySet } from "../../__v3api";
 import {
   isHighSeverityOrHighPriority,
   isCurrentAlert,
-  alertsByStop
+  alertsByStop,
+  uniqueByEffect
 } from "../alert";
 
 const testDate = new Date("2020-09-10T09:00");
@@ -82,4 +83,20 @@ test("alertsByStop finds alerts affecting a certain stop", () => {
   ];
   const alertsForStop = alertsByStop(alerts, "place-sstat");
   expect(alertsForStop).toEqual([alert_two, alert_three]);
+});
+
+test("uniqueByEffect enables filtering to unique effects", () => {
+  const alerts = [
+    { effect: "shuttle" } as Alert,
+    { effect: "detour" } as Alert,
+    { effect: "detour" } as Alert,
+    { effect: "shuttle" } as Alert,
+    { effect: "unknown" } as Alert
+  ];
+  expect(alerts.filter(uniqueByEffect)).toHaveLength(3);
+  expect(alerts.filter(uniqueByEffect).map(a => a.effect)).toEqual([
+    "shuttle",
+    "detour",
+    "unknown"
+  ]);
 });

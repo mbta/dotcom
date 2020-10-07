@@ -7,7 +7,7 @@ import { useSMDown } from "../helpers/media-breakpoints";
 import { accessibleIcon, alertIcon } from "../helpers/icon";
 import stationSymbol from "../../static/images/icon-circle-t-small.svg";
 import { effectNameForAlert } from "./Alerts";
-import { isDiversion, alertsByStop } from "../models/alert";
+import { isDiversion, alertsByStop, uniqueByEffect } from "../models/alert";
 
 interface Props {
   stop: Stop;
@@ -83,6 +83,7 @@ export const StopCard = ({
         <div className="m-tnm-sidebar__stop-distance">{distance}</div>
       </div>
       {alertsByStop(route.alerts.filter(isDiversion), stop.id)
+        .filter(uniqueByEffect)
         .map(alert => (
           <div key={alert.id} className="m-tnm-sidebar__route-alert-effect">
             <a

@@ -12,7 +12,8 @@ import { effectNameForAlert } from "../../components/Alerts";
 import {
   isHighSeverityOrHighPriority,
   isDiversion,
-  alertsByStop
+  alertsByStop,
+  uniqueByEffect
 } from "../../models/alert";
 
 interface Props {
@@ -36,6 +37,7 @@ const RouteCard = ({
       }
     />
     {alertsByStop(alerts.filter(isDiversion), stop.id)
+      .filter(uniqueByEffect)
       .map(alert => (
         <a
           key={alert.id}
