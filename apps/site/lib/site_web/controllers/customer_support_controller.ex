@@ -199,7 +199,8 @@ defmodule SiteWeb.CustomerSupportController do
   defp validate_subject(_), do: "subject"
 
   @spec validate_name(map) :: :ok | String.t()
-  defp validate_name(%{"name" => ""}), do: "name"
+  defp validate_name(%{"first_name" => ""}), do: "first_name"
+  defp validate_name(%{"last_name" => ""}), do: "last_name"
   defp validate_name(_), do: :ok
 
   @spec validate_email(map) :: :ok | String.t()

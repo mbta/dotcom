@@ -221,9 +221,15 @@ const validators = {
   service: function($) {
     return !!$("[name='support[service]']:checked").val();
   },
-  name: function($) {
+  first_name: function($) {
     if (responseRequested($)) {
-      return $("#name").val().length !== 0;
+      return $("#first_name").val().length !== 0;
+    }
+    return true;
+  },
+  last_name: function($) {
+    if (responseRequested($)) {
+      return $("#last_name").val().length !== 0;
     }
     return true;
   },
@@ -254,14 +260,16 @@ function responseRequested($) {
 }
 
 function setupValidation($) {
-  ["#privacy", "#comments", "#email", "#name"].forEach(selector => {
-    const $selector = $(selector);
-    $selector.on("keyup blur input change", () => {
-      if (validators[selector.slice(1)]($)) {
-        displaySuccess($, selector);
-      }
-    });
-  });
+  ["#privacy", "#comments", "#email", "#first_name", "#last_name"].forEach(
+    selector => {
+      const $selector = $(selector);
+      $selector.on("keyup blur input change", () => {
+        if (validators[selector.slice(1)]($)) {
+          displaySuccess($, selector);
+        }
+      });
+    }
+  );
 }
 
 function displayError($, selector) {
@@ -286,7 +294,8 @@ function validateForm($) {
     comments = "#comments",
     service = "#service",
     email = "#email",
-    name = "#name",
+    first_name = "#first_name",
+    last_name = "#last_name",
     recaptcha = "#g-recaptcha-response",
     errors = [];
   // Service
@@ -304,11 +313,17 @@ function validateForm($) {
     displaySuccess($, comments);
   }
   // Name
-  if (!validators.name($)) {
-    displayError($, name);
-    errors.push(name);
+  if (!validators.first_name($)) {
+    displayError($, first_name);
+    errors.push(first_name);
   } else {
-    displaySuccess($, name);
+    displaySuccess($, first_name);
+  }
+  if (!validators.last_name($)) {
+    displayError($, last_name);
+    errors.push(last_name);
+  } else {
+    displaySuccess($, last_name);
   }
   // Phone and email
   if (!validators.email($)) {
@@ -379,12 +394,12 @@ export function handleSubmitClick($, toUpload) {
       data: formData,
       contentType: false,
       success: () => {
-        $("#support-form").remove();
         $(".support-confirmation--success")
           .removeClass("hidden-xs-up")
           .focus();
         $(".support-confirmation--error").addClass("hidden-xs-up");
         reactivateSubmitButton($);
+        $("#support-form").remove();
       },
       error: () => {
         $(".support-confirmation--error")
