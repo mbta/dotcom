@@ -50,11 +50,17 @@
     </div>
     <div id="contactInfoForm">
       <h3>Contact Info</h3>
-      <div class="form-group <%= class_for_error("name", @errors, "has-danger", "has-success") %>">
-        <%= label f, :name, "Full Name*", [for: "name", class: "form-control-label"] %>
-        <%= support_error_tag @errors, "name" %>
-        <%= text_input f, :name, placeholder: placeholder_text("name"), class: "support-form-text-input support-form-text-input--small form-control #{class_for_error("name", @errors, "form-control-danger", "form-control-success")}",
-                                  autocomplete: "name", id: "name" %>
+      <div class="form-group <%= class_for_error("first_name", @errors, "has-danger", "has-success") %>">
+        <%= label f, :first_name, "First Name*", [for: "first_name", class: "form-control-label"] %>
+        <%= support_error_tag @errors, "first_name" %>
+        <%= text_input f, :first_name, placeholder: placeholder_text("first_name"), class: "support-form-text-input support-form-text-input--small form-control #{class_for_error("first_name", @errors, "form-control-danger", "form-control-success")}",
+                                  autocomplete: "first_name", id: "first_name" %>
+      </div>
+      <div class="form-group <%= class_for_error("last_name", @errors, "has-danger", "has-success") %>">
+        <%= label f, :name, "Last Name*", [for: "last_name", class: "form-control-label"] %>
+        <%= support_error_tag @errors, "last_name" %>
+        <%= text_input f, :last_name, placeholder: placeholder_text("last_name"), class: "support-form-text-input support-form-text-input--small form-control #{class_for_error("last_name", @errors, "form-control-danger", "form-control-success")}",
+                                  autocomplete: "last_name", id: "last_name" %>
       </div>
       <div class="form-group <%= class_for_error("email", @errors, "has-danger", "has-success") %>">
         <%= label f, :email, "Email*", [for: "email", class: "form-control-label"] %>
