@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import { shallow, mount } from "enzyme";
+import { mount } from "enzyme";
 import stopData from "./stopData.json";
 import { StopPageData, RouteWithDirections } from "../components/__stop";
 import { createReactRoot } from "../../app/helpers/testUtils";
@@ -236,10 +236,18 @@ it("renders effect for diversion-related alerts if present", () => {
   } as EnhancedRoute;
 
   const alerts = [
-    { id: "1", effect: "detour" } as Alert,
-    { id: "2", effect: "dock_issue" } as Alert,
-    { id: "3", effect: "snow_route" } as Alert,
-    { id: "4", effect: "track_change" } as Alert
+    {
+      id: "1",
+      effect: "detour",
+      informed_entity: { stop: [data.stop.id] }
+    } as Alert,
+    {
+      id: "2",
+      effect: "dock_issue",
+      informed_entity: { stop: [data.stop.id] }
+    } as Alert,
+    { id: "3", effect: "snow_route", informed_entity: {} } as Alert,
+    { id: "4", effect: "track_change", informed_entity: {} } as Alert
   ];
   const wrapper = mount(
     <RouteCard route={route} directions={[]} stop={data.stop} alerts={alerts} />

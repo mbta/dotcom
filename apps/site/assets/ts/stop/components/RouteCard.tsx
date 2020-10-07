@@ -9,7 +9,11 @@ import Direction from "../../components/Direction";
 import RouteCardHeader from "../../components/RouteCardHeader";
 import { alertIcon } from "../../helpers/icon";
 import { effectNameForAlert } from "../../components/Alerts";
-import { isHighSeverityOrHighPriority, isDiversion } from "../../models/alert";
+import {
+  isHighSeverityOrHighPriority,
+  isDiversion,
+  alertsByStop
+} from "../../models/alert";
 
 interface Props {
   route: EnhancedRoute;
@@ -31,16 +35,17 @@ const RouteCard = ({
         alerts && alerts.filter(isHighSeverityOrHighPriority).length > 0
       }
     />
-    {alerts.filter(isDiversion).map(alert => (
-      <a
-        key={alert.id}
-        className="m-stop-page__departures-alert"
-        href={`/schedules/${route.id}/alerts`}
-      >
-        {alertIcon("c-svg__icon-alerts-triangle")}
-        {effectNameForAlert(alert)}
-      </a>
-    ))}
+    {alertsByStop(alerts.filter(isDiversion), stop.id)
+      .map(alert => (
+        <a
+          key={alert.id}
+          className="m-stop-page__departures-alert"
+          href={`/schedules/${route.id}/alerts`}
+        >
+          {alertIcon("c-svg__icon-alerts-triangle")}
+          {effectNameForAlert(alert)}
+        </a>
+      ))}
     {directions.length === 0 && (
       <div className="m-stop-page__no-departures">
         <div>No departures within 24 hours</div>
