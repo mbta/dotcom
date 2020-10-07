@@ -244,11 +244,13 @@ describe("support form", () => {
             <div class="support-comments-error-container hidden-xs-up" tabindex="-1"><div class="support-comments-error"></div></div>
             <textarea name="support[comments]" id="comments"></textarea>
             <input name="support[photo]" id="photo" type="file" />
+            <div class="support-first_name-error-container hidden-xs-up" tabindex="-1"><div class="support-first_name-error"></div></div>
+            <input name="support[first_name]" id="first_name" />
+            <div class="support-last_name-error-container hidden-xs-up" tabindex="-1"><div class="support-last_name-error"></div></div>
+            <input name="support[last_name]" id="last_name" />
             <input name="support[no_request_response]" id="no_request_response" type="checkbox" />
-            <input name="support[name]" id="name" />
             <input name="support[phone]" id="phone" />
             <input name="support[email]" id="email" />
-            <div class="support-name-error-container hidden-xs-up" tabindex="-1"><div class="support-name-error"></div></div>
             <div class="support-email-error-container hidden-xs-up" tabindex="-1"><div class="support-email-error"></div></div>
             <input id="privacy" type="checkbox" />
             <div class="support-privacy-error-container hidden-xs-up" tabindex="-1"><div class="support-privacy-error"></div></div>
@@ -308,7 +310,11 @@ describe("support form", () => {
     it("requires a name if the customer wants a response", () => {
       $("#support-submit").click();
       assert.isFalse(
-        $(".support-name-error-container").hasClass("hidden-xs-up")
+        $(".support-first_name-error-container").hasClass("hidden-xs-up")
+      );
+      $("#support-submit").click();
+      assert.isFalse(
+        $(".support-last_name-error-container").hasClass("hidden-xs-up")
       );
     });
 
@@ -356,9 +362,15 @@ describe("support form", () => {
       $("#support-submit").click();
       assert.equal(
         document.activeElement,
-        $(".support-name-error-container")[0]
+        $(".support-first_name-error-container")[0]
       );
-      $("#name").val("tom brady");
+      $("#first_name").val("tom");
+      $("#support-submit").click();
+      assert.equal(
+        document.activeElement,
+        $(".support-last_name-error-container")[0]
+      );
+      $("#last_name").val("brady");
       $("#support-submit").click();
       assert.equal(
         document.activeElement,
@@ -383,7 +395,8 @@ describe("support form", () => {
 
       $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $("#email").val("test@email.com");
-      $("#name").val("tom brady");
+      $("#first_name").val("tom");
+      $("#last_name").val("brady");
       $("#comments").val("A comment");
       $("#privacy").prop("checked", "checked");
       $("#g-recaptcha-response").val("response");
@@ -395,7 +408,8 @@ describe("support form", () => {
     it("hides the form and shows a message on success", () => {
       $("#request_response").click();
       $("#email").val("test@email.com");
-      $("#name").val("tom brady");
+      $("#first_name").val("tom");
+      $("#last_name").val("brady");
       $("#comments").val("A comment");
       $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $("#privacy").prop("checked", "checked");
@@ -406,10 +420,11 @@ describe("support form", () => {
       assert.propertyVal(ajaxArgs, "method", "POST");
       assert.propertyVal(ajaxArgs, "url", "/customer-support");
       ajaxArgs.success();
-      assert.equal($("#support-form").length, 0);
+
       assert.isFalse(
         $(".support-confirmation--success").hasClass("hidden-xs-up")
       );
+      assert.equal($("#support-form").length, 0);
     });
 
     it("shows a message on error", () => {
@@ -419,7 +434,8 @@ describe("support form", () => {
       });
 
       $("#email").val("test@email.com");
-      $("#name").val("tom brady");
+      $("#first_name").val("tom");
+      $("#last_name").val("brady");
       $('[name="support[service]"][value="Complaint"]').attr("checked", true);
       $("#comments").val("A comment");
       $("#privacy").prop("checked", "checked");
@@ -433,7 +449,8 @@ describe("support form", () => {
 
     it("shows comment validation when other fields provided", () => {
       $("#email").val("test@email.com");
-      $("#name").val("tom brady");
+      $("#first_name").val("tom");
+      $("#last_name").val("brady");
       $("#privacy").prop("checked", "checked");
       $("#support-submit").click();
       assert.isFalse(
