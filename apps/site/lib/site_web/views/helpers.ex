@@ -14,6 +14,14 @@ defmodule SiteWeb.ViewHelpers do
 
   alias Routes.Route
 
+  @subway_lines [
+    :red_line,
+    :blue_line,
+    :orange_line,
+    :green_line,
+    :silver_line
+  ]
+
   # precompile the SVGs, rather than hitting the filesystem every time
   for path <-
         :site
@@ -37,6 +45,8 @@ defmodule SiteWeb.ViewHelpers do
       )
     end
   end
+
+  def subway_lines, do: @subway_lines
 
   def svg(unknown) do
     raise ArgumentError, message: "unknown SVG #{unknown}"
@@ -176,13 +186,7 @@ defmodule SiteWeb.ViewHelpers do
   def mode_name(:free_fare), do: "Free Service"
 
   def mode_name(mode_atom)
-      when mode_atom in [
-             :red_line,
-             :blue_line,
-             :orange_line,
-             :green_line,
-             :silver_line
-           ] do
+      when mode_atom in @subway_lines do
     mode_atom
     |> Atom.to_string()
     |> String.split("_")
