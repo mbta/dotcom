@@ -37,7 +37,7 @@ defmodule Feedback.Mailer do
       <ZIPCODE></ZIPCODE>
       <EMAILID>#{format_email(message.email)}</EMAILID>
       <PHONE>#{message.phone}</PHONE>
-      <DESCRIPTION>#{message.comments}</DESCRIPTION>
+      <DESCRIPTION>#{ticket_number(message)}#{message.comments}</DESCRIPTION>
       <CUSTREQUIRERESP>#{no_request_response}</CUSTREQUIRERESP>
       <MBTASOURCE>Auto Ticket 2</MBTASOURCE>
     </INCIDENT>
@@ -113,4 +113,16 @@ defmodule Feedback.Mailer do
     date
     |> Timex.format!("{0M}/{0D}/{YYYY} {h24}:{m}")
   end
+
+  defp ticket_number(%Message{
+         service: "Complaint",
+         subject: "CharlieCards & Tickets",
+         ticket_number: ticket_number
+       }),
+       do: """
+       CharlieCard or Ticket number: #{ticket_number}
+
+       """
+
+  defp ticket_number(_), do: nil
 end
