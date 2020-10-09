@@ -20,7 +20,68 @@ export default function($ = window.jQuery) {
         setupValidation($);
 
         handleSubmitClick($, toUpload);
+
+        handleModeChangeSelection($);
       });
+    },
+    { passive: true }
+  );
+}
+
+export function handleModeChangeSelection($) {
+  const modeOptionsEl = document.getElementById("js-routes-by-mode");
+  const modeOptions = JSON.parse(modeOptionsEl.innerHTML);
+
+  const vehicleLabels = {
+    bus: "Bus",
+    commuter_rail: "Train",
+    subway: "Vehicle",
+    ferry: "Boat"
+  };
+
+  // initially hide the choices for route and vehicle
+  $("#routeAndVehicle").hide();
+
+  const modeSelect = document.getElementById("support_mode");
+  modeSelect.addEventListener(
+    "change",
+    ev => {
+      // empty contents of the select first:
+      $("#support_route").empty();
+
+      const routeSelect = document.getElementById("support_route");
+
+      // Get the text property of the <option> selected
+      // and build key in order to access the 'modeOptions' object
+      const selectedText = ev.target.selectedOptions[0].text;
+
+      const key = selectedText
+        .split(" ")
+        .map(el => el.toLowerCase())
+        .join("_");
+
+      const opts = modeOptions[`${key}_options`];
+
+      if (!!opts) {
+        $("#routeAndVehicle").show();
+        // update label:
+        $("#vehicleLabel").text(`${vehicleLabels[key]} number`);
+
+        // Create options for the select (prepending an extra one for 'Select'):
+        const option = document.createElement("option");
+        option.text = "Select";
+        option.value = " ";
+        routeSelect.appendChild(option);
+
+        opts.forEach(element => {
+          const opt = document.createElement("option");
+          opt.text = element;
+          opt.value = element;
+          routeSelect.appendChild(opt);
+        });
+      } else {
+        $("#routeAndVehicle").hide();
+      }
     },
     { passive: true }
   );

@@ -9,9 +9,10 @@ import {
   setupTextArea,
   setupSubject,
   handleSubmitClick,
-  rescale
+  rescale,
+  handleModeChangeSelection
 } from "../support-form";
-import testConfig from "./../../ts/jest.config";
+import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
 
@@ -48,22 +49,22 @@ describe("support form", () => {
     });
   });
 
-  describe("rescale", function() {
-    it("returns the same dimensions if they are in the limit", function() {
+  describe("rescale", () => {
+    it("returns the same dimensions if they are in the limit", () => {
       let dim = { width: 900, height: 900 };
       dim = rescale(dim);
       assert.equal(dim.width, 900);
       assert.equal(dim.height, 900);
     });
 
-    it("returns a properly scaled dimension if the width is longer", function() {
+    it("returns a properly scaled dimension if the width is longer", () => {
       let dim = { width: 2000, height: 1000 };
       dim = rescale(dim);
       assert.equal(dim.width, 1000);
       assert.equal(dim.height, 500);
     });
 
-    it("returns a properly scaled dimension if the height is longer", function() {
+    it("returns a properly scaled dimension if the height is longer", () => {
       let dim = { width: 1000, height: 2000 };
       dim = rescale(dim);
       assert.equal(dim.width, 500);
@@ -72,7 +73,7 @@ describe("support form", () => {
   });
 
   describe("handleUploadedPhoto", () => {
-    var toUpload = [];
+    let toUpload = [];
 
     beforeEach(() => {
       toUpload = [];
@@ -142,9 +143,7 @@ describe("support form", () => {
 
       handleUploadedPhoto($, blob, $(".photo-preview-container"), toUpload);
 
-      let fileNames = toUpload.map(file => {
-        return file.name;
-      });
+      const fileNames = toUpload.map(file => file.name);
       assert.deepEqual(fileNames, ["test-file", "test-file-2"]);
     });
 
@@ -192,20 +191,12 @@ describe("support form", () => {
       const $second_photo = $preview.last();
       $first_photo.find(".clear-photo").trigger("click");
 
-      let fileNames = toUpload.map(file => {
-        return file.name;
-      });
+      const fileNames = toUpload.map(file => file.name);
       assert.notInclude(fileNames, "test-file");
     });
   });
 
   describe("setupTextArea", () => {
-    function enterComment(comment) {
-      const $textarea = $("#comments");
-      $textarea.val(comment);
-      $textarea.blur();
-    }
-
     beforeEach(() => {
       $("#test").html(`
         <div class="form-group">
@@ -271,7 +262,7 @@ describe("support form", () => {
   });
 
   describe("handleSubmitClick", () => {
-    var spy;
+    let spy;
     const toUpload = [];
 
     beforeEach(() => {
@@ -429,7 +420,7 @@ describe("support form", () => {
     });
 
     it("disables the submit button and shows the spinner on submit", () => {
-      var isWaiting = false;
+      let isWaiting = false;
 
       $("#support-submit").on("waiting:start", () => {
         assert.isTrue($("#support-submit").prop("disabled"));
@@ -504,12 +495,12 @@ describe("support form", () => {
 
     it("sends multiple files down to the server", () => {
       $("#no_request_response").click();
-      let file_1 = new File({
+      const file_1 = new File({
         name: "test-file",
         buffer: new Buffer("this is a 24 byte string"),
         type: "image/png"
       });
-      let file_2 = new File({
+      const file_2 = new File({
         name: "test-file-2",
         buffer: new Buffer("this is now a 28 byte string"),
         type: "image/png"
@@ -529,6 +520,58 @@ describe("support form", () => {
       // getAll returns [ "[object Object]", "[object Object]" ]
       // not sure how to recover actual values
       assert.equal(photos.length, toUpload.length);
+    });
+  });
+
+  describe("handleModeChangeSelection", () => {
+    beforeEach(() => {
+      const opts = { opt1_options: [1, 2, 3], opt2_options: [4, 5] };
+
+      $("#test").html(`
+      <script id="js-routes-by-mode" type="text/plain">
+        ${JSON.stringify(opts)}
+      </script>
+       <select class="c-select c-mode-selector" id="support_mode">
+         <option value=" ">Select</option>
+         <option value="opt1">opt1</option>
+         <option value="opt2">opt2</option>
+       </select>
+       <div id="routeAndVehicle">
+        <select class="c-select c-route-selector" id="support_route"></select>
+       </div>
+     `);
+      handleModeChangeSelection($);
+    });
+
+    afterEach(() => {
+      $("#test").remove();
+    });
+
+    it("detects a new selection and updates the options with dynamic values", () => {
+      // initEvent is deprecated and no longer recommended but the newer way of triggering events nor jQuery's .change() were triggering a change in the selection
+
+      const sortBySelect = document.querySelector("select.c-mode-selector");
+      sortBySelect.value = "opt2";
+      const event = document.createEvent("HTMLEvents");
+      event.initEvent("change", false, false);
+      sortBySelect.dispatchEvent(event);
+
+      assert.equal(
+        $("#support_route").html(),
+        `<option value=" ">Select</option><option value="4">4</option><option value="5">5</option>`
+      );
+    });
+
+    it("detects a new but invalid selection so it hides the container", () => {
+      // initEvent is deprecated and no longer recommended but the newer way of triggering events nor jQuery's .change() were triggering a change in the selection
+
+      const sortBySelect = document.querySelector("select.c-mode-selector");
+      sortBySelect.value = " ";
+      const event = document.createEvent("HTMLEvents");
+      event.initEvent("change", false, false);
+      sortBySelect.dispatchEvent(event);
+
+      assert.isFalse($("#routeAndVehicle").is(":visible"));
     });
   });
 });

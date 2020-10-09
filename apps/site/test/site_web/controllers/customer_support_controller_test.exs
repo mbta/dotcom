@@ -2,6 +2,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
   use SiteWeb.ConnCase
 
   import Phoenix.HTML, only: [safe_to_string: 1, html_escape: 1]
+  import SiteWeb.CustomerSupportController
 
   setup do
     conn =
@@ -115,7 +116,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "validates presence of comments", %{conn: conn} do
       conn =
         post(
-          conn,
+          conn |> assign(:all_options_per_mode, %{}),
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "comments"], "")
         )
@@ -126,7 +127,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "validates the presence of the service type", %{conn: conn} do
       conn =
         post(
-          conn,
+          conn |> assign(:all_options_per_mode, %{}),
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "service"], "")
         )
@@ -137,7 +138,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "validates that the service is one of the allowed values", %{conn: conn} do
       conn =
         post(
-          conn,
+          conn |> assign(:all_options_per_mode, %{}),
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "service"], "Hug")
         )
@@ -148,7 +149,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "validates that the subject is one of the allowed values for the service", %{conn: conn} do
       conn =
         post(
-          conn,
+          conn |> assign(:all_options_per_mode, %{}),
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "subject"], "Bad")
         )
@@ -159,7 +160,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "requires first_name if customer does want a response", %{conn: conn} do
       conn =
         post(
-          conn,
+          conn |> assign(:all_options_per_mode, %{}),
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "first_name"], "")
         )
@@ -170,7 +171,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "requires last_name if customer does want a response", %{conn: conn} do
       conn =
         post(
-          conn,
+          conn |> assign(:all_options_per_mode, %{}),
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "last_name"], "")
         )
@@ -179,6 +180,8 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     end
 
     test "invalid with no email when the customer wants a response", %{conn: conn} do
+      conn = conn |> assign(:all_options_per_mode, %{})
+
       conn =
         post(
           conn,
@@ -192,7 +195,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "requires a real email", %{conn: conn} do
       conn =
         post(
-          conn,
+          conn |> assign(:all_options_per_mode, %{}),
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "email"], "not an email")
         )
@@ -201,6 +204,8 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     end
 
     test "invalid with phone but no email when the customer wants a response", %{conn: conn} do
+      conn = conn |> assign(:all_options_per_mode, %{})
+
       conn =
         post(
           conn,
@@ -216,7 +221,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "requires privacy checkbox when customer wants a response", %{conn: conn} do
       conn =
         post(
-          conn,
+          conn |> assign(:all_options_per_mode, %{}),
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "privacy"], "")
         )
@@ -254,7 +259,12 @@ defmodule SiteWeb.CustomerSupportControllerTest do
           %Plug.Upload{filename: "runme.exe"}
         ])
 
-      conn = post(conn, customer_support_path(conn, :submit), params)
+      conn =
+        post(
+          conn |> assign(:all_options_per_mode, %{}),
+          customer_support_path(conn, :submit),
+          params
+        )
 
       assert "photos" in conn.assigns.errors
     end
@@ -268,6 +278,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
             Enum.reduce(1..4, conn, fn _, acc ->
               acc
               |> recycle()
+              |> assign(:all_options_per_mode, %{})
               |> post(path, valid_request_response_data())
             end)
 
@@ -281,7 +292,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "requires a successful recaptcha response", %{conn: conn} do
       conn =
         post(
-          conn,
+          conn |> assign(:all_options_per_mode, %{}),
           customer_support_path(conn, :submit),
           put_in(valid_no_response_data(), ["g-recaptcha-response"], "invalid_response")
         )
@@ -357,7 +368,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
 
       conn =
         post(
-          conn,
+          conn |> assign(:all_options_per_mode, %{}),
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "date_time"], two_months_from_now)
         )
@@ -425,6 +436,44 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       refute Floki.find(rendered, "select[id=\"support_date_time_am_pm\"]") == []
 
       refute Floki.find(rendered, "div[id=\"support-date\"]") == []
+    end
+  end
+
+  describe "Mode, route and vehicle" do
+    test "get_all_modes" do
+      assert SiteWeb.CustomerSupportView.get_all_modes() == [
+               [key: "Select", value: " "],
+               [key: "Subway", value: "Subway"],
+               [key: "Commuter Rail", value: "Commuter Rail"],
+               [key: "Bus", value: "Bus Other"],
+               [key: "Ferry", value: "Ferry"],
+               [key: "The RIDE", value: "The RIDE"]
+             ]
+    end
+
+    test "get_options_per_mode" do
+      options_per_mode = get_options_per_mode()
+
+      assert Map.has_key?(options_per_mode, "bus_options")
+      assert Map.has_key?(options_per_mode, "commuter_rail_options")
+      assert Map.has_key?(options_per_mode, "subway_options")
+      assert Map.has_key?(options_per_mode, "ferry_options")
+    end
+
+    test "get_routes_for_mode", %{conn: conn} do
+      conn = get(conn, customer_support_path(conn, :index))
+
+      assert get_routes_for_mode(conn, :subway) == [
+               "Red Line",
+               "Blue Line",
+               "Orange Line",
+               "Green Line",
+               "Silver Line"
+             ]
+
+      refute get_routes_for_mode(conn, :bus) == []
+      refute get_routes_for_mode(conn, :commuter_rail) == []
+      refute get_routes_for_mode(conn, :ferry) == []
     end
   end
 
