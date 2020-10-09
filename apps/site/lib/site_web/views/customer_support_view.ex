@@ -3,7 +3,7 @@ defmodule SiteWeb.CustomerSupportView do
   Helper functions for handling interaction with and submitting the customer support form
   """
   use SiteWeb, :view
-
+  alias Routes.Route
   import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3]
 
   alias Feedback.Message
@@ -63,6 +63,7 @@ defmodule SiteWeb.CustomerSupportView do
   def placeholder_text("last_name"), do: "Smith"
   def placeholder_text("email"), do: "janesmith@email.com"
   def placeholder_text("phone"), do: "(555)-555-5555"
+  def placeholder_text("vehicle"), do: "e.g. 00001"
   def placeholder_text(_), do: ""
 
   def help_text("phone"),
@@ -93,6 +94,31 @@ defmodule SiteWeb.CustomerSupportView do
     else
       nil
     end
+  end
+
+  @spec get_all_modes() :: list
+  def get_all_modes() do
+    # get options for subway, bus, commuter rail and ferry:
+    subway_bus_cr_ferry_opts =
+      Enum.map(1..4, fn mode ->
+        mode_name = SiteWeb.ViewHelpers.mode_name(mode)
+
+        if mode == 3 do
+          [key: mode_name, value: "Bus Other"]
+        else
+          [key: mode_name, value: mode_name]
+        end
+      end)
+      |> List.insert_at(0, key: "Select", value: " ")
+
+    # append The RIDE:
+    the_ride = Route.type_name(:the_ride)
+
+    subway_bus_cr_ferry_opts
+    |> List.insert_at(Enum.count(subway_bus_cr_ferry_opts),
+      key: the_ride,
+      value: the_ride
+    )
   end
 
   defp error_msg("service"), do: "Please select the type of concern."

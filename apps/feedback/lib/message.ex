@@ -75,7 +75,10 @@ defmodule Feedback.Message do
     :incident_date_time,
     :no_request_response,
     :photos,
-    :ticket_number
+    :ticket_number,
+    :mode,
+    :line,
+    :vehicle
   ]
 
   @type t :: %__MODULE__{
@@ -89,7 +92,10 @@ defmodule Feedback.Message do
           no_request_response: boolean,
           incident_date_time: DateTime.t(),
           photos: [Plug.Upload.t()] | nil,
-          ticket_number: String.t() | nil
+          ticket_number: String.t() | nil,
+          mode: String.t() | nil,
+          line: String.t() | nil,
+          vehicle: String.t() | nil
         }
 
   @spec service_options() :: [service_option_with_subjects()]
