@@ -236,6 +236,19 @@ body {
   }
 }
 
-#support-date{
+#support-date {
   width: 55%;
+}
+
+#support_vehicle {
+  margin-right: $base-spacing-sm;
+}
+
+.c-mode-selector {
+  margin-right: $base-spacing;
+  width: 40%;
+}
+
+.c-route-selector {
+  width: 100%;
 }
