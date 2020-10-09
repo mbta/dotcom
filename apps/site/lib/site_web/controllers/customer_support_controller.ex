@@ -1,6 +1,7 @@
 defmodule SiteWeb.CustomerSupportController do
   @moduledoc "Handles the customer support page and form submissions."
   use SiteWeb, :controller
+  alias Routes.Route
   require Logger
 
   @allowed_attachment_types ~w(image/bmp image/gif image/jpeg image/png image/tiff image/webp)
@@ -49,11 +50,17 @@ defmodule SiteWeb.CustomerSupportController do
   plug(:meta_description)
 
   def index(conn, %{"comments" => comments}) do
-    render_form(conn, %{comments: comments})
+    render_form(
+      conn
+      |> assign(:all_options_per_mode, get_options_per_mode()),
+      %{comments: comments}
+    )
   end
 
   def index(conn, _params) do
-    render_form(conn, %{comments: nil})
+    conn
+    |> assign(:all_options_per_mode, get_options_per_mode())
+    |> render_form(%{comments: nil})
   end
 
   def thanks(conn, _params) do
@@ -295,8 +302,41 @@ defmodule SiteWeb.CustomerSupportController do
       service: params["service"],
       subject: params["subject"],
       no_request_response: params["no_request_response"] == "on",
-      incident_date_time: params["date_time"]
+      incident_date_time: params["date_time"],
+      mode: params["mode"],
+      line: params["route"],
+      vehicle: params["vehicle"]
     })
+  end
+
+  @spec get_options_per_mode() :: map
+  def get_options_per_mode() do
+    bus_ferry_cr_options =
+      for route_type <- 2..4, into: %{} do
+        options =
+          Routes.Repo.by_type(route_type)
+          |> Enum.map(fn route ->
+            route.name
+          end)
+
+        mode = "#{Route.type_atom(route_type)}_options"
+        {mode, options}
+      end
+
+    subway_options =
+      Enum.map(SiteWeb.ViewHelpers.subway_lines(), fn mode ->
+        SiteWeb.ViewHelpers.mode_name(mode)
+      end)
+
+    bus_ferry_cr_options |> Map.put("subway_options", subway_options)
+  end
+
+  @spec get_routes_for_mode(Plug.Conn.t(), atom) :: list
+  def get_routes_for_mode(conn, mode) do
+    opts = conn.assigns[:all_options_per_mode]
+
+    str = Atom.to_string(mode)
+    opts["#{str}_options"] || []
   end
 
   defp set_service_options(conn, _) do
