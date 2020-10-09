@@ -24,11 +24,11 @@ defmodule Feedback.Mailer do
       <CATEGORY>#{message.subject}</CATEGORY>
       <TOPIC>#{topic(message)}</TOPIC>
       <SUBTOPIC></SUBTOPIC>
-      <MODE></MODE>
-      <LINE></LINE>
+      <MODE>#{message.mode}</MODE>
+      <LINE>#{message.line}</LINE>
       <STATION></STATION>
       <INCIDENTDATE>#{formatted_utc_timestamp(message.incident_date_time)}</INCIDENTDATE>
-      <VEHICLE></VEHICLE>
+      <VEHICLE>#{message.vehicle}</VEHICLE>
       <FIRSTNAME>#{first_name}</FIRSTNAME>
       <LASTNAME>#{last_name}</LASTNAME>
       <FULLNAME>#{full_name}</FULLNAME>
