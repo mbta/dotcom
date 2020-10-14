@@ -62,7 +62,7 @@
   // Form validation styling
   .has-danger {
     .c-radio__label::before,
-    .c-checkbox__label::before, {
+    .c-checkbox__label::before {
       border-color: $brand-danger;
     }
   }
@@ -73,7 +73,7 @@
     }
 
     .c-radio__label::before,
-    .c-checkbox__label::before, {
+    .c-checkbox__label::before {
       border-color: $brand-success;
     }
   }
@@ -94,7 +94,7 @@
 }
 
 .photo-preview-container {
-  margin-bottom: $base-spacing / 2;
+  margin-bottom: $space-24;
 
   .photo-preview {
     display: inline-block;
@@ -118,9 +118,22 @@
 }
 
 .upload-photo-link {
+  border: 2px solid $brand-primary;
+  border-radius: $base-spacing / 4;
   cursor: pointer;
+  display: inline-block;
+  height: 3rem;
+  line-height: 2.8rem;
+  text-align: center;
+  width: 21rem;
+
+  &:hover {
+    color: $brand-primary;
+    text-decoration: none;
+  }
 
   > .fa {
+    margin-bottom: 1.25rem;
     padding-right: $base-spacing / 2;
   }
 
