@@ -72,12 +72,12 @@
         </div>
       </div>
     </div>
-    <div class="form-group <%= if @errors do class_for_error("upload", @errors, "has-danger", "has-success") end %>">
+    <div class="u-padding-top form-group <%= if @errors do class_for_error("upload", @errors, "has-danger", "has-success") end %>">
       <%= support_error_tag @errors, "upload" %>
       <span id="upload-photo-error"></span>
       <div class="photo-preview-container <%= unless Map.has_key?(f.params, "photo"), do: "hidden-xs-up" %>" tabindex="-1">
       </div>
-      <a id="upload-photo-link" class="upload-photo-link" tabindex="-1"><%= fa "camera" %>Upload Photo</a>
+      <a id="upload-photo-link" class="upload-photo-link" tabindex="-1"><%= fa "camera" %>Upload photo</a>
       <%= file_input f, :photo, accept: "image/*", id: "photo" %>
     </div>
   </section>
