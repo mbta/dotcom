@@ -16,6 +16,7 @@ export default function($ = window.jQuery) {
         setupPhotoPreviews($, toUpload);
         setupTextArea();
         setupRequestResponse($);
+        setupSubject($);
         setupValidation($);
 
         handleSubmitClick($, toUpload);
@@ -195,6 +196,26 @@ export function setupTextArea() {
     },
     { passive: true }
   );
+}
+
+export function setupSubject($) {
+  const support_service_opts = JSON.parse(
+    document.getElementById("js-subjects-by-service").innerHTML
+  );
+  // show the field once a category is selected
+  $("[name='support[service]']").change(function() {
+    // remove all <options> except the first
+    $("#support_subject option")
+      .nextAll()
+      .remove();
+    const selectedCategory = $("[name='support[service]']:checked").val();
+    const selectedOptions = support_service_opts[selectedCategory];
+    if (selectedOptions) {
+      $("#support_subject").append(
+        selectedOptions.map(opt => `<option value=${opt}>${opt}</option>`)
+      );
+    }
+  });
 }
 
 function findSiblingWithClass(node, className) {

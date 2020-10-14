@@ -1,4 +1,7 @@
 <% form_action = "#{customer_support_path(@conn, :submit)}#support-result" %>
+<script id="js-subjects-by-service" type="text/plain">
+<%= raw Poison.encode!(subject_map(@service_options)) %>
+</script>
 
 <%= form_for @conn, form_action, [as: :support, multipart: true, method: :post, id: "support-form", class: "support-form"], fn f -> %>
   <h2>Email Us</h2>
@@ -18,6 +21,10 @@
         <% end %>
       </div>
     </fieldset>
+    <div class="form-group <%= class_for_error("subject", @errors, "has-danger", "has-success") %>">
+      <%= label f, :subject, "Subject", [for: "support_subject", class: "form-control-label"] %>
+      <%= select f, :subject, [], prompt: "Please choose a subject", value: "", class: "form-control c-select" %>
+    </div>
     <div class="form-group <%= class_for_error("comments", @errors, "has-danger", "has-success") %>">
       <%= support_error_tag @errors, "comments" %>
       <%= label f, :comments, "Let us know how we can help*", [for: "comments", class: "form-control-label"] %>
