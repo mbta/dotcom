@@ -6,6 +6,8 @@ defmodule SiteWeb.CustomerSupportView do
 
   import Phoenix.HTML.Tag, only: [content_tag: 2, content_tag: 3]
 
+  alias Feedback.Message
+
   def photo_info(%{
         "photo" => %Plug.Upload{path: path, filename: filename, content_type: content_type}
       }) do
@@ -43,6 +45,13 @@ defmodule SiteWeb.CustomerSupportView do
         content_tag(:p, "All fields with an asterisk* are required.")
       ]
     )
+  end
+
+  @spec subject_map([Message.service_option_with_subjects()]) ::
+          %{Message.service_value() => [Message.subject_value()]}
+  def subject_map(service_options) do
+    service_options
+    |> Enum.into(%{}, fn {_text, value, subjects} -> {value, subjects} end)
   end
 
   @spec placeholder_text(String.t()) :: String.t()
