@@ -36,7 +36,7 @@
 
     [class*='c-svg__icon'] {
       height: $icon-size-sm;
-      margin-right: 0.3rem;
+      margin-right: .3rem;
       width: $icon-size-sm;
     }
   }
@@ -79,7 +79,7 @@
     margin-top: $space-8;
     @include media-breakpoint-down(xs) {
       margin-bottom: $space-16 * 1.2;
-      margin-top: $space-16 * 0.75;
+      margin-top: $space-16 * .75;
     }
   }
 
