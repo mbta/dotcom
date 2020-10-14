@@ -7,6 +7,7 @@ import {
   clearFallbacks,
   handleUploadedPhoto,
   setupTextArea,
+  setupSubject,
   handleSubmitClick,
   rescale
 } from "../support-form";
@@ -226,6 +227,49 @@ describe("support form", () => {
     });
   });
 
+  describe("setupSubject", () => {
+    beforeEach(() => {
+      $("#test").html(`
+        <script id="js-subjects-by-service" type="text/plain">
+          ${JSON.stringify({
+            Complaint: ["complaint 1", "complaint 2"],
+            Inquiry: ["inquiry 1", "inquiry 2", "inquiry 3"]
+          })}
+        </script>
+        <div class="form-group">
+          <input type="radio" name="support[service]" value="Complaint">Complaint</input>
+          <input type="radio" name="support[service]" value="Inquiry">Question</input>
+        </div>
+        <select class="form-control c-select" id="support_subject" name="support[subject]"><option value="">Please choose a subject</option></select>
+      `);
+
+      setupSubject($);
+    });
+
+    afterEach(() => {
+      $("#test").empty();
+    });
+
+    it("changes options based on selected service", () => {
+      const servicesChoices = document.querySelectorAll(
+        "[name='support[service]']"
+      );
+      $(servicesChoices)
+        .eq(0)
+        .prop("checked", true)
+        .trigger("change");
+      const options1 = [...document.querySelectorAll("option")];
+      assert.lengthOf(options1, 3);
+      $(servicesChoices)
+        .eq(1)
+        .prop("checked", true)
+        .trigger("change");
+      const options2 = [...document.querySelectorAll("option")];
+      assert.lengthOf(options2, 4);
+      assert.notEqual(options1, options2);
+    });
+  });
+
   describe("handleSubmitClick", () => {
     var spy;
     const toUpload = [];
@@ -240,7 +284,7 @@ describe("support form", () => {
             <input name="support[service]" value="Complaint">Complaint</input>
             <input name="support[service]" value="Suggestion">Comment</input>
             <input name="support[service]" value="Inquiry">Question</input>
-            <input name="support[service]" value="Inquiry">Request</input>
+            <input name="support[service]" value="Commendation">Request</input>
             <div class="support-comments-error-container hidden-xs-up" tabindex="-1"><div class="support-comments-error"></div></div>
             <textarea name="support[comments]" id="comments"></textarea>
             <input name="support[photo]" id="photo" type="file" />
