@@ -48,7 +48,7 @@ defmodule SiteWeb.CustomerSupportView do
   end
 
   @spec subject_map([Message.service_option_with_subjects()]) ::
-          {Message.service_value(), [Message.subject_value()]}
+          %{Message.service_value() => [Message.subject_value()]}
   def subject_map(service_options) do
     service_options
     |> Enum.into(%{}, fn {_text, value, subjects} -> {value, subjects} end)
