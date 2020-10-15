@@ -10,7 +10,8 @@ import {
   setupSubject,
   handleSubmitClick,
   rescale,
-  handleModeChangeSelection
+  handleModeChangeSelection,
+  handleSubjectChange
 } from "../support-form";
 import testConfig from "../../ts/jest.config";
 
@@ -571,7 +572,56 @@ describe("support form", () => {
       event.initEvent("change", false, false);
       sortBySelect.dispatchEvent(event);
 
-      assert.isFalse($("#routeAndVehicle").is(":visible"));
+      // $("#...").is(":visible") doesn't detect visibility so we need to use the 'display' CSS property instead:
+      assert.equal($("#routeAndVehicle").css("display"), "none");
+    });
+  });
+
+  describe("handleSubjectChange function: show or hide the 'CharlieCard or Ticket number' field depending on the subject", () => {
+    beforeEach(() => {
+      $("#test").html(`
+       <select class="c-select c-mode-selector" id="support_subject">
+         <option value>Please choose a subject</option>
+         <option value="Bus%20Stop">Bus Stop</option>
+         <option value="CharlieCards%20%26%20Tickets">CharlieCards &amp; Tickets</option>
+       </select>
+       <div id="charlie-card-or-ticket-number" class="form-group">
+        <label class="form-control-label" for="support_ticket_number">CharlieCard or Ticket number (optional)</label>
+        <input class="support-form-text-input support-form-text-input--small form-control" id="support_ticket_number" name="support[ticket_number]" type="text">
+       </div>
+     `);
+      handleSubjectChange($);
+    });
+
+    afterEach(() => {
+      $("#test").remove();
+    });
+
+    it("shows the 'CharlieCard or Ticket number' field when selecting 'CharlieCards & Tickets' in the subject", () => {
+      // initEvent is deprecated and no longer recommended but the newer way of triggering events nor jQuery's .change() were triggering a change in the selection
+
+      const sortBySelect = document.querySelector("select.c-mode-selector");
+      sortBySelect.value = "CharlieCards%20%26%20Tickets";
+      const event = document.createEvent("HTMLEvents");
+      event.initEvent("change", false, false);
+      sortBySelect.dispatchEvent(event);
+
+      assert.notEqual(
+        $("#charlie-card-or-ticket-number").css("display"),
+        "none"
+      );
+    });
+
+    it("does not show the 'CharlieCard or Ticket number' field since subject selected is not 'CharlieCards & Tickets'", () => {
+      // initEvent is deprecated and no longer recommended but the newer way of triggering events nor jQuery's .change() were triggering a change in the selection
+
+      const sortBySelect = document.querySelector("select.c-mode-selector");
+      sortBySelect.value = "Bus%20Stop";
+      const event = document.createEvent("HTMLEvents");
+      event.initEvent("change", false, false);
+      sortBySelect.dispatchEvent(event);
+
+      assert.equal($("#charlie-card-or-ticket-number").css("display"), "none");
     });
   });
 });
