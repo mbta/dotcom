@@ -305,7 +305,8 @@ defmodule SiteWeb.CustomerSupportController do
       incident_date_time: params["date_time"],
       mode: params["mode"],
       line: params["route"],
-      vehicle: params["vehicle"]
+      vehicle: params["vehicle"],
+      ticket_number: params["ticket_number"]
     })
   end
 

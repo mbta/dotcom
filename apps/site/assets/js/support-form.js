@@ -20,8 +20,8 @@ export default function($ = window.jQuery) {
         setupValidation($);
 
         handleSubmitClick($, toUpload);
-
         handleModeChangeSelection($);
+        handleSubjectChange($);
       });
     },
     { passive: true }
@@ -273,7 +273,9 @@ export function setupSubject($) {
     const selectedOptions = support_service_opts[selectedCategory];
     if (selectedOptions) {
       $("#support_subject").append(
-        selectedOptions.map(opt => `<option value=${opt}>${opt}</option>`)
+        selectedOptions.map(
+          opt => `<option value=${encodeURIComponent(opt)}>${opt}</option>`
+        )
       );
     }
   });
@@ -466,6 +468,11 @@ export function handleSubmitClick($, toUpload) {
       .forEach(({ name: name, value: value }) => {
         formData.append(name, value);
       });
+
+    // overwrite subject value with the decoded content:
+    const encodedSubjectValue = formData.get("support[subject]");
+    formData.set("support[subject]", decodeURIComponent(encodedSubjectValue));
+
     toUpload.forEach(photo => {
       formData.append("support[photos][]", photo, photo.name);
     });
@@ -490,5 +497,18 @@ export function handleSubmitClick($, toUpload) {
         reactivateSubmitButton($);
       }
     });
+  });
+}
+
+export function handleSubjectChange($) {
+  $("#charlie-card-or-ticket-number").hide();
+  const subjectEl = document.getElementById("support_subject");
+  subjectEl.addEventListener("change", ev => {
+    const optionText = ev.target.options[ev.target.selectedIndex].text;
+    if (ev.target.value === encodeURIComponent("CharlieCards & Tickets")) {
+      $("#charlie-card-or-ticket-number").show();
+    } else {
+      $("#charlie-card-or-ticket-number").hide();
+    }
   });
 }
