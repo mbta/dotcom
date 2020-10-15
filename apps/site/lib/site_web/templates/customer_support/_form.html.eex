@@ -27,6 +27,10 @@
       <%= label f, :subject, "Subject", [for: "support_subject", class: "form-control-label"] %>
       <%= select f, :subject, [], prompt: "Please choose a subject", value: "", class: "form-control c-select" %>
     </div>
+    <div id="charlie-card-or-ticket-number" class="form-group">
+      <%= label f, :ticket_number, "CharlieCard or Ticket number (optional)", [class: "form-control-label"] %>
+      <%= text_input f, :ticket_number, class: "support-form-text-input support-form-text-input--small form-control" %>
+    </div>
     <div class="form-group <%= class_for_error("comments", @errors, "has-danger", "has-success") %>">
       <%= support_error_tag @errors, "comments" %>
       <%= label f, :comments, "Let us know how we can help*", [for: "comments", class: "form-control-label"] %>
