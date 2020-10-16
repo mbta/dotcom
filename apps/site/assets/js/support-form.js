@@ -1,4 +1,5 @@
 /* eslint-disable */
+import Filter from "bad-words";
 
 export default function($ = window.jQuery) {
   document.addEventListener(
@@ -461,9 +462,13 @@ export function handleSubmitClick($, toUpload) {
     }
     deactivateSubmitButton($);
     const formData = new FormData();
+    const filter = new Filter();
     $("#support-form")
       .serializeArray()
       .forEach(({ name: name, value: value }) => {
+        if (name === "support[comments]") {
+          value = filter.clean(value);
+        }
         formData.append(name, value);
       });
     toUpload.forEach(photo => {
