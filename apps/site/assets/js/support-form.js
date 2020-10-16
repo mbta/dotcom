@@ -40,7 +40,7 @@ export function handleModeChangeSelection($) {
   };
 
   // initially hide the choices for route and vehicle
-  $("#routeAndVehicle").hide();
+  $("#route-and-vehicle").hide();
 
   const modeSelect = document.getElementById("support_mode");
   modeSelect.addEventListener(
@@ -63,7 +63,7 @@ export function handleModeChangeSelection($) {
       const opts = modeOptions[`${key}_options`];
 
       if (!!opts) {
-        $("#routeAndVehicle").show();
+        $("#route-and-vehicle").show();
         // update label:
         $("#vehicleLabel").text(`${vehicleLabels[key]} number`);
 
@@ -80,7 +80,7 @@ export function handleModeChangeSelection($) {
           routeSelect.appendChild(opt);
         });
       } else {
-        $("#routeAndVehicle").hide();
+        $("#route-and-vehicle").hide();
       }
     },
     { passive: true }
