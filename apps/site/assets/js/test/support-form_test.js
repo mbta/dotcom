@@ -565,7 +565,7 @@ describe("support form", () => {
          <option value="opt1">opt1</option>
          <option value="opt2">opt2</option>
        </select>
-       <div id="routeAndVehicle">
+       <div id="route-and-vehicle">
         <select class="c-select c-route-selector" id="support_route"></select>
        </div>
      `);
@@ -601,7 +601,7 @@ describe("support form", () => {
       sortBySelect.dispatchEvent(event);
 
       // $("#...").is(":visible") doesn't detect visibility so we need to use the 'display' CSS property instead:
-      assert.equal($("#routeAndVehicle").css("display"), "none");
+      assert.equal($("#route-and-vehicle").css("display"), "none");
     });
   });
 
