@@ -54,7 +54,7 @@
         <%= select(f, :mode, get_all_modes(), class: "c-select c-mode-selector") %>
       </div>
     </div>
-    <div id="routeAndVehicle" class="form-group m-schedule-line__connection-line">
+    <div id="route-and-vehicle" class="form-group m-schedule-line__connection-line">
       <div class="c-mode-selector">
         <%= label f, "Route", [for: "support_route", class: "form-control-label"] %>
         <div class="plan-time-select">
