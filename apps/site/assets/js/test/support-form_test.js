@@ -3,6 +3,7 @@ import jsdom from "mocha-jsdom";
 import { File } from "file-api";
 import "custom-event-autopolyfill";
 import sinon from "sinon";
+import { cloneDeep } from "lodash";
 import {
   clearFallbacks,
   handleUploadedPhoto,
@@ -521,6 +522,33 @@ describe("support form", () => {
       // getAll returns [ "[object Object]", "[object Object]" ]
       // not sure how to recover actual values
       assert.equal(photos.length, toUpload.length);
+    });
+
+    it("passes comment thru profanity filter", () => {
+      const Filter = require("bad-words");
+      const f = new Filter();
+      f.addWords("redsox");
+      const fakeCleanFn = f.clean.bind(cloneDeep(f)); // need to copy it so it's not stubbed by sinon
+      const profanityStub = sinon
+        .stub(Filter.prototype, "clean")
+        .callsFake(fakeCleanFn);
+
+      $('[name="support[service]"][value="Commendation"]').attr(
+        "checked",
+        true
+      );
+      $("#comments").val("the redsox win");
+      $("#no_request_response").attr("checked", true);
+      $("#g-recaptcha-response").val("response");
+      $("#support-submit").click();
+      const censoredComments = spy.firstCall.args[0].data.getAll(
+        "support[comments]"
+      )[0];
+
+      assert.equal(profanityStub.callCount, 1);
+      assert.equal(censoredComments, "the ****** win");
+
+      profanityStub.restore();
     });
   });
 
