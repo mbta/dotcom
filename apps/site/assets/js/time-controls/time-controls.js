@@ -162,6 +162,9 @@ export function init() {
   const $ = window.jQuery;
   $(document).on("turbolinks:load", async () => {
     const formDataEl = document.getElementById("form-data");
+
+    if (!formDataEl) return;
+
     const formData = JSON.parse(formDataEl.innerHTML);
     const { formId } = formData;
     TimeControls.SELECTORS = await getSelectorFields(".", formId);
