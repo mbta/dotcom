@@ -7,8 +7,8 @@
           <div class="support-confirmation support-confirmation--success <%= if @show_form, do: "hidden-xs-up" %>" id="<%= if !show_error_message(@conn), do: "support-result" %>">
             <%= fa "check-circle" %>
             Thank you for your feedback.
+            <p>Your comments have been sent to our Customer Support team.</p>
           </div>
-          <p>Your comments have been sent to our Customer Support team.</p>
         </div>
         <div class="support-confirmation support-confirmation--error <%= if !show_error_message(@conn), do: "hidden-xs-up" %>" tabindex="-1">
           <div id="<%= if show_error_message(@conn), do: "support-result" %>">
