@@ -2,13 +2,12 @@
 <% header_id = "header-#{@id}" %>
 <% panel_id = "panel-#{@id}" %>
 
-<a class="c-expandable-block__link"
-  href="#<%= panel_id %>"
+<button class="c-expandable-block__link"
+  data-target="#<%= panel_id %>"
   tabIndex="0"
   id="<%= header_id %>"
   aria-expanded="<%= @initially_expanded %>"
   aria-controls="<%= panel_id %>"
-  role="button"
   data-toggle="collapse">
   <h3 class="c-expandable-block__header">
     <%= if @header.iconSvgText do %>
@@ -19,7 +18,7 @@
       <span class="c-expandable-block-caret"></span>
     </div>
   </h3>
-</a>
+</button>
 <div
   class="c-expandable-block__panel collapse<%= if @initially_expanded do %> in<% end %> js-focus-on-expand"
   tabIndex="0"
