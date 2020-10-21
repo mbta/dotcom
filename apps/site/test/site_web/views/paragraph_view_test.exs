@@ -663,8 +663,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
         {_,
          [
            _,
-           {"href", href_1},
-           _,
+           {"data-target", href_1},
            _,
            {"aria-controls", aria_controls_1},
            _,
@@ -673,8 +672,7 @@ defmodule SiteWeb.CMS.ParagraphViewTest do
         {_,
          [
            _,
-           {"href", href_2},
-           _,
+           {"data-target", href_2},
            _,
            {"aria-controls", aria_controls_2},
            _,

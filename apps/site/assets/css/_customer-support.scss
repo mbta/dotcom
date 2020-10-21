@@ -193,8 +193,15 @@ body {
 }
 
 .c-expandable-block__link {
+  background-color: transparent;
+  border: 0;
   color: inherit;
+  margin-top: 1.075em;
+  padding: 0;
+  text-align: left;
   text-decoration: none;
+  width: 100%;
+
   &:hover {
     text-decoration: inherit;
   }
@@ -203,8 +210,8 @@ body {
   }
 }
 
-
-a:first-of-type > h3 {
+.c-expandable-block__link > h3,
+.c-expandable-block__link:nth-of-type(1) {
   margin-top: 0;
 }
 
