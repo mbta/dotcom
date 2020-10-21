@@ -147,6 +147,7 @@
 
   .btn {
     margin: 1em $half-gutter / 2 0;
+    white-space: normal;
 
     @include media-breakpoint-down(sm) {
       white-space: normal;
