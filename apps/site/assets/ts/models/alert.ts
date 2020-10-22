@@ -11,6 +11,18 @@ export const isDiversion = ({ effect }: Alert): boolean =>
   effect === "station_closure" ||
   effect === "detour";
 
+export const alertsByStop = (alerts: Alert[], stopId: string): Alert[] =>
+  alerts.filter(
+    ({ informed_entity: entities }: Alert): boolean =>
+      !!entities.stop && entities.stop!.some((id: string) => id === stopId)
+  );
+
+export const uniqueByEffect = (
+  alert: Alert,
+  index: number,
+  alerts: Alert[]
+): boolean => alerts.findIndex(a => a.effect === alert.effect) === index;
+
 const withLeadingZero = (n: string): string => `0${n}`.slice(-2);
 
 const activePeriodToDates = (
