@@ -1,8 +1,9 @@
-import { Alert } from "../../__v3api";
+import { Alert, InformedEntitySet } from "../../__v3api";
 import {
   isHighSeverityOrHighPriority,
-  isDiversion,
-  isCurrentAlert
+  isCurrentAlert,
+  alertsByStop,
+  uniqueByEffect
 } from "../alert";
 
 const testDate = new Date("2020-09-10T09:00");
@@ -48,7 +49,7 @@ test.each`
   }
 );
 
-test.only.each`
+test.each`
   alert     | isCurrent
   ${alert1} | ${true}
   ${alert2} | ${true}
@@ -64,3 +65,38 @@ test.only.each`
     }
   }
 );
+
+test("alertsByStop finds alerts affecting a certain stop", () => {
+  const alert_two = {
+    ...alert2,
+    informed_entity: { stop: ["place-sstat"] } as InformedEntitySet
+  };
+  const alert_three = {
+    ...alert3,
+    informed_entity: { stop: ["place-sstat"] } as InformedEntitySet
+  };
+  const alerts = [
+    { ...alert1, informed_entity: { stop: null } as InformedEntitySet },
+    alert_two,
+    alert_three,
+    { ...alert4, informed_entity: { stop: null } as InformedEntitySet }
+  ];
+  const alertsForStop = alertsByStop(alerts, "place-sstat");
+  expect(alertsForStop).toEqual([alert_two, alert_three]);
+});
+
+test("uniqueByEffect enables filtering to unique effects", () => {
+  const alerts = [
+    { effect: "shuttle" } as Alert,
+    { effect: "detour" } as Alert,
+    { effect: "detour" } as Alert,
+    { effect: "shuttle" } as Alert,
+    { effect: "unknown" } as Alert
+  ];
+  expect(alerts.filter(uniqueByEffect)).toHaveLength(3);
+  expect(alerts.filter(uniqueByEffect).map(a => a.effect)).toEqual([
+    "shuttle",
+    "detour",
+    "unknown"
+  ]);
+});

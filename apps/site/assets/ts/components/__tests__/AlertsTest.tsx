@@ -7,7 +7,7 @@ import Alerts, {
   humanLabelForAlert
 } from "../Alerts";
 import { enzymeToJsonWithoutProps } from "../../app/helpers/testUtils";
-import { Alert } from "../../__v3api";
+import { Alert, InformedEntitySet } from "../../__v3api";
 
 /* eslint-disable @typescript-eslint/camelcase */
 const body = '<div id="react-root"></div>';
@@ -18,7 +18,7 @@ const highAlert: Alert = {
   priority: "high",
   lifecycle: "new",
   active_period: [],
-  informed_entity: [],
+  informed_entity: {} as InformedEntitySet,
   id: "304666",
   header:
     'Route 170 will be rerouted at certain times during the Marathon on Monday, April 15. More: <a href="https://mbta.com/marathon">mbta.com/marathon</a>',
@@ -34,7 +34,7 @@ const lowAlert: Alert = {
   priority: "low",
   lifecycle: "upcoming",
   active_period: [],
-  informed_entity: [],
+  informed_entity: {} as InformedEntitySet,
   id: "00005",
   header: "There is construction at this station.",
   effect: "other",

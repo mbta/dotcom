@@ -249,12 +249,6 @@ $xxl-map-height: map-get($container-max-widths, xxl) * (9 / 16);
   }
 }
 
-.m-tnm-sidebar__route-alert-effect {
-  background: $white;
-  box-shadow: 0 $space-2 $space-4 $drop-shadow-color;
-  margin-bottom: $base-spacing / 2;
-}
-
 .m-tnm-sidebar__route-alert {
   display: block;
   height: $base-spacing * 1.25;

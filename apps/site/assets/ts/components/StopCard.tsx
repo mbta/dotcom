@@ -4,8 +4,10 @@ import { clickStopCardAction, Dispatch } from "../tnm/state";
 import Direction from "./Direction";
 import renderSvg from "../helpers/render-svg";
 import { useSMDown } from "../helpers/media-breakpoints";
-import { accessibleIcon } from "../helpers/icon";
+import { accessibleIcon, alertIcon } from "../helpers/icon";
 import stationSymbol from "../../static/images/icon-circle-t-small.svg";
+import { effectNameForAlert } from "./Alerts";
+import { isDiversion, alertsByStop, uniqueByEffect } from "../models/alert";
 
 interface Props {
   stop: Stop;
@@ -80,6 +82,19 @@ export const StopCard = ({
         </a>
         <div className="m-tnm-sidebar__stop-distance">{distance}</div>
       </div>
+      {alertsByStop(route.alerts.filter(isDiversion), stop.id)
+        .filter(uniqueByEffect)
+        .map(alert => (
+          <div key={alert.id} className="m-tnm-sidebar__route-alert-effect">
+            <a
+              className="m-stop-page__departures-alert"
+              href={`/schedules/${route.id}/alerts`}
+            >
+              {alertIcon("c-svg__icon-alerts-triangle")}
+              {effectNameForAlert(alert)}
+            </a>
+          </div>
+        ))}
       {directions.map(direction => (
         <Direction
           key={`${key}-${direction.direction_id}`}

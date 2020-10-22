@@ -220,6 +220,15 @@ export interface InformedEntity {
   direction_id: DirectionId | null;
   activities: Activity[];
 }
+export interface InformedEntitySet {
+  route: string[] | null;
+  route_type: string[] | null;
+  stop: string[] | null;
+  trip: string[] | null;
+  direction_id: DirectionId[] | null;
+  activities: Activity[];
+  entities: InformedEntity[];
+}
 
 export type TimePeriodPairs = [string, string];
 
@@ -227,7 +236,7 @@ export interface Alert {
   id: string;
   active_period: TimePeriodPairs[];
   header: string;
-  informed_entity: InformedEntity[];
+  informed_entity: InformedEntitySet;
   effect: string;
   severity: number;
   lifecycle: Lifecycle;

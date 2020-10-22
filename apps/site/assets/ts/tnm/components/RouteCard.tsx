@@ -11,9 +11,6 @@ import { directionIsEmpty } from "../../components/Direction";
 import { modeByV3ModeType } from "../../components/ModeFilter";
 import RouteCardHeader from "../../components/RouteCardHeader";
 import { isABusRoute } from "../../models/route";
-import { isDiversion } from "../../models/alert";
-import { alertIcon } from "../../helpers/icon";
-import { effectNameForAlert } from "../../components/Alerts";
 
 interface Props {
   route: RouteWithStopsWithDirections;
@@ -52,18 +49,6 @@ const RouteCard = ({
   return (
     <div className="m-tnm-sidebar__route" data-mode={mode}>
       <RouteCardHeader route={route.route} hasAlert={hasAlert} />
-      {route.route.alerts.filter(isDiversion).map(alert => (
-        <div className="m-tnm-sidebar__route-alert-effect">
-          <a
-            key={alert.id}
-            className="m-stop-page__departures-alert"
-            href={`/schedules/${route.route.id}/alerts`}
-          >
-            {alertIcon("c-svg__icon-alerts-triangle")}
-            {effectNameForAlert(alert)}
-          </a>
-        </div>
-      ))}
       {filterStops(route).map(
         stopWithDirections =>
           !everyDirectionIsEmpty(stopWithDirections.directions) && (
