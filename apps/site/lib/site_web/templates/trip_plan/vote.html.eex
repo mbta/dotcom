@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
+
+<script id="js-vote-data" type="text/plain">
+  <%= raw Poison.encode!(%{polling_locations: []}) %>
+</script>
+
+<div class="container">
+  <h1>Find Your Polling Location</h1>
+  <div id="react-vote-root">
+    <%= render_react(%{pollingLocations: []}) %>
+  </div>
+</div>
+
+<%= if Application.get_env(:site, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/vote.js" %>"></script>
+<% else %>
+  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+  <script defer src="<%= static_url(@conn, "/js/vote.js") %>"></script>
+<% end %>
