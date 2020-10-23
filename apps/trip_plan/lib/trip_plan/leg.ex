@@ -79,7 +79,7 @@ defmodule TripPlan.Leg do
   @spec stop_is_silver_line_airport?([t], atom) :: boolean()
   def stop_is_silver_line_airport?([], _), do: false
 
-  def stop_is_silver_line_airport?([leg], key) do
+  def stop_is_silver_line_airport?([leg], key) when not is_nil(leg) do
     route_id = leg.mode.route_id
 
     stop_id =
