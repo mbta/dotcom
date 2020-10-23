@@ -25,6 +25,7 @@ export interface MapMarker {
   z_index?: number;
   shape_id?: string;
   vehicle_crowding?: CrowdingType;
+  onClick?: () => void;
 }
 
 export interface Polyline {

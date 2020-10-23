@@ -104,7 +104,6 @@ const TripPlannerPage = ({ mapData }: Props): ReactElement<HTMLElement> => {
     };
   });
   const bounds = state.markers.length ? getBounds(state.markers) : undefined;
-
   return (
     <LeafletMap
       bounds={bounds}
