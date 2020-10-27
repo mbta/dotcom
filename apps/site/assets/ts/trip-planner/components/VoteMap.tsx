@@ -29,8 +29,8 @@ const VoteMap = (): ReactElement<HTMLElement> => {
     () => {
       return (
         fromLocation &&
-        precincts.find(x => {
-          return x.path.some(y =>
+        precincts.find((x) => {
+          return x.path.some((y) =>
             polygonContains(y, [fromLocation.longitude, fromLocation.latitude])
           );
         })
@@ -40,7 +40,7 @@ const VoteMap = (): ReactElement<HTMLElement> => {
   );
   React.useEffect(
     () => {
-      document.addEventListener("vote:update-from", e => {
+      document.addEventListener("vote:update-from", (e) => {
         // @ts-ignore
         setFromLocation(e.detail);
       });
@@ -81,7 +81,7 @@ const VoteMap = (): ReactElement<HTMLElement> => {
                   precinct.formatted_address
                 )}&plan[to_latitude]=${precinct.lat}&plan[to_longitude]=${
                   precinct.lng
-                }&plan[time]=depart`}
+                }&plan[time]=depart&plan[modes][subway]=true&plan[modes][commuter_rail]=true&plan[modes][bus]=true&plan[modes][ferry]=true`}
               >
                 <button
                   type="button"
@@ -123,14 +123,14 @@ const VoteMap = (): ReactElement<HTMLElement> => {
                       longitude: precinct.lng,
                       latitude: precinct.lat,
                       rotation_angle: 0,
-                      tooltip: null
-                    }
+                      tooltip: null,
+                    },
                   ]
                 : [],
               polylines: [],
               tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com",
               width: 735,
-              zoom: 12
+              zoom: 12,
             } // eslint-disable-next-line @typescript-eslint/camelcase
           }
         />
