@@ -178,6 +178,7 @@ defmodule SiteWeb.Router do
     get("/trip-planner", TripPlanController, :index)
     get("/trip-planner/to/", Redirector, to: "/trip-planner")
     get("/trip-planner/to/:address", TripPlanController, :to)
+    get("/vote", TripPlanController, :vote)
     get("/customer-support", CustomerSupportController, :index)
     get("/customer-support/thanks", CustomerSupportController, :thanks)
     post("/customer-support", CustomerSupportController, :submit)

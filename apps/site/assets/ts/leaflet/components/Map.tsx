@@ -121,6 +121,7 @@ const Component = ({
             ref={ref => ref && rotateMarker(ref.leafletElement, marker)}
             zIndexOffset={marker.z_index}
             keyboard={false}
+            onclick={marker.onClick}
           >
             {marker.tooltip && <Popup maxHeight={175}>{marker.tooltip}</Popup>}
           </Marker>
