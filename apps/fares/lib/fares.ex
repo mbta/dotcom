@@ -96,9 +96,9 @@ defmodule Fares do
   end
 
   defp calculate_combo(combo_zone, other_zone, _other_stop_id) do
-    combo_zone
-    |> Zone.general_zone()
-    |> calculate_commuter_rail(other_zone)
+    general_combo_zone = Zone.general_zone(combo_zone)
+    general_other_zone = Zone.general_zone(other_zone)
+    calculate_commuter_rail(general_combo_zone, general_other_zone)
   end
 
   def calculate_foxboro_zones(start_zone, "1A") when start_zone != "1A" do
