@@ -30,6 +30,11 @@ defmodule SiteWeb.TripPlanController do
     render(conn, :index)
   end
 
+  def vote(conn, _params) do
+    conn
+    |> render("vote.html")
+  end
+
   @spec render_plan(Plug.Conn.t(), map) :: Plug.Conn.t()
   defp render_plan(conn, plan) do
     query =

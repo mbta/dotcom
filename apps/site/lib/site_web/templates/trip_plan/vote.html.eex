@@ -1,0 +1,38 @@
+<link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
+
+<div class="container">
+  <h1>Find Your Polling Location</h1>
+  <p>November 3 is the last day to vote. Find your polling location below. Please note this doesn't include <a href="https://www.sec.state.ma.us/ele/eleev/ev-find-my-election-office.htm">dropbox locations</a>.</p>
+  <p><a href="https://www.sec.state.ma.us/ele/eleidx.htm">Learn more about voting and elections in Massachusetts</a></p>
+  <p>We're piloting this tool for the 2020 election. You can also use our regular <a href="/trip-planner">Trip Planner</a> to find directions to your polling location.</p>
+  <div class="row" style="display: flex;">
+    <div class="col-12 col-md-4 mt-0 mb-0 h-100 callout">
+      <h5 class="c-search-bar__header">Your Address</label>
+      <%=
+        content_tag(:div, [
+          SiteWeb.PartialView.render("_search_input.html",
+            Map.merge(assigns, %{
+              placeholder: "Search for address",
+              aria_label: "Search for an address",
+              prefix: "address"
+          }))
+        ], class: "hidden-no-js", class: "c-search-bar")
+      %>
+      <div id="address-search__autocomplete" class="c-search-bar__results"></div>
+      <div id="address-search__results" class="c-search-bar__results"></div>
+      <div id="results-portal"></div>
+    </div>
+    <div class="col-12 col-md-8">
+      <div id="react-vote-root">
+        <%= render_react(%{pollingLocations: []}) %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= if Application.get_env(:site, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/vote.js" %>"></script>
+<% else %>
+  <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+  <script defer src="<%= static_url(@conn, "/js/vote.js") %>"></script>
+<% end %>
