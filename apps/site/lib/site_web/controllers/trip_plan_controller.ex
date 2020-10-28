@@ -32,6 +32,10 @@ defmodule SiteWeb.TripPlanController do
 
   def vote(conn, _params) do
     conn
+    |> assign(
+      :og_image,
+      "https://cdn.mbta.com/sites/default/files/media/2020-10/vote-promo-graphic.png"
+    )
     |> render("vote.html")
   end
 
