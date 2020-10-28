@@ -7,5 +7,6 @@ module.exports = {
         corejs: 2
       }
     ]
-  ]
+  ],
+  plugins: ["@babel/plugin-syntax-dynamic-import"]
 };
