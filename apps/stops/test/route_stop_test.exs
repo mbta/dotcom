@@ -12,6 +12,7 @@ defmodule Stops.RouteStopTest do
   @green_e_route %Route{id: "Green-E", type: 1}
   @orange_route %Route{id: "Orange", type: 1}
   @red_route %Route{id: "Red", type: 1}
+  @newburyport_route %Route{id: "CR-Newburyport", type: 0}
 
   describe "list_from_route_patterns/2" do
     test "Orange line (1 branch), direction 0" do
@@ -681,6 +682,151 @@ defmodule Stops.RouteStopTest do
                  false,
                  false
                ]
+    end
+
+    test "CR-Newburyport, direction 0" do
+      newburyport_route_pattern = %RoutePattern{
+        direction_id: 0,
+        id: "CR-Newburyport-801f0591-0",
+        name: "North Station - Newburyport",
+        representative_trip_id: "CR-Weekday-Summer-20-159",
+        route_id: "CR-Newburyport",
+        time_desc: nil,
+        typicality: 1
+      }
+
+      rockport_route_pattern = %RoutePattern{
+        direction_id: 0,
+        id: "CR-Newburyport-0d0a9699-0",
+        name: "North Station - Rockport",
+        representative_trip_id: "CR-Weekday-Summer-20-105",
+        route_id: "CR-Newburyport",
+        time_desc: nil,
+        typicality: 1
+      }
+
+      shuttle_route_pattern = %RoutePattern{
+        direction_id: 0,
+        id: "Shuttle-RockportWestGloucester-0-0",
+        name: "West Gloucester - Rockport",
+        representative_trip_id: "CR-Weekday-Summer-20-103-RockportWestGloucester1",
+        route_id: "Shuttle-RockportWestGloucester",
+        time_desc: nil,
+        typicality: 1
+      }
+
+      newburyport_stops =
+        make_stops(
+          ~w(place-north place-ER-0046 place-ER-0099 place-ER-0115 place-ER-0128 place-ER-0168 place-ER-0183 place-ER-0208 place-ER-0227 place-ER-0276 place-ER-0312 place-ER-0362)s
+        )
+
+      rockport_stops =
+        make_stops(
+          ~w(place-north place-ER-0046 place-ER-0099 place-ER-0115 place-ER-0128 place-ER-0168 place-ER-0183 place-GB-0198 place-GB-0222 place-GB-0229 place-GB-0254 place-GB-0296)s
+        )
+
+      shuttle_stops = make_stops(~w(place-GB-0296 place-GB-0316 place-GB-0353)s)
+
+      route_patterns_with_stops = [
+        {newburyport_route_pattern, newburyport_stops},
+        {rockport_route_pattern, rockport_stops},
+        {shuttle_route_pattern, shuttle_stops}
+      ]
+
+      actual = list_from_route_patterns(route_patterns_with_stops, @newburyport_route, 0)
+
+      assert_stop_ids(
+        actual,
+        ~w(place-north place-ER-0046 place-ER-0099 place-ER-0115 place-ER-0128 place-ER-0168 place-ER-0183 place-GB-0198 place-GB-0222 place-GB-0229 place-GB-0254 place-GB-0296 place-GB-0316 place-GB-0353 place-ER-0208 place-ER-0227 place-ER-0276 place-ER-0312 place-ER-0362)s
+      )
+
+      assert_branch_names(actual, [
+        nil,
+        nil,
+        nil,
+        nil,
+        nil,
+        nil,
+        nil,
+        "North Station - Rockport",
+        "North Station - Rockport",
+        "North Station - Rockport",
+        "North Station - Rockport",
+        "North Station - Rockport",
+        "North Station - Rockport",
+        "North Station - Rockport",
+        "North Station - Newburyport",
+        "North Station - Newburyport",
+        "North Station - Newburyport",
+        "North Station - Newburyport",
+        "North Station - Newburyport"
+      ])
+    end
+
+    test "CR-Newburyport, direction 1" do
+      newburyport_route_pattern = %RoutePattern{
+        direction_id: 1,
+        id: "CR-Newburyport-0746071c-1",
+        name: "Newburyport - North Station",
+        representative_trip_id: "CR-Weekday-Summer-20-164",
+        route_id: "CR-Newburyport",
+        time_desc: nil,
+        typicality: 1
+      }
+
+      rockport_route_pattern = %RoutePattern{
+        direction_id: 1,
+        id: "CR-Newburyport-cba33080-1",
+        name: "Rockport - North Station",
+        representative_trip_id: "CR-Weekday-Summer-20-108",
+        route_id: "CR-Newburyport",
+        time_desc: nil,
+        typicality: 1
+      }
+
+      newburyport_stops =
+        make_stops(
+          ~w(place-ER-0362 place-ER-0312 place-ER-0276 place-ER-0227 place-ER-0208 place-ER-0183 place-ER-0168 place-ER-0128 place-ER-0115 place-ER-0099 place-ER-0046 place-north)s
+        )
+
+      rockport_stops =
+        make_stops(
+          ~w(place-GB-0353 place-GB-0316 place-GB-0296 place-GB-0254 place-GB-0229 place-GB-0222 place-GB-0198 place-ER-0183 place-ER-0168 place-ER-0128 place-ER-0115 place-ER-0099 place-ER-0046 place-north)s
+        )
+
+      route_patterns_with_stops = [
+        {newburyport_route_pattern, newburyport_stops},
+        {rockport_route_pattern, rockport_stops}
+      ]
+
+      actual = list_from_route_patterns(route_patterns_with_stops, @newburyport_route, 1)
+
+      assert_stop_ids(
+        actual,
+        ~w(place-ER-0362 place-ER-0312 place-ER-0276 place-ER-0227 place-ER-0208 place-GB-0353 place-GB-0316 place-GB-0296 place-GB-0254 place-GB-0229 place-GB-0222 place-GB-0198 place-ER-0183 place-ER-0168 place-ER-0128 place-ER-0115 place-ER-0099 place-ER-0046 place-north)s
+      )
+
+      assert_branch_names(actual, [
+        "Newburyport - North Station",
+        "Newburyport - North Station",
+        "Newburyport - North Station",
+        "Newburyport - North Station",
+        "Newburyport - North Station",
+        "Rockport - North Station",
+        "Rockport - North Station",
+        "Rockport - North Station",
+        "Rockport - North Station",
+        "Rockport - North Station",
+        "Rockport - North Station",
+        "Rockport - North Station",
+        nil,
+        nil,
+        nil,
+        nil,
+        nil,
+        nil,
+        nil
+      ])
     end
 
     test "Hingham/Hull Ferry, direction 0" do
