@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+"""
+Make a new GitHub release for a production deploy.
+
+Usage:
+    release
+    release -h | --help
+"""
+
+import lib.git as git
+import lib.input as input
+import lib.tag as tag
+import sys
+
+
+def main():
+    if not git.current_branch() == "master":
+        sys.exit("Error: You need to be on master to run this script.")
+
+    if not git.clean_status():
+        sys.exit("Error: Git needs to be clean to run this script.")
+
+    latest_tag = git.latest_tag()
+
+    deploy_sha = input.with_default("Commit to deploy", git.current_commit())
+
+    deploy_tag = input.with_default("Tag to apply", tag.date_tag(latest_tag))
+
+    previous_tag = input.with_default("Tag for last deploy", latest_tag)
+
+    print("")
+    print("Make a new release:")
+    print("https://github.com/mbta/dotcom/releases/new")
+    print("")
+    print("Tag version: %s" % (deploy_tag))
+    print("Target commit: %s" % (deploy_sha))
+    print("Release title: %s" % (deploy_tag))
+    print("")
+    print("Body:")
+    print(git.log_between(git.sha_for_tag(previous_tag), deploy_sha))
+    print("")
+    
+
+if __name__ == '__main__':
+    main()
