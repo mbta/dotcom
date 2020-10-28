@@ -7,7 +7,7 @@
   <p>We're piloting this tool for the 2020 election. You can also use our regular <a href="/trip-planner">Trip Planner</a> to find directions to your polling location.</p>
   <div class="row" style="display: flex;">
     <div class="col-12 col-md-4 mt-0 mb-0 h-100 callout">
-      <h5 class="c-search-bar__header">Your Address</h5>
+      <h5 class="c-search-bar__header">Your Address</label>
       <%=
         content_tag(:div, [
           SiteWeb.PartialView.render("_search_input.html",
