@@ -184,7 +184,6 @@ defmodule SiteWeb.Router do
     resources("/alerts", AlertController, only: [:index, :show])
     get("/trip-planner", TripPlanController, :index)
     get("/vote", TripPlanController, :vote)
-    get("/Vote", TripPlanController, :vote)
     get("/customer-support", CustomerSupportController, :index)
     get("/customer-support/thanks", CustomerSupportController, :thanks)
     post("/customer-support", CustomerSupportController, :submit)
