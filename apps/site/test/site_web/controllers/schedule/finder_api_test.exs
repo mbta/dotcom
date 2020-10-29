@@ -337,6 +337,45 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
 
       assert response == %{"error" => "Invalid arguments"}
     end
+
+    test "doesn't 500 if route info not found for the Green Line", %{conn: conn} do
+      path =
+        finder_api_path(conn, :trip, %{
+          date: "2020-10-28",
+          route: "Green",
+          direction: "0",
+          stop: "place-haecl",
+          id: "INVALID_GL_TRIP_ID"
+        })
+
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          assert conn
+                 |> get(path)
+                 |> json_response(404) == nil
+        end)
+
+      assert log =~ "route_id_not_found route_id=Green, trip_id=INVALID_GL_TRIP_ID"
+    end
+
+    test "successfully finds a valid route id for the Green Line", %{conn: conn} do
+      params_for_trip = %{
+        date: "2020-12-18",
+        direction: "0",
+        id: "45803856-20:45-ReservoirRiverside",
+        route: "Green",
+        stop: "place-wrnst"
+      }
+
+      trip_path = finder_api_path(conn, :trip, params_for_trip)
+
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          assert conn |> get(trip_path)
+        end)
+
+      refute log =~ "route_id_not_found route_id=Green"
+    end
   end
 
   describe "maybe_add_delay/1" do
