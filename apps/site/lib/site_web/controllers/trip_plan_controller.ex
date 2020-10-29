@@ -32,10 +32,6 @@ defmodule SiteWeb.TripPlanController do
 
   def vote(conn, _params) do
     conn
-    |> assign(
-      :og_image,
-      "https://cdn.mbta.com/sites/default/files/media/2020-10/vote-promo-graphic.png"
-    )
     |> render("vote.html")
   end
 
@@ -211,10 +207,6 @@ defmodule SiteWeb.TripPlanController do
   end
 
   @spec breadcrumbs(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
-  defp breadcrumbs(%{private: %{:phoenix_action => :vote}} = conn, _) do
-    assign(conn, :breadcrumbs, [Breadcrumb.build("Find your polling location")])
-  end
-
   defp breadcrumbs(conn, _) do
     assign(conn, :breadcrumbs, [Breadcrumb.build("Trip Planner")])
   end
@@ -290,14 +282,6 @@ defmodule SiteWeb.TripPlanController do
       type: type,
       custom_route?: true
     }
-  end
-
-  defp meta_description(%{private: %{:phoenix_action => :vote}} = conn, _) do
-    conn
-    |> assign(
-      :meta_description,
-      "November 3 is the last day to vote. Find your polling location with our Trip Planner tool."
-    )
   end
 
   defp meta_description(conn, _) do
