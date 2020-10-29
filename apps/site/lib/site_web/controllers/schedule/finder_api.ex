@@ -100,42 +100,53 @@ defmodule SiteWeb.ScheduleController.FinderApi do
       }) do
     {service_end_date, direction_id, _} = convert_from_string(date: date, direction: direction)
 
-    route =
+    schedule_route_id =
       route_id
       |> get_route_id(trip_id)
-      |> Routes.Repo.get()
 
-    opts = Map.get(conn.assigns, :trip_info_functions, [])
-    params = %{"origin" => origin, "trip" => trip_id}
+    if schedule_route_id do
+      route =
+        schedule_route_id
+        |> Routes.Repo.get()
 
-    original_query_params = conn.query_params
+      opts = Map.get(conn.assigns, :trip_info_functions, [])
+      params = %{"origin" => origin, "trip" => trip_id}
 
-    trip_info =
-      conn
-      |> assign(:date, service_end_date)
-      |> assign(:direction_id, direction_id)
-      |> assign(:origin, origin)
-      |> assign(:route, route)
-      |> Map.put(:query_params, params)
-      |> Vehicles.call(Vehicles.init([]))
-      |> Trips.call(Trips.init(opts))
-      |> Map.get(:assigns)
-      |> Map.get(:trip_info)
+      original_query_params = conn.query_params
 
-    if trip_info do
       trip_info =
-        trip_info
-        |> add_computed_fares_to_trip_info(route)
-        |> json_safe_trip_info()
-        |> update_in([:times], &add_delays/1)
-        |> update_in([:times], &simplify_time/1)
+        conn
+        |> assign(:date, service_end_date)
+        |> assign(:direction_id, direction_id)
+        |> assign(:origin, origin)
+        |> assign(:route, route)
+        |> Map.put(:query_params, params)
+        |> Vehicles.call(Vehicles.init([]))
+        |> Trips.call(Trips.init(opts))
+        |> Map.get(:assigns)
+        |> Map.get(:trip_info)
 
-      json(conn, trip_info)
+      if trip_info do
+        trip_info =
+          trip_info
+          |> add_computed_fares_to_trip_info(route)
+          |> json_safe_trip_info()
+          |> update_in([:times], &add_delays/1)
+          |> update_in([:times], &simplify_time/1)
+
+        json(conn, trip_info)
+      else
+        _ =
+          Logger.warn(
+            "trip_info_not_found original_query_params=#{Jason.encode!(original_query_params)}"
+          )
+
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(404, "null")
+      end
     else
-      _ =
-        Logger.warn(
-          "trip_info_not_found original_query_params=#{Jason.encode!(original_query_params)}"
-        )
+      _ = Logger.warn("route_id_not_found route_id=#{route_id}, trip_id=#{trip_id}")
 
       conn
       |> put_resp_content_type("application/json")
@@ -450,14 +461,21 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   defp maybe_remove_prediction_stop(nil), do: nil
   defp maybe_remove_prediction_stop(p), do: Map.put(p, :stop, nil)
 
-  @spec get_route_id(Route.id_t(), Trip.id_t()) :: Route.id_t()
+  @spec get_route_id(Route.id_t(), Trip.id_t()) :: Route.id_t() | nil
   defp get_route_id("Green", trip_id) do
-    schedule =
+    schedule_for_trip =
       trip_id
       |> Schedules.Repo.schedule_for_trip()
-      |> List.first()
 
-    schedule.route.id
+    if Enum.empty?(schedule_for_trip) do
+      nil
+    else
+      schedule =
+        schedule_for_trip
+        |> List.first()
+
+      schedule.route.id
+    end
   end
 
   defp get_route_id(route_id, _trip_id), do: route_id
