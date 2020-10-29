@@ -10,9 +10,12 @@
     <% meta_description = assigns[:meta_description] || "Official website of the MBTA -- schedules, maps, and fare information for Greater Boston's public transportation system, including subway, commuter rail, bus routes, and boat lines." %>
     <meta name="description" content="<%= Phoenix.HTML.raw(meta_description) %>">
     <meta name="author" content="Massachusetts Bay Transportation Authority">
+    <%= if assigns[:og_image] do %>
+      <meta name="og:image" content="<%= Phoenix.HTML.raw(assigns[:og_image]) %>">
+    <% end %>
     <%= Turbolinks.cache_meta @conn %>
 
-    <%= # hide any page in /org directory from search engines  
+    <%= # hide any page in /org directory from search engines
     if @conn.request_path == "/org" || String.slice(@conn.request_path, 0..4) == "/org/" do %>
       <meta name="robots" content="noindex, nofollow">
     <% end %>
