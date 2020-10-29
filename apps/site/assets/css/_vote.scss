@@ -1,0 +1,5 @@
+.vote-container {
+  @include media-breakpoint-up(md) {
+    display: flex;
+  }
+}

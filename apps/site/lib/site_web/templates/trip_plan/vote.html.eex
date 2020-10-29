@@ -5,8 +5,9 @@
   <p>November 3 is the last day to vote. Find your polling location below. Please note this doesn't include <a href="https://www.sec.state.ma.us/ele/eleev/ev-find-my-election-office.htm">dropbox locations</a>.</p>
   <p><a href="https://www.sec.state.ma.us/ele/eleidx.htm">Learn more about voting and elections in Massachusetts</a></p>
   <p>We're piloting this tool for the 2020 election. You can also use our regular <a href="/trip-planner">Trip Planner</a> to find directions to your polling location.</p>
-  <div class="row" style="display: flex;">
-    <div class="col-12 col-md-4 mt-0 mb-0 h-100 callout">
+  <div class="row vote-container">
+    <div class="col-xs-12 col-md-4 mt-0 mb-0">
+      <div class="callout" style="height: 100%; margin-top: 0;">
       <h5 class="c-search-bar__header">Your Address</h5>
       <%=
         content_tag(:div, [
@@ -21,8 +22,9 @@
       <div id="address-search__autocomplete" class="c-search-bar__results"></div>
       <div id="address-search__results" class="c-search-bar__results"></div>
       <div id="results-portal"></div>
+      </div>
     </div>
-    <div class="col-12 col-md-8">
+    <div class="col-xs-12 col-md-8">
       <div id="react-vote-root">
         <%= render_react(%{pollingLocations: []}) %>
       </div>
