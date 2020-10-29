@@ -130,7 +130,7 @@ const VoteMap = (): ReactElement<HTMLElement> => {
               polylines: [],
               tile_server_url: "https://mbta-map-tiles-dev.s3.amazonaws.com",
               width: 735,
-              zoom: 12
+              zoom: 14
             } // eslint-disable-next-line @typescript-eslint/camelcase
           }
         />
