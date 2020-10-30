@@ -5,16 +5,17 @@ import * as QueryHelpers from "../../ts/helpers/query";
 How to use this TimeControls module on the frontend to create date and time selectors:
 (needs to go together with `DateTimeSelector.custom_date_time_select` in the backend)
 
-- In your .eex template file, pass a formId to identify the form in a <script> tag with the following parameters:
-<script id="form-data" type="text/plain"><%= raw(Poison.encode!(%{formId: [id of form]})) %></script>
+- In your .eex template file, pass a (perhaps nested) map containing the specific fields of the date and time selector in a <script> tag with the following parameters.
+<script id="form-data" type="text/plain">
+  <%= raw(Poison.encode!(<map with the fields>)) %>
+</script>
+These field names are created by the Elixir module DateTimeSelector in your form.
 
-- Then, use DateTimeSelector.custom_date_time_select passing the form and an optional date, i.e.:
-<%= DateTimeSelector.custom_date_time_select(...) %>
-
-- Create a new file here called `[formId]-fields.js` with function `getFields` that will return the SAME field names created by the Elixir module DateTimeSelector in your form. Dynamic import() [https://v8.dev/features/dynamic-import] will dynamically select the corresponding file.
-
-- Additionally add new functions to this file to add whatever extra logic that is needed.
+- Then, use DateTimeSelector.custom_date_time_select passing the form and a date range, i.e.:
+<% date_ranges = %{min_date: ..., max_date: ...} %>
+<%= DateTimeSelector.custom_date_time_select(form, date_ranges) %>
 */
+
 export class TimeControls {
   constructor() {
     const { dateEl, month, day, year } = TimeControls.SELECTORS;
@@ -152,22 +153,14 @@ export class TimeControls {
   }
 }
 
-export const getSelectorFields = async (path, formId) => {
-  const module = await import(`${path}/${formId}-fields.js`);
-
-  return module.getFields();
-};
-
 export function init() {
   const $ = window.jQuery;
-  $(document).on("turbolinks:load", async () => {
+  $(document).on("turbolinks:load", () => {
     const formDataEl = document.getElementById("form-data");
 
     if (!formDataEl) return;
 
-    const formData = JSON.parse(formDataEl.innerHTML);
-    const { formId } = formData;
-    TimeControls.SELECTORS = await getSelectorFields(".", formId);
+    TimeControls.SELECTORS = JSON.parse(formDataEl.innerHTML);
     const timeControl = new TimeControls();
   });
 }

@@ -44,10 +44,32 @@ defmodule SiteWeb.CustomerSupportController do
     }
   ]
 
+  @support_datetime_selector_fields %{
+    controls: "support-datepicker",
+    year: "support_date_time_year",
+    month: "support_date_time_month",
+    day: "support_date_time_day",
+    hour: "support_date_time_hour",
+    minute: "support_date_time_minute",
+    amPm: "support_date_time_am_pm",
+    dateEl: %{
+      container: "support-date",
+      input: "support-date-input",
+      select: "support-date-select",
+      label: "support-date-label"
+    },
+    timeEl: %{
+      container: "support-time",
+      select: "support-time-select",
+      label: "support-time-label"
+    }
+  }
+
   plug(Turbolinks.Plug.NoCache)
   plug(:set_service_options)
   plug(:assign_ip)
   plug(:meta_description)
+  plug(:assign_datetime_selector_fields)
 
   def index(conn, %{"comments" => comments}) do
     render_form(
@@ -373,5 +395,11 @@ defmodule SiteWeb.CustomerSupportController do
       "Contact the MBTA customer support team and view additional contact numbers for the Transit Police, " <>
         "lost and found, and accessibility."
     )
+  end
+
+  @spec assign_datetime_selector_fields(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
+  defp assign_datetime_selector_fields(conn, _) do
+    conn
+    |> assign(:support_datetime_selector_fields, @support_datetime_selector_fields)
   end
 end
