@@ -16,9 +16,35 @@ defmodule SiteWeb.TripPlanController do
   plug(:modes)
   plug(:optimize_for)
   plug(:meta_description)
+  plug(:assign_datetime_selector_fields)
 
   @type route_map :: %{optional(Route.id_t()) => Route.t()}
   @type route_mapper :: (Route.id_t() -> Route.t() | nil)
+
+  @plan_datetime_selector_fields %{
+    depart: "depart",
+    leaveNow: "leave-now",
+    arrive: "arrive",
+    controls: "trip-plan-datepicker",
+    year: "plan_date_time_year",
+    month: "plan_date_time_month",
+    day: "plan_date_time_day",
+    hour: "plan_date_time_hour",
+    minute: "plan_date_time_minute",
+    amPm: "plan_date_time_am_pm",
+    dateEl: %{
+      container: "plan-date",
+      input: "plan-date-input",
+      select: "plan-date-select",
+      label: "plan-date-label"
+    },
+    timeEl: %{
+      container: "plan-time",
+      select: "plan-time-select",
+      label: "plan-time-label"
+    },
+    title: "trip-plan-departure-title"
+  }
 
   def index(conn, %{"plan" => %{"to" => _to, "from" => _fr} = plan}) do
     conn
@@ -65,6 +91,12 @@ defmodule SiteWeb.TripPlanController do
 
   def require_google_maps(conn, _) do
     assign(conn, :requires_google_maps?, true)
+  end
+
+  @spec assign_datetime_selector_fields(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
+  defp assign_datetime_selector_fields(conn, _) do
+    conn
+    |> assign(:plan_datetime_selector_fields, @plan_datetime_selector_fields)
   end
 
   @spec with_fares_and_passes([Itinerary.t()]) :: [Itinerary.t()]

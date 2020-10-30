@@ -674,6 +674,15 @@ closest arrival to 12:00 AM, Thursday, January 1st."
   end
 
   describe "index.html" do
+    plan_datetime_selector_fields = %{
+      dateEl: %{
+        container: "plan-date",
+        input: "plan-date-input",
+        select: "plan-date-select",
+        label: "plan-date-label"
+      }
+    }
+
     @index_assigns %{
       date: Util.now(),
       date_time: Util.now(),
@@ -681,7 +690,8 @@ closest arrival to 12:00 AM, Thursday, January 1st."
       modes: %{},
       optimize_for: :best_route,
       initial_map_data: Site.TripPlan.Map.initial_map_data(),
-      initial_map_src: Site.TripPlan.Map.initial_map_src()
+      initial_map_src: Site.TripPlan.Map.initial_map_src(),
+      plan_datetime_selector_fields: plan_datetime_selector_fields
     }
 
     test "renders the form with all fields", %{conn: conn} do
