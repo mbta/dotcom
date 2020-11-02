@@ -1,4 +1,5 @@
 defmodule TripPlan.Api.OpenTripPlanner.Parser do
+  @moduledoc "Module for parsing the itinerary-related data from Open Trip Planner"
   require Logger
   alias TripPlan.Api.OpenTripPlanner, as: OTP
 
@@ -77,10 +78,12 @@ defmodule TripPlan.Api.OpenTripPlanner.Parser do
   end
 
   defp parse_time(ms_after_epoch) do
-    ms_after_epoch
-    |> DateTime.from_unix!(:millisecond)
-    |> Timex.set(microsecond: {0, 0})
-    |> Timex.to_datetime(OTP.config(:timezone))
+    {:ok, ms_after_epoch_dt} =
+      ms_after_epoch
+      |> Integer.floor_div(1000)
+      |> FastLocalDatetime.unix_to_datetime(OTP.config(:timezone))
+
+    ms_after_epoch_dt
   end
 
   defp parse_leg(json) do
