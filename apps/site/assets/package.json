@@ -6,7 +6,6 @@
     "@types/dot-prop-immutable": "^1.5.0",
     "algoliasearch": "^3.25.1",
     "autocomplete.js": "git+https://github.com/mbta/autocomplete.js.git#ad94896",
-    "bad-words": "^3.0.3",
     "bootstrap": "4.0.0-alpha.2",
     "core-js": "^2.6.5",
     "dot-prop-immutable": "^1.5.0",
