@@ -18,3 +18,7 @@ export V3_URL=https://dev.api.mbtace.com
 # export WIREMOCK_PATH=
 export WIREMOCK_PROXY_URL=https://dev.api.mbtace.com
 export WIREMOCK_TRIP_PLAN_PROXY_URL=https://dev.otp.mbtace.com
+
+# You can also log in manually with `docker login`.
+# export DOCKER_USERNAME=
+# export DOCKER_PASSWORD=
