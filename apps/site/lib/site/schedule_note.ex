@@ -122,7 +122,7 @@ defmodule Site.ScheduleNote do
                   "For regular weekday service to Foxboro please visit: "
                 ),
                 link(
-                  "Franklin Line/Foxboro Pilot",
+                  "Franklin Line",
                   to: Helpers.timetable_path(SiteWeb.Endpoint, :show, "CR-Franklin")
                 )
               ],
