@@ -1,10 +1,15 @@
 #!/bin/bash
-set -e -x
+set -e
 PREFIX=_build/prod/
 APP=site
 BUILD_TAG=$APP:_build
 VERSION=$(grep -o 'version: .*"' apps/$APP/mix.exs  | grep -E -o '([0-9]+\.)+[0-9]+')
 BUILD_ARTIFACT=$APP-build.zip
+
+# log into docker hub if needed
+if [ "x$DOCKER_USERNAME" != x ]; then
+    echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+fi
 
 docker build -t $BUILD_TAG --build-arg SENTRY_DSN=$SENTRY_DSN .
 CONTAINER=$(docker run -d ${BUILD_TAG} sleep 2000)
