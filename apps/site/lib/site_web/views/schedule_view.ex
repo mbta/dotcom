@@ -491,7 +491,7 @@ defmodule SiteWeb.ScheduleView do
           content_tag(:strong, "Note:"),
           " For regular weekday service to and from Foxboro please visit ",
           link(to: timetable_path(SiteWeb.Endpoint, :show, "CR-Franklin")) do
-            "Franklin Line/Foxboro Pilot"
+            "Franklin Line"
           end
         ])
       ]
