@@ -51,7 +51,6 @@ describe("Merge component", () => {
         <Merges lineDiagram={lineDiagram} />
       </redux.Provider>
     );
-    console.log(wrapperNoBranches.debug());
     expect(
       wrapperNoBranches.exists("g.line-diagram-svg__merge")
     ).not.toBeTruthy();
