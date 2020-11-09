@@ -48,6 +48,7 @@ export interface SchedulePageData {
   line_diagram: LineDiagramStop[];
   today: string;
   variant: string | null;
+  variant_stops: string[];
 }
 
 interface StopData {

@@ -27,6 +27,7 @@ interface State {
 interface Props {
   state: State;
   input: UserInput;
+  showUpcomingDepartures: boolean;
 }
 
 interface AccordionProps {
@@ -321,7 +322,8 @@ export const upcomingDeparturesTable = (
 
 export const UpcomingDepartures = ({
   state: stateFromProps,
-  input
+  input,
+  showUpcomingDepartures
 }: Props): ReactElement<HTMLElement> | null => {
   const [state, dispatch] = useReducer(reducer, {
     data: null,
@@ -333,7 +335,12 @@ export const UpcomingDepartures = ({
 
   useEffect(
     () => {
-      if (
+      if (!showUpcomingDepartures) {
+        dispatch({
+          type: "FETCH_COMPLETE",
+          payload: null
+        });
+      } else if (
         stateFromProps.data !== null &&
         !stateFromProps.isLoading &&
         !stateFromProps.error &&
@@ -385,7 +392,13 @@ export const UpcomingDepartures = ({
 
   const journeysWithTripInfo = state.data;
 
-  return <>{upcomingDeparturesTable(journeysWithTripInfo, state, input)}</>;
+  return journeysWithTripInfo ? (
+    <>{upcomingDeparturesTable(journeysWithTripInfo, state, input)}</>
+  ) : (
+    <div className="callout text-center u-bold">
+      There are no upcoming departures. This is the last stop.
+    </div>
+  );
 };
 
 export default UpcomingDepartures;

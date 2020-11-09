@@ -28,6 +28,7 @@ interface Props {
   closeModal: () => void;
   modalMode: ModalMode;
   modalOpen: boolean;
+  variantStops: string[];
 }
 
 const ScheduleFinder = ({
@@ -44,7 +45,8 @@ const ScheduleFinder = ({
   changeDirection,
   changeOrigin,
   modalOpen,
-  closeModal
+  closeModal,
+  variantStops
 }: Props): ReactElement<HTMLElement> => {
   const openOriginModal = (): void => {
     const currentState = getCurrentState();
@@ -110,6 +112,7 @@ const ScheduleFinder = ({
           stops={stops}
           today={today}
           updateURL={updateURL}
+          variantStops={variantStops}
         />
       )}
     </div>

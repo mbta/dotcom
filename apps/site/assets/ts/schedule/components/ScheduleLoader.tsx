@@ -124,7 +124,8 @@ export const ScheduleLoader = ({
     today,
     line_diagram: lineDiagram,
     shape_map: shapesById,
-    variant: initialSelectedRoutePatternId
+    variant: initialSelectedRoutePatternId,
+    variant_stops: variantStops
   } = schedulePageData;
 
   const currentState = getCurrentState();
@@ -191,6 +192,7 @@ export const ScheduleLoader = ({
               stops={stops}
               today={today}
               updateURL={updateURL}
+              variantStops={variantStops}
             />
           )}
         </>
@@ -214,6 +216,7 @@ export const ScheduleLoader = ({
           selectedOrigin={selectedOrigin}
           changeOrigin={changeOrigin}
           closeModal={closeModal}
+          variantStops={variantStops}
         />
       );
     }
@@ -245,6 +248,7 @@ export const ScheduleLoader = ({
           today={today}
           scheduleNote={scheduleNote}
           initialSelectedRoutePatternId={initialSelectedRoutePatternId}
+          variantStops={variantStops}
         />
       );
     }

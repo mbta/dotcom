@@ -41,7 +41,8 @@ const SchedulePage = ({
     services,
     stops,
     route_patterns: routePatternsByDirection,
-    today
+    today,
+    variant_stops: variantStops
   },
   updateURL,
   closeModal,
@@ -84,6 +85,7 @@ const SchedulePage = ({
               stops={stops}
               today={today}
               updateURL={updateURL}
+              variantStops={variantStops}
             />
           )}
         </>
@@ -103,6 +105,7 @@ const SchedulePage = ({
           closeModal={closeModal}
           modalMode={modalMode}
           modalOpen={modalOpen}
+          variantStops={variantStops}
         />
       )}
       <ContentTeasers teasers={teasers} />

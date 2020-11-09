@@ -180,6 +180,7 @@ describe("ScheduleFinder", () => {
         closeModal={() => {}}
         modalMode="schedule"
         modalOpen={false}
+        variantStops={[]}
       />
     );
 
@@ -205,6 +206,7 @@ describe("ScheduleFinder", () => {
         closeModal={() => {}}
         modalMode="schedule"
         modalOpen={true}
+        variantStops={[]}
       />
     );
 
@@ -263,6 +265,7 @@ describe("ScheduleFinder", () => {
         closeModal={() => {}}
         modalMode="origin"
         modalOpen={true}
+        variantStops={[]}
       />
     );
 
@@ -291,6 +294,7 @@ describe("ScheduleFinder", () => {
         closeModal={() => {}}
         modalMode="schedule"
         modalOpen={true}
+        variantStops={[]}
       />
     );
 

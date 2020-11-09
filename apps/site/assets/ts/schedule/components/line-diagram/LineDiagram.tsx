@@ -34,6 +34,7 @@ interface LineDiagramProps {
   stops: SimpleStopMap;
   today: string;
   scheduleNote: ScheduleNoteType | null;
+  variantStops: string[];
 }
 
 const stationsOrStops = (routeType: number): string =>
@@ -53,7 +54,8 @@ const LineDiagramAndStopListPage = ({
   services,
   stops,
   today,
-  scheduleNote
+  scheduleNote,
+  variantStops
 }: LineDiagramProps): ReactElement<HTMLElement> | null => {
   /**
    * Setup state handling etc
@@ -221,6 +223,7 @@ const LineDiagramAndStopListPage = ({
           stops={stops}
           today={today}
           updateURL={updateURL}
+          variantStops={variantStops}
         />
       )}
     </>

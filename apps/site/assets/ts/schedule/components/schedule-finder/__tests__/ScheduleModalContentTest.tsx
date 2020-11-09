@@ -80,6 +80,7 @@ describe("ScheduleModalContent", () => {
           routePatternsByDirection={{}}
           today={today}
           scheduleNote={null}
+          variantStops={[]}
         />
       );
     });
@@ -102,6 +103,7 @@ describe("ScheduleModalContent", () => {
         routePatternsByDirection={{}}
         today={today}
         scheduleNote={scheduleNoteData}
+        variantStops={[]}
       />
     );
     expect(

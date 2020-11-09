@@ -151,7 +151,8 @@ it("it renders", () => {
           route_patterns: {},
           line_diagram: lineDiagram,
           today: "2019-12-05",
-          variant: null
+          variant: null,
+          variant_stops: []
         }}
         updateURL={() => {}}
         modalOpen={false}
@@ -197,7 +198,8 @@ it("it renders with conditional components", () => {
         route_patterns: {},
         line_diagram: lineDiagram,
         today: "2019-12-05",
-        variant: null
+        variant: null,
+        variant_stops: []
       }}
       updateURL={() => {}}
       modalOpen={false}
@@ -245,7 +247,8 @@ it("it renders with Schedule modal", () => {
         route_patterns: {},
         line_diagram: lineDiagram,
         today: "2019-12-05",
-        variant: null
+        variant: null,
+        variant_stops: []
       }}
       updateURL={() => {}}
       modalOpen={true}
@@ -294,7 +297,8 @@ it("it handles change in origin", () => {
         route_patterns: {},
         line_diagram: lineDiagram,
         today: "2019-12-05",
-        variant: null
+        variant: null,
+        variant_stops: []
       }}
       updateURL={() => {}}
       modalOpen={true}

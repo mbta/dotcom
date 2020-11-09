@@ -253,7 +253,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -285,7 +286,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -319,7 +321,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -364,7 +367,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -397,7 +401,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -440,7 +445,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -480,7 +486,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -513,7 +520,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -565,7 +573,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -632,7 +641,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -678,7 +688,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -733,7 +744,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -772,7 +784,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -829,7 +842,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -876,7 +890,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routePatternsByDirection,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />
@@ -925,7 +940,8 @@ describe("ScheduleLoader", () => {
             route_patterns: routes,
             line_diagram: lineDiagram,
             today: "2019-12-05",
-            variant: null
+            variant: null,
+            variant_stops: []
           }}
           updateURL={() => {}}
         />

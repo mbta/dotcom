@@ -4,17 +4,20 @@ import { mount, ReactWrapper } from "enzyme";
 import { UserInput } from "../../../__schedule";
 import { EnhancedJourney } from "../../../__trips";
 import departuresResponse from "../../__tests__/test-data/departures.json";
-import UpcomingDepartures, {
+import * as upcomingDeparturesModule from "../UpcomingDepartures";
+import crDeparturesResponse from "./test-data/crDepartures.json";
+import enhancedBusJourneysResponse from "./test-data/enhancedBusJourneys.json";
+import enhancedCRjourneysResponse from "./test-data/enhancedCRjourneys.json";
+import LiveCrowdingIcon from "../../../line-diagram/LiveCrowdingIcon";
+
+const {
+  UpcomingDepartures,
   upcomingDeparturesTable,
   fetchData,
   crowdingInformation,
   BusTableRow,
   CrTableRow
-} from "../UpcomingDepartures";
-import crDeparturesResponse from "./test-data/crDepartures.json";
-import enhancedBusJourneysResponse from "./test-data/enhancedBusJourneys.json";
-import enhancedCRjourneysResponse from "./test-data/enhancedCRjourneys.json";
-import LiveCrowdingIcon from "../../../line-diagram/LiveCrowdingIcon";
+} = upcomingDeparturesModule;
 
 const busDepartures = (departuresResponse as unknown) as EnhancedJourney[];
 const crDepartures = (crDeparturesResponse as unknown) as EnhancedJourney[];
@@ -63,7 +66,13 @@ describe("UpcomingDepartures", () => {
 
       jest.spyOn(React, "useEffect").mockImplementation(f => f());
 
-      wrapper = mount(<UpcomingDepartures state={state} input={input} />);
+      wrapper = mount(
+        <UpcomingDepartures
+          state={state}
+          input={input}
+          showUpcomingDepartures={true}
+        />
+      );
 
       expect(wrapper.html()).toBeNull();
     });
@@ -189,7 +198,13 @@ describe("UpcomingDepartures", () => {
     return fetchData(input, [busDepartures[0]], dispatchSpy).then(() => {
       expect(dispatchSpy).toHaveBeenCalledWith({ type: "FETCH_STARTED" });
 
-      wrapper = mount(<UpcomingDepartures state={state} input={input} />);
+      wrapper = mount(
+        <UpcomingDepartures
+          state={state}
+          input={input}
+          showUpcomingDepartures={true}
+        />
+      );
 
       expect(wrapper.find(".c-spinner__container")).toHaveLength(1);
     });
@@ -251,5 +266,29 @@ describe("UpcomingDepartures", () => {
       wrapper = mount(<>{crowdingInformation(journey, journey.trip.id)}</>);
       expect(wrapper.find(LiveCrowdingIcon).prop("crowding")).toBeFalsy();
     });
+  });
+
+  it("displays a message indicating that it's the last stop and does not call fetchData", () => {
+    const state = {
+      data: busDepartures,
+      error: false,
+      isLoading: false
+    };
+
+    const fetchDataSpy = jest.spyOn(upcomingDeparturesModule, "fetchData");
+
+    wrapper = mount(
+      <UpcomingDepartures
+        state={state}
+        input={input}
+        showUpcomingDepartures={false}
+      />
+    );
+
+    expect(wrapper.find(".callout").text()).toEqual(
+      "There are no upcoming departures. This is the last stop."
+    );
+
+    expect(fetchDataSpy).not.toHaveBeenCalled();
   });
 });

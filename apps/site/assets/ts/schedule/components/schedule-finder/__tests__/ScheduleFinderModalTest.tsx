@@ -8,6 +8,7 @@ import {
 } from "../../__schedule";
 import * as routePatternsByDirectionData from "../../__tests__/test-data/routePatternsByDirectionData.json";
 import ScheduleFinderModal, { Mode as ModalMode } from "../ScheduleFinderModal";
+import OriginListItem from "../OriginListItem";
 
 jest.mock("../../../../helpers/use-fetch", () => ({
   __esModule: true,
@@ -143,7 +144,8 @@ describe("ScheduleFinderModal", () => {
     direction: DirectionId,
     origin: SelectedOrigin,
     directionChanged?: (direction: DirectionId) => void,
-    originChanged?: (origin: SelectedOrigin) => void
+    originChanged?: (origin: SelectedOrigin) => void,
+    variantStops: string[] = []
   ) =>
     mount(
       <ScheduleFinderModal
@@ -161,6 +163,7 @@ describe("ScheduleFinderModal", () => {
         initialOrigin={origin}
         originChanged={originChanged}
         handleOriginSelectClick={() => {}}
+        variantStops={variantStops}
       />
     );
 
@@ -270,5 +273,13 @@ describe("ScheduleFinderModal", () => {
     expect(
       wrapper.find(".schedule-finder__origin-list").children().length
     ).toEqual(1);
+  });
+
+  it("Filters the list of available stops in the origin modal", () => {
+    const wrapper = mountComponent("origin", 0, null, undefined, undefined, [
+      "123"
+    ]);
+
+    expect(wrapper.find(OriginListItem)).toHaveLength(1);
   });
 });

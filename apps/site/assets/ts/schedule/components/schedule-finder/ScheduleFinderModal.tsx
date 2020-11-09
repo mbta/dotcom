@@ -5,7 +5,8 @@ import {
   RoutePatternsByDirection,
   ServiceInSelector,
   ScheduleNote as ScheduleNoteType,
-  SelectedOrigin
+  SelectedOrigin,
+  SimpleStop
 } from "../__schedule";
 import Modal from "../../../components/Modal";
 import OriginModalContent from "./OriginModalContent";
@@ -28,6 +29,7 @@ interface Props {
   today: string;
   updateURL: (origin: SelectedOrigin, direction?: DirectionId) => void;
   handleOriginSelectClick: () => void;
+  variantStops: string[];
 }
 
 export default ({
@@ -44,7 +46,8 @@ export default ({
   stops,
   today,
   updateURL,
-  handleOriginSelectClick
+  handleOriginSelectClick,
+  variantStops
 }: Props): ReactElement => {
   const handleChangeDirection = (newDirection: DirectionId): void => {
     if (directionChanged) directionChanged(newDirection);
@@ -57,14 +60,13 @@ export default ({
     updateURL(newOrigin, initialDirection);
   };
 
-  const originModalContent = (): ReactElement => {
+  const originModalContent = (filteredStops: SimpleStop[]): ReactElement => {
     const origin = initialOrigin;
-    const direction = initialDirection;
     return (
       <OriginModalContent
         handleChangeOrigin={handleChangeOrigin}
         selectedOrigin={origin}
-        stops={stops[direction] || []}
+        stops={filteredStops}
       />
     );
   };
@@ -82,11 +84,22 @@ export default ({
       services={services}
       stops={stops}
       today={today}
+      variantStops={variantStops}
     />
   );
 
   const direction = initialDirection;
   const origin = initialOrigin;
+
+  // make the list of stops dependent on the variant (if there is one)
+  const selectedStops = stops[direction] || [];
+
+  const filteredStops =
+    variantStops.length !== 0
+      ? selectedStops.filter((stop: SimpleStop) =>
+          variantStops.includes(stop.id)
+        )
+      : selectedStops;
 
   return (
     <Modal
@@ -104,7 +117,7 @@ export default ({
       }
       closeModal={closeModal}
     >
-      {initialMode === "origin" && originModalContent()}
+      {initialMode === "origin" && originModalContent(filteredStops)}
       {initialMode === "schedule" &&
         origin !== null &&
         scheduleModalContent(origin)}

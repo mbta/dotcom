@@ -85,7 +85,8 @@ defmodule SiteWeb.ScheduleController.LineController do
             conn.assigns.date_time
           ),
         today: conn.assigns.date_time |> DateTime.to_date() |> Date.to_iso8601(),
-        variant: conn.assigns.variant
+        variant: conn.assigns.variant,
+        variant_stops: conn.assigns.variant_stops
       }
     )
   end

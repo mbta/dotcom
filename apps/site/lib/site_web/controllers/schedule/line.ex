@@ -117,6 +117,14 @@ defmodule SiteWeb.ScheduleController.Line do
     shape_map = get_route_shape_map(route.id)
     active_shapes = LineHelpers.get_active_shapes(route_shapes, route, variant)
     filtered_shapes = LineHelpers.filter_route_shapes(route_shapes, active_shapes, route)
+
+    variant_stops =
+      if variant != nil do
+        List.first(filtered_shapes).stop_ids
+      else
+        []
+      end
+
     branches = LineHelpers.get_branches(filtered_shapes, route_stops, route, direction_id)
     map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id)
 
@@ -159,6 +167,7 @@ defmodule SiteWeb.ScheduleController.Line do
     |> assign(:connections, connections(branches))
     |> assign(:time_data_by_stop, time_data_by_stop)
     |> assign(:variant, variant)
+    |> assign(:variant_stops, variant_stops)
   end
 
   defp flatten_route_stops(route_stops) do

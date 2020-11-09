@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`LineDiagram renders and matches snapshot 1`] = `
-"<LineDiagramAndStopListPage lineDiagram={{...}} route={{...}} directionId={1} routePatternsByDirection={{...}} services={{...}} stops={{...}} today=\\"2019-12-05\\" scheduleNote={{...}}>
+"<LineDiagramAndStopListPage lineDiagram={{...}} route={{...}} directionId={1} routePatternsByDirection={{...}} services={{...}} stops={{...}} today=\\"2019-12-05\\" scheduleNote={{...}} variantStops={{...}}>
   <h3 className=\\"m-schedule-diagram__heading\\">
     Stops
   </h3>

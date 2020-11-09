@@ -5,6 +5,7 @@ import { reducer } from "../../../helpers/fetch";
 import { isInCurrentService } from "../../../helpers/service";
 import {
   SimpleStopMap,
+  SimpleStop,
   RoutePatternsByDirection,
   ServiceInSelector,
   ScheduleNote as ScheduleNoteType,
@@ -57,6 +58,7 @@ interface Props {
   routePatternsByDirection: RoutePatternsByDirection;
   today: string;
   scheduleNote: ScheduleNoteType | null;
+  variantStops: string[];
 }
 
 const ScheduleModalContent = ({
@@ -70,7 +72,8 @@ const ScheduleModalContent = ({
   stops,
   routePatternsByDirection,
   today,
-  scheduleNote
+  scheduleNote,
+  variantStops
 }: Props): ReactElement<HTMLElement> | null => {
   const { id: routeId } = route;
 
@@ -104,6 +107,23 @@ const ScheduleModalContent = ({
     direction: selectedDirection
   };
 
+  // make the list of stops dependent on the variant (if there is one)
+  const selectedStops = stops[selectedDirection] || [];
+
+  const filteredStops =
+    variantStops.length !== 0
+      ? selectedStops.filter((stop: SimpleStop) =>
+          variantStops.includes(stop.id)
+        )
+      : selectedStops;
+
+  const indexOfSelectedOrigin = filteredStops.findIndex(
+    (stop: SimpleStop) => stop.id === selectedOrigin
+  );
+
+  const showUpcomingDepartures =
+    indexOfSelectedOrigin !== filteredStops.length - 1;
+
   return (
     <>
       <div className="schedule-finder schedule-finder--modal">
@@ -119,7 +139,11 @@ const ScheduleModalContent = ({
       </div>
 
       {serviceToday ? (
-        <UpcomingDepartures state={state} input={input} />
+        <UpcomingDepartures
+          state={state}
+          input={input}
+          showUpcomingDepartures={showUpcomingDepartures}
+        />
       ) : (
         <div className="callout text-center u-bold">
           There are no scheduled trips for {formattedDate(today)}.
