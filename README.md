@@ -148,7 +148,7 @@ Then, visit the site at http://localhost:4001/
 
 ## Additional Documentation
 
-See [docs](docs) for information about [testing](docs/TESTING.md) and other development details.
+See [docs](docs) for information about [testing](docs/TESTING.md) and other development details. There is also documentation for some [features that have come and gone](docs/SeasonalFeatures.md).
 
 ### Nested Applications
 
