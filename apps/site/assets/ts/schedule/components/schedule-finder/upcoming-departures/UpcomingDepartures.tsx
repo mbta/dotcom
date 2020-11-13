@@ -353,9 +353,13 @@ export const UpcomingDepartures = ({
         ) {
           fetchData(input, journeys, dispatch)
             .then((retrievedJourneysWithTripInfo: EnhancedJourney[]) => {
+              const filteredJourneysWithTripInfo = retrievedJourneysWithTripInfo.filter(
+                journey => journey.tripInfo !== null
+              );
+
               dispatch({
                 type: "FETCH_COMPLETE",
-                payload: retrievedJourneysWithTripInfo
+                payload: filteredJourneysWithTripInfo
               });
             })
             .catch(() => dispatch({ type: "FETCH_ERROR" }));
