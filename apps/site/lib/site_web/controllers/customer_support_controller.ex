@@ -347,7 +347,7 @@ defmodule SiteWeb.CustomerSupportController do
       end
 
     subway_options =
-      Enum.map(SiteWeb.ViewHelpers.subway_lines(), fn mode ->
+      Enum.map(SiteWeb.ViewHelpers.subway_lines() -- [:silver_line], fn mode ->
         SiteWeb.ViewHelpers.mode_name(mode)
       end)
 

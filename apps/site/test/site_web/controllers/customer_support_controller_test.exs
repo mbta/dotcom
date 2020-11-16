@@ -467,8 +467,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
                "Red Line",
                "Blue Line",
                "Orange Line",
-               "Green Line",
-               "Silver Line"
+               "Green Line"
              ]
 
       refute get_routes_for_mode(conn, :bus) == []
