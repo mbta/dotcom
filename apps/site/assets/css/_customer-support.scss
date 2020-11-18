@@ -80,8 +80,8 @@
 }
 
 .support-confirmation {
-  margin-bottom: .5em;
-  padding: .5em;
+  margin-bottom: $base-spacing;
+  padding: .75 * $base-spacing 1.25 * $base-spacing;
 
   &--success {
     background-color: $form-success-message;
