@@ -251,5 +251,25 @@ defmodule Feedback.MailerTest do
       refute Test.latest_message()["text"]
              |> String.contains?("123abc")
     end
+
+    test "converts local (America/New_York) date to UTC" do
+      assert Mailer.formatted_utc_timestamp(%{
+               "year" => 2020,
+               "month" => 11,
+               "day" => 20,
+               "hour" => 22,
+               "minute" => 15,
+               "time_zone" => "America/New_York"
+             }) == "11/21/2020 03:15"
+
+      assert Mailer.formatted_utc_timestamp(%{
+               "year" => 2020,
+               "month" => 11,
+               "day" => 20,
+               "hour" => 10,
+               "minute" => 15,
+               "time_zone" => "America/New_York"
+             }) == "11/20/2020 15:15"
+    end
   end
 end

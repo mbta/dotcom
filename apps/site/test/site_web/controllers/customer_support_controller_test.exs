@@ -345,82 +345,79 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       assert rendered == ""
     end
 
-    test "sets date to today if it's in the future", %{conn: conn} do
-      current_year = DateTime.utc_now().year
-      m = DateTime.utc_now().month
-      d = DateTime.utc_now().day
-
-      current_day =
-        if d < 10 do
-          "0#{d}"
-        else
-          d
-        end
-
-      current_month =
-        if m < 10 do
-          "0#{m}"
-        else
-          m
-        end
+    test "sets date to today if it's in the future" do
+      now = Util.now() |> Util.to_local_time()
 
       two_months_from_now = Util.now() |> Timex.shift(months: 2)
 
-      conn =
-        post(
-          conn |> assign(:all_options_per_mode, %{}),
-          customer_support_path(conn, :submit),
-          put_in(valid_request_response_data(), ["support", "date_time"], two_months_from_now)
-        )
+      validated_date_time =
+        validate_incident_date_time(%{
+          "year" => two_months_from_now.year,
+          "month" => two_months_from_now.month,
+          "day" => two_months_from_now.day,
+          "hour" => "10",
+          "minute" => "15",
+          "am_pm" => "AM"
+        })
 
-      wait_for_ticket_task(conn)
-      message = Feedback.Test.latest_message()["text"]
-
-      regex = ~r"\<INCIDENTDATE\>(.+?)\<\/INCIDENTDATE\>"
-      [_, date_from_message] = Regex.run(regex, message)
-
-      assert String.contains?(
-               date_from_message,
-               "#{current_month}/#{current_day}/#{current_year}"
-             )
+      assert validated_date_time["year"] == now.year
+      assert validated_date_time["month"] == now.month
+      assert validated_date_time["day"] == now.day
     end
 
-    test "submits the date as is because it's not in the future", %{conn: conn} do
-      current_year = DateTime.utc_now().year
-      m = DateTime.utc_now().month
-      d = DateTime.utc_now().day
+    test "sets date to today if it's invalid" do
+      now = Util.now() |> Util.to_local_time()
 
-      current_day =
-        if d < 10 do
-          "0#{d}"
-        else
-          d
-        end
+      validated_date_time =
+        validate_incident_date_time(%{
+          "year" => "2020",
+          # outrageous month, the Bostonian way
+          "month" => "617",
+          "day" => "17",
+          "hour" => "10",
+          "minute" => "15",
+          "am_pm" => "AM"
+        })
 
-      current_month =
-        if m < 10 do
-          "0#{m}"
-        else
-          m
-        end
+      assert validated_date_time["year"] == now.year
+      assert validated_date_time["month"] == now.month
+      assert validated_date_time["day"] == now.day
+    end
 
-      conn =
-        post(
-          conn,
-          customer_support_path(conn, :submit),
-          put_in(valid_request_response_data(), ["support", "date_time"], Util.now())
-        )
+    test "submits the date as is because it's not in the future" do
+      two_months_ago = Util.now() |> Timex.shift(months: -2)
 
-      wait_for_ticket_task(conn)
-      message = Feedback.Test.latest_message()["text"]
+      validated_date_time =
+        validate_incident_date_time(%{
+          "year" => two_months_ago.year,
+          "month" => two_months_ago.month,
+          "day" => two_months_ago.day,
+          "hour" => "10",
+          "minute" => "15",
+          "am_pm" => "AM"
+        })
 
-      regex = ~r"\<INCIDENTDATE\>(.+?)\<\/INCIDENTDATE\>"
-      [_, date_from_message] = Regex.run(regex, message)
+      assert validated_date_time["year"] == two_months_ago.year
+      assert validated_date_time["month"] == two_months_ago.month
+      assert validated_date_time["day"] == two_months_ago.day
+    end
 
-      assert String.contains?(
-               date_from_message,
-               "#{current_month}/#{current_day}/#{current_year}"
-             )
+    test "submits a special-case date as is because it's not in the future" do
+      two_months_ago = Util.now() |> Timex.shift(months: -2)
+
+      validated_date_time =
+        validate_incident_date_time(%{
+          "year" => two_months_ago.year,
+          "month" => two_months_ago.month,
+          "day" => two_months_ago.day,
+          "hour" => "10",
+          "minute" => "15",
+          "am_pm" => "PM"
+        })
+
+      assert validated_date_time["year"] == two_months_ago.year
+      assert validated_date_time["month"] == two_months_ago.month
+      assert validated_date_time["day"] == two_months_ago.day
     end
   end
 

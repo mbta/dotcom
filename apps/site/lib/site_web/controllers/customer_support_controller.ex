@@ -288,28 +288,49 @@ defmodule SiteWeb.CustomerSupportController do
     end
   end
 
-  @spec validate_incident_date_time(map) :: DateTime.t()
-  defp validate_incident_date_time(incident_date_time) do
-    now = Util.now() |> Util.to_local_time()
+  @spec validate_incident_date_time(map) :: map
+  def validate_incident_date_time(incident_date_time) do
+    local_now = Util.now() |> Util.to_local_time()
 
-    parsed_date_time =
-      case Util.parse(incident_date_time) do
-        {:error, :invalid_date} ->
-          now
+    destructured_local_now = %{
+      "day" => local_now.day,
+      "hour" => local_now.hour,
+      "microsecond" => {0, 0},
+      "minute" => local_now.minute,
+      "month" => local_now.month,
+      "second" => 0,
+      "time_zone" => "America/New_York",
+      "year" => local_now.year
+    }
 
-        parsed_dt ->
-          parsed_dt
-      end
+    local_incident_date_time =
+      incident_date_time
+      |> Map.put("second", 0)
+      |> Map.put("microsecond", {0, 0})
+      |> Map.put("time_zone", "America/New_York")
 
-    local_parsed_date_time = Util.to_local_time(parsed_date_time)
+    case Util.parse(incident_date_time) do
+      {:error, :invalid_date} ->
+        destructured_local_now
 
-    # if date and time is in the future, set it to now
-    # otherwise leave as it is
+      parsed_dt ->
+        parsed_date_time = parsed_dt
 
-    if DateTime.compare(local_parsed_date_time, now) in [:lt, :eq] do
-      local_parsed_date_time
-    else
-      now
+        local_parsed_date_time = Util.to_local_time(parsed_date_time)
+
+        # if date and time is in the future, set it to now
+        # otherwise leave it as it is
+        if DateTime.compare(local_parsed_date_time, local_now) in [:lt, :eq] do
+          if local_incident_date_time["am_pm"] == "PM" and
+               local_incident_date_time["hour"] != "12" do
+            {hour_int, _} = Integer.parse(local_incident_date_time["hour"])
+            local_incident_date_time |> Map.replace!("hour", Integer.to_string(hour_int + 12))
+          else
+            local_incident_date_time
+          end
+        else
+          destructured_local_now
+        end
     end
   end
 

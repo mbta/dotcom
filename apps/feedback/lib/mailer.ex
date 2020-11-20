@@ -109,8 +109,10 @@ defmodule Feedback.Mailer do
     end
   end
 
-  defp formatted_utc_timestamp(date) do
+  @spec formatted_utc_timestamp(map) :: String.t()
+  def formatted_utc_timestamp(date) do
     date
+    |> Timex.Timezone.convert("Etc/UTC")
     |> Timex.format!("{0M}/{0D}/{YYYY} {h24}:{m}")
   end
 
