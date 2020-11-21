@@ -6,18 +6,18 @@ defmodule CMS.Partial.Paragraph do
   via Phoenix, make the following changes:
 
   * Pull the most recent content from the CMS. Locally, update the
-    /cms/style-guide/paragraphs page, which demonstrates all our paragraphs,
-    to include this new paragraph.
-  * Load /cms/style-guide/paragraphs?_format=json from the CMS and update
-    /cms/style-guide/paragraphs.json.
+    /org/cms-paragraph-guide page, which demonstrates all our paragraphs,
+    to include this new paragraph -- OR ask the CMS to update on live.
+  * Load /org/cms-paragraph-guide?_format=json from the CMS and update
+    the test fixture paragraphs.json with the contents of "field_paragraphs".
   * Create a new module, CMS.Partial.Paragraph.MyPara in lib/paragraph/my_para.ex.
   * Create a _my_para.html.eex partial (filename pattern must match module name)
   * Add that type to CMS.Partial.Paragraph.t here.
   * Update this module's from_api/1 function to dispatch to the MyPara.from_api
   * Update CMS.ParagraphTest to ensure it is parsed correctly
   * Update Site.ContentViewTest to ensure it is rendered correctly
-  * After the code is merged and deployed, update /cms/style-guide/paragraphs
-    on the live CMS
+  * After the code is merged and deployed, update /org/cms-paragraph-guide
+    on the live CMS if it hasn't already been done by the CMS team.
   """
 
   alias CMS.Partial.Paragraph.{
