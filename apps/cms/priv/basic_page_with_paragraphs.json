@@ -1,0 +1,5368 @@
+{
+  "nid": [
+    {
+      "value": 5035
+    }
+  ],
+  "uuid": [
+    {
+      "value": "f6471a74-5522-4001-83dc-59147a07a169"
+    }
+  ],
+  "vid": [
+    {
+      "value": 46740
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "page",
+      "target_type": "node_type",
+      "target_uuid": "9e4b5efa-9303-469e-b5d6-20ef12fbe1d1"
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1605289691
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 29,
+      "target_type": "user",
+      "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+      "url": "/user/29"
+    }
+  ],
+  "revision_log": [
+    {
+      "value": "updated fare card examples to use default \"show media\" line"
+    }
+  ],
+  "status": [
+    {
+      "value": false
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 213,
+      "target_type": "user",
+      "target_uuid": "84ffb66e-0221-4236-9c75-54b91f65ea38",
+      "url": "/user/213"
+    }
+  ],
+  "title": [
+    {
+      "value": "CMS Paragraph Guide"
+    }
+  ],
+  "created": [
+    {
+      "value": 1601391890
+    }
+  ],
+  "changed": [
+    {
+      "value": 1605289691
+    }
+  ],
+  "promote": [
+    {
+      "value": false
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "revision_default": [
+    {
+      "value": true
+    }
+  ],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "moderation_state": [
+    {
+      "value": "draft"
+    }
+  ],
+  "sidebar": [
+    {
+      "value": false
+    }
+  ],
+  "path": [
+    {
+      "alias": "/org/cms-paragraph-guide",
+      "pid": 5189,
+      "langcode": "en"
+    }
+  ],
+  "publish_on": [],
+  "unpublish_on": [],
+  "publish_state": [
+    {
+      "value": "_none"
+    }
+  ],
+  "unpublish_state": [
+    {
+      "value": "_none"
+    }
+  ],
+  "menu_link": [],
+  "body": [
+    {
+      "value": "<p>This page demonstrates all the \"paragraphs\" available to content editors, with tips on how to use them.</p>\r\n\r\n<p><strong>{{fa \"warning\"}} Please check with the developers before modifying this page</strong>, as it's the basis for automated tests which work to ensure the paragraphs tool is working as expected.</p>\r\n\r\n<ul>\r\n\t<li><a href=\"#custom-html\">Custom HTML</a></li>\r\n\t<li><a href=\"#tabbed-interface\">Tabbed Interface</a></li>\r\n\t<li><a href=\"#description-list\">Description List</a></li>\r\n\t<li><a href=\"#multi-column\">Multi-Column</a></li>\r\n\t<li><a href=\"#descriptivelinks\">Descriptive Link</a></li>\r\n\t<li><a href=\"#fare-cards\">Fare Cards</a></li>\r\n\t<li><a href=\"#callout\">Callout</a></li>\r\n\t<li><a href=\"#list\">Content List</a></li>\r\n\t<li><a href=\"#code\">Code Embed</a></li>\r\n\t<li><a href=\"#gallery\">Photo Gallery</a></li>\r\n\t<li><a href=\"#rightrail\">Right Rail</a></li>\r\n\t<li><a href=\"#library\">From Library </a>(reusable paragraph)</li>\r\n\t<li><a href=\"#trip-planner\">Trip Planner Widget</a></li>\r\n\t<li><a href=\"#files-grid\">Files Grid</a> (try to avoid)</li>\r\n\t<li><a href=\"#people-grid\">People Grid</a></li>\r\n</ul>\r\n",
+      "format": "full_html",
+      "processed": "<p>This page demonstrates all the \"paragraphs\" available to content editors, with tips on how to use them.</p>\n\n<p><strong>{{fa \"warning\"}} Please check with the developers before modifying this page</strong>, as it's the basis for automated tests which work to ensure the paragraphs tool is working as expected.</p>\n\n<ul>\n\t<li><a href=\"#custom-html\">Custom HTML</a></li>\n\t<li><a href=\"#tabbed-interface\">Tabbed Interface</a></li>\n\t<li><a href=\"#description-list\">Description List</a></li>\n\t<li><a href=\"#multi-column\">Multi-Column</a></li>\n\t<li><a href=\"#descriptivelinks\">Descriptive Link</a></li>\n\t<li><a href=\"#fare-cards\">Fare Cards</a></li>\n\t<li><a href=\"#callout\">Callout</a></li>\n\t<li><a href=\"#list\">Content List</a></li>\n\t<li><a href=\"#code\">Code Embed</a></li>\n\t<li><a href=\"#gallery\">Photo Gallery</a></li>\n\t<li><a href=\"#rightrail\">Right Rail</a></li>\n\t<li><a href=\"#library\">From Library </a>(reusable paragraph)</li>\n\t<li><a href=\"#trip-planner\">Trip Planner Widget</a></li>\n\t<li><a href=\"#files-grid\">Files Grid</a> (try to avoid)</li>\n\t<li><a href=\"#people-grid\">People Grid</a></li>\n</ul>\n",
+      "summary": ""
+    }
+  ],
+  "field_downloads": [],
+  "field_image": [],
+  "field_keywords": [],
+  "field_page_type": [
+    {
+      "id": 14,
+      "name": "CMS Style Guide",
+      "vocab": "page_type",
+      "data": null
+    }
+  ],
+  "field_paragraphs": [
+    {
+      "target_id": 17098,
+      "target_revision_id": 483895,
+      "id": [
+        {
+          "value": 17098
+        }
+      ],
+      "uuid": [
+        {
+          "value": "b804047c-2644-464e-80b8-34e76ae75cf3"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483895
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601392090
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr />\r\n<h2 id=\"custom-html\">Custom HTML</h2>\r\n\r\n<p>This paragraph provides the usual WYSIWYG editor (see the <a href=\"/style-guide\">Style Guide</a>&nbsp;for tips on using the editor). Its main purpose is to intersperse content between other types of paragraphs.</p>\r\n\r\n<p>You can format text as you see fit, such a <strong>bold for emphasis</strong>. Below are some link styles.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/search\">Call to action</a></p>\r\n\r\n<p><a class=\"btn btn-primary\" href=\"/search\">Primary button</a></p>\r\n\r\n<p><a class=\"btn btn-secondary\" href=\"/search\">Secondary button</a></p>\r\n",
+          "format": "full_html",
+          "processed": "<hr />\n<h2 id=\"custom-html\">Custom HTML</h2>\n\n<p>This paragraph provides the usual WYSIWYG editor (see the <a href=\"/style-guide\">Style Guide</a> for tips on using the editor). Its main purpose is to intersperse content between other types of paragraphs.</p>\n\n<p>You can format text as you see fit, such a <strong>bold for emphasis</strong>. Below are some link styles.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/search\">Call to action</a></p>\n\n<p><a class=\"btn btn-primary\" href=\"/search\">Primary button</a></p>\n\n<p><a class=\"btn btn-secondary\" href=\"/search\">Secondary button</a></p>\n"
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ]
+    },
+    {
+      "target_id": 17116,
+      "target_revision_id": 483902,
+      "id": [
+        {
+          "value": 17116
+        }
+      ],
+      "uuid": [
+        {
+          "value": "0fd781c5-d9d8-4b38-bece-03eefb81fcda"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483902
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "tabs",
+          "target_type": "paragraphs_type",
+          "target_uuid": "70cd88c9-2dd5-41a5-bf35-406318eaaf41"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601393759
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_multi_column_header": [
+        {
+          "target_id": 17109,
+          "target_revision_id": 466195,
+          "id": [
+            {
+              "value": 17109
+            }
+          ],
+          "uuid": [
+            {
+              "value": "0a386fb2-2086-44ba-bcbc-3ffed440e768"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 466195
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601393761
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17116"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_header_text": [
+            {
+              "value": "<hr />\r\n<h2 id=\"tabbed\">Tabbed Interface</h2>\r\n\r\n<p>We use this type of paragraph for FAQs and user guides. They allow us to<strong> progressively disclose</strong> information and grant users some choice in uncovering what information they would like to see.</p>\r\n\r\n<p>Tabbed interface content should use:</p>\r\n",
+              "format": "full_html",
+              "processed": "<hr />\n<h2 id=\"tabbed\">Tabbed Interface</h2>\n\n<p>We use this type of paragraph for FAQs and user guides. They allow us to<strong> progressively disclose</strong> information and grant users some choice in uncovering what information they would like to see.</p>\n\n<p>Tabbed interface content should use:</p>\n"
+            }
+          ]
+        }
+      ],
+      "field_tabs": [
+        {
+          "target_id": 17111,
+          "target_revision_id": 483897,
+          "id": [
+            {
+              "value": 17111
+            }
+          ],
+          "uuid": [
+            {
+              "value": "51d68215-94c5-4c83-8e0c-9b6f46b69bd4"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 483897
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "tab",
+              "target_type": "paragraphs_type",
+              "target_uuid": "9c4c1256-f4a5-4a54-aeb3-e934ece1c9c8"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601393759
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17116"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_tabs"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_content": [
+            {
+              "target_id": 17110,
+              "target_revision_id": 483896,
+              "id": [
+                {
+                  "value": 17110
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "1ae91557-ffc0-4e2b-b34d-7eb9f35f667f"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 483896
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1601393759
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17111"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [],
+              "field_custom_html_body": [
+                {
+                  "value": "<p>Multiple columns shouldn't be used within&nbsp;tabs.</p>\r\n\r\n<p>If you feel you need to display information in multiple columns, consider how you might create multiple tabs for the content, or consider moving it out of this paragraph type and into a multi-column.</p>\r\n",
+                  "format": "full_html",
+                  "processed": "<p>Multiple columns shouldn't be used within tabs.</p>\n\n<p>If you feel you need to display information in multiple columns, consider how you might create multiple tabs for the content, or consider moving it out of this paragraph type and into a multi-column.</p>\n"
+                }
+              ],
+              "field_right_rail": [
+                {
+                  "value": false
+                }
+              ]
+            }
+          ],
+          "field_label": [
+            {
+              "value": "One column"
+            }
+          ]
+        },
+        {
+          "target_id": 17113,
+          "target_revision_id": 483899,
+          "id": [
+            {
+              "value": 17113
+            }
+          ],
+          "uuid": [
+            {
+              "value": "af7d5eb8-2a2a-4b9a-83ca-5728f475407e"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 483899
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "tab",
+              "target_type": "paragraphs_type",
+              "target_uuid": "9c4c1256-f4a5-4a54-aeb3-e934ece1c9c8"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601393840
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17116"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_tabs"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_content": [
+            {
+              "target_id": 17112,
+              "target_revision_id": 483898,
+              "id": [
+                {
+                  "value": 17112
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "4d710ef3-a4e6-4705-be31-892037b59afb"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 483898
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1601393840
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17113"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [],
+              "field_custom_html_body": [
+                {
+                  "value": "<p>Headers should not be used within tabs.&nbsp;</p>\r\n\r\n<p>If you find yourself wanting to use headers, consider separating the content and starting a new tabbed interface paragraph. You can see an example of our use of multiple tab paragraphs on the <a href=\"/guides/boston-visitor-guide\">Boston Visitor's Guide</a>.</p>\r\n",
+                  "format": "full_html",
+                  "processed": "<p>Headers should not be used within tabs. </p>\n\n<p>If you find yourself wanting to use headers, consider separating the content and starting a new tabbed interface paragraph. You can see an example of our use of multiple tab paragraphs on the <a href=\"/guides/boston-visitor-guide\">Boston Visitor's Guide</a>.</p>\n"
+                }
+              ],
+              "field_right_rail": [
+                {
+                  "value": false
+                }
+              ]
+            }
+          ],
+          "field_label": [
+            {
+              "value": "All body text, no headers"
+            }
+          ]
+        },
+        {
+          "target_id": 17115,
+          "target_revision_id": 483901,
+          "id": [
+            {
+              "value": 17115
+            }
+          ],
+          "uuid": [
+            {
+              "value": "aa2f2217-e696-4a90-a150-fce1bd5349aa"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 483901
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "tab",
+              "target_type": "paragraphs_type",
+              "target_uuid": "9c4c1256-f4a5-4a54-aeb3-e934ece1c9c8"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601393881
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17116"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_tabs"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_content": [
+            {
+              "target_id": 17114,
+              "target_revision_id": 483900,
+              "id": [
+                {
+                  "value": 17114
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "3e1252a1-9a52-4650-b8b6-7ef1913e893a"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 483900
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1601393881
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17115"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [],
+              "field_custom_html_body": [
+                {
+                  "value": "<p>Always use full-width images and graphics in tabs using the media embed tool.</p>\r\n\r\n<p>That means selecting \"Display as: Full\" and \"Align: None\" when embedding images, as shown in this screenshot:</p>\r\n\r\n<drupal-entity data-embed-button=\"new_media\" data-entity-embed-display=\"view_mode:media.half\" data-entity-embed-display-settings=\"{&quot;link_url&quot;:&quot;&quot;,&quot;linkit_attributes&quot;:{&quot;target&quot;:0}}\" data-entity-type=\"media\" data-entity-uuid=\"0f43f6c3-4e41-47b6-8f24-06c75356db65\"></drupal-entity>\r\n",
+                  "format": "full_html",
+                  "processed": "<p>Always use full-width images and graphics in tabs using the media embed tool.</p>\n\n<p>That means selecting \"Display as: Full\" and \"Align: None\" when embedding images, as shown in this screenshot:</p>\n\n<div class=\"embedded-entity\">    <div data-quickedit-entity-id=\"media/163\" class=\"contextual-region media media--type-image media--view-mode-half\"><div data-contextual-id=\"media:media=163:changed=1533116512&amp;langcode=en\" data-contextual-token=\"pJIFOW-uLma_zCpzc_IDRyWxqZ5gEmKwQ8Jv4_hD25c\"></div><div class=\"media-content\">  <img src=\"/sites/default/files/styles/max_650x650/public/media/2018-08/media-image-embed-full-width-example.png?itok=CY1am4uX\" width=\"650\" height=\"570\" alt=\"Screen shot of correct options to embed an image full-width in Drupal\" typeof=\"foaf:Image\" class=\"image-style-max-650x650\" />\n\n\n</div></div>\n</div>\n\n"
+                }
+              ],
+              "field_right_rail": [
+                {
+                  "value": false
+                }
+              ]
+            }
+          ],
+          "field_label": [
+            {
+              "value": "Full-width images and illustrations"
+            }
+          ]
+        }
+      ],
+      "field_tabs_display": [
+        {
+          "value": "accordion"
+        }
+      ]
+    },
+    {
+      "target_id": 17135,
+      "target_revision_id": 483907,
+      "id": [
+        {
+          "value": 17135
+        }
+      ],
+      "uuid": [
+        {
+          "value": "6954808d-54ca-4b33-a53e-c13632ba07f0"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483907
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "description_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "d7e2789b-a6c4-4cc1-bb1d-182dac03bca1"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601394922
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_definition": [
+        {
+          "target_id": 17131,
+          "target_revision_id": 483904,
+          "id": [
+            {
+              "value": 17131
+            }
+          ],
+          "uuid": [
+            {
+              "value": "b966202b-2617-4efd-968d-1de4e6c83a92"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 483904
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "definition",
+              "target_type": "paragraphs_type",
+              "target_uuid": "a9c6dab2-e319-4cc8-bab8-a2757b1b584b"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601394922
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17135"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_definition"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_custom_html_body": [
+            {
+              "value": "<p>1-Day Pass</p>\r\n",
+              "format": "full_html",
+              "processed": "<p>1-Day Pass</p>\n"
+            }
+          ],
+          "field_term_description": [
+            {
+              "target_id": 17130,
+              "target_revision_id": 483903,
+              "id": [
+                {
+                  "value": 17130
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "89c5d6a8-a349-4caf-98a9-8459b6a2fcbf"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 483903
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1601394922
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17131"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_term_description"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [],
+              "field_custom_html_body": [
+                {
+                  "value": "<h3>{{&nbsp;fare:subway:day }}</h3>\r\n\r\n<p>Unlimited travel for 24 hours on Local Bus and subway.</p>\r\n",
+                  "format": "full_html",
+                  "processed": "<h3>{{ fare:subway:day }}</h3>\n\n<p>Unlimited travel for 24 hours on Local Bus and subway.</p>\n"
+                }
+              ],
+              "field_right_rail": [
+                {
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "target_id": 17133,
+          "target_revision_id": 483906,
+          "id": [
+            {
+              "value": 17133
+            }
+          ],
+          "uuid": [
+            {
+              "value": "77ecaf49-7248-4abd-b146-3aaf509c8a45"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 483906
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "definition",
+              "target_type": "paragraphs_type",
+              "target_uuid": "a9c6dab2-e319-4cc8-bab8-a2757b1b584b"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601395060
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17135"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_definition"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_custom_html_body": [
+            {
+              "value": "<p>7-Day Pass</p>\r\n",
+              "format": "full_html",
+              "processed": "<p>7-Day Pass</p>\n"
+            }
+          ],
+          "field_term_description": [
+            {
+              "target_id": 17132,
+              "target_revision_id": 483905,
+              "id": [
+                {
+                  "value": 17132
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "ff74f77f-bf7a-447f-b500-c761eff4bca7"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 483905
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1601395060
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17133"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_term_description"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [],
+              "field_custom_html_body": [
+                {
+                  "value": "<h3>{{&nbsp;fare:subway:week }}</h3>\r\n\r\n<p>Unlimited travel for 7 days on Local Bus and subway.</p>\r\n",
+                  "format": "full_html",
+                  "processed": "<h3>{{ fare:subway:week }}</h3>\n\n<p>Unlimited travel for 7 days on Local Bus and subway.</p>\n"
+                }
+              ],
+              "field_right_rail": [
+                {
+                  "value": false
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "field_multi_column_header": [
+        {
+          "target_id": 17134,
+          "target_revision_id": 465757,
+          "id": [
+            {
+              "value": 17134
+            }
+          ],
+          "uuid": [
+            {
+              "value": "e8867b53-bc7f-494b-b4e4-b654e5edf28f"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 465757
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601394926
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17135"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "field_header_text": [
+            {
+              "value": "<hr />\r\n<h2 id=\"description-list\">Description List</h2>\r\n\r\n<p>A list of paired items: terms and descriptions.</p>\r\n",
+              "format": "full_html",
+              "processed": "<hr />\n<h2 id=\"description-list\">Description List</h2>\n\n<p>A list of paired items: terms and descriptions.</p>\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target_id": 17108,
+      "target_revision_id": 483910,
+      "id": [
+        {
+          "value": 17108
+        }
+      ],
+      "uuid": [
+        {
+          "value": "5ce5ba30-4c14-4de8-ad85-d12b95e0c784"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483910
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601393535
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_column": [
+        {
+          "target_id": 17104,
+          "target_revision_id": 483908,
+          "id": [
+            {
+              "value": 17104
+            }
+          ],
+          "uuid": [
+            {
+              "value": "d809dc43-1371-47ee-b94d-30b34cb5e5ef"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 483908
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601393535
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17108"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_content": [
+            {
+              "target_id": 17103,
+              "target_revision_id": 465927,
+              "id": [
+                {
+                  "value": 17103
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "27e3b3f4-4440-4759-8bec-686cbba6b59b"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 465927
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1601393595
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17104"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "field_custom_html_body": [
+                {
+                  "value": "<drupal-entity data-embed-button=\"new_media\" data-entity-embed-display=\"view_mode:media.full\" data-entity-embed-display-settings=\"{&quot;link_url&quot;:&quot;&quot;,&quot;linkit_attributes&quot;:{&quot;target&quot;:0}}\" data-entity-type=\"media\" data-entity-uuid=\"9c3f3361-eeec-46aa-aa42-ae6037ea227e\"></drupal-entity>\r\n\r\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\r\n",
+                  "format": "full_html",
+                  "processed": "<div class=\"embedded-entity\">    <div data-quickedit-entity-id=\"media/1352\" class=\"contextual-region media media--type-image media--view-mode-full\"><div data-contextual-id=\"media:media=1352:changed=1598019810&amp;langcode=en\" data-contextual-token=\"Pfxv6FrHt1irfKpdNyNHErj93AmoeTlE54rl03QOwR0\"></div><div class=\"media-content\">  <img src=\"/sites/default/files/styles/max_2600x2600/public/media/2019-10/Bacon%20St%20Bridge%20before_0.jpg?itok=3o-SQiv7\" width=\"1500\" height=\"844\" alt=\"Bacon Street bridge in Wellesley is being completely replaced.\" typeof=\"foaf:Image\" class=\"image-style-max-2600x2600\" />\n\n\n</div></div>\n</div>\n\n\n<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>\n"
+                }
+              ],
+              "field_right_rail": [
+                {
+                  "value": false
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "target_id": 17106,
+          "target_revision_id": 483909,
+          "id": [
+            {
+              "value": 17106
+            }
+          ],
+          "uuid": [
+            {
+              "value": "7c97a8b6-2ba7-47bf-8659-b4ba2a62b217"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 483909
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601393624
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17108"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_content": [
+            {
+              "target_id": 17105,
+              "target_revision_id": 465929,
+              "id": [
+                {
+                  "value": 17105
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "737d70a8-cb9d-4579-a08b-4bb33cc82837"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 465929
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1601393629
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17106"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "field_custom_html_body": [
+                {
+                  "value": "<drupal-entity data-embed-button=\"new_media\" data-entity-embed-display=\"view_mode:media.full\" data-entity-embed-display-settings=\"{&quot;link_url&quot;:&quot;&quot;,&quot;linkit_attributes&quot;:{&quot;target&quot;:0}}\" data-entity-type=\"media\" data-entity-uuid=\"77dd5228-f084-4b04-b6bb-4d4538ec7a6f\"></drupal-entity>\r\n\r\n<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>\r\n",
+                  "format": "full_html",
+                  "processed": "<div class=\"embedded-entity\">    <div data-quickedit-entity-id=\"media/1337\" class=\"contextual-region media media--type-image media--view-mode-full\"><div data-contextual-id=\"media:media=1337:changed=1598019803&amp;langcode=en\" data-contextual-token=\"AzohyUiLrZ75cL4bxMZIvMEefPswKmY3rYZCOKg2rEw\"></div><div class=\"media-content\">  <img src=\"/sites/default/files/styles/max_2600x2600/public/media/2019-10/Bacon%20St%20Bridge%20after.jpg?itok=E0i2018F\" width=\"1500\" height=\"844\" alt=\"A rendering shows what the Bacon Street Bridge in Wellesley will look like after full replacement.\" typeof=\"foaf:Image\" class=\"image-style-max-2600x2600\" />\n\n\n</div></div>\n</div>\n\n\n<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>\n"
+                }
+              ],
+              "field_right_rail": [
+                {
+                  "value": false
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "field_display_options": [
+        {
+          "value": "default"
+        }
+      ],
+      "field_multi_column_header": [
+        {
+          "target_id": 17107,
+          "target_revision_id": 466210,
+          "id": [
+            {
+              "value": 17107
+            }
+          ],
+          "uuid": [
+            {
+              "value": "1bd6ecb0-809e-4102-be63-32adb5c12e5d"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 466210
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601393557
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17108"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "field_header_text": [
+            {
+              "value": "<hr />\r\n<h2 id=\"multi-column\">Multi-Column</h2>\r\n\r\n<p>The multi-column paragraph allows you to display information in two or three columns on a page. The columns will collapse into a stacked layout on mobile. You can stack these paragraphs to create grid- or table-like displays.&nbsp;</p>\r\n\r\n<p>Use the multi-column paragraph to when you need to compare sets of information. But a <a href=\"#description-list\">description list</a> can also accomplish this.</p>\r\n\r\n<p>The multi-column has all the capabilities of a custom HTML paragraph.</p>\r\n\r\n<p><strong>Example: </strong><a href=\"/ridesafer\">Ride Safer</a></p>\r\n",
+              "format": "full_html",
+              "processed": "<hr />\n<h2 id=\"multi-column\">Multi-Column</h2>\n\n<p>The multi-column paragraph allows you to display information in two or three columns on a page. The columns will collapse into a stacked layout on mobile. You can stack these paragraphs to create grid- or table-like displays. </p>\n\n<p>Use the multi-column paragraph to when you need to compare sets of information. But a <a href=\"#description-list\">description list</a> can also accomplish this.</p>\n\n<p>The multi-column has all the capabilities of a custom HTML paragraph.</p>\n\n<p><strong>Example: </strong><a href=\"/ridesafer\">Ride Safer</a></p>\n"
+            }
+          ]
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ]
+    },
+    {
+      "target_id": 17634,
+      "target_revision_id": 483911,
+      "id": [
+        {
+          "value": 17634
+        }
+      ],
+      "uuid": [
+        {
+          "value": "5020a474-c7ef-4a89-bcc3-e7dc131b7095"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483911
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1603745240
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr />\r\n<h2 id=\"descriptive-link\">Descriptive Link</h2>\r\n\r\n<p>These styled links, at full or half-width, allow content authors to assign hierarchy. Required fields include a header, body copy, and a link.</p>\r\n\r\n<p><strong>Example:</strong> <a href=\"/fares/bus-fares#question\"> Bus fares page</a></p>\r\n\r\n<h3>Descriptive Link Paragraph</h3>\r\n",
+          "format": "full_html",
+          "processed": "<hr />\n<h2 id=\"descriptive-link\">Descriptive Link</h2>\n\n<p>These styled links, at full or half-width, allow content authors to assign hierarchy. Required fields include a header, body copy, and a link.</p>\n\n<p><strong>Example:</strong> <a href=\"/fares/bus-fares#question\"> Bus fares page</a></p>\n\n<h3>Descriptive Link Paragraph</h3>\n"
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ]
+    },
+    {
+      "target_id": 17635,
+      "target_revision_id": 483912,
+      "id": [
+        {
+          "value": 17635
+        }
+      ],
+      "uuid": [
+        {
+          "value": "df9a4a2b-6cd4-490d-98f6-e3d3bce65f7e"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483912
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "title_card",
+          "target_type": "paragraphs_type",
+          "target_uuid": "f1b9c3e7-f439-4138-b48c-bbb17a8a003d"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1603745181
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_title_card_body": [
+        {
+          "value": "<p>A brief description of the link goes here.</p>\r\n",
+          "format": "full_html",
+          "processed": "<p>A brief description of the link goes here.</p>\n"
+        }
+      ],
+      "field_title_card_link": [
+        {
+          "uri": "https://www.mbta.com/",
+          "title": "",
+          "options": []
+        }
+      ],
+      "field_title_card_title": [
+        {
+          "value": "MBTA Homepage"
+        }
+      ]
+    },
+    {
+      "target_id": 17147,
+      "target_revision_id": 483915,
+      "id": [
+        {
+          "value": 17147
+        }
+      ],
+      "uuid": [
+        {
+          "value": "4a58f945-3255-4a32-a422-415e561476b5"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483915
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601395768
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_column": [
+        {
+          "target_id": 17143,
+          "target_revision_id": 483913,
+          "id": [
+            {
+              "value": 17143
+            }
+          ],
+          "uuid": [
+            {
+              "value": "3f68524e-9a90-4755-a0d7-b34cb53ed38a"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 483913
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601395768
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17147"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_content": [
+            {
+              "target_id": 17142,
+              "target_revision_id": 465851,
+              "id": [
+                {
+                  "value": 17142
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "951de9fd-1cdf-4826-86f9-a3e2e01326d2"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 465851
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "title_card",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "f1b9c3e7-f439-4138-b48c-bbb17a8a003d"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1601395779
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17143"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "field_title_card_body": [
+                {
+                  "value": "<p>A brief description of the link goes here.</p>\r\n",
+                  "format": "full_html",
+                  "processed": "<p>A brief description of the link goes here.</p>\n"
+                }
+              ],
+              "field_title_card_link": [
+                {
+                  "uri": "https://www.mbta.com",
+                  "title": "",
+                  "options": []
+                }
+              ],
+              "field_title_card_title": [
+                {
+                  "value": "MBTA Homepage"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "target_id": 17637,
+          "target_revision_id": 483914,
+          "id": [
+            {
+              "value": 17637
+            }
+          ],
+          "uuid": [
+            {
+              "value": "047ce81e-9fbb-4927-a737-d81d36f6e568"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 483914
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1603745412
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17147"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_content": [
+            {
+              "target_id": 17636,
+              "target_revision_id": 465853,
+              "id": [
+                {
+                  "value": 17636
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "5c24c522-10e3-4e30-a376-073c6491d7cf"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 465853
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "title_card",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "f1b9c3e7-f439-4138-b48c-bbb17a8a003d"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1603745421
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17637"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "field_title_card_body": [
+                {
+                  "value": "<p>A brief description of the link goes here.</p>\r\n",
+                  "format": "full_html",
+                  "processed": "<p>A brief description of the link goes here.</p>\n"
+                }
+              ],
+              "field_title_card_link": [
+                {
+                  "uri": "https://www.mass.gov/orgs/massachusetts-department-of-transportation",
+                  "title": "",
+                  "options": []
+                }
+              ],
+              "field_title_card_title": [
+                {
+                  "value": "MassDOT Homepage"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "field_display_options": [
+        {
+          "value": "default"
+        }
+      ],
+      "field_multi_column_header": [
+        {
+          "target_id": 17638,
+          "target_revision_id": 466014,
+          "id": [
+            {
+              "value": 17638
+            }
+          ],
+          "uuid": [
+            {
+              "value": "fcf5fa21-d7d0-47c6-978a-4162cd56efde"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 466014
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1603745562
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17147"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "field_header_text": [
+            {
+              "value": "<h3>Descriptive Links Inside Multi-Column Paragraph</h3>\r\n\r\n<p>If you first a create multi-column paragraph, you can then <strong>nest</strong> a descriptive link in each column, allowing it to span half instead of full width.</p>\r\n\r\n<p>This is especially useful for linking to children pages from a parent landing page, e.g. <a href=\"/accessibility\">Accessibility</a>.</p>\r\n",
+              "format": "full_html",
+              "processed": "<h3>Descriptive Links Inside Multi-Column Paragraph</h3>\n\n<p>If you first a create multi-column paragraph, you can then <strong>nest</strong> a descriptive link in each column, allowing it to span half instead of full width.</p>\n\n<p>This is especially useful for linking to children pages from a parent landing page, e.g. <a href=\"/accessibility\">Accessibility</a>.</p>\n"
+            }
+          ]
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ]
+    },
+    {
+      "target_id": 17122,
+      "target_revision_id": 483920,
+      "id": [
+        {
+          "value": 17122
+        }
+      ],
+      "uuid": [
+        {
+          "value": "331c0aa8-9483-4339-8138-9dbb50660c7e"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483920
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601393987
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_column": [
+        {
+          "target_id": 17118,
+          "target_revision_id": 483917,
+          "id": [
+            {
+              "value": 17118
+            }
+          ],
+          "uuid": [
+            {
+              "value": "d27cd8f8-22ca-47e4-a77b-caa9530bbd20"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 483917
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601393987
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17122"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "field_content": [
+            {
+              "target_id": 17117,
+              "target_revision_id": 483916,
+              "id": [
+                {
+                  "value": 17117
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "897749c1-18d1-4bb0-b2fa-e9f5065ca951"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 483916
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "fare_card",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "c95ab763-42bc-4269-a804-d766091bbf49"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1601394023
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17118"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "field_card_link": [],
+              "field_fare_media": [
+                {
+                  "value": true
+                }
+              ],
+              "field_fare_notes": [],
+              "field_fare_request": [
+                {
+                  "value": "{{ fare:subway:charlie_card }}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "target_id": 17120,
+          "target_revision_id": 483919,
+          "id": [
+            {
+              "value": 17120
+            }
+          ],
+          "uuid": [
+            {
+              "value": "384fdbd5-f723-4672-8ebd-8ffb1da5d79f"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 483919
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601394069
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17122"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "field_content": [
+            {
+              "target_id": 17119,
+              "target_revision_id": 483918,
+              "id": [
+                {
+                  "value": 17119
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "013fbce1-5de1-45c1-bdd2-4d406ebe6ee7"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 483918
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "fare_card",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "c95ab763-42bc-4269-a804-d766091bbf49"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1601394090
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17120"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "field_card_link": [],
+              "field_fare_media": [
+                {
+                  "value": true
+                }
+              ],
+              "field_fare_notes": [],
+              "field_fare_request": [
+                {
+                  "value": "{{ fare:local_bus:charlie_card }}"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "field_display_options": [
+        {
+          "value": "default"
+        }
+      ],
+      "field_multi_column_header": [
+        {
+          "target_id": 17121,
+          "target_revision_id": 466095,
+          "id": [
+            {
+              "value": 17121
+            }
+          ],
+          "uuid": [
+            {
+              "value": "79d25470-80a8-450d-be83-cdbd4050720f"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 466095
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601393989
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17122"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "field_header_text": [
+            {
+              "value": "<hr />\r\n<h2 id=\"fare-cards\">Fare Cards</h2>\r\n\r\n<p>A card format for displaying fare information. These are nested in multi-column paragraphs.</p>\r\n\r\n<h3>Default Fare Cards</h3>\r\n",
+              "format": "full_html",
+              "processed": "<hr />\n<h2 id=\"fare-cards\">Fare Cards</h2>\n\n<p>A card format for displaying fare information. These are nested in multi-column paragraphs.</p>\n\n<h3>Default Fare Cards</h3>\n"
+            }
+          ]
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ]
+    },
+    {
+      "target_id": 17639,
+      "target_revision_id": 483921,
+      "id": [
+        {
+          "value": 17639
+        }
+      ],
+      "uuid": [
+        {
+          "value": "a8fda8d8-e490-4d6b-82b6-0023bb9b186f"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483921
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1603746233
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<h3>Grouped Fare Cards</h3>\r\n\r\n<p>A grouped pair of fare cards. These must be the same mode, and nested in a multi-column paragraph which has its <strong>Custom Display Options</strong> set to <strong>Grouped</strong>.</p>\r\n",
+          "format": "full_html",
+          "processed": "<h3>Grouped Fare Cards</h3>\n\n<p>A grouped pair of fare cards. These must be the same mode, and nested in a multi-column paragraph which has its <strong>Custom Display Options</strong> set to <strong>Grouped</strong>.</p>\n"
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ]
+    },
+    {
+      "target_id": 17129,
+      "target_revision_id": 483924,
+      "id": [
+        {
+          "value": 17129
+        }
+      ],
+      "uuid": [
+        {
+          "value": "c54fc81f-b652-4b89-941f-6767cc429ca9"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483924
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "multi_column",
+          "target_type": "paragraphs_type",
+          "target_uuid": "ea43009f-38a7-47ef-a30e-51fe32ac7f7d"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601394375
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_column": [
+        {
+          "target_id": 17125,
+          "target_revision_id": 483922,
+          "id": [
+            {
+              "value": 17125
+            }
+          ],
+          "uuid": [
+            {
+              "value": "06039847-486f-4f9c-becf-91b110048aaf"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 483922
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601394375
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17129"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_content": [
+            {
+              "target_id": 17124,
+              "target_revision_id": 445239,
+              "id": [
+                {
+                  "value": 17124
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "aeea9823-566e-4a12-a646-19c2e6221820"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 445239
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "fare_card",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "c95ab763-42bc-4269-a804-d766091bbf49"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1601394424
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17125"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "field_card_link": [],
+              "field_fare_media": [
+                {
+                  "value": true
+                }
+              ],
+              "field_fare_notes": [],
+              "field_fare_request": [
+                {
+                  "value": "{{ fare:local_bus:charlie_card }}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "target_id": 17127,
+          "target_revision_id": 483923,
+          "id": [
+            {
+              "value": 17127
+            }
+          ],
+          "uuid": [
+            {
+              "value": "b79569dd-f327-4674-8c1c-51c9d1d27d3f"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 483923
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "column",
+              "target_type": "paragraphs_type",
+              "target_uuid": "8d680bd9-d412-4c04-bec6-c6df257a53d7"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601394483
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17129"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_column"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_content": [
+            {
+              "target_id": 17126,
+              "target_revision_id": 445152,
+              "id": [
+                {
+                  "value": 17126
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "9c0c3476-6b7c-4663-81b3-46d944f1a100"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 445152
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "fare_card",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "c95ab763-42bc-4269-a804-d766091bbf49"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1601394487
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17127"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraph"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "field_content"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [
+                {
+                  "value": true
+                }
+              ],
+              "field_card_link": [],
+              "field_fare_media": [
+                {
+                  "value": true
+                }
+              ],
+              "field_fare_notes": [
+                {
+                  "target_id": 17164,
+                  "target_revision_id": 445151,
+                  "id": [
+                    {
+                      "value": 17164
+                    }
+                  ],
+                  "uuid": [
+                    {
+                      "value": "3e7eb2b3-f039-4cd9-85bd-5de944f0282c"
+                    }
+                  ],
+                  "revision_id": [
+                    {
+                      "value": 445151
+                    }
+                  ],
+                  "langcode": [
+                    {
+                      "value": "en"
+                    }
+                  ],
+                  "type": [
+                    {
+                      "target_id": "custom_html",
+                      "target_type": "paragraphs_type",
+                      "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                    }
+                  ],
+                  "status": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "created": [
+                    {
+                      "value": 1601406098
+                    }
+                  ],
+                  "parent_id": [
+                    {
+                      "value": "17126"
+                    }
+                  ],
+                  "parent_type": [
+                    {
+                      "value": "paragraph"
+                    }
+                  ],
+                  "parent_field_name": [
+                    {
+                      "value": "field_fare_notes"
+                    }
+                  ],
+                  "behavior_settings": [
+                    {
+                      "value": []
+                    }
+                  ],
+                  "default_langcode": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "revision_translation_affected": [
+                    {
+                      "value": true
+                    }
+                  ],
+                  "field_custom_html_body": [
+                    {
+                      "value": "<p><a class=\"c-call-to-action\" href=\"/fares/reduced\">Learn more about reduced fares</a></p>\r\n",
+                      "format": "full_html",
+                      "processed": "<p><a class=\"c-call-to-action\" href=\"/fares/reduced\">Learn more about reduced fares</a></p>\n"
+                    }
+                  ],
+                  "field_right_rail": [
+                    {
+                      "value": false
+                    }
+                  ]
+                }
+              ],
+              "field_fare_request": [
+                {
+                  "value": "{{fare:local_bus:reduced}}"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "field_display_options": [
+        {
+          "value": "grouped"
+        }
+      ],
+      "field_multi_column_header": [],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ]
+    },
+    {
+      "target_id": 17148,
+      "target_revision_id": 483925,
+      "id": [
+        {
+          "value": 17148
+        }
+      ],
+      "uuid": [
+        {
+          "value": "e4420865-a7da-44bc-a080-c700b30f3de3"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483925
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "entity_reference",
+          "target_type": "paragraphs_type",
+          "target_uuid": "4f4bc898-e483-4da7-b7b1-21fa4f44554a"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601396268
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_content_reference": [
+        {
+          "nid": [
+            {
+              "value": 5036
+            }
+          ],
+          "uuid": [
+            {
+              "value": "b1be3c95-dcf1-40d0-b121-b80ec8dce0fb"
+            }
+          ],
+          "vid": [
+            {
+              "value": 44911
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "callout",
+              "target_type": "node_type",
+              "target_uuid": "6c56ef13-6520-49f0-98ca-2b85bc010d73"
+            }
+          ],
+          "revision_timestamp": [
+            {
+              "value": 1601396450
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 213,
+              "target_type": "user",
+              "target_uuid": "84ffb66e-0221-4236-9c75-54b91f65ea38",
+              "url": "/user/213"
+            }
+          ],
+          "revision_log": [],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 213,
+              "target_type": "user",
+              "target_uuid": "84ffb66e-0221-4236-9c75-54b91f65ea38",
+              "url": "/user/213"
+            }
+          ],
+          "title": [
+            {
+              "value": "Callout"
+            }
+          ],
+          "created": [
+            {
+              "value": 1601396450
+            }
+          ],
+          "changed": [
+            {
+              "value": 1601396556
+            }
+          ],
+          "promote": [
+            {
+              "value": false
+            }
+          ],
+          "sticky": [
+            {
+              "value": false
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [],
+          "sidebar": [
+            {
+              "value": false
+            }
+          ],
+          "path": [
+            {
+              "alias": null,
+              "pid": null,
+              "langcode": "en"
+            }
+          ],
+          "publish_on": [],
+          "unpublish_on": [],
+          "publish_state": [
+            {
+              "value": "_none"
+            }
+          ],
+          "unpublish_state": [
+            {
+              "value": "_none"
+            }
+          ],
+          "body": [
+            {
+              "value": "<p>This teaser breaks up the main page content with an across-the-page treatment and link to popular/common pages or new content, such as user guides. A callout&nbsp;has a headline, description, link, and image.</p>\r\n",
+              "format": "full_html",
+              "processed": "<p>This teaser breaks up the main page content with an across-the-page treatment and link to popular/common pages or new content, such as user guides. A callout has a headline, description, link, and image.</p>\n",
+              "summary": ""
+            }
+          ],
+          "field_image": [
+            {
+              "url": "https://live-mbta.pantheonsite.io/sites/default/files/styles/whats_happening/public/media/2019-01/charliecard_0.png?itok=2vUHEL-L",
+              "alt": "Photo of CharlieCard"
+            }
+          ],
+          "field_url": [
+            {
+              "uri": "https://www.mbta.com/fares/subway-fares#callout",
+              "title": "View a live example of a callout paragraph",
+              "options": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target_id": 17139,
+      "target_revision_id": 483926,
+      "id": [
+        {
+          "value": 17139
+        }
+      ],
+      "uuid": [
+        {
+          "value": "0a96c5cb-624f-4cee-b8ed-437c1c4861ad"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483926
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601395566
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr />\r\n<h2 id=\"list\">Content List</h2>\r\n\r\n<p>A content list allows you to specify criteria, which will pull a list of existing, published nodes. They are dynamic and will update their contents automatically.</p>\r\n\r\n<p>For example: If you create a content list for all upcoming events tagged with \"Senior CharlieCard Event,\" that list will automatically update when a new event is added (adding it to the list) and when an existing event has past (removing it from the list).</p>\r\n\r\n<p><strong>Example:</strong>&nbsp;<a href=\"/org/content-list-demo?preview=&amp;vid=latest&amp;nid=4196\">Content list demo page</a></p>\r\n",
+          "format": "full_html",
+          "processed": "<hr />\n<h2 id=\"list\">Content List</h2>\n\n<p>A content list allows you to specify criteria, which will pull a list of existing, published nodes. They are dynamic and will update their contents automatically.</p>\n\n<p>For example: If you create a content list for all upcoming events tagged with \"Senior CharlieCard Event,\" that list will automatically update when a new event is added (adding it to the list) and when an existing event has past (removing it from the list).</p>\n\n<p><strong>Example:</strong> <a href=\"/org/content-list-demo?preview=&amp;vid=latest&amp;nid=4196\">Content list demo page</a></p>\n"
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ]
+    },
+    {
+      "target_id": 17626,
+      "target_revision_id": 483927,
+      "id": [
+        {
+          "value": 17626
+        }
+      ],
+      "uuid": [
+        {
+          "value": "51125758-6fd7-49c7-a9aa-759065e08e80"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483927
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "code_embed",
+          "target_type": "paragraphs_type",
+          "target_uuid": "058d5dd9-5855-4abf-9623-550aeab2013f"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1603743023
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_code": [
+        {
+          "value": "<div class='tableauPlaceholder' id='viz1601316807434' style='position: relative'>\r\n\t<noscript>\r\n\t<a href='#'>\r\n\t\t<img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Su&#47;SubwayCrowding&#47;Dashboard1&#47;1_rss.png' style='border: none' />\r\n\t</a>\r\n\t</noscript>\r\n\t<object class='tableauViz'  style='display:none;'>\r\n\t\t<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />\r\n\t\t<param name='embed_code_version' value='3' />\r\n\t\t<param name='site_root' value='' />\r\n\t\t<param name='name' value='SubwayCrowding&#47;Dashboard1' />\r\n\t\t<param name='tabs' value='no' />\r\n\t\t<param name='toolbar' value='yes' />\r\n\t\t<param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Su&#47;SubwayCrowding&#47;Dashboard1&#47;1.png' />\r\n\t\t<param name='animate_transition' value='yes' />\r\n\t\t<param name='display_static_image' value='yes' />\r\n\t\t<param name='display_spinner' value='yes' />\r\n\t\t<param name='display_overlay' value='yes' />\r\n\t\t<param name='display_count' value='yes' />\r\n\t\t<param name='language' value='en-US' />\r\n\t\t<param name='device' value='desktop' />\r\n\t</object>\r\n</div>\r\n<script type='text/javascript'>\r\n\tvar divElement = document.getElementById('viz1601316807434');\r\n\tvar vizElement = divElement.getElementsByTagName('object')[0];\r\n\tvizElement.style.width='400px';\r\n\tvizElement.style.height='677px';\r\n\tvar scriptElement = document.createElement('script');\r\n\tscriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';\r\n\tvizElement.parentNode.insertBefore(scriptElement, vizElement);\r\n</script>",
+          "format": "raw",
+          "processed": "<div class='tableauPlaceholder' id='viz1601316807434' style='position: relative'>\n\t<noscript>\n\t<a href='#'>\n\t\t<img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Su&#47;SubwayCrowding&#47;Dashboard1&#47;1_rss.png' style='border: none' />\n\t</a>\n\t</noscript>\n\t<object class='tableauViz'  style='display:none;'>\n\t\t<param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />\n\t\t<param name='embed_code_version' value='3' />\n\t\t<param name='site_root' value='' />\n\t\t<param name='name' value='SubwayCrowding&#47;Dashboard1' />\n\t\t<param name='tabs' value='no' />\n\t\t<param name='toolbar' value='yes' />\n\t\t<param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Su&#47;SubwayCrowding&#47;Dashboard1&#47;1.png' />\n\t\t<param name='animate_transition' value='yes' />\n\t\t<param name='display_static_image' value='yes' />\n\t\t<param name='display_spinner' value='yes' />\n\t\t<param name='display_overlay' value='yes' />\n\t\t<param name='display_count' value='yes' />\n\t\t<param name='language' value='en-US' />\n\t\t<param name='device' value='desktop' />\n\t</object>\n</div>\n<script type='text/javascript'>\n\tvar divElement = document.getElementById('viz1601316807434');\n\tvar vizElement = divElement.getElementsByTagName('object')[0];\n\tvizElement.style.width='400px';\n\tvizElement.style.height='677px';\n\tvar scriptElement = document.createElement('script');\n\tscriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';\n\tvizElement.parentNode.insertBefore(scriptElement, vizElement);\n</script>"
+        }
+      ],
+      "field_multi_column_header": [
+        {
+          "target_id": 17625,
+          "target_revision_id": 466183,
+          "id": [
+            {
+              "value": 17625
+            }
+          ],
+          "uuid": [
+            {
+              "value": "0dde1271-96bc-49f5-be17-dd86c00d5d2a"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 466183
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1603743028
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17626"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "field_header_text": [
+            {
+              "value": "<hr />\r\n<h2 id=\"code\">Code Embed</h2>\r\n\r\n<p>This paragraph allows raw, unfiltered HTML to be rendered on the front-end. It’s used (sparingly) to display code that is normally prohibited in our CMS.</p>\r\n\r\n<p>{{fa \"warning\"}} Approval from a senior member of the Content team is needed prior to using this paragraph.</p>\r\n\r\n<p><strong>Example: </strong><a href=\"/covid19#crowding\">Crowding dashboard on the coronavirus page</a></p>\r\n",
+              "format": "full_html",
+              "processed": "<hr />\n<h2 id=\"code\">Code Embed</h2>\n\n<p>This paragraph allows raw, unfiltered HTML to be rendered on the front-end. It’s used (sparingly) to display code that is normally prohibited in our CMS.</p>\n\n<p>{{fa \"warning\"}} Approval from a senior member of the Content team is needed prior to using this paragraph.</p>\n\n<p><strong>Example: </strong><a href=\"/covid19#crowding\">Crowding dashboard on the coronavirus page</a></p>\n"
+            }
+          ]
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ],
+      "field_risk_acknowledgement": [
+        {
+          "value": true
+        }
+      ]
+    },
+    {
+      "target_id": 17138,
+      "target_revision_id": 483928,
+      "id": [
+        {
+          "value": 17138
+        }
+      ],
+      "uuid": [
+        {
+          "value": "b71e5602-62f4-459b-bfe8-757e89f57d14"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483928
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "photo_gallery",
+          "target_type": "paragraphs_type",
+          "target_uuid": "bce17d68-5fb5-45ac-a9c9-3ea60f3c62ce"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601395196
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_image": [
+        {
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_1300x1300/public/projects/glx/existing-green-line/green-line-train-science-park-viewed-from-below-sunlight.jpg?itok=TMmO6xR4",
+          "alt": "Green Line train pulling into the Science Park/West End Station",
+          "field_image_caption": [
+            {
+              "value": "<p>Green Line train pulls into the Science Park/West End Station, viewed from the tactile edge of the platform, with sunlight in the background.</p>\r\n",
+              "format": "full_html",
+              "processed": "<p>Green Line train pulls into the Science Park/West End Station, viewed from the tactile edge of the platform, with sunlight in the background.</p>\n"
+            }
+          ]
+        },
+        {
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_1300x1300/public/projects/fenway-portal/fenway-portal-green-line-train.jpg?itok=lHUaxEsb",
+          "alt": "Green Line exiting Fenway Portal"
+        },
+        {
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_1300x1300/public/projects/glx/existing-green-line/green-line-train-viewed-from-below.jpg?itok=X6H8SWOL",
+          "alt": "A Green Line train arrives at an above-ground platform."
+        },
+        {
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_1300x1300/public/projects/glx/existing-green-line/green-line-train-platform-riders-D-branch.jpg?itok=00hJuUo9",
+          "alt": "A Green Line train arrives at an above-ground platform, with riders walking down the platform."
+        },
+        {
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/styles/max_1300x1300/public/projects/glx/green-line-train.jpg?itok=5mn4ctNM",
+          "alt": "Green Line trolley above ground"
+        }
+      ],
+      "field_multi_column_header": [
+        {
+          "target_id": 17137,
+          "target_revision_id": 443828,
+          "id": [
+            {
+              "value": 17137
+            }
+          ],
+          "uuid": [
+            {
+              "value": "20064b4f-3f27-4695-aea7-5c0be26abf76"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 443828
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1601395199
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "17138"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "field_header_text": [
+            {
+              "value": "<hr />\r\n<h2 id=\"gallery\">Photo Gallery</h2>\r\n\r\n<p>Below is a Photo Gallery which allows multiple photos. The media item's alt text will be used as a caption. When rendered on the front-end, interactive controls will be shown including thumbnail versions (automatically cropped to a square from the center).</p>\r\n",
+              "format": "full_html",
+              "processed": "<hr />\n<h2 id=\"gallery\">Photo Gallery</h2>\n\n<p>Below is a Photo Gallery which allows multiple photos. The media item's alt text will be used as a caption. When rendered on the front-end, interactive controls will be shown including thumbnail versions (automatically cropped to a square from the center).</p>\n"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target_id": 17150,
+      "target_revision_id": 483929,
+      "id": [
+        {
+          "value": 17150
+        }
+      ],
+      "uuid": [
+        {
+          "value": "939755af-d72c-4ad8-937d-268836ef150d"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483929
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601396856
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<h2 id=\"rightrail\">Right Rail</h2>\r\n\r\n<p>We use the right rail as an easy off-ramp from the main page that offers related content to users—often executing a specific, repeated task (such as adding value to a CharlieCard). A right rail element contain a headline, text and link (a button or CTA).</p>\r\n\r\n<p>On a large browser window the element is visible on the upper right-hand side of the page. On mobile devices, it falls between paragraph types.</p>\r\n\r\n<p>Multiple items can either grouped (when closely related) or ungrouped elements.</p>\r\n\r\n<p><strong>Example:</strong> <a href=\"/fares\"> Fares page</a></p>\r\n",
+          "format": "full_html",
+          "processed": "<h2 id=\"rightrail\">Right Rail</h2>\n\n<p>We use the right rail as an easy off-ramp from the main page that offers related content to users—often executing a specific, repeated task (such as adding value to a CharlieCard). A right rail element contain a headline, text and link (a button or CTA).</p>\n\n<p>On a large browser window the element is visible on the upper right-hand side of the page. On mobile devices, it falls between paragraph types.</p>\n\n<p>Multiple items can either grouped (when closely related) or ungrouped elements.</p>\n\n<p><strong>Example:</strong> <a href=\"/fares\"> Fares page</a></p>\n"
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": true
+        }
+      ]
+    },
+    {
+      "target_id": 17632,
+      "target_revision_id": 483930,
+      "id": [
+        {
+          "value": 17632
+        }
+      ],
+      "uuid": [
+        {
+          "value": "2b8d3875-0e7d-4dc0-9a60-e37cf92c279c"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483930
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "from_library",
+          "target_type": "paragraphs_type",
+          "target_uuid": "7a63cfff-d171-4eaf-a98a-98e5115b9219"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1603743814
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_reusable_paragraph": [
+        {
+          "id": [
+            {
+              "value": 17
+            }
+          ],
+          "uuid": [
+            {
+              "value": "08739a5b-14b0-41ea-a35f-d21e89b05b1d"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 333
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "revision_created": [
+            {
+              "value": 1571404322
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 24,
+              "target_type": "user",
+              "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+              "url": "/user/24"
+            }
+          ],
+          "revision_log": [],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "label": [
+            {
+              "value": "Building a Better T"
+            }
+          ],
+          "paragraphs": [
+            {
+              "target_id": 7637,
+              "target_revision_id": 225586,
+              "id": [
+                {
+                  "value": 7637
+                }
+              ],
+              "uuid": [
+                {
+                  "value": "330b60ee-0509-471e-b88c-8daacaa55886"
+                }
+              ],
+              "revision_id": [
+                {
+                  "value": 225586
+                }
+              ],
+              "langcode": [
+                {
+                  "value": "en"
+                }
+              ],
+              "type": [
+                {
+                  "target_id": "custom_html",
+                  "target_type": "paragraphs_type",
+                  "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+                }
+              ],
+              "status": [
+                {
+                  "value": true
+                }
+              ],
+              "created": [
+                {
+                  "value": 1556721321
+                }
+              ],
+              "parent_id": [
+                {
+                  "value": "17"
+                }
+              ],
+              "parent_type": [
+                {
+                  "value": "paragraphs_library_item"
+                }
+              ],
+              "parent_field_name": [
+                {
+                  "value": "paragraphs"
+                }
+              ],
+              "behavior_settings": [
+                {
+                  "value": []
+                }
+              ],
+              "default_langcode": [
+                {
+                  "value": true
+                }
+              ],
+              "revision_translation_affected": [],
+              "field_custom_html_body": [
+                {
+                  "value": "<h2>Building a Better T</h2>\r\n\r\n<p>As part of our $8 billion, <a href=\"/cip\">5-year capital investment plan</a>, we're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system.</p>\r\n\r\n<p><a class=\"c-call-to-action\" href=\"/projects\">Learn more</a></p>\r\n",
+                  "format": "full_html",
+                  "processed": "<h2>Building a Better T</h2>\n\n<p>As part of our $8 billion, <a href=\"/cip\">5-year capital investment plan</a>, we're renovating stations, modernizing fare collection systems, upgrading services for our buses, subways, and ferries, and improving the accessibility of the entire system.</p>\n\n<p><a class=\"c-call-to-action\" href=\"/projects\">Learn more</a></p>\n"
+                }
+              ],
+              "field_right_rail": [
+                {
+                  "value": true
+                }
+              ]
+            }
+          ],
+          "created": [
+            {
+              "value": 1559850484
+            }
+          ],
+          "changed": [
+            {
+              "value": 1571404322
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 24,
+              "target_type": "user",
+              "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+              "url": "/user/24"
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "path": [
+            {
+              "alias": "/paragraphs/custom-html/building-better-t",
+              "pid": 4379,
+              "langcode": "en"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "target_id": 17640,
+      "target_revision_id": 483931,
+      "id": [
+        {
+          "value": 17640
+        }
+      ],
+      "uuid": [
+        {
+          "value": "99e5fe15-1664-4c70-9be5-e2bca5e3be37"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483931
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1603746591
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr />\r\n<h2 id=\"trip-planner\">Trip Planner Widget</h2>\r\n\r\n<p>(See the right rail of this page, the <strong>Plan a trip</strong> item.)</p>\r\n\r\n<p>Riders can use this tool to map out a trip, and calculate their fare. It’s primarily used as a right-rail element like on <a href=\"/fares\">mbta.com/fares</a>.</p>\r\n",
+          "format": "full_html",
+          "processed": "<hr />\n<h2 id=\"trip-planner\">Trip Planner Widget</h2>\n\n<p>(See the right rail of this page, the <strong>Plan a trip</strong> item.)</p>\n\n<p>Riders can use this tool to map out a trip, and calculate their fare. It’s primarily used as a right-rail element like on <a href=\"/fares\">mbta.com/fares</a>.</p>\n"
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ]
+    },
+    {
+      "target_id": 17624,
+      "target_revision_id": 483932,
+      "id": [
+        {
+          "value": 17624
+        }
+      ],
+      "uuid": [
+        {
+          "value": "af4bdf4a-508e-4ea3-8e0d-9d1a8f65988d"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483932
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "trip_plan_widget",
+          "target_type": "paragraphs_type",
+          "target_uuid": "921985c0-be31-41b1-bc3f-a3a468aeb721"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1603743015
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": true
+        }
+      ],
+      "field_widget_submit_text": [
+        {
+          "value": "Get trip suggestions"
+        }
+      ],
+      "field_widget_text": [],
+      "field_widget_title": [
+        {
+          "value": "Plan a trip"
+        }
+      ]
+    },
+    {
+      "target_id": 17101,
+      "target_revision_id": 483933,
+      "id": [
+        {
+          "value": 17101
+        }
+      ],
+      "uuid": [
+        {
+          "value": "3b8958f0-38c2-43fb-9e5c-3331cf3da4e4"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483933
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601392375
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr />\r\n<h2 id=\"files-grid\">Files Grid</h2>\r\n\r\n<p>{{fa \"warning\"}} <strong>Try not to use this paragraph type going forward.</strong> Instead, use a list of inline inks. Compare this <a href=\"/engineering/project-specific-standards-and-criteria\">newer engineering page</a> to this <a href=\"/financials/major-bonds-programs\">older financials page</a>.</p>\r\n\r\n<p>The files grid paragraph displays a list of attached files. The files are presented three-across on desktop, two-across on tablet, and one-across on mobile.&nbsp;Each file has an icon (e.g. PDF, Word, Excel, etc.) next to it based on its file type. To customize the link text, fill out the \"Description\" in the CMS. Otherwise, it will use the filename.</p>\r\n",
+          "format": "full_html",
+          "processed": "<hr />\n<h2 id=\"files-grid\">Files Grid</h2>\n\n<p>{{fa \"warning\"}} <strong>Try not to use this paragraph type going forward.</strong> Instead, use a list of inline inks. Compare this <a href=\"/engineering/project-specific-standards-and-criteria\">newer engineering page</a> to this <a href=\"/financials/major-bonds-programs\">older financials page</a>.</p>\n\n<p>The files grid paragraph displays a list of attached files. The files are presented three-across on desktop, two-across on tablet, and one-across on mobile. Each file has an icon (e.g. PDF, Word, Excel, etc.) next to it based on its file type. To customize the link text, fill out the \"Description\" in the CMS. Otherwise, it will use the filename.</p>\n"
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ]
+    },
+    {
+      "target_id": 17102,
+      "target_revision_id": 483934,
+      "id": [
+        {
+          "value": 17102
+        }
+      ],
+      "uuid": [
+        {
+          "value": "15ba6c57-6ed3-46c6-bf5d-cfa79b388587"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483934
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "files_grid",
+          "target_type": "paragraphs_type",
+          "target_uuid": "79dad97a-0609-446f-bba6-daf74a92c999"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601393200
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_files": [
+        {
+          "target_id": 9681,
+          "display": true,
+          "description": "This has a custom description",
+          "target_type": "file",
+          "target_uuid": "7b07a7e9-d2af-43bb-b756-4cd8d4a522c9",
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/2020-09/April%2013%202017%20minutes.pdf",
+          "mime_type": "application/pdf"
+        },
+        {
+          "target_id": 9682,
+          "display": true,
+          "description": "",
+          "target_type": "file",
+          "target_uuid": "0ff80a76-3629-4a7a-b2e7-beed8af9e9e0",
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/2020-09/April%2013%202017%20minutes%20.pdf",
+          "mime_type": "application/pdf"
+        },
+        {
+          "target_id": 9683,
+          "display": true,
+          "description": "",
+          "target_type": "file",
+          "target_uuid": "c195f4f1-3fe2-4fe0-8367-71ed6f1fc321",
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/2020-09/May%2015%202017%20agenda%20_2.pdf",
+          "mime_type": "application/pdf"
+        },
+        {
+          "target_id": 9684,
+          "display": true,
+          "description": "",
+          "target_type": "file",
+          "target_uuid": "74903ac3-e05c-45a1-b726-f31ae33d84b0",
+          "url": "https://live-mbta.pantheonsite.io/sites/default/files/2020-09/May%2022%202017%20agenda.pdf",
+          "mime_type": "application/pdf"
+        }
+      ],
+      "field_files_grid_title": []
+    },
+    {
+      "target_id": 17099,
+      "target_revision_id": 483935,
+      "id": [
+        {
+          "value": 17099
+        }
+      ],
+      "uuid": [
+        {
+          "value": "47b54e9f-719a-4cd1-92d7-7116e1230ffd"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483935
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "custom_html",
+          "target_type": "paragraphs_type",
+          "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601392182
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_custom_html_body": [
+        {
+          "value": "<hr />\r\n<h2 id=\"people-grid\">People Grid</h2>\r\n\r\n<p>To display a person in the \"People Grid\" they must first be added to the CMS via the \"Person\" content type. (Content &gt; Add content &gt; Person from the CMS dashboard.)</p>\r\n\r\n<p>If there are one or two people in the grid, then their pictures will be larger and they'll split the page 50/50 on desktop and be stacked on mobile. Three or more people will result in smaller pictures that arrange themselves three-to-a-row on desktop, 50/50 on tablet, and stacked on mobile.</p>\r\n",
+          "format": "full_html",
+          "processed": "<hr />\n<h2 id=\"people-grid\">People Grid</h2>\n\n<p>To display a person in the \"People Grid\" they must first be added to the CMS via the \"Person\" content type. (Content &gt; Add content &gt; Person from the CMS dashboard.)</p>\n\n<p>If there are one or two people in the grid, then their pictures will be larger and they'll split the page 50/50 on desktop and be stacked on mobile. Three or more people will result in smaller pictures that arrange themselves three-to-a-row on desktop, 50/50 on tablet, and stacked on mobile.</p>\n"
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ]
+    },
+    {
+      "target_id": 17100,
+      "target_revision_id": 483936,
+      "id": [
+        {
+          "value": 17100
+        }
+      ],
+      "uuid": [
+        {
+          "value": "d6446fdb-6e98-424b-8243-db06792146cb"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 483936
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "people_grid",
+          "target_type": "paragraphs_type",
+          "target_uuid": "c37f5d05-21d6-4066-8fdc-d025686f820e"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1601392219
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5035"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_people": [
+        {
+          "nid": [
+            {
+              "value": 2605
+            }
+          ],
+          "uuid": [
+            {
+              "value": "8118007d-e2ad-44ae-b36c-91c20724b4ea"
+            }
+          ],
+          "vid": [
+            {
+              "value": 20526
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "person",
+              "target_type": "node_type",
+              "target_uuid": "70bdf287-d61a-44f2-a086-9818cc3930f9"
+            }
+          ],
+          "revision_timestamp": [
+            {
+              "value": 1546355366
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 24,
+              "target_type": "user",
+              "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+              "url": "/user/24"
+            }
+          ],
+          "revision_log": [],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "title": [
+            {
+              "value": "Steve Poftak"
+            }
+          ],
+          "created": [
+            {
+              "value": 1500468551
+            }
+          ],
+          "changed": [
+            {
+              "value": 1546355366
+            }
+          ],
+          "promote": [
+            {
+              "value": false
+            }
+          ],
+          "sticky": [
+            {
+              "value": false
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [
+            {
+              "value": "published"
+            }
+          ],
+          "sidebar": [
+            {
+              "value": false
+            }
+          ],
+          "path": [
+            {
+              "alias": "/people/steve-poftak"
+            }
+          ],
+          "publish_on": [],
+          "unpublish_on": [],
+          "publish_state": [],
+          "unpublish_state": [],
+          "field_bio": [
+            {
+              "value": "<p>Effective January 1, 2019, Steve Poftak joined the MBTA as General Manager. General Manager Poftak, who previously served as the Vice Chair of the <a href=\"/fmcb\">Fiscal and Management Control Board</a> and as a Director of the MassDOT Board since 2015, comes to the T from the Harvard Kennedy School, where he was Executive Director of the Rappaport Institute for Greater Boston.</p>\r\n\r\n<p>Previously, Poftak was Research Director and Director of the Center for Better Government at the Pioneer Institute for Public Policy Research. Prior to that, he worked at the Commonwealth's Executive Office for Administration and Finance, where he managed the $1.3 billion capital budget, prepared the state's quarterly cash flow reporting, and monitored non-tax revenue receipts. Other experience includes service on the Commonwealth's Finance Advisory Board and Zero-Based Budget Commission.</p>\r\n\r\n<p>Poftak holds an MBA from the Olin School at Babson College and a BA in Political Science from Middlebury College. He is a Boston resident and has children who attend the Boston Public Schools.​​</p>\r\n",
+              "format": "full_html",
+              "processed": "<p>Effective January 1, 2019, Steve Poftak joined the MBTA as General Manager. General Manager Poftak, who previously served as the Vice Chair of the <a href=\"/fmcb\">Fiscal and Management Control Board</a> and as a Director of the MassDOT Board since 2015, comes to the T from the Harvard Kennedy School, where he was Executive Director of the Rappaport Institute for Greater Boston.</p>\n\n<p>Previously, Poftak was Research Director and Director of the Center for Better Government at the Pioneer Institute for Public Policy Research. Prior to that, he worked at the Commonwealth's Executive Office for Administration and Finance, where he managed the $1.3 billion capital budget, prepared the state's quarterly cash flow reporting, and monitored non-tax revenue receipts. Other experience includes service on the Commonwealth's Finance Advisory Board and Zero-Based Budget Commission.</p>\n\n<p>Poftak holds an MBA from the Olin School at Babson College and a BA in Political Science from Middlebury College. He is a Boston resident and has children who attend the Boston Public Schools.​​</p>\n",
+              "summary": ""
+            }
+          ],
+          "field_keywords": [],
+          "field_position": [
+            {
+              "value": "MBTA General Manager",
+              "format": "basic_html",
+              "processed": "MBTA General Manager"
+            }
+          ],
+          "field_profile_image": [
+            {
+              "target_id": 5458,
+              "alt": "Steve Poftak in a gray suit",
+              "title": "",
+              "width": 150,
+              "height": 210,
+              "target_type": "file",
+              "target_uuid": "6c9182e7-516e-463f-b94f-440b3aa44bba",
+              "url": "https://live-mbta.pantheonsite.io/sites/default/files/2018-12/steve-poftak-june2018.jpg",
+              "mime_type": "image/jpeg"
+            }
+          ]
+        },
+        {
+          "nid": [
+            {
+              "value": 2610
+            }
+          ],
+          "uuid": [
+            {
+              "value": "c2c2c7b4-0e07-44cf-b3a4-141dd63d64ff"
+            }
+          ],
+          "vid": [
+            {
+              "value": 22599
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "person",
+              "target_type": "node_type",
+              "target_uuid": "70bdf287-d61a-44f2-a086-9818cc3930f9"
+            }
+          ],
+          "revision_timestamp": [
+            {
+              "value": 1550685791
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 24,
+              "target_type": "user",
+              "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+              "url": "/user/24"
+            }
+          ],
+          "revision_log": [],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 17,
+              "target_type": "user",
+              "target_uuid": "7f5b2504-04b6-4cf2-b3fa-9419d595fd4e",
+              "url": "/user/17"
+            }
+          ],
+          "title": [
+            {
+              "value": "Monica Tibbits-Nutt"
+            }
+          ],
+          "created": [
+            {
+              "value": 1500469107
+            }
+          ],
+          "changed": [
+            {
+              "value": 1550685791
+            }
+          ],
+          "promote": [
+            {
+              "value": false
+            }
+          ],
+          "sticky": [
+            {
+              "value": false
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [
+            {
+              "value": "published"
+            }
+          ],
+          "sidebar": [
+            {
+              "value": false
+            }
+          ],
+          "path": [
+            {
+              "alias": "/people/monica-tibbits-nutt"
+            }
+          ],
+          "publish_on": [],
+          "unpublish_on": [],
+          "publish_state": [],
+          "unpublish_state": [],
+          "field_bio": [
+            {
+              "value": "<p>Monica G. Tibbits-Nutt, AICP, LEED AP BD+C is the Executive Director of the 128 Business Council. Working in regional planning and transportation, Monica’s areas of specialty are transportation planning, urban design, and sustainability. Her work experience includes public sector transit planning at both the MBTA Advisory Board and as Executive Director of TransitWorks. In addition, Monica has worked in regional planning and development for the Mid-Ohio Regional Planning Commission (MORPC), the City of Columbus Planning and Development office, and the Greater Linden Development Corporation. She received a Masters of City and Regional Planning from the Ohio State University in Columbus and a Bachelor of Science in Political Science and Sociology from the University of Southern Indiana.</p>\r\n\r\n<p>In both her work and research, Monica is interested in developing regional strategies that not only integrate sustainable practices into transportation, but also capitalize upon every opportunity to better educate the public about all aspects of the planning process. She serves as the Vice President of the non-profit Youth Engagement Planning (YEP!), which brings urban planning and community advocacy into K-12 environments.</p>\r\n\r\n<p>More generally, Monica is an active member of the research community. Select links to her writing and film work, as well as information about past featured speaking engagements, can be found in <a href=\"https://128bc.org/about/#press-awards\">128 Business Council's Press section</a>.</p>\r\n\r\n<p>Monica serves on the Massachusetts Department of Transportation (MassDOT) Board of Directors and the <a href=\"/fmcb\">Fiscal Management and Control Board</a> that currently oversees the MBTA. She is a gubernatorial appointee to the Board of the Metropolitan Area Planning Council (MAPC) serving on the Executive Committee and Legislative Committee. She has formerly served as Vice-Chair of the Regional Transportation Advisory Council (RTAC). She is an active member of the American Institute of Certified Planners and a LEED Accredited Professional in Building Design &amp; Construction with the U.S. Green Building Council.</p>\r\n",
+              "format": "full_html",
+              "processed": "<p>Monica G. Tibbits-Nutt, AICP, LEED AP BD+C is the Executive Director of the 128 Business Council. Working in regional planning and transportation, Monica’s areas of specialty are transportation planning, urban design, and sustainability. Her work experience includes public sector transit planning at both the MBTA Advisory Board and as Executive Director of TransitWorks. In addition, Monica has worked in regional planning and development for the Mid-Ohio Regional Planning Commission (MORPC), the City of Columbus Planning and Development office, and the Greater Linden Development Corporation. She received a Masters of City and Regional Planning from the Ohio State University in Columbus and a Bachelor of Science in Political Science and Sociology from the University of Southern Indiana.</p>\n\n<p>In both her work and research, Monica is interested in developing regional strategies that not only integrate sustainable practices into transportation, but also capitalize upon every opportunity to better educate the public about all aspects of the planning process. She serves as the Vice President of the non-profit Youth Engagement Planning (YEP!), which brings urban planning and community advocacy into K-12 environments.</p>\n\n<p>More generally, Monica is an active member of the research community. Select links to her writing and film work, as well as information about past featured speaking engagements, can be found in <a href=\"https://128bc.org/about/#press-awards\">128 Business Council's Press section</a>.</p>\n\n<p>Monica serves on the Massachusetts Department of Transportation (MassDOT) Board of Directors and the <a href=\"/fmcb\">Fiscal Management and Control Board</a> that currently oversees the MBTA. She is a gubernatorial appointee to the Board of the Metropolitan Area Planning Council (MAPC) serving on the Executive Committee and Legislative Committee. She has formerly served as Vice-Chair of the Regional Transportation Advisory Council (RTAC). She is an active member of the American Institute of Certified Planners and a LEED Accredited Professional in Building Design &amp; Construction with the U.S. Green Building Council.</p>\n",
+              "summary": ""
+            }
+          ],
+          "field_keywords": [],
+          "field_position": [
+            {
+              "value": "FMCB Vice Chair",
+              "format": "basic_html",
+              "processed": "FMCB Vice Chair"
+            }
+          ],
+          "field_profile_image": [
+            {
+              "target_id": 5908,
+              "alt": "Monica G. Tibbits-Nutt headshot",
+              "title": "",
+              "width": 160,
+              "height": 208,
+              "target_type": "file",
+              "target_uuid": "65e177bc-a389-4148-96f8-c311992efe28",
+              "url": "https://live-mbta.pantheonsite.io/sites/default/files/fmcb-meeting-docs/headshots/monica-tibbits-nutt-february2019-crop.jpg",
+              "mime_type": "image/jpeg"
+            }
+          ]
+        },
+        {
+          "nid": [
+            {
+              "value": 4115
+            }
+          ],
+          "uuid": [
+            {
+              "value": "099d8520-c761-4d73-92b3-e2d23dc40666"
+            }
+          ],
+          "vid": [
+            {
+              "value": 21948
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "person",
+              "target_type": "node_type",
+              "target_uuid": "70bdf287-d61a-44f2-a086-9818cc3930f9"
+            }
+          ],
+          "revision_timestamp": [
+            {
+              "value": 1549306524
+            }
+          ],
+          "revision_uid": [
+            {
+              "target_id": 24,
+              "target_type": "user",
+              "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+              "url": "/user/24"
+            }
+          ],
+          "revision_log": [],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "uid": [
+            {
+              "target_id": 24,
+              "target_type": "user",
+              "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+              "url": "/user/24"
+            }
+          ],
+          "title": [
+            {
+              "value": "Chrystal Kornegay"
+            }
+          ],
+          "created": [
+            {
+              "value": 1548793402
+            }
+          ],
+          "changed": [
+            {
+              "value": 1549306485
+            }
+          ],
+          "promote": [
+            {
+              "value": false
+            }
+          ],
+          "sticky": [
+            {
+              "value": false
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "moderation_state": [
+            {
+              "value": "published"
+            }
+          ],
+          "sidebar": [
+            {
+              "value": false
+            }
+          ],
+          "path": [
+            {
+              "alias": "/people/chrystal-kornegay"
+            }
+          ],
+          "publish_on": [],
+          "unpublish_on": [],
+          "publish_state": [],
+          "unpublish_state": [],
+          "field_bio": [
+            {
+              "value": "<p>Chrystal Kornegay was appointed as a member of the MBTA’s <a href=\"/fmcb\">Fiscal Management and Control Board</a> in January 2019. She also serves on the <a href=\"https://www.mass.gov/orgs/massdot-board-of-directors\">Massachusetts Department of Transportation (MassDOT) Board of Directors</a>.</p>\r\n\r\n<p>Kornegay, executive director of <a href=\"https://www.masshousing.com\">MassHousing</a> since 2018, has held several senior management roles where she worked closely with members of the Massachusetts Legislature, designed and implemented strategic plans, collaborated with community groups on housing and community development issues and oversaw budgets in the millions of dollars.</p>\r\n\r\n<p>Before joining MassHousing, Kornegay served as undersecretary of Housing and Community Development for the Commonwealth of Massachusetts. Prior to that, she was the president and CEO of the community development corporation Urban Edge, and a project manager for The Community Builders.</p>\r\n\r\n<p>Kornegay is a graduate of the Executive Education Program at Harvard University’s Kennedy School of Government. She holds a master’s degree in urban planning from the Massachusetts Institute of Technology and a bachelor’s degree in urban planning from Hunter College.</p>\r\n",
+              "format": "full_html",
+              "processed": "<p>Chrystal Kornegay was appointed as a member of the MBTA’s <a href=\"/fmcb\">Fiscal Management and Control Board</a> in January 2019. She also serves on the <a href=\"https://www.mass.gov/orgs/massdot-board-of-directors\">Massachusetts Department of Transportation (MassDOT) Board of Directors</a>.</p>\n\n<p>Kornegay, executive director of <a href=\"https://www.masshousing.com\">MassHousing</a> since 2018, has held several senior management roles where she worked closely with members of the Massachusetts Legislature, designed and implemented strategic plans, collaborated with community groups on housing and community development issues and oversaw budgets in the millions of dollars.</p>\n\n<p>Before joining MassHousing, Kornegay served as undersecretary of Housing and Community Development for the Commonwealth of Massachusetts. Prior to that, she was the president and CEO of the community development corporation Urban Edge, and a project manager for The Community Builders.</p>\n\n<p>Kornegay is a graduate of the Executive Education Program at Harvard University’s Kennedy School of Government. She holds a master’s degree in urban planning from the Massachusetts Institute of Technology and a bachelor’s degree in urban planning from Hunter College.</p>\n",
+              "summary": ""
+            }
+          ],
+          "field_keywords": [],
+          "field_position": [
+            {
+              "value": "FMCB Member",
+              "format": "full_html",
+              "processed": "FMCB Member"
+            }
+          ],
+          "field_profile_image": [
+            {
+              "target_id": 5797,
+              "alt": "Chrystal Kornegay",
+              "title": "",
+              "width": 160,
+              "height": 185,
+              "target_type": "file",
+              "target_uuid": "4e3377c1-5781-48cc-96b6-47252049a0bb",
+              "url": "https://live-mbta.pantheonsite.io/sites/default/files/fmcb-meeting-docs/headshots/chrystal-kornegay-crop.jpg",
+              "mime_type": "image/jpeg"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "field_related_transit": [],
+  "field_sidebar_menu": [],
+  "breadcrumbs": [
+    {
+      "text": "Home",
+      "uri": "/"
+    },
+    {
+      "text": "CMS Paragraph Guide",
+      "uri": ""
+    }
+  ]
+}

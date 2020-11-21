@@ -91,7 +91,7 @@ defmodule CMS.API.Static do
   # Core (entity:node) responses
 
   def all_paragraphs_response do
-    parse_json("landing_page_with_all_paragraphs.json")
+    parse_json("basic_page_with_paragraphs.json")
   end
 
   def basic_page_response do
@@ -297,7 +297,7 @@ defmodule CMS.API.Static do
     {:ok, banners_response()}
   end
 
-  def view("/landing_page_with_all_paragraphs", _) do
+  def view("/basic_page_with_paragraphs", _) do
     {:ok, all_paragraphs_response()}
   end
 
