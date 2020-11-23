@@ -60,6 +60,37 @@ defmodule UtilTest do
     end
   end
 
+  describe "convert_using_timezone/2" do
+    test "converts to 'America/New_York' timezone" do
+      # DateTime<2016-12-12 12:12:12-05:00 EST America/New_York>
+      assert Util.convert_using_timezone(~N[2016-12-12T12:12:12], "America/New_York") ==
+               Timex.to_datetime({{2016, 12, 12}, {12, 12, 12}}, "America/New_York")
+    end
+
+    test "converts to 'Europe/Madrid' timezone" do
+      # DateTime<2020-12-12 12:12:12+01:00 CET Europe/Madrid>
+      assert Util.convert_using_timezone(~N[2020-12-12T12:12:12], "Europe/Madrid") ==
+               Timex.to_datetime({{2020, 12, 12}, {12, 12, 12}}, "Europe/Madrid")
+    end
+
+    test "attempts to convert to an invalid timezone, defaulting to America/New_York" do
+      assert Util.convert_using_timezone(~N[2020-12-12T12:12:12], "Atlantis") ==
+               Timex.to_datetime({{2020, 12, 12}, {12, 12, 12}}, "America/New_York")
+    end
+
+    test "converts to 'America/New_York' timezone accounting for beginning of daylight saving time" do
+      assert Util.convert_using_timezone(~N[2020-03-08T02:00:00], "America/New_York") ==
+               Timex.to_datetime({{2020, 3, 8}, {2, 0, 0}}, "America/New_York")
+    end
+
+    test "converts 'America/New_York' timezone accounting for end of daylight saving time" do
+      ambiguous = Timex.to_datetime({{2020, 11, 1}, {1, 0, 0}}, "America/New_York")
+
+      assert Util.convert_using_timezone(~N[2020-11-01T01:00:00], "America/New_York") ==
+               ambiguous.before
+    end
+  end
+
   describe "service_date/0" do
     test "returns the service date for the current time" do
       assert service_date() == service_date(now())
