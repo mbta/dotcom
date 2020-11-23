@@ -290,7 +290,7 @@ defmodule SiteWeb.CustomerSupportController do
 
   @spec validate_incident_date_time(map) :: DateTime.t()
   defp validate_incident_date_time(incident_date_time) do
-    now = Util.now() |> Util.to_local_time()
+    now = Util.now() |> Util.to_local_time() |> DateTime.truncate(:second)
 
     parsed_date_time =
       case Util.parse(incident_date_time) do
@@ -301,7 +301,7 @@ defmodule SiteWeb.CustomerSupportController do
           parsed_dt
       end
 
-    local_parsed_date_time = Util.to_local_time(parsed_date_time)
+    local_parsed_date_time = Util.convert_using_timezone(parsed_date_time, "America/New_York")
 
     # if date and time is in the future, set it to now
     # otherwise leave as it is
