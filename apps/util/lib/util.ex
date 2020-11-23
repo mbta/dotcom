@@ -92,6 +92,21 @@ defmodule Util do
     |> Date.to_string()
   end
 
+  @doc "Converts a NaiveDateTime to a DateTime with the given time zone, handling ambiguities. Defaults to America/New_York if errors"
+  @spec convert_using_timezone(NaiveDateTime.t(), String.t()) :: DateTime.t()
+  def convert_using_timezone(time, time_zone) do
+    tz =
+      if Timex.is_valid_timezone?(time_zone) do
+        time_zone
+      else
+        "America/New_York"
+      end
+
+    time
+    |> Timex.to_datetime(tz)
+    |> handle_ambiguous_time()
+  end
+
   @doc "Converts a DateTime.t into the America/New_York zone, handling ambiguities"
   @spec to_local_time(DateTime.t() | NaiveDateTime.t() | Timex.AmbiguousDateTime.t()) ::
           DateTime.t() | {:error, any}
