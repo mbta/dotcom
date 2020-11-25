@@ -13,6 +13,7 @@
     "filesize": "^3.3.0",
     "focus-trap": "^5.0.1",
     "form-data": "^1.0.1",
+    "formdata-polyfill": "^3.0.20",
     "hogan.js": "^3.0.2",
     "jquery": "> 3.0.0",
     "leaflet": "^1.4.0",

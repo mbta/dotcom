@@ -1,5 +1,10 @@
 /* eslint-disable */
 
+// Some FormData methods like .set or .get are not supported in IE:
+// (https://developer.mozilla.org/en-US/docs/Web/API/FormData#Browser_compatibility)
+// so we need to make use of a polyfill:
+import FormData from "formdata-polyfill";
+
 export default function($ = window.jQuery) {
   document.addEventListener(
     "turbolinks:load",
@@ -53,7 +58,11 @@ export function handleModeChangeSelection($) {
 
       // Get the text property of the <option> selected
       // and build key in order to access the 'modeOptions' object
-      const selectedText = ev.target.selectedOptions[0].text;
+
+      // .selectedOptions is not supported by IE so a workaround is needed:
+      const selectedText = ev.target.selectedOptions
+        ? ev.target.selectedOptions[0].text
+        : ev.target.options[ev.target.selectedIndex].innerText;
 
       const key = selectedText
         .split(" ")
@@ -245,7 +254,9 @@ export function setupTextArea() {
   commentsNode.addEventListener(
     "keyup",
     ev => {
-      const commentLength = commentsNode.textLength;
+      // .textLength is not supported in IE
+      // (https://developer.mozilla.org/en-US/docs/Web/API/HTMLTextAreaElement#Browser_compatibility)
+      const commentLength = commentsNode.value.length;
       formTextNode.innerHTML = commentLength + "/3000 characters";
       if (commentLength > 0) {
         formTextNode.className += " support-comment-success";
