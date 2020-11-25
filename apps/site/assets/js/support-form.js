@@ -1,4 +1,5 @@
 /* eslint-disable */
+import Filter from "bad-words";
 
 // Some FormData methods like .set or .get are not supported in IE:
 // (https://developer.mozilla.org/en-US/docs/Web/API/FormData#Browser_compatibility)
@@ -474,9 +475,13 @@ export function handleSubmitClick($, toUpload) {
     }
     deactivateSubmitButton($);
     const formData = new FormData();
+    const filter = new Filter();
     $("#support-form")
       .serializeArray()
       .forEach(({ name: name, value: value }) => {
+        if (name === "support[comments]") {
+          value = filter.clean(value);
+        }
         formData.append(name, value);
       });
 
