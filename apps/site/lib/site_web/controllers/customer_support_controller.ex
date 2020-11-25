@@ -70,19 +70,11 @@ defmodule SiteWeb.CustomerSupportController do
   plug(:assign_ip)
   plug(:meta_description)
   plug(:assign_datetime_selector_fields)
+  plug(:assign_all_options_per_mode)
 
-  def index(conn, %{"comments" => comments}) do
-    render_form(
-      conn
-      |> assign(:all_options_per_mode, get_options_per_mode()),
-      %{comments: comments}
-    )
-  end
-
-  def index(conn, _params) do
-    conn
-    |> assign(:all_options_per_mode, get_options_per_mode())
-    |> render_form(%{comments: nil})
+  def index(conn, params) do
+    comments = Map.get(params, "comments", nil)
+    render_form(conn, %{comments: comments})
   end
 
   def thanks(conn, _params) do
@@ -401,5 +393,10 @@ defmodule SiteWeb.CustomerSupportController do
   defp assign_datetime_selector_fields(conn, _) do
     conn
     |> assign(:support_datetime_selector_fields, @support_datetime_selector_fields)
+  end
+
+  @spec assign_all_options_per_mode(Plug.Conn.t(), Keyword.t()) :: Plug.Conn.t()
+  defp assign_all_options_per_mode(conn, _) do
+    assign(conn, :all_options_per_mode, get_options_per_mode())
   end
 end
