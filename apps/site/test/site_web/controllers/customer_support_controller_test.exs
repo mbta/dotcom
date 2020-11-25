@@ -116,7 +116,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "validates presence of comments", %{conn: conn} do
       conn =
         post(
-          conn |> assign(:all_options_per_mode, %{}),
+          conn,
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "comments"], "")
         )
@@ -127,7 +127,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "validates the presence of the service type", %{conn: conn} do
       conn =
         post(
-          conn |> assign(:all_options_per_mode, %{}),
+          conn,
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "service"], "")
         )
@@ -138,7 +138,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "validates that the service is one of the allowed values", %{conn: conn} do
       conn =
         post(
-          conn |> assign(:all_options_per_mode, %{}),
+          conn,
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "service"], "Hug")
         )
@@ -149,7 +149,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "validates that the subject is one of the allowed values for the service", %{conn: conn} do
       conn =
         post(
-          conn |> assign(:all_options_per_mode, %{}),
+          conn,
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "subject"], "Bad")
         )
@@ -160,7 +160,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "requires first_name if customer does want a response", %{conn: conn} do
       conn =
         post(
-          conn |> assign(:all_options_per_mode, %{}),
+          conn,
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "first_name"], "")
         )
@@ -171,7 +171,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "requires last_name if customer does want a response", %{conn: conn} do
       conn =
         post(
-          conn |> assign(:all_options_per_mode, %{}),
+          conn,
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "last_name"], "")
         )
@@ -180,8 +180,6 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     end
 
     test "invalid with no email when the customer wants a response", %{conn: conn} do
-      conn = conn |> assign(:all_options_per_mode, %{})
-
       conn =
         post(
           conn,
@@ -195,7 +193,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "requires a real email", %{conn: conn} do
       conn =
         post(
-          conn |> assign(:all_options_per_mode, %{}),
+          conn,
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "email"], "not an email")
         )
@@ -204,8 +202,6 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     end
 
     test "invalid with phone but no email when the customer wants a response", %{conn: conn} do
-      conn = conn |> assign(:all_options_per_mode, %{})
-
       conn =
         post(
           conn,
@@ -221,7 +217,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "requires privacy checkbox when customer wants a response", %{conn: conn} do
       conn =
         post(
-          conn |> assign(:all_options_per_mode, %{}),
+          conn,
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "privacy"], "")
         )
@@ -261,7 +257,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
 
       conn =
         post(
-          conn |> assign(:all_options_per_mode, %{}),
+          conn,
           customer_support_path(conn, :submit),
           params
         )
@@ -278,7 +274,6 @@ defmodule SiteWeb.CustomerSupportControllerTest do
             Enum.reduce(1..4, conn, fn _, acc ->
               acc
               |> recycle()
-              |> assign(:all_options_per_mode, %{})
               |> post(path, valid_request_response_data())
             end)
 
@@ -292,7 +287,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     test "requires a successful recaptcha response", %{conn: conn} do
       conn =
         post(
-          conn |> assign(:all_options_per_mode, %{}),
+          conn,
           customer_support_path(conn, :submit),
           put_in(valid_no_response_data(), ["g-recaptcha-response"], "invalid_response")
         )
