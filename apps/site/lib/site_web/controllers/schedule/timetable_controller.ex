@@ -75,59 +75,45 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     end
   end
 
-  @spec trip_messages(Routes.Route.t(), 0 | 1) :: %{{String.t(), String.t()} => String.t()}
-  def trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0) do
-    %{
-      {"221"} => "Via Lowell Line",
-      {"221", "place-WR-0067"} => "Via",
-      {"221", "place-WR-0075"} => "Lowell",
-      {"221", "place-WR-0085"} => "Line"
-    }
-  end
+  @doc """
+  Additional text to be included in the timetable.
 
+  We use this for Commuter Rail trips which travel via atypical routes, in
+  order to match the PDF schedules. Each rating, this should be checked
+  against the new PDFs to ensure it's kept up to date.
+  """
+  @spec trip_messages(Routes.Route.t(), 0 | 1) :: %{{String.t(), String.t()} => String.t()}
   def trip_messages(%Routes.Route{id: "CR-Haverhill"}, 1) do
     %{
-      {"208"} => "Via Lowell Line",
-      {"208", "place-WR-0085"} => "Via",
-      {"208", "place-WR-0075"} => "Lowell",
-      {"208", "place-WR-0067"} => "Line"
+      {"206"} => "Via Lowell Line",
+      {"206", "place-WR-0085"} => "Via",
+      {"206", "place-WR-0075"} => "Lowell",
+      {"206", "place-WR-0067"} => "Line"
     }
   end
 
-  def trip_messages(%Routes.Route{id: "CR-Lowell"}, 0) do
+  def trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0) do
     %{
-      {"221"} => "Via Haverhill",
-      {"221", "place-NHRML-0218"} => "Via",
-      {"221", "place-NHRML-0254"} => "Haverhill"
+      {"219"} => "Via Lowell Line",
+      {"219", "place-WR-0067"} => "Via",
+      {"219", "place-WR-0075"} => "Lowell",
+      {"219", "place-WR-0085"} => "Line"
     }
   end
 
   def trip_messages(%Routes.Route{id: "CR-Lowell"}, 1) do
     %{
-      {"208"} => "Via Haverhill",
-      {"208", "place-NHRML-0254"} => "Via",
-      {"208", "place-NHRML-0218"} => "Haverhill",
-      {"208", "place-NHRML-0152"} => "-"
+      {"206"} => "Via Haverhill",
+      {"206", "place-NHRML-0254"} => "Via",
+      {"206", "place-NHRML-0218"} => "Have-",
+      {"206", "place-NHRML-0152"} => "rhill"
     }
-  end
-
-  def trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) do
-    ["740", "746", "748", "750", "754", "726", "758", "7742", "7744", "7722"]
-    |> Enum.flat_map(&franklin_via_fairmount(&1, 1))
-    |> Enum.into(%{})
   end
 
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 0) do
-    ["741", "743", "747", "749", "755", "757", "759", "7703", "7751", "7753", "7755"]
-    |> Enum.flat_map(&franklin_via_fairmount(&1, 0))
+    "741"
+    |> franklin_via_fairmount(0)
     |> Enum.into(%{})
-  end
-
-  def trip_messages(%Routes.Route{id: "CR-Fairmount"} = route, 1) do
-    %{
-      {"726"} => ScheduleView.timetable_note(%{route: route, direction_id: 1}),
-      {"726", "place-FS-0049"} => "FRANK"
-    }
   end
 
   def trip_messages(_, _) do
