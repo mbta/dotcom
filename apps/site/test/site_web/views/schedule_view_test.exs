@@ -966,16 +966,6 @@ defmodule SiteWeb.ScheduleViewTest do
   end
 
   describe "timetable_note" do
-    test "returns a timetable note for fairmount" do
-      refute is_nil(
-               timetable_note(%{
-                 route: %Route{id: "CR-Fairmount"},
-                 direction_id: 1,
-                 date: ~D[2019-10-21]
-               })
-             )
-    end
-
     test "returns a timetable note for foxboro" do
       refute is_nil(
                timetable_note(%{
