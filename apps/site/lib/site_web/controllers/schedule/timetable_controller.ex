@@ -111,47 +111,25 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   end
 
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 0) do
-    "741"
-    |> franklin_via_fairmount(0)
-    |> Enum.into(%{})
+    train = "741"
+
+    [
+      List.duplicate(train, 4),
+      ["place-bbsta", "place-rugg", "place-NEC-2203", "place-DB-0095"],
+      ["Via", "Fair-", "mount", "Line"]
+    ]
+    |> make_via_list()
+    |> Map.put({train}, "Via Fairmount Line")
   end
 
   def trip_messages(_, _) do
     %{}
   end
 
-  defp franklin_via_fairmount(train, 1) do
-    [
-      List.duplicate(train, 3),
-      stops_for_fairmount(1),
-      ["Via", "Fairmount", "Line"]
-    ]
-    |> make_via_list()
-    |> Enum.concat([{{train}, "Via Fairmount Line"}])
-  end
-
-  defp franklin_via_fairmount(train, 0) do
-    [
-      List.duplicate(train, 4),
-      stops_for_fairmount(0),
-      ["Via", "Fair-", "mount", "Line"]
-    ]
-    |> make_via_list()
-    |> Enum.concat([{{train}, "Via Fairmount Line"}])
-  end
-
-  defp stops_for_fairmount(1) do
-    ["place-DB-0095", "place-rugg", "place-bbsta"]
-  end
-
-  defp stops_for_fairmount(0) do
-    ["place-bbsta", "place-rugg", "place-NEC-2203", "place-DB-0095"]
-  end
-
   def make_via_list(list) do
     list
     |> List.zip()
-    |> Enum.map(fn {train, stop, value} -> {{train, stop}, value} end)
+    |> Map.new(fn {train, stop, value} -> {{train, stop}, value} end)
   end
 
   defp all_stops(conn, _) do
