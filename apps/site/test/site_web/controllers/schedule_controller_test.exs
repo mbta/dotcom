@@ -127,10 +127,12 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     test "assigns trip messages for a few route/directions", %{conn: conn} do
       for {route_id, direction_id, expected_size} <- [
-            {"CR-Lowell", 0, 3},
+            {"CR-Lowell", 0, 0},
             {"CR-Lowell", 1, 4},
             {"CR-Haverhill", 0, 4},
-            {"CR-Haverhill", 1, 4}
+            {"CR-Haverhill", 1, 4},
+            {"CR-Franklin", 0, 5},
+            {"CR-Franklin", 1, 0}
           ] do
         path =
           timetable_path(conn, :show, route_id, schedule_direction: %{direction_id: direction_id})

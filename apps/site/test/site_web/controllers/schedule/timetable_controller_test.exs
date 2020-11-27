@@ -95,37 +95,10 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
 
   describe "trip_messages/2" do
     test "returns proper messages for CR Franklin" do
-      assert [
-               "726",
-               "740",
-               "746",
-               "748",
-               "750",
-               "754",
-               "758",
-               "7722",
-               "7742",
-               "7744"
-             ] =
-               %Routes.Route{id: "CR-Franklin"}
-               |> trip_messages(1)
-               |> Map.keys()
-               |> Enum.map(&elem(&1, 0))
-               |> Enum.uniq()
-               |> Enum.sort()
+      assert trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) == %{}
 
       assert [
-               "741",
-               "743",
-               "747",
-               "749",
-               "755",
-               "757",
-               "759",
-               "7703",
-               "7751",
-               "7753",
-               "7755"
+               "741"
              ] ==
                %Routes.Route{id: "CR-Franklin"}
                |> trip_messages(0)
@@ -136,10 +109,7 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
     end
 
     test "returns proper messages for CR Fairmount" do
-      assert [
-               {"726"},
-               {"726", "place-FS-0049"}
-             ] = Map.keys(trip_messages(%Routes.Route{id: "CR-Fairmount"}, 1))
+      assert trip_messages(%Routes.Route{id: "CR-Fairmount"}, 1) == %{}
     end
   end
 
