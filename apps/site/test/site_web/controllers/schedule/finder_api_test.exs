@@ -360,7 +360,6 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
 
     test "successfully finds a valid route id for the Green Line", %{conn: conn} do
       params_for_trip = %{
-        date: "2020-12-18",
         direction: "0",
         id: "45803856-20:45-ReservoirRiverside",
         route: "Green",
