@@ -37,6 +37,24 @@ defmodule SiteWeb.ScheduleController.MapApiTest do
              } = response
     end
 
+    test "accepts a shape_id for the Green Line and returns valid map data", %{conn: conn} do
+      conn =
+        get(conn, map_api_path(conn, :show, id: "Green", direction_id: "0", shape_id: "813_0006"))
+
+      assert response = json_response(conn, 200)
+
+      assert %{
+               "default_center" => %{"latitude" => _, "longitude" => _},
+               "height" => _,
+               "markers" => _,
+               "polylines" => _,
+               "stop_markers" => _,
+               "tile_server_url" => _,
+               "width" => _,
+               "zoom" => _
+             } = response
+    end
+
     test "returns 400 if given a bad route", %{conn: conn} do
       conn = get(conn, map_api_path(conn, :show, id: "Puce"))
 

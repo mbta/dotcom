@@ -37,7 +37,7 @@ defmodule SiteWeb.ScheduleController.MapApi do
   defp get_map_data(route, direction_id, shape_id) do
     route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)
     active_shapes = LineHelpers.get_active_shapes(route_shapes, route, shape_id)
-    branches = LineHelpers.get_branch_route_stops(route, direction_id, shape_id)
+    branches = LineHelpers.get_branch_route_stops(route, direction_id)
     map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id)
 
     {_map_img_src, dynamic_map_data} = Maps.map_data(route, map_stops, [], [])
