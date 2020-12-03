@@ -125,6 +125,7 @@ defmodule SiteWeb.Router do
 
     # stop redirects
     get("/stops/Lansdowne", Redirector, to: "/stops/Yawkey")
+    get("/stops/place-dudly", Redirector, to: "/stops/place-nubn")
     get("/stops/api", StopController, :api)
     resources("/stops", StopController, only: [:index, :show])
     get("/stops/*path", StopController, :stop_with_slash_redirect)
