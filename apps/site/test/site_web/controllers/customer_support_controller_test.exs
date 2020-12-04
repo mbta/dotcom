@@ -294,6 +294,30 @@ defmodule SiteWeb.CustomerSupportControllerTest do
 
       assert "recaptcha" in conn.assigns.errors
     end
+
+    test "adds date and time fields if not present in the form", %{conn: conn} do
+      conn =
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          %{
+            "support" => %{
+              "comments" => "comments",
+              "email" => "test@gmail.com",
+              "privacy" => "on",
+              "phone" => "",
+              "first_name" => "tom",
+              "last_name" => "brady",
+              "no_request_response" => "off",
+              "service" => "Inquiry",
+              "subject" => "Website"
+            },
+            "g-recaptcha-response" => "valid_response"
+          }
+        )
+
+      assert redirected_to(conn) == customer_support_path(conn, :thanks)
+    end
   end
 
   describe "Expandable blocks" do

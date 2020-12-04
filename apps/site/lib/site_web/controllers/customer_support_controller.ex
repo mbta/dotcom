@@ -87,11 +87,13 @@ defmodule SiteWeb.CustomerSupportController do
   end
 
   def submit(conn, %{"support" => form_data, "g-recaptcha-response" => recaptcha_response}) do
+    now = Util.now() |> Util.to_local_time() |> DateTime.truncate(:second)
+
     params =
       form_data
       |> Map.put("recaptcha_response", recaptcha_response)
       # date and time is not mandatory so if it's blank or in the future, we set it to now
-      |> Map.update!("date_time", &validate_incident_date_time/1)
+      |> Map.update("date_time", now, &validate_incident_date_time/1)
 
     case do_validation(params) do
       [] ->
