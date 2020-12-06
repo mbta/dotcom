@@ -391,7 +391,6 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert first_stop.stop_features == [
                :orange_line,
                :green_line_c,
-               :green_line_d,
                :commuter_rail,
                :access,
                :parking_lot
