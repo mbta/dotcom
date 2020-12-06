@@ -250,7 +250,11 @@ defmodule Stops.RouteStop do
     foxboro_extension = Enum.find(shapes, &(&1.name == "South Station - Foxboro via Fairmount"))
 
     distinct_stop_ids =
-      mainline.stop_ids |> Enum.concat(foxboro_extension.stop_ids) |> Enum.uniq()
+      if foxboro_extension do
+        mainline.stop_ids |> Enum.concat(foxboro_extension.stop_ids) |> Enum.uniq()
+      else
+        mainline.stop_ids
+      end
 
     [do_list_from_shapes(mainline.name, distinct_stop_ids, stops, route)]
     |> merge_branch_list(0)
@@ -263,9 +267,13 @@ defmodule Stops.RouteStop do
       Enum.find(shapes, &(&1.name == "Forge Park/495 - South Station via Fairmount"))
 
     distinct_stop_ids =
-      ["place-FS-0049" | foxboro_extension.stop_ids]
-      |> Enum.concat(mainline.stop_ids)
-      |> Enum.uniq()
+      if foxboro_extension do
+        ["place-FS-0049" | foxboro_extension.stop_ids]
+        |> Enum.concat(mainline.stop_ids)
+        |> Enum.uniq()
+      else
+        mainline.stop_ids
+      end
 
     [do_list_from_shapes(foxboro_extension.name, distinct_stop_ids, stops, route)]
     |> merge_branch_list(1)
