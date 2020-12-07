@@ -38,7 +38,8 @@ defimpl BannerAlert, for: Alerts.Banner do
   end
 
   defp alert_from_banner(banner) do
-    Kernel.struct(Alerts.Alert, banner)
-    |> Map.update!(:priority, :system)
+    Alerts.Alert
+    |> struct(banner)
+    |> Map.put(:priority, :system)
   end
 end
