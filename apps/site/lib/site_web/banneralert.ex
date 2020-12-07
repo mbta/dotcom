@@ -3,7 +3,7 @@ defprotocol BannerAlert do
   def human_effect(obj)
   def human_label(obj)
   def icon(obj)
-  def alert_for_label_class(obj)
+  def label_class(obj)
 end
 
 defimpl BannerAlert, for: Alerts.Alert do
@@ -11,7 +11,7 @@ defimpl BannerAlert, for: Alerts.Alert do
   defdelegate human_effect(alert), to: Alerts.Alert
   defdelegate human_label(alert), to: Alerts.Alert
   defdelegate icon(alert), to: Alerts.Alert
-  def alert_for_label_class(alert), do: alert
+  def label_class(alert), do: SiteWeb.AlertView.alert_label_class(alert)
 end
 
 defimpl BannerAlert, for: Alerts.Banner do
@@ -32,8 +32,9 @@ defimpl BannerAlert, for: Alerts.Banner do
     |> Alerts.Alert.icon()
   end
 
-  def alert_for_label_class(banner) do
+  def label_class(banner) do
     alert_from_banner(banner)
+    |> SiteWeb.AlertView.alert_label_class()
   end
 
   defp alert_from_banner(banner) do
