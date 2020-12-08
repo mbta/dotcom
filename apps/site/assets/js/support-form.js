@@ -314,6 +314,9 @@ const validators = {
   comments: function($) {
     return $("#comments").val().length !== 0;
   },
+  subject: function($) {
+    return $("#support_subject").val().length !== 0;
+  },
   service: function($) {
     return !!$("[name='support[service]']:checked").val();
   },
@@ -356,16 +359,21 @@ function responseRequested($) {
 }
 
 function setupValidation($) {
-  ["#privacy", "#comments", "#email", "#first_name", "#last_name"].forEach(
-    selector => {
-      const $selector = $(selector);
-      $selector.on("keyup blur input change", () => {
-        if (validators[selector.slice(1)]($)) {
-          displaySuccess($, selector);
-        }
-      });
-    }
-  );
+  [
+    "#privacy",
+    "#support_subject",
+    "#comments",
+    "#email",
+    "#first_name",
+    "#last_name"
+  ].forEach(selector => {
+    const $selector = $(selector);
+    $selector.on("keyup blur input change", () => {
+      if (validators[selector.slice(1)]($)) {
+        displaySuccess($, selector);
+      }
+    });
+  });
 }
 
 function displayError($, selector) {
@@ -387,6 +395,7 @@ function displaySuccess($, selector) {
 
 function validateForm($) {
   const privacy = "#privacy",
+    subject = "#support_subject",
     comments = "#comments",
     service = "#service",
     email = "#email",
@@ -400,6 +409,13 @@ function validateForm($) {
     errors.push(service);
   } else {
     displaySuccess($, service);
+  }
+  // Subject
+  if (!validators.subject($)) {
+    displayError($, subject);
+    errors.push(subject);
+  } else {
+    displaySuccess($, subject);
   }
   // Main textarea
   if (!validators.comments($)) {

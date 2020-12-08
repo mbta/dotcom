@@ -24,8 +24,8 @@
       </div>
     </fieldset>
     <div class="form-group <%= class_for_error("subject", @errors, "has-danger", "has-success") %>">
-      <%= label f, :subject, "Subject", [for: "support_subject", class: "form-control-label"] %>
-      <%= select f, :subject, [], prompt: "Please choose a subject", value: "", class: "form-control c-select" %>
+      <%= label f, :subject, "Subject*", [for: "support_subject", class: "form-control-label"] %>
+      <%= select f, :subject, [], prompt: "Please choose a subject", value: "", required: "required", class: "form-control c-select" %>
     </div>
     <div id="charlie-card-or-ticket-number" class="form-group">
       <%= label f, :ticket_number, "CharlieCard or Ticket number (optional)", [class: "form-control-label"] %>
