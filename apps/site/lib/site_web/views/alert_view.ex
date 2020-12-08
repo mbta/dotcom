@@ -131,7 +131,7 @@ defmodule SiteWeb.AlertView do
     Alert.human_effect(alert)
   end
 
-  defp alert_label_class(%Alert{} = alert) do
+  def alert_label_class(%Alert{} = alert) do
     ["u-small-caps", "c-alert-item__badge"]
     |> do_alert_label_class(alert)
     |> Enum.join(" ")

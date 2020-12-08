@@ -388,13 +388,14 @@ defmodule SiteWeb.ScheduleControllerTest do
 
       # includes the stop features
       # assert first_stop.stop_features == [:bus, :access]
-      assert first_stop.stop_features == [
+      assert [
                :orange_line,
                :green_line_c,
                :commuter_rail,
                :access,
                :parking_lot
              ]
+             |> Enum.all?(&Enum.member?(first_stop.stop_features, &1))
 
       # spider map
       assert conn.assigns.map_img_src =~ "maps.googleapis.com"
