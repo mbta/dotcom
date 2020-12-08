@@ -64,9 +64,10 @@
         </div>
       </div>
       <div class="plan-time-select">
-        <%= label f, "Vehicle", [id: "vehicleLabel", for: "support_vehicle", class: "form-control-label"] %>
-        <div>
-          <%= text_input(f, :vehicle, placeholder: placeholder_text("vehicle"), class: "plan-date-input") %>
+        <%= support_error_tag @errors, "vehicle" %>
+        <div class="form-group <%= class_for_error("vehicle", @errors, "has-danger", "has-success") %>">
+          <%= label f, "Vehicle", [id: "vehicleLabel", for: "vehicle", class: "form-control-label"] %>
+          <%= text_input(f, :vehicle, id: "vehicle", placeholder: placeholder_text("vehicle"), class: "form-control plan-date-input", value: assigns[:vehicle] ) %>
           <span data-toggle="tooltip" data-placement="right" title="Vehicle numbers are usually displayed overhead at either end of the vehicle, and always displayed on the exterior.">
             <span aria-hidden="true" class="c-search-result__content-icon fa fa-info">
             </span>
