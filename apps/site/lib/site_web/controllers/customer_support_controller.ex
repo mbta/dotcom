@@ -196,6 +196,7 @@ defmodule SiteWeb.CustomerSupportController do
         [
           &validate_comments/1,
           &validate_service/1,
+          &validate_subject/1,
           &validate_photos/1,
           &validate_recaptcha/1
         ]

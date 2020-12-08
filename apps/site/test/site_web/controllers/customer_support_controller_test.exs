@@ -70,6 +70,7 @@ defmodule SiteWeb.CustomerSupportControllerTest do
     def valid_no_response_data do
       %{
         "support" => %{
+          "subject" => "Website",
           "comments" => "comments",
           "no_request_response" => "on",
           "service" => "Inquiry",
@@ -152,6 +153,20 @@ defmodule SiteWeb.CustomerSupportControllerTest do
           conn,
           customer_support_path(conn, :submit),
           put_in(valid_request_response_data(), ["support", "subject"], "Bad")
+        )
+
+      assert "subject" in conn.assigns.errors
+    end
+
+    test "validates that the subject is a required field", %{conn: conn} do
+      # remove subject from valid_no_response_data:
+      form_data = pop_in(valid_no_response_data()["support"]["subject"]) |> elem(1)
+
+      conn =
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          form_data
         )
 
       assert "subject" in conn.assigns.errors

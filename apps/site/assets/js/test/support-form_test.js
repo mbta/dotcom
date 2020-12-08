@@ -278,6 +278,11 @@ describe("support form", () => {
             <input name="support[service]" value="Suggestion">Comment</input>
             <input name="support[service]" value="Inquiry">Question</input>
             <input name="support[service]" value="Commendation">Request</input>
+            <div class="support-support_subject-error-container hidden-xs-up"></div>
+            <select id="support_subject" name="support[subject]" required="required">
+            <option value="">Please choose a subject</option>
+            <option value="Random_option" selected="selected">Random option</option>
+            </select>
             <div class="support-comments-error-container hidden-xs-up" tabindex="-1"><div class="support-comments-error"></div></div>
             <textarea name="support[comments]" id="comments"></textarea>
             <input name="support[photo]" id="photo" type="file" />
@@ -326,6 +331,18 @@ describe("support form", () => {
       assert.isFalse($(".support-form-expanded").hasClass("hidden-xs-up"));
       assert.isTrue(
         $(".support-confirmation--success").hasClass("hidden-xs-up")
+      );
+    });
+
+    it("requires a subject to be selected", () => {
+      // set the selected value to an invalid one
+      $("#support_subject").html(
+        '<option value="">Please choose a subject</option>'
+      );
+
+      $("#support-submit").click();
+      assert.isFalse(
+        $(".support-support_subject-error-container").hasClass("hidden-xs-up")
       );
     });
 
