@@ -649,7 +649,7 @@ describe("support form", () => {
        </select>
        <div id="charlie-card-or-ticket-number" class="form-group">
         <label class="form-control-label" for="support_ticket_number">CharlieCard or Ticket number (optional)</label>
-        <input class="support-form-text-input support-form-text-input--small form-control" id="support_ticket_number" name="support[ticket_number]" type="text">
+        <input class="support-form-input support-form-input--small form-control" id="support_ticket_number" name="support[ticket_number]" type="text">
        </div>
      `);
       handleSubjectChange($);
