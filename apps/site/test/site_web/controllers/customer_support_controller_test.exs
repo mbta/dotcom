@@ -61,7 +61,8 @@ defmodule SiteWeb.CustomerSupportControllerTest do
             "hour" => 10,
             "minute" => 15,
             "am_pm" => "AM"
-          }
+          },
+          "vehicle" => ""
         },
         "g-recaptcha-response" => "valid_response"
       }
@@ -81,7 +82,8 @@ defmodule SiteWeb.CustomerSupportControllerTest do
             "hour" => 10,
             "minute" => 15,
             "am_pm" => "AM"
-          }
+          },
+          "vehicle" => ""
         },
         "g-recaptcha-response" => "valid_response"
       }
@@ -170,6 +172,26 @@ defmodule SiteWeb.CustomerSupportControllerTest do
         )
 
       assert "subject" in conn.assigns.errors
+    end
+
+    test "validates that the vehicle number, if filled, is a valid value", %{conn: conn} do
+      conn =
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "vehicle"], "ABCDE")
+        )
+
+      assert "vehicle" in conn.assigns.errors
+
+      conn =
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          put_in(valid_request_response_data(), ["support", "vehicle"], "01243")
+        )
+
+      refute conn.assigns["errors"]
     end
 
     test "requires first_name if customer does want a response", %{conn: conn} do
