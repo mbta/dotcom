@@ -16,13 +16,13 @@ defmodule Alerts.Supervisor do
     Supervisor.start_link(__MODULE__, [])
   end
 
-  @impl true
+  @impl Supervisor
   def init(_arg) do
     children = [
-      worker(Alerts.Cache.Store, []),
-      worker(Alerts.Cache.Fetcher, [[api_mfa: @api_mfa]])
+      Alerts.Cache.Store,
+      {Alerts.Cache.Fetcher, api_mfa: @api_mfa}
     ]
 
-    supervise(children, strategy: :rest_for_one)
+    Supervisor.init(children, strategy: :rest_for_one)
   end
 end

@@ -21,8 +21,7 @@ defmodule Alerts.Cache.Store do
 
   # Client
 
-  def start_link do
-    # no cover
+  def start_link(_) do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
