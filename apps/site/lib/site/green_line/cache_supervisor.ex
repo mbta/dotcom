@@ -1,14 +1,23 @@
 defmodule Site.GreenLine.CacheSupervisor do
-  use Supervisor
+  @moduledoc false
+  use DynamicSupervisor
 
   alias Site.GreenLine.DateAgent
 
-  def start_link do
-    Supervisor.start_link(__MODULE__, nil, name: :green_line_cache_supervisor)
+  @name :green_line_cache_supervisor
+
+  def start_link(_) do
+    DynamicSupervisor.start_link(__MODULE__, [], name: @name)
   end
 
   def start_child(date) do
-    Supervisor.start_child(:green_line_cache_supervisor, [date, via_tuple(date)])
+    child = %{
+      id: {DateAgent, date},
+      start: {DateAgent, :start_link, [date, via_tuple(date)]},
+      restart: :transient
+    }
+
+    DynamicSupervisor.start_child(@name, child)
   end
 
   @doc """
@@ -30,16 +39,11 @@ defmodule Site.GreenLine.CacheSupervisor do
     end
   end
 
-  @impl true
-  def init(_) do
-    children = [
-      worker(Site.GreenLine.DateAgent, [], restart: :transient)
-    ]
-
-    supervise(children, strategy: :simple_one_for_one)
-  end
-
   defp via_tuple(date) do
     {:via, Registry, {:green_line_cache_registry, date}}
+  end
+
+  def init(_) do
+    DynamicSupervisor.init(strategy: :one_for_one)
   end
 end
