@@ -5,11 +5,11 @@ WORKDIR /root
 ARG SENTRY_DSN=""
 
 # Debian dependencies
-RUN apt-get update && apt-get install -y curl git make
+RUN apt-get update && apt-get install -y curl git make build-essential
 
 # Install node/npm
 # Instructions from https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && \
+RUN curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
   apt-get install -y nodejs
 
 # Clean up
