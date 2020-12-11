@@ -5,7 +5,7 @@ defmodule Site.GreenLine.CacheSupervisorTest do
   import Site.GreenLine.CacheSupervisor
 
   test "CacheSupervisor is started along with registry" do
-    assert {:error, {:already_started, _}} = start_link()
+    assert {:error, {:already_started, _}} = start_link([])
 
     assert {:error, {:already_started, _}} =
              Registry.start_link(keys: :unique, name: :green_line_cache_registry)
