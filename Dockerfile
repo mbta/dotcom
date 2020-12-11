@@ -40,4 +40,4 @@ WORKDIR /root/apps/site/
 RUN mix phx.digest
 
 WORKDIR /root
-RUN mix release --verbose
+RUN mix distillery.release --verbose

@@ -1,5 +1,5 @@
 %{
-  "artificery": {:hex, :artificery, "0.4.0", "e0b8d3eb9dfe8f42c08a620f90a2aa9cef5dba9fcdfcecad5c2be451df159a77", [:mix], [], "hexpm", "2cdf0748823aa0a9a10739bbd131a2d47f4f11021ad99b5b970f738c0428dab8"},
+  "artificery": {:hex, :artificery, "0.4.3", "0bc4260f988dcb9dda4b23f9fc3c6c8b99a6220a331534fdf5bf2fd0d4333b02", [:mix], [], "hexpm", "12e95333a30e20884e937abdbefa3e7f5e05609c2ba8cf37b33f000b9ffc0504"},
   "benchfella": {:hex, :benchfella, "0.3.4", "41d2c017b361ece5225b5ba2e3b30ae53578c57c6ebc434417b4f1c2c94cf4f3", [:mix], [], "hexpm", "23616f774db00fc896ce249380f2c0053161d5803775c7284a156bc58a5a3146"},
   "briefly": {:hex, :briefly, "0.3.0", "16e6b76d2070ebc9cbd025fa85cf5dbaf52368c4bd896fb482b5a6b95a540c2f", [:mix], [], "hexpm", "c6ebf8fc3dcd4950dd10c03e953fb4f553a8bcf0ff4c8c40d71542434cd7e046"},
   "bunt": {:hex, :bunt, "0.2.0", "951c6e801e8b1d2cbe58ebbd3e616a869061ddadcc4863d0a2182541acae9a38", [:mix], [], "hexpm", "7af5c7e09fe1d40f76c8e4f9dd2be7cebd83909f31fee7cd0e9eadc567da8353"},
@@ -13,7 +13,7 @@
   "csv": {:hex, :csv, "2.3.1", "9ce11eff5a74a07baf3787b2b19dd798724d29a9c3a492a41df39f6af686da0e", [:mix], [{:parallel_stream, "~> 1.0.4", [hex: :parallel_stream, repo: "hexpm", optional: false]}], "hexpm", "86626e1c89a4ad9a96d0d9c638f9e88c2346b89b4ba1611988594ebe72b5d5ee"},
   "dialyxir": {:hex, :dialyxir, "1.0.0-rc.4", "71b42f5ee1b7628f3e3a6565f4617dfb02d127a0499ab3e72750455e986df001", [:mix], [{:erlex, "~> 0.1", [hex: :erlex, repo: "hexpm", optional: false]}], "hexpm", "4bba10c6f267a0dd127d687d1295f6a11af6a7f160cc0e261c46f1962a98d7d8"},
   "diskusage_logger": {:hex, :diskusage_logger, "0.2.0", "04fc48b538fe4de43153542a71ea94f623d54707d85844123baacfceedf625c3", [:mix], [], "hexpm", "e3f2aed1b0fc4590931c089a6453a4c4eb4c945912aa97bcabcc0cff7851f34d"},
-  "distillery": {:hex, :distillery, "2.0.12", "6e78fe042df82610ac3fa50bd7d2d8190ad287d120d3cd1682d83a44e8b34dfb", [:mix], [{:artificery, "~> 0.2", [hex: :artificery, repo: "hexpm", optional: false]}], "hexpm", "ad094bfbbd69a39f6118265bc7d76a56534df9af2f06aca0d3fd03e1220fbe31"},
+  "distillery": {:hex, :distillery, "2.1.1", "f9332afc2eec8a1a2b86f22429e068ef35f84a93ea1718265e740d90dd367814", [:mix], [{:artificery, "~> 0.2", [hex: :artificery, repo: "hexpm", optional: false]}], "hexpm", "bbc7008b0161a6f130d8d903b5b3232351fccc9c31a991f8fcbf2a12ace22995"},
   "earmark": {:hex, :earmark, "1.2.6", "b6da42b3831458d3ecc57314dff3051b080b9b2be88c2e5aa41cd642a5b044ed", [:mix], [], "hexpm", "b42a23e9bd92d65d16db2f75553982e58519054095356a418bb8320bbacb58b1"},
   "eflame": {:hex, :eflame, "1.0.1", "0664d287e39eef3c413749254b3af5f4f8b00be71c1af67d325331c4890be0fc", [:mix], [], "hexpm", "e0b08854a66f9013129de0b008488f3411ae9b69b902187837f994d7a99cf04e"},
   "ehmon": {:git, "https://github.com/mbta/ehmon.git", "1fb603262bd02d74a16183bd8f344dcace9d7561", []},
