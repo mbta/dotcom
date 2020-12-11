@@ -127,7 +127,8 @@ export function convertSelects($) {
   window.requestAnimationFrame(() => {
     $("select[data-select-modal][data-no-conversion]").each((_index, el) => {
       const $el = $(el),
-        $cover = $(`<div data-select-modal=${$el.attr("name")}/>`)
+        $cover = $(`<div/>`)
+          .attr("data-select-modal", $el.attr("name"))
           .addClass("select-cover")
           .css({
             width: $el.outerWidth(),
