@@ -22,7 +22,7 @@ defmodule V3Api.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [
-      applications: [:logger, :httpoison, :json_api, :sentry],
+      extra_applications: [:logger],
       mod: {V3Api.Application, []}
     ]
   end
