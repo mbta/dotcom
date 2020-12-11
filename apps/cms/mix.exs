@@ -22,17 +22,8 @@ defmodule CMS.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [
-      applications: [
-        :httpoison,
-        :logger,
-        :phoenix_html,
-        :plug,
-        :poison,
-        :repo_cache,
-        :timex,
-        :tzdata,
-        :html_sanitize_ex,
-        :util
+      extra_applications: [
+        :logger
       ],
       mod: {CMS, []}
     ]

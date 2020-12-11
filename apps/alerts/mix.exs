@@ -22,7 +22,7 @@ defmodule Alerts.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [
-      applications: [:logger, :timex, :repo_cache, :con_cache, :tzdata, :util],
+      extra_applications: [:logger],
       mod: {Alerts, []}
     ]
   end

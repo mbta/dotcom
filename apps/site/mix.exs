@@ -23,53 +23,18 @@ defmodule Site.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    apps = [
-      :phoenix,
-      :phoenix_pubsub,
-      :phoenix_html,
-      :plug_cowboy,
-      :gettext,
-      :route_patterns,
-      :stops,
-      :routes,
-      :alerts,
-      :schedules,
-      :algolia,
-      :predictions,
-      :timex,
-      :inflex,
-      :html_sanitize_ex,
-      :logster,
-      :sizeable,
-      :hammer,
-      :poolboy,
-      :feedback,
-      :zones,
-      :fares,
-      :cms,
-      :holiday,
-      :parallel_stream,
-      :vehicles,
-      :tzdata,
-      :google_maps,
-      :logger,
-      :floki,
-      :polyline,
-      :util,
-      :trip_plan,
-      :services,
-      :con_cache,
-      :recaptcha
+    extra_apps = [
+      :logger
     ]
 
-    apps =
+    extra_apps =
       if Mix.env() == :prod do
-        [:ehmon, :recon, :sasl, :sentry, :diskusage_logger | apps]
+        [:sasl | extra_apps]
       else
-        apps
+        extra_apps
       end
 
-    [mod: {Site.Application, []}, included_applications: [:laboratory], applications: apps]
+    [mod: {Site.Application, []}, included_applications: [:laboratory], extra_apps: extra_apps]
   end
 
   # Specifies which paths to compile per environment.

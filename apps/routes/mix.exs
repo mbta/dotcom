@@ -21,7 +21,7 @@ defmodule Routes.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger, :v3_api, :repo_cache], mod: {Routes, []}]
+    [extra_applications: [:logger], mod: {Routes, []}]
   end
 
   # Dependencies can be Hex packages:
