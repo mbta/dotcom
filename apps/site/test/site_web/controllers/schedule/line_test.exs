@@ -9,7 +9,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
 
   @deps %SiteWeb.ScheduleController.Line.Dependencies{}
 
-  @base_end_date ~D[2020-12-08]
+  @base_end_date ~D[2021-12-08]
 
   @thirtynine_services [
     %Service{
@@ -20,22 +20,22 @@ defmodule SiteWeb.ScheduleController.LineTest do
       id: "BUS120-3-Wdy-02",
       name: "Weekday",
       removed_dates: [
-        "2020-01-20",
-        "2020-02-17",
-        "2020-02-18",
-        "2020-02-19",
-        "2020-02-20",
-        "2020-02-21"
+        "2021-01-18",
+        "2021-02-15",
+        "2021-02-16",
+        "2021-02-17",
+        "2021-02-18",
+        "2021-02-19"
       ],
       removed_dates_notes: %{
-        "2020-01-20" => "Martin Luther King Day",
-        "2020-02-17" => "Washington's Birthday",
-        "2020-02-18" => nil,
-        "2020-02-19" => nil,
-        "2020-02-20" => nil,
-        "2020-02-21" => nil
+        "2021-01-18" => "Martin Luther King Day",
+        "2021-02-15" => "Washington's Birthday",
+        "2021-02-16" => nil,
+        "2021-02-17" => nil,
+        "2021-02-18" => nil,
+        "2021-02-19" => nil
       },
-      start_date: ~D[2020-01-02],
+      start_date: ~D[2021-01-02],
       type: :weekday,
       typicality: :typical_service,
       valid_days: [1, 2, 3, 4, 5]
@@ -48,22 +48,22 @@ defmodule SiteWeb.ScheduleController.LineTest do
       id: "BUS120-Z-Wdy-02",
       name: "Weekday",
       removed_dates: [
-        "2020-01-20",
-        "2020-02-17",
-        "2020-02-18",
-        "2020-02-19",
-        "2020-02-20",
-        "2020-02-21"
+        "2021-01-18",
+        "2021-02-15",
+        "2021-02-16",
+        "2021-02-17",
+        "2021-02-18",
+        "2021-02-19"
       ],
       removed_dates_notes: %{
-        "2020-01-20" => "Martin Luther King Day",
-        "2020-02-17" => "Washington's Birthday",
-        "2020-02-18" => nil,
-        "2020-02-19" => nil,
-        "2020-02-20" => nil,
-        "2020-02-21" => nil
+        "2021-01-18" => "Martin Luther King Day",
+        "2021-02-15" => "Washington's Birthday",
+        "2021-02-16" => nil,
+        "2021-02-17" => nil,
+        "2021-02-18" => nil,
+        "2021-02-19" => nil
       },
-      start_date: ~D[2020-01-02],
+      start_date: ~D[2021-01-02],
       type: :weekday,
       typicality: :typical_service,
       valid_days: [1, 2, 3, 4, 5]
@@ -72,12 +72,12 @@ defmodule SiteWeb.ScheduleController.LineTest do
       added_dates: [],
       added_dates_notes: %{},
       description: "Saturday schedule",
-      end_date: ~D[2019-12-21],
+      end_date: ~D[2020-12-21],
       id: "BUS419-3-Sa-02",
       name: "Saturday",
       removed_dates: [],
       removed_dates_notes: %{},
-      start_date: ~D[2019-12-21],
+      start_date: ~D[2020-12-21],
       type: :saturday,
       typicality: :typical_service,
       valid_days: [6]
@@ -86,29 +86,29 @@ defmodule SiteWeb.ScheduleController.LineTest do
       added_dates: [],
       added_dates_notes: %{},
       description: "Saturday schedule",
-      end_date: ~D[2019-12-21],
+      end_date: ~D[2020-12-21],
       id: "BUS419-E-Sa-02",
       name: "Saturday",
       removed_dates: [],
       removed_dates_notes: %{},
-      start_date: ~D[2019-12-21],
+      start_date: ~D[2020-12-21],
       type: :saturday,
       typicality: :typical_service,
       valid_days: [6]
     },
     %Service{
-      added_dates: ["2019-12-25", "2020-01-01"],
+      added_dates: ["2020-12-25", "2021-01-01"],
       added_dates_notes: %{
-        "2019-12-25" => "Christmas Day",
-        "2020-01-01" => "New Year's Day"
+        "2020-12-25" => "Christmas Day",
+        "2021-01-01" => "New Year's Day"
       },
       description: "Holiday (Sunday schedule)",
-      end_date: ~D[2020-01-01],
+      end_date: ~D[2021-01-01],
       id: "ChristmasDay-NewYearsDay",
       name: "Holiday",
       removed_dates: [],
       removed_dates_notes: %{},
-      start_date: ~D[2019-12-25],
+      start_date: ~D[2020-12-25],
       type: :sunday,
       typicality: :holiday_service,
       valid_days: []
@@ -117,29 +117,29 @@ defmodule SiteWeb.ScheduleController.LineTest do
       added_dates: [],
       added_dates_notes: %{},
       description: "Weekday schedule",
-      end_date: ~D[2019-12-20],
+      end_date: ~D[2020-12-20],
       id: "FallWeekday",
       name: "Weekday",
       removed_dates: [],
       removed_dates_notes: %{},
-      start_date: ~D[2019-12-20],
+      start_date: ~D[2020-12-20],
       type: :weekday,
       typicality: :typical_service,
       valid_days: [5]
     },
     %Service{
-      added_dates: ["2020-01-20", "2020-02-17"],
+      added_dates: ["2021-01-18", "2021-02-15"],
       added_dates_notes: %{
-        "2020-01-20" => "Martin Luther King Day",
-        "2020-02-17" => "Washington's Birthday"
+        "2021-01-18" => "Martin Luther King Day",
+        "2021-02-15" => "Washington's Birthday"
       },
       description: "Holiday (Saturday schedule)",
-      end_date: ~D[2020-02-17],
+      end_date: ~D[2021-02-15],
       id: "MartinLutherKingDay-WashingtonsBirthday",
       name: "Holiday",
       removed_dates: [],
       removed_dates_notes: %{},
-      start_date: ~D[2020-01-20],
+      start_date: ~D[2021-01-18],
       type: :saturday,
       typicality: :holiday_service,
       valid_days: []
@@ -153,7 +153,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
       name: "Saturday",
       removed_dates: [],
       removed_dates_notes: %{},
-      start_date: ~D[2019-12-28],
+      start_date: ~D[2020-12-28],
       type: :saturday,
       typicality: :typical_service,
       valid_days: [6]
@@ -167,26 +167,26 @@ defmodule SiteWeb.ScheduleController.LineTest do
       name: "Sunday",
       removed_dates: [],
       removed_dates_notes: %{},
-      start_date: ~D[2019-12-22],
+      start_date: ~D[2020-12-22],
       type: :sunday,
       typicality: :typical_service,
       valid_days: '\a'
     },
     %Service{
-      added_dates: ["2020-02-18", "2020-02-19", "2020-02-20", "2020-02-21"],
+      added_dates: ["2021-02-16", "2021-02-17", "2021-02-18", "2021-02-19"],
       added_dates_notes: %{
-        "2020-02-18" => nil,
-        "2020-02-19" => nil,
-        "2020-02-20" => nil,
-        "2020-02-21" => nil
+        "2021-02-16" => nil,
+        "2021-02-17" => nil,
+        "2021-02-18" => nil,
+        "2021-02-19" => nil
       },
       description: "Weekday schedule (no school)",
-      end_date: ~D[2019-12-31],
+      end_date: ~D[2020-12-31],
       id: "WinterWeekday",
       name: "Weekday (no school)",
       removed_dates: [],
       removed_dates_notes: %{},
-      start_date: ~D[2019-12-23],
+      start_date: ~D[2020-12-23],
       type: :weekday,
       typicality: :typical_service,
       valid_days: [1, 2, 4, 5]
@@ -203,23 +203,23 @@ defmodule SiteWeb.ScheduleController.LineTest do
       id: "WinterWeekday",
       name: "Weekday",
       removed_dates: [
-        "2020-01-20",
-        "2020-02-17",
-        "2020-02-18",
-        "2020-02-19",
-        "2020-02-20",
-        "2020-02-21"
+        "2021-01-18",
+        "2021-02-15",
+        "2021-02-16",
+        "2021-02-17",
+        "2021-02-18",
+        "2021-02-19"
       ],
       removed_dates_notes: %{
-        "2020-01-20" => "Martin Luther King Day",
-        "2020-02-17" => "Washington's Birthday",
-        "2020-02-18" => nil,
-        "2020-02-19" => nil,
-        "2020-02-20" => nil,
-        "2020-02-21" => nil
+        "2021-01-18" => "Martin Luther King Day",
+        "2021-02-15" => "Washington's Birthday",
+        "2021-02-16" => nil,
+        "2021-02-17" => nil,
+        "2021-02-18" => nil,
+        "2021-02-19" => nil
       },
-      service_date: ~D[2020-01-20],
-      start_date: ~D[2020-01-09],
+      service_date: ~D[2021-01-18],
+      start_date: ~D[2021-01-09],
       type: :weekday,
       typicality: :typical_service,
       valid_days: [1, 2, 3, 4, 5]
@@ -660,7 +660,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
     test "uses the first service as a default if no services are valid", %{conn: conn} do
       conn =
         conn
-        |> assign(:date_time, ~D[2020-01-20])
+        |> assign(:date_time, ~D[2021-01-18])
         |> assign(:services_fn, fn _ -> @fourtwofour_services end)
         |> get(line_path(conn, :show, "424"))
 
