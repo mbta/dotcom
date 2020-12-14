@@ -629,6 +629,22 @@ defmodule SiteWeb.ScheduleController.TripInfoTest do
     assert conn.assigns.trip_info == nil
   end
 
+  test "assigns a nil trip if there is an error", %{conn: conn} do
+    init_default = init([])
+
+    conn =
+      %{
+        conn
+        | request_path: schedule_path(conn, :show, "455"),
+          query_params: %{"trip" => "45710445"}
+      }
+      |> assign(:route, %Routes.Route{type: 3})
+      |> assign(:vehicle_locations, %{})
+      |> call(init_default)
+
+    assert conn.assigns.trip_info == nil
+  end
+
   describe "show_trips?/4" do
     test "it is false when looking at a future date for subway" do
       next_day = Timex.shift(@time, days: 1)
