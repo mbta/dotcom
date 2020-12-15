@@ -351,6 +351,10 @@ const validators = {
   },
   recaptcha: function($) {
     return !!$("#g-recaptcha-response").val();
+  },
+  vehicle: function($) {
+    const value = $("#vehicle").val();
+    return /^[0-9]*$/.test(value);
   }
 };
 
@@ -365,7 +369,8 @@ function setupValidation($) {
     "#comments",
     "#email",
     "#first_name",
-    "#last_name"
+    "#last_name",
+    "#vehicle"
   ].forEach(selector => {
     const $selector = $(selector);
     $selector.on("keyup blur input change", () => {
@@ -398,6 +403,7 @@ function validateForm($) {
     subject = "#support_subject",
     comments = "#comments",
     service = "#service",
+    vehicle = "#vehicle",
     email = "#email",
     first_name = "#first_name",
     last_name = "#last_name",
@@ -436,6 +442,13 @@ function validateForm($) {
     errors.push(last_name);
   } else {
     displaySuccess($, last_name);
+  }
+  // Vehicle number
+  if (!validators.vehicle($)) {
+    displayError($, vehicle);
+    errors.push(vehicle);
+  } else {
+    displaySuccess($, vehicle);
   }
   // Phone and email
   if (!validators.email($)) {

@@ -165,9 +165,12 @@ body {
   }
 }
 
-.support-form-text-input {
+// styles the input fields
+.support-form-input {
   border: 2px solid $brand-primary;
+  display: block;
   font-size: inherit; // Bootstrap override
+  padding: $base-spacing / 2;
 
   &--small {
     @include media-breakpoint-down(xs) {

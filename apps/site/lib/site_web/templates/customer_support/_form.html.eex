@@ -29,15 +29,15 @@
     </div>
     <div id="charlie-card-or-ticket-number" class="form-group">
       <%= label f, :ticket_number, "CharlieCard or Ticket number (optional)", [class: "form-control-label"] %>
-      <%= text_input f, :ticket_number, class: "support-form-text-input support-form-text-input--small form-control" %>
+      <%= text_input f, :ticket_number, class: "support-form-input support-form-input--small form-control" %>
     </div>
     <div class="form-group <%= class_for_error("comments", @errors, "has-danger", "has-success") %>">
       <%= support_error_tag @errors, "comments" %>
       <%= label f, :comments, "Let us know how we can help*", [for: "comments", class: "form-control-label"] %>
-      <%= textarea f, :comments, id: "comments", class: "support-form-text-input form-control #{class_for_error("comments", @errors, "form-control-danger", "form-control-success")}", "aria-describedby": "commentsHelp", maxlength: "3000", rows: "3", placeholder: placeholder_text("comments"), required: "required", value: assigns[:comments] %>
+      <%= textarea f, :comments, id: "comments", class: "support-form-input form-control #{class_for_error("comments", @errors, "form-control-danger", "form-control-success")}", "aria-describedby": "commentsHelp", maxlength: "3000", rows: "3", placeholder: placeholder_text("comments"), required: "required", value: assigns[:comments] %>
       <small id="commentsHelp" class="form-text">3000 characters maximum</small>
     </div>
-    <div id="support-datepicker" class="m-trip-plan__departure-last">
+    <div id="support-datepicker">
       <strong>Time/Date of incident</strong>
       <script id="form-data" type="text/plain">
         <%= raw(Poison.encode!(@support_datetime_selector_fields)) %>
@@ -52,25 +52,24 @@
     <div>Adding more details helps us more effectively respond to your concerns.</div>
     <div class="form-group">
       <%= label f, "Mode", [for: "support_mode", class: "form-control-label"] %>
-      <div class="plan-time-select">
-        <%= select(f, :mode, get_all_modes(), class: "c-select c-mode-selector") %>
-      </div>
+      <%= select(f, :mode, get_all_modes(), class: "form-control c-select support-form-input support-form-input--small") %>
     </div>
-    <div id="route-and-vehicle" class="form-group m-schedule-line__connection-line">
-      <div class="c-mode-selector">
+    <div id="route-and-vehicle" class="row">
+      <div class="col-sm-6 form-group">
         <%= label f, "Route", [for: "support_route", class: "form-control-label"] %>
-        <div class="plan-time-select">
-          <%= select(f, :route, [], class: "c-select c-route-selector") %>
-        </div>
+        <%= select(f, :route, [], class: "form-control c-select support-form-input") %>
       </div>
-      <div class="plan-time-select">
-        <%= label f, "Vehicle", [id: "vehicleLabel", for: "support_vehicle", class: "form-control-label"] %>
-        <div>
-          <%= text_input(f, :vehicle, placeholder: placeholder_text("vehicle"), class: "plan-date-input") %>
-          <span data-toggle="tooltip" data-placement="right" title="Vehicle numbers are usually displayed overhead at either end of the vehicle, and always displayed on the exterior.">
-            <span aria-hidden="true" class="c-search-result__content-icon fa fa-info">
+      <div class="col-sm-6">
+        <%= support_error_tag @errors, "vehicle" %>
+        <div class="form-group <%= class_for_error("vehicle", @errors, "has-danger", "has-success") %>">
+          <div>
+            <%= label f, "Vehicle", [id: "vehicleLabel", for: "vehicle", class: "form-control-label"] %>
+            <span data-toggle="tooltip" data-placement="right" title="Vehicle numbers are usually displayed overhead at either end of the vehicle, and always displayed on the exterior.">
+              <span aria-hidden="true" class="c-search-result__content-icon fa fa-info">
+              </span>
             </span>
-          </span>
+          </div>
+          <%= text_input(f, :vehicle, id: "vehicle", placeholder: placeholder_text("vehicle"), class: "support-form-input form-control", value: assigns[:vehicle] ) %>
         </div>
       </div>
     </div>
@@ -99,22 +98,22 @@
       <div class="form-group <%= class_for_error("first_name", @errors, "has-danger", "has-success") %>">
         <%= label f, :first_name, "First Name*", [for: "first_name", class: "form-control-label"] %>
         <%= support_error_tag @errors, "first_name" %>
-        <%= text_input f, :first_name, placeholder: placeholder_text("first_name"), class: "support-form-text-input support-form-text-input--small form-control #{class_for_error("first_name", @errors, "form-control-danger", "form-control-success")}", autocomplete: "first_name", id: "first_name" %>
+        <%= text_input f, :first_name, placeholder: placeholder_text("first_name"), class: "support-form-input support-form-input--small form-control #{class_for_error("first_name", @errors, "form-control-danger", "form-control-success")}", autocomplete: "first_name", id: "first_name" %>
       </div>
       <div class="form-group <%= class_for_error("last_name", @errors, "has-danger", "has-success") %>">
         <%= label f, :name, "Last Name*", [for: "last_name", class: "form-control-label"] %>
         <%= support_error_tag @errors, "last_name" %>
-        <%= text_input f, :last_name, placeholder: placeholder_text("last_name"), class: "support-form-text-input support-form-text-input--small form-control #{class_for_error("last_name", @errors, "form-control-danger", "form-control-success")}", autocomplete: "last_name", id: "last_name" %>
+        <%= text_input f, :last_name, placeholder: placeholder_text("last_name"), class: "support-form-input support-form-input--small form-control #{class_for_error("last_name", @errors, "form-control-danger", "form-control-success")}", autocomplete: "last_name", id: "last_name" %>
       </div>
       <div class="form-group <%= class_for_error("email", @errors, "has-danger", "has-success") %>">
         <%= label f, :email, "Email*", [for: "email", class: "form-control-label"] %>
         <%= support_error_tag @errors, "email" %>
-        <%= text_input f, :email, placeholder: placeholder_text("email"), class: "form-control support-form-text-input support-form-text-input--small #{class_for_error("email", @errors, "form-control-danger", "form-control-success")}", autocomplete: "email", id: "email" %>
+        <%= text_input f, :email, placeholder: placeholder_text("email"), class: "form-control support-form-input support-form-input--small #{class_for_error("email", @errors, "form-control-danger", "form-control-success")}", autocomplete: "email", id: "email" %>
       </div>
       <div class="form-group">
         <%= help_text "phone" %>
         <%= label f, :phone, "Phone number", [for: "phone", class: "form-control-label"] %>
-        <%= telephone_input f, :phone, placeholder: placeholder_text("phone"), class: "support-form-text-input support-form-text-input--small form-control", "aria-describedby": "phoneHelp", autocomplete: "tel", id: "phone" %>
+        <%= telephone_input f, :phone, placeholder: placeholder_text("phone"), class: "support-form-input support-form-input--small form-control", "aria-describedby": "phoneHelp", autocomplete: "tel", id: "phone" %>
       </div>
       <div class="form-group <%= class_for_error("privacy", @errors, "has-danger", "has-success") %> mb-0 mt-1">
         <%= support_error_tag @errors, "privacy" %>

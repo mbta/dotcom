@@ -285,6 +285,8 @@ describe("support form", () => {
             </select>
             <div class="support-comments-error-container hidden-xs-up" tabindex="-1"><div class="support-comments-error"></div></div>
             <textarea name="support[comments]" id="comments"></textarea>
+            <div class="support-vehicle-error-container hidden-xs-up" tabindex="-1"><div class="support-vehicle-error"></div></div>
+            <input id="vehicle" name="support[vehicle]" placeholder="00001" type="text" />
             <input name="support[photo]" id="photo" type="file" />
             <div class="support-first_name-error-container hidden-xs-up" tabindex="-1"><div class="support-first_name-error"></div></div>
             <input name="support[first_name]" id="first_name" />
@@ -323,6 +325,21 @@ describe("support form", () => {
       $("#support-submit").click();
       assert.isFalse(
         $(".support-comments-error-container").hasClass("hidden-xs-up")
+      );
+    });
+
+    it("requires vehicle number to have only numeric characters, if filled", () => {
+      $("#vehicle").val("Not a number");
+      $("#support-submit").click();
+      assert.isFalse(
+        $(".support-vehicle-error-container").hasClass("hidden-xs-up"),
+        "not false"
+      );
+      $("#vehicle").val("1234");
+      $("#support-submit").click();
+      assert.isTrue(
+        $(".support-vehicle-error-container").hasClass("hidden-xs-up"),
+        "not true"
       );
     });
 
@@ -632,7 +649,7 @@ describe("support form", () => {
        </select>
        <div id="charlie-card-or-ticket-number" class="form-group">
         <label class="form-control-label" for="support_ticket_number">CharlieCard or Ticket number (optional)</label>
-        <input class="support-form-text-input support-form-text-input--small form-control" id="support_ticket_number" name="support[ticket_number]" type="text">
+        <input class="support-form-input support-form-input--small form-control" id="support_ticket_number" name="support[ticket_number]" type="text">
        </div>
      `);
       handleSubjectChange($);

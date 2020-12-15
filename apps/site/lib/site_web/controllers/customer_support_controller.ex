@@ -187,6 +187,7 @@ defmodule SiteWeb.CustomerSupportController do
           &validate_service/1,
           &validate_subject/1,
           &validate_photos/1,
+          &validate_vehicle/1,
           &validate_name/1,
           &validate_email/1,
           &validate_privacy/1,
@@ -198,6 +199,7 @@ defmodule SiteWeb.CustomerSupportController do
           &validate_service/1,
           &validate_subject/1,
           &validate_photos/1,
+          &validate_vehicle/1,
           &validate_recaptcha/1
         ]
       end
@@ -249,6 +251,13 @@ defmodule SiteWeb.CustomerSupportController do
   @spec validate_privacy(map) :: :ok | String.t()
   defp validate_privacy(%{"privacy" => "on"}), do: :ok
   defp validate_privacy(_), do: "privacy"
+
+  @spec validate_vehicle(map) :: :ok | String.t()
+  defp validate_vehicle(%{"vehicle" => vehicle_number}) do
+    if Regex.match?(~r/^[0-9]*$/, vehicle_number), do: :ok, else: "vehicle"
+  end
+
+  defp validate_vehicle(_), do: :ok
 
   @spec validate_photos(map) :: :ok | String.t()
   defp validate_photos(%{"photos" => photos}) when is_list(photos) do
