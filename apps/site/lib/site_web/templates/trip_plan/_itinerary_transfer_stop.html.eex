@@ -6,8 +6,8 @@
       <div>
         <% route = @itinerary_row.route %>
           <div class="callout callout-small">
-            <%= svg_icon(%SvgIcon{icon: Route.type_atom(route), class: "icon-boring"}) %>
-            Connect to the <%= transfer_route_name(route) %>
+            <%# we put the icon and mode name on one line to avoid the whitespace being collapsed. %>
+            <%= svg_icon(%SvgIcon{icon: Route.type_atom(route), class: "icon-boring"}) %> Connect to the <%= transfer_route_name(route) %>
           </div>
         <%= if @itinerary_row.trip do %>
           <span class="itinerary-instruction">
