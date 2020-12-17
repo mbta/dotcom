@@ -419,7 +419,7 @@ defmodule SiteWeb.TripPlanControllerTest do
       assert html_response(conn, 200) =~ "two different locations"
     end
 
-    test "doesn't renders an error if longitudes and latitudes are unique", %{conn: conn} do
+    test "doesn't render an error if longitudes and latitudes are unique", %{conn: conn} do
       params = %{
         "date_time" => @system_time,
         "plan" => %{
@@ -603,6 +603,58 @@ defmodule SiteWeb.TripPlanControllerTest do
       response = html_response(conn, 200)
       assert Map.get(conn.assigns, :plan_error) == [:past]
       assert response =~ "Date is in the past"
+    end
+
+    test "handles missing date and time params, using today's values if they are missing",
+         %{conn: conn} do
+      wrong_datetime_params = %{
+        "year" => "2017",
+        "day" => "2",
+        "hour" => "9",
+        "am_pm" => "AM"
+      }
+
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{
+          "from" => "from address",
+          "to" => "to address",
+          "date_time" => wrong_datetime_params
+        }
+      }
+
+      conn = get(conn, trip_plan_path(conn, :index, params))
+      assert html_response(conn, 200)
+    end
+
+    test "handles non-existing date and time params, using today's values",
+         %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{
+          "from" => "from address",
+          "to" => "to address",
+          "date_time" => %{}
+        }
+      }
+
+      conn = get(conn, trip_plan_path(conn, :index, params))
+      assert html_response(conn, 200)
+    end
+
+    test "does not need to default date and time params as they are present",
+         %{conn: conn} do
+      params = %{
+        "date_time" => @system_time,
+        "plan" => %{
+          "from" => "from address",
+          "to" => "to address",
+          "date_time" => @morning
+        }
+      }
+
+      conn = get(conn, trip_plan_path(conn, :index, params))
+      assert html_response(conn, 200)
     end
 
     test "good date input: date within service date of end of rating", %{conn: conn} do
