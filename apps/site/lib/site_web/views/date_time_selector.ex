@@ -12,6 +12,29 @@ defmodule DateTimeSelector do
                     int -> Integer.to_string(int)
                   end)
 
+  @spec verify_params(Form.t(), DateTime.t()) :: map
+  defp verify_params(form, datetime) do
+    datetime_params = form.params["date_time"] || %{}
+
+    if Util.parse(datetime_params) == {:error, :invalid_date} do
+      [hour, am_pm_value] =
+        datetime
+        |> Timex.format!("{h12} {AM}")
+        |> String.split(" ")
+
+      %{
+        "year" => datetime.year,
+        "month" => datetime.month,
+        "day" => datetime.day,
+        "hour" => hour,
+        "minute" => datetime.minute,
+        "am_pm" => am_pm_value
+      }
+    else
+      datetime_params
+    end
+  end
+
   def custom_date_time_select(form, date_ranges, %DateTime{} = datetime \\ Util.now()) do
     time_options = [
       hour: [options: 1..12, selected: Timex.format!(datetime, "{h12}")],
@@ -24,6 +47,18 @@ defmodule DateTimeSelector do
       day: [selected: datetime.day],
       default: datetime
     ]
+
+    form =
+      if Enum.empty?(form.params) do
+        form
+      else
+        # `date_select` needs year, month and day
+        # `time_select` needs at least hour and minute
+        # so we ensure that those keys exist in the parameters of the form:
+        form_params = Map.merge(form.params, %{"date_time" => verify_params(form, datetime)})
+
+        %{form | params: form_params}
+      end
 
     content_tag(
       :div,
