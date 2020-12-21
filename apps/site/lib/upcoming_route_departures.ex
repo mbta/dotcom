@@ -92,7 +92,7 @@ defmodule UpcomingRouteDepartures do
 
   defp filter_schedules(schedules) do
     schedules
-    |> Enum.reject(&Routes.Repo.route_hidden?(&1.route))
+    |> Enum.reject(&Route.hidden?(&1.route))
     |> Enum.reject(&Route.subway?(&1.route.type, &1.route.id))
   end
 

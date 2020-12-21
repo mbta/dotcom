@@ -202,6 +202,29 @@ defmodule Routes.Route do
 
   def silver_line, do: @silver_line
 
+  @doc """
+  Determines if the given route data is hidden
+  """
+  @spec hidden?(t()) :: boolean
+  def hidden?(%{id: "746"}), do: true
+  def hidden?(%{id: "2427"}), do: true
+  def hidden?(%{id: "3233"}), do: true
+  def hidden?(%{id: "3738"}), do: true
+  def hidden?(%{id: "4050"}), do: true
+  def hidden?(%{id: "627"}), do: true
+  def hidden?(%{id: "725"}), do: true
+  def hidden?(%{id: "8993"}), do: true
+  def hidden?(%{id: "116117"}), do: true
+  def hidden?(%{id: "214216"}), do: true
+  def hidden?(%{id: "441442"}), do: true
+  def hidden?(%{id: "9701"}), do: true
+  def hidden?(%{id: "9702"}), do: true
+  def hidden?(%{id: "9703"}), do: true
+  def hidden?(%{id: "Logan-" <> _}), do: true
+  def hidden?(%{id: "CapeFlyer"}), do: true
+  def hidden?(%{id: "Boat-F3"}), do: true
+  def hidden?(_), do: false
+
   @spec to_json_safe(t) :: map
   def to_json_safe(%__MODULE__{
         id: id,
