@@ -1,6 +1,8 @@
 defmodule Routes.Repo do
   @moduledoc "Repo for fetching Route resources and their associated data from the V3 API."
 
+  @behaviour Routes.RepoApi
+
   require Logger
   use RepoCache, ttl: :timer.hours(1)
 
@@ -8,19 +10,14 @@ defmodule Routes.Repo do
 
   alias JsonApi
   alias Routes.{Route, Shape}
-  alias V3Api.{Routes, Shapes}
+  alias V3Api.{Shapes}
 
   @default_opts [include: "route_patterns"]
 
-  @doc """
-
-  Returns a list of all the routes
-
-  """
-  @spec all() :: [Route.t()]
+  @impl Routes.RepoApi
   def all do
     case cache(@default_opts, fn _ ->
-           result = handle_response(Routes.all(@default_opts))
+           result = handle_response(V3Api.Routes.all(@default_opts))
 
            for {:ok, routes} <- [result],
                route <- routes do
@@ -34,17 +31,12 @@ defmodule Routes.Repo do
     end
   end
 
-  @doc """
-
-  Returns a single route by ID
-
-  """
-  @spec get(String.t()) :: Route.t() | nil
+  @impl Routes.RepoApi
   def get(id) when is_binary(id) do
     opts = @default_opts
 
     case cache({id, opts}, fn {id, opts} ->
-           with %{data: [route]} <- Routes.get(id, opts) do
+           with %{data: [route]} <- V3Api.Routes.get(id, opts) do
              {:ok, parse_route(route)}
            end
          end) do
@@ -53,7 +45,7 @@ defmodule Routes.Repo do
     end
   end
 
-  @spec get_shapes(String.t(), Keyword.t(), boolean) :: [Shape.t()]
+  @impl Routes.RepoApi
   def get_shapes(route_id, opts, filter_negative_priority? \\ true) do
     opts = Keyword.put(opts, :route, route_id)
 
@@ -89,7 +81,7 @@ defmodule Routes.Repo do
     shapes
   end
 
-  @spec get_shape(String.t()) :: [Shape.t()]
+  @impl Routes.RepoApi
   def get_shape(shape_id) do
     cache(shape_id, fn _ ->
       case Shapes.by_id(shape_id) do
@@ -102,12 +94,7 @@ defmodule Routes.Repo do
     end)
   end
 
-  @doc """
-
-  Given a route_type (or list of route types), returns the list of routes matching that type.
-
-  """
-  @spec by_type([0..4] | 0..4) :: [Route.t()]
+  @impl Routes.RepoApi
   def by_type(types) when is_list(types) do
     types = Enum.sort(types)
 
@@ -129,35 +116,25 @@ defmodule Routes.Repo do
     end
   end
 
-  @doc """
-
-  Given a stop ID, returns the list of routes which stop there.
-
-  """
-  @spec by_stop(String.t(), Keyword.t()) :: [Route.t()]
+  @impl Routes.RepoApi
   def by_stop(stop_id, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
 
     case cache({stop_id, opts}, fn {stop_id, opts} ->
-           stop_id |> Routes.by_stop(opts) |> handle_response
+           stop_id |> V3Api.Routes.by_stop(opts) |> handle_response
          end) do
       {:ok, routes} -> routes
       {:error, _} -> []
     end
   end
 
-  @doc """
-
-  Given a stop ID and direction ID, returns the list of routes which stop there in that direction.
-
-  """
-  @spec by_stop_and_direction(String.t(), 0 | 1, Keyword.t()) :: [Route.t()]
+  @impl Routes.RepoApi
   def by_stop_and_direction(stop_id, direction_id, opts \\ []) do
     opts = Keyword.merge(@default_opts, opts)
 
     case cache({stop_id, direction_id, opts}, fn {stop_id, direction_id, opts} ->
            stop_id
-           |> Routes.by_stop_and_direction(direction_id, opts)
+           |> V3Api.Routes.by_stop_and_direction(direction_id, opts)
            |> handle_response
          end) do
       {:ok, routes} -> routes
@@ -165,15 +142,19 @@ defmodule Routes.Repo do
     end
   end
 
+  @impl Routes.RepoApi
   def by_stop_with_route_pattern(stop_id) do
     cache({stop_id, [include: "route_patterns"]}, fn {stop_id, _opts} ->
       [stop: stop_id, include: "route_patterns"]
-      |> Routes.all()
+      |> V3Api.Routes.all()
       |> Map.get(:data, [])
       |> Enum.map(&parse_route_with_route_pattern/1)
     end)
   end
 
+  @doc """
+  Parses json into a list of routes, or an error if it happened.
+  """
   @spec handle_response(JsonApi.t() | {:error, any}) :: {:ok, [Route.t()]} | {:error, any}
   def handle_response({:error, reason}) do
     {:error, reason}
@@ -182,37 +163,11 @@ defmodule Routes.Repo do
   def handle_response(%{data: data}) do
     {:ok,
      data
-     |> Enum.reject(&route_hidden?/1)
+     |> Enum.reject(&Route.hidden?/1)
      |> Enum.map(&parse_route/1)}
   end
 
-  @doc """
-  Determines if the given route-data is hidden
-  """
-  @spec route_hidden?(%{id: String.t()}) :: boolean
-  def route_hidden?(%{id: "746"}), do: true
-  def route_hidden?(%{id: "2427"}), do: true
-  def route_hidden?(%{id: "3233"}), do: true
-  def route_hidden?(%{id: "3738"}), do: true
-  def route_hidden?(%{id: "4050"}), do: true
-  def route_hidden?(%{id: "627"}), do: true
-  def route_hidden?(%{id: "725"}), do: true
-  def route_hidden?(%{id: "8993"}), do: true
-  def route_hidden?(%{id: "116117"}), do: true
-  def route_hidden?(%{id: "214216"}), do: true
-  def route_hidden?(%{id: "441442"}), do: true
-  def route_hidden?(%{id: "9701"}), do: true
-  def route_hidden?(%{id: "9702"}), do: true
-  def route_hidden?(%{id: "9703"}), do: true
-  def route_hidden?(%{id: "Logan-" <> _}), do: true
-  def route_hidden?(%{id: "CapeFlyer"}), do: true
-  def route_hidden?(%{id: "Boat-F3"}), do: true
-  def route_hidden?(_), do: false
-
-  @doc """
-  The Green Line.
-  """
-  @spec green_line :: Route.t()
+  @impl Routes.RepoApi
   def green_line do
     %Route{
       id: "Green",
