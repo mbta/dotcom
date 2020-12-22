@@ -714,15 +714,11 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
         "place-GB-0222",
         "place-GB-0229",
         "place-GB-0254",
-        "place-GB-0296",
-        "place-GB-0316",
-        "place-GB-0353"
+        "place-GB-0296"
       ])
 
       assert Enum.map(rockport_route_stops, & &1.is_terminus?) ==
                [
-                 false,
-                 false,
                  false,
                  false,
                  false,
@@ -732,8 +728,6 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.map(rockport_route_stops, & &1.is_beginning?) ==
                [
-                 false,
-                 false,
                  false,
                  false,
                  false,
