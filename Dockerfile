@@ -1,4 +1,11 @@
-FROM hexpm/elixir:1.10.3-erlang-22.3.3-debian-stretch-20200224
+###
+# Two-stage Dockerfile
+###
+
+###
+# BUILD THE APPLICATION
+###
+FROM hexpm/elixir:1.10.3-erlang-22.3.3-debian-stretch-20200224 as builder
 
 WORKDIR /root
 
@@ -41,3 +48,28 @@ RUN mix phx.digest
 
 WORKDIR /root
 RUN mix distillery.release --verbose
+
+
+###
+# RUN THE APPLICATION
+###
+
+# The elixir image was built with debian stretch, use the node debian-stretch base
+FROM node:14.15.1-stretch
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	libssl1.1 libsctp1 curl \
+	&& rm -rf /var/lib/apt/lists/*
+
+# Set exposed ports
+EXPOSE 4000
+ENV PORT=4000 MIX_ENV=prod TERM=xterm LANG="C.UTF-8" REPLACE_OS_VARS=true
+
+COPY --from=builder /root/_build/prod/rel /root/rel
+ADD rel/bin/startup /root/rel/site/bin/startup
+
+RUN mkdir /root/work
+
+WORKDIR /root/work
+
+CMD ["/root/rel/site/bin/startup", "foreground"]
