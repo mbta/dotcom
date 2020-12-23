@@ -99,7 +99,7 @@ defmodule SiteWeb.NewsEntryControllerTest do
 
       conn = get(conn, path)
 
-      assert Enum.find(conn.resp_headers, fn {key, _value} -> key == "x-robots-tag" end)
+      assert Enum.find(conn.resp_headers, fn {key, value} -> key == "x-robots-tag" && String.contains?(value, "unavailable_after") end)
     end
 
     test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do
