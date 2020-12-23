@@ -8,30 +8,6 @@ import { parseQuery } from "../helpers/query";
 
 let search = null; // eslint-disable-line
 
-const showLoadingIndicators = (bool: boolean): void => {
-  const method = bool ? "remove" : "add";
-  const loadingIndicators = document.getElementsByClassName(
-    "js-loc-loading-indicator"
-  );
-  Array.from(loadingIndicators).forEach(icon =>
-    icon.classList[method]("hidden-xs-up")
-  );
-};
-
-export const onError = (error: PositionError): void => {
-  showLoadingIndicators(false);
-
-  if (error.message && error.message.includes("denied")) {
-    return;
-  }
-
-  const msgEl = document.getElementById("address-search-message");
-  if (msgEl) {
-    msgEl.innerHTML = `There was an error retrieving your current location;
-                       please enter an address to see transit near you.`;
-  }
-};
-
 const render = (): void => {
   const dataEl = document.getElementById("js-tnm-map-dynamic-data");
   const stopsWithDistancesEl = document.getElementById(
