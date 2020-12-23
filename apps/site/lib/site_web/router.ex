@@ -27,6 +27,11 @@ defmodule SiteWeb.Router do
     plug(SiteWeb.Plugs.RewriteUrls)
     plug(SiteWeb.Plugs.ClearCookies)
     plug(SiteWeb.Plugs.Cookies)
+
+    # Don't index pages from any of our non-prod environments
+    if Mix.env() != :prod do
+      plug(SiteWeb.Plugs.Noindex)
+    end
   end
 
   pipeline :api do

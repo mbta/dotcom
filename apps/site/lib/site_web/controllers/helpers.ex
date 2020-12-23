@@ -141,10 +141,6 @@ defmodule SiteWeb.ControllerHelpers do
     Conn.put_resp_header(conn, "x-robots-tag", "unavailable_after: #{one_year_after(posted_on)}")
   end
 
-  def noindex(conn) do
-    Conn.put_resp_header(conn, "x-robots-tag", "noindex")
-  end
-
   @spec filter_alerts_by_direction([Alert.t()], boolean, String.t() | number | nil) :: [Alert.t()]
   defp filter_alerts_by_direction(alerts, false, _), do: alerts
   defp filter_alerts_by_direction(alerts, true, nil), do: alerts
