@@ -393,16 +393,6 @@ defmodule SiteWeb.ControllerHelpersTest do
     end
   end
 
-  describe "noindex/1" do
-    test "sets a noindex x-robots-tag HTTP header" do
-      conn = build_conn(:get, "/basic_page_no_sidebar", nil)
-
-      transformed_conn = noindex(conn)
-
-      assert {"x-robots-tag", "noindex"} in transformed_conn.resp_headers
-    end
-  end
-
   test "green_routes/0" do
     assert Enum.map(green_routes(), & &1.id) == ["Green-B", "Green-C", "Green-D", "Green-E"]
   end
