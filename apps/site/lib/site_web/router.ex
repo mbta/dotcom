@@ -27,11 +27,7 @@ defmodule SiteWeb.Router do
     plug(SiteWeb.Plugs.RewriteUrls)
     plug(SiteWeb.Plugs.ClearCookies)
     plug(SiteWeb.Plugs.Cookies)
-
-    # Don't index pages from any of our non-prod environments
-    if Mix.env() != :prod do
-      plug(SiteWeb.Plugs.Noindex)
-    end
+    plug(:optional_disable_indexing)
   end
 
   pipeline :api do
@@ -246,5 +242,13 @@ defmodule SiteWeb.Router do
     pipe_through([:secure, :browser])
 
     get("/*path", CMSController, :page)
+  end
+
+  defp optional_disable_indexing(conn, _) do
+    if Application.get_env(:site, :allow_indexing) do
+      conn
+    else
+      Plug.Conn.put_resp_header(conn, "x-robots-tag", "noindex")
+    end
   end
 end
