@@ -1,4 +1,7 @@
 <%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high) %>
+<%= if Map.has_key?(@conn.assigns, :retirement_message) do %>
+  <%= SiteWeb.ViewHelpers.banner_message(@conn, :retirement_message) %>
+<% end %>
 <%= render "_trip_view_filters.html", forward_assigns(@conn) %>
 <div class="calendar-covered">
   <%= content_tag(:div, "", [class: "calendar-cover", hidden: !@show_date_select?]) %>

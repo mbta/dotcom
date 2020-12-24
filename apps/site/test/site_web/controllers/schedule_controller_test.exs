@@ -533,4 +533,26 @@ defmodule SiteWeb.ScheduleControllerTest do
     assert first_route_pattern_1.direction_id == 1
     assert shape.id == first_route_pattern_0.shape_id
   end
+
+  describe "schedule tab" do
+    test "a retirement message exists for buses", %{conn: conn} do
+      conn = get(conn, trip_view_path(conn, :show, "1"))
+      html_response(conn, 200)
+      assert Map.has_key?(conn.assigns, :retirement_message)
+      assert conn.assigns.retirement_message != nil
+    end
+
+    test "a retirement message exists for subway", %{conn: conn} do
+      conn = get(conn, trip_view_path(conn, :show, "Blue"))
+      html_response(conn, 200)
+      assert Map.has_key?(conn.assigns, :retirement_message)
+      assert conn.assigns.retirement_message != nil
+    end
+
+    test "a retirement message does not exist for CR", %{conn: conn} do
+      conn = get(conn, timetable_path(conn, :show, "CR-Lowell"))
+      html_response(conn, 200)
+      refute Map.has_key?(conn.assigns, :retirement_message)
+    end
+  end
 end

@@ -23,6 +23,11 @@ defmodule SiteWeb.ScheduleController.TripViewController do
 
   def show(conn, _) do
     conn
+    |> SiteWeb.ControllerHelpers.call_plug_with_opts(
+      SiteWeb.Plugs.BannerMessage,
+      message_key: :retirement_message,
+      message: SiteWeb.ScheduleView.build_retirement_message(conn)
+    )
     |> put_view(SiteWeb.ScheduleView)
     |> render("show.html", [])
   end
