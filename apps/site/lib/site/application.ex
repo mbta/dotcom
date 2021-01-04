@@ -8,9 +8,11 @@ defmodule Site.Application do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
-    if System.get_env("ALLOW_INDEXING") == "true" do
-      Application.put_env(:site, :allow_indexing, true)
-    end
+    Application.put_env(
+      :site,
+      :allow_indexing,
+      SiteWeb.ControllerHelpers.environment_allows_indexing?()
+    )
 
     # hack to pull the STATIC_SCHEME variable out of the environment
     Application.put_env(
