@@ -105,6 +105,7 @@ defmodule Phoenix.Router.RoutingTest do
       Application.put_env(:site, :allow_indexing, old_value)
     end)
 
+    Application.put_env(:site, :allow_indexing, false)
     conn = get(conn, "/")
     assert Enum.find(conn.resp_headers, &(&1 == {"x-robots-tag", "noindex"}))
 
