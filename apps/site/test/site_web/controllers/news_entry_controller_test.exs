@@ -24,7 +24,9 @@ defmodule SiteWeb.NewsEntryControllerTest do
     test "does not include an unavailable_after x-robots-tag HTTP header", %{conn: conn} do
       conn = get(conn, news_entry_path(conn, :index))
 
-      refute Enum.find(conn.resp_headers, fn {key, _value} -> key == "x-robots-tag" end)
+      refute Enum.find(conn.resp_headers, fn {key, value} ->
+               key == "x-robots-tag" && String.contains?(value, "unavailable_after")
+             end)
     end
   end
 
@@ -97,7 +99,9 @@ defmodule SiteWeb.NewsEntryControllerTest do
 
       conn = get(conn, path)
 
-      assert Enum.find(conn.resp_headers, fn {key, _value} -> key == "x-robots-tag" end)
+      assert Enum.find(conn.resp_headers, fn {key, value} ->
+               key == "x-robots-tag" && String.contains?(value, "unavailable_after")
+             end)
     end
 
     test "renders a 404 given an valid id but mismatching content type", %{conn: conn} do

@@ -141,8 +141,9 @@ defmodule SiteWeb.ControllerHelpers do
     Conn.put_resp_header(conn, "x-robots-tag", "unavailable_after: #{one_year_after(posted_on)}")
   end
 
-  def noindex(conn) do
-    Conn.put_resp_header(conn, "x-robots-tag", "noindex")
+  @spec environment_allows_indexing?() :: boolean()
+  def environment_allows_indexing? do
+    System.get_env("ALLOW_INDEXING") == "true"
   end
 
   @spec filter_alerts_by_direction([Alert.t()], boolean, String.t() | number | nil) :: [Alert.t()]

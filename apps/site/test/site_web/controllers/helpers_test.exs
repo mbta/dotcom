@@ -393,17 +393,32 @@ defmodule SiteWeb.ControllerHelpersTest do
     end
   end
 
-  describe "noindex/1" do
-    test "sets a noindex x-robots-tag HTTP header" do
-      conn = build_conn(:get, "/basic_page_no_sidebar", nil)
-
-      transformed_conn = noindex(conn)
-
-      assert {"x-robots-tag", "noindex"} in transformed_conn.resp_headers
-    end
-  end
-
   test "green_routes/0" do
     assert Enum.map(green_routes(), & &1.id) == ["Green-B", "Green-C", "Green-D", "Green-E"]
+  end
+
+  describe "environment_allows_indexing?/0" do
+    setup do
+      old_value = System.get_env("ALLOW_INDEXING")
+
+      on_exit(fn ->
+        if old_value do
+          System.put_env("ALLOW_INDEXING", old_value)
+        end
+      end)
+    end
+
+    test "returns true if system environment variable is true" do
+      System.put_env("ALLOW_INDEXING", "true")
+      assert environment_allows_indexing?()
+    end
+
+    test "returns false otherwise" do
+      System.put_env("ALLOW_INDEXING", "false")
+      refute environment_allows_indexing?()
+
+      System.delete_env("ALLOW_INDEXING")
+      refute environment_allows_indexing?()
+    end
   end
 end
