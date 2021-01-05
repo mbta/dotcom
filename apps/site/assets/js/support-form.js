@@ -275,20 +275,27 @@ export function setupSubject($) {
   const support_service_opts = JSON.parse(
     document.getElementById("js-subjects-by-service").innerHTML
   );
+
+  // initially hide the choices for subject
+  $("#subject").hide();
+
   // show the field once a category is selected
   $("[name='support[service]']").change(function() {
-    // remove all <options> except the first
-    $("#support_subject option")
-      .nextAll()
-      .remove();
     const selectedCategory = $("[name='support[service]']:checked").val();
     const selectedOptions = support_service_opts[selectedCategory];
     if (selectedOptions) {
+      // remove all <options> except the first
+      $("#support_subject option")
+        .nextAll()
+        .remove();
       $("#support_subject").append(
         selectedOptions.map(
           opt => `<option value=${encodeURIComponent(opt)}>${opt}</option>`
         )
       );
+      $("#subject").show();
+    } else {
+      $("#subject").hide();
     }
   });
 }
@@ -314,7 +321,7 @@ const validators = {
   comments: function($) {
     return $("#comments").val().length !== 0;
   },
-  subject: function($) {
+  support_subject: function($) {
     return $("#support_subject").val().length !== 0;
   },
   service: function($) {
@@ -417,7 +424,7 @@ function validateForm($) {
     displaySuccess($, service);
   }
   // Subject
-  if (!validators.subject($)) {
+  if (!validators.support_subject($)) {
     displayError($, subject);
     errors.push(subject);
   } else {

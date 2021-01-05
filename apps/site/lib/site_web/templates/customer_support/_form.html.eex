@@ -23,7 +23,7 @@
         <% end %>
       </div>
     </fieldset>
-    <div class="form-group <%= class_for_error("subject", @errors, "has-danger", "has-success") %>">
+    <div id="subject" class="form-group <%= class_for_error("subject", @errors, "has-danger", "has-success") %>">
       <%= label f, :subject, "Subject*", [for: "support_subject", class: "form-control-label"] %>
       <%= select f, :subject, [], prompt: "Please choose a subject", value: "", required: "required", class: "form-control c-select" %>
     </div>

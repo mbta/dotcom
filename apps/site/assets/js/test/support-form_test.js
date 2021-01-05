@@ -233,7 +233,9 @@ describe("support form", () => {
           <input type="radio" name="support[service]" value="Complaint">Complaint</input>
           <input type="radio" name="support[service]" value="Inquiry">Question</input>
         </div>
+        <div id="subject">
         <select class="form-control c-select" id="support_subject" name="support[subject]"><option value="">Please choose a subject</option></select>
+        </div>
       `);
 
       setupSubject($);
