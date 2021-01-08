@@ -14,18 +14,12 @@ import sys
 
 
 def main():
-    if not git.current_branch() == "master":
-        sys.exit("Error: You need to be on master to run this script.")
-
-    if not git.clean_status():
-        sys.exit("Error: Git needs to be clean to run this script.")
-
     if not git.has_gh_cli():
         sys.exit("Error: Requires the GitHub CLI to create a release. Install and authenticate https://github.com/cli/cli#installation")
 
     latest_tag = git.latest_tag()
 
-    deploy_sha = input.with_default("Commit to deploy", git.current_commit())
+    deploy_sha = input.with_default("Commit to deploy", git.current_master_commit())
 
     deploy_tag = input.with_default("Tag to apply", tag.date_tag(latest_tag))
 

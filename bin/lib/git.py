@@ -1,20 +1,14 @@
 import subprocess
 
 
-def current_branch():
-    return __call(["git", "branch", "--show-current"])
-
-def clean_status():
-    return __call(["git", "status", "--porcelain"]) == ""
-
 def has_gh_cli():
     try:
         return __call(["gh", "auth", "status"]) != "You are not logged into any GitHub hosts. Run gh auth login to authenticate."
     except:
         return False
 
-def current_commit():
-    return __call(["git", "rev-parse", "--short", "HEAD"])
+def current_master_commit():
+    return __call(["git", "rev-parse", "--short", "origin/master"])
 
 def latest_tag():
     return __call(["git", "describe", "--tags", "--abbrev=0"])
