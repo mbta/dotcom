@@ -123,8 +123,6 @@ const Accordion = ({
   );
 
   const isCommuterRail = isACommuterRailRoute(journey.route);
-  console.log('iscommuterrail? ', isCommuterRail)
-  console.log('isSchoolTrip? ', isSchoolTrip)
 
   return (
     <AccordionRow
