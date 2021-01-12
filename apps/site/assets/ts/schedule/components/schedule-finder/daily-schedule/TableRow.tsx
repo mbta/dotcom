@@ -18,7 +18,7 @@ interface TableRowProps {
 interface AccordionProps {
   input: UserInput;
   journey: Journey;
-  isSchoolTrip: boolean;
+  anySchoolTrips: boolean;
   contentComponent: () => ReactElement<HTMLElement>;
 }
 
@@ -101,7 +101,7 @@ const CrTableRow = ({
 const Accordion = ({
   input,
   journey,
-  isSchoolTrip,
+  anySchoolTrips,
   contentComponent
 }: AccordionProps): ReactElement<HTMLElement> => {
   const [expanded, setExpanded] = useState(false);
@@ -127,7 +127,7 @@ const Accordion = ({
   return (
     <AccordionRow
       id={`trip-${tripId}`}
-      colSpan={isCommuterRail || isSchoolTrip ? 4 : 3}
+      colSpan={isCommuterRail || anySchoolTrips ? 4 : 3}
       contentComponent={contentComponent}
       expanded={expanded}
       toggle={toggle}
@@ -159,7 +159,7 @@ const TableRow = ({
     <Accordion
       input={input}
       journey={journey}
-      isSchoolTrip={isSchoolTrip}
+      anySchoolTrips={anySchoolTrips}
       contentComponent={contentComponent}
     />
   );
