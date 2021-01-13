@@ -13,6 +13,8 @@ defmodule SiteWeb.ViewHelpers do
   import Plug.Conn
 
   alias Routes.Route
+  alias Plug.Conn
+  alias Phoenix.HTML.Safe
 
   @subway_lines [
     :red_line,
@@ -493,4 +495,18 @@ defmodule SiteWeb.ViewHelpers do
 
   def route_term(type) when type in [:bus, :ferry], do: "route"
   def route_term(type) when type in [:subway, :commuter_rail], do: "line"
+
+  @spec banner_message(Conn.t(), atom) :: Safe.t() | nil
+  def banner_message(conn, key) do
+    if Map.has_key?(conn.assigns, key) do
+      content_tag :div, class: "callout" do
+        [
+          content_tag(:p, conn.assigns[key].header, class: "u-bold"),
+          conn.assigns[key].body
+        ]
+      end
+    else
+      nil
+    end
+  end
 end

@@ -178,4 +178,8 @@ defmodule SiteWeb.ControllerHelpers do
 
     "#{Strftime.format!(one_year_after, "%d %b %Y")} 00:00:00 EST"
   end
+
+  def call_plug_with_opts(conn, module, opts) do
+    module.call(conn, module.init(opts))
+  end
 end

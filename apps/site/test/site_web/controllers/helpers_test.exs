@@ -421,4 +421,14 @@ defmodule SiteWeb.ControllerHelpersTest do
       refute environment_allows_indexing?()
     end
   end
+
+  test "call_plug_with_opts/3", %{conn: conn} do
+    conn =
+      call_plug_with_opts(conn, SiteWeb.Plugs.BannerMessage,
+        message_key: :test_message,
+        message: %{header: ["Header"], body: ["Body"]}
+      )
+
+    assert conn.assigns == %{test_message: %{body: ["Body"], header: ["Header"]}}
+  end
 end

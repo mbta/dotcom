@@ -64,7 +64,7 @@ defmodule Stops.RepoTest do
                {"place-FR-0451", "North Leominster"},
                {"place-FR-0394", "Shirley"},
                {"place-FR-0361", "Ayer"},
-               {"place-FR-0301", "Littleton/Rte 495"},
+               {"place-FR-0301", "Littleton/Route 495"},
                {"place-FR-0253", "South Acton"},
                {"place-FR-0219", "West Concord"},
                {"place-FR-0201", "Concord"},

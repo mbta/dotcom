@@ -5,6 +5,7 @@ defmodule SiteWeb.ScheduleController.Green do
   use SiteWeb, :controller
 
   import UrlHelpers, only: [update_url: 2]
+  import SiteWeb.ControllerHelpers, only: [call_plug: 2, call_plug_with_opts: 3, assign_alerts: 2]
 
   alias Schedules.Schedule
   alias SiteWeb.ScheduleController.LineController
@@ -48,6 +49,10 @@ defmodule SiteWeb.ScheduleController.Green do
   def trip_view(conn, _params) do
     conn
     |> assign(:tab, "trip-view")
+    |> call_plug_with_opts(SiteWeb.Plugs.BannerMessage,
+      message_key: :retirement_message,
+      message: SiteWeb.ScheduleView.build_retirement_message(conn)
+    )
     |> put_view(ScheduleView)
     |> render("show.html", [])
   end
@@ -108,7 +113,7 @@ defmodule SiteWeb.ScheduleController.Green do
       |> conn_with_branches
       |> Task.async_stream(
         fn conn ->
-          call_plug(conn, SiteWeb.ScheduleController.Schedules, opts).assigns.schedules
+          call_plug_with_opts(conn, SiteWeb.ScheduleController.Schedules, opts).assigns.schedules
         end,
         timeout: @task_timeout
       )
@@ -155,7 +160,7 @@ defmodule SiteWeb.ScheduleController.Green do
       |> conn_with_branches
       |> Task.async_stream(
         fn conn ->
-          call_plug(conn, SiteWeb.ScheduleController.VehicleLocations, opts).assigns.vehicle_locations
+          call_plug_with_opts(conn, SiteWeb.ScheduleController.VehicleLocations, opts).assigns.vehicle_locations
         end,
         timeout: @task_timeout
       )
@@ -215,11 +220,6 @@ defmodule SiteWeb.ScheduleController.Green do
       |> redirect(to: url)
       |> halt
     end
-  end
-
-  # takes opts at runtime: used for testing
-  defp call_plug(conn, module, opts) do
-    module.call(conn, module.init(opts))
   end
 
   defp conn_with_branches(conn) do
