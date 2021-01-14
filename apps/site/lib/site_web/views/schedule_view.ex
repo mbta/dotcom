@@ -489,10 +489,11 @@ defmodule SiteWeb.ScheduleView do
     link_to_schedule_finder = content_tag(:a, "Schedule Finder", href: path)
 
     %{
-      header: ["We'll be retiring this tool on March 1st, 2021."],
+      header: ["We'll be retiring this tool on March 1, 2021."],
       body: [
         "All the information provided here, including scheduled trips and realtime departure and arrival information, can be found in our ",
-        link_to_schedule_finder
+        link_to_schedule_finder,
+        "."
       ]
     }
   end
