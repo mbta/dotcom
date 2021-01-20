@@ -28,7 +28,8 @@ export default class DatePickerInput {
       outputFormat: DatePickerInput.getDateFormatbyMediaQuery(),
       onUpdate: this.updateDate.bind(this),
       min: minAllowedDate,
-      max: maxAllowedDate
+      max: maxAllowedDate,
+      gainFocusOnConstruction: false
     });
 
     // disable clicking on the month to change the grid type
@@ -79,7 +80,6 @@ export default class DatePickerInput {
       .addListener(this.updateDateFormatToShort);
 
     this.dateInput.datepicker("setDate", date);
-    this.dateInput.datepicker("update");
   }
 
   static getDateFormatbyMediaQuery() {
