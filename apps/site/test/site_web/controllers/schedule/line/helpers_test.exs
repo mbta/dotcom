@@ -709,31 +709,11 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
       assert Enum.all?(rockport_route_stops, &(&1.branch == "North Station - Manchester"))
 
-      assert_stop_ids(rockport_route_stops, [
-        "place-GB-0198",
-        "place-GB-0222",
-        "place-GB-0229",
-        "place-GB-0254",
-        "place-GB-0296"
-      ])
+      assert_stop_ids(rockport_route_stops, ["place-GB-0198", "place-GB-0229", "place-GB-0254"])
 
-      assert Enum.map(rockport_route_stops, & &1.is_terminus?) ==
-               [
-                 false,
-                 false,
-                 false,
-                 false,
-                 true
-               ]
+      assert Enum.map(rockport_route_stops, & &1.is_terminus?) == [false, false, true]
 
-      assert Enum.map(rockport_route_stops, & &1.is_beginning?) ==
-               [
-                 false,
-                 false,
-                 false,
-                 false,
-                 false
-               ]
+      assert Enum.map(rockport_route_stops, & &1.is_beginning?) == [false, false, false]
 
       assert Enum.all?(newburyport_route_stops, &(&1.branch == "North Station - Newburyport"))
 
