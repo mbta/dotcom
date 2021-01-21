@@ -66,7 +66,6 @@ defmodule Stops.ApiTest do
                  "South Station-11",
                  "South Station-12",
                  "South Station-13",
-                 "South Station-S",
                  "door-sstat-atlantic",
                  "door-sstat-bus",
                  "door-sstat-dewey",
