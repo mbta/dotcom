@@ -27,7 +27,8 @@ defmodule Stops.Stop do
             type: nil,
             platform_name: nil,
             platform_code: nil,
-            description: nil
+            description: nil,
+            zone: nil
 
   @type id_t :: String.t()
 
@@ -55,7 +56,8 @@ defmodule Stops.Stop do
           type: stop_type,
           platform_name: String.t() | nil,
           platform_code: String.t() | nil,
-          description: String.t() | nil
+          description: String.t() | nil,
+          zone: String.t() | nil
         }
 
   defimpl Util.Position do
