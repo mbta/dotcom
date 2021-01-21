@@ -1,5 +1,4 @@
 /* eslint-disable */
-import "../vendor/fixedsticky";
 import "../vendor/accessible-date-picker";
 import "bootstrap/dist/js/umd/collapse";
 import "bootstrap/dist/js/umd/modal";
@@ -14,7 +13,6 @@ import headerDropdowns from "./header-dropdowns";
 import modal from "./modal";
 import turbolinksMods from "./turbolinks-mods";
 import supportForm from "./support-form";
-import fixedsticky from "./fixedsticky";
 import menuCtrlClick from "./menu-ctrl-click";
 import carousel from "./carousel";
 import geoLocation from "./geolocation";
@@ -333,7 +331,6 @@ alertItemLoad();
 modal();
 turbolinksMods();
 supportForm();
-fixedsticky();
 objectFitImages(); // Polyfill for IE object-fit support
 menuCtrlClick();
 carousel();

@@ -54,6 +54,8 @@ defmodule SiteWeb.ScheduleView do
   @spec template_for_tab(String.t()) :: String.t()
   @doc "Returns the template for the selected tab."
   def template_for_tab(tab_name)
+  # Is trip-view ever rendered?
+  # This seems the only place where _commuter_trip_list and _trip_list will be rendered
   def template_for_tab("trip-view"), do: "_trip_view.html"
   def template_for_tab("timetable"), do: "_timetable.html"
   def template_for_tab("line"), do: "_line.html"
