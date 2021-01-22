@@ -8,6 +8,7 @@ defmodule SiteWeb.TripPlanController do
   alias Routes.Route
   alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
+  alias Stops.Stop
   alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail, Transfer}
 
   plug(:require_google_maps)
@@ -126,19 +127,49 @@ defmodule SiteWeb.TripPlanController do
     trip = Schedules.Repo.trip(leg.mode.trip_id)
     origin_id = leg.from.stop_id
     destination_id = leg.to.stop_id
-    recommended_fare = OneWay.recommended_fare(route, trip, origin_id, destination_id)
-    base_fare = OneWay.base_fare(route, trip, origin_id, destination_id)
-    reduced_fare = OneWay.reduced_fare(route, trip, origin_id, destination_id)
 
-    fares = %{
-      highest_one_way_fare: base_fare,
-      lowest_one_way_fare: recommended_fare,
-      reduced_one_way_fare: reduced_fare
-    }
+    fares =
+      if is_fare_complete_transit_leg?(leg) do
+        recommended_fare = OneWay.recommended_fare(route, trip, origin_id, destination_id)
+        base_fare = OneWay.base_fare(route, trip, origin_id, destination_id)
+        reduced_fare = OneWay.reduced_fare(route, trip, origin_id, destination_id)
+
+        %{
+          highest_one_way_fare: base_fare,
+          lowest_one_way_fare: recommended_fare,
+          reduced_one_way_fare: reduced_fare
+        }
+      else
+        %{
+          highest_one_way_fare: nil,
+          lowest_one_way_fare: nil,
+          reduced_one_way_fare: nil
+        }
+      end
 
     mode_with_fares = %TransitDetail{leg.mode | fares: fares}
     %{leg | mode: mode_with_fares}
   end
+
+  # Fare calculation is not possible if the route is a commuter rail route and
+  # either from/to stop is missing zone information.
+  @spec is_fare_complete_transit_leg?(Leg.t()) :: boolean
+  defp is_fare_complete_transit_leg?(leg), do: Leg.transit?(leg) and not leg_missing_zone?(leg)
+
+  # Cannot compute fare for commuter rail route
+  # between stops where we don't know the zones
+  defp leg_missing_zone?(%Leg{
+         mode: %TransitDetail{route_id: route_id},
+         from: %NamedPosition{stop_id: origin_id},
+         to: %NamedPosition{stop_id: destination_id}
+       }) do
+    route = Routes.Repo.get(route_id)
+
+    Route.type_atom(route) == :commuter_rail and
+      not Enum.all?([origin_id, destination_id], &Stop.has_zone?(&1))
+  end
+
+  defp leg_missing_zone?(_), do: false
 
   @spec base_month_pass_for_itinerary(Itinerary.t()) :: Fare.t() | nil
   defp base_month_pass_for_itinerary(%Itinerary{legs: legs}) do
@@ -171,34 +202,52 @@ defmodule SiteWeb.TripPlanController do
   @spec highest_month_pass(Leg.t()) :: Fare.t() | nil
   defp highest_month_pass(%Leg{mode: %PersonalDetail{}}), do: nil
 
-  defp highest_month_pass(%Leg{
-         mode: %TransitDetail{route_id: route_id, trip_id: trip_id},
-         from: %NamedPosition{stop_id: origin_id},
-         to: %NamedPosition{stop_id: destination_id}
-       }) do
-    Month.base_pass(route_id, trip_id, origin_id, destination_id)
+  defp highest_month_pass(
+         %Leg{
+           mode: %TransitDetail{route_id: route_id, trip_id: trip_id},
+           from: %NamedPosition{stop_id: origin_id},
+           to: %NamedPosition{stop_id: destination_id}
+         } = leg
+       ) do
+    if is_fare_complete_transit_leg?(leg) do
+      Month.base_pass(route_id, trip_id, origin_id, destination_id)
+    else
+      nil
+    end
   end
 
   @spec lowest_month_pass(Leg.t()) :: Fare.t() | nil
   defp lowest_month_pass(%Leg{mode: %PersonalDetail{}}), do: nil
 
-  defp lowest_month_pass(%Leg{
-         mode: %TransitDetail{route_id: route_id, trip_id: trip_id},
-         from: %NamedPosition{stop_id: origin_id},
-         to: %NamedPosition{stop_id: destination_id}
-       }) do
-    Month.recommended_pass(route_id, trip_id, origin_id, destination_id)
+  defp lowest_month_pass(
+         %Leg{
+           mode: %TransitDetail{route_id: route_id, trip_id: trip_id},
+           from: %NamedPosition{stop_id: origin_id},
+           to: %NamedPosition{stop_id: destination_id}
+         } = leg
+       ) do
+    if is_fare_complete_transit_leg?(leg) do
+      Month.recommended_pass(route_id, trip_id, origin_id, destination_id)
+    else
+      nil
+    end
   end
 
   @spec reduced_pass(Leg.t()) :: Fare.t() | nil
   defp reduced_pass(%Leg{mode: %PersonalDetail{}}), do: nil
 
-  defp reduced_pass(%Leg{
-         mode: %TransitDetail{route_id: route_id, trip_id: trip_id},
-         from: %NamedPosition{stop_id: origin_id},
-         to: %NamedPosition{stop_id: destination_id}
-       }) do
-    Month.reduced_pass(route_id, trip_id, origin_id, destination_id)
+  defp reduced_pass(
+         %Leg{
+           mode: %TransitDetail{route_id: route_id, trip_id: trip_id},
+           from: %NamedPosition{stop_id: origin_id},
+           to: %NamedPosition{stop_id: destination_id}
+         } = leg
+       ) do
+    if is_fare_complete_transit_leg?(leg) do
+      Month.reduced_pass(route_id, trip_id, origin_id, destination_id)
+    else
+      nil
+    end
   end
 
   @spec max_by_cents([Fare.t() | nil]) :: Fare.t() | nil
