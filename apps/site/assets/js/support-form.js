@@ -171,23 +171,14 @@ const resizeImage = file =>
         canvas.height = dim.height;
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, dim.width, dim.height);
-        let isToBlobSupported = false;
-        try {
+        if (canvas.msToBlob) {
+          // Special for IE
+          resolve(canvas.msToBlob())
+        } else {
+          // Works for all other browsers
           canvas.toBlob(blob => {
             resolve(blob);
           }, "image/jpeg");
-          isToBlobSupported = true;
-        } catch (e) {
-          // toBlob is not supported. Will next try msToBlob.
-        }
-
-        if (!isToBlobSupported) {
-          try {
-            const msblob = canvas.msToBlob();
-            resolve(msblob);
-          } catch (e) {
-            reject("Error converting to previewable image: ", e);
-          }
         }
       };
       img.src = fr.result;
