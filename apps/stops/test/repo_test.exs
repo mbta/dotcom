@@ -69,8 +69,6 @@ defmodule Stops.RepoTest do
                {"place-FR-0219", "West Concord"},
                {"place-FR-0201", "Concord"},
                {"place-FR-0167", "Lincoln"},
-               {"place-FR-0147", "Silver Hill"},
-               {"place-FR-0137", "Hastings"},
                {"place-FR-0132", "Kendal Green"},
                {"place-FR-0115", "Brandeis/Roberts"},
                {"place-FR-0098", "Waltham"},
