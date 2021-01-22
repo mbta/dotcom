@@ -141,7 +141,7 @@ const resizeAndHandleUploadedFile = ($, file, $container, toUpload) => {
     );
   }
   $container.focus();
-}
+};
 
 // Split out for testing, since the content of a file input can't be
 // changed programmatically for security reasons
@@ -155,7 +155,7 @@ export function handleUploadedPhoto($, file, $container, toUpload) {
   $container.append(preview);
 }
 
-const resizeImage = (file) =>
+const resizeImage = file =>
   new Promise((resolve, reject) => {
     const fr = new FileReader();
     fr.onerror = () => {
@@ -186,7 +186,7 @@ const resizeImage = (file) =>
             const msblob = canvas.msToBlob();
             resolve(msblob);
           } catch (e) {
-            reject('Error converting to previewable image: ', e)
+            reject("Error converting to previewable image: ", e);
           }
         }
       };
