@@ -1,4 +1,8 @@
 defmodule Site.MapHelpers do
+  @moduledoc """
+  Map-related helper functions.
+  """
+
   alias GoogleMaps.MapData.Marker
 
   import SiteWeb.Router.Helpers, only: [static_url: 2]
@@ -65,7 +69,10 @@ defmodule Site.MapHelpers do
   end
 
   def image(:ferry) do
-    static_url(SiteWeb.Endpoint, "/sites/default/files/maps/2018-08-ferry-map.png")
+    static_url(
+      SiteWeb.Endpoint,
+      "/sites/default/files/media/2021-01/2021-01-23-ferry-map-f2h-only-schedule-pages.png"
+    )
   end
 
   @doc """
