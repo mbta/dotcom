@@ -215,11 +215,11 @@ defmodule SiteWeb.ScheduleController.LineController do
     Map.new()
     |> Map.put(
       current_direction,
-      simple_stop_list(conn.assigns.all_stops_from_route, conn.assigns.route)
+      simple_stop_list(conn.assigns.all_stops_from_route)
     )
     |> Map.put(
       opposite_direction,
-      simple_stop_list(conn.assigns.reverse_direction_all_stops_from_route, conn.assigns.route)
+      simple_stop_list(conn.assigns.reverse_direction_all_stops_from_route)
     )
   end
 
@@ -227,16 +227,16 @@ defmodule SiteWeb.ScheduleController.LineController do
   def reverse_direction("0"), do: "1"
   def reverse_direction("1"), do: "0"
 
-  defp simple_stop_list(stops, route) do
-    stops |> Enum.uniq_by(& &1.id) |> Enum.map(&simple_stop(&1, route))
+  defp simple_stop_list(stops) do
+    stops |> Enum.uniq_by(& &1.id) |> Enum.map(&simple_stop(&1))
   end
 
-  defp simple_stop(%{id: id, name: name, closed_stop_info: closed_info}, %{type: route_type}) do
+  defp simple_stop(%{id: id, name: name, closed_stop_info: closed_info, zone: zone}) do
     %{
       id: id,
       name: name,
       is_closed: if(is_nil(closed_info), do: false, else: true),
-      zone: if(route_type == 2, do: Zones.Repo.get(id), else: nil)
+      zone: zone
     }
   end
 

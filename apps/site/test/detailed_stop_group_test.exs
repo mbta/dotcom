@@ -3,6 +3,19 @@ defmodule DetailedStopGroupTest do
   import DetailedStopGroup
   alias Routes.Route
 
+  @subway_stops_with_cr [
+    "place-brntn",
+    "place-jfk",
+    "place-portr",
+    "place-qnctr",
+    "place-sstat",
+    "place-bbsta",
+    "place-forhl",
+    "place-mlmnl",
+    "place-north",
+    "place-rugg"
+  ]
+
   describe "from_mode/1" do
     test "all routes are returned for given mode" do
       featured_stop_groups = from_mode(:commuter_rail)
@@ -68,8 +81,23 @@ defmodule DetailedStopGroupTest do
       featured_stop_groups = from_mode(:subway)
 
       for {_route, detailed_stops} <- featured_stop_groups do
-        for detailed_stop <- detailed_stops do
+        for detailed_stop <-
+              detailed_stops,
+            detailed_stop.stop.id not in @subway_stops_with_cr do
           refute detailed_stop.zone
+        end
+      end
+    end
+
+    # Fails at place-shmnl, whose zone is null
+    test "subway stops serving commuter rails do have zone info" do
+      featured_stop_groups = from_mode(:subway)
+
+      for {_route, detailed_stops} <- featured_stop_groups do
+        for detailed_stop <-
+              detailed_stops,
+            detailed_stop.stop.id in @subway_stops_with_cr do
+          assert detailed_stop.zone, "#{detailed_stop.stop.id} has no zone?"
         end
       end
     end
