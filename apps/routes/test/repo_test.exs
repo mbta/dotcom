@@ -2,13 +2,15 @@ defmodule Routes.RepoTest do
   use ExUnit.Case, async: true
   alias Routes.{Repo, Route}
 
+  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
+
   describe "all/0" do
     test "returns something" do
-      assert Repo.all() != []
+      assert @routes_repo_api.all() != []
     end
 
     test "parses the data into Route structs" do
-      assert Repo.all() |> List.first() == %Route{
+      assert @routes_repo_api.all() |> List.first() == %Route{
                id: "Red",
                type: 1,
                name: "Red Line",
@@ -23,7 +25,7 @@ defmodule Routes.RepoTest do
 
     test "parses a long name for the Green Line" do
       [route] =
-        Repo.all()
+        @routes_repo_api.all()
         |> Enum.filter(&(&1.id == "Green-B"))
 
       assert route == %Route{
@@ -41,7 +43,7 @@ defmodule Routes.RepoTest do
 
     test "parses a short name instead of a long one" do
       [route] =
-        Repo.all()
+        @routes_repo_api.all()
         |> Enum.filter(&(&1.name == "SL1"))
 
       assert route == %Route{
@@ -58,7 +60,7 @@ defmodule Routes.RepoTest do
 
     test "parses a short_name if there's no long name" do
       [route] =
-        Repo.all()
+        @routes_repo_api.all()
         |> Enum.filter(&(&1.name == "23"))
 
       assert route == %Route{
@@ -74,21 +76,21 @@ defmodule Routes.RepoTest do
     end
 
     test "filters out 'hidden' routes'" do
-      all = Repo.all()
+      all = @routes_repo_api.all()
       assert all |> Enum.filter(fn route -> route.name == "24/27" end) == []
     end
   end
 
   describe "by_type/1" do
     test "only returns routes of a given type" do
-      one = Repo.by_type(1)
+      one = @routes_repo_api.by_type(1)
       assert one |> Enum.all?(fn route -> route.type == 1 end)
       assert one != []
-      assert one == Repo.by_type([1])
+      assert one == @routes_repo_api.by_type([1])
     end
 
     test "filtering by a list keeps the routes in their global order" do
-      assert Repo.by_type([0, 1, 2, 3, 4]) == Repo.all()
+      assert @routes_repo_api.by_type([0, 1, 2, 3, 4]) == @routes_repo_api.all()
     end
   end
 
@@ -98,50 +100,50 @@ defmodule Routes.RepoTest do
                id: "Red",
                name: "Red Line",
                type: 1
-             } = Repo.get("Red")
+             } = @routes_repo_api.get("Red")
     end
 
     test "returns nil for an unknown route" do
-      refute Repo.get("_unknown_route")
+      refute @routes_repo_api.get("_unknown_route")
     end
 
     test "returns a hidden route" do
-      assert %Route{id: "746"} = Repo.get("746")
+      assert %Route{id: "746"} = @routes_repo_api.get("746")
     end
   end
 
   test "key bus routes are tagged" do
-    assert %Route{description: :key_bus_route} = Repo.get("1")
-    assert %Route{description: :key_bus_route} = Repo.get("741")
-    assert %Route{description: :local_bus} = Repo.get("47")
+    assert %Route{description: :key_bus_route} = @routes_repo_api.get("1")
+    assert %Route{description: :key_bus_route} = @routes_repo_api.get("741")
+    assert %Route{description: :local_bus} = @routes_repo_api.get("47")
   end
 
   describe "by_stop/1" do
     test "returns stops from different lines" do
       # Kenmore Square
-      route_ids = Repo.by_stop("place-kencl") |> Enum.map(& &1.id)
+      route_ids = @routes_repo_api.by_stop("place-kencl") |> Enum.map(& &1.id)
       assert "Green-B" in route_ids
       assert "19" in route_ids
     end
 
     test "can specify type as param" do
       # Kenmore Square
-      assert "19" in (Repo.by_stop("place-kencl", type: 3) |> Enum.map(& &1.id))
+      assert "19" in (@routes_repo_api.by_stop("place-kencl", type: 3) |> Enum.map(& &1.id))
     end
 
     test "returns empty list if no routes of that type serve that stop" do
-      assert [] = Repo.by_stop("place-bmmnl", type: 0)
+      assert [] = @routes_repo_api.by_stop("place-bmmnl", type: 0)
     end
 
     test "returns no routes on nonexistant station" do
-      assert [] = Repo.by_stop("thisstopdoesntexist")
+      assert [] = @routes_repo_api.by_stop("thisstopdoesntexist")
     end
   end
 
   describe "by_stop_and_direction/2" do
     test "fetching routes for the same stop, but different direction" do
-      winship_union_outbound_routes = Repo.by_stop_and_direction("1994", 0)
-      winship_union_inbound_routes = Repo.by_stop_and_direction("1994", 1)
+      winship_union_outbound_routes = @routes_repo_api.by_stop_and_direction("1994", 0)
+      winship_union_inbound_routes = @routes_repo_api.by_stop_and_direction("1994", 1)
 
       assert Enum.any?(winship_union_outbound_routes, &(&1.id == "65"))
       refute Enum.any?(winship_union_inbound_routes, &(&1.id == "65"))
@@ -233,7 +235,7 @@ defmodule Routes.RepoTest do
 
   describe "get_shapes/2" do
     test "Get valid response for bus route" do
-      shapes = Repo.get_shapes("9", direction_id: 1)
+      shapes = @routes_repo_api.get_shapes("9", direction_id: 1)
       shape = List.first(shapes)
 
       assert Enum.count(shapes) >= 2
@@ -242,8 +244,8 @@ defmodule Routes.RepoTest do
     end
 
     test "get different number of shapes from same route depending on filtering" do
-      all_shapes = Repo.get_shapes("100", [direction_id: 1], false)
-      priority_shapes = Repo.get_shapes("100", direction_id: 1)
+      all_shapes = @routes_repo_api.get_shapes("100", [direction_id: 1], false)
+      priority_shapes = @routes_repo_api.get_shapes("100", direction_id: 1)
 
       refute Enum.count(all_shapes) == Enum.count(priority_shapes)
     end

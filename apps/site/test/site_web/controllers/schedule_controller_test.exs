@@ -3,12 +3,14 @@ defmodule SiteWeb.ScheduleControllerTest do
 
   alias CMS.Partial.Teaser
   alias Plug.Conn
-  alias Routes.{Repo, Shape}
+  alias Routes.Shape
   alias Schedules.Sort
   alias Stops.RouteStops
 
   @moduletag :external
   @test_origin "66"
+
+  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
 
   describe "Bus" do
     test "all stops is assigned for a route", %{conn: conn} do
@@ -431,7 +433,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Bus line with variant", %{conn: conn} do
-      variant = List.last(Repo.get_shapes("9", direction_id: 1)).id
+      variant = List.last(@routes_repo_api.get_shapes("9", direction_id: 1)).id
 
       conn =
         get(
@@ -454,7 +456,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     test "Bus line with correct default shape", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "9", "schedule_direction[direction_id]": 1))
-      default_shape_id = List.first(Repo.get_shapes("9", direction_id: 1)).id
+      default_shape_id = List.first(@routes_repo_api.get_shapes("9", direction_id: 1)).id
       assert conn.assigns.active_shape.id == default_shape_id
     end
   end

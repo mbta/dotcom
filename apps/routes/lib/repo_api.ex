@@ -3,6 +3,8 @@ defmodule Routes.RepoApi do
   Behavior for an API client for fetching route data.
   """
 
+  @optional_callbacks by_stop_with_route_pattern: 1, by_stop_and_direction: 3
+
   alias Routes.{Route, Shape}
 
   @doc """
@@ -18,6 +20,7 @@ defmodule Routes.RepoApi do
   @doc """
   Returns a list of shapes
   """
+  @callback get_shapes(String.t(), Keyword.t()) :: [Shape.t()]
   @callback get_shapes(String.t(), Keyword.t(), boolean) :: [Shape.t()]
 
   @doc """
@@ -33,11 +36,13 @@ defmodule Routes.RepoApi do
   @doc """
   Given a stop ID, returns the list of routes which stop there.
   """
+  @callback by_stop(String.t()) :: [Route.t()]
   @callback by_stop(String.t(), Keyword.t()) :: [Route.t()]
 
   @doc """
   Given a stop ID and direction ID, returns the list of routes which stop there in that direction.
   """
+  @callback by_stop_and_direction(String.t(), 0 | 1) :: [Route.t()]
   @callback by_stop_and_direction(String.t(), 0 | 1, Keyword.t()) :: [Route.t()]
 
   @doc """
