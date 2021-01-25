@@ -1,6 +1,8 @@
 defmodule SiteWeb.OldSiteRedirectControllerTest do
   use SiteWeb.ConnCase
 
+  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
+
   describe "/schedules_and_maps" do
     test "redirects to mode root", %{conn: conn} do
       assert redirected_to(get(conn, "/schedules_and_maps"), :moved_permanently) ==
@@ -16,7 +18,7 @@ defmodule SiteWeb.OldSiteRedirectControllerTest do
 
     test "Redirects all bus routes correctly", %{conn: conn} do
       3
-      |> Routes.Repo.by_type()
+      |> @routes_repo_api.by_type()
       |> Enum.each(fn %Routes.Route{name: name, id: route_id} ->
         old_bus_url = "/schedules_and_maps/anything?route=#{name}"
 

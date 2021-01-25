@@ -1,13 +1,13 @@
 defmodule SiteWeb.ScheduleController.GreenTest do
-  alias Routes.Repo
-
   use SiteWeb.ConnCase, async: true
 
   import SiteWeb.ScheduleController.Green
 
   @moduletag :external
 
-  @green_line Repo.green_line()
+  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
+
+  @green_line @routes_repo_api.green_line()
 
   describe "schedule_path/3" do
     test "renders line tab without redirect when query_params doesn't include :tab", %{conn: conn} do

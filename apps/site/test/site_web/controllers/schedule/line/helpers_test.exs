@@ -8,6 +8,8 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
   doctest Helpers
 
+  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
+
   @shape %Shape{
     direction_id: 1,
     id: "SHAPE_ID",
@@ -849,7 +851,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   describe "get_branches/4" do
     test "returns a list of RouteStops, one for each branch of the line" do
       stops = Helpers.get_route_stops("Red", 0, &Stops.Repo.by_route/3)
-      shapes = Routes.Repo.get_shapes("Red", direction_id: 0)
+      shapes = @routes_repo_api.get_shapes("Red", direction_id: 0)
 
       assert [%RouteStops{}, %RouteStops{}, %RouteStops{}] =
                Helpers.get_branches(shapes, stops, %Route{id: "Red"}, 0)
@@ -865,7 +867,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
     test "returns an empty list when given no stops" do
       stops = %{}
-      shapes = Routes.Repo.get_shapes("Red", direction_id: 0)
+      shapes = @routes_repo_api.get_shapes("Red", direction_id: 0)
 
       assert Helpers.get_branches(shapes, stops, %Route{id: "Red"}, 0) == []
     end

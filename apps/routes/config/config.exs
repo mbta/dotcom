@@ -28,5 +28,8 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
-config :routes,
-  populate_caches?: Mix.env() == :prod
+config :routes, populate_caches?: Mix.env() == :prod
+
+config :routes, :routes_repo_api, Routes.Repo
+
+import_config "#{Mix.env()}.exs"

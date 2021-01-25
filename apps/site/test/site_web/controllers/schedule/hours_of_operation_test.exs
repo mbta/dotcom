@@ -1,6 +1,8 @@
 defmodule SiteWeb.ScheduleController.HoursOfOperationTest do
   use SiteWeb.ConnCase, async: true
 
+  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
+
   test "if route is nil, assigns nothing", %{conn: conn} do
     conn =
       conn
@@ -24,7 +26,7 @@ defmodule SiteWeb.ScheduleController.HoursOfOperationTest do
   test "uses schedules for each Green line branch", %{conn: conn} do
     conn =
       conn
-      |> assign(:route, Routes.Repo.green_line())
+      |> assign(:route, @routes_repo_api.green_line())
       |> assign(:date, Util.service_date())
       |> SiteWeb.ScheduleController.HoursOfOperation.call([])
 

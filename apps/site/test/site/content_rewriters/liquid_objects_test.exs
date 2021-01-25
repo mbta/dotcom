@@ -10,6 +10,8 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
   alias Fares.{Format, Repo}
   alias Routes
 
+  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
+
   describe "replace/1" do
     test "it replaces fa- prefixed objects" do
       assert replace(~s(fa "xyz")) == safe_to_string(fa("xyz"))
@@ -69,7 +71,7 @@ defmodule Site.ContentRewriters.LiquidObjectsTest do
     end
 
     test "it handles route requests" do
-      assert replace(~s(route:83)) == "83" |> Routes.Repo.get() |> Map.get(:long_name)
+      assert replace(~s(route:83)) == "83" |> @routes_repo_api.get() |> Map.get(:long_name)
     end
 
     test "it returns a liquid object when not otherwise handled" do

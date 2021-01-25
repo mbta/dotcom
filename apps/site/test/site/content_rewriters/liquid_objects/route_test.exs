@@ -3,11 +3,11 @@ defmodule Site.ContentRewriters.LiquidObjects.RouteTest do
 
   import Site.ContentRewriters.LiquidObjects.Route
 
-  alias Routes.Repo
+  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
 
   describe "route_request/1" do
     test "it handles route requests for a valid/existing route ID" do
-      assert route_request("83") == {:ok, "83" |> Repo.get() |> Map.get(:long_name)}
+      assert route_request("83") == {:ok, "83" |> @routes_repo_api.get() |> Map.get(:long_name)}
     end
 
     test "it reports when there are no results (valid request, but no repo matches)" do

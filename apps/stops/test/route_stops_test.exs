@@ -4,6 +4,8 @@ defmodule Stops.RouteStopsTest do
   alias Routes.Route
   alias Stops.{RouteStop, RouteStops, Stop}
 
+  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
+
   @red %Route{id: "Red", type: 1}
 
   describe "from_route_stop_groups" do
@@ -57,7 +59,7 @@ defmodule Stops.RouteStopsTest do
   describe "by_direction/2 returns a list of stops in one direction in the correct order" do
     test "for Red Line, direction: 0" do
       stops = Stops.Repo.by_route("Red", 0)
-      shapes = Routes.Repo.get_shapes("Red", direction_id: 0)
+      shapes = @routes_repo_api.get_shapes("Red", direction_id: 0)
       stops = RouteStops.by_direction(stops, shapes, @red, 0)
       [core, braintree, ashmont] = stops
       assert %RouteStops{branch: nil, stops: unbranched_stops} = core
@@ -119,7 +121,7 @@ defmodule Stops.RouteStopsTest do
 
     test "for Red Line, direction: 1" do
       stops = Stops.Repo.by_route("Red", 1)
-      shapes = Routes.Repo.get_shapes("Red", direction_id: 1)
+      shapes = @routes_repo_api.get_shapes("Red", direction_id: 1)
       stops = RouteStops.by_direction(stops, shapes, @red, 1)
 
       [ashmont, braintree, core] = stops
@@ -151,7 +153,7 @@ defmodule Stops.RouteStopsTest do
 
     test "works for green E line" do
       route = %Route{id: "Green-E", type: 0}
-      shapes = Routes.Repo.get_shapes("Green-E", direction_id: 0)
+      shapes = @routes_repo_api.get_shapes("Green-E", direction_id: 0)
       stops = Stops.Repo.by_route("Green-E", 0)
       stops = RouteStops.by_direction(stops, shapes, route, 0)
 
@@ -171,7 +173,7 @@ defmodule Stops.RouteStopsTest do
 
     test "works for green non-E line" do
       route = %Route{id: "Green-B", type: 0}
-      shapes = Routes.Repo.get_shapes("Green-B", direction_id: 0)
+      shapes = @routes_repo_api.get_shapes("Green-B", direction_id: 0)
       stops = Stops.Repo.by_route("Green-B", 0)
       stops = RouteStops.by_direction(stops, shapes, route, 0)
 
@@ -186,7 +188,7 @@ defmodule Stops.RouteStopsTest do
 
     test "works for Kingston line (outbound)" do
       route = %Route{id: "CR-Kingston", type: 2}
-      shapes = Routes.Repo.get_shapes("CR-Kingston", direction_id: 0)
+      shapes = @routes_repo_api.get_shapes("CR-Kingston", direction_id: 0)
       stops = Stops.Repo.by_route("CR-Kingston", 0)
       route_stops = RouteStops.by_direction(stops, shapes, route, 0)
 
@@ -208,7 +210,7 @@ defmodule Stops.RouteStopsTest do
 
     test "works for Providence line (inbound)" do
       route = %Route{id: "CR-Providence", type: 2}
-      shapes = Routes.Repo.get_shapes("CR-Providence", direction_id: 1)
+      shapes = @routes_repo_api.get_shapes("CR-Providence", direction_id: 1)
       stops = Stops.Repo.by_route("CR-Providence", 1)
       route_stops = RouteStops.by_direction(stops, shapes, route, 1)
 
@@ -229,7 +231,7 @@ defmodule Stops.RouteStopsTest do
 
     test "works for bus routes" do
       stops = Stops.Repo.by_route("1", 0)
-      shapes = Routes.Repo.get_shapes("1", direction_id: 0)
+      shapes = @routes_repo_api.get_shapes("1", direction_id: 0)
       route = %Route{id: "1", type: 3}
 
       [%RouteStops{branch: "Nubian Station - Harvard Square", stops: outbound}] =
@@ -241,7 +243,7 @@ defmodule Stops.RouteStopsTest do
       assert outbound |> Enum.slice(1..-2) |> Enum.all?(&(&1.is_terminus? == false))
 
       stops = Stops.Repo.by_route("1", 1)
-      shapes = Routes.Repo.get_shapes("1", direction_id: 1)
+      shapes = @routes_repo_api.get_shapes("1", direction_id: 1)
       route = %Route{id: "1", type: 3}
 
       [%RouteStops{branch: "Harvard Square - Nubian Station", stops: inbound}] =
@@ -253,7 +255,7 @@ defmodule Stops.RouteStopsTest do
 
     test "works for ferry routes" do
       stops = Stops.Repo.by_route("Boat-F4", 0)
-      shapes = Routes.Repo.get_shapes("Boat-F4", direction_id: 0)
+      shapes = @routes_repo_api.get_shapes("Boat-F4", direction_id: 0)
       route = %Route{id: "Boat-F4", type: 4}
 
       [%RouteStops{branch: branch, stops: stops}] =
@@ -266,7 +268,7 @@ defmodule Stops.RouteStopsTest do
     test "doesn't crash if we didn't have stops and/or shapes" do
       direction_id = 0
       good_stops = Stops.Repo.by_route("Red", direction_id)
-      good_shapes = Routes.Repo.get_shapes("Red", direction_id: direction_id)
+      good_shapes = @routes_repo_api.get_shapes("Red", direction_id: direction_id)
 
       for stops <- [[], good_stops], shapes <- [[], good_shapes], stops == [] or shapes == [] do
         actual = RouteStops.by_direction(stops, shapes, @red, direction_id)
