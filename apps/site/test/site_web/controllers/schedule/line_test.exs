@@ -521,8 +521,8 @@ defmodule SiteWeb.ScheduleController.LineTest do
       for {id, idx} <- [
             {"place-sstat", 0},
             {"place-NEC-2139", 5},
-            {"place-NEC-2040", 7},
-            {"place-SB-0189", 14}
+            {"place-SB-0189", 7},
+            {"place-NEC-2040", 9}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
