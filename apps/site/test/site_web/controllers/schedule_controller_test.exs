@@ -325,7 +325,8 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert List.last(stops).id == "Boat-Charlestown"
 
       # Map
-      assert conn.assigns.map_img_src =~ "/sites/default/files/maps/2018-08-ferry-map.png"
+      assert conn.assigns.map_img_src =~
+               "/sites/default/files/media/2021-01/2021-01-23-ferry-map-f2h-only-schedule-pages.png"
     end
 
     test "Bus data", %{conn: conn} do
