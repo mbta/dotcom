@@ -1,3 +1,5 @@
+// Sets up event listeners that activate the fixedSticky plugin at ../vendor/fixedsticky.js
+
 export default function($) {
   $ = $ || window.jQuery;
 

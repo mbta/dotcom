@@ -1,3 +1,6 @@
+// Plugin to handle adding fixedsticky for browsers in which 'position: sticky' is not supported (IE11)
+// To see the plugin at work, see the accordion dropdowns on this page in IE:  https://www.mbta.com/fares/bus-fares
+
 ;(function( win, $ ) {
 
 	function featureTest( property, value, noPrefixes ) {
