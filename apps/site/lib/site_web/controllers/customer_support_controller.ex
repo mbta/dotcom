@@ -275,6 +275,7 @@ defmodule SiteWeb.CustomerSupportController do
   @expected_recaptcha_errors [
     :challenge_failed,
     :invalid_input_response,
+    :missing_input_response,
     :timeout_or_duplicate,
     # https://github.com/samueljseay/recaptcha/issues/58
     :"invalid-input-response"

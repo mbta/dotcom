@@ -47,9 +47,15 @@ defmodule JourneyList do
   def build(schedules, predictions, filter_flag, keep_all?, user_opts) do
     opts = Keyword.merge(@build_opts, user_opts)
 
-    schedules
-    |> build_journeys(predictions, opts[:origin_id], opts[:destination_id])
-    |> from_journeys(filter_flag, opts[:current_time], keep_all?)
+    case schedules do
+      {:error, _json_api_error} ->
+        []
+
+      _ ->
+        schedules
+        |> build_journeys(predictions, opts[:origin_id], opts[:destination_id])
+        |> from_journeys(filter_flag, opts[:current_time], keep_all?)
+    end
   end
 
   @doc """
@@ -120,6 +126,7 @@ defmodule JourneyList do
 
   defp group_trips(schedules, predictions, origin_id, destination_id, mappers) do
     prediction_map = Group.build_prediction_map(predictions, schedules, origin_id, destination_id)
+
     schedule_map = Enum.reduce(schedules, %{}, mappers[:build_schedule_map_fn])
     trip_mapper_fn = mappers[:trip_mapper_fn]
 
@@ -195,10 +202,17 @@ defmodule JourneyList do
 
   @spec first_trip([Schedule.t() | Prediction.t() | nil]) :: Trip.t() | nil
   defp first_trip(list_with_trips) do
-    list_with_trips
-    |> Enum.reject(&is_nil/1)
-    |> List.first()
-    |> Map.get(:trip)
+    list_with_valid_trips =
+      list_with_trips
+      |> Enum.reject(&is_nil/1)
+
+    if Enum.empty?(list_with_valid_trips) do
+      nil
+    else
+      list_with_valid_trips
+      |> List.first()
+      |> Map.get(:trip)
+    end
   end
 
   @spec reversed_journey?(Journey.t()) :: boolean
