@@ -120,7 +120,7 @@ function setupPhotoPreviews($, toUpload) {
   });
 }
 
-export function resizeAndHandleUploadedFile($, file, $container, toUpload) {
+const resizeAndHandleUploadedFile = ($, file, $container, toUpload) => {
   if (/image\//.test(file.type)) {
     resizeImage(file)
       .then(newFile => {
@@ -141,7 +141,7 @@ export function resizeAndHandleUploadedFile($, file, $container, toUpload) {
     );
   }
   $container.focus();
-}
+};
 
 // Split out for testing, since the content of a file input can't be
 // changed programmatically for security reasons
@@ -155,31 +155,36 @@ export function handleUploadedPhoto($, file, $container, toUpload) {
   $container.append(preview);
 }
 
-export function resizeImage(file) {
-  return new Promise((resolve, reject) => {
+const resizeImage = file =>
+  new Promise((resolve, reject) => {
     const fr = new FileReader();
     fr.onerror = () => {
       fr.abort();
       reject(new DOMException("Error parsing file."));
     };
-    fr.onload = function() {
+    fr.onload = () => {
       const img = new Image();
-      img.onload = function() {
+      img.onload = () => {
         const dim = rescale({ width: img.width, height: img.height });
         const canvas = document.createElement("canvas");
         canvas.width = dim.width;
         canvas.height = dim.height;
         const ctx = canvas.getContext("2d");
         ctx.drawImage(img, 0, 0, dim.width, dim.height);
-        canvas.toBlob(function(blob) {
-          resolve(blob);
-        }, "image/jpeg");
+        if (canvas.msToBlob) {
+          // Special for IE
+          resolve(canvas.msToBlob());
+        } else {
+          // Works for all other browsers
+          canvas.toBlob(blob => {
+            resolve(blob);
+          }, "image/jpeg");
+        }
       };
       img.src = fr.result;
     };
     fr.readAsDataURL(file);
   });
-}
 
 export function rescale(dim) {
   const maxDim = 1000;
