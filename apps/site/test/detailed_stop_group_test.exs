@@ -89,7 +89,6 @@ defmodule DetailedStopGroupTest do
       end
     end
 
-    # Fails at place-shmnl, whose zone is null
     test "subway stops serving commuter rails do have zone info" do
       featured_stop_groups = from_mode(:subway)
 
