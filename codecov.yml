@@ -1,16 +1,22 @@
 comment:
-  behavior: default
-  layout: header, diff
+  layout: "header, diff, files, footer"
+  behavior: new
   require_changes: false
 coverage:
   precision: 2
-  range:
-  - 70.0
-  - 100.0
+  range: "70...100"
   round: down
   status:
-    changes: false
-    patch: true
+    changes: # reports changes on the parts that did not get edited
+      default: # basic
+        if_not_found: success # the status will pass if there is no report for the head
+        if_ci_failed: success # will set the status to success even if the CI fails
+        only_pulls: true  # only post a status to pull requests
+    patch: # reports changes on the parts that got edited
+      default:
+        if_not_found: success # the status will pass if there is no report for the head
+        if_ci_failed: success # will set the status to success even if the CI fails
+        only_pulls: true  # only post a status to pull requests
     project: false
 parsers:
   gcov:
@@ -21,3 +27,8 @@ parsers:
       method: false
   javascript:
     enable_partials: false
+codecov:
+  branch: master # default branch
+  require_ci_to_pass: false # show status even if CI doesn't pass
+  notify:
+    wait_for_ci: false # show status even if CI isn't done
