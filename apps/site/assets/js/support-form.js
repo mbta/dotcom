@@ -173,7 +173,7 @@ const resizeImage = file =>
         ctx.drawImage(img, 0, 0, dim.width, dim.height);
         if (canvas.msToBlob) {
           // Special for IE
-          resolve(canvas.msToBlob())
+          resolve(canvas.msToBlob());
         } else {
           // Works for all other browsers
           canvas.toBlob(blob => {
