@@ -66,7 +66,7 @@ defmodule Site.Mixfile do
       {:bypass, "~> 1.0", only: :test},
       {:dialyxir, ">= 1.0.0-rc.4", only: [:test, :dev], runtime: false},
       {:benchfella, "~> 0.3", only: :dev},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:excoveralls, "~> 0.12", only: :test},
       {:floki, "~> 0.20.4"},
       {:httpoison, "~> 1.5"},
       {:mock, "~> 0.3.3", only: :test},

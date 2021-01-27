@@ -48,7 +48,7 @@ defmodule Schedules.Mixfile do
       {:routes, in_umbrella: true},
       {:stops, in_umbrella: true},
       {:quixir, "~> 0.9", only: :test},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:excoveralls, "~> 0.12", only: :test},
       {:benchfella, "~> 0.3", only: :dev},
       {:util, in_umbrella: true},
       {:exvcr_helpers, in_umbrella: true, only: :test}

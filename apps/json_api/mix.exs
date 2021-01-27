@@ -41,7 +41,7 @@ defmodule JsonApi.Mixfile do
     [
       {:poison, ">= 0.0.0"},
       {:jason, "~> 1.1"},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:excoveralls, "~> 0.12", only: :test},
       {:benchfella, "~> 0.3", only: :dev},
       {:exvcr_helpers, in_umbrella: true, only: :test}
     ]

@@ -40,7 +40,7 @@ defmodule Fares.Mixfile do
   defp deps do
     [
       {:csv, "~> 2.3"},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:excoveralls, "~> 0.12", only: :test},
       {:sweet_xml, "~> 0.6.2", only: [:dev, :test]},
       {:repo_cache, in_umbrella: true},
       {:stops, in_umbrella: true},

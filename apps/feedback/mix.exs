@@ -38,7 +38,7 @@ defmodule Feedback.Mixfile do
       {:poison, "~> 2.2", override: true},
       {:timex, ">= 2.0.0"},
       {:briefly, "~> 0.3"},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:excoveralls, "~> 0.12", only: :test},
       {:plug, "~> 1.7.2"},
       {:ex_aws, "~> 2.1.2"},
       {:ex_aws_ses, "~> 2.1.1"},

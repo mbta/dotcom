@@ -39,7 +39,7 @@ defmodule Zones.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:excoveralls, "~> 0.5", only: :test},
+      {:excoveralls, "~> 0.12", only: :test},
       {:csv, "~> 2.3"},
       {:exvcr_helpers, in_umbrella: true, only: :test}
     ]

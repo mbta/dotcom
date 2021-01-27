@@ -40,7 +40,7 @@ defmodule RepoCache.Mixfile do
   defp deps do
     [
       {:con_cache, "~> 0.12.0"},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:excoveralls, "~> 0.12", only: :test},
       {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
   end
