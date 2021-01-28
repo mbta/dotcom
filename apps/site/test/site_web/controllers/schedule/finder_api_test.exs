@@ -10,6 +10,8 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
   alias SiteWeb.ScheduleController.FinderApi
   alias Stops.Stop
 
+  import Mock
+
   @now Util.now()
   @schedule_time Timex.shift(@now, minutes: 3)
   @prediction_time Timex.shift(@now, minutes: 5)
@@ -86,6 +88,29 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
 
       assert [%{"departure" => %{"time" => _}}] = response
       assert [%{"route" => %{"type" => 2}}] = response
+    end
+
+    test "discards journeys without schedule nor prediction", %{conn: conn} do
+      with_mock JourneyList,
+        build: fn _, _, _, _, _ ->
+          [
+            %Journey{
+              arrival: nil,
+              departure: %PredictedSchedule{prediction: nil, schedule: nil},
+              trip: nil
+            }
+          ]
+        end do
+        route_id = "134"
+        date = get_valid_trip_date(route_id)
+        conn = assign(conn, :date, date)
+
+        journeys =
+          %{id: route_id, direction: "0", stop: "any"}
+          |> get_valid_journeys(conn)
+
+        assert Enum.empty?(journeys)
+      end
     end
 
     test "handles journeys for combined Green Line", %{conn: conn} do
