@@ -8,7 +8,6 @@ defmodule SiteWeb.TripPlanController do
   alias Routes.Route
   alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
-  alias Stops.Stop
   alias TripPlan.{Itinerary, Leg, NamedPosition, PersonalDetail, TransitDetail, Transfer}
 
   plug(:require_google_maps)
