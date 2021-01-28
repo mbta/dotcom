@@ -115,7 +115,7 @@ defmodule Site.TripPlan.AlertsTest do
     [route_by_id: &route_by_id/1, trip_by_id: &trip_by_id/1]
   end
 
-  defp route_by_id("Blue" = id) do
+  defp route_by_id(id) when id in ["Blue", "Red"] do
     %Routes.Route{type: 1, id: id, name: "Subway"}
   end
 
@@ -123,7 +123,7 @@ defmodule Site.TripPlan.AlertsTest do
     %Routes.Route{type: 2, id: id, name: "Commuter Rail"}
   end
 
-  defp route_by_id("1" = id) do
+  defp route_by_id(id) when id in ["1", "350"] do
     %Routes.Route{type: 3, id: id, name: "Bus"}
   end
 

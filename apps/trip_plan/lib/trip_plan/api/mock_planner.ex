@@ -18,6 +18,8 @@ defmodule TripPlan.Api.MockPlanner do
     "place-gover"
   ]
 
+  @selected_routes ~w(1 350 Blue Red)s
+
   @impl true
   def plan(from, to, opts) do
     plan(from, to, opts, self())
@@ -134,7 +136,7 @@ defmodule TripPlan.Api.MockPlanner do
   end
 
   def transit_leg(from, to, start, stop) do
-    route_id = Enum.random(~w(1 Blue CR-Lowell)s)
+    route_id = Enum.random(@selected_routes)
     schedules = Schedules.Repo.by_route_ids([route_id], stop_sequences: :first)
     trip_id = List.first(schedules).trip.id
 
