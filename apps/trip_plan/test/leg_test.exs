@@ -59,6 +59,28 @@ defmodule TripPlan.LegTest do
     end
   end
 
+  describe "is_fare_complete_transit_leg?/1" do
+    test "returns false for commuter rail routes between stops without commuter rail zone information" do
+      leg = MockPlanner.transit_leg(@from, @to, @start, @stop)
+      assert is_fare_complete_transit_leg?(leg)
+
+      bad_leg = %TripPlan.Leg{
+        from: %TripPlan.NamedPosition{
+          stop_id: "1"
+        },
+        mode: %TripPlan.TransitDetail{
+          route_id: "CR-Lowell",
+          trip_id: "44780822"
+        },
+        to: %TripPlan.NamedPosition{
+          stop_id: "39"
+        }
+      }
+
+      refute is_fare_complete_transit_leg?(bad_leg)
+    end
+  end
+
   describe "same_leg?/1" do
     test "same_legs are the same" do
       leg = MockPlanner.transit_leg(@from, @to, @start, @stop)

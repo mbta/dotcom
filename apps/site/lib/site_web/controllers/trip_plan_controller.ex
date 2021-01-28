@@ -129,7 +129,7 @@ defmodule SiteWeb.TripPlanController do
     destination_id = leg.to.stop_id
 
     fares =
-      if is_fare_complete_transit_leg?(leg) do
+      if Leg.is_fare_complete_transit_leg?(leg) do
         recommended_fare = OneWay.recommended_fare(route, trip, origin_id, destination_id)
         base_fare = OneWay.base_fare(route, trip, origin_id, destination_id)
         reduced_fare = OneWay.reduced_fare(route, trip, origin_id, destination_id)
@@ -150,26 +150,6 @@ defmodule SiteWeb.TripPlanController do
     mode_with_fares = %TransitDetail{leg.mode | fares: fares}
     %{leg | mode: mode_with_fares}
   end
-
-  # Fare calculation is not possible if the route is a commuter rail route and
-  # either from/to stop is missing zone information.
-  @spec is_fare_complete_transit_leg?(Leg.t()) :: boolean
-  defp is_fare_complete_transit_leg?(leg), do: Leg.transit?(leg) and not leg_missing_zone?(leg)
-
-  # Cannot compute fare for commuter rail route
-  # between stops where we don't know the zones
-  defp leg_missing_zone?(%Leg{
-         mode: %TransitDetail{route_id: route_id},
-         from: %NamedPosition{stop_id: origin_id},
-         to: %NamedPosition{stop_id: destination_id}
-       }) do
-    route = Routes.Repo.get(route_id)
-
-    Route.type_atom(route) == :commuter_rail and
-      not Enum.all?([origin_id, destination_id], &Stop.has_zone?(&1))
-  end
-
-  defp leg_missing_zone?(_), do: false
 
   @spec base_month_pass_for_itinerary(Itinerary.t()) :: Fare.t() | nil
   defp base_month_pass_for_itinerary(%Itinerary{legs: legs}) do
@@ -209,7 +189,7 @@ defmodule SiteWeb.TripPlanController do
            to: %NamedPosition{stop_id: destination_id}
          } = leg
        ) do
-    if is_fare_complete_transit_leg?(leg) do
+    if Leg.is_fare_complete_transit_leg?(leg) do
       Month.base_pass(route_id, trip_id, origin_id, destination_id)
     else
       nil
@@ -226,7 +206,7 @@ defmodule SiteWeb.TripPlanController do
            to: %NamedPosition{stop_id: destination_id}
          } = leg
        ) do
-    if is_fare_complete_transit_leg?(leg) do
+    if Leg.is_fare_complete_transit_leg?(leg) do
       Month.recommended_pass(route_id, trip_id, origin_id, destination_id)
     else
       nil
@@ -243,7 +223,7 @@ defmodule SiteWeb.TripPlanController do
            to: %NamedPosition{stop_id: destination_id}
          } = leg
        ) do
-    if is_fare_complete_transit_leg?(leg) do
+    if Leg.is_fare_complete_transit_leg?(leg) do
       Month.reduced_pass(route_id, trip_id, origin_id, destination_id)
     else
       nil
