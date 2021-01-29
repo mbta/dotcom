@@ -1,10 +1,24 @@
 defmodule TripPlan.Api.MockPlanner do
+  @moduledoc """
+  Used to create trip plans for testing.
+  """
   @behaviour TripPlan.Api
 
   alias TripPlan.{Itinerary, NamedPosition, Leg, PersonalDetail, TransitDetail}
 
   @max_distance 1000
   @max_duration 30 * 60
+
+  @selected_stops [
+    "place-sstat",
+    "place-north",
+    "place-bbsta",
+    "place-pktrm",
+    "place-rugg",
+    "place-gover"
+  ]
+
+  @selected_routes ~w(1 350 Blue Red)s
 
   @impl true
   def plan(from, to, opts) do
@@ -39,16 +53,19 @@ defmodule TripPlan.Api.MockPlanner do
     start = DateTime.utc_now()
     duration = :rand.uniform(@max_duration)
     stop = Timex.shift(start, seconds: duration)
-    midpoint_stop = without_stop_ids([from.stop_id, to.stop_id], &random_stop/0)
-    midpoint_time = Timex.shift(start, seconds: Integer.floor_div(duration, 2))
+    midpoint_stop1 = random_stop([], [from.stop_id, to.stop_id])
+    midpoint_time1 = Timex.shift(start, seconds: Integer.floor_div(duration, 3))
+    midpoint_stop2 = random_stop([], [from.stop_id, to.stop_id, midpoint_stop1.stop_id])
+    midpoint_time2 = Timex.shift(start, seconds: Integer.floor_div(duration, 3) * 2)
 
     itineraries = [
       %Itinerary{
         start: start,
         stop: stop,
         legs: [
-          personal_leg(from, midpoint_stop, start, midpoint_time),
-          transit_leg(midpoint_stop, to, midpoint_time, stop)
+          personal_leg(from, midpoint_stop1, start, midpoint_time1),
+          transit_leg(midpoint_stop1, midpoint_stop2, midpoint_time1, midpoint_time2),
+          personal_leg(midpoint_stop2, to, midpoint_time2, stop)
         ],
         accessible?: Keyword.get(opts, :wheelchair_accessible?, false)
       }
@@ -71,8 +88,8 @@ defmodule TripPlan.Api.MockPlanner do
     %{itinerary | stop: new_stop, legs: itinerary.legs ++ [new_leg]}
   end
 
-  def random_stop(fields \\ []) do
-    stop_id = Enum.random(["place-sstat", "North Station", "place-bbsta"])
+  def random_stop(fields \\ [], without_stop_ids \\ []) do
+    stop_id = Enum.reject(@selected_stops, &Enum.member?(without_stop_ids, &1)) |> Enum.random()
     stop = Stops.Repo.get!(stop_id)
 
     fields =
@@ -119,7 +136,7 @@ defmodule TripPlan.Api.MockPlanner do
   end
 
   def transit_leg(from, to, start, stop) do
-    route_id = Enum.random(~w(1 Blue CR-Lowell)s)
+    route_id = Enum.random(@selected_routes)
     schedules = Schedules.Repo.by_route_ids([route_id], stop_sequences: :first)
     trip_id = List.first(schedules).trip.id
 
@@ -138,19 +155,6 @@ defmodule TripPlan.Api.MockPlanner do
           ])
       }
     }
-  end
-
-  defp without_stop_ids(excluded_stop_ids, function) do
-    # ensure that the stop ID returned from function doesn't have stop ID in
-    # the provided list.
-    excluded_stop_ids = Enum.reject(excluded_stop_ids, &is_nil/1)
-    stop = function.()
-
-    if stop.stop_id in excluded_stop_ids do
-      without_stop_ids(excluded_stop_ids, function)
-    else
-      stop
-    end
   end
 
   def stops_nearby(%NamedPosition{name: "Geocoded stops_nearby error"}), do: {:error, "error"}

@@ -1074,7 +1074,14 @@ defmodule Stops.RouteStopTest do
     test "returns a RouteStop with the zone data" do
       route_stop = build_route_stop(@stop, @red_route)
       fetched = fetch_zone(route_stop)
+      assert fetched.zone
       refute fetched.zone == route_stop.zone
+    end
+
+    test "returns a RouteStop when no zone data" do
+      route_stop = build_route_stop(%Stop{name: "Alewife", id: "place-alfcl"}, @red_route)
+      fetched = fetch_zone(route_stop)
+      refute fetched.zone
     end
   end
 

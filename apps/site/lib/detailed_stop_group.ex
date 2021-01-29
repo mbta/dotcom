@@ -21,13 +21,13 @@ defmodule DetailedStopGroup do
     :subway
     |> stops_for_mode()
     |> group_green_line()
-    |> from_grouped_stops(:subway)
+    |> from_grouped_stops()
   end
 
   def from_mode(mode) do
     mode
     |> stops_for_mode()
-    |> from_grouped_stops(mode)
+    |> from_grouped_stops()
   end
 
   @spec stops_for_mode(Routes.Route.gtfs_route_type()) :: [grouped_stops]
@@ -39,30 +39,28 @@ defmodule DetailedStopGroup do
     |> Enum.map(fn {:ok, stops} -> stops end)
   end
 
-  @spec from_grouped_stops([grouped_stops], Routes.Route.gtfs_route_type()) :: [
+  @spec from_grouped_stops([grouped_stops]) :: [
           DetailedStopGroup.t()
         ]
-  defp from_grouped_stops(grouped_stops, mode) do
-    zones = if mode == :commuter_rail, do: Zones.Repo.all(), else: %{}
-
+  defp from_grouped_stops(grouped_stops) do
     grouped_stops
-    |> Task.async_stream(&build_featured_stops(&1, zones))
+    |> Task.async_stream(&build_featured_stops(&1))
     |> Enum.map(fn {:ok, featured_stops} -> featured_stops end)
   end
 
-  @spec build_featured_stops(grouped_stops, %{String.t() => String.t()}) :: DetailedStopGroup.t()
-  defp build_featured_stops({route, stops}, zones) do
+  @spec build_featured_stops(grouped_stops) :: DetailedStopGroup.t()
+  defp build_featured_stops({route, stops}) do
     featured_stops =
       stops
       |> Enum.sort_by(& &1.name)
-      |> Task.async_stream(&build_featured_stop(route, &1, Map.get(zones, &1.id)))
+      |> Task.async_stream(&build_featured_stop(route, &1))
       |> Enum.map(fn {:ok, featured_stop} -> featured_stop end)
 
     {route, featured_stops}
   end
 
-  @spec build_featured_stop(Route.t(), Stop.t(), String.t() | nil) :: DetailedStop.t()
-  defp build_featured_stop(route, stop, zone_name) do
+  @spec build_featured_stop(Route.t(), Stop.t()) :: DetailedStop.t()
+  defp build_featured_stop(route, stop) do
     green_line? = route.id == "Green"
 
     features =
@@ -74,7 +72,7 @@ defmodule DetailedStopGroup do
     %DetailedStop{
       stop: stop,
       features: features,
-      zone: zone_name,
+      zone: stop.zone,
       route_icon: Route.icon_atom(route)
     }
   end

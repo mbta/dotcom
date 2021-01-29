@@ -55,7 +55,7 @@ defmodule Stops.Api do
     |> parse_v3_multiple()
   end
 
-  @spec by_route({Routes.Route.id_t(), 0 | 1, Keyword.t()}) :: [Stops.Stop.t()]
+  @spec by_route({Routes.Route.id_t(), 0 | 1, Keyword.t()}) :: [Stop.t()]
   def by_route({route_id, direction_id, opts}) do
     @default_params
     |> Keyword.put(:route, route_id)
@@ -74,7 +74,7 @@ defmodule Stops.Api do
     |> parse_v3_multiple()
   end
 
-  @spec parse_v3_multiple(JsonApi.t() | {:error, any}) :: [Stops.Stop.t()] | {:error, any}
+  @spec parse_v3_multiple(JsonApi.t() | {:error, any}) :: [Stop.t()] | {:error, any}
   defp parse_v3_multiple({:error, _} = error) do
     error
   end
@@ -119,7 +119,7 @@ defmodule Stops.Api do
   end
 
   @spec parse_v3_response(Item.t() | {:ok, Item.t()} | {:error, any}) ::
-          {:ok, Stops.Stop.t() | nil}
+          {:ok, Stop.t() | nil}
           | {:error, any}
   defp parse_v3_response({:ok, %Item{} = item}), do: parse_v3_response(item)
   defp parse_v3_response({:error, [%JsonApi.Error{code: "not_found"} | _]}), do: {:ok, nil}
@@ -148,7 +148,8 @@ defmodule Stops.Api do
       type: type(item),
       platform_name: platform_name(item),
       platform_code: platform_code(item),
-      description: description(item)
+      description: description(item),
+      zone: zone_number(item)
     }
 
     {:ok, stop}
@@ -258,14 +259,14 @@ defmodule Stops.Api do
   defp do_escalator(true, true), do: :escalator_both
   defp do_escalator(false, false), do: :escalator
 
-  @spec v3_parking(Item.t()) :: [Stops.Stop.ParkingLot.t()]
+  @spec v3_parking(Item.t()) :: [Stop.ParkingLot.t()]
   defp v3_parking(item) do
     item.relationships["facilities"]
     |> Enum.filter(&(&1.attributes["type"] == "PARKING_AREA"))
     |> Enum.map(&parse_parking_area/1)
   end
 
-  @spec parse_parking_area(Item.t()) :: Stops.Stop.ParkingLot.t()
+  @spec parse_parking_area(Item.t()) :: Stop.ParkingLot.t()
   defp parse_parking_area(parking_area) do
     parking_area.attributes["properties"]
     |> Enum.reduce(%{}, &property_acc/2)
@@ -275,16 +276,16 @@ defmodule Stops.Api do
     |> to_parking_lot
   end
 
-  @spec to_parking_lot(map) :: Stops.Stop.ParkingLot.t()
+  @spec to_parking_lot(map) :: Stop.ParkingLot.t()
   defp to_parking_lot(props) do
-    %Stops.Stop.ParkingLot{
+    %Stop.ParkingLot{
       name: Map.get(props, "name"),
       address: Map.get(props, "address"),
-      capacity: Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Capacity.parse(props)),
-      payment: Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Payment.parse(props)),
-      utilization: Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Utilization.parse(props)),
+      capacity: Stops.Helpers.struct_or_nil(Stop.ParkingLot.Capacity.parse(props)),
+      payment: Stops.Helpers.struct_or_nil(Stop.ParkingLot.Payment.parse(props)),
+      utilization: Stops.Helpers.struct_or_nil(Stop.ParkingLot.Utilization.parse(props)),
       note: Map.get(props, "note"),
-      manager: Stops.Helpers.struct_or_nil(Stops.Stop.ParkingLot.Manager.parse(props)),
+      manager: Stops.Helpers.struct_or_nil(Stop.ParkingLot.Manager.parse(props)),
       latitude: Map.get(props, "latitude"),
       longitude: Map.get(props, "longitude")
     }
@@ -408,4 +409,16 @@ defmodule Stops.Api do
   def filter_facility_types(%Item{attributes: %{"type" => type_str}}, facility_types) do
     MapSet.member?(facility_types, facility_atom_from_string(type_str))
   end
+
+  @spec zone_number(Item.t()) :: String.t() | nil
+  defp zone_number(%Item{relationships: %{"zone" => zone}}) do
+    case zone do
+      [%Item{:id => id}] -> get_zone_number(id)
+      _ -> nil
+    end
+  end
+
+  @spec get_zone_number(String.t() | nil) :: String.t() | nil
+  defp get_zone_number(nil), do: nil
+  defp get_zone_number(zone), do: String.trim_leading(zone, "CR-zone-")
 end

@@ -17,7 +17,9 @@ defmodule Site.TripPlan.RelatedLinkTest do
       {expected_route, expected_icon} =
         case Itinerary.route_ids(itinerary) do
           ["Blue"] -> {"Blue Line schedules", :blue_line}
+          ["Red"] -> {"Red Line schedules", :red_line}
           ["1"] -> {"Route 1 schedules", :bus}
+          ["350"] -> {"Route 350 schedules", :bus}
           ["CR-Lowell"] -> {"Lowell Line schedules", :commuter_rail}
         end
 
@@ -55,10 +57,10 @@ defmodule Site.TripPlan.RelatedLinkTest do
         # to be only "View fare information".
         expected_text_url = fn leg ->
           case leg.mode do
-            %{route_id: "1"} ->
+            %{route_id: id} when id in ["1", "350"] ->
               {"bus", fare_path(SiteWeb.Endpoint, :show, "bus-fares", [])}
 
-            %{route_id: "Blue"} ->
+            %{route_id: id} when id in ["Red", "Blue"] ->
               {"subway", fare_path(SiteWeb.Endpoint, :show, "subway-fares", [])}
 
             %{route_id: "CR-Lowell"} ->

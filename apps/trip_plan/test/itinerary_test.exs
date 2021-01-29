@@ -72,8 +72,8 @@ defmodule TripPlan.ItineraryTest do
   describe "positions/1" do
     test "returns all named positions for the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
-      [first, second] = itinerary.legs
-      expected = [first.from, first.to, second.from, second.to]
+      [first, second, third] = itinerary.legs
+      expected = [first.from, first.to, second.from, second.to, third.from, third.to]
       assert positions(itinerary) == expected
     end
   end
@@ -81,11 +81,9 @@ defmodule TripPlan.ItineraryTest do
   describe "stop_ids/1" do
     test "returns all the stop IDs from the itinerary" do
       {:ok, [itinerary]} = MockPlanner.plan(@from, @to, [])
-      first_leg = Enum.at(itinerary, 0)
-      last_leg = Enum.at(itinerary, -1)
 
       test_calculated_ids =
-        Enum.uniq([first_leg.from.stop_id, last_leg.from.stop_id, last_leg.to.stop_id])
+        Enum.uniq(Enum.flat_map(itinerary.legs, &[&1.from.stop_id, &1.to.stop_id]))
 
       assert test_calculated_ids == stop_ids(itinerary)
     end

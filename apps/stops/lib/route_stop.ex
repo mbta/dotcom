@@ -20,7 +20,7 @@ defmodule Stops.RouteStop do
   """
   alias Routes.{Route, Shape}
   alias RoutePatterns.RoutePattern
-  alias Stops.Stop
+  alias Stops.{Repo, Stop}
 
   @type branch_name_t :: String.t() | nil
   @type direction_id_t :: 0 | 1
@@ -33,7 +33,7 @@ defmodule Stops.RouteStop do
           station_info: Stop.t(),
           route: Route.t() | nil,
           connections: [Route.t()] | {:error, :not_fetched},
-          stop_features: [Stops.Repo.stop_feature()] | {:error, :not_fetched},
+          stop_features: [Repo.stop_feature()] | {:error, :not_fetched},
           is_terminus?: boolean,
           is_beginning?: boolean,
           closed_stop_info: Stop.ClosedStopInfo.t() | nil
@@ -320,7 +320,7 @@ defmodule Stops.RouteStop do
     |> Enum.flat_map(fn stop_id ->
       parent_stop_id =
         stop_id
-        |> Stops.Repo.get_parent()
+        |> Repo.get_parent()
         |> Map.fetch!(:id)
 
       case Map.fetch(stops, parent_stop_id) do
@@ -363,7 +363,13 @@ defmodule Stops.RouteStop do
 
   @spec fetch_zone(t) :: t
   def fetch_zone(%__MODULE__{zone: {:error, :not_fetched}} = route_stop) do
-    %{route_stop | zone: Zones.Repo.get(route_stop.id)}
+    case Repo.get(route_stop.id) do
+      %Stop{zone: zone} ->
+        %{route_stop | zone: zone}
+
+      _ ->
+        route_stop
+    end
   end
 
   @spec fetch_stop_features(t) :: t
@@ -383,9 +389,9 @@ defmodule Stops.RouteStop do
     %{route_stop | connections: connections}
   end
 
-  @spec route_stop_features(t) :: [Stops.Repo.stop_feature()]
+  @spec route_stop_features(t) :: [Repo.stop_feature()]
   defp route_stop_features(%__MODULE__{station_info: %Stop{}} = route_stop) do
-    Stops.Repo.stop_features(route_stop.station_info, connections: route_stop.connections)
+    Repo.stop_features(route_stop.station_info, connections: route_stop.connections)
   end
 
   defp route_stop_features(%__MODULE__{}) do

@@ -8,7 +8,7 @@ defmodule Fares do
   alias Routes.Route
   alias Schedules.Trip
   alias Stops.Stop
-  alias Zones.{Repo, Zone}
+  alias Zones.Zone
 
   @silver_line_rapid_transit ~w(741 742 743 746)
   @silver_line_rapid_transit_set MapSet.new(@silver_line_rapid_transit)
@@ -49,8 +49,8 @@ defmodule Fares do
   def fare_for_stops(route_type_atom, origin, destination, trip_details \\ nil)
 
   def fare_for_stops(:commuter_rail, origin, destination, trip_details) do
-    with origin_zone when not is_nil(origin_zone) <- Repo.get(origin),
-         dest_zone when not is_nil(dest_zone) <- Repo.get(destination) do
+    with origin_zone when not is_nil(origin_zone) <- zone_for_stop(origin),
+         dest_zone when not is_nil(dest_zone) <- zone_for_stop(destination) do
       cond do
         foxboro_pilot?(trip_details) ->
           {:ok, calculate_foxboro_zones(origin_zone, dest_zone)}
@@ -71,6 +71,13 @@ defmodule Fares do
 
   def fare_for_stops(:ferry, origin, destination, _) do
     {:ok, calculate_ferry(origin, destination)}
+  end
+
+  defp zone_for_stop(stop_id) do
+    case Stops.Repo.get(stop_id) do
+      %{zone: zone} -> zone
+      _ -> nil
+    end
   end
 
   @spec calculate_commuter_rail(any, any) :: {:interzone, binary} | {:zone, any}

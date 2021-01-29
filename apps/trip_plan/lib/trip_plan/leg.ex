@@ -90,4 +90,25 @@ defmodule TripPlan.Leg do
   end
 
   def stop_is_silver_line_airport?(_, _), do: false
+
+  # Fare calculation is not possible if the route is a commuter rail route and
+  # either from/to stop is missing zone information.
+  @spec is_fare_complete_transit_leg?(t) :: boolean
+  def is_fare_complete_transit_leg?(leg), do: transit?(leg) and not leg_missing_zone?(leg)
+
+  # Cannot compute fare for commuter rail route
+  # between stops where we don't know the zones
+  @spec leg_missing_zone?(t) :: boolean
+  defp leg_missing_zone?(%__MODULE__{
+         mode: %TransitDetail{route_id: route_id},
+         from: %NamedPosition{stop_id: origin_id},
+         to: %NamedPosition{stop_id: destination_id}
+       }) do
+    route = Routes.Repo.get(route_id)
+
+    Routes.Route.type_atom(route) == :commuter_rail and
+      not Enum.all?([origin_id, destination_id], &Stops.Stop.has_zone?(&1))
+  end
+
+  defp leg_missing_zone?(_), do: false
 end

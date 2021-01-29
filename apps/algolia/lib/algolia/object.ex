@@ -17,7 +17,7 @@ defimpl Algolia.Object, for: Stops.Stop do
         lng: stop.longitude
       },
       stop: stop,
-      zone: Zones.Repo.get(stop.id),
+      zone: stop.zone,
       routes: Algolia.Stop.Routes.for_stop(routes_for_stop),
       features: Stops.Repo.stop_features(stop),
       green_line_branches: Algolia.Stop.Routes.green_line_branches(routes_for_stop)

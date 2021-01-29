@@ -104,7 +104,7 @@ defmodule SiteWeb.StopController do
         |> assign(:routes, json_safe_routes)
         |> assign(:routes_with_direction, json_safe_route_with_direction)
         |> assign(:routes_and_alerts, routes_and_alerts)
-        |> assign(:zone_number, Zones.Repo.get(stop.id))
+        |> assign(:zone_number, stop.zone)
         |> assign(:breadcrumbs_title, breadcrumbs(stop, routes_by_stop))
         |> assign(:tab, tab_value(query_params["tab"]))
         |> async_assign_default(

@@ -4,7 +4,6 @@ defmodule SiteWeb.ScheduleController.TripViewController do
   """
   use SiteWeb, :controller
   alias Routes.Route
-  alias Zones.Repo
 
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.Plugs.DateInRating)
@@ -33,7 +32,7 @@ defmodule SiteWeb.ScheduleController.TripViewController do
   end
 
   defp zone_map(%{assigns: %{route: %Route{type: 2}, all_stops: all_stops}} = conn, _) do
-    assign(conn, :zone_map, Map.new(all_stops, &{&1.id, Repo.get(&1.id)}))
+    assign(conn, :zone_map, Map.new(all_stops, &{&1.id, &1.zone}))
   end
 
   defp zone_map(conn, _), do: conn
