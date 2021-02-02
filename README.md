@@ -24,9 +24,8 @@ From a development standpoint, polyfills and code transforms are implemented via
 
 ## Getting Started
 
-1. Request a V3 API key at https://dev.api.mbtace.com/, and request an increased
-rate limit for it (someone with access will need to approve this). Note that, at
-any given time, the site may not be compatible with the very latest API version - as of Aug 2020 the site is using API version `2019-07-01`.
+1. Request a V3 API key at https://dev.api.mbtace.com/. Note that, at
+any given time, the site may not be compatible with the very latest API version - as of Jan 2021 the site is using API version `2019-07-01`. After receiving an API key, you may need to edit the version of your key to match the site's API version.
 
 1. Install [Homebrew](https://docs.brew.sh/Installation.html):
     ```
@@ -63,7 +62,34 @@ any given time, the site may not be compatible with the very latest API version 
      This works around a [known issue](https://github.com/asdf-vm/asdf-erlang/issues/116)
      with compiling versions of Erlang prior to 22.1.4.
 
-   * Run the install:
+   * If running OSX 11 Big Sur, you will need to modify the source directly.
+     ([This comment captures the issue/solution](https://github.com/asdf-vm/asdf-erlang/issues/161#issuecomment-731558207)). As of Jan 2021, we use erlang 22.3.3, and the filenames below reflect this.
+
+     First, run the install. Navigate to the erlang directory and unzip the source.
+
+     ```
+     asdf install
+     cd ~/.asdf/plugins/erlang/kerl-home/archives
+     tar zxvf OTP-22.3.3.tar.gz
+     ```
+     Modify ~/.asdf/plugins/erlang/kerl-home/archives/otp-OTP-23.1.4/make/configure.in line 415 to read:
+     ```
+     #if __ENVIRONMENT_MAC_OS_X_VERSION_MIN_REQUIRED__ > $int_macosx_version && false
+     ```
+     Re-tar the directory:
+     ```
+     rm OTP-22.3.3.tar.gz
+     tar czvf OTP-22.3.3.tar.gz otp-OTP-22.3.3
+     rm -rf otp-OTP-22.3.3
+     ```
+     Then re-run the erlang install:
+     ```
+     asdf install erlang 22.3.3
+     ```
+   
+   * _Note on Erlang version:  while v24 resolves the compilation issue, we still need to use v22 as of Jan 2021._
+
+   * Now, (if you haven't already in the OSX11 instructions above) run the install:
 
      ```
      asdf install
@@ -81,16 +107,17 @@ any given time, the site may not be compatible with the very latest API version 
       elixir         <version> (set by ~/dotcom/.tool-versions)
       erlang         <version> (set by ~/dotcom/.tool-versions)
       nodejs         <version> (set by ~/dotcom/.tool-versions)
+      ...
      ```
 
      If you are missing any versions, you should re-run `asdf install`. Related [Github issue about asdf-erlang](https://github.com/asdf-vm/asdf-erlang/issues/57)
 
 1. Install chromedriver (for Elixir acceptance tests using Wallaby)
     ```
-    brew cask install chromedriver
+    brew install --cask chromedriver
     ```
    Note: `chromedriver` requires Chrome to be installed. If you don't already
-   have it, `brew cask install google-chrome` is an easy way to install it.
+   have it, `brew install --cask google-chrome` is an easy way to install it.
 
 1. Install our Elixir dependencies. From the root of this repo:
     ```
@@ -127,7 +154,7 @@ any given time, the site may not be compatible with the very latest API version 
     cp .envrc.template .envrc
     ```
    Then uncomment the `V3_API_KEY` line and fill it in with the key you obtained
-   in the first step. If you have [direnv] installed, it will automatically load
+   in the first step. If you have [direnv] installed (recommended), it will automatically load
    and unload the environment using this file. If not, `source .envrc` will load
    or update the variables in your shell session manually.
 
@@ -146,9 +173,13 @@ Then, visit the site at http://localhost:4001/
 
 [Algolia](https://www.algolia.com) powers our search features. Sometimes after content updates or GTFS releases we will find that the search results do not contain up-to-date results. When this happens you can re-index the Algolia data by running: `mix algolia.update`.
 
-## Additional Documentation
+## Additional Resources
 
-See [docs](docs) for information about [testing](docs/TESTING.md) and other development details. There is also documentation for some [features that have come and gone](docs/SeasonalFeatures.md).
+New to the team, or looking for further developer resources?
+- [Repo docs](docs): info about [testing](docs/TESTING.md) and other development details.
+- [Intro to the V3 API](https://github.com/mbta/wiki/blob/master/api/intro.md): a starter guide to the data model with links to relevant API resources.
+- [Dotcom Engineering Guide](https://docs.google.com/document/d/1Vg-8-APtBk7JYuj0TgWvcrWjU5mEA9vCk58aaJgq02Q/edit): a more comprehensive look at the Dotcom ecosystem, the V3 API Data Model, and other project info.
+- Documentation for some [features that have come and gone](docs/SeasonalFeatures.md).
 
 ### Nested Applications
 
