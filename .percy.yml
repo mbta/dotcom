@@ -1,0 +1,7 @@
+snapshot:
+  widths: [320, 543, 544, 799, 800, 1089, 1345]
+  enable-javascript: true
+agent:
+  asset-discovery:
+    request-headers:
+      X-WM-Proxy-Url: https://dev.api.mbtace.com
