@@ -1,0 +1,25 @@
+{
+  "id" : "2d82f229-4ddf-372c-b10a-685bc2bd41a3",
+  "request" : {
+    "url" : "/routes/?stop=place-sougr&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MvN6j.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:27 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6802",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc-D6scRKT15AACO8i"
+    }
+  },
+  "uuid" : "2d82f229-4ddf-372c-b10a-685bc2bd41a3"
+}

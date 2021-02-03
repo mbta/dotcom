@@ -1,0 +1,25 @@
+{
+  "id" : "a9b0c218-4c2a-3d24-bb1f-bd46bf69dc60",
+  "request" : {
+    "url" : "/routes/?stop=place-chmnl&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-FR8YR.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:53 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6648",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc_idqlwsSPvYACQDi"
+    }
+  },
+  "uuid" : "a9b0c218-4c2a-3d24-bb1f-bd46bf69dc60"
+}

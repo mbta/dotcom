@@ -1,0 +1,25 @@
+{
+  "id" : "ec417ce3-9398-36f3-a7a8-6b9fdb0fa5d7",
+  "request" : {
+    "url" : "/route_patterns/?sort=typicality%2Csort_order&route=Red&direction_id=0",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-route_patterns-N78QR.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:59 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6604",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc_6j0OxhisAEAFOih"
+    }
+  },
+  "uuid" : "ec417ce3-9398-36f3-a7a8-6b9fdb0fa5d7"
+}

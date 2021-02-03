@@ -1,0 +1,25 @@
+{
+  "id" : "92b5521a-0afc-3028-8947-41e91ce9484b",
+  "request" : {
+    "url" : "/shapes/?route=Boat-F1&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-K55iz.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:20:44 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:06:30 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6772",
+      "x-ratelimit-reset" : "1612390860",
+      "x-request-id" : "FmBc7iIlgv2BJUkAFK2B"
+    }
+  },
+  "uuid" : "92b5521a-0afc-3028-8947-41e91ce9484b"
+}

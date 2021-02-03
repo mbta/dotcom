@@ -1,0 +1,25 @@
+{
+  "id" : "a1ca7fd3-58af-3c65-83a0-4574fa60d4ed",
+  "request" : {
+    "url" : "/shapes/?route=CR-Fairmount&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-DQssb.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:20:44 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:06:30 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6823",
+      "x-ratelimit-reset" : "1612390860",
+      "x-request-id" : "FmBc7gogA9Iw5GEAA73D"
+    }
+  },
+  "uuid" : "a1ca7fd3-58af-3c65-83a0-4574fa60d4ed"
+}

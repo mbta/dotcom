@@ -1,0 +1,25 @@
+{
+  "id" : "ef0f444f-4336-384c-8134-5c0421deb5d6",
+  "request" : {
+    "url" : "/schedules/?direction_id=0&date=2021-02-03&route=Red&include=trip&fields%5Bschedule%5D=departure_time%2Carrival_time%2Cdrop_off_type%2Cpickup_type%2Cstop_sequence%2Ctimepoint&fields%5Btrip%5D=name%2Cheadsign%2Cdirection_id%2Cbikes_allowed",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-dG24O.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:22:00 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:06:05 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6605",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc_6YJI0xaAcwACQUi"
+    }
+  },
+  "uuid" : "ef0f444f-4336-384c-8134-5c0421deb5d6"
+}

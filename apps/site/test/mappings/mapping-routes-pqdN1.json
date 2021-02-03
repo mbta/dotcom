@@ -1,0 +1,25 @@
+{
+  "id" : "06a27320-e31d-300d-9303-b5c5d36f58f2",
+  "request" : {
+    "url" : "/routes/?stop=place-mlmnl&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-pqdN1.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:22:17 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6826",
+      "x-ratelimit-reset" : "1612390980",
+      "x-request-id" : "FmBdA8Cidrqr4KAAFPcB"
+    }
+  },
+  "uuid" : "06a27320-e31d-300d-9303-b5c5d36f58f2"
+}

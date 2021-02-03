@@ -1,0 +1,25 @@
+{
+  "id" : "5d07b8ff-f873-3c15-9172-9dac65db2ec0",
+  "request" : {
+    "url" : "/routes/?stop=place-north&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-AOGmg.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:27 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6797",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc-EGL9g-oY5AAFNAh"
+    }
+  },
+  "uuid" : "5d07b8ff-f873-3c15-9172-9dac65db2ec0"
+}

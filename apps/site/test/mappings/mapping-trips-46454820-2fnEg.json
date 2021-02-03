@@ -1,0 +1,25 @@
+{
+  "id" : "64b1d3d3-0de3-3926-a35a-ecc0fbe4a2ba",
+  "request" : {
+    "url" : "/trips/46454820",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-trips-46454820-2fnEg.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:27 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 22:21:24 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6829",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc-CU7QdZZb44ACOti"
+    }
+  },
+  "uuid" : "64b1d3d3-0de3-3926-a35a-ecc0fbe4a2ba"
+}

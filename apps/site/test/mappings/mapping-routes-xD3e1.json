@@ -1,0 +1,25 @@
+{
+  "id" : "01a16973-23d1-3013-a6a4-d0f5f78811d3",
+  "request" : {
+    "url" : "/routes/?stop=place-FR-0494&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-xD3e1.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:22:17 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6855",
+      "x-ratelimit-reset" : "1612390980",
+      "x-request-id" : "FmBdA7TVqVot86YAFPQB"
+    }
+  },
+  "uuid" : "01a16973-23d1-3013-a6a4-d0f5f78811d3"
+}

@@ -1,0 +1,24 @@
+{
+  "id" : "bb531ffc-c916-3c67-88c6-0c4436f1928f",
+  "request" : {
+    "url" : "/schedules/?route=Red&date=2021-03-14&direction_id=1&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time%2Carrival_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-H28A1.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:51 GMT",
+      "Content-Type" : "application/vnd.api+json",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:06:05 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6664",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc_dqsSuS7OiYAFOWh"
+    }
+  },
+  "uuid" : "bb531ffc-c916-3c67-88c6-0c4436f1928f"
+}
