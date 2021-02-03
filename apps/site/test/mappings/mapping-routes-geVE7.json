@@ -1,0 +1,25 @@
+{
+  "id" : "a9f233d0-e13e-3a46-9b2d-3977916384bf",
+  "request" : {
+    "url" : "/routes/?stop=place-GB-0198&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-geVE7.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:22:17 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6749",
+      "x-ratelimit-reset" : "1612390980",
+      "x-request-id" : "FmBdA-cOu4hpG7AACSCC"
+    }
+  },
+  "uuid" : "a9f233d0-e13e-3a46-9b2d-3977916384bf"
+}

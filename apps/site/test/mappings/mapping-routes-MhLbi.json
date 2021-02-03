@@ -1,0 +1,25 @@
+{
+  "id" : "c6975aa2-2f39-315d-8a08-73e349cb5cd1",
+  "request" : {
+    "url" : "/routes/?stop=place-bcnwa&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MhLbi.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:28 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6788",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc-EbIHNWjR4UAA8RD"
+    }
+  },
+  "uuid" : "c6975aa2-2f39-315d-8a08-73e349cb5cd1"
+}

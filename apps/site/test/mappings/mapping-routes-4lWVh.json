@@ -1,0 +1,25 @@
+{
+  "id" : "b30ac350-d181-3516-9d76-9c525ab7eda5",
+  "request" : {
+    "url" : "/routes/?stop=place-tumnl&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-4lWVh.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:22:17 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6800",
+      "x-ratelimit-reset" : "1612390980",
+      "x-request-id" : "FmBdA8xZ7PQEXKMAA9Dj"
+    }
+  },
+  "uuid" : "b30ac350-d181-3516-9d76-9c525ab7eda5"
+}

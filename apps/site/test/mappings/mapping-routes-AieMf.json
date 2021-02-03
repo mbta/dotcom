@@ -1,0 +1,25 @@
+{
+  "id" : "82c3a294-d37e-3ca0-8c2e-f0747c34acd2",
+  "request" : {
+    "url" : "/routes/?stop=place-coecl&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-AieMf.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:27 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6821",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc-C-lwXwDFccAAkVE"
+    }
+  },
+  "uuid" : "82c3a294-d37e-3ca0-8c2e-f0747c34acd2"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "3dff8248-5991-3dc8-a2dc-14451579d12d",
+  "request" : {
+    "url" : "/schedules/?route=1&date=2021-03-13&direction_id=0&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time%2Carrival_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-schedules-E2MfG.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:22:05 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:06:05 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6940",
+      "x-ratelimit-reset" : "1612390980",
+      "x-request-id" : "FmBdAP8LCnaW8ooACQlC"
+    }
+  },
+  "uuid" : "3dff8248-5991-3dc8-a2dc-14451579d12d"
+}

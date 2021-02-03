@@ -1,0 +1,25 @@
+{
+  "id" : "185871cf-594b-3450-891e-60978ee1e467",
+  "request" : {
+    "url" : "/stops/71151?include=parent_station%2Cfacilities%2Cchild_stops&fields%5Bfacility%5D=long_name%2Ctype%2Cproperties%2Clatitude%2Clongitude&fields%5Bstop%5D=address%2Cname%2Clatitude%2Clongitude%2Caddress%2Cmunicipality%2Cwheelchair_boarding%2Clocation_type%2Cplatform_name%2Cplatform_code%2Cdescription",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-stops-71151-vGEon.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:33 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:05 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6709",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc-ZSGCUqL4aEAFNwB"
+    }
+  },
+  "uuid" : "185871cf-594b-3450-891e-60978ee1e467"
+}

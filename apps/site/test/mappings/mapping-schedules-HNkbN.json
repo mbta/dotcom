@@ -1,0 +1,24 @@
+{
+  "id" : "a62302a2-72c6-3fe4-8d79-acfdf8e605b3",
+  "request" : {
+    "url" : "/schedules/?route=Green-C&date=2021-03-14&direction_id=1&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time%2Carrival_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-HNkbN.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:26 GMT",
+      "Content-Type" : "application/vnd.api+json",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:06:05 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6850",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc9_gRtyYIx7MAFM3h"
+    }
+  },
+  "uuid" : "a62302a2-72c6-3fe4-8d79-acfdf8e605b3"
+}

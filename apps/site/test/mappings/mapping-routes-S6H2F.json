@@ -1,0 +1,25 @@
+{
+  "id" : "88ce2e44-e5af-3228-981c-b1e40d926f4b",
+  "request" : {
+    "url" : "/routes/?stop=place-mfa&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-S6H2F.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:28 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6769",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc-FTA6JvkdJ4AA8bj"
+    }
+  },
+  "uuid" : "88ce2e44-e5af-3228-981c-b1e40d926f4b"
+}

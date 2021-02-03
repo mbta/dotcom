@@ -1,0 +1,24 @@
+{
+  "id" : "7276c9ed-9eba-34af-b4fb-f2f0544f7c0d",
+  "request" : {
+    "url" : "/predictions/?direction_id=0&stop=place-north&route=Green-B&fields%5Bprediction%5D=status%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-alsHF.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:26 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 22:21:24 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6870",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc99mBd5gWoP0ACObi"
+    }
+  },
+  "uuid" : "7276c9ed-9eba-34af-b4fb-f2f0544f7c0d"
+}

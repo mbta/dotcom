@@ -1,0 +1,25 @@
+{
+  "id" : "41aa854f-8dd1-3da9-b4f6-9f89b63b2b3f",
+  "request" : {
+    "url" : "/routes/?stop=place-pktrm&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-pmW1X.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:27 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6823",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc-C-dsuJtnS8ACOwi"
+    }
+  },
+  "uuid" : "41aa854f-8dd1-3da9-b4f6-9f89b63b2b3f"
+}

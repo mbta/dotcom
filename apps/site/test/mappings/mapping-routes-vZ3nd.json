@@ -1,0 +1,25 @@
+{
+  "id" : "979b001c-06ab-3921-9438-e68e82dd36e9",
+  "request" : {
+    "url" : "/routes/?stop=place-miltt&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-vZ3nd.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:22:17 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6845",
+      "x-ratelimit-reset" : "1612390980",
+      "x-request-id" : "FmBdA7jUuOl2IfQACRdi"
+    }
+  },
+  "uuid" : "979b001c-06ab-3921-9438-e68e82dd36e9"
+}

@@ -1,0 +1,24 @@
+{
+  "id" : "34cb0056-1b55-3233-aaed-178c9fceaf54",
+  "request" : {
+    "url" : "/shapes/?route=451&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-05aU7.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:20:45 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:06:30 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6619",
+      "x-ratelimit-reset" : "1612390860",
+      "x-request-id" : "FmBc7mRjsJhu5NoAAjtE"
+    }
+  },
+  "uuid" : "34cb0056-1b55-3233-aaed-178c9fceaf54"
+}

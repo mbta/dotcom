@@ -1,0 +1,25 @@
+{
+  "id" : "a000bc8e-9874-3b5e-b056-35a84d474636",
+  "request" : {
+    "url" : "/routes/?stop=place-brntn&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-kWcek.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:53 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6639",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc_i3J1buX80cAFOfh"
+    }
+  },
+  "uuid" : "a000bc8e-9874-3b5e-b056-35a84d474636"
+}

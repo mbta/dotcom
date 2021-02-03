@@ -1,0 +1,19 @@
+{
+  "id" : "55a45925-3e06-330b-bc62-61a718024455",
+  "request" : {
+    "url" : "/otp/routers/default/plan?arriveBy=false&date=2021-03-12&format=json&fromPlace=Boston+Children%27s+Museum%2C+Congress+Street%2C+Boston%2C+MA%2C+USA%3A%3A42.3518682%2C-71.04999250000003&locale=en&maxWalkDistance=805&mode=TRAM%2CSUBWAY%2CFERRY%2CRAIL%2CBUS%2CWALK&showIntermediateStops=true&time=11%3A35am&toPlace=Government+Center%3A%3A42.359705%2C-71.059215&walkReluctance=5&wheelchair=true",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 404,
+    "bodyFileName" : "body-otp-routers-default-plan-MTBPs.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:02 GMT",
+      "Content-Type" : "application/json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "server" : "Cowboy",
+      "x-request-id" : "FmBc8lHBg0IwkFsAFMYh"
+    }
+  },
+  "uuid" : "55a45925-3e06-330b-bc62-61a718024455"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "5dd24451-ed09-3121-a9e7-68bae6704ede",
+  "request" : {
+    "url" : "/routes/?stop=place-fenwy&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-J6GBU.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:28 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6780",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc-Et9RufpresACPJi"
+    }
+  },
+  "uuid" : "5dd24451-ed09-3121-a9e7-68bae6704ede"
+}

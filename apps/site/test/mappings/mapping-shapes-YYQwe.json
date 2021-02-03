@@ -1,0 +1,25 @@
+{
+  "id" : "397802b1-dbfc-3066-b5b8-7880b9e7fa20",
+  "request" : {
+    "url" : "/shapes/?route=Green-B&direction_id=1",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-shapes-YYQwe.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:20:44 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:06:30 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6786",
+      "x-ratelimit-reset" : "1612390860",
+      "x-request-id" : "FmBc7hwdET_kbW4AAi1E"
+    }
+  },
+  "uuid" : "397802b1-dbfc-3066-b5b8-7880b9e7fa20"
+}

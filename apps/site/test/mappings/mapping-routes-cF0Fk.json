@@ -1,0 +1,25 @@
+{
+  "id" : "4b366d9a-abed-3a87-b34d-72321677def8",
+  "request" : {
+    "url" : "/routes/?stop=95&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-cF0Fk.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:22:06 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6915",
+      "x-ratelimit-reset" : "1612390980",
+      "x-request-id" : "FmBdATgQkB41kKcAFOqB"
+    }
+  },
+  "uuid" : "4b366d9a-abed-3a87-b34d-72321677def8"
+}

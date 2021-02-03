@@ -1,0 +1,25 @@
+{
+  "id" : "bd85f169-3574-3701-9bef-2b7060f1e264",
+  "request" : {
+    "url" : "/routes/?stop=place-forhl&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-rezy6.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:22:17 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6842",
+      "x-ratelimit-reset" : "1612390980",
+      "x-request-id" : "FmBdA7p5EH0Ul3wACRgi"
+    }
+  },
+  "uuid" : "bd85f169-3574-3701-9bef-2b7060f1e264"
+}

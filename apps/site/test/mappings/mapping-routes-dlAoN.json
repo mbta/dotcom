@@ -1,0 +1,25 @@
+{
+  "id" : "fddbf5b6-27f5-3f3d-ad12-2b2b9d305e3b",
+  "request" : {
+    "url" : "/routes/?stop=place-ER-0128&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-dlAoN.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:22:18 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6739",
+      "x-ratelimit-reset" : "1612390980",
+      "x-request-id" : "FmBdA-tWiCcveukAFQMB"
+    }
+  },
+  "uuid" : "fddbf5b6-27f5-3f3d-ad12-2b2b9d305e3b"
+}

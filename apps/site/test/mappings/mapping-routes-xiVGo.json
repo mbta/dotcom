@@ -1,0 +1,25 @@
+{
+  "id" : "31fded1c-5f29-3917-b83e-e327043beb31",
+  "request" : {
+    "url" : "/routes/?stop=place-buest&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-xiVGo.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:27 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6816",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc-DJrumcnvUoAAkYE"
+    }
+  },
+  "uuid" : "31fded1c-5f29-3917-b83e-e327043beb31"
+}

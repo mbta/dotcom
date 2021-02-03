@@ -1,0 +1,25 @@
+{
+  "id" : "fe72e79a-4a64-3ee5-8952-0576c16b2eca",
+  "request" : {
+    "url" : "/routes/?stop=place-longw&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-6oe1f.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:28 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6783",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc-EsmzE4d7yQACPHi"
+    }
+  },
+  "uuid" : "fe72e79a-4a64-3ee5-8952-0576c16b2eca"
+}

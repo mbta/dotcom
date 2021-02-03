@@ -1,0 +1,24 @@
+{
+  "id" : "d2e090bd-d807-3238-b040-206f1dc342f8",
+  "request" : {
+    "url" : "/predictions/?trip=&stop=&fields%5Bprediction%5D=status%2Cdeparture_time%2Carrival_time%2Cdirection_id%2Cschedule_relationship%2Cstop_sequence&fields%5Btrip%5D=direction_id%2Cheadsign%2Cname%2Cbikes_allowed&fields%5Bstop%5D=platform_code&include=trip%2Cstop",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-predictions-8Ye5M.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:12 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 22:21:09 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6940",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc9LblzNHQknAACNii"
+    }
+  },
+  "uuid" : "d2e090bd-d807-3238-b040-206f1dc342f8"
+}

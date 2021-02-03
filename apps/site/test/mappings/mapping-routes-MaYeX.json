@@ -1,0 +1,25 @@
+{
+  "id" : "79bec8cc-fa9d-3a7b-8c2f-5d0ae3c26f0e",
+  "request" : {
+    "url" : "/routes/?stop=place-ER-0099&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-MaYeX.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:22:17 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6747",
+      "x-ratelimit-reset" : "1612390980",
+      "x-request-id" : "FmBdA-hM77hrzI4AFQKB"
+    }
+  },
+  "uuid" : "79bec8cc-fa9d-3a7b-8c2f-5d0ae3c26f0e"
+}

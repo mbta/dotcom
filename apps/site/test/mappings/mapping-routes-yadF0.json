@@ -1,0 +1,25 @@
+{
+  "id" : "a82c8951-7b90-3514-93ee-2943fe4cdd21",
+  "request" : {
+    "url" : "/routes/?stop=place-bucen&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-yadF0.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:27 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6815",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc-DWLg1NBN4UACOyi"
+    }
+  },
+  "uuid" : "a82c8951-7b90-3514-93ee-2943fe4cdd21"
+}

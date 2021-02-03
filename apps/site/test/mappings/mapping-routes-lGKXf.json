@@ -1,0 +1,25 @@
+{
+  "id" : "d4f7f94d-577f-3594-9f4f-fa9bac1417d4",
+  "request" : {
+    "url" : "/routes/?stop=place-NHRML-0254&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-lGKXf.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:22:17 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6785",
+      "x-ratelimit-reset" : "1612390980",
+      "x-request-id" : "FmBdA9LhkfJH610ACR2C"
+    }
+  },
+  "uuid" : "d4f7f94d-577f-3594-9f4f-fa9bac1417d4"
+}

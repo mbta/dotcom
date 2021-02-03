@@ -1,0 +1,24 @@
+{
+  "id" : "78b2a3a7-ceae-3e1f-b974-1ec2cb762fb2",
+  "request" : {
+    "url" : "/schedules/?route=CR-Worcester&date=2021-03-14&direction_id=0&stop_sequence=first%2Clast&fields%5Bschedule%5D=departure_time%2Carrival_time",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 400,
+    "bodyFileName" : "body-schedules-IRT3k.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:18 GMT",
+      "Content-Type" : "application/vnd.api+json",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:06:05 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6917",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc9hEx57nIawEACN-i"
+    }
+  },
+  "uuid" : "78b2a3a7-ceae-3e1f-b974-1ec2cb762fb2"
+}

@@ -1,0 +1,25 @@
+{
+  "id" : "1be75de8-8b11-35d1-a8f4-91fb72aa53c3",
+  "request" : {
+    "url" : "/routes/?stop=place-WML-0274&include=route_patterns",
+    "method" : "GET"
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName" : "body-routes-cbRVR.json",
+    "headers" : {
+      "Date" : "Wed, 03 Feb 2021 22:21:19 GMT",
+      "Content-Type" : "application/vnd.api+json; charset=utf-8",
+      "cache-control" : "max-age=0, private, must-revalidate",
+      "last-modified" : "Wed, 03 Feb 2021 17:05:01 GMT",
+      "server" : "Cowboy",
+      "strict-transport-security" : "max-age=31536000",
+      "vary" : "accept-encoding",
+      "x-ratelimit-limit" : "6944",
+      "x-ratelimit-remaining" : "6892",
+      "x-ratelimit-reset" : "1612390920",
+      "x-request-id" : "FmBc9juspQLer8oAFMlB"
+    }
+  },
+  "uuid" : "1be75de8-8b11-35d1-a8f4-91fb72aa53c3"
+}
