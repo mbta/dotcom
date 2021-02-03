@@ -28,6 +28,7 @@
     "react:setup:ci": "cd apps/site/react_renderer && npm ci",
     "react:build": "cd apps/site/react_renderer && npx webpack",
     "routes": "cd apps/site && mix phx.routes && cd ../..",
-    "dialyzer": "mix dialyzer --halt-exit-status"
+    "dialyzer": "mix dialyzer --halt-exit-status",
+    "screenshots": "cd apps/site/assets && npm run screenshots"
   }
 }
