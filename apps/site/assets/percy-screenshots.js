@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const { spawn } = require('child_process');
 const PercyScript = require('@percy/script');
 
 const BASE_URL = "http://localhost:8082";
@@ -8,7 +9,22 @@ const date = "2021-03-12";
 const [year, month, day] = date.split("-");
 const DATE_TIME_PARAMS = `date=${date}&date_time=${date}T15:00:00-05:00`;
 
-PercyScript.run(async (page, percySnapshot) => {
+const process = spawn('bash', ['./semaphore/run_mock_server.sh']);
+process.stdout.on('data', (data) => {
+  console.log(`stdout: ${data}`);
+});
+
+process.stderr.on('data', (data) => {
+  console.error(`stderr: ${data}`);
+});
+
+process.on('exit', (code) => {
+  if (code == 0) {
+    PercyScript.run(runVisualTests);
+  }
+});
+
+async function runVisualTests(page, percySnapshot) {
   /* 1. Home Page */
   await page.goto(BASE_URL);
   await percySnapshot("Home");
@@ -70,4 +86,4 @@ PercyScript.run(async (page, percySnapshot) => {
   /* 15. Search */
   await page.goto(BASE_URL + `/search?${DATE_TIME_PARAMS}`);
   await percySnapshot("Search Page");
-});
+};
