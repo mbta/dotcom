@@ -1,44 +1,42 @@
 #!/bin/bash
 set -e
 
-# reset working directory if needed
-if [[ "$PWD" =~ "assets" ]]; then
-  cd "../../.."
-fi
+# reset working directory if needed, not sure where this will run from 
+# if [[ "$PWD" =~ "assets" ]]; then
+#   cd "../../.."
+# fi
 
-function kill_processes () {
+function clean_up_running_processes () {
   error_code=$?
-  printf -- '\033[31m Killing running processes \033[0m\n';
+  printf -- '\033[35m Killing running processes... \033[0m\n';
   pkill -TERM -f "wiremock"
-  echo "Killing $SERVER_PID"
   pkill -TERM -P "$SERVER_PID"
-  printf -- "DONE.\nExiting with error code %s.\n\n" "${error_code}";
+  printf -- '\033[35m DONE.\nExiting with error code %s.\n\n \033[0m\n' "${error_code}";
   exit ${error_code};
 }
 
 # When script exits, clean up processes
-trap kill_processes ERR SIGINT SIGTERM KILL
+trap clean_up_running_processes ERR SIGINT SIGTERM KILL
 
 function run_wiremock () {
   if [[ "${ENABLE_RECORDING:-}" = "true" ]]; then
-  printf -- '\033[32m Mock API: start (record responses) \033[0m\n';
+  printf -- '\033[36m Mock API: start (record responses) \033[0m\n';
     npm run wiremock:record &
   else
-  printf -- '\033[32m Mock API: start \033[0m\n';
+  printf -- '\033[36m Mock API: start \033[0m\n';
     npm run wiremock &
   fi
 }
 
-function run_server () {
-  if [[ "${ENABLE_RECORDING:-}" = "true" ]]; then
-    printf -- '\033[32m Mock server: start (recording responses) \033[0m\n';
-    SENTRY_REPORTING_ENV="test" npm run server:mocked:record 1>/dev/null 2>/dev/null &
-  else
-    printf -- '\033[32m Mock server: start \033[0m\n';
-    SENTRY_REPORTING_ENV="test" npm run server:mocked 1>/dev/null 2>/dev/null &
-  fi
-  SERVER_PID=$!
-}
+# Start running the mock server
+if [[ "${ENABLE_RECORDING:-}" = "true" ]]; then
+  printf -- '\033[36m Mock server: start (recording responses) \033[0m\n';
+  SENTRY_REPORTING_ENV="test" npm run server:mocked:record 1>/dev/null 2>/dev/null &
+else
+  printf -- '\033[36m Mock server: start \033[0m\n';
+  SENTRY_REPORTING_ENV="test" npm run server:mocked 1>/dev/null 2>/dev/null &
+fi
+SERVER_PID=$!
 
 # OSX
 if [[ ${OSTYPE} == "darwin"* ]]; then
@@ -59,20 +57,18 @@ else
   run_wiremock
 fi
 
-run_server
-
 until curl -X GET -H "X-WM-Proxy-Url: https://dev.api.mbtace.com" --output /dev/null --silent --head --fail http://localhost:8080/alerts/; do
-  printf 'waiting for wiremock server...\n'
+  printf '\033[34m Waiting for Wiremock server on port 8080... \033[0m\n';
   sleep 5
 done
 printf -- '\033[32m Mock API: running \033[0m\n';
 
 until curl --output /dev/null --silent --head --fail http://localhost:8082/_health; do
-  printf 'waiting for phoenix server...\n'
+  printf '\033[34m Waiting for Phoenix server on port 8082... \033[0m\n';
   sleep 5
 done
 printf -- '\033[32m Mock Server: running \033[0m\n';
 
-printf -- '\033[32m Setup complete! \033[0m\n';
+printf -- '\033[36m Setup complete! \033[0m\n';
 
 exit 0;
