@@ -16,7 +16,7 @@ function useStopRef(prev: RefList, stop: LineDiagramStop): RefList {
 }
 
 const stopById = (stopId: string): ((stop: LineDiagramStop) => boolean) =>
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line camelcase
   ({ route_stop }) => stopId === route_stop.id;
 
 const xCoordForStop = (stop: LineDiagramStop): number => {

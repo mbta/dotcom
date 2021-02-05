@@ -205,7 +205,7 @@ const serviceTypeOrder: { [key in ServiceType]: number } = {
   other: 1
 };
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 // sort the service typicalities
 const serviceTypicalityOrder: { [key in ServiceTypicality]: number } = {
   unplanned_disruption: 4,
@@ -215,7 +215,7 @@ const serviceTypicalityOrder: { [key in ServiceTypicality]: number } = {
   typical_service: 0,
   unknown: 0
 };
-/* eslint-enable @typescript-eslint/camelcase */
+/* eslint-enable camelcase */
 
 // enable sorting of services by rating dates,
 // service type, service typicality, and service dates

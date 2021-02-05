@@ -48,9 +48,9 @@ export const doInitChannel = (id: string): Channel => {
       if (id !== "vehicles:remove") {
         const route = id.split(":");
         channel.push("init", {
-          // eslint-disable-next-line @typescript-eslint/camelcase
+          // eslint-disable-next-line camelcase
           route_id: route[1],
-          // eslint-disable-next-line @typescript-eslint/camelcase
+          // eslint-disable-next-line camelcase
           direction_id: route[2]
         });
       }

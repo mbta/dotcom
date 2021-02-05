@@ -4,7 +4,7 @@ import StopMap from "../components/StopMap";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { StopMapData } from "../components/__stop";
 import { Stop } from "../../__v3api";
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 const initialData: StopMapData = {
   map_data: {

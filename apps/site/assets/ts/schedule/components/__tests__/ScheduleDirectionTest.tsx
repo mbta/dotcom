@@ -116,7 +116,7 @@ const state = {
   itemFocus: null
 } as State;
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 const mapData: MapData = {
   zoom: 16,
   width: 600,
@@ -153,7 +153,7 @@ const staticMapData: StaticMapData = {
   img_src: "http://example.com/map.png",
   pdf_url: "http://example.com/map.pdf"
 };
-/* eslint-enable typescript/camelcase */
+/* eslint-enable camelcase */
 
 const getComponent = () => (
   <ScheduleDirection

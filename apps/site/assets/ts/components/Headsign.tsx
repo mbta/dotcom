@@ -85,9 +85,9 @@ const renderTime = (
   routeType: RouteType,
   idx: number
 ): ReactElement<HTMLElement> => {
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line camelcase
   const { prediction, scheduled_time } = tnmTime;
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line camelcase
   const time = prediction ? prediction.time : scheduled_time!;
 
   const classModifier =
@@ -97,7 +97,7 @@ const renderTime = (
 
   return (
     <div
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line camelcase
       key={`${headsignName}-${idx}`}
       className="m-tnm-sidebar__schedule"
     >

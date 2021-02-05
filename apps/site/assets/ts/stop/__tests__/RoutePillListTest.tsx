@@ -16,7 +16,7 @@ it("renders", () => {
 });
 
 it("renders a ferry route", () => {
-  /* eslint-disable @typescript-eslint/camelcase */
+  /* eslint-disable camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "ferry",
@@ -38,7 +38,7 @@ it("renders a ferry route", () => {
       ]
     }
   ];
-  /* eslint-enable typescript/camelcase */
+  /* eslint-enable camelcase */
 
   const tree = renderer.create(<RoutePillList routes={routes} />).toJSON();
 

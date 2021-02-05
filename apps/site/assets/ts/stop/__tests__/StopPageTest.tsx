@@ -8,7 +8,7 @@ import { StopPageData, AlertsTab, StopMapData } from "../components/__stop";
 import { MapData } from "../../leaflet/components/__mapdata";
 import { createReactRoot } from "../../app/helpers/testUtils";
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 const mapData: MapData = {
   default_center: { latitude: 0, longitude: 0 },
   height: 500,
@@ -49,7 +49,7 @@ const lowAlert: Alert = {
   description: "",
   url: "https://www.mbta.com"
 };
-/* eslint-enable typescript/camelcase */
+/* eslint-enable camelcase */
 
 it("it renders", () => {
   const data = JSON.parse(JSON.stringify(stopData)) as StopPageData;
@@ -70,7 +70,7 @@ it("it renders", () => {
 it("it renders the alert tab", () => {
   const data = JSON.parse(JSON.stringify(stopData)) as StopPageData;
 
-  /* eslint-disable @typescript-eslint/camelcase */
+  /* eslint-disable camelcase */
   const alertsTab: AlertsTab = {
     current: {
       alerts: [],
@@ -96,7 +96,7 @@ it("it renders the alert tab", () => {
     />
   );
   expect(wrapper.find(".m-alerts__time-filters").exists()).toBeTruthy();
-  /* eslint-enable typescript/camelcase */
+  /* eslint-enable camelcase */
 });
 
 describe("fetchData", () => {
