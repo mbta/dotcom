@@ -45,8 +45,6 @@ if [[ ${OSTYPE} == "darwin"* ]]; then
   run_wiremock
 else
 # Linux
-  apt-get update
-  apt-get install -y libgbm-dev
   # CI
   if [[ -n ${SEMAPHORE_CACHE_DIR} ]]; then
     printf -- '\033[33m Setting up Wiremock... \033[0m\n';
