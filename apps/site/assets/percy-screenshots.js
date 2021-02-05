@@ -9,19 +9,22 @@ const date = "2021-03-12";
 const [year, month, day] = date.split("-");
 const DATE_TIME_PARAMS = `date=${date}&date_time=${date}T15:00:00-05:00`;
 
-const process = spawn('bash', ['./semaphore/run_mock_server.sh']);
-process.stdout.on('data', (data) => {
-  console.log(`stdout: ${data}`);
-});
+PercyScript.run(async function(page, percySnapshot) {
+  const process = spawn('bash', ['./semaphore/run_mock_server.sh']);
+  process.stdout.on('data', (data) => {
+    console.log(`stdout: ${data}`);
+  });
 
-process.stderr.on('data', (data) => {
-  console.error(`stderr: ${data}`);
-});
+  process.stderr.on('data', (data) => {
+    console.error(`stderr: ${data}`);
+  });
 
-process.on('exit', (code) => {
-  if (code == 0) {
-    PercyScript.run(runVisualTests);
-  }
+  process.on('exit', (code) => {
+    if (code == 0) {
+      // actually run the tests since the server is ready!
+      runVisualTests(page, percySnapshot);
+    }
+  });
 });
 
 async function runVisualTests(page, percySnapshot) {
