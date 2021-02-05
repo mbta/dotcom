@@ -5,7 +5,7 @@ import { Stop } from "../../__v3api";
 import RouteSidebarPills from "../components/RouteSidebarPills";
 import { createReactRoot } from "../../app/helpers/testUtils";
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 const stop: Stop = {
   accessibility: ["wheelchair"],

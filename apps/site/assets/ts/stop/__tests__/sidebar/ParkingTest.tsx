@@ -18,7 +18,7 @@ import {
   ParkingLotCapacity,
   Stop
 } from "../../../__v3api";
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 const utilization: ParkingLotUtilization = {
   typical: 200,

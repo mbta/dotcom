@@ -13,7 +13,7 @@ interface Props {
   routes: TypedRoutes[];
 }
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 export const accessibilityNames: {
   [accessibilityName in AccessibilityType]: string
 } = {
@@ -33,7 +33,7 @@ export const accessibilityNames: {
 const hasBus = (routes: TypedRoutes[]): boolean =>
   routes.some(routeGroup => routeGroup.group_name === "bus");
 
-/* eslint-enable typescript/camelcase */
+/* eslint-enable camelcase */
 const isAccessible = (stop: Stop): boolean =>
   stop.accessibility.includes("accessible");
 const accessibilityKnown = (stop: Stop): boolean =>

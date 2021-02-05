@@ -65,7 +65,7 @@ const updateDirectionAndVariantInURL = (
   routePatternId: string
 ): void => {
   const query = {
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line camelcase
     "schedule_direction[direction_id]": directionId.toString(),
     "schedule_direction[variant]": routePatternId
   };

@@ -3,7 +3,7 @@ import { mount } from "enzyme";
 import FilterAndSearch from "../components/FilterAndSearch";
 import { State } from "../components/ProjectsPage";
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 const body = '<div id="react-root"></div>';
 
 it("allows filtering by mode", () => {

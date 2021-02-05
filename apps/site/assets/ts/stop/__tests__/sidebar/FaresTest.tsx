@@ -6,7 +6,7 @@ import { createReactRoot } from "../../../app/helpers/testUtils";
 import { Stop } from "../../../__v3api";
 import { RetailLocationWithDistance } from "../../components/__stop";
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 const stop: Stop = {
   type: "station",

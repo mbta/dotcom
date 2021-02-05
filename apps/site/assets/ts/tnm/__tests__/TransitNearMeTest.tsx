@@ -13,7 +13,7 @@ import {
   transformStops
 } from "../helpers/process-realtime-data";
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 const mapData: MapData = {
   zoom: 14,
   width: 630,

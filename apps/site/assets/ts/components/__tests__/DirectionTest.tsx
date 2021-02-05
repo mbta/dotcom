@@ -9,7 +9,7 @@ import {
   EnhancedRoute
 } from "../../__v3api";
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 const time: PredictedOrScheduledTime = {
   scheduled_time: ["4:30", " ", "PM"],
   prediction: null,

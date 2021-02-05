@@ -5,7 +5,7 @@ import { createReactRoot } from "../../app/helpers/testUtils";
 import { Headsign } from "../../__v3api";
 import { shallow } from "enzyme";
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 it("it renders 2 predictions", () => {
   const headsign: Headsign = {

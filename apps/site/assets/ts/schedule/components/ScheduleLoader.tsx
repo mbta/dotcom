@@ -31,7 +31,7 @@ export const ScheduleLoader = ({
   updateURL
 }: Props): ReactElement<HTMLElement> => {
   const [query] = useQueryParams({
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line camelcase
     "schedule_finder[direction_id]": StringParam,
     "schedule_finder[origin]": StringParam
   });

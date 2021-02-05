@@ -55,7 +55,7 @@ const StopCard = ({
     routesWithDirection.length === 0 && routes.length > 0
       ? routes.map(route => ({
           route,
-          // eslint-disable-next-line @typescript-eslint/camelcase
+          // eslint-disable-next-line camelcase
           direction_id: null
         }))
       : routesWithDirection;

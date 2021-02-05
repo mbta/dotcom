@@ -9,7 +9,7 @@ import Alerts, {
 import { enzymeToJsonWithoutProps } from "../../app/helpers/testUtils";
 import { Alert, InformedEntitySet } from "../../__v3api";
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 const body = '<div id="react-root"></div>';
 
 const highAlert: Alert = {

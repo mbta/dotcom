@@ -21,7 +21,20 @@ const config = {
       { allowExpressions: true }
     ],
     // Modified. This would disallow the ! postfix operator (non-null-assertion operator), seems like overkill - MH
-    "@typescript-eslint/no-non-null-assertion": "off"
+    "@typescript-eslint/no-non-null-assertion": "off",
+    // newly updated rule
+    "import/extensions": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    // note you must disable the base rule as it can report incorrect errors
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["warn"],
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/ban-types": "warn",
+    "@typescript-eslint/no-inferrable-types": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    // note you must disable the base rule as it can report incorrect errors
+    "no-shadow": "off",
+    "@typescript-eslint/no-shadow": ["error"]
   },
   extends: ["plugin:@typescript-eslint/recommended"]
 };

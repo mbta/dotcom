@@ -11,14 +11,14 @@ const renderUtilization = (
     const {
       name,
       capacity: { total },
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line camelcase
       utilization: { typical, arrive_before }
     } = lot;
     if (typical && total) {
       let message;
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line camelcase
       if (arrive_before) {
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line camelcase
         message = `Parking spots at ${name} fill up quickly. We recommend arriving before ${arrive_before}.`;
       } else {
         message = `Parking at ${name} is generally available throughout the weekday.`;
@@ -67,7 +67,7 @@ export const maybeAddLinkPrefix = (url: string): string =>
   url.includes("http://") || url.includes("https://") ? url : `https://${url}`;
 
 const renderMobileApp = (
-  // @ts-ignore eslint-disable-next-line typescript/camelcase
+  // @ts-ignore eslint-disable-next-line camelcase
   mobile: ParkingLot["payment"]["mobile_app"]
 ): ReactElement<HTMLElement> | null => {
   if (mobile) {

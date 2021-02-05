@@ -4,7 +4,7 @@ import MapWrapper, { Props } from "../components/leaflet/MapWrapper";
 import { Stop, EnhancedRoute } from "../../__v3api";
 import { MapMarker } from "../../leaflet/components/__mapdata";
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 const marker: MapMarker = {
   icon: "test",
   id: "stop-id",
@@ -39,12 +39,12 @@ const routes: EnhancedRoute[] = [
   {
     type: 1,
     name: "Orange Line",
-    long_name: "Orange Line", // eslint-disable-line @typescript-eslint/camelcase
+    long_name: "Orange Line", // eslint-disable-line camelcase
     id: "Orange",
-    direction_names: { "0": "South", "1": "North" }, // eslint-disable-line @typescript-eslint/camelcase
-    direction_destinations: { "0": "Forest Hills", "1": "Oak Grove" }, // eslint-disable-line @typescript-eslint/camelcase
+    direction_names: { "0": "South", "1": "North" }, // eslint-disable-line camelcase
+    direction_destinations: { "0": "Forest Hills", "1": "Oak Grove" }, // eslint-disable-line camelcase
     description: "rapid_transit",
-    alerts: [], // eslint-disable-line @typescript-eslint/camelcase
+    alerts: [], // eslint-disable-line camelcase
     header: ""
   }
 ];
@@ -131,4 +131,4 @@ it("it renders using the selected markers position if shouldCenter", () => {
     type: "RESET_SHOULD_CENTER_MAP"
   });
 });
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */

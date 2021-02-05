@@ -7,7 +7,7 @@ import {
   createReactRoot,
   enzymeToJsonWithoutProps
 } from "../../../app/helpers/testUtils";
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 const bikeStorages: BikeStorageType[] = [
   "bike_storage_cage",

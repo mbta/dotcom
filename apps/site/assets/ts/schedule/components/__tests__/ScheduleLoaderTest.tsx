@@ -240,7 +240,7 @@ describe("ScheduleLoader", () => {
             schedule_note: null,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -272,7 +272,7 @@ describe("ScheduleLoader", () => {
             schedule_note: null,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -306,7 +306,7 @@ describe("ScheduleLoader", () => {
             schedule_note: scheduleNoteData,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -351,7 +351,7 @@ describe("ScheduleLoader", () => {
             schedule_note: scheduleNoteData,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -384,7 +384,7 @@ describe("ScheduleLoader", () => {
             schedule_note: scheduleNoteData,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -427,7 +427,7 @@ describe("ScheduleLoader", () => {
             schedule_note: null,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -467,7 +467,7 @@ describe("ScheduleLoader", () => {
             schedule_note: null,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -500,7 +500,7 @@ describe("ScheduleLoader", () => {
             schedule_note: null,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -552,7 +552,7 @@ describe("ScheduleLoader", () => {
             schedule_note: null,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -619,7 +619,7 @@ describe("ScheduleLoader", () => {
             schedule_note: null,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -665,7 +665,7 @@ describe("ScheduleLoader", () => {
             schedule_note: null,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -720,7 +720,7 @@ describe("ScheduleLoader", () => {
             schedule_note: null,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -759,7 +759,7 @@ describe("ScheduleLoader", () => {
             schedule_note: null,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -816,7 +816,7 @@ describe("ScheduleLoader", () => {
             schedule_note: scheduleNoteData,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -863,7 +863,7 @@ describe("ScheduleLoader", () => {
             schedule_note: null,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,
@@ -912,7 +912,7 @@ describe("ScheduleLoader", () => {
             schedule_note: null,
             connections: [],
             fares,
-            fare_link: fareLink, // eslint-disable-line @typescript-eslint/camelcase
+            fare_link: fareLink, // eslint-disable-line camelcase
             hours,
             holidays,
             pdfs,

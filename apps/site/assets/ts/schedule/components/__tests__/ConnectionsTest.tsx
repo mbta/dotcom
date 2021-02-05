@@ -3,7 +3,7 @@ import renderer from "react-test-renderer";
 import Connections from "../Connections";
 import { EnhancedRoute } from "../../../__v3api";
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 const route: EnhancedRoute = {
   type: 1,
   name: "Orange Line",
@@ -21,7 +21,7 @@ const route: EnhancedRoute = {
   description: "rapid_transit",
   alerts: []
 };
-/* eslint-enable typescript/camelcase */
+/* eslint-enable camelcase */
 
 it("renders", () => {
   const tree = renderer.create(
