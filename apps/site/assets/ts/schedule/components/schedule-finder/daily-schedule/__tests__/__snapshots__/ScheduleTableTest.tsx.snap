@@ -13451,9 +13451,8 @@ exports[`ScheduleTable it renders with school trips 1`] = `
       className="schedule-table__header"
     >
       <tr>
-        <th
+        <td
           className="schedule-table__cell"
-          scope="col"
         />
         <th
           className="schedule-table__cell"

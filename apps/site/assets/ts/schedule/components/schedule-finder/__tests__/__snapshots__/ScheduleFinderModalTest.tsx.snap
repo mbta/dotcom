@@ -228,7 +228,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                     December 5, 2019
                     .
                   </div>
-                  <Component stopId=\\"place-welln\\" services={{...}} routeId=\\"Orange\\" directionId={0} routePatterns={{...}} today=\\"2019-12-05\\">
+                  <DailySchedule stopId=\\"place-welln\\" services={{...}} routeId=\\"Orange\\" directionId={0} routePatterns={{...}} today=\\"2019-12-05\\">
                     <h3>
                       Daily Schedule
                     </h3>
@@ -266,7 +266,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                         </div>
                       </div>
                     </Loading>
-                  </Component>
+                  </DailySchedule>
                 </ScheduleModalContent>
               </div>
             </div>
