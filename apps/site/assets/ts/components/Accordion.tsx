@@ -17,7 +17,7 @@ const Accordion = (props: Props): ReactElement<HTMLElement> => {
   const onClick = (): void => toggleExpanded(expanded => !expanded);
   return (
     <div className="c-accordion-ui">
-      <div className="panel" role="heading">
+      <div className="panel" role="heading" aria-level={3}>
         <div className="c-accordion-ui__heading">
           <button
             className={`c-accordion-ui__trigger ${!isExpanded && "collapsed"}`}
