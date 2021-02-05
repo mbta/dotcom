@@ -40,6 +40,7 @@ exports[`it renders 1`] = `
     className="c-accordion-ui"
   >
     <div
+      aria-level={3}
       className="panel"
       role="heading"
     >
@@ -80,6 +81,7 @@ exports[`it renders 1`] = `
     className="c-accordion-ui"
   >
     <div
+      aria-level={3}
       className="panel"
       role="heading"
     >

@@ -9,29 +9,29 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
         <LiveVehicleIconSet stop={{...}} liveData={{...}}>
           <VehicleIcons stop={{...}} vehicles={{...}}>
             <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
-              <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\" tooltipOptions={{...}}>
+              <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\" tooltipOptions={{...}}>
                 <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest1 bus is arriving at Stop 1</div>\\">
                   <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                 </span>
-              </Component>
+              </TooltipWrapper>
             </div>
             <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
-              <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\" tooltipOptions={{...}}>
+              <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\" tooltipOptions={{...}}>
                 <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Bus is on the way to Stop 1</div>\\">
                   <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                 </span>
-              </Component>
+              </TooltipWrapper>
             </div>
           </VehicleIcons>
         </LiveVehicleIconSet>
         <LiveVehicleIconSet stop={{...}} liveData={{...}}>
           <VehicleIcons stop={{...}} vehicles={{...}}>
             <div className=\\"m-schedule-diagram__vehicle\\" style={{...}}>
-              <Component tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\" tooltipOptions={{...}}>
+              <TooltipWrapper tooltipText=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\" tooltipOptions={{...}}>
                 <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"right\\" data-animation={false} data-html={true} data-selector=\\"true\\" data-original-title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\" title=\\"<div class=\\"m-schedule-diagram__vehicle-tooltip\\">Dest2 bus is on the way to Stop 2</div>\\">
                   <span className=\\"notranslate m-schedule-diagram__vehicle--icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                 </span>
-              </Component>
+              </TooltipWrapper>
             </div>
           </VehicleIcons>
         </LiveVehicleIconSet>
@@ -88,11 +88,11 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                   </a>
                 </h4>
                 <div className=\\"m-schedule-diagram__features\\">
-                  <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
+                  <TooltipWrapper tooltipText=\\"Parking\\" tooltipOptions={{...}}>
                     <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\" title=\\"Parking\\">
                       <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                     </span>
-                  </Component>
+                  </TooltipWrapper>
                 </div>
               </header>
               <div className=\\"m-schedule-diagram__stop-details\\">
@@ -131,20 +131,20 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
               </header>
               <div className=\\"m-schedule-diagram__stop-details\\">
                 <div className=\\"m-schedule-diagram__connections\\">
-                  <Component href=\\"/schedules/Orange/line\\" tooltipText=\\"Orange Line\\" tooltipOptions={{...}}>
+                  <TooltipWrapper href=\\"/schedules/Orange/line\\" tooltipText=\\"Orange Line\\" tooltipOptions={{...}}>
                     <a href=\\"/schedules/Orange/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Orange Line\\" title=\\"Orange Line\\">
                       <span className=\\"m-schedule-diagram__connection\\">
                         <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                       </span>
                     </a>
-                  </Component>
-                  <Component href=\\"/schedules/Green-C/line\\" tooltipText=\\"Green Line C\\" tooltipOptions={{...}}>
+                  </TooltipWrapper>
+                  <TooltipWrapper href=\\"/schedules/Green-C/line\\" tooltipText=\\"Green Line C\\" tooltipOptions={{...}}>
                     <a href=\\"/schedules/Green-C/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Green Line C\\" title=\\"Green Line C\\">
                       <span className=\\"m-schedule-diagram__connection\\">
                         <span className=\\"notranslate c-svg__icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                       </span>
                     </a>
-                  </Component>
+                  </TooltipWrapper>
                 </div>
                 <StopPredictions headsigns={{...}} isCommuterRail={false}>
                   <div className=\\"m-schedule-diagram__predictions\\">
@@ -204,29 +204,29 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                   </a>
                 </h4>
                 <div className=\\"m-schedule-diagram__features\\">
-                  <Component tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
+                  <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
                     <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
                       <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                     </span>
-                  </Component>
+                  </TooltipWrapper>
                 </div>
               </header>
               <div className=\\"m-schedule-diagram__stop-details\\">
                 <div className=\\"m-schedule-diagram__connections\\">
-                  <Component href=\\"/schedules/62/line\\" tooltipText=\\"Route 62\\" tooltipOptions={{...}}>
+                  <TooltipWrapper href=\\"/schedules/62/line\\" tooltipText=\\"Route 62\\" tooltipOptions={{...}}>
                     <a href=\\"/schedules/62/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Route 62\\" title=\\"Route 62\\">
                       <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
                         62
                       </span>
                     </a>
-                  </Component>
-                  <Component href=\\"/schedules/67/line\\" tooltipText=\\"Route 67\\" tooltipOptions={{...}}>
+                  </TooltipWrapper>
+                  <TooltipWrapper href=\\"/schedules/67/line\\" tooltipText=\\"Route 67\\" tooltipOptions={{...}}>
                     <a href=\\"/schedules/67/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Route 67\\" title=\\"Route 67\\">
                       <span className=\\"c-icon__bus-pill--small m-schedule-diagram__connection u-bg--bus\\">
                         67
                       </span>
                     </a>
-                  </Component>
+                  </TooltipWrapper>
                 </div>
                 <StopPredictions headsigns={{...}} isCommuterRail={false}>
                   <div className=\\"m-schedule-diagram__predictions\\">
@@ -268,27 +268,27 @@ exports[`LineDiagramWithStops renders and matches snapshot 1`] = `
                   </a>
                 </h4>
                 <div className=\\"m-schedule-diagram__features\\">
-                  <Component tooltipText=\\"Parking\\" tooltipOptions={{...}}>
+                  <TooltipWrapper tooltipText=\\"Parking\\" tooltipOptions={{...}}>
                     <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Parking\\" title=\\"Parking\\">
                       <span className=\\"notranslate c-svg__icon-parking-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                     </span>
-                  </Component>
-                  <Component tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
+                  </TooltipWrapper>
+                  <TooltipWrapper tooltipText=\\"Accessible\\" tooltipOptions={{...}}>
                     <span href={[undefined]} data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={true} data-html={false} data-selector=\\"true\\" data-original-title=\\"Accessible\\" title=\\"Accessible\\">
                       <span className=\\"notranslate c-svg__icon-acessible-default m-schedule-diagram__feature-icon\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                     </span>
-                  </Component>
+                  </TooltipWrapper>
                 </div>
               </header>
               <div className=\\"m-schedule-diagram__stop-details\\">
                 <div className=\\"m-schedule-diagram__connections\\">
-                  <Component href=\\"/schedules/BOAT-A/line\\" tooltipText=\\"Atlantis\\" tooltipOptions={{...}}>
+                  <TooltipWrapper href=\\"/schedules/BOAT-A/line\\" tooltipText=\\"Atlantis\\" tooltipOptions={{...}}>
                     <a href=\\"/schedules/BOAT-A/line\\" data-toggle=\\"tooltip\\" data-trigger=\\"hover focus\\" data-placement=\\"bottom\\" data-animation={false} data-html={false} data-selector=\\"true\\" data-original-title=\\"Atlantis\\" title=\\"Atlantis\\">
                       <span className=\\"m-schedule-diagram__connection\\">
                         <span className=\\"notranslate c-svg__icon-bus-small\\" aria-hidden=\\"false\\" dangerouslySetInnerHTML={{...}} />
                       </span>
                     </a>
-                  </Component>
+                  </TooltipWrapper>
                 </div>
               </div>
               <footer className=\\"m-schedule-diagram__footer\\">
