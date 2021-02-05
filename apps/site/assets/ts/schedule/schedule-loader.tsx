@@ -14,10 +14,6 @@ import {
   getCurrentState
 } from "./store/ScheduleStore";
 
-interface Props {
-  schedulePageData: SchedulePageData;
-}
-
 const renderMap = ({
   route_patterns: routePatternsByDirection,
   direction_id: directionId

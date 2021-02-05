@@ -246,7 +246,7 @@ describe("UpcomingDepartures", () => {
 
   it("should not display crowding information for CR", () => {
     act(() => {
-      const journey: EnhancedJourney = enhancedCRjourneysResponse[0];
+      const journey = (enhancedCRjourneysResponse[0] as unknown) as EnhancedJourney;
 
       wrapper = mount(<>{crowdingInformation(journey, journey.trip.id)}</>);
       expect(wrapper.find(LiveCrowdingIcon).prop("crowding")).toBeFalsy();
