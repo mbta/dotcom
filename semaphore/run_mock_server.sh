@@ -1,11 +1,6 @@
 #!/bin/bash
 set -e
 
-# reset working directory if needed, not sure where this will run from 
-# if [[ "$PWD" =~ "assets" ]]; then
-#   cd "../../.."
-# fi
-
 function clean_up_running_processes () {
   error_code=$?
   printf -- '\033[35m Killing running processes... \033[0m\n';
