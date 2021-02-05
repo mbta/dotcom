@@ -241,9 +241,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert conn.assigns.destination
     end
 
-    @tag skip:
-           "Commenting out this test temporarily. As of Summer 2020 there is shuttle service on the Mattapan line."
-    test "assigns trip info and journeys for mattapan line", %{conn: conn} do
+    test "assigns trip info and journeys for Mattapan line", %{conn: conn} do
       conn =
         get(
           conn,
