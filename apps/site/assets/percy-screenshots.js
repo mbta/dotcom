@@ -12,7 +12,7 @@ const DATE_TIME_PARAMS = `date=${date}&date_time=${date}T15:00:00-05:00`;
 
 PercyScript.run(async (page, percySnapshot) => {
   // Disable maximum timeouts in Puppeteer
-  page.setDefaultTimeout(0);
+  page.setDefaultTimeout(60000);
 
   /* 1. Home Page */
   await page.goto(BASE_URL);
@@ -35,7 +35,7 @@ PercyScript.run(async (page, percySnapshot) => {
       }
     }
   ); // need to mock the OpenTripPlanner response
-  await page.waitForTimeout(3000);
+  await page.waitForTimeout(60000);
   await percySnapshot("Trip Planner Results");
 
   /*
