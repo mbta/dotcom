@@ -11,6 +11,9 @@ const [year, month, day] = date.split("-");
 const DATE_TIME_PARAMS = `date=${date}&date_time=${date}T15:00:00-05:00`;
 
 PercyScript.run(async (page, percySnapshot) => {
+  // Disable maximum timeouts in Puppeteer
+  page.setDefaultTimeout(0);
+
   /* 1. Home Page */
   await page.goto(BASE_URL);
   await percySnapshot("Home");
@@ -32,7 +35,7 @@ PercyScript.run(async (page, percySnapshot) => {
       }
     }
   ); // need to mock the OpenTripPlanner response
-  await page.waitFor(3000);
+  await page.waitForTimeout(3000);
   await percySnapshot("Trip Planner Results");
 
   /*
@@ -51,9 +54,9 @@ PercyScript.run(async (page, percySnapshot) => {
       `${BASE_URL}/schedules/${route}/${tab}?${DATE_TIME_PARAMS}`
     );
     if (tab === "line") {
-      await page.waitFor(".m-schedule-diagram");
+      await page.waitForSelector(".m-schedule-diagram");
     } else {
-      await page.waitFor(".m-timetable");
+      await page.waitForSelector(".m-timetable");
     }
     await percySnapshot(`${route} ${tab}`);
   }
@@ -61,7 +64,7 @@ PercyScript.run(async (page, percySnapshot) => {
   /* 12 - 13. Stops */
   for (const mode of ["subway", "commuter-rail"]) {
     await page.goto(`${BASE_URL}/stops/${mode}?${DATE_TIME_PARAMS}`);
-    await page.waitFor(() => !!document.querySelector(".page-section"));
+    await page.waitForSelector(".page-section");
     await percySnapshot(`Stops List ${mode}`);
   }
 
