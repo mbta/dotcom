@@ -15,6 +15,7 @@ interface Props<T> {
 // in angle brackets like <TypeName>, the compiler will try to interpret that
 // as an opening "TypeName" TSX tag. The dummy type parameter keeps the compiler
 // from trying to interpret the type params as a tag.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const FilterButton = <T, _>({
   identifier,
   icon,

@@ -17,9 +17,8 @@ const bikeStorageType: { [BikeStorage in BikeStorageType]: string } = {
 
 const pedalAndParkInfo = (): ReactElement<HTMLElement> => (
   <div className="m-stop-page__pedal-and-park">
-    {
-      "Access to secure bike parking is available for registered CharlieCard holders."
-    }
+    Access to secure bike parking is available for registered CharlieCard
+    holders.
     <div>
       <a href="https://bc.mbta.com/riding_the_t/bikes/register/Default.asp">
         Register your CharlieCard for bike parking

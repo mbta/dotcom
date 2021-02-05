@@ -29,7 +29,7 @@ const config = {
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["warn"],
     "@typescript-eslint/no-empty-function": "off",
-    "@typescript-eslint/ban-types": "warn",
+    "@typescript-eslint/ban-types": "off",
     "@typescript-eslint/no-inferrable-types": "off",
     "@typescript-eslint/no-var-requires": "off",
     // note you must disable the base rule as it can report incorrect errors

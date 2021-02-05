@@ -61,7 +61,7 @@ const stopList: SimpleStop[] = [
 
 const stops: SimpleStopMap = { 0: stopList, 1: stopList.slice().reverse() };
 
-const payload: EnhancedJourney[] = departuresResponse as EnhancedJourney[];
+const payload: EnhancedJourney[] = (departuresResponse as unknown) as EnhancedJourney[];
 
 describe("ScheduleModalContent", () => {
   it("renders", () => {
