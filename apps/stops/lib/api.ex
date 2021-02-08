@@ -420,5 +420,11 @@ defmodule Stops.Api do
 
   @spec get_zone_number(String.t() | nil) :: String.t() | nil
   defp get_zone_number(nil), do: nil
-  defp get_zone_number(zone), do: String.trim_leading(zone, "CR-zone-")
+
+  defp get_zone_number(zone) do
+    case zone do
+      "CR-zone-" <> zone_number -> zone_number
+      _ -> nil
+    end
+  end
 end

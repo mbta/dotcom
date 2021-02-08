@@ -4,9 +4,4 @@
     <%= if assigns[:include_route_icon?], do: stop_feature_icon(@detailed_stop.route_icon, :small) %>
     <%= feature_icons(@detailed_stop)%>
   </div>
-  <div class="m-detailed-stop__zone">
-    <%= if @detailed_stop.zone do %>
-      <span class="commuter-rail-zone">Zone <%= @detailed_stop.zone %></span>
-    <% end %>
-  </div>
 </a>
