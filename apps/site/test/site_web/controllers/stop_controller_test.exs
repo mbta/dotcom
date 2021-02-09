@@ -63,6 +63,8 @@ defmodule SiteWeb.StopControllerTest do
     assert conn.assigns.routes
   end
 
+  @tag skip:
+         "Commenting out this test temporarily. As of early 2021, ferries are for the moment not in service"
   test "assigns ferry routes", %{conn: conn} do
     conn =
       conn

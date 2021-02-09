@@ -208,8 +208,6 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
       |> json_response(200)
     end
 
-    @tag skip:
-           "Skipping this test temporarily. In Summer 2020 the Green Line E branch is undergoing improvements"
     test "handles green line trips from the generic Green page", %{conn: conn} do
       params = %{
         id: "Green",

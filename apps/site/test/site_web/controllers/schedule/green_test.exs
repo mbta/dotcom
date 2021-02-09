@@ -91,7 +91,6 @@ defmodule SiteWeb.ScheduleController.GreenTest do
     assert conn.assigns.meta_description
   end
 
-  # "Skipping the check for Heath Street in this test temporarily. In Summer 2020 the Green Line E branch is undergoing improvements and providing shuttle buses"
   test "trip view :all_stops is a list of %Stop{} for all stops on all branches", %{conn: conn} do
     conn = get(conn, green_path(conn, :trip_view, %{schedule_direction: %{direction_id: 0}}))
 
@@ -102,7 +101,7 @@ defmodule SiteWeb.ScheduleController.GreenTest do
     assert "place-buwst" in all_stops
     assert "place-clmnl" in all_stops
     assert "place-river" in all_stops
-    # assert "place-hsmnl" in all_stops
+    assert "place-hsmnl" in all_stops
   end
 
   test "line tab :all_stops is a list of {bubble_info, %RouteStops{}} for all stops on all branches",
