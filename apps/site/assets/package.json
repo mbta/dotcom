@@ -90,7 +90,7 @@
     "react-test-renderer": "^16.8.6",
     "regenerator-runtime": "^0.13.7",
     "sass": "^1.25.0",
-    "sass-loader": "^7.1.0",
+    "sass-loader": "^7.3.1",
     "sinon": "^4.4.8",
     "style-loader": "^0.22.1",
     "stylelint": "^13.2.0",
