@@ -257,10 +257,17 @@ defmodule SiteWeb.ScheduleController.FinderApi do
   defp prepare_journeys_for_json(journeys) do
     journeys
     |> Enum.map(&destruct_journey/1)
+    |> Enum.filter(&journey_has_valid_departure?/1)
     |> Enum.map(&lift_up_route/1)
     |> Enum.map(&set_departure_time/1)
     |> Enum.map(&json_safe_journey/1)
   end
+
+  @spec journey_has_valid_departure?(Journey.t()) :: boolean
+  defp journey_has_valid_departure?(%{departure: departure}),
+    do: !PredictedSchedule.empty?(struct(PredictedSchedule, departure))
+
+  defp journey_has_valid_departure?(_), do: true
 
   # Break down structs in order to use Access functions
   @spec destruct_journey(Journey.t()) :: map
