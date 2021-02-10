@@ -97,8 +97,6 @@ export default ({
                 []
               )}
               routesWithDirection={routesWithDirection}
-              selectedStopId={state.selectedStopId}
-              dispatch={dispatch}
             />
             <div className="m-stop-page__hero-photo" />
           </div>
