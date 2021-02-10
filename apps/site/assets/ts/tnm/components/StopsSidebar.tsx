@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { Mode, Stop } from "../../__v3api";
+import { Mode } from "../../__v3api";
 import { StopWithRoutes } from "./__tnm";
 import { Dispatch } from "../state";
 import SidebarTitle from "./SidebarTitle";
@@ -12,7 +12,6 @@ interface Props {
   dispatch: Dispatch;
   selectedStopId: string | null;
   shouldFilterStopCards: boolean;
-  selectedStop: Stop | undefined;
   selectedModes: Mode[];
   emptyMessage: ReactElement<HTMLElement>;
 }

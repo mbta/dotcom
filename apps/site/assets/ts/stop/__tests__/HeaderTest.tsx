@@ -28,7 +28,7 @@ it("renders", () => {
 });
 
 it("renders with green line routes", () => {
-  /* eslint-disable @typescript-eslint/camelcase */
+  /* eslint-disable camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "subway",
@@ -136,7 +136,7 @@ it("renders with green line routes", () => {
       ]
     }
   ];
-  /* eslint-enable typescript/camelcase */
+  /* eslint-enable camelcase */
 
   const tree = renderer
     .create(
@@ -155,7 +155,7 @@ it("renders with green line routes", () => {
 });
 
 it("renders all subway routes", () => {
-  /* eslint-disable @typescript-eslint/camelcase */
+  /* eslint-disable camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "subway",
@@ -243,7 +243,7 @@ it("renders all subway routes", () => {
       ]
     }
   ];
-  /* eslint-enable typescript/camelcase */
+  /* eslint-enable camelcase */
 
   const tree = renderer
     .create(
@@ -262,7 +262,7 @@ it("renders all subway routes", () => {
 });
 
 it("renders a ferry route", () => {
-  /* eslint-disable @typescript-eslint/camelcase */
+  /* eslint-disable camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "ferry",
@@ -284,7 +284,7 @@ it("renders a ferry route", () => {
       ]
     }
   ];
-  /* eslint-enable typescript/camelcase */
+  /* eslint-enable camelcase */
 
   const tree = renderer
     .create(
@@ -303,7 +303,7 @@ it("renders a ferry route", () => {
 });
 
 it("upcases name of non-bus stops", () => {
-  /* eslint-disable @typescript-eslint/camelcase */
+  /* eslint-disable camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "bus",
@@ -356,7 +356,7 @@ it("upcases name of non-bus stops", () => {
       ]
     }
   ];
-  /* eslint-enable typescript/camelcase */
+  /* eslint-enable camelcase */
 
   const wrapper = shallow(
     <Header
@@ -373,7 +373,7 @@ it("upcases name of non-bus stops", () => {
 });
 
 it("does not upcase name of bus-only stops", () => {
-  /* eslint-disable @typescript-eslint/camelcase */
+  /* eslint-disable camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "bus",
@@ -401,7 +401,7 @@ it("does not upcase name of bus-only stops", () => {
       ]
     }
   ];
-  /* eslint-enable typescript/camelcase */
+  /* eslint-enable camelcase */
 
   const wrapper = shallow(
     <Header
@@ -418,7 +418,7 @@ it("does not upcase name of bus-only stops", () => {
 });
 
 it("separates bus and silver line pills", () => {
-  /* eslint-disable @typescript-eslint/camelcase */
+  /* eslint-disable camelcase */
   const busRoute: EnhancedRoute = {
     type: 3,
     name: "Bus",
@@ -456,7 +456,7 @@ it("separates bus and silver line pills", () => {
       ]
     }
   ];
-  /* eslint-enable typescript/camelcase */
+  /* eslint-enable camelcase */
 
   expect(
     shallow(
@@ -490,7 +490,7 @@ it("separates bus and silver line pills", () => {
 });
 
 it("dispatches clickRoutePillAction when route pill is clicked", () => {
-  /* eslint-disable @typescript-eslint/camelcase */
+  /* eslint-disable camelcase */
   const routes: TypedRoutes[] = [
     {
       group_name: "bus",
@@ -518,7 +518,7 @@ it("dispatches clickRoutePillAction when route pill is clicked", () => {
       ]
     }
   ];
-  /* eslint-enable typescript/camelcase */
+  /* eslint-enable camelcase */
   const spy = jest.fn();
   const wrapper = shallow(
     <Header

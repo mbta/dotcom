@@ -14,10 +14,6 @@ import {
   getCurrentState
 } from "./store/ScheduleStore";
 
-interface Props {
-  schedulePageData: SchedulePageData;
-}
-
 const renderMap = ({
   route_patterns: routePatternsByDirection,
   direction_id: directionId
@@ -39,7 +35,7 @@ const renderMap = ({
 
 const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
   if (window) {
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line camelcase
     const newQuery = {
       "schedule_finder[direction_id]":
         direction !== undefined ? direction.toString() : "",

@@ -4,7 +4,7 @@ import StopMap from "../components/StopMap";
 import { createReactRoot } from "../../app/helpers/testUtils";
 import { StopMapData } from "../components/__stop";
 import { Stop } from "../../__v3api";
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 
 const initialData: StopMapData = {
   map_data: {
@@ -66,16 +66,7 @@ const stop: Stop = {
 it("it renders with initial markers", () => {
   createReactRoot();
   const tree = renderer
-    .create(
-      <StopMap
-        mapElementId="test"
-        dispatch={() => {}}
-        selectedStopId={null}
-        initialData={initialData}
-        routes={[]}
-        stop={stop}
-      />
-    )
+    .create(<StopMap initialData={initialData} routes={[]} stop={stop} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });
@@ -83,16 +74,7 @@ it("it renders with initial markers", () => {
 it("it doesn't render if it can't find it's mapElement div", () => {
   createReactRoot();
   const tree = renderer
-    .create(
-      <StopMap
-        mapElementId="unknown"
-        dispatch={() => {}}
-        selectedStopId={null}
-        initialData={initialData}
-        routes={[]}
-        stop={stop}
-      />
-    )
+    .create(<StopMap initialData={initialData} routes={[]} stop={stop} />)
     .toJSON();
   expect(tree).toEqual(null);
 });

@@ -56,7 +56,7 @@ const VehicleIcons = ({
   const routeType = stop.route ? stop.route.type : null;
   const tooltips = vehicles.map(vehicle => {
     const top = `${{
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line camelcase
       in_transit: y - 50,
       incoming: y - 25,
       stopped: y - 10

@@ -74,9 +74,7 @@ const ScheduleTable = ({
       <table className="schedule-table">
         <thead className="schedule-table__header">
           <tr>
-            {anySchoolTrips && (
-              <th scope="col" className="schedule-table__cell" />
-            )}
+            {anySchoolTrips && <td className="schedule-table__cell" />}
             <th scope="col" className="schedule-table__cell">
               Departs
             </th>

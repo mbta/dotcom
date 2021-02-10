@@ -52,15 +52,15 @@ const filterDataByStopId = (
       accumulator: RouteWithStopsWithDirections[],
       route: RouteWithStopsWithDirections
     ): RouteWithStopsWithDirections[] => {
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line camelcase
       const stops = route.stops_with_directions.filter(
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line camelcase
         stop_with_directions => stop_with_directions.stop.id === stopId
       );
       if (stops.length === 0) {
         return accumulator;
       }
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line camelcase
       return accumulator.concat({ ...route, stops_with_directions: stops });
     },
     []

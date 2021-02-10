@@ -19,7 +19,7 @@ export const vehicleRealtimeStatusText = ({
   status
 }: LineDiagramVehicle): string =>
   ({
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line camelcase
     in_transit: "is on the way to",
     incoming: "is arriving at",
     stopped: "has arrived at"
@@ -28,9 +28,9 @@ export const vehicleRealtimeStatusText = ({
 export const crowdingDescriptions = (crowding: CrowdingType): string =>
   crowding
     ? {
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line camelcase
         not_crowded: "Not crowded",
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line camelcase
         some_crowding: "Some crowding",
         crowded: "Crowded"
       }[crowding]

@@ -84,7 +84,7 @@ const setStop = (
   nextData = dotProp.set(
     nextData,
     `${routeIndex}.stops_with_directions.${index}.directions`,
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line camelcase
     [{ headsigns: [], direction_id: 0 }, { headsigns: [], direction_id: 1 }]
   );
 
@@ -122,7 +122,7 @@ const buildHeadsign = (
               track: prediction.track,
               time: prediction.time,
               status: null,
-              // eslint-disable-next-line @typescript-eslint/camelcase
+              // eslint-disable-next-line camelcase
               schedule_relationship: prediction.schedule_relationship
             }
           : null;
@@ -131,14 +131,14 @@ const buildHeadsign = (
 
         return {
           prediction: shortPrediction,
-          // eslint-disable-next-line @typescript-eslint/camelcase
+          // eslint-disable-next-line camelcase
           scheduled_time: scheduledTime,
           delay
         };
       }
     ),
 
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line camelcase
     train_number:
       getFirstTrainNumber(
         predictedSchedulesByHeadsign[headsign].predicted_schedules
@@ -279,7 +279,7 @@ const setRouteGroupInStops = (
   route: EnhancedRoute
 ): StopWithRoutes[] =>
   dotProp.set(data, `${stopIndex}.routes.${index}`, {
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line camelcase
     group_name: makeGroupName(route),
     routes: []
   });

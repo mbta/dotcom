@@ -57,9 +57,9 @@ export const getTreeDirection = (
   return direction;
 };
 
-// eslint-disable-next-line @typescript-eslint/camelcase
+// eslint-disable-next-line camelcase
 export const isStopOnMainLine = ({ stop_data }: LineDiagramStop): boolean =>
-  // eslint-disable-next-line @typescript-eslint/camelcase
+  // eslint-disable-next-line camelcase
   stop_data[0].type === "stop" || stop_data[0].type === "terminus";
 
 export const diagramWidth = (maxBranches: number): number =>

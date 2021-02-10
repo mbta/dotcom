@@ -142,6 +142,31 @@ export const CrTableRow = ({
   );
 };
 
+const Accordion = ({
+  state,
+  journey,
+  contentComponent
+}: AccordionProps): ReactElement<HTMLElement> => {
+  const adjustedState = {
+    data: journey.tripInfo,
+    isLoading: state.isLoading,
+    error: state.error
+  };
+
+  const [expanded, setExpanded] = useState(false);
+  const toggle = (): void => setExpanded(!expanded);
+
+  return (
+    <AccordionRow
+      state={adjustedState}
+      journey={journey}
+      contentComponent={contentComponent}
+      expanded={expanded}
+      toggle={toggle}
+    />
+  );
+};
+
 const TableRow = ({
   state,
   input,
@@ -175,31 +200,6 @@ const TableRow = ({
       input={input}
       journey={journey}
       contentComponent={contentComponent}
-    />
-  );
-};
-
-const Accordion = ({
-  state,
-  journey,
-  contentComponent
-}: AccordionProps): ReactElement<HTMLElement> => {
-  const adjustedState = {
-    data: journey.tripInfo,
-    isLoading: state.isLoading,
-    error: state.error
-  };
-
-  const [expanded, setExpanded] = useState(false);
-  const toggle = (): void => setExpanded(!expanded);
-
-  return (
-    <AccordionRow
-      state={adjustedState}
-      journey={journey}
-      contentComponent={contentComponent}
-      expanded={expanded}
-      toggle={toggle}
     />
   );
 };

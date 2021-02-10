@@ -140,7 +140,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
           </section>
         </li>
       </StopCard>
-      <Component stops={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
+      <Branch stops={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
         <li>
           <ol>
             <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
@@ -171,7 +171,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
             </StopCard>
           </ol>
         </li>
-      </Component>
+      </Branch>
       <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
           <section className=\\"m-schedule-diagram__content\\">
@@ -201,7 +201,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
           </section>
         </li>
       </StopCard>
-      <Component stops={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
+      <Branch stops={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
         <li>
           <ExpandableBranch stops={{...}} handleStopClick={[Function: handleStopClick]} liveData={{...}}>
             <div className=\\"m-schedule-diagram__expander\\">
@@ -236,7 +236,7 @@ exports[`StopListWithBranches renders and matches snapshot 1`] = `
             </div>
           </ExpandableBranch>
         </li>
-      </Component>
+      </Branch>
       <StopCard stop={{...}} onClick={[Function: handleStopClick]} liveData={[undefined]}>
         <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
           <section className=\\"m-schedule-diagram__content\\">

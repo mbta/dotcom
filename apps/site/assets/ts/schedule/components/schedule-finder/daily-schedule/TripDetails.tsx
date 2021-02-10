@@ -40,6 +40,12 @@ const TripSummary = ({
 const allTimesHaveSchedule = (tripInfo: TripInfo): boolean =>
   tripInfo.times.every(time => !!time.schedule);
 
+const ErrorLoadingTrip = (): ReactElement<HTMLElement> => (
+  <p>
+    <em>Error loading trip details. Please try again later.</em>
+  </p>
+);
+
 const TripDetailsTable = ({
   tripInfo,
   showFare
@@ -98,12 +104,6 @@ const TripDetailsTable = ({
     </table>
   );
 };
-
-const ErrorLoadingTrip = (): ReactElement<HTMLElement> => (
-  <p>
-    <em>Error loading trip details. Please try again later.</em>
-  </p>
-);
 
 const TripDetails = ({
   fetchState,
