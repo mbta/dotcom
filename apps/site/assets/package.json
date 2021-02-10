@@ -115,6 +115,7 @@
   },
   "scripts": {
     "ts:build": "cd ts/ && tsc",
+    "ts:check": "cd ts/ && tsc --noEmit --skipLibCheck",
     "eslint": "cd js && npx eslint --ext .js .",
     "tslint": "cd ts && npx eslint --ext .ts,.tsx --max-warnings=0 .",
     "stylelint": "npx stylelint css/**/*.scss --ignore-path .stylelintignore",
