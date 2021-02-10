@@ -24,7 +24,6 @@ describe("StopsSidebar", () => {
           selectedStopId={null}
           shouldFilterStopCards={false}
           dispatch={() => {}}
-          selectedStop={undefined}
           selectedModes={[]}
           emptyMessage={<div>No data</div>}
         />
@@ -42,7 +41,6 @@ describe("StopsSidebar", () => {
           selectedStopId={null}
           shouldFilterStopCards={false}
           dispatch={() => {}}
-          selectedStop={undefined}
           selectedModes={[]}
           emptyMessage={<div>No data</div>}
         />

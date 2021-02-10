@@ -64,7 +64,6 @@ const RouteCard = ({
         key={`${route.id}-${direction.direction_id}`}
         direction={direction}
         route={route}
-        stopId={stop.id}
       />
     ))}
   </div>

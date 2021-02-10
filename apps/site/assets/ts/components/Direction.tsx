@@ -5,7 +5,6 @@ import { Direction as DirectionType, EnhancedRoute } from "../__v3api";
 interface Props {
   direction: DirectionType;
   route: EnhancedRoute;
-  stopId: string;
 }
 
 export const directionIsEmpty = (dir: DirectionType): boolean =>

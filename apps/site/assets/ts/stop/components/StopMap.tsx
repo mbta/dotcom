@@ -1,15 +1,11 @@
 import React, { ReactElement } from "react";
 import { StopMapData, RouteWithDirection } from "./__stop";
-import { SelectedStopType, Dispatch } from "../state";
 import Map from "../../leaflet/components/Map";
 import MapTooltip from "../../leaflet/components/MapTooltip";
 import { EnhancedRoute, Stop } from "../../__v3api";
 
 interface Props {
   initialData: StopMapData;
-  mapElementId: string;
-  dispatch: Dispatch;
-  selectedStopId: SelectedStopType;
   stop: Stop;
   routesWithDirection?: RouteWithDirection[];
   routes: EnhancedRoute[];
