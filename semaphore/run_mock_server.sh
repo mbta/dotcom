@@ -3,7 +3,7 @@ set -e
 
 #===============================================================================
 # A standalone script for running Dotcom with mock data.
-# Shold work both locally and on CI.
+# Should work both locally and on CI.
 # Runs Dotcom on port 8082 and mocks the API on port 8080 with Wiremock
 # If run with ENABLE_RECORDING=true, it runs Wiremock with --record-mappings,
 # and will overwrite some of the JSON files in apps/site/test/{mappings|__files}
@@ -26,13 +26,19 @@ function cleanup () {
 }
 trap cleanup ERR EXIT SIGINT SIGTERM
 
+# Require these variables to proceed
+if [[ -z "${WIREMOCK_PROXY_URL}" ]]; then
+  echo "Must provide WIREMOCK_PROXY_URL in environment" 1>&2
+  exit 1
+fi
+
 #===============================================================================
 # Setting up Wiremock
 #===============================================================================
 
 export WIREMOCK_PROXY=true
-export WIREMOCK_PROXY_URL="${WIREMOCK_PROXY_URL:=https://dev.api.mbtace.com}"
-export WIREMOCK_TRIP_PLAN_PROXY_URL="${WIREMOCK_TRIP_PLAN_PROXY_URL:=https://dev.otp.mbtace.com}"
+export WIREMOCK_PROXY_URL="${WIREMOCK_PROXY_URL}"
+export WIREMOCK_TRIP_PLAN_PROXY_URL="${WIREMOCK_TRIP_PLAN_PROXY_URL}"
 export V3_URL=http://localhost:8080
 export OPEN_TRIP_PLANNER_URL=http://localhost:8080
 
@@ -59,7 +65,7 @@ export REACT_BUILD_PATH=apps/site/react_renderer/dist/app.js
 export USE_SERVER_SENT_EVENTS=false # Used to disable events in Vehicles.Stream
 export STATIC_SCHEME=http
 export STATIC_PORT=8082 
-export DRUPAL_ROOT="${DRUPAL_ROOT:=https://live-mbta.pantheonsite.io}"
+export DRUPAL_ROOT="${DRUPAL_ROOT:=http://www.cms.example}"
 
 #===============================================================================
 # Running Wiremock, optionally with recording
@@ -89,7 +95,7 @@ mix phx.server 1>/dev/null 2>/dev/null &
 #===============================================================================
 wiremock_iterations=0
 printf '\033[34m [Wiremock] Waiting on port 8080 .\033[0m'
-until curl -X GET -H "X-WM-Proxy-Url: https://dev.api.mbtace.com" \
+until curl -X GET -H "X-WM-Proxy-Url: ${WIREMOCK_PROXY_URL}" \
   --output /dev/null --silent --head --fail http://localhost:8080/alerts/; do
   if [ "$wiremock_iterations" -ge 4 ]; then break; fi
   ((wiremock_iterations++))
