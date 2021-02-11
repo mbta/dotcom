@@ -92,7 +92,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     route_patterns
     |> Enum.reduce({nil, []}, fn
       %RoutePattern{typicality: typicality} = r, {t, _a} when typicality < t -> {typicality, [r]}
-      %RoutePattern{typicality: typicality} = r, {typicality, _a} -> {typicality, [r | _a]}
+      %RoutePattern{typicality: typicality} = r, {typicality, a} -> {typicality, [r | a]}
       _, acc -> acc
     end)
     |> elem(1)
