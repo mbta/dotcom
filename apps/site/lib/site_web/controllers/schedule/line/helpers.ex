@@ -83,12 +83,12 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     |> filter_by_min_typicality()
     # The below row is for testing purposes for the ferry ONLY
     # This is needed until a specific routepattern has a distinct typicality
-    |> hd() |> (fn a -> [a] end).()
+    |> temporary_hh_ferry_only_func(route.id)
     |> Enum.map(&stops_for_route_pattern/1)
   end
 
-  @spec filter_by_min_typicality([RoutePattern.t()]) :: [RoutePattern.t()] 
-  def filter_by_min_typicality(route_patterns) do
+  @spec filter_by_min_typicality([RoutePattern.t()]) :: [RoutePattern.t()]
+  defp filter_by_min_typicality(route_patterns) do
     route_patterns
     |> Enum.reduce({nil, []}, fn
       %RoutePattern{typicality: typicality} = r, {t, a} when typicality < t -> {typicality, [r]}
@@ -97,6 +97,17 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     end)
     |> elem(1)
     |> Enum.reverse()
+  end
+
+  @spec filter_by_min_typicality([RoutePattern.t()]) :: [RoutePattern.t()]
+  defp temporary_hh_ferry_only_func(route_patterns, id) do
+    if id == "Boat-F1" do
+      route_patterns
+      |> hd()
+      |> (fn a -> [a] end).()
+    else
+      route_patterns
+    end
   end
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
