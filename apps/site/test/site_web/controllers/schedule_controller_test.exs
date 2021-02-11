@@ -241,9 +241,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert conn.assigns.destination
     end
 
-    @tag skip:
-           "Commenting out this test temporarily. As of Summer 2020 there is shuttle service on the Mattapan line."
-    test "assigns trip info and journeys for mattapan line", %{conn: conn} do
+    test "assigns trip info and journeys for Mattapan line", %{conn: conn} do
       conn =
         get(
           conn,
@@ -317,6 +315,8 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert Enum.count(conn.assigns.holidays) == 3
     end
 
+    @tag skip:
+           "Commenting out this test temporarily. As of early 2021, ferries are for the moment not in service"
     test "Ferry data", %{conn: conn} do
       conn = get(conn, line_path(conn, :show, "Boat-F4", "schedule_direction[direction_id]": 0))
       assert html_response(conn, 200) =~ "Charlestown Ferry"

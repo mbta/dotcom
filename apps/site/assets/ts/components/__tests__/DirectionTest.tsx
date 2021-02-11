@@ -9,7 +9,7 @@ import {
   EnhancedRoute
 } from "../../__v3api";
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 const time: PredictedOrScheduledTime = {
   scheduled_time: ["4:30", " ", "PM"],
   prediction: null,
@@ -54,7 +54,6 @@ it("it renders", () => {
           }))
         }}
         route={route}
-        stopId="stop-id"
       />
     )
     .toJSON();
@@ -65,11 +64,7 @@ it("returns null if direction has no schedules", () => {
   createReactRoot();
   const tree = renderer
     .create(
-      <Direction
-        direction={{ ...direction, headsigns: [] }}
-        route={route}
-        stopId="stop-id"
-      />
+      <Direction direction={{ ...direction, headsigns: [] }} route={route} />
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
@@ -88,7 +83,6 @@ it("it does not display the route direction for commuter rail", () => {
       <Direction
         direction={{ ...direction, headsigns }}
         route={{ ...route, type: 2 }}
-        stopId="stop-id"
       />
     )
     .toJSON();
@@ -98,7 +92,7 @@ it("it does not display the route direction for commuter rail", () => {
 it("it does not display the direction destination when there is only one headsign", () => {
   createReactRoot();
   const tree = renderer
-    .create(<Direction direction={direction} route={route} stopId="stop-id" />)
+    .create(<Direction direction={direction} route={route} />)
     .toJSON();
   expect(tree).toMatchSnapshot();
 });

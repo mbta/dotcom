@@ -74,6 +74,7 @@ defmodule Stops.RepoTest do
                {"place-FR-0098", "Waltham"},
                {"place-FR-0074", "Waverley"},
                {"place-FR-0064", "Belmont"},
+               {"place-alfcl", "Alewife"},
                {"place-portr", "Porter"},
                {"place-north", "North Station"}
              ]
@@ -87,8 +88,6 @@ defmodule Stops.RepoTest do
       refute (response |> Enum.at(1)).id == "place-sull"
     end
 
-    @tag skip:
-           "Skipping this test temporarily. In Summer 2020 the Providence line isn't skipping stops on the weekend so this test is failing."
     test "can take additional fields" do
       today = Timex.today()
       weekday = today |> Timex.shift(days: 7) |> Timex.beginning_of_week(:fri)

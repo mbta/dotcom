@@ -14,7 +14,7 @@ export default class TransitNearMeSearch {
   public controller: any;
 
   public autocomplete: any;
-  /* eslint-enable typescript/no-explicit-any */
+  /* eslint-enable @typescript-eslint/no-explicit-any */
 
   public input: HTMLInputElement;
 

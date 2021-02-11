@@ -63,14 +63,14 @@ export const iconOpts = (
 
     case "vehicle-bordered-expanded":
       return {
-        icon_size: [18, 18], // eslint-disable-line @typescript-eslint/camelcase
-        icon_anchor: [6, 6] // eslint-disable-line @typescript-eslint/camelcase
+        icon_size: [18, 18], // eslint-disable-line camelcase
+        icon_anchor: [6, 6] // eslint-disable-line camelcase
       };
 
     case "stop-circle-bordered-expanded":
       return {
-        icon_size: [12, 12], // eslint-disable-line @typescript-eslint/camelcase
-        icon_anchor: [6, 6] // eslint-disable-line @typescript-eslint/camelcase
+        icon_size: [12, 12], // eslint-disable-line camelcase
+        icon_anchor: [6, 6] // eslint-disable-line camelcase
       };
 
     default:
@@ -94,8 +94,8 @@ const updateMarker = (marker: Marker): Marker => ({
       {marker.tooltip_text}
     </div>
   ),
-  icon_opts: iconOpts(marker.icon), // eslint-disable-line @typescript-eslint/camelcase
-  z_index: zIndex(marker.icon) // eslint-disable-line @typescript-eslint/camelcase
+  icon_opts: iconOpts(marker.icon), // eslint-disable-line camelcase
+  z_index: zIndex(marker.icon) // eslint-disable-line camelcase
 });
 
 const isVehicleMarker = (marker: Marker): boolean =>

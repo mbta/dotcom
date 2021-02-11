@@ -15,7 +15,7 @@ exports[`can render green line 1`] = `
       <div
         className="js-m-schedule-click-boundary"
       >
-        <Component>
+        <GreenLineSelect>
           <div
             className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable"
             onClick={[Function]}
@@ -35,7 +35,7 @@ exports[`can render green line 1`] = `
               }
             />
           </div>
-        </Component>
+        </GreenLineSelect>
       </div>
     </ScheduleDirectionMenu>
     <ScheduleDirectionButton>
@@ -75,7 +75,7 @@ exports[`renders a bus component 1`] = `
       <div
         className="js-m-schedule-click-boundary"
       >
-        <Component>
+        <BusMenuSelect>
           <div
             className="m-schedule-direction__route-pattern"
             onClick={[Function]}
@@ -84,7 +84,7 @@ exports[`renders a bus component 1`] = `
             Pattern 2
              
           </div>
-        </Component>
+        </BusMenuSelect>
       </div>
     </ScheduleDirectionMenu>
     <ScheduleDirectionButton>
@@ -168,7 +168,7 @@ exports[`respects the initially selected pattern ID, if specified 1`] = `
       <div
         className="js-m-schedule-click-boundary"
       >
-        <Component>
+        <BusMenuSelect>
           <div
             className="m-schedule-direction__route-pattern m-schedule-direction__route-pattern--clickable"
             onClick={[Function]}
@@ -188,7 +188,7 @@ exports[`respects the initially selected pattern ID, if specified 1`] = `
               }
             />
           </div>
-        </Component>
+        </BusMenuSelect>
       </div>
     </ScheduleDirectionMenu>
     <ScheduleDirectionButton>

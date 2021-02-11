@@ -7,6 +7,8 @@ defmodule SiteWeb.TripPlanControllerTest do
   import Phoenix.HTML, only: [html_escape: 1, safe_to_string: 1]
   doctest SiteWeb.TripPlanController
 
+  import Mock
+
   @system_time "2017-01-01T12:20:00-05:00"
   @morning %{
     "year" => "2017",
@@ -386,6 +388,28 @@ defmodule SiteWeb.TripPlanControllerTest do
                    )
                end)
              end)
+    end
+
+    test "returns all nil fares when there is not enough information", %{conn: conn} do
+      # force legs to have incomplete information:
+      with_mock TripPlan.Leg, [:passthrough],
+        is_fare_complete_transit_leg?: fn _leg ->
+          false
+        end do
+        conn = get(conn, trip_plan_path(conn, :index, @good_params))
+
+        for itinerary <- conn.assigns.itineraries do
+          for leg <- itinerary.legs do
+            if TripPlan.Leg.transit?(leg) do
+              assert leg.mode.fares == %{
+                       highest_one_way_fare: nil,
+                       lowest_one_way_fare: nil,
+                       reduced_one_way_fare: nil
+                     }
+            end
+          end
+        end
+      end
     end
 
     test "adds monthly pass data to each itinerary", %{conn: conn} do

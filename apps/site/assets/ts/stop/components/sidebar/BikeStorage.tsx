@@ -7,19 +7,18 @@ interface Props {
   stop: Stop;
 }
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 const bikeStorageType: { [BikeStorage in BikeStorageType]: string } = {
   bike_storage_rack: "Regular bike racks",
   bike_storage_rack_covered: "Covered bike racks",
   bike_storage_cage: "Pedal and Park"
 };
-/* eslint-enable typescript/camelcase */
+/* eslint-enable camelcase */
 
 const pedalAndParkInfo = (): ReactElement<HTMLElement> => (
   <div className="m-stop-page__pedal-and-park">
-    {
-      "Access to secure bike parking is available for registered CharlieCard holders."
-    }
+    Access to secure bike parking is available for registered CharlieCard
+    holders.
     <div>
       <a href="https://bc.mbta.com/riding_the_t/bikes/register/Default.asp">
         Register your CharlieCard for bike parking

@@ -6,7 +6,7 @@ import {
   MapMarker as Marker
 } from "../../../leaflet/components/__mapdata";
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 const data: MapData = {
   zoom: 16,
   width: 600,
@@ -51,7 +51,7 @@ const data: MapData = {
     latitude: 42.360718
   }
 };
-/* eslint-enable typescript/camelcase */
+/* eslint-enable camelcase */
 
 describe("Schedule Map", () => {
   it("renders", () => {
@@ -68,12 +68,12 @@ describe("reducer", () => {
     id: "vehicle-R-545CDFC6",
     latitude: 42.39786911010742,
     longitude: -71.13092041015625,
-    // eslint-disable-next-line typescript/camelcase
+    // eslint-disable-next-line camelcase
     rotation_angle: 90,
-    // eslint-disable-next-line typescript/camelcase
+    // eslint-disable-next-line camelcase
     tooltip_text: "Alewife train is on the way to Alewife",
     tooltip: null,
-    // eslint-disable-next-line typescript/camelcase
+    // eslint-disable-next-line camelcase
     shape_id: "1"
   };
 
@@ -197,8 +197,8 @@ describe("reducer", () => {
 describe("iconOpts", () => {
   it("handles stop markers", () => {
     expect(iconOpts(data.markers[1].icon)).toEqual({
-      icon_size: [12, 12], // eslint-disable-line @typescript-eslint/camelcase
-      icon_anchor: [6, 6] // eslint-disable-line @typescript-eslint/camelcase
+      icon_size: [12, 12], // eslint-disable-line camelcase
+      icon_anchor: [6, 6] // eslint-disable-line camelcase
     });
   });
 

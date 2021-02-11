@@ -43,7 +43,7 @@ interface GreenLineItem {
   directionId: DirectionId;
 }
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 const greenRoutes: GreenRoute[] = [
   {
     id: "Green",

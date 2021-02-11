@@ -56,7 +56,7 @@ export const onUpdate = (
     id: detail.label,
     latitude: detail.latitude,
     longitude: detail.longitude,
-    rotation_angle: 0, // eslint-disable-line @typescript-eslint/camelcase
+    rotation_angle: 0, // eslint-disable-line camelcase
     tooltip: <div>{detail.title}</div>
   };
 

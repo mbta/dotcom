@@ -41,8 +41,8 @@ export const buildIcon = (
     if (markerIcon === "current-location-marker") {
       // Custom size for current-location marker and no hover icon
       return Icon(`${markerIcon}`, {
-        icon_size: size, // eslint-disable-line @typescript-eslint/camelcase
-        icon_anchor: [size![0] / 2, size![1] / 2] // eslint-disable-line @typescript-eslint/camelcase
+        icon_size: size, // eslint-disable-line camelcase
+        icon_anchor: [size![0] / 2, size![1] / 2] // eslint-disable-line camelcase
       });
     }
     if (hovered || isSelected) {

@@ -96,7 +96,7 @@ const ModalContent = ({
 
   return createPortal(
     // This does have a role
-    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
     <aside
       ref={asideRef}
       aria-modal

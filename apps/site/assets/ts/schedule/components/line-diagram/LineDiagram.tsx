@@ -72,7 +72,7 @@ const LineDiagramAndStopListPage = ({
    * Handle URL params
    */
   const [query] = useQueryParams({
-    // eslint-disable-next-line @typescript-eslint/camelcase
+    // eslint-disable-next-line camelcase
     "schedule_direction[direction_id]": StringParam,
     "schedule_direction[origin]": StringParam
   });
@@ -94,7 +94,7 @@ const LineDiagramAndStopListPage = ({
   );
   const updateURL = (origin: SelectedOrigin, direction?: DirectionId): void => {
     if (window) {
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      // eslint-disable-next-line camelcase
       const newQuery = {
         "schedule_direction[direction_id]":
           direction !== undefined ? direction.toString() : "",

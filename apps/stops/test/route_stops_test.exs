@@ -253,6 +253,8 @@ defmodule Stops.RouteStopsTest do
       assert inbound |> List.first() |> Map.get(:is_terminus?) == true
     end
 
+    @tag skip:
+           "Commenting out this test temporarily. As of early 2021, ferries are for the moment not in service"
     test "works for ferry routes" do
       stops = Stops.Repo.by_route("Boat-F4", 0)
       shapes = @routes_repo_api.get_shapes("Boat-F4", direction_id: 0)

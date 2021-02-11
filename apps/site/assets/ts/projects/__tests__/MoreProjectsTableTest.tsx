@@ -7,7 +7,7 @@ import MoreProjectsTable, {
   tableHeaderText
 } from "../components/MoreProjectsTable";
 
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 const body = '<div id="react-root"></div>';
 
 const project: Project = {

@@ -100,7 +100,6 @@ export const StopCard = ({
           key={`${key}-${direction.direction_id}`}
           direction={direction}
           route={route}
-          stopId={stop.id}
         />
       ))}
     </div>

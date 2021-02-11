@@ -2,7 +2,6 @@ import React, { ReactElement } from "react";
 import StopMap from "./StopMap";
 import { Stop, EnhancedRoute } from "../../__v3api";
 import { StopMapData, RouteWithDirection } from "../components/__stop";
-import { SelectedStopType, Dispatch } from "../state";
 
 interface Props {
   initialData: StopMapData;
@@ -10,8 +9,6 @@ interface Props {
   stop: Stop;
   routesWithDirection?: RouteWithDirection[];
   routes: EnhancedRoute[];
-  selectedStopId: SelectedStopType;
-  dispatch: Dispatch;
 }
 
 const StopMapContainer = ({
@@ -19,9 +16,7 @@ const StopMapContainer = ({
   mapId,
   stop,
   routesWithDirection,
-  routes,
-  selectedStopId,
-  dispatch
+  routes
 }: Props): ReactElement<HTMLElement> => (
   <div className="m-stop-page__hero-map">
     <h3 className="sr-only">Map</h3>
@@ -53,9 +48,6 @@ const StopMapContainer = ({
       </noscript>
 
       <StopMap
-        mapElementId={mapId}
-        dispatch={dispatch}
-        selectedStopId={selectedStopId}
         initialData={initialData}
         stop={stop}
         routes={routes}

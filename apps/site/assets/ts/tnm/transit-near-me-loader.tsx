@@ -40,6 +40,7 @@ const renderMap = (): void => {
 const setupSearch = (): void => {
   const el = document.getElementById(TransitNearMeSearch.SELECTORS.container);
   if (el) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     search = new TransitNearMeSearch();
   }
 };
