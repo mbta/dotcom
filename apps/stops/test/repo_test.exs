@@ -147,31 +147,38 @@ defmodule Stops.RepoTest do
   end
 
   describe "stop_features/1" do
-    @stop %Stop{id: "place-sstat"}
+    @south_station %Stop{id: "place-sstat"}
+    @braintree %Stop{id: "place-brntn"}
+
     test "Returns stop features for a given stop" do
-      features = stop_features(@stop)
+      features = stop_features(@braintree)
       assert :commuter_rail in features
       assert :red_line in features
       assert :bus in features
     end
 
     test "returns stop features in correct order" do
-      assert stop_features(@stop) == [:red_line, :bus, :commuter_rail]
+      assert stop_features(@braintree) == [:red_line, :bus, :commuter_rail]
     end
 
     test "accessibility added if relevant" do
-      features = stop_features(%{@stop | accessibility: ["accessible"]})
+      features = stop_features(%{@braintree | accessibility: ["accessible"]})
       assert features == [:red_line, :bus, :commuter_rail, :access]
     end
 
     test "adds parking features if relevant" do
-      stop = %{@stop | parking_lots: [%Stop.ParkingLot{}]}
+      stop = %{@south_station | parking_lots: [%Stop.ParkingLot{}]}
       assert :parking_lot in stop_features(stop)
     end
 
     test "excluded features are not returned" do
-      assert stop_features(@stop, exclude: [:red_line]) == [:bus, :commuter_rail]
-      assert stop_features(@stop, exclude: [:red_line, :commuter_rail]) == [:bus]
+      assert stop_features(@braintree, exclude: [:red_line]) == [:bus, :commuter_rail]
+      assert stop_features(@braintree, exclude: [:red_line, :commuter_rail]) == [:bus]
+    end
+
+    test "South Station's features will include the Silver Line icon" do
+      features = stop_features(@south_station)
+      assert :silver_line in features
     end
 
     test "includes specific green_line branches if specified" do
