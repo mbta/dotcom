@@ -302,7 +302,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       # includes the stop features
       assert List.last(stops).stop_features == [
                :red_line,
-               :bus,
+               :silver_line,
                :commuter_rail,
                :access,
                :parking_lot

@@ -160,13 +160,8 @@ defmodule Stops.Repo do
     |> Keyword.get(:connections)
     |> get_stop_connections(stop_id)
     |> Enum.map(icon_fn)
-    |> Enum.map(&consolidate_silver_line_route_feature/1)
     |> Enum.uniq()
   end
-
-  @spec consolidate_silver_line_route_feature(atom) :: atom
-  def consolidate_silver_line_route_feature(:silver_line), do: :bus
-  def consolidate_silver_line_route_feature(icon_atom), do: icon_atom
 
   @spec get_stop_connections([Route.t()] | {:error, :not_fetched} | nil, Stop.id_t()) ::
           [Route.t()]
