@@ -80,8 +80,23 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   defp do_get_branch_route_stops(route, direction_id, route_pattern_id) do
     route.id
     |> get_route_patterns(direction_id, route_pattern_id)
-    |> Enum.filter(&by_typicality(&1, route_pattern_id))
+    |> filter_by_min_typicality()
+    # The below row is for testing purposes for the ferry ONLY
+    # This is needed until a specific routepattern has a distinct typicality
+    |> hd() |> (fn a -> [a] end).()
     |> Enum.map(&stops_for_route_pattern/1)
+  end
+
+  @spec filter_by_min_typicality([RoutePattern.t()]) :: [RoutePattern.t()] 
+  def filter_by_min_typicality(route_patterns) do
+    route_patterns
+    |> Enum.reduce({nil, []}, fn
+      %RoutePattern{typicality: typicality} = r, {t, a} when typicality < t -> {typicality, [r]}
+      %RoutePattern{typicality: typicality} = r, {typicality, a} -> {typicality, [r | a]}
+      _, acc -> acc
+    end)
+    |> elem(1)
+    |> Enum.reverse()
   end
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
@@ -263,10 +278,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
         []
     end
   end
-
-  @spec by_typicality(RoutePattern.t(), RoutePattern.id_t() | nil) :: boolean()
-  def by_typicality(%RoutePattern{typicality: typicality}, nil), do: typicality == 1
-  def by_typicality(_, _), do: true
 
   @spec nil_out_shared_stop_branches([[RouteStop.t()]]) :: [[RouteStop.t()]]
   defp nil_out_shared_stop_branches(route_stop_groups) do
