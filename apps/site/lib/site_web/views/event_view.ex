@@ -45,29 +45,4 @@ defmodule SiteWeb.EventView do
       "#{city}, #{state}"
     end
   end
-
-  @spec month_navigation_header(Plug.Conn.t(), String.t()) :: Phoenix.HTML.Safe.t()
-  def month_navigation_header(conn, month) do
-    html_escape([
-      link(
-        to: event_path(conn, :index, month: shift_date_range(month, -1)),
-        class: "arrow-icon"
-      ) do
-        [
-          content_tag(:span, "Previous Month", class: "sr-only"),
-          fa("chevron-circle-left")
-        ]
-      end,
-      calendar_title(month),
-      link(
-        to: event_path(conn, :index, month: shift_date_range(month, 1)),
-        class: "arrow-icon"
-      ) do
-        [
-          content_tag(:span, "Next Month", class: "sr-only"),
-          fa("chevron-circle-right")
-        ]
-      end
-    ])
-  end
 end

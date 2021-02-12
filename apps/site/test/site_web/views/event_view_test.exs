@@ -2,22 +2,6 @@ defmodule SiteWeb.EventViewTest do
   use Site.ViewCase, async: true
   import SiteWeb.EventView
 
-  describe "index.html" do
-    test "includes links to the previous and next month", %{conn: conn} do
-      html =
-        SiteWeb.EventView
-        |> render_to_string(
-          "index.html",
-          conn: conn,
-          events: [],
-          month: "2017-01-15"
-        )
-
-      assert html =~ "href=\"/events?month=2016-12-01\""
-      assert html =~ "href=\"/events?month=2017-02-01\""
-    end
-  end
-
   describe "show.html" do
     test "the notes section is not rendered when the event notes are empty", %{conn: conn} do
       event = event_factory(0, notes: nil)
@@ -102,29 +86,6 @@ defmodule SiteWeb.EventViewTest do
       event = event_factory(0, state: nil)
 
       assert city_and_state(event) == nil
-    end
-  end
-
-  describe "month_navigation_header/2" do
-    test "links to next and previous months", %{conn: conn} do
-      [prev_link, _title, next_link] =
-        conn
-        |> month_navigation_header("2018-06-01")
-        |> Phoenix.HTML.safe_to_string()
-        |> Floki.parse()
-
-      assert Floki.attribute(prev_link, "a", "href") == ["/events?month=2018-05-01"]
-      assert Floki.attribute(next_link, "a", "href") == ["/events?month=2018-07-01"]
-    end
-
-    test "displays current month", %{conn: conn} do
-      [_prev_link, title, _next_link] =
-        conn
-        |> month_navigation_header("2018-06-01")
-        |> Phoenix.HTML.safe_to_string()
-        |> Floki.parse()
-
-      assert title == "June"
     end
   end
 end

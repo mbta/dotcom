@@ -1,6 +1,4 @@
-<% extra_classes = if assigns[:nav], do: [class: "events-paged-list-header"], else: [] %>
 <div class="page-section event-listing">
-  <%= content_tag(:h2, @title, extra_classes) %>
   <ul class="list-group list-group-flush">
     <%= for event_teaser <- @events do %>
       <%
