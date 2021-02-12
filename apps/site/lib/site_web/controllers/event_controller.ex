@@ -10,8 +10,8 @@ defmodule SiteWeb.EventController do
   alias SiteWeb.EventView
 
   def index(conn, params) do
-    {:ok, current_month} = Date.new(Util.today().year, Util.today().month, 1)
-    date_range = EventDateRange.build(params, current_month)
+    {:ok, current_year} = Date.new(Util.today().year, 1, 1)
+    date_range = EventDateRange.build(params, current_year)
 
     event_teasers_fn = fn ->
       Repo.teasers(
