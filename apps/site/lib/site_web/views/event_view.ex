@@ -20,8 +20,15 @@ defmodule SiteWeb.EventView do
   def calendar_title(month), do: name_of_month(month)
 
   @spec no_results_message(String.t()) :: String.t()
-  def no_results_message(month) do
-    "There are no events in #{name_of_month(month)}."
+  def no_results_message(year) do
+    "There are no events in #{name_of_year(year)}."
+  end
+
+  @spec name_of_year(String.t()) :: String.t()
+  def name_of_year(iso_string) do
+    iso_string
+    |> Timex.parse!("{ISOdate}")
+    |> Timex.format!("{YYYY}")
   end
 
   @spec name_of_month(String.t()) :: String.t()

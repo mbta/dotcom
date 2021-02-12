@@ -33,13 +33,15 @@ defmodule SiteWeb.EventDateRangeTest do
              }
     end
 
-    test "returns a date range for the current month when given a partial date" do
-      params = %{"month" => "2017-01"}
+    test "returns a date range for the current year when given an invalid date" do
+      params = %{"year" => "nope"}
       current_month = ~D[2017-04-15]
 
       assert EventDateRange.build(params, current_month) == %{
-               start_time_gt: "2017-04-01",
-               start_time_lt: "2017-05-01"
+               start_time_gt: "2017-01-01",
+               start_time_lt: "2018-01-01"
+             }
+    end
 
     test "returns a date range for the given year" do
       params = %{"year" => "2017-02-01"}
@@ -50,6 +52,13 @@ defmodule SiteWeb.EventDateRangeTest do
                start_time_lt: "2018-01-01"
              }
     end
+
+    test "returns a date range for the current year when a year is not provided" do
+      current_year = ~D[2019-04-15]
+
+      assert EventDateRange.build(%{}, current_year) == %{
+               start_time_gt: "2019-01-01",
+               start_time_lt: "2020-01-01"
              }
     end
   end

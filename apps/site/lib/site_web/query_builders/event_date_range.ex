@@ -16,7 +16,7 @@ defmodule SiteWeb.EventDateRange do
   end
 
   def build(_month_missing, current_date) do
-    for_month(current_date)
+    for_year(current_date)
   end
 
   @spec for_month(Date.t()) :: map

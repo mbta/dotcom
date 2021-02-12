@@ -24,7 +24,7 @@ defmodule SiteWeb.EventController do
     end
 
     conn
-    |> assign(:month, date_range.start_time_gt)
+    |> assign(:year, date_range.start_time_gt)
     |> async_assign_default(:events, event_teasers_fn, [])
     |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
     |> await_assign_all_default(__MODULE__)
