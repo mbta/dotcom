@@ -10,7 +10,7 @@ set -e
 # with new API responses from the endpoint specified in WIREMOCK_PROXY_URL
 #
 # Run it like
-# bash ./semaphore/run_mock_server.sh &
+# source ./semaphore/run_mock_server.sh
 # or else it'll immediately exit and shut down the server.
 #===============================================================================
 
