@@ -78,35 +78,37 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
           {RoutePattern.t(), [Stop.t()]}
         ]
   defp do_get_branch_route_stops(route, direction_id, route_pattern_id) do
-    route.id
-    |> get_route_patterns(direction_id, route_pattern_id)
-    |> filter_by_min_typicality()
-    # The below row is for testing purposes for the ferry ONLY
-    # This is needed until a specific routepattern has a distinct typicality
-    |> temporary_hh_ferry_only_func(route.id)
+    route_patterns = get_route_patterns(route.id, direction_id, route_pattern_id)
+
+    if route.id == "Boat-F1" do
+      # Find route patterns with smallest typicality.
+      # Isolate the first pattern (which is the primary pattern)
+      [first_route_pattern | _ ] = filter_by_min_typicality(route_patterns)
+      [first_route_pattern]
+    else
+      # Filter route patterns by typicality == 1
+      Enum.filter(route_patterns, &by_typicality(&1, route_pattern_id))
+    end
     |> Enum.map(&stops_for_route_pattern/1)
   end
 
+  # Filters route patterns by the smallest typicality found in the array
   @spec filter_by_min_typicality([RoutePattern.t()]) :: [RoutePattern.t()]
   defp filter_by_min_typicality(route_patterns) do
     route_patterns
-    |> Enum.reduce({nil, []}, fn
-      %RoutePattern{typicality: typicality} = r, {t, _a} when typicality < t -> {typicality, [r]}
-      %RoutePattern{typicality: typicality} = r, {typicality, a} -> {typicality, [r | a]}
-      _, acc -> acc
-    end)
+    |> Enum.reduce({nil, []}, &reduce_by_min_typicality/2)
     |> elem(1)
     |> Enum.reverse()
   end
-
-  @spec filter_by_min_typicality([RoutePattern.t()]) :: [RoutePattern.t()]
-  defp temporary_hh_ferry_only_func(route_patterns, id) do
-    if id == "Boat-F1" do
-      route_patterns
-      |> hd()
-      |> (fn a -> [a] end).()
-    else
-      route_patterns
+  
+  @spec reduce_by_min_typicality(RoutePattern.t(), {number, [RoutePattern.t()]}) :: [RoutePattern.t()]
+  def reduce_by_min_typicality(routePattern, acc) do
+    %RoutePattern{typicality: typicality } = routePattern
+    {min_typicality, patterns_array} = acc
+    cond do 
+      typicality < min_typicality -> {typicality, [routePattern]}
+      typicality == min_typicality -> {min_typicality, [routePattern | patterns_array]}
+      true -> acc
     end
   end
 
@@ -289,6 +291,10 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
         []
     end
   end
+
+  @spec by_typicality(RoutePattern.t(), RoutePattern.id_t() | nil) :: boolean()
+  def by_typicality(%RoutePattern{typicality: typicality}, nil), do: typicality == 1
+  def by_typicality(_, _), do: true
 
   @spec nil_out_shared_stop_branches([[RouteStop.t()]]) :: [[RouteStop.t()]]
   defp nil_out_shared_stop_branches(route_stop_groups) do
