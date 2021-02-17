@@ -1,4 +1,7 @@
 defmodule SiteWeb.TimeHelpers do
+  @moduledoc """
+  Various helper functions for formatting dates/times.
+  """
   use Timex
 
   @type format_type :: atom()
@@ -7,10 +10,11 @@ defmodule SiteWeb.TimeHelpers do
   @spec format_date(DateTime.t() | Date.t(), format_type() | nil) :: String.t()
   @spec format_date(DateTime.t() | Date.t()) :: String.t()
   def format_date(date, format_type \\ nil)
-  
+
   def format_date(date, :event) do
     Timex.format!(date, "{WDshort}, {Mshort} {D}, {YYYY}")
   end
+
   def format_date(date, nil) do
     Timex.format!(date, "{Mfull} {D}, {YYYY}")
   end

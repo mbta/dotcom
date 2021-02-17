@@ -25,8 +25,11 @@ defmodule SiteWeb.CMSView do
   end
 
   @doc "Nicely renders the duration of an event, given two DateTimes."
-  @spec render_duration(NaiveDateTime.t() | DateTime.t(), NaiveDateTime.t() | DateTime.t() | nil,
-          format_type()) :: String.t()
+  @spec render_duration(
+          NaiveDateTime.t() | DateTime.t(),
+          NaiveDateTime.t() | DateTime.t() | nil,
+          format_type()
+        ) :: String.t()
   def render_duration(start_time, end_time, format_type \\ nil)
 
   def render_duration(start_time, nil, format_type) do
@@ -50,7 +53,7 @@ defmodule SiteWeb.CMSView do
   end
 
   defp do_render_duration(start_time, nil, format_type) do
-    joiner = if (format_type == :event), do: "\u2022", else: "at"
+    joiner = if format_type == :event, do: "\u2022", else: "at"
     "#{format_date(start_time, format_type)} #{joiner} #{format_time(start_time)}"
   end
 
@@ -59,14 +62,17 @@ defmodule SiteWeb.CMSView do
          %{year: year, month: month, day: day} = end_time,
          format_type
        ) do
-    joiner = if (format_type == :event), do: "\u2022", else: "at"
-    "#{format_date(start_time, format_type)} #{joiner} #{format_time(start_time)} - #{format_time(end_time)}"
+    joiner = if format_type == :event, do: "\u2022", else: "at"
+
+    "#{format_date(start_time, format_type)} #{joiner} #{format_time(start_time)} - #{
+      format_time(end_time)
+    }"
   end
 
   defp do_render_duration(start_time, end_time, format_type) do
-    "#{format_date(start_time, format_type)} #{format_time(start_time)} - #{format_date(end_time, format_type)} #{
-      format_time(end_time)
-    }"
+    "#{format_date(start_time, format_type)} #{format_time(start_time)} - #{
+      format_date(end_time, format_type)
+    } #{format_time(end_time)}"
   end
 
   defp format_time(%{minute: 0} = time) do
