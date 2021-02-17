@@ -3,7 +3,8 @@ defmodule SiteWeb.EventView do
   use SiteWeb, :view
 
   import Site.FontAwesomeHelpers
-  import SiteWeb.CMSView, only: [file_description: 1, render_duration: 2]
+  import SiteWeb.CMSView, only: [file_description: 1, render_duration: 2, render_duration: 3]
+  import SiteWeb.TimeHelpers, only: [format_month: 1, format_day: 1]
 
   alias CMS.Page.Event
 

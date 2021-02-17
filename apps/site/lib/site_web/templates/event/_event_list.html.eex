@@ -7,12 +7,18 @@
         range = %{start: event_teaser.date, stop: event_teaser.date_end}
         path_fn = fn -> cms_static_page_path(@conn, event_teaser.path) end
       %>
-      <li class="list-group-item">
-        <div>
-          <%= render_duration(range.start, range.stop) %>
+      <li class="list-group-item l-flex-container">
+        <div class="m-event__date-circle">
+          <small><%= format_month(range.start) %></small>
+          <h3 class="m-event__day"><%= format_day(range.start) %></h3>
         </div>
-        <div>
-          <%= link event_teaser.title, to: path_fn.() %>
+        <div class="l-flex-one">
+          <div class="m-date-range">
+            <%= render_duration(range.start, range.stop, :event) %>
+          </div>
+          <div>
+            <%= link event_teaser.title, to: path_fn.() %>
+          </div>
         </div>
       </li>
     <% end %>

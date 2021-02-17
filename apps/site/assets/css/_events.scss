@@ -1,3 +1,5 @@
+@import 'variables';
+
 .event-hr-row {
   border-top: $border;
   margin-top: $base-spacing-lg;
@@ -39,4 +41,31 @@
 
 .event-inline-block {
   display: inline-block;
+}
+
+.m-event__date-circle {
+  display: flex;
+  flex-direction: column;
+  height: 4rem;
+  width: 4rem;
+  background-color: $gray-bordered-background;
+  border-radius: 2rem;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1.5rem;
+  text-transform: uppercase;
+  color: $gray;
+  @include media-breakpoint-down(xs) {
+    display: none;
+  }
+}
+.m-date-range {
+  font-size: .88rem;
+  color: $gray;
+  font-weight: 500;
+  text-transform: uppercase;
+  line-height: 1.5rem;
+}
+.m-event__day {
+  margin: 0;
 }
