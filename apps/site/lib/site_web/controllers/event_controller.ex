@@ -1,4 +1,5 @@
 defmodule SiteWeb.EventController do
+  @moduledoc "Handles fetching event data for event views"
   use SiteWeb, :controller
 
   alias CMS.{API, Page, Repo}
