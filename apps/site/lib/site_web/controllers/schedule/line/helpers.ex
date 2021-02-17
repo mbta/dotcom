@@ -83,7 +83,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     if route.id == "Boat-F1" do
       # Find route patterns with smallest typicality.
       # Isolate the first pattern (which is the primary pattern)
-      [first_route_pattern | _ ] = filter_by_min_typicality(route_patterns)
+      [first_route_pattern | _] = filter_by_min_typicality(route_patterns)
       [first_route_pattern]
     else
       # Filter route patterns by typicality == 1
@@ -100,14 +100,17 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     |> elem(1)
     |> Enum.reverse()
   end
-  
-  @spec reduce_by_min_typicality(RoutePattern.t(), {number, [RoutePattern.t()]}) :: [RoutePattern.t()]
-  def reduce_by_min_typicality(routePattern, acc) do
-    %RoutePattern{typicality: typicality } = routePattern
+
+  @spec reduce_by_min_typicality(RoutePattern.t(), {integer, [RoutePattern.t()]}) :: [
+          RoutePattern.t()
+        ]
+  defp reduce_by_min_typicality(route_pattern, acc) do
+    %RoutePattern{typicality: typicality} = route_pattern
     {min_typicality, patterns_array} = acc
-    cond do 
-      typicality < min_typicality -> {typicality, [routePattern]}
-      typicality == min_typicality -> {min_typicality, [routePattern | patterns_array]}
+
+    cond do
+      typicality < min_typicality -> {typicality, [route_pattern]}
+      typicality == min_typicality -> {min_typicality, [route_pattern | patterns_array]}
       true -> acc
     end
   end

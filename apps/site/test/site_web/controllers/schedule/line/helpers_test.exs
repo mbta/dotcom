@@ -666,6 +666,16 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                ]
     end
 
+    test "handles the Hingham-Hull ferry" do
+      assert [
+               %RouteStops{branch: "Long Wharf - Hingham via Hull", stops: trunk_route_stops}
+             ] = Helpers.get_branch_route_stops(%Route{id: "Boat-F1"}, 0)
+
+      assert Enum.all?(trunk_route_stops, &(&1.branch == "Long Wharf - Hingham via Hull"))
+
+      assert trunk_route_stops != []
+    end
+
     test "stitches together connecting patterns due to a shuttle on a branching CR line" do
       newburyport_route = %Route{id: "CR-Newburyport"}
 
