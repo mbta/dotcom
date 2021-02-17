@@ -114,12 +114,25 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   defp overarching_branch(route_patterns_with_stops) do
     all_stop_sets =
       route_patterns_with_stops
-      |> Enum.map(&elem(&1, 1))
+      |> Enum.map(fn {route_pattern, stops} ->
+        stops
+        |> maybe_adjust_for_rail_replacement_bus(route_pattern)
+      end)
       |> Enum.map(&MapSet.new/1)
 
     route_patterns_with_stops
     |> Enum.find(&has_all_stops?(&1, all_stop_sets))
   end
+
+  # If these stops are for a rail_replacement_bus, some manual adjustments are
+  # needed for the line diagram. The line diagram should show rail stops only
+  @spec maybe_adjust_for_rail_replacement_bus([Stop.t()], RoutePattern.t()) :: [Stop.t()]
+  defp maybe_adjust_for_rail_replacement_bus(stops, %RoutePatterns.RoutePattern{
+         id: "Shuttle-AlewifeLittleton" <> _
+       }),
+       do: Enum.reject(stops, &(&1.id == "place-alfcl"))
+
+  defp maybe_adjust_for_rail_replacement_bus(stops, _), do: stops
 
   @spec has_all_stops?({RoutePattern.t(), [Stop.t()]}, [MapSet.t(Stop.t())]) :: boolean
   defp has_all_stops?({_route_pattern, stops}, all_stop_sets) do
