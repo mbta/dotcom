@@ -51,14 +51,6 @@ defmodule SiteWeb.EventViewTest do
     end
   end
 
-  describe "no_results_message/1" do
-    test "includes the year" do
-      expected_message = "There are no events in 2017."
-
-      assert no_results_message("2017-01-01") == expected_message
-    end
-  end
-
   describe "shift_date_range/2" do
     test "shifts the month by the provided value" do
       assert shift_date_range("2017-04-15", -1) == "2017-03-01"

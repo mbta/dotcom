@@ -16,8 +16,6 @@
     <% end %>
   </ul>
   <%= if Enum.empty?(@events) do %>
-    <div>
-      <%= assigns[:empty_placeholder_text] || "No events" %>
-    </div>
+    <p>No events</p>
   <% end %>
 </div>
