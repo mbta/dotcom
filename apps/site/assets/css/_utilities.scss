@@ -183,6 +183,13 @@
   font-variant-numeric: tabular-nums;
 }
 
+.u-flex-container {
+  display: flex;
+}
+.u-flex-one {
+  flex: 1;
+}
+
 // quick margin utilities loosely based off Bootstrap v4
 /* stylelint-disable declaration-no-important */
 .mb-0 {
