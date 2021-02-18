@@ -2,6 +2,8 @@ defmodule SiteWeb.EventViewTest do
   use Site.ViewCase, async: true
   import SiteWeb.EventView
 
+  @date_iso_string "2020-02-24"
+
   describe "show.html" do
     test "the notes section is not rendered when the event notes are empty", %{conn: conn} do
       event = event_factory(0, notes: nil)
@@ -79,5 +81,13 @@ defmodule SiteWeb.EventViewTest do
 
       assert city_and_state(event) == nil
     end
+  end
+
+  test "name_of_month/1 returns month" do
+    assert name_of_month(@date_iso_string) == "February"
+  end
+
+  test "name_of_year/1 returns year" do
+    assert name_of_year(@date_iso_string) == "2020"
   end
 end
