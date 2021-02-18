@@ -143,7 +143,6 @@ select {
 // "Snap" <small> elements to next smallest font-size to
 // prevent them from shrinking too much (and follow our scale)
 small {
-  font-weight: 700;
   @include media-breakpoint-down(sm) {
     font-size: $font-size-base-xs;
   }
@@ -274,9 +273,3 @@ div {
   }
 }
 
-.l-flex-container {
-  display: flex;
-}
-.l-flex-one {
-  flex: 1;
-}
