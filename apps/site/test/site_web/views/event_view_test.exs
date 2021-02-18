@@ -3,21 +3,7 @@ defmodule SiteWeb.EventViewTest do
   import SiteWeb.EventView
   import CMS.Helpers, only: [parse_iso_datetime: 1]
 
-  describe "index.html" do
-    test "includes links to the previous and next month", %{conn: conn} do
-      html =
-        SiteWeb.EventView
-        |> render_to_string(
-          "index.html",
-          conn: conn,
-          events: [],
-          month: "2017-01-15"
-        )
-
-      assert html =~ "href=\"/events?month=2016-12-01\""
-      assert html =~ "href=\"/events?month=2017-02-01\""
-    end
-  end
+  @date_iso_string "2020-02-24"
 
   describe "show.html" do
     test "the notes section is not rendered when the event notes are empty", %{conn: conn} do
@@ -68,14 +54,6 @@ defmodule SiteWeb.EventViewTest do
     end
   end
 
-  describe "no_results_message/1" do
-    test "includes the name of the month" do
-      expected_message = "There are no events in January."
-
-      assert no_results_message("2017-01-01") == expected_message
-    end
-  end
-
   describe "shift_date_range/2" do
     test "shifts the month by the provided value" do
       assert shift_date_range("2017-04-15", -1) == "2017-03-01"
@@ -106,27 +84,12 @@ defmodule SiteWeb.EventViewTest do
     end
   end
 
-  describe "month_navigation_header/2" do
-    test "links to next and previous months", %{conn: conn} do
-      [prev_link, _title, next_link] =
-        conn
-        |> month_navigation_header("2018-06-01")
-        |> Phoenix.HTML.safe_to_string()
-        |> Floki.parse()
+  test "name_of_month/1 returns month" do
+    assert name_of_month(@date_iso_string) == "February"
+  end
 
-      assert Floki.attribute(prev_link, "a", "href") == ["/events?month=2018-05-01"]
-      assert Floki.attribute(next_link, "a", "href") == ["/events?month=2018-07-01"]
-    end
-
-    test "displays current month", %{conn: conn} do
-      [_prev_link, title, _next_link] =
-        conn
-        |> month_navigation_header("2018-06-01")
-        |> Phoenix.HTML.safe_to_string()
-        |> Floki.parse()
-
-      assert title == "June"
-    end
+  test "name_of_year/1 returns year" do
+    assert name_of_year(@date_iso_string) == "2020"
   end
 
   describe "render_event_duration/2" do

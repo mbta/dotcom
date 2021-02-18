@@ -2,9 +2,14 @@ defmodule SiteWeb.EventControllerTest do
   use SiteWeb.ConnCase
 
   describe "GET index" do
-    test "renders a list of upcoming events", %{conn: conn} do
+    test "renders a list of events", %{conn: conn} do
       conn = get(conn, event_path(conn, :index))
-      assert html_response(conn, 200) =~ Timex.format!(Util.today(), "{Mfull}")
+
+      event_links =
+        html_response(conn, 200)
+        |> Floki.find(".event-listing a")
+
+      assert Enum.count(event_links) > 0
     end
 
     test "scopes events based on provided dates", %{conn: conn} do
