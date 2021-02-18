@@ -1,4 +1,3 @@
-<% extra_classes = if assigns[:nav], do: [class: "events-paged-list-header"], else: [] %>
 <div class="page-section event-listing">
   <%= content_tag(:h2, @title, extra_classes) %>
   <!-- This list-group stuff is bootstrap -->
@@ -25,8 +24,6 @@
     <% end %>
   </ul>
   <%= if Enum.empty?(@events) do %>
-    <div>
-      <%= assigns[:empty_placeholder_text] || "No events" %>
-    </div>
+    <p>No events</p>
   <% end %>
 </div>
