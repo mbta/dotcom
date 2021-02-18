@@ -774,8 +774,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
     test "handles rail replacement shuttles for CR-Fitchburg stopping at Alewife" do
       fitchburg_route = %Route{id: "CR-Fitchburg"}
 
-      assert [%RouteStops{}] =
-               Helpers.get_branch_route_stops(fitchburg_route, 0),
+      assert [%RouteStops{}] = Helpers.get_branch_route_stops(fitchburg_route, 0),
              "should have only one 'branch'"
     end
   end
