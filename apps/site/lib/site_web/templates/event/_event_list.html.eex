@@ -13,7 +13,7 @@
           <h3 class="m-event__day"><%= format_day(range.start) %></h3>
         </div>
         <div class="l-flex-one">
-          <div class="m-date-range">
+          <div class="m-event__date-range">
             <%= render_duration(range.start, range.stop, :event) %>
           </div>
           <div>
