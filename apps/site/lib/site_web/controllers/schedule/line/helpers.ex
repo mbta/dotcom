@@ -101,7 +101,8 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     |> Enum.reverse()
   end
 
-  @spec reduce_by_min_typicality(%RoutePatterns.RoutePattern{:typicality => _, _ => _}, {nil | integer, [RoutePattern.t()]}) :: {nil | integer, [RoutePattern.t()]}
+  @spec reduce_by_min_typicality(RoutePattern.t(), {integer, [RoutePattern.t()]}) ::
+          {integer, [RoutePattern.t()]}
   defp reduce_by_min_typicality(route_pattern, acc) do
     %RoutePattern{typicality: typicality} = route_pattern
     {min_typicality, patterns_array} = acc
