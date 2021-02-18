@@ -78,10 +78,40 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
           {RoutePattern.t(), [Stop.t()]}
         ]
   defp do_get_branch_route_stops(route, direction_id, route_pattern_id) do
-    route.id
-    |> get_route_patterns(direction_id, route_pattern_id)
-    |> Enum.filter(&by_typicality(&1, route_pattern_id))
+    route_patterns = get_route_patterns(route.id, direction_id, route_pattern_id)
+
+    if route.id == "Boat-F1" do
+      # Find route patterns with smallest typicality.
+      # Isolate the first pattern (which is the primary pattern)
+      [first_route_pattern | _] = filter_by_min_typicality(route_patterns)
+      [first_route_pattern]
+    else
+      # Filter route patterns by typicality == 1
+      Enum.filter(route_patterns, &by_typicality(&1, route_pattern_id))
+    end
     |> Enum.map(&stops_for_route_pattern/1)
+  end
+
+  # Filters route patterns by the smallest typicality found in the array
+  @spec filter_by_min_typicality([RoutePattern.t()]) :: [RoutePattern.t()]
+  defp filter_by_min_typicality(route_patterns) do
+    route_patterns
+    |> Enum.reduce({nil, []}, &reduce_by_min_typicality/2)
+    |> elem(1)
+    |> Enum.reverse()
+  end
+
+  @spec reduce_by_min_typicality(RoutePattern.t(), {integer, [RoutePattern.t()]}) ::
+          {integer, [RoutePattern.t()]}
+  defp reduce_by_min_typicality(route_pattern, acc) do
+    %RoutePattern{typicality: typicality} = route_pattern
+    {min_typicality, patterns_array} = acc
+
+    cond do
+      typicality < min_typicality -> {typicality, [route_pattern]}
+      typicality == min_typicality -> {min_typicality, [route_pattern | patterns_array]}
+      true -> acc
+    end
   end
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
