@@ -752,6 +752,38 @@ defmodule SiteWeb.TripPlanControllerTest do
     end
   end
 
+  describe "/to/ address path" do
+    test "gets a valid address in the 'to' field", %{conn: conn} do
+      conn = get(conn, trip_plan_path(conn, :to, "Boston Common"))
+
+      assert conn.assigns.query.to.name == "Geocoded Boston Common"
+    end
+
+    test "is unable to get address so it redirects to index", %{conn: conn} do
+      with_mock TripPlan, [:passthrough],
+        geocode: fn _address ->
+          {:error, :not_found}
+        end do
+        conn = get(conn, trip_plan_path(conn, :to, "Atlantis"))
+        assert html_response(conn, 302) =~ "/trip-planner"
+      end
+    end
+
+    test "when 'plan' is part of the parameters, it redirects to the usual trip planner", %{
+      conn: conn
+    } do
+      plan_params = %{"plan" => %{"from" => "from address", "to" => "to address"}}
+
+      conn =
+        get(
+          conn,
+          trip_plan_path(conn, :to, "Address", plan_params)
+        )
+
+      assert redirected_to(conn) == trip_plan_path(conn, :index, plan_params)
+    end
+  end
+
   describe "routes_for_query/1" do
     setup do
       from = MockPlanner.random_stop()

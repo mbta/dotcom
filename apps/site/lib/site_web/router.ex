@@ -185,6 +185,8 @@ defmodule SiteWeb.Router do
     get("/transit-near-me", TransitNearMeController, :index)
     resources("/alerts", AlertController, only: [:index, :show])
     get("/trip-planner", TripPlanController, :index)
+    get("/trip-planner/to/", Redirector, to: "/trip-planner")
+    get("/trip-planner/to/:address", TripPlanController, :to)
     get("/customer-support", CustomerSupportController, :index)
     get("/customer-support/thanks", CustomerSupportController, :thanks)
     post("/customer-support", CustomerSupportController, :submit)

@@ -56,6 +56,30 @@ defmodule SiteWeb.TripPlanController do
     render(conn, :index)
   end
 
+  def to(conn, %{"plan" => _plan} = params) do
+    redirect(conn, to: trip_plan_path(conn, :index, Map.delete(params, "address")))
+  end
+
+  def to(conn, %{"address" => address}) do
+    case TripPlan.geocode(address) do
+      {:ok, geocoded_location} ->
+        # build a default query with a pre-filled 'to' field:
+        query = %Query{
+          to: geocoded_location,
+          time: {:error, :unknown},
+          from: {:error, :unknown}
+        }
+
+        conn
+        |> assign(:query, query)
+        |> render(:index)
+
+      {:error, _} ->
+        # redirect to the initial index page
+        redirect(conn, to: trip_plan_path(conn, :index))
+    end
+  end
+
   @spec render_plan(Plug.Conn.t(), map) :: Plug.Conn.t()
   defp render_plan(conn, plan) do
     query =
