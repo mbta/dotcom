@@ -365,6 +365,16 @@ defmodule CMS.HelpersTest do
              ]
     end
 
+    test "it skips missing paragraphs" do
+      map_data = %{
+        "field_paragraphs" => [nil]
+      }
+
+      parsed_map = parse_paragraphs(map_data, [])
+
+      assert parsed_map == []
+    end
+
     test "it skips reusable paragraphs whose source paragraph no longer exists" do
       map_data = %{
         "field_paragraphs" => [

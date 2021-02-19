@@ -166,8 +166,13 @@ defmodule CMS.Helpers do
     |> Enum.map(&Paragraph.from_api(&1, preview_opts))
   end
 
-  @spec show_paragraph?(map, Keyword.t()) :: boolean
+  @spec show_paragraph?(map | nil, Keyword.t()) :: boolean
   defp show_paragraph?(field_data, preview_opts)
+
+  # Skip broken/missing paragraphs (CMS unable to load and returns NULL)
+  defp show_paragraph?(nil, _) do
+    false
+  end
 
   # Reusable paragraphs instance aren't automatically removed when their child
   # paragraphs are deleted from the database, so catch that here.
