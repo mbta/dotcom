@@ -4,7 +4,6 @@ defmodule SiteWeb.EventView do
 
   import Site.FontAwesomeHelpers
   import SiteWeb.CMSView, only: [file_description: 1, render_duration: 2, maybe_shift_timezone: 1, format_time: 1]
-  import SiteWeb.TimeHelpers, only: [format_month: 1, format_day: 1]
 
   alias CMS.Page.Event
 
@@ -70,7 +69,6 @@ defmodule SiteWeb.EventView do
           String.t()
   def render_event_duration(start_time, end_time)
 
-  # is this needed?
   def render_event_duration(start_time, nil) do
     start_time
     |> maybe_shift_timezone
