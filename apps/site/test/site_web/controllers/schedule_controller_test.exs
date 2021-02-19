@@ -224,9 +224,9 @@ defmodule SiteWeb.ScheduleControllerTest do
           trip_view_path(
             conn,
             :show,
-            "Green-B",
+            "Green-C",
             schedule_direction: %{
-              origin: "place-bland",
+              origin: "place-coecl",
               destination: "place-pktrm",
               direction_id: "1"
             }
