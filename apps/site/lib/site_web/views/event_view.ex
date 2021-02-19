@@ -3,7 +3,9 @@ defmodule SiteWeb.EventView do
   use SiteWeb, :view
 
   import Site.FontAwesomeHelpers
-  import SiteWeb.CMSView, only: [file_description: 1, render_duration: 2, maybe_shift_timezone: 1, format_time: 1]
+
+  import SiteWeb.CMSView,
+    only: [file_description: 1, render_duration: 2, maybe_shift_timezone: 1, format_time: 1]
 
   alias CMS.Page.Event
 
@@ -65,7 +67,10 @@ defmodule SiteWeb.EventView do
   end
 
   @doc "Nicely renders the duration of an event, given two DateTimes."
-  @spec render_event_duration(NaiveDateTime.t() | DateTime.t(), NaiveDateTime.t() | DateTime.t() | nil) ::
+  @spec render_event_duration(
+          NaiveDateTime.t() | DateTime.t(),
+          NaiveDateTime.t() | DateTime.t() | nil
+        ) ::
           String.t()
   def render_event_duration(start_time, end_time)
 
@@ -82,19 +87,23 @@ defmodule SiteWeb.EventView do
   end
 
   defp do_render_event_duration(start_time, nil) do
-    "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022 #{format_time(start_time)}"
+    "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022 #{
+      format_time(start_time)
+    }"
   end
 
   defp do_render_event_duration(
          %{year: year, month: month, day: day} = start_time,
          %{year: year, month: month, day: day} = end_time
-      ) do
-    "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022 #{format_time(start_time)} - #{format_time(end_time)}"
+       ) do
+    "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022 #{
+      format_time(start_time)
+    } - #{format_time(end_time)}"
   end
 
   defp do_render_event_duration(start_time, end_time) do
-    "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} #{format_time(start_time)} - #{pretty_date(end_time,  "{WDshort}, {Mshort} {D}, {YYYY}")} #{
-      format_time(end_time)
-    }"
+    "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} #{format_time(start_time)} - #{
+      pretty_date(end_time, "{WDshort}, {Mshort} {D}, {YYYY}")
+    } #{format_time(end_time)}"
   end
 end
