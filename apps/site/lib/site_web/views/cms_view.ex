@@ -38,11 +38,11 @@ defmodule SiteWeb.CMSView do
     |> do_render_duration(maybe_shift_timezone(end_time))
   end
 
-  defp maybe_shift_timezone(%NaiveDateTime{} = time) do
+  def maybe_shift_timezone(%NaiveDateTime{} = time) do
     time
   end
 
-  defp maybe_shift_timezone(%DateTime{} = time) do
+  def maybe_shift_timezone(%DateTime{} = time) do
     Util.to_local_time(time)
   end
 
@@ -63,11 +63,11 @@ defmodule SiteWeb.CMSView do
     }"
   end
 
-  defp format_time(%{minute: 0} = time) do
+  def format_time(%{minute: 0} = time) do
     Timex.format!(time, "{h12} {AM}")
   end
 
-  defp format_time(time) do
+  def format_time(time) do
     Timex.format!(time, "{h12}:{m} {AM}")
   end
 end
