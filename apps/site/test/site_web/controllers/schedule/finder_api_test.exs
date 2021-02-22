@@ -429,16 +429,24 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
     date = get_valid_trip_date(route_id)
     conn = assign(conn, :date, date)
 
-    trip_id =
+    valid_trip =
       params
       |> get_valid_journeys(conn)
       |> List.first()
+
+    trip_id =
+      valid_trip
       |> Map.get("trip")
+      |> Map.get("id")
+
+    valid_trip_route_id =
+      valid_trip
+      |> Map.get("route")
       |> Map.get("id")
 
     params
     |> Map.put(:id, trip_id)
-    |> Map.put(:route, route_id)
+    |> Map.put(:route, valid_trip_route_id)
     |> Map.put(:date, date)
   end
 

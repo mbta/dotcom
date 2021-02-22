@@ -1,18 +1,25 @@
 <% extra_classes = if assigns[:nav], do: [class: "events-paged-list-header"], else: [] %>
 <div class="page-section event-listing">
   <%= content_tag(:h2, @title, extra_classes) %>
+  <!-- This list-group stuff is bootstrap -->
   <ul class="list-group list-group-flush">
     <%= for event_teaser <- @events do %>
       <%
         range = %{start: event_teaser.date, stop: event_teaser.date_end}
         path_fn = fn -> cms_static_page_path(@conn, event_teaser.path) end
       %>
-      <li class="list-group-item">
-        <div>
-          <%= render_duration(range.start, range.stop) %>
+      <li class="list-group-item u-flex-container m-event">
+        <div class="m-event__date-circle">
+          <div class="u-bold m-event__month"><%= pretty_date(range.start, "{Mshort}") %></div>
+          <div class="u-bold m-event__day"><%= pretty_date(range.start, "{D}") %></div>
         </div>
-        <div>
-          <%= link event_teaser.title, to: path_fn.() %>
+        <div class="u-flex-one">
+          <div class="m-event__date-range">
+            <%= render_event_duration(range.start, range.stop) %>
+          </div>
+          <div class="m-event__title">
+            <%= link event_teaser.title, to: path_fn.() %>
+          </div>
         </div>
       </li>
     <% end %>
