@@ -3,7 +3,7 @@ defmodule Site.TripPlan.Map do
   alias Leaflet.MapData.Polyline, as: LeafletPolyline
   alias GoogleMaps
   alias Routes.Route
-  alias TripPlan.{Itinerary, Leg, NamedPosition, TransitDetail}
+  alias TripPlan.{Leg, NamedPosition, TransitDetail}
   alias Util.Position
 
   @type static_map :: String.t()
@@ -42,13 +42,13 @@ defmodule Site.TripPlan.Map do
   Accepts a function that will return either a
   Route or nil when given a route_id
   """
-  @spec itinerary_map(Itinerary.t(), Keyword.t()) :: t
+  @spec itinerary_map([Leg.t()], Keyword.t()) :: t
   def itinerary_map(itinerary, opts \\ []) do
     map_data = itinerary_map_data(itinerary, Keyword.merge(@default_opts, opts))
     {map_data, map_data |> MapData.to_google_map_data() |> GoogleMaps.static_map_url()}
   end
 
-  @spec itinerary_map_data(Itinerary.t(), Keyword.t()) :: MapData.t()
+  @spec itinerary_map_data([Leg.t()], Keyword.t()) :: MapData.t()
   defp itinerary_map_data(itinerary, opts) do
     markers =
       itinerary
@@ -75,9 +75,10 @@ defmodule Site.TripPlan.Map do
   end
 
   @spec extend_to_endpoints(String.t(), Leg.t()) :: String.t()
-  defp extend_to_endpoints(polyline, leg) do
-    from = {Position.longitude(leg.from), Position.latitude(leg.from)}
-    to = {Position.longitude(leg.to), Position.latitude(leg.to)}
+  defp extend_to_endpoints(polyline, %{from: from, to: to})
+       when is_map(from) and is_map(to) do
+    from = {Position.longitude(from), Position.latitude(from)}
+    to = {Position.longitude(to), Position.latitude(to)}
 
     polyline
     |> Polyline.decode()
@@ -85,7 +86,11 @@ defmodule Site.TripPlan.Map do
     |> Polyline.encode()
   end
 
-  @spec markers_for_legs(Itinerary.t(), Keyword.t()) :: [Marker.t()]
+  defp extend_to_endpoints(_polyline, _leg) do
+    ""
+  end
+
+  @spec markers_for_legs([Leg.t()], Keyword.t()) :: [Marker.t()]
   defp markers_for_legs(legs, opts) do
     leg_count = Enum.count(legs)
 
@@ -99,7 +104,10 @@ defmodule Site.TripPlan.Map do
         ]
   defp build_marker_for_leg({leg, idx}, opts, leg_count) do
     leg_positions = [{leg.from, idx}, {leg.to, idx + 1}]
-    build_markers_for_leg_positions(leg_positions, opts[:stop_mapper], leg_count)
+
+    leg_positions
+    |> Enum.reject(fn {position, _n} -> is_nil(position) end)
+    |> build_markers_for_leg_positions(opts[:stop_mapper], leg_count)
   end
 
   defp build_markers_for_leg_positions(positions_with_indicies, stop_mapper, leg_count) do
