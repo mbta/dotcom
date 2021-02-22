@@ -62,16 +62,41 @@ defmodule SiteWeb.TripPlanController do
 
   def to(conn, %{"address" => address}) do
     case TripPlan.geocode(address) do
-      {:ok, geocoded_location} ->
+      {:ok, geocoded_to} ->
         # build a default query with a pre-filled 'to' field:
         query = %Query{
-          to: geocoded_location,
+          to: geocoded_to,
           time: {:error, :unknown},
           from: {:error, :unknown}
         }
 
+        now = Util.now()
+
+        # build map information for a single leg with the 'to' field:
+        {map_data, map_src} =
+          TripPlanMap.itinerary_map([
+            %Leg{
+              from: nil,
+              to: geocoded_to,
+              mode: %PersonalDetail{},
+              description: "",
+              start: now,
+              stop: now,
+              name: "",
+              long_name: "",
+              type: "",
+              url: "",
+              polyline: ""
+            }
+          ])
+
+        %{markers: [marker]} = map_data
+        to_marker = %{marker | id: "B"}
+        map_info_for_to_destination = {%{map_data | markers: [to_marker]}, map_src}
+
         conn
         |> assign(:query, query)
+        |> assign(:map_info, map_info_for_to_destination)
         |> render(:index)
 
       {:error, _} ->
