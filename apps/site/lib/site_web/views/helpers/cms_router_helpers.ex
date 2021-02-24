@@ -84,6 +84,11 @@ defmodule SiteWeb.CmsRouterHelpers do
     check_preview(conn, Path.join(["/", route, "icalendar" | path]))
   end
 
+  def event_icalendar_path(conn, path) when is_binary(path) do
+    ["", route | path] = String.split(path, "/")
+    check_preview(conn, Path.join(["/", route, "icalendar" | path]))
+  end
+
   @spec project_path(
           Conn.t() | module,
           atom,

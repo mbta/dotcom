@@ -1,5 +1,4 @@
 <div class="page-section event-listing">
-  <%= content_tag(:h2, @title, extra_classes) %>
   <!-- This list-group stuff is bootstrap -->
   <ul class="list-group list-group-flush">
     <%= for event_teaser <- @events do %>
@@ -19,6 +18,19 @@
           <div class="m-event__title">
             <%= link event_teaser.title, to: path_fn.() %>
           </div>
+        </div>
+        <div>
+          <%= if date_upcoming(range) do %>
+            <%= link to: event_icalendar_path(@conn, event_teaser.path),
+              data: [turbolinks: false] do %>
+              <div class="btn btn-secondary m-event__calendar-add">
+                <%= fa "calendar-plus-o" %>
+                <span class="m-event__add-text">Add</span>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="m-event__ended-message">Ended</div>
+          <% end %>
         </div>
       </li>
     <% end %>

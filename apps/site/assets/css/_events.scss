@@ -19,9 +19,9 @@
 }
 
 .m-event {
-  padding: 0 16px;
+  padding: 16px;
   @include media-breakpoint-down(xs) {
-    padding: 0 24px;
+    padding: 13px 24px 17px 24px;
   }
 }
 .m-event__date-circle {
@@ -33,7 +33,7 @@
   border-radius: 32px;
   justify-content: center;
   align-items: center;
-  margin: 16px 24px 16px 0;
+  margin-right: 24px;
   color: $gray;
   font-family: $headings-font-family;
   text-transform: uppercase;
@@ -56,21 +56,42 @@
   line-height: 22.95px;
   text-transform: uppercase;
   font-weight: 500;
-  padding-top: 21px;
+  padding-top: 4px;
   padding-bottom: 4px;
   @include media-breakpoint-down(xs) {
     font-size: 12px;
-    padding-top: 13px;
+    padding-top: 0;
     padding-bottom: 9px;
   }
 }
 .m-event__title {
   font-size: 18px;
   line-height: 24px;
-  padding-bottom: 25px;
+  padding-bottom: 9px;
   @include media-breakpoint-down(xs) {
     font-size: 14px;
     line-height: 21px;
-    padding-bottom: 19px;
+    padding-bottom: 0;
   }
+}
+
+.m-event__calendar-add {
+  padding: 10px 14px;
+  margin-left: 30px;
+  font-size: 24px;
+  display: flex;
+  @include media-breakpoint-down(xs) {
+    padding: 12px;
+  }
+}
+.m-event__add-text {
+  font-size: 18px;
+  padding-left: 8px;
+  @include media-breakpoint-down(xs) {
+    display: none;
+  }
+}
+.m-event__ended-message {
+  font-size: 18px;
+  font-weight: 500;
 }
