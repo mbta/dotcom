@@ -83,4 +83,9 @@ defmodule SiteWeb.EventView do
       pretty_date(end_time, "{WDshort}, {Mshort} {D}, {YYYY}")
     } #{format_time(end_time)}"
   end
+
+  @spec date_upcoming(%{start: NaiveDateTime.t() | DateTime.t(), stop: NaiveDateTime.t() | DateTime.t()}) :: boolean
+  def date_upcoming(range) do
+    (!!range.stop and Date.compare(range.stop, Timex.now()) == :gt) or (!range.stop and Date.compare(range.start, Timex.now()) == :gt)
+  end
 end

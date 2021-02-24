@@ -1,13 +1,21 @@
 <div class="page-section event-listing">
-  <%= content_tag(:h2, @title, extra_classes) %>
   <!-- This list-group stuff is bootstrap -->
   <ul class="list-group list-group-flush">
+    <!-- Previous months button. A JS script sets up a listener for button click -->
+    <li class="list-group-item m-previous-events-button">
+      <a class="m-previous-events-button">
+        View Previous MONTH Events
+        <i class="fa fa-angle-down down" aria-hidden="true"></i>
+      </a>
+    </li>
     <%= for event_teaser <- @events do %>
       <%
         range = %{start: event_teaser.date, stop: event_teaser.date_end}
         path_fn = fn -> cms_static_page_path(@conn, event_teaser.path) end
       %>
-      <li class="list-group-item u-flex-container m-event">
+      <!-- If date is upcoming, display on init -->
+      <!-- Otherwise, add a 'hidden' class. On previous-button click, this class is removed -->
+      <li class="<%= if date_upcoming(range), do: 'list-group-item u-flex-container m-event', else: 'list-group-item u-flex-container m-event m-hidden-event' %>">
         <div class="m-event__date-circle">
           <div class="u-bold m-event__month"><%= pretty_date(range.start, "{Mshort}") %></div>
           <div class="u-bold m-event__day"><%= pretty_date(range.start, "{D}") %></div>
