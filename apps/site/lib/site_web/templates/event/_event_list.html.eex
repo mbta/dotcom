@@ -1,6 +1,23 @@
 <% events_by_month = grouped_by_month(@events, @year) %>
 
 <div class="event-listing">
+  <nav class="m-event-list__nav--mobile-controls fixedsticky sticky-top">
+    <select class="c-select m-event-list__select">
+      <option>Jump to</option>
+      <%= for {month_number, _event_teasers} <- events_by_month do %>
+        <option value="<%= event_path(@conn, :index, month: month_number, year: @year) %>">
+        <%= Timex.month_name(month_number) %>
+        </option>
+      <% end %>
+    </select>
+
+    <select class="c-select m-event-list__select">
+      <option value="<%= event_path(@conn, :index, month: @month, year: 2021) %>">
+        2021
+      </option>
+    </select>
+  </nav>
+
   <%= for {month_number, event_teasers} <- events_by_month do %>
     <section id="<%= month_number %>-<%= @year %>" class="m-event-list__month <%= if month_number == @month, do: 'm-event-list__month--active' %>">
       <h2 class="m-event-list__month-header fixedsticky sticky-top"><%= render_event_month(month_number, @year) %></h2>
