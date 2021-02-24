@@ -1,4 +1,4 @@
-function setupEventsPage() {
+export function setupEventsPage() {
   const eventsHubPage = document.querySelector(".m-events-hub");
   const control = eventsHubPage.querySelector(
     ".m-event-list__nav--mobile-controls"
