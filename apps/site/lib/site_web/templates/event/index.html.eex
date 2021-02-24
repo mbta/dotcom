@@ -1,20 +1,17 @@
-<div class="container">
-  <div class="c-cms c-cms--no-sidebar">
+<div class="container m-events-hub">
+  <header>
+    <h1>Events</h1>
+    <%# Add calendar toggle, setting the active option based on if "calendar" query_param is true %>
+  </header>
 
-    <div class="c-cms__header">
-      <div class="c-cms__title">
-        <h1 class="c-cms__title-text">Events</h1>
-      </div>
-    </div>
+  <div class="row">
 
-    <div class="c-cms__content">
-      <div class="c-cms__body">
-        <div class="page-section">
-          <%= render "_event_list.html",
+    <div class="col-sm-offset-1 col-sm-8">
+      <%= render "_event_list.html",
             events: @events,
-            conn: @conn %>
-        </div>
-      </div>
+            conn: @conn,
+            month: @month,
+            year: @year %>
     </div>
   </div>
 </div>

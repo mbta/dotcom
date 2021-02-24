@@ -1,28 +1,34 @@
-<div class="page-section event-listing">
-  <%= content_tag(:h2, @title, extra_classes) %>
-  <!-- This list-group stuff is bootstrap -->
-  <ul class="list-group list-group-flush">
-    <%= for event_teaser <- @events do %>
-      <%
-        range = %{start: event_teaser.date, stop: event_teaser.date_end}
-        path_fn = fn -> cms_static_page_path(@conn, event_teaser.path) end
-      %>
-      <li class="list-group-item u-flex-container m-event">
-        <div class="m-event__date-circle">
-          <div class="u-bold m-event__month"><%= pretty_date(range.start, "{Mshort}") %></div>
-          <div class="u-bold m-event__day"><%= pretty_date(range.start, "{D}") %></div>
-        </div>
-        <div class="u-flex-one">
-          <div class="m-event__date-range">
-            <%= render_event_duration(range.start, range.stop) %>
-          </div>
-          <div class="m-event__title">
-            <%= link event_teaser.title, to: path_fn.() %>
-          </div>
-        </div>
-      </li>
-    <% end %>
-  </ul>
+<% events_by_month = grouped_by_month(@events, @year) %>
+
+<div class="event-listing">
+  <%= for {month_number, event_teasers} <- events_by_month do %>
+    <section id="<%= month_number %>-<%= @year %>" class="m-event-list__month <%= if month_number == @month, do: 'm-event-list__month--active' %>">
+      <h2 class="m-event-list__month-header fixedsticky sticky-top"><%= render_event_month(month_number, @year) %></h2>
+      <!-- This list-group stuff is bootstrap -->
+      <ul class="list-group list-group-flush">
+        <%= for event_teaser <- event_teasers do %>
+          <%
+            range = %{start: event_teaser.date, stop: event_teaser.date_end}
+            path_fn = fn -> cms_static_page_path(@conn, event_teaser.path) end
+          %>
+          <li class="list-group-item u-flex-container m-event">
+            <div class="m-event__date-circle">
+              <div class="u-bold m-event__month"><%= pretty_date(range.start, "{Mshort}") %></div>
+              <div class="u-bold m-event__day"><%= pretty_date(range.start, "{D}") %></div>
+            </div>
+            <div class="u-flex-one">
+              <div class="m-event__date-range">
+                <%= render_event_duration(range.start, range.stop) %>
+              </div>
+              <div class="m-event__title">
+                <%= link event_teaser.title, to: path_fn.() %>
+              </div>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
   <%= if Enum.empty?(@events) do %>
     <p>No events</p>
   <% end %>
