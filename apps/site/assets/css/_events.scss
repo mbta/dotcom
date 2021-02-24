@@ -1,5 +1,7 @@
 @import 'variables';
 
+$event-line-height: 1.4rem;
+
 .event-hr-row {
   border-top: $border;
   margin-top: $base-spacing-lg;
@@ -72,5 +74,55 @@
     font-size: 14px;
     line-height: 21px;
     padding-bottom: 19px;
+  }
+}
+
+
+
+.fc {
+
+  .fc-daygrid-dot-event {
+    color: $gray;
+    &:hover {
+      background: transparent;
+      color: $brand-primary;
+
+      .fc-daygrid-event-dot {
+        border-color: $brand-primary !important;
+      }
+    }
+  }
+
+  .fc-col-header-cell-cushion {
+    color: $gray;
+    font-family: $headings-font-family;
+    font-size: $font-size-base;
+    font-weight: $headings-font-weight;
+    line-height: $event-line-height;
+    text-align: center;
+
+    &:hover {
+      color: $gray;
+      text-decoration: none;
+    }
+  }
+
+  .fc-daygrid-day-top {
+    justify-content: flex-end;
+  }
+
+  .fc-daygrid-day-number {
+    color: $gray;
+    font-family: $headings-font-family;
+    font-size: $font-size-base;
+    font-weight: $headings-font-weight;
+    line-height: $event-line-height;
+    text-align: left;
+
+
+    &:hover {
+      color: $gray;
+      text-decoration: none;
+    }
   }
 }

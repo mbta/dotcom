@@ -32,7 +32,8 @@ module.exports = {
     leaflet: ["./ts/leaflet-entry.ts"],
     schedule: ["./ts/schedule-entry.ts"],
     tripplanresults: ["./ts/trip-plan-results-entry.ts"],
-    projects: ["./ts/projects-entry.ts"]
+    projects: ["./ts/projects-entry.ts"],
+    events: ["./ts/events-entry.ts"]
   },
 
   node: {
@@ -70,6 +71,10 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"]
       },
       {
         test: /\.scss$/,

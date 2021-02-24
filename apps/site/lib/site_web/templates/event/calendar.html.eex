@@ -1,0 +1,20 @@
+<script data-for="events" id="js-teasers-data" type="text/plain">
+  <%= raw Poison.encode!(%{teasers: @events}) %>
+</script>
+
+<div class="container">
+  <h1>Events</h1>
+  <div class="row">
+    <div class="col-md-2">
+      <h3>Jump to</h3>
+      List of months goes here
+    </div>
+    <div id="react-events-root" class="col-md-10"></div>
+  </div>
+</div>
+
+<%= if Application.get_env(:site, :dev_server?) do %>
+  <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/events.js" %>"></script>
+<% else %>
+  <script defer src="<%= static_url(@conn, "/js/events.js") %>"></script>
+<% end %>

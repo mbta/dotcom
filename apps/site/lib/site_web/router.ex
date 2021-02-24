@@ -106,7 +106,9 @@ defmodule SiteWeb.Router do
 
     get("/", PageController, :index)
 
+    # Events page
     get("/events", EventController, :index)
+    get("/events/calendar", EventController, :calendar)
     get("/events/icalendar/*path_params", EventController, :icalendar)
     get("/node/icalendar/*path_params", EventController, :icalendar)
     get("/events/*path_params", EventController, :show)

@@ -4,6 +4,7 @@ defmodule SiteWeb.EventController do
 
   alias CMS.{API, Page, Repo}
   alias CMS.Page.Event
+  alias CMS.Partial.Teaser
   alias Plug.Conn
   alias Site.IcalendarGenerator
   alias SiteWeb.ControllerHelpers
@@ -11,18 +12,8 @@ defmodule SiteWeb.EventController do
   alias SiteWeb.EventView
 
   def index(conn, params) do
-    {:ok, current_year} = Date.new(Util.today().year, 1, 1)
-    date_range = EventDateRange.build(params, current_year)
-
-    event_teasers_fn = fn ->
-      Repo.teasers(
-        type: [:event],
-        items_per_page: 50,
-        date_op: "between",
-        date: [min: date_range.start_time_gt, max: date_range.start_time_lt],
-        sort_order: "ASC"
-      )
-    end
+    date_range = get_date_range(params)
+    event_teasers_fn = get_events_for_current_month_fn(params)
 
     conn
     |> assign(:year, date_range.start_time_gt)
@@ -30,6 +21,49 @@ defmodule SiteWeb.EventController do
     |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
     |> await_assign_all_default(__MODULE__)
     |> render("index.html", conn: conn)
+  end
+
+  def calendar(%Conn{assigns: %{events: _events}} = conn, _params) do
+    conn
+    # |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
+    |> render("calendar.html", conn: conn)
+  end
+
+  def calendar(conn, params) do
+    date_range = get_date_range(params)
+    event_teasers_fn = get_events_for_current_month_fn(params)
+
+    conn
+    |> assign(:month, date_range.start_time_gt)
+    |> async_assign_default(:events, event_teasers_fn, [])
+    # |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
+    |> await_assign_all_default(__MODULE__)
+    |> process_location()
+    |> render("calendar.html", conn: conn)
+  end
+
+  def process_location(%{assigns: assigns} = conn) do
+    if Map.has_key?(assigns, :events) do
+      events = assigns.events
+
+      events_with_encoded_location =
+        Enum.map(events, fn event ->
+          %{event | location: encode_location(event.location)}
+        end)
+
+      assign(conn, :events, events_with_encoded_location)
+    else
+      conn
+    end
+  end
+
+  defp encode_location(place: place, address: address, city: city, state: state) do
+    %{
+      place: place,
+      address: address,
+      city: city,
+      state: state
+    }
   end
 
   def show(conn, %{"path_params" => path}) do
@@ -113,5 +147,26 @@ defmodule SiteWeb.EventController do
   @spec decode_ampersand_html_entity(String.t()) :: String.t()
   defp decode_ampersand_html_entity(string) do
     String.replace(string, "&amp;", "&")
+  end
+
+  @spec get_date_range(map) :: map
+  defp get_date_range(params) do
+    {:ok, current_month} = Date.new(Util.today().year, Util.today().month, 1)
+    EventDateRange.build(params, current_month)
+  end
+
+  @spec get_events_for_current_month_fn(map) :: (() -> [Teaser.t()])
+  defp get_events_for_current_month_fn(params) do
+    date_range = get_date_range(params)
+
+    fn ->
+      Repo.teasers(
+        type: [:event],
+        items_per_page: 50,
+        date_op: "between",
+        date: [min: date_range.start_time_gt, max: date_range.start_time_lt],
+        sort_order: "ASC"
+      )
+    end
   end
 end
