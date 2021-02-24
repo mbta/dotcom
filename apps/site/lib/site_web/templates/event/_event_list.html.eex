@@ -4,7 +4,7 @@
     <!-- Previous months button. A JS script sets up a listener for button click -->
     <li class="list-group-item m-previous-events-button">
       <a class="m-previous-events-button">
-        View Previous MONTH Events
+        View Previous <%= pretty_date(Timex.now("America/New_York"), "{Mfull} {YYYY}") %> Events
         <i class="fa fa-angle-down down" aria-hidden="true"></i>
       </a>
     </li>

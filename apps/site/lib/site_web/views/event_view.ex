@@ -84,8 +84,12 @@ defmodule SiteWeb.EventView do
     } #{format_time(end_time)}"
   end
 
-  @spec date_upcoming(%{start: NaiveDateTime.t() | DateTime.t(), stop: NaiveDateTime.t() | DateTime.t()}) :: boolean
+  @spec date_upcoming(%{
+          start: NaiveDateTime.t() | DateTime.t(),
+          stop: NaiveDateTime.t() | DateTime.t()
+        }) :: boolean
   def date_upcoming(range) do
-    (!!range.stop and Date.compare(range.stop, Timex.now()) == :gt) or (!range.stop and Date.compare(range.start, Timex.now()) == :gt)
+    (!!range.stop and Date.compare(range.stop, Timex.now("America/New_York")) == :gt) or
+      (!range.stop and Date.compare(range.start, Timex.now("America/New_York")) == :gt)
   end
 end
