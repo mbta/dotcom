@@ -1,5 +1,5 @@
 <div class="page-section event-listing">
-  <%= content_tag(:h2, @title, extra_classes) %>
+  <%= content_tag(:h2, @title) %>
   <!-- This list-group stuff is bootstrap -->
   <ul class="list-group list-group-flush">
     <%= for event_teaser <- @events do %>
