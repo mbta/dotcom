@@ -10,9 +10,21 @@ defmodule SiteWeb.EventController do
   alias SiteWeb.EventDateRange
   alias SiteWeb.EventView
 
-  def index(conn, params) do
-    {:ok, current_year} = Date.new(Util.today().year, 1, 1)
-    date_range = EventDateRange.build(params, current_year)
+  plug(:assign_date_from_params)
+  plug(:assign_events)
+
+  def index(conn, _params) do
+    conn
+    |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
+    |> await_assign_all_default(__MODULE__)
+    |> render("index.html", conn: conn)
+  end
+
+  @spec assign_events(Conn.t(), map) :: Conn.t()
+  defp assign_events(conn, _params) do
+    date_range =
+      event_date_range_params_from_params(conn)
+      |> EventDateRange.build()
 
     event_teasers_fn = fn ->
       Repo.teasers(
@@ -25,11 +37,54 @@ defmodule SiteWeb.EventController do
     end
 
     conn
-    |> assign(:year, date_range.start_time_gt)
     |> async_assign_default(:events, event_teasers_fn, [])
-    |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
-    |> await_assign_all_default(__MODULE__)
-    |> render("index.html", conn: conn)
+  end
+
+  defp event_date_range_params_from_params(
+         %{
+           query_params: %{
+             "calendar" => "true"
+           }
+         } = conn
+       ),
+       do: Map.take(conn.assigns, [:year, :month])
+
+  defp event_date_range_params_from_params(conn), do: Map.take(conn.assigns, [:year])
+
+  # Looks at URL params for determining the date to render,
+  # Otherwise uses the current month/year
+  @spec assign_date_from_params(Conn.t(), map) :: Conn.t()
+  defp assign_date_from_params(
+         %{
+           query_params: %{
+             "year" => year,
+             "month" => month
+           }
+         } = conn,
+         _params
+       ) do
+    year_num = String.to_integer(year)
+    month_num = String.to_integer(month)
+
+    case Date.new(year_num, month_num, 1) do
+      {:ok, _date} ->
+        conn
+        |> assign(:year, year_num)
+        |> assign(:month, month_num)
+
+      {:error, _error} ->
+        assign_current_date(conn)
+    end
+  end
+
+  defp assign_date_from_params(conn, _params), do: assign_current_date(conn)
+
+  defp assign_current_date(conn) do
+    %{year: current_year, month: current_month} = Util.today()
+
+    conn
+    |> assign(:year, current_year)
+    |> assign(:month, current_month)
   end
 
   def show(conn, %{"path_params" => path}) do

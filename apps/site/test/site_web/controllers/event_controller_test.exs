@@ -1,20 +1,40 @@
 defmodule SiteWeb.EventControllerTest do
   use SiteWeb.ConnCase
+  import Mock
+
+  @current_date ~D[2019-04-15]
+
+  setup_with_mocks([
+    {Util, [:passthrough], [today: fn -> @current_date end]}
+  ]) do
+    :ok
+  end
 
   describe "GET index" do
+    test "assigns month and year based on query params, defaulting to current", %{conn: conn} do
+      conn = get(conn, event_path(conn, :index))
+      assert %{year: 2019, month: 4} = conn.assigns
+      conn = get(conn, event_path(conn, :index, month: 5, year: 2020))
+      assert %{year: 2020, month: 5} = conn.assigns
+    end
+
     test "renders a list of events", %{conn: conn} do
       conn = get(conn, event_path(conn, :index))
+      assert conn.assigns.year == 2019
+      events_hub = html_response(conn, 200) |> Floki.find(".m-events-hub")
 
-      event_links =
-        html_response(conn, 200)
-        |> Floki.find(".event-listing a")
+      assert Floki.text(events_hub) =~ "MassDOT Finance and Audit Committee"
 
+      event_links = Floki.find(events_hub, ".event-listing a")
       assert Enum.count(event_links) > 0
     end
 
     test "scopes events based on provided dates", %{conn: conn} do
-      conn = get(conn, event_path(conn, :index, %{month: "2018-06-01"}))
-      refute html_response(conn, 200) =~ "Fiscal & Management Control Board Meeting"
+      conn = get(conn, event_path(conn, :index, month: 6, year: 2018))
+
+      events_hub = html_response(conn, 200) |> Floki.find(".m-events-hub")
+
+      refute Floki.text(events_hub) =~ "MassDOT Finance and Audit Committee"
     end
 
     test "does not include an unavailable_after x-robots-tag HTTP header", %{conn: conn} do
