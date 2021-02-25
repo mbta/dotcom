@@ -18,6 +18,7 @@ defmodule SiteWeb.ScheduleController.GreenTest do
       assert conn.assigns.tab == "line"
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test ~s(renders trip_view tab without redirecting when query params = %{tab => trip-view}), %{
       conn: conn
     } do
@@ -27,6 +28,15 @@ defmodule SiteWeb.ScheduleController.GreenTest do
       assert conn.status == 200
 
       assert conn.assigns.tab == "trip-view"
+    end
+
+    @tag todo: "Closing the Schedules Tab"
+    test "redirects trip_view tab to line tab", %{
+      conn: conn
+    } do
+      conn = get(conn, schedule_path(conn, :show, "Green", %{tab: "trip-view"}))
+      assert conn.status == 302
+      assert redirected_to(conn, 302) == line_path(conn, :show, "Green")
     end
 
     test ~s(renders alerts tab without redirecting when query params = %{tab => alerts}), %{
