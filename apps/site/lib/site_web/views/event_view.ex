@@ -86,22 +86,22 @@ defmodule SiteWeb.EventView do
     } #{format_time(end_time)}"
   end
 
-  @spec event_ended(Conn.t(), %{
+  @spec event_ended(%{
           start: NaiveDateTime.t() | DateTime.t(),
           stop: NaiveDateTime.t() | DateTime.t() | nil
         }) :: boolean
-  def event_ended(conn, %{start: %NaiveDateTime{} = start, stop: %NaiveDateTime{} = stop}) do
-    event_ended(conn, %{
-      start: convert_using_timezone(start, nil),
+  def event_ended(%{start: %NaiveDateTime{} = start, stop: %NaiveDateTime{} = stop}) do
+    event_ended(%{
+      start: start,
       stop: convert_using_timezone(stop, nil)
     })
   end
 
-  def event_ended(conn, %{start: %DateTime{} = start, stop: %DateTime{} = stop}) do
+  def event_ended(%{start: start, stop: %DateTime{} = stop}) do
     time_is_greater_or_equal?(now(), stop)
   end
 
-  def event_ended(conn, %{start: start, stop: nil}) do
+  def event_ended(%{start: start, stop: nil}) do
     Date.compare(now(), start) == :gt
   end
 end
