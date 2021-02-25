@@ -7,7 +7,7 @@
   <div class="row">
     <nav class="m-event-list__nav col-sm-3 fixedsticky sticky-top">
       <p class="u-bold">Jump to</p>
-      <%= for {month_number, event_teasers} <- grouped_by_month(@events, @year) do %>
+      <%= for {month_number, _event_teasers} <- grouped_by_month(@events, @year) do %>
         <%= link render_event_month(month_number, @year), to: event_path(@conn, :index, month: month_number, year: @year) %>
       <% end %>
     </nav>
