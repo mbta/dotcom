@@ -755,6 +755,38 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
                  false
                ]
     end
+
+    test "handles CR-Kingston, returning one branch whose stops cover all route patterns" do
+      plymouth_route = %Route{id: "CR-Kingston"}
+
+      assert [%RouteStops{stops: plymouth_route_stops}] =
+               Helpers.get_branch_route_stops(plymouth_route, 0),
+             "should have only one 'branch'"
+
+      assert_stop_ids(
+        plymouth_route_stops,
+        [
+          "place-sstat",
+          "place-jfk",
+          "place-qnctr",
+          "place-brntn",
+          "place-PB-0158",
+          "place-PB-0194",
+          "place-PB-0212",
+          "place-PB-0245",
+          "place-PB-0281",
+          "place-KB-0351",
+          "place-PB-0356"
+        ]
+      )
+    end
+
+    test "handles rail replacement shuttles for CR-Fitchburg stopping at Alewife" do
+      fitchburg_route = %Route{id: "CR-Fitchburg"}
+
+      assert [%RouteStops{}] = Helpers.get_branch_route_stops(fitchburg_route, 0),
+             "should have only one 'branch'"
+    end
   end
 
   describe "get_route_shapes" do
