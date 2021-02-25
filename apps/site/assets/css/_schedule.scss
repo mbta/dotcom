@@ -1040,6 +1040,11 @@ del .trip-list-realtime {
       }
     }
   }
+
+  // hide the schedule tab
+  .schedule-tab {
+    display: none;
+  }
 }
 
 .schedule__header-container {

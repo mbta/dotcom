@@ -888,7 +888,7 @@ defmodule SiteWeb.ScheduleViewTest do
       assert tabs =~ "alerts-tab"
     end
 
-    test "returns 3 tabs for other routes", %{conn: conn} do
+    test "returns 3 tabs for other routes (1 hidden by CSS)", %{conn: conn} do
       tabs =
         conn
         |> assign(:route, %Route{type: 3})
