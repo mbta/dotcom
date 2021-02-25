@@ -4,12 +4,14 @@ const setupViewPreviousEventsButton = function() {
   );
   const hiddenEventList = [...document.querySelectorAll(".m-hidden-event")];
 
-  viewPreviousEventsButton.addEventListener("click", () => {
-    hiddenEventList.forEach(hiddenEvent =>
-      hiddenEvent.classList.remove("m-hidden-event")
-    );
-    viewPreviousEventsButton.classList.add("m-hidden-button");
-  });
+  viewPreviousEventsButton &&
+    hiddenEventList &&
+    viewPreviousEventsButton.addEventListener("click", () => {
+      hiddenEventList.forEach(hiddenEvent =>
+        hiddenEvent.classList.remove("m-hidden-event")
+      );
+      viewPreviousEventsButton.classList.add("m-hidden-button");
+    });
 };
 
 export default function() {
