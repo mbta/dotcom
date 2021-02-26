@@ -93,7 +93,7 @@ defmodule SiteWeb.EventView do
   def event_ended(%{start: %NaiveDateTime{} = start, stop: %NaiveDateTime{} = stop}) do
     event_ended(%{
       start: start,
-      stop: convert_using_timezone(stop, nil)
+      stop: convert_using_timezone(stop, "")
     })
   end
 
