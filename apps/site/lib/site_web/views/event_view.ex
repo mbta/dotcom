@@ -97,7 +97,7 @@ defmodule SiteWeb.EventView do
     })
   end
 
-  def event_ended(%{start: start, stop: %DateTime{} = stop}) do
+  def event_ended(%{start: _start, stop: %DateTime{} = stop}) do
     time_is_greater_or_equal?(now(), stop)
   end
 
