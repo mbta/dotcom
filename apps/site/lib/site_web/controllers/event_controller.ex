@@ -20,8 +20,7 @@ defmodule SiteWeb.EventController do
     |> render("index.html", conn: conn)
   end
 
-  @spec assign_events(Conn.t(), map) :: Conn.t()
-  defp assign_events(conn, _params) do
+  defp assign_events(conn, _opts) do
     date_range =
       event_date_range_params_from_params(conn)
       |> EventDateRange.build()
@@ -53,7 +52,6 @@ defmodule SiteWeb.EventController do
 
   # Looks at URL params for determining the date to render,
   # Otherwise uses the current month/year
-  @spec assign_date_from_params(Conn.t(), map) :: Conn.t()
   defp assign_date_from_params(
          %{
            query_params: %{
@@ -61,7 +59,7 @@ defmodule SiteWeb.EventController do
              "month" => month
            }
          } = conn,
-         _params
+         _opts
        ) do
     year_num = String.to_integer(year)
     month_num = String.to_integer(month)
