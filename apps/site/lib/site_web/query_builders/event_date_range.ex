@@ -1,21 +1,24 @@
 defmodule SiteWeb.EventDateRange do
   @moduledoc "Useful functions for date ranges"
-  @spec build(map) :: map
-  def build(%{month: month, year: year}) when is_integer(month) and is_integer(year) do
+  @spec build(map, DateTime.t()) :: map
+  def build(params, fallback_date \\ Util.today())
+
+  def build(%{month: month, year: year}, fallback_date)
+      when is_integer(month) and is_integer(year) do
     case Date.new(year, month, 1) do
       {:ok, date} -> for_month(date)
-      {:error, _error} -> for_month(Util.today())
+      {:error, _error} -> for_month(fallback_date)
     end
   end
 
-  def build(%{year: year}) when is_integer(year) do
+  def build(%{year: year}, fallback_date) when is_integer(year) do
     case Date.new(year, 1, 1) do
       {:ok, date} -> for_year(date)
-      {:error, _error} -> for_year(Util.today())
+      {:error, _error} -> for_year(fallback_date)
     end
   end
 
-  def build(_), do: for_year(Util.today())
+  def build(_, fallback_date), do: for_year(fallback_date)
 
   @spec for_month(Date.t()) :: map
   defp for_month(date) do

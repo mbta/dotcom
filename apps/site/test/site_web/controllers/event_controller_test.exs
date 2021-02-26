@@ -5,7 +5,10 @@ defmodule SiteWeb.EventControllerTest do
   @current_date ~D[2019-04-15]
 
   setup_with_mocks([
-    {Util, [:passthrough], [today: fn -> @current_date end]}
+    {SiteWeb.Plugs.Date, [],
+     [
+       call: fn conn, _ -> Plug.Conn.assign(conn, :date, @current_date) end
+     ]}
   ]) do
     :ok
   end

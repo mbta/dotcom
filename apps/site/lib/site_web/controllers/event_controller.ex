@@ -23,7 +23,7 @@ defmodule SiteWeb.EventController do
   defp assign_events(conn, _opts) do
     date_range =
       event_date_range_params_from_params(conn)
-      |> EventDateRange.build()
+      |> EventDateRange.build(conn.assigns.date)
 
     event_teasers_fn = fn ->
       Repo.teasers(
@@ -71,18 +71,16 @@ defmodule SiteWeb.EventController do
         |> assign(:month, month_num)
 
       {:error, _error} ->
-        assign_current_date(conn)
+        assign_from_current_date(conn)
     end
   end
 
-  defp assign_date_from_params(conn, _params), do: assign_current_date(conn)
+  defp assign_date_from_params(conn, _opts), do: assign_from_current_date(conn)
 
-  defp assign_current_date(conn) do
-    %{year: current_year, month: current_month} = Util.today()
-
+  defp assign_from_current_date(conn) do
     conn
-    |> assign(:year, current_year)
-    |> assign(:month, current_month)
+    |> assign(:year, conn.assigns.date.year)
+    |> assign(:month, conn.assigns.date.month)
   end
 
   def show(conn, %{"path_params" => path}) do
