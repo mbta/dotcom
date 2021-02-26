@@ -136,7 +136,7 @@ defmodule SiteWeb.EventViewTest do
   end
 
   describe "event_ended/2" do
-    test "when start and end are provided as datetimes", %{conn: conn} do
+    test "when start and end are provided as datetimes" do
       now = Util.now()
 
       past =
@@ -155,12 +155,12 @@ defmodule SiteWeb.EventViewTest do
         now
         |> Timex.shift(minutes: 30)
 
-      assert event_ended(conn, %{start: distant_past, stop: past})
-      assert !event_ended(conn, %{start: distant_past, stop: future})
-      assert !event_ended(conn, %{start: future, stop: distant_future})
+      assert event_ended(%{start: distant_past, stop: past})
+      assert !event_ended(%{start: distant_past, stop: future})
+      assert !event_ended(%{start: future, stop: distant_future})
     end
 
-    test "when event only has a start, consider event ended when the day is over", %{conn: conn} do
+    test "when event only has a start, consider event ended when the day is over" do
       now = Util.now()
 
       earlier_today =
@@ -179,13 +179,13 @@ defmodule SiteWeb.EventViewTest do
         now
         |> Timex.shift(days: 1)
 
-      assert event_ended(conn, %{start: yesterday, stop: nil})
-      assert !event_ended(conn, %{start: earlier_today, stop: nil})
-      assert !event_ended(conn, %{start: later_today, stop: nil})
-      assert !event_ended(conn, %{start: tomorrow, stop: nil})
+      assert event_ended(%{start: yesterday, stop: nil})
+      assert !event_ended(%{start: earlier_today, stop: nil})
+      assert !event_ended(%{start: later_today, stop: nil})
+      assert !event_ended(%{start: tomorrow, stop: nil})
     end
 
-    test "handles naive datetimes", %{conn: conn} do
+    test "handles naive datetimes" do
       naive_now =
         Util.now()
         |> DateTime.to_naive()
@@ -198,8 +198,8 @@ defmodule SiteWeb.EventViewTest do
         naive_now
         |> NaiveDateTime.add(-1000)
 
-      assert event_ended(conn, %{start: naive_distant_past, stop: naive_past})
-      assert !event_ended(conn, %{start: naive_distant_past, stop: nil})
+      assert event_ended(%{start: naive_distant_past, stop: naive_past})
+      assert !event_ended(%{start: naive_distant_past, stop: nil})
     end
   end
 end
