@@ -1,6 +1,6 @@
 defmodule SiteWeb.EventDateRange do
   @moduledoc "Useful functions for date ranges"
-  @spec build(map, DateTime.t()) :: map
+  @spec build(map, Date.t()) :: map
   def build(params, fallback_date \\ Util.today())
 
   def build(%{month: month, year: year}, fallback_date)
