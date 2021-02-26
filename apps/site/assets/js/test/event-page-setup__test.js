@@ -12,7 +12,7 @@ const eventsHubHTML = `
       <div class="row">
         <nav class="m-event-list__nav col-sm-3 fixedsticky sticky-top"></nav>
         <div class="col-sm-offset-1 col-sm-8">
-          <div class="event-listing">
+          <div class="m-event-listing">
             <nav class="m-event-list__nav--mobile-controls fixedsticky sticky-top">
               <select class="c-select m-event-list__select">
                 <option>Jump to</option>

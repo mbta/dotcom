@@ -28,7 +28,7 @@ defmodule SiteWeb.EventControllerTest do
 
       assert Floki.text(events_hub) =~ "MassDOT Finance and Audit Committee"
 
-      event_links = Floki.find(events_hub, ".event-listing a")
+      event_links = Floki.find(events_hub, ".m-event-listing a")
       assert Enum.count(event_links) > 0
     end
 

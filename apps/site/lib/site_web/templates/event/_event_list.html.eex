@@ -1,6 +1,6 @@
 <% events_by_month = grouped_by_month(@events, @year) %>
 
-<div class="event-listing">
+<div class="m-event-listing">
   <nav class="m-event-list__nav--mobile-controls fixedsticky sticky-top">
     <select class="c-select m-event-list__select">
       <option>Jump to</option>

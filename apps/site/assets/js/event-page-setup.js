@@ -41,7 +41,7 @@ export function setupEventsPage() {
               eventsHubPage.classList.add("js-nav-down");
               eventsHubPage.classList.remove("js-nav-up");
             } else if (direction === 1) {
-              // remove the controls
+              // show the controls
               eventsHubPage.classList.add("js-nav-up");
               eventsHubPage.classList.remove("js-nav-down");
             }
