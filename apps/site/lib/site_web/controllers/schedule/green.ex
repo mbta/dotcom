@@ -47,14 +47,7 @@ defmodule SiteWeb.ScheduleController.Green do
   def show(conn, _params), do: line(conn, [])
 
   def trip_view(conn, _params) do
-    conn
-    |> assign(:tab, "trip-view")
-    |> call_plug_with_opts(SiteWeb.Plugs.BannerMessage,
-      message_key: :retirement_message,
-      message: SiteWeb.ScheduleView.build_retirement_message(conn)
-    )
-    |> put_view(ScheduleView)
-    |> render("show.html", [])
+    redirect(conn, to: line_path(conn, :show, "Green", Map.delete(conn.query_params, "tab")))
   end
 
   def alerts(conn, _params) do

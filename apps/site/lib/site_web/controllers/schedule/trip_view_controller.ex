@@ -20,15 +20,8 @@ defmodule SiteWeb.ScheduleController.TripViewController do
     redirect(conn, to: timetable_path(conn, :show, route_id, params))
   end
 
-  def show(conn, _) do
-    conn
-    |> SiteWeb.ControllerHelpers.call_plug_with_opts(
-      SiteWeb.Plugs.BannerMessage,
-      message_key: :retirement_message,
-      message: SiteWeb.ScheduleView.build_retirement_message(conn)
-    )
-    |> put_view(SiteWeb.ScheduleView)
-    |> render("show.html", [])
+  def show(%{assigns: %{route: %Route{id: route_id}}, query_params: query_params} = conn, _) do
+    redirect(conn, to: line_path(conn, :show, route_id, Map.delete(query_params, "tab")))
   end
 
   defp zone_map(%{assigns: %{route: %Route{type: 2}, all_stops: all_stops}} = conn, _) do
