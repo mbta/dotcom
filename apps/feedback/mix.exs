@@ -39,7 +39,7 @@ defmodule Feedback.Mixfile do
       {:timex, ">= 2.0.0"},
       {:briefly, "~> 0.3"},
       {:excoveralls, "~> 0.5", only: :test},
-      {:plug, "~> 1.7.2"},
+      {:plug, "~> 1.10"},
       {:ex_aws, "~> 2.1.2"},
       {:ex_aws_ses, "~> 2.1.1"},
       {:mail, "~> 0.2"},
