@@ -9,9 +9,9 @@ defmodule SiteWeb.RedirectorTest do
     assert Redirector.init(opts) == opts
   end
 
-  test "an exception is raised when 'to' is not defined" do
+  test "an exception is raised when 'to' is not defined", %{conn: conn} do
     assert_raise RuntimeError, ~r(Missing required to: option in redirect), fn ->
-      Redirector.init([])
+      Redirector.call(conn, [])
     end
   end
 

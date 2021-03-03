@@ -52,7 +52,7 @@ defmodule SiteWeb.EventControllerTest do
       event = event_factory(1)
       conn = get(conn, event_path(conn, :show, event) <> "?preview&vid=112&nid=5")
       assert html_response(conn, 200) =~ "Senior CharlieCard Event 112"
-      assert %{"preview" => nil, "vid" => "112", "nid" => "5"} == conn.query_params
+      assert %{"preview" => "", "vid" => "112", "nid" => "5"} == conn.query_params
     end
 
     test "retains params (except _format) and redirects when CMS returns a native redirect", %{
