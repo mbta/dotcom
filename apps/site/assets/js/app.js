@@ -46,6 +46,7 @@ import CRTrains from "./cr-timetable-trains";
 import { onload as alertItemLoad } from "./alert-item";
 import dismissFullscreenError from "../ts/app/dismiss-fullscreen-error";
 import tripPlannerWidget from "./trip-planner-widget";
+import previousEventsButton from "./view-previous-events";
 
 document.body.className = document.body.className.replace("no-js", "js");
 
@@ -364,3 +365,4 @@ channels();
 CRTrains();
 dismissFullscreenError();
 tripPlannerWidget();
+previousEventsButton();
