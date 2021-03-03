@@ -18,6 +18,23 @@
   display: inline-block;
 }
 
+.list-group-flush:first-child .list-group-item:first-child {
+  border-top: unset;
+  border: solid #ddd;
+  border-width: 1px 0;
+}
+
+.m-previous-events-button {
+  cursor: pointer;
+}
+
+.m-hidden-event {
+  display: none !important;
+}
+.m-hidden-button {
+  display: none !important;
+}
+
 .m-event {
   padding: 16px;
   @include media-breakpoint-down(xs) {
@@ -92,6 +109,9 @@
   }
 }
 .m-event__ended-message {
+  width: 96px;
+  text-align: right;
+  color: $gray;
   font-size: 18px;
   font-weight: 500;
 }

@@ -134,4 +134,72 @@ defmodule SiteWeb.EventViewTest do
       assert expected == actual
     end
   end
+
+  describe "event_ended/2" do
+    test "when start and end are provided as datetimes" do
+      now = Util.now()
+
+      past =
+        now
+        |> Timex.shift(minutes: -3)
+
+      distant_past =
+        now
+        |> Timex.shift(minutes: -30)
+
+      future =
+        now
+        |> Timex.shift(minutes: 3)
+
+      distant_future =
+        now
+        |> Timex.shift(minutes: 30)
+
+      assert event_ended(%{start: distant_past, stop: past})
+      assert !event_ended(%{start: distant_past, stop: future})
+      assert !event_ended(%{start: future, stop: distant_future})
+    end
+
+    test "when event only has a start, consider event ended when the day is over" do
+      now = Util.now()
+
+      earlier_today =
+        now
+        |> Timex.shift(seconds: -30)
+
+      later_today =
+        now
+        |> Timex.shift(seconds: 30)
+
+      yesterday =
+        now
+        |> Timex.shift(days: -1)
+
+      tomorrow =
+        now
+        |> Timex.shift(days: 1)
+
+      assert event_ended(%{start: yesterday, stop: nil})
+      assert !event_ended(%{start: earlier_today, stop: nil})
+      assert !event_ended(%{start: later_today, stop: nil})
+      assert !event_ended(%{start: tomorrow, stop: nil})
+    end
+
+    test "handles naive datetimes" do
+      naive_now =
+        Util.now()
+        |> DateTime.to_naive()
+
+      naive_past =
+        naive_now
+        |> NaiveDateTime.add(-500)
+
+      naive_distant_past =
+        naive_now
+        |> NaiveDateTime.add(-1000)
+
+      assert event_ended(%{start: naive_distant_past, stop: naive_past})
+      assert !event_ended(%{start: naive_distant_past, stop: nil})
+    end
+  end
 end
