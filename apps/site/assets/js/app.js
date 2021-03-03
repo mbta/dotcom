@@ -46,6 +46,7 @@ import { onload as alertItemLoad } from "./alert-item";
 import dismissFullscreenError from "../ts/app/dismiss-fullscreen-error";
 import tripPlannerWidget from "./trip-planner-widget";
 import eventPageSetup from "./event-page-setup";
+import previousEventsButton from "./view-previous-events";
 
 document.body.className = document.body.className.replace("no-js", "js");
 
@@ -365,3 +366,4 @@ CRTrains();
 dismissFullscreenError();
 tripPlannerWidget();
 eventPageSetup();
+previousEventsButton();

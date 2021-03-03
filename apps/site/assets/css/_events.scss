@@ -112,6 +112,23 @@ $mobile-control-height: 73px;
   padding: .5 * $base-spacing 2 * $base-spacing .5 * $base-spacing $base-spacing;
 }
 
+.list-group-flush:first-child .list-group-item:first-child {
+  border-top: unset;
+  border: solid #ddd;
+  border-width: 1px 0;
+}
+
+.m-previous-events-button {
+  cursor: pointer;
+}
+
+.m-hidden-event {
+  display: none !important;
+}
+.m-hidden-button {
+  display: none !important;
+}
+
 .m-event {
   padding: 0 16px;
   @include media-breakpoint-down(xs) {
