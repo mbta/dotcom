@@ -25,9 +25,9 @@
       <ul class="list-group list-group-flush">
         <!-- Previous months button. A JS script sets up a listener for button click -->
         <%= if Enum.any?(event_teasers, fn event -> event_ended(%{start: event.date, stop: event.date_end}) end) do %>
-          <li class="list-group-item m-previous-events-button">
-            <a class="m-previous-events-button">
-              View Previous <%= pretty_date(Timex.now("America/New_York"), "{Mfull} {YYYY}") %> Events
+          <li class="list-group-item">
+            <a role="button" class="m-previous-events-button">
+              View Previous <%= render_event_month(month_number, @year) %> Events
               <i class="fa fa-angle-down down" aria-hidden="true"></i>
             </a>
           </li>
