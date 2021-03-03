@@ -7,6 +7,8 @@ defmodule SiteWeb.EventView do
   import SiteWeb.CMSView,
     only: [file_description: 1, render_duration: 2, maybe_shift_timezone: 1, format_time: 1]
 
+  import Util, only: [time_is_greater_or_equal?: 2, convert_using_timezone: 2, now: 0]
+
   alias CMS.Page.Event
 
   @spec shift_date_range(String.t(), integer) :: String.t()
@@ -82,5 +84,24 @@ defmodule SiteWeb.EventView do
     "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} #{format_time(start_time)} - #{
       pretty_date(end_time, "{WDshort}, {Mshort} {D}, {YYYY}")
     } #{format_time(end_time)}"
+  end
+
+  @spec event_ended(%{
+          start: NaiveDateTime.t() | DateTime.t(),
+          stop: NaiveDateTime.t() | DateTime.t() | nil
+        }) :: boolean
+  def event_ended(%{start: %NaiveDateTime{} = start, stop: %NaiveDateTime{} = stop}) do
+    event_ended(%{
+      start: start,
+      stop: convert_using_timezone(stop, "")
+    })
+  end
+
+  def event_ended(%{start: _start, stop: %DateTime{} = stop}) do
+    time_is_greater_or_equal?(now(), stop)
+  end
+
+  def event_ended(%{start: start, stop: nil}) do
+    Date.compare(now(), start) == :gt
   end
 end
