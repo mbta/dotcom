@@ -1,26 +1,27 @@
 defmodule SiteWeb.EventDateRange do
   @moduledoc "Useful functions for date ranges"
-  @spec build(%{String.t() => String.t()}, Date.t()) :: map
-  def build(%{"month" => month}, current_date) do
-    case Date.from_iso8601(month) do
+  @spec build(map, Date.t()) :: map
+  def build(params, fallback_date \\ Util.today())
+
+  def build(%{month: month, year: year}, fallback_date)
+      when is_integer(month) and is_integer(year) do
+    case Date.new(year, month, 1) do
       {:ok, date} -> for_month(date)
-      {:error, _error} -> for_month(current_date)
+      {:error, _error} -> for_month(fallback_date)
     end
   end
 
-  def build(%{"year" => year}, current_date) do
-    case Date.from_iso8601(year) do
+  def build(%{year: year}, fallback_date) when is_integer(year) do
+    case Date.new(year, 1, 1) do
       {:ok, date} -> for_year(date)
-      {:error, _error} -> for_year(current_date)
+      {:error, _error} -> for_year(fallback_date)
     end
   end
 
-  def build(_month_missing, current_date) do
-    for_year(current_date)
-  end
+  def build(_, fallback_date), do: for_year(fallback_date)
 
   @spec for_month(Date.t()) :: map
-  def for_month(date) do
+  defp for_month(date) do
     start_date = date |> Timex.beginning_of_month()
     end_date = date |> Timex.end_of_month() |> Timex.shift(days: 1)
 
@@ -28,7 +29,7 @@ defmodule SiteWeb.EventDateRange do
   end
 
   @spec for_year(Date.t()) :: map
-  def for_year(date) do
+  defp for_year(date) do
     start_date = date |> Timex.beginning_of_year()
     end_date = date |> Timex.end_of_year() |> Timex.shift(days: 1)
 

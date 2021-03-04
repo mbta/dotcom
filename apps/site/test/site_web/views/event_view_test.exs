@@ -2,8 +2,7 @@ defmodule SiteWeb.EventViewTest do
   use Site.ViewCase, async: true
   import SiteWeb.EventView
   import CMS.Helpers, only: [parse_iso_datetime: 1]
-
-  @date_iso_string "2020-02-24"
+  alias CMS.Partial.Teaser
 
   describe "show.html" do
     test "the notes section is not rendered when the event notes are empty", %{conn: conn} do
@@ -48,22 +47,6 @@ defmodule SiteWeb.EventViewTest do
     end
   end
 
-  describe "calendar_title/1" do
-    test "returns the name of the month" do
-      assert calendar_title("2017-01-01") == "January"
-    end
-  end
-
-  describe "shift_date_range/2" do
-    test "shifts the month by the provided value" do
-      assert shift_date_range("2017-04-15", -1) == "2017-03-01"
-    end
-
-    test "returns the beginning of the month" do
-      assert shift_date_range("2017-04-15", 1) == "2017-05-01"
-    end
-  end
-
   describe "city_and_state" do
     test "returns the city and state, separated by a comma" do
       event = event_factory(0, city: "Charleston", state: "South Carolina")
@@ -82,14 +65,6 @@ defmodule SiteWeb.EventViewTest do
 
       assert city_and_state(event) == nil
     end
-  end
-
-  test "name_of_month/1 returns month" do
-    assert name_of_month(@date_iso_string) == "February"
-  end
-
-  test "name_of_year/1 returns year" do
-    assert name_of_year(@date_iso_string) == "2020"
   end
 
   describe "render_event_duration/2" do
@@ -133,6 +108,35 @@ defmodule SiteWeb.EventViewTest do
       expected = "Sun, Nov 6, 2016 \u2022 1 AM - 2 AM"
       assert expected == actual
     end
+  end
+
+  test "render_event_month/2 displays month and year" do
+    assert render_event_month(3, 2020) == "March 2020"
+  end
+
+  test "grouped_by_month/2 for a given year" do
+    events =
+      for y <- 2018..2020, m <- 1..12, into: [] do
+        {:ok, date} = Date.new(y, m, 1)
+
+        for t <- 1..(2 * m), into: [] do
+          %Teaser{
+            id: "#{y}-#{m}-#{t}",
+            path: "/#{y}-#{m}/#{t}",
+            title: "Event #{t} during #{m}/#{y}",
+            type: :event,
+            date: date
+          }
+        end
+      end
+      |> List.flatten()
+
+    grouped_2020_events = grouped_by_month(events, 2020)
+
+    assert grouped_2020_events
+    assert {1, [january_event, another_january_event]} = List.first(grouped_2020_events)
+    assert january_event.date.month == 1
+    assert january_event.date.year == 2020
   end
 
   describe "event_ended/2" do
