@@ -6,14 +6,14 @@ const setupViewPreviousEventsButton = function() {
   viewPreviousEventsButtons.forEach(button => {
     button.addEventListener("click", () => {
       // show hidden events for this button
-      // because of how the list is laid out, we can just iterate through next <li> siblings until we find one without .m-hidden-event
-      let li = button.parentElement;
-      do {
-        li.classList.remove("m-hidden-event");
-        li = li.nextElementSibling;
-      } while (li && li.classList.contains("m-hidden-event") === true);
-
-      button.parentElement.classList.add("m-hidden-button");
+      const groupName = button.dataset.group;
+      const hiddenEventsForGroup = document.querySelectorAll(
+        `.m-hidden-event[data-group="${groupName}"]`
+      );
+      [...hiddenEventsForGroup].forEach(event => {
+        event.classList.remove("m-hidden-event");
+      });
+      button.classList.add("m-hidden-button");
     });
   });
 };

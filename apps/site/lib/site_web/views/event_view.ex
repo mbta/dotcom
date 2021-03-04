@@ -94,4 +94,10 @@ defmodule SiteWeb.EventView do
   def event_ended(%{start: start, stop: nil}) do
     Date.compare(now(), start) == :gt
   end
+
+  def render_event_month_slug(month_number, year) do
+    render_event_month(month_number, year)
+    |> String.downcase()
+    |> String.replace(~r/(\s)+/, "-")
+  end
 end
