@@ -10,32 +10,7 @@ defmodule SiteWeb.EventView do
   import Util, only: [time_is_greater_or_equal?: 2, convert_using_timezone: 2, now: 0]
 
   alias CMS.Page.Event
-
-  @spec shift_date_range(String.t(), integer) :: String.t()
-  def shift_date_range(iso_string, shift_value) do
-    iso_string
-    |> Timex.parse!("{ISOdate}")
-    |> Timex.shift(months: shift_value)
-    |> Timex.beginning_of_month()
-    |> Util.convert_to_iso_format()
-  end
-
-  @spec calendar_title(String.t()) :: String.t()
-  def calendar_title(month), do: name_of_month(month)
-
-  @spec name_of_year(String.t()) :: String.t()
-  def name_of_year(iso_string) do
-    iso_string
-    |> Timex.parse!("{ISOdate}")
-    |> Timex.format!("{YYYY}")
-  end
-
-  @spec name_of_month(String.t()) :: String.t()
-  def name_of_month(iso_string) do
-    iso_string
-    |> Timex.parse!("{ISOdate}")
-    |> Timex.format!("{Mfull}")
-  end
+  alias CMS.Partial.Teaser
 
   @doc "Returns a pretty format for the event's city and state"
   @spec city_and_state(%Event{}) :: String.t() | nil
@@ -43,6 +18,15 @@ defmodule SiteWeb.EventView do
     if city && state do
       "#{city}, #{state}"
     end
+  end
+
+  @doc "Returns a list of event teasers, grouped/sorted by month"
+  @spec grouped_by_month([%Teaser{}], number) :: [{number, [%Teaser{}]}]
+  def grouped_by_month(events, year) do
+    events
+    |> Enum.filter(&(&1.date.year == year))
+    |> Enum.group_by(& &1.date.month)
+    |> Enum.sort_by(&elem(&1, 0))
   end
 
   @doc "Nicely renders the duration of an event, given two DateTimes."
@@ -86,6 +70,12 @@ defmodule SiteWeb.EventView do
     } #{format_time(end_time)}"
   end
 
+  @doc "December 2021"
+  @spec render_event_month(number, number) :: String.t()
+  def render_event_month(month, year) do
+    "#{Timex.month_name(month)} #{year}"
+  end
+
   @spec event_ended(%{
           start: NaiveDateTime.t() | DateTime.t(),
           stop: NaiveDateTime.t() | DateTime.t() | nil
@@ -103,5 +93,11 @@ defmodule SiteWeb.EventView do
 
   def event_ended(%{start: start, stop: nil}) do
     Date.compare(now(), start) == :gt
+  end
+
+  def render_event_month_slug(month_number, year) do
+    render_event_month(month_number, year)
+    |> String.downcase()
+    |> String.replace(~r/(\s)+/, "-")
   end
 end
