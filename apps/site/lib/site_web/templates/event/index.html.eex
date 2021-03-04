@@ -12,19 +12,29 @@
   </header>
 
   <div class="row">
-    <nav class="m-event-list__nav col-sm-3 fixedsticky sticky-top">
+    <nav class="m-event-list__nav col-sm-2 fixedsticky sticky-top">
       <p class="u-bold">Jump to</p>
       <%= for month <- 1..12 do %>
         <%= link render_event_month(month, @year), to: event_path(@conn, :index, month: month, year: @year) %>
       <% end %>
     </nav>
 
-    <div class="col-sm-offset-1 col-sm-8">
-      <%= render "_event_list.html",
+    <%= if Map.get(@conn.query_params, "calendar") do %>
+      <div class="col-sm-10">
+        <%= render "_calendar.html",
             events: @events,
             conn: @conn,
             month: @month,
             year: @year %>
-    </div>
+      </div>
+    <% else %>
+      <div class="col-sm-offset-2 col-sm-8">
+        <%= render "_event_list.html",
+              events: @events,
+              conn: @conn,
+              month: @month,
+              year: @year %>
+      </div>
+    <% end %>
   </div>
 </div>

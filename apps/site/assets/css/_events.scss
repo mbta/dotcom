@@ -215,3 +215,29 @@ $mobile-control-height: 73px;
   width: 96px;
   color: $gray;
 }
+
+.m-event-calendar {
+  font-size: small;
+  table-layout: fixed;
+  width: 100%;
+
+  th {
+    color: $gray;
+    font-family: $headings-font-family;
+    text-align: center;
+  }
+
+  &__day {
+    border: 1px solid $gray-lightest;
+    height: $base-spacing * 6; // works like min-height
+    padding: $base-spacing / 4;
+    vertical-align: top;
+  }
+
+  &__day-label {
+    color: $gray;
+    font-family: $headings-font-family;
+    font-weight: bold;
+    margin-bottom: $base-spacing / 2;
+  }
+}

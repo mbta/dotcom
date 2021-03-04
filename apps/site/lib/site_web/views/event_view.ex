@@ -119,4 +119,22 @@ defmodule SiteWeb.EventView do
     |> String.downcase()
     |> String.replace(~r/(\s)+/, "-")
   end
+
+  defp week_rows(month, year) do
+    {:ok, start_date} = Date.new(year, month, 1)
+
+    first =
+      start_date
+      |> Timex.beginning_of_month()
+      |> Timex.beginning_of_week(:sun)
+
+    last =
+      start_date
+      |> Timex.end_of_month()
+      |> Timex.end_of_week(:sun)
+
+    Timex.Interval.new(from: first, until: last)
+    |> Enum.map(& &1)
+    |> Enum.chunk_every(7)
+  end
 end
