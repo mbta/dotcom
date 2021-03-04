@@ -1,84 +1,47 @@
 defmodule SiteWeb.EventDateRangeTest do
   use ExUnit.Case
+  import Mock
   alias SiteWeb.EventDateRange
+
+  @current_date ~D[2017-04-15]
+
+  setup_with_mocks([
+    {Util, [:passthrough], [today: fn -> @current_date end]}
+  ]) do
+    :ok
+  end
 
   describe "build/2" do
     test "returns a date range for the given month" do
-      params = %{"month" => "2017-02-01"}
-      current_month = ~D[2017-04-15]
-
-      assert EventDateRange.build(params, current_month) == %{
+      assert EventDateRange.build(%{month: 2, year: 2017}) == %{
                start_time_gt: "2017-02-01",
                start_time_lt: "2017-03-01"
              }
     end
 
     test "returns a date range for the current month when given an invalid date" do
-      params = %{"month" => "nope"}
-      current_month = ~D[2017-04-15]
-
-      assert EventDateRange.build(params, current_month) == %{
-               start_time_gt: "2017-04-01",
-               start_time_lt: "2017-05-01"
-             }
-    end
-
-    test "returns a date range for the current month when given a partial date" do
-      params = %{"month" => "2017-01"}
-      current_month = ~D[2017-04-15]
-
-      assert EventDateRange.build(params, current_month) == %{
+      assert EventDateRange.build(%{month: 22, year: 2017}) == %{
                start_time_gt: "2017-04-01",
                start_time_lt: "2017-05-01"
              }
     end
 
     test "returns a date range for the current year when given an invalid date" do
-      params = %{"year" => "nope"}
-      current_month = ~D[2017-04-15]
-
-      assert EventDateRange.build(params, current_month) == %{
+      assert EventDateRange.build(%{year: "bad"}) == %{
                start_time_gt: "2017-01-01",
                start_time_lt: "2018-01-01"
              }
     end
 
     test "returns a date range for the given year" do
-      params = %{"year" => "2017-02-01"}
-      current_year = ~D[2020-04-15]
-
-      assert EventDateRange.build(params, current_year) == %{
-               start_time_gt: "2017-01-01",
-               start_time_lt: "2018-01-01"
-             }
-    end
-
-    test "returns a date range for the current year when a year is not provided" do
-      current_year = ~D[2019-04-15]
-
-      assert EventDateRange.build(%{}, current_year) == %{
+      assert EventDateRange.build(%{year: 2019}) == %{
                start_time_gt: "2019-01-01",
                start_time_lt: "2020-01-01"
              }
     end
-  end
 
-  describe "for_month/1" do
-    test "returns query params for the beginning and end of the given month" do
-      date = ~D[2017-04-10]
-
-      assert EventDateRange.for_month(date) == %{
-               start_time_gt: "2017-04-01",
-               start_time_lt: "2017-05-01"
-             }
-    end
-  end
-
-  describe "for_year/1" do
-    test "returns query params for the beginning and end of the given month" do
-      date = ~D[2017-04-10]
-
-      assert EventDateRange.for_year(date) == %{
+    test "returns a date range for the current year when a year is not provided" do
+      assert EventDateRange.build(%{}) == %{
                start_time_gt: "2017-01-01",
                start_time_lt: "2018-01-01"
              }
