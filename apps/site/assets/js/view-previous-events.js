@@ -1,17 +1,21 @@
 const setupViewPreviousEventsButton = function() {
-  const viewPreviousEventsButton = document.querySelector(
-    ".m-previous-events-button"
-  );
-  const hiddenEventList = [...document.querySelectorAll(".m-hidden-event")];
+  const viewPreviousEventsButtons = [
+    ...document.querySelectorAll("a.m-previous-events-button")
+  ];
 
-  viewPreviousEventsButton &&
-    hiddenEventList &&
-    viewPreviousEventsButton.addEventListener("click", () => {
-      hiddenEventList.forEach(hiddenEvent =>
-        hiddenEvent.classList.remove("m-hidden-event")
+  viewPreviousEventsButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      // show hidden events for this button
+      const groupName = button.dataset.group;
+      const hiddenEventsForGroup = document.querySelectorAll(
+        `.m-hidden-event[data-group="${groupName}"]`
       );
-      viewPreviousEventsButton.classList.add("m-hidden-button");
+      [...hiddenEventsForGroup].forEach(event => {
+        event.classList.remove("m-hidden-event");
+      });
+      button.classList.add("m-hidden-button");
     });
+  });
 };
 
 export default function() {
