@@ -1,3 +1,6 @@
+<%= if Laboratory.enabled?(@conn, :events_hub_redesign) do %>
+<%# New iterative development work here! %>
+<% else %>
 <% has_sidebar = @event.agenda_file || @event.minutes_file || Enum.empty?(@event.files) == false %>
 <% sidebar_class = if has_sidebar, do: "c-cms--with-sidebar c-cms--sidebar-right", else: "c-cms--no-sidebar" %>
 
@@ -97,3 +100,4 @@
     </div>
   </div>
 </div>
+<% end %>

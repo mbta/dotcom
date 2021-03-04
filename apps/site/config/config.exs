@@ -27,7 +27,10 @@ config :logster, :allowed_headers, ["referer"]
 config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
 
 config :laboratory,
-  features: [],
+  features: [
+    {:events_hub_redesign, "Events Hub Redesign (Feb. 2021)",
+     "Changes to the event listings and the event pages as part of the 🤝 Public Engagement epic"}
+  ],
   cookie: [
     # one month,
     max_age: 3600 * 24 * 30,
