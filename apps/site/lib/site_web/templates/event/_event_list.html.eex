@@ -39,7 +39,7 @@
           %>
           <!-- If date is upcoming, display on init -->
           <!-- Otherwise, add a 'hidden' class. On previous-button click, this class is removed -->
-          <li class="list-group-item u-flex-container m-event <%= if event_ended(range), do: 'm-hidden-event' %>" data-group="<%= render_event_month_slug(month_number, @year) %>">
+          <li class="list-group-item u-flex-container m-event <%= if event_ended(range), do: 'hidden' %>" data-group="<%= render_event_month_slug(month_number, @year) %>">
             <div class="m-event__date-circle">
               <div class="u-bold m-event__month"><%= pretty_date(range.start, "{Mshort}") %></div>
               <div class="u-bold m-event__day"><%= pretty_date(range.start, "{D}") %></div>
