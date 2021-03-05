@@ -1,0 +1,42 @@
+<div class="c-proposed-location-cards">
+  <%= for {%Fares.ProposedLocations.Location{stop_name: name, retail_fvm: retail_fvm, latitude: latitude, longitude: longitude} = _location, distance} <- @nearby_proposed_locations do %>
+
+    <div class="c-location-card c-location-card--resp">
+
+      <div class="c-flex-space-between">
+        <div class="c-location-card__place">
+          <%= name %>
+        </div>
+
+        <div class="c-location-card__distance">
+          <%= round_distance(distance) %>
+        </div>
+      </div>
+
+      <%#= if Fares.ProposedLocations.Location.is_retail_store?(location) do %>
+        <!-- <div class="c-location-card__location">
+          <%#= get_its_address %>
+        </div> -->
+      <%# end %>
+
+      <div class="c-location-card__type">
+        <%= retail_fvm %>
+      </div>
+
+      <div class="dropdown show c-location-card__directions">
+        <a href="#" role="button" id="get-directions-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Get Directions
+          <span class="c-caret"></span>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="get-directions-dropdown">
+          <li>
+            <%= link "View on MBTA Trip Planner", to: trip_plan_path(@conn, :to, "#{name}"), target: "_blank", class: "dropdown-item" %>
+          </li>
+          <li>
+            <%= link "View on Google Maps", to: GoogleMaps.direction_map_url(@search_position, {latitude, longitude}), target: "_blank", class: "dropdown-item" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+</div>
