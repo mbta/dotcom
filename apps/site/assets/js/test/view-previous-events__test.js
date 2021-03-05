@@ -51,14 +51,15 @@ const eventListHtml = `
             <i class="fa fa-angle-down down" aria-hidden="true"></i>
           </a>
         </li>
-        ${[1,2]
-          .map( x => `
+        ${[1, 2]
+          .map(
+            x => `
             <li class="list-group-item u-flex-container m-event hidden" data-group="january-2021">
-              ${ endedEventContent }
+              ${endedEventContent}
             </li>
-          `)
-          .join("")
-        }
+          `
+          )
+          .join("")}
       </ul>
     </section>
     <section id="2-2021" class="m-event-list__month m-event-list__month--active">
@@ -70,21 +71,22 @@ const eventListHtml = `
             <i class="fa fa-angle-down down" aria-hidden="true"></i>
           </a>
         </li>
-        ${[3,4]
-          .map( x => `
+        ${[3, 4]
+          .map(
+            x => `
             <li class="list-group-item u-flex-container m-event hidden" data-group="february-2021">
-              ${ endedEventContent }
+              ${endedEventContent}
             </li>
-          `)
-          .join("")
-        }
+          `
+          )
+          .join("")}
         <li class="list-group-item u-flex-container m-event " data-group="march-2021">
-          ${ pendingEventContent }
+          ${pendingEventContent}
         </li>
       </ul>
     </section>
   </div>
-`
+`;
 
 describe("previous-events-button", () => {
   let $;
@@ -97,8 +99,8 @@ describe("previous-events-button", () => {
   });
 
   it("clicking 'previous-button' for Jan affects Jan, not Feb", () => {
-    const januaryButton = $("a.m-previous-events-button")[0]
-    const februaryButton = $("a.m-previous-events-button")[1]
+    const januaryButton = $("a.m-previous-events-button")[0];
+    const februaryButton = $("a.m-previous-events-button")[1];
     const firstJanuaryEvent = $(".m-event")[0];
     const firstFebruaryEvent = $(".m-event")[2];
     const pendingFebEvent = $(".m-event")[4];
@@ -108,7 +110,7 @@ describe("previous-events-button", () => {
     // Parent element of clicked button is now hidden
     assert.isTrue(januaryButton.parentElement.classList.contains("hidden"));
     assert.isFalse(februaryButton.parentElement.classList.contains("hidden"));
-    
+
     // Originally hidden January event is visible
     assert.isFalse(firstJanuaryEvent.classList.contains("hidden"));
     assert.isTrue(firstFebruaryEvent.classList.contains("hidden"));

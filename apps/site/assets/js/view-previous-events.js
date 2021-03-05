@@ -16,7 +16,7 @@ export function setupViewPreviousEventsButton() {
       button.parentElement.classList.add("hidden");
     });
   });
-};
+}
 
 export default function() {
   document.addEventListener(
