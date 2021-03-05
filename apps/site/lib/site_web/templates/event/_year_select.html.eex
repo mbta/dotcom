@@ -1,0 +1,13 @@
+<select class="c-select m-event-list__select">
+  <option disabled selected value="">Jump to</option>
+  <%= for year <- year_options(@conn) do %>
+    <%= content_tag(
+      :option,
+      year,
+      [
+        value: event_path(@conn, :index, month: @month, year: year),
+        selected: year == @year
+      ]
+    ) %>
+  <% end %>
+</select>

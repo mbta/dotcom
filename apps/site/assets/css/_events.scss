@@ -18,6 +18,16 @@
   display: inline-block;
 }
 
+.m-events-hub {
+  header {
+    align-items: baseline;
+    display: flex;
+    justify-content: space-between;
+
+    h1 { margin-bottom: 0; }
+  }
+}
+
 .m-event-listing {
   @include media-breakpoint-down(xs) {
     /* stylelint-disable-next-line scss/operator-no-unspaced */
@@ -68,6 +78,12 @@ $mobile-control-height: 73px;
     top: $base-spacing;
   }
 
+  @include media-breakpoint-down(xs) {
+    display: none;
+  }
+}
+
+.m-events-hub__nav--controls {
   @include media-breakpoint-down(xs) {
     display: none;
   }

@@ -1,5 +1,6 @@
 defmodule SiteWeb.EventViewTest do
   use Site.ViewCase, async: true
+  import Mock
   import SiteWeb.EventView
   import CMS.Helpers, only: [parse_iso_datetime: 1]
   alias CMS.Partial.Teaser
@@ -64,6 +65,20 @@ defmodule SiteWeb.EventViewTest do
       event = event_factory(0, state: nil)
 
       assert city_and_state(event) == nil
+    end
+  end
+
+  describe "year_options/1" do
+    test "year_options/1 returns a range of -4/+1 years", %{conn: conn} do
+      assigns_with_date = Map.put(conn.assigns, :date, ~D[2019-03-03])
+      conn = %{conn | assigns: assigns_with_date}
+      assert 2015..2020 = year_options(conn)
+    end
+
+    test "year_options/1 defaults to Util.now", %{conn: conn} do
+      with_mock Util, [:passthrough], now: fn -> ~N[2020-01-02T05:00:00] end do
+        assert 2016..2021 = year_options(conn)
+      end
     end
   end
 

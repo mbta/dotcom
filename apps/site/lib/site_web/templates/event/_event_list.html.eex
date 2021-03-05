@@ -2,20 +2,15 @@
 
 <div class="m-event-listing">
   <nav class="m-event-list__nav--mobile-controls fixedsticky sticky-top">
-    <select class="c-select m-event-list__select">
-      <option>Jump to</option>
-      <%= for {month_number, _event_teasers} <- events_by_month do %>
-        <option value="<%= event_path(@conn, :index, month: month_number, year: @year) %>">
-        <%= Timex.month_name(month_number) %>
-        </option>
-      <% end %>
-    </select>
+    <%= render "_month_select.html",
+        conn: @conn,
+        month: @month,
+        year: @year %>
 
-    <select class="c-select m-event-list__select">
-      <option value="<%= event_path(@conn, :index, month: @month, year: 2021) %>">
-        2021
-      </option>
-    </select>
+    <%= render "_year_select.html",
+        conn: @conn,
+        month: @month,
+        year: @year %>
   </nav>
 
   <%= for {month_number, event_teasers} <- events_by_month do %>
