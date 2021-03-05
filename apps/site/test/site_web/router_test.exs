@@ -1,6 +1,13 @@
 defmodule Phoenix.Router.RoutingTest do
   use SiteWeb.ConnCase, async: true
 
+  describe "routes" do
+    test "Proposed Sales Locations page", %{conn: conn} do
+      conn = get(conn, "/fare-transformation/proposed-sales-locations")
+      assert html_response(conn, 200)
+    end
+  end
+
   describe "redirects" do
     test "yawkey redirect", %{conn: conn} do
       conn = get(conn, "/stops/Lansdowne")
