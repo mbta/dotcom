@@ -24,7 +24,7 @@ defmodule TripPlan.Leg do
           start: DateTime.t(),
           stop: DateTime.t(),
           mode: mode,
-          from: NamedPosition.t(),
+          from: NamedPosition.t() | nil,
           to: NamedPosition.t(),
           name: String.t(),
           long_name: String.t(),

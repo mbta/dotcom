@@ -393,7 +393,7 @@ defmodule SiteWeb.ScheduleView do
         _ ->
           [
             %HeaderTab{id: "trip-view", name: "Schedule", href: schedule_link},
-            %HeaderTab{id: "line", name: "Info & Maps", href: info_link} | tabs
+            %HeaderTab{id: "line", name: "Schedules & Maps", href: info_link} | tabs
           ]
       end
 

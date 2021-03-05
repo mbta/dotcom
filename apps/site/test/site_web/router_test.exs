@@ -101,6 +101,11 @@ defmodule Phoenix.Router.RoutingTest do
       conn = get(conn, "/schedules/449/tab")
       assert redirected_to(conn, 301) == "/betterbus-440s"
     end
+
+    test "trip planner with 'to' but without an address", %{conn: conn} do
+      conn = get(conn, "/trip-planner/to/")
+      assert redirected_to(conn, 301) == "/trip-planner"
+    end
   end
 
   test "Adds noindex x-robots-tag HTTP header if config set", %{conn: conn} do

@@ -10,9 +10,11 @@ config :site, SiteWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "yK6hUINZWlq04EPu3SJjAHNDYgka8MZqgXZykF+AQ2PvWs4Ua4IELdFl198aMvw0",
   render_errors: [accepts: ~w(html), layout: {SiteWeb.LayoutView, "app.html"}],
-  pubsub: [name: Site.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub_server: Site.PubSub
 
 config :phoenix, :gzippable_exts, ~w(.txt .html .js .css .svg)
+
+config :phoenix, :json_library, Poison
 
 # Configures Elixir's Logger
 config :logger, :console,
@@ -25,7 +27,10 @@ config :logster, :allowed_headers, ["referer"]
 config :site, SiteWeb.ViewHelpers, google_tag_manager_id: System.get_env("GOOGLE_TAG_MANAGER_ID")
 
 config :laboratory,
-  features: [],
+  features: [
+    {:events_hub_redesign, "Events Hub Redesign (Feb. 2021)",
+     "Changes to the event listings and the event pages as part of the 🤝 Public Engagement epic"}
+  ],
   cookie: [
     # one month,
     max_age: 3600 * 24 * 30,

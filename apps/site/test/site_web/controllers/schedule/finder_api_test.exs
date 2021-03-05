@@ -233,6 +233,8 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
       |> json_response(200)
     end
 
+    @tag skip:
+           "Skipping this test temporarily. Pleasant Street station will be closed beginning on Sat, Feb 27, as part of the B Branch Station Consolidation project."
     test "handles green line trips from the generic Green page", %{conn: conn} do
       params = %{
         id: "Green",

@@ -1,6 +1,7 @@
 defmodule PageControllerBench do
   use Benchfella
-  use Phoenix.ConnTest
+  import Plug.Conn
+  import Phoenix.ConnTest
 
   @endpoint SiteWeb.Endpoint
 

@@ -13,18 +13,21 @@ defmodule SiteWeb.ScheduleControllerTest do
   @routes_repo_api Application.get_env(:routes, :routes_repo_api)
 
   describe "Bus" do
+    @tag skip: "Closing the Schedules Tab"
     test "all stops is assigned for a route", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "1"))
       html_response(conn, 200)
       assert conn.assigns.all_stops != nil
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "origin is unassigned for a route when you first view the page", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "1"))
       html_response(conn, 200)
       assert conn.assigns.origin == nil
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "has the origin when it has been selected", %{conn: conn} do
       conn =
         get(
@@ -38,6 +41,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert conn.assigns.origin.id == @test_origin
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "finds a trip when origin has been selected", %{conn: conn} do
       conn =
         get(
@@ -52,6 +56,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert conn.assigns.trip_info
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "finds a trip list with origin and destination", %{conn: conn} do
       conn =
         get(
@@ -73,6 +78,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert conn.assigns.predictions != nil
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "assigns tab to \"trip-view\"", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "1"))
       assert conn.assigns.tab == "trip-view"
@@ -103,6 +109,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert redirected_to(conn, 302) =~ "timetable"
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "assigns information for the trip view", %{conn: conn} do
       conn =
         get(
@@ -153,6 +160,7 @@ defmodule SiteWeb.ScheduleControllerTest do
                |> Enum.map(&List.first/1)
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "assigns a map of stop ID to zone", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "CR-Lowell"))
       zone_map = conn.assigns.zone_map
@@ -163,6 +171,7 @@ defmodule SiteWeb.ScheduleControllerTest do
   end
 
   describe "subway" do
+    @tag skip: "Closing the Schedules Tab"
     test "assigns schedules, frequency table, origin, and destination", %{conn: conn} do
       conn =
         get(
@@ -187,6 +196,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert conn.assigns.destination
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "assigns schedules, frequency table, and origin", %{conn: conn} do
       conn =
         get(
@@ -201,6 +211,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       refute conn.assigns.destination
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "frequency table not assigned when no origin is selected", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "Red"))
       refute :frequency_table in Map.keys(conn.assigns)
@@ -208,6 +219,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       refute :schedules in Map.keys(conn.assigns)
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "assigns schedules, frequency table, and origin for green line", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "Green-D", origin: "place-pktrm"))
       assert conn.assigns.schedules
@@ -217,6 +229,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       refute conn.assigns.destination
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "assigns schedules, frequency table, origin, destination for green line", %{conn: conn} do
       conn =
         get(
@@ -224,9 +237,9 @@ defmodule SiteWeb.ScheduleControllerTest do
           trip_view_path(
             conn,
             :show,
-            "Green-B",
+            "Green-C",
             schedule_direction: %{
-              origin: "place-bland",
+              origin: "place-coecl",
               destination: "place-pktrm",
               direction_id: "1"
             }
@@ -241,6 +254,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert conn.assigns.destination
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "assigns trip info and journeys for Mattapan line", %{conn: conn} do
       conn =
         get(
@@ -254,11 +268,24 @@ defmodule SiteWeb.ScheduleControllerTest do
   end
 
   describe "all modes" do
+    @tag todo: "Closing the Schedules Tab"
+    test "redirects from schedules tab to line tab with query params", %{
+      conn: conn
+    } do
+      conn = get(conn, trip_view_path(conn, :show, "1", origin: "64", destination: "6"))
+      assert conn.status == 302
+
+      assert redirected_to(conn, 302) ==
+               line_path(conn, :show, "1", destination: "6", origin: "64")
+    end
+
+    @tag skip: "Closing the Schedules Tab"
     test "assigns breadcrumbs", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "1"))
       assert conn.assigns.breadcrumbs
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "shows a checkmark next to the last stop", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "Red", origin: "place-pktrm"))
       response = html_response(conn, 200)
@@ -488,6 +515,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       refute path =~ "tab="
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "trip_view tab", %{conn: conn} do
       conn =
         get(
@@ -538,6 +566,7 @@ defmodule SiteWeb.ScheduleControllerTest do
   end
 
   describe "schedule tab" do
+    @tag skip: "Closing the Schedules Tab"
     test "a retirement message exists for buses", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "1"))
       html_response(conn, 200)
@@ -545,6 +574,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert conn.assigns.retirement_message != nil
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "a retirement message exists for subway", %{conn: conn} do
       conn = get(conn, trip_view_path(conn, :show, "Blue"))
       html_response(conn, 200)
@@ -552,6 +582,7 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert conn.assigns.retirement_message != nil
     end
 
+    @tag skip: "Closing the Schedules Tab"
     test "a retirement message does not exist for CR", %{conn: conn} do
       conn = get(conn, timetable_path(conn, :show, "CR-Lowell"))
       html_response(conn, 200)

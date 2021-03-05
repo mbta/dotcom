@@ -33,7 +33,7 @@
           <%= if @route.type == 2 do %>
             Schedule &amp; Maps
           <% else %>
-            Info &amp; Maps
+            Schedules &amp; Maps
           <% end %>
         </h2>
 

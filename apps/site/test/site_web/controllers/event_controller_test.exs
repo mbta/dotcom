@@ -49,6 +49,7 @@ defmodule SiteWeb.EventControllerTest do
     end
   end
 
+  @tag todo: "Replacing with events_hub_redesign"
   describe "GET show" do
     test "renders and does not rewrite an unaliased event response", %{conn: conn} do
       event = event_factory(0, path_alias: nil)
@@ -80,7 +81,7 @@ defmodule SiteWeb.EventControllerTest do
       event = event_factory(1)
       conn = get(conn, event_path(conn, :show, event) <> "?preview&vid=112&nid=5")
       assert html_response(conn, 200) =~ "Senior CharlieCard Event 112"
-      assert %{"preview" => nil, "vid" => "112", "nid" => "5"} == conn.query_params
+      assert %{"preview" => "", "vid" => "112", "nid" => "5"} == conn.query_params
     end
 
     test "retains params (except _format) and redirects when CMS returns a native redirect", %{
@@ -113,6 +114,20 @@ defmodule SiteWeb.EventControllerTest do
     test "renders a 404 when event does not exist", %{conn: conn} do
       conn = get(conn, event_path(conn, :show, "2018", "invalid-event"))
       assert conn.status == 404
+    end
+  end
+
+  describe "GET show (events_hub_redesign)" do
+    setup %{conn: conn} do
+      conn = conn |> put_req_cookie("events_hub_redesign", "true")
+      {:ok, conn: conn}
+    end
+
+    test "renders show.html", %{conn: conn} do
+      event = event_factory(0, path_alias: nil)
+      conn = get(conn, event_path(conn, :show, event))
+      assert conn.status == 200
+      refute html_response(conn, 200) =~ "<h3>Agenda</h3>"
     end
   end
 
