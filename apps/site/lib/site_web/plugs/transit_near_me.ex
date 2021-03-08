@@ -1,4 +1,7 @@
 defmodule SiteWeb.Plugs.TransitNearMe do
+  @moduledoc """
+  Plug for the TransitNearMe page.
+  """
   @behaviour Plug
   import Plug.Conn
   import Phoenix.Controller, only: [put_flash: 3]
@@ -8,6 +11,9 @@ defmodule SiteWeb.Plugs.TransitNearMe do
   alias Stops.{Nearby, Stop}
 
   defmodule Options do
+    @moduledoc """
+    Struct for the TransitNearMe plug.
+    """
     defstruct geocode_fn: &Geocode.geocode/1,
               reverse_geocode_fn: &Geocode.reverse_geocode/2,
               nearby_fn: &Nearby.nearby_with_varying_radius_by_mode/1,
@@ -36,7 +42,7 @@ defmodule SiteWeb.Plugs.TransitNearMe do
          %Geocode.Address{
            latitude: String.to_float(latitude),
            longitude: String.to_float(longitude),
-           formatted: formatted_address(conn.params, options)
+           formatted: Geocode.formatted_address(conn.params, options)
          }
        ]}
 
@@ -62,28 +68,6 @@ defmodule SiteWeb.Plugs.TransitNearMe do
     |> assign_address(location)
     |> assign(:requires_google_maps?, true)
     |> flash_if_error()
-  end
-
-  # Visits to this page from Algolia search results already have lat/lng geocoding, but use
-  # different parameters for the address. We track "address" as one of our analytics
-  # parameters for Algolia search results, but the Phoenix form helper used in the
-  # /transit-near-me template requires that we use a nested "locations"["address"] data structure.
-  # This helper function simply looks for the address in one of those two values and falls
-  # back to using the lat/lng if neither can be found.
-  defp formatted_address(%{"address" => address}, _options), do: address
-  defp formatted_address(%{"location" => %{"address" => address}}, _options), do: address
-
-  defp formatted_address(%{"latitude" => lat, "longitude" => lng}, options) do
-    {parsed_lat, _} = Float.parse(lat)
-    {parsed_lng, _} = Float.parse(lng)
-
-    case options.reverse_geocode_fn.(parsed_lat, parsed_lng) do
-      {:ok, [first | _]} ->
-        first.formatted
-
-      _ ->
-        "#{lat}, #{lng}"
-    end
   end
 
   @doc """

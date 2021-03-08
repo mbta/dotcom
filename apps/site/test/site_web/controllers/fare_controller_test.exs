@@ -56,60 +56,6 @@ defmodule SiteWeb.FareControllerTest do
     end
   end
 
-  describe "calculate_position/2" do
-    test "it calculates search position and address" do
-      params = %{"location" => %{"address" => "42.0, -71.0"}}
-
-      geocode_fn = fn _address ->
-        {:ok,
-         [%GoogleMaps.Geocode.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
-      end
-
-      {position, formatted} = calculate_position(params, geocode_fn)
-
-      assert formatted == "address"
-      assert %{latitude: 42.0, longitude: -70.1} = position
-    end
-
-    test "does not geocode if latitude/longitude params exist" do
-      params = %{"latitude" => "42.0", "longitude" => "-71.0"}
-
-      geocode_fn = fn _ ->
-        send(self(), :geocode_called)
-        {:error, :no_results}
-      end
-
-      {position, formatted} = calculate_position(params, geocode_fn)
-      refute_received :geocode_called
-      assert formatted == "42.0,-71.0"
-      assert %{latitude: 42.0, longitude: -71.0} = position
-    end
-
-    test "handles bad lat/lng values" do
-      params = %{"latitude" => "foo", "longitude" => "bar"}
-
-      geocode_fn = fn _address ->
-        send(self(), :geocode_called)
-
-        {:ok,
-         [%GoogleMaps.Geocode.Address{formatted: "address", latitude: 42.0, longitude: -70.1}]}
-      end
-
-      {position, formatted} = calculate_position(params, geocode_fn)
-      refute_received :geocode_called
-      assert position == %{}
-      assert formatted == ""
-    end
-
-    test "when there is no location map there is no position" do
-      params = %{}
-      geocode_fn = fn _address -> %{formatted: "address", latitude: 42.0, longitude: -71.0} end
-      {position, formatted} = calculate_position(params, geocode_fn)
-      assert formatted == ""
-      assert position == %{}
-    end
-  end
-
   describe "current_pass/1" do
     test "is the current month when the date given is prior to the 15th" do
       {:ok, date} = Timex.parse("2016-12-01T12:12:12-05:00", "{ISO:Extended}")

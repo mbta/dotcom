@@ -5,6 +5,7 @@ defmodule Util.Distance do
 
   """
   alias Util.Position
+  alias Fares.ProposedLocations.Location
   import Util.Position
 
   @degrees_to_radians :math.pi() / 180
@@ -12,7 +13,7 @@ defmodule Util.Distance do
   @globe_diameter 3958.7613 * 2
 
   @doc "Sorts the items by their distance from position."
-  @spec sort([Position.t()], Position.t()) :: [Position.t()]
+  @spec sort([Position.t()] | [Location.t()], Position.t() | Location.t()) :: [Position.t()]
   def sort(items, position) do
     items
     |> Enum.sort_by(&haversine(position, &1))
@@ -31,7 +32,7 @@ defmodule Util.Distance do
   end
 
   @doc "Return the haversine distance between the two positions"
-  @spec haversine(Position.t(), Position.t()) :: float
+  @spec haversine(Position.t() | Location.t(), Position.t() | Location.t()) :: float
   def haversine(first, second) do
     lat1 = latitude(first)
     lat2 = latitude(second)

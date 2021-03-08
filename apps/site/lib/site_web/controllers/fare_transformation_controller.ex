@@ -4,7 +4,13 @@ defmodule SiteWeb.FareTransformationController do
   """
   use SiteWeb, :controller
   alias Fares.ProposedLocations
+  alias GoogleMaps.Geocode
   import SiteWeb.ViewHelpers, only: [cms_static_page_path: 2]
+
+  @options %{
+    geocode_fn: &Geocode.geocode/1,
+    reverse_geocode_fn: &Geocode.reverse_geocode/2
+  }
 
   def index(conn, %{"id" => "proposed-sales-locations"} = params) do
     finder(conn, params)
@@ -17,8 +23,10 @@ defmodule SiteWeb.FareTransformationController do
   end
 
   def finder(conn, %{"location" => %{"address" => address}} = params) do
-    {position, _formatted} =
-      SiteWeb.FareController.calculate_position(params, &GoogleMaps.Geocode.geocode/1)
+    address = Geocode.check_address(address, @options)
+    params = %{params | "location" => %{"address" => address}}
+
+    {position, _formatted} = Geocode.calculate_position(params, @options.geocode_fn)
 
     nearby_proposed_locations = ProposedLocations.by_lat_lon(position)
 
@@ -26,8 +34,9 @@ defmodule SiteWeb.FareTransformationController do
       if is_nil(nearby_proposed_locations) do
         []
       else
-        # Return the 10 closest locations
+        # Return the 10 closest locations, sorted by distance
         nearby_proposed_locations
+        |> Util.Distance.sort(position)
         |> Enum.slice(0, 10)
         |> Enum.map(fn loc ->
           lat_lon = {loc.latitude, loc.longitude}

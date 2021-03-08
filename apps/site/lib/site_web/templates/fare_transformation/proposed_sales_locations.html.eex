@@ -43,9 +43,8 @@
 <%= case @nearby_proposed_locations do %>
   <% [] -> %>
     <div class="container" style="display: flex">
-      <%= alert_icon() %>
       <div class="col-md-6">
-        <p><b>There are no proposed sales locations nearby. Please try to search again with a different location that's closer to areas the MBTA run.</b></p>
+        <p><b>The address you entered is more than 100 miles from the nearest proposed sales location. Please use an address that's closer to an MBTA service area.</b></p>
       </div>
     </div>
   <% _ -> %>

@@ -8,7 +8,7 @@ defmodule Fares.ProposedLocations do
 
   @base_url "https://services1.arcgis.com/ceiitspzDAHrdGO1/ArcGIS/rest/services/ProposedSalesNetworkSpringOutreach/FeatureServer/0/query?f=json&outFields=*&inSR=4326&outSR=4326&returnGeometry=true"
 
-  @distance_in_miles 10
+  @distance_in_miles 100
 
   @spec by_lat_lon(%GoogleMaps.Geocode.Address{}) :: [Location.t()] | nil
   def by_lat_lon(%{latitude: lat, longitude: lon}) do

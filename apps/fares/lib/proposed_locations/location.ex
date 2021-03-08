@@ -25,4 +25,9 @@ defmodule Fares.ProposedLocations.Location do
           latitude: float,
           longitude: float
         }
+
+  defimpl Util.Position do
+    def latitude(%{latitude: latitude}), do: latitude
+    def longitude(%{longitude: longitude}), do: longitude
+  end
 end
