@@ -55,7 +55,7 @@
             <div>
               <%= if !event_ended(range) do %>
                 <%= link to: event_icalendar_path(@conn, event_teaser.path),
-                  data: [turbolinks: false] do %>
+                  data: [turbolinks: false], class: "btn btn-secondary m-event__calendar-add" do %>
                   <div class="btn btn-secondary m-event__calendar-add">
                     <%= fa "calendar-plus-o" %>
                     <span class="m-event__add-text">Add</span>
