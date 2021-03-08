@@ -20,6 +20,87 @@ defmodule GoogleMaps.Geocode do
   @http_pool Application.get_env(:google_maps, :http_pool)
   @path "/maps/api/geocode/json"
 
+  # Visits to the "Transit Near Me" page from Algolia search results already have lat/lng geocoding, but use
+  # different parameters for the address. We track "address" as one of our analytics
+  # parameters for Algolia search results, but the Phoenix form helper used in the
+  # /transit-near-me template requires that we use a nested "locations"["address"] data structure.
+  # This helper function simply looks for the address in one of those two values and falls
+  # back to using the lat/lng if neither can be found.
+  # Also used in the "Proposed Sales Location" page to identify whether an address is formatted or a String containing coordinates
+  def formatted_address(%{"address" => address}, _options), do: address
+  def formatted_address(%{"location" => %{"address" => address}}, _options), do: address
+
+  def formatted_address(%{"latitude" => lat, "longitude" => lng}, options) do
+    {parsed_lat, _} = Float.parse(lat)
+    {parsed_lng, _} = Float.parse(lng)
+
+    case options.reverse_geocode_fn.(parsed_lat, parsed_lng) do
+      {:ok, [first | _]} ->
+        first.formatted
+
+      _ ->
+        "#{lat}, #{lng}"
+    end
+  end
+
+  @spec calculate_position(
+          map(),
+          (String.t() -> GoogleMaps.Geocode.Address.t())
+        ) :: {GoogleMaps.Geocode.Address.t(), String.t()}
+  def calculate_position(%{"latitude" => lat_str, "longitude" => lng_str} = params, geocode_fn) do
+    case {Float.parse(lat_str), Float.parse(lng_str)} do
+      {{lat, ""}, {lng, ""}} ->
+        addr = %GoogleMaps.Geocode.Address{
+          latitude: lat,
+          longitude: lng,
+          formatted: lat_str <> "," <> lng_str
+        }
+
+        parse_geocode_response({:ok, [addr]})
+
+      _ ->
+        params
+        |> Map.delete("latitude")
+        |> Map.delete("longitude")
+        |> calculate_position(geocode_fn)
+    end
+  end
+
+  def calculate_position(%{"location" => %{"address" => address}}, geocode_fn) do
+    address
+    |> geocode_fn.()
+    |> parse_geocode_response()
+  end
+
+  def calculate_position(_params, _geocode_fn) do
+    {%{}, ""}
+  end
+
+  defp parse_geocode_response({:ok, [location | _]}) do
+    {location, location.formatted}
+  end
+
+  defp parse_geocode_response(_) do
+    {%{}, ""}
+  end
+
+  @spec check_address(String.t(), map) :: String.t()
+  def check_address(address, opts) do
+    # address can be a String containing "lat,lon" so we check for that case
+
+    [lat, lon] =
+      case String.split(address, ",", parts: 2) do
+        [lat, lon] -> [lat, lon]
+        _ -> ["error", "error"]
+      end
+
+    if Float.parse(lat) == :error || Float.parse(lon) == :error do
+      address
+    else
+      formatted_address(%{"latitude" => lat, "longitude" => lon}, opts)
+    end
+  end
+
   @spec geocode(String.t()) :: t
   def geocode(address) when is_binary(address) do
     cache(address, fn address ->
