@@ -1,0 +1,66 @@
+<div class="container">
+  <h1>Proposed Sales Locations</h1>
+  <div class="row page-section">
+    <div class="col-md-8">
+      <p>
+        As part of the MBTA's <%= link "Fare Transformation", to: cms_static_page_path(@conn, "/fare-transformation") %>, we're expanding our network of places where riders can get a new Charlie Card, load money, and purchase passes. Enter your address to see a list of potential future sales locations in your area.
+      </p>
+      <p>
+        Or, <%= link "see a map of all proposed sales locations", to: "https://massdot.maps.arcgis.com/apps/Viewer/index.html?appid=927f1be32b0243af9d9ff68ec1311ddb", target: "_blank" %>.
+      </p>
+      <p>
+        <b>Note</b>: this list does not include current MBTA retailers. To see current retail locations, use our <%= link "retail sales location finder", to: fare_path(@conn, :show, "retail-sales-locations") %>. All proposed locations are subject to site suitability, permitting, and retail availability.
+      </p>
+    </div>
+    <div class="col-md-4">
+      <div class="m-schedule-page__schedule-notes">
+        <h3 class="c-fare-pass__name">Get Involved</h3>
+        <p>
+          We're asking the public to help guide our decisions as we roll out the Fare Transformation project over the next several years.
+        </p>
+        <%= link "Find out how to get involved", to: "https://faretransformation.mbta.com/get-involved", target: "_blank", class: "c-call-to-action" %>
+      </div>
+    </div>
+  </div>
+  <div class="row c-finder-section page-section">
+    <div class="col-md-8">
+      <h2>Find Proposed Locations Near You</h2>
+      <%= form_for @conn, @conn.request_path<>"#address-search-input", [as: :location, method: :get, class: "form"], fn _f -> %>
+        <%= input_location(%InputLocation{id: "address-search-input", name: :location, name_index: :address, address: @address, address_error: get_flash(@conn, :info), submit: true, required: true, placeholder: "Enter a location", button_class: ""}) %>
+      <% end %>
+    </div>
+    <div class="col-md-4 c-suggest-retailer">
+      <div class="m-schedule-page__schedule-notes">
+        <h3 class="c-fare-pass__name">Suggest a retailer</h3>
+        <p>
+          Know a local store owner who might be interested in joining our retail network? Suggest a retailer and we'll reach out to them on your behalf.
+        </p>
+        <%= link "Let us know", to: "https://mbta-customer-tech.formstack.com/forms/retailer_recommendation_form", target: "_blank", class: "c-call-to-action" %>
+      </div>
+    </div>
+  </div>
+</div>
+<%= case @nearby_proposed_locations do %>
+  <% [] -> %>
+    <div class="container" style="display: flex">
+      <%= alert_icon() %>
+      <div class="col-md-6">
+        <p><b>There are no proposed sales locations nearby. Please try to search again with a different location that's closer to areas the MBTA run.</b></p>
+      </div>
+    </div>
+  <% _ -> %>
+    <%= if !is_nil(@nearby_proposed_locations) do %>
+      <div class="c-location-cards--background-gray c-finder-results">
+        <div class="container">
+          <%= render "_nearby_locations.html", conn: @conn, nearby_proposed_locations: @nearby_proposed_locations, search_position: @search_position %>
+        </div>
+      </div>
+    <% end %>
+<% end %>
+<div class="container">
+  <div class="row col-md-8">
+    <h2>Tell Us What You Think</h2>
+    <p>We want to make sure we’re building a retail network that works for you. You can share your feedback using the form below.</p>
+    <%= link "Fill out the form", to: "https://mbta.qualtrics.com/jfe/form/SV_6A1WCh4mKnkM22y", target: "_blank" %>
+  </div>
+</div>

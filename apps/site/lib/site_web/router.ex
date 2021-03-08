@@ -61,6 +61,7 @@ defmodule SiteWeb.Router do
     get("/fares/commuter-rail", Redirector, to: "/fares/commuter-rail-fares")
     get("/fares/ferry", Redirector, to: "/fares/ferry-fares")
     get("/fares/retail_sales_locations", Redirector, to: "/fares/retail-sales-locations")
+    get("/fare-transformation/:id", FareTransformationController, :index)
     get("/schedules/commuter_rail", Redirector, to: "/schedules/commuter-rail")
     get("/stops/commuter_rail", Redirector, to: "/stops/commuter-rail")
     get("/style_guide", Redirector, to: "/style-guide")
