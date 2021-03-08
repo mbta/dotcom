@@ -10,7 +10,7 @@ defmodule SiteWeb.EventController do
   alias SiteWeb.EventDateRange
   alias SiteWeb.EventView
 
-  plug(:assign_date_from_params)
+  plug(SiteWeb.Plugs.YearMonth)
   plug(:assign_events)
 
   def index(conn, _params) do
@@ -49,39 +49,6 @@ defmodule SiteWeb.EventController do
        do: Map.take(conn.assigns, [:year, :month])
 
   defp event_date_range_params_from_params(conn), do: Map.take(conn.assigns, [:year])
-
-  # Looks at URL params for determining the date to render,
-  # Otherwise uses the current month/year
-  defp assign_date_from_params(
-         %{
-           query_params: %{
-             "year" => year,
-             "month" => month
-           }
-         } = conn,
-         _opts
-       ) do
-    year_num = String.to_integer(year)
-    month_num = String.to_integer(month)
-
-    case Date.new(year_num, month_num, 1) do
-      {:ok, _date} ->
-        conn
-        |> assign(:year, year_num)
-        |> assign(:month, month_num)
-
-      {:error, _error} ->
-        assign_from_current_date(conn)
-    end
-  end
-
-  defp assign_date_from_params(conn, _opts), do: assign_from_current_date(conn)
-
-  defp assign_from_current_date(conn) do
-    conn
-    |> assign(:year, conn.assigns.date.year)
-    |> assign(:month, conn.assigns.date.month)
-  end
 
   def show(conn, %{"path_params" => path}) do
     case List.last(path) do
