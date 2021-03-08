@@ -6,6 +6,17 @@ defmodule Fares.ProposedLocationsTest do
 
   @location %{latitude: 42.42412295861601, longitude: -71.17941003354629}
 
+  @proposed_location %Fares.ProposedLocations.Location{
+    fid: 124,
+    latitude: 42.42412295861601,
+    line: "Bus",
+    longitude: -71.17941003354629,
+    municipality: "Arlington",
+    retail_fvm: "Fare vending machine",
+    routes: ["77", "79"],
+    stop_id: "2250",
+    stop_name: "Massachusetts Ave @ Daniels St"
+  }
   @arcgis_response "{
     \"objectIdFieldName\" : \"FID\",
     \"uniqueIdField\" :
@@ -40,23 +51,21 @@ defmodule Fares.ProposedLocationsTest do
     ]
   }"
 
+  describe "coordinates" do
+    test "latitude" do
+      assert Util.Position.latitude(@proposed_location) == 42.42412295861601
+    end
+
+    test "longitude" do
+      assert Util.Position.longitude(@proposed_location) == -71.17941003354629
+    end
+  end
+
   describe "requests data from ArcGIS and parses the response into a list of locations" do
     test "by_lat_lon - successful parsed response" do
       with_mock HTTPoison,
         get: fn _url -> {:ok, %{status_code: 200, body: @arcgis_response, headers: []}} end do
-        assert by_lat_lon(@location) == [
-                 %Fares.ProposedLocations.Location{
-                   fid: 124,
-                   latitude: 42.42412295861601,
-                   line: "Bus",
-                   longitude: -71.17941003354629,
-                   municipality: "Arlington",
-                   retail_fvm: "Fare vending machine",
-                   routes: ["77", "79"],
-                   stop_id: "2250",
-                   stop_name: "Massachusetts Ave @ Daniels St"
-                 }
-               ]
+        assert by_lat_lon(@location) == [@proposed_location]
       end
     end
 
