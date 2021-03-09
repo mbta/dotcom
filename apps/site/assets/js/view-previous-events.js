@@ -1,4 +1,4 @@
-const setupViewPreviousEventsButton = function() {
+export function setupViewPreviousEventsButton() {
   const viewPreviousEventsButtons = [
     ...document.querySelectorAll("a.m-previous-events-button")
   ];
@@ -8,15 +8,15 @@ const setupViewPreviousEventsButton = function() {
       // show hidden events for this button
       const groupName = button.dataset.group;
       const hiddenEventsForGroup = document.querySelectorAll(
-        `.m-hidden-event[data-group="${groupName}"]`
+        `.m-event.hidden[data-group="${groupName}"]`
       );
       [...hiddenEventsForGroup].forEach(event => {
-        event.classList.remove("m-hidden-event");
+        event.classList.remove("hidden");
       });
-      button.classList.add("m-hidden-button");
+      button.parentElement.classList.add("hidden");
     });
   });
-};
+}
 
 export default function() {
   document.addEventListener(
