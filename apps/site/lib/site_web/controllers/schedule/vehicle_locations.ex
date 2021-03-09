@@ -69,9 +69,12 @@ defmodule SiteWeb.ScheduleController.VehicleLocations do
 
   @spec find_locations(Plug.Conn.t(), %{}) :: __MODULE__.t()
   defp find_locations(
-         %Plug.Conn{assigns: %{route: route, direction_id: direction_id, date: date}},
+         %Plug.Conn{
+           assigns: %{route: route, direction_id: direction_id, date: date}
+         },
          opts
-       ) do
+       )
+       when not is_nil(route) do
     schedule_for_trip_fn = opts[:schedule_for_trip_fn]
 
     for vehicle <- opts[:location_fn].(route.id, direction_id: direction_id), into: %{} do
@@ -79,6 +82,8 @@ defmodule SiteWeb.ScheduleController.VehicleLocations do
       {key, vehicle}
     end
   end
+
+  defp find_locations(_, _), do: %{}
 
   @spec location_key(Vehicles.Vehicle.t(), Date.t(), any) :: {String.t() | nil, String.t() | nil}
   defp location_key(%Vehicles.Vehicle{status: :in_transit} = vehicle, date, schedule_for_trip_fn)
