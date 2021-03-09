@@ -7,7 +7,6 @@ defmodule SiteWeb.EventController do
   alias Plug.Conn
   alias Site.IcalendarGenerator
   alias SiteWeb.ControllerHelpers
-  alias SiteWeb.EventDateRange
   alias SiteWeb.EventView
 
   plug(SiteWeb.Plugs.YearMonth)
@@ -21,34 +20,15 @@ defmodule SiteWeb.EventController do
   end
 
   defp assign_events(conn, _opts) do
-    date_range =
-      event_date_range_params_from_params(conn)
-      |> EventDateRange.build(conn.assigns.date)
-
-    event_teasers_fn = fn ->
-      Repo.teasers(
-        type: [:event],
-        items_per_page: 50,
-        date_op: "between",
-        date: [min: date_range.start_time_gt, max: date_range.start_time_lt],
-        sort_order: "ASC"
-      )
-    end
-
     conn
-    |> async_assign_default(:events, event_teasers_fn, [])
+    |> async_assign_default(
+      :events,
+      fn ->
+        Repo.events_for_year(conn.assigns.year)
+      end,
+      []
+    )
   end
-
-  defp event_date_range_params_from_params(
-         %{
-           query_params: %{
-             "calendar" => "true"
-           }
-         } = conn
-       ),
-       do: Map.take(conn.assigns, [:year, :month])
-
-  defp event_date_range_params_from_params(conn), do: Map.take(conn.assigns, [:year])
 
   def show(conn, %{"path_params" => path}) do
     case List.last(path) do
