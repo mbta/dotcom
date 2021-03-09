@@ -162,6 +162,20 @@ defmodule SiteWeb.EventControllerTest do
              ]
     end
 
+    test "returns an icalendar file when only the path_alias is passed", %{conn: conn} do
+      event = event_factory(1)
+      IO.inspect(event)
+      assert event.path_alias == "/events/date/title"
+      conn = get(conn, event_icalendar_path(conn, event.path_alias))
+      assert conn.status == 200
+
+      assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
+
+      assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
+               "attachment; filename=senior_charliecard_event.ics"
+             ]
+    end
+
     test "returns an icalendar file as an attachment when event has a non-conforming alias", %{
       conn: conn
     } do
