@@ -23,8 +23,6 @@ defmodule Site.Application do
 
     children = [
       # Start the endpoint when the application starts
-      # Start the PubSub system
-      {Phoenix.PubSub, name: Site.PubSub},
       supervisor(ConCache, [
         [
           ttl: :timer.seconds(60),

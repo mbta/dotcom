@@ -38,5 +38,4 @@ end
 
 defimpl Plug.Exception, for: Stops.NotFoundError do
   def status(_), do: 404
-  def actions(_exception), do: []
 end
