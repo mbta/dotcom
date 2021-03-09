@@ -164,7 +164,6 @@ defmodule SiteWeb.EventControllerTest do
 
     test "returns an icalendar file when only the path_alias is passed", %{conn: conn} do
       event = event_factory(1)
-      IO.inspect(event)
       assert event.path_alias == "/events/date/title"
       conn = get(conn, event_icalendar_path(conn, event.path_alias))
       assert conn.status == 200
