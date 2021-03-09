@@ -52,11 +52,11 @@
                 <%= link event_teaser.title, to: path_fn.() %>
               </div>
             </div>
-            <div>
+            <div class="m-event__status-message">
               <%= if !event_ended(range) do %>
                 <%= link to: event_icalendar_path(@conn, event_teaser.path),
                   data: [turbolinks: false] do %>
-                  <div class="btn btn-secondary m-event__calendar-add">
+                  <div class="btn btn-secondary btn-lg">
                     <%= fa "calendar-plus-o" %>
                     <span class="m-event__add-text">Add</span>
                   </div>
