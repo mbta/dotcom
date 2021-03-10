@@ -8,7 +8,7 @@
     "stylelint-selector-no-mergeable"
   ],
   "rules": {
-    "at-rule-blacklist": [
+    "at-rule-disallowed-list": [
       "debug"
     ],
     "block-opening-brace-space-before": "always",
@@ -23,7 +23,7 @@
     "declaration-colon-space-after": "always",
     "declaration-colon-space-before": "never",
     "declaration-no-important": true,
-    "declaration-property-value-blacklist": {
+    "declaration-property-value-disallowed-list": {
       "/^border/": [
         "none"
       ]
@@ -32,7 +32,7 @@
     "function-parentheses-space-inside": "never",
     "function-url-no-scheme-relative": true,
     "function-url-quotes": "always",
-    "function-url-scheme-whitelist": [
+    "function-url-scheme-allowed-list": [
       "data"
     ],
     "indentation": [
@@ -149,7 +149,7 @@
     "selector-pseudo-element-colon-notation": "double",
     "shorthand-property-no-redundant-values": true,
     "string-quotes": "single",
-    "unit-whitelist": [
+    "unit-allowed-list": [
       "ch",
       "em",
       "ex",
