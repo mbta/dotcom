@@ -76,9 +76,20 @@ const updateDirectionAndVariantInURL = (
 
 const toggleDirection = (state: State): State => {
   const nextDirection = state.directionId === 0 ? 1 : 0;
-  const [defaultRoutePatternForDirection] = state.routePatternsByDirection[
-    nextDirection
-  ];
+
+  // attempt to find the same route pattern for the opposite direction
+  const possibleNextRoutePattern = `${state.routePattern.id.slice(
+    0,
+    -1
+  )}${nextDirection}`;
+
+  const nextRoutePattern = state.routePatternsByDirection[nextDirection].find(
+    element => element.id === possibleNextRoutePattern
+  );
+
+  const defaultRoutePatternForDirection =
+    nextRoutePattern || state.routePatternsByDirection[nextDirection][0];
+
   updateDirectionAndVariantInURL(
     nextDirection,
     defaultRoutePatternForDirection.id
