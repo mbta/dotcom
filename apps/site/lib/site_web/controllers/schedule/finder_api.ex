@@ -192,7 +192,20 @@ defmodule SiteWeb.ScheduleController.FinderApi do
 
     schedule_opts = [date: schedule_date, direction_id: direction_id, stop_ids: [stop_id]]
     schedules_fn = Map.get(conn.assigns, :schedules_fn, &Schedules.Repo.by_route_ids/2)
-    schedules = schedules_fn.(route_ids, schedule_opts)
+
+    schedules =
+      case schedules_fn.(route_ids, schedule_opts) do
+        {:error, error} ->
+          _ =
+            Logger.warn(
+              "module=#{__MODULE__} Error getting schedules for #{route_ids}: #{inspect(error)}"
+            )
+
+          []
+
+        schedules ->
+          schedules
+      end
 
     # Don't bother fetching predictions if we're looking at a future/past date.
     # We include predictions in the trip list because current day trips MAY have
