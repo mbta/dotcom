@@ -32,7 +32,10 @@ const ServiceOptGroup = ({
         const endDate = new Date(service.end_date);
         let optionText = "";
 
-        if (service.typicality === "unplanned_disruption") {
+        if (
+          service.typicality === "unplanned_disruption" ||
+          service.typicality === "planned_disruption"
+        ) {
           optionText = service.description;
         } else if (
           service.typicality === "holiday_service" &&
