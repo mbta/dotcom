@@ -259,6 +259,10 @@ defmodule PredictedScheduleTest do
         assert schedule.trip.id == prediction.trip.id
       end
     end
+
+    test "returns empty in case of error" do
+      assert group({:error, "error in predictions"}, {:error, "error in schedules"}) == []
+    end
   end
 
   describe "stop/1" do
