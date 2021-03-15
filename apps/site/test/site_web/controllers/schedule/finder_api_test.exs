@@ -215,6 +215,29 @@ defmodule SiteWeb.ScheduleController.FinderApiTest do
 
       assert [%{"departure" => %{"prediction" => added_prediction, "schedule" => nil}}] = response
     end
+
+    test "logs a warning and returns empty when schedules_fn returns error", %{conn: conn} do
+      path =
+        finder_api_path(conn, :departures, %{
+          id: "CR-Providence",
+          direction: "0",
+          stop: "place-sstat"
+        })
+
+      log =
+        ExUnit.CaptureLog.capture_log(fn ->
+          response =
+            conn
+            |> assign(:schedules_fn, fn _, _ -> {:error, "error"} end)
+            |> assign(:predictions_fn, fn _ -> [] end)
+            |> get(path)
+            |> json_response(200)
+
+          assert response == []
+        end)
+
+      assert log =~ "ScheduleController.FinderApi Error getting schedules"
+    end
   end
 
   describe "trip/2" do
