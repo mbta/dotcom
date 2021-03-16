@@ -28,3 +28,7 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+
+# let logs happen, but only show warning and up in console
+config :logger, level: :info
+config :logger, :console, level: :warn

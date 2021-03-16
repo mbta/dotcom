@@ -1,6 +1,6 @@
 defmodule Vehicles.StreamTest do
-  use ExUnit.Case, async: true
-  alias ExUnit.CaptureLog
+  use ExUnit.Case, async: false
+  import ExUnit.CaptureLog
 
   @vehicles %JsonApi{
     data: [
@@ -84,7 +84,7 @@ defmodule Vehicles.StreamTest do
       end
 
       log =
-        CaptureLog.capture_log(fn ->
+        capture_log(fn ->
           assert {:ok, _} =
                    Vehicles.Stream.start_link(
                      name: name,
