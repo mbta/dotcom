@@ -328,6 +328,8 @@ export interface RoutePattern {
   time_desc: string | null;
   route_id: string;
   representative_trip_id: string;
+  representative_trip_polyline: string;
+  stop_ids: string[];
   name: string;
   id: string;
   direction_id: DirectionId;

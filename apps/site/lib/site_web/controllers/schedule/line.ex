@@ -113,8 +113,10 @@ defmodule SiteWeb.ScheduleController.Line do
     reverse_direction_id = reverse_direction(direction_id)
     route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)
     route_stops = LineHelpers.get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
+    # Both line.ex and helpers.ex have this function defined. Redundant?
     route_patterns = get_route_patterns(route.id)
-    shape_map = get_route_shape_map(route.id)
+    route_patterns_map = map_route_patterns_by_direction(route_patterns)
+    # Note, variant != shape_id
     active_shapes = LineHelpers.get_active_shapes(route_shapes, route, variant)
     filtered_shapes = LineHelpers.filter_route_shapes(route_shapes, active_shapes, route)
     branches = LineHelpers.get_branches(filtered_shapes, route_stops, route, direction_id)
@@ -131,14 +133,13 @@ defmodule SiteWeb.ScheduleController.Line do
       )
 
     {map_img_src, dynamic_map_data} =
-      Maps.map_data(route, map_stops, vehicle_polylines, vehicle_tooltips)
+      Maps.map_data(route, map_stops, route_patterns, vehicle_polylines, vehicle_tooltips)
 
     reverse_route_stops =
       LineHelpers.get_route_stops(route.id, reverse_direction_id, deps.stops_by_route_fn)
 
     conn
-    |> assign(:route_patterns, route_patterns)
-    |> assign(:shape_map, shape_map)
+    |> assign(:route_patterns, route_patterns_map)
     |> assign(:direction_id, direction_id)
     |> assign(
       :all_stops,
@@ -146,7 +147,7 @@ defmodule SiteWeb.ScheduleController.Line do
     )
     |> assign(:branches, branches)
     |> assign(:route_shapes, route_shapes)
-    |> assign(:active_shape, LineHelpers.active_shape(active_shapes, route.type))
+    # |> assign(:active_shape, LineHelpers.active_shape(active_shapes, route.type))
     |> assign(:map_img_src, map_img_src)
     |> assign(:dynamic_map_data, dynamic_map_data)
     |> assign(:expanded, expanded)
@@ -173,6 +174,10 @@ defmodule SiteWeb.ScheduleController.Line do
   defp get_route_patterns(route_id) do
     route_id
     |> RoutePatternRepo.by_route_id()
+  end
+
+  defp map_route_patterns_by_direction(route_patterns) do
+    route_patterns
     |> Enum.map(&Task.async(fn -> get_route_pattern_shape(&1) end))
     |> Enum.map(&Task.await/1)
     |> Enum.group_by(&(&1.direction_id |> Integer.to_string()))

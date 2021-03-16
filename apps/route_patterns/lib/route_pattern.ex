@@ -22,12 +22,17 @@ defmodule RoutePatterns.RoutePattern do
   alias JsonApi.Item
   alias Routes.Route
   alias Schedules.Trip
+  alias Schedules.Parser
+  alias Stops.Stop
 
   defstruct [
     :direction_id,
     :id,
     :name,
     :representative_trip_id,
+    :representative_trip_polyline,
+    :shape_id,
+    :stop_ids,
     :route_id,
     :time_desc,
     :typicality
@@ -40,10 +45,58 @@ defmodule RoutePatterns.RoutePattern do
           id: id_t(),
           name: String.t(),
           representative_trip_id: Trip.id_t(),
+          representative_trip_polyline: String.t(),
+          shape_id: String.t(),
+          stop_ids: [Stop.id_t()],
           route_id: Route.id_t(),
           time_desc: String.t(),
           typicality: typicality_t()
         }
+
+  def new(%Item{
+        id: id,
+        attributes: %{
+          "direction_id" => direction_id,
+          "name" => name,
+          "time_desc" => time_desc,
+          "typicality" => typicality
+        },
+        relationships: %{
+          "representative_trip" => [
+            %Item{
+              id: representative_trip_id,
+              relationships: %{
+                "shape" => [
+                  %Item{
+                    attributes: %{
+                      "polyline" => representative_trip_polyline
+                    },
+                    id: shape_id,
+                    relationships: %{
+                      "stops" => stop_ids
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "route" => [%Item{id: route_id}]
+        }
+      }) do
+    
+    %__MODULE__{
+      direction_id: direction_id,
+      id: id,
+      name: name,
+      representative_trip_id: representative_trip_id,
+      representative_trip_polyline: representative_trip_polyline,
+      shape_id: shape_id,
+      stop_ids: Enum.map(stop_ids, fn stop -> Parser.stop_id(stop) end),
+      route_id: route_id,
+      time_desc: time_desc,
+      typicality: typicality
+    }
+  end
 
   def new(%Item{
         id: id,

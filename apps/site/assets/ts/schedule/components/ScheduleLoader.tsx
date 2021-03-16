@@ -123,7 +123,6 @@ export const ScheduleLoader = ({
     schedule_note: scheduleNote,
     today,
     line_diagram: lineDiagram,
-    shape_map: shapesById,
     variant: initialSelectedRoutePatternId
   } = schedulePageData;
 
@@ -236,7 +235,6 @@ export const ScheduleLoader = ({
           directionId={readjustedDirectionId}
           route={route}
           routePatternsByDirection={routePatternsByDirection}
-          shapesById={shapesById}
           mapData={mapData}
           staticMapData={staticMapData}
           lineDiagram={lineDiagram}

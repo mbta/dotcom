@@ -17,6 +17,9 @@ import CrowdingPill from "./line-diagram/CrowdingPill";
 interface Props {
   channel: string;
   data: MapData;
+  currentShapeId: string;
+  branchShapeIds: string[] | null;
+  currentStops: string[];
   shapeIds: string[];
 }
 
@@ -194,8 +197,12 @@ export const reducer = (
 };
 
 export default ({
+  // Data has markers and stop_markers, and they are identical?
   data,
   channel,
+  currentShapeId,
+  branchShapeIds,
+  currentStops,
   shapeIds
 }: Props): ReactElement<HTMLElement> | null => {
   const bounds = useRef(getBounds(data.markers));
@@ -212,10 +219,18 @@ export default ({
     [channel, dispatch]
   );
   const stopMarkers = data.stop_markers
-    ? data.stop_markers.map(marker => updateMarker(marker))
+    ? data.stop_markers.filter(mark => currentStops.includes(mark.id as string))
+        .map(marker => updateMarker(marker))
     : [];
-  const mapData = {
+  
+  const filteredData = {
     ...data,
+    polylines: branchShapeIds ?
+      data.polylines.filter(p => branchShapeIds.some(shape => shape === p.id))
+      : data.polylines.filter(p => p.id === currentShapeId)
+  }
+  const mapData = {
+    ...filteredData,
     markers: state.markers.concat(stopMarkers)
   };
   return (

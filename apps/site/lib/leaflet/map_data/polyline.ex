@@ -3,6 +3,7 @@ defmodule Leaflet.MapData.Polyline do
   Builds a struct for rendering a polyline on a Leaflet map.
   """
   alias Routes.Shape
+  alias RoutePatterns.RoutePattern
 
   defstruct color: "#000000",
             dotted?: false,
@@ -23,7 +24,7 @@ defmodule Leaflet.MapData.Polyline do
   @spec new(Shape.t() | String.t(), Keyword.t()) :: t()
   def new(polyline, user_opts \\ [])
 
-  def new(%Shape{polyline: polyline, id: id}, user_opts) when is_binary(polyline) do
+  def new(%RoutePattern{representative_trip_polyline: polyline, shape_id: id}, user_opts) when is_binary(polyline) do
     positions =
       polyline
       |> Polyline.decode()

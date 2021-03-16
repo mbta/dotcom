@@ -9,9 +9,7 @@ import { MapData } from "../../../leaflet/components/__mapdata";
 
 export interface State {
   routePattern: EnhancedRoutePattern;
-  shape: Shape;
   directionId: DirectionId;
-  shapesById: ShapesById;
   routePatternsByDirection: RoutePatternsByDirection;
   routePatternMenuOpen: boolean;
   routePatternMenuAll: boolean;
@@ -87,7 +85,6 @@ const toggleDirection = (state: State): State => {
     ...state,
     directionId: nextDirection,
     routePattern: defaultRoutePatternForDirection,
-    shape: state.shapesById[defaultRoutePatternForDirection.shape_id],
     itemFocus: "first"
   };
 };
@@ -104,7 +101,6 @@ const setRoutePattern = (state: State, data: Payload): State => {
   return {
     ...state,
     routePattern: newRoutePattern,
-    shape: state.shapesById[newRoutePattern.shape_id],
     routePatternMenuOpen: false,
     itemFocus: null
   };

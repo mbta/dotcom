@@ -43,7 +43,6 @@ export interface SchedulePageData {
   services: ServiceInSelector[];
   stops: SimpleStopMap;
   direction_id: DirectionId;
-  shape_map: ShapesById;
   route_patterns: RoutePatternsByDirection;
   line_diagram: LineDiagramStop[];
   today: string;

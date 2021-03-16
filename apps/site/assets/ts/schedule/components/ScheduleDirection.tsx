@@ -1,7 +1,6 @@
 import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
 import { DirectionId, EnhancedRoute } from "../../__v3api";
 import {
-  ShapesById,
   RoutePatternsByDirection,
   LineDiagramStop,
   SimpleStopMap,
@@ -20,7 +19,6 @@ import { isABusRoute } from "../../models/route";
 export interface Props {
   route: EnhancedRoute;
   directionId: DirectionId;
-  shapesById: ShapesById;
   routePatternsByDirection: RoutePatternsByDirection;
   mapData?: MapData;
   staticMapData?: StaticMapData;
@@ -88,7 +86,6 @@ export const fetchLineData = (
 const ScheduleDirection = ({
   route,
   directionId,
-  shapesById,
   routePatternsByDirection,
   mapData,
   staticMapData,
@@ -105,14 +102,19 @@ const ScheduleDirection = ({
       routePattern => routePattern.id === initialSelectedRoutePatternId
     ) || routePatternsInCurrentDirection.slice(0, 1)[0];
 
+  // If the route is a rail type, any other routePatterns
+  // of the current typicality are a branch
+  const branchPatterns = route.type != 3 ?
+      routePatternsInCurrentDirection.filter(
+        pattern => pattern.typicality === defaultRoutePattern.typicality
+      ) : []
+
   const reverseDirection = directionId === 0 ? 1 : 0;
   const directionIsChangeable = route.direction_names[reverseDirection] != null;
 
   const [state, dispatch] = useReducer(menuReducer, {
     routePattern: defaultRoutePattern,
-    shape: shapesById[defaultRoutePattern.shape_id],
     directionId,
-    shapesById,
     routePatternsByDirection,
     routePatternMenuOpen: false,
     routePatternMenuAll: false,
@@ -125,9 +127,9 @@ const ScheduleDirection = ({
     error: false
   });
 
-  const currentShapeId = state.shape
-    ? state.shape.id
-    : defaultRoutePattern.shape_id;
+  const currentShapeId = state.routePattern.shape_id;
+  const branchShapeIds = branchPatterns.length ? branchPatterns.map(pattern => pattern.shape_id) : null
+  const currentStops = state.routePattern.stop_ids.concat(branchPatterns.reduce((acc, cur) => acc.concat(cur.stop_ids), [] as string[]));
   const shapeIds = state.routePatternsByDirection[state.directionId].map(
     routePattern => routePattern.shape_id
   );
@@ -147,6 +149,7 @@ const ScheduleDirection = ({
         );
       }
     },
+    // only re-run the effect if any of these things change
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [route, state.directionId, currentShapeId, staticMapData]
   );
@@ -166,6 +169,7 @@ const ScheduleDirection = ({
         dispatchLineData
       );
     },
+    // only re-run the effect if any of these things change
     [route, state.directionId, currentShapeId, currentRoutePatternIdForData]
   );
 
@@ -193,6 +197,10 @@ const ScheduleDirection = ({
         <Map
           channel={`vehicles:${route.id}:${state.directionId}`}
           data={mapState.data}
+          currentShapeId={currentShapeId}
+          branchShapeIds={branchShapeIds}
+          currentStops={currentStops}
+          // Pass all shapes for better vehicle tracking
           shapeIds={shapeIds}
         />
       )}

@@ -40,7 +40,8 @@ defmodule RoutePatterns.Repo do
       direction_id -> [route: route_id, direction_id: direction_id]
     end
     |> Keyword.put(:sort, "typicality,sort_order")
-    |> cache(&api_all/1)
+    |> Keyword.put(:include, "representative_trip.shape")
+    |> api_all
   end
 
   defp api_all(opts) do

@@ -8,6 +8,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   alias GoogleMapData.Path
   alias Leaflet.{MapData, MapData.Marker, MapData.Polyline}
   alias Stops.{RouteStops, RouteStop, Repo, Stop}
+  alias RoutePatterns.RoutePattern
   alias Routes.{Route, Shape}
   alias Site.MapHelpers
   alias Site.MapHelpers.Markers
@@ -20,17 +21,17 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   @spec map_data(
           Route.t(),
           {any, [Shape.t()]},
+          [RoutePattern.t()],
           [String.t()] | any,
           VehicleHelpers.tooltip_index() | [] | nil
         ) :: {String.t(), MapData.t()}
-  def map_data(route, map_route_stops, [], []) do
-    map_shapes = map_polylines(map_route_stops, route)
+  def map_data(route, map_route_stops, route_patterns, [], []) do
     static_data = map_img_src(map_route_stops, [], route)
-    dynamic_data = dynamic_map_data(route.color, map_shapes, map_route_stops, {nil, nil})
+    dynamic_data = dynamic_map_data(route.color, route_patterns, map_route_stops, {nil, nil})
     {static_data, dynamic_data}
   end
 
-  def map_data(route, map_route_stops, vehicle_polylines, vehicle_tooltips) do
+  def map_data(route, map_route_stops, route_patterns, vehicle_polylines, vehicle_tooltips) do
     map_shapes = map_polylines(map_route_stops, route)
 
     static_data =
@@ -41,7 +42,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
       )
 
     vehicle_data = {vehicle_polylines, vehicle_tooltips}
-    dynamic_data = dynamic_map_data(route.color, map_shapes, map_route_stops, vehicle_data)
+    dynamic_data = dynamic_map_data(route.color, route_patterns, map_route_stops, vehicle_data)
     {static_data, dynamic_data}
   end
 
@@ -86,19 +87,19 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
 
   @spec dynamic_map_data(
           String.t(),
-          [Shape.t()],
+          [RoutePattern.t()],
           {[RouteStop.t()], any},
           {[String.t()], VehicleHelpers.tooltip_index()} | {any, nil}
         ) :: MapData.t()
   defp dynamic_map_data(
          color,
-         map_shapes,
+         route_patterns,
          {route_stops, _shapes},
          {_vehicle_polylines, vehicle_tooltips}
        ) do
     {stop_markers, all_markers} = dynamic_markers(route_stops, vehicle_tooltips)
 
-    paths = dynamic_paths("#" <> color, map_shapes, [])
+    paths = dynamic_paths("#" <> color, route_patterns, [])
 
     {600, 600}
     |> MapData.new(16)
@@ -156,9 +157,9 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     end)
   end
 
-  @spec dynamic_paths(String.t(), [Shape.t()], [Shape.t()]) :: [Polyline.t()]
-  defp dynamic_paths(color, route_polylines, vehicle_polylines) do
-    route_paths = Enum.map(route_polylines, &Polyline.new(&1, color: color, weight: 4))
+  @spec dynamic_paths(String.t(), [RoutePattern.t()], [RoutePattern.t()]) :: [Polyline.t()]
+  defp dynamic_paths(color, route_patterns, vehicle_polylines) do
+    route_paths = Enum.map(route_patterns, &Polyline.new(&1, color: color, weight: 4))
     vehicle_paths = Enum.map(vehicle_polylines, &Polyline.new(&1, color: color, weight: 2))
     route_paths ++ vehicle_paths
   end

@@ -216,6 +216,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   def get_active_shapes(shapes, %Route{type: 3}, shape_id) do
     shapes
     |> get_requested_shape(shape_id)
+    # If we found no shapes of the correct id, then we use the default
     |> get_default_shape(shapes)
   end
 
@@ -235,9 +236,9 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   defp get_default_shape(%Shape{} = shape, _shapes), do: [shape]
   defp get_default_shape(_, _), do: []
 
-  @spec active_shape(shapes :: [Shape.t()], route_type :: 0..4) :: Shape.t() | nil
-  def active_shape([active | _], 3), do: active
-  def active_shape(_shapes, _route_type), do: nil
+  # @spec active_shape(shapes :: [Shape.t()], route_type :: 0..4) :: Shape.t() | nil
+  # def active_shape([active | _], 3), do: active
+  # def active_shape(_shapes, _route_type), do: nil
 
   # For bus routes, we only want to show the stops for the active route variant.
   @spec filter_route_shapes([Shape.t()], [Shape.t()], Route.t()) :: [
