@@ -1,9 +1,5 @@
 # Ensure the deps are all started
-Application.load(:fares)
-
-for app <- Application.spec(:fares, :applications) do
-  {:ok, _} = Application.ensure_all_started(app)
-end
+Application.ensure_all_started(:fares)
 
 # Report warnings as errors
 Code.compiler_options(warnings_as_errors: true)

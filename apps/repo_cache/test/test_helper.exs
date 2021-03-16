@@ -1,9 +1,5 @@
 # Ensure the deps are all started
-Application.load(:repo_cache)
-
-for app <- Application.spec(:repo_cache, :applications) do
-  {:ok, _} = Application.ensure_all_started(app)
-end
+Application.ensure_all_started(:repo_cache)
 
 ExUnit.start()
 

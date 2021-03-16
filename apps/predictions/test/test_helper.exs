@@ -1,10 +1,6 @@
 {:ok, _} = Application.ensure_all_started(:bypass)
 # Ensure the deps are all started
-Application.load(:predictions)
-
-for app <- Application.spec(:predictions, :applications) do
-  {:ok, _} = Application.ensure_all_started(app)
-end
+Application.ensure_all_started(:predictions)
 
 ExUnit.start()
 
