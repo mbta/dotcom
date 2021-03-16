@@ -1,5 +1,5 @@
 defmodule Vehicles.StreamTest do
-  use ExUnit.Case, async: false
+  use ExUnit.Case
   import ExUnit.CaptureLog
 
   @vehicles %JsonApi{
@@ -85,12 +85,12 @@ defmodule Vehicles.StreamTest do
 
       log =
         capture_log(fn ->
-          assert {:ok, _} =
-                   Vehicles.Stream.start_link(
-                     name: name,
-                     broadcast_fn: broadcast_fn,
-                     subscribe_to: mock_api
-                   )
+          {:ok, _} =
+            Vehicles.Stream.start_link(
+              name: name,
+              broadcast_fn: broadcast_fn,
+              subscribe_to: mock_api
+            )
         end)
 
       assert_receive :received_broadcast
