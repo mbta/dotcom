@@ -16,8 +16,8 @@ defmodule Site.TripPlan.MergeTest do
 
   describe "merge/3" do
     test "includes no duplicates" do
-      ptest accessible: list(of: positive_int(), max: 5),
-            unknown: list(of: positive_int(), max: 5) do
+      ptest accessible: list(of: positive_int(), min: 1, max: 5),
+            unknown: list(of: positive_int(), min: 1, max: 5) do
         {_, _, merged} = do_merge(accessible, unknown)
         assert Enum.uniq(merged) == merged
       end
