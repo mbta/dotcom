@@ -1,4 +1,5 @@
 export function setupEventsListing() {
+  const eventsHubPage = document.querySelector(".m-events-hub");
   const eventsListing = document.querySelector(".m-events-hub--list-view");
   const control = eventsListing.querySelector(
     ".m-event-list__nav--mobile-controls"
@@ -74,7 +75,7 @@ export default function() {
   document.addEventListener(
     "turbolinks:load",
     () => {
-      if (document.querySelector(".m-events-hub--list-view")) setupEventsListing();
+      if (document.querySelector(".m-events-hub")) setupEventsListing();
     },
     { passive: true }
   );

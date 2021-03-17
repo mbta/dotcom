@@ -7,7 +7,7 @@ import testConfig from "../../ts/jest.config";
 const { testURL } = testConfig;
 
 const eventsHubHTML = `
-    <div class="container m-events-hub">
+    <div class="container m-events-hub m-events-hub--list-view">
       <h1>Events</h1>
       <div class="row">
         <nav class="m-event-list__nav col-sm-3 fixedsticky sticky-top"></nav>
