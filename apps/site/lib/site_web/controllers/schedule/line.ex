@@ -111,21 +111,28 @@ defmodule SiteWeb.ScheduleController.Line do
     variant = schedule_direction["variant"]
     expanded = Map.get(conn.query_params, "expanded")
     reverse_direction_id = reverse_direction(direction_id)
-    route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)
     route_stops = LineHelpers.get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
     # Both line.ex and helpers.ex have this function defined. Redundant?
     route_patterns = get_route_patterns(route.id)
     route_patterns_map = map_route_patterns_by_direction(route_patterns)
-    # Note, variant != shape_id
-    active_shapes = LineHelpers.get_active_shapes(route_shapes, route, variant)
-    filtered_shapes = LineHelpers.filter_route_shapes(route_shapes, active_shapes, route)
-    branches = LineHelpers.get_branches(filtered_shapes, route_stops, route, direction_id)
-    map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id)
+    # Both route_shapes and active_shapes are needed here to render the static map
+    route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)
+    active_shapes = LineHelpers.get_active_shapes(route_shapes, route)
+    static_shapes = LineHelpers.filter_route_shapes(route_shapes, active_shapes, route)
+    # Unsure how this differs from `get_branch_route_stops`, as called in map_api.ex
+    static_branches = LineHelpers.get_branches(static_shapes, route_stops, route, direction_id)
+    static_map_polylines = case route do
+      %Route{type: 4} -> []
+      %Route{id: "Green"} -> route_shapes
+      _ -> active_shapes
+    end
+    static_map_stops = Maps.map_stops(static_branches)
 
     vehicles = conn.assigns[:vehicle_locations]
     vehicle_tooltips = conn.assigns[:vehicle_tooltips]
+    # This line is unutilized. We want it for any reason?  It's passed in line 153, but goes nowhere
     vehicle_polylines = VehicleHelpers.get_vehicle_polylines(vehicles, route_shapes)
-
+    
     time_data_by_stop =
       TransitNearMe.time_data_for_route_by_stop(route.id, direction_id,
         date: conn.assigns.date,
@@ -133,7 +140,7 @@ defmodule SiteWeb.ScheduleController.Line do
       )
 
     {map_img_src, dynamic_map_data} =
-      Maps.map_data(route, map_stops, route_patterns, vehicle_polylines, vehicle_tooltips)
+      Maps.map_data(route, static_map_stops, static_map_polylines, route_patterns, vehicle_polylines, vehicle_tooltips)
 
     reverse_route_stops =
       LineHelpers.get_route_stops(route.id, reverse_direction_id, deps.stops_by_route_fn)
@@ -143,11 +150,10 @@ defmodule SiteWeb.ScheduleController.Line do
     |> assign(:direction_id, direction_id)
     |> assign(
       :all_stops,
-      DiagramHelpers.build_stop_list(branches, direction_id)
+      DiagramHelpers.build_stop_list(static_branches, direction_id)
     )
-    |> assign(:branches, branches)
+    |> assign(:branches, static_branches)
     |> assign(:route_shapes, route_shapes)
-    # |> assign(:active_shape, LineHelpers.active_shape(active_shapes, route.type))
     |> assign(:map_img_src, map_img_src)
     |> assign(:dynamic_map_data, dynamic_map_data)
     |> assign(:expanded, expanded)
@@ -157,7 +163,7 @@ defmodule SiteWeb.ScheduleController.Line do
     )
     |> assign(:all_stops_from_route, flatten_route_stops(route_stops))
     |> assign(:reverse_direction_all_stops_from_route, flatten_route_stops(reverse_route_stops))
-    |> assign(:connections, connections(branches))
+    |> assign(:connections, connections(static_branches))
     |> assign(:time_data_by_stop, time_data_by_stop)
     |> assign(:variant, variant)
   end

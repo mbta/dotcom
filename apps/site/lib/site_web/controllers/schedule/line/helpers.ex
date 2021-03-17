@@ -210,35 +210,20 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     end
   end
 
-  @spec get_active_shapes([Shape.t()], Route.t(), Shape.id_t()) :: [
-          Shape.t()
-        ]
-  def get_active_shapes(shapes, %Route{type: 3}, shape_id) do
-    shapes
-    |> get_requested_shape(shape_id)
-    # If we found no shapes of the correct id, then we use the default
-    |> get_default_shape(shapes)
-  end
-
-  def get_active_shapes(_shapes, %Route{id: "Green"}, _shape_id) do
-    # not used by the green line code
-    []
-  end
-
-  def get_active_shapes(shapes, _route, _shape_id), do: shapes
+  @spec get_active_shapes([Shape.t()], Route.t()) :: [Shape.t()]
+  # If it's type bus, then use shape id.
+  # Well, this never actually works, so it always returns the default shape
+  def get_active_shapes(shapes, %Route{type: 3}), do: get_default_shape(shapes)
+  def get_active_shapes(_shapes, %Route{id: "Green"}), do: []
+  def get_active_shapes(shapes, _route), do: shapes
 
   @spec get_requested_shape([Shape.t()], query_param) :: Shape.t() | nil
   defp get_requested_shape(_shapes, nil), do: nil
   defp get_requested_shape(shapes, shape_id), do: Enum.find(shapes, &(&1.id == shape_id))
 
-  @spec get_default_shape(Shape.t() | nil, [Shape.t()]) :: [Shape.t()]
-  defp get_default_shape(nil, [default | _]), do: [default]
-  defp get_default_shape(%Shape{} = shape, _shapes), do: [shape]
-  defp get_default_shape(_, _), do: []
-
-  # @spec active_shape(shapes :: [Shape.t()], route_type :: 0..4) :: Shape.t() | nil
-  # def active_shape([active | _], 3), do: active
-  # def active_shape(_shapes, _route_type), do: nil
+  @spec get_default_shape([Shape.t()]) :: [Shape.t()]
+  defp get_default_shape([default | _]), do: [default]
+  defp get_default_shape(_), do: []
 
   # For bus routes, we only want to show the stops for the active route variant.
   @spec filter_route_shapes([Shape.t()], [Shape.t()], Route.t()) :: [
