@@ -839,9 +839,15 @@ closest arrival to 12:00 AM, Thursday, January 1st."
     }
 
     test "renders fare information", %{conn: conn} do
+      fares_assigns =
+        @fares_assigns
+        |> Map.put(:conn, conn)
+        |> Map.put(:show_fares, true)
+        |> Map.put(:itinerary_is_from_or_to_airport, false)
+
       html =
         "_itinerary_fares.html"
-        |> render(Map.put(@fares_assigns, :conn, conn))
+        |> render(fares_assigns)
         |> safe_to_string()
 
       [{_, _, [one_way_fare]}] = Floki.find(html, ".m-trip-plan-results__itinerary-fare--one-way")
@@ -1332,9 +1338,15 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             ]
         })
 
+      itinerary_fares =
+        fares_with_transfer
+        |> Map.put(:conn, conn)
+        |> Map.put(:show_fares, true)
+        |> Map.put(:itinerary_is_from_or_to_airport, false)
+
       html =
         "_itinerary_fares.html"
-        |> render(Map.put(fares_with_transfer, :conn, conn))
+        |> render(itinerary_fares)
         |> safe_to_string()
 
       [{_, _, transfer_note}] = Floki.find(html, ".m-trip-plan-results__itinerary-note")
@@ -1351,9 +1363,15 @@ closest arrival to 12:00 AM, Thursday, January 1st."
             ]
         })
 
+      itinerary_fares =
+        fares_no_transfer
+        |> Map.put(:conn, conn)
+        |> Map.put(:show_fares, true)
+        |> Map.put(:itinerary_is_from_or_to_airport, false)
+
       html =
         "_itinerary_fares.html"
-        |> render(Map.put(fares_no_transfer, :conn, conn))
+        |> render(itinerary_fares)
         |> safe_to_string()
 
       [{_, _, transfer_note}] = Floki.find(html, ".m-trip-plan-results__itinerary-note")
@@ -1384,7 +1402,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> render_to_string(
           itinerary: @itinerary,
           fares: get_calculated_fares(@itinerary),
-          conn: conn
+          conn: conn,
+          itinerary_is_from_or_to_airport: false,
+          show_fares: true
         )
 
       fare_calc_tables = Floki.find(html, ".m-trip-plan-farecalc__table")
@@ -1406,7 +1426,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> render_to_string(
           itinerary: itinerary_with_transfers,
           fares: get_calculated_fares(@itinerary),
-          conn: conn
+          conn: conn,
+          itinerary_is_from_or_to_airport: false,
+          show_fares: true
         )
 
       titles = Floki.find(html_with_transfer_note, ".m-trip-plan-farecalc__title")
@@ -1478,7 +1500,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> render_to_string(
           itinerary: itinerary,
           one_way_total: nil,
-          round_trip_total: nil
+          round_trip_total: nil,
+          itinerary_is_from_or_to_airport: true,
+          show_fares: true
         )
 
       [{_, [{_, _}], [{_, [{_, _}, {_, _}], [logan_guide_link]}]}] =
@@ -1492,7 +1516,9 @@ closest arrival to 12:00 AM, Thursday, January 1st."
         |> render_to_string(
           itinerary: itinerary,
           fares: get_calculated_fares(itinerary),
-          conn: conn
+          conn: conn,
+          itinerary_is_from_or_to_airport: true,
+          show_fares: true
         )
 
       [{_, [{_, _}, {_, _}], [free_service_text]}] =

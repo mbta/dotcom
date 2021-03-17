@@ -432,7 +432,11 @@ defmodule SiteWeb.TripPlanController do
               leg
               |> Fares.get_fare_by_type(:highest_one_way_fare)
 
-            Transfer.is_subway?(highest_fare.mode)
+            if is_nil(highest_fare) do
+              false
+            else
+              Transfer.is_subway?(highest_fare.mode)
+            end
           end
         )
         |> Enum.at(0)

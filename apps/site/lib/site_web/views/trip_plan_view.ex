@@ -453,10 +453,17 @@ defmodule SiteWeb.TripPlanView do
 
       one_way_total_fare = get_one_way_total_by_type(i, :highest_one_way_fare)
 
+      itinerary_is_from_or_to_airport = itinerary_satisfies_property?(i, :is_from_or_to_airport)
+
+      show_fares =
+        !itinerary_satisfies_property?(i, :contains_capeflyer) || one_way_total_fare != 0
+
       fares_estimate_html =
         "_itinerary_fares.html"
         |> render_to_string(
           itinerary: i,
+          show_fares: show_fares,
+          itinerary_is_from_or_to_airport: itinerary_is_from_or_to_airport,
           one_way_total: Format.price(one_way_total_fare),
           round_trip_total: Format.price(one_way_total_fare * 2)
         )
@@ -468,7 +475,9 @@ defmodule SiteWeb.TripPlanView do
         |> render_to_string(
           itinerary: i,
           fares: fares,
-          conn: conn
+          conn: conn,
+          itinerary_is_from_or_to_airport: itinerary_is_from_or_to_airport,
+          show_fares: show_fares
         )
 
       html =
@@ -657,10 +666,19 @@ defmodule SiteWeb.TripPlanView do
     Leg.stop_is_silver_line_airport?([leg], :from) or Leg.stop_is_silver_line_airport?([leg], :to)
   end
 
-  @spec itinerary_is_from_or_to_airport?(Itinerary.t()) :: boolean()
-  defp itinerary_is_from_or_to_airport?(itinerary) do
-    itinerary
-    |> Itinerary.transit_legs()
-    |> Enum.any?(fn leg -> leg_is_from_or_to_airport?(leg) end)
+  @spec itinerary_satisfies_property?(Itinerary.t(), atom) :: boolean()
+  defp itinerary_satisfies_property?(itinerary, condition) do
+    transit_legs = Itinerary.transit_legs(itinerary)
+
+    case condition do
+      :is_from_or_to_airport ->
+        transit_legs |> Enum.any?(fn leg -> leg_is_from_or_to_airport?(leg) end)
+
+      :contains_capeflyer ->
+        transit_legs |> Enum.any?(fn leg -> leg.name == "CapeFLYER" end)
+
+      _ ->
+        false
+    end
   end
 end
