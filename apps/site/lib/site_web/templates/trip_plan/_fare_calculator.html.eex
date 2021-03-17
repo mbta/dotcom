@@ -1,63 +1,67 @@
+<% transfer_note = transfer_note(@itinerary) %>
+<% itinerary_contains_capeflyer = itinerary_satisfies_property?(@itinerary, :contains_capeflyer) %>
+
 <div class="h2 m-trip-plan-farecalc__main-title">Fare Calculator</div>
 
-<div role="table" aria-label="A summary of the different fares by media for each itinerary" class="m-trip-plan-farecalc__table">
-  <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-farecalc__subheader">One-Way Fare</div>
-  <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">Base</div>
-  <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">Reduced</div>
-  <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header"></div>
+<%= if @show_fares do %>
 
-  <%= for {_mode_key, fare_values} <- @fares do %>
+  <div role="table" aria-label="A summary of the different fares by media for each itinerary" class="m-trip-plan-farecalc__table">
+    <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-farecalc__subheader">One-Way Fare</div>
+    <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">Base</div>
+    <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header">Reduced</div>
+    <div role="columnheader" class="m-trip-plan-farecalc__table-cell m-trip-plan-results__itinerary-fare-title m-trip-plan-farecalc__header"></div>
 
-    <div role="cell" class="m-trip-plan-farecalc__table-cell m-trip-plan-farecalc__mode-name">
-      <%= SiteWeb.TripPlanView.format_mode(fare_values.mode) %>
+    <%= for {_mode_key, fare_values} <- @fares do %>
+
+      <div role="cell" class="m-trip-plan-farecalc__table-cell m-trip-plan-farecalc__mode-name">
+        <%= SiteWeb.TripPlanView.format_mode(fare_values.mode) %>
+      </div>
+      <div role="cell" class="m-trip-plan-farecalc__table-cell">
+        <span class="m-trip-plan-farecalc__label">Base: </span>
+        <%= fare_values|>Fares.get_fare_by_type(:highest_one_way_fare)|> fare_cents()|>Format.price() %>
+      </div>
+      <div role="cell" class="m-trip-plan-farecalc__table-cell">
+        <span class="m-trip-plan-farecalc__label">Reduced: </span>
+        <%=
+          cents = fare_values|> Fares.get_fare_by_type(:reduced_one_way_fare) |> fare_cents()
+          if cents == 0, do: "None", else: Format.price(cents)
+        %>
+      </div>
+      <div role="cell" class="m-trip-plan-farecalc__table-cell"></div>
+
+    <% end %>
+
+    <div role="cell" class="m-trip-plan-farecalc__table-cell m-trip-plan-farecalc__transfer-note">
+      <%= if transfer_note == nil do %>
+        Total
+      <% else %>
+        <%= transfer_note %>
+      <% end %>
     </div>
+
     <div role="cell" class="m-trip-plan-farecalc__table-cell">
       <span class="m-trip-plan-farecalc__label">Base: </span>
-      <%= fare_values|>Fares.get_fare_by_type(:highest_one_way_fare)|> fare_cents()|>Format.price() %>
-    </div>
+      <span>
+        <strong><%=
+          SiteWeb.TripPlanView.get_one_way_total_by_type(@itinerary, :highest_one_way_fare)
+          |>Format.price()
+         %></strong>
+     </span>
+   </div>
     <div role="cell" class="m-trip-plan-farecalc__table-cell">
       <span class="m-trip-plan-farecalc__label">Reduced: </span>
-      <%=
-        cents = fare_values|> Fares.get_fare_by_type(:reduced_one_way_fare) |> fare_cents()
-        if cents == 0, do: "None", else: Format.price(cents)
-      %>
+      <span>
+        <strong><%=
+        SiteWeb.TripPlanView.get_one_way_total_by_type(@itinerary, :reduced_one_way_fare)
+        |>Format.price()
+         %></strong>
+     </span>
     </div>
     <div role="cell" class="m-trip-plan-farecalc__table-cell"></div>
-
-  <% end %>
-
-  <div role="cell" class="m-trip-plan-farecalc__table-cell m-trip-plan-farecalc__transfer-note">
-    <% transfer_note = transfer_note(@itinerary) %>
-    <%= if transfer_note == nil do %>
-      Total
-    <% else %>
-      <%= transfer_note %>
-    <% end %>
   </div>
+<% end %>
 
-  <div role="cell" class="m-trip-plan-farecalc__table-cell">
-    <span class="m-trip-plan-farecalc__label">Base: </span>
-    <span>
-      <strong><%=
-        SiteWeb.TripPlanView.get_one_way_total_by_type(@itinerary, :highest_one_way_fare)
-        |>Format.price()
-       %></strong>
-   </span>
- </div>
-  <div role="cell" class="m-trip-plan-farecalc__table-cell">
-    <span class="m-trip-plan-farecalc__label">Reduced: </span>
-    <span>
-      <strong><%=
-      SiteWeb.TripPlanView.get_one_way_total_by_type(@itinerary, :reduced_one_way_fare)
-      |>Format.price()
-       %></strong>
-   </span>
-  </div>
-  <div role="cell" class="m-trip-plan-farecalc__table-cell"></div>
-</div>
-
-
-<%= if show_monthly_passes?(@itinerary) do %>
+<%= if show_monthly_passes?(@itinerary) && @show_fares do %>
   <div class="m-trip-plan-farecalc__table">
     <div class="m-trip-plan-farecalc__table-cell m-trip-plan-farecalc__subheader">
       Monthly Passes
@@ -78,7 +82,7 @@
   </div>
 <% end %>
 
-<%= if itinerary_is_from_or_to_airport?(@itinerary) do %>
+<%= if @itinerary_is_from_or_to_airport do %>
   <div class="m-trip-plan-farecalc__notes-block">
     <span class="m-trip-plan-farecalc__title">Logan Airport:</span> Silver Line service from Logan Airport is always free. If you are headed to Logan Airport, transfers from the Red Line to the SL1 are also free.
     <%= link to: "/destinations/logan-airport", target: "_blank" do %>
@@ -87,9 +91,17 @@
   </div>
 <% end %>
 
-<div class="m-trip-plan-farecalc__notes-block">
-  <span class="m-trip-plan-farecalc__title">Reduced fares:</span> Some riders are eligible for <%= link "reduced fares", to: fare_path(@conn, :show, "reduced") %>. Military personnel and children 11 and under ride for free.
-</div>
+<%= if itinerary_contains_capeflyer do %>
+  <div class="m-trip-plan-farecalc__notes-block">
+    <span class="m-trip-plan-farecalc__title">The CapeFLYER:</span> Unfortunately, we currently have no fare information for this type of trip. The CapeFLYER's Boston to Cape Cod weekend passenger train service is offered Friday evenings, Saturdays and Sundays with transportation to Hyannis from South Station, Braintree, Brockton, Middleborough/Lakeville, Wareham Village, Buzzards Bay and Bourne. <%= link "Learn more about the CapeFLYER fares.", to: "https://capeflyer.com/reservations-tickets/capeflyer-trainpricing-routes/", target: "_blank" %>
+  </div>
+<% end %>
+
+<%= if @show_fares do %>
+  <div class="m-trip-plan-farecalc__notes-block">
+    <span class="m-trip-plan-farecalc__title">Reduced fares:</span> Some riders are eligible for <%= link "reduced fares", to: fare_path(@conn, :show, "reduced") %>. Military personnel and children 11 and under ride for free.
+  </div>
+<% end %>
 
 <%= if transfer_note != nil do %>
   <div class="m-trip-plan-farecalc__notes-block">
@@ -97,6 +109,8 @@
   </div>
 <% end %>
 
-<div>
-  <%= link "See fares overview", to: fare_path(@conn, :show, ""), class: "c-call-to-action" %>
-</div>
+<%= if !itinerary_contains_capeflyer do %>
+  <div>
+    <%= link "See fares overview", to: fare_path(@conn, :show, ""), class: "c-call-to-action" %>
+  </div>
+<% end %>
