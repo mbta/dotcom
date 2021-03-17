@@ -13,10 +13,13 @@
     <%= for week <- week_rows(@month, @year) do %>
       <tr>
       <%= for day <- week do %>
+        <% day_in_month? = day.month == @month %>
         <td class="m-event-calendar__day">
-          <div class="m-event-calendar__day-label">
-          <%= Timex.format!(day, "%-d", :strftime) %>
-          </div>
+          <%= if day_in_month? do %>
+            <div class="m-event-calendar__day-label">
+            <%= Timex.format!(day, "%-d", :strftime) %>
+            </div>
+          <% end %>
         </td>
       <% end %>
       </tr>
