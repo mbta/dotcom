@@ -132,6 +132,7 @@ defmodule SiteWeb.EventView do
       start_date
       |> Timex.end_of_month()
       |> Timex.end_of_week(:sun)
+      |> Timex.shift(days: 1)
 
     Timex.Interval.new(from: first, until: last)
     |> Enum.map(& &1)
