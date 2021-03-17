@@ -1,6 +1,6 @@
-export function setupEventsPage() {
-  const eventsHubPage = document.querySelector(".m-events-hub");
-  const control = eventsHubPage.querySelector(
+export function setupEventsListing() {
+  const eventsListing = document.querySelector(".m-events-hub--list-view");
+  const control = eventsListing.querySelector(
     ".m-event-list__nav--mobile-controls"
   );
   let prevScroll = window.scrollY || document.documentElement.scrollTop;
@@ -14,7 +14,7 @@ export function setupEventsPage() {
       () => {
         window.requestAnimationFrame(() => {
           // 1. toggle a shadow on the month header depending on if it's sticky
-          eventsHubPage
+          eventsListing
             .querySelectorAll(".m-event-list__month-header")
             .forEach(el => {
               const stickyStyleTop = parseInt(
@@ -38,12 +38,12 @@ export function setupEventsPage() {
             // toggle the controls
             if (direction === 2 && curScroll > controlHeight) {
               // hide the controls
-              eventsHubPage.classList.add("js-nav-down");
-              eventsHubPage.classList.remove("js-nav-up");
+              eventsListing.classList.add("js-nav-down");
+              eventsListing.classList.remove("js-nav-up");
             } else if (direction === 1) {
               // show the controls
-              eventsHubPage.classList.add("js-nav-up");
-              eventsHubPage.classList.remove("js-nav-down");
+              eventsListing.classList.add("js-nav-up");
+              eventsListing.classList.remove("js-nav-down");
             }
             prevDirection = direction;
           }
@@ -56,7 +56,7 @@ export function setupEventsPage() {
   });
 
   // scroll to active heading if available
-  const activeMonthElement = eventsHubPage.querySelector(
+  const activeMonthElement = eventsListing.querySelector(
     ".m-event-list__month--active"
   );
   if (activeMonthElement) activeMonthElement.scrollIntoView();
@@ -74,7 +74,7 @@ export default function() {
   document.addEventListener(
     "turbolinks:load",
     () => {
-      if (document.querySelector(".m-events-hub")) setupEventsPage();
+      if (document.querySelector(".m-events-hub--list-view")) setupEventsListing();
     },
     { passive: true }
   );

@@ -1,7 +1,7 @@
 import { assert } from "chai";
 import sinon from "sinon";
 import jsdom from "mocha-jsdom";
-import { setupEventsPage } from "../event-page-setup";
+import { setupEventsListing } from "../event-page-setup";
 import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
@@ -44,7 +44,7 @@ function triggerScrollEvent(clock) {
   clock.tick(); // fast forward set timeout (gets past window.requestAnimationFrame)
 }
 
-describe("setupEventsPage", () => {
+describe("setupEventsListing", () => {
   let $;
   let scrollIntoViewSpy;
   let getComputedStyleSpy;
@@ -109,7 +109,7 @@ describe("setupEventsPage", () => {
       getBoundingClientRectSpy.callsFake(() => ({ top: t }));
       getComputedStyleSpy.callsFake(el => ({ top: `${t}px` }));
 
-      setupEventsPage();
+      setupEventsListing();
       sinon.assert.notCalled(getComputedStyleSpy);
       sinon.assert.notCalled(getBoundingClientRectSpy);
       sinon.assert.notCalled(toggleAttributeSpy);
@@ -129,32 +129,32 @@ describe("setupEventsPage", () => {
     });
 
     it("will toggle 'js-nav-*' class name based on scroll direction", () => {
-      const eventsHubPage = document.querySelector(".m-events-hub");
+      const eventsListing = document.querySelector(".m-events-hub");
       getBoundingClientRectSpy.callsFake(() => ({ height: 10 }));
 
       // mock window.Y for this test with initial scroll position
       global.window = Object.assign(global.window, {
         scrollY: 222
       });
-      setupEventsPage();
-      assert.isFalse(eventsHubPage.classList.contains("js-nav-up"));
-      assert.isFalse(eventsHubPage.classList.contains("js-nav-down"));
+      setupEventsListing();
+      assert.isFalse(eventsListing.classList.contains("js-nav-up"));
+      assert.isFalse(eventsListing.classList.contains("js-nav-down"));
 
       // mock scroll up
       global.window = Object.assign(global.window, {
         scrollY: 20
       });
       triggerScrollEvent(clock);
-      assert.isTrue(eventsHubPage.classList.contains("js-nav-up"));
-      assert.isFalse(eventsHubPage.classList.contains("js-nav-down"));
+      assert.isTrue(eventsListing.classList.contains("js-nav-up"));
+      assert.isFalse(eventsListing.classList.contains("js-nav-down"));
 
       // mock scroll down
       global.window = Object.assign(global.window, {
         scrollY: 442
       });
       triggerScrollEvent(clock);
-      assert.isTrue(eventsHubPage.classList.contains("js-nav-down"));
-      assert.isFalse(eventsHubPage.classList.contains("js-nav-up"));
+      assert.isTrue(eventsListing.classList.contains("js-nav-down"));
+      assert.isFalse(eventsListing.classList.contains("js-nav-up"));
     });
   });
 
@@ -165,13 +165,13 @@ describe("setupEventsPage", () => {
     assert.isOk(activeMonth);
     assert.equal(activeMonth.length, 1);
 
-    setupEventsPage();
+    setupEventsListing();
 
     sinon.assert.calledOnce(scrollIntoViewSpy);
   });
 
   it("navigates when .m-event-list__select changes", () => {
-    setupEventsPage();
+    setupEventsListing();
 
     const windowLocationSpy = sinon.spy(window.location, "assign");
     sinon.assert.notCalled(windowLocationSpy);

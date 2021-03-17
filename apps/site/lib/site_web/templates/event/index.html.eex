@@ -1,4 +1,4 @@
-<div class="container m-events-hub">
+<div class="container m-events-hub <%= if Map.get(@conn.query_params, "calendar"), do: 'm-events-hub--calendar-view', else: 'm-events-hub--list-view' %>">
   <header>
     <h1>Events</h1>
     <nav class="m-events-hub__nav--controls">
