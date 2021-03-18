@@ -22,7 +22,6 @@ defmodule RoutePatterns.RoutePattern do
   alias JsonApi.Item
   alias Routes.Route
   alias Schedules.Trip
-  alias Schedules.Parser
   alias Stops.Stop
 
   defstruct [

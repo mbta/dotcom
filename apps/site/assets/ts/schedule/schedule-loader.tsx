@@ -17,14 +17,14 @@ import {
 const renderMap = ({
   route_patterns: routePatternsByDirection,
   direction_id: directionId,
-  route: route
+  route
 }: SchedulePageData): void => {
   const routePatterns = routePatternsByDirection[directionId];
   const shapeIds = routePatterns.map(routePattern => routePattern.shape_id);
   const defaultRoutePattern = routePatterns.slice(0, 1)[0];
   const currentShapeId = defaultRoutePattern.shape_id;
   const branchPatterns =
-    route.type != 3
+    route.type !== 3
       ? routePatterns.filter(
           pattern => pattern.typicality === defaultRoutePattern.typicality
         )

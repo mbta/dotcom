@@ -1,7 +1,6 @@
 import { updateInLocation } from "use-query-params";
-import { DirectionId, Shape } from "../../../__v3api";
+import { DirectionId } from "../../../__v3api";
 import {
-  ShapesById,
   RoutePatternsByDirection,
   EnhancedRoutePattern
 } from "../__schedule";

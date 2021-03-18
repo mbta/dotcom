@@ -105,7 +105,7 @@ const ScheduleDirection = ({
   // If the route is a rail type, any other routePatterns
   // of the current typicality are a branch
   const branchPatterns =
-    route.type != 3
+    route.type !== 3
       ? routePatternsInCurrentDirection.filter(
           pattern => pattern.typicality === defaultRoutePattern.typicality
         )
