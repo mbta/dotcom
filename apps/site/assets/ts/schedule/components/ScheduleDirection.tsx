@@ -104,10 +104,12 @@ const ScheduleDirection = ({
 
   // If the route is a rail type, any other routePatterns
   // of the current typicality are a branch
-  const branchPatterns = route.type != 3 ?
-      routePatternsInCurrentDirection.filter(
-        pattern => pattern.typicality === defaultRoutePattern.typicality
-      ) : []
+  const branchPatterns =
+    route.type != 3
+      ? routePatternsInCurrentDirection.filter(
+          pattern => pattern.typicality === defaultRoutePattern.typicality
+        )
+      : [];
 
   const reverseDirection = directionId === 0 ? 1 : 0;
   const directionIsChangeable = route.direction_names[reverseDirection] != null;
@@ -128,8 +130,15 @@ const ScheduleDirection = ({
   });
 
   const currentShapeId = state.routePattern.shape_id;
-  const branchShapeIds = branchPatterns.length ? branchPatterns.map(pattern => pattern.shape_id) : null
-  const currentStops = state.routePattern.stop_ids.concat(branchPatterns.reduce((acc, cur) => acc.concat(cur.stop_ids), [] as string[]));
+  const branchShapeIds = branchPatterns.length
+    ? branchPatterns.map(pattern => pattern.shape_id)
+    : null;
+  const currentStops = state.routePattern.stop_ids.concat(
+    branchPatterns.reduce(
+      (acc, cur) => acc.concat(cur.stop_ids),
+      [] as string[]
+    )
+  );
   const shapeIds = state.routePatternsByDirection[state.directionId].map(
     routePattern => routePattern.shape_id
   );

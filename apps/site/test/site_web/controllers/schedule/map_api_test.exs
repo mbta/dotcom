@@ -20,8 +20,7 @@ defmodule SiteWeb.ScheduleController.MapApiTest do
     end
 
     test "returns valid map data for the green line", %{conn: conn} do
-      conn =
-        get(conn, map_api_path(conn, :show, id: "Green"))
+      conn = get(conn, map_api_path(conn, :show, id: "Green"))
 
       assert response = json_response(conn, 200)
 

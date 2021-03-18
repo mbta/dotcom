@@ -218,16 +218,17 @@ export default ({
     [channel, dispatch]
   );
   const stopMarkers = data.stop_markers
-    ? data.stop_markers.filter(mark => currentStops.includes(mark.id as string))
+    ? data.stop_markers
+        .filter(mark => currentStops.includes(mark.id as string))
         .map(marker => updateMarker(marker))
     : [];
-  
+
   const filteredData = {
     ...data,
-    polylines: branchShapeIds ?
-      data.polylines.filter(p => branchShapeIds.some(shape => shape === p.id))
+    polylines: branchShapeIds
+      ? data.polylines.filter(p => branchShapeIds.some(shape => shape === p.id))
       : data.polylines.filter(p => p.id === currentShapeId)
-  }
+  };
   const mapData = {
     ...filteredData,
     markers: state.markers.concat(stopMarkers)

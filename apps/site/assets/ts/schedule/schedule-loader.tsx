@@ -23,11 +23,15 @@ const renderMap = ({
   const shapeIds = routePatterns.map(routePattern => routePattern.shape_id);
   const defaultRoutePattern = routePatterns.slice(0, 1)[0];
   const currentShapeId = defaultRoutePattern.shape_id;
-  const branchPatterns = route.type != 3 ?
-      routePatterns.filter(
-        pattern => pattern.typicality === defaultRoutePattern.typicality
-      ) : null
-  const branchShapeIds = branchPatterns ? branchPatterns.map(pattern => pattern.shape_id) : null
+  const branchPatterns =
+    route.type != 3
+      ? routePatterns.filter(
+          pattern => pattern.typicality === defaultRoutePattern.typicality
+        )
+      : null;
+  const branchShapeIds = branchPatterns
+    ? branchPatterns.map(pattern => pattern.shape_id)
+    : null;
   const currentStops = defaultRoutePattern.stop_ids;
   const mapDataEl = document.getElementById("js-map-data");
   if (!mapDataEl) return;
@@ -37,7 +41,14 @@ const renderMap = ({
   if (!mapEl) throw new Error("cannot find #map-root");
   const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
   ReactDOM.render(
-    <Map data={mapData} channel={channel} shapeIds={shapeIds} currentShapeId={currentShapeId} branchShapeIds={branchShapeIds} currentStops={currentStops} />,
+    <Map
+      data={mapData}
+      channel={channel}
+      shapeIds={shapeIds}
+      currentShapeId={currentShapeId}
+      branchShapeIds={branchShapeIds}
+      currentStops={currentStops}
+    />,
     mapEl
   );
 };

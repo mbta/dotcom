@@ -83,7 +83,6 @@ defmodule RoutePatterns.RoutePattern do
           "route" => [%Item{id: route_id}]
         }
       }) do
-    
     %__MODULE__{
       direction_id: direction_id,
       id: id,

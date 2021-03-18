@@ -793,7 +793,9 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
         if route_id == "1", do: [@shape_one], else: []
       end
 
-      assert Helpers.get_route_shapes("1", nil, true, get_shapes_fn: get_shapes_fn) == [@shape_one]
+      assert Helpers.get_route_shapes("1", nil, true, get_shapes_fn: get_shapes_fn) == [
+               @shape_one
+             ]
     end
 
     test "gets shapes a single directions of the given route" do
@@ -809,7 +811,9 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
         if route_id == "1" and filter_by_priority? == false, do: [@shape_one], else: []
       end
 
-      assert Helpers.get_route_shapes("1", nil, false, get_shapes_fn: get_shapes_fn) == [@shape_one]
+      assert Helpers.get_route_shapes("1", nil, false, get_shapes_fn: get_shapes_fn) == [
+               @shape_one
+             ]
     end
 
     test "gets shapes for all Green lines" do
@@ -852,7 +856,9 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
   describe "get_active_shapes/2" do
     test "for bus routes, returns the default shape (the first one)" do
-      assert Helpers.get_active_shapes([@shape_one, @shape_two], %Route{type: 3, id: "1"}) == [@shape_one]
+      assert Helpers.get_active_shapes([@shape_one, @shape_two], %Route{type: 3, id: "1"}) == [
+               @shape_one
+             ]
     end
 
     test "for bus routes, returns an empty list if given an empty list of shapes" do

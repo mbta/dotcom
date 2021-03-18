@@ -32,7 +32,14 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     {nil, dynamic_data}
   end
 
-  def map_data(route, static_map_stops, static_map_polylines, route_patterns, vehicle_polylines, vehicle_tooltips) do
+  def map_data(
+        route,
+        static_map_stops,
+        static_map_polylines,
+        route_patterns,
+        vehicle_polylines,
+        vehicle_tooltips
+      ) do
     static_data =
       map_img_src(
         static_map_stops,
@@ -86,9 +93,9 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
          route_patterns,
          {_vehicle_polylines, vehicle_tooltips}
        ) do
-    
-    stop_ids = Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)
-    |> Enum.uniq()
+    stop_ids =
+      Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)
+      |> Enum.uniq()
 
     {stop_markers, all_markers} = dynamic_markers(stop_ids, vehicle_tooltips)
 

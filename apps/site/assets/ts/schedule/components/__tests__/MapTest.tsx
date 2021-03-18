@@ -56,7 +56,14 @@ const data: MapData = {
 describe("Schedule Map", () => {
   it("renders", () => {
     const wrapper = mount(
-      <Map data={data} channel="vehicles:Red:0" currentShapeId={""} branchShapeIds={[]} currentStops={[]} shapeIds={[]} />
+      <Map
+        data={data}
+        channel="vehicles:Red:0"
+        currentShapeId={""}
+        branchShapeIds={[]}
+        currentStops={[]}
+        shapeIds={[]}
+      />
     );
     expect(() => wrapper.render()).not.toThrow();
   });

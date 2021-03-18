@@ -122,18 +122,22 @@ defmodule SiteWeb.ScheduleController.Line do
     static_shapes = LineHelpers.filter_route_shapes(route_shapes, active_shapes, route)
     # Unsure how this differs from `get_branch_route_stops`, as called in map_api.ex
     static_branches = LineHelpers.get_branches(static_shapes, route_stops, route, direction_id)
-    static_map_polylines = case route do
-      %Route{type: 4} -> []
-      %Route{id: "Green"} -> route_shapes
-      _ -> active_shapes
-    end
+
+    static_map_polylines =
+      case route do
+        %Route{type: 4} -> []
+        %Route{id: "Green"} -> route_shapes
+        _ -> active_shapes
+      end
+
     static_map_stops = Maps.map_stops(static_branches)
 
     vehicles = conn.assigns[:vehicle_locations]
     vehicle_tooltips = conn.assigns[:vehicle_tooltips]
+
     # This line is unutilized. We want it for any reason?  It's passed in line 153, but goes nowhere
     vehicle_polylines = VehicleHelpers.get_vehicle_polylines(vehicles, route_shapes)
-    
+
     time_data_by_stop =
       TransitNearMe.time_data_for_route_by_stop(route.id, direction_id,
         date: conn.assigns.date,
@@ -141,7 +145,14 @@ defmodule SiteWeb.ScheduleController.Line do
       )
 
     {map_img_src, dynamic_map_data} =
-      Maps.map_data(route, static_map_stops, static_map_polylines, route_patterns, vehicle_polylines, vehicle_tooltips)
+      Maps.map_data(
+        route,
+        static_map_stops,
+        static_map_polylines,
+        route_patterns,
+        vehicle_polylines,
+        vehicle_tooltips
+      )
 
     reverse_route_stops =
       LineHelpers.get_route_stops(route.id, reverse_direction_id, deps.stops_by_route_fn)

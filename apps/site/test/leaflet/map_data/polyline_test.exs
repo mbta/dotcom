@@ -6,9 +6,12 @@ defmodule Leaflet.MapData.PolylineTest do
 
   describe "new/2" do
     test "turns a polyline into a struct" do
-      route_pattern = @route_patterns_repo_api.by_route_id("77")
-      |> List.first()
-      assert %Polyline{color: color, positions: positions} = Polyline.new(route_pattern, color: "#FF0000")
+      route_pattern =
+        @route_patterns_repo_api.by_route_id("77")
+        |> List.first()
+
+      assert %Polyline{color: color, positions: positions} =
+               Polyline.new(route_pattern, color: "#FF0000")
 
       assert color == "#FF0000"
       assert [first | _] = positions

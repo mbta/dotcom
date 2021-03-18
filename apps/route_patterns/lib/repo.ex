@@ -1,6 +1,6 @@
 defmodule RoutePatterns.Repo do
   @moduledoc "Repo for fetching Route resources and their associated data from the V3 API."
-  
+
   @behaviour RoutePatterns.RepoApi
 
   require Logger
