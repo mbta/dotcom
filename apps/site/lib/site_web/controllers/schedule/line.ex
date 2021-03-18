@@ -6,6 +6,7 @@ defmodule SiteWeb.ScheduleController.Line do
   import Plug.Conn, only: [assign: 3, halt: 1]
   import UrlHelpers, only: [update_url: 2]
   import Phoenix.Controller, only: [redirect: 2]
+  @moduletag :external
 
   alias Plug.Conn
   alias RoutePatterns.Repo, as: RoutePatternRepo
