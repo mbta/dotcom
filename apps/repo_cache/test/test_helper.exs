@@ -1,3 +1,6 @@
+# Ensure the deps are all started
+Application.ensure_all_started(:repo_cache)
+
 ExUnit.start()
 
 # Report warnings as errors

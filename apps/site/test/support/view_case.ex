@@ -1,11 +1,9 @@
 defmodule Site.ViewCase do
-  @moduledoc false
   use ExUnit.CaseTemplate
 
   using do
     quote do
-      import Plug.Conn
-      import Phoenix.ConnTest
+      use Phoenix.ConnTest
       import Phoenix.View
       import SiteWeb.Router.Helpers
       import CMS.Factory

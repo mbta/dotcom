@@ -84,6 +84,8 @@ defmodule PredictedSchedule do
     |> Enum.sort_by(sort_fn)
   end
 
+  defp create_map({:error, _error}), do: %{}
+
   defp create_map(predictions_or_schedules) do
     Map.new(predictions_or_schedules, &group_transform/1)
   end

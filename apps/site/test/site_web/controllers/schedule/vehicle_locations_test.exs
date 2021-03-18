@@ -49,6 +49,15 @@ defmodule SiteWeb.ScheduleController.VehicleLocationsTest do
       assert conn.assigns.vehicle_locations == %{}
     end
 
+    test "works if the route is nil", %{conn: conn} do
+      conn =
+        conn
+        |> assign(:route, nil)
+        |> call(@opts)
+
+      assert conn.assigns.vehicle_locations
+    end
+
     test "assigns vehicle locations at a stop if they are stopped or incoming", %{conn: conn} do
       conn =
         conn

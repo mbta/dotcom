@@ -21,7 +21,7 @@ defmodule Fares.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [extra_applications: [:logger], mod: {Fares.Application, []}]
+    [extra_applications: [:logger, :poison], mod: {Fares.Application, []}]
   end
 
   # Dependencies can be Hex packages:
@@ -39,6 +39,7 @@ defmodule Fares.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
+      {:poison, "~> 2.2", override: true},
       {:csv, "~> 2.3"},
       {:excoveralls, "~> 0.5", only: :test},
       {:sweet_xml, "~> 0.6.2", only: [:dev, :test]},

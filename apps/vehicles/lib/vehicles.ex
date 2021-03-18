@@ -1,5 +1,4 @@
 defmodule Vehicles do
-  @moduledoc false
   use Application
 
   @api_params [
@@ -25,8 +24,7 @@ defmodule Vehicles do
       |> stream_children()
 
     [
-      # Start the PubSub system
-      {Phoenix.PubSub, name: __MODULE__.PubSub},
+      supervisor(Phoenix.PubSub.PG2, [Vehicles.PubSub, []]),
       Vehicles.Repo
       | streams
     ]

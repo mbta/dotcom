@@ -289,7 +289,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
             {"place-hsmnl", 17},
             {"place-river", 32},
             {"place-clmnl", 45},
-            {"place-lake", 63}
+            {"place-lake", 62}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
@@ -350,21 +350,14 @@ defmodule SiteWeb.ScheduleController.LineTest do
       # As of June 2020, Lechmere has been closed so the commented line will make the test fail.
       # We are temporarily adding the fix but this will need to be undone later on.
       for {id, idx} <- [
-            # {"place-lech", 65},
-            # {"place-north", 63},
-            # {"place-gover", 61},
-            # {"place-pktrm", 60},
-            # {"place-coecl", 57},
-            # {"place-hsmnl", 46},
-            # {"place-river", 31},
-            # {"place-clmnl", 18},
-            # {"place-lake", 0}
-            {"place-gover", 61},
-            {"place-pktrm", 60},
-            {"place-coecl", 57},
-            {"place-hsmnl", 46},
-            {"place-river", 31},
-            {"place-clmnl", 18},
+            # {"place-lech", 64},
+            # {"place-north", 62},
+            {"place-gover", 60},
+            {"place-pktrm", 59},
+            {"place-coecl", 56},
+            {"place-hsmnl", 45},
+            {"place-river", 30},
+            {"place-clmnl", 17},
             {"place-lake", 0}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id

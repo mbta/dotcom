@@ -319,11 +319,13 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
           RoutePattern.t()
         ]
   defp get_route_patterns(route_id, direction_id, nil),
-    do: RoutePatternsRepo.by_route_id(route_id, direction_id: direction_id)
+    do:
+      RoutePatternsRepo.by_route_id(route_id, direction_id: direction_id)
+      |> Enum.filter(&(&1.route_id == route_id))
 
-  defp get_route_patterns(_route_id, _direction_id, route_pattern_id) do
+  defp get_route_patterns(route_id, _direction_id, route_pattern_id) do
     case RoutePatternsRepo.get(route_pattern_id) do
-      %RoutePattern{} = route_pattern ->
+      %RoutePattern{route_id: ^route_id} = route_pattern ->
         [route_pattern]
 
       nil ->

@@ -3,6 +3,7 @@ defmodule RoutePatterns.Repo do
   
   @behaviour RoutePatterns.RepoApi
 
+  require Logger
   use RepoCache, ttl: :timer.hours(1)
 
   alias RoutePatterns.RoutePattern
@@ -43,16 +44,19 @@ defmodule RoutePatterns.Repo do
   end
 
   defp api_all(opts) do
-    opts
-    |> RoutePatternsApi.all()
-    |> parse_api_response()
-  end
+    case RoutePatternsApi.all(opts) do
+      {:error, error} ->
+        _ =
+          Logger.warn(
+            "module=#{__MODULE__} RoutePatternsApi.all with opts #{inspect(opts)} returned :error -> #{
+              inspect(error)
+            }"
+          )
 
-  defp parse_api_response({:error, error}) do
-    {:error, error}
-  end
+        []
 
-  defp parse_api_response(%JsonApi{data: data}) do
-    Enum.map(data, &RoutePattern.new/1)
+      %JsonApi{data: data} ->
+        Enum.map(data, &RoutePattern.new/1)
+    end
   end
 end
