@@ -1,9 +1,6 @@
 import { updateInLocation } from "use-query-params";
 import { DirectionId } from "../../../__v3api";
-import {
-  RoutePatternsByDirection,
-  EnhancedRoutePattern
-} from "../__schedule";
+import { RoutePatternsByDirection, EnhancedRoutePattern } from "../__schedule";
 import { MapData } from "../../../leaflet/components/__mapdata";
 
 export interface State {
