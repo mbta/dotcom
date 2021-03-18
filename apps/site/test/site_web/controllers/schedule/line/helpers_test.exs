@@ -1,6 +1,6 @@
 defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   use ExUnit.Case, async: true
-
+  import Mock
   alias Routes.{Route, Shape}
   alias RoutePatterns.RoutePattern
   alias SiteWeb.ScheduleController.Line.Helpers
@@ -42,8 +42,38 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   end
 
   describe "get_branch_route_stops/3" do
-    @tag skip: "We'll mock route patterns soon"
-    test "does not return branches for route patterns from multi trip routes"
+    test "does not return branches for route patterns from multi trip routes" do
+      route = %Route{id: "CR-Kingston"}
+
+      route_patterns_with_multi_trip =
+        [route.id, route.id, "other route"]
+        |> Enum.with_index()
+        |> Enum.map(fn {route_id, index} ->
+          %RoutePattern{
+            id: index,
+            route_id: route_id,
+            typicality: 1,
+            direction_id: 0,
+            representative_trip_id: ""
+          }
+        end)
+
+      with_mocks([
+        {Schedules.Repo, [:passthrough], trip: fn _ -> %Schedules.Trip{} end},
+        {Routes.Repo, [:passthrough],
+         get_shape: fn _ -> [%Routes.Shape{stop_ids: ["a", "b", "c"]}] end},
+        {Stops.Repo, [:passthrough],
+         [get!: fn _ -> %Stops.Stop{} end, get: fn _ -> %Stops.Stop{} end]},
+        {RoutePatterns.Repo, [:passthrough],
+         by_route_id: fn _, _ -> route_patterns_with_multi_trip end}
+      ]) do
+        route_stops = Helpers.get_branch_route_stops(route, 0)
+        stops = Enum.flat_map(route_stops, & &1.stops)
+        assert Kernel.length(stops) > 1
+        # All stops should have our route's route ID
+        assert Enum.all?(stops, &(&1.route.id == route.id))
+      end
+    end
 
     test "returns a list of RouteStops, one for each branch of the line" do
       assert [
