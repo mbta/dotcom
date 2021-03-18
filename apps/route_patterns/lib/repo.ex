@@ -12,8 +12,9 @@ defmodule RoutePatterns.Repo do
   @doc """
   Returns a single route pattern by ID
   """
-  @spec get(RoutePattern.id_t()) :: RoutePattern.t() | nil
-  @spec get(RoutePattern.id_t(), keyword()) :: RoutePattern.t() | nil  def get(id, opts \\ []) when is_binary(id) do
+  @callback get(RoutePattern.id_t()) :: RoutePattern.t() | nil
+  @callback get(RoutePattern.id_t(), keyword()) :: RoutePattern.t() | nil
+  def get(id, opts \\ []) when is_binary(id) do
     case cache({id, opts}, fn {id, opts} ->
            with %{data: [route_pattern]} <- RoutePatternsApi.get(id, opts) do
              {:ok, RoutePattern.new(route_pattern)}

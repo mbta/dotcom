@@ -8,6 +8,7 @@ defmodule RoutePatterns.MockRepo do
 
   @impl RoutePatterns.RepoApi
   def by_route_id("77", opts), do: by_route_id("77")
+
   def by_route_id("77") do
     [
       %RoutePatterns.RoutePattern{
