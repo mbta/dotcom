@@ -205,7 +205,6 @@ export default ({
   currentStops,
   shapeIds
 }: Props): ReactElement<HTMLElement> | null => {
-  const bounds = useRef(getBounds(data.markers));
   const [state, dispatch] = useReducer(reducer, {
     channel,
     markers: data.markers,
@@ -233,6 +232,7 @@ export default ({
     ...filteredData,
     markers: state.markers.concat(stopMarkers)
   };
+  const bounds = useRef(getBounds(stopMarkers));
   return (
     <div className="m-schedule__map">
       <Map bounds={bounds.current} mapData={mapData} />

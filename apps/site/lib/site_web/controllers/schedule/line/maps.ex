@@ -26,10 +26,10 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
           [String.t()] | any,
           VehicleHelpers.tooltip_index() | [] | nil
         ) :: {String.t(), MapData.t()}
-  def map_data(route, static_map_stops, [], route_patterns, [], []) do
-    static_data = map_img_src(static_map_stops, [], route)
+  def map_data(route, [], [], route_patterns, [], []) do
+    # static_data = map_img_src(static_map_stops, [], route)
     dynamic_data = dynamic_map_data(route.color, route_patterns, {nil, nil})
-    {static_data, dynamic_data}
+    {nil, dynamic_data}
   end
 
   def map_data(route, static_map_stops, static_map_polylines, route_patterns, vehicle_polylines, vehicle_tooltips) do

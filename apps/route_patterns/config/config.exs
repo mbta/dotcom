@@ -28,3 +28,5 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env()}.exs"
+
+config :route_patterns, :route_patterns_repo_api, RoutePatterns.Repo

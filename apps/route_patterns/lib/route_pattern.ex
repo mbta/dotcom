@@ -73,7 +73,7 @@ defmodule RoutePatterns.RoutePattern do
                     },
                     id: shape_id,
                     relationships: %{
-                      "stops" => stop_ids
+                      "stops" => stops
                     }
                   }
                 ]
@@ -91,7 +91,7 @@ defmodule RoutePatterns.RoutePattern do
       representative_trip_id: representative_trip_id,
       representative_trip_polyline: representative_trip_polyline,
       shape_id: shape_id,
-      stop_ids: Enum.map(stop_ids, fn stop -> Parser.stop_id(stop) end),
+      stop_ids: Enum.map(stops, fn %JsonApi.Item{id: id} -> id end),
       route_id: route_id,
       time_desc: time_desc,
       typicality: typicality

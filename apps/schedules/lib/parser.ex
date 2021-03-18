@@ -92,22 +92,12 @@ defmodule Schedules.Parser do
     nil
   end
 
-  # Where is this used?  It only parses a stop array of size one.
   def stop_id(%JsonApi.Item{
         relationships: %{
           "stop" => [
             %JsonApi.Item{id: id}
           ]
         }
-      }) do
-    id
-  end
-
-  def stop_id(%JsonApi.Item{
-        attributes: attributes,
-        id: id,
-        relationships: relationships,
-        type: "stop"
       }) do
     id
   end

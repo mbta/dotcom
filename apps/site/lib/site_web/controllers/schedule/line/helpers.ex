@@ -211,15 +211,10 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   end
 
   @spec get_active_shapes([Shape.t()], Route.t()) :: [Shape.t()]
-  # If it's type bus, then use shape id.
-  # Well, this never actually works, so it always returns the default shape
+  # If it's type bus, then return default shape
   def get_active_shapes(shapes, %Route{type: 3}), do: get_default_shape(shapes)
   def get_active_shapes(_shapes, %Route{id: "Green"}), do: []
   def get_active_shapes(shapes, _route), do: shapes
-
-  @spec get_requested_shape([Shape.t()], query_param) :: Shape.t() | nil
-  defp get_requested_shape(_shapes, nil), do: nil
-  defp get_requested_shape(shapes, shape_id), do: Enum.find(shapes, &(&1.id == shape_id))
 
   @spec get_default_shape([Shape.t()]) :: [Shape.t()]
   defp get_default_shape([default | _]), do: [default]

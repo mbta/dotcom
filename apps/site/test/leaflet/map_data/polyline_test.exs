@@ -2,17 +2,17 @@ defmodule Leaflet.MapData.PolylineTest do
   use ExUnit.Case, async: true
   alias Leaflet.MapData.Polyline
 
-  @routes_repo_api Application.get_env(:routes, :routes_repo_api)
+  @route_patterns_repo_api Application.get_env(:route_patterns, :route_patterns_repo_api)
 
   describe "new/2" do
     test "turns a polyline into a struct" do
-      assert [shape | _] = @routes_repo_api.get_shapes("Red", direction_id: 0)
-
-      assert %Polyline{color: color, positions: positions} = Polyline.new(shape, color: "#FF0000")
+      route_pattern = @route_patterns_repo_api.by_route_id("77")
+      |> List.first()
+      assert %Polyline{color: color, positions: positions} = Polyline.new(route_pattern, color: "#FF0000")
 
       assert color == "#FF0000"
       assert [first | _] = positions
-      assert first == [42.39615, -71.14208]
+      assert first == [42.37428, -71.119]
     end
   end
 end

@@ -1,16 +1,15 @@
 defmodule RoutePatterns.Repo do
-  @moduledoc false
+  @moduledoc "Repo for fetching Route resources and their associated data from the V3 API."
+  
+  @behaviour RoutePatterns.RepoApi
+
   use RepoCache, ttl: :timer.hours(1)
 
   alias RoutePatterns.RoutePattern
   alias Routes.Route
   alias V3Api.RoutePatterns, as: RoutePatternsApi
 
-  @doc """
-  Returns a single route pattern by ID
-  """
-  @spec get(RoutePattern.id_t()) :: RoutePattern.t() | nil
-  @spec get(RoutePattern.id_t(), keyword()) :: RoutePattern.t() | nil
+  @impl RoutePatterns.RepoApi
   def get(id, opts \\ []) when is_binary(id) do
     case cache({id, opts}, fn {id, opts} ->
            with %{data: [route_pattern]} <- RoutePatternsApi.get(id, opts) do
@@ -22,8 +21,7 @@ defmodule RoutePatterns.Repo do
     end
   end
 
-  @spec by_route_id(Route.id_t()) :: RoutePattern.t()
-  @spec by_route_id(Route.id_t(), keyword()) :: RoutePattern.t()
+  @impl RoutePatterns.RepoApi
   def by_route_id(route_id, opts \\ [])
 
   def by_route_id("Green", opts) do
