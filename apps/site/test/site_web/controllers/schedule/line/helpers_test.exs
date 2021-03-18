@@ -42,6 +42,9 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   end
 
   describe "get_branch_route_stops/3" do
+    @tag skip: "We'll mock route patterns soon"
+    test "does not return branches for route patterns from multi trip routes"
+
     test "returns a list of RouteStops, one for each branch of the line" do
       assert [
                %RouteStops{branch: nil, stops: trunk_route_stops},
