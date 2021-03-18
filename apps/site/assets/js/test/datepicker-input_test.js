@@ -47,9 +47,11 @@ const initial_markup = `<div id=${dateEl.container}>
 describe("datepicker-input", () => {
   jsdom({ url: testURL });
 
-  beforeEach(() => {
+  before(() => {
     const $ = jsdom.rerequire("jquery");
+    // eslint-disable-next-line no-multi-assign
     global.$ = global.jQuery = $;
+    // eslint-disable-next-line no-multi-assign
     window.$ = window.jQuery = $;
 
     // JSDOM doesn't support window.matchMedia, so mock it here
@@ -66,6 +68,9 @@ describe("datepicker-input", () => {
 
     // The datepicker input depends on the accessible-date-picker plugin, so we have to load it here
     jsdom.rerequire("../../vendor/accessible-date-picker");
+  });
+
+  beforeEach(() => {
     $("body").append("<div id=test />");
     $("#test").html(initial_markup);
   });

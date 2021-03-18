@@ -19,10 +19,10 @@ describe("selectModal", () => {
     { name: "Regular", html: "Regular", value: "reg" }
   ];
 
-  var $;
+  let $;
   jsdom({ url: testURL });
 
-  beforeEach(() => {
+  before(() => {
     $ = jsdom.rerequire("jquery");
     // make rAF synchronous for easier testing
     window.requestAnimationFrame = function requestAnimationFrame(fn) {
