@@ -184,7 +184,7 @@ defmodule SiteWeb.ScheduleController.Line do
     Enum.flat_map(route_stops, fn {_route_id, stops} -> stops end)
   end
 
-  @spec get_route_patterns(Route.id_t()) :: map
+  @spec get_route_patterns(Route.id_t()) :: [RoutePattern.t()]
   defp get_route_patterns("Green") do
     GreenLine.branch_ids() |> Enum.join(",") |> get_route_patterns()
   end

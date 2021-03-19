@@ -6,7 +6,6 @@ import {
 import { mount } from "enzyme";
 import {
   closeRoutePatternMenuAction,
-  MenuAction as Action,
   menuReducer as reducer,
   showAllRoutePatternsAction,
   State
@@ -142,6 +141,17 @@ const mapData: MapData = {
       tooltip_text: "Alewife"
     }
   ],
+  stop_markers: [
+    {
+      icon: "stop-circle-bordered-expanded",
+      id: "stop-place-alfcl",
+      latitude: 42.395428,
+      longitude: -71.142483,
+      rotation_angle: 0,
+      tooltip: null,
+      tooltip_text: "Alewife"
+    }
+  ],
   height: 600,
   default_center: {
     longitude: -71.05891,
@@ -160,7 +170,6 @@ const getComponent = () => (
     route={route}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
-    shapesById={shapesById}
     mapData={mapData}
     lineDiagram={lineDiagram}
     services={[]}
@@ -176,7 +185,6 @@ const getSingleDirectionComponent = () => (
     route={oneDirectionRoute}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
-    shapesById={shapesById}
     mapData={mapData}
     lineDiagram={lineDiagram}
     services={[]}
@@ -193,7 +201,6 @@ const getSubwayComponent = () => (
     route={{ ...route, type: 1 }}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
-    shapesById={shapesById}
     lineDiagram={lineDiagram}
     services={[]}
     stops={{ stops }}
@@ -209,7 +216,6 @@ const getStaticMapComponent = () => (
     route={{ ...route, type: 4 }}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
-    shapesById={shapesById}
     lineDiagram={lineDiagram}
     services={[]}
     stops={{ stops }}
@@ -241,7 +247,6 @@ const getGreenLineComponent = () => {
       route={greenRoute}
       directionId={directionId}
       routePatternsByDirection={routePatternsByDirection}
-      shapesById={shapesById}
       lineDiagram={lineDiagram}
       services={[]}
       stops={{ stops }}
@@ -257,7 +262,6 @@ const getVariantComponent = () => (
     route={route}
     directionId={0}
     routePatternsByDirection={routePatternsByDirection}
-    shapesById={shapesById}
     mapData={mapData}
     lineDiagram={lineDiagram}
     services={[]}

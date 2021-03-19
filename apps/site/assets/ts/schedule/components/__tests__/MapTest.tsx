@@ -59,10 +59,10 @@ describe("Schedule Map", () => {
       <Map
         data={data}
         channel="vehicles:Red:0"
-        currentShapeId={""}
-        branchShapeIds={[]}
-        currentStops={[]}
-        shapeIds={[]}
+        currentShapeId={"1"}
+        branchShapeIds={null}
+        currentStops={["stop-place-alfcl", "22", "33"]}
+        shapeIds={["1", "2"]}
       />
     );
     expect(() => wrapper.render()).not.toThrow();

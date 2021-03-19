@@ -9,6 +9,6 @@ defmodule RoutePatterns.RepoApi do
   @doc """
   Return all route patterns for a route ID
   """
-  @callback by_route_id(Route.id_t()) :: RoutePattern.t()
-  @callback by_route_id(Route.id_t(), keyword()) :: RoutePattern.t()
+  @callback by_route_id(Route.id_t()) :: [RoutePattern.t()]
+  @callback by_route_id(Route.id_t(), keyword()) :: [RoutePattern.t()]
 end
