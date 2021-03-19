@@ -15,3 +15,5 @@ do
     fi
   fi
 done
+# exit with a non-zero exit code
+exit 1
