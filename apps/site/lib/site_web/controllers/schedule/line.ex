@@ -106,8 +106,6 @@ defmodule SiteWeb.ScheduleController.Line do
     end
   end
 
-  @tag todo:
-         "Refactor get_route_shapes, get_shapes, etc so that we're not hitting shapes endpoint"
   @spec update_conn(Conn.t(), Route.t(), direction_id, Dependencies.t()) :: Conn.t()
   defp update_conn(conn, route, direction_id, deps) do
     schedule_direction = Map.get(conn.query_params, "schedule_direction", %{})
@@ -119,6 +117,7 @@ defmodule SiteWeb.ScheduleController.Line do
     route_patterns = get_route_patterns(route.id)
     route_patterns_map = map_route_patterns_by_direction(route_patterns)
     # Both route_shapes and active_shapes are needed here to render the static map
+    # Next challenge: Refactor get_route_shapes, get_shapes, etc so that we're not hitting shapes endpoint
     route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)
     active_shapes = LineHelpers.get_active_shapes(route_shapes, route)
     static_shapes = LineHelpers.filter_route_shapes(route_shapes, active_shapes, route)
