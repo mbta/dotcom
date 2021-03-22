@@ -12,7 +12,7 @@
   </header>
 
   <div class="row">
-    <nav class="m-event-list__nav col-sm-2 fixedsticky sticky-top">
+    <nav class="m-event-list__nav col-sm-2 sticky-top">
       <p class="u-bold">Jump to</p>
       <%= for month <- 1..12 do %>
         <%= link render_event_month(month, @year), to: event_path(@conn, :index, month: month, year: @year) %>
