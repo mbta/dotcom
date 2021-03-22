@@ -43,7 +43,7 @@ defmodule RoutePatterns.Repo do
     end
     |> Keyword.put(:sort, "typicality,sort_order")
     |> Keyword.put(:include, "representative_trip.shape")
-    |> api_all
+    |> cache(&api_all/1)
   end
 
   defp api_all(opts) do

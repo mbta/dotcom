@@ -27,7 +27,6 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
           VehicleHelpers.tooltip_index() | [] | nil
         ) :: {String.t(), MapData.t()}
   def map_data(route, [], [], route_patterns, [], []) do
-    # static_data = map_img_src(static_map_stops, [], route)
     dynamic_data = dynamic_map_data(route.color, route_patterns, {nil, nil})
     {nil, dynamic_data}
   end
@@ -69,7 +68,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     markers = Enum.map(route_stops, &build_google_stop_marker/1)
     paths = Enum.map(polylines, &Path.new(&1, color: route_color))
 
-    {700, 700}
+    {600, 600}
     |> GoogleMapData.new()
     |> GoogleMapData.add_markers(markers)
     |> GoogleMapData.add_paths(paths)

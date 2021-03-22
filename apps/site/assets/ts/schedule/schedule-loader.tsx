@@ -13,6 +13,7 @@ import {
   createScheduleStore,
   getCurrentState
 } from "./store/ScheduleStore";
+import { isABusRoute } from "../models/route";
 
 const renderMap = ({
   route_patterns: routePatternsByDirection,
@@ -24,7 +25,7 @@ const renderMap = ({
   const defaultRoutePattern = routePatterns.slice(0, 1)[0];
   const currentShapeId = defaultRoutePattern.shape_id;
   const branchPatterns =
-    route.type !== 3
+    !isABusRoute(route)
       ? routePatterns.filter(
           pattern => pattern.typicality === defaultRoutePattern.typicality
         )
