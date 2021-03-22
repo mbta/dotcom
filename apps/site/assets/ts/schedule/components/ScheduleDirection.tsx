@@ -104,12 +104,11 @@ const ScheduleDirection = ({
 
   // If the route is a rail type, any other routePatterns
   // of the current typicality are a branch
-  const branchPatterns =
-    !isABusRoute(route)
-      ? routePatternsInCurrentDirection.filter(
-          pattern => pattern.typicality === defaultRoutePattern.typicality
-        )
-      : [];
+  const branchPatterns = !isABusRoute(route)
+    ? routePatternsInCurrentDirection.filter(
+        pattern => pattern.typicality === defaultRoutePattern.typicality
+      )
+    : [];
 
   const reverseDirection = directionId === 0 ? 1 : 0;
   const directionIsChangeable = route.direction_names[reverseDirection] != null;

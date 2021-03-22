@@ -24,12 +24,11 @@ const renderMap = ({
   const shapeIds = routePatterns.map(routePattern => routePattern.shape_id);
   const defaultRoutePattern = routePatterns.slice(0, 1)[0];
   const currentShapeId = defaultRoutePattern.shape_id;
-  const branchPatterns =
-    !isABusRoute(route)
-      ? routePatterns.filter(
-          pattern => pattern.typicality === defaultRoutePattern.typicality
-        )
-      : null;
+  const branchPatterns = !isABusRoute(route)
+    ? routePatterns.filter(
+        pattern => pattern.typicality === defaultRoutePattern.typicality
+      )
+    : null;
   const branchShapeIds = branchPatterns
     ? branchPatterns.map(pattern => pattern.shape_id)
     : null;
