@@ -18,6 +18,10 @@ module.exports = env =>
       headers: {
         "Access-Control-Allow-Origin": "*"
       },
+      watchOptions: {
+        poll: true,
+        ignored: "/node_modules/"
+      },
       writeToDisk: path => /\.css$/.test(path),
       port: env.port,
       contentBase: path.resolve(__dirname, "../priv/static/"),
