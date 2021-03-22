@@ -1,3 +1,34 @@
+function toggleAttributePolyfill() {
+  if (!Element.prototype.toggleAttribute) {
+    Element.prototype.toggleAttribute = function(name, force) {
+      if (force !== void 0) force = !!force;
+
+      if (this.hasAttribute(name)) {
+        if (force) return true;
+
+        this.removeAttribute(name);
+        return false;
+      }
+      if (force === false) return false;
+
+      this.setAttribute(name, "");
+      return true;
+    };
+  }
+}
+
+function stickyPolyfill() {
+  import("stickyfilljs").then(stickyfilljs => {
+    const elements = document.querySelectorAll(".sticky-month");
+    stickyfilljs.add(elements);
+  });
+}
+
+function addInternetExplorerPolyfills() {
+  toggleAttributePolyfill();
+  stickyPolyfill();
+}
+
 export function setupEventsListing() {
   const eventsHubPage = document.querySelector(".m-events-hub");
   const eventsListing = document.querySelector(".m-events-hub--list-view");
@@ -15,16 +46,18 @@ export function setupEventsListing() {
       () => {
         window.requestAnimationFrame(() => {
           // 1. toggle a shadow on the month header depending on if it's sticky
-          eventsListing
-            .querySelectorAll(".m-event-list__month-header")
-            .forEach(el => {
-              const stickyStyleTop = parseInt(
-                window.getComputedStyle(el).top.replace("px", ""),
-                10
-              ); // px defined in CSS
-              const isStuck = el.getBoundingClientRect().top === stickyStyleTop;
-              el.toggleAttribute("stuck", isStuck);
-            });
+          const monthHeaders = eventsListing.querySelectorAll(
+            ".m-event-list__month-header"
+          );
+          for (let i = 0; i < monthHeaders.length; i++) {
+            const el = monthHeaders[i];
+            const stickyStyleTop = parseInt(
+              window.getComputedStyle(el).top.replace("px", ""),
+              10
+            ); // px defined in CSS
+            const isStuck = el.getBoundingClientRect().top === stickyStyleTop;
+            el.toggleAttribute("stuck", isStuck);
+          }
 
           // 2. show or hide the month/year dropdowns on mobile depending on
           // whether the user scrolls up or down
@@ -64,18 +97,27 @@ export function setupEventsListing() {
 
   // add event listener to navigate to page on dropdown select
   const dateSelects = eventsHubPage.querySelectorAll(".m-event-list__select");
-  dateSelects.forEach(select => {
+
+  for (let i = 0; i < dateSelects.length; i++) {
+    const select = dateSelects[i];
     select.addEventListener("change", ({ target }) => {
       window.location.assign(target.value);
     });
-  });
+  }
 }
 
 export default function() {
   document.addEventListener(
     "turbolinks:load",
     () => {
-      if (document.querySelector(".m-events-hub")) setupEventsListing();
+      if (document.querySelector(".m-events-hub")) {
+        const isIE = !!document.documentMode;
+        if (isIE) {
+          addInternetExplorerPolyfills();
+        }
+
+        setupEventsListing();
+      }
     },
     { passive: true }
   );
