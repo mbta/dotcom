@@ -130,11 +130,11 @@ describe("previous-events-button", () => {
     const firstFebruaryEvent = $(".m-event")[2];
     const pendingFebEvent = $(".m-event")[4];
 
-    const enterpress = jQuery.Event("keypress");
-    enterpress.which = 13;
-    enterpress.keycode = 13;
+    const enterpress = new KeyboardEvent('keydown', {
+      bubbles: true, cancelable: true, keyCode: 13
+    });
 
-    januaryButton.trigger(enterpress);
+    januaryButton.dispatchEvent(enterpress);
 
     // Parent element of clicked button is now hidden
     assert.isTrue(januaryButton.parentElement.classList.contains("hidden"));
