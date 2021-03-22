@@ -96,12 +96,6 @@ describe("previous-events-button", () => {
     $ = jsdom.rerequire("jquery");
     $("body").html(eventListHtml);
     setupViewPreviousEventsButton();
-
-    const januaryButton = $("a.m-previous-events-button")[0];
-    const februaryButton = $("a.m-previous-events-button")[1];
-    const firstJanuaryEvent = $(".m-event")[0];
-    const firstFebruaryEvent = $(".m-event")[2];
-    const pendingFebEvent = $(".m-event")[4];
   });
 
   it("clicking 'previous-button' for Jan affects Jan, not Feb", () => {
@@ -112,29 +106,6 @@ describe("previous-events-button", () => {
     const pendingFebEvent = $(".m-event")[4];
 
     januaryButton.click();
-
-    // Parent element of clicked button is now hidden
-    assert.isTrue(januaryButton.parentElement.classList.contains("hidden"));
-    assert.isFalse(februaryButton.parentElement.classList.contains("hidden"));
-
-    // Originally hidden January event is visible
-    assert.isFalse(firstJanuaryEvent.classList.contains("hidden"));
-    assert.isTrue(firstFebruaryEvent.classList.contains("hidden"));
-    assert.isFalse(pendingFebEvent.classList.contains("hidden"));
-  });
-
-  it("focus / enter-key does the same as button click", () => {
-    const januaryButton = $("a.m-previous-events-button")[0];
-    const februaryButton = $("a.m-previous-events-button")[1];
-    const firstJanuaryEvent = $(".m-event")[0];
-    const firstFebruaryEvent = $(".m-event")[2];
-    const pendingFebEvent = $(".m-event")[4];
-
-    const enterpress = new KeyboardEvent('keydown', {
-      bubbles: true, cancelable: true, keyCode: 13
-    });
-
-    januaryButton.dispatchEvent(enterpress);
 
     // Parent element of clicked button is now hidden
     assert.isTrue(januaryButton.parentElement.classList.contains("hidden"));
