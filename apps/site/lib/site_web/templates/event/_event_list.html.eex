@@ -26,7 +26,7 @@
         <!-- Previous months button. A JS script sets up a listener for button click -->
         <%= if Enum.any?(event_teasers, fn event -> event_ended(%{start: event.date, stop: event.date_end}) end) do %>
           <li class="list-group-item">
-            <a role="button" class="m-previous-events-button" data-group="<%= render_event_month_slug(month_number, @year) %>">
+            <a tabindex="0" role="button" class="m-previous-events-button" data-group="<%= render_event_month_slug(month_number, @year) %>">
               View Previous <%= render_event_month(month_number, @year) %> Events
               <i class="fa fa-angle-down down" aria-hidden="true"></i>
             </a>

@@ -15,6 +15,12 @@ export function setupViewPreviousEventsButton() {
       });
       button.parentElement.classList.add("hidden");
     });
+    // If the user navigates by keyboard, simulate click on enter-key press
+    button.addEventListener("keyup", (e) => {
+      if (e.keyCode === 13) {
+        button.click();
+      }
+    });
   });
 }
 
