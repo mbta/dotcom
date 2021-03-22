@@ -105,6 +105,12 @@ describe("previous-events-button", () => {
   });
 
   it("clicking 'previous-button' for Jan affects Jan, not Feb", () => {
+    const januaryButton = $("a.m-previous-events-button")[0];
+    const februaryButton = $("a.m-previous-events-button")[1];
+    const firstJanuaryEvent = $(".m-event")[0];
+    const firstFebruaryEvent = $(".m-event")[2];
+    const pendingFebEvent = $(".m-event")[4];
+
     januaryButton.click();
 
     // Parent element of clicked button is now hidden
@@ -118,9 +124,15 @@ describe("previous-events-button", () => {
   });
 
   it("focus / enter-key does the same as button click", () => {
+    const januaryButton = $("a.m-previous-events-button")[0];
+    const februaryButton = $("a.m-previous-events-button")[1];
+    const firstJanuaryEvent = $(".m-event")[0];
+    const firstFebruaryEvent = $(".m-event")[2];
+    const pendingFebEvent = $(".m-event")[4];
+
     const enterpress = jQuery.Event("keypress");
-    e.which = 13;
-    e.keycode = 13;
+    enterpress.which = 13;
+    enterpress.keycode = 13;
 
     januaryButton.trigger(enterpress);
 
