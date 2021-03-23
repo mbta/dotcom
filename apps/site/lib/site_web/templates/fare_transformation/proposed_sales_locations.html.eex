@@ -28,6 +28,11 @@
       <%= form_for @conn, @conn.request_path<>"#address-search-input", [as: :location, method: :get, class: "form"], fn _f -> %>
         <%= input_location(%InputLocation{id: "address-search-input", name: :location, name_index: :address, address: @address, address_error: get_flash(@conn, :info), submit: true, required: true, placeholder: "Enter a location", button_class: ""}) %>
       <% end %>
+      <%= case @nearby_proposed_locations do %>
+        <% [] -> %>
+          <p class="m-error-message">Please enter an address that is within 100 miles of an MBTA service area.</p>
+        <% _ -> %>
+      <% end %>
     </div>
     <div class="col-md-4 c-suggest-retailer">
       <div class="m-schedule-page__schedule-notes">
@@ -42,11 +47,6 @@
 </div>
 <%= case @nearby_proposed_locations do %>
   <% [] -> %>
-    <div class="container" style="display: flex">
-      <div class="col-md-6">
-        <p><b>The address you entered is more than 100 miles from the nearest proposed sales location. Please use an address that's closer to an MBTA service area.</b></p>
-      </div>
-    </div>
   <% _ -> %>
     <%= if !is_nil(@nearby_proposed_locations) do %>
       <div class="c-location-cards--background-gray c-finder-results">
