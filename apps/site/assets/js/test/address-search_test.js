@@ -13,7 +13,7 @@ describe("input-location", () => {
   var $;
   jsdom({ url: testURL });
 
-  beforeEach(() => {
+  before(() => {
     $ = jsdom.rerequire("jquery");
   });
 
