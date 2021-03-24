@@ -53,6 +53,9 @@ const peakOffPeakTimes = ({
         service(`${exception.service} ${exception.type}`)
       )}
     </div>
+    <div className="m-schedule-page__note-footer">
+      Schedules subject to change
+    </div>
   </>
 );
 
