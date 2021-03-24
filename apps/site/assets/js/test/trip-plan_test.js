@@ -33,18 +33,16 @@ describe("trip-plan", () => {
     ]
   });
 
-  beforeEach(() => {
+  before(() => {
     $ = jsdom.rerequire("jquery");
+    window.$ = $;
     window.jQuery = jsdom.rerequire("jquery");
     window.autocomplete = jsdom.rerequire("autocomplete.js");
   });
 
   describe("reverseTrip", () => {
     beforeEach(() => {
-      const $ = jsdom.rerequire("jquery");
-      window.$ = $;
-      window.jQuery = $;
-      $("body").append(tripPlanForm);
+      $("body").html(tripPlanForm);
     });
 
     it("swaps the contents of to and from and the from/to lat/lng", () => {
@@ -75,13 +73,6 @@ describe("trip-plan", () => {
   });
 
   describe("TripPlannerLocControls", () => {
-    beforeEach(() => {
-      const $ = jsdom.rerequire("jquery");
-      window.$ = $;
-      ``;
-      window.jQuery = $;
-    });
-
     it("can initialize without options", () => {
       $("body").append(tripPlanForm);
       const tplc = new TripPlannerLocControls();

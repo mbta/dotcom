@@ -18,7 +18,7 @@ describe("AlgoliaGlobalSearch", function() {
     ]
   });
 
-  beforeEach(function() {
+  before(() => {
     window.jQuery = jsdom.rerequire("jquery");
     window.$ = window.jQuery;
     window.encodeURIComponent = string =>
@@ -26,7 +26,9 @@ describe("AlgoliaGlobalSearch", function() {
         .replace(/\s/g, "%20")
         .replace(/&/g, "%26")
         .replace(/,/g, "%2C");
+  });
 
+  beforeEach(function() {
     document.body.innerHTML = "";
     Object.keys(AlgoliaGlobalSearch.SELECTORS).forEach(key => {
       document.body.innerHTML += `<div id="${
