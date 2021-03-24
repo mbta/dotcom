@@ -62,9 +62,11 @@ export function setupEventsPage() {
   if (activeMonthElement) activeMonthElement.scrollIntoView();
 
   // add event listener to navigate to page on dropdown select
-  const monthSelect = control.querySelector(".m-event-list__select");
-  monthSelect.addEventListener("change", ({ target }) => {
-    window.location.assign(target.value);
+  const dateSelects = eventsHubPage.querySelectorAll(".m-event-list__select");
+  dateSelects.forEach(select => {
+    select.addEventListener("change", ({ target }) => {
+      window.location.assign(target.value);
+    });
   });
 }
 

@@ -7,10 +7,9 @@ defmodule SiteWeb.EventController do
   alias Plug.Conn
   alias Site.IcalendarGenerator
   alias SiteWeb.ControllerHelpers
-  alias SiteWeb.EventDateRange
   alias SiteWeb.EventView
 
-  plug(:assign_date_from_params)
+  plug(SiteWeb.Plugs.YearMonth)
   plug(:assign_events)
 
   def index(conn, _params) do
@@ -21,66 +20,14 @@ defmodule SiteWeb.EventController do
   end
 
   defp assign_events(conn, _opts) do
-    date_range =
-      event_date_range_params_from_params(conn)
-      |> EventDateRange.build(conn.assigns.date)
-
-    event_teasers_fn = fn ->
-      Repo.teasers(
-        type: [:event],
-        items_per_page: 50,
-        date_op: "between",
-        date: [min: date_range.start_time_gt, max: date_range.start_time_lt],
-        sort_order: "ASC"
-      )
-    end
-
     conn
-    |> async_assign_default(:events, event_teasers_fn, [])
-  end
-
-  defp event_date_range_params_from_params(
-         %{
-           query_params: %{
-             "calendar" => "true"
-           }
-         } = conn
-       ),
-       do: Map.take(conn.assigns, [:year, :month])
-
-  defp event_date_range_params_from_params(conn), do: Map.take(conn.assigns, [:year])
-
-  # Looks at URL params for determining the date to render,
-  # Otherwise uses the current month/year
-  defp assign_date_from_params(
-         %{
-           query_params: %{
-             "year" => year,
-             "month" => month
-           }
-         } = conn,
-         _opts
-       ) do
-    year_num = String.to_integer(year)
-    month_num = String.to_integer(month)
-
-    case Date.new(year_num, month_num, 1) do
-      {:ok, _date} ->
-        conn
-        |> assign(:year, year_num)
-        |> assign(:month, month_num)
-
-      {:error, _error} ->
-        assign_from_current_date(conn)
-    end
-  end
-
-  defp assign_date_from_params(conn, _opts), do: assign_from_current_date(conn)
-
-  defp assign_from_current_date(conn) do
-    conn
-    |> assign(:year, conn.assigns.date.year)
-    |> assign(:month, conn.assigns.date.month)
+    |> async_assign_default(
+      :events,
+      fn ->
+        Repo.events_for_year(conn.assigns.year)
+      end,
+      []
+    )
   end
 
   def show(conn, %{"path_params" => path}) do
