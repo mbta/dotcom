@@ -1,4 +1,5 @@
 defmodule SiteWeb.EventController do
+  @moduledoc "Handles fetching event data for event views"
   use SiteWeb, :controller
 
   alias CMS.{API, Page, Repo}
@@ -6,29 +7,27 @@ defmodule SiteWeb.EventController do
   alias Plug.Conn
   alias Site.IcalendarGenerator
   alias SiteWeb.ControllerHelpers
-  alias SiteWeb.EventDateRange
   alias SiteWeb.EventView
 
-  def index(conn, params) do
-    {:ok, current_month} = Date.new(Util.today().year, Util.today().month, 1)
-    date_range = EventDateRange.build(params, current_month)
+  plug(SiteWeb.Plugs.YearMonth)
+  plug(:assign_events)
 
-    event_teasers_fn = fn ->
-      Repo.teasers(
-        type: [:event],
-        items_per_page: 50,
-        date_op: "between",
-        date: [min: date_range.start_time_gt, max: date_range.start_time_lt],
-        sort_order: "ASC"
-      )
-    end
-
+  def index(conn, _params) do
     conn
-    |> assign(:month, date_range.start_time_gt)
-    |> async_assign_default(:events, event_teasers_fn, [])
     |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
     |> await_assign_all_default(__MODULE__)
     |> render("index.html", conn: conn)
+  end
+
+  defp assign_events(conn, _opts) do
+    conn
+    |> async_assign_default(
+      :events,
+      fn ->
+        Repo.events_for_year(conn.assigns.year)
+      end,
+      []
+    )
   end
 
   def show(conn, %{"path_params" => path}) do

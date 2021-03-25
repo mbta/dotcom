@@ -1,12 +1,9 @@
+@import 'variables';
+
 .event-hr-row {
   border-top: $border;
   margin-top: $base-spacing-lg;
   padding-top: $base-spacing-lg;
-}
-
-.arrow-icon:hover {
-  color: $brand-primary-lightest;
-  text-decoration: none;
 }
 
 .event-info-label {
@@ -17,26 +14,230 @@
   }
 }
 
-.events-paragraph {
-  margin: $base-spacing-lg 0;
+.event-inline-block {
+  display: inline-block;
 }
 
-.events-paged-list-header {
-  background-color: $brand-primary-darkest;
-  color: $white;
-  line-height: 2em;
-  margin-bottom: 0;
-  text-align: center;
-  text-transform: uppercase;
+.m-events-hub {
+  header {
+    align-items: baseline;
+    display: flex;
+    justify-content: space-between;
 
-  a {
-    color: $white;
-    display: inline-block;
-    padding: 0 $space-12;
-    vertical-align: bottom;
+    h1 { margin-bottom: 0; }
   }
 }
 
-.event-inline-block {
-  display: inline-block;
+.m-event-listing {
+  @include media-breakpoint-down(xs) {
+    /* stylelint-disable-next-line scss/operator-no-unspaced */
+    margin: 0 -$base-spacing;
+  }
+}
+
+$mobile-control-height: 73px;
+
+.m-event-list__month-header {
+  background-color: $white;
+  margin: 0;
+  padding: $base-spacing $base-spacing/2;
+
+  &.sticky-top {
+    @include media-breakpoint-down(xs) {
+      padding-left: $base-spacing;
+      transition: top .2s ease-in-out;
+      z-index: 12; // overwrite 13 that's default so it doesn't show on top of the mobile nav
+
+      .js-nav-down & {
+        top: 0;
+      }
+
+      .js-nav-up & {
+        top: $mobile-control-height;
+      }
+    }
+  }
+
+  &[stuck] {
+    /* stylelint-disable-next-line scss/operator-no-unspaced */
+    box-shadow: 0 $space-16 $space-16 -1rem $drop-shadow-color;
+  }
+}
+
+.m-event-list__nav {
+  background-color: $white;
+  padding-top: $base-spacing;
+
+  a {
+    display: block;
+    font-weight: bold;
+    margin-bottom: $base-spacing / 2;
+  }
+
+  &.sticky-top {
+    top: $base-spacing;
+  }
+
+  @include media-breakpoint-down(xs) {
+    display: none;
+  }
+}
+
+.m-events-hub__nav--controls {
+  @include media-breakpoint-down(xs) {
+    display: none;
+  }
+}
+
+.m-event-list__nav--mobile-controls {
+  background-color: $white;
+  border-bottom: 1px solid $gray-lightest;
+  display: none;
+  height: $mobile-control-height;
+  padding: $base-spacing;
+  transition: top .2s ease-in-out;
+
+  .m-event-list__select {
+    height: 100%;
+
+    &:first-child {
+      flex: 1;
+      margin-right: $base-spacing;
+    }
+  }
+
+  // show on scrolling up, hide on down
+  .js-nav-up & {
+    @include media-breakpoint-down(xs) {
+      display: flex;
+      top: 0;
+    }
+  }
+
+  .js-nav-down & {
+    @include media-breakpoint-down(xs) {
+      display: flex;
+      top: -$mobile-control-height;
+    }
+  }
+}
+
+.m-event-list__select {
+  border-radius: 4px;
+  border-width: 1px;
+  padding: .5 * $base-spacing 2 * $base-spacing .5 * $base-spacing $base-spacing;
+}
+
+.list-group-flush:first-child .list-group-item:first-child {
+  border-top: unset;
+  border: solid #ddd;
+  border-width: 1px 0;
+}
+
+.m-previous-events-button {
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.m-event {
+  padding: 16px;
+  @include media-breakpoint-down(xs) {
+    padding: 13px 24px 17px 24px;
+  }
+}
+.m-event__date-circle {
+  display: flex;
+  flex-direction: column;
+  height: 64px;
+  width: 64px;
+  background-color: $gray-bordered-background;
+  border-radius: 32px;
+  justify-content: center;
+  align-items: center;
+  margin-right: 24px;
+  color: $gray;
+  font-family: $headings-font-family;
+  text-transform: uppercase;
+  @include media-breakpoint-down(xs) {
+    display: none;
+  }
+}
+.m-event__month {
+  font-size: 14px;
+  line-height: 17px;
+}
+.m-event__day {
+  font-size: 23.62px;
+  line-height: 28px;
+  margin: 0;
+}
+.m-event__date-range {
+  font-size: 14px;
+  color: $gray;
+  line-height: 22.95px;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  @include media-breakpoint-down(xs) {
+    font-size: 12px;
+    padding-top: 0;
+    padding-bottom: 9px;
+  }
+}
+.m-event__title {
+  font-size: 18px;
+  line-height: 24px;
+  padding-bottom: 9px;
+  @include media-breakpoint-down(xs) {
+    font-size: 14px;
+    line-height: 21px;
+    padding-bottom: 0;
+  }
+}
+
+.m-event__status-message {
+  margin-left: 30px;
+  font-weight: 500;
+  text-align: right;
+  font-size: 18px;
+}
+.m-event__add-text {
+  padding-left: 4px;
+  @include media-breakpoint-down(xs) {
+    display: none;
+  }
+}
+.m-event__ended-message {
+  width: 96px;
+  color: $gray;
+}
+
+.m-event-calendar {
+  font-size: small;
+  table-layout: fixed;
+  width: 100%;
+
+  th {
+    color: $gray;
+    font-family: $headings-font-family;
+    text-align: center;
+  }
+
+  &__day {
+    border: 1px solid $gray-lightest;
+    height: $base-spacing * 6; // works like min-height
+    padding: $base-spacing / 4;
+    vertical-align: top;
+  }
+
+  &__day-label {
+    color: $gray;
+    font-family: $headings-font-family;
+    font-weight: bold;
+    margin-bottom: $base-spacing / 2;
+  }
 }
