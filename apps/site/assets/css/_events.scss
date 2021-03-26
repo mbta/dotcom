@@ -83,10 +83,47 @@ $mobile-control-height: 73px;
   }
 }
 
-.m-events-hub__nav--controls {
+.m-events-content {
   @include media-breakpoint-down(xs) {
+    margin-top: 1.044rem;
+  }
+}
+
+.m-events-hub__nav--controls {
+  display: flex;
+  @include media-breakpoint-down(sm) {
     display: none;
   }
+}
+
+.m-events-hub__nav--navigation-toggle {
+  align-items: center;
+  border: 1px solid $gray-lightest;
+  border-radius: 4px;
+  display: flex;
+  margin-left: $space-12;
+  padding: 4px;
+
+  a {
+    color: $gray-lighter;
+    text-decoration: none;
+    &:focus {
+      outline: none;
+    }
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.m-nav-toggle-icon {
+  border-radius: 2px;
+  padding: 9px 12px 9px 13px;
+}
+
+.active-view {
+  background-color: $brand-primary;
+  color: $white;
 }
 
 .m-event-list__nav--mobile-controls {
@@ -148,6 +185,7 @@ $mobile-control-height: 73px;
     padding: 13px 24px 17px 24px;
   }
 }
+
 .m-event__date-circle {
   display: flex;
   flex-direction: column;
