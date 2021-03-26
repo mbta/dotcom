@@ -2,6 +2,8 @@ defmodule SiteWeb.EventView do
   @moduledoc "Module to display fields on the events view"
   use SiteWeb, :view
 
+  import Phoenix.HTML.Link
+
   import Site.FontAwesomeHelpers
 
   import SiteWeb.CMSView,
@@ -138,4 +140,7 @@ defmodule SiteWeb.EventView do
     |> Enum.map(& &1)
     |> Enum.chunk_every(7)
   end
+
+  @spec event_title_link(Plug.Conn.t(), Teaser.t()) :: Phoenix.HTML.Safe.t()
+  defp event_title_link(conn, %Teaser{path: path, title: title}), do: link(title, to: cms_static_page_path(conn, path))
 end

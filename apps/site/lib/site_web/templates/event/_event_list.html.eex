@@ -29,7 +29,6 @@
         <%= for event_teaser <- event_teasers do %>
           <%
             range = %{start: event_teaser.date, stop: event_teaser.date_end}
-            path_fn = fn -> cms_static_page_path(@conn, event_teaser.path) end
           %>
           <!-- If date is upcoming, display on init -->
           <!-- Otherwise, add a 'hidden' class. On previous-button click, this class is removed -->
@@ -43,7 +42,7 @@
                 <%= render_event_duration(range.start, range.stop) %>
               </div>
               <div class="m-event__title">
-                <%= link event_teaser.title, to: path_fn.() %>
+                <%= event_title_link(@conn, event_teaser) %>
               </div>
             </div>
             <div class="m-event__status-message">
