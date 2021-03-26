@@ -8,6 +8,14 @@
         year: @year %>
 
       <%# Add calendar toggle, setting the active option based on if "calendar" query_param is true %>
+      <button data-a11y-dialog-show="your-dialog-id">
+        Open the dialog window
+      </button>
+
+      <%= render "_popup.html",
+        id: "your-dialog-id",
+        conn: @conn,
+        event: List.first(@events) %>
     </nav>
   </header>
 

@@ -1,3 +1,5 @@
+import A11yDialog from "a11y-dialog";
+
 function toggleAttributePolyfill() {
   if (!Element.prototype.toggleAttribute) {
     Element.prototype.toggleAttribute = function(name, force) {
@@ -27,6 +29,34 @@ function stickyPolyfill() {
 function addInternetExplorerPolyfills() {
   toggleAttributePolyfill();
   stickyPolyfill();
+}
+
+function setupEventPopups() {
+  /**
+   * Why not use Bootstrap's popover? It's not equipped to handle having lots of
+   * interactive content, doesn't support a close button, and as implemented the
+   * UX for assistive tech users probably isn't ideal. For more, see "Making
+   * popovers work for keyboard and assistive technology users" in
+   * https://getbootstrap.com/docs/4.6/components/popovers/
+   *
+   * This implementation uses ally-dialog (https://a11y-dialog.netlify.app) as a
+   * base to create accessible dialog windows for various use cases.
+   *
+   * TODO: Positioning the popup next to the event in the calendar
+   *
+   * Suggestion:
+   * Making use of our existing Tether dependency (used for Bootstrap tooltips)
+   * to handle positioning. Tether docs: http://tether.io
+   */
+  const calendarView = document.querySelector(".m-events-hub--calendar-view");
+
+  // find all the event popup HTML elements
+  const eventPopups = calendarView.querySelectorAll(".m-event-overlay");
+  for (let i = 0; i < eventPopups.length; i++) {
+    const el = eventPopups[i];
+    const dialog = new A11yDialog(el);
+    // positioning???
+  }
 }
 
 export function setupEventsListing() {
@@ -118,6 +148,10 @@ export default function() {
         }
 
         setupEventsListing();
+      }
+
+      if (document.querySelector(".m-events-hub--calendar-view")) {
+        setupEventPopups();
       }
     },
     { passive: true }
