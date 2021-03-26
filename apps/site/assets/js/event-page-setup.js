@@ -31,7 +31,18 @@ function addInternetExplorerPolyfills() {
 
 export function setupEventsListing() {
   const eventsHubPage = document.querySelector(".m-events-hub");
+  // add event listener to navigate to page on dropdown select
+  const dateSelects = eventsHubPage.querySelectorAll(".m-event-list__select");
+
+  for (let i = 0; i < dateSelects.length; i++) {
+    const select = dateSelects[i];
+    select.addEventListener("change", ({ target }) => {
+      window.location.assign(target.value);
+    });
+  }
+
   const eventsListing = document.querySelector(".m-events-hub--list-view");
+  if (!eventsListing) return;
   const control = eventsListing.querySelector(
     ".m-event-list__nav--mobile-controls"
   );
@@ -94,16 +105,6 @@ export function setupEventsListing() {
     ".m-event-list__month--active"
   );
   if (activeMonthElement) activeMonthElement.scrollIntoView();
-
-  // add event listener to navigate to page on dropdown select
-  const dateSelects = eventsHubPage.querySelectorAll(".m-event-list__select");
-
-  for (let i = 0; i < dateSelects.length; i++) {
-    const select = dateSelects[i];
-    select.addEventListener("change", ({ target }) => {
-      window.location.assign(target.value);
-    });
-  }
 }
 
 export default function() {
