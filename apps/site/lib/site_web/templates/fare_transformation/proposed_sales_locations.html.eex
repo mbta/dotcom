@@ -28,7 +28,7 @@
       <%= form_for @conn, @conn.request_path<>"#address-search-input", [as: :location, method: :get, class: "form"], fn _f -> %>
         <%= input_location(%InputLocation{id: "address-search-input", name: :location, name_index: :address, address: @address, address_error: get_flash(@conn, :info), submit: true, required: true, placeholder: "Enter a location", button_class: ""}) %>
       <% end %>
-      <%= if Enum.empty?(@nearby_proposed_locations) do %>
+      <%= if !is_nil(@nearby_proposed_locations) and Enum.empty?(@nearby_proposed_locations) do %>
         <p class="m-error-message">Please enter an address that is within 100 miles of an MBTA service area.</p>
       <% end %>
     </div>
@@ -43,7 +43,7 @@
     </div>
   </div>
 </div>
-<%= if !Enum.empty?(@nearby_proposed_locations) and !is_nil(@nearby_proposed_locations) do %>
+<%= if !is_nil(@nearby_proposed_locations) and !Enum.empty?(@nearby_proposed_locations) do %>
   <div class="c-location-cards--background-gray c-finder-results">
     <div class="container">
       <%= render "_nearby_locations.html", conn: @conn, nearby_proposed_locations: @nearby_proposed_locations, search_position: @search_position %>
