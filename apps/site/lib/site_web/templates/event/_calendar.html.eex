@@ -24,10 +24,7 @@
             <% todays_events? = Map.get(events_by_day, day.day) %>
             <%= if todays_events? do %>
               <%= for event <- todays_events? do %>
-                <%
-                  event_ended = event_ended(%{start: event.date, stop: event.date_end})
-                  path_fn = fn -> cms_static_page_path(@conn, event.path) end
-                %>
+                <% event_ended = event_ended(%{start: event.date, stop: event.date_end}) %>
                 <div class="m-event-calendar__event" do %>
                   <i class="fa fa-circle <%= if event_ended, do: 'ended' %>" aria-hidden="true"></i>
                   <%= if !event_ended do%>

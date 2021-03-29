@@ -158,8 +158,10 @@ defmodule SiteWeb.EventViewTest do
     events =
       for m <- 1..12, into: [] do
         y = 2020
+
         for d <- 1..m, index <- 1..(2 * d), into: [] do
           {:ok, date} = Date.new(y, m, d)
+
           %Teaser{
             id: "#{y}-#{m}-#{d}",
             path: "/#{y}-#{m}/#{d}",
@@ -173,10 +175,11 @@ defmodule SiteWeb.EventViewTest do
 
     grouped_april_events = grouped_by_day(events, 4)
     assert grouped_april_events
-    
+
     x = 3
     assert events_list_for_april_x = Map.get(grouped_april_events, x)
     assert length(events_list_for_april_x) == x * 2
+
     for event <- events_list_for_april_x do
       assert event.date.day == x
     end
