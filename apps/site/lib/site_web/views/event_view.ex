@@ -48,13 +48,21 @@ defmodule SiteWeb.EventView do
     |> Enum.sort_by(&elem(&1, 0))
   end
 
+  @doc "Returns a list of event teasers, grouped/sorted by day"
+  @spec grouped_by_day([%Teaser{}], number) :: [{number, [%Teaser{}]}]
+  def grouped_by_day(events, month) do
+    events
+    |> Enum.filter(&(&1.date.month == month))
+    |> Enum.group_by(& &1.date.day)
+  end
+
   @doc "Nicely renders the duration of an event, given two DateTimes."
   @spec render_event_duration(
           NaiveDateTime.t() | DateTime.t(),
           NaiveDateTime.t() | DateTime.t() | nil
         ) ::
           String.t()
-  def render_event_duration(start_time, end_time)
+  def render_event_duration(start_time, end_time \\ nil)
 
   def render_event_duration(start_time, nil) do
     start_time
