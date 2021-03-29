@@ -49,7 +49,7 @@ defmodule SiteWeb.EventView do
   end
 
   @doc "Returns a list of event teasers, grouped/sorted by day"
-  @spec grouped_by_day([%Teaser{}], number) :: [{number, [%Teaser{}]}]
+  @spec grouped_by_day([%Teaser{}], number) :: %{number => %Teaser{}}
   def grouped_by_day(events, month) do
     events
     |> Enum.filter(&(&1.date.month == month))
