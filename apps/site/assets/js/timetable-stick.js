@@ -74,12 +74,14 @@ const resizeStickyHeader = () => {
   stickyHeaderEl.style.right = `${tableRight - tableWidth}px`;
   stickyHeaderEl.style.width = `${tableWidth}px`;
   const stickyLabels = stickyHeaderEl.childNodes;
-  trainLabels.forEach((trainLabel, index) => {
-    const { fontSize, width } = window.getComputedStyle(trainLabel);
-    stickyLabels[index].style.fontSize = fontSize;
-    stickyLabels[index].style.minWidth = width;
-    stickyLabels[index].style.maxWidth = width;
-  });
+  if (stickyLabels.length > 0) {
+    trainLabels.forEach((trainLabel, index) => {
+      const { fontSize, width } = window.getComputedStyle(trainLabel);
+      stickyLabels[index].style.fontSize = fontSize;
+      stickyLabels[index].style.minWidth = width;
+      stickyLabels[index].style.maxWidth = width;
+    });
+  }
 };
 
 const setUp = () => {
