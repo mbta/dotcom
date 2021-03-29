@@ -247,7 +247,7 @@ $mobile-control-height: 73px;
     align-items: center;
     color: $gray-dark;
     text-decoration: none;
-    &:hover {
+    &:hover, &:focus {
       color: $brand-primary;
       cursor: pointer;
     }
