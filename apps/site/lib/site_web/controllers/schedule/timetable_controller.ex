@@ -83,35 +83,8 @@ defmodule SiteWeb.ScheduleController.TimetableController do
   against the new PDFs to ensure it's kept up to date.
   """
   @spec trip_messages(Routes.Route.t(), 0 | 1) :: %{{String.t(), String.t()} => String.t()}
-  def trip_messages(%Routes.Route{id: "CR-Haverhill"}, 1) do
-    %{
-      {"206"} => "Via Lowell Line",
-      {"206", "place-WR-0085"} => "Via",
-      {"206", "place-WR-0075"} => "Lowell",
-      {"206", "place-WR-0067"} => "Line"
-    }
-  end
-
-  def trip_messages(%Routes.Route{id: "CR-Haverhill"}, 0) do
-    %{
-      {"219"} => "Via Lowell Line",
-      {"219", "place-WR-0067"} => "Via",
-      {"219", "place-WR-0075"} => "Lowell",
-      {"219", "place-WR-0085"} => "Line"
-    }
-  end
-
-  def trip_messages(%Routes.Route{id: "CR-Lowell"}, 1) do
-    %{
-      {"206"} => "Via Haverhill",
-      {"206", "place-NHRML-0254"} => "Via",
-      {"206", "place-NHRML-0218"} => "Have-",
-      {"206", "place-NHRML-0152"} => "rhill"
-    }
-  end
-
   def trip_messages(%Routes.Route{id: "CR-Franklin"}, 0) do
-    train = "741"
+    train = "731"
 
     [
       List.duplicate(train, 4),

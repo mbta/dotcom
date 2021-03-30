@@ -98,7 +98,7 @@ defmodule SiteWeb.ScheduleController.TimetableControllerTest do
       assert trip_messages(%Routes.Route{id: "CR-Franklin"}, 1) == %{}
 
       assert [
-               "741"
+               "731"
              ] ==
                %Routes.Route{id: "CR-Franklin"}
                |> trip_messages(0)
