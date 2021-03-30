@@ -8,10 +8,7 @@ defmodule SiteWeb.ScheduleController.Line do
   import Phoenix.Controller, only: [redirect: 2]
 
   alias Plug.Conn
-  alias RoutePatterns.Repo, as: RoutePatternRepo
-  alias RoutePatterns.RoutePattern
   alias Routes.Route
-  alias Schedules.Repo, as: SchedulesRepo
   alias Site.TransitNearMe
   alias SiteWeb.ScheduleController.Line.Dependencies, as: Dependencies
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
@@ -112,9 +109,7 @@ defmodule SiteWeb.ScheduleController.Line do
     expanded = Map.get(conn.query_params, "expanded")
     reverse_direction_id = reverse_direction(direction_id)
     route_stops = LineHelpers.get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
-    
-    # Both line.ex and helpers.ex have a function called get_route_patterns. Redundant?
-    route_patterns = get_route_patterns(route.id, route.type)
+    route_patterns = LineHelpers.get_map_route_patterns(route.id, route.type)
     route_patterns_map = map_route_patterns_by_direction(route_patterns)
     
     # This is for rendering static map, as well as the CR dynamic map
@@ -168,32 +163,6 @@ defmodule SiteWeb.ScheduleController.Line do
 
   defp flatten_route_stops(route_stops) do
     Enum.flat_map(route_stops, fn {_route_id, stops} -> stops end)
-  end
-
-  @spec get_route_patterns(Route.id_t(), Route.type_t()) :: [RoutePattern.t()]
-  defp get_route_patterns("Green", type) do
-    GreenLine.branch_ids() |> Enum.join(",") |> get_route_patterns(type)
-  end
-
-  defp get_route_patterns(route_id, type) do
-    route_id
-    |> RoutePatternRepo.by_route_id()
-    |> filter_route_patterns(type)
-  end
-
-  @spec filter_route_patterns([RoutePattern.t()]) :: [RoutePattern.t()]
-  # For bus, return all patterns
-  defp filter_route_patterns(route_patterns, type: 3), do: route_patterns
-
-  # For other rail, we only need the primary route_pattern and branches for each direction
-  # Filtering here helps lighten the frontend load, hopefully reducing latency
-  defp filter_route_patterns(route_patterns, _type) do
-    for direction <- 0..1, into: [] do
-      route_patterns
-      |> Enum.filter(fn pattern -> pattern.direction_id == direction end)
-      |> LineHelpers.filter_by_min_typicality()
-    end
-    |> List.flatten()
   end
 
   defp map_route_patterns_by_direction(route_patterns) do

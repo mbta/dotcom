@@ -78,7 +78,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
           {RoutePattern.t(), [Stop.t()]}
         ]
   defp do_get_branch_route_stops(route, direction_id, route_pattern_id) do
-    route_patterns = get_route_patterns(route.id, direction_id, route_pattern_id)
+    route_patterns = get_line_route_patterns(route.id, direction_id, route_pattern_id)
 
     if route.id == "Boat-F1" do
       # Find route patterns with smallest typicality.
@@ -91,6 +91,31 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     end
     |> Enum.map(&stops_for_route_pattern/1)
     |> maybe_use_overarching_branch()
+  end
+
+  @spec get_map_route_patterns(Route.id_t(), Route.type_t()) :: [RoutePattern.t()]
+  def get_map_route_patterns("Green", type) do
+    GreenLine.branch_ids() |> Enum.join(",") |> get_map_route_patterns(type)
+  end
+
+  def get_map_route_patterns(route_id, type) do
+    route_id
+    |> RoutePatternsRepo.by_route_id()
+    |> filter_map_route_patterns(type)
+  end
+
+  @spec filter_map_route_patterns([RoutePattern.t()], Route.type_t()) :: [RoutePattern.t()]
+  # For bus, return all patterns
+  defp filter_map_route_patterns(route_patterns, 3), do: route_patterns
+  # For other rail, we only need the primary route_pattern and branches for each direction
+  # Filtering here helps lighten the frontend load, hopefully reducing latency
+  defp filter_map_route_patterns(route_patterns, _type) do
+    for direction <- 0..1, into: [] do
+      route_patterns
+      |> Enum.filter(fn pattern -> pattern.direction_id == direction end)
+      |> filter_by_min_typicality()
+    end
+    |> List.flatten()
   end
 
   # Before constructing branches, detect whether one of the lists of stops is a
@@ -299,15 +324,15 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   defp stops_for_shape(nil), do: []
   defp stops_for_shape(%Shape{stop_ids: stop_ids}), do: Enum.map(stop_ids, &StopsRepo.get!/1)
 
-  @spec get_route_patterns(Route.id_t(), direction_id(), RoutePattern.id_t() | nil) :: [
+  @spec get_line_route_patterns(Route.id_t(), direction_id(), RoutePattern.id_t() | nil) :: [
           RoutePattern.t()
         ]
-  defp get_route_patterns(route_id, direction_id, nil),
+  defp get_line_route_patterns(route_id, direction_id, nil),
     do:
       RoutePatternsRepo.by_route_id(route_id, direction_id: direction_id)
       |> Enum.filter(&(&1.route_id == route_id))
 
-  defp get_route_patterns(route_id, _direction_id, route_pattern_id) do
+  defp get_line_route_patterns(route_id, _direction_id, route_pattern_id) do
     case RoutePatternsRepo.get(route_pattern_id) do
       %RoutePattern{route_id: ^route_id} = route_pattern ->
         [route_pattern]

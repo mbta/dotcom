@@ -156,6 +156,8 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
 
   @spec dynamic_paths(String.t(), [RoutePattern.t()], [RoutePattern.t()]) :: [Polyline.t()]
   defp dynamic_paths(color, route_patterns, vehicle_polylines) do
+    # IO.puts("about to make polylines with these route_patterns")
+    # IO.inspect(route_patterns)
     route_paths = Enum.map(route_patterns, &Polyline.new(&1, color: color, weight: 4))
     vehicle_paths = Enum.map(vehicle_polylines, &Polyline.new(&1, color: color, weight: 2))
     route_paths ++ vehicle_paths

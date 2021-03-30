@@ -9,7 +9,6 @@ defmodule SiteWeb.ScheduleController.MapApi do
   alias SiteWeb.ControllerHelpers
   alias SiteWeb.ScheduleController.Line.Helpers, as: LineHelpers
   alias SiteWeb.ScheduleController.Line.Maps
-  alias RoutePatterns.Repo, as: RoutePatternRepo
 
   @type direction_id :: 0 | 1
 
@@ -33,7 +32,7 @@ defmodule SiteWeb.ScheduleController.MapApi do
 
   @spec get_map_data(Route.t()) :: MapData.t()
   defp get_map_data(route) do
-    route_patterns = RoutePatternRepo.by_route_id(route.id)
+    route_patterns = LineHelpers.get_map_route_patterns(route.id, route.type)
     {_map_img_src, dynamic_map_data} = Maps.map_data(route, [], [], route_patterns, [])
     dynamic_map_data
   end
