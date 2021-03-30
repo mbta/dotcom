@@ -62,7 +62,7 @@ defmodule SiteWeb.EventView do
           NaiveDateTime.t() | DateTime.t() | nil
         ) ::
           String.t()
-  def render_event_duration(start_time, end_time \\ nil)
+  def render_event_duration(start_time, end_time)
 
   def render_event_duration(start_time, nil) do
     start_time
