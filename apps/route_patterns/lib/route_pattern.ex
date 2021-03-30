@@ -31,6 +31,8 @@ defmodule RoutePatterns.RoutePattern do
     :representative_trip_id,
     :representative_trip_polyline,
     :shape_id,
+    :shape_priority,
+    :headsign,
     :stop_ids,
     :route_id,
     :time_desc,
@@ -46,6 +48,8 @@ defmodule RoutePatterns.RoutePattern do
           representative_trip_id: Trip.id_t(),
           representative_trip_polyline: String.t(),
           shape_id: String.t(),
+          shape_priority: number,
+          headsign: String.t(),
           stop_ids: [Stop.id_t()],
           route_id: Route.id_t(),
           time_desc: String.t(),
@@ -63,12 +67,16 @@ defmodule RoutePatterns.RoutePattern do
         relationships: %{
           "representative_trip" => [
             %Item{
+              attributes: %{
+                "headsign" => headsign
+              },
               id: representative_trip_id,
               relationships: %{
                 "shape" => [
                   %Item{
                     attributes: %{
-                      "polyline" => representative_trip_polyline
+                      "polyline" => representative_trip_polyline,
+                      "priority" => shape_priority
                     },
                     id: shape_id,
                     relationships: %{
@@ -89,6 +97,8 @@ defmodule RoutePatterns.RoutePattern do
       representative_trip_id: representative_trip_id,
       representative_trip_polyline: representative_trip_polyline,
       shape_id: shape_id,
+      shape_priority: shape_priority,
+      headsign: headsign,
       stop_ids: Enum.map(stops, fn %JsonApi.Item{id: id} -> id end),
       route_id: route_id,
       time_desc: time_desc,

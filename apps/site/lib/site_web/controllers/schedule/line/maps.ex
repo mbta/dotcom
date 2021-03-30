@@ -23,11 +23,10 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
           [Stops.Stop.t()],
           [Shape.t()],
           [RoutePattern.t()],
-          [String.t()] | any,
           VehicleHelpers.tooltip_index() | [] | nil
         ) :: {String.t(), MapData.t()}
-  def map_data(route, [], [], route_patterns, [], []) do
-    dynamic_data = dynamic_map_data(route.color, route_patterns, {nil, nil})
+  def map_data(route, [], [], route_patterns, []) do
+    dynamic_data = dynamic_map_data(route.color, route_patterns, nil)
     {nil, dynamic_data}
   end
 
@@ -36,7 +35,6 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
         static_map_stops,
         static_map_polylines,
         route_patterns,
-        vehicle_polylines,
         vehicle_tooltips
       ) do
     static_data =
@@ -46,8 +44,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
         route
       )
 
-    vehicle_data = {vehicle_polylines, vehicle_tooltips}
-    dynamic_data = dynamic_map_data(route.color, route_patterns, vehicle_data)
+    dynamic_data = dynamic_map_data(route.color, route_patterns, vehicle_tooltips)
     {static_data, dynamic_data}
   end
 
@@ -85,12 +82,12 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
   @spec dynamic_map_data(
           String.t(),
           [RoutePattern.t()],
-          {[String.t()], VehicleHelpers.tooltip_index()} | {any, nil}
+          VehicleHelpers.tooltip_index() | nil
         ) :: MapData.t()
   defp dynamic_map_data(
          color,
          route_patterns,
-         {_vehicle_polylines, vehicle_tooltips}
+         vehicle_tooltips
        ) do
     stop_ids =
       Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)

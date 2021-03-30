@@ -23,15 +23,8 @@ const renderMap = ({
   const routePatterns = routePatternsByDirection[directionId];
   const shapeIds = routePatterns.map(routePattern => routePattern.shape_id);
   const defaultRoutePattern = routePatterns.slice(0, 1)[0];
-  const currentShapeId = defaultRoutePattern.shape_id;
-  const branchPatterns = !isABusRoute(route)
-    ? routePatterns.filter(
-        pattern => pattern.typicality === defaultRoutePattern.typicality
-      )
-    : null;
-  const branchShapeIds = branchPatterns
-    ? branchPatterns.map(pattern => pattern.shape_id)
-    : null;
+  const currentShapes = isABusRoute(route) ? [defaultRoutePattern.shape_id]
+    : routePatterns.map(pattern => pattern.shape_id)
   const currentStops = defaultRoutePattern.stop_ids;
   const mapDataEl = document.getElementById("js-map-data");
   if (!mapDataEl) return;
@@ -45,8 +38,7 @@ const renderMap = ({
       data={mapData}
       channel={channel}
       shapeIds={shapeIds}
-      currentShapeId={currentShapeId}
-      branchShapeIds={branchShapeIds}
+      currentShapes={currentShapes}
       currentStops={currentStops}
     />,
     mapEl

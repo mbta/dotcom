@@ -150,7 +150,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
 
   # Filters route patterns by the smallest typicality found in the array
   @spec filter_by_min_typicality([RoutePattern.t()]) :: [RoutePattern.t()]
-  defp filter_by_min_typicality(route_patterns) do
+  def filter_by_min_typicality(route_patterns) do
     route_patterns
     |> Enum.reduce({nil, []}, &reduce_by_min_typicality/2)
     |> elem(1)
@@ -171,24 +171,25 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   end
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
-  @spec get_route_shapes(Route.id_t()) :: [Shape.t()]
-  @spec get_route_shapes(Route.id_t(), direction_id | nil) :: [Shape.t()]
-  @spec get_route_shapes(Route.id_t(), direction_id | nil, boolean()) :: [Shape.t()]
-  @spec get_route_shapes(Route.id_t(), direction_id | nil, boolean(), keyword()) :: [Shape.t()]
-  def get_route_shapes(route_id, direction_id \\ nil, filter_by_priority? \\ true, opts \\ [])
-
-  def get_route_shapes("Green", direction_id, filter_by_priority?, opts) do
+  @spec get_main_outbound_shapes(Route.t()) :: [Shape.t()]
+  def get_main_outbound_shapes(%Route{type: 4}), do: []
+  def get_main_outbound_shapes(%Route{type: 3, id: id}) do
+    do_get_outbound_shapes(id)
+    |> hd()
+    |> List.wrap()
+  end
+  def get_main_outbound_shapes(%Route{id: "Green"}) do
     GreenLine.branch_ids()
     |> Enum.join(",")
-    |> get_route_shapes(direction_id, filter_by_priority?, opts)
+    |> do_get_outbound_shapes()
   end
+  def get_main_outbound_shapes(%Route{id: id}), do: do_get_outbound_shapes(id)
 
-  def get_route_shapes(route_id, direction_id, filter_by_priority?, opts) do
-    get_shapes_fn = Keyword.get(opts, :get_shapes_fn, &RoutesRepo.get_shapes/3)
-    shapes_opts = if direction_id == nil, do: [], else: [direction_id: direction_id]
-    get_shapes_fn.(route_id, shapes_opts, filter_by_priority?)
+  @spec do_get_outbound_shapes(Route.id_t()) :: [Shape.t()]
+  def do_get_outbound_shapes(route_id) do
+    RoutesRepo.get_shapes(route_id, [direction_id: 0], true)
   end
-
+  
   @spec get_route_stops(Route.id_t(), direction_id, StopsRepo.stop_by_route()) ::
           stops_by_route()
   def get_route_stops("Green", direction_id, stops_by_route_fn) do
@@ -209,23 +210,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
       stops -> %{route_id => stops}
     end
   end
-
-  @spec get_active_shapes([Shape.t()], Route.t()) :: [Shape.t()]
-  # If it's type bus, then return default shape
-  def get_active_shapes(shapes, %Route{type: 3}), do: get_default_shape(shapes)
-  def get_active_shapes(_shapes, %Route{id: "Green"}), do: []
-  def get_active_shapes(shapes, _route), do: shapes
-
-  @spec get_default_shape([Shape.t()]) :: [Shape.t()]
-  defp get_default_shape([default | _]), do: [default]
-  defp get_default_shape(_), do: []
-
-  # For bus routes, we only want to show the stops for the active route variant.
-  @spec filter_route_shapes([Shape.t()], [Shape.t()], Route.t()) :: [
-          Shape.t()
-        ]
-  def filter_route_shapes(_, [active_shape], %Route{type: 3}), do: [active_shape]
-  def filter_route_shapes(all_shapes, _active_shapes, _Route), do: all_shapes
 
   @doc """
   Gets a list of RouteStops representing all of the branches on the route. Routes without branches will always be a
