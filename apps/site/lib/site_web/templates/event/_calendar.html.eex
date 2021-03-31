@@ -21,9 +21,9 @@
             <div class="m-event-calendar__day-label">
               <%= Timex.format!(day, "%-d", :strftime) %>
             </div>
-            <% todays_events? = Map.get(events_by_day, day.day) %>
-            <%= if todays_events? do %>
-              <%= for event <- todays_events? do %>
+            <% todays_events = Map.get(events_by_day, day.day) %>
+            <%= if todays_events != nil do %>
+              <%= for event <- todays_events do %>
                 <% event_ended = event_ended(%{start: event.date, stop: event.date_end}) %>
                 <div class="m-event-calendar__event" tabindex="0">
                   <i class="fa fa-circle <%= if event_ended, do: 'ended' %>" aria-hidden="true"></i>
