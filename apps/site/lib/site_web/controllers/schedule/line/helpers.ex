@@ -196,26 +196,26 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   end
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
-  @spec get_main_inbound_shapes(Route.t()) :: [Shape.t()]
-  def get_main_inbound_shapes(%Route{type: 4}), do: []
+  @spec get_shapes_by_direction(Route.id_t(), Route.type_t(), direction_id) :: [Shape.t()]
+  def get_shapes_by_direction(_id, 4, _direction), do: []
 
-  def get_main_inbound_shapes(%Route{type: 3, id: id}) do
-    do_get_inbound_shapes(id)
+  def get_shapes_by_direction(id, 3, direction) do
+    do_get_shapes(id, direction)
     |> hd()
     |> List.wrap()
   end
 
-  def get_main_inbound_shapes(%Route{id: "Green"}) do
+  def get_shapes_by_direction("Green", _type, direction) do
     GreenLine.branch_ids()
     |> Enum.join(",")
-    |> do_get_inbound_shapes()
+    |> do_get_shapes(direction)
   end
 
-  def get_main_inbound_shapes(%Route{id: id}), do: do_get_inbound_shapes(id)
+  def get_shapes_by_direction(id, _type, direction), do: do_get_shapes(id, direction)
 
-  @spec do_get_inbound_shapes(Route.id_t()) :: [Shape.t()]
-  def do_get_inbound_shapes(route_id) do
-    RoutesRepo.get_shapes(route_id, [direction_id: 1], true)
+  @spec do_get_shapes(Route.id_t(), direction_id) :: [Shape.t()]
+  def do_get_shapes(route_id, direction_id) do
+    RoutesRepo.get_shapes(route_id, direction_id: direction_id)
   end
 
   @spec get_route_stops(Route.id_t(), direction_id, StopsRepo.stop_by_route()) ::

@@ -183,7 +183,7 @@ const ScheduleDirection = ({
       currentRoutePatternIdForData
     ]
   );
-  
+
   return (
     <>
       <div className="m-schedule-direction">

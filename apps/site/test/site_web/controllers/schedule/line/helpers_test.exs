@@ -1,7 +1,7 @@
 defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   use ExUnit.Case, async: true
 
-  alias Routes.{Route, Shape}
+  alias Routes.{Route}
   alias RoutePatterns.RoutePattern
   alias SiteWeb.ScheduleController.Line.Helpers
   alias Stops.{RouteStops, Stop}
@@ -9,23 +9,6 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
   doctest Helpers
 
   @routes_repo_api Application.get_env(:routes, :routes_repo_api)
-
-  @shape_one %Shape{
-    direction_id: 1,
-    id: "SHAPE_ID",
-    name: "Nubian Station",
-    polyline: "POLYLINE",
-    priority: 3,
-    stop_ids: ["110", "66", "place-dudly"]
-  }
-  @shape_two %Shape{
-    direction_id: 1,
-    id: "SHAPE_TWO_ID",
-    name: "Nubian Station",
-    polyline: "POLYLINE",
-    priority: 3,
-    stop_ids: ["110", "66", "place-dudly"]
-  }
 
   @stop %Stop{
     id: "110",
@@ -787,46 +770,6 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
     end
   end
 
-  describe "get_route_shapes" do
-    test "gets shapes for both directions of the given route" do
-      get_shapes_fn = fn route_id, _shapes_opts, _filter_by_priority? ->
-        if route_id == "1", do: [@shape_one], else: []
-      end
-
-      assert Helpers.get_route_shapes("1", nil, true, get_shapes_fn: get_shapes_fn) == [
-               @shape_one
-             ]
-    end
-
-    test "gets shapes a single directions of the given route" do
-      get_shapes_fn = fn route_id, shapes_opts, _filter_by_priority? ->
-        if route_id == "1" and shapes_opts == [direction_id: 0], do: [@shape_one], else: []
-      end
-
-      assert Helpers.get_route_shapes("1", 0, true, get_shapes_fn: get_shapes_fn) == [@shape_one]
-    end
-
-    test "optionally does not filter out shapes with a negative priority" do
-      get_shapes_fn = fn route_id, _shapes_opts, filter_by_priority? ->
-        if route_id == "1" and filter_by_priority? == false, do: [@shape_one], else: []
-      end
-
-      assert Helpers.get_route_shapes("1", nil, false, get_shapes_fn: get_shapes_fn) == [
-               @shape_one
-             ]
-    end
-
-    test "gets shapes for all Green lines" do
-      get_shapes_fn = fn route_id, _shapes_opts, _filter_by_priority? ->
-        if route_id == "Green-B,Green-C,Green-D,Green-E", do: [@shape_one], else: []
-      end
-
-      assert Helpers.get_route_shapes("Green", nil, true, get_shapes_fn: get_shapes_fn) == [
-               @shape_one
-             ]
-    end
-  end
-
   describe "get_route_stops" do
     test "gets stops by route for a given route" do
       stops_by_route_fn = fn route_id, direction_id, _opts ->
@@ -854,36 +797,49 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
     end
   end
 
-  describe "get_active_shapes/2" do
-    test "for bus routes, returns the default shape (the first one)" do
-      assert Helpers.get_active_shapes([@shape_one, @shape_two], %Route{type: 3, id: "1"}) == [
-               @shape_one
+  describe "get_shapes_by_direction/3 (for cases not tested in line_test)" do
+    test "for ferry" do
+      assert Helpers.get_shapes_by_direction("Ferry ID", 4, 0) == []
+    end
+
+    test "for bus" do
+      assert Helpers.get_shapes_by_direction("1", 3, 0) == Helpers.do_get_shapes("1", 0)
+
+      assert @routes_repo_api.get_shapes("1", direction_id: 0) == [
+               %Routes.Shape{
+                 direction_id: 0,
+                 id: "010090",
+                 name: "Nubian Station - Harvard Square",
+                 polyline: "polyline",
+                 priority: 3,
+                 stop_ids: [
+                   "place-nubn",
+                   "1",
+                   "2",
+                   "6",
+                   "10003",
+                   "57",
+                   "58",
+                   "10590",
+                   "87",
+                   "188",
+                   "89",
+                   "91",
+                   "93",
+                   "95",
+                   "97",
+                   "99",
+                   "101",
+                   "102",
+                   "104",
+                   "106",
+                   "107",
+                   "108",
+                   "109",
+                   "110"
+                 ]
+               }
              ]
-    end
-
-    test "for bus routes, returns an empty list if given an empty list of shapes" do
-      assert Helpers.get_active_shapes([], %Route{type: 3, id: "1"}) == []
-    end
-
-    test "returns an empty list for the generic Green line" do
-      assert Helpers.get_active_shapes([@shape_one], %Route{id: "Green"}) == []
-    end
-
-    test "returns the passed in shapes for non-bus routes" do
-      assert Helpers.get_active_shapes([@shape_one, @shape_two], %Route{type: 1, id: "Blue"}) == [
-               @shape_one,
-               @shape_two
-             ]
-    end
-  end
-
-  describe "filter_route_shapes/3" do
-    test "returns the active shapes list for bus routes" do
-      assert Helpers.filter_route_shapes([], [@shape_one], %Route{type: 3}) == [@shape_one]
-    end
-
-    test "returns the all shapes list for non-bus routes" do
-      assert Helpers.filter_route_shapes([@shape_one], [], %Route{type: 1}) == [@shape_one]
     end
   end
 
@@ -898,7 +854,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
     test "returns RouteStops for all Green line branches" do
       stops = Helpers.get_route_stops("Green", 0, &Stops.Repo.by_route/3)
-      shapes = Helpers.get_route_shapes("Green", 0)
+      shapes = Helpers.get_shapes_by_direction("Green", 0, 0)
 
       assert [%RouteStops{}, %RouteStops{}, %RouteStops{}, %RouteStops{}] =
                Helpers.get_branches(shapes, stops, %Route{id: "Green"}, 0)
