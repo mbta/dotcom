@@ -240,4 +240,35 @@ $mobile-control-height: 73px;
     font-weight: bold;
     margin-bottom: $base-spacing / 2;
   }
+
+  &__event {
+    display: flex;
+    font-size: 12px;
+    align-items: center;
+    color: $gray-dark;
+    text-decoration: none;
+    &:hover, &:focus {
+      color: $brand-primary;
+      cursor: pointer;
+    }
+    .fa-circle {
+      font-size: xx-small;
+      padding-right: 8px;
+      color: $brand-primary;
+      &.ended {
+        color: $gray;
+      }
+    }
+    &-time {
+      flex-shrink: 0;
+      padding-right: 4px;
+    }
+    &-title {
+      font-weight: 700;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      
+    }
+  }
 }
