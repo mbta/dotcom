@@ -175,7 +175,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
 
   # Filters route patterns by the smallest typicality found in the array
   @spec filter_by_min_typicality([RoutePattern.t()]) :: [RoutePattern.t()]
-  def filter_by_min_typicality(route_patterns) do
+  defp filter_by_min_typicality(route_patterns) do
     route_patterns
     |> Enum.reduce({nil, []}, &reduce_by_min_typicality/2)
     |> elem(1)
@@ -196,26 +196,26 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   end
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
-  @spec get_main_outbound_shapes(Route.t()) :: [Shape.t()]
-  def get_main_outbound_shapes(%Route{type: 4}), do: []
+  @spec get_main_inbound_shapes(Route.t()) :: [Shape.t()]
+  def get_main_inbound_shapes(%Route{type: 4}), do: []
 
-  def get_main_outbound_shapes(%Route{type: 3, id: id}) do
-    do_get_outbound_shapes(id)
+  def get_main_inbound_shapes(%Route{type: 3, id: id}) do
+    do_get_inbound_shapes(id)
     |> hd()
     |> List.wrap()
   end
 
-  def get_main_outbound_shapes(%Route{id: "Green"}) do
+  def get_main_inbound_shapes(%Route{id: "Green"}) do
     GreenLine.branch_ids()
     |> Enum.join(",")
-    |> do_get_outbound_shapes()
+    |> do_get_inbound_shapes()
   end
 
-  def get_main_outbound_shapes(%Route{id: id}), do: do_get_outbound_shapes(id)
+  def get_main_inbound_shapes(%Route{id: id}), do: do_get_inbound_shapes(id)
 
-  @spec do_get_outbound_shapes(Route.id_t()) :: [Shape.t()]
-  def do_get_outbound_shapes(route_id) do
-    RoutesRepo.get_shapes(route_id, [direction_id: 0], true)
+  @spec do_get_inbound_shapes(Route.id_t()) :: [Shape.t()]
+  def do_get_inbound_shapes(route_id) do
+    RoutesRepo.get_shapes(route_id, [direction_id: 1], true)
   end
 
   @spec get_route_stops(Route.id_t(), direction_id, StopsRepo.stop_by_route()) ::

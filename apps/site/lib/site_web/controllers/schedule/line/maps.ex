@@ -141,7 +141,6 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
         vt.vehicle.latitude,
         vt.vehicle.longitude,
         id: vt.vehicle.id,
-        shape_id: vt.trip.shape_id,
         icon: "vehicle-bordered-expanded",
         rotation_angle: vt.vehicle.bearing,
         vehicle_crowding: vt.vehicle.crowding,
