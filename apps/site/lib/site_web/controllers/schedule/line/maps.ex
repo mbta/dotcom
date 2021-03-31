@@ -94,8 +94,6 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
       |> Enum.uniq()
 
     {stop_markers, all_markers} = dynamic_markers(stop_ids, vehicle_tooltips)
-
-    # Ignores vehicle_polylines, instead passing an empty array
     paths = dynamic_paths("#" <> color, route_patterns, [])
 
     {600, 600}
@@ -143,6 +141,7 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
         vt.vehicle.latitude,
         vt.vehicle.longitude,
         id: vt.vehicle.id,
+        shape_id: vt.trip.shape_id,
         icon: "vehicle-bordered-expanded",
         rotation_angle: vt.vehicle.bearing,
         vehicle_crowding: vt.vehicle.crowding,
@@ -156,8 +155,6 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
 
   @spec dynamic_paths(String.t(), [RoutePattern.t()], [RoutePattern.t()]) :: [Polyline.t()]
   defp dynamic_paths(color, route_patterns, vehicle_polylines) do
-    # IO.puts("about to make polylines with these route_patterns")
-    # IO.inspect(route_patterns)
     route_paths = Enum.map(route_patterns, &Polyline.new(&1, color: color, weight: 4))
     vehicle_paths = Enum.map(vehicle_polylines, &Polyline.new(&1, color: color, weight: 2))
     route_paths ++ vehicle_paths

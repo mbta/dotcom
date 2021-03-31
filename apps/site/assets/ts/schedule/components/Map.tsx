@@ -107,9 +107,9 @@ const shouldVehicleDisplay = (
   marker: Marker,
   shapeIdsInDirection: string[]
 ): boolean => {
-  if (marker.shape_id) {
-    return shapeIdsInDirection.some(shapeId => shapeId === marker.shape_id);
-  }
+  // if (marker.shape_id) {
+  //   return shapeIdsInDirection.some(shapeId => shapeId === marker.shape_id);
+  // }
   return true;
 };
 
@@ -226,7 +226,6 @@ export default ({
     polylines: data.polylines.filter(p => currentShapes.some(shape => shape === p.id)),
     markers: state.markers.concat(stopMarkers)
   };
-  console.log('mapdata, ', mapData)
   const bounds = useRef(getBounds(stopMarkers));
   return (
     <div className="m-schedule__map">
