@@ -14,7 +14,7 @@ import { menuReducer, FetchAction } from "./direction/reducer";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "../components/Map";
 import LineDiagramAndStopListPage from "../components/line-diagram/LineDiagram";
-import { isABusRoute } from "../../models/route";
+import { isABusRoute, isACommuterRailRoute } from "../../models/route";
 
 export interface Props {
   route: EnhancedRoute;
@@ -121,16 +121,21 @@ const ScheduleDirection = ({
     error: false
   });
 
-  const currentShapes = isABusRoute(route) ? [state.routePattern.shape_id]
   // To distinguish CR shuttles and branches, we have to filter out shuttle patterns (which have priority = -1)
-    : routePatternsInCurrentDirection.filter(pattern => pattern.shape_priority >= 0)
-      .map(pattern => pattern.shape_id)
+  const currentShapes = isABusRoute(route)
+    ? [state.routePattern.shape_id]
+    : isACommuterRailRoute(route)
+    ? routePatternsInCurrentDirection
+        .filter(pattern => pattern.shape_priority >= 0)
+        .map(pattern => pattern.shape_id)
+    : routePatternsInCurrentDirection.map(pattern => pattern.shape_id);
+
   const currentStops = isABusRoute(route)
     ? state.routePattern.stop_ids
     : routePatternsInCurrentDirection.reduce(
-      (acc, cur) => acc.concat(cur.stop_ids),
-      [] as string[]
-    )
+        (acc, cur) => acc.concat(cur.stop_ids),
+        [] as string[]
+      );
   const shapeIds = state.routePatternsByDirection[state.directionId].map(
     routePattern => routePattern.shape_id
   );
@@ -171,7 +176,12 @@ const ScheduleDirection = ({
       );
     },
     // only re-run the effect if any of these things change
-    [route, state.directionId, initialSelectedRoutePatternId, currentRoutePatternIdForData]
+    [
+      route,
+      state.directionId,
+      initialSelectedRoutePatternId,
+      currentRoutePatternIdForData
+    ]
   );
 
   return (

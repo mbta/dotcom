@@ -198,23 +198,26 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
   @spec get_main_outbound_shapes(Route.t()) :: [Shape.t()]
   def get_main_outbound_shapes(%Route{type: 4}), do: []
+
   def get_main_outbound_shapes(%Route{type: 3, id: id}) do
     do_get_outbound_shapes(id)
     |> hd()
     |> List.wrap()
   end
+
   def get_main_outbound_shapes(%Route{id: "Green"}) do
     GreenLine.branch_ids()
     |> Enum.join(",")
     |> do_get_outbound_shapes()
   end
+
   def get_main_outbound_shapes(%Route{id: id}), do: do_get_outbound_shapes(id)
 
   @spec do_get_outbound_shapes(Route.id_t()) :: [Shape.t()]
   def do_get_outbound_shapes(route_id) do
     RoutesRepo.get_shapes(route_id, [direction_id: 0], true)
   end
-  
+
   @spec get_route_stops(Route.id_t(), direction_id, StopsRepo.stop_by_route()) ::
           stops_by_route()
   def get_route_stops("Green", direction_id, stops_by_route_fn) do

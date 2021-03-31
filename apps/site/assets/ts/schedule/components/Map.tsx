@@ -17,7 +17,7 @@ import CrowdingPill from "./line-diagram/CrowdingPill";
 interface Props {
   channel: string;
   data: MapData;
-  currentShapes: string[]
+  currentShapes: string[];
   currentStops: string[];
   shapeIds: string[];
 }
@@ -223,7 +223,9 @@ export default ({
 
   const mapData = {
     ...data,
-    polylines: data.polylines.filter(p => currentShapes.some(shape => shape === p.id)),
+    polylines: data.polylines.filter(p =>
+      currentShapes.some(shape => shape === p.id)
+    ),
     markers: state.markers.concat(stopMarkers)
   };
   const bounds = useRef(getBounds(stopMarkers));
