@@ -1,4 +1,4 @@
-<div class="container m-events-hub <%= if Map.get(@conn.query_params, "calendar"), do: 'm-events-hub--calendar-view', else: 'm-events-hub--list-view' %>">
+<div class="container m-events-hub m-events-hub--list-view">
   <header>
     <h1>Events</h1>
     <nav class="m-events-hub__nav--controls">
@@ -40,11 +40,20 @@
 
     <%= if Map.get(@conn.query_params, "calendar") do %>
       <div class="col-sm-10">
-        <%= render "_calendar.html",
-            events: @events,
-            conn: @conn,
-            month: @month,
-            year: @year %>
+        <div class="m-hide-show-calendar">
+          <%= render "_calendar.html",
+              events: @events,
+              conn: @conn,
+              month: @month,
+              year: @year %>
+        </div>
+        <div class="m-list-view-instead-of-calendar">
+          <%= render "_event_list.html",
+                events: @events,
+                conn: @conn,
+                month: @month,
+                year: @year %>
+        </div>
       </div>
     <% else %>
       <div class="col-sm-offset-2 col-sm-8">

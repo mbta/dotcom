@@ -107,12 +107,6 @@ $mobile-control-height: 73px;
   a {
     color: $gray-lighter;
     text-decoration: none;
-    &:focus {
-      outline: none;
-    }
-    &:hover {
-      text-decoration: none;
-    }
   }
 }
 
@@ -277,5 +271,18 @@ $mobile-control-height: 73px;
     font-family: $headings-font-family;
     font-weight: bold;
     margin-bottom: $base-spacing / 2;
+  }
+}
+
+.m-hide-show-calendar {
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
+.m-list-view-instead-of-calendar {
+  display: none;
+  @include media-breakpoint-down(sm) {
+    display: block;
   }
 }
