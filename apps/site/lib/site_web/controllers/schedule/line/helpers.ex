@@ -93,7 +93,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     |> maybe_use_overarching_branch()
   end
 
-  @spec get_map_route_patterns(Route.id_t(), Route.type_t()) :: [RoutePattern.t()]
+  @spec get_map_route_patterns(Route.id_t(), Route.type_int()) :: [RoutePattern.t()]
   def get_map_route_patterns("Green", type) do
     GreenLine.branch_ids() |> Enum.join(",") |> get_map_route_patterns(type)
   end
@@ -104,7 +104,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     |> filter_map_route_patterns(type)
   end
 
-  @spec filter_map_route_patterns([RoutePattern.t()], Route.type_t()) :: [RoutePattern.t()]
+  @spec filter_map_route_patterns([RoutePattern.t()], Route.type_int()) :: [RoutePattern.t()]
   # For bus, return all patterns
   defp filter_map_route_patterns(route_patterns, 3), do: route_patterns
   # For other rail, we only need the primary route_pattern and branches for each direction
@@ -196,7 +196,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   end
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
-  @spec get_shapes_by_direction(Route.id_t(), Route.type_t(), direction_id) :: [Shape.t()]
+  @spec get_shapes_by_direction(Route.id_t(), Route.type_int(), direction_id) :: [Shape.t()]
   def get_shapes_by_direction(_id, 4, _direction), do: []
 
   def get_shapes_by_direction(id, 3, direction) do

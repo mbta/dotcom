@@ -329,6 +329,8 @@ export interface RoutePattern {
   route_id: string;
   representative_trip_id: string;
   representative_trip_polyline: string;
+  shape_id: string;
+  shape_priority: number;
   stop_ids: string[];
   name: string;
   id: string;
