@@ -478,9 +478,6 @@ defmodule SiteWeb.ScheduleControllerTest do
       assert %Shape{stop_ids: [_ | _] = stop_ids} =
                Enum.find(conn.assigns.route_shapes, &(&1.id == variant))
     end
-
-    # This test was useful on the one hand, but not if the frontend isn't using 
-    # active_shape anymore.
   end
 
   describe "tab redirects" do

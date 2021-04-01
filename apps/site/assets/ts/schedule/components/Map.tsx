@@ -176,7 +176,6 @@ export const reducer = (
 };
 
 export default ({
-  // Data has markers and stop_markers, and they are identical?
   data,
   channel,
   currentShapes,

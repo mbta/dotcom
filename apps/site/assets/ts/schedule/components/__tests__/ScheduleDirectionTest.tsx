@@ -176,7 +176,7 @@ const getComponent = () => (
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
-    initialSelectedRoutePatternId={null}
+    busVariantId={null}
   />
 );
 
@@ -191,7 +191,7 @@ const getSingleDirectionComponent = () => (
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
-    initialSelectedRoutePatternId={null}
+    busVariantId={null}
   />
 );
 
@@ -206,7 +206,7 @@ const getSubwayComponent = () => (
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
-    initialSelectedRoutePatternId={null}
+    busVariantId={null}
   />
 );
 
@@ -221,7 +221,7 @@ const getStaticMapComponent = () => (
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
-    initialSelectedRoutePatternId={null}
+    busVariantId={null}
   />
 );
 
@@ -252,7 +252,7 @@ const getGreenLineComponent = () => {
       stops={{ stops }}
       today="2019-12-05"
       scheduleNote={null}
-      initialSelectedRoutePatternId={null}
+      busVariantId={null}
     />
   );
 };
@@ -268,7 +268,7 @@ const getVariantComponent = () => (
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
-    initialSelectedRoutePatternId="pattern-3"
+    busVariantId="pattern-3"
   />
 );
 

@@ -27,7 +27,7 @@ export interface Props {
   stops: SimpleStopMap;
   today: string;
   scheduleNote: ScheduleNoteType | null;
-  initialSelectedRoutePatternId: string | null;
+  busVariantId: string | null;
 }
 
 export const fetchMapData = (
@@ -94,13 +94,12 @@ const ScheduleDirection = ({
   stops,
   today,
   scheduleNote,
-  // This references the current bus variant, if applicable
-  initialSelectedRoutePatternId
+  busVariantId
 }: Props): ReactElement<HTMLElement> => {
   const routePatternsInCurrentDirection = routePatternsByDirection[directionId];
   const defaultRoutePattern =
     routePatternsInCurrentDirection.find(
-      routePattern => routePattern.id === initialSelectedRoutePatternId
+      routePattern => routePattern.id === busVariantId
     ) || routePatternsInCurrentDirection.slice(0, 1)[0];
 
   const reverseDirection = directionId === 0 ? 1 : 0;
@@ -152,9 +151,8 @@ const ScheduleDirection = ({
         );
       }
     },
-    // only re-run the effect if any of these things change
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [route, state.directionId, initialSelectedRoutePatternId, staticMapData]
+    [route, state.directionId, busVariantId, staticMapData]
   );
 
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
@@ -172,13 +170,7 @@ const ScheduleDirection = ({
         dispatchLineData
       );
     },
-    // only re-run the effect if any of these things change
-    [
-      route,
-      state.directionId,
-      initialSelectedRoutePatternId,
-      currentRoutePatternIdForData
-    ]
+    [route, state.directionId, busVariantId, currentRoutePatternIdForData]
   );
 
   return (
