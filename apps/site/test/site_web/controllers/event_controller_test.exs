@@ -32,6 +32,14 @@ defmodule SiteWeb.EventControllerTest do
       assert Enum.count(event_links) > 0
     end
 
+    test "renders the calendar view", %{conn: conn} do
+      conn = get(conn, event_path(conn, :index, calendar: true))
+
+      events_calendar = html_response(conn, 200) |> Floki.find(".m-event-calendar")
+
+      refute is_nil(events_calendar)
+    end
+
     test "scopes events based on provided dates", %{conn: conn} do
       conn = get(conn, event_path(conn, :index, month: 6, year: 2018))
 
