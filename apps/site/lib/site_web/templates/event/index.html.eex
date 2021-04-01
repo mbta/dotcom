@@ -11,11 +11,11 @@
 
       <div class="m-events-hub__nav--navigation-toggle">
         <% index_params = Keyword.delete(params, :calendar) %>
-        <%= link to: event_path(@conn, :index, index_params), role: "button", tabindex: "0" do %>
+        <%= link to: event_path(@conn, :index, index_params), role: "button", tabindex: "0", aria: [label: "List view"] do %>
           <i class="fa fa-list-ul m-nav-toggle-icon <%= if !assigns[:calendar_view], do: "active-view" %>"></i>
         <% end %>
 
-        <%= link to: event_path(@conn, :index, params ++ [{:calendar, true}]), role: "button", tabindex: "0" do %>
+        <%= link to: event_path(@conn, :index, params ++ [{:calendar, true}]), role: "button", tabindex: "0", aria: [label: "Calendar view"] do %>
           <i class="fa fa-th-large m-nav-toggle-icon <%= if assigns[:calendar_view], do: "active-view" %>"></i>
         <% end %>
       </div>
