@@ -121,13 +121,16 @@ const ScheduleDirection = ({
   });
 
   // To distinguish CR shuttles and branches, we have to filter out shuttle patterns (which have priority = -1)
-  const currentShapes = isABusRoute(route)
-    ? [state.routePattern.shape_id]
-    : isACommuterRailRoute(route)
-    ? routePatternsInCurrentDirection
-        .filter(pattern => pattern.shape_priority >= 0)
-        .map(pattern => pattern.shape_id)
-    : routePatternsInCurrentDirection.map(pattern => pattern.shape_id);
+  let currentShapes;
+  if (isABusRoute(route)) currentShapes = [state.routePattern.shape_id];
+  else if (isACommuterRailRoute(route))
+    currentShapes = routePatternsInCurrentDirection
+      .filter(pattern => pattern.shape_priority >= 0)
+      .map(pattern => pattern.shape_id);
+  else
+    currentShapes = routePatternsInCurrentDirection.map(
+      pattern => pattern.shape_id
+    );
 
   const currentStops = isABusRoute(route)
     ? state.routePattern.stop_ids
