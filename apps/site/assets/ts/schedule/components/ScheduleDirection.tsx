@@ -136,9 +136,6 @@ const ScheduleDirection = ({
         (acc, cur) => acc.concat(cur.stop_ids),
         [] as string[]
       );
-  const shapeIds = state.routePatternsByDirection[state.directionId].map(
-    routePattern => routePattern.shape_id
-  );
   const currentRoutePatternIdForData =
     isABusRoute(route) && routePatternsInCurrentDirection.length > 1
       ? state.routePattern.id
@@ -210,8 +207,6 @@ const ScheduleDirection = ({
           data={mapState.data}
           currentShapes={currentShapes}
           currentStops={currentStops}
-          // Pass all shapes for better vehicle tracking
-          shapeIds={shapeIds}
         />
       )}
       {staticMapData && (

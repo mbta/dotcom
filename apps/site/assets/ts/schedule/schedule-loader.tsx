@@ -21,7 +21,6 @@ const renderMap = ({
   route
 }: SchedulePageData): void => {
   const routePatterns = routePatternsByDirection[directionId];
-  const shapeIds = routePatterns.map(routePattern => routePattern.shape_id);
   const defaultRoutePattern = routePatterns.slice(0, 1)[0];
   const currentShapes = isABusRoute(route)
     ? [defaultRoutePattern.shape_id]
@@ -38,7 +37,6 @@ const renderMap = ({
     <Map
       data={mapData}
       channel={channel}
-      shapeIds={shapeIds}
       currentShapes={currentShapes}
       currentStops={currentStops}
     />,
