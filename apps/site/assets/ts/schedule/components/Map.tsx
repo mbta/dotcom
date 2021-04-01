@@ -179,11 +179,11 @@ export default ({
   data,
   channel,
   currentShapes,
-  currentStops,
+  currentStops
 }: Props): ReactElement<HTMLElement> | null => {
   const [state, dispatch] = useReducer(reducer, {
     channel,
-    markers: data.markers,
+    markers: data.markers
   });
   useEffect(
     () => {

@@ -14,6 +14,7 @@ defmodule RoutePatterns.MockRepo do
     [
       %RoutePatterns.RoutePattern{
         direction_id: 0,
+        headsign: "Arlington Heights",
         id: "77-_-0",
         name: "Harvard Station - Arlington Heights",
         representative_trip_id: "47409272",
@@ -21,6 +22,7 @@ defmodule RoutePatterns.MockRepo do
           "gfsaGvlaqL[Ek@Ck@A[?]BU?sAHg@DWDODKJMPM\\KNEQAOU`@c@`@EBC@[PeCn@g@HM@??[@cBG_BKmBIq@Eq@GyAGoAGcDQ??OAiDQoFYcCO_AEM?OA??yAIyAIeBK}AK_ACy@FiAPu@N??YFa@FSDaARw@\\UL[T??WT_B`Bm@r@e@n@Sb@_@|@gAxCq@hBIT]fACDGL??cAhBc@j@k@n@m@v@MNg@j@WX??q@v@oBxBiArA}@fAc@f@??STSTwAbBq@t@eAnAaAjA]b@qAxAMNuA~As@z@??MPsB~B{@jAgBbCgA~Ag@x@mA`C??IR[x@}@pCw@bCGP??y@vBGf@O\\}@tBSV??_AtAkAtAY`@mAzAMP??IJu@~@i@r@Y^cAtAa@h@w@fAe@n@KN??e@l@m@x@g@r@}@nAY\\w@hAg@p@OR??kBjCeB`CiA|AuAlBQV??Y^{AvBy@hAY`@w@fA??UZ]`@[\\k@b@u@^_ChAwBfAQH??uAr@{@b@uAv@yAz@a@`@??CBWXiApAaApAo@t@kAdBMX??a@~@[`AEPe@pAc@`BIZQr@??Sv@_@zAOfAAZAl@S`C]xECh@????]lEShCOjBMjB?H??UhCWfDOlBYxDMlAIf@Kd@s@lCg@zAEN??Uj@sAjDi@xAy@vBKRO`@??IT{@nBO^u@bBiAlCw@nBYh@??KRq@jBwA`DsBzE[b@KP??}@tAORc@l@o@~@uApBS`@IRMl@SnCEf@??AV}@`FQ`AOv@MhAEp@CvA?~AAl@???VCtBC|BC~CEbEAf@??Ad@[tDOpBAJaAPGdA",
         route_id: "77",
         shape_id: "770116",
+        shape_priority: 3,
         stop_ids: [
           "place-harsq",
           "2310",
@@ -60,6 +62,7 @@ defmodule RoutePatterns.MockRepo do
       },
       %RoutePatterns.RoutePattern{
         direction_id: 1,
+        headsign: "Harvard",
         id: "77-_-1",
         name: "Arlington Heights - Harvard Station",
         representative_trip_id: "47409270",
@@ -67,6 +70,7 @@ defmodule RoutePatterns.MockRepo do
           "ob}aGbinqLC`@x@NRiC@KNqBV{C??BYBmADcEB_DB}BBuB?g@??@]?_BBwADq@LiANw@PaAn@oD??Lq@F_ARoCLm@HSRa@tAqBn@_Ab@m@NShAgBJO??NSrB{EvAaDp@kBd@}@FQ??n@}AhAmCt@cBN_@z@oBNa@??HUJSx@wBh@yArAkDZ{@f@{Aj@wB??FUJe@Hg@LmAXyDNmBToC??@WTsCLkBNkBRiC\\mEBc@???E\\yERaCPy@H]??ZuAx@wC^aBp@}B^mAj@mABEv@iA??LQNUdByBbAiAV]HI??hBmBtAw@z@c@jAm@??ZOvBgA~BiAt@_@j@c@LM??LO\\a@lAcBXa@x@iAzAwBj@w@`@k@??r@aAhA}AdBaCzB_Df@q@Zc@??Ze@X]|@oAf@s@l@y@p@}@d@o@LO??h@w@`@i@bAuAX_@h@s@j@s@??HKV]lA{AXa@jAuAFK??jAaB|@uBN]XY^eAVq@??FQ`A_Dd@uAr@gBf@iA??HQVi@vAyBX_@h@y@t@cAt@_A??VYdBuBhAqAnAyAxBoCNO??zBiCjB{B\\_@RUVY??^e@z@eAr@u@dAoAvB}B??NQnA_Bx@}@n@y@P_@Vg@b@s@Na@??JYd@yAVy@JWj@yANa@Ri@`@u@HOf@u@DG@A??r@u@t@w@JIf@]\\Ur@YLEf@MPE\\I??RC`AQ|AYXCf@?h@Br@DfAD|BPd@@jBJ|@D??rCLtAH~BN`BF|@F`@BR@??hAFvAJ^BhCHbAHbCLxBNjAD`@A??VAfD}@pAa@f@QEGMSJOL]LQJKNEVEf@ErAIT?\\CZ?j@@j@B\\F??@?j@Nf@R`@b@P`@Hd@H|@F|@Fz@Bj@Ap@Dr@B|@Nr@PZRVPw@ZaBf@Z\\R",
         route_id: "77",
         shape_id: "770115",
+        shape_priority: 3,
         stop_ids: [
           "7922",
           "17922",
@@ -108,6 +112,7 @@ defmodule RoutePatterns.MockRepo do
       },
       %RoutePatterns.RoutePattern{
         direction_id: 0,
+        headsign: "North Cambridge",
         id: "77-4-0",
         name: "Harvard Station - North Cambridge",
         representative_trip_id: "47428185",
@@ -115,6 +120,7 @@ defmodule RoutePatterns.MockRepo do
           "gfsaGvlaqL[Ek@Ck@A[?]BU?sAHg@DWDODKJMPM\\KNEQAOU`@c@`@EBC@[PeCn@g@HM@??[@cBG_BKmBIq@Eq@GyAGoAGcDQ??OAiDQoFYcCO_AEM?OA??yAIyAIeBK}AK_ACy@FiAPu@N??YFa@FSDaARw@\\UL[T??WT_B`Bm@r@e@n@Sb@_@|@gAxCq@hBIT]fACDGL??cAhBc@j@k@n@m@v@MNg@j@WX??q@v@oBxBiArA}@fAc@f@??STSTwAbBq@t@eAnAaAjA]b@qAxAS_@",
         route_id: "77",
         shape_id: "770099",
+        shape_priority: 0,
         stop_ids: [
           "place-harsq",
           "2310",
@@ -132,6 +138,7 @@ defmodule RoutePatterns.MockRepo do
       },
       %RoutePatterns.RoutePattern{
         direction_id: 1,
+        headsign: "Harvard",
         id: "77-4-1",
         name: "North Cambridge - Harvard Station",
         representative_trip_id: "47428171",
@@ -139,6 +146,7 @@ defmodule RoutePatterns.MockRepo do
           "krwaG~kcqLR^MNJRxBoCNO??zBiCjB{B\\_@RUVY??^e@z@eAr@u@dAoAvB}B??NQnA_Bx@}@n@y@P_@Vg@b@s@Na@??JYd@yAVy@JWj@yANa@Ri@`@u@HOf@u@DG@A??r@u@t@w@JIf@]\\Ur@YLEf@MPE\\I??RC`AQ|AYXCf@?h@Br@DfAD|BPd@@jBJ|@D??rCLtAH~BN`BF|@F`@BR@??hAFvAJ^BhCHbAHbCLxBNjAD`@A??VAfD}@pAa@f@QEGMSJOL]LQJKNEVEf@ErAIT?\\CZ?j@@j@B\\F",
         route_id: "77",
         shape_id: "770057",
+        shape_priority: 0,
         stop_ids: [
           "12295",
           "2296",
@@ -157,6 +165,7 @@ defmodule RoutePatterns.MockRepo do
       },
       %RoutePatterns.RoutePattern{
         direction_id: 1,
+        headsign: "Harvard",
         id: "77-1-1",
         name: "Appleton St & Massachusetts Ave - Harvard Station",
         representative_trip_id: "47408856",
@@ -164,6 +173,7 @@ defmodule RoutePatterns.MockRepo do
           "uz|aGlrlqLLq@F_ARoCLm@HSRa@tAqBn@_Ab@m@NShAgBJO??NSrB{EvAaDp@kBd@}@FQ??n@}AhAmCt@cBN_@z@oBNa@??HUJSx@wBh@yArAkDZ{@f@{Aj@wB??FUJe@Hg@LmAXyDNmBToC??@WTsCLkBNkBRiC\\mEBc@???E\\yERaCPy@H]??ZuAx@wC^aBp@}B^mAj@mABEv@iA??LQNUdByBbAiAV]HI??hBmBtAw@z@c@jAm@??ZOvBgA~BiAt@_@j@c@LM??LO\\a@lAcBXa@x@iAzAwBj@w@`@k@??r@aAhA}AdBaCzB_Df@q@Zc@??Ze@X]|@oAf@s@l@y@p@}@d@o@LO??h@w@`@i@bAuAX_@h@s@j@s@??HKV]lA{AXa@jAuAFK??jAaB|@uBN]XY^eAVq@??FQ`A_Dd@uAr@gBf@iA??HQVi@vAyBX_@h@y@t@cAt@_A??VYdBuBhAqAnAyAxBoCNO??zBiCjB{B\\_@RUVY??^e@z@eAr@u@dAoAvB}B??NQnA_Bx@}@n@y@P_@Vg@b@s@Na@??JYd@yAVy@JWj@yANa@Ri@`@u@HOf@u@DG@A??r@u@t@w@JIf@]\\Ur@YLEf@MPE\\I??RC`AQ|AYXCf@?h@Br@DfAD|BPd@@jBJ|@D??rCLtAH~BN`BF|@F`@BR@??hAFvAJ^BhCHbAHbCLxBNjAD`@A??VAfD}@pAa@f@QEGMSJOL]LQJKNEVEf@ErAIT?\\CZ?j@@j@B\\F??@?j@Nf@R`@b@P`@Hd@H|@F|@Fz@Bj@Ap@Dr@B|@Nr@PZRVPw@ZaBf@Z\\R",
         route_id: "77",
         shape_id: "770117",
+        shape_priority: -1,
         stop_ids: [
           "2251",
           "2252",
