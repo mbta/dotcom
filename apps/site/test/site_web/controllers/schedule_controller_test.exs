@@ -3,7 +3,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
   alias CMS.Partial.Teaser
   alias Plug.Conn
-  alias Routes.Shape
+  alias RoutePatterns.RoutePattern
   alias Schedules.Sort
   alias Stops.RouteStops
 
@@ -460,23 +460,20 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Bus line with variant", %{conn: conn} do
-      variant = List.last(@routes_repo_api.get_shapes("9", direction_id: 1)).id
+      direction = 1
+      variant = List.last(@routes_repo_api.get_shapes("9", direction_id: direction)).id
 
       conn =
         get(
           conn,
           line_path(conn, :show, "9",
-            "schedule_direction[direction_id]": 1,
+            "schedule_direction[direction_id]": direction,
             "schedule_direction[variant]": variant
           )
         )
 
-      # during the summer, the 9 only has 2 shapes. It has three when school
-      # is in session.
-      assert Enum.count(conn.assigns.route_shapes) >= 2
-
-      assert %Shape{stop_ids: [_ | _] = stop_ids} =
-               Enum.find(conn.assigns.route_shapes, &(&1.id == variant))
+      assert %RoutePattern{stop_ids: [_ | _] = stop_ids} =
+               Enum.find(conn.assigns.route_patterns[Integer.to_string(direction)], &(&1.shape_id == variant))
     end
   end
 
