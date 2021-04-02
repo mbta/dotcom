@@ -24,17 +24,22 @@
 
   <div class="row m-events-content">
     <nav class="m-event-list__nav col-sm-2 sticky-top">
-      <p class="u-bold">Jump to</p>
-      <% init_params = [year: @year] %>
-      <% view_is_calendar = assigns[:calendar_view] %>
-      <% params = if view_is_calendar do
-        Keyword.merge(init_params, [calendar: view_is_calendar])
-      else
-        init_params
-      end %>
-      <%= for month <- 1..12 do %>
-        <% all_params = Keyword.merge(params, [month: month]) %>
-        <%= link render_event_month(month, @year), to: event_path(@conn, :index, all_params) %>
+      <% events_by_month = grouped_by_month(@events, @year) %>
+      <% valid_months = events_by_month |> Enum.map(fn {month_number, _teasers} -> month_number end) %>
+
+      <%= if !Enum.empty?(valid_months) do %>
+        <% init_params = [year: @year] %>
+        <% view_is_calendar = assigns[:calendar_view] %>
+        <% params = if view_is_calendar do
+          Keyword.merge(init_params, [calendar: view_is_calendar])
+        else
+          init_params
+        end %>
+        <p class="u-bold">Jump to</p>
+        <%= for month <- valid_months do %>
+          <% all_params = Keyword.merge(params, [month: month]) %>
+          <%= link render_event_month(month, @year), to: event_path(@conn, :index, all_params) %>
+        <% end %>
       <% end %>
     </nav>
 
@@ -51,7 +56,7 @@
       <div class="m-list-view-instead-of-calendar">
         <div class="col-sm-offset-2 col-sm-8">
           <%= render "_event_list.html",
-                events: @events,
+                events: events_by_month,
                 conn: @conn,
                 month: @month,
                 year: @year %>
@@ -60,7 +65,7 @@
     <% else %>
       <div class="col-sm-offset-2 col-sm-8">
         <%= render "_event_list.html",
-              events: @events,
+              events: events_by_month,
               conn: @conn,
               month: @month,
               year: @year %>

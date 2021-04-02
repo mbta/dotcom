@@ -1,5 +1,4 @@
-<% events_by_month = grouped_by_month(@events, @year) %>
-<%= for {month_number, event_teasers} <- events_by_month do %>
+<%= for {month_number, event_teasers} <- @events do %>
   <section id="<%= month_number %>-<%= @year %>" class="m-event-list__month <%= if month_number == @month, do: 'm-event-list__month--active' %>">
     <h2 class="m-event-list__month-header sticky-top sticky-month"><%= render_event_month(month_number, @year) %></h2>
     <ul class="list-group list-group-flush">
