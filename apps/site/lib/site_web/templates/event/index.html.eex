@@ -39,15 +39,17 @@
     </nav>
 
     <%= if Map.get(@conn.query_params, "calendar") do %>
-      <div class="col-sm-10">
-        <div class="m-hide-show-calendar">
+      <div class="m-hide-show-calendar">
+        <div class="col-sm-10">
           <%= render "_calendar.html",
               events: @events,
               conn: @conn,
               month: @month,
               year: @year %>
         </div>
-        <div class="m-list-view-instead-of-calendar">
+      </div>
+      <div class="m-list-view-instead-of-calendar">
+        <div class="col-sm-offset-2 col-sm-8">
           <%= render "_event_list.html",
                 events: @events,
                 conn: @conn,
