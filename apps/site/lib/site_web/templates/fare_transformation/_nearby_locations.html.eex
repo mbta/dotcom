@@ -1,11 +1,11 @@
 <div class="c-proposed-location-cards">
-  <%= for {%Fares.ProposedLocations.Location{stop_name: name, retail_fvm: retail_fvm, latitude: latitude, longitude: longitude} = _location, distance} <- @nearby_proposed_locations do %>
+  <%= for {%Fares.ProposedLocations.Location{stop_name: name, retail_fvm: retail_fvm, latitude: latitude, longitude: longitude, stop_id: stop_id} = _location, distance} <- @nearby_proposed_locations do %>
 
     <div class="c-location-card c-location-card--resp">
 
       <div class="c-flex-space-between">
         <div class="c-location-card__place">
-          <%= name %>
+          <%= link name, to: stop_path(@conn, :show, stop_id) %>
         </div>
 
         <div class="c-location-card__distance">
