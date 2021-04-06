@@ -52,6 +52,11 @@ export default ({
     }
   };
 
+  const directionNameForId = (
+    direction: DirectionId
+  ): string => `${directionNames[direction]!.toUpperCase()} 
+  ${directionDestinations[direction]!}`;
+
   return (
     <form onSubmit={handleSubmit}>
       <h2 className="h3 schedule-finder__heading">
@@ -81,9 +86,12 @@ export default ({
               }
             >
               {validDirections(directionNames).map(direction => (
-                <option key={direction} value={direction}>
-                  {directionNames[direction]!.toUpperCase()}{" "}
-                  {directionDestinations[direction]!}
+                <option
+                  key={direction}
+                  value={direction}
+                  aria-label={directionNameForId(direction)}
+                >
+                  {directionNameForId(direction)}
                 </option>
               ))}
             </select>
@@ -100,7 +108,7 @@ export default ({
             >
               <option value="">Select</option>
               {stopsByDirection[selectedDirection].map(({ id, name }) => (
-                <option key={id} value={id}>
+                <option key={id} value={id} aria-label={name}>
                   {name}
                 </option>
               ))}

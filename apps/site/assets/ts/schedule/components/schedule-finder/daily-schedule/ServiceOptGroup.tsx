@@ -64,10 +64,18 @@ const ServiceOptGroup = ({
           }
         }
 
+        if (service.id === todayServiceId) {
+          optionText += " (now)";
+        }
+
         return (
-          <option key={service.id} value={service.id}>
+          <option
+            key={service.id}
+            value={service.id}
+            // the <optgroup> is not reliably conveyed to assistive tech, so add extra label here
+            aria-label={`${label} ${optionText}`}
+          >
             {optionText}
-            {service.id === todayServiceId && " (now)"}
           </option>
         );
       })}
