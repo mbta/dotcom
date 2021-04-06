@@ -55,7 +55,7 @@ export default ({
   return (
     <form onSubmit={handleSubmit}>
       <h2 className="h3 schedule-finder__heading">
-        {renderSvg("c-svg__icon", icon)} Schedule Finder
+        {renderSvg("c-svg__icon", icon, true)} Schedule Finder
       </h2>
 
       <div className="schedule-finder__prompt">
