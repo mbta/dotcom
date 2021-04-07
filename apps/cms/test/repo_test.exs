@@ -513,4 +513,30 @@ defmodule CMS.RepoTest do
       assert %Paragraph.CustomHTML{} = paragraph
     end
   end
+
+  describe "events_for_year/1" do
+    test "calls /cms/teasers with desired opts for date range" do
+      opts = fn year ->
+        %{
+          date: [min: "#{year}-01-01", max: "#{year + 1}-01-01"],
+          date_op: "between",
+          items_per_page: 50,
+          offset: 0,
+          sort_by: "field_start_time_value",
+          sort_order: :ASC,
+          type: [:event]
+        }
+      end
+
+      year = 2018
+      mock_2018_opts = opts.(year)
+
+      with_mock Static, view: fn "/cms/teasers", ^mock_2018_opts -> {:ok, []} end do
+        _events = Repo.events_for_year(year)
+
+        Static.view("/cms/teasers", opts.(year))
+        |> assert_called()
+      end
+    end
+  end
 end

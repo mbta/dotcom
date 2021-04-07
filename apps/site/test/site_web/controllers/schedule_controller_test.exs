@@ -126,7 +126,7 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "assigns information for the timetable", %{conn: conn} do
-      conn = get(conn, timetable_path(conn, :show, "CR-Lowell", direction_id: 0))
+      conn = get(conn, timetable_path(conn, :show, "CR-Franklin", direction_id: 0))
       assert conn.assigns.tab == "timetable"
       assert conn.assigns.offset
       assert conn.assigns.alerts
@@ -136,12 +136,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     test "assigns trip messages for a few route/directions", %{conn: conn} do
       for {route_id, direction_id, expected_size} <- [
-            {"CR-Lowell", 0, 0},
-            {"CR-Lowell", 1, 4},
-            {"CR-Haverhill", 0, 4},
-            {"CR-Haverhill", 1, 4},
-            {"CR-Franklin", 0, 5},
-            {"CR-Franklin", 1, 0}
+            {"CR-Franklin", 0, 5}
           ] do
         path =
           timetable_path(conn, :show, route_id, schedule_direction: %{direction_id: direction_id})

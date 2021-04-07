@@ -1,0 +1,13 @@
+<select class="c-select m-event-list__select">
+  <option disabled selected value="">Jump to</option>
+  <%= for month <- 1..12 do %>
+    <%= content_tag(
+      :option,
+      Timex.month_name(month),
+      [
+        value: event_path(@conn, :index, month: month, year: @year),
+        selected: month == @month
+      ]
+    ) %>
+  <% end %>
+</select>

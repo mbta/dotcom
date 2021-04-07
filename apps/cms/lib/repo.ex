@@ -314,4 +314,44 @@ defmodule CMS.Repo do
         {:error, error}
     end
   end
+
+  @doc "Get all the events, paginating through results if needed, and caches the result"
+  @spec events_for_year(Calendar.year()) :: [%Teaser{}]
+  def events_for_year(year) do
+    range = [
+      min: Timex.beginning_of_year(year) |> Util.convert_to_iso_format(),
+      max: Timex.end_of_year(year) |> Timex.shift(days: 1) |> Util.convert_to_iso_format()
+    ]
+
+    cache([range: range], fn _ -> do_events_for_range(range) end)
+  end
+
+  @spec do_events_for_range([min: String.t(), max: String.t()], non_neg_integer(), [%Teaser{}]) ::
+          [%Teaser{}]
+  defp do_events_for_range(range, offset \\ 0, all_events \\ []) do
+    per_page = 50
+
+    opts = [
+      type: [:event],
+      items_per_page: per_page,
+      date_op: "between",
+      date: range,
+      offset: offset * per_page,
+      sort_order: :ASC
+    ]
+
+    case teasers(opts) do
+      [] ->
+        all_events
+
+      more_events ->
+        total_events = all_events ++ more_events
+
+        if Kernel.length(more_events) == per_page do
+          do_events_for_range(range, offset + 1, total_events)
+        else
+          total_events
+        end
+    end
+  end
 end

@@ -206,7 +206,7 @@ defmodule Fares do
     end
   end
 
-  @spec get_fare_by_type(TripPlan.Leg.t(), fare_type) :: Fares.Fare.t()
+  @spec get_fare_by_type(TripPlan.Leg.t(), fare_type) :: Fares.Fare.t() | nil
   def get_fare_by_type(leg, fare_type) do
     leg
     |> Kernel.get_in([

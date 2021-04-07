@@ -1,15 +1,51 @@
 defmodule SiteWeb.EventControllerTest do
   use SiteWeb.ConnCase
+  import Mock
+
+  @current_date ~D[2019-04-15]
+
+  setup_with_mocks([
+    {SiteWeb.Plugs.Date, [],
+     [
+       call: fn conn, _ -> Plug.Conn.assign(conn, :date, @current_date) end
+     ]}
+  ]) do
+    :ok
+  end
 
   describe "GET index" do
-    test "renders a list of upcoming events", %{conn: conn} do
+    test "assigns month and year based on query params, defaulting to current", %{conn: conn} do
       conn = get(conn, event_path(conn, :index))
-      assert html_response(conn, 200) =~ Timex.format!(Util.today(), "{Mfull}")
+      assert %{year: 2019, month: 4} = conn.assigns
+      conn = get(conn, event_path(conn, :index, month: 5, year: 2020))
+      assert %{year: 2020, month: 5} = conn.assigns
+    end
+
+    test "renders a list of events", %{conn: conn} do
+      conn = get(conn, event_path(conn, :index))
+      assert conn.assigns.year == 2019
+      events_hub = html_response(conn, 200) |> Floki.find(".m-events-hub")
+
+      assert Floki.text(events_hub) =~ "MassDOT Finance and Audit Committee"
+
+      event_links = Floki.find(events_hub, ".m-event-listing a")
+      assert Enum.count(event_links) > 0
+    end
+
+    test "renders the calendar view", %{conn: conn} do
+      conn = get(conn, event_path(conn, :index, calendar: true))
+
+      events_calendar = html_response(conn, 200) |> Floki.find(".m-event-calendar")
+
+      refute is_nil(events_calendar)
     end
 
     test "scopes events based on provided dates", %{conn: conn} do
-      conn = get(conn, event_path(conn, :index, %{month: "2018-06-01"}))
-      refute html_response(conn, 200) =~ "Fiscal & Management Control Board Meeting"
+      conn = get(conn, event_path(conn, :index, month: 6, year: 2018))
+
+      events_hub = html_response(conn, 200) |> Floki.find(".m-events-hub")
+
+      refute Floki.text(events_hub) =~ "MassDOT Finance and Audit Committee"
     end
 
     test "does not include an unavailable_after x-robots-tag HTTP header", %{conn: conn} do
@@ -125,6 +161,19 @@ defmodule SiteWeb.EventControllerTest do
       assert event.path_alias == "/events/date/title"
       assert event.title == "Senior CharlieCard Event"
       conn = get(conn, event_icalendar_path(conn, :show, event))
+      assert conn.status == 200
+
+      assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]
+
+      assert Plug.Conn.get_resp_header(conn, "content-disposition") == [
+               "attachment; filename=senior_charliecard_event.ics"
+             ]
+    end
+
+    test "returns an icalendar file when only the path_alias is passed", %{conn: conn} do
+      event = event_factory(1)
+      assert event.path_alias == "/events/date/title"
+      conn = get(conn, event_icalendar_path(conn, event.path_alias))
       assert conn.status == 200
 
       assert Plug.Conn.get_resp_header(conn, "content-type") == ["text/calendar; charset=utf-8"]

@@ -1,25 +1,68 @@
-<% extra_classes = if assigns[:nav], do: [class: "events-paged-list-header"], else: [] %>
-<div class="page-section event-listing">
-  <%= content_tag(:h2, @title, extra_classes) %>
-  <ul class="list-group list-group-flush">
-    <%= for event_teaser <- @events do %>
-      <%
-        range = %{start: event_teaser.date, stop: event_teaser.date_end}
-        path_fn = fn -> cms_static_page_path(@conn, event_teaser.path) end
-      %>
-      <li class="list-group-item">
-        <div>
-          <%= render_duration(range.start, range.stop) %>
-        </div>
-        <div>
-          <%= link event_teaser.title, to: path_fn.() %>
-        </div>
-      </li>
-    <% end %>
-  </ul>
+<% events_by_month = grouped_by_month(@events, @year) %>
+
+<div class="m-event-listing">
+  <nav class="m-event-list__nav--mobile-controls sticky-top">
+    <%= render "_month_select.html",
+        conn: @conn,
+        month: @month,
+        year: @year %>
+
+    <%= render "_year_select.html",
+        conn: @conn,
+        month: @month,
+        year: @year %>
+  </nav>
+
+  <%= for {month_number, event_teasers} <- events_by_month do %>
+    <section id="<%= month_number %>-<%= @year %>" class="m-event-list__month <%= if month_number == @month, do: 'm-event-list__month--active' %>">
+      <h2 class="m-event-list__month-header sticky-top sticky-month"><%= render_event_month(month_number, @year) %></h2>
+      <ul class="list-group list-group-flush">
+        <!-- Previous months button. A JS script sets up a listener for button click -->
+        <%= if Enum.any?(event_teasers, fn event -> event_ended(%{start: event.date, stop: event.date_end}) end) do %>
+          <li class="list-group-item">
+            <a tabindex="0" role="button" class="m-previous-events-button" data-group="<%= render_event_month_slug(month_number, @year) %>">
+              View Previous <%= render_event_month(month_number, @year) %> Events
+              <i class="fa fa-angle-down down" aria-hidden="true"></i>
+            </a>
+          </li>
+        <% end %>
+        <%= for event_teaser <- event_teasers do %>
+          <%
+            range = %{start: event_teaser.date, stop: event_teaser.date_end}
+            path_fn = fn -> cms_static_page_path(@conn, event_teaser.path) end
+          %>
+          <!-- If date is upcoming, display on init -->
+          <!-- Otherwise, add a 'hidden' class. On previous-button click, this class is removed -->
+          <li class="list-group-item u-flex-container m-event <%= if event_ended(range), do: 'hidden' %>" data-group="<%= render_event_month_slug(month_number, @year) %>">
+            <div class="m-event__date-circle">
+              <div class="u-bold m-event__month"><%= pretty_date(range.start, "{Mshort}") %></div>
+              <div class="u-bold m-event__day"><%= pretty_date(range.start, "{D}") %></div>
+            </div>
+            <div class="u-flex-one">
+              <div class="m-event__date-range">
+                <%= render_event_duration(range.start, range.stop) %>
+              </div>
+              <div class="m-event__title">
+                <%= link event_teaser.title, to: path_fn.() %>
+              </div>
+            </div>
+            <div class="m-event__status-message">
+              <%= if !event_ended(range) do %>
+                <%= link to: event_icalendar_path(@conn, event_teaser.path),
+                  data: [turbolinks: false], class: "btn btn-secondary btn-lg" do %>
+                    <%= fa "calendar-plus-o" %>
+                    <span class="m-event__add-text">Add</span>
+                <% end %>
+              <% else %>
+                <div class="m-event__ended-message">Ended</div>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
   <%= if Enum.empty?(@events) do %>
-    <div>
-      <%= assigns[:empty_placeholder_text] || "No events" %>
-    </div>
+    <p>No events</p>
   <% end %>
 </div>
