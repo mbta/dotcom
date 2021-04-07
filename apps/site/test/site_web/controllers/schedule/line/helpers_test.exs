@@ -666,8 +666,8 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
 
       assert [
                %RouteStops{branch: nil, stops: trunk_route_stops},
-               %RouteStops{branch: "North Station - Newburyport", stops: newburyport_route_stops},
-               %RouteStops{branch: "North Station - Manchester", stops: rockport_route_stops}
+               %RouteStops{branch: "North Station - Manchester", stops: rockport_route_stops},
+               %RouteStops{branch: "North Station - Newburyport", stops: newburyport_route_stops}
              ] = Helpers.get_branch_route_stops(newburyport_route, 0)
 
       assert Enum.all?(trunk_route_stops, &(&1.branch == nil))
@@ -765,8 +765,7 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
           "place-PB-0212",
           "place-PB-0245",
           "place-PB-0281",
-          "place-KB-0351",
-          "place-PB-0356"
+          "place-KB-0351"
         ]
       )
     end
