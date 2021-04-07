@@ -29,7 +29,7 @@ defmodule DetailedStopGroupTest do
           "Franklin Line",
           "Greenbush Line",
           "Haverhill Line",
-          "Kingston/Plymouth Line",
+          "Kingston Line",
           "Lowell Line",
           "Middleborough/Lakeville Line",
           "Needham Line",
