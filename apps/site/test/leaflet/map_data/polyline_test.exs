@@ -23,8 +23,7 @@ defmodule Leaflet.MapData.PolylineTest do
         @route_patterns_repo_api.by_route_id("77")
         |> List.first()
 
-      assert %Polyline{color: color, positions: positions} =
-               Polyline.new(route_pattern)
+      assert %Polyline{color: color, positions: positions} = Polyline.new(route_pattern)
 
       assert color == "#000000"
       assert [first | _] = positions
