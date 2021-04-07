@@ -29,11 +29,22 @@ defmodule SiteWeb.EventController do
   end
 
   defp assign_events(conn, _opts) do
+    events_by_year =
+      for year <- year_options(conn), into: %{} do
+        {year, Repo.events_for_year(year)}
+      end
+
+    years_for_selection =
+      events_by_year
+      |> Enum.filter(fn {_year, events_for_that_year} -> Enum.count(events_for_that_year) > 0 end)
+      |> Enum.map(fn {year, _events_for_that_year} -> year end)
+
     conn
+    |> assign(:years_for_selection, years_for_selection)
     |> async_assign_default(
       :events,
       fn ->
-        Repo.events_for_year(conn.assigns.year)
+        Map.get(events_by_year, conn.assigns.year)
       end,
       []
     )
@@ -121,4 +132,23 @@ defmodule SiteWeb.EventController do
   defp decode_ampersand_html_entity(string) do
     String.replace(string, "&amp;", "&")
   end
+
+  @doc "Returns a list of years with which we can filter events.
+  Defaults to the current datetime if no assigns
+  "
+  @spec year_options(Plug.Conn.t()) :: %Range{:first => Calendar.year(), :last => Calendar.year()}
+  def year_options(%{assigns: %{date: %{year: year}}}) when is_integer(year) do
+    do_year_options(year)
+  end
+
+  def year_options(_) do
+    %{year: year} = Util.now()
+    do_year_options(year)
+  end
+
+  @spec do_year_options(Calendar.year()) :: %Range{
+          :first => Calendar.year(),
+          :last => Calendar.year()
+        }
+  defp do_year_options(year), do: Range.new(year - 4, year + 1)
 end
