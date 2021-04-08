@@ -74,6 +74,8 @@ const oneDirectionRoute = {
   alerts: []
 } as EnhancedRoute;
 
+
+
 const directionId = 1;
 const routePatternsByDirection = routePatternsByDirectionData as RoutePatternsByDirection;
 
@@ -210,6 +212,21 @@ const getSubwayComponent = () => (
   />
 );
 
+const getCRComponent = () => (
+  <ScheduleDirection
+    route={{ ...route, type: 2 }}
+    directionId={directionId}
+    routePatternsByDirection={routePatternsByDirection}
+    mapData={mapData}
+    lineDiagram={lineDiagram}
+    services={[]}
+    stops={{ stops }}
+    today="2019-12-05"
+    scheduleNote={null}
+    busVariantId={null}
+  />
+);
+
 const getStaticMapComponent = () => (
   <ScheduleDirection
     staticMapData={staticMapData}
@@ -281,6 +298,12 @@ it("renders a bus component", () => {
 it("renders a subway component", () => {
   createReactRoot();
   const tree = mount(getSubwayComponent());
+  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
+});
+
+it("renders a CR component", () => {
+  createReactRoot();
+  const tree = mount(getCRComponent());
   expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
 });
 
