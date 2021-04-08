@@ -125,7 +125,8 @@ const ScheduleDirection = ({
   //    1. Filter by route_id - we only want to show the primary path, not the multi-route trips
   //    2. Filter by typicality
   //    3. If there are multiple route_patterns with different shape values, then filter out shuttles (which usually have priority = -1)
-  let currentShapes, currentStops;
+  let currentShapes;
+  let currentStops;
   if (isABusRoute(route)) {
     currentShapes = [state.routePattern.shape_id];
     currentStops = state.routePattern.stop_ids;
@@ -134,14 +135,14 @@ const ScheduleDirection = ({
       .filter(pattern => pattern.route_id === route.id)
       .reduce(
         (result, current) => {
-          if (result.length == 0 || current.typicality < result[0].typicality)
+          if (result.length === 0 || current.typicality < result[0].typicality)
             return [current];
-          else if (current.typicality == result[0].typicality) {
+          if (current.typicality === result[0].typicality) {
             if (current.shape_priority > result[0].shape_priority)
               return [current];
-            else if (current.shape_priority < result[0].shape_priority)
+            if (current.shape_priority < result[0].shape_priority)
               return result;
-            else return result.concat(current);
+            return result.concat(current);
           }
           return result;
         },
