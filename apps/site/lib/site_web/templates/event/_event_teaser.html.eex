@@ -1,0 +1,30 @@
+<% path_fn = fn -> cms_static_page_path(@conn, @event_teaser.path) end %>
+<% range = %{start: @event_teaser.date, stop: @event_teaser.date_end} %>
+<% event_is_hidden = if @check_event_ended, do: event_ended(range), else: false %>
+<!-- If date is upcoming, display on init -->
+<!-- Otherwise, add a 'hidden' class. On previous-button click, this class is removed -->
+<li class="list-group-item u-flex-container m-event <%= if event_is_hidden, do: 'hidden' %>" data-group="<%= render_event_month_slug(@month_number, @year) %>">
+  <div class="m-event__date-circle">
+    <div class="u-bold m-event__month"><%= pretty_date(range.start, "{Mshort}") %></div>
+    <div class="u-bold m-event__day"><%= pretty_date(range.start, "{D}") %></div>
+  </div>
+  <div class="u-flex-one">
+    <div class="m-event__date-range">
+      <%= render_event_duration(range.start, range.stop) %>
+    </div>
+    <div class="m-event__title">
+      <%= link @event_teaser.title, to: path_fn.() %>
+    </div>
+  </div>
+  <div class="m-event__status-message">
+    <%= if !event_ended(range) do %>
+      <%= link to: event_icalendar_path(@conn, @event_teaser.path),
+        data: [turbolinks: false], class: "btn btn-secondary btn-lg" do %>
+          <%= fa "calendar-plus-o" %>
+          <span class="m-event__add-text">Add</span>
+      <% end %>
+    <% else %>
+      <div class="m-event__ended-message">Ended</div>
+    <% end %>
+  </div>
+</li>
