@@ -66,14 +66,6 @@ defmodule RoutePatterns.Repo do
 
   @spec reorder_mrts(RoutePattern.t(), RoutePattern.t(), String.t()) :: boolean()
   defp reorder_mrts(pattern_one, pattern_two, route_id) do
-    cond do
-      # if pattern_one does NOT have the right route_id
-      # AND pattern_two has the same typicality, they need to be swapped
-      pattern_one.route_id !== route_id and pattern_one.typicality == pattern_two.typicality ->
-        false
-
-      true ->
-        true
-    end
+    not (pattern_one.route_id !== route_id and pattern_one.typicality == pattern_two.typicality)
   end
 end
