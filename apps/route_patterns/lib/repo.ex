@@ -44,6 +44,7 @@ defmodule RoutePatterns.Repo do
     |> Keyword.put(:sort, "typicality,sort_order")
     |> Keyword.put(:include, "representative_trip.shape")
     |> cache(&api_all/1)
+    |> Enum.sort(&reorder_mrts(&1, &2, route_id))
   end
 
   defp api_all(opts) do
@@ -60,6 +61,19 @@ defmodule RoutePatterns.Repo do
 
       %JsonApi{data: data} ->
         Enum.map(data, &RoutePattern.new/1)
+    end
+  end
+
+  @spec reorder_mrts(RoutePattern.t(), RoutePattern.t(), String.t()) :: boolean()
+  defp reorder_mrts(pattern_one, pattern_two, route_id) do
+    cond do
+      # if pattern_one does NOT have the right route_id
+      # AND pattern_two has the same typicality, they need to be swapped
+      pattern_one.route_id !== route_id and pattern_one.typicality == pattern_two.typicality ->
+        false
+
+      true ->
+        true
     end
   end
 end

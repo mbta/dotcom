@@ -5,7 +5,8 @@ import {
   LineDiagramStop,
   SimpleStopMap,
   ServiceInSelector,
-  ScheduleNote as ScheduleNoteType
+  ScheduleNote as ScheduleNoteType,
+  EnhancedRoutePattern
 } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
@@ -120,24 +121,48 @@ const ScheduleDirection = ({
     error: false
   });
 
-  // To distinguish CR shuttles and branches, we have to filter out shuttle patterns (which have priority = -1)
-  let currentShapes;
-  if (isABusRoute(route)) currentShapes = [state.routePattern.shape_id];
-  else if (isACommuterRailRoute(route))
-    currentShapes = routePatternsInCurrentDirection
-      .filter(pattern => pattern.shape_priority >= 0)
-      .map(pattern => pattern.shape_id);
-  else
+  // To distinguish CR shuttles and branches and multi-route trips, we have to filter in a particular order:
+  //    1. Filter by route_id - we only want to show the primary path, not the multi-route trips
+  //    2. Filter by typicality
+  //    3. If there are multiple route_patterns with different shape values, then filter out shuttles (which usually have priority = -1)
+  let currentShapes, currentStops;
+  if (isABusRoute(route)) {
+    currentShapes = [state.routePattern.shape_id];
+    currentStops = state.routePattern.stop_ids;
+  } else if (isACommuterRailRoute(route)) {
+    const currentPatterns = routePatternsInCurrentDirection
+      .filter(pattern => pattern.route_id === route.id)
+      .reduce(
+        (result, current) => {
+          if (result.length == 0 || current.typicality < result[0].typicality)
+            return [current];
+          else if (current.typicality == result[0].typicality) {
+            if (current.shape_priority > result[0].shape_priority)
+              return [current];
+            else if (current.shape_priority < result[0].shape_priority)
+              return result;
+            else return result.concat(current);
+          }
+          return result;
+        },
+        [] as EnhancedRoutePattern[]
+      );
+
+    currentShapes = currentPatterns.map(pattern => pattern.shape_id);
+    currentStops = currentPatterns.reduce(
+      (acc, cur) => acc.concat(cur.stop_ids),
+      [] as string[]
+    );
+  } else {
     currentShapes = routePatternsInCurrentDirection.map(
       pattern => pattern.shape_id
     );
+    currentStops = routePatternsInCurrentDirection.reduce(
+      (acc, cur) => acc.concat(cur.stop_ids),
+      [] as string[]
+    );
+  }
 
-  const currentStops = isABusRoute(route)
-    ? state.routePattern.stop_ids
-    : routePatternsInCurrentDirection.reduce(
-        (acc, cur) => acc.concat(cur.stop_ids),
-        [] as string[]
-      );
   const currentRoutePatternIdForData =
     isABusRoute(route) && routePatternsInCurrentDirection.length > 1
       ? state.routePattern.id

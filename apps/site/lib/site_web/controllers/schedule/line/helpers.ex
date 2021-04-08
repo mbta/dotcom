@@ -337,7 +337,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
 
   defp get_line_route_patterns(route_id, _direction_id, route_pattern_id) do
     case RoutePatternsRepo.get(route_pattern_id) do
-      %RoutePattern{route_id: ^route_id} = route_pattern ->
+      %RoutePattern{} = route_pattern ->
         [route_pattern]
 
       nil ->
