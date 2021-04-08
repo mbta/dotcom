@@ -74,8 +74,6 @@ const oneDirectionRoute = {
   alerts: []
 } as EnhancedRoute;
 
-
-
 const directionId = 1;
 const routePatternsByDirection = routePatternsByDirectionData as RoutePatternsByDirection;
 
