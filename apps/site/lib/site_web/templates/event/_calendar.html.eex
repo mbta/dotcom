@@ -1,3 +1,5 @@
+<% events_by_day = grouped_by_day(@events, @month) %>
+
 <h2 class="m-event-list__month-header"><%= render_event_month(@month, @year) %></h2>
 <table class="m-event-calendar">
   <thead>
@@ -17,8 +19,21 @@
         <td class="m-event-calendar__day">
           <%= if day_in_month? do %>
             <div class="m-event-calendar__day-label">
-            <%= Timex.format!(day, "%-d", :strftime) %>
+              <%= Timex.format!(day, "%-d", :strftime) %>
             </div>
+            <% todays_events = Map.get(events_by_day, day.day) %>
+            <%= if todays_events != nil do %>
+              <%= for event <- todays_events do %>
+                <% event_ended = event_ended(%{start: event.date, stop: event.date_end}) %>
+                <div class="m-event-calendar__event" tabindex="0">
+                  <i class="fa fa-circle <%= if event_ended, do: 'ended' %>" aria-hidden="true"></i>
+                  <%= if !event_ended do%>
+                    <div class='m-event-calendar__event-time'><%= format_time(event.date) %></div>
+                  <% end %>
+                  <div class="m-event-calendar__event-title"><%= event.title %></div>
+                </div>
+              <% end %>
+            <% end %>
           <% end %>
         </td>
       <% end %>

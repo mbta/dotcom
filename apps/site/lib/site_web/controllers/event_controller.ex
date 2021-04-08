@@ -12,8 +12,17 @@ defmodule SiteWeb.EventController do
   plug(SiteWeb.Plugs.YearMonth)
   plug(:assign_events)
 
+  def index(conn, %{"calendar" => "true"}) do
+    render_events_hub_page(conn, true)
+  end
+
   def index(conn, _params) do
+    render_events_hub_page(conn, false)
+  end
+
+  defp render_events_hub_page(conn, is_calendar_view_mode) do
     conn
+    |> assign(:calendar_view, is_calendar_view_mode)
     |> assign(:breadcrumbs, [Breadcrumb.build("Events")])
     |> await_assign_all_default(__MODULE__)
     |> render("index.html", conn: conn)

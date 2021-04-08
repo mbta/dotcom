@@ -55,6 +55,16 @@ defmodule SiteWeb.EventControllerTest do
                key == "x-robots-tag" && String.contains?(value, "unavailable_after")
              end)
     end
+
+    test "renders the toggle for calendar view", %{conn: conn} do
+      conn = get(conn, event_path(conn, :index, calendar: true))
+
+      events_hub = html_response(conn, 200) |> Floki.find(".m-events-hub__nav--navigation-toggle")
+      assert [{"div", [{"class", "m-events-hub__nav--navigation-toggle"}], _}] = events_hub
+
+      event_icons = Floki.find(events_hub, ".m-nav-toggle-icon")
+      assert Enum.count(event_icons) == 2
+    end
   end
 
   @tag todo: "Replacing with events_hub_redesign"
