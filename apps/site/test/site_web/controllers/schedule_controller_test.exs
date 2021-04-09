@@ -3,7 +3,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
   alias CMS.Partial.Teaser
   alias Plug.Conn
-  alias Routes.Shape
+  alias RoutePatterns.RoutePattern
   alias Schedules.Sort
   alias Stops.RouteStops
 
@@ -455,31 +455,23 @@ defmodule SiteWeb.ScheduleControllerTest do
     end
 
     test "Bus line with variant", %{conn: conn} do
-      variant = List.last(@routes_repo_api.get_shapes("9", direction_id: 1)).id
+      direction = 1
+      variant = List.last(@routes_repo_api.get_shapes("9", direction_id: direction)).id
 
       conn =
         get(
           conn,
           line_path(conn, :show, "9",
-            "schedule_direction[direction_id]": 1,
+            "schedule_direction[direction_id]": direction,
             "schedule_direction[variant]": variant
           )
         )
 
-      # during the summer, the 9 only has 2 shapes. It has three when school
-      # is in session.
-      assert Enum.count(conn.assigns.route_shapes) >= 2
-
-      assert %Shape{stop_ids: [_ | _] = stop_ids} =
-               Enum.find(conn.assigns.route_shapes, &(&1.id == variant))
-
-      assert variant == conn.assigns.active_shape.id
-    end
-
-    test "Bus line with correct default shape", %{conn: conn} do
-      conn = get(conn, line_path(conn, :show, "9", "schedule_direction[direction_id]": 1))
-      default_shape_id = List.first(@routes_repo_api.get_shapes("9", direction_id: 1)).id
-      assert conn.assigns.active_shape.id == default_shape_id
+      assert %RoutePattern{stop_ids: [_ | _] = stop_ids} =
+               Enum.find(
+                 conn.assigns.route_patterns[Integer.to_string(direction)],
+                 &(&1.shape_id == variant)
+               )
     end
   end
 
@@ -549,15 +541,12 @@ defmodule SiteWeb.ScheduleControllerTest do
     assert conn.status == 200
 
     route_patterns = conn.assigns.route_patterns
-    shape_map = conn.assigns.shape_map
 
     first_route_pattern_0 = List.first(route_patterns["0"])
     first_route_pattern_1 = List.first(route_patterns["1"])
-    shape = shape_map[first_route_pattern_0.shape_id]
 
     assert first_route_pattern_0.direction_id == 0
     assert first_route_pattern_1.direction_id == 1
-    assert shape.id == first_route_pattern_0.shape_id
   end
 
   describe "schedule tab" do

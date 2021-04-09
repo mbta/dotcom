@@ -14,14 +14,11 @@ defmodule SiteWeb.ScheduleController.MapApi do
 
   @spec show(Plug.Conn.t(), map()) :: Plug.Conn.t()
   def show(conn, %{
-        "id" => route_id,
-        "direction_id" => direction_id
+        "id" => route_id
       }) do
     case LineHelpers.get_route(route_id) do
       {:ok, route} ->
-        map_data =
-          get_map_data(route, String.to_integer(direction_id), conn.query_params["shape_id"])
-
+        map_data = get_map_data(route)
         json(conn, map_data)
 
       :not_found ->
@@ -33,14 +30,10 @@ defmodule SiteWeb.ScheduleController.MapApi do
     ControllerHelpers.return_invalid_arguments_error(conn)
   end
 
-  @spec get_map_data(Route.t(), direction_id(), Route.branch_name()) :: MapData.t()
-  defp get_map_data(route, direction_id, shape_id) do
-    route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)
-    active_shapes = LineHelpers.get_active_shapes(route_shapes, route, shape_id)
-    branches = LineHelpers.get_branch_route_stops(route, direction_id)
-    map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id)
-
-    {_map_img_src, dynamic_map_data} = Maps.map_data(route, map_stops, [], [])
+  @spec get_map_data(Route.t()) :: MapData.t()
+  defp get_map_data(route) do
+    route_patterns = LineHelpers.get_map_route_patterns(route.id, route.type)
+    {_map_img_src, dynamic_map_data} = Maps.map_data(route, [], [], route_patterns, [])
     dynamic_map_data
   end
 end

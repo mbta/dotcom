@@ -17,7 +17,8 @@ import CrowdingPill from "./line-diagram/CrowdingPill";
 interface Props {
   channel: string;
   data: MapData;
-  shapeIds: string[];
+  currentShapes: string[];
+  currentStops: string[];
 }
 
 interface EventData {
@@ -101,16 +102,6 @@ const updateMarker = (marker: Marker): Marker => ({
 const isVehicleMarker = (marker: Marker): boolean =>
   marker.icon ? marker.icon.includes("vehicle") : false;
 
-const shouldVehicleDisplay = (
-  marker: Marker,
-  shapeIdsInDirection: string[]
-): boolean => {
-  if (marker.shape_id) {
-    return shapeIdsInDirection.some(shapeId => shapeId === marker.shape_id);
-  }
-  return true;
-};
-
 interface IdHash {
   [id: string]: true;
 }
@@ -121,7 +112,6 @@ const shouldRemoveMarker = (id: string | null, idHash: IdHash): boolean =>
 interface State {
   channel: string;
   markers: Marker[];
-  shapeIds: string[];
 }
 
 export const reducer = (
@@ -129,7 +119,6 @@ export const reducer = (
   actionWithChannel: ActionWithChannel
 ): State => {
   const { action, channel } = actionWithChannel;
-  const { shapeIds } = state;
   if (channel !== state.channel && action.event !== "setChannel") return state;
   switch (action.event) {
     case "setChannel":
@@ -140,11 +129,7 @@ export const reducer = (
         markers: state.markers
           .filter(marker => !isVehicleMarker(marker))
           .concat(
-            action.data
-              .filter(({ marker }: EventData) =>
-                shouldVehicleDisplay(marker, shapeIds)
-              )
-              .map(({ marker }: EventData) => updateMarker(marker))
+            action.data.map(({ marker }: EventData) => updateMarker(marker))
           )
       };
 
@@ -152,9 +137,7 @@ export const reducer = (
       return {
         ...state,
         markers: state.markers.concat(
-          action.data
-            .filter(({ marker }) => shouldVehicleDisplay(marker, shapeIds))
-            .map(({ marker }) => updateMarker(marker))
+          action.data.map(({ marker }) => updateMarker(marker))
         )
       };
 
@@ -162,7 +145,6 @@ export const reducer = (
       if (action.data.length === 0) {
         return state;
       }
-      if (!shouldVehicleDisplay(action.data[0].marker, shapeIds)) return state;
       // Filter out the existing marker if necessary, always add new marker
       return {
         ...state,
@@ -196,13 +178,12 @@ export const reducer = (
 export default ({
   data,
   channel,
-  shapeIds
+  currentShapes,
+  currentStops
 }: Props): ReactElement<HTMLElement> | null => {
-  const bounds = useRef(getBounds(data.markers));
   const [state, dispatch] = useReducer(reducer, {
     channel,
-    markers: data.markers,
-    shapeIds
+    markers: data.markers
   });
   useEffect(
     () => {
@@ -212,12 +193,19 @@ export default ({
     [channel, dispatch]
   );
   const stopMarkers = data.stop_markers
-    ? data.stop_markers.map(marker => updateMarker(marker))
+    ? data.stop_markers
+        .filter(mark => currentStops.includes(mark.id as string))
+        .map(marker => updateMarker(marker))
     : [];
+
   const mapData = {
     ...data,
+    polylines: data.polylines.filter(p =>
+      currentShapes.some(shape => shape === p.id)
+    ),
     markers: state.markers.concat(stopMarkers)
   };
+  const bounds = useRef(getBounds(stopMarkers));
   return (
     <div className="m-schedule__map">
       <Map bounds={bounds.current} mapData={mapData} />

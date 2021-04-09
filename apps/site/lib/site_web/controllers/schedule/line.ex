@@ -8,10 +8,7 @@ defmodule SiteWeb.ScheduleController.Line do
   import Phoenix.Controller, only: [redirect: 2]
 
   alias Plug.Conn
-  alias RoutePatterns.Repo, as: RoutePatternRepo
-  alias RoutePatterns.RoutePattern
   alias Routes.Route
-  alias Schedules.Repo, as: SchedulesRepo
   alias Site.TransitNearMe
   alias SiteWeb.ScheduleController.Line.Dependencies, as: Dependencies
   alias SiteWeb.ScheduleController.Line.DiagramHelpers
@@ -111,18 +108,18 @@ defmodule SiteWeb.ScheduleController.Line do
     variant = schedule_direction["variant"]
     expanded = Map.get(conn.query_params, "expanded")
     reverse_direction_id = reverse_direction(direction_id)
-    route_shapes = LineHelpers.get_route_shapes(route.id, direction_id)
     route_stops = LineHelpers.get_route_stops(route.id, direction_id, deps.stops_by_route_fn)
-    route_patterns = get_route_patterns(route.id)
-    shape_map = get_route_shape_map(route.id)
-    active_shapes = LineHelpers.get_active_shapes(route_shapes, route, variant)
-    filtered_shapes = LineHelpers.filter_route_shapes(route_shapes, active_shapes, route)
-    branches = LineHelpers.get_branches(filtered_shapes, route_stops, route, direction_id)
-    map_stops = Maps.map_stops(branches, {route_shapes, active_shapes}, route.id)
+    route_patterns = LineHelpers.get_map_route_patterns(route.id, route.type)
+    route_patterns_map = map_route_patterns_by_direction(route_patterns)
 
-    vehicles = conn.assigns[:vehicle_locations]
+    # This is for rendering static map, as well as the CR dynamic map
+    basic_shapes = LineHelpers.get_shapes_by_direction(route.id, route.type, direction_id)
+
+    static_branches = LineHelpers.get_branches(basic_shapes, route_stops, route, direction_id)
+
+    static_map_stops = Maps.map_stops(static_branches)
+
     vehicle_tooltips = conn.assigns[:vehicle_tooltips]
-    vehicle_polylines = VehicleHelpers.get_vehicle_polylines(vehicles, route_shapes)
 
     time_data_by_stop =
       TransitNearMe.time_data_for_route_by_stop(route.id, direction_id,
@@ -131,22 +128,25 @@ defmodule SiteWeb.ScheduleController.Line do
       )
 
     {map_img_src, dynamic_map_data} =
-      Maps.map_data(route, map_stops, vehicle_polylines, vehicle_tooltips)
+      Maps.map_data(
+        route,
+        static_map_stops,
+        basic_shapes,
+        route_patterns,
+        vehicle_tooltips
+      )
 
     reverse_route_stops =
       LineHelpers.get_route_stops(route.id, reverse_direction_id, deps.stops_by_route_fn)
 
     conn
-    |> assign(:route_patterns, route_patterns)
-    |> assign(:shape_map, shape_map)
+    |> assign(:route_patterns, route_patterns_map)
     |> assign(:direction_id, direction_id)
     |> assign(
       :all_stops,
-      DiagramHelpers.build_stop_list(branches, direction_id)
+      DiagramHelpers.build_stop_list(static_branches, direction_id)
     )
-    |> assign(:branches, branches)
-    |> assign(:route_shapes, route_shapes)
-    |> assign(:active_shape, LineHelpers.active_shape(active_shapes, route.type))
+    |> assign(:branches, static_branches)
     |> assign(:map_img_src, map_img_src)
     |> assign(:dynamic_map_data, dynamic_map_data)
     |> assign(:expanded, expanded)
@@ -156,7 +156,7 @@ defmodule SiteWeb.ScheduleController.Line do
     )
     |> assign(:all_stops_from_route, flatten_route_stops(route_stops))
     |> assign(:reverse_direction_all_stops_from_route, flatten_route_stops(reverse_route_stops))
-    |> assign(:connections, connections(branches))
+    |> assign(:connections, connections(static_branches))
     |> assign(:time_data_by_stop, time_data_by_stop)
     |> assign(:variant, variant)
   end
@@ -165,42 +165,9 @@ defmodule SiteWeb.ScheduleController.Line do
     Enum.flat_map(route_stops, fn {_route_id, stops} -> stops end)
   end
 
-  @spec get_route_patterns(Route.id_t()) :: map
-  defp get_route_patterns("Green") do
-    GreenLine.branch_ids() |> Enum.join(",") |> get_route_patterns()
-  end
-
-  defp get_route_patterns(route_id) do
-    route_id
-    |> RoutePatternRepo.by_route_id()
-    |> Enum.map(&Task.async(fn -> get_route_pattern_shape(&1) end))
-    |> Enum.map(&Task.await/1)
+  defp map_route_patterns_by_direction(route_patterns) do
+    route_patterns
     |> Enum.group_by(&(&1.direction_id |> Integer.to_string()))
-  end
-
-  @spec get_route_pattern_shape(RoutePattern.t()) :: map
-  defp get_route_pattern_shape(route_pattern) do
-    {shape_id, headsign} =
-      route_pattern.representative_trip_id
-      |> SchedulesRepo.trip()
-      |> case do
-        nil ->
-          {nil, nil}
-
-        %{shape_id: shape_id, headsign: headsign} ->
-          {shape_id, headsign}
-      end
-
-    route_pattern
-    |> Map.put(:shape_id, shape_id)
-    |> Map.put(:headsign, headsign)
-  end
-
-  @spec get_route_shape_map(Route.id_t()) :: map
-  def get_route_shape_map(route_id) do
-    route_id
-    |> LineHelpers.get_route_shapes(nil, false)
-    |> Map.new(fn shape -> {shape.id, shape} end)
   end
 
   def reverse_direction(0), do: 1

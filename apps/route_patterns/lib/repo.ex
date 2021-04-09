@@ -1,17 +1,19 @@
 defmodule RoutePatterns.Repo do
-  @moduledoc false
+  @moduledoc "Repo for fetching Route resources and their associated data from the V3 API."
+
+  @behaviour RoutePatterns.RepoApi
+
   require Logger
   use RepoCache, ttl: :timer.hours(1)
 
   alias RoutePatterns.RoutePattern
-  alias Routes.Route
   alias V3Api.RoutePatterns, as: RoutePatternsApi
 
   @doc """
   Returns a single route pattern by ID
   """
-  @spec get(RoutePattern.id_t()) :: RoutePattern.t() | nil
-  @spec get(RoutePattern.id_t(), keyword()) :: RoutePattern.t() | nil
+  @callback get(RoutePattern.id_t()) :: RoutePattern.t() | nil
+  @callback get(RoutePattern.id_t(), keyword()) :: RoutePattern.t() | nil
   def get(id, opts \\ []) when is_binary(id) do
     case cache({id, opts}, fn {id, opts} ->
            with %{data: [route_pattern]} <- RoutePatternsApi.get(id, opts) do
@@ -23,8 +25,7 @@ defmodule RoutePatterns.Repo do
     end
   end
 
-  @spec by_route_id(Route.id_t()) :: RoutePattern.t()
-  @spec by_route_id(Route.id_t(), keyword()) :: RoutePattern.t()
+  @impl RoutePatterns.RepoApi
   def by_route_id(route_id, opts \\ [])
 
   def by_route_id("Green", opts) do
@@ -41,7 +42,9 @@ defmodule RoutePatterns.Repo do
       direction_id -> [route: route_id, direction_id: direction_id]
     end
     |> Keyword.put(:sort, "typicality,sort_order")
+    |> Keyword.put(:include, "representative_trip.shape")
     |> cache(&api_all/1)
+    |> Enum.sort(&reorder_mrts(&1, &2, route_id))
   end
 
   defp api_all(opts) do
@@ -59,5 +62,10 @@ defmodule RoutePatterns.Repo do
       %JsonApi{data: data} ->
         Enum.map(data, &RoutePattern.new/1)
     end
+  end
+
+  @spec reorder_mrts(RoutePattern.t(), RoutePattern.t(), String.t()) :: boolean()
+  defp reorder_mrts(pattern_one, pattern_two, route_id) do
+    not (pattern_one.route_id !== route_id and pattern_one.typicality == pattern_two.typicality)
   end
 end

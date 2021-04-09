@@ -1,12 +1,12 @@
 import React, { ReactElement, useReducer, useEffect, Dispatch } from "react";
 import { DirectionId, EnhancedRoute } from "../../__v3api";
 import {
-  ShapesById,
   RoutePatternsByDirection,
   LineDiagramStop,
   SimpleStopMap,
   ServiceInSelector,
-  ScheduleNote as ScheduleNoteType
+  ScheduleNote as ScheduleNoteType,
+  EnhancedRoutePattern
 } from "./__schedule";
 import ScheduleDirectionMenu from "./direction/ScheduleDirectionMenu";
 import ScheduleDirectionButton from "./direction/ScheduleDirectionButton";
@@ -15,12 +15,11 @@ import { menuReducer, FetchAction } from "./direction/reducer";
 import { MapData, StaticMapData } from "../../leaflet/components/__mapdata";
 import Map from "../components/Map";
 import LineDiagramAndStopListPage from "../components/line-diagram/LineDiagram";
-import { isABusRoute } from "../../models/route";
+import { isABusRoute, isACommuterRailRoute } from "../../models/route";
 
 export interface Props {
   route: EnhancedRoute;
   directionId: DirectionId;
-  shapesById: ShapesById;
   routePatternsByDirection: RoutePatternsByDirection;
   mapData?: MapData;
   staticMapData?: StaticMapData;
@@ -29,7 +28,7 @@ export interface Props {
   stops: SimpleStopMap;
   today: string;
   scheduleNote: ScheduleNoteType | null;
-  initialSelectedRoutePatternId: string | null;
+  busVariantId: string | null;
 }
 
 export const fetchMapData = (
@@ -88,7 +87,6 @@ export const fetchLineData = (
 const ScheduleDirection = ({
   route,
   directionId,
-  shapesById,
   routePatternsByDirection,
   mapData,
   staticMapData,
@@ -97,12 +95,12 @@ const ScheduleDirection = ({
   stops,
   today,
   scheduleNote,
-  initialSelectedRoutePatternId
+  busVariantId
 }: Props): ReactElement<HTMLElement> => {
   const routePatternsInCurrentDirection = routePatternsByDirection[directionId];
   const defaultRoutePattern =
     routePatternsInCurrentDirection.find(
-      routePattern => routePattern.id === initialSelectedRoutePatternId
+      routePattern => routePattern.id === busVariantId
     ) || routePatternsInCurrentDirection.slice(0, 1)[0];
 
   const reverseDirection = directionId === 0 ? 1 : 0;
@@ -110,9 +108,7 @@ const ScheduleDirection = ({
 
   const [state, dispatch] = useReducer(menuReducer, {
     routePattern: defaultRoutePattern,
-    shape: shapesById[defaultRoutePattern.shape_id],
     directionId,
-    shapesById,
     routePatternsByDirection,
     routePatternMenuOpen: false,
     routePatternMenuAll: false,
@@ -125,12 +121,49 @@ const ScheduleDirection = ({
     error: false
   });
 
-  const currentShapeId = state.shape
-    ? state.shape.id
-    : defaultRoutePattern.shape_id;
-  const shapeIds = state.routePatternsByDirection[state.directionId].map(
-    routePattern => routePattern.shape_id
-  );
+  // To distinguish CR shuttles and branches and multi-route trips, we have to filter in a particular order:
+  //    1. Filter by route_id - we only want to show the primary path, not the multi-route trips
+  //    2. Filter by typicality
+  //    3. If there are multiple route_patterns with different shape values, then filter out shuttles (which usually have priority = -1)
+  let currentShapes;
+  let currentStops;
+  if (isABusRoute(route)) {
+    currentShapes = [state.routePattern.shape_id];
+    currentStops = state.routePattern.stop_ids;
+  } else if (isACommuterRailRoute(route)) {
+    const currentPatterns = routePatternsInCurrentDirection
+      .filter(pattern => pattern.route_id === route.id)
+      .reduce(
+        (result, current) => {
+          if (result.length === 0 || current.typicality < result[0].typicality)
+            return [current];
+          if (current.typicality === result[0].typicality) {
+            if (result[0].shape_priority < 0 && current.shape_priority > 0)
+              return [current];
+            if (current.shape_priority < 0 && result[0].shape_priority > 0)
+              return result;
+            return result.concat(current);
+          }
+          return result;
+        },
+        [] as EnhancedRoutePattern[]
+      );
+
+    currentShapes = currentPatterns.map(pattern => pattern.shape_id);
+    currentStops = currentPatterns.reduce(
+      (acc, cur) => acc.concat(cur.stop_ids),
+      [] as string[]
+    );
+  } else {
+    currentShapes = routePatternsInCurrentDirection.map(
+      pattern => pattern.shape_id
+    );
+    currentStops = routePatternsInCurrentDirection.reduce(
+      (acc, cur) => acc.concat(cur.stop_ids),
+      [] as string[]
+    );
+  }
+
   const currentRoutePatternIdForData =
     isABusRoute(route) && routePatternsInCurrentDirection.length > 1
       ? state.routePattern.id
@@ -148,7 +181,7 @@ const ScheduleDirection = ({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [route, state.directionId, currentShapeId, staticMapData]
+    [route, state.directionId, busVariantId, staticMapData]
   );
 
   const [lineState, dispatchLineData] = useReducer(fetchReducer, {
@@ -166,7 +199,7 @@ const ScheduleDirection = ({
         dispatchLineData
       );
     },
-    [route, state.directionId, currentShapeId, currentRoutePatternIdForData]
+    [route, state.directionId, busVariantId, currentRoutePatternIdForData]
   );
 
   return (
@@ -193,7 +226,8 @@ const ScheduleDirection = ({
         <Map
           channel={`vehicles:${route.id}:${state.directionId}`}
           data={mapState.data}
-          shapeIds={shapeIds}
+          currentShapes={currentShapes}
+          currentStops={currentStops}
         />
       )}
       {staticMapData && (

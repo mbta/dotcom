@@ -77,7 +77,6 @@ defmodule SiteWeb.ScheduleController.LineController do
         stops: simple_stop_map(conn),
         direction_id: conn.assigns.direction_id,
         route_patterns: conn.assigns.route_patterns,
-        shape_map: conn.assigns.shape_map,
         line_diagram:
           update_route_stop_data(
             conn.assigns.all_stops,

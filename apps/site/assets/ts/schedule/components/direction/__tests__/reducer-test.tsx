@@ -9,8 +9,11 @@ const routePatternsForInbound: EnhancedRoutePattern[] = [
     id: "111-5-1",
     name: "Woodlawn - Haymarket Station",
     representative_trip_id: "46824427",
+    representative_trip_polyline: "qwerty123@777njhgb",
+    stop_ids: ["123", "456", "789"],
     route_id: "111",
     shape_id: "1110177",
+    shape_priority: 1,
     time_desc: null,
     typicality: 1
   },
@@ -20,8 +23,11 @@ const routePatternsForInbound: EnhancedRoutePattern[] = [
     id: "111-6-1",
     name: "Washington Ave & Revere Beach Pkwy - Haymarket Station",
     representative_trip_id: "46824445",
+    representative_trip_polyline: "lkjhg987bvcxz88!",
+    stop_ids: ["123", "555", "789"],
     route_id: "111",
     shape_id: "1110157",
+    shape_priority: 1,
     time_desc: "Weekdays only",
     typicality: 2
   }
@@ -43,23 +49,15 @@ const initialState: State = {
     id: "111-5-0",
     name: "Haymarket Station - Woodlawn",
     representative_trip_id: "46824432",
+    representative_trip_polyline: "asdf444$hhhhmnb",
+    stop_ids: ["123", "555", "777"],
     route_id: "111",
+    shape_priority: 1,
     shape_id: "1110180",
     time_desc: null,
     typicality: 1
   },
-  shape: {
-    direction_id: 0,
-    id: "1110180",
-    name: "Haymarket Station - Woodlawn",
-    polyline: "polyline",
-    priority: 3,
-    stop_ids: []
-  },
   directionId: 0,
-  shapesById: {
-    1110177: shape
-  },
   routePatternsByDirection: {
     0: [],
     1: routePatternsForInbound
@@ -75,7 +73,6 @@ it("menuReducer handles 'toggleDirection'", () => {
   const expected = {
     ...initialState,
     itemFocus: "first",
-    shape,
     directionId: 1,
     routePattern: {
       direction_id: 1,
@@ -83,8 +80,11 @@ it("menuReducer handles 'toggleDirection'", () => {
       id: "111-5-1",
       name: "Woodlawn - Haymarket Station",
       representative_trip_id: "46824427",
+      representative_trip_polyline: "qwerty123@777njhgb",
+      stop_ids: ["123", "456", "789"],
       route_id: "111",
       shape_id: "1110177",
+      shape_priority: 1,
       time_desc: null,
       typicality: 1
     }

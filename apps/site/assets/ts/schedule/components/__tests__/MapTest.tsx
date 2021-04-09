@@ -56,7 +56,12 @@ const data: MapData = {
 describe("Schedule Map", () => {
   it("renders", () => {
     const wrapper = mount(
-      <Map data={data} channel="vehicles:Red:0" shapeIds={[]} />
+      <Map
+        data={data}
+        channel="vehicles:Red:0"
+        currentShapes={["1", "2"]}
+        currentStops={["stop-place-alfcl", "22", "33"]}
+      />
     );
     expect(() => wrapper.render()).not.toThrow();
   });
@@ -79,7 +84,7 @@ describe("reducer", () => {
 
   it("resets markers", () => {
     const result = reducer(
-      { markers: data.markers, channel: "vehicle:1:1", shapeIds: ["1"] },
+      { markers: data.markers, channel: "vehicle:1:1" },
       {
         action: {
           event: "reset",
@@ -97,7 +102,7 @@ describe("reducer", () => {
 
   it("adds vehicles", () => {
     const result = reducer(
-      { markers: data.markers, channel: "vehicle:1:1", shapeIds: ["1"] },
+      { markers: data.markers, channel: "vehicle:1:1" },
       {
         action: { event: "add", data: [{ marker: newMarker }] },
         channel: "vehicle:1:1"
@@ -110,7 +115,7 @@ describe("reducer", () => {
 
   it("updates markers", () => {
     const result = reducer(
-      { markers: data.markers, channel: "vehicle:1:1", shapeIds: ["1"] },
+      { markers: data.markers, channel: "vehicle:1:1" },
       {
         action: {
           event: "update",
@@ -125,28 +130,9 @@ describe("reducer", () => {
     expect(result.markers[0].latitude).toEqual(43.0);
   });
 
-  it("ignores markers from shapes not given", () => {
-    const result = reducer(
-      {
-        markers: data.markers,
-        channel: "vehicle:1:1",
-        shapeIds: ["1", "2", "4"]
-      },
-      {
-        action: {
-          event: "update",
-          data: [{ marker: { ...data.markers[0], shape_id: "3" } }]
-        },
-        channel: "vehicle:1:1"
-      }
-    );
-
-    expect(result.markers).toEqual(data.markers);
-  });
-
   it("ignores markers from other channels", () => {
     const result = reducer(
-      { markers: data.markers, channel: "vehicle:1:1", shapeIds: ["2"] },
+      { markers: data.markers, channel: "vehicle:1:1" },
       {
         action: { event: "update", data: [{ marker: data.markers[0] }] },
         channel: "vehicle:1:0"
@@ -159,7 +145,7 @@ describe("reducer", () => {
   it("doesn't handle unknown events empty data actions", () => {
     expect(() =>
       reducer(
-        { markers: data.markers, channel: "vehicle:1:1", shapeIds: ["2"] },
+        { markers: data.markers, channel: "vehicle:1:1" },
         {
           // @ts-ignore
           action: { event: "unsupported", data: [] },
@@ -171,7 +157,7 @@ describe("reducer", () => {
 
   it("handles empty data actions", () => {
     const result = reducer(
-      { markers: data.markers, channel: "vehicle:1:1", shapeIds: ["2"] },
+      { markers: data.markers, channel: "vehicle:1:1" },
       {
         action: { event: "update", data: [] },
         channel: "vehicle:1:1"
@@ -183,7 +169,7 @@ describe("reducer", () => {
 
   it("removes markers", () => {
     const result = reducer(
-      { markers: data.markers, channel: "vehicle:1:1", shapeIds: ["1"] },
+      { markers: data.markers, channel: "vehicle:1:1" },
       {
         action: { event: "remove", data: [data.markers[0].id!] },
         channel: "vehicle:1:1"

@@ -78,7 +78,7 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
           {RoutePattern.t(), [Stop.t()]}
         ]
   defp do_get_branch_route_stops(route, direction_id, route_pattern_id) do
-    route_patterns = get_route_patterns(route.id, direction_id, route_pattern_id)
+    route_patterns = get_line_route_patterns(route.id, direction_id, route_pattern_id)
 
     if route.id == "Boat-F1" do
       # Find route patterns with smallest typicality.
@@ -91,6 +91,31 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
     end
     |> Enum.map(&stops_for_route_pattern/1)
     |> maybe_use_overarching_branch()
+  end
+
+  @spec get_map_route_patterns(Route.id_t(), Route.type_int()) :: [RoutePattern.t()]
+  def get_map_route_patterns("Green", type) do
+    GreenLine.branch_ids() |> Enum.join(",") |> get_map_route_patterns(type)
+  end
+
+  def get_map_route_patterns(route_id, type) do
+    route_id
+    |> RoutePatternsRepo.by_route_id()
+    |> filter_map_route_patterns(type)
+  end
+
+  @spec filter_map_route_patterns([RoutePattern.t()], Route.type_int()) :: [RoutePattern.t()]
+  # For bus, return all patterns
+  defp filter_map_route_patterns(route_patterns, 3), do: route_patterns
+  # For other rail, we only need the primary route_pattern and branches for each direction
+  # Filtering here helps lighten the frontend load, hopefully reducing latency
+  defp filter_map_route_patterns(route_patterns, _type) do
+    for direction <- 0..1, into: [] do
+      route_patterns
+      |> Enum.filter(fn pattern -> pattern.direction_id == direction end)
+      |> filter_by_min_typicality()
+    end
+    |> List.flatten()
   end
 
   # Before constructing branches, detect whether one of the lists of stops is a
@@ -171,22 +196,27 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   end
 
   # Gathers all of the shapes for the route. Green Line has to make a call for each branch separately, because of course
-  @spec get_route_shapes(Route.id_t()) :: [Shape.t()]
-  @spec get_route_shapes(Route.id_t(), direction_id | nil) :: [Shape.t()]
-  @spec get_route_shapes(Route.id_t(), direction_id | nil, boolean()) :: [Shape.t()]
-  @spec get_route_shapes(Route.id_t(), direction_id | nil, boolean(), keyword()) :: [Shape.t()]
-  def get_route_shapes(route_id, direction_id \\ nil, filter_by_priority? \\ true, opts \\ [])
+  @spec get_shapes_by_direction(Route.id_t(), Route.type_int(), direction_id) :: [Shape.t()]
+  def get_shapes_by_direction(_id, 4, _direction), do: []
 
-  def get_route_shapes("Green", direction_id, filter_by_priority?, opts) do
-    GreenLine.branch_ids()
-    |> Enum.join(",")
-    |> get_route_shapes(direction_id, filter_by_priority?, opts)
+  def get_shapes_by_direction(id, 3, direction) do
+    case do_get_shapes(id, direction) do
+      [head | _] -> [head]
+      [] -> []
+    end
   end
 
-  def get_route_shapes(route_id, direction_id, filter_by_priority?, opts) do
-    get_shapes_fn = Keyword.get(opts, :get_shapes_fn, &RoutesRepo.get_shapes/3)
-    shapes_opts = if direction_id == nil, do: [], else: [direction_id: direction_id]
-    get_shapes_fn.(route_id, shapes_opts, filter_by_priority?)
+  def get_shapes_by_direction("Green", _type, direction) do
+    GreenLine.branch_ids()
+    |> Enum.join(",")
+    |> do_get_shapes(direction)
+  end
+
+  def get_shapes_by_direction(id, _type, direction), do: do_get_shapes(id, direction)
+
+  @spec do_get_shapes(Route.id_t(), direction_id) :: [Shape.t()]
+  def do_get_shapes(route_id, direction_id) do
+    RoutesRepo.get_shapes(route_id, direction_id: direction_id)
   end
 
   @spec get_route_stops(Route.id_t(), direction_id, StopsRepo.stop_by_route()) ::
@@ -209,42 +239,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
       stops -> %{route_id => stops}
     end
   end
-
-  @spec get_active_shapes([Shape.t()], Route.t(), Shape.id_t()) :: [
-          Shape.t()
-        ]
-  def get_active_shapes(shapes, %Route{type: 3}, shape_id) do
-    shapes
-    |> get_requested_shape(shape_id)
-    |> get_default_shape(shapes)
-  end
-
-  def get_active_shapes(_shapes, %Route{id: "Green"}, _shape_id) do
-    # not used by the green line code
-    []
-  end
-
-  def get_active_shapes(shapes, _route, _shape_id), do: shapes
-
-  @spec get_requested_shape([Shape.t()], query_param) :: Shape.t() | nil
-  defp get_requested_shape(_shapes, nil), do: nil
-  defp get_requested_shape(shapes, shape_id), do: Enum.find(shapes, &(&1.id == shape_id))
-
-  @spec get_default_shape(Shape.t() | nil, [Shape.t()]) :: [Shape.t()]
-  defp get_default_shape(nil, [default | _]), do: [default]
-  defp get_default_shape(%Shape{} = shape, _shapes), do: [shape]
-  defp get_default_shape(_, _), do: []
-
-  @spec active_shape(shapes :: [Shape.t()], route_type :: 0..4) :: Shape.t() | nil
-  def active_shape([active | _], 3), do: active
-  def active_shape(_shapes, _route_type), do: nil
-
-  # For bus routes, we only want to show the stops for the active route variant.
-  @spec filter_route_shapes([Shape.t()], [Shape.t()], Route.t()) :: [
-          Shape.t()
-        ]
-  def filter_route_shapes(_, [active_shape], %Route{type: 3}), do: [active_shape]
-  def filter_route_shapes(all_shapes, _active_shapes, _Route), do: all_shapes
 
   @doc """
   Gets a list of RouteStops representing all of the branches on the route. Routes without branches will always be a
@@ -334,17 +328,17 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   defp stops_for_shape(nil), do: []
   defp stops_for_shape(%Shape{stop_ids: stop_ids}), do: Enum.map(stop_ids, &StopsRepo.get!/1)
 
-  @spec get_route_patterns(Route.id_t(), direction_id(), RoutePattern.id_t() | nil) :: [
+  @spec get_line_route_patterns(Route.id_t(), direction_id(), RoutePattern.id_t() | nil) :: [
           RoutePattern.t()
         ]
-  defp get_route_patterns(route_id, direction_id, nil),
+  defp get_line_route_patterns(route_id, direction_id, nil),
     do:
       RoutePatternsRepo.by_route_id(route_id, direction_id: direction_id)
       |> Enum.filter(&(&1.route_id == route_id))
 
-  defp get_route_patterns(route_id, _direction_id, route_pattern_id) do
+  defp get_line_route_patterns(_route_id, _direction_id, route_pattern_id) do
     case RoutePatternsRepo.get(route_pattern_id) do
-      %RoutePattern{route_id: ^route_id} = route_pattern ->
+      %RoutePattern{} = route_pattern ->
         [route_pattern]
 
       nil ->
