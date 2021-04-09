@@ -200,9 +200,10 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   def get_shapes_by_direction(_id, 4, _direction), do: []
 
   def get_shapes_by_direction(id, 3, direction) do
-    do_get_shapes(id, direction)
-    |> hd()
-    |> List.wrap()
+    case do_get_shapes(id, direction) do
+      [head | _] -> [head]
+      [] -> []
+    end
   end
 
   def get_shapes_by_direction("Green", _type, direction) do
