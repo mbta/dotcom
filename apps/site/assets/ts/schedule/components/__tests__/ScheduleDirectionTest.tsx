@@ -6,7 +6,6 @@ import {
 import { mount } from "enzyme";
 import {
   closeRoutePatternMenuAction,
-  MenuAction as Action,
   menuReducer as reducer,
   showAllRoutePatternsAction,
   State
@@ -142,6 +141,17 @@ const mapData: MapData = {
       tooltip_text: "Alewife"
     }
   ],
+  stop_markers: [
+    {
+      icon: "stop-circle-bordered-expanded",
+      id: "stop-place-alfcl",
+      latitude: 42.395428,
+      longitude: -71.142483,
+      rotation_angle: 0,
+      tooltip: null,
+      tooltip_text: "Alewife"
+    }
+  ],
   height: 600,
   default_center: {
     longitude: -71.05891,
@@ -160,14 +170,13 @@ const getComponent = () => (
     route={route}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
-    shapesById={shapesById}
     mapData={mapData}
     lineDiagram={lineDiagram}
     services={[]}
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
-    initialSelectedRoutePatternId={null}
+    busVariantId={null}
   />
 );
 
@@ -176,14 +185,13 @@ const getSingleDirectionComponent = () => (
     route={oneDirectionRoute}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
-    shapesById={shapesById}
     mapData={mapData}
     lineDiagram={lineDiagram}
     services={[]}
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
-    initialSelectedRoutePatternId={null}
+    busVariantId={null}
   />
 );
 
@@ -193,13 +201,27 @@ const getSubwayComponent = () => (
     route={{ ...route, type: 1 }}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
-    shapesById={shapesById}
     lineDiagram={lineDiagram}
     services={[]}
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
-    initialSelectedRoutePatternId={null}
+    busVariantId={null}
+  />
+);
+
+const getCRComponent = () => (
+  <ScheduleDirection
+    route={{ ...route, type: 2 }}
+    directionId={directionId}
+    routePatternsByDirection={routePatternsByDirection}
+    mapData={mapData}
+    lineDiagram={lineDiagram}
+    services={[]}
+    stops={{ stops }}
+    today="2019-12-05"
+    scheduleNote={null}
+    busVariantId={null}
   />
 );
 
@@ -209,13 +231,12 @@ const getStaticMapComponent = () => (
     route={{ ...route, type: 4 }}
     directionId={directionId}
     routePatternsByDirection={routePatternsByDirection}
-    shapesById={shapesById}
     lineDiagram={lineDiagram}
     services={[]}
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
-    initialSelectedRoutePatternId={null}
+    busVariantId={null}
   />
 );
 
@@ -241,13 +262,12 @@ const getGreenLineComponent = () => {
       route={greenRoute}
       directionId={directionId}
       routePatternsByDirection={routePatternsByDirection}
-      shapesById={shapesById}
       lineDiagram={lineDiagram}
       services={[]}
       stops={{ stops }}
       today="2019-12-05"
       scheduleNote={null}
-      initialSelectedRoutePatternId={null}
+      busVariantId={null}
     />
   );
 };
@@ -257,14 +277,13 @@ const getVariantComponent = () => (
     route={route}
     directionId={0}
     routePatternsByDirection={routePatternsByDirection}
-    shapesById={shapesById}
     mapData={mapData}
     lineDiagram={lineDiagram}
     services={[]}
     stops={{ stops }}
     today="2019-12-05"
     scheduleNote={null}
-    initialSelectedRoutePatternId="pattern-3"
+    busVariantId="pattern-3"
   />
 );
 
@@ -277,6 +296,12 @@ it("renders a bus component", () => {
 it("renders a subway component", () => {
   createReactRoot();
   const tree = mount(getSubwayComponent());
+  expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
+});
+
+it("renders a CR component", () => {
+  createReactRoot();
+  const tree = mount(getCRComponent());
   expect(enzymeToJsonWithoutProps(tree)).toMatchSnapshot();
 });
 

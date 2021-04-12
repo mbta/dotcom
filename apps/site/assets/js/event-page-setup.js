@@ -48,7 +48,7 @@ function setupEventPopups() {
    * Making use of our existing Tether dependency (used for Bootstrap tooltips)
    * to handle positioning. Tether docs: http://tether.io
    */
-  const calendarView = document.querySelector(".m-events-hub--calendar-view");
+  const calendarView = document.querySelector(".m-events-hub--list-view");
 
   // find all the event popup HTML elements
   const eventPopups = calendarView.querySelectorAll(".m-event-overlay");
@@ -150,7 +150,7 @@ export default function() {
         setupEventsListing();
       }
 
-      if (document.querySelector(".m-events-hub--calendar-view")) {
+      if (document.querySelector(".m-events-hub--list-view")) {
         setupEventPopups();
       }
     },

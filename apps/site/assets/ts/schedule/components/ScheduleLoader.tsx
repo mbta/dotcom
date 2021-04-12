@@ -123,8 +123,7 @@ export const ScheduleLoader = ({
     schedule_note: scheduleNote,
     today,
     line_diagram: lineDiagram,
-    shape_map: shapesById,
-    variant: initialSelectedRoutePatternId
+    variant: busVariantId
   } = schedulePageData;
 
   const currentState = getCurrentState();
@@ -236,7 +235,6 @@ export const ScheduleLoader = ({
           directionId={readjustedDirectionId}
           route={route}
           routePatternsByDirection={routePatternsByDirection}
-          shapesById={shapesById}
           mapData={mapData}
           staticMapData={staticMapData}
           lineDiagram={lineDiagram}
@@ -244,7 +242,7 @@ export const ScheduleLoader = ({
           stops={stops}
           today={today}
           scheduleNote={scheduleNote}
-          initialSelectedRoutePatternId={initialSelectedRoutePatternId}
+          busVariantId={busVariantId}
         />
       );
     }

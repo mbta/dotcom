@@ -32,6 +32,14 @@ defmodule SiteWeb.EventControllerTest do
       assert Enum.count(event_links) > 0
     end
 
+    test "renders the calendar view", %{conn: conn} do
+      conn = get(conn, event_path(conn, :index, calendar: true))
+
+      events_calendar = html_response(conn, 200) |> Floki.find(".m-event-calendar")
+
+      refute is_nil(events_calendar)
+    end
+
     test "scopes events based on provided dates", %{conn: conn} do
       conn = get(conn, event_path(conn, :index, month: 6, year: 2018))
 
@@ -46,6 +54,16 @@ defmodule SiteWeb.EventControllerTest do
       refute Enum.find(conn.resp_headers, fn {key, value} ->
                key == "x-robots-tag" && String.contains?(value, "unavailable_after")
              end)
+    end
+
+    test "renders the toggle for calendar view", %{conn: conn} do
+      conn = get(conn, event_path(conn, :index, calendar: true))
+
+      events_hub = html_response(conn, 200) |> Floki.find(".m-events-hub__nav--navigation-toggle")
+      assert [{"div", [{"class", "m-events-hub__nav--navigation-toggle"}], _}] = events_hub
+
+      event_icons = Floki.find(events_hub, ".m-nav-toggle-icon")
+      assert Enum.count(event_icons) == 2
     end
   end
 

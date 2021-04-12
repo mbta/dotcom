@@ -13,13 +13,19 @@ import {
   createScheduleStore,
   getCurrentState
 } from "./store/ScheduleStore";
+import { isABusRoute } from "../models/route";
 
 const renderMap = ({
   route_patterns: routePatternsByDirection,
-  direction_id: directionId
+  direction_id: directionId,
+  route
 }: SchedulePageData): void => {
   const routePatterns = routePatternsByDirection[directionId];
-  const shapeIds = routePatterns.map(routePattern => routePattern.shape_id);
+  const defaultRoutePattern = routePatterns.slice(0, 1)[0];
+  const currentShapes = isABusRoute(route)
+    ? [defaultRoutePattern.shape_id]
+    : routePatterns.map(pattern => pattern.shape_id);
+  const currentStops = defaultRoutePattern.stop_ids;
   const mapDataEl = document.getElementById("js-map-data");
   if (!mapDataEl) return;
   const channel = mapDataEl.getAttribute("data-channel-id");
@@ -28,7 +34,12 @@ const renderMap = ({
   if (!mapEl) throw new Error("cannot find #map-root");
   const mapData: MapData = JSON.parse(mapDataEl.innerHTML);
   ReactDOM.render(
-    <Map data={mapData} channel={channel} shapeIds={shapeIds} />,
+    <Map
+      data={mapData}
+      channel={channel}
+      currentShapes={currentShapes}
+      currentStops={currentStops}
+    />,
     mapEl
   );
 };

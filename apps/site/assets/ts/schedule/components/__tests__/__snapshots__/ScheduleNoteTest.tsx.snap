@@ -58,6 +58,11 @@ exports[`it renders 1`] = `
       26 minutes weekend mornings and late night
     </p>
   </div>
+  <div
+    className="m-schedule-page__note-footer"
+  >
+    Schedules subject to change
+  </div>
 </div>
 `;
 
@@ -143,6 +148,11 @@ exports[`it renders without service exceptions 1`] = `
       Trains arrive every 
       8-12 minutes 
     </p>
+  </div>
+  <div
+    className="m-schedule-page__note-footer"
+  >
+    Schedules subject to change
   </div>
 </div>
 `;
