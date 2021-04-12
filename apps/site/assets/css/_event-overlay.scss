@@ -9,6 +9,7 @@
   box-shadow: $drop-shadow;
   position: absolute;
   z-index: 2000;
+  width: 280px;
 
   &[aria-hidden='true'] {
     display: none;
@@ -23,24 +24,17 @@
     [data-a11y-dialog-hide] {
       background-color: transparent;
       border: 0;
-      margin: 0 0 $base-spacing $base-spacing;
-      padding: $base-spacing / 4;
-      position: absolute;
-      right: 0;
-      top: 0;
+      margin-left: 10px;
+      font-size: 18px;
+      height: 18px;
+      line-height: 18px;
+      font-weight: bold;
     }
   }
 
   .m-event__title {
-    border-bottom: 1px solid $border-color;
     font-weight: bold;
     margin-bottom: $base-spacing / 2;
-  }
-
-  .m-event__status-message {
-    margin-left: unset;
-    margin-right: $base-spacing;
-    text-align: left;
   }
 }
 

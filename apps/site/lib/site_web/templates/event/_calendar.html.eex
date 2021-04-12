@@ -25,13 +25,18 @@
             <%= if todays_events != nil do %>
               <%= for event <- todays_events do %>
                 <% event_ended = event_ended(%{start: event.date, stop: event.date_end}) %>
-                <div class="m-event-calendar__event" tabindex="0">
+                <div class="m-event-calendar__event" tabindex="0" data-a11y-dialog-show="<%= event.id  %>">
                   <i class="fa fa-circle <%= if event_ended, do: 'ended' %>" aria-hidden="true"></i>
                   <%= if !event_ended do%>
                     <div class='m-event-calendar__event-time'><%= format_time(event.date) %></div>
                   <% end %>
                   <div class="m-event-calendar__event-title"><%= event.title %></div>
                 </div>
+
+                <%= render "_popup.html",
+                  id: event.id,
+                  conn: @conn,
+                  event: event %>
               <% end %>
             <% end %>
           <% end %>

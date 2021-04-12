@@ -10,23 +10,22 @@
   aria-hidden="true"
 >
   <div role="document">
-    <button type="button" data-a11y-dialog-hide aria-label="Close dialog">
-      &times;
-    </button>
+    <div class="u-flex-container">
+      <div class="m-event__title">
+        <%= event_title_link(@conn, @event) %>
+      </div>
 
-    <div class="m-event__title">
-      <%= event_title_link(@conn, @event) %>
+      <button type="button" data-a11y-dialog-hide aria-label="Close dialog">
+        &times;
+      </button>
     </div>
 
     <div class="u-flex-container">
-      <div class="m-event__status-message">
-        <%# What happens here when the event is over? %>
-        <%= link to: event_icalendar_path(@conn, @event.path),
-          data: [turbolinks: false], class: "btn btn-secondary btn-lg" do %>
-            <%= fa "calendar-plus-o" %>
-            <span class="m-event__add-text">Add</span>
-        <% end %>
-      </div>
+      <%= render "_add_button.html",
+          range: %{start: @event.date, stop: @event.date_end},
+          conn: @conn,
+          class: "popup-version",
+          path: @event.path %>
       <div class="u-flex-one">
         <strong>Tuesday, January 5, 2021</strong>
         <div class="m-event__date-range">6 PM - 8 PM</div>
