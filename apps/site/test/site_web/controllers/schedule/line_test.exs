@@ -259,9 +259,9 @@ defmodule SiteWeb.ScheduleController.LineTest do
             {"place-pktrm", 3},
             {"place-coecl", 6},
             {"place-hsmnl", 17},
-            {"place-river", 32},
-            {"place-clmnl", 45},
-            {"place-lake", 62}
+            {"place-river", 31},
+            {"place-clmnl", 44},
+            {"place-lake", 61}
           ] do
         assert stops |> Enum.at(idx) |> elem(1) == id
       end
@@ -324,10 +324,10 @@ defmodule SiteWeb.ScheduleController.LineTest do
       for {id, idx} <- [
             # {"place-lech", 64},
             # {"place-north", 62},
-            {"place-gover", 60},
-            {"place-pktrm", 59},
-            {"place-coecl", 56},
-            {"place-hsmnl", 45},
+            {"place-gover", 59},
+            {"place-pktrm", 58},
+            {"place-coecl", 55},
+            {"place-hsmnl", 44},
             {"place-river", 30},
             {"place-clmnl", 17},
             {"place-lake", 0}
