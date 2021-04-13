@@ -14,7 +14,7 @@
   <tbody>
     <%= for week <- week_rows(@month, @year) do %>
       <tr>
-      <%= for day <- week do %>
+      <%= for {day, index} <- Enum.with_index(week) do %>
         <% day_in_month? = day.month == @month %>
         <td class="m-event-calendar__day">
           <%= if day_in_month? do %>
@@ -36,7 +36,8 @@
                 <%= render "_popup.html",
                   id: event.id,
                   conn: @conn,
-                  event: event %>
+                  event: event,
+                  class: if index >= 4, do: "open-left" %>
               <% end %>
             <% end %>
           <% end %>

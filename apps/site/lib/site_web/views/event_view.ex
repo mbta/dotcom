@@ -150,5 +150,6 @@ defmodule SiteWeb.EventView do
   end
 
   @spec event_title_link(Plug.Conn.t(), Teaser.t()) :: Phoenix.HTML.Safe.t()
-  defp event_title_link(conn, %Teaser{path: path, title: title}), do: link(title, to: cms_static_page_path(conn, path))
+  defp event_title_link(conn, %Teaser{path: path, title: title}),
+    do: link(title, to: cms_static_page_path(conn, path))
 end

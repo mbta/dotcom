@@ -11,6 +11,13 @@
   z-index: 2000;
   width: 280px;
 
+  &.open-left {
+    right: 250px;
+    @include media-breakpoint-down(md) {
+      right: 202px;
+    }
+  }
+
   &[aria-hidden='true'] {
     display: none;
   }
