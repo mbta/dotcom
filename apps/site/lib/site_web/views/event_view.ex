@@ -85,7 +85,7 @@ defmodule SiteWeb.EventView do
         NaiveDateTime.t() | DateTime.t() | nil,
         String.t()
       ) :: String.t() | %{date: String.t(), time: String.t()}
-  def do_render_event_duration(start_time, nil, style) do
+  defp do_render_event_duration(start_time, nil, style) do
     if style === "list" do
       "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022 #{
         format_time(start_time)}"
@@ -97,7 +97,7 @@ defmodule SiteWeb.EventView do
     end
   end
 
-  def do_render_event_duration(
+  defp do_render_event_duration(
          %{year: year, month: month, day: day} = start_time,
          %{year: year, month: month, day: day} = end_time,
          style
@@ -113,7 +113,7 @@ defmodule SiteWeb.EventView do
     end
   end
 
-  def do_render_event_duration(start_time, end_time, style) do
+  defp do_render_event_duration(start_time, end_time, style) do
     if style === "list" do
       "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} #{format_time(start_time)} - #{
         pretty_date(end_time, "{WDshort}, {Mshort} {D}, {YYYY}")} #{format_time(end_time)}"
