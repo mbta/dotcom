@@ -79,7 +79,6 @@ defmodule SiteWeb.EventView do
     |> do_render_event_duration(maybe_shift_timezone(end_time), style)
   end
 
-  @doc "Renders the duration styled for the list-version of an event"
   @spec do_render_event_duration(
           NaiveDateTime.t() | DateTime.t(),
           NaiveDateTime.t() | DateTime.t() | nil,

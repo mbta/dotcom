@@ -12,7 +12,7 @@
   <div role="document">
     <div class="u-flex-container">
       <div class="m-event__title">
-        <%= link(@event.title, to: cms_static_page_path(conn, @event.path)) %>
+        <%= link(@event.title, to: cms_static_page_path(@conn, @event.path)) %>
       </div>
 
       <button type="button" data-a11y-dialog-hide aria-label="Close dialog">

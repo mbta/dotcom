@@ -27,7 +27,7 @@
               <%= render_event_duration(range.start, range.stop, "list") %>
             </div>
             <div class="m-event__title">
-              <%= link(event_teaser.title, to: cms_static_page_path(conn, event_teaser.path)) %>
+              <%= link(event_teaser.title, to: cms_static_page_path(@conn, event_teaser.path)) %>
             </div>
           </div>
           <%= render "_add_button.html",
