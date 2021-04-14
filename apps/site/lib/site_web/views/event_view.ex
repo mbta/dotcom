@@ -61,42 +61,69 @@ defmodule SiteWeb.EventView do
   @doc "Nicely renders the duration of an event, given two DateTimes."
   @spec render_event_duration(
           NaiveDateTime.t() | DateTime.t(),
-          NaiveDateTime.t() | DateTime.t() | nil
+          NaiveDateTime.t() | DateTime.t() | nil,
+          String.t()
         ) ::
           String.t()
-  def render_event_duration(start_time, end_time)
+  def render_event_duration(start_time, end_time, style)
 
-  def render_event_duration(start_time, nil) do
+  def render_event_duration(start_time, nil, style) do
     start_time
     |> maybe_shift_timezone
-    |> do_render_event_duration(nil)
+    |> do_render_event_duration(nil, style)
   end
 
-  def render_event_duration(start_time, end_time) do
+  def render_event_duration(start_time, end_time, style) do
     start_time
     |> maybe_shift_timezone
-    |> do_render_event_duration(maybe_shift_timezone(end_time))
+    |> do_render_event_duration(maybe_shift_timezone(end_time), style)
   end
 
-  defp do_render_event_duration(start_time, nil) do
-    "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022 #{
-      format_time(start_time)
-    }"
+  @doc "Renders the duration styled for the list-version of an event"
+  @spec do_render_event_duration(
+        NaiveDateTime.t() | DateTime.t(),
+        NaiveDateTime.t() | DateTime.t() | nil,
+        String.t()
+      ) :: String.t() | %{date: String.t(), time: String.t()}
+  def do_render_event_duration(start_time, nil, style) do
+    if style === "list" do
+      "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022
+        #{format_time(start_time)}"
+    else
+      %{
+        date: "#{pretty_date(start_time, "{WDfull}, {Mfull} {D}, {YYYY}")}",
+        time: "#{format_time(start_time)}"
+      }
+    end
   end
 
-  defp do_render_event_duration(
+  def do_render_event_duration(
          %{year: year, month: month, day: day} = start_time,
-         %{year: year, month: month, day: day} = end_time
+         %{year: year, month: month, day: day} = end_time,
+         style
        ) do
-    "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022 #{
-      format_time(start_time)
-    } - #{format_time(end_time)}"
+    if style === "list" do
+      "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022
+        #{format_time(start_time)} - #{format_time(end_time)}"
+    else
+      %{
+        date: "#{pretty_date(start_time, "{WDfull}, {Mfull} {D}, {YYYY}")}",
+        time: "#{format_time(start_time)} - #{format_time(end_time)}"
+      }
+    end
   end
 
-  defp do_render_event_duration(start_time, end_time) do
-    "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} #{format_time(start_time)} - #{
-      pretty_date(end_time, "{WDshort}, {Mshort} {D}, {YYYY}")
-    } #{format_time(end_time)}"
+  def do_render_event_duration(start_time, end_time, style) do
+    if style === "list" do
+      "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} #{format_time(start_time)} -
+        #{pretty_date(end_time, "{WDshort}, {Mshort} {D}, {YYYY}")} #{format_time(end_time)}"
+    else
+      # What if an event spans multiple days? How to represent that in the calendar?
+      %{
+        date: "#{pretty_date(start_time, "{WDfull}, {Mfull} {D}, {YYYY}")}",
+        time: "#{format_time(start_time)}"
+      }
+    end
   end
 
   @doc "December 2021"

@@ -12,7 +12,10 @@
   width: 280px;
 
   &.open-left {
-    right: 250px;
+    right: 306px;
+    @include media-breakpoint-down(lg) {
+      right: 250px;
+    }
     @include media-breakpoint-down(md) {
       right: 202px;
     }

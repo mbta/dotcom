@@ -24,7 +24,7 @@
           </div>
           <div class="u-flex-one">
             <div class="m-event__date-range">
-              <%= render_event_duration(range.start, range.stop) %>
+              <%= render_event_duration(range.start, range.stop, "list") %>
             </div>
             <div class="m-event__title">
               <%= event_title_link(@conn, event_teaser) %>

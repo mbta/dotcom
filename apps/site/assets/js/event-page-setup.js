@@ -41,12 +41,6 @@ function setupEventPopups() {
    *
    * This implementation uses ally-dialog (https://a11y-dialog.netlify.app) as a
    * base to create accessible dialog windows for various use cases.
-   *
-   * TODO: Positioning the popup next to the event in the calendar
-   *
-   * Suggestion:
-   * Making use of our existing Tether dependency (used for Bootstrap tooltips)
-   * to handle positioning. Tether docs: http://tether.io
    */
   const calendarView = document.querySelector(".m-events-hub--list-view");
 

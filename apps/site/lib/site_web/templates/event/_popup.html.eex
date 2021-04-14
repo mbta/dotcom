@@ -27,8 +27,12 @@
           class: "popup-version",
           path: @event.path %>
       <div class="u-flex-one">
-        <strong>Tuesday, January 5, 2021</strong>
-        <div class="m-event__date-range">6 PM - 8 PM</div>
+        <strong>
+          <%= render_event_duration(@event.date, @event.date_end, "calendar").date %>
+        </strong>
+        <div class="m-event__date-range">
+          <%= render_event_duration(@event.date, @event.date_end, "calendar").time %>
+        </div>
       </div>
     </div>
   </div>
