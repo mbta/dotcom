@@ -284,10 +284,13 @@ $mobile-control-height: 73px;
 
   &__event {
     display: flex;
+    width: 100%;
     font-size: 12px;
     align-items: center;
     color: $gray-dark;
     text-decoration: none;
+    border: 0;
+    padding: 0;
     &:hover, &:focus {
       color: $brand-primary;
       cursor: pointer;
