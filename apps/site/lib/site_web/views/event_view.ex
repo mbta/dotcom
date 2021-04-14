@@ -87,8 +87,8 @@ defmodule SiteWeb.EventView do
       ) :: String.t() | %{date: String.t(), time: String.t()}
   def do_render_event_duration(start_time, nil, style) do
     if style === "list" do
-      "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022
-        #{format_time(start_time)}"
+      "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022 #{
+        format_time(start_time)}"
     else
       %{
         date: "#{pretty_date(start_time, "{WDfull}, {Mfull} {D}, {YYYY}")}",
@@ -103,8 +103,8 @@ defmodule SiteWeb.EventView do
          style
        ) do
     if style === "list" do
-      "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022
-        #{format_time(start_time)} - #{format_time(end_time)}"
+      "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022 #{
+        format_time(start_time)} - #{format_time(end_time)}"
     else
       %{
         date: "#{pretty_date(start_time, "{WDfull}, {Mfull} {D}, {YYYY}")}",
@@ -115,8 +115,8 @@ defmodule SiteWeb.EventView do
 
   def do_render_event_duration(start_time, end_time, style) do
     if style === "list" do
-      "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} #{format_time(start_time)} -
-        #{pretty_date(end_time, "{WDshort}, {Mshort} {D}, {YYYY}")} #{format_time(end_time)}"
+      "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} #{format_time(start_time)} - #{
+        pretty_date(end_time, "{WDshort}, {Mshort} {D}, {YYYY}")} #{format_time(end_time)}"
     else
       # What if an event spans multiple days? How to represent that in the calendar?
       %{
