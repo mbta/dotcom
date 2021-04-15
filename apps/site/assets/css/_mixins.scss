@@ -376,3 +376,19 @@
   float: right;
   font-family: FontAwesome;
 }
+
+@mixin expandable-block-caret($color) {
+  @include caret($color);
+  align-items: flex-end;
+  display: flex;
+
+  [aria-expanded='false'] &::after {
+    content: $fa-var-angle-down;
+    display: flex;
+  }
+
+  [aria-expanded='true'] &::after {
+    content: $fa-var-angle-up;
+    display: flex;
+  }
+}
