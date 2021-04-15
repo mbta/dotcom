@@ -11,10 +11,21 @@
         year: @year %>
   </nav>
 
-  <%= render "_list_of_events.html",
-      conn: @conn,
-      events: @events,
-      month: @month,
-      year: @year %>
-
+  <%= for {month_number, event_teasers} <- @events do %>
+    <!-- Only expand month if past year OR current year and current-or-future month -->
+    <% initially_expanded = @conn.assigns.date.year != @year or (@conn.assigns.date.year == @year and month_number >= @conn.assigns.date.month) %>
+    <%= render "_expandable_month.html",
+      %{
+        initially_expanded: initially_expanded,
+        month: @month,
+        year: @year,
+        conn: @conn,
+        month_number: month_number,
+        event_teasers: event_teasers
+      }
+    %>
+  <% end %>
+  <%= if Enum.empty?(@events) do %>
+    <p>No events</p>
+  <% end %>
 </div>
