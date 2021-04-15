@@ -126,7 +126,7 @@ defmodule SiteWeb.EventViewTest do
 
     test "calendar version: no end time, only renders start time" do
       actual =
-        render_event_duration(~N[2016-11-15T10:00:00], nil, "{WDfull}, {Mfull} {D}, {YYYY}")
+        get_formatted_date_time_map(~N[2016-11-15T10:00:00], nil, "{WDfull}, {Mfull} {D}, {YYYY}")
 
       expected_date = "Tuesday, November 15, 2016"
       expected_time = "10 AM"
@@ -136,7 +136,7 @@ defmodule SiteWeb.EventViewTest do
 
     test "calendar version: start/end on same day, only renders date once" do
       actual =
-        render_event_duration(
+        get_formatted_date_time_map(
           ~N[2016-11-14T12:00:00],
           ~N[2016-11-14T14:30:00],
           "{WDfull}, {Mfull} {D}, {YYYY}"
@@ -150,7 +150,7 @@ defmodule SiteWeb.EventViewTest do
 
     test "calendar version: start/end on different days, renders both dates" do
       actual =
-        render_event_duration(
+        get_formatted_date_time_map(
           ~N[2016-11-14T12:00:00],
           ~N[2016-12-01T14:30:00],
           "{WDfull}, {Mfull} {D}, {YYYY}"
