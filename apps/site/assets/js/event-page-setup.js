@@ -67,8 +67,7 @@ function hideDialogLogic(e, dialog) {
   const eventClicked = path.find(
     x => x.className === "m-event-calendar__event"
   );
-  const eventIdClicked =
-    eventClicked && eventClicked.dataset.a11yDialogShow;
+  const eventIdClicked = eventClicked && eventClicked.dataset.a11yDialogShow;
   if (eventIdClicked) {
     if (dialog._id !== eventIdClicked) dialog.hide();
   } else if (!path.find(x => x.className === "m-event-overlay")) {

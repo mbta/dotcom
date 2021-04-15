@@ -82,31 +82,30 @@ defmodule SiteWeb.EventViewTest do
     end
   end
 
-  describe "render_event_duration/2" do
+  describe "rendering event durations in list and calendar views" do
     test "with no end time, only renders start time" do
-      actual = render_event_duration(~N[2016-11-15T10:00:00], nil, :list)
+      actual = render_event_duration_list_view(~N[2016-11-15T10:00:00], nil)
       expected = "Tue, Nov 15, 2016 \u2022 10 AM"
       assert expected == actual
     end
 
     test "with start/end on same day, only renders date once" do
-      actual = render_event_duration(~N[2016-11-14T12:00:00], ~N[2016-11-14T14:30:00], :list)
+      actual = render_event_duration_list_view(~N[2016-11-14T12:00:00], ~N[2016-11-14T14:30:00])
       expected = "Mon, Nov 14, 2016 \u2022 12 PM - 2:30 PM"
       assert expected == actual
     end
 
     test "with start/end on different days, renders both dates" do
-      actual = render_event_duration(~N[2016-11-14T12:00:00], ~N[2016-12-01T14:30:00], :list)
+      actual = render_event_duration_list_view(~N[2016-11-14T12:00:00], ~N[2016-12-01T14:30:00])
       expected = "Mon, Nov 14, 2016 12 PM - Thu, Dec 1, 2016 2:30 PM"
       assert expected == actual
     end
 
     test "with DateTimes, shifts them to America/New_York" do
       actual =
-        render_event_duration(
+        render_event_duration_list_view(
           Timex.to_datetime(~N[2016-11-05T05:00:00], "Etc/UTC"),
-          Timex.to_datetime(~N[2016-11-06T06:00:00], "Etc/UTC"),
-          :list
+          Timex.to_datetime(~N[2016-11-06T06:00:00], "Etc/UTC")
         )
 
       # could also be November 6th, 1:00 AM (test daylight savings)
@@ -116,10 +115,9 @@ defmodule SiteWeb.EventViewTest do
 
     test "with ISO:Extended DateTimes, does not shift timezone" do
       actual =
-        render_event_duration(
+        render_event_duration_list_view(
           parse_iso_datetime("2016-11-06T01:00:00-04:00"),
-          parse_iso_datetime("2016-11-06T02:00:00-04:00"),
-          :list
+          parse_iso_datetime("2016-11-06T02:00:00-04:00")
         )
 
       expected = "Sun, Nov 6, 2016 \u2022 1 AM - 2 AM"
@@ -127,7 +125,9 @@ defmodule SiteWeb.EventViewTest do
     end
 
     test "calendar version: no end time, only renders start time" do
-      actual = render_event_duration(~N[2016-11-15T10:00:00], nil, :calendar)
+      actual =
+        render_event_duration(~N[2016-11-15T10:00:00], nil, "{WDfull}, {Mfull} {D}, {YYYY}")
+
       expected_date = "Tuesday, November 15, 2016"
       expected_time = "10 AM"
       assert expected_date == actual.date
@@ -135,7 +135,13 @@ defmodule SiteWeb.EventViewTest do
     end
 
     test "calendar version: start/end on same day, only renders date once" do
-      actual = render_event_duration(~N[2016-11-14T12:00:00], ~N[2016-11-14T14:30:00], :calendar)
+      actual =
+        render_event_duration(
+          ~N[2016-11-14T12:00:00],
+          ~N[2016-11-14T14:30:00],
+          "{WDfull}, {Mfull} {D}, {YYYY}"
+        )
+
       expected_date = "Monday, November 14, 2016"
       expected_time = "12 PM - 2:30 PM"
       assert expected_date == actual.date
@@ -143,7 +149,13 @@ defmodule SiteWeb.EventViewTest do
     end
 
     test "calendar version: start/end on different days, renders both dates" do
-      actual = render_event_duration(~N[2016-11-14T12:00:00], ~N[2016-12-01T14:30:00], :calendar)
+      actual =
+        render_event_duration(
+          ~N[2016-11-14T12:00:00],
+          ~N[2016-12-01T14:30:00],
+          "{WDfull}, {Mfull} {D}, {YYYY}"
+        )
+
       expected_date = "Monday, November 14, 2016"
       expected_time = "12 PM"
       assert expected_date == actual.date
