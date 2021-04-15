@@ -27,11 +27,12 @@
           class: "popup-version",
           path: @event.path %>
       <div class="u-flex-one">
+        <%= %{date: date, time: time} = render_event_duration_calendar(@event.date, @event.date_end, "{WDfull}, {Mfull} {D}, {YYYY}") %>
         <strong>
-          <%= render_event_duration(@event.date, @event.date_end, "calendar").date %>
+          <%= date %>
         </strong>
         <div class="m-event__date-range">
-          <%= render_event_duration(@event.date, @event.date_end, "calendar").time %>
+          <%= time %>
         </div>
       </div>
     </div>

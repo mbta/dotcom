@@ -51,19 +51,28 @@ function setupEventPopups() {
     const dialog = new A11yDialog(el);
 
     // Hide popup when user clicks outside popup, or on a different event
-    document.addEventListener("click", e => {
-      const path = e.composedPath();
-      const eventClicked = path.find(
-        x => x.className === "m-event-calendar__event"
-      );
-      const eventIdClicked =
-        eventClicked && eventClicked.dataset.a11yDialogShow;
-      if (eventIdClicked) {
-        if (dialog._id !== eventIdClicked) dialog.hide();
-      } else if (!path.find(x => x.className === "m-event-overlay")) {
-        dialog.hide();
+    document.addEventListener("click", e => hideDialogLogic(e, dialog));
+    document.addEventListener(
+      "turbolinks:before-render",
+      document.removeEventListener("click", e => hideDialogLogic(e, dialog)),
+      {
+        passive: true
       }
-    });
+    );
+  }
+}
+
+function hideDialogLogic(e, dialog) {
+  const path = e.composedPath();
+  const eventClicked = path.find(
+    x => x.className === "m-event-calendar__event"
+  );
+  const eventIdClicked =
+    eventClicked && eventClicked.dataset.a11yDialogShow;
+  if (eventIdClicked) {
+    if (dialog._id !== eventIdClicked) dialog.hide();
+  } else if (!path.find(x => x.className === "m-event-overlay")) {
+    dialog.hide();
   }
 }
 
