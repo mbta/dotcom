@@ -101,7 +101,7 @@ defmodule SiteWeb.EventView do
     }
   end
 
-  defp do_render_duration(start_time, end_time, formatter) do
+  defp do_render_duration(start_time, _end_time, formatter) do
     # How to represent an event across multiple days in the calendar?
     %{
       date: "#{pretty_date(start_time, formatter)}",
@@ -118,14 +118,16 @@ defmodule SiteWeb.EventView do
     calendar = render_event_duration_calendar(start_time, nil, formatter)
     "#{calendar.date} \u2022 #{calendar.time}"
   end
+
   def render_event_duration_list(
-      %{year: year, month: month, day: day} = start_time,
-      %{year: year, month: month, day: day} = end_time,
-      formatter
-    ) do
+        %{year: year, month: month, day: day} = start_time,
+        %{year: year, month: month, day: day} = end_time,
+        formatter
+      ) do
     calendar = render_event_duration_calendar(start_time, end_time, formatter)
     "#{calendar.date} \u2022 #{calendar.time}"
   end
+
   def render_event_duration_list(start_time, end_time, formatter) do
     start = render_event_duration_calendar(start_time, nil, formatter)
     ending = render_event_duration_calendar(end_time, nil, formatter)
