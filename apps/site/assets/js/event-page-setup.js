@@ -56,16 +56,18 @@ function setupEventPopups() {
       const eventClicked = path.find(
         x => x.className === "m-event-calendar__event"
       );
-      const eventIdClicked = eventClicked && eventClicked.dataset.a11yDialogShow;
+      const eventIdClicked =
+        eventClicked && eventClicked.dataset.a11yDialogShow;
       if (eventIdClicked) {
         if (dialog._id !== eventIdClicked) dialog.hide();
       } else if (!path.find(x => x.className === "m-event-overlay")) {
         dialog.hide();
       }
-    } 
+    };
     document.addEventListener("click", hideDialogLogicListener);
-    document.addEventListener("turbolinks:before-render",
-      document.removeEventListener("click", hideDialogLogicListener),
+    document.addEventListener(
+      "turbolinks:before-render",
+      document.removeEventListener("click", hideDialogLogicListener)
     );
   }
 }
