@@ -24,7 +24,7 @@
           </div>
           <div class="u-flex-one">
             <div class="m-event__date-range">
-              <%= render_event_duration_list_view(range.start, range.stop, "{WDshort}, {Mshort} {D}, {YYYY}") %>
+              <%= render_event_duration_list_view(range.start, range.stop) %>
             </div>
             <div class="m-event__title">
               <%= link(event_teaser.title, to: cms_static_page_path(@conn, event_teaser.path)) %>
