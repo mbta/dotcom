@@ -1,5 +1,5 @@
 <div class="container m-events-hub m-events-hub--list-view">
-  <header>
+  <header class="m-events-header">
     <h1>Events</h1>
     <nav class="m-events-hub__nav--controls">
       <%= render "_year_select.html",

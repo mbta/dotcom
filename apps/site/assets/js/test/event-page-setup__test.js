@@ -12,28 +12,34 @@ const eventsHubHTML = `
       <div class="row">
         <nav class="m-event-list__nav col-sm-3 fixedsticky sticky-top"></nav>
         <div class="col-sm-offset-1 col-sm-8">
-          <div class="m-event-listing">
-            <nav class="m-event-list__nav--mobile-controls fixedsticky sticky-top">
-              <select class="c-select m-event-list__select">
-                <option>Jump to</option>
-                <option value="/events?month=1&year=2021">January 2021</option>
-                <option value="/events?month=2&year=2021">February 2021</option>
-                <option value="/events?month=3&year=2021">March 2021</option>
-              </select>
-            </nav>
-            ${[1, 2, 3]
-              .map(
-                m => `<section id="${m}-2021" class="m-event-list__month 
-                ${m === 2 ? "m-event-list__month--active" : ""}">
-                <h2 class="m-event-list__month-header fixedsticky sticky-top">${m} 2021</h2>
-                <ul>
-                  <li>Event 1</li>
-                  <li>Event 2</li>
-                </ul>
-                </section>`
-              )
-              .join("")}
-          </div>
+          <nav class="m-event-list__nav--mobile-controls fixedsticky sticky-top">
+            <select class="c-select m-event-list__select">
+              <option>Jump to</option>
+              <option value="/events?month=1&year=2021">January 2021</option>
+              <option value="/events?month=2&year=2021">February 2021</option>
+              <option value="/events?month=3&year=2021">March 2021</option>
+            </select>
+          </nav>
+          ${[1, 2, 3]
+            .map(
+              m => `<section id="${m}-2021" class="m-event-list__month
+              ${m === 2 ? "m-event-list__month--active" : ""}">
+                <button class="c-expandable-block__link sticky-top sticky-month" data-target="#panel-1" tabindex="0" id="header-1" aria-expanded="true" aria-controls="panel-1" data-toggle="collapse">
+                  <h2 class="m-event-list__month-header">
+                    <div class="c-expandable-block__header-container">
+                      ${m} 2021<span class="c-expandable-block-caret--black"></span>
+                    </div>
+                  </h2>
+                </button>
+                <div class="collapse in js-focus-on-expand" tabindex="0" role="region" id="panel-${m}" aria-labelledby="header-${m}">
+                  <ul>
+                    <li>Event 1</li>
+                    <li>Event 2</li>
+                  </ul>
+                </div>
+              </section>`
+            )
+            .join("")}
         </div>
       </div>
     </div>

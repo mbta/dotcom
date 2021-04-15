@@ -128,7 +128,7 @@ export function setupEventsListing() {
         window.requestAnimationFrame(() => {
           // 1. toggle a shadow on the month header depending on if it's sticky
           const monthHeaders = eventsListing.querySelectorAll(
-            ".m-event-list__month-header"
+            ".c-expandable-block__link"
           );
           for (let i = 0; i < monthHeaders.length; i++) {
             const el = monthHeaders[i];
