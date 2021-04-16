@@ -66,7 +66,7 @@ defmodule SiteWeb.EventView do
           NaiveDateTime.t() | DateTime.t() | nil,
           String.t()
         ) :: %{date: String.t(), time: String.t()}
-  def get_formatted_date_time_map(start_time, end_time, formatter \\ @default_format)
+  def get_formatted_date_time_map(start_time, end_time, formatter \\ @default_date_format)
 
   def get_formatted_date_time_map(start_time, nil, formatter) do
     start_time

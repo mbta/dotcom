@@ -42,7 +42,7 @@ function setupEventPopups() {
    * This implementation uses ally-dialog (https://a11y-dialog.netlify.app) as a
    * base to create accessible dialog windows for various use cases.
    */
-  const calendarView = document.querySelector(".m-events-hub--list-view");
+  const calendarView = document.querySelector(".m-events-hub");
 
   // find all the event popup HTML elements
   const eventPopups = calendarView.querySelectorAll(".m-event-overlay");
@@ -51,8 +51,9 @@ function setupEventPopups() {
     const dialog = new A11yDialog(el);
 
     // Hide popup when user clicks outside popup, or on a different event
-    hideDialogLogicListener = e => {
-      const path = e.composedPath();
+    function hideDialogLogicListener(event) {
+      console.log('event is ', event)
+      const path = event.composedPath();
       const eventClicked = path.find(function(x) {
         return x.className === "m-event-calendar__event";
       });
@@ -68,10 +69,10 @@ function setupEventPopups() {
         dialog.hide();
       }
     };
-    document.addEventListener("click", hideDialogLogicListener);
+    document.addEventListener("click", function(event) { hideDialogLogicListener(event) });
     document.addEventListener(
       "turbolinks:before-render",
-      document.removeEventListener("click", hideDialogLogicListener)
+      document.removeEventListener("click", function(event) { hideDialogLogicListener(event) })
     );
   }
 }
