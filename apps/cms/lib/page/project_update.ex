@@ -11,9 +11,9 @@ defmodule CMS.Page.ProjectUpdate do
       field_value: 2,
       int_or_string_to_int: 1,
       parse_body: 1,
-      parse_date: 2,
       parse_image: 2,
       parse_images: 2,
+      parse_iso_datetime: 1,
       parse_paragraphs: 2,
       path_alias: 1
     ]
@@ -57,12 +57,16 @@ defmodule CMS.Page.ProjectUpdate do
       image: parse_image(data, "field_image"),
       paragraphs: parse_paragraphs(data, preview_opts),
       photo_gallery: parse_images(data, "field_photo_gallery"),
-      posted_on: parse_date(data, "field_posted_on"),
       project_id: project_id,
       project_url: project_alias,
       teaser: field_value(data, "field_teaser"),
       title: field_value(data, "title"),
-      path_alias: path_alias(data)
+      path_alias: path_alias(data),
+      posted_on:
+        data
+        |> field_value("field_posted_on")
+        |> parse_iso_datetime()
+        |> NaiveDateTime.to_date()
     }
   end
 

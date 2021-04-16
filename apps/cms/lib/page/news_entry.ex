@@ -12,6 +12,7 @@ defmodule CMS.Page.NewsEntry do
       handle_html: 1,
       int_or_string_to_int: 1,
       parse_body: 1,
+      parse_iso_datetime: 1,
       path_alias: 1
     ]
 
@@ -55,10 +56,14 @@ defmodule CMS.Page.NewsEntry do
       media_email: field_value(data, "field_media_email"),
       media_phone: field_value(data, "field_media_phone"),
       more_information: parse_more_information(data),
-      posted_on: parse_posted_date(data),
       teaser: handle_html(field_value(data, "field_teaser")),
       migration_id: field_value(data, "field_migration_id"),
-      path_alias: path_alias(data)
+      path_alias: path_alias(data),
+      posted_on:
+        data
+        |> field_value("field_posted_on")
+        |> parse_iso_datetime()
+        |> NaiveDateTime.to_date()
     }
   end
 
@@ -74,12 +79,5 @@ defmodule CMS.Page.NewsEntry do
 
   def number_of_recent_news_suggestions do
     @number_of_recent_news_suggestions
-  end
-
-  defp parse_posted_date(data) do
-    data
-    |> field_value("field_posted_on")
-    |> Timex.parse!("{YYYY}-{0M}-{0D}")
-    |> NaiveDateTime.to_date()
   end
 end

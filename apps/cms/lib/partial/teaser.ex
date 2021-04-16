@@ -128,7 +128,7 @@ defmodule CMS.Partial.Teaser do
     end
   end
 
-  # The Event start time includes time and timezone data
+  # Drupal datetime values include time and timezone data
   @spec do_datetime(String.t()) :: NaiveDateTime.t() | nil
   defp do_datetime(date) do
     case NaiveDateTime.from_iso8601(date) do
