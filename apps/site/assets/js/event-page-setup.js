@@ -53,14 +53,18 @@ function setupEventPopups() {
     // Hide popup when user clicks outside popup, or on a different event
     hideDialogLogicListener = e => {
       const path = e.composedPath();
-      const eventClicked = path.find(
-        x => x.className === "m-event-calendar__event"
-      );
+      const eventClicked = path.find(function(x) {
+        return x.className === "m-event-calendar__event";
+      });
       const eventIdClicked =
         eventClicked && eventClicked.dataset.a11yDialogShow;
       if (eventIdClicked) {
         if (dialog._id !== eventIdClicked) dialog.hide();
-      } else if (!path.find(x => x.className === "m-event-overlay")) {
+      } else if (
+        !path.find(function(x) {
+          return x.className === "m-event-overlay";
+        })
+      ) {
         dialog.hide();
       }
     };
@@ -84,7 +88,7 @@ export function setupEventsListing() {
     });
   }
 
-  const eventsListing = document.querySelector(".m-events-hub--list-view");
+  const eventsListing = document.querySelector(".m-events-hub");
   if (!eventsListing) return;
   const control = eventsListing.querySelector(
     ".m-event-list__nav--mobile-controls"
@@ -163,7 +167,7 @@ export default function() {
         setupEventsListing();
       }
 
-      if (document.querySelector(".m-events-hub--list-view")) {
+      if (document.querySelector(".m-events-hub")) {
         setupEventPopups();
       }
     },

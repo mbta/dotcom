@@ -14,6 +14,8 @@ defmodule SiteWeb.EventView do
   alias CMS.Page.Event
   alias CMS.Partial.Teaser
 
+  @default_date_format "{WDshort}, {Mshort} {D}, {YYYY}"
+
   @doc "Returns a pretty format for the event's city and state"
   @spec city_and_state(%Event{}) :: String.t() | nil
   def city_and_state(%Event{city: city, state: state}) do
@@ -64,7 +66,7 @@ defmodule SiteWeb.EventView do
           NaiveDateTime.t() | DateTime.t() | nil,
           String.t()
         ) :: %{date: String.t(), time: String.t()}
-  def get_formatted_date_time_map(start_time, end_time, formatter)
+  def get_formatted_date_time_map(start_time, end_time, formatter \\ @default_format)
 
   def get_formatted_date_time_map(start_time, nil, formatter) do
     start_time
@@ -111,7 +113,7 @@ defmodule SiteWeb.EventView do
           NaiveDateTime.t() | DateTime.t() | nil
         ) :: String.t()
   def render_event_duration_list_view(start_time, nil) do
-    calendar = get_formatted_date_time_map(start_time, nil, "{WDshort}, {Mshort} {D}, {YYYY}")
+    calendar = get_formatted_date_time_map(start_time, nil)
     "#{calendar.date} \u2022 #{calendar.time}"
   end
 
@@ -119,15 +121,14 @@ defmodule SiteWeb.EventView do
         %{year: year, month: month, day: day} = start_time,
         %{year: year, month: month, day: day} = end_time
       ) do
-    calendar =
-      get_formatted_date_time_map(start_time, end_time, "{WDshort}, {Mshort} {D}, {YYYY}")
+    calendar = get_formatted_date_time_map(start_time, end_time)
 
     "#{calendar.date} \u2022 #{calendar.time}"
   end
 
   def render_event_duration_list_view(start_time, end_time) do
-    start = get_formatted_date_time_map(start_time, nil, "{WDshort}, {Mshort} {D}, {YYYY}")
-    ending = get_formatted_date_time_map(end_time, nil, "{WDshort}, {Mshort} {D}, {YYYY}")
+    start = get_formatted_date_time_map(start_time, nil)
+    ending = get_formatted_date_time_map(end_time, nil)
     "#{start.date} #{start.time} - #{ending.date} #{ending.time}"
   end
 
