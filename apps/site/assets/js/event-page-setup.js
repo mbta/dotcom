@@ -52,7 +52,7 @@ function setupEventPopups() {
 
     // Hide popup when user clicks outside popup, or on a different event
     function hideDialogLogicListener(event) {
-      console.log('event is ', event)
+      console.log("event is ", event);
       const path = event.composedPath();
       const eventClicked = path.find(function(x) {
         return x.className === "m-event-calendar__event";
@@ -68,11 +68,15 @@ function setupEventPopups() {
       ) {
         dialog.hide();
       }
-    };
-    document.addEventListener("click", function(event) { hideDialogLogicListener(event) });
+    }
+    document.addEventListener("click", function(event) {
+      hideDialogLogicListener(event);
+    });
     document.addEventListener(
       "turbolinks:before-render",
-      document.removeEventListener("click", function(event) { hideDialogLogicListener(event) })
+      document.removeEventListener("click", function(event) {
+        hideDialogLogicListener(event);
+      })
     );
   }
 }
