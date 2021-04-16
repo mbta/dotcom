@@ -67,10 +67,9 @@ function setupEventPopups() {
       ) {
         dialog.hide();
       }
-    }
+    };
     document.addEventListener("click", hideDialogLogicListener);
-    document.addEventListener(
-      "turbolinks:before-render", () =>
+    document.addEventListener("turbolinks:before-render", () =>
       document.removeEventListener("click", hideDialogLogicListener)
     );
   }
