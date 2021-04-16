@@ -1,3 +1,5 @@
+import A11yDialog from "a11y-dialog";
+
 function toggleAttributePolyfill() {
   if (!Element.prototype.toggleAttribute) {
     Element.prototype.toggleAttribute = function(name, force) {
@@ -29,9 +31,64 @@ function addInternetExplorerPolyfills() {
   stickyPolyfill();
 }
 
+function setupEventPopups() {
+  /**
+   * Why not use Bootstrap's popover? It's not equipped to handle having lots of
+   * interactive content, doesn't support a close button, and as implemented the
+   * UX for assistive tech users probably isn't ideal. For more, see "Making
+   * popovers work for keyboard and assistive technology users" in
+   * https://getbootstrap.com/docs/4.6/components/popovers/
+   *
+   * This implementation uses ally-dialog (https://a11y-dialog.netlify.app) as a
+   * base to create accessible dialog windows for various use cases.
+   */
+  const calendarView = document.querySelector(".m-events-hub");
+
+  // find all the event popup HTML elements
+  const eventPopups = calendarView.querySelectorAll(".m-event-overlay");
+  for (let i = 0; i < eventPopups.length; i++) {
+    const el = eventPopups[i];
+    const dialog = new A11yDialog(el);
+
+    // Hide popup when user clicks outside popup, or on a different event
+    const hideDialogLogicListener = function(event) {
+      const path = event.composedPath();
+      const eventClicked = path.find(function(x) {
+        return x.className === "m-event-calendar__event";
+      });
+      const eventIdClicked =
+        eventClicked && eventClicked.dataset.a11yDialogShow;
+      if (eventIdClicked) {
+        if (dialog._id !== eventIdClicked) dialog.hide();
+      } else if (
+        !path.find(function(x) {
+          return x.className === "m-event-overlay";
+        })
+      ) {
+        dialog.hide();
+      }
+    };
+    document.addEventListener("click", hideDialogLogicListener);
+    document.addEventListener("turbolinks:before-render", () =>
+      document.removeEventListener("click", hideDialogLogicListener)
+    );
+  }
+}
+
 export function setupEventsListing() {
   const eventsHubPage = document.querySelector(".m-events-hub");
-  const eventsListing = document.querySelector(".m-events-hub--list-view");
+  // add event listener to navigate to page on dropdown select
+  const dateSelects = eventsHubPage.querySelectorAll(".m-event-list__select");
+
+  for (let i = 0; i < dateSelects.length; i++) {
+    const select = dateSelects[i];
+    select.addEventListener("change", ({ target }) => {
+      window.location.assign(target.value);
+    });
+  }
+
+  const eventsListing = document.querySelector(".m-events-hub");
+  if (!eventsListing) return;
   const control = eventsListing.querySelector(
     ".m-event-list__nav--mobile-controls"
   );
@@ -94,16 +151,6 @@ export function setupEventsListing() {
     ".m-event-list__month--active"
   );
   if (activeMonthElement) activeMonthElement.scrollIntoView();
-
-  // add event listener to navigate to page on dropdown select
-  const dateSelects = eventsHubPage.querySelectorAll(".m-event-list__select");
-
-  for (let i = 0; i < dateSelects.length; i++) {
-    const select = dateSelects[i];
-    select.addEventListener("change", ({ target }) => {
-      window.location.assign(target.value);
-    });
-  }
 }
 
 export default function() {
@@ -117,6 +164,10 @@ export default function() {
         }
 
         setupEventsListing();
+      }
+
+      if (document.querySelector(".m-events-hub")) {
+        setupEventPopups();
       }
     },
     { passive: true }

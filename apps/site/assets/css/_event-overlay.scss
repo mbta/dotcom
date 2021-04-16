@@ -1,0 +1,67 @@
+// Uses the 3rd-party a11y-dialog library as a base to create
+// accessible dialog windows for various use cases.
+// See documentation at https://a11y-dialog.netlify.app
+.m-event-overlay {
+  animation: fade-in 400ms 200ms both, slide-up 400ms 200ms both;
+  background-color: $white;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  box-shadow: $drop-shadow;
+  position: absolute;
+  z-index: 2000;
+  width: 280px;
+
+  &.open-left {
+    right: 306px;
+    @include media-breakpoint-down(lg) {
+      right: 250px;
+    }
+    @include media-breakpoint-down(md) {
+      right: 202px;
+    }
+  }
+
+  &[aria-hidden='true'] {
+    display: none;
+  }
+
+  // the actual content
+  [role='document'] {
+    padding: $base-spacing;
+    position: relative;
+
+    // the 'x' element that closes popup
+    [data-a11y-dialog-hide] {
+      background-color: transparent;
+      border: 0;
+      margin-left: 10px;
+      font-size: 18px;
+      height: 18px;
+      line-height: 18px;
+      font-weight: bold;
+    }
+  }
+
+  .m-event__title {
+    font-weight: bold;
+    margin-bottom: $base-spacing / 2;
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+// if using Tether for positioning, might want to incorporate
+// the Tether-generated CSS classes to change direction depending on
+// which side of the link the popup is displayed at.
+@keyframes slide-up {
+  from {
+    transform: translateY(10%);
+  }
+}
+
+
+

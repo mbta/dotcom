@@ -14,7 +14,6 @@
       <%= for event_teaser <- event_teasers do %>
         <%
           range = %{start: event_teaser.date, stop: event_teaser.date_end}
-          path_fn = fn -> cms_static_page_path(@conn, event_teaser.path) end
         %>
         <!-- If date is upcoming, display on init -->
         <!-- Otherwise, add a 'hidden' class. On previous-button click, this class is removed -->
@@ -25,23 +24,17 @@
           </div>
           <div class="u-flex-one">
             <div class="m-event__date-range">
-              <%= render_event_duration(range.start, range.stop) %>
+              <%= render_event_duration_list_view(range.start, range.stop) %>
             </div>
             <div class="m-event__title">
-              <%= link event_teaser.title, to: path_fn.() %>
+              <%= link(event_teaser.title, to: cms_static_page_path(@conn, event_teaser.path)) %>
             </div>
           </div>
-          <div class="m-event__status-message">
-            <%= if !event_ended(range) do %>
-              <%= link to: event_icalendar_path(@conn, event_teaser.path),
-                data: [turbolinks: false], class: "btn btn-secondary btn-lg" do %>
-                  <%= fa "calendar-plus-o" %>
-                  <span class="m-event__add-text">Add</span>
-              <% end %>
-            <% else %>
-              <div class="m-event__ended-message">Ended</div>
-            <% end %>
-          </div>
+          <%= render "_add_button.html",
+              range: range,
+              conn: @conn,
+              class: "list-version",
+              path: event_teaser.path %>
         </li>
       <% end %>
     </ul>

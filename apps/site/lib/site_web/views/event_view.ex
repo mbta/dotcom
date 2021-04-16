@@ -2,6 +2,8 @@ defmodule SiteWeb.EventView do
   @moduledoc "Module to display fields on the events view"
   use SiteWeb, :view
 
+  import Phoenix.HTML.Link
+
   import Site.FontAwesomeHelpers
 
   import SiteWeb.CMSView,
@@ -11,6 +13,8 @@ defmodule SiteWeb.EventView do
 
   alias CMS.Page.Event
   alias CMS.Partial.Teaser
+
+  @default_date_format "{WDshort}, {Mshort} {D}, {YYYY}"
 
   @doc "Returns a pretty format for the event's city and state"
   @spec city_and_state(%Event{}) :: String.t() | nil
@@ -56,45 +60,76 @@ defmodule SiteWeb.EventView do
     |> Enum.group_by(& &1.date.day)
   end
 
-  @doc "Nicely renders the duration of an event, given two DateTimes."
-  @spec render_event_duration(
+  @doc "Given two DateTimes, returns a Date / Time map formatted based on the formatter string"
+  @spec get_formatted_date_time_map(
+          NaiveDateTime.t() | DateTime.t(),
+          NaiveDateTime.t() | DateTime.t() | nil,
+          String.t()
+        ) :: %{date: String.t(), time: String.t()}
+  def get_formatted_date_time_map(start_time, end_time, formatter \\ @default_date_format)
+
+  def get_formatted_date_time_map(start_time, nil, formatter) do
+    start_time
+    |> maybe_shift_timezone
+    |> do_date_time_formatting(nil, formatter)
+  end
+
+  def get_formatted_date_time_map(start_time, end_time, formatter) do
+    start_time
+    |> maybe_shift_timezone
+    |> do_date_time_formatting(maybe_shift_timezone(end_time), formatter)
+  end
+
+  @spec do_date_time_formatting(
+          NaiveDateTime.t() | DateTime.t(),
+          NaiveDateTime.t() | DateTime.t() | nil,
+          String.t()
+        ) :: %{date: String.t(), time: String.t()}
+
+  # If the end_time is the same date as the start_time, represent the time as a range
+  defp do_date_time_formatting(
+         %{year: year, month: month, day: day} = start_time,
+         %{year: year, month: month, day: day} = end_time,
+         formatter
+       ) do
+    %{
+      date: "#{pretty_date(start_time, formatter)}",
+      time: "#{format_time(start_time)} - #{format_time(end_time)}"
+    }
+  end
+
+  # If the end_time is nil OR a different day than the start time, then only use the start day / time
+  defp do_date_time_formatting(start_time, _end_time, formatter) do
+    # How to represent an event across multiple days in the calendar?
+    %{
+      date: "#{pretty_date(start_time, formatter)}",
+      time: "#{format_time(start_time)}"
+    }
+  end
+
+  @doc "Nicely render an event duration for the Event List, given two DateTimes."
+  @spec render_event_duration_list_view(
           NaiveDateTime.t() | DateTime.t(),
           NaiveDateTime.t() | DateTime.t() | nil
-        ) ::
-          String.t()
-  def render_event_duration(start_time, end_time)
-
-  def render_event_duration(start_time, nil) do
-    start_time
-    |> maybe_shift_timezone
-    |> do_render_event_duration(nil)
+        ) :: String.t()
+  def render_event_duration_list_view(start_time, nil) do
+    calendar = get_formatted_date_time_map(start_time, nil)
+    "#{calendar.date} \u2022 #{calendar.time}"
   end
 
-  def render_event_duration(start_time, end_time) do
-    start_time
-    |> maybe_shift_timezone
-    |> do_render_event_duration(maybe_shift_timezone(end_time))
+  def render_event_duration_list_view(
+        %{year: year, month: month, day: day} = start_time,
+        %{year: year, month: month, day: day} = end_time
+      ) do
+    calendar = get_formatted_date_time_map(start_time, end_time)
+
+    "#{calendar.date} \u2022 #{calendar.time}"
   end
 
-  defp do_render_event_duration(start_time, nil) do
-    "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022 #{
-      format_time(start_time)
-    }"
-  end
-
-  defp do_render_event_duration(
-         %{year: year, month: month, day: day} = start_time,
-         %{year: year, month: month, day: day} = end_time
-       ) do
-    "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} \u2022 #{
-      format_time(start_time)
-    } - #{format_time(end_time)}"
-  end
-
-  defp do_render_event_duration(start_time, end_time) do
-    "#{pretty_date(start_time, "{WDshort}, {Mshort} {D}, {YYYY}")} #{format_time(start_time)} - #{
-      pretty_date(end_time, "{WDshort}, {Mshort} {D}, {YYYY}")
-    } #{format_time(end_time)}"
+  def render_event_duration_list_view(start_time, end_time) do
+    start = get_formatted_date_time_map(start_time, nil)
+    ending = get_formatted_date_time_map(end_time, nil)
+    "#{start.date} #{start.time} - #{ending.date} #{ending.time}"
   end
 
   @doc "December 2021"
