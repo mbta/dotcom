@@ -117,7 +117,7 @@
     "field_photo_gallery": [],
     "field_posted_on": [
       {
-        "value": "2018-04-02"
+        "value": "2018-04-02T08:00:00-04:00"
       }
     ],
     "field_project": [
@@ -259,7 +259,7 @@
     "field_photo_gallery": [],
     "field_posted_on": [
       {
-        "value": "2018-03-31"
+        "value": "2018-03-31T08:00:00-04:00"
       }
     ],
     "field_project": [
@@ -401,7 +401,7 @@
     "field_photo_gallery": [],
     "field_posted_on": [
       {
-        "value": "2018-03-30"
+        "value": "2018-03-30T08:00:00-04:00"
       }
     ],
     "field_project": [
@@ -543,7 +543,7 @@
     "field_photo_gallery": [],
     "field_posted_on": [
       {
-        "value": "2018-03-29"
+        "value": "2018-03-29T08:00:00-04:00"
       }
     ],
     "field_project": [
@@ -685,7 +685,7 @@
     "field_photo_gallery": [],
     "field_posted_on": [
       {
-        "value": "2018-03-22"
+        "value": "2018-03-22T08:00:00-04:00"
       }
     ],
     "field_project": [
@@ -1113,7 +1113,7 @@
     "field_photo_gallery": [],
     "field_posted_on": [
       {
-        "value": "2019-07-29"
+        "value": "2019-07-29T08:00:00-04:00"
       }
     ],
     "field_project": [
@@ -1541,7 +1541,7 @@
     "field_photo_gallery": [],
     "field_posted_on": [
       {
-        "value": "2019-07-29"
+        "value": "2019-07-29T08:00:00-04:00"
       }
     ],
     "field_project": [
@@ -1969,7 +1969,7 @@
     "field_photo_gallery": [],
     "field_posted_on": [
       {
-        "value": "2019-07-29"
+        "value": "2019-07-29T08:00:00-04:00"
       }
     ],
     "field_project": [

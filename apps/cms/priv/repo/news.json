@@ -140,7 +140,7 @@
     "field_page_type": [],
     "field_posted_on": [
       {
-        "value": "2018-03-29"
+        "value": "2018-03-29T08:00:00-04:00"
       }
     ],
     "field_related_transit": [],
@@ -289,7 +289,7 @@
     "field_page_type": [],
     "field_posted_on": [
       {
-        "value": "2018-03-29"
+        "value": "2018-03-29T08:00:00-04:00"
       }
     ],
     "field_related_transit": [],
@@ -434,7 +434,7 @@
     "field_page_type": [],
     "field_posted_on": [
       {
-        "value": "2018-03-23"
+        "value": "2018-03-23T08:00:00-04:00"
       }
     ],
     "field_related_transit": [],
@@ -579,7 +579,7 @@
     "field_page_type": [],
     "field_posted_on": [
       {
-        "value": "2018-03-23"
+        "value": "2018-03-23T08:00:00-04:00"
       }
     ],
     "field_related_transit": [],
@@ -724,7 +724,7 @@
     "field_page_type": [],
     "field_posted_on": [
       {
-        "value": "2018-03-20"
+        "value": "2018-03-20T08:00:00-04:00"
       }
     ],
     "field_related_transit": [],
