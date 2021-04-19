@@ -12,7 +12,7 @@ defmodule CMS.Page.NewsEntry do
       handle_html: 1,
       int_or_string_to_int: 1,
       parse_body: 1,
-      parse_iso_datetime: 1,
+      parse_posted_on: 1,
       path_alias: 1
     ]
 
@@ -59,11 +59,7 @@ defmodule CMS.Page.NewsEntry do
       teaser: handle_html(field_value(data, "field_teaser")),
       migration_id: field_value(data, "field_migration_id"),
       path_alias: path_alias(data),
-      posted_on:
-        data
-        |> field_value("field_posted_on")
-        |> parse_iso_datetime()
-        |> NaiveDateTime.to_date()
+      posted_on: parse_posted_on(data)
     }
   end
 

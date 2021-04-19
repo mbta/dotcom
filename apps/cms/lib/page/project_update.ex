@@ -13,7 +13,7 @@ defmodule CMS.Page.ProjectUpdate do
       parse_body: 1,
       parse_image: 2,
       parse_images: 2,
-      parse_iso_datetime: 1,
+      parse_posted_on: 1,
       parse_paragraphs: 2,
       path_alias: 1
     ]
@@ -62,11 +62,7 @@ defmodule CMS.Page.ProjectUpdate do
       teaser: field_value(data, "field_teaser"),
       title: field_value(data, "title"),
       path_alias: path_alias(data),
-      posted_on:
-        data
-        |> field_value("field_posted_on")
-        |> parse_iso_datetime()
-        |> NaiveDateTime.to_date()
+      posted_on: parse_posted_on(data)
     }
   end
 

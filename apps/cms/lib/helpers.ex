@@ -132,6 +132,24 @@ defmodule CMS.Helpers do
     end
   end
 
+  @doc """
+  Temporary handler for CMS API transition. Prior to change,
+  data will hold a date-only value. Following the change,
+  data will hold a datetime string.
+  @deprecated upon next CMS API database update.
+  """
+  @spec parse_posted_on(map) :: Date.t() | nil
+  def parse_posted_on(data) do
+    data
+    |> field_value("field_posted_on")
+    |> parse_iso_datetime()
+    |> do_parse_posted_on(data)
+  end
+
+  # Return a date regardless of input format (time not required for this consumer)
+  defp do_parse_posted_on(nil, data), do: parse_date(data, "field_posted_on")
+  defp do_parse_posted_on(date, _), do: NaiveDateTime.to_date(date)
+
   @spec parse_link(map, String.t()) :: Link.t() | nil
   def parse_link(%{} = data, field) do
     case data[field] do

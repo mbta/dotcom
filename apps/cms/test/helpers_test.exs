@@ -149,6 +149,19 @@ defmodule CMS.HelpersTest do
     end
   end
 
+  describe "parse_posted_on/1" do
+    test "can parse string as date" do
+      map = %{"field_posted_on" => [%{"value" => "2017-01-01"}]}
+
+      assert parse_posted_on(map) == ~D[2017-01-01]
+    end
+
+    test "can parse string as datetime and convert back to date" do
+      map = %{"field_posted_on" => [%{"value" => "2021-04-13T08:00:00-04:00"}]}
+      assert parse_posted_on(map) == ~D[2021-04-13]
+    end
+  end
+
   describe "parse_link/2" do
     test "it parses a link field into a Link" do
       data = %{
