@@ -408,6 +408,40 @@ defmodule Routes.MockRepoApi do
   end
 
   @impl Routes.RepoApi
+  def get_shapes("Green-D", direction_id: 0) do
+    [
+      %Routes.Shape{
+        direction_id: 0,
+        id: "852_0018",
+        name: "Government Center - Riverside",
+        polyline: "polyline",
+        priority: 3,
+        stop_ids: [
+          "place-gover",
+          "place-pktrm",
+          "place-boyls",
+          "place-armnl",
+          "place-coecl",
+          "place-hymnl",
+          "place-kencl",
+          "place-fenwy",
+          "place-longw",
+          "place-bvmnl",
+          "place-bcnfd",
+          "place-rsmnl",
+          "place-chhil",
+          "place-newto",
+          "place-newtn",
+          "place-eliot",
+          "place-waban",
+          "place-woodl",
+          "place-river"
+        ]
+      }
+    ]
+  end
+
+  @impl Routes.RepoApi
   def get_shapes("CR-Kingston", direction_id: 0) do
     [
       %Routes.Shape{

@@ -172,18 +172,18 @@ defmodule Stops.RouteStopsTest do
     end
 
     test "works for green non-E line" do
-      route = %Route{id: "Green-B", type: 0}
-      shapes = @routes_repo_api.get_shapes("Green-B", direction_id: 0)
-      stops = Stops.Repo.by_route("Green-B", 0)
+      route = %Route{id: "Green-D", type: 0}
+      shapes = @routes_repo_api.get_shapes("Green-D", direction_id: 0)
+      stops = Stops.Repo.by_route("Green-D", 0)
       stops = RouteStops.by_direction(stops, shapes, route, 0)
 
       assert [
                %RouteStops{
-                 stops: [%RouteStop{id: "place-pktrm", is_terminus?: true} | _] = b_stops
+                 stops: [%RouteStop{id: "place-gover", is_terminus?: true} | _] = d_stops
                }
              ] = stops
 
-      assert %RouteStop{id: "place-lake", is_terminus?: true} = List.last(b_stops)
+      assert %RouteStop{id: "place-river", is_terminus?: true} = List.last(d_stops)
     end
 
     test "works for Kingston line (outbound)" do
