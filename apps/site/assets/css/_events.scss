@@ -70,7 +70,7 @@ $mobile-control-height: 73px;
 
   a {
     display: block;
-    font-weight: bold;
+    font-size: 18px;
     margin-bottom: $base-spacing / 2;
   }
 
@@ -312,7 +312,6 @@ $mobile-control-height: 73px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      
     }
   }
 }

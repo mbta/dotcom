@@ -38,7 +38,7 @@
         <p class="u-bold">Jump to</p>
         <%= for month <- valid_months do %>
           <% all_params = Keyword.merge(params, [month: month]) %>
-          <%= link render_event_month(month, @year), to: event_path(@conn, :index, all_params) %>
+          <%= link render_event_month(month, @year), to: event_path(@conn, :index, all_params), class: if month == @month, do: "u-bold" %>
         <% end %>
       <% end %>
     </nav>
