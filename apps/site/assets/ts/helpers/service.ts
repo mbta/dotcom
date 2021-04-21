@@ -86,10 +86,7 @@ export const isCurrentValidService = (
   }
 
   // check within rating dates
-  return (
-    isInCurrentRating(service, currentDate) &&
-    isInCurrentService(service, currentDate)
-  );
+  return isInCurrentRating(service, currentDate);
 };
 
 export const startToEnd = (
