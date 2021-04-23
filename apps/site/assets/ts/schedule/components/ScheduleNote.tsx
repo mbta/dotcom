@@ -42,7 +42,7 @@ const peakOffPeakTimes = ({
     <div className="m-schedule-page__schedule-note">
       <h4 className="m-schedule-page__service">Peak Service</h4>
       <div className="m-schedule-page__service-subheading">
-        Weekdays 7 AM - 9 AM, 4 PM - 6:30 PM
+        Weekdays 7 &ndash; 9 AM, 4 &ndash; 6:30 PM
       </div>
       {service(peakService)}
     </div>
