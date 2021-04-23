@@ -5,7 +5,7 @@
       :option,
       year,
       [
-        value: event_path(@conn, :index, month: 1, year: year),
+        value: build_nav_path(@conn, @month, year),
         selected: year == @year
       ]
     ) %>

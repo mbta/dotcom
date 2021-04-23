@@ -5,7 +5,7 @@
       :option,
       Timex.month_name(month),
       [
-        value: event_path(@conn, :index, month: month, year: @year),
+        value: build_nav_path(@conn, month, @year),
         selected: month == @month
       ]
     ) %>

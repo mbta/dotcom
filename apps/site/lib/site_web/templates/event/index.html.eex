@@ -10,12 +10,11 @@
       <% params = Enum.map(@conn.query_params, fn({key, val}) -> {String.to_existing_atom(key), val} end) %>
 
       <div class="m-events-hub__nav--navigation-toggle">
-        <% index_params = Keyword.delete(params, :calendar) %>
-        <%= link to: event_path(@conn, :index, index_params), role: "button", tabindex: "0", aria: [label: "List view"] do %>
+        <%= link to: build_nav_path(@conn, @month, @year, true), role: "button", tabindex: "0", aria: [label: "List view"] do %>
           <i class="fa fa-list-ul m-nav-toggle-icon <%= if !assigns[:calendar_view], do: "active-view" %>"></i>
         <% end %>
 
-        <%= link to: event_path(@conn, :index, params ++ [{:calendar, true}]), role: "button", tabindex: "0", aria: [label: "Calendar view"] do %>
+        <%= link to: build_nav_path(@conn, @month, @year, true), role: "button", tabindex: "0", aria: [label: "Calendar view"] do %>
           <i class="fa fa-th-large m-nav-toggle-icon <%= if assigns[:calendar_view], do: "active-view" %>"></i>
         <% end %>
       </div>
@@ -28,17 +27,9 @@
       <% valid_months = events_by_month |> Enum.map(fn {month_number, _teasers} -> month_number end) %>
 
       <%= if !Enum.empty?(valid_months) do %>
-        <% init_params = [year: @year] %>
-        <% view_is_calendar = assigns[:calendar_view] %>
-        <% params = if view_is_calendar do
-          Keyword.merge(init_params, [calendar: view_is_calendar])
-        else
-          init_params
-        end %>
         <p class="u-bold">Jump to</p>
         <%= for month <- valid_months do %>
-          <% all_params = Keyword.merge(params, [month: month]) %>
-          <%= link render_event_month(month, @year), to: event_path(@conn, :index, all_params) %>
+          <%= link render_event_month(month, @year), to: build_nav_path(@conn, month, @year) %>
         <% end %>
       <% end %>
     </nav>

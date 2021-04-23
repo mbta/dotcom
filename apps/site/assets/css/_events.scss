@@ -121,9 +121,11 @@ $mobile-control-height: 73px;
 }
 
 .m-event-list__nav--mobile-controls {
+  @include media-breakpoint-up(sm) {
+    display: none;
+  }
   background-color: $white;
   border-bottom: 1px solid $gray-lightest;
-  display: none;
   height: $mobile-control-height;
   padding: $base-spacing;
   transition: top .2s ease-in-out;
