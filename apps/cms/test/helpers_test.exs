@@ -390,6 +390,16 @@ defmodule CMS.HelpersTest do
 
       assert parsed_map == []
     end
+
+    test "it handles absence of paragraphs json data" do
+      map_data = %{
+        "status" => [%{"value" => true}]
+      }
+
+      parsed_map = parse_paragraphs(map_data)
+
+      assert parsed_map == []
+    end
   end
 
   describe "rewrite_url/1" do
