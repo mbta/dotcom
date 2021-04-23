@@ -1,0 +1,2164 @@
+{
+  "nid": [
+    {
+      "value": 4196
+    }
+  ],
+  "uuid": [
+    {
+      "value": "2d2103a9-6f5e-416c-b995-1165f0c0a422"
+    }
+  ],
+  "vid": [
+    {
+      "value": 46086
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "page",
+      "target_type": "node_type",
+      "target_uuid": "9e4b5efa-9303-469e-b5d6-20ef12fbe1d1"
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1603838942
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 24,
+      "target_type": "user",
+      "target_uuid": "7c7e0f53-7558-455b-b10c-ac94b611f4a4",
+      "url": "/user/24"
+    }
+  ],
+  "revision_log": [
+    {
+      "value": "update alias to nest under org, hiding and leaving unpublished"
+    }
+  ],
+  "status": [
+    {
+      "value": false
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 29,
+      "target_type": "user",
+      "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+      "url": "/user/29"
+    }
+  ],
+  "title": [
+    {
+      "value": "Content List Demo"
+    }
+  ],
+  "created": [
+    {
+      "value": 1553114987
+    }
+  ],
+  "changed": [
+    {
+      "value": 1603838942
+    }
+  ],
+  "promote": [
+    {
+      "value": false
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "revision_default": [
+    {
+      "value": true
+    }
+  ],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "moderation_state": [
+    {
+      "value": "hidden"
+    }
+  ],
+  "sidebar": [
+    {
+      "value": false
+    }
+  ],
+  "path": [
+    {
+      "alias": "/org/content-list-demo",
+      "pid": 4279,
+      "langcode": "en"
+    }
+  ],
+  "publish_on": [],
+  "unpublish_on": [],
+  "publish_state": [
+    {
+      "value": "_none"
+    }
+  ],
+  "unpublish_state": [
+    {
+      "value": "_none"
+    }
+  ],
+  "menu_link": [],
+  "body": [
+    {
+      "value": "<p>Below is a demonstration of the various content lists.</p>\r\n",
+      "format": "full_html",
+      "processed": "<p>Below is a demonstration of the various content lists.</p>\n",
+      "summary": ""
+    }
+  ],
+  "field_downloads": [],
+  "field_image": [],
+  "field_keywords": [],
+  "field_page_type": [
+    {
+      "id": 234,
+      "name": "Content Style Guide",
+      "vocab": "page_type",
+      "data": null
+    }
+  ],
+  "field_paragraphs": [
+    {
+      "target_id": 6342,
+      "target_revision_id": 467594,
+      "id": [
+        {
+          "value": 6342
+        }
+      ],
+      "uuid": [
+        {
+          "value": "64b490ac-cae7-42e5-ad8b-8529d987173c"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 467594
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "content_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1553115198
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "4196"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_content_logic": [],
+      "field_content_reference": [],
+      "field_content_type": [
+        {
+          "value": "project"
+        }
+      ],
+      "field_cta_behavior": [],
+      "field_cta_link": [],
+      "field_cta_text": [],
+      "field_date": [],
+      "field_date_logic": [],
+      "field_date_max": [],
+      "field_multi_column_header": [
+        {
+          "target_id": 6341,
+          "target_revision_id": 117509,
+          "id": [
+            {
+              "value": 6341
+            }
+          ],
+          "uuid": [
+            {
+              "value": "44c67f2a-aad9-47d1-b0db-6a8561483307"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 117509
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1553115209
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "6342"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_header_text": [
+            {
+              "value": "<h2>Recently Updated Projects</h2>\r\n",
+              "format": "full_html",
+              "processed": "<h2>Recently Updated Projects</h2>\n"
+            }
+          ]
+        }
+      ],
+      "field_number_of_items": [
+        {
+          "value": 6
+        }
+      ],
+      "field_promoted": [],
+      "field_relationship": [],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ],
+      "field_routes": [],
+      "field_sorting": [
+        {
+          "value": "field_updated_on_value"
+        }
+      ],
+      "field_sorting_logic": [
+        {
+          "value": "DESC"
+        }
+      ],
+      "field_sticky": [],
+      "field_teaser_field_display": [],
+      "field_term_depth": [
+        {
+          "value": 4
+        }
+      ],
+      "field_terms": [],
+      "field_type_logic": []
+    },
+    {
+      "target_id": 6346,
+      "target_revision_id": 467595,
+      "id": [
+        {
+          "value": 6346
+        }
+      ],
+      "uuid": [
+        {
+          "value": "af8981fc-2aab-4de1-9f7b-90b64d1d261a"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 467595
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "content_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1553115198
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "4196"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_content_logic": [],
+      "field_content_reference": [
+        {
+          "target_id": 3004,
+          "target_type": "node",
+          "target_uuid": "6c72a458-6158-4080-9282-52387841237e",
+          "url": "/projects/wollaston-station-improvements"
+        }
+      ],
+      "field_content_type": [
+        {
+          "value": "project_update"
+        }
+      ],
+      "field_cta_behavior": [],
+      "field_cta_link": [],
+      "field_cta_text": [],
+      "field_date": [],
+      "field_date_logic": [],
+      "field_date_max": [],
+      "field_multi_column_header": [
+        {
+          "target_id": 6345,
+          "target_revision_id": 117420,
+          "id": [
+            {
+              "value": 6345
+            }
+          ],
+          "uuid": [
+            {
+              "value": "ed996487-7a50-438d-965e-a86e387c4c85"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 117420
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1553115209
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "6346"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_header_text": [
+            {
+              "value": "<h2>Wollaston Project Updates</h2>\r\n",
+              "format": "full_html",
+              "processed": "<h2>Wollaston Project Updates</h2>\n"
+            }
+          ]
+        }
+      ],
+      "field_number_of_items": [
+        {
+          "value": 3
+        }
+      ],
+      "field_promoted": [],
+      "field_relationship": [
+        {
+          "value": "related_to"
+        }
+      ],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ],
+      "field_routes": [],
+      "field_sorting": [
+        {
+          "value": "field_posted_on_value"
+        }
+      ],
+      "field_sorting_logic": [
+        {
+          "value": "DESC"
+        }
+      ],
+      "field_sticky": [],
+      "field_teaser_field_display": [],
+      "field_term_depth": [
+        {
+          "value": 4
+        }
+      ],
+      "field_terms": [],
+      "field_type_logic": []
+    },
+    {
+      "target_id": 6344,
+      "target_revision_id": 467596,
+      "id": [
+        {
+          "value": 6344
+        }
+      ],
+      "uuid": [
+        {
+          "value": "132d5a2e-97ec-479c-bbdb-147fdcf36053"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 467596
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "content_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1553115198
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "4196"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_content_logic": [],
+      "field_content_reference": [],
+      "field_content_type": [
+        {
+          "value": "project"
+        }
+      ],
+      "field_cta_behavior": [],
+      "field_cta_link": [],
+      "field_cta_text": [],
+      "field_date": [],
+      "field_date_logic": [],
+      "field_date_max": [],
+      "field_multi_column_header": [
+        {
+          "target_id": 6343,
+          "target_revision_id": 117422,
+          "id": [
+            {
+              "value": 6343
+            }
+          ],
+          "uuid": [
+            {
+              "value": "163dbbb9-1bf0-40b2-957d-cb33e1616e6e"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 117422
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1553115209
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "6344"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_header_text": [
+            {
+              "value": "<h2>Recently Updated Projects (sidebar)</h2>\r\n",
+              "format": "full_html",
+              "processed": "<h2>Recently Updated Projects (sidebar)</h2>\n"
+            }
+          ]
+        }
+      ],
+      "field_number_of_items": [
+        {
+          "value": 3
+        }
+      ],
+      "field_promoted": [],
+      "field_relationship": [],
+      "field_right_rail": [
+        {
+          "value": true
+        }
+      ],
+      "field_routes": [],
+      "field_sorting": [
+        {
+          "value": "field_updated_on_value"
+        }
+      ],
+      "field_sorting_logic": [
+        {
+          "value": "DESC"
+        }
+      ],
+      "field_sticky": [
+        {
+          "value": "0"
+        }
+      ],
+      "field_teaser_field_display": [],
+      "field_term_depth": [
+        {
+          "value": 4
+        }
+      ],
+      "field_terms": [],
+      "field_type_logic": []
+    },
+    {
+      "target_id": 6348,
+      "target_revision_id": 467597,
+      "id": [
+        {
+          "value": 6348
+        }
+      ],
+      "uuid": [
+        {
+          "value": "e6dfbe74-7889-4634-9290-466b78078b57"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 467597
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "content_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1553216688
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "4196"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_content_logic": [],
+      "field_content_reference": [],
+      "field_content_type": [
+        {
+          "value": "event"
+        }
+      ],
+      "field_cta_behavior": [],
+      "field_cta_link": [],
+      "field_cta_text": [],
+      "field_date": [],
+      "field_date_logic": [
+        {
+          "value": "<"
+        }
+      ],
+      "field_date_max": [],
+      "field_multi_column_header": [
+        {
+          "target_id": 6347,
+          "target_revision_id": 117379,
+          "id": [
+            {
+              "value": 6347
+            }
+          ],
+          "uuid": [
+            {
+              "value": "50afe636-f22b-4650-b636-89b2b60a2ce9"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 117379
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1553216697
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "6348"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_header_text": [
+            {
+              "value": "<h2>Recent Events</h2>\r\n",
+              "format": "full_html",
+              "processed": "<h2>Recent Events</h2>\n"
+            }
+          ]
+        }
+      ],
+      "field_number_of_items": [
+        {
+          "value": 5
+        }
+      ],
+      "field_promoted": [
+        {
+          "value": "0"
+        }
+      ],
+      "field_relationship": [],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ],
+      "field_routes": [],
+      "field_sorting": [
+        {
+          "value": "field_start_time_value"
+        }
+      ],
+      "field_sorting_logic": [
+        {
+          "value": "DESC"
+        }
+      ],
+      "field_sticky": [
+        {
+          "value": "0"
+        }
+      ],
+      "field_teaser_field_display": [],
+      "field_term_depth": [
+        {
+          "value": 4
+        }
+      ],
+      "field_terms": [],
+      "field_type_logic": []
+    },
+    {
+      "target_id": 6350,
+      "target_revision_id": 467598,
+      "id": [
+        {
+          "value": 6350
+        }
+      ],
+      "uuid": [
+        {
+          "value": "1c01634d-2eb0-4703-99df-a208ee478430"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 467598
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "content_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1553216688
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "4196"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_content_logic": [],
+      "field_content_reference": [],
+      "field_content_type": [
+        {
+          "value": "event"
+        }
+      ],
+      "field_cta_behavior": [],
+      "field_cta_link": [],
+      "field_cta_text": [],
+      "field_date": [],
+      "field_date_logic": [
+        {
+          "value": "<"
+        }
+      ],
+      "field_date_max": [],
+      "field_multi_column_header": [
+        {
+          "target_id": 6349,
+          "target_revision_id": 117425,
+          "id": [
+            {
+              "value": 6349
+            }
+          ],
+          "uuid": [
+            {
+              "value": "58cd6077-120b-42d4-a926-e828e4665f51"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 117425
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1553216697
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "6350"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_header_text": [
+            {
+              "value": "<h2>Recent Events (sidebar)</h2>\r\n",
+              "format": "full_html",
+              "processed": "<h2>Recent Events (sidebar)</h2>\n"
+            }
+          ]
+        }
+      ],
+      "field_number_of_items": [
+        {
+          "value": 5
+        }
+      ],
+      "field_promoted": [
+        {
+          "value": "0"
+        }
+      ],
+      "field_relationship": [],
+      "field_right_rail": [
+        {
+          "value": true
+        }
+      ],
+      "field_routes": [],
+      "field_sorting": [
+        {
+          "value": "field_start_time_value"
+        }
+      ],
+      "field_sorting_logic": [
+        {
+          "value": "DESC"
+        }
+      ],
+      "field_sticky": [
+        {
+          "value": "0"
+        }
+      ],
+      "field_teaser_field_display": [],
+      "field_term_depth": [
+        {
+          "value": 4
+        }
+      ],
+      "field_terms": [],
+      "field_type_logic": []
+    },
+    {
+      "target_id": 6352,
+      "target_revision_id": 467599,
+      "id": [
+        {
+          "value": 6352
+        }
+      ],
+      "uuid": [
+        {
+          "value": "7ef36682-bf88-49cc-ba48-d10c6693d965"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 467599
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "content_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1553216688
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "4196"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_content_logic": [],
+      "field_content_reference": [],
+      "field_content_type": [
+        {
+          "value": "news_entry"
+        }
+      ],
+      "field_cta_behavior": [],
+      "field_cta_link": [],
+      "field_cta_text": [],
+      "field_date": [],
+      "field_date_logic": [
+        {
+          "value": "<"
+        }
+      ],
+      "field_date_max": [],
+      "field_multi_column_header": [
+        {
+          "target_id": 6351,
+          "target_revision_id": 117427,
+          "id": [
+            {
+              "value": 6351
+            }
+          ],
+          "uuid": [
+            {
+              "value": "a33237fb-6029-465f-a4ed-6090bf555eb1"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 117427
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1553216697
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "6352"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_header_text": [
+            {
+              "value": "<h2>Recent News</h2>\r\n",
+              "format": "full_html",
+              "processed": "<h2>Recent News</h2>\n"
+            }
+          ]
+        }
+      ],
+      "field_number_of_items": [
+        {
+          "value": 5
+        }
+      ],
+      "field_promoted": [
+        {
+          "value": "0"
+        }
+      ],
+      "field_relationship": [],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ],
+      "field_routes": [],
+      "field_sorting": [
+        {
+          "value": "field_posted_on_value"
+        }
+      ],
+      "field_sorting_logic": [
+        {
+          "value": "DESC"
+        }
+      ],
+      "field_sticky": [
+        {
+          "value": "0"
+        }
+      ],
+      "field_teaser_field_display": [],
+      "field_term_depth": [
+        {
+          "value": 4
+        }
+      ],
+      "field_terms": [],
+      "field_type_logic": []
+    },
+    {
+      "target_id": 6354,
+      "target_revision_id": 467600,
+      "id": [
+        {
+          "value": 6354
+        }
+      ],
+      "uuid": [
+        {
+          "value": "c2ce6cb4-be0b-411d-83db-0984bb98c610"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 467600
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "content_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1553216688
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "4196"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_content_logic": [],
+      "field_content_reference": [],
+      "field_content_type": [
+        {
+          "value": "news_entry"
+        }
+      ],
+      "field_cta_behavior": [],
+      "field_cta_link": [],
+      "field_cta_text": [],
+      "field_date": [],
+      "field_date_logic": [
+        {
+          "value": "<"
+        }
+      ],
+      "field_date_max": [],
+      "field_multi_column_header": [
+        {
+          "target_id": 6353,
+          "target_revision_id": 117429,
+          "id": [
+            {
+              "value": 6353
+            }
+          ],
+          "uuid": [
+            {
+              "value": "2e348171-752f-4310-84aa-c5d1f6a5368e"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 117429
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1553216697
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "6354"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_header_text": [
+            {
+              "value": "<h2>Recent News (sidebar)</h2>\r\n",
+              "format": "full_html",
+              "processed": "<h2>Recent News (sidebar)</h2>\n"
+            }
+          ]
+        }
+      ],
+      "field_number_of_items": [
+        {
+          "value": 5
+        }
+      ],
+      "field_promoted": [
+        {
+          "value": "0"
+        }
+      ],
+      "field_relationship": [],
+      "field_right_rail": [
+        {
+          "value": true
+        }
+      ],
+      "field_routes": [],
+      "field_sorting": [
+        {
+          "value": "field_posted_on_value"
+        }
+      ],
+      "field_sorting_logic": [
+        {
+          "value": "DESC"
+        }
+      ],
+      "field_sticky": [
+        {
+          "value": "0"
+        }
+      ],
+      "field_teaser_field_display": [],
+      "field_term_depth": [
+        {
+          "value": 4
+        }
+      ],
+      "field_terms": [],
+      "field_type_logic": []
+    },
+    {
+      "target_id": 6356,
+      "target_revision_id": 467601,
+      "id": [
+        {
+          "value": 6356
+        }
+      ],
+      "uuid": [
+        {
+          "value": "11c16d13-08c4-41b9-8011-a29ceab7c7c1"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 467601
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "content_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1553222233
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "4196"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_content_logic": [],
+      "field_content_reference": [],
+      "field_content_type": [
+        {
+          "value": "page"
+        }
+      ],
+      "field_cta_behavior": [],
+      "field_cta_link": [],
+      "field_cta_text": [],
+      "field_date": [],
+      "field_date_logic": [],
+      "field_date_max": [],
+      "field_multi_column_header": [
+        {
+          "target_id": 6355,
+          "target_revision_id": 117431,
+          "id": [
+            {
+              "value": 6355
+            }
+          ],
+          "uuid": [
+            {
+              "value": "9c298f42-9ba0-46ce-8cfd-d66f59c28c66"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 117431
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1553222443
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "6356"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [],
+          "field_header_text": [
+            {
+              "value": "<h2>Basic Pages</h2>\r\n",
+              "format": "full_html",
+              "processed": "<h2>Basic Pages</h2>\n"
+            }
+          ]
+        }
+      ],
+      "field_number_of_items": [
+        {
+          "value": 5
+        }
+      ],
+      "field_promoted": [],
+      "field_relationship": [],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ],
+      "field_routes": [],
+      "field_sorting": [],
+      "field_sorting_logic": [],
+      "field_sticky": [],
+      "field_teaser_field_display": [],
+      "field_term_depth": [
+        {
+          "value": 4
+        }
+      ],
+      "field_terms": [
+        {
+          "target_id": 248,
+          "target_type": "taxonomy_term",
+          "target_uuid": "5d0962f8-0bd2-440d-afeb-e4cf1bcd73f8",
+          "url": "/taxonomy/term/248"
+        }
+      ],
+      "field_type_logic": []
+    },
+    {
+      "target_id": 6430,
+      "target_revision_id": 467602,
+      "id": [
+        {
+          "value": 6430
+        }
+      ],
+      "uuid": [
+        {
+          "value": "8504cf6b-53b0-4aa2-9e30-4e55708e03ea"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 467602
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "content_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1553222233
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "4196"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_content_logic": [],
+      "field_content_reference": [],
+      "field_content_type": [
+        {
+          "value": "page"
+        }
+      ],
+      "field_cta_behavior": [],
+      "field_cta_link": [],
+      "field_cta_text": [],
+      "field_date": [],
+      "field_date_logic": [],
+      "field_date_max": [],
+      "field_multi_column_header": [
+        {
+          "target_id": 6429,
+          "target_revision_id": 119033,
+          "id": [
+            {
+              "value": 6429
+            }
+          ],
+          "uuid": [
+            {
+              "value": "6451cdc0-5f8c-4c5c-840c-a2728d6c5377"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 119033
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1553222443
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "6430"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "field_header_text": [
+            {
+              "value": "<h2>Basic Pages (sidebar)</h2>\r\n",
+              "format": "full_html",
+              "processed": "<h2>Basic Pages (sidebar)</h2>\n"
+            }
+          ]
+        }
+      ],
+      "field_number_of_items": [
+        {
+          "value": 5
+        }
+      ],
+      "field_promoted": [],
+      "field_relationship": [],
+      "field_right_rail": [
+        {
+          "value": true
+        }
+      ],
+      "field_routes": [],
+      "field_sorting": [],
+      "field_sorting_logic": [],
+      "field_sticky": [],
+      "field_teaser_field_display": [],
+      "field_term_depth": [
+        {
+          "value": 4
+        }
+      ],
+      "field_terms": [
+        {
+          "target_id": 248,
+          "target_type": "taxonomy_term",
+          "target_uuid": "5d0962f8-0bd2-440d-afeb-e4cf1bcd73f8",
+          "url": "/taxonomy/term/248"
+        }
+      ],
+      "field_type_logic": []
+    },
+    {
+      "target_id": 6833,
+      "target_revision_id": 467603,
+      "id": [
+        {
+          "value": 6833
+        }
+      ],
+      "uuid": [
+        {
+          "value": "35aabc9f-5e4f-44fa-be70-ea175915b431"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 467603
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "content_list",
+          "target_type": "paragraphs_type",
+          "target_uuid": "042fc085-36a6-4137-b92d-2700ebf67877"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1556827907
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "4196"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_paragraphs"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_content_logic": [],
+      "field_content_reference": [],
+      "field_content_type": [
+        {
+          "value": "event"
+        }
+      ],
+      "field_cta_behavior": [],
+      "field_cta_link": [],
+      "field_cta_text": [],
+      "field_date": [
+        {
+          "value": "2018-05-01"
+        }
+      ],
+      "field_date_logic": [
+        {
+          "value": "between"
+        }
+      ],
+      "field_date_max": [
+        {
+          "value": "2018-05-31"
+        }
+      ],
+      "field_multi_column_header": [
+        {
+          "target_id": 6832,
+          "target_revision_id": 129789,
+          "id": [
+            {
+              "value": 6832
+            }
+          ],
+          "uuid": [
+            {
+              "value": "381e46ce-c8c4-417b-818f-46c9790bb15e"
+            }
+          ],
+          "revision_id": [
+            {
+              "value": 129789
+            }
+          ],
+          "langcode": [
+            {
+              "value": "en"
+            }
+          ],
+          "type": [
+            {
+              "target_id": "multi_column_header",
+              "target_type": "paragraphs_type",
+              "target_uuid": "ceff7d78-8449-49bc-bd45-7defb7147632"
+            }
+          ],
+          "status": [
+            {
+              "value": true
+            }
+          ],
+          "created": [
+            {
+              "value": 1556827909
+            }
+          ],
+          "parent_id": [
+            {
+              "value": "6833"
+            }
+          ],
+          "parent_type": [
+            {
+              "value": "paragraph"
+            }
+          ],
+          "parent_field_name": [
+            {
+              "value": "field_multi_column_header"
+            }
+          ],
+          "behavior_settings": [
+            {
+              "value": []
+            }
+          ],
+          "default_langcode": [
+            {
+              "value": true
+            }
+          ],
+          "revision_translation_affected": [
+            {
+              "value": true
+            }
+          ],
+          "field_header_text": [
+            {
+              "value": "<h2>May 2018 Events</h2>\r\n",
+              "format": "full_html",
+              "processed": "<h2>May 2018 Events</h2>\n"
+            }
+          ]
+        }
+      ],
+      "field_number_of_items": [
+        {
+          "value": 50
+        }
+      ],
+      "field_promoted": [],
+      "field_relationship": [],
+      "field_right_rail": [
+        {
+          "value": false
+        }
+      ],
+      "field_routes": [],
+      "field_sorting": [
+        {
+          "value": "field_start_time_value"
+        }
+      ],
+      "field_sorting_logic": [
+        {
+          "value": "ASC"
+        }
+      ],
+      "field_sticky": [],
+      "field_teaser_field_display": [],
+      "field_term_depth": [
+        {
+          "value": 4
+        }
+      ],
+      "field_terms": [],
+      "field_type_logic": []
+    }
+  ],
+  "field_related_transit": [],
+  "field_sidebar_menu": [],
+  "breadcrumbs": [
+    {
+      "text": "Home",
+      "uri": "/"
+    },
+    {
+      "text": "PREVIEW MODE",
+      "uri": ""
+    }
+  ]
+}

@@ -4,7 +4,7 @@ defmodule PageTest do
   alias CMS.{
     API.Static,
     Page,
-    Partial.Paragraph.ContentList,
+    Partial.Paragraph.PeopleGrid,
     Partial.Teaser
   }
 
@@ -25,7 +25,7 @@ defmodule PageTest do
         Static.all_paragraphs_response()
         |> Page.from_api()
 
-      assert %ContentList{teasers: teasers} = List.last(response.paragraphs)
+      assert %PeopleGrid{teasers: teasers} = List.last(response.paragraphs)
 
       assert [%Teaser{} | _] = teasers
     end
