@@ -28,7 +28,7 @@ exports[`it renders 1`] = `
     <div
       className="m-schedule-page__service-subheading"
     >
-      Weekdays 7 - 9 AM, 4 - 6:30 PM
+      Weekdays 7 – 9 AM, 4 – 6:30 PM
     </div>
     <p
       className="m-schedule-page__service-note-time"
@@ -125,7 +125,7 @@ exports[`it renders without service exceptions 1`] = `
     <div
       className="m-schedule-page__service-subheading"
     >
-      Weekdays 7 - 9 AM, 4 - 6:30 PM
+      Weekdays 7 – 9 AM, 4 – 6:30 PM
     </div>
     <p
       className="m-schedule-page__service-note-time"
