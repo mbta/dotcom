@@ -38,9 +38,12 @@
 $mobile-control-height: 73px;
 
 .m-event-list__month-header {
-  background-color: $white;
   margin: 0;
-  padding: $base-spacing $base-spacing/2;
+}
+
+.c-expandable-block__link {
+  background-color: $white;
+  padding: $base-spacing $base-spacing / 2;
 
   &.sticky-top {
     @include media-breakpoint-down(xs) {
@@ -64,13 +67,17 @@ $mobile-control-height: 73px;
   }
 }
 
+.m-events-header {
+  margin-bottom: 20px;
+}
+
 .m-event-list__nav {
   background-color: $white;
   padding-top: $base-spacing;
 
   a {
     display: block;
-    font-weight: bold;
+    font-size: 18px;
     margin-bottom: $base-spacing / 2;
   }
 
@@ -165,7 +172,7 @@ $mobile-control-height: 73px;
 
 .list-group-flush:first-child .list-group-item:first-child {
   border-top: unset;
-  border: solid #ddd;
+  border: solid $gray-lightest;
   border-width: 1px 0;
 }
 
@@ -316,7 +323,6 @@ $mobile-control-height: 73px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      
     }
   }
 }
@@ -332,4 +338,8 @@ $mobile-control-height: 73px;
   @include media-breakpoint-down(sm) {
     display: block;
   }
+}
+
+.c-expandable-block-caret--black {
+  @include expandable-block-caret($color: $black);
 }

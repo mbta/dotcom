@@ -41,49 +41,65 @@ const pendingEventContent = `
 `;
 
 const eventListHtml = `
-  <div class="m-event-listing">
-    <section id="1-2021" class="m-event-list__month ">
-      <h2 class="m-event-list__month-header fixedsticky sticky-top">January 2021</h2>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <a role="button" class="m-previous-events-button" data-group="january-2021">
-            View Previous January 2021 Events
-            <i class="fa fa-angle-down down" aria-hidden="true"></i>
-          </a>
-        </li>
-        ${[1, 2]
-          .map(
-            x => `
-            <li class="list-group-item u-flex-container m-event hidden" data-group="january-2021">
-              ${endedEventContent}
-            </li>
-          `
-          )
-          .join("")}
-      </ul>
+  <div>
+    <section id="1-2021" class="m-event-list__month">
+      <button class="c-expandable-block__link sticky-top sticky-month" data-target="#panel-1" tabindex="0" id="header-1" aria-expanded="true" aria-controls="panel-1" data-toggle="collapse">
+        <h2 class="m-event-list__month-header">
+          <div class="c-expandable-block__header-container">
+            January 2021<span class="c-expandable-block-caret--black"></span>
+          </div>
+        </h2>
+      </button>
+      <div class="collapse in js-focus-on-expand" tabindex="0" role="region" id="panel-1" aria-labelledby="header-1">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <a tabindex="0" role="button" class="m-previous-events-button" data-group="january-2021">
+              View Previous January 2021 Events
+              <i class="fa fa-angle-down down" aria-hidden="true"></i>
+            </a>
+          </li>
+          ${[1, 2]
+            .map(
+              x => `
+              <li class="list-group-item u-flex-container m-event hidden" data-group="january-2021">
+                ${endedEventContent}
+              </li>
+            `
+            )
+            .join("")}
+        </ul>
+      </div>
     </section>
     <section id="2-2021" class="m-event-list__month m-event-list__month--active">
-      <h2 class="m-event-list__month-header fixedsticky sticky-top">February 2021</h2>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item">
-          <a role="button" class="m-previous-events-button" data-group="february-2021">
-            View Previous February 2021 Events
-            <i class="fa fa-angle-down down" aria-hidden="true"></i>
-          </a>
-        </li>
-        ${[3, 4]
-          .map(
-            x => `
-            <li class="list-group-item u-flex-container m-event hidden" data-group="february-2021">
-              ${endedEventContent}
-            </li>
-          `
-          )
-          .join("")}
-        <li class="list-group-item u-flex-container m-event " data-group="march-2021">
-          ${pendingEventContent}
-        </li>
-      </ul>
+      <button class="c-expandable-block__link sticky-top sticky-month" data-target="#panel-1" tabindex="0" id="header-1" aria-expanded="true" aria-controls="panel-1" data-toggle="collapse">
+        <h2 class="m-event-list__month-header">
+          <div class="c-expandable-block__header-container">
+            February 2021<span class="c-expandable-block-caret--black"></span>
+          </div>
+        </h2>
+      </button>
+      <div class="collapse in js-focus-on-expand" tabindex="0" role="region" id="panel-2" aria-labelledby="header-2">
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <a role="button" class="m-previous-events-button" data-group="february-2021">
+              View Previous February 2021 Events
+              <i class="fa fa-angle-down down" aria-hidden="true"></i>
+            </a>
+          </li>
+          ${[3, 4]
+            .map(
+              x => `
+              <li class="list-group-item u-flex-container m-event hidden" data-group="february-2021">
+                ${endedEventContent}
+              </li>
+            `
+            )
+            .join("")}
+          <li class="list-group-item u-flex-container m-event " data-group="march-2021">
+            ${pendingEventContent}
+          </li>
+        </ul>
+      </div>
     </section>
   </div>
 `;

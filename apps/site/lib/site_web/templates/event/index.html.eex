@@ -1,5 +1,5 @@
 <div class="container m-events-hub m-events-hub--list-view">
-  <header>
+  <header class="m-events-header">
     <h1>Events</h1>
     <nav class="m-events-hub__nav--controls">
       <%= render "_year_select.html",
@@ -29,7 +29,7 @@
       <%= if !Enum.empty?(valid_months) do %>
         <p class="u-bold">Jump to</p>
         <%= for month <- valid_months do %>
-          <%= link render_event_month(month, @year), to: build_nav_path(@conn, month, @year) %>
+          <%= link render_event_month(month, @year), to: build_nav_path(@conn, month, @year), class: if month == @month, do: "u-bold"  %>
         <% end %>
       <% end %>
     </nav>

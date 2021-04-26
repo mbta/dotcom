@@ -1,5 +1,7 @@
 defmodule SiteWeb.EventControllerTest do
   use SiteWeb.ConnCase
+
+  import SiteWeb.EventController
   import Mock
 
   @current_date ~D[2019-04-15]
@@ -28,7 +30,7 @@ defmodule SiteWeb.EventControllerTest do
 
       assert Floki.text(events_hub) =~ "MassDOT Finance and Audit Committee"
 
-      event_links = Floki.find(events_hub, ".m-event-listing a")
+      event_links = Floki.find(events_hub, ".m-event__title")
       assert Enum.count(event_links) > 0
     end
 
@@ -232,6 +234,20 @@ defmodule SiteWeb.EventControllerTest do
       assert old_path == "/events/date/title/icalendar"
       conn = get(conn, old_path)
       assert conn.status == 302
+    end
+  end
+
+  describe "year_options/1" do
+    test "year_options/1 returns a range of -4/+1 years", %{conn: conn} do
+      assigns_with_date = Map.put(conn.assigns, :date, ~D[2019-03-03])
+      conn = %{conn | assigns: assigns_with_date}
+      assert 2015..2020 = year_options(conn)
+    end
+
+    test "year_options/1 defaults to Util.now", %{conn: conn} do
+      with_mock Util, [:passthrough], now: fn -> ~N[2020-01-02T05:00:00] end do
+        assert 2016..2021 = year_options(conn)
+      end
     end
   end
 end

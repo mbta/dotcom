@@ -24,24 +24,12 @@ defmodule SiteWeb.EventView do
     end
   end
 
-  @doc "Returns a list of years with which we can filter events.
-  Defaults to the current datetime if no assigns
-  "
-  @spec year_options(Plug.Conn.t()) :: %Range{:first => Calendar.year(), :last => Calendar.year()}
-  def year_options(%{assigns: %{date: %{year: year}}}) when is_integer(year) do
-    do_year_options(year)
-  end
+  @doc "Returns a list of years with existing events from conn"
+  @spec years_for_selection(Plug.Conn.t()) :: list
+  def years_for_selection(%Plug.Conn{assigns: %{years_for_selection: years_for_selection}}),
+    do: years_for_selection
 
-  def year_options(_) do
-    %{year: year} = Util.now()
-    do_year_options(year)
-  end
-
-  @spec do_year_options(Calendar.year()) :: %Range{
-          :first => Calendar.year(),
-          :last => Calendar.year()
-        }
-  defp do_year_options(year), do: Range.new(year - 4, year + 1)
+  def years_for_selection(_), do: []
 
   @doc "Returns a list of event teasers, grouped/sorted by month"
   @spec grouped_by_month([%Teaser{}], number) :: [{number, [%Teaser{}]}]

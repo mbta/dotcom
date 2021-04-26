@@ -1,6 +1,5 @@
 defmodule SiteWeb.EventViewTest do
   use Site.ViewCase, async: true
-  import Mock
   import SiteWeb.EventView
   import CMS.Helpers, only: [parse_iso_datetime: 1]
   alias CMS.Partial.Teaser
@@ -68,21 +67,7 @@ defmodule SiteWeb.EventViewTest do
     end
   end
 
-  describe "year_options/1" do
-    test "year_options/1 returns a range of -4/+1 years", %{conn: conn} do
-      assigns_with_date = Map.put(conn.assigns, :date, ~D[2019-03-03])
-      conn = %{conn | assigns: assigns_with_date}
-      assert 2015..2020 = year_options(conn)
-    end
-
-    test "year_options/1 defaults to Util.now", %{conn: conn} do
-      with_mock Util, [:passthrough], now: fn -> ~N[2020-01-02T05:00:00] end do
-        assert 2016..2021 = year_options(conn)
-      end
-    end
-  end
-
-  describe "rendering event durations in list and calendar views" do
+  describe "render_event_duration/2" do
     test "with no end time, only renders start time" do
       actual = render_event_duration_list_view(~N[2016-11-15T10:00:00], nil)
       expected = "Tue, Nov 15, 2016 \u2022 10 AM"

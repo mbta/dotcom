@@ -237,19 +237,7 @@ body {
 }
 
 .c-expandable-block-caret {
-  @include caret($color: $brand-primary);
-  align-items: flex-end;
-  display: flex;
-
-  [aria-expanded='false'] &::after {
-    content: $fa-var-angle-down;
-    display: flex;
-  }
-
-  [aria-expanded='true'] &::after {
-    content: $fa-var-angle-up;
-    display: flex;
-  }
+  @include expandable-block-caret($color: $brand-primary);
 }
 
 #support-date {
