@@ -83,7 +83,7 @@ export function setupEventsListing() {
   for (let i = 0; i < dateSelects.length; i++) {
     const select = dateSelects[i];
     select.addEventListener("change", ({ target }) => {
-      console.log('date change. target.value:', target.value)
+      // console.log('date change. target.value:', target.value)
       window.location.assign(target.value);
     });
   }
@@ -148,10 +148,10 @@ export function setupEventsListing() {
   });
 
   // scroll to active heading if available
-  /* const activeMonthElement = eventsListing.querySelector(
+  const activeMonthElement = eventsListing.querySelector(
     ".m-event-list__month--active"
   );
-  if (activeMonthElement) activeMonthElement.scrollIntoView(); */
+  if (activeMonthElement) activeMonthElement.scrollIntoView();
 }
 
 export default function() {
