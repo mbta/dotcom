@@ -121,11 +121,9 @@ $mobile-control-height: 73px;
 }
 
 .m-event-list__nav--mobile-controls {
-  @include media-breakpoint-up(sm) {
-    display: none;
-  }
   background-color: $white;
   border-bottom: 1px solid $gray-lightest;
+  display: none;
   height: $mobile-control-height;
   padding: $base-spacing;
   transition: top .2s ease-in-out;
@@ -159,6 +157,10 @@ $mobile-control-height: 73px;
   border-radius: 4px;
   border-width: 1px;
   padding: .5 * $base-spacing 2 * $base-spacing .5 * $base-spacing $base-spacing;
+  display: none;
+  &.js {
+    display: unset;
+  }
 }
 
 .list-group-flush:first-child .list-group-item:first-child {

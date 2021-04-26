@@ -82,8 +82,8 @@ export function setupEventsListing() {
 
   for (let i = 0; i < dateSelects.length; i++) {
     const select = dateSelects[i];
+    select.classList.add("js")
     select.addEventListener("change", ({ target }) => {
-      // console.log('date change. target.value:', target.value)
       window.location.assign(target.value);
     });
   }
