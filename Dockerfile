@@ -3,9 +3,9 @@
 ###
 
 # 1.) Get the Elixir dependencies within an Elixir container
-FROM hexpm/elixir:1.10.3-erlang-22.3.3-debian-buster-20200224 as elixir-builder
+FROM hexpm/elixir:1.10.3-erlang-22.3.4.17-debian-buster-20210326 as elixir-builder
 
-ENV LANG="C.UTF-8" MIX_ENV=prod
+ENV LANG="C.UTF-8" MIX_ENV="prod"
 
 WORKDIR /root
 ADD . .
@@ -24,7 +24,7 @@ RUN mix do deps.get
 
 
 # 2.) Build the frontend assets within a node.js container instead of installing node/npm
-FROM node:14.15-buster as assets-builder
+FROM node:14.15.1-buster as assets-builder
 
 ARG SENTRY_DSN=""
 
@@ -63,7 +63,7 @@ FROM debian:buster
 # Set exposed ports
 EXPOSE 4000
 
-ENV PORT=4000 MIX_ENV=prod TERM=xterm LANG="C.UTF-8" REPLACE_OS_VARS=true
+ENV PORT=4000 MIX_ENV="prod" TERM=xterm LANG="C.UTF-8" REPLACE_OS_VARS=true
 
 # erlang-crypto requires system library libssl1.1
 RUN apt-get update && apt-get install -y --no-install-recommends \
