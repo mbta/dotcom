@@ -7,8 +7,6 @@
         month: @month,
         year: @year %>
 
-      <% params = Enum.map(@conn.query_params, fn({key, val}) -> {String.to_existing_atom(key), val} end) %>
-
       <div class="m-events-hub__nav--navigation-toggle">
         <%= link to: build_nav_path(@conn, @month, @year, true), role: "button", tabindex: "0", aria: [label: "List view"] do %>
           <i class="fa fa-list-ul m-nav-toggle-icon <%= if !assigns[:calendar_view], do: "active-view" %>"></i>
