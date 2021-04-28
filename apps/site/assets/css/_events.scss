@@ -165,7 +165,7 @@ $mobile-control-height: 73px;
   border-width: 1px;
   padding: .5 * $base-spacing 2 * $base-spacing .5 * $base-spacing $base-spacing;
   display: none;
-  &.js {
+  body.js & {
     display: block;
   }
 }
