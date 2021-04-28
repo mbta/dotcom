@@ -181,6 +181,10 @@ export default function() {
   document.addEventListener(
     "turbolinks:load",
     () => {
+      const viewPreviousEventsLink = document.querySelector(
+        ".m-view-previous-events"
+      );
+      viewPreviousEventsLink.classList.remove("hidden");
       if (document.querySelector(".m-events-hub")) {
         const isIE = !!document.documentMode;
         if (isIE) {
@@ -188,9 +192,6 @@ export default function() {
         }
 
         setupEventsListing();
-      }
-
-      if (document.querySelector(".m-events-hub")) {
         setupEventPopups();
       }
     },
