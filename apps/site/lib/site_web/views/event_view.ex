@@ -169,4 +169,18 @@ defmodule SiteWeb.EventView do
     |> Enum.map(& &1)
     |> Enum.chunk_every(7)
   end
+
+  def build_nav_path(conn, month, year, toggle \\ false)
+
+  def build_nav_path(conn, month, year, toggle) do
+    view_is_calendar = conn.assigns[:calendar_view]
+
+    if (view_is_calendar && not toggle) or (not view_is_calendar && toggle) do
+      # calendar view
+      event_path(conn, :index, month: month, year: year, calendar: true)
+    else
+      # list view
+      "#{event_path(conn, :index, month: month, year: year)}##{month}-#{year}"
+    end
+  end
 end
