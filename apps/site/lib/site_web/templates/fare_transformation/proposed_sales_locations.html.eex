@@ -46,7 +46,7 @@
 <%= if !is_nil(@nearby_proposed_locations) and !Enum.empty?(@nearby_proposed_locations) do %>
   <div class="c-location-cards--background-gray c-finder-results">
     <div class="container">
-      <%= render "_nearby_locations.html", conn: @conn, nearby_proposed_locations: @nearby_proposed_locations, search_position: @search_position %>
+      <%= render SiteWeb.FareView, "_nearby_locations.html", conn: @conn, address: @address, locations: @nearby_proposed_locations, search_position: @search_position %>
     </div>
   </div>
 <% end %>

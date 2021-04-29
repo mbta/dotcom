@@ -1,13 +1,10 @@
-.c-location-cards {
-  column-gap: $grid-gutter-width / 2;
-  display: flex;
-  flex-flow: row wrap;
-  margin: 0 0 $base-spacing;
-  padding: $base-spacing;
+@import 'variables';
 
-  &.empty {
-    display: none;
-  }
+.c-location-cards {
+  display: grid;
+  grid-gap: $grid-gutter-width / 2;
+  grid-template-columns: repeat(auto-fill, [col-start] minmax(220px, 1fr) [col-end]);
+  margin-bottom: $base-spacing;
 }
 
 .c-location-cards--background-gray {
@@ -21,63 +18,52 @@
 .c-location-card {
   background-color: $white;
   border: 1px solid $gray-lightest;
-  border-radius: $space-1 * 3;
-  color: $gray-dark;
-  display: inline-block;
-  margin: $base-spacing / 2;
   padding: $base-spacing;
-  width: 100%;
-}
 
-.c-location-card--flex {
-  @include media-breakpoint-only(xs) {
-    flex: 1 1 100%;
-    margin: .25rem;
-    padding: .5rem 1rem;
+  &__place {
+    font-size: 1.5rem;
+    font-weight: $headings-font-weight;
+    line-height: 1.9rem;
+    @include media-breakpoint-down(xs) {
+      font-size: 1.15rem;
+    }
+    width: 67%;
+    overflow: hidden;
   }
 
-  @include media-breakpoint-only(sm) {
-    flex: 1 1 33%;
-    margin: .25rem;
-    padding: .5rem 1rem;
+  &__distance {
+    font-size: $font-size-base-xxl;
+    text-align: right;
+    @include media-breakpoint-down(xs) {
+      font-size: $font-size-base-sm;
+    }
+    width: 33%;
   }
 
-  @include media-breakpoint-only(md) {
-    flex: 1 1 33%;
-    padding: .5rem 1rem;
+  &__location {
+    font-size: $font-size-base-xxl;
+    font-weight: $headings-font-weight;
+    line-height: 1.6rem;
+    margin-top: $base-spacing-sm;
+    @include media-breakpoint-down(xs) {
+      font-size: $font-size-base-sm;
+    }
   }
-
-  @include media-breakpoint-up(xl) {
-    flex: 1 1 20%;
-    padding: .5rem 1rem;
+  &__type {
+    margin-top: $font-size-base-xs;
+    @include media-breakpoint-down(xs) {
+      margin-top: .7rem;
+    }
   }
-}
-
-.c-location-card__description {
-  clear: both;
-  color: $gray-dark;
-
-  &:not(:last-child) {
-    margin-bottom: .25rem;
+  &__directions {
+    font-size: $font-size-base-xxl;
+    font-weight: $font-weight-medium;
+    margin-top: $font-size-base;
+    @include media-breakpoint-down(xs) {
+      font-size: $font-size-base-sm;
+      margin-top: $font-size-base-xs;
+    }
   }
-}
-
-.c-location-card__name {
-  color: $link-color;
-  float: left;
-  font-size: $font-size-h5;
-  font-weight: bold;
-  line-height: $headings-line-height;
-  margin-bottom: $base-spacing-sm;
-  width: 66%;
-}
-
-.c-location-card__distance {
-  color: $gray-dark;
-  float: left;
-  font-size: $font-size-base-sm;
-  text-align: right;
-  width: 33.333%;
 }
 
 .c-location-card__accessible-icon {
@@ -98,4 +84,74 @@
 .c-location-card__transit-route-name {
   float: left;
   width: 83%;
+}
+
+#get-directions-dropdown {
+  display: flex;
+  text-decoration: none;
+  &:hover {
+    color: $brand-primary;
+    text-decoration: none;
+
+  }
+
+  // do not show Bootstrap's default caret:
+  &::after {
+    display: none;
+  }
+}
+
+.dropdown-item:hover {
+  background-color: $brand-primary-lightest-contrast;
+}
+
+.c-caret {
+  @include caret($color: $brand-primary);
+  margin-left: .3rem;
+
+  &::after {
+    content: $fa-var-angle-down;
+  }
+}
+
+.c-location-card--rsl {
+  @include media-breakpoint-up(sm) {
+    flex: 1 1 30%;
+  }
+}
+.c-location-card--psl {
+  @include media-breakpoint-up(sm) {
+    flex: 0 0 30%;
+  }
+}
+
+.c-finder-results {
+  margin-top: $space-16;
+  padding-top: $space-16;
+}
+
+.c-flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.c-finder-section {
+  @include media-breakpoint-down(sm) {
+    display: flex;
+    flex-direction: column;
+  }
+  @include media-breakpoint-down(sm) {
+    .c-suggest-retailer {
+      order: -1;
+    }
+  }
+}
+
+.m-error-message {
+  color: $error-text;
+  padding: 7px;
+}
+
+.m-top-half {
+  max-width: 600px;
 }

@@ -1,16 +1,55 @@
-<div class="fare-sales-locations">
-  <h3>Nearby MBTA fare retail sales locations</h3>
-  <div class="c-location-cards c-location-cards--background-gray small-set grouped">
-    <%= for {%Fares.RetailLocations.Location{name: name, address: address} = location, distance} <- @fare_sales_locations do %>
-      <%= link to: GoogleMaps.direction_map_url(@search_position, location), class: "c-location-card c-location-card--flex", target: "_blank" do %>
-        <div class="c-location-card__name">
-          <%= name %>
+<div class="c-location-cards">
+  <%= for {location, distance} <- @locations do %>
+    <%
+      name = Map.get(location, :name)
+      address = Map.get(location, :address)
+      retail_fvm = Map.get(location, :retail_fvm)
+      stop_id = Map.get(location, :stop_id)
+    %>
+    <div class="c-location-card c-location-card--rsl">
+      <div class="c-flex-space-between">
+        <div class="c-location-card__place">
+          <%= if stop_id do %>
+            <%= link name, to: stop_path(@conn, :show, stop_id) %>
+          <% else %>
+            <%= name %>
+          <% end %>
         </div>
         <div class="c-location-card__distance"><%= round_distance(distance) %></div>
-        <div class="c-location-card__description">
+      </div>
+      <%= if address do %>
+        <div class="c-location-card__location">
           <%= address %>
         </div>
       <% end %>
-    <% end %>
-  </div>
+      <%= if retail_fvm do %>
+        <div class="c-location-card__type">
+          <%= retail_fvm %>
+        </div>
+      <% end %>
+
+      <div class="dropdown show c-location-card__directions">
+        <a href="#" role="button" id="get-directions-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Get Directions
+          <span class="c-caret"></span>
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="get-directions-dropdown">
+          <li>
+          <% destination_address = if !is_nil(address), do: address, else: name %>
+            <%= link "View on MBTA Trip Planner", to: trip_plan_path(@conn, :index, %{
+              from: @address,
+              from_latitude: Float.to_string(@search_position.latitude, decimals: 4),
+              from_longitude: Float.to_string(@search_position.longitude, decimals: 4),
+              to: destination_address,
+              to_latitude: Float.to_string(location.latitude, decimals: 4),
+              to_longitude: Float.to_string(location.longitude, decimals: 4),
+            }), target: "_blank", class: "dropdown-item" %>
+          </li>
+          <li>
+            <%= link "View on Google Maps", to: GoogleMaps.direction_map_url(@search_position, location), target: "_blank", class: "dropdown-item" %>
+          </li>
+        </ul>
+      </div>
+    </div>
+  <% end %>
 </div>

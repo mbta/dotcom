@@ -1,74 +1,41 @@
 <div class="container">
-  <h1>
-    Retail Sales Locations
-  </h1>
-  <p>
-    MBTA riders can purchase tickets and passes for the Commuter Rail, bus, subway, and ferry at stores located throughout the Greater Boston and Providence areas.
-  </p>
+  <div class="col-md-8">
+    <div class="m-top-half">
+      <h1>Retail Sales Locations</h1>
+      <p>
+        MBTA riders can purchase tickets and passes for the Commuter Rail, bus, subway, and ferry at stores located throughout the Greater Boston and Providence areas.
+      </p>
 
-  <h2>Find a Store Near You</h2>
-  <h3 class="h5">Enter your location</h3>
-  <p></p>
-  <%= form_for @conn, @conn.request_path<>"#address-search-input", [as: :location, method: :get, class: "form"], fn _f -> %>
-    <%= input_location(%InputLocation{id: "address-search-input", name: :location, name_index: :address,
-                                      address: @address, address_error: get_flash(@conn, :info), submit: true,
-                                      required: true, placeholder: "Enter a location", button_class: ""}) %>
-  <% end %>
-  <%= unless @fare_sales_locations == [] do %>
-    <%= render "_nearby_locations.html", fare_sales_locations: @fare_sales_locations, search_position: @search_position %>
-  <% end %>
-  <h2>
-    Tickets and Passes Available
-  </h2>
-  <h3>
-    Bus and Subway
-  </h3>
-  <ul>
-    <li>Buy 1-day, 7-day, and monthly* bus and subway passes</li>
-    <li>Load up to $100 in cash value</li>
-  </ul>
-  <p>
-    Tickets and passes can be loaded onto a <%= link "CharlieCard", to: cms_static_page_path(@conn, "/fares/charliecard") %>
-    or a CharlieTicket.
-  </p>
-  <h3>
-    Commuter Rail and Ferry
-  </h3>
-  <ul>
-    <li>Single-ride, round trip, 10-ride, and monthly* Commuter Rail passes up to Zone 8</li>
-    <li>Monthly* ferry passes</li>
-  </ul>
-  <p>
-    All tickets and passes are provided on CharlieTickets.
-  </p>
-  <h3>
-    Reduced Fares
-  </h3>
-  <p>
-    <%= link "Senior CharlieCard", to: cms_static_page_path(@conn, "/fares/reduced/senior-charliecard") %>,
-    <%= link "Youth Pass", to: cms_static_page_path(@conn, "/fares/reduced/youth-pass") %>,
-    or <%= link "Transportation Access Pass", to: cms_static_page_path(@conn, "/fares/reduced/transportation-access-pass") %>:
-  </p>
-  <ul>
-    <li>Buy monthly* bus and subway passes</li>
-    <li>Load up to $100 cash value onto your CharlieCard</li>
-    <li>Buy single-ride, round-trip, and 10-ride Commuter Rail tickets (not available with Youth Pass)</li>
-  </ul>
-  <p>
-    <%= link "Student CharlieCard", to: cms_static_page_path(@conn, "/fares/reduced/student-charliecards") %>:
-  </p>
-  <ul>
-    <li>Load up to $30 cash value onto your CharlieCard</li>
-    <li>Buy single-ride and round trip Commuter Rail tickets</li>
-  </ul>
-  <h3>
-    *Purchasing Monthly Passes
-  </h3>
-  <p>
-    You may purchase a monthly pass for the current month up until the 14th of that month. Monthly
-    passes purchased on the 15th of the month or later will be issued for the next calendar month.
-  </p>
-  <div class="callout">
-    <strong>Monthly Pass on sale now:</strong> <%= @current_pass %>
+      <h2>Find a Store Near You</h2>
+      <p></p>
+      <%= form_for @conn, @conn.request_path<>"#address-search-input", [as: :location, method: :get, class: "form"], fn _f -> %>
+        <%= input_location(%InputLocation{id: "address-search-input", name: :location, name_index: :address,
+                                          address: @address, address_error: get_flash(@conn, :info), submit: true,
+                                          required: true, placeholder: "Enter a location", button_class: ""}) %>
+      <% end %>
+    </div>
+    <%= if !is_nil(@fare_sales_locations) do %>
+      <%= if Enum.empty?(@fare_sales_locations) do %>
+        <p class="m-error-message">Please enter an address that is within 100 miles of an MBTA service area.</p>
+      <% else %>
+        <%= render "_nearby_locations.html", conn: @conn, address: @address, locations: @fare_sales_locations, search_position: @search_position %>
+      <% end %>
+    <% end %>
+  </div>
+  <div class="col-md-4">
+    <div class="m-schedule-page__schedule-notes mt-2">
+      <h3 class="mt-0">MBTA Fares</h3>
+      <p>
+        Learn more about fare prices, pass types, and how to pay your fare on the T.
+      </p>
+      <%= link "Learn more about MBTA fares", to: "#", target: "_blank", class: "c-call-to-action" %>
+    </div>
+    <div class="m-schedule-page__schedule-notes mt-2">
+      <h3 class="mt-0">Fares Transformation</h3>
+      <p>
+        Fare Transformation will make it easy for you to tap and board at any door with a fare card, smartphone, or contactless credit card.
+      </p>
+      <%= link "Learn more about Fare Transformation", to: "#", target: "_blank", class: "c-call-to-action" %>
+    </div>
   </div>
 </div>
