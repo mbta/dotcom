@@ -57,8 +57,9 @@ WORKDIR /root
 RUN mix distillery.release --verbose
 
 
-# 3.) Use a debian container for the runtime environment
-FROM debian:buster
+# 3.) Use the nodejs container for the runtime environment
+# Since we're server-rendering the React templates, we need a Javascript engine running inside the container.
+FROM node:14.15.1-buster
 
 # Set exposed ports
 EXPOSE 4000
