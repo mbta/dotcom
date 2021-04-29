@@ -55,28 +55,4 @@ defmodule SiteWeb.FareControllerTest do
       assert locations == []
     end
   end
-
-  describe "current_pass/1" do
-    test "is the current month when the date given is prior to the 15th" do
-      {:ok, date} = Timex.parse("2016-12-01T12:12:12-05:00", "{ISO:Extended}")
-
-      assert current_pass(date) == "December 2016"
-    end
-
-    test "is the next month when the date given is the 15th or later" do
-      {:ok, date} = Timex.parse("2016-12-15T12:12:12-05:00", "{ISO:Extended}")
-
-      assert current_pass(date) == "January 2017"
-    end
-
-    test "uses the date passed in if there is one", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          fare_path(conn, :show, "retail-sales-locations", date_time: "2013-01-01T12:12:12-05:00")
-        )
-
-      assert html_response(conn, 200) =~ "January 2013"
-    end
-  end
 end
