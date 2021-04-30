@@ -5,12 +5,12 @@ defmodule Site.VehicleHelpersTest do
   import SiteWeb.ViewHelpers, only: [format_schedule_time: 1]
 
   @locations %{
-    {"CR-Weekday-Spring-21-501-", "place-sstat"} => %Vehicles.Vehicle{
+    {"CR-Weekday-Spring-21-501-NewtonRailBus", "place-sstat"} => %Vehicles.Vehicle{
       latitude: 1.1,
       longitude: 2.2,
       status: :stopped,
       stop_id: "place-sstat",
-      trip_id: "CR-Weekday-Spring-21-501-",
+      trip_id: "CR-Weekday-Spring-21-501-NewtonRailBus",
       shape_id: "9850002"
     }
   }
@@ -20,7 +20,7 @@ defmodule Site.VehicleHelpersTest do
       departing?: true,
       time: ~N[2018-05-01T11:00:00],
       status: "On Time",
-      trip: %Schedules.Trip{id: "CR-Weekday-Spring-21-501-", shape_id: "9850002"},
+      trip: %Schedules.Trip{id: "CR-Weekday-Spring-21-501-NewtonRailBus", shape_id: "9850002"},
       stop: %Stops.Stop{id: "place-sstat"}
     }
   ]
@@ -68,7 +68,7 @@ defmodule Site.VehicleHelpersTest do
 
     test "verify the Vehicle tooltip data" do
       assert length(Map.keys(@tooltips)) == 2
-      assert Map.has_key?(@tooltips, {"CR-Weekday-Spring-21-501-", "place-sstat"})
+      assert Map.has_key?(@tooltips, {"CR-Weekday-Spring-21-501-NewtonRailBus", "place-sstat"})
       assert Map.has_key?(@tooltips, "place-sstat")
       assert @tooltip_base.route.type == 2
       assert @tooltip_base.trip.name == "501"
@@ -82,7 +82,7 @@ defmodule Site.VehicleHelpersTest do
       tooltips = build_tooltip_index(@route, Enum.concat(@locations, null_location), @predictions)
 
       assert length(Map.keys(tooltips)) == 2
-      assert Map.has_key?(tooltips, {"CR-Weekday-Spring-21-501-", "place-sstat"})
+      assert Map.has_key?(tooltips, {"CR-Weekday-Spring-21-501-NewtonRailBus", "place-sstat"})
       assert Map.has_key?(tooltips, "place-sstat")
 
       tooltip_base = tooltips["place-sstat"]
