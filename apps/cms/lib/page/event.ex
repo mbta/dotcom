@@ -13,10 +13,12 @@ defmodule CMS.Page.Event do
       parse_iso_datetime: 1,
       handle_html: 1,
       parse_files: 2,
+      parse_paragraphs: 2,
       path_alias: 1
     ]
 
   alias CMS.Field.File
+  alias CMS.Partial.Paragraph
   alias Phoenix.HTML
 
   defstruct id: nil,
@@ -36,7 +38,8 @@ defmodule CMS.Page.Event do
             files: [],
             agenda_file: nil,
             minutes_file: nil,
-            path_alias: nil
+            path_alias: nil,
+            paragraphs: []
 
   @type t :: %__MODULE__{
           id: integer | nil,
@@ -56,11 +59,12 @@ defmodule CMS.Page.Event do
           files: [File.t()],
           agenda_file: File.t() | nil,
           minutes_file: File.t() | nil,
-          path_alias: String.t() | nil
+          path_alias: String.t() | nil,
+          paragraphs: [Paragraph.t()]
         }
 
-  @spec from_api(map) :: t
-  def from_api(%{} = data) do
+  @spec from_api(map, Keyword.t()) :: t
+  def from_api(%{} = data, preview_opts \\ []) do
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
       start_time: parse_iso_datetime(field_value(data, "field_start_time")),
@@ -79,7 +83,8 @@ defmodule CMS.Page.Event do
       files: parse_files(data, "field_other_files"),
       agenda_file: List.first(parse_files(data, "field_agenda_file")),
       minutes_file: List.first(parse_files(data, "field_minutes_file")),
-      path_alias: path_alias(data)
+      path_alias: path_alias(data),
+      paragraphs: parse_paragraphs(data, preview_opts)
     }
   end
 
