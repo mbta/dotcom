@@ -49,24 +49,21 @@ const retailLocation = (
   { distance, location }: RetailLocationWithDistance,
   stop: Stop
 ): ReactElement<HTMLAnchorElement> => (
-  <a
-    key={location.address}
-    className="c-location-card m-stop-page__retail-location"
-    href={locationGoogleLink(location, stop)}
-    target="blank"
-  >
-    <div className="clearfix">
-      <div className="c-location-card__name m-stop-page__retail-location-name">
+  <div className="c-location-card m-stop-page__retail-location" key={location.address}>
+    <div className="c-flex-space-between">
+      <a className="c-location-card__place m-stop-page__retail-location-name"
+          href={locationGoogleLink(location, stop)}
+          target="blank">
         {location.name}
-      </div>
+      </a>
       <div className="c-location-card__distance m-stop-page__retail-location-distance">
         {distance}
       </div>
     </div>
-    <div className="c-location-card__address m-stop-page__retail-location-distance">
+    <div className="c-location-card__location m-stop-page__retail-location-distance">
       {location.address}
     </div>
-  </a>
+  </div>
 );
 
 const nearbyLocations = (
