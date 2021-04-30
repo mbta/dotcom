@@ -58,21 +58,21 @@ defmodule CMS.Page.EventTest do
 
     test "it handles paragraphs when present", %{api_event_without_path_alias: api_event} do
       assert %Event{
-        paragraphs: paragraphs
-      } = from_api(api_event)
+               paragraphs: paragraphs
+             } = from_api(api_event)
 
       assert paragraphs == [
-        %CMS.Partial.Paragraph.CustomHTML{
-          body: HTML.raw("<p>Here is a custom HTML para.</p>\n"),
-          right_rail: true
-        }
-      ]
+               %CMS.Partial.Paragraph.CustomHTML{
+                 body: HTML.raw("<p>Here is a custom HTML para.</p>\n"),
+                 right_rail: true
+               }
+             ]
     end
 
     test "it handles paragraphs when not present", %{api_event_with_path_alias: api_event} do
       assert %Event{
-        paragraphs: paragraphs
-      } = from_api(api_event)
+               paragraphs: paragraphs
+             } = from_api(api_event)
 
       assert paragraphs == []
     end
