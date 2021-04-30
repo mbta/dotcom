@@ -6,6 +6,7 @@ defmodule CMS.Page.EventTest do
 
   alias CMS.API.Static
   alias CMS.Page.Event
+  alias Phoenix.HTML
 
   setup do
     %{
@@ -29,7 +30,8 @@ defmodule CMS.Page.EventTest do
                body: body,
                notes: notes,
                agenda: agenda,
-               path_alias: path_alias
+               path_alias: path_alias,
+               paragraphs: paragraphs
              } = from_api(api_event)
 
       assert id == 3268
@@ -52,6 +54,27 @@ defmodule CMS.Page.EventTest do
                "<p><strong>Please note:</strong> No public comments to be taken"
 
       assert path_alias == nil
+    end
+
+    test "it handles paragraphs when present", %{api_event_without_path_alias: api_event} do
+      assert %Event{
+        paragraphs: paragraphs
+      } = from_api(api_event)
+
+      assert paragraphs == [
+        %CMS.Partial.Paragraph.CustomHTML{
+          body: HTML.raw("<p>Here is a custom HTML para.</p>\n"),
+          right_rail: true
+        }
+      ]
+    end
+
+    test "it handles paragraphs when not present", %{api_event_with_path_alias: api_event} do
+      assert %Event{
+        paragraphs: paragraphs
+      } = from_api(api_event)
+
+      assert paragraphs == []
     end
 
     test "it parses the response with path alias", %{api_event_with_path_alias: api_event} do

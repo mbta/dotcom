@@ -172,6 +172,91 @@
       {
         "value": "Board Members"
       }
+    ],
+    "field_paragraphs": [
+      {
+        "target_id": 9010,
+        "target_revision_id": 174878,
+        "id": [
+          {
+            "value": 9010
+          }
+        ],
+        "uuid": [
+          {
+            "value": "e57475e3-416c-44ba-a5cd-17ed7a806276"
+          }
+        ],
+        "revision_id": [
+          {
+            "value": 174878
+          }
+        ],
+        "langcode": [
+          {
+            "value": "en"
+          }
+        ],
+        "type": [
+          {
+            "target_id": "custom_html",
+            "target_type": "paragraphs_type",
+            "target_uuid": "2dd52121-118d-4153-9ddd-0131939b4409"
+          }
+        ],
+        "status": [
+          {
+            "value": true
+          }
+        ],
+        "created": [
+          {
+            "value": 1565371995
+          }
+        ],
+        "parent_id": [
+          {
+            "value": "4440"
+          }
+        ],
+        "parent_type": [
+          {
+            "value": "node"
+          }
+        ],
+        "parent_field_name": [
+          {
+            "value": "field_paragraphs"
+          }
+        ],
+        "behavior_settings": [
+          {
+            "value": []
+          }
+        ],
+        "default_langcode": [
+          {
+            "value": true
+          }
+        ],
+        "revision_translation_affected": [
+          {
+            "value": true
+          }
+        ],
+        "field_custom_html_body": [
+          {
+            "value": "<p>Here is a custom HTML para.</p>\r\n",
+            "format": "full_html",
+            "processed": "<p>Here is a custom HTML para.</p>\n"
+          }
+        ],
+        "field_right_rail": [
+          {
+            "value": true
+          }
+        ]
+      }
     ]
   },
   {
