@@ -19,12 +19,6 @@
         <div class="c-cms__body">
           <div class="page-section">
             <h2>Meeting Info</h2>
-            <div class="event-inline-block">
-              <%= link to: event_icalendar_path(@conn, :show, @event),
-                data: [turbolinks: false] do %>
-                <%= fa "calendar" %> Add to Calendar
-              <% end %>
-            </div>
             <p><%= render "_address.html", event: @event %></p>
             <p><span class="event-info-label">Attendees:</span> <%= @event.who %></p>
           </div>
