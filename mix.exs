@@ -42,7 +42,7 @@ defmodule DotCom.Mixfile do
   # and cannot be accessed from applications inside the apps folder
   defp deps do
     [
-      {:credo, "~> 1.1.5", only: [:dev, :test]},
+      {:credo, "~> 1.5.5", only: [:dev, :test]},
       {:excoveralls, "~> 0.5", only: :test},
       {:ex_doc, "~> 0.18", only: :dev},
       {:exvcr, "~> 0.11.0", only: [:dev, :test]},
