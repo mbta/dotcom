@@ -16,14 +16,14 @@ defmodule SiteWeb.FareController do
   }
 
   def show(conn, %{"id" => "retail-sales-locations"} = params) do
-    search(conn, params)
+    search_location(conn, params)
   end
 
   def show(conn, _) do
     check_cms_or_404(conn)
   end
 
-  def search(conn, %{"location" => %{"address" => address}} = params) do
+  def search_location(conn, %{"location" => %{"address" => address}} = params) do
     address = Geocode.check_address(address, @options)
     params = %{params | "location" => %{"address" => address}}
 
@@ -31,19 +31,19 @@ defmodule SiteWeb.FareController do
 
     retail_locations = fare_sales_locations(position, @options.nearby_fn)
 
-    render_page(conn, retail_locations, address, position)
+    render_with_locations(conn, retail_locations, address, position)
   end
 
-  def search(conn, %{"latitude" => lat, "longitude" => lon} = params) do
+  def search_location(conn, %{"latitude" => lat, "longitude" => lon} = params) do
     params = Map.put(params, "location", %{"address" => lat <> "," <> lon})
-    search(conn, params)
+    search_location(conn, params)
   end
 
-  def search(conn, _params) do
-    render_page(conn, nil, "", %{})
+  def search_location(conn, _params) do
+    render_with_locations(conn, nil, "", %{})
   end
 
-  def render_page(conn, retail_locations, address, position) do
+  def render_with_locations(conn, retail_locations, address, position) do
     conn
     |> assign(:breadcrumbs, [
       Breadcrumb.build("Fares", cms_static_page_path(conn, "/fares")),

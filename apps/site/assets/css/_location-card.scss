@@ -1,9 +1,10 @@
-@import 'variables';
-
 .c-location-cards {
+  display: flex;
+  flex-flow: row wrap;
+  // IE above, other browsers below
   display: grid;
   grid-gap: $grid-gutter-width / 2;
-  grid-template-columns: repeat(auto-fill, [col-start] minmax(220px, 1fr) [col-end]);
+  grid-template-columns: repeat(auto-fill, [col-start] minmax(240px, 1fr) [col-end]);
   margin-bottom: $base-spacing;
 }
 
@@ -20,24 +21,27 @@
   border: 1px solid $gray-lightest;
   padding: $base-spacing;
 
+  // IE only
+  @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+    margin: $base-spacing / 2;
+  }
+
   &__place {
-    font-size: 1.5rem;
+    font-size: $font-size-base-print;
     font-weight: $headings-font-weight;
     line-height: 1.9rem;
     @include media-breakpoint-down(xs) {
-      font-size: 1.15rem;
+      font-size: $font-size-base-xxl;
     }
-    width: 67%;
     overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__distance {
-    font-size: $font-size-base-xxl;
+    font-size: $font-size-base-sm;
     text-align: right;
-    @include media-breakpoint-down(xs) {
-      font-size: $font-size-base-sm;
-    }
-    width: 33%;
+    white-space: nowrap;
+    margin-left: $base-spacing;
   }
 
   &__location {
@@ -58,7 +62,7 @@
   &__directions {
     font-size: $font-size-base-xxl;
     font-weight: $font-weight-medium;
-    margin-top: $font-size-base;
+    margin-top: $base-spacing;
     @include media-breakpoint-down(xs) {
       font-size: $font-size-base-sm;
       margin-top: $font-size-base-xs;
