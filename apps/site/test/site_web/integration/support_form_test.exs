@@ -3,10 +3,11 @@ defmodule CustomerSupportTest do
   Integration tests for the customer support form
   """
   use SiteWeb.IntegrationCase
-  import Wallaby.Query
+  alias Wallaby.{Browser, Element, Query}
 
-  @submit_button css("#support-submit")
-  @photo_input css("#photo", visible: false)
+  @submit_button Query.css("#support-submit")
+  @photo_input Query.css("#photo", visible: false)
+  @no_response_checkbox_label Query.css("#no_request_response_label")
 
   def get_static_test_path(filename) do
     :site
@@ -14,38 +15,40 @@ defmodule CustomerSupportTest do
     |> Path.join("test/" <> filename)
   end
 
+  def click_query_result(session, query) do
+    Browser.find(session, query, &Element.click(&1))
+  end
+
+  def submit_form(session), do: click_query_result(session, @submit_button)
+
   describe "customer support form" do
     @tag :wallaby
     test "Shows an error for missing type and comments", %{session: session} do
       session
-      |> visit("/customer-support")
-      |> assert_has(@submit_button)
-      |> click(@submit_button)
-      |> assert_has(css(".form-group.has-danger #comments"))
-      |> assert_has(css(".form-group.has-danger #service"))
+      |> Browser.visit("/customer-support")
+      |> submit_form()
+      |> Browser.assert_has(Query.css(".form-group.has-danger #comments"))
+      |> Browser.assert_has(Query.css(".form-group.has-danger #service"))
     end
 
     @tag :wallaby
     test "Shows subject dropdown when service is selected", %{session: session} do
       session
-      |> visit("/customer-support")
-      |> refute_has(css("#subject", visible: true))
-      |> assert_has(css("#service .service-radio", count: 4))
-      |> click(css("label[for=\"service-Suggestion\"]"))
-      |> assert_has(css("#subject", visible: true))
+      |> Browser.visit("/customer-support")
+      |> Browser.refute_has(Query.css("#subject", visible: true))
+      |> Browser.assert_has(Query.css("#service .service-radio", count: 4))
+      |> click_query_result(Query.css("label[for=\"service-Suggestion\"]"))
+      |> Browser.assert_has(Query.css("#subject", visible: true))
     end
 
     @tag :wallaby
-    @tag :work
     test "Checks hidden checkbox when 'would like a response' is toggled", %{
       session: session
     } do
       session
-      |> visit("/customer-support")
-      |> assert_has(css("#no_request_response_label"))
-      |> click(css("#no_request_response_label"))
-
-      assert selected?(session, css("#no_request_response", visible: false))
+      |> Browser.visit("/customer-support")
+      |> click_query_result(@no_response_checkbox_label)
+      |> Browser.selected?(@no_response_checkbox_label)
     end
 
     @tag :wallaby
@@ -53,10 +56,10 @@ defmodule CustomerSupportTest do
       session: session
     } do
       session
-      |> visit("/customer-support")
-      |> assert_has(css("#first_name"))
-      |> assert_has(css("#last_name"))
-      |> assert_has(css("#email"))
+      |> Browser.visit("/customer-support")
+      |> Browser.assert_has(Query.css("#first_name"))
+      |> Browser.assert_has(Query.css("#last_name"))
+      |> Browser.assert_has(Query.css("#email"))
     end
 
     @tag :wallaby
@@ -64,56 +67,50 @@ defmodule CustomerSupportTest do
       session: session
     } do
       session
-      |> visit("/customer-support")
-      |> assert_has(css("#no_request_response_label"))
-      |> click(css("#no_request_response_label"))
-      |> refute_has(css("#first_name"))
-      |> refute_has(css("#last_name"))
-      |> refute_has(css("#email"))
+      |> Browser.visit("/customer-support")
+      |> click_query_result(@no_response_checkbox_label)
+      |> Browser.refute_has(Query.css("#first_name"))
+      |> Browser.refute_has(Query.css("#last_name"))
+      |> Browser.refute_has(Query.css("#email"))
     end
 
     @tag :wallaby
     test "Generates previews for each uploaded image", %{session: session} do
       session
-      |> visit("/customer-support")
-      |> attach_file(@photo_input, path: get_static_test_path("test_image1.png"))
-      |> attach_file(@photo_input, path: get_static_test_path("test_image2.png"))
-      |> assert_has(css(".photo-preview", count: 2))
+      |> Browser.visit("/customer-support")
+      |> Browser.attach_file(@photo_input, path: get_static_test_path("test_image1.png"))
+      |> Browser.attach_file(@photo_input, path: get_static_test_path("test_image2.png"))
+      |> Browser.assert_has(Query.css(".photo-preview", count: 2))
     end
 
     @tag :wallaby
     test "Displays success on valid form submission", %{session: session} do
       session
-      |> visit("/customer-support")
-      |> fill_in(css("#comments"), with: "Support Form Integration Test")
-      |> click(css("label[for=\"service-Suggestion\"]"))
-      |> set_value(css("#support_subject"), "Other")
-      |> assert_has(css("#no_request_response_label"))
-      |> click(css("#no_request_response_label"))
-      |> click(css(".g-recaptcha"))
+      |> Browser.visit("/customer-support")
+      |> Browser.fill_in(Query.css("#comments"), with: "Support Form Integration Test")
+      |> click_query_result(Query.css("label[for=\"service-Suggestion\"]"))
+      |> Browser.set_value(Query.css("#support_subject"), "Other")
+      |> click_query_result(@no_response_checkbox_label)
+      |> click_query_result(Query.css(".g-recaptcha"))
 
+      # the recaptcha is slow
       :timer.sleep(500)
 
       session
-      |> click(@submit_button)
-      |> assert_has(css(".support-confirmation"))
+      |> submit_form()
+      |> Browser.assert_has(Query.css(".support-confirmation"))
     end
 
     @tag :wallaby
     test "Processes email on valid form submission", %{session: session} do
       session
-      |> visit("/customer-support")
-      |> fill_in(css("#comments"), with: "Support Form Integration Test")
-      |> click(css("label[for=\"service-Suggestion\"]"))
-      |> set_value(css("#support_subject"), "Other")
-      |> assert_has(css("#no_request_response_label"))
-      |> click(css("#no_request_response_label"))
-      |> click(css(".g-recaptcha"))
-
-      :timer.sleep(500)
-
-      session
-      |> click(@submit_button)
+      |> Browser.visit("/customer-support")
+      |> Browser.fill_in(Query.css("#comments"), with: "Support Form Integration Test")
+      |> click_query_result(Query.css("label[for=\"service-Suggestion\"]"))
+      |> Browser.set_value(Query.css("#support_subject"), "Other")
+      |> click_query_result(@no_response_checkbox_label)
+      |> click_query_result(Query.css(".g-recaptcha"))
+      |> submit_form()
 
       {:ok, email} = File.read(Application.get_env(:feedback, :test_mail_file))
       assert email =~ "Support Form Integration Test"
@@ -125,19 +122,15 @@ defmodule CustomerSupportTest do
     @tag skip: "Known failure when submitting multiple images"
     test "Processes email with image attachments on valid form submission", %{session: session} do
       session
-      |> visit("/customer-support")
-      |> fill_in(css("#comments"), with: "Support Form Integration Test")
-      |> click(css("label[for=\"service-Suggestion\"]"))
-      |> set_value(css("#support_subject"), "Other")
-      |> attach_file(@photo_input, path: get_static_test_path("test_image1.png"))
-      |> attach_file(@photo_input, path: get_static_test_path("test_image2.png"))
-      |> click(css("#no_request_response_label"))
-      |> click(css(".g-recaptcha"))
-
-      :timer.sleep(500)
-
-      session
-      |> click(@submit_button)
+      |> Browser.visit("/customer-support")
+      |> Browser.fill_in(Query.css("#comments"), with: "Support Form Integration Test")
+      |> click_query_result(Query.css("label[for=\"service-Suggestion\"]"))
+      |> Browser.set_value(Query.css("#support_subject"), "Other")
+      |> Browser.attach_file(@photo_input, path: get_static_test_path("test_image1.png"))
+      |> Browser.attach_file(@photo_input, path: get_static_test_path("test_image2.png"))
+      |> click_query_result(@no_response_checkbox_label)
+      |> click_query_result(Query.css(".g-recaptcha"))
+      |> submit_form()
 
       {:ok, email} = File.read(Application.get_env(:feedback, :test_mail_file))
       assert email =~ "Support Form Integration Test"
