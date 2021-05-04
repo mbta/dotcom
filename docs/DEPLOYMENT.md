@@ -4,10 +4,19 @@
 
 Prerequisites:
 
-1. Use `aws configure` to configure your AWS credentials. (This only needs to be done once to set up a computer.)
-1. The commit you wish to deploy must have already been built and deploy to the Dev environment. Semaphore will do this automatically for everything that is merged into `master`.
-1. Test the build on the [Dev server](https://dev.mbtace.com).
-1. Run our release script `./bin/release` and use the output to make a [Release in GitHub](https://github.com/mbta/dotcom/releases).
+1. Have [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html) installed.
+
+2. Use `aws configure` to [configure your AWS credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-quickstart.html#cli-configure-quickstart-creds). (This only needs to be done once to set up a computer.)
+
+You should set the following variables if they're not present:
+
+    export APP=dotcom
+    export S3_BUCKET_NAME=mbta-dotcom
+    export DOCKER_REPO=434035161053.dkr.ecr.us-east-1.amazonaws.com/dotcom
+
+3. The commit you wish to deploy must have already been built and deploy to the Dev environment. Semaphore will do this automatically for everything that is merged into `master`.
+4. Test the build on the [Dev server](https://dev.mbtace.com).
+5. Run our release script `./bin/release` and use the output to make a [Release in GitHub](https://github.com/mbta/dotcom/releases).
 
 Run the production deploy using our deploy script:
 
