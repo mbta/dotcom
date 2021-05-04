@@ -19,6 +19,7 @@ defmodule CustomerSupportTest do
     test "Shows an error for missing type and comments", %{session: session} do
       session
       |> visit("/customer-support")
+      |> assert_has(@submit_button)
       |> click(@submit_button)
       |> assert_has(css(".form-group.has-danger #comments"))
       |> assert_has(css(".form-group.has-danger #service"))
@@ -28,7 +29,6 @@ defmodule CustomerSupportTest do
     test "Shows subject dropdown when service is selected", %{session: session} do
       session
       |> visit("/customer-support")
-      # this fails, somehow it's visible? check if the setup JS isn't running before the tests.
       |> refute_has(css("#subject", visible: true))
       |> assert_has(css("#service .service-radio", count: 4))
       |> click(css("label[for=\"service-Suggestion\"]"))
@@ -42,6 +42,7 @@ defmodule CustomerSupportTest do
     } do
       session
       |> visit("/customer-support")
+      |> assert_has(css("#no_request_response_label"))
       |> click(css("#no_request_response_label"))
 
       assert selected?(session, css("#no_request_response", visible: false))
@@ -64,6 +65,7 @@ defmodule CustomerSupportTest do
     } do
       session
       |> visit("/customer-support")
+      |> assert_has(css("#no_request_response_label"))
       |> click(css("#no_request_response_label"))
       |> refute_has(css("#first_name"))
       |> refute_has(css("#last_name"))
@@ -86,6 +88,7 @@ defmodule CustomerSupportTest do
       |> fill_in(css("#comments"), with: "Support Form Integration Test")
       |> click(css("label[for=\"service-Suggestion\"]"))
       |> set_value(css("#support_subject"), "Other")
+      |> assert_has(css("#no_request_response_label"))
       |> click(css("#no_request_response_label"))
       |> click(css(".g-recaptcha"))
 
@@ -103,6 +106,7 @@ defmodule CustomerSupportTest do
       |> fill_in(css("#comments"), with: "Support Form Integration Test")
       |> click(css("label[for=\"service-Suggestion\"]"))
       |> set_value(css("#support_subject"), "Other")
+      |> assert_has(css("#no_request_response_label"))
       |> click(css("#no_request_response_label"))
       |> click(css(".g-recaptcha"))
 
