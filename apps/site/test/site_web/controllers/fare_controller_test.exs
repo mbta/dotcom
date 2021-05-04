@@ -34,6 +34,31 @@ defmodule SiteWeb.FareControllerTest do
 
       assert conn.assigns.meta_description
     end
+
+    test "renders the retail sales locations page with results by giving it an address", %{
+      conn: conn
+    } do
+      conn =
+        get(conn, fare_path(conn, :show, "retail-sales-locations"), %{
+          "latitude" => "42.3576135",
+          "location" => %{"address" => "Park Street Place, Boston, MA, USA"},
+          "longitude" => "-71.0625776"
+        })
+
+      assert html_response(conn, 200) =~ "Get Directions"
+    end
+
+    test "renders the retail sales locations page with results by giving it coordinates", %{
+      conn: conn
+    } do
+      conn =
+        get(conn, fare_path(conn, :show, "retail-sales-locations"), %{
+          "latitude" => "42.3576135",
+          "longitude" => "-71.0625776"
+        })
+
+      assert html_response(conn, 200) =~ "Get Directions"
+    end
   end
 
   describe "fare_sales_locations/2" do

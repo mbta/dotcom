@@ -35,15 +35,8 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="get-directions-dropdown">
           <li>
-          <% destination_address = if !is_nil(address), do: address, else: name %>
-            <%= link "View on MBTA Trip Planner", to: trip_plan_path(@conn, :index, %{
-              from: @address,
-              from_latitude: Float.to_string(@search_position.latitude, decimals: 4),
-              from_longitude: Float.to_string(@search_position.longitude, decimals: 4),
-              to: destination_address,
-              to_latitude: Float.to_string(location.latitude, decimals: 4),
-              to_longitude: Float.to_string(location.longitude, decimals: 4),
-            }), target: "_blank", class: "dropdown-item" %>
+            <% url_address = if address, do: address, else: "#{location.latitude},#{location.longitude}" %>
+            <%= link "View on MBTA Trip Planner", to: trip_plan_path(@conn, :to, url_address), target: "_blank", class: "dropdown-item" %>
           </li>
           <li>
             <%= link "View on Google Maps", to: GoogleMaps.direction_map_url(@search_position, location), target: "_blank", class: "dropdown-item" %>
