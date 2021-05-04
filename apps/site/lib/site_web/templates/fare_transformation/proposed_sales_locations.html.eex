@@ -22,14 +22,14 @@
       </div>
     </div>
   </div>
-  <div class="row c-finder-section page-section">
+  <div class="row m-proposed-sales-locations__searchbar page-section">
     <div class="col-md-8">
       <h2>Find Proposed Locations Near You</h2>
       <%= form_for @conn, @conn.request_path<>"#address-search-input", [as: :location, method: :get, class: "form"], fn _f -> %>
         <%= input_location(%InputLocation{id: "address-search-input", name: :location, name_index: :address, address: @address, address_error: get_flash(@conn, :info), submit: true, required: true, placeholder: "Enter a location", button_class: ""}) %>
       <% end %>
       <%= if !is_nil(@nearby_proposed_locations) and Enum.empty?(@nearby_proposed_locations) do %>
-        <p class="m-error-message">Please enter an address that is within 100 miles of an MBTA service area.</p>
+        <p class="m-sales-locations__error-message">Please enter an address that is within 100 miles of an MBTA service area.</p>
       <% end %>
     </div>
     <div class="col-md-4 c-suggest-retailer">
@@ -44,7 +44,7 @@
   </div>
 </div>
 <%= if !is_nil(@nearby_proposed_locations) and !Enum.empty?(@nearby_proposed_locations) do %>
-  <div class="c-location-cards--background-gray c-finder-results">
+  <div class="m-sales-locations__background-gray">
     <div class="container">
       <%= render SiteWeb.FareView, "_nearby_locations.html", conn: @conn, address: @address, locations: @nearby_proposed_locations, search_position: @search_position %>
     </div>

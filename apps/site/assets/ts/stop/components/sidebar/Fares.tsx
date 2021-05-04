@@ -50,10 +50,10 @@ const retailLocation = (
   stop: Stop
 ): ReactElement<HTMLElement> => (
   <div
-    className="c-location-card m-stop-page__retail-location"
+    className="c-sales-locations__card m-stop-page__retail-location"
     key={location.address}
   >
-    <div className="c-flex-space-between">
+    <div className="c-sales-locations__card-flex-row">
       <a
         className="m-stop-page__retail-location-name"
         href={locationGoogleLink(location, stop)}
@@ -61,7 +61,7 @@ const retailLocation = (
       >
         {location.name}
       </a>
-      <div className="c-location-card__distance m-stop-page__retail-location-distance">
+      <div className="c-sales-location__card-distance m-stop-page__retail-location-distance">
         {distance}
       </div>
     </div>

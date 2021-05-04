@@ -1,4 +1,10 @@
-.c-location-cards {
+.m-sales-locations__background-gray {
+  background: $gray-lightest;
+  margin-top: $space-16;
+  padding-top: $space-16;
+}
+
+.c-sales-locations__cards {
   display: flex;
   flex-flow: row wrap;
   // IE above, other browsers below
@@ -8,25 +14,26 @@
   margin-bottom: $base-spacing;
 }
 
-.c-location-cards--background-gray {
-  background: $gray-lightest;
-}
-
-.c-location-cards--background-white {
-  background: $white;
-}
-
-.c-location-card {
+.c-sales-locations__card {
   background-color: $white;
   border: 1px solid $gray-lightest;
   padding: $base-spacing;
+  
+  @include media-breakpoint-up(sm) {
+    flex: 1 1 30%;
+  }
 
   // IE only
   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
     margin: $base-spacing / 2;
   }
 
-  &__place {
+  &-flex-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &-place {
     font-size: $font-size-base-print;
     font-weight: $headings-font-weight;
     line-height: 1.9rem;
@@ -37,14 +44,14 @@
     text-overflow: ellipsis;
   }
 
-  &__distance {
+  &-distance {
     font-size: $font-size-base-sm;
     text-align: right;
     white-space: nowrap;
     margin-left: $base-spacing;
   }
 
-  &__location {
+  &-location {
     font-size: $font-size-base-xxl;
     font-weight: $headings-font-weight;
     line-height: 1.6rem;
@@ -53,13 +60,13 @@
       font-size: $font-size-base-sm;
     }
   }
-  &__type {
+  &-type {
     margin-top: $font-size-base-xs;
     @include media-breakpoint-down(xs) {
       margin-top: .7rem;
     }
   }
-  &__directions {
+  &-directions {
     font-size: $font-size-base-xxl;
     font-weight: $font-weight-medium;
     margin-top: $base-spacing;
@@ -67,49 +74,28 @@
       font-size: $font-size-base-sm;
       margin-top: $font-size-base-xs;
     }
+
+    [data-toggle="dropdown"] {
+      display: flex;
+      text-decoration: none;
+      &:hover {
+        color: $brand-primary;
+        text-decoration: none;
+      }
+
+      // do not show Bootstrap's default caret:
+      &::after {
+        display: none;
+      }
+    }
+
+    .dropdown-item:hover {
+      background-color: $brand-primary-lightest-contrast;
+    }
   }
 }
 
-.c-location-card__accessible-icon {
-  @include icon-size-inline(1em);
-  clear: both;
-  margin-bottom: $base-spacing-sm;
-  position: relative;
-  top: -$base-spacing-sm;
-}
-
-.c-location-card__transit-route-icon {
-  @include icon-size-inline(1em);
-
-  float: left;
-  width: $space-24;
-}
-
-.c-location-card__transit-route-name {
-  float: left;
-  width: 83%;
-}
-
-#get-directions-dropdown {
-  display: flex;
-  text-decoration: none;
-  &:hover {
-    color: $brand-primary;
-    text-decoration: none;
-
-  }
-
-  // do not show Bootstrap's default caret:
-  &::after {
-    display: none;
-  }
-}
-
-.dropdown-item:hover {
-  background-color: $brand-primary-lightest-contrast;
-}
-
-.c-caret {
+.m-sales-locations__caret {
   @include caret($color: $brand-primary);
   margin-left: .3rem;
 
@@ -118,28 +104,7 @@
   }
 }
 
-.c-location-card--rsl {
-  @include media-breakpoint-up(sm) {
-    flex: 1 1 30%;
-  }
-}
-.c-location-card--psl {
-  @include media-breakpoint-up(sm) {
-    flex: 0 0 30%;
-  }
-}
-
-.c-finder-results {
-  margin-top: $space-16;
-  padding-top: $space-16;
-}
-
-.c-flex-space-between {
-  display: flex;
-  justify-content: space-between;
-}
-
-.c-finder-section {
+.m-proposed-sales-locations__searchbar {
   @include media-breakpoint-down(sm) {
     display: flex;
     flex-direction: column;
@@ -151,11 +116,11 @@
   }
 }
 
-.m-error-message {
+.m-sales-locations__error-message {
   color: $error-text;
   padding: 7px;
 }
 
-.m-top-half {
+.m-retail-sales-locations__upper-page {
   max-width: 600px;
 }
