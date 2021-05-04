@@ -1,0 +1,12 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "434035161053.dkr.ecr.us-east-1.amazonaws.com/dotcom:git-GITHASH",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "4000"
+    }
+  ]
+}
