@@ -99,6 +99,19 @@ export function setupEventPopups() {
   }
 }
 
+function MakeCollapsedHeadersSticky(eventsListing) {
+  const sections = eventsListing.querySelectorAll(".m-event-list__month");
+  for (let i = 0; i < sections.length; i++) {
+    const section = sections[i];
+    const header = section.querySelectorAll(".c-expandable-block__link");
+    if (header[0].getAttribute("aria-expanded") == "false") {
+      section.classList.add("sticky-top");
+    } else {
+      section.classList.remove("sticky-top");
+    }
+  }
+}
+
 export function setupEventsListing() {
   const eventsHubPage = document.querySelector(".m-events-hub");
   // add event listener to navigate to page on dropdown select
@@ -164,6 +177,8 @@ export function setupEventsListing() {
           }
 
           prevScroll = curScroll;
+
+          MakeCollapsedHeadersSticky(eventsListing);
         });
       },
       { capture: false, passive: true }
