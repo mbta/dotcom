@@ -10,10 +10,8 @@
     aria-controls="<%= panel_id %>"
     data-toggle="collapse">
     <h2 class="m-event-list__month-header">
-      <div class="c-expandable-block__header-container">
-        <%= render_event_month(@month_number, @year) %>
-        <span class="c-expandable-block-caret--black"></span>
-      </div>
+      <%= render_event_month(@month_number, @year) %>
+      <span class="c-expandable-block-caret--black"></span>
     </h2>
   </button>
   <div
