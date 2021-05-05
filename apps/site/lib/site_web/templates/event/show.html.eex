@@ -17,11 +17,6 @@
 
       <div class="c-cms__content">
         <div class="c-cms__body">
-          <div class="page-section">
-            <h2>Meeting Info</h2>
-            <p><%= render "_address.html", event: @event %></p>
-            <p><span class="event-info-label">Attendees:</span> <%= @event.who %></p>
-          </div>
 
           <div class="page-section">
             <div class="event-hr-row">
@@ -51,43 +46,27 @@
 
         <%= if has_sidebar do %>
           <div class="c-cms__sidebar">
-            <%= if @event.agenda_file do %>
-              <div class="page-section">
-                <h3>Agenda</h3>
-                <div>
-                  <%= link to: @event.agenda_file.url, target: "_blank", data: [turbolinks: false] do %>
-                    <span class="content-file-icon"><%= fa_icon_for_file_type(@event.agenda_file.type) %></span>
-                    <%= file_description(@event.agenda_file) %>
-                  <% end %>
-                </div>
-                <hr />
-              </div>
-            <% end %>
-            <%= if @event.minutes_file do %>
-              <div class="page-section">
-                <h3>Minutes</h3>
-                <div>
-                  <%= link to: @event.minutes_file.url, target: "_blank", data: [turbolinks: false] do %>
-                    <span class="content-file-icon"><%= fa_icon_for_file_type(@event.minutes_file.type) %></span>
-                    <%= file_description(@event.minutes_file) %>
-                  <% end %>
-                </div>
-                <hr />
-              </div>
-            <% end %>
-            <%= unless Enum.empty?(@event.files) do %>
-              <div class="page-section">
-                <h3>Related Files</h3>
-                <%= for file <- @event.files do %>
-                  <div>
-                    <%= link to: file.url, target: "_blank", data: [turbolinks: false] do %>
-                      <span class="content-file-icon"><%= fa_icon_for_file_type(file.type) %></span>
-                      <%= file_description(file) %>
-                    <% end %>
-                  </div>
-                <% end %>
-              </div>
-            <% end %>
+            <div class="c-paragraph">
+              <h2>Meeting Info</h2>
+              <div class="u-small-caps u-bold mb-05 mt-1">Date and Time</div>
+              <% %{date: date, time: time} = get_formatted_date_time_map(@event.start_time, @event.end_time, "{WDfull}, {Mfull} {D}, {YYYY}") %>
+              <div><%= date %></div>
+              <div><%= time %></div>
+              <%= link to: event_icalendar_path(@conn, :show, @event),
+                data: [turbolinks: false] do %>
+                <%= fa "calendar" %> Add to Calendar
+              <% end %>
+              <div class="u-small-caps u-bold mb-05 mt-1">Location</div>
+              <%= if @event.location do %>
+                <div><%= @event.location %></div>
+                <div><%= @event.street_address %></div>
+                <div><%= city_and_state(@event) %></div>
+              <% else %>
+                <div><%= @event.imported_address %></div>
+              <% end %>
+              <div class="u-small-caps u-bold mb-05 mt-1">Intended Audience</div>
+              <div><%= @event.who %></div>
+            </div>
           </div>
         <% end %>
       </div>
