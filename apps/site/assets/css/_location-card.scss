@@ -50,7 +50,6 @@
 
   &-location {
     font-size: $font-size-base-xxl;
-    font-weight: $headings-font-weight;
     line-height: 1.6rem;
     margin-top: $base-spacing-sm;
     @include media-breakpoint-down(xs) {
