@@ -3637,26 +3637,26 @@ Array [
                   South Station
                 </h5>
                 <div
-                  className="c-location-card m-stop-page__retail-location"
+                  className="c-sales-locations__card m-stop-page__retail-location"
                 >
                   <div
-                    className="c-flex-space-between"
+                    className="c-sales-locations__card-flex-row"
                   >
                     <a
-                      className="c-location-card__place m-stop-page__retail-location-name"
+                      className="m-stop-page__retail-location-name"
                       href="https://maps.google.com/maps/dir/42.352271,-71.055242/42,-71/"
                       target="blank"
                     >
                       Store Name
                     </a>
                     <div
-                      className="c-location-card__distance m-stop-page__retail-location-distance"
+                      className="c-sales-location__card-distance m-stop-page__retail-location-distance"
                     >
                       500 ft
                     </div>
                   </div>
                   <div
-                    className="c-location-card__location m-stop-page__retail-location-distance"
+                    className="m-stop-page__retail-location-distance"
                   >
                     1234 Main St., Boston MA
                   </div>
