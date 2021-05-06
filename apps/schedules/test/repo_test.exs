@@ -91,19 +91,19 @@ defmodule Schedules.RepoTest do
   end
 
   describe "schedule_for_trip/2" do
-    @trip_id "place-NHRML-0254"
+    @trip_id "place-WML-0442"
              |> schedule_for_stop(direction_id: 1)
              |> List.first()
              |> Map.get(:trip)
              |> Map.get(:id)
 
     test "returns stops in order of their stop_sequence for a given trip" do
-      # find a place-NHRML-0254 trip ID
+      # find a Worcester CR trip ID
       response = schedule_for_trip(@trip_id)
       assert response |> Enum.all?(fn schedule -> schedule.trip.id == @trip_id end)
       refute response == []
-      assert List.first(response).stop.id == "place-NHRML-0254"
-      assert List.last(response).stop.id == "place-north"
+      assert List.first(response).stop.id == "place-WML-0442"
+      assert List.last(response).stop.id == "place-sstat"
     end
 
     test "returns different values for different dates" do
