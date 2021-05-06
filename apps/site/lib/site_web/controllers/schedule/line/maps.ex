@@ -93,15 +93,17 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
       Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)
       |> Enum.uniq()
 
-    stop_markers = stop_ids
-    |> Enum.map(&build_stop_marker/1)
-    |> Enum.reject(&is_nil/1)
+    stop_markers =
+      stop_ids
+      |> Enum.map(&build_stop_marker/1)
+      |> Enum.reject(&is_nil/1)
 
-    all_markers = if vehicle_tooltips do 
-      stop_markers ++ build_vehicle_markers(vehicle_tooltips)
-    else
-      stop_markers
-    end
+    all_markers =
+      if vehicle_tooltips do
+        stop_markers ++ build_vehicle_markers(vehicle_tooltips)
+      else
+        stop_markers
+      end
 
     paths = dynamic_paths("#" <> color, route_patterns, [])
 
