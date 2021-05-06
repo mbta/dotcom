@@ -12,11 +12,13 @@
   grid-gap: $grid-gutter-width / 2;
   grid-template-columns: repeat(auto-fill, [col-start] minmax(240px, 1fr) [col-end]);
   margin-bottom: $base-spacing;
+  margin-top: $base-spacing * 2
 }
 
 .c-sales-locations__card {
   background-color: $white;
   border: 1px solid $gray-lightest;
+  border-radius: 4px;
   padding: $base-spacing;
   
   @include media-breakpoint-up(sm) {
@@ -34,12 +36,7 @@
   }
 
   &-place {
-    font-size: $font-size-base-print;
-    font-weight: $headings-font-weight;
-    line-height: 1.9rem;
-    @include media-breakpoint-down(xs) {
-      font-size: $font-size-base-xxl;
-    }
+    margin-top: 0;
     overflow: hidden;
     text-overflow: ellipsis;
   }

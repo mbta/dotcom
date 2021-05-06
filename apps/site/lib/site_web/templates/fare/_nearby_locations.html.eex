@@ -8,13 +8,13 @@
     %>
     <div class="c-sales-locations__card">
       <div class="c-sales-locations__card-flex-row">
-        <div class="c-sales-locations__card-place">
+        <h3 class="c-sales-locations__card-place">
           <%= if stop_id do %>
             <%= link name, to: stop_path(@conn, :show, stop_id) %>
           <% else %>
             <%= name %>
           <% end %>
-        </div>
+        </h3>
         <div class="c-sales-locations__card-distance"><%= round_distance(distance) %></div>
       </div>
       <%= if address do %>
