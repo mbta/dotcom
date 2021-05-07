@@ -59,9 +59,9 @@ defmodule CMS.Page.EventTest do
       assert registration_link == nil
 
       assert %CMS.Field.Link{
-        title: "Join on Zoom",
-        url: "https://us02web.zoom.us/j/85195827925"
-      } = livestream_link
+               title: "Join on Zoom",
+               url: "https://us02web.zoom.us/j/85195827925"
+             } = livestream_link
     end
 
     test "it handles paragraphs when present", %{api_event_without_path_alias: api_event} do
