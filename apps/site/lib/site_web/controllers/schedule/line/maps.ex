@@ -93,7 +93,18 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
       Enum.flat_map(route_patterns, fn %{stop_ids: stop_ids} -> stop_ids end)
       |> Enum.uniq()
 
-    {stop_markers, all_markers} = dynamic_markers(stop_ids, vehicle_tooltips)
+    stop_markers =
+      stop_ids
+      |> Enum.map(&build_stop_marker/1)
+      |> Enum.reject(&is_nil/1)
+
+    all_markers =
+      if vehicle_tooltips do
+        stop_markers ++ build_vehicle_markers(vehicle_tooltips)
+      else
+        stop_markers
+      end
+
     paths = dynamic_paths("#" <> color, route_patterns, [])
 
     {600, 600}
@@ -104,24 +115,11 @@ defmodule SiteWeb.ScheduleController.Line.Maps do
     |> Map.put(:tile_server_url, Application.fetch_env!(:site, :tile_server_url))
   end
 
-  @spec dynamic_markers([Stop.id_t()], VehicleHelpers.tooltip_index() | nil) ::
-          {[Marker.t()], [Marker.t()]}
-  defp dynamic_markers(stop_ids, nil) do
-    stop_markers = Enum.map(stop_ids, &build_stop_marker/1)
-    {stop_markers, stop_markers}
-  end
-
-  defp dynamic_markers(stop_ids, tooltip_index) do
-    vehicle_markers = build_vehicle_markers(tooltip_index)
-    stop_markers = Enum.map(stop_ids, &build_stop_marker/1)
-    {stop_markers, stop_markers ++ vehicle_markers}
-  end
-
   @spec build_stop_marker(Stop.id_t()) :: Marker.t()
   defp build_stop_marker(id) do
-    id
-    |> Repo.get()
-    |> do_build_stop_marker()
+    stop = Repo.get(id)
+    # Only build the stop marker if the api returned a value
+    if stop, do: do_build_stop_marker(stop)
   end
 
   @spec do_build_stop_marker(Stop.t()) :: Marker.t()
