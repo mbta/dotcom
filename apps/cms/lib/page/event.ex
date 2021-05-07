@@ -13,11 +13,13 @@ defmodule CMS.Page.Event do
       parse_iso_datetime: 1,
       handle_html: 1,
       parse_files: 2,
+      parse_link: 2,
       parse_paragraphs: 2,
       path_alias: 1
     ]
 
   alias CMS.Field.File
+  alias CMS.Field.Link
   alias CMS.Partial.Paragraph
   alias Phoenix.HTML
 
@@ -39,7 +41,9 @@ defmodule CMS.Page.Event do
             agenda_file: nil,
             minutes_file: nil,
             path_alias: nil,
-            paragraphs: []
+            paragraphs: [],
+            registration_link: nil,
+            livestream_link: nil
 
   @type t :: %__MODULE__{
           id: integer | nil,
@@ -60,7 +64,9 @@ defmodule CMS.Page.Event do
           agenda_file: File.t() | nil,
           minutes_file: File.t() | nil,
           path_alias: String.t() | nil,
-          paragraphs: [Paragraph.t()]
+          paragraphs: [Paragraph.t()],
+          registration_link: Link.t() | nil,
+          livestream_link: Link.t() | nil
         }
 
   @spec from_api(map, Keyword.t()) :: t
@@ -84,7 +90,9 @@ defmodule CMS.Page.Event do
       agenda_file: List.first(parse_files(data, "field_agenda_file")),
       minutes_file: List.first(parse_files(data, "field_minutes_file")),
       path_alias: path_alias(data),
-      paragraphs: parse_paragraphs(data, preview_opts)
+      paragraphs: parse_paragraphs(data, preview_opts),
+      registration_link: parse_link(data, "field_registration_url"),
+      livestream_link: parse_link(data, "field_livestream_url")
     }
   end
 

@@ -31,7 +31,9 @@ defmodule CMS.Page.EventTest do
                notes: notes,
                agenda: agenda,
                path_alias: path_alias,
-               paragraphs: paragraphs
+               paragraphs: paragraphs,
+               registration_link: registration_link,
+               livestream_link: livestream_link
              } = from_api(api_event)
 
       assert id == 3268
@@ -54,6 +56,12 @@ defmodule CMS.Page.EventTest do
                "<p><strong>Please note:</strong> No public comments to be taken"
 
       assert path_alias == nil
+      assert registration_link == nil
+
+      assert %CMS.Field.Link{
+               title: "Join on Zoom",
+               url: "https://us02web.zoom.us/j/85195827925"
+             } = livestream_link
     end
 
     test "it handles paragraphs when present", %{api_event_without_path_alias: api_event} do
