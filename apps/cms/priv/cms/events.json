@@ -173,6 +173,13 @@
         "value": "Board Members"
       }
     ],
+    "field_registration_url": [],
+    "field_livestream_url": [
+      {
+        "uri": "https://us02web.zoom.us/j/85195827925",
+        "title": "Join on Zoom"
+      }
+    ],
     "field_paragraphs": [
       {
         "target_id": 9010,
