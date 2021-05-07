@@ -55,7 +55,7 @@ function addInternetExplorerPolyfills() {
   composedPathPolyfill();
 }
 
-function setupEventPopups() {
+export function setupEventPopups() {
   /**
    * Why not use Bootstrap's popover? It's not equipped to handle having lots of
    * interactive content, doesn't support a close button, and as implemented the

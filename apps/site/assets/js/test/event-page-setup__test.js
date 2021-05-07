@@ -1,12 +1,12 @@
-import { assert } from "chai";
+import { assert, expect } from "chai";
 import sinon from "sinon";
 import jsdom from "mocha-jsdom";
-import { setupEventsListing } from "../event-page-setup";
+import { setupEventsListing, setupEventPopups } from "../event-page-setup";
 import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
 
-const eventsHubHTML = `
+const eventsHubListViewHTML = `
     <div class="container m-events-hub m-events-hub--list-view">
       <h1>Events</h1>
       <div class="row">
@@ -45,6 +45,54 @@ const eventsHubHTML = `
     </div>
     `;
 
+const eventsHubCalendarViewHTML = `
+<div class="m-events-hub">
+<div class="col-sm-10">
+   <h2 class="m-event-list__month-header">May 2021</h2>
+   <table class="m-event-calendar">
+      <thead>
+         <tr>
+            <th scope="col">Monday</th>
+         </tr>
+      </thead>
+      <tbody>
+         <tr>
+            <td class="m-event-calendar__day">
+               <div class="m-event-calendar__day-label">1</div>
+               <button class="m-event-calendar__event" data-a11y-dialog-show="5304">
+                  <i class="fa fa-circle " aria-hidden="true"></i>
+                  <div class="m-event-calendar__event-time">6 PM</div>
+                  <div class="m-event-calendar__event-title">East Cottage Street and Norfolk Avenue Bridges Replacement Project Virtual Public Meeting</div>
+               </button>
+               <div class="m-event-overlay open-left" id="5304" aria-label="Event summary for East Cottage Street and Norfolk Avenue Bridges Replacement Project Virtual Public Meeting" aria-modal="true" role="dialog" aria-hidden="true">
+                  <div role="document">
+                     <div class="u-flex-container">
+                        <div class="m-event__title">
+                           <a href="/events/2021-05-06/east-cottage-street-and-norfolk-avenue-bridges-replacement-project-virtual-public">East Cottage Street and Norfolk Avenue Bridges Replacement Project Virtual Public Meeting</a>
+                        </div>
+                        <button type="button" data-a11y-dialog-hide="" aria-label="Close dialog">
+                        ×
+                        </button>
+                     </div>
+                     <div class="u-flex-container">
+                        <div class="m-event__status-message popup-version">
+                           <a class="btn btn-secondary btn-lg" data-turbolinks="false" href="/events/icalendar/2021-05-06/east-cottage-street-and-norfolk-avenue-bridges-replacement-project-virtual-public"><i aria-hidden="true" class="notranslate fa fa-calendar-plus-o "></i></a>
+                        </div>
+                        <div class="u-flex-one">
+                           <strong>Thursday, May 6, 2021</strong>
+                           <div class="m-event__date-range">6 PM</div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </td>
+         </tr>
+      </tbody>
+   </table>
+</div>
+</div>
+`;
+
 function triggerScrollEvent(clock) {
   document.dispatchEvent(new window.Event("scroll"));
   clock.tick(); // fast forward set timeout (gets past window.requestAnimationFrame)
@@ -80,7 +128,7 @@ describe("setupEventsListing", () => {
   beforeEach(() => {
     $ = jsdom.rerequire("jquery");
     $("body").append("<div id=test />");
-    $("#test").html(eventsHubHTML);
+    $("#test").html(eventsHubListViewHTML);
   });
 
   afterEach(() => {
@@ -192,5 +240,48 @@ describe("setupEventsListing", () => {
 
     sinon.assert.calledOnce(windowLocationSpy);
     sinon.assert.calledWithExactly(windowLocationSpy, optionValue);
+  });
+});
+
+describe("setupEventPopups", () => {
+  let $;
+
+  jsdom({ url: testURL });
+
+  beforeEach(() => {
+    $ = jsdom.rerequire("jquery");
+    $("body").append("<div id=test />");
+    $("#test").html(eventsHubCalendarViewHTML);
+  });
+
+  afterEach(() => {
+    $("#test").remove();
+  });
+
+  it("displays an overlay for the clicked event", () => {
+    setupEventPopups();
+
+    // display overlay
+    $(".m-event-calendar__event").trigger("click");
+
+    const overlayDiv = document.getElementById("5304");
+
+    // attribute "aria-hidden" should be null since the overlay is being shown
+    expect(!!overlayDiv.getAttribute("aria-hidden")).to.equal(false);
+  });
+
+  it("closes the overlay for the clicked event", () => {
+    setupEventPopups();
+
+    // display overlay
+    $(".m-event-calendar__event").trigger("click");
+
+    // now close overlay
+    $("[aria-label='Close dialog']").trigger("click");
+
+    const overlayDiv = document.getElementById("5304");
+
+    // "aria-hidden" should be true since the overlay should not be shown at this point
+    expect(!!overlayDiv.getAttribute("aria-hidden")).to.equal(true);
   });
 });
