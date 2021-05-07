@@ -19,6 +19,10 @@
         <div class="c-cms__body">
 
           <div class="page-section">
+            <%= render "_meeting_info.html", conn: @conn, event: @event, style: "c-paragraph--right-rail u-full-bleed mt-0" %>
+          </div>
+
+          <div class="page-section">
             <div class="event-hr-row">
               <h2>Event Description</h2>
               <%= Site.ContentRewriter.rewrite(@event.body, @conn) %>
@@ -75,28 +79,9 @@
         </div>
 
         <div class="c-cms__sidebar">
-          <div class="c-paragraph">
-            <h2>Meeting Info</h2>
-            <div class="u-small-caps u-bold mb-05 mt-1">Date and Time</div>
-            <% %{date: date, time: time} = get_formatted_date_time_map(@event.start_time, @event.end_time, "{WDfull}, {Mfull} {D}, {YYYY}") %>
-            <div><%= date %></div>
-            <div><%= time %></div>
-            <%= link to: event_icalendar_path(@conn, :show, @event),
-              data: [turbolinks: false] do %>
-              <%= fa "calendar" %> Add to Calendar
-            <% end %>
-            <div class="u-small-caps u-bold mb-05 mt-1">Location</div>
-            <%= if @event.location do %>
-              <div><%= @event.location %></div>
-              <div><%= @event.street_address %></div>
-              <div><%= city_and_state(@event) %></div>
-            <% else %>
-              <div><%= @event.imported_address %></div>
-            <% end %>
-            <div class="u-small-caps u-bold mb-05 mt-1">Intended Audience</div>
-            <div><%= @event.who %></div>
-          </div>
+          <%= render "_meeting_info.html", conn: @conn, event: @event, style: nil %>
         </div>
+
       </div>
     </div>
   </div>
