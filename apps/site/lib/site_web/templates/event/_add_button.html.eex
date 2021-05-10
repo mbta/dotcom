@@ -12,7 +12,7 @@
       <div class="m-event__ended-message">Ended</div>
     <% else %>
       <button class="btn btn-secondary m-event__add-button" disabled>
-        <%= fa "calendar-plus-o" %>
+        <%= fa "calendar-times-o" %>
       </button>
     <% end %>
   <% end %>
