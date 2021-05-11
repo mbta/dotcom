@@ -6,38 +6,41 @@ defmodule Site.IcalendarGenerator do
   @spec to_ical(Plug.Conn.t(), Event.t()) :: iodata
   def to_ical(%Plug.Conn{} = conn, %Event{} = event) do
     [
-      "BEGIN:VCALENDAR\n",
-      "VERSION:2.0\n",
-      "PRODID:-//www.mbta.com//Events//EN\n",
-      "BEGIN:VEVENT\n",
+      "BEGIN:VCALENDAR\r\n",
+      "VERSION:2.0\r\n",
+      "PRODID:-//www.mbta.com//Events//EN\r\n",
+      "BEGIN:VEVENT\r\n",
       "UID:",
       "event",
       "#{event.id}",
       "@mbta.com",
-      "\n",
+      "\r\n",
       "SEQUENCE:",
+      unix_time(),
+      "\r\n",
+      "DTSTAMP:",
       timestamp(),
-      "\n",
+      "\r\n",
       "DTSTART:",
       start_time(event),
-      "\n",
+      "\r\n",
       "DTEND:",
       end_time(event),
-      "\n",
+      "\r\n",
       "DESCRIPTION:",
       description(event),
-      "\n",
+      "\r\n",
       "LOCATION:",
       address(event),
-      "\n",
+      "\r\n",
       "SUMMARY:",
       event_summary(event),
-      "\n",
+      "\r\n",
       "URL:",
       full_url(conn, event),
-      "\n",
-      "END:VEVENT\n",
-      "END:VCALENDAR\n"
+      "\r\n",
+      "END:VEVENT\r\n",
+      "END:VCALENDAR\r\n"
     ]
   end
 
@@ -72,6 +75,7 @@ defmodule Site.IcalendarGenerator do
   defp description(%Event{body: {:safe, body}}) do
     body
     |> strip_html_tags()
+    |> replace_newlines()
     |> decode_ampersand_entity()
   end
 
@@ -79,12 +83,20 @@ defmodule Site.IcalendarGenerator do
     HtmlSanitizeEx.strip_tags(string)
   end
 
+  defp replace_newlines(string) do
+    String.replace(string, "\n", "\r\n")
+  end
+
   defp decode_ampersand_entity(string) do
     String.replace(string, "&amp;", "&")
   end
 
+  defp unix_time do
+    Timex.now() |> Timex.to_unix() |> Integer.to_string()
+  end
+
   defp timestamp do
-    Timex.now() |> Timex.format!("{ISO:Basic:Z}")
+    Timex.now() |> convert_to_ical_format
   end
 
   defp full_url(conn, event) do
@@ -97,7 +109,9 @@ defmodule Site.IcalendarGenerator do
     start_time |> convert_to_ical_format
   end
 
-  defp end_time(%Event{end_time: nil}), do: ""
+  defp end_time(%Event{end_time: nil, start_time: start_time}) do
+    start_time |> Timex.shift(hours: 1) |> convert_to_ical_format
+  end
 
   defp end_time(%Event{end_time: end_time}) do
     end_time |> convert_to_ical_format
