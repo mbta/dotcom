@@ -35,16 +35,29 @@
       background-color: transparent;
       border: 0;
       margin-left: 10px;
-      font-size: 18px;
+      font-size: 26px;
       height: 18px;
       line-height: 18px;
       font-weight: bold;
+      padding: 0;
     }
-  }
 
-  .m-event__title {
-    font-weight: bold;
-    margin-bottom: $base-spacing / 2;
+    .m-event__time-information {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      &.gray {
+        color: $gray;
+      }
+      .m-event__date-range {
+        padding: 0;
+      }
+      .m-event__bold-date {
+        text-transform: uppercase;
+        font-weight: bold;
+      }
+    }
   }
 }
 
