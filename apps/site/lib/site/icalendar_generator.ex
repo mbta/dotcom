@@ -10,38 +10,19 @@ defmodule Site.IcalendarGenerator do
       "VERSION:2.0\r\n",
       "PRODID:-//www.mbta.com//Events//EN\r\n",
       "BEGIN:VEVENT\r\n",
-      "UID:",
-      "event",
-      "#{event.id}",
-      "@mbta.com",
-      "\r\n",
-      "SEQUENCE:",
-      unix_time(),
-      "\r\n",
-      "DTSTAMP:",
-      timestamp(),
-      "\r\n",
-      "DTSTART:",
-      start_time(event),
-      "\r\n",
-      "DTEND:",
-      end_time(event),
-      "\r\n",
-      "DESCRIPTION:",
-      description(event),
-      "\r\n",
-      "LOCATION:",
-      address(event),
-      "\r\n",
-      "SUMMARY:",
-      event_summary(event),
-      "\r\n",
-      "URL:",
-      full_url(conn, event),
-      "\r\n",
+      "UID:" <> "event" <> "#{event.id}" <> "@mbta.com\r\n",
+      "SEQUENCE:" <> unix_time() <> "\r\n",
+      "DTSTAMP:" <> timestamp() <> "\r\n",
+      "DTSTART:" <> start_time(event) <> "\r\n",
+      "DTEND:" <> end_time(event) <> "\r\n",
+      "DESCRIPTION:" <> description(event) <> "\r\n",
+      "LOCATION:" <> address(event) <> "\r\n",
+      "SUMMARY:" <> event_summary(event) <> "\r\n",
+      "URL:" <> full_url(conn, event) <> "\r\n",
       "END:VEVENT\r\n",
       "END:VCALENDAR\r\n"
     ]
+    |> Enum.map(&fold_line/1)
   end
 
   defp address(event) do
@@ -53,15 +34,7 @@ defmodule Site.IcalendarGenerator do
   end
 
   defp full_address(event) do
-    [
-      event.location,
-      " ",
-      event.street_address,
-      " ",
-      event.city,
-      ", ",
-      event.state
-    ]
+    event.location <> " " <> event.street_address <> " " <> event.city <> ", " <> event.state
   end
 
   defp imported_address(%Event{imported_address: {:safe, address}}) do
@@ -84,7 +57,8 @@ defmodule Site.IcalendarGenerator do
   end
 
   defp replace_newlines(string) do
-    String.replace(string, "\n", "\r\n")
+    String.replace(string, ~r/\n+/, "\r\n")
+    |> String.replace_trailing("\r\n", "")
   end
 
   defp decode_ampersand_entity(string) do
@@ -122,4 +96,22 @@ defmodule Site.IcalendarGenerator do
     |> Timex.to_datetime("Etc/UTC")
     |> Timex.format!("{YYYY}{0M}{0D}T{h24}{m}{s}Z")
   end
+
+  defp fold_line(line) when is_binary(line) do
+    line_length = 75
+
+    if String.length(line) > line_length do
+      for index <- 0..(String.length(line) - 1), into: "" do
+        if index > 0 and rem(index + 1, 74) === 0 do
+          String.at(line, index) <> "\r\n "
+        else
+          String.at(line, index)
+        end
+      end
+    else
+      line
+    end
+  end
+
+  defp fold_line(line), do: line
 end
