@@ -55,7 +55,7 @@ function addInternetExplorerPolyfills() {
   composedPathPolyfill();
 }
 
-function setupEventPopups() {
+export function setupEventPopups() {
   /**
    * Why not use Bootstrap's popover? It's not equipped to handle having lots of
    * interactive content, doesn't support a close button, and as implemented the
@@ -96,6 +96,19 @@ function setupEventPopups() {
     document.addEventListener("turbolinks:before-render", () =>
       document.removeEventListener("click", hideDialogLogicListener)
     );
+  }
+}
+
+function MakeCollapsedHeadersSticky(eventsListing) {
+  const sections = eventsListing.querySelectorAll(".m-event-list__month");
+  for (let i = 0; i < sections.length; i++) {
+    const section = sections[i];
+    const header = section.querySelectorAll(".c-expandable-block__link");
+    if (header[0].getAttribute("aria-expanded") == "false") {
+      section.classList.add("sticky-top");
+    } else {
+      section.classList.remove("sticky-top");
+    }
   }
 }
 
@@ -164,6 +177,8 @@ export function setupEventsListing() {
           }
 
           prevScroll = curScroll;
+
+          MakeCollapsedHeadersSticky(eventsListing);
         });
       },
       { capture: false, passive: true }
@@ -181,6 +196,10 @@ export default function() {
   document.addEventListener(
     "turbolinks:load",
     () => {
+      const viewPreviousEventsLink = document.querySelector(
+        ".m-view-previous-events"
+      );
+      viewPreviousEventsLink.classList.remove("hidden");
       if (document.querySelector(".m-events-hub")) {
         const isIE = !!document.documentMode;
         if (isIE) {
@@ -188,9 +207,6 @@ export default function() {
         }
 
         setupEventsListing();
-      }
-
-      if (document.querySelector(".m-events-hub")) {
         setupEventPopups();
       }
     },
