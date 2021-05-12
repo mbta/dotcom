@@ -271,7 +271,7 @@ $mobile-control-height: 73px;
         background-color: $gray-lightest;
       }
     }
-    
+
     i {
       margin-left: 1px;
     }
@@ -323,13 +323,14 @@ $mobile-control-height: 73px;
     align-items: center;
     color: $gray-dark;
     background-color: $white;
-    text-decoration: none;
     border: 0;
     padding: 0;
-    &:hover, &:focus {
-      color: $brand-primary;
-      cursor: pointer;
+
+    // hide when JS is disabled
+    .no-js &[data-a11y-dialog-show] {
+        display: none;
     }
+
     .fa-circle {
       font-size: xx-small;
       padding-right: 8px;
@@ -347,6 +348,11 @@ $mobile-control-height: 73px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+
+      &:hover, &:focus {
+        color: $brand-primary;
+        text-decoration: none;
+      }
     }
   }
 }
