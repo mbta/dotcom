@@ -20,7 +20,7 @@
     "jquery": "^3.5.1",
     "leaflet": "^1.4.0",
     "leaflet-rotatedmarker": "^0.2.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "object-fit-images": "^2.5.6",
     "phoenix": "file:../../../deps/phoenix",
     "phoenix_html": "file:../../../deps/phoenix_html",
