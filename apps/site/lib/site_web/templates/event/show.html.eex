@@ -17,10 +17,9 @@
 
       <div class="c-cms__content">
         <div class="c-cms__body">
+
           <div class="page-section">
-            <h2>Meeting Info</h2>
-            <p><%= render "_address.html", event: @event %></p>
-            <p><span class="event-info-label">Attendees:</span> <%= @event.who %></p>
+            <%= render "_meeting_info.html", conn: @conn, event: @event, style: "c-paragraph--right-rail u-full-bleed mt-0" %>
           </div>
 
           <div class="page-section">
@@ -28,7 +27,7 @@
               <h2>Event Description</h2>
               <%= Site.ContentRewriter.rewrite(@event.body, @conn) %>
             </div>
-
+          
             <%= if has_related_files do %>
               <h3>Related Files</h3>
               <%= if @event.agenda_file do %>
@@ -78,6 +77,11 @@
             </div>
           <% end %>
         </div>
+
+        <div class="c-cms__sidebar">
+          <%= render "_meeting_info.html", conn: @conn, event: @event, style: nil %>
+        </div>
+
       </div>
     </div>
   </div>
