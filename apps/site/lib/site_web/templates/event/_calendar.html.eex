@@ -38,6 +38,17 @@
                   conn: @conn,
                   event: event,
                   class: if index >= 4, do: "open-left" %>
+
+                  <noscript>
+                    <%= link to: cms_static_page_path(@conn, event.path), class: "m-event-calendar__event m-event-calendar__event-title", title: event.title do %>
+                      <i class="fa fa-circle <%= if event_ended, do: 'ended' %>" aria-hidden="true"></i>
+                      <%= if !event_ended do%>
+                        <div class='m-event-calendar__event-time'><%= format_time(event.date) %></div>
+                      <% end %>
+                      <%= event.title %>
+                    <% end %>
+                  </noscript>
+
               <% end %>
             <% end %>
           <% end %>
