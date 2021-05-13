@@ -1,4 +1,9 @@
 defmodule Site.IcalendarGenerator do
+  @moduledoc """
+  Takes event information and generates an ICS file.
+  File validation was checked with https://icalendar.org/validator.html.
+  """
+
   import SiteWeb.CmsRouterHelpers, only: [event_path: 3]
 
   alias CMS.Page.Event

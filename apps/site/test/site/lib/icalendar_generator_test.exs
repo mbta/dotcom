@@ -51,9 +51,9 @@ defmodule IcalendarGeneratorTest do
         |> IcalendarGenerator.to_ical(event)
         |> IO.iodata_to_binary()
 
-      assert result =~ "UID:event#{event.id}@mbta.com\n"
+      assert result =~ "UID:event#{event.id}@mbta.com\r\n"
       assert result =~ "SEQUENCE:"
-      refute result =~ "SEQUENCE:\n"
+      refute result =~ "SEQUENCE:\r\n"
     end
 
     test "includes the event start and end time with timezone information", %{conn: conn} do
@@ -71,15 +71,16 @@ defmodule IcalendarGeneratorTest do
       assert result =~ "DTEND:20170228T160000Z"
     end
 
-    test "when the event does not have an end time", %{conn: conn} do
-      event = event_factory(0, end_time: nil)
+    test "when the event does not have an end time, it just adds an hour", %{conn: conn} do
+      start_datetime = Timex.to_datetime(~N[2017-02-28T09:00:00], "America/New_York")
+      event = event_factory(0, start_time: start_datetime, end_time: nil)
 
       result =
         conn
         |> IcalendarGenerator.to_ical(event)
         |> IO.iodata_to_binary()
 
-      assert result =~ "DTEND:\n"
+      assert result =~ "DTEND:20170228T150000Z"
     end
 
     test "the imported_address field decode the ampersand html entity", %{conn: conn} do
