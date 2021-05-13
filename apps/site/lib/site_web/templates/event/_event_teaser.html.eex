@@ -12,7 +12,7 @@
     <div class="u-bold m-event__day"><%= pretty_date(range.start, "{D}") %></div>
   </div>
   <div class="u-flex-one">
-    <div class="m-event__date-range">
+    <div class="m-event__date-range gray">
       <%= render_event_duration_list_view(range.start, range.stop) %>
     </div>
     <div class="m-event__title">

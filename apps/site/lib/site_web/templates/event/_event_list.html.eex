@@ -1,5 +1,5 @@
 <div class="m-event-listing">
-  <nav class="m-event-list__nav--mobile-controls sticky-top">
+  <nav class="m-event-list__nav--mobile-controls">
     <%= render "_month_select.html",
         conn: @conn,
         month: @month,

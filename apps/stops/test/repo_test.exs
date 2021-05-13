@@ -74,7 +74,6 @@ defmodule Stops.RepoTest do
                {"place-FR-0098", "Waltham"},
                {"place-FR-0074", "Waverley"},
                {"place-FR-0064", "Belmont"},
-               {"place-alfcl", "Alewife"},
                {"place-portr", "Porter"},
                {"place-north", "North Station"}
              ]
