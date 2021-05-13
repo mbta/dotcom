@@ -138,25 +138,24 @@ defmodule SiteWeb.EventView do
     })
   end
 
+  def event_status(%{start: start, stop: nil}) do
+    cond do
+      time_is_greater_or_equal?(now(), start) and Date.compare(now(), start) === :gt -> :ended
+      time_is_greater_or_equal?(now(), start) -> :started
+      true -> :not_started
+    end
+  end
+
   def event_status(%{start: start, stop: stop}) do
-    case stop do
-      nil ->
-        cond do
-          time_is_greater_or_equal?(now(), start) and Date.compare(now(), start) === :gt -> :ended
-          time_is_greater_or_equal?(now(), start) -> :started
-        end
+    cond do
+      time_is_greater_or_equal?(now(), start) and !time_is_greater_or_equal?(now(), stop) ->
+        :started
 
-      _ ->
-        cond do
-          !time_is_greater_or_equal?(now(), start) ->
-            :not_started
+      time_is_greater_or_equal?(now(), stop) ->
+        :ended
 
-          time_is_greater_or_equal?(now(), start) and !time_is_greater_or_equal?(now(), stop) ->
-            :started
-
-          time_is_greater_or_equal?(now(), stop) ->
-            :ended
-        end
+      true ->
+        :not_started
     end
   end
 
