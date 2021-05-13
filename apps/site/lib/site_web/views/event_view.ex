@@ -128,24 +128,35 @@ defmodule SiteWeb.EventView do
   end
 
   @spec event_status(%{
-        start: NaiveDateTime.t() | DateTime.t(),
-        stop: NaiveDateTime.t() | DateTime.t() | nil
-      }) :: event_status
+          start: NaiveDateTime.t() | DateTime.t(),
+          stop: NaiveDateTime.t() | DateTime.t() | nil
+        }) :: event_status
   def event_status(%{start: %NaiveDateTime{} = start, stop: stop}) do
     event_status(%{
       start: convert_using_timezone(start, ""),
-      stop: (if !is_nil(stop), do: convert_using_timezone(stop, ""), else: nil)
+      stop: if(is_nil(stop), do: nil, else: convert_using_timezone(stop, ""))
     })
   end
+
   def event_status(%{start: start, stop: stop}) do
-    cond do
-      !time_is_greater_or_equal?(now(), start) -> :not_started
-      # Check for no end-time first
-      time_is_greater_or_equal?(now(), start) and stop === nil and Date.compare(now(), start) === :gt -> :ended
-      time_is_greater_or_equal?(now(), start) and stop === nil -> :started
-      # If end-time exists, do a regular comparison
-      time_is_greater_or_equal?(now(), start) and !time_is_greater_or_equal?(now(), stop) -> :started
-      time_is_greater_or_equal?(now(), stop) -> :ended
+    case stop do
+      nil ->
+        cond do
+          time_is_greater_or_equal?(now(), start) and Date.compare(now(), start) === :gt -> :ended
+          time_is_greater_or_equal?(now(), start) -> :started
+        end
+
+      _ ->
+        cond do
+          !time_is_greater_or_equal?(now(), start) ->
+            :not_started
+
+          time_is_greater_or_equal?(now(), start) and !time_is_greater_or_equal?(now(), stop) ->
+            :started
+
+          time_is_greater_or_equal?(now(), stop) ->
+            :ended
+        end
     end
   end
 
