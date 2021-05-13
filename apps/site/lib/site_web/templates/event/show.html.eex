@@ -1,32 +1,29 @@
 <% has_related_files = @event.agenda_file || @event.minutes_file || Enum.empty?(@event.files) == false %>
 <% sidebar_class = if has_related_files, do: "c-cms--with-sidebar c-cms--sidebar-right", else: "c-cms--no-sidebar" %>
+<% event_status = event_status(%{start: @event.start_time, stop: @event.end_time})%>
 
-<%= if Laboratory.enabled?(@conn, :events_hub_redesign) do %>
+<%= if Laboratory.enabled?(@conn, :events_hub_redesign) and !is_nil(@event.registration_link) do %>
 
   <div class="container m-event-details">
     <div class="c-cms <%= sidebar_class %>">
 
       <div class="c-cms__header">
-        <div class="c-cms__title">
-          <div class="m-event__date-range">
+        <div class="c-cms__title u-full-width">
+          <div class="m-event__date-range u-gray">
             <%= render_event_duration_list_view(@event.start_time, @event.end_time) %>
           </div>
           <h1 class="c-cms__title-text"><%= @event.title %></h1>
         </div>
       </div>
 
-      <div class="c-cms__content">
+      <div class="c-cms__content mt-3">
         <div class="c-cms__body">
 
-          <div class="page-section">
-            <%= render "_meeting_info.html", conn: @conn, event: @event, style: "c-paragraph--right-rail u-full-bleed mt-0" %>
-          </div>
+          <%= render "_meeting_info.html", conn: @conn, event: @event, style: "c-paragraph--right-rail u-full-bleed mt-0" %>
 
-          <div class="page-section">
-            <div class="event-hr-row">
-              <h2>Event Description</h2>
-              <%= Site.ContentRewriter.rewrite(@event.body, @conn) %>
-            </div>
+          <div class="m-event__section-padding m-event__section-border">
+            <h2 class="mt-0">Event Description</h2>
+            <%= Site.ContentRewriter.rewrite(@event.body, @conn) %>
           
             <%= if has_related_files do %>
               <h3>Related Files</h3>
@@ -59,21 +56,27 @@
             <% end %>
           </div>
 
-          <%= if @event.agenda do %>
-            <div class="page-section">
-              <div class="event-hr-row">
-                <h2><%= "Agenda" %></h2>
-                <%= Site.ContentRewriter.rewrite(@event.agenda, @conn) %>
+          <%= if event_status === :not_started do %>
+            <div class="m-event__registration m-event__section-border u-flex-container">
+              <h2 class="m-event__registration-header">Join the Virtual Meeting</h2>
+              <div class="m-event__registration-container">
+                <div class="mb-1">The meeting will be held over Zoom.</div>
+                <a class="btn btn-primary" href="<%= @event.registration_link %>">Register for the meeting</a>
               </div>
             </div>
           <% end %>
 
+          <%= if @event.agenda do %>
+            <div>
+              <h2><%= "Agenda" %></h2>
+              <%= Site.ContentRewriter.rewrite(@event.agenda, @conn) %>
+            </div>
+          <% end %>
+
           <%= if @event.notes do %>
-            <div class="page-section">
-              <div class="event-hr-row">
-                <h2><%= "Notes" %></h2>
-                <%= Site.ContentRewriter.rewrite(@event.notes, @conn) %>
-              </div>
+            <div>
+              <h2><%= "Notes" %></h2>
+              <%= Site.ContentRewriter.rewrite(@event.notes, @conn) %>
             </div>
           <% end %>
         </div>

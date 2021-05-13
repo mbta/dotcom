@@ -228,9 +228,9 @@ defmodule SiteWeb.EventViewTest do
         now
         |> Timex.shift(minutes: 30)
 
-      assert event_ended(%{start: distant_past, stop: past})
-      assert !event_ended(%{start: distant_past, stop: future})
-      assert !event_ended(%{start: future, stop: distant_future})
+      assert event_status(%{start: distant_past, stop: past}) === :ended
+      assert event_status(%{start: distant_past, stop: future}) === :started
+      assert event_status(%{start: future, stop: distant_future}) === :not_started
     end
 
     test "when event only has a start, consider event ended when the day is over" do
@@ -252,10 +252,10 @@ defmodule SiteWeb.EventViewTest do
         now
         |> Timex.shift(days: 1)
 
-      assert event_ended(%{start: yesterday, stop: nil})
-      assert !event_ended(%{start: earlier_today, stop: nil})
-      assert !event_ended(%{start: later_today, stop: nil})
-      assert !event_ended(%{start: tomorrow, stop: nil})
+      assert event_status(%{start: yesterday, stop: nil}) === :ended
+      assert event_status(%{start: earlier_today, stop: nil}) === :started
+      assert event_status(%{start: later_today, stop: nil}) === :not_started
+      assert event_status(%{start: tomorrow, stop: nil}) === :not_started
     end
 
     test "handles naive datetimes" do
@@ -271,8 +271,8 @@ defmodule SiteWeb.EventViewTest do
         naive_now
         |> NaiveDateTime.add(-1000)
 
-      assert event_ended(%{start: naive_distant_past, stop: naive_past})
-      assert !event_ended(%{start: naive_distant_past, stop: nil})
+      assert event_status(%{start: naive_distant_past, stop: naive_past}) === :ended
+      assert event_status(%{start: naive_distant_past, stop: nil}) === :started
     end
   end
 end

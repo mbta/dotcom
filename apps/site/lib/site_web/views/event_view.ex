@@ -14,6 +14,7 @@ defmodule SiteWeb.EventView do
   alias CMS.Page.Event
   alias CMS.Partial.Teaser
 
+  @type event_status :: :not_started | :started | :ended
   @default_date_format "{WDshort}, {Mshort} {D}, {YYYY}"
 
   @doc "Returns a pretty format for the event's city and state"
@@ -126,23 +127,26 @@ defmodule SiteWeb.EventView do
     "#{Timex.month_name(month)} #{year}"
   end
 
-  @spec event_ended(%{
-          start: NaiveDateTime.t() | DateTime.t(),
-          stop: NaiveDateTime.t() | DateTime.t() | nil
-        }) :: boolean
-  def event_ended(%{start: %NaiveDateTime{} = start, stop: %NaiveDateTime{} = stop}) do
-    event_ended(%{
-      start: start,
-      stop: convert_using_timezone(stop, "")
+  @spec event_status(%{
+        start: NaiveDateTime.t() | DateTime.t(),
+        stop: NaiveDateTime.t() | DateTime.t() | nil
+      }) :: event_status
+  def event_status(%{start: %NaiveDateTime{} = start, stop: stop}) do
+    event_status(%{
+      start: convert_using_timezone(start, ""),
+      stop: (if !is_nil(stop), do: convert_using_timezone(stop, ""), else: nil)
     })
   end
-
-  def event_ended(%{start: _start, stop: %DateTime{} = stop}) do
-    time_is_greater_or_equal?(now(), stop)
-  end
-
-  def event_ended(%{start: start, stop: nil}) do
-    Date.compare(now(), start) == :gt
+  def event_status(%{start: start, stop: stop}) do
+    cond do
+      !time_is_greater_or_equal?(now(), start) -> :not_started
+      # Check for no end-time first
+      time_is_greater_or_equal?(now(), start) and stop === nil and Date.compare(now(), start) === :gt -> :ended
+      time_is_greater_or_equal?(now(), start) and stop === nil -> :started
+      # If end-time exists, do a regular comparison
+      time_is_greater_or_equal?(now(), start) and !time_is_greater_or_equal?(now(), stop) -> :started
+      time_is_greater_or_equal?(now(), stop) -> :ended
+    end
   end
 
   def render_event_month_slug(month_number, year) do

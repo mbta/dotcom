@@ -1,7 +1,7 @@
 <%
   range = %{start: @event_teaser.date, stop: @event_teaser.date_end}
   path_fn = fn -> cms_static_page_path(@conn, @event_teaser.path) end
-  event_is_hidden = if @check_event_ended, do: event_ended(range), else: false
+  event_is_hidden = if @check_event_ended, do: event_status(range) === :ended, else: false
 %>
 
 <!-- If date is upcoming, display on init -->

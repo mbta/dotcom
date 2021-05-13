@@ -190,6 +190,14 @@
   flex: 1;
 }
 
+.u-full-width {
+  width: 100% !important;
+}
+
+.u-gray {
+  color: $gray;
+}
+
 // quick margin utilities loosely based off Bootstrap v4
 /* stylelint-disable declaration-no-important */
 .mb-0 {
@@ -210,5 +218,9 @@
 
 .mt-1 {
   margin-top: $base-spacing !important;
+}
+
+.mt-3 {
+  margin-top: $base-spacing * 3 !important;
 }
 /* stylelint-enable declaration-no-important */

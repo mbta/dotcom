@@ -1,5 +1,5 @@
 <div class="m-event__status-message <%= @class %>">
-  <%= if !event_ended(@range) do %>
+  <%= if event_status(@range) != :ended do %>
     <%= link to: event_icalendar_path(@conn, @path),
       data: [turbolinks: false], class: "btn btn-secondary btn-lg m-event__add-button" do %>
         <%= fa "calendar-plus-o" %>
