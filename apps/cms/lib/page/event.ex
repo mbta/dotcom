@@ -23,6 +23,7 @@ defmodule CMS.Page.Event do
 
   alias CMS.Field.File
   alias CMS.Field.Link
+  alias CMS.{Page, Page.Agenda}
   alias CMS.Partial.Paragraph
   alias Phoenix.HTML
 
@@ -49,7 +50,8 @@ defmodule CMS.Page.Event do
             path_alias: nil,
             paragraphs: [],
             registration_link: nil,
-            livestream_link: nil
+            livestream_link: nil,
+            agenda_embed: nil
 
   @type t :: %__MODULE__{
           id: integer | nil,
@@ -73,7 +75,8 @@ defmodule CMS.Page.Event do
           path_alias: String.t() | nil,
           paragraphs: [Paragraph.t()],
           registration_link: Link.t() | nil,
-          livestream_link: Link.t() | nil
+          livestream_link: Link.t() | nil,
+          agenda_embed: Agenda.t() |nil
         }
 
   @spec from_api(map, Keyword.t()) :: t
@@ -103,7 +106,8 @@ defmodule CMS.Page.Event do
       path_alias: path_alias(data),
       paragraphs: parse_paragraphs(data, preview_opts),
       registration_link: parse_link(data, "field_registration_url"),
-      livestream_link: parse_link(data, "field_livestream_url")
+      livestream_link: parse_link(data, "field_livestream_url"),
+      agenda_embed: data |> field_value("field_agenda_reference") |> Page.from_api(preview_opts)
     }
   end
 
