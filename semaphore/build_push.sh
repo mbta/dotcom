@@ -20,8 +20,8 @@ docker tag $APP:latest $DOCKER_REPO:$awsenv
 docker tag $APP:latest $DOCKER_REPO:git-$githash
 
 # retrieve the`docker login` command from AWS ECR and execute it
-logincmd=$(aws ecr get-login --no-include-email --region us-east-1)
-eval $logincmd
+# AWS CLI v2
+aws ecr get-login-password | docker login --username AWS --password-stdin ${DOCKER_REPO}
 
 # push images to ECS (Elastic Container Service) image repo
 docker push $DOCKER_REPO:$awsenv
