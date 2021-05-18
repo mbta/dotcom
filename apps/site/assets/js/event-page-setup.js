@@ -192,6 +192,35 @@ export function setupEventsListing() {
   if (activeMonthElement) activeMonthElement.scrollIntoView();
 }
 
+export function setupExpandControls() {
+  const eventsHubPage = document.querySelector(".m-events-hub");
+
+  const monthButtons = eventsHubPage.querySelectorAll(".m-month-control");
+  for (let i = 0; i < monthButtons.length; i++) {
+    monthButtons[i].addEventListener("click", event => {
+      const bodyRect = document.body.getBoundingClientRect();
+
+      const sections = eventsHubPage.querySelectorAll("section");
+      const sectionsArr = Array.prototype.slice.call(sections);
+      const dimensions = sectionsArr.map((sect, index) => {
+        const bounds = sect.getBoundingClientRect();
+        return {
+          x: bounds.left - bodyRect.left,
+          y: index === 0 ? 0 : bounds.top - bodyRect.top
+        };
+      });
+
+      const monthNumber = event.target.dataset.month;
+      const header = document.getElementById(`header-${monthNumber}`);
+      if (header) {
+        const destination = dimensions[monthNumber - 1];
+        window.scrollTo(destination.x, destination.y);
+        header.click();
+      }
+    });
+  }
+}
+
 export default function() {
   document.addEventListener(
     "turbolinks:load",
@@ -199,7 +228,8 @@ export default function() {
       const viewPreviousEventsLink = document.querySelector(
         ".m-view-previous-events"
       );
-      viewPreviousEventsLink.classList.remove("hidden");
+      if (viewPreviousEventsLink)
+        viewPreviousEventsLink.classList.remove("hidden");
       if (document.querySelector(".m-events-hub")) {
         const isIE = !!document.documentMode;
         if (isIE) {
@@ -208,6 +238,7 @@ export default function() {
 
         setupEventsListing();
         setupEventPopups();
+        setupExpandControls();
       }
     },
     { passive: true }

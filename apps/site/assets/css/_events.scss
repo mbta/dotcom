@@ -72,12 +72,6 @@ $mobile-control-height: 73px;
   background-color: $white;
   padding-top: $base-spacing;
 
-  a {
-    display: block;
-    font-size: 18px;
-    margin-bottom: $base-spacing / 2;
-  }
-
   &.sticky-top {
     top: $base-spacing;
   }
@@ -372,4 +366,15 @@ $mobile-control-height: 73px;
 
 .c-expandable-block-caret--black {
   @include expandable-block-caret($color: $black);
+}
+
+.m-month-control {
+  color: $brand-primary;
+  display: block;
+  font-size: 18px;
+  margin-bottom: $base-spacing / 2;
+
+  &:hover {
+    text-decoration: underline;
+  }
 }

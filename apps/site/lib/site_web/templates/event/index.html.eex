@@ -27,7 +27,15 @@
       <%= if !Enum.empty?(valid_months) do %>
         <p class="u-bold">Jump to</p>
         <%= for month <- valid_months do %>
-          <%= link render_event_month(month, @year), to: build_nav_path(@conn, month, @year), class: if month == @month, do: "u-bold"  %>
+
+          <%= if @conn.assigns[:calendar_view] do %>
+            <%= link render_event_month(month, @year), to: build_nav_path(@conn, month, @year), class: "m-month-control #{if month == @month, do: "u-bold"}" %>
+          <% else %>
+            <div tabindex="0" role="button" class="m-month-control <%= if month == @month, do: "u-bold" %>" data-month="<%= "#{month}" %>">
+              <%= render_event_month(month, @year) %>
+            </div>
+          <% end %>
+
         <% end %>
       <% end %>
     </nav>

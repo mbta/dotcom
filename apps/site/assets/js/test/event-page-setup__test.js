@@ -1,7 +1,11 @@
 import { assert, expect } from "chai";
 import sinon from "sinon";
 import jsdom from "mocha-jsdom";
-import { setupEventsListing, setupEventPopups } from "../event-page-setup";
+import {
+  setupEventsListing,
+  setupEventPopups,
+  setupExpandControls
+} from "../event-page-setup";
 import testConfig from "../../ts/jest.config";
 
 const { testURL } = testConfig;
@@ -10,9 +14,14 @@ const eventsHubListViewHTML = `
     <div class="container m-events-hub m-events-hub--list-view">
       <h1>Events</h1>
       <div class="row">
-        <nav class="m-event-list__nav col-sm-3 fixedsticky sticky-top"></nav>
+        <nav class="m-event-list__nav col-sm-2 sticky-top">
+          <p class="u-bold">Jump to</p>
+          <div tabindex="0" role="button" class="m-month-control" data-month="1">January 2021</div>
+          <div tabindex="0" role="button" class="m-month-control" data-month="2">February 2021</div>
+          <div tabindex="0" role="button" class="m-month-control" data-month="3">March 2021</div>
+        </nav>
         <div class="col-sm-offset-1 col-sm-8">
-          <nav class="m-event-list__nav--mobile-controls fixedsticky sticky-top">
+          <nav class="m-event-list__nav--mobile-controls sticky-top">
             <select class="c-select m-event-list__select">
               <option>Jump to</option>
               <option value="/events?month=1&year=2021">January 2021</option>
@@ -24,12 +33,12 @@ const eventsHubListViewHTML = `
             .map(
               m => `<section id="${m}-2021" class="m-event-list__month
               ${m === 2 ? "m-event-list__month--active" : ""}">
-                <button class="c-expandable-block__link sticky-top sticky-month" data-target="#panel-1" tabindex="0" id="header-1" aria-expanded="true" aria-controls="panel-1" data-toggle="collapse">
+                <button class="c-expandable-block__link sticky-top sticky-month" data-target="#panel-${m}" tabindex="0" id="header-${m}" aria-expanded="true" aria-controls="panel-${m}" data-toggle="collapse">
                   <h2 class="m-event-list__month-header">
                     ${m} 2021<span class="c-expandable-block-caret--black"></span>
                   </h2>
                 </button>
-                <div class="collapse in js-focus-on-expand" tabindex="0" role="region" id="panel-${m}" aria-labelledby="header-${m}">
+                <div class="collapse in" tabindex="0" role="region" id="panel-${m}" aria-labelledby="header-${m}">
                   <ul>
                     <li>Event 1</li>
                     <li>Event 2</li>
@@ -281,5 +290,40 @@ describe("setupEventPopups", () => {
 
     // "aria-hidden" should be true since the overlay should not be shown at this point
     expect(!!overlayDiv.getAttribute("aria-hidden")).to.equal(true);
+  });
+});
+
+describe("setupExpandControls", () => {
+  let $;
+  jsdom({ url: testURL });
+
+  beforeEach(() => {
+    $ = jsdom.rerequire("jquery");
+    $("body").addClass("js");
+    $("body").css("position", "relative");
+    $("body").css("min-height", "100%");
+    $("body").css("top", "0px");
+    $("body").append("<div id=test />");
+    $("#test").html(eventsHubListViewHTML);
+  });
+
+  afterEach(() => {
+    $("#test").remove();
+  });
+
+  it("clicking on the left menu expands/collapses", () => {
+    setupExpandControls();
+
+    const clickFunction = sinon.spy();
+    const header = document.getElementById("header-1");
+    header.addEventListener("click", event => {
+      clickFunction();
+    });
+
+    $(".m-month-control")
+      .first()
+      .trigger("click");
+
+    expect(clickFunction.called).to.equal(true);
   });
 });
