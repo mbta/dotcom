@@ -17,6 +17,7 @@ defmodule CMS.Page.Event do
       parse_paragraphs: 2,
       path_alias: 1
     ]
+
   import Util, only: [time_is_greater_or_equal?: 2, convert_using_timezone: 2, now: 0]
 
   alias CMS.Field.File
@@ -78,7 +79,7 @@ defmodule CMS.Page.Event do
   def from_api(%{} = data, preview_opts \\ []) do
     start_time = parse_iso_datetime(field_value(data, "field_start_time"))
     end_time = parse_iso_datetime(field_value(data, "field_end_time"))
-    
+
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
       start_time: start_time,
@@ -106,14 +107,15 @@ defmodule CMS.Page.Event do
   end
 
   @spec started_status(
-      NaiveDateTime.t() | DateTime.t(),
-      NaiveDateTime.t() | DateTime.t() | nil) :: status
+          NaiveDateTime.t() | DateTime.t(),
+          NaiveDateTime.t() | DateTime.t() | nil
+        ) :: status
   # Events have DateTime start/ends.  Teasers have NaiveDateTimes.
-  
+
   def started_status(%NaiveDateTime{} = start, stop) do
     started_status(
       convert_using_timezone(start, ""),
-      (if(is_nil(stop), do: nil, else: convert_using_timezone(stop, "")))
+      if(is_nil(stop), do: nil, else: convert_using_timezone(stop, ""))
     )
   end
 

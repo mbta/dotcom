@@ -58,7 +58,7 @@ defmodule Fares.ProposedLocations do
     %Location{
       fid: attributes["FID"],
       stop_id: attributes["stop_id"],
-      stop_name: attributes["stop_name"],
+      name: attributes["stop_name"],
       municipality: attributes["municipali"],
       line: attributes["Line"],
       retail_fvm: attributes["RetailFVM"],

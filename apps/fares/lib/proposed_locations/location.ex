@@ -5,7 +5,7 @@ defmodule Fares.ProposedLocations.Location do
   defstruct [
     :fid,
     :stop_id,
-    :stop_name,
+    :name,
     :municipality,
     :line,
     :retail_fvm,
@@ -17,7 +17,7 @@ defmodule Fares.ProposedLocations.Location do
   @type t :: %__MODULE__{
           fid: non_neg_integer,
           stop_id: String.t(),
-          stop_name: String.t(),
+          name: String.t(),
           municipality: String.t(),
           line: String.t(),
           retail_fvm: String.t(),

@@ -15,7 +15,7 @@ defmodule Fares.ProposedLocationsTest do
     retail_fvm: "Fare vending machine",
     routes: ["77", "79"],
     stop_id: "2250",
-    stop_name: "Massachusetts Ave @ Daniels St"
+    name: "Massachusetts Ave @ Daniels St"
   }
   @arcgis_response "{
     \"objectIdFieldName\" : \"FID\",

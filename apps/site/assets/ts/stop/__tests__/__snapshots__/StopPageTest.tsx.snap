@@ -3636,31 +3636,31 @@ Array [
                   Stores near 
                   South Station
                 </h5>
-                <a
-                  className="c-location-card m-stop-page__retail-location"
-                  href="https://maps.google.com/maps/dir/42.352271,-71.055242/42,-71/"
-                  target="blank"
+                <div
+                  className="c-sales-locations__card m-stop-page__retail-location"
                 >
                   <div
-                    className="clearfix"
+                    className="c-sales-locations__card-flex-row"
                   >
-                    <div
-                      className="c-location-card__name m-stop-page__retail-location-name"
+                    <a
+                      className="m-stop-page__retail-location-name"
+                      href="https://maps.google.com/maps/dir/42.352271,-71.055242/42,-71/"
+                      target="blank"
                     >
                       Store Name
-                    </div>
+                    </a>
                     <div
-                      className="c-location-card__distance m-stop-page__retail-location-distance"
+                      className="c-sales-location__card-distance m-stop-page__retail-location-distance"
                     >
                       500 ft
                     </div>
                   </div>
                   <div
-                    className="c-location-card__address m-stop-page__retail-location-distance"
+                    className="m-stop-page__retail-location-distance"
                   >
                     1234 Main St., Boston MA
                   </div>
-                </a>
+                </div>
               </div>
             </div>
           </noscript>

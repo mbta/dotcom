@@ -231,26 +231,20 @@
 }
 
 .m-stop-page__retail-locations {
-  &.c-location-cards {
-    background: auto;
-    margin-bottom: 0;
-    margin-top: $base-spacing;
-    padding: 0;
-  }
+  background: auto;
+  margin-bottom: 0;
+  margin-top: $base-spacing;
+  padding: 0;
 }
 
 .m-stop-page__retail-location {
-  &.c-location-card {
-    box-shadow: 0 2px 4px 0 $drop-shadow-color;
-    margin: $base-spacing / 2 $base-spacing / 4;
-    padding: $base-spacing / 2;
-  }
+  box-shadow: 0 2px 4px 0 $drop-shadow-color;
+  margin: $base-spacing $base-spacing / 4;
+  padding: $base-spacing / 2;
 }
 
 .m-stop-page__retail-location-name {
-  &.c-location-card__name {
-    margin-bottom: 0;
-  }
+  font-weight: bold;
 }
 
 .m-stop-page__transfers {

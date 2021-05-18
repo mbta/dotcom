@@ -16,7 +16,7 @@ defmodule CMS.Partial.Teaser do
     ]
 
   import CMS.Page.Event, only: [started_status: 2]
-  @type status :: Event.status
+  @type status :: Event.status()
 
   alias CMS.{API, Field.Image}
 
