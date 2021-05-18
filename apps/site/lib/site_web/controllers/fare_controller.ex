@@ -11,15 +11,39 @@ defmodule SiteWeb.FareController do
 
   @options %{
     geocode_fn: &Geocode.geocode/1,
+    reverse_geocode_fn: &Geocode.reverse_geocode/2,
     nearby_fn: &Fares.RetailLocations.get_nearby/1
   }
 
-  def show(
-        %Plug.Conn{assigns: %{date_time: date_time}} = conn,
-        %{"id" => "retail-sales-locations"} = params
-      ) do
-    {position, formatted} = Geocode.calculate_position(params, @options.geocode_fn)
+  def show(conn, %{"id" => "retail-sales-locations"} = params) do
+    search_location(conn, params)
+  end
 
+  def show(conn, _) do
+    check_cms_or_404(conn)
+  end
+
+  def search_location(conn, %{"location" => %{"address" => address}} = params) do
+    address = Geocode.check_address(address, @options)
+    params = %{params | "location" => %{"address" => address}}
+
+    {position, _formatted} = Geocode.calculate_position(params, @options.geocode_fn)
+
+    retail_locations = fare_sales_locations(position, @options.nearby_fn)
+
+    render_with_locations(conn, retail_locations, address, position)
+  end
+
+  def search_location(conn, %{"latitude" => lat, "longitude" => lon} = params) do
+    params = Map.put(params, "location", %{"address" => lat <> "," <> lon})
+    search_location(conn, params)
+  end
+
+  def search_location(conn, _params) do
+    render_with_locations(conn, nil, "", %{})
+  end
+
+  def render_with_locations(conn, retail_locations, address, position) do
     conn
     |> assign(:breadcrumbs, [
       Breadcrumb.build("Fares", cms_static_page_path(conn, "/fares")),
@@ -27,26 +51,11 @@ defmodule SiteWeb.FareController do
     ])
     |> render(
       "retail_sales_locations.html",
-      current_pass: current_pass(date_time),
       requires_google_maps?: true,
-      fare_sales_locations: fare_sales_locations(position, @options.nearby_fn),
-      address: formatted,
+      fare_sales_locations: retail_locations,
+      address: address,
       search_position: position
     )
-  end
-
-  def show(conn, _) do
-    check_cms_or_404(conn)
-  end
-
-  @spec current_pass(DateTime.t()) :: String.t()
-  def current_pass(%{day: day} = date) when day < 15 do
-    Timex.format!(date, "{Mfull} {YYYY}")
-  end
-
-  def current_pass(date) do
-    next_month = Timex.shift(date, months: 1)
-    Timex.format!(next_month, "{Mfull} {YYYY}")
   end
 
   @spec fare_sales_locations(

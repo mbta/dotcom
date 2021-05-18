@@ -5,6 +5,7 @@ defmodule SiteWeb.TripPlanController do
 
   use SiteWeb, :controller
   alias Fares.{Fare, Month, OneWay}
+  alias GoogleMaps.Geocode
   alias Routes.Route
   alias Site.TripPlan.{Query, RelatedLink, ItineraryRow, ItineraryRowList}
   alias Site.TripPlan.Map, as: TripPlanMap
@@ -20,6 +21,11 @@ defmodule SiteWeb.TripPlanController do
 
   @type route_map :: %{optional(Route.id_t()) => Route.t()}
   @type route_mapper :: (Route.id_t() -> Route.t() | nil)
+
+  @options %{
+    geocode_fn: &Geocode.geocode/1,
+    reverse_geocode_fn: &Geocode.reverse_geocode/2
+  }
 
   @plan_datetime_selector_fields %{
     depart: "depart",
@@ -61,7 +67,9 @@ defmodule SiteWeb.TripPlanController do
   end
 
   def to(conn, %{"address" => address}) do
-    case TripPlan.geocode(address) do
+    updated_address = Geocode.check_address(address, @options)
+
+    case TripPlan.geocode(updated_address) do
       {:ok, geocoded_to} ->
         # build a default query with a pre-filled 'to' field:
         query = %Query{
