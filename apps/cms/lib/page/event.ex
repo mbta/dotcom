@@ -17,15 +17,19 @@ defmodule CMS.Page.Event do
       parse_paragraphs: 2,
       path_alias: 1
     ]
+  import Util, only: [time_is_greater_or_equal?: 2, convert_using_timezone: 2, now: 0]
 
   alias CMS.Field.File
   alias CMS.Field.Link
   alias CMS.Partial.Paragraph
   alias Phoenix.HTML
 
+  @type status :: :not_started | :started | :ended
+
   defstruct id: nil,
             start_time: nil,
             end_time: nil,
+            started_status: :not_started,
             title: "",
             location: nil,
             street_address: nil,
@@ -49,6 +53,7 @@ defmodule CMS.Page.Event do
           id: integer | nil,
           start_time: DateTime.t() | nil,
           end_time: DateTime.t() | nil,
+          started_status: status,
           title: String.t() | nil,
           location: String.t() | nil,
           street_address: String.t() | nil,
@@ -71,10 +76,14 @@ defmodule CMS.Page.Event do
 
   @spec from_api(map, Keyword.t()) :: t
   def from_api(%{} = data, preview_opts \\ []) do
+    start_time = parse_iso_datetime(field_value(data, "field_start_time"))
+    end_time = parse_iso_datetime(field_value(data, "field_end_time"))
+    
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
-      start_time: parse_iso_datetime(field_value(data, "field_start_time")),
-      end_time: parse_iso_datetime(field_value(data, "field_end_time")),
+      start_time: start_time,
+      end_time: end_time,
+      started_status: started_status(start_time, end_time),
       title: field_value(data, "title"),
       location: field_value(data, "field_location"),
       street_address: field_value(data, "field_street_address"),
@@ -96,9 +105,37 @@ defmodule CMS.Page.Event do
     }
   end
 
-  @spec past?(t, Date.t()) :: boolean
-  def past?(event, now) do
-    Date.compare(event.start_time, now) == :lt
+  @spec started_status(
+      NaiveDateTime.t() | DateTime.t(),
+      NaiveDateTime.t() | DateTime.t() | nil) :: status
+  # Events have DateTime start/ends.  Teasers have NaiveDateTimes.
+  
+  def started_status(%NaiveDateTime{} = start, stop) do
+    started_status(
+      convert_using_timezone(start, ""),
+      (if(is_nil(stop), do: nil, else: convert_using_timezone(stop, "")))
+    )
+  end
+
+  def started_status(start, nil) do
+    cond do
+      time_is_greater_or_equal?(now(), start) and Date.compare(now(), start) === :gt -> :ended
+      time_is_greater_or_equal?(now(), start) -> :started
+      true -> :not_started
+    end
+  end
+
+  def started_status(start, stop) do
+    cond do
+      time_is_greater_or_equal?(now(), start) and !time_is_greater_or_equal?(now(), stop) ->
+        :started
+
+      time_is_greater_or_equal?(now(), stop) ->
+        :ended
+
+      true ->
+        :not_started
+    end
   end
 
   @spec parse_optional_html(String.t() | nil) :: HTML.safe() | nil

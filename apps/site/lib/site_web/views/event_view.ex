@@ -127,36 +127,9 @@ defmodule SiteWeb.EventView do
     "#{Timex.month_name(month)} #{year}"
   end
 
-  @spec event_status(%{
-          start: NaiveDateTime.t() | DateTime.t(),
-          stop: NaiveDateTime.t() | DateTime.t() | nil
-        }) :: event_status
-  def event_status(%{start: %NaiveDateTime{} = start, stop: stop}) do
-    event_status(%{
-      start: convert_using_timezone(start, ""),
-      stop: if(is_nil(stop), do: nil, else: convert_using_timezone(stop, ""))
-    })
-  end
-
-  def event_status(%{start: start, stop: nil}) do
-    cond do
-      time_is_greater_or_equal?(now(), start) and Date.compare(now(), start) === :gt -> :ended
-      time_is_greater_or_equal?(now(), start) -> :started
-      true -> :not_started
-    end
-  end
-
-  def event_status(%{start: start, stop: stop}) do
-    cond do
-      time_is_greater_or_equal?(now(), start) and !time_is_greater_or_equal?(now(), stop) ->
-        :started
-
-      time_is_greater_or_equal?(now(), stop) ->
-        :ended
-
-      true ->
-        :not_started
-    end
+  @spec is_ended?(Event.t() | Teaser.t()) :: boolean
+  def is_ended?(event) do
+    event.started_status === :ended
   end
 
   def render_event_month_slug(month_number, year) do

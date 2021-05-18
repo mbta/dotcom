@@ -17,44 +17,28 @@
     padding-bottom: $base-spacing * 2;
   }
 
-  .m-event__section-padding {
+  .m-event-section {
     padding-bottom: $base-spacing-lg;
-  }
-  
-  .m-event__section-border {
-    border-bottom: $border;
-    &:last-child {
-      border-bottom: none;
-    }
   }
 
   .m-event__registration {
-    padding: $base-spacing * 2 0 $base-spacing 0;
+    display: flex;
+    justify-content: space-between;
     
     &-header {
       flex: 0 1 40%;
       margin: 0;
       align-self: center;
     }
-    &-container {
-      flex: 1 0 auto;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
+
+    .btn {
+      width: 100%;
     }
 
     @include media-breakpoint-down(xs) {
-      flex-direction: column;
-      a {
-        width: 100%;
-      }
+      display: block;
       .m-event__registration-header {
-        align-self: unset;
         margin-bottom: $base-spacing / 2;
-      }
-      .m-event__registration-container {
-        align-items: flex-start;
       }
     }
   }

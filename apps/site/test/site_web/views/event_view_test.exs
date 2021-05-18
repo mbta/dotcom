@@ -208,71 +208,14 @@ defmodule SiteWeb.EventViewTest do
     end
   end
 
-  describe "event_ended/2" do
-    test "when start and end are provided as datetimes" do
-      now = Util.now()
+  describe "is_ended?/2" do
 
-      past =
-        now
-        |> Timex.shift(minutes: -3)
-
-      distant_past =
-        now
-        |> Timex.shift(minutes: -30)
-
-      future =
-        now
-        |> Timex.shift(minutes: 3)
-
-      distant_future =
-        now
-        |> Timex.shift(minutes: 30)
-
-      assert event_status(%{start: distant_past, stop: past}) === :ended
-      assert event_status(%{start: distant_past, stop: future}) === :started
-      assert event_status(%{start: future, stop: distant_future}) === :not_started
+    test ":not_started value read by function" do
+      assert is_ended?(%Event{started_status: :not_started}) == false
     end
 
-    test "when event only has a start, consider event ended when the day is over" do
-      now = Util.now()
-
-      earlier_today =
-        now
-        |> Timex.shift(seconds: -30)
-
-      later_today =
-        now
-        |> Timex.shift(seconds: 30)
-
-      yesterday =
-        now
-        |> Timex.shift(days: -1)
-
-      tomorrow =
-        now
-        |> Timex.shift(days: 1)
-
-      assert event_status(%{start: yesterday, stop: nil}) === :ended
-      assert event_status(%{start: earlier_today, stop: nil}) === :started
-      assert event_status(%{start: later_today, stop: nil}) === :not_started
-      assert event_status(%{start: tomorrow, stop: nil}) === :not_started
-    end
-
-    test "handles naive datetimes" do
-      naive_now =
-        Util.now()
-        |> DateTime.to_naive()
-
-      naive_past =
-        naive_now
-        |> NaiveDateTime.add(-500)
-
-      naive_distant_past =
-        naive_now
-        |> NaiveDateTime.add(-1000)
-
-      assert event_status(%{start: naive_distant_past, stop: naive_past}) === :ended
-      assert event_status(%{start: naive_distant_past, stop: nil}) === :started
+    test ":ended value verified" do
+      assert is_ended?(%Event{started_status: :ended}) == true
     end
   end
 end
