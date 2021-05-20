@@ -3,6 +3,7 @@ defmodule SiteWeb.EventViewTest do
   import SiteWeb.EventView
   import CMS.Helpers, only: [parse_iso_datetime: 1]
   alias CMS.Partial.Teaser
+  alias CMS.Page.Event
 
   describe "show.html" do
     test "the notes section is not rendered when the event notes are empty", %{conn: conn} do
