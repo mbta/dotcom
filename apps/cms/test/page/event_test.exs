@@ -114,9 +114,9 @@ defmodule CMS.Page.EventTest do
         now
         |> Timex.shift(minutes: 30)
 
-      assert started_status(%{start: distant_past, stop: past}) === :ended
-      assert started_status(%{start: distant_past, stop: future}) === :started
-      assert started_status(%{start: future, stop: distant_future}) === :not_started
+      assert started_status(distant_past, past) === :ended
+      assert started_status(distant_past, future) === :started
+      assert started_status(future, distant_future) === :not_started
     end
 
     test "when event only has a start, consider event ended when the day is over" do
@@ -138,10 +138,10 @@ defmodule CMS.Page.EventTest do
         now
         |> Timex.shift(days: 1)
 
-      assert started_status(%{start: yesterday, stop: nil}) === :ended
-      assert started_status(%{start: earlier_today, stop: nil}) === :started
-      assert started_status(%{start: later_today, stop: nil}) === :not_started
-      assert started_status(%{start: tomorrow, stop: nil}) === :not_started
+      assert started_status(yesterday, nil) === :ended
+      assert started_status(earlier_today, nil) === :started
+      assert started_status(later_today, nil) === :not_started
+      assert started_status(tomorrow, nil) === :not_started
     end
 
     test "handles naive datetimes" do
@@ -157,8 +157,12 @@ defmodule CMS.Page.EventTest do
         naive_now
         |> NaiveDateTime.add(-1000)
 
-      assert started_status(%{start: naive_distant_past, stop: naive_past}) === :ended
-      assert started_status(%{start: naive_distant_past, stop: nil}) === :started
+      assert started_status(naive_distant_past, naive_past) === :ended
+      assert started_status(naive_distant_past, nil) === :started
+    end
+
+    test "handles nil start" do
+      assert started_status(nil, nil) === nil
     end
   end
 end

@@ -109,7 +109,7 @@ defmodule CMS.Page.Event do
   @spec started_status(
           NaiveDateTime.t() | DateTime.t(),
           NaiveDateTime.t() | DateTime.t() | nil
-        ) :: status
+        ) :: status | nil
   # Events have DateTime start/ends.  Teasers have NaiveDateTimes.
   # Events will always have a start time, but unsure if teasers will. Handle :nil
   def started_status(nil, _), do: nil
