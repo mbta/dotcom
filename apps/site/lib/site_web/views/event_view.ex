@@ -9,8 +9,6 @@ defmodule SiteWeb.EventView do
   import SiteWeb.CMSView,
     only: [file_description: 1, render_duration: 2, maybe_shift_timezone: 1, format_time: 1]
 
-  import Util, only: [time_is_greater_or_equal?: 2, convert_using_timezone: 2, now: 0]
-
   alias CMS.Page.Event
   alias CMS.Partial.Teaser
 

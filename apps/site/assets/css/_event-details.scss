@@ -31,10 +31,6 @@
       align-self: center;
     }
 
-    .btn {
-      width: 100%;
-    }
-
     @include media-breakpoint-down(xs) {
       display: block;
       .m-event__registration-header {

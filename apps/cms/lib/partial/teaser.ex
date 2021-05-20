@@ -31,7 +31,7 @@ defmodule CMS.Partial.Teaser do
     topic: nil,
     date: nil,
     date_end: nil,
-    started_status: :not_started,
+    started_status: nil,
     location: nil,
     routes: [],
     status: nil
@@ -62,7 +62,7 @@ defmodule CMS.Partial.Teaser do
           topic: String.t() | nil,
           date: Date.t() | DateTime.t() | nil,
           date_end: DateTime.t() | nil,
-          started_status: status,
+          started_status: status | nil,
           location: location() | nil,
           routes: [API.route_term()],
           status: String.t() | nil

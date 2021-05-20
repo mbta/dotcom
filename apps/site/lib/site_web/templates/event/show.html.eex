@@ -61,7 +61,7 @@
               <h2 class="m-event__registration-header">Join the Virtual Meeting</h2>
               <div>
                 <div class="mb-1">The meeting will be held over Zoom.</div>
-                <a class="btn btn-primary" href="<%= @event.registration_link %>">Register for the meeting</a>
+                <a class="btn btn-primary btn-block" href="<%= @event.registration_link %>">Register for the meeting</a>
               </div>
             </div>
             <hr />

@@ -111,6 +111,8 @@ defmodule CMS.Page.Event do
           NaiveDateTime.t() | DateTime.t() | nil
         ) :: status
   # Events have DateTime start/ends.  Teasers have NaiveDateTimes.
+  # Events will always have a start time, but unsure if teasers will. Handle :nil
+  def started_status(nil, _), do: nil
 
   def started_status(%NaiveDateTime{} = start, stop) do
     started_status(
@@ -121,7 +123,7 @@ defmodule CMS.Page.Event do
 
   def started_status(start, nil) do
     cond do
-      time_is_greater_or_equal?(now(), start) and Date.compare(now(), start) === :gt -> :ended
+      Date.compare(now(), start) === :gt -> :ended
       time_is_greater_or_equal?(now(), start) -> :started
       true -> :not_started
     end
@@ -129,14 +131,9 @@ defmodule CMS.Page.Event do
 
   def started_status(start, stop) do
     cond do
-      time_is_greater_or_equal?(now(), start) and !time_is_greater_or_equal?(now(), stop) ->
-        :started
-
-      time_is_greater_or_equal?(now(), stop) ->
-        :ended
-
-      true ->
-        :not_started
+      time_is_greater_or_equal?(now(), stop) -> :ended
+      time_is_greater_or_equal?(now(), start) -> :started
+      true -> :not_started
     end
   end
 
