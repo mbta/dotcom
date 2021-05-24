@@ -108,7 +108,7 @@ defmodule CMS.Page.Event do
   end
 
   @spec started_status(
-          NaiveDateTime.t() | DateTime.t(),
+          NaiveDateTime.t() | DateTime.t() | Date.t(),
           NaiveDateTime.t() | DateTime.t() | nil
         ) :: status | nil
   # Events have DateTime start/ends.  Teasers have NaiveDateTimes OR Dates.

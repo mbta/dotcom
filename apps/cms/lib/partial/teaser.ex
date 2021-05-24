@@ -19,6 +19,8 @@ defmodule CMS.Partial.Teaser do
 
   alias CMS.{API, Field.Image}
 
+  @type started_status :: CMS.Page.Event.status()
+
   @enforce_keys [:id, :type, :path, :title]
   defstruct [
     :id,
@@ -61,7 +63,7 @@ defmodule CMS.Partial.Teaser do
           topic: String.t() | nil,
           date: Date.t() | DateTime.t() | nil,
           date_end: DateTime.t() | nil,
-          started_status: :not_started | :started | :ended | nil,
+          started_status: started_status | nil,
           location: location() | nil,
           routes: [API.route_term()],
           status: String.t() | nil
