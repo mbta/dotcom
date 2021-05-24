@@ -700,9 +700,9 @@ defmodule SiteWeb.ScheduleController.Line.HelpersTest do
         "place-GB-0296"
       ])
 
-      assert Enum.map(rockport_route_stops, & &1.is_terminus?) == [false, false, true]
+      assert Enum.map(rockport_route_stops, & &1.is_terminus?) == [false, false, false, true]
 
-      assert Enum.map(rockport_route_stops, & &1.is_beginning?) == [false, false, false]
+      assert Enum.map(rockport_route_stops, & &1.is_beginning?) == [false, false, false, false]
 
       assert Enum.all?(newburyport_route_stops, &(&1.branch == "North Station - Newburyport"))
 
