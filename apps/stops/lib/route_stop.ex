@@ -113,7 +113,7 @@ defmodule Stops.RouteStop do
   end
 
   def verify_direction(route_id, direction) do
-    if route_id === "Boat-F1", do: 1-direction, else: direction
+    if route_id === "Boat-F1", do: 1 - direction, else: direction
   end
 
   # Special-case the Lechmere shuttle

@@ -45,14 +45,16 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     # Get route_id to check if this is the HH Ferry
     # Most routes have a merge on the inbound side, 
     # But the HH ferry merges on the outbound end
-    route_id = branches
+    route_id =
+      branches
       |> List.first()
       |> Map.get(:stops)
       |> List.first()
       |> Map.get(:route)
       |> Map.get(:id)
+
     verified_direction = RouteStop.verify_direction(route_id, direction_id)
-    
+
     branches
     |> do_build_stop_list(verified_direction)
     |> sort_stop_list(verified_direction)
@@ -277,12 +279,22 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     [{bubble_types, stop} | branch_stops]
   end
 
-  def build_branched_stop({%RouteStop{is_terminus?: true} = stop, _}, all_stops, {nil, branches}, 1) do
+  def build_branched_stop(
+        {%RouteStop{is_terminus?: true} = stop, _},
+        all_stops,
+        {nil, branches},
+        1
+      ) do
     # A terminus on a one-stop trunk is first and foremost a :merge
     [{Enum.map(branches, &{&1, :merge}), stop} | all_stops]
   end
 
-  def build_branched_stop({%RouteStop{is_terminus?: true} = stop, _}, all_stops, {nil, _}, _branch_length) do
+  def build_branched_stop(
+        {%RouteStop{is_terminus?: true} = stop, _},
+        all_stops,
+        {nil, _},
+        _branch_length
+      ) do
     # Otherwise, a terminus that's not on a branch is always :terminus
     [{[{nil, :terminus}], stop} | all_stops]
   end
@@ -303,7 +315,12 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     [{[{nil, :stop}], stop} | all_stops]
   end
 
-  def build_branched_stop({%RouteStop{} = stop, _}, all_stops, {current_branch, branches}, _branch_length)
+  def build_branched_stop(
+        {%RouteStop{} = stop, _},
+        all_stops,
+        {current_branch, branches},
+        _branch_length
+      )
       when is_binary(current_branch) do
     # when the branch name is not nil, that means that the stop is on a branch. The stop needs to show a bubble for
     # each branch that has already been parsed. We evaluate each branch to determine which bubble type to show:

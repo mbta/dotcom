@@ -565,27 +565,61 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert build_branched_stop(stop, [], branches) == [{bubbles, stop}]
     end
 
-    test "a terminus that's not on a branch is always a terminus" do
+    test "a terminus on a one-stop trunk is a merge" do
       stop = %RouteStop{id: "new", branch: nil, is_terminus?: true}
-      assert build_branched_stop({stop, true}, [], {nil, []}) == [{[{nil, :terminus}], stop}]
-      assert build_branched_stop({stop, false}, [], {nil, []}) == [{[{nil, :terminus}], stop}]
+      branch_length = 1
+
+      assert build_branched_stop({stop, true}, [], {nil, []}, branch_length) == [
+               {[{nil, :terminus}], stop}
+             ]
+
+      assert build_branched_stop({stop, false}, [], {nil, []}, branch_length) == [
+               {[{nil, :terminus}], stop}
+             ]
+    end
+
+    test "a terminus not on a branch (but also not the ONLY stop on a branch) is always a terminus" do
+      stop = %RouteStop{id: "new", branch: nil, is_terminus?: true}
+      branch_length = 3
+
+      assert build_branched_stop({stop, true}, [], {nil, []}, branch_length) == [
+               {[{nil, :terminus}], stop}
+             ]
+
+      assert build_branched_stop({stop, false}, [], {nil, []}, branch_length) == [
+               {[{nil, :terminus}], stop}
+             ]
     end
 
     test "non-terminus in unbranched stops is a merge stop when it's first or last in list" do
       new_stop = %RouteStop{id: "new"}
-      result = build_branched_stop({new_stop, true}, [], {nil, ["branch 1", "branch 2"]})
+      branch_length = 3
+
+      result =
+        build_branched_stop({new_stop, true}, [], {nil, ["branch 1", "branch 2"]}, branch_length)
+
       assert result == [{[{"branch 1", :merge}, {"branch 2", :merge}], new_stop}]
     end
 
     test "unbranched stops that aren't first or last in list are just :stop" do
       new_stop = %RouteStop{id: "new"}
-      result = build_branched_stop({new_stop, false}, [], {nil, []})
+      branch_length = 3
+      result = build_branched_stop({new_stop, false}, [], {nil, []}, branch_length)
       assert result == [{[{nil, :stop}], new_stop}]
     end
 
     test "branched terminus includes :terminus in stop bubbles" do
       new_stop = %RouteStop{id: "new", branch: "branch 1", is_terminus?: true}
-      result = build_branched_stop({new_stop, false}, [], {"branch 1", ["branch 1", "branch 2"]})
+      branch_length = 3
+
+      result =
+        build_branched_stop(
+          {new_stop, false},
+          [],
+          {"branch 1", ["branch 1", "branch 2"]},
+          branch_length
+        )
+
       assert result == [{[{"branch 1", :terminus}, {"branch 2", :line}], new_stop}]
     end
   end
