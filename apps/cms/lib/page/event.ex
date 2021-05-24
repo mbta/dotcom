@@ -23,7 +23,7 @@ defmodule CMS.Page.Event do
 
   alias CMS.Field.File
   alias CMS.Field.Link
-  alias CMS.{Page, Page.Agenda}
+  alias CMS.Page.Agenda
   alias CMS.Partial.Paragraph
   alias Phoenix.HTML
 
@@ -76,13 +76,19 @@ defmodule CMS.Page.Event do
           paragraphs: [Paragraph.t()],
           registration_link: Link.t() | nil,
           livestream_link: Link.t() | nil,
-          agenda_embed: Agenda.t() |nil
+          agenda_embed: Agenda.t() | nil
         }
 
   @spec from_api(map, Keyword.t()) :: t
   def from_api(%{} = data, preview_opts \\ []) do
     start_time = parse_iso_datetime(field_value(data, "field_start_time"))
     end_time = parse_iso_datetime(field_value(data, "field_end_time"))
+
+    agenda_embed =
+      case field_value(data, "field_agenda_reference") do
+        %{} = agenda_page -> Agenda.from_api(agenda_page, preview_opts)
+        _ -> nil
+      end
 
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
@@ -107,7 +113,7 @@ defmodule CMS.Page.Event do
       paragraphs: parse_paragraphs(data, preview_opts),
       registration_link: parse_link(data, "field_registration_url"),
       livestream_link: parse_link(data, "field_livestream_url"),
-      agenda_embed: data |> field_value("field_agenda_reference") |> Page.from_api(preview_opts)
+      agenda_embed: agenda_embed
     }
   end
 
