@@ -94,6 +94,10 @@ defmodule CMS.API.Static do
     parse_json("landing_page_with_all_paragraphs.json")
   end
 
+  def agenda_response do
+    parse_json("agenda.json")
+  end
+
   def basic_page_response do
     parse_json("basic_page_no_sidebar.json")
   end
@@ -149,6 +153,10 @@ defmodule CMS.API.Static do
 
   def view("/basic_page_no_sidebar", _) do
     {:ok, basic_page_response()}
+  end
+
+  def view("/agenda", _) do
+    {:ok, agenda_response()}
   end
 
   def view("/cms/news", id: id) do

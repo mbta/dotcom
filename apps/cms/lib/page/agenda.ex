@@ -25,8 +25,8 @@ defmodule CMS.Page.Agenda do
           id: integer | nil,
           title: String.t(),
           topics: [Paragraph.AgendaTopic.t()],
-          collect_info: boolean(),
-          event_reference: integer() | nil,
+          collect_info: boolean,
+          event_reference: integer | nil,
           formstack_url: Link.t() | nil
         }
 
