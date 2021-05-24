@@ -569,12 +569,12 @@ defmodule SiteWeb.ScheduleController.LineTest do
       stop = %RouteStop{id: "new", branch: nil, is_terminus?: true}
       branch_length = 1
 
-      assert build_branched_stop({stop, true}, [], {nil, []}, branch_length) == [
-               {[{nil, :terminus}], stop}
+      assert build_branched_stop({stop, true}, [], {nil, ["branch 1", "branch 2"]}, branch_length) == [
+               {[{"branch 1", :merge}, {"branch 2", :merge}], stop}
              ]
 
-      assert build_branched_stop({stop, false}, [], {nil, []}, branch_length) == [
-               {[{nil, :terminus}], stop}
+      assert build_branched_stop({stop, false}, [], {nil, ["branch 1", "branch 2"]}, branch_length) == [
+               {[{"branch 1", :merge}, {"branch 2", :merge}], stop}
              ]
     end
 
