@@ -108,8 +108,12 @@ defmodule Stops.RouteStop do
       &do_list_from_route_pattern(&1, route, direction_id, use_route_id_for_branch_name?)
     )
     |> maybe_stitch_chunks()
-    |> merge_branch_list(direction_id)
+    |> merge_branch_list(verify_direction(route.id, direction_id))
     |> maybe_correct_for_lechmere_shuttle()
+  end
+
+  def verify_direction(route_id, direction) do
+    if route_id === "Boat-F1", do: 1-direction, else: direction
   end
 
   # Special-case the Lechmere shuttle
