@@ -34,6 +34,31 @@ defmodule SiteWeb.FareControllerTest do
 
       assert conn.assigns.meta_description
     end
+
+    test "renders the retail sales locations page with results by giving it an address", %{
+      conn: conn
+    } do
+      conn =
+        get(conn, fare_path(conn, :show, "retail-sales-locations"), %{
+          "latitude" => "42.3576135",
+          "location" => %{"address" => "Park Street Place, Boston, MA, USA"},
+          "longitude" => "-71.0625776"
+        })
+
+      assert html_response(conn, 200) =~ "Get Directions"
+    end
+
+    test "renders the retail sales locations page with results by giving it coordinates", %{
+      conn: conn
+    } do
+      conn =
+        get(conn, fare_path(conn, :show, "retail-sales-locations"), %{
+          "latitude" => "42.3576135",
+          "longitude" => "-71.0625776"
+        })
+
+      assert html_response(conn, 200) =~ "Get Directions"
+    end
   end
 
   describe "fare_sales_locations/2" do
@@ -53,30 +78,6 @@ defmodule SiteWeb.FareControllerTest do
 
       locations = fare_sales_locations(%{}, nearby_fn)
       assert locations == []
-    end
-  end
-
-  describe "current_pass/1" do
-    test "is the current month when the date given is prior to the 15th" do
-      {:ok, date} = Timex.parse("2016-12-01T12:12:12-05:00", "{ISO:Extended}")
-
-      assert current_pass(date) == "December 2016"
-    end
-
-    test "is the next month when the date given is the 15th or later" do
-      {:ok, date} = Timex.parse("2016-12-15T12:12:12-05:00", "{ISO:Extended}")
-
-      assert current_pass(date) == "January 2017"
-    end
-
-    test "uses the date passed in if there is one", %{conn: conn} do
-      conn =
-        get(
-          conn,
-          fare_path(conn, :show, "retail-sales-locations", date_time: "2013-01-01T12:12:12-05:00")
-        )
-
-      assert html_response(conn, 200) =~ "January 2013"
     end
   end
 end

@@ -16,4 +16,26 @@
   .c-paragraph {
     padding-bottom: $base-spacing * 2;
   }
+
+  .m-event-section {
+    padding-bottom: $base-spacing-lg;
+  }
+
+  .m-event__registration {
+    display: flex;
+    justify-content: space-between;
+    
+    &-header {
+      flex: 0 1 40%;
+      margin: 0;
+      align-self: center;
+    }
+
+    @include media-breakpoint-down(xs) {
+      display: block;
+      .m-event__registration-header {
+        margin-bottom: $base-spacing / 2;
+      }
+    }
+  }
 }
