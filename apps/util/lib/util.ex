@@ -79,6 +79,9 @@ defmodule Util do
     {:error, :invalid_date}
   end
 
+  @spec date_to_naive_date(Date.t()) :: NaiveDateTime.t()
+  def date_to_naive_date(date), do: NaiveDateTime.new(date, ~T[00:00:00.00]) |> elem(1)
+
   def convert_to_iso_format(date) do
     date
     |> Timex.format!("{ISOdate}")

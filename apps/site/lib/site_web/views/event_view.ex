@@ -9,11 +9,10 @@ defmodule SiteWeb.EventView do
   import SiteWeb.CMSView,
     only: [file_description: 1, render_duration: 2, maybe_shift_timezone: 1, format_time: 1]
 
-  import Util, only: [time_is_greater_or_equal?: 2, convert_using_timezone: 2, now: 0]
-
   alias CMS.Page.Event
   alias CMS.Partial.Teaser
 
+  @type event_status :: :not_started | :started | :ended
   @default_date_format "{WDshort}, {Mshort} {D}, {YYYY}"
 
   @doc "Returns a pretty format for the event's city and state"
@@ -126,23 +125,9 @@ defmodule SiteWeb.EventView do
     "#{Timex.month_name(month)} #{year}"
   end
 
-  @spec event_ended(%{
-          start: NaiveDateTime.t() | DateTime.t(),
-          stop: NaiveDateTime.t() | DateTime.t() | nil
-        }) :: boolean
-  def event_ended(%{start: %NaiveDateTime{} = start, stop: %NaiveDateTime{} = stop}) do
-    event_ended(%{
-      start: start,
-      stop: convert_using_timezone(stop, "")
-    })
-  end
-
-  def event_ended(%{start: _start, stop: %DateTime{} = stop}) do
-    time_is_greater_or_equal?(now(), stop)
-  end
-
-  def event_ended(%{start: start, stop: nil}) do
-    Date.compare(now(), start) == :gt
+  @spec is_ended?(Event.t() | Teaser.t()) :: boolean
+  def is_ended?(event) do
+    event.started_status === :ended
   end
 
   def render_event_month_slug(month_number, year) do

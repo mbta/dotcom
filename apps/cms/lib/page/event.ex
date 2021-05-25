@@ -18,14 +18,20 @@ defmodule CMS.Page.Event do
       path_alias: 1
     ]
 
+  import Util,
+    only: [time_is_greater_or_equal?: 2, date_to_naive_date: 1, to_local_time: 1, now: 0]
+
   alias CMS.Field.File
   alias CMS.Field.Link
   alias CMS.Partial.Paragraph
   alias Phoenix.HTML
 
+  @type status :: :not_started | :started | :ended
+
   defstruct id: nil,
             start_time: nil,
             end_time: nil,
+            started_status: nil,
             title: "",
             location: nil,
             street_address: nil,
@@ -49,6 +55,7 @@ defmodule CMS.Page.Event do
           id: integer | nil,
           start_time: DateTime.t() | nil,
           end_time: DateTime.t() | nil,
+          started_status: status | nil,
           title: String.t() | nil,
           location: String.t() | nil,
           street_address: String.t() | nil,
@@ -71,10 +78,14 @@ defmodule CMS.Page.Event do
 
   @spec from_api(map, Keyword.t()) :: t
   def from_api(%{} = data, preview_opts \\ []) do
+    start_time = parse_iso_datetime(field_value(data, "field_start_time"))
+    end_time = parse_iso_datetime(field_value(data, "field_end_time"))
+
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
-      start_time: parse_iso_datetime(field_value(data, "field_start_time")),
-      end_time: parse_iso_datetime(field_value(data, "field_end_time")),
+      start_time: start_time,
+      end_time: end_time,
+      started_status: started_status(start_time, end_time),
       title: field_value(data, "title"),
       location: field_value(data, "field_location"),
       street_address: field_value(data, "field_street_address"),
@@ -96,9 +107,42 @@ defmodule CMS.Page.Event do
     }
   end
 
-  @spec past?(t, Date.t()) :: boolean
-  def past?(event, now) do
-    Date.compare(event.start_time, now) == :lt
+  @spec started_status(
+          NaiveDateTime.t() | DateTime.t() | Date.t(),
+          NaiveDateTime.t() | DateTime.t() | nil
+        ) :: status | nil
+  # Events have DateTime start/ends.  Teasers have NaiveDateTimes OR Dates.
+  # Events will always have a start time, but unsure if teasers will. Handle :nil
+  def started_status(nil, _), do: nil
+
+  def started_status(%NaiveDateTime{} = start, stop) do
+    started_status(
+      to_local_time(start),
+      if(is_nil(stop), do: nil, else: to_local_time(stop))
+    )
+  end
+
+  def started_status(%Date{} = start, stop) do
+    started_status(
+      date_to_naive_date(start),
+      if(is_nil(stop), do: nil, else: date_to_naive_date(stop))
+    )
+  end
+
+  def started_status(start, nil) do
+    cond do
+      Date.compare(now(), start) === :gt -> :ended
+      time_is_greater_or_equal?(now(), start) -> :started
+      true -> :not_started
+    end
+  end
+
+  def started_status(start, stop) do
+    cond do
+      time_is_greater_or_equal?(now(), stop) -> :ended
+      time_is_greater_or_equal?(now(), start) -> :started
+      true -> :not_started
+    end
   end
 
   @spec parse_optional_html(String.t() | nil) :: HTML.safe() | nil

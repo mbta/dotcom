@@ -15,7 +15,11 @@ defmodule CMS.Partial.Teaser do
       routes: 1
     ]
 
+  import CMS.Page.Event, only: [started_status: 2]
+
   alias CMS.{API, Field.Image}
+
+  @type started_status :: CMS.Page.Event.status()
 
   @enforce_keys [:id, :type, :path, :title]
   defstruct [
@@ -28,6 +32,7 @@ defmodule CMS.Partial.Teaser do
     topic: nil,
     date: nil,
     date_end: nil,
+    started_status: nil,
     location: nil,
     routes: [],
     status: nil
@@ -58,6 +63,7 @@ defmodule CMS.Partial.Teaser do
           topic: String.t() | nil,
           date: Date.t() | DateTime.t() | nil,
           date_end: DateTime.t() | nil,
+          started_status: started_status | nil,
           location: location() | nil,
           routes: [API.route_term()],
           status: String.t() | nil
@@ -78,6 +84,8 @@ defmodule CMS.Partial.Teaser do
         } = data
       ) do
     status = Map.get(data, "field_project_status")
+    date_start = date(data, "start")
+    date_end = date(data, "end")
 
     %__MODULE__{
       id: int_or_string_to_int(id),
@@ -88,8 +96,9 @@ defmodule CMS.Partial.Teaser do
       text: content(text),
       topic: content(topic),
       location: data |> location(),
-      date: date(data, "start"),
-      date_end: date(data, "end"),
+      date: date_start,
+      date_end: date_end,
+      started_status: started_status(date_start, date_end),
       routes: routes(route_data),
       status: content(status)
     }
