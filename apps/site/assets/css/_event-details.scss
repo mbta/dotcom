@@ -2,6 +2,9 @@
 
   .c-cms__title {
     margin-top: 2.5rem;
+    @media (min-width: 800px) {
+      width: 100%;
+    }
   }
 
   .c-cms__title-text {
@@ -38,4 +41,10 @@
       }
     }
   }
+}
+
+.m-event__livestream {
+  width: 100%;
+  height: 56vw;
+  max-height: 560px;
 }
