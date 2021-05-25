@@ -112,9 +112,8 @@ defmodule Stops.RouteStop do
     |> maybe_correct_for_lechmere_shuttle()
   end
 
-  def verify_direction(route_id, direction) do
-    if route_id === "Boat-F1", do: 1 - direction, else: direction
-  end
+  def verify_direction("Boat-F1", direction), do: 1 - direction
+  def verify_direction(_route_id, direction), direction
 
   # Special-case the Lechmere shuttle
   @spec maybe_correct_for_lechmere_shuttle([t()]) :: [t()]
