@@ -77,6 +77,7 @@ ADD . .
 COPY --from=app-builder /root/_build/prod/rel /root/rel
 
 ADD rel/bin/startup /root/rel/site/bin/startup
+COPY --from=assets-builder /root/apps/site/react_renderer/dist/app.js /root/apps/site/react_renderer/dist/app.js
 
 RUN mkdir /root/work
 
