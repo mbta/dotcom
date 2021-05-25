@@ -45,13 +45,17 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     # Get route_id to check if this is the HH Ferry
     # Most routes have a merge on the inbound side, 
     # But the HH ferry merges on the outbound end
-    route_id =
-      branches
+    stops_on_first_branch = branches
       |> List.first()
       |> Map.get(:stops)
-      |> List.first()
-      |> Map.get(:route)
-      |> Map.get(:id)
+
+    route = if stops_on_first_branch,
+      do: stops_on_first_branch
+        |> List.first()
+        |> Map.get(:route),
+      else: nil
+
+    route_id = if route, do: Map.get(route, :id), else: nil
 
     verified_direction = RouteStop.verify_direction(route_id, direction_id)
 
