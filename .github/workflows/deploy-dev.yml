@@ -1,4 +1,17 @@
 # Experimental!
+# 
+# Only partially works. Suspected problems as of now:
+# 
+# A) VISUAL QUIRKS: Lack of digested static assets that would normally be handled in the 
+#   upload_assets.sh script
+#
+# B) BROKEN PAGES (ex. /projects, /schedules/1): I believe the image is missing or has 
+#   misplaced the react_renderer/dist/app.js script that supports certain pages.
+#
+# We'll revert the multistage Dockerfile work and then continue with our Semaphore-based 
+#   `master` branch auto-deploying to dev functionality until we can resolve these things.
+#
+###############################################
 
 name: Deploy to Dev Elastic Beanstalk
 
