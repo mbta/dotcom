@@ -7,7 +7,6 @@ defmodule SiteWeb.ScheduleController.TimetableController do
 
   plug(SiteWeb.Plugs.Route)
   plug(SiteWeb.Plugs.DateInRating)
-  plug(:handle_schedule_direction)
   plug(:tab_name)
   plug(:direction_id)
   plug(:all_stops)
@@ -39,17 +38,6 @@ defmodule SiteWeb.ScheduleController.TimetableController do
     |> assign(:formatted_date, formatted_date)
     |> put_view(ScheduleView)
     |> render("show.html", [])
-  end
-
-  # Plug that strips an invalid schedule_direction query_param and reloads the page
-  defp handle_schedule_direction(%Conn{assigns: %{route: %Route{id: route_id}}, query_params: params} = conn, _) do
-    if Map.has_key?(params, "schedule_direction") and not is_map(params["schedule_direction"]) do
-      conn
-      |> redirect(to: timetable_path(conn, :show, route_id, Map.delete(conn.query_params, "schedule_direction")))
-      |> halt()
-    else 
-      conn
-    end
   end
 
   # Plug that assigns trip schedule to the connection
@@ -89,7 +77,6 @@ defmodule SiteWeb.ScheduleController.TimetableController do
 
   @doc """
   Additional text to be included in the timetable.
-
   We use this for Commuter Rail trips which travel via atypical routes, in
   order to match the PDF schedules. Each rating, this should be checked
   against the new PDFs to ensure it's kept up to date.
