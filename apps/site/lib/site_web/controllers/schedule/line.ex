@@ -81,12 +81,11 @@ defmodule SiteWeb.ScheduleController.Line do
       schedule_direction = Map.get(conn.query_params, "schedule_direction", %{})
 
       direction_id_value =
-        case schedule_direction["direction_id"] do
-          nil ->
-            direction_id
-
-          _ ->
-            String.to_integer(schedule_direction["direction_id"])
+        if schedule_direction["direction_id"] do
+          parsed = Integer.parse(schedule_direction["direction_id"])
+          if parsed === :error, do: direction_id, else: elem(parsed, 0)
+        else
+          direction_id
         end
 
       deps = Keyword.get(args, :deps, %Dependencies{})
