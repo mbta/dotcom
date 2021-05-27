@@ -5,46 +5,55 @@ exports[`ServiceOptGroup renders 1`] = `
   label="Group label"
 >
   <option
+    aria-label="Group label Weekday schedule, Test Rating"
     value="BUS319-O-Wdy-02"
   >
     Weekday schedule, Test Rating
   </option>
   <option
+    aria-label="Group label Weekday schedule, Test Rating"
     value="BUS319-D-Wdy-02"
   >
     Weekday schedule, Test Rating
   </option>
   <option
+    aria-label="Group label Saturday schedule, Test Rating"
     value="BUS319-P-Sa-02"
   >
     Saturday schedule, Test Rating
   </option>
   <option
+    aria-label="Group label Sunday schedule, Test Rating"
     value="BUS319-Q-Su-02"
   >
     Sunday schedule, Test Rating
   </option>
   <option
+    aria-label="Group label Bastille Day Eve, Jul 13, Bastille Day, Jul 14, Jul 15"
     value="Bastille-Day"
   >
     Bastille Day Eve, Jul 13, Bastille Day, Jul 14, Jul 15
   </option>
   <option
+    aria-label="Group label Storm (reduced service)"
     value="BUS319-storm"
   >
     Storm (reduced service)
   </option>
   <option
+    aria-label="Group label Another service, Test Future Rating"
     value="weekday2020"
   >
     Another service, Test Future Rating
   </option>
   <option
+    aria-label="Group label Ferry service"
     value="weekday2019"
   >
     Ferry service
   </option>
   <option
+    aria-label="Group label CR service, Test Future Service Incomplete Rating"
     value="weekday2020-2"
   >
     CR service, Test Future Service Incomplete Rating

@@ -8,156 +8,173 @@ Array [
   <div
     className="schedule-finder__service-selector"
   >
-    <label
-      className="sr-only"
-      htmlFor="service_selector"
-    >
-      Schedules
-    </label>
-    <div
-      className="c-select-custom__container "
-      onClick={[Function]}
-      onKeyUp={[Function]}
-      role="button"
-      tabIndex={0}
-    >
-      <select
-        className="c-select-custom text-center u-bold"
-        defaultValue="BUS319-P-Sa-02"
-        id="service_selector"
-        onChange={[Function]}
-      >
-        <optgroup
-          label="Current Schedules (Test, ends Oct 25)"
-        >
-          <option
-            value="BUS319-storm"
-          >
-            Storm (reduced service)
-          </option>
-          <option
-            value="BUS319-O-Wdy-02"
-          >
-            Weekday schedule, Test
-          </option>
-          <option
-            value="BUS319-D-Wdy-02"
-          >
-            Friday schedule, Test
-          </option>
-          <option
-            value="BUS319-P-Sa-02"
-          >
-            Saturday schedule, Test
-             (now)
-          </option>
-          <option
-            value="BUS319-Q-Su-02"
-          >
-            Sunday schedule, Test
-          </option>
-        </optgroup>
-        <optgroup
-          label="Holiday Schedules"
-        >
-          <option
-            value="Bastille-Day"
-          >
-            Bastille Day, Jul 14
-          </option>
-        </optgroup>
-      </select>
+    <label>
       <span
-        aria-hidden="true"
-        className="notranslate c-svg__icon c-select-custom__arrow"
-        dangerouslySetInnerHTML={
-          Object {
-            "__html": "SVG",
-          }
-        }
-      />
-    </div>
-  </div>,
-  <div
-    className="schedule-finder__first-last-trip"
-  >
-    <div
-      className="u-small-caps u-bold"
-    >
-      First Trip
-    </div>
-    04:45 AM
-  </div>,
-  <table
-    className="schedule-table"
-  >
-    <thead
-      className="schedule-table__header"
-    >
-      <tr>
-        <th
-          className="schedule-table__cell"
-          scope="col"
-        >
-          Departs
-        </th>
-        <th
-          className="schedule-table__cell"
-          colSpan={2}
-          scope="col"
-        >
-          <span
-            className="pull-left"
-          >
-            Destination
-          </span>
-          Trip Details
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr
-        aria-controls="trip-45030860"
-        aria-expanded={false}
-        className="schedule-table__row"
+        className="sr-only"
+      >
+        Choose a schedule type from the available options
+      </span>
+      <div
+        className="c-select-custom__container "
         onClick={[Function]}
-        onKeyPress={[Function]}
+        onKeyUp={[Function]}
         role="button"
         tabIndex={0}
       >
-        <td
-          className="schedule-table__cell schedule-table__cell--time u-nowrap u-tabular-nums"
+        <select
+          aria-controls="daily-schedule"
+          className="c-select-custom text-center u-bold"
+          defaultValue="BUS319-P-Sa-02"
+          onChange={[Function]}
         >
-          04:45 AM
-        </td>
-        <td
-          className="schedule-table__cell schedule-table__cell--headsign"
-        >
-          <span
-            className="schedule-table__route-pill m-route-pills"
+          <optgroup
+            label="Current Schedules (Test, ends Oct 25)"
+          >
+            <option
+              aria-label="Current Schedules (Test, ends Oct 25) Storm (reduced service)"
+              value="BUS319-storm"
+            >
+              Storm (reduced service)
+            </option>
+            <option
+              aria-label="Current Schedules (Test, ends Oct 25) Weekday schedule, Test"
+              value="BUS319-O-Wdy-02"
+            >
+              Weekday schedule, Test
+            </option>
+            <option
+              aria-label="Current Schedules (Test, ends Oct 25) Friday schedule, Test"
+              value="BUS319-D-Wdy-02"
+            >
+              Friday schedule, Test
+            </option>
+            <option
+              aria-label="Current Schedules (Test, ends Oct 25) Saturday schedule, Test (now)"
+              value="BUS319-P-Sa-02"
+            >
+              Saturday schedule, Test (now)
+            </option>
+            <option
+              aria-label="Current Schedules (Test, ends Oct 25) Sunday schedule, Test"
+              value="BUS319-Q-Su-02"
+            >
+              Sunday schedule, Test
+            </option>
+          </optgroup>
+          <optgroup
+            label="Holiday Schedules"
+          >
+            <option
+              aria-label="Holiday Schedules Bastille Day, Jul 14"
+              value="Bastille-Day"
+            >
+              Bastille Day, Jul 14
+            </option>
+          </optgroup>
+        </select>
+        <span
+          aria-hidden="true"
+          className="notranslate c-svg__icon c-select-custom__arrow"
+          dangerouslySetInnerHTML={
+            Object {
+              "__html": "SVG",
+            }
+          }
+        />
+      </div>
+    </label>
+  </div>,
+  <div
+    id="daily-schedule"
+  >
+    <span
+      aria-live="polite"
+      className="sr-only"
+    >
+      Showing times for 
+      Saturday schedule
+    </span>
+    <div
+      className="schedule-finder__first-last-trip"
+    >
+      <div
+        className="u-small-caps u-bold"
+      >
+        First Trip
+      </div>
+      04:45 AM
+    </div>
+    <table
+      className="schedule-table"
+    >
+      <thead
+        className="schedule-table__header"
+      >
+        <tr>
+          <th
+            className="schedule-table__cell"
+            scope="col"
+          >
+            Departs
+          </th>
+          <th
+            className="schedule-table__cell"
+            colSpan={2}
+            scope="col"
           >
             <span
-              className="c-icon__bus-pill--small u-bg--bus"
+              className="pull-left"
             >
-              1
+              Destination
             </span>
-          </span>
-          Harvard
-        </td>
-        <td
-          className="schedule-table__cell schedule-table__cell--tiny"
+            Trip Details
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          aria-controls="trip-45030860"
+          aria-expanded={false}
+          className="schedule-table__row"
+          onClick={[Function]}
+          onKeyPress={[Function]}
+          role="button"
+          tabIndex={0}
         >
-          <span
-            className="c-expandable-block__header-caret"
-            dangerouslySetInnerHTML={
-              Object {
-                "__html": "&#xF107;",
+          <td
+            className="schedule-table__cell schedule-table__cell--time u-nowrap u-tabular-nums"
+          >
+            04:45 AM
+          </td>
+          <td
+            className="schedule-table__cell schedule-table__cell--headsign"
+          >
+            <span
+              className="schedule-table__route-pill m-route-pills"
+            >
+              <span
+                className="c-icon__bus-pill--small u-bg--bus"
+              >
+                1
+              </span>
+            </span>
+            Harvard
+          </td>
+          <td
+            className="schedule-table__cell schedule-table__cell--tiny"
+          >
+            <span
+              className="c-expandable-block__header-caret"
+              dangerouslySetInnerHTML={
+                Object {
+                  "__html": "&#xF107;",
+                }
               }
-            }
-          />
-        </td>
-      </tr>
-    </tbody>
-  </table>,
+            />
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>,
 ]
 `;

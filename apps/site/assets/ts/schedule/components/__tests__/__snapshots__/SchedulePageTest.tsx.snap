@@ -47,18 +47,20 @@ Array [
               value={0}
             >
               <option
+                aria-label="INBOUND 
+  Oak Grove"
                 value={0}
               >
-                INBOUND
-                 
-                Oak Grove
+                INBOUND 
+  Oak Grove
               </option>
               <option
+                aria-label="OUTBOUND 
+  Forest Hills"
                 value={1}
               >
-                OUTBOUND
-                 
-                Forest Hills
+                OUTBOUND 
+  Forest Hills
               </option>
             </select>
             <span
@@ -94,16 +96,19 @@ Array [
                 Select
               </option>
               <option
+                aria-label="Wellington"
                 value="place-welln"
               >
                 Wellington
               </option>
               <option
+                aria-label="Abc"
                 value="123"
               >
                 Abc
               </option>
               <option
+                aria-label="SL"
                 value="741"
               >
                 SL

@@ -123,7 +123,7 @@ describe("ScheduleFinderForm", () => {
       .first()
       .find("option");
     expect(directions).toHaveLength(1);
-    expect(directions.text()).toEqual("OUTBOUND Destination");
+    expect(directions.text()).toContain("OUTBOUND");
   });
 
   it("shows an error if the form is submitted without an origin", () => {
