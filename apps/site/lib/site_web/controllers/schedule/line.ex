@@ -83,7 +83,7 @@ defmodule SiteWeb.ScheduleController.Line do
       direction_id_value =
         if schedule_direction["direction_id"] do
           parsed = Integer.parse(schedule_direction["direction_id"])
-          if parsed === :error, do: direction_id, else: elem(parsed, 0)
+          if parsed !== :error and elem(parsed, 0) <= 1, do: elem(parsed, 0), else: direction_id
         else
           direction_id
         end

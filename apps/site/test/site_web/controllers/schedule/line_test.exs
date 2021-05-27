@@ -4,6 +4,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
   import SiteWeb.ScheduleController.Line.DiagramHelpers
   alias Services.Service
   alias Stops.{RouteStop, RouteStops}
+  alias SiteWeb.ScheduleController.Line
 
   doctest SiteWeb.ScheduleController.Line
 
@@ -227,6 +228,55 @@ defmodule SiteWeb.ScheduleController.LineTest do
   ]
 
   def get_error_stop_list(_, _, _), do: {:error, "error"}
+
+  describe "populate / update conn based on url in do_call: " do
+    setup %{conn: conn} do
+      conn =
+        conn
+        |> assign(:route, %Routes.Route{id: "1", type: 3})
+        |> assign(:date_time, Util.now())
+        |> assign(:date, Util.service_date())
+        |> assign(:direction_id, 0)
+
+      {:ok, conn: conn}
+    end
+
+    test "updates conn with direction_id from url", %{conn: conn} do
+      conn =
+        conn
+        |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "1"}})
+        |> Line.call([])
+
+      assert conn.assigns.direction_id == 1
+    end
+
+    test "parses a misshapen direction_id", %{conn: conn} do
+      conn =
+        conn
+        |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "1'[]"}})
+        |> Line.call([])
+
+      assert conn.assigns.direction_id == 1
+    end
+
+    test "ignores url direction_id if it's not a number", %{conn: conn} do
+      conn =
+        conn
+        |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "string"}})
+        |> Line.call([])
+
+      assert conn.assigns.direction_id == 0
+    end
+
+    test "ignores url direction_id if it's > 1", %{conn: conn} do
+      conn =
+        conn
+        |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "10"}})
+        |> Line.call([])
+
+      assert conn.assigns.direction_id == 0
+    end
+  end
 
   describe "build_stop_list/2 for Green Line" do
     defp stop_id({_branches, stop_id}), do: stop_id
