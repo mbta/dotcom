@@ -38,6 +38,18 @@ defmodule SiteWeb.ScheduleController.DefaultsTest do
       assert conn.assigns.direction_id == 1
     end
 
+    test "default when schedule_direction in params without direction_id", %{conn: conn} do
+      conn = assign(conn, :date_time, ~N[2017-01-25T14:00:00])
+
+      conn =
+        Defaults.call(
+          %{conn | query_params: %{"schedule_direction" => nil}},
+          []
+        )
+
+      assert conn.assigns.direction_id == 0
+    end
+
     test "0 when id is not in params and on/after 2:00pm", %{conn: conn} do
       conn =
         conn

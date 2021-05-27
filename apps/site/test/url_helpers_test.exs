@@ -46,6 +46,20 @@ defmodule UrlHelpersTest do
       expected = put_in(original["parent"]["a"], "updated")
       assert actual == expected
     end
+
+    test "can update to a nested query string when old query was nil" do
+      original = %{"parent" => nil}
+      actual = update_query(original, %{parent: %{a: "b"}})
+      expected = %{"parent" => %{a: "b"}}
+      assert actual == expected
+    end
+
+    test "can update to a nested query string when old query was not nested" do
+      original = %{"parent" => "old"}
+      actual = update_query(original, %{parent: %{a: "b"}})
+      expected = %{"parent" => %{a: "b"}}
+      assert actual == expected
+    end
   end
 
   describe "update_url/2" do
