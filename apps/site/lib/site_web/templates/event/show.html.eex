@@ -3,7 +3,7 @@
 
 <%= if Laboratory.enabled?(@conn, :events_hub_redesign) and !is_nil(@event.registration_link) do %>
 
-  <%= if is_started?(@event) and !is_nil(@event.livestream_link) do %>
+  <%= if has_started?(@event) and !is_nil(@event.livestream_link) do %>
     <iframe class="m-event__livestream" src="<%= @event.livestream_link %>"></iframe>
   <% end %>
 

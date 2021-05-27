@@ -219,11 +219,11 @@ defmodule SiteWeb.EventViewTest do
     end
   end
 
-  describe "is_started?/2" do
+  describe "has_started?/2" do
     test ":not_started value read by function",
-      do: assert(is_started?(%Event{started_status: :not_started}) == false)
+      do: assert(has_started?(%Event{started_status: :not_started}) == false)
 
     test ":ended value verified",
-      do: assert(is_started?(%Event{started_status: :started}) == true)
+      do: assert(has_started?(%Event{started_status: :started}) == true)
   end
 end

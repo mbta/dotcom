@@ -130,8 +130,8 @@ defmodule SiteWeb.EventView do
     event.started_status === :ended
   end
 
-  @spec is_started?(Event.t() | Teaser.t()) :: boolean
-  def is_started?(event) do
+  @spec has_started?(Event.t() | Teaser.t()) :: boolean
+  def has_started?(event) do
     event.started_status !== :not_started
   end
 

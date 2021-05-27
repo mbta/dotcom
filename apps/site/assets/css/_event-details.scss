@@ -2,7 +2,7 @@
 
   .c-cms__title {
     margin-top: 2.5rem;
-    @media (min-width: 800px) {
+    @include media-breakpoint-up(md) {
       width: 100%;
     }
   }
