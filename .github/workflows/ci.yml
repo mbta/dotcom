@@ -25,6 +25,19 @@ jobs:
     - name: <asdf> Install languages from .tool-versions (if needed)
       uses: asdf-vm/actions/install@v1
       if: steps.asdf-cache.outputs.cache-hit != 'true'
+    - name: <elixir> Restore dependencies cache
+      uses: actions/cache@v2
+      with:
+        path: deps
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+        restore-keys: ${{ runner.os }}-mix-
+      id: elixir-cache
+    - name: <elixir> Install dependencies (if needed)
+      if: steps.elixir-cache.outputs.cache-hit != 'true'
+      run: |
+        mix local.hex --force
+        mix local.rebar --force
+        mix deps.get
 
   credo:
     name: Elixir linting w/ Credo
@@ -45,6 +58,12 @@ jobs:
           echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
           echo "$ASDF_DIR/bin" >> $GITHUB_PATH
           echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+      - name: <elixir> Restore dependencies cache
+        uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+          restore-keys: ${{ runner.os }}-mix-
 
       # Run credo, checking on the git diff between master and this commit, listing all issues
       # TODO: Show result in an annotation
