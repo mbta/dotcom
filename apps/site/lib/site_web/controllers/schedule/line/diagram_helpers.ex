@@ -42,29 +42,9 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   end
 
   def build_stop_list(branches, direction_id) do
-    # Get route_id to check if this is the HH Ferry
-    # Most routes have a merge on the inbound side, 
-    # But the HH ferry merges on the outbound end
-    stops_on_first_branch =
-      branches
-      |> List.first()
-      |> Map.get(:stops)
-
-    route =
-      if stops_on_first_branch,
-        do:
-          stops_on_first_branch
-          |> List.first()
-          |> Map.get(:route),
-        else: nil
-
-    route_id = if route, do: Map.get(route, :id), else: nil
-
-    verified_direction = RouteStop.verify_direction(route_id, direction_id)
-
     branches
-    |> do_build_stop_list(verified_direction)
-    |> sort_stop_list(verified_direction)
+    |> do_build_stop_list(direction_id)
+    |> sort_stop_list(direction_id)
   end
 
   def do_build_stop_list(branches, direction_id) do
@@ -269,7 +249,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
           RouteStop.t() | {RouteStop.t(), boolean},
           [stop_with_bubble_info],
           {Route.branch_name(), [Route.branch_name()]},
-          integer()
+          pos_integer()
         ) :: [stop_with_bubble_info]
   @spec build_branched_stop(
           RouteStop.t() | {RouteStop.t(), boolean},

@@ -108,12 +108,17 @@ defmodule Stops.RouteStop do
       &do_list_from_route_pattern(&1, route, direction_id, use_route_id_for_branch_name?)
     )
     |> maybe_stitch_chunks()
-    |> merge_branch_list(verify_direction(route.id, direction_id))
+    |> merge_branch_list(reverse_direction_for_ferry(route.id, direction_id))
     |> maybe_correct_for_lechmere_shuttle()
   end
 
-  def verify_direction("Boat-F1", direction), do: 1 - direction
-  def verify_direction(_route_id, direction), do: direction
+  @doc """
+  When merging branches, the logic assumes that the inbound end is the trunk,
+  but that's not the case for ferry. This function reverses the direction for ferry
+  in preparation of the merging logic.
+  """
+  def reverse_direction_for_ferry("Boat-F1", direction), do: 1 - direction
+  def reverse_direction_for_ferry(_route_id, direction), do: direction
 
   # Special-case the Lechmere shuttle
   @spec maybe_correct_for_lechmere_shuttle([t()]) :: [t()]

@@ -139,12 +139,14 @@ defmodule SiteWeb.ScheduleController.Line do
     reverse_route_stops =
       LineHelpers.get_route_stops(route.id, reverse_direction_id, deps.stops_by_route_fn)
 
+    diagram_direction = RouteStop.reverse_direction_for_ferry(route.id, direction_id)
+
     conn
     |> assign(:route_patterns, route_patterns_map)
     |> assign(:direction_id, direction_id)
     |> assign(
       :all_stops,
-      DiagramHelpers.build_stop_list(static_branches, direction_id)
+      DiagramHelpers.build_stop_list(static_branches, diagram_direction)
     )
     |> assign(:branches, static_branches)
     |> assign(:map_img_src, map_img_src)
