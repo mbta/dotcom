@@ -1,8 +1,4 @@
 defmodule Fares.FareInfo do
-  @moduledoc """
-  Retrieve saved fare data from the file system and map to structs.
-  """
-
   alias Fares.Fare
 
   @doc "Load fare info from a CSV file."
