@@ -25,6 +25,12 @@ jobs:
     - name: <asdf> Install languages from .tool-versions (if needed)
       uses: asdf-vm/actions/install@v1
       if: steps.asdf-cache.outputs.cache-hit != 'true'
+    - name: <asdf> Set env vars
+      run: |
+        ASDF_DIR=$HOME/.asdf
+        echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+        echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+        echo "$ASDF_DIR/bin" >> $GITHUB_PATH
     - name: <elixir> Restore dependencies cache
       uses: actions/cache@v2
       with:
