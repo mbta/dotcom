@@ -23,6 +23,7 @@
     <div class="u-flex-container">
       <%= render "_add_button.html",
           event_ended: is_ended?(@event),
+          event_started: has_started?(@event),
           conn: @conn,
           class: "popup-version",
           path: @event.path %>

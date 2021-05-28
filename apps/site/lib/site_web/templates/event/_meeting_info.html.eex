@@ -4,9 +4,11 @@
   <% %{date: date, time: time} = get_formatted_date_time_map(@event.start_time, @event.end_time, "{WDfull}, {Mfull} {D}, {YYYY}") %>
   <div><%= date %></div>
   <div><%= time %></div>
-  <%= link to: event_icalendar_path(@conn, :show, @event),
-    data: [turbolinks: false] do %>
-    <%= fa "calendar" %> Add to Calendar
+  <%= if !has_started?(@event) do %>
+    <%= link to: event_icalendar_path(@conn, :show, @event),
+      data: [turbolinks: false], class: "add-to-calendar-link" do %>
+      <%= fa "calendar-plus-o" %> Add to Calendar
+    <% end %>
   <% end %>
   <div class="u-small-caps u-bold mb-05 mt-1">Location</div>
   <%= if @event.location do %>
