@@ -259,6 +259,15 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert conn.assigns.direction_id == 1
     end
 
+    test "ignores a negative direction_id", %{conn: conn} do
+      conn =
+        conn
+        |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "-1"}})
+        |> Line.call([])
+
+      assert conn.assigns.direction_id == 0
+    end
+
     test "ignores url direction_id if it's not a number", %{conn: conn} do
       conn =
         conn
