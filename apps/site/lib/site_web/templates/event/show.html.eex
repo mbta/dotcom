@@ -8,7 +8,7 @@
   <% end %>
 
   <div class="container m-event-details">
-    <div class="c-cms <%= sidebar_class %>">
+    <div class="c-cms c-cms--with-sidebar c-cms--sidebar-right">
 
       <div class="c-cms__header">
         <div class="c-cms__title">

@@ -2,9 +2,6 @@
 
   .c-cms__title {
     margin-top: 2.5rem;
-    @include media-breakpoint-up(md) {
-      width: 100%;
-    }
   }
 
   .c-cms__title-text {
