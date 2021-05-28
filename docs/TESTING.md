@@ -25,7 +25,7 @@ verify our type specifications and make sure we're calling functions properly.
 
 ## Linting
 
-* Elixir: `mix credo`
+* Elixir: `mix credo -a` (or `mix credo diff master -a` to check the difference between your index and the master branch)
 * SCSS: `npm run stylelint`
 * TypeScript: `npm run tslint`
 
