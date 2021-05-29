@@ -1,0 +1,300 @@
+# This is usually called from another workflow after caches are set up etc.
+
+name: Run test suite
+on:
+  workflow_run:
+    workflows:
+      - Setup Dotcom
+    types:
+      - completed
+env:
+  MIX_ENV: test
+  V3_URL: ${{ secrets.V3_URL }}
+  V3_API_KEY: ${{ secrets.V3_API_KEY }}
+
+jobs:
+  tslint:
+    name: TS linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.asdf
+          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+      - run: |
+          ASDF_DIR=$HOME/.asdf
+          echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "$ASDF_DIR/bin" >> $GITHUB_PATH
+          echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+          $ASDF_DIR/bin/asdf reshim
+      - uses: actions/cache@v2
+        with:
+          path: "apps/site/*/node_modules"
+          key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+      - run: npx eslint --ext .ts,.tsx --max-warnings=0 .
+        working-directory: apps/site/assets/ts
+  
+  jslint:
+    name: JS linting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.asdf
+          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+      - run: |
+          ASDF_DIR=$HOME/.asdf
+          echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "$ASDF_DIR/bin" >> $GITHUB_PATH
+          echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+          $ASDF_DIR/bin/asdf reshim
+      - uses: actions/cache@v2
+        with:
+          path: "apps/site/*/node_modules"
+          key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+      - run: npx eslint --ext .js js
+        working-directory: apps/site/assets
+
+  stylelint:
+    name: SCSS linting
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      with:
+        path: ~/.asdf
+        key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+    - run: |
+        ASDF_DIR=$HOME/.asdf
+        echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+        echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+        echo "$ASDF_DIR/bin" >> $GITHUB_PATH
+        echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+        $ASDF_DIR/bin/asdf reshim
+    - uses: actions/cache@v2
+      with:
+        path: "apps/site/*/node_modules"
+        key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+    - run: npx stylelint css/**/*.scss --ignore-path .stylelintignore
+      working-directory: apps/site/assets/
+  
+  elixirlint:
+    name: Elixir linting (compare w/ master branch)
+    runs-on: ubuntu-latest
+    if: github.event.pull_request.base.ref == 'master'
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.asdf
+          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+      - run: |
+          ASDF_DIR=$HOME/.asdf
+          echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "$ASDF_DIR/bin" >> $GITHUB_PATH
+          echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+          $ASDF_DIR/bin/asdf reshim
+      - uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+      - run: mix credo diff master -a
+
+  elixir_unit:
+    name: Elixir unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.asdf
+          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+      - run: |
+          ASDF_DIR=$HOME/.asdf
+          echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "$ASDF_DIR/bin" >> $GITHUB_PATH
+          echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+          $ASDF_DIR/bin/asdf reshim
+      - uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+      - uses: actions/cache@v2
+        with:
+          path: "apps/site/*/node_modules"
+          key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+      - name: Build app
+        run: |
+          mix phx.digest
+          npm run react:build
+          npm run webpack:build
+          mix compile --warnings-as-errors
+      - env:
+          RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
+          RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
+          OPEN_TRIP_PLANNER_URL: ${{ secrets.OPEN_TRIP_PLANNER_URL }}
+        run: mix test --exclude wallaby --cover
+      - name: Save PR information
+        run: |
+          echo "${{ github.event.pull_request.number }}" > cover/PR_NUMBER
+          echo "${{ github.event.pull_request.head.sha }}" > cover/PR_SHA
+        if: github.event.pull_request
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: elixir-lcov
+          path: cover/
+  
+  js_unit_1:
+    name: JS tests (mocha)
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      with:
+        path: ~/.asdf
+        key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+    - run: |
+        ASDF_DIR=$HOME/.asdf
+        echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+        echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+        echo "$ASDF_DIR/bin" >> $GITHUB_PATH
+        echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+        $ASDF_DIR/bin/asdf reshim
+    - uses: actions/cache@v2
+      with:
+        path: "apps/site/*/node_modules"
+        key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+    - run: npx mocha --require @babel/register --require ts-node/register js/test/**/*.js
+      working-directory: apps/site/assets/
+  
+  # TODO: failed at webpack:build
+  # Module not found: Error: Can't resolve 'phoenix' in '/home/runner/work/dotcom/dotcom/apps/site/assets/js'
+  js_unit_2:
+    name: JS tests (jest)
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      with:
+        path: ~/.asdf
+        key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+    - run: |
+        ASDF_DIR=$HOME/.asdf
+        echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+        echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+        echo "$ASDF_DIR/bin" >> $GITHUB_PATH
+        echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+        $ASDF_DIR/bin/asdf reshim
+    - uses: actions/cache@v2
+      with:
+        path: deps
+        key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+    - uses: actions/cache@v2
+      with:
+        path: "apps/site/*/node_modules"
+        key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+    - name: Build app
+      run: |
+        mix phx.digest
+        npm run react:build
+        npm run webpack:build
+        mix compile --warnings-as-errors
+    - run: npx jest -c ts/jest.config.js
+      working-directory: apps/site/assets/
+  
+  type_dialyzer:
+    name: Dialyzer
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.asdf
+          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+      - run: |
+          ASDF_DIR=$HOME/.asdf
+          echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "$ASDF_DIR/bin" >> $GITHUB_PATH
+          echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+          $ASDF_DIR/bin/asdf reshim
+      - uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+      - uses: mbta/actions/dialyzer@v1
+  
+  type_typescript:
+    name: TSC
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.asdf
+          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+      - run: |
+          ASDF_DIR=$HOME/.asdf
+          echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "$ASDF_DIR/bin" >> $GITHUB_PATH
+          echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+          $ASDF_DIR/bin/asdf reshim
+      - uses: actions/cache@v2
+        with:
+          path: "apps/site/*/node_modules"
+          key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+      - run: npx tsc --noEmit --skipLibCheck
+        working-directory: apps/site/assets/ts
+
+  elixir_format_check:
+    name: Elixir format check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/cache@v2
+        with:
+          path: ~/.asdf
+          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+      - run: |
+          ASDF_DIR=$HOME/.asdf
+          echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+          echo "$ASDF_DIR/bin" >> $GITHUB_PATH
+          echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+          $ASDF_DIR/bin/asdf reshim
+      - uses: actions/cache@v2
+        with:
+          path: deps
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
+      - run: mix format --check-formatted
+  
+  js_format_check:
+    name: JS format check
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/cache@v2
+      with:
+        path: ~/.asdf
+        key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+    - run: |
+        ASDF_DIR=$HOME/.asdf
+        echo "ASDF_DIR=$ASDF_DIR" >> $GITHUB_ENV
+        echo "ASDF_DATA_DIR=$ASDF_DIR" >> $GITHUB_ENV
+        echo "$ASDF_DIR/bin" >> $GITHUB_PATH
+        echo "$ASDF_DIR/shims" >> $GITHUB_PATH
+        $ASDF_DIR/bin/asdf reshim
+    - uses: actions/cache@v2
+      with:
+        path: "apps/site/*/node_modules"
+        key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
+    - run: npx prettier "{js,ts}/**/*.{js,ts,tsx}" --list-different
+      working-directory: apps/site/assets/
