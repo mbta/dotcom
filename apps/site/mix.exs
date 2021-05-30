@@ -14,7 +14,7 @@ defmodule Site.Mixfile do
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -66,7 +66,7 @@ defmodule Site.Mixfile do
       {:bypass, "~> 1.0", only: :test},
       {:dialyxir, ">= 1.0.0-rc.4", only: [:test, :dev], runtime: false},
       {:benchfella, "~> 0.3", only: :dev},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:floki, "~> 0.20.4"},
       {:httpoison, "~> 1.5"},
       {:mock, "~> 0.3.3", only: :test},

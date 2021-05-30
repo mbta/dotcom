@@ -12,7 +12,7 @@ defmodule V3Api.Mixfile do
       elixir: "~> 1.2",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -45,7 +45,7 @@ defmodule V3Api.Mixfile do
       {:httpoison, "~> 1.5"},
       {:poison, "~> 2.2", override: true},
       {:hackney, "~> 1.15.1"},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:bypass, "~> 1.0", only: :test},
       {:server_sent_event_stage, "~> 0.3"},
       {:gen_stage, "~> 0.13"},
