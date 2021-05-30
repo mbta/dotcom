@@ -1,6 +1,7 @@
 # Every change to master, we recreate/refresh caches so they're available later
 
-name: Setup Dotcom
+name: Setup Dotcom for CI
+
 on:
   workflow_dispatch:
   push: 

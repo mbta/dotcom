@@ -4,7 +4,7 @@ name: Run test suite
 on:
   workflow_run:
     workflows:
-      - Setup Dotcom
+      - Setup Dotcom for CI
     types:
       - completed
 env:
@@ -13,9 +13,28 @@ env:
   V3_API_KEY: ${{ secrets.V3_API_KEY }}
 
 jobs:
+  file_changes:
+    name: Check for certain file changes
+    runs-on: ubuntu-latest
+    outputs:
+      js: ${{ steps.changes.outputs.js-changed }}
+      ts: ${{ steps.changes.outputs.ts-changed }}
+      ex: ${{ steps.changes.outputs.ex-changed }}
+      scss: ${{ steps.changes.outputs.scss-changed }}
+    steps:
+      - uses: actions/checkout@v2
+      - id: changes
+        run: |
+          echo '::set-output name=js::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep "apps/site/assets/js/.*\\.js" | xargs)'
+          echo '::set-output name=ts::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep "apps/site/assets/ts/.*\\.ts" | xargs)'
+          echo '::set-output name=scss::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep "apps/site/assets/css/.*\\.scss" | xargs)'
+          echo '::set-output name=ex::$(git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} | grep "**/*.ex" | xargs)'
+
   tslint:
     name: TS linting
     runs-on: ubuntu-latest
+    needs: [file_changes]
+    if: ${{ needs.file_changes.outputs.ts }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -39,6 +58,8 @@ jobs:
   jslint:
     name: JS linting
     runs-on: ubuntu-latest
+    needs: [file_changes]
+    if: ${{ needs.file_changes.outputs.js }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -62,6 +83,8 @@ jobs:
   stylelint:
     name: SCSS linting
     runs-on: ubuntu-latest
+    needs: [file_changes]
+    if: ${{ needs.file_changes.outputs.scss }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
@@ -83,9 +106,10 @@ jobs:
       working-directory: apps/site/assets/
   
   elixirlint:
-    name: Elixir linting (compare w/ master branch)
+    name: Elixir linting
     runs-on: ubuntu-latest
-    if: github.event.pull_request.base.ref == 'master'
+    needs: [file_changes]
+    if: ${{ needs.file_changes.outputs.ex }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -108,6 +132,8 @@ jobs:
   elixir_unit:
     name: Elixir unit tests
     runs-on: ubuntu-latest
+    needs: [file_changes]
+    if: ${{ needs.file_changes.outputs.ex }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -154,6 +180,8 @@ jobs:
   js_unit_1:
     name: JS tests (mocha)
     runs-on: ubuntu-latest
+    needs: [file_changes]
+    if: ${{ needs.file_changes.outputs.js }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
@@ -174,11 +202,11 @@ jobs:
     - run: npx mocha --require @babel/register --require ts-node/register js/test/**/*.js
       working-directory: apps/site/assets/
   
-  # TODO: failed at webpack:build
-  # Module not found: Error: Can't resolve 'phoenix' in '/home/runner/work/dotcom/dotcom/apps/site/assets/js'
   js_unit_2:
     name: JS tests (jest)
     runs-on: ubuntu-latest
+    needs: [file_changes]
+    if: ${{ needs.file_changes.outputs.ts || needs.file_changes.outputs.js }} 
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
@@ -212,6 +240,8 @@ jobs:
   type_dialyzer:
     name: Dialyzer
     runs-on: ubuntu-latest
+    needs: [file_changes]
+    if: ${{ needs.file_changes.outputs.ex }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -234,6 +264,8 @@ jobs:
   type_typescript:
     name: TSC
     runs-on: ubuntu-latest
+    needs: [file_changes]
+    if: ${{ needs.file_changes.outputs.ts }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -257,6 +289,8 @@ jobs:
   elixir_format_check:
     name: Elixir format check
     runs-on: ubuntu-latest
+    needs: [file_changes]
+    if: ${{ needs.file_changes.outputs.ex }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
@@ -279,6 +313,8 @@ jobs:
   js_format_check:
     name: JS format check
     runs-on: ubuntu-latest
+    needs: [file_changes]
+    if: ${{ needs.file_changes.outputs.js || needs.file_changes.outputs.ts }}
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
