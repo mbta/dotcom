@@ -3,10 +3,18 @@
 name: Setup Dotcom for CI
 
 on:
-  workflow_dispatch:
-  push: 
-    branches: [master]
   pull_request:
+    # Don't bother running if it's a PR on a feature branch
+    branches: master
+
+    # Don't bother running if it's just a script or docs change
+    paths-ignore:
+      - ".github/**"
+      - "bin/**"
+      - Dockerfile
+      - "*.sh"
+      - "*.md"
+      - AUTHORS
 
 env:
   MIX_ENV: test
