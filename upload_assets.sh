@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e -x
-
+# trigger change
 VERSION=$(grep -o 'version: .*"' apps/site/mix.exs  | grep -E -o '([0-9]+\.)+[0-9]+')
 BUILD_ARTIFACT=site-build.zip
 TEMP_DIR=tmp_unzip

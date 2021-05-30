@@ -8,6 +8,8 @@ set -e
 # Ensure build is up to date
 npm run webpack:build
 
+# trigger change 
+
 # Start the server
 source ./semaphore/run_mock_server.sh
 
