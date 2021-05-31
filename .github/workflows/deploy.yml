@@ -1,42 +1,36 @@
-# Experimental!
-# 
-# Only partially works. Suspected problems as of now:
-# 
-# A) VISUAL QUIRKS: Lack of digested static assets that would normally be handled in the 
-#   upload_assets.sh script
-#
-# B) BROKEN PAGES (ex. /projects, /schedules/1): I believe the image is missing or has 
-#   misplaced the react_renderer/dist/app.js script that supports certain pages.
-#
-# We'll revert the multistage Dockerfile work and then continue with our Semaphore-based 
-#   `master` branch auto-deploying to dev functionality until we can resolve these things.
-#
-###############################################
 
-name: Deploy to Dev Elastic Beanstalk
-
+name: Deploy to dev or a staging server
 on:
-  # manually start
   workflow_dispatch:
-  # push:
-    # branches: [$default_branch]
+    inputs:
+      aws_env:
+        description: 'dev, dev-green, or dev-blue?'
+        required: true
+        default: dev-green
 
 jobs:
-  deploy-dev:
-    name: Deploy to dev
+  deploy:
+    name: Deploy to ${{ github.event.inputs.aws_env }}
     runs-on: ubuntu-latest
 
-    # The environment specifies ELASTICBEANSTALK_ APP_NAME & ENV_NAME
-    environment: dev
-    
-    concurrency: dev
+    # The environment specifies ELASTICBEANSTALK_APP_NAME & ENV_NAME
+    environment: ${{ github.event.inputs.aws_env }}
+    concurrency: ${{ github.event.inputs.aws_env }}
+
     env:
       AWS_REGION: us-east-1
+
+    # TODO: Don't run if trying to deploy non-master to dev. Just don't do it!
 
     steps:
       - uses: actions/checkout@v2
       - id: metadata
         uses: mbta/actions/commit-metadata@v1
+
+      # TODO: If this is being deployed to dev, run upload_assets.sh
+      - if: ${{ github.event.inputs.aws_env }} == 'dev'
+        run: |
+          ./upload_assets.sh
       
       # Build a Docker image and push to ECR, outputs docker-tag
       - id: build-push
@@ -66,6 +60,10 @@ jobs:
           region: ${{ env.AWS_REGION }}
           deployment-package: ${{ steps.deployment-package.outputs.deployment-package }}
           use-existing-version-if-available: true
+      
+      # TODO: Move URLs to secrets
+      - if: ${{ github.event.inputs.aws_env }} == 'dev'
+        run: mix escript.install --force https://s3.amazonaws.com/mbta-dotcom/crawler && $HOME/.mix/escripts/crawler https://dev.mbtace.com --num-workers 3
       
       # Send notifications!
       - uses: mbta/actions/notify-slack-deploy@v1

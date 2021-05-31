@@ -12,7 +12,7 @@ defmodule JsonApi.Mixfile do
       elixir: "~> 1.2",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -41,7 +41,7 @@ defmodule JsonApi.Mixfile do
     [
       {:poison, ">= 0.0.0"},
       {:jason, "~> 1.1"},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:benchfella, "~> 0.3", only: :dev},
       {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
