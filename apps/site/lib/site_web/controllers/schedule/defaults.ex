@@ -16,11 +16,12 @@ defmodule SiteWeb.ScheduleController.Defaults do
   plug(:assign_trip_chosen)
 
   def assign_direction_id(conn, _) do
-    do_assign_direction_id(conn.query_params["schedule_direction"]["direction_id"], conn)
+    do_assign_direction_id(conn.query_params["schedule_direction"], conn)
   end
 
-  defp do_assign_direction_id("0", conn), do: assign(conn, :direction_id, 0)
-  defp do_assign_direction_id("1", conn), do: assign(conn, :direction_id, 1)
+  defp do_assign_direction_id(%{"direction_id" => direction_id}, conn)
+       when direction_id in ["0", "1"],
+       do: assign(conn, :direction_id, String.to_integer(direction_id))
 
   defp do_assign_direction_id(_, conn),
     do: assign(conn, :direction_id, default_direction_id(conn))

@@ -77,7 +77,6 @@ defmodule SiteWeb.ScheduleController.TimetableController do
 
   @doc """
   Additional text to be included in the timetable.
-
   We use this for Commuter Rail trips which travel via atypical routes, in
   order to match the PDF schedules. Each rating, this should be checked
   against the new PDFs to ensure it's kept up to date.
