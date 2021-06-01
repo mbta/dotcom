@@ -350,7 +350,7 @@ defmodule SiteWeb.ScheduleControllerTest do
 
       # Map
       assert conn.assigns.map_img_src =~
-               "/sites/default/files/media/2021-01/2021-01-23-ferry-map-f2h-only-schedule-pages.png"
+               "/sites/default/files/media/2021-01/2021-05-22-ferry-map.png"
     end
 
     test "Bus data", %{conn: conn} do

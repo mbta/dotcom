@@ -222,6 +222,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     |> do_build_branched_stop_list(branch, branch_stops, all_stops)
   end
 
+  # Enriches stops with a boolean indicating whether they are the first or last stop in the current branch
   @spec do_build_branched_stop_list(
           [Route.branch_name()],
           Route.branch_name(),
@@ -234,7 +235,7 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
       |> EnumHelpers.with_first_last()
       |> Enum.reduce(
         all_stops,
-        &build_branched_stop(&1, &2, {current_branch, branch_names})
+        &build_branched_stop(&1, &2, {current_branch, branch_names}, length(branch_stops))
       )
 
     {stop_list, branch_names}
@@ -244,6 +245,12 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
   Builds stop bubble information for a stop, and adds the stop to the list of all stops
   as a tuple of {stop_bubbles, %RouteStop{}}.
   """
+  @spec build_branched_stop(
+          RouteStop.t() | {RouteStop.t(), boolean},
+          [stop_with_bubble_info],
+          {Route.branch_name(), [Route.branch_name()]},
+          pos_integer()
+        ) :: [stop_with_bubble_info]
   @spec build_branched_stop(
           RouteStop.t() | {RouteStop.t(), boolean},
           [stop_with_bubble_info],
@@ -259,27 +266,48 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
     [{bubble_types, stop} | branch_stops]
   end
 
-  def build_branched_stop({%RouteStop{is_terminus?: true} = stop, _}, all_stops, {nil, _}) do
-    # a terminus that's not on a branch is always :terminus
+  def build_branched_stop(
+        {%RouteStop{is_terminus?: true} = stop, _},
+        all_stops,
+        {nil, branches},
+        1
+      ) do
+    # A terminus on a one-stop trunk is first and foremost a :merge
+    [{Enum.map(branches, &{&1, :merge}), stop} | all_stops]
+  end
+
+  def build_branched_stop(
+        {%RouteStop{is_terminus?: true} = stop, _},
+        all_stops,
+        {nil, _},
+        _branch_length
+      ) do
+    # Otherwise, a terminus that's not on a branch is always :terminus
     [{[{nil, :terminus}], stop} | all_stops]
   end
 
   def build_branched_stop(
         {%RouteStop{is_terminus?: false} = stop, true},
         all_stops,
-        {nil, branches}
+        {nil, branches},
+        _branch_length
       ) do
     # If the first or last unbranched stop on a branched route is not a terminus, it's a merge stop.
     # We identify these in order to know where to render the horizontal line connecting a branch to the main line.
     [{Enum.map(branches, &{&1, :merge}), stop} | all_stops]
   end
 
-  def build_branched_stop({%RouteStop{} = stop, _}, all_stops, {nil, _}) do
+  def build_branched_stop({%RouteStop{} = stop, _}, all_stops, {nil, _}, _branch_length) do
     # all other unbranched stops are just :stop
     [{[{nil, :stop}], stop} | all_stops]
   end
 
-  def build_branched_stop({%RouteStop{} = stop, _}, all_stops, {current_branch, branches})
+  def build_branched_stop(
+        {%RouteStop{} = stop, _},
+        all_stops,
+        {current_branch, branches},
+        _branch_length
+      )
       when is_binary(current_branch) do
     # when the branch name is not nil, that means that the stop is on a branch. The stop needs to show a bubble for
     # each branch that has already been parsed. We evaluate each branch to determine which bubble type to show:

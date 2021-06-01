@@ -7,8 +7,6 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
   alias RoutePatterns.RoutePattern
   alias Routes.Repo, as: RoutesRepo
   alias Routes.{Route, Shape}
-  alias Schedules.Repo, as: SchedulesRepo
-  alias Schedules.Trip
   alias Stops.Repo, as: StopsRepo
   alias Stops.{RouteStop, RouteStops, Stop}
 
@@ -82,9 +80,8 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
 
     if route.id == "Boat-F1" do
       # Find route patterns with smallest typicality.
-      # Isolate the first pattern (which is the primary pattern)
-      [first_route_pattern | _] = filter_by_min_typicality(route_patterns)
-      [first_route_pattern]
+      filter_by_min_typicality(route_patterns)
+      |> Enum.filter(fn x -> x.shape_priority > 0 end)
     else
       # Filter route patterns by typicality == 1
       Enum.filter(route_patterns, &by_typicality(&1, route_pattern_id))
@@ -302,31 +299,9 @@ defmodule SiteWeb.ScheduleController.Line.Helpers do
 
   @spec stops_for_route_pattern(RoutePattern.t()) :: {RoutePattern.t(), [Stop.t()]}
   defp stops_for_route_pattern(route_pattern) do
-    stops =
-      route_pattern
-      |> trip_for_route_pattern()
-      |> shape_for_trip()
-      |> stops_for_shape()
-
+    stops = Enum.map(route_pattern.stop_ids, &StopsRepo.get!/1)
     {route_pattern, stops}
   end
-
-  @spec trip_for_route_pattern(RoutePattern.t()) :: Trip.t() | nil
-  defp trip_for_route_pattern(%RoutePattern{representative_trip_id: representative_trip_id}),
-    do: SchedulesRepo.trip(representative_trip_id)
-
-  @spec shape_for_trip(Trip.t() | nil) :: Shape.t() | nil
-  defp shape_for_trip(nil), do: nil
-
-  defp shape_for_trip(%Trip{shape_id: shape_id}) do
-    shape_id
-    |> RoutesRepo.get_shape()
-    |> List.first()
-  end
-
-  @spec stops_for_shape(Shape.t() | nil) :: [Stop.t()]
-  defp stops_for_shape(nil), do: []
-  defp stops_for_shape(%Shape{stop_ids: stop_ids}), do: Enum.map(stop_ids, &StopsRepo.get!/1)
 
   @spec get_line_route_patterns(Route.id_t(), direction_id(), RoutePattern.id_t() | nil) :: [
           RoutePattern.t()
