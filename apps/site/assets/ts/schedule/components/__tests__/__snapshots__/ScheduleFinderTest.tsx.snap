@@ -18,15 +18,13 @@ exports[`ScheduleFinder matches snapshot 1`] = `
             <SelectContainer>
               <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
                 <select className=\\"c-select-custom\\" value={0} onChange={[Function: onChange]}>
-                  <option value={0}>
-                    INBOUND
-                     
-                    Oak Grove
+                  <option value={0} aria-label=\\"INBOUND \\\\n  Oak Grove\\">
+                    INBOUND 
+                      Oak Grove
                   </option>
-                  <option value={1}>
-                    OUTBOUND
-                     
-                    Forest Hills
+                  <option value={1} aria-label=\\"OUTBOUND \\\\n  Forest Hills\\">
+                    OUTBOUND 
+                      Forest Hills
                   </option>
                 </select>
                 <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
@@ -41,13 +39,13 @@ exports[`ScheduleFinder matches snapshot 1`] = `
                   <option value=\\"\\">
                     Select
                   </option>
-                  <option value=\\"place-welln\\">
+                  <option value=\\"place-welln\\" aria-label=\\"Wellington\\">
                     Wellington
                   </option>
-                  <option value=\\"123\\">
+                  <option value=\\"123\\" aria-label=\\"Abc\\">
                     Abc
                   </option>
-                  <option value=\\"741\\">
+                  <option value=\\"741\\" aria-label=\\"SL\\">
                     SL
                   </option>
                 </select>

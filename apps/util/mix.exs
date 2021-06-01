@@ -13,7 +13,7 @@ defmodule Util.Mixfile do
       elixirc_paths: elixirc_paths(Mix.env()),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end

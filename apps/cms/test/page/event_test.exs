@@ -94,21 +94,75 @@ defmodule CMS.Page.EventTest do
     end
   end
 
-  describe "past?/2" do
-    @yesterday ~D[2018-01-01]
-    @today ~D[2018-01-02]
-    @tomorrow ~D[2018-01-03]
+  describe "started_status/2" do
+    test "when start and end are provided as datetimes" do
+      now = Util.now()
 
-    test "event yesterday is in the past" do
-      assert past?(%Event{start_time: @yesterday}, @today) == true
+      past =
+        now
+        |> Timex.shift(minutes: -3)
+
+      distant_past =
+        now
+        |> Timex.shift(minutes: -30)
+
+      future =
+        now
+        |> Timex.shift(minutes: 3)
+
+      distant_future =
+        now
+        |> Timex.shift(minutes: 30)
+
+      assert started_status(distant_past, past) === :ended
+      assert started_status(distant_past, future) === :started
+      assert started_status(future, distant_future) === :not_started
     end
 
-    test "event tomorrow not in the past" do
-      assert past?(%Event{start_time: @tomorrow}, @today) == false
+    test "when event only has a start, consider event ended when the day is over" do
+      now = Util.now()
+
+      earlier_today =
+        now
+        |> Timex.shift(seconds: -30)
+
+      later_today =
+        now
+        |> Timex.shift(seconds: 30)
+
+      yesterday =
+        now
+        |> Timex.shift(days: -1)
+
+      tomorrow =
+        now
+        |> Timex.shift(days: 1)
+
+      assert started_status(yesterday, nil) === :ended
+      assert started_status(earlier_today, nil) === :started
+      assert started_status(later_today, nil) === :not_started
+      assert started_status(tomorrow, nil) === :not_started
     end
 
-    test "event today is not in the past" do
-      assert past?(%Event{start_time: @today}, @today) == false
+    test "handles naive datetimes" do
+      naive_now =
+        Util.now()
+        |> DateTime.to_naive()
+
+      naive_past =
+        naive_now
+        |> NaiveDateTime.add(-500)
+
+      naive_distant_past =
+        naive_now
+        |> NaiveDateTime.add(-1000)
+
+      assert started_status(naive_distant_past, naive_past) === :ended
+      assert started_status(naive_distant_past, nil) === :started
+    end
+
+    test "handles nil start" do
+      assert started_status(nil, nil) === nil
     end
   end
 end

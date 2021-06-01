@@ -156,7 +156,7 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
     <Modal focusElementId=\\"modal-close\\" ariaLabel={{...}} className=\\"\\" closeModal={[Function: closeModal]} priorPadding=\\"0px\\" paddingRight={0}>
       <ModalContent bodyPadding=\\"0px\\" scrollBarPadding={0} closeText=\\"Close\\" role=\\"dialog\\" ariaLabel={{...}} focusElementId=\\"modal-close\\" className=\\"\\" closeModal={[Function: closeModal]}>
         <Portal containerInfo={{...}}>
-          <aside aria-modal={true} aria-label=\\"Schedules to Inbound\\" role=\\"dialog\\" id=\\"modal-cover\\" className=\\"c-modal__cover\\" tabIndex={-1} onKeyDown={[Function: onKeyDown]} onClick={[Function: onClick]}>
+          <aside aria-modal={true} aria-label=\\"Schedules on the Orange Inbound to Oak Grove from Wellington\\" role=\\"dialog\\" id=\\"modal-cover\\" className=\\"c-modal__cover\\" tabIndex={-1} onKeyDown={[Function: onKeyDown]} onClick={[Function: onClick]}>
             <div className=\\"c-modal \\">
               <button id=\\"modal-close\\" className=\\"btn btn-secondary c-modal__close\\" onClick={[Function: onClick]} type=\\"button\\">
                 Close
@@ -179,15 +179,13 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                             <SelectContainer>
                               <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
                                 <select className=\\"c-select-custom\\" value={0} onChange={[Function: onChange]}>
-                                  <option value={0}>
-                                    INBOUND
-                                     
-                                    Oak Grove
+                                  <option value={0} aria-label=\\"INBOUND \\\\n  Oak Grove\\">
+                                    INBOUND 
+                                      Oak Grove
                                   </option>
-                                  <option value={1}>
-                                    OUTBOUND
-                                     
-                                    Forest Hills
+                                  <option value={1} aria-label=\\"OUTBOUND \\\\n  Forest Hills\\">
+                                    OUTBOUND 
+                                      Forest Hills
                                   </option>
                                 </select>
                                 <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
@@ -202,13 +200,13 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                                   <option value=\\"\\">
                                     Select
                                   </option>
-                                  <option value=\\"place-welln\\">
+                                  <option value=\\"place-welln\\" aria-label=\\"Wellington\\">
                                     Wellington
                                   </option>
-                                  <option value=\\"123\\">
+                                  <option value=\\"123\\" aria-label=\\"Abc\\">
                                     Abc
                                   </option>
-                                  <option value=\\"741\\">
+                                  <option value=\\"741\\" aria-label=\\"SL\\">
                                     SL
                                   </option>
                                 </select>
@@ -234,38 +232,42 @@ exports[`ScheduleFinderModal matches snapshot in schedule mode 1`] = `
                     </h3>
                     <SchedulesSelect sortedServices={{...}} todayServiceId=\\"\\" defaultSelectedServiceId=\\"BUS319-J-Wdy-02\\" todayDate={{...}} onSelectService={[Function: onSelectService]}>
                       <div className=\\"schedule-finder__service-selector\\">
-                        <label htmlFor=\\"service_selector\\" className=\\"sr-only\\">
-                          Schedules
+                        <label>
+                          <span className=\\"sr-only\\">
+                            Choose a schedule type from the available options
+                          </span>
+                          <SelectContainer>
+                            <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
+                              <select className=\\"c-select-custom text-center u-bold\\" defaultValue=\\"BUS319-J-Wdy-02\\" onChange={[Function: onChange]} aria-controls=\\"daily-schedule\\">
+                                <ServiceOptGroup label=\\"Other Schedules\\" services={{...}} multipleWeekdays={false} todayServiceId=\\"\\">
+                                  <optgroup label=\\"Other Schedules\\">
+                                    <option value=\\"BUS319-J-Wdy-02\\" aria-label=\\"Other Schedules Weekday schedule, Jul 8 to Aug 30\\">
+                                      Weekday schedule, Jul 8 to Aug 30
+                                    </option>
+                                    <option value=\\"BUS319-K-Sa-02\\" aria-label=\\"Other Schedules Saturday schedule, Jul 13 to Aug 31\\">
+                                      Saturday schedule, Jul 13 to Aug 31
+                                    </option>
+                                    <option value=\\"BUS319-L-Su-02\\" aria-label=\\"Other Schedules Sunday schedule, Jul 14 to Aug 25\\">
+                                      Sunday schedule, Jul 14 to Aug 25
+                                    </option>
+                                  </optgroup>
+                                </ServiceOptGroup>
+                              </select>
+                              <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
+                            </div>
+                          </SelectContainer>
                         </label>
-                        <SelectContainer>
-                          <div tabIndex={0} className=\\"c-select-custom__container \\" role=\\"button\\" onClick={[Function: onClick]} onKeyUp={[Function: onKeyUp]}>
-                            <select id=\\"service_selector\\" className=\\"c-select-custom text-center u-bold\\" defaultValue=\\"BUS319-J-Wdy-02\\" onChange={[Function: onChange]}>
-                              <ServiceOptGroup label=\\"Other Schedules\\" services={{...}} multipleWeekdays={false} todayServiceId=\\"\\">
-                                <optgroup label=\\"Other Schedules\\">
-                                  <option value=\\"BUS319-J-Wdy-02\\">
-                                    Weekday schedule, Jul 8 to Aug 30
-                                  </option>
-                                  <option value=\\"BUS319-K-Sa-02\\">
-                                    Saturday schedule, Jul 13 to Aug 31
-                                  </option>
-                                  <option value=\\"BUS319-L-Su-02\\">
-                                    Sunday schedule, Jul 14 to Aug 25
-                                  </option>
-                                </optgroup>
-                              </ServiceOptGroup>
-                            </select>
-                            <span className=\\"notranslate c-svg__icon c-select-custom__arrow\\" aria-hidden=\\"true\\" dangerouslySetInnerHTML={{...}} />
-                          </div>
-                        </SelectContainer>
                       </div>
                     </SchedulesSelect>
-                    <Loading>
-                      <div className=\\"c-spinner__container\\">
-                        <div className=\\"c-spinner\\">
-                          Loading...
+                    <div id=\\"daily-schedule\\">
+                      <Loading>
+                        <div className=\\"c-spinner__container\\">
+                          <div className=\\"c-spinner\\">
+                            Loading...
+                          </div>
                         </div>
-                      </div>
-                    </Loading>
+                      </Loading>
+                    </div>
                   </DailySchedule>
                 </ScheduleModalContent>
               </div>

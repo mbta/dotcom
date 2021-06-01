@@ -12,7 +12,7 @@ defmodule Fares.Mixfile do
       elixir: "~> 1.3",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -40,7 +40,7 @@ defmodule Fares.Mixfile do
   defp deps do
     [
       {:csv, "~> 2.3"},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:repo_cache, in_umbrella: true},
       {:stops, in_umbrella: true},
       {:schedules, in_umbrella: true},
