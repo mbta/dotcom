@@ -3,11 +3,15 @@
 
 <%= if Laboratory.enabled?(@conn, :events_hub_redesign) and !is_nil(@event.registration_link) do %>
 
+  <%= if has_started?(@event) and !is_nil(@event.livestream_link) do %>
+    <iframe class="m-event__livestream" src="<%= @event.livestream_link %>"></iframe>
+  <% end %>
+
   <div class="container m-event-details">
-    <div class="c-cms <%= sidebar_class %>">
+    <div class="c-cms c-cms--with-sidebar c-cms--sidebar-right">
 
       <div class="c-cms__header">
-        <div class="c-cms__title u-full-width">
+        <div class="c-cms__title">
           <div class="m-event__date-range u-gray">
             <%= render_event_duration_list_view(@event.start_time, @event.end_time) %>
           </div>
