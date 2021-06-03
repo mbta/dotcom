@@ -46,7 +46,7 @@ defmodule Stops.RouteStops do
   end
 
   @spec from_list([RouteStop.t()]) :: t()
-  def from_list(stops) do
+  def from_list(stops) when stops != [] do
     %__MODULE__{
       branch: branch(stops),
       stops: stops
@@ -59,6 +59,8 @@ defmodule Stops.RouteStops do
     |> Enum.find(first, &green_branch?/1)
     |> Map.get(:branch)
   end
+
+  defp branch(_), do: nil
 
   @spec green_branch?(RouteStop.t()) :: boolean()
   defp green_branch?(%RouteStop{branch: branch}) when is_binary(branch),
