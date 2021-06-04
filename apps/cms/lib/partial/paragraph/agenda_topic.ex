@@ -12,12 +12,12 @@ defmodule CMS.Partial.Paragraph.AgendaTopic do
     ]
 
   defstruct title: "",
-            bookmark: "",
+            video_bookmark: nil,
             description: HTML.raw("")
 
   @type t :: %__MODULE__{
           title: String.t(),
-          bookmark: String.t(),
+          video_bookmark: String.t() | nil,
           description: HTML.safe()
         }
 
@@ -25,7 +25,7 @@ defmodule CMS.Partial.Paragraph.AgendaTopic do
   def from_api(data) do
     %__MODULE__{
       title: field_value(data, "field_topic_title"),
-      bookmark: field_value(data, "field_video_bookmark"),
+      video_bookmark: field_value(data, "field_video_bookmark"),
       description: data |> field_value("field_agenda_topic_description") |> handle_html
     }
   end

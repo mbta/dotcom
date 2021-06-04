@@ -296,12 +296,12 @@ defmodule CMS.ParagraphTest do
 
       assert %AgendaTopic{
                title: title,
-               bookmark: bookmark,
+               video_bookmark: video_bookmark,
                description: description
              } = from_api(agenda_topic_data)
 
       assert title == "First Topic"
-      assert bookmark == "00:00:05"
+      assert video_bookmark == "00:00:05"
       assert safe_to_string(description) =~ "<p>This is the first topic of the agenda."
     end
 
