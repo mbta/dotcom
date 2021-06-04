@@ -1,4 +1,4 @@
-defmodule CMS.Page.Agenda do
+defmodule CMS.Page.EventAgenda do
   @moduledoc """
   Represents an agenda content type in the Drupal CMS.
   """

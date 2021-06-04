@@ -1,24 +1,24 @@
-defmodule CMS.Page.AgendaTest do
+defmodule CMS.Page.EventAgendaTest do
   use ExUnit.Case, async: true
 
   alias CMS.API.Static
-  alias CMS.Page.Agenda
+  alias CMS.Page.EventAgenda
   alias CMS.Partial.Paragraph.AgendaTopic
 
   setup do
-    %{api_page: Static.agenda_response()}
+    %{api_page: Static.event_agenda_response()}
   end
 
   describe "from_api/1" do
     test "it parses the api response", %{api_page: api_page} do
-      assert %Agenda{
+      assert %EventAgenda{
                id: id,
                title: title,
                topics: topics,
                collect_info: collect_info,
                event_reference: event_reference,
                formstack_url: formstack_url
-             } = Agenda.from_api(api_page)
+             } = EventAgenda.from_api(api_page)
 
       # Test normal fields
       assert id == 5326
