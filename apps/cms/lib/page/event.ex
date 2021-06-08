@@ -23,6 +23,7 @@ defmodule CMS.Page.Event do
 
   alias CMS.Field.File
   alias CMS.Field.Link
+  alias CMS.Page.EventAgenda
   alias CMS.Partial.Paragraph
   alias Phoenix.HTML
 
@@ -49,7 +50,8 @@ defmodule CMS.Page.Event do
             path_alias: nil,
             paragraphs: [],
             registration_link: nil,
-            livestream_link: nil
+            livestream_link: nil,
+            event_agenda: nil
 
   @type t :: %__MODULE__{
           id: integer | nil,
@@ -73,13 +75,20 @@ defmodule CMS.Page.Event do
           path_alias: String.t() | nil,
           paragraphs: [Paragraph.t()],
           registration_link: Link.t() | nil,
-          livestream_link: Link.t() | nil
+          livestream_link: Link.t() | nil,
+          event_agenda: EventAgenda.t() | nil
         }
 
   @spec from_api(map, Keyword.t()) :: t
   def from_api(%{} = data, preview_opts \\ []) do
     start_time = parse_iso_datetime(field_value(data, "field_start_time"))
     end_time = parse_iso_datetime(field_value(data, "field_end_time"))
+
+    event_agenda =
+      case field_value(data, "field_agenda_reference") do
+        %{} = agenda_page -> EventAgenda.from_api(agenda_page, preview_opts)
+        _ -> nil
+      end
 
     %__MODULE__{
       id: int_or_string_to_int(field_value(data, "nid")),
@@ -103,7 +112,8 @@ defmodule CMS.Page.Event do
       path_alias: path_alias(data),
       paragraphs: parse_paragraphs(data, preview_opts),
       registration_link: parse_link(data, "field_registration_url"),
-      livestream_link: parse_link(data, "field_livestream_url")
+      livestream_link: parse_link(data, "field_livestream_url"),
+      event_agenda: event_agenda
     }
   end
 

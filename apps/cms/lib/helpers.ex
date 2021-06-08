@@ -17,8 +17,10 @@ defmodule CMS.Helpers do
     - value: raw database value from user input
     - processed: Drupal's post-processed (safer) value
     - summary: A plain-text value separate from above
-  - Entity reference field
+  - Entity reference field (collapsed)
     - target_id: a integer value of another entity
+  - Entity reference field (expanded)
+    - the entire map is the page struct
   - default: most other fields
     - value: mixed type, but most common pattern
   """
@@ -28,6 +30,7 @@ defmodule CMS.Helpers do
       [%{"processed" => value}] -> value
       [%{"value" => value}] -> value
       [%{"target_id" => value}] -> value
+      [%{"nid" => _} = node] -> node
       _ -> nil
     end
   end

@@ -10,6 +10,7 @@ defmodule CMS.ParagraphTest do
   alias CMS.Partial.Paragraph.{
     Accordion,
     AccordionSection,
+    AgendaTopic,
     Callout,
     CodeEmbed,
     Column,
@@ -288,6 +289,20 @@ defmodule CMS.ParagraphTest do
 
       assert code =~ "<script type=\"text/javascript\""
       assert code =~ "<noscript>"
+    end
+
+    test "parses an agenda topic paragraph" do
+      agenda_topic_data = api_paragraph("agenda_topic")
+
+      assert %AgendaTopic{
+               title: title,
+               video_bookmark: video_bookmark,
+               description: description
+             } = from_api(agenda_topic_data)
+
+      assert title == "First Topic"
+      assert video_bookmark == "00:00:05"
+      assert safe_to_string(description) =~ "<p>This is the first topic of the agenda."
     end
 
     test "parses an unknown paragraph type" do

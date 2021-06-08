@@ -1,0 +1,9 @@
+<%= if Enum.any?(@agenda.topics) do %>
+  <ol>
+    <%= for topic <- @agenda.topics do %>
+      <li>
+        <%= SiteWeb.CMS.ParagraphView.render_paragraph_content(topic, @conn) %>
+      </li>
+    <% end %>
+  </ol>
+<% end %>
