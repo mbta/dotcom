@@ -332,6 +332,17 @@ defmodule SiteWeb.CustomerSupportControllerTest do
       assert "recaptcha" in conn.assigns.errors
     end
 
+    test "if the submission doesn't carry a recaptcha value, consider it an invalid recaptcha", %{conn: conn} do      
+      conn =
+        post(
+          conn,
+          customer_support_path(conn, :submit),
+          Map.delete(valid_request_response_data(), "g-recaptcha-response")
+        )
+
+      assert "recaptcha" in conn.assigns.errors
+    end
+
     test "adds date and time fields if not present in the form", %{conn: conn} do
       conn =
         post(
