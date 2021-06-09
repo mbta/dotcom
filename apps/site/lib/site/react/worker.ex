@@ -12,8 +12,13 @@ defmodule Site.React.Worker do
   def init(_opts) do
     node = System.find_executable("node") || System.find_executable("nodejs")
     config = Application.get_env(:site, :react)
-    port = Port.open({:spawn_executable, node}, args: [config[:build_path]])
-    {:ok, %{port: port}}
+    if File.exists?(config[:build_path]) do
+      port = Port.open({:spawn_executable, node}, args: [config[:build_path]])
+      {:ok, %{port: port}}
+    else
+      _ = Logger.log(:info, "react rendering skipped")
+      {:ok}
+    end
   end
 
   def handle_call({:render, name, props}, _from, %{port: port} = state) do
