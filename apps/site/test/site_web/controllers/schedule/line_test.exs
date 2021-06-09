@@ -368,6 +368,19 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert b |> List.last() |> stop_id() == "place-lake"
     end
 
+    test "direction 0 handles an empty list of stops" do
+      stops =
+        [
+          %Stops.RouteStops{branch: "Green-E", stops: []},
+          %Stops.RouteStops{branch: "Green-D", stops: []},
+          %Stops.RouteStops{branch: "Green-C", stops: []},
+          %Stops.RouteStops{branch: "Green-B", stops: []}
+        ]
+        |> build_stop_list(0)
+
+      assert stops == []
+    end
+
     test "direction 1 returns a list of all stops in order from west to east" do
       route_stops = get_route_stops("Green", 0, @deps.stops_by_route_fn)
 

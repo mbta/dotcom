@@ -140,6 +140,11 @@ defmodule SiteWeb.ScheduleController.Line.DiagramHelpers do
 
   # Splits green branch into a tuple of shared stops and stops that are unique to that branch.
   @spec split_green_branch(RouteStops.t(), direction_id) :: {[RouteStop.t()], [RouteStop.t()]}
+
+  defp split_green_branch(%RouteStops{stops: []}, _direction_id) do
+    {[], []}
+  end
+
   defp split_green_branch(%RouteStops{branch: "Green-E", stops: stops}, _direction_id),
     do: {[], stops}
 

@@ -46,7 +46,7 @@ defmodule Stops.RouteStops do
   end
 
   @spec from_list([RouteStop.t()]) :: t()
-  def from_list(stops) when stops != [] do
+  def from_list(stops) do
     %__MODULE__{
       branch: branch(stops),
       stops: stops
