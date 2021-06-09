@@ -81,7 +81,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "file-api": "^0.10.4",
     "focus-options-polyfill": "^1.1.1",
-    "jest": "^24.9.0",
+    "jest": "^27.0.4",
     "mini-css-extract-plugin": "^0.4.1",
     "mocha": "^2.5.3",
     "mocha-jsdom": "2.0.0",
