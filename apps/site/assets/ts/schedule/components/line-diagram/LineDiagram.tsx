@@ -55,6 +55,7 @@ const LineDiagramAndStopListPage = ({
   today,
   scheduleNote
 }: LineDiagramProps): ReactElement<HTMLElement> | null => {
+  if (!lineDiagram[0]) return null;
   /**
    * Setup state handling etc
    */
