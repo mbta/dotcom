@@ -13,7 +13,7 @@
 
   <%= for {month_number, event_teasers} <- @events do %>
     <!-- Only expand month if past year OR current year and current-or-future month -->
-    <% initially_expanded = @conn.assigns.date.year != @year or (@conn.assigns.date.year == @year and month_number >= @conn.assigns.date.month) %>
+    <% initially_expanded = @conn.assigns.date.year != @year or (@conn.assigns.date.year == @year and month_number >= @conn.assigns.date.month) or month_number == @month %>
     <%= render "_expandable_month.html",
       %{
         initially_expanded: initially_expanded,
