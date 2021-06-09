@@ -54,10 +54,6 @@ defmodule Stops.RouteStopsTest do
                }
              ] = RouteStops.from_route_stop_groups(route_patern_groups)
     end
-
-    test "handles an empty list of RouteStop structs" do
-      assert RouteStops.from_route_stop_groups([]) == []
-    end
   end
 
   describe "by_direction/2 returns a list of stops in one direction in the correct order" do
