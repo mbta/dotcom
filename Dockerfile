@@ -21,7 +21,7 @@ mix local.rebar --force
 
 ADD . .
 
-RUN mix deps.get --only prod && mix compile
+RUN mix deps.get --only prod
 
 # 2) Build the frontend assets within a node.js container instead of installing node/npm
 FROM node:14.15.1-buster as assets-builder
@@ -49,8 +49,10 @@ WORKDIR /root
 # Add frontend assets compiled in the node container, required by phx.digest
 COPY --from=assets-builder /root/apps/site/priv/static ./apps/site/priv/static
 
+# re-compile the application after the assets are copied, since some of them
+# are built into the application (SVG icons)
 WORKDIR /root/apps/site/
-RUN mix phx.digest
+RUN mix do compile, phx.digest
 
 WORKDIR /root
 RUN mix distillery.release --verbose
