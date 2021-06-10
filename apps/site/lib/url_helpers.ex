@@ -40,7 +40,8 @@ defmodule UrlHelpers do
     end
   end
 
-  defp update_query_merge(_key, old_value, new_value) when is_map(new_value) do
+  defp update_query_merge(_key, old_value, new_value)
+       when is_map(old_value) and is_map(new_value) do
     new_value = ensure_string_keys(new_value)
     Map.merge(old_value, new_value, &update_query_merge/3)
   end

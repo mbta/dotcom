@@ -87,6 +87,7 @@ export default ({
 
   const direction = initialDirection;
   const origin = initialOrigin;
+  const originStop = stops[direction].find(stop => stop.id === origin);
 
   return (
     <Modal
@@ -97,7 +98,10 @@ export default ({
         label:
           initialMode === "origin"
             ? "Choose Origin Stop"
-            : `Schedules to ${route.direction_names[direction]}`
+            : `Schedules on the ${route.name} ${
+                route.direction_names[direction]
+              } to ${route.direction_destinations[direction]} ${originStop &&
+                `from ${originStop.name}`}`
       }}
       className={
         initialMode === "origin" ? "schedule-finder__origin-modal" : ""

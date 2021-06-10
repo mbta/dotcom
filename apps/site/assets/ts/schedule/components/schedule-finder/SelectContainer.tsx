@@ -32,7 +32,7 @@ const SelectContainer = ({
     }
   >
     {children}
-    {renderSvg("c-svg__icon c-select-custom__arrow", arrowIcon)}
+    {renderSvg("c-svg__icon c-select-custom__arrow", arrowIcon, true)}
   </div>
 );
 

@@ -12,7 +12,7 @@ defmodule Alerts.Mixfile do
       elixir: "~> 1.2",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -48,7 +48,7 @@ defmodule Alerts.Mixfile do
       {:timex, ">= 0.0.0"},
       {:util, in_umbrella: true},
       {:quixir, "~> 0.9", only: :test},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:benchfella, "~> 0.3", only: :dev},
       {:exvcr_helpers, in_umbrella: true, only: :test}
     ]

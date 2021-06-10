@@ -12,7 +12,7 @@ defmodule RepoCache.Mixfile do
       elixir: "~> 1.2",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -40,7 +40,7 @@ defmodule RepoCache.Mixfile do
   defp deps do
     [
       {:con_cache, "~> 0.12.0"},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:exvcr_helpers, in_umbrella: true, only: :test}
     ]
   end

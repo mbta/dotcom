@@ -4,6 +4,7 @@ defmodule SiteWeb.ScheduleController.LineTest do
   import SiteWeb.ScheduleController.Line.DiagramHelpers
   alias Services.Service
   alias Stops.{RouteStop, RouteStops}
+  alias SiteWeb.ScheduleController.Line
 
   doctest SiteWeb.ScheduleController.Line
 
@@ -227,6 +228,64 @@ defmodule SiteWeb.ScheduleController.LineTest do
   ]
 
   def get_error_stop_list(_, _, _), do: {:error, "error"}
+
+  describe "populate / update conn based on url in do_call: " do
+    setup %{conn: conn} do
+      conn =
+        conn
+        |> assign(:route, %Routes.Route{id: "1", type: 3})
+        |> assign(:date_time, Util.now())
+        |> assign(:date, Util.service_date())
+        |> assign(:direction_id, 0)
+
+      {:ok, conn: conn}
+    end
+
+    test "updates conn with direction_id from url", %{conn: conn} do
+      conn =
+        conn
+        |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "1"}})
+        |> Line.call([])
+
+      assert conn.assigns.direction_id == 1
+    end
+
+    test "parses a misshapen direction_id", %{conn: conn} do
+      conn =
+        conn
+        |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "1'[]"}})
+        |> Line.call([])
+
+      assert conn.assigns.direction_id == 1
+    end
+
+    test "ignores a negative direction_id", %{conn: conn} do
+      conn =
+        conn
+        |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "-1"}})
+        |> Line.call([])
+
+      assert conn.assigns.direction_id == 0
+    end
+
+    test "ignores url direction_id if it's not a number", %{conn: conn} do
+      conn =
+        conn
+        |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "string"}})
+        |> Line.call([])
+
+      assert conn.assigns.direction_id == 0
+    end
+
+    test "ignores url direction_id if it's > 1", %{conn: conn} do
+      conn =
+        conn
+        |> Map.put(:query_params, %{"schedule_direction" => %{"direction_id" => "10"}})
+        |> Line.call([])
+
+      assert conn.assigns.direction_id == 0
+    end
+  end
 
   describe "build_stop_list/2 for Green Line" do
     defp stop_id({_branches, stop_id}), do: stop_id
@@ -565,27 +624,67 @@ defmodule SiteWeb.ScheduleController.LineTest do
       assert build_branched_stop(stop, [], branches) == [{bubbles, stop}]
     end
 
-    test "a terminus that's not on a branch is always a terminus" do
+    test "a terminus on a one-stop trunk is a merge" do
       stop = %RouteStop{id: "new", branch: nil, is_terminus?: true}
-      assert build_branched_stop({stop, true}, [], {nil, []}) == [{[{nil, :terminus}], stop}]
-      assert build_branched_stop({stop, false}, [], {nil, []}) == [{[{nil, :terminus}], stop}]
+      branch_length = 1
+
+      assert build_branched_stop({stop, true}, [], {nil, ["branch 1", "branch 2"]}, branch_length) ==
+               [
+                 {[{"branch 1", :merge}, {"branch 2", :merge}], stop}
+               ]
+
+      assert build_branched_stop(
+               {stop, false},
+               [],
+               {nil, ["branch 1", "branch 2"]},
+               branch_length
+             ) == [
+               {[{"branch 1", :merge}, {"branch 2", :merge}], stop}
+             ]
+    end
+
+    test "a terminus not on a branch (but also not the ONLY stop on a branch) is always a terminus" do
+      stop = %RouteStop{id: "new", branch: nil, is_terminus?: true}
+      branch_length = 3
+
+      assert build_branched_stop({stop, true}, [], {nil, []}, branch_length) == [
+               {[{nil, :terminus}], stop}
+             ]
+
+      assert build_branched_stop({stop, false}, [], {nil, []}, branch_length) == [
+               {[{nil, :terminus}], stop}
+             ]
     end
 
     test "non-terminus in unbranched stops is a merge stop when it's first or last in list" do
       new_stop = %RouteStop{id: "new"}
-      result = build_branched_stop({new_stop, true}, [], {nil, ["branch 1", "branch 2"]})
+      branch_length = 3
+
+      result =
+        build_branched_stop({new_stop, true}, [], {nil, ["branch 1", "branch 2"]}, branch_length)
+
       assert result == [{[{"branch 1", :merge}, {"branch 2", :merge}], new_stop}]
     end
 
     test "unbranched stops that aren't first or last in list are just :stop" do
       new_stop = %RouteStop{id: "new"}
-      result = build_branched_stop({new_stop, false}, [], {nil, []})
+      branch_length = 3
+      result = build_branched_stop({new_stop, false}, [], {nil, []}, branch_length)
       assert result == [{[{nil, :stop}], new_stop}]
     end
 
     test "branched terminus includes :terminus in stop bubbles" do
       new_stop = %RouteStop{id: "new", branch: "branch 1", is_terminus?: true}
-      result = build_branched_stop({new_stop, false}, [], {"branch 1", ["branch 1", "branch 2"]})
+      branch_length = 3
+
+      result =
+        build_branched_stop(
+          {new_stop, false},
+          [],
+          {"branch 1", ["branch 1", "branch 2"]},
+          branch_length
+        )
+
       assert result == [{[{"branch 1", :terminus}, {"branch 2", :line}], new_stop}]
     end
   end

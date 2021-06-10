@@ -72,39 +72,41 @@ const SchedulesSelect = ({
 
   return (
     <div className="schedule-finder__service-selector">
-      <label htmlFor="service_selector" className="sr-only">
-        Schedules
-      </label>
-      <SelectContainer>
-        <select
-          id="service_selector"
-          className="c-select-custom text-center u-bold"
-          defaultValue={defaultSelectedServiceId}
-          onChange={e =>
-            onSelectService(sortedServices.find(s => s.id === e.target.value))
-          }
-        >
-          {Object.keys(servicesByOptGroup)
-            .sort(optGroupComparator)
-            .map((group: string) => {
-              const groupedServices = servicesByOptGroup[group];
-              /* istanbul ignore next */
-              if (groupedServices.length <= 0) return null;
+      <label>
+        <span className="sr-only">
+          Choose a schedule type from the available options
+        </span>
+        <SelectContainer>
+          <select
+            className="c-select-custom text-center u-bold"
+            defaultValue={defaultSelectedServiceId}
+            onChange={e =>
+              onSelectService(sortedServices.find(s => s.id === e.target.value))
+            }
+            aria-controls="daily-schedule"
+          >
+            {Object.keys(servicesByOptGroup)
+              .sort(optGroupComparator)
+              .map((group: string) => {
+                const groupedServices = servicesByOptGroup[group];
+                /* istanbul ignore next */
+                if (groupedServices.length <= 0) return null;
 
-              return (
-                <ServiceOptGroup
-                  key={group}
-                  label={group}
-                  services={groupedServices.sort(serviceComparator)}
-                  multipleWeekdays={hasMultipleWeekdaySchedules(
-                    groupedServices
-                  )}
-                  todayServiceId={todayServiceId}
-                />
-              );
-            })}
-        </select>
-      </SelectContainer>
+                return (
+                  <ServiceOptGroup
+                    key={group}
+                    label={group}
+                    services={groupedServices.sort(serviceComparator)}
+                    multipleWeekdays={hasMultipleWeekdaySchedules(
+                      groupedServices
+                    )}
+                    todayServiceId={todayServiceId}
+                  />
+                );
+              })}
+          </select>
+        </SelectContainer>
+      </label>
     </div>
   );
 };
@@ -173,21 +175,29 @@ export const DailySchedule = ({
         }}
       />
 
-      {isLoading(fetchState) && <Loading />}
-
-      {/* istanbul ignore next */ !isLoading(fetchState) &&
-        /* istanbul ignore next */ fetchState.data && (
-          /* istanbul ignore next */ <ScheduleTable
-            journeys={fetchState.data}
-            routePatterns={routePatterns}
-            input={{
-              route: routeId,
-              origin: stopId,
-              direction: directionId,
-              date: selectedService!.end_date
-            }}
-          />
+      <div id="daily-schedule">
+        {isLoading(fetchState) ? (
+          <Loading />
+        ) : (
+          <span className="sr-only" aria-live="polite">
+            Showing times for {selectedService.description}
+          </span>
         )}
+
+        {/* istanbul ignore next */ !isLoading(fetchState) &&
+          /* istanbul ignore next */ fetchState.data && (
+            /* istanbul ignore next */ <ScheduleTable
+              journeys={fetchState.data}
+              routePatterns={routePatterns}
+              input={{
+                route: routeId,
+                origin: stopId,
+                direction: directionId,
+                date: selectedService!.end_date
+              }}
+            />
+          )}
+      </div>
     </>
   );
 };

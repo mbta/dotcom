@@ -81,12 +81,14 @@ defmodule SiteWeb.ScheduleController.Line do
       schedule_direction = Map.get(conn.query_params, "schedule_direction", %{})
 
       direction_id_value =
-        case schedule_direction["direction_id"] do
-          nil ->
-            direction_id
+        if schedule_direction["direction_id"] do
+          parsed = Integer.parse(schedule_direction["direction_id"])
 
-          _ ->
-            String.to_integer(schedule_direction["direction_id"])
+          if parsed !== :error and (elem(parsed, 0) === 1 or elem(parsed, 0) === 0),
+            do: elem(parsed, 0),
+            else: direction_id
+        else
+          direction_id
         end
 
       deps = Keyword.get(args, :deps, %Dependencies{})
@@ -139,12 +141,14 @@ defmodule SiteWeb.ScheduleController.Line do
     reverse_route_stops =
       LineHelpers.get_route_stops(route.id, reverse_direction_id, deps.stops_by_route_fn)
 
+    diagram_direction = RouteStop.reverse_direction_for_ferry(route.id, direction_id)
+
     conn
     |> assign(:route_patterns, route_patterns_map)
     |> assign(:direction_id, direction_id)
     |> assign(
       :all_stops,
-      DiagramHelpers.build_stop_list(static_branches, direction_id)
+      DiagramHelpers.build_stop_list(static_branches, diagram_direction)
     )
     |> assign(:branches, static_branches)
     |> assign(:map_img_src, map_img_src)

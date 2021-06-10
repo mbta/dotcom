@@ -1,0 +1,290 @@
+{
+  "nid": [
+    {
+      "value": 5326
+    }
+  ],
+  "uuid": [
+    {
+      "value": "44eb335e-8e02-441c-ad3a-1a1fcee7ead5"
+    }
+  ],
+  "vid": [
+    {
+      "value": 51676
+    }
+  ],
+  "langcode": [
+    {
+      "value": "en"
+    }
+  ],
+  "type": [
+    {
+      "target_id": "agenda",
+      "target_type": "node_type",
+      "target_uuid": "b66fc42e-c8b9-4949-80ea-1a6582e62c1e"
+    }
+  ],
+  "revision_timestamp": [
+    {
+      "value": 1621887071
+    }
+  ],
+  "revision_uid": [
+    {
+      "target_id": 29,
+      "target_type": "user",
+      "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+      "url": "/user/29"
+    }
+  ],
+  "revision_log": [],
+  "status": [
+    {
+      "value": true
+    }
+  ],
+  "uid": [
+    {
+      "target_id": 29,
+      "target_type": "user",
+      "target_uuid": "9f40de48-dc44-49d9-a207-4a55a2c8546e",
+      "url": "/user/29"
+    }
+  ],
+  "title": [
+    {
+      "value": "5326 Bus Network Redesign Public Meeting 06/08/2021"
+    }
+  ],
+  "created": [
+    {
+      "value": 1620853939
+    }
+  ],
+  "changed": [
+    {
+      "value": 1621887071
+    }
+  ],
+  "promote": [
+    {
+      "value": false
+    }
+  ],
+  "sticky": [
+    {
+      "value": false
+    }
+  ],
+  "default_langcode": [
+    {
+      "value": true
+    }
+  ],
+  "revision_translation_affected": [
+    {
+      "value": true
+    }
+  ],
+  "moderation_state": [],
+  "sidebar": [
+    {
+      "value": false
+    }
+  ],
+  "path": [
+    {
+      "alias": null,
+      "pid": null,
+      "langcode": "en"
+    }
+  ],
+  "publish_on": [],
+  "unpublish_on": [],
+  "publish_state": [],
+  "unpublish_state": [],
+  "field_agenda_collect_user_info": [
+    {
+      "value": true
+    }
+  ],
+  "field_agenda_event": [
+    {
+      "target_id": 5321,
+      "target_type": "node",
+      "target_uuid": "3a7d6e8e-7d63-480f-bb2c-f1ca15c7a1f0",
+      "url": "/bnrdmeeting"
+    }
+  ],
+  "field_agenda_formstack_url": [],
+  "field_agenda_topics": [
+    {
+      "target_id": 19929,
+      "target_revision_id": 572459,
+      "id": [
+        {
+          "value": 19929
+        }
+      ],
+      "uuid": [
+        {
+          "value": "fc10deba-79c8-47a1-b31f-42da2513ed52"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 572459
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "agenda_topic",
+          "target_type": "paragraphs_type",
+          "target_uuid": "9537ecda-3be7-4e2e-af94-b0138cfc7edc"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1620853948
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5326"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_agenda_topics"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_agenda_topic_description": [
+        {
+          "value": "<p>This is the first topic.</p>\r\n",
+          "format": "simple_html",
+          "processed": "<p>This is the first topic.</p>\n"
+        }
+      ],
+      "field_topic_title": [
+        {
+          "value": "First Topic"
+        }
+      ],
+      "field_video_bookmark": [
+        {
+          "value": "00:00:05"
+        }
+      ]
+    },
+    {
+      "target_id": 19930,
+      "target_revision_id": 572460,
+      "id": [
+        {
+          "value": 19930
+        }
+      ],
+      "uuid": [
+        {
+          "value": "35fc7f7f-f199-41f8-9c16-ba1a2dcedf31"
+        }
+      ],
+      "revision_id": [
+        {
+          "value": 572460
+        }
+      ],
+      "langcode": [
+        {
+          "value": "en"
+        }
+      ],
+      "type": [
+        {
+          "target_id": "agenda_topic",
+          "target_type": "paragraphs_type",
+          "target_uuid": "9537ecda-3be7-4e2e-af94-b0138cfc7edc"
+        }
+      ],
+      "status": [
+        {
+          "value": true
+        }
+      ],
+      "created": [
+        {
+          "value": 1621887050
+        }
+      ],
+      "parent_id": [
+        {
+          "value": "5326"
+        }
+      ],
+      "parent_type": [
+        {
+          "value": "node"
+        }
+      ],
+      "parent_field_name": [
+        {
+          "value": "field_agenda_topics"
+        }
+      ],
+      "behavior_settings": [
+        {
+          "value": []
+        }
+      ],
+      "default_langcode": [
+        {
+          "value": true
+        }
+      ],
+      "revision_translation_affected": [
+        {
+          "value": true
+        }
+      ],
+      "field_agenda_topic_description": [],
+      "field_topic_title": [
+        {
+          "value": "Second Topic"
+        }
+      ],
+      "field_video_bookmark": []
+    }
+  ]
+}

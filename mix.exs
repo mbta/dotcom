@@ -6,12 +6,7 @@ defmodule DotCom.Mixfile do
       apps_path: "apps",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.json": :test,
-        "coveralls.detail": :test
-      ],
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       dialyzer: [
         plt_add_apps: [:mix, :phoenix_live_reload, :laboratory, :ex_aws, :ex_aws_ses],
         flags: [:race_conditions, :unmatched_returns],
@@ -42,8 +37,8 @@ defmodule DotCom.Mixfile do
   # and cannot be accessed from applications inside the apps folder
   defp deps do
     [
-      {:credo, "~> 1.1.5", only: [:dev, :test]},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:credo, "~> 1.5", only: [:dev, :test]},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.18", only: :dev},
       {:exvcr, "~> 0.11.0", only: [:dev, :test]},
       {:eflame, "~> 1.0", only: :dev}

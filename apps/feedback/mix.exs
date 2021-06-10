@@ -12,7 +12,7 @@ defmodule Feedback.Mixfile do
       lockfile: "../../mix.lock",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -38,7 +38,7 @@ defmodule Feedback.Mixfile do
       {:poison, "~> 2.2", override: true},
       {:timex, ">= 2.0.0"},
       {:briefly, "~> 0.3"},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:plug, "~> 1.7.2"},
       {:ex_aws, "~> 2.1.2"},
       {:ex_aws_ses, "~> 2.1.1"},

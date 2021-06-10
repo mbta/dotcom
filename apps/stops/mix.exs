@@ -13,7 +13,7 @@ defmodule Stops.Mixfile do
       lockfile: "../../mix.lock",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
-      test_coverage: [tool: ExCoveralls],
+      test_coverage: [tool: LcovEx],
       deps: deps()
     ]
   end
@@ -40,7 +40,7 @@ defmodule Stops.Mixfile do
       {:v3_api, in_umbrella: true},
       {:json_api, in_umbrella: true},
       {:routes, in_umbrella: true},
-      {:excoveralls, "~> 0.5", only: :test},
+      {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
       {:repo_cache, in_umbrella: true},
       {:timex, ">= 0.0.0"},
       {:bypass, "~> 1.0", only: :test},

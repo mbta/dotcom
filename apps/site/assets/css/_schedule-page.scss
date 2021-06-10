@@ -288,6 +288,10 @@
   padding: $base-spacing / 2;
 }
 
+.schedule-finder__service-selector label {
+  display: unset; // resets to block
+}
+
 .schedule-table {
   width: 100%;
 

@@ -111,9 +111,11 @@ defmodule SiteWeb.ScheduleController.LineApi do
           DiagramHelpers.stop_with_bubble_info()
         ]
   defp get_line_data(route, direction_id, route_pattern_id) do
+    diagram_direction = RouteStop.reverse_direction_for_ferry(route.id, direction_id)
+
     route
     |> LineHelpers.get_branch_route_stops(direction_id, route_pattern_id)
-    |> DiagramHelpers.build_stop_list(direction_id)
+    |> DiagramHelpers.build_stop_list(diagram_direction)
   end
 
   @doc """

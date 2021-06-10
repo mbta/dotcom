@@ -11,6 +11,7 @@ defmodule CMS.Page do
   alias CMS.Page.{
     Basic,
     Event,
+    EventAgenda,
     Landing,
     NewsEntry,
     Person,
@@ -22,6 +23,7 @@ defmodule CMS.Page do
   @type t ::
           Basic.t()
           | Event.t()
+          | EventAgenda.t()
           | Landing.t()
           | NewsEntry.t()
           | Person.t()
@@ -41,6 +43,10 @@ defmodule CMS.Page do
 
   defp parse(%{"type" => [%{"target_id" => "event"}]} = api_data, _preview_opts) do
     Event.from_api(api_data)
+  end
+
+  defp parse(%{"type" => [%{"target_id" => "agenda"}]} = api_data, preview_opts) do
+    EventAgenda.from_api(api_data, preview_opts)
   end
 
   defp parse(%{"type" => [%{"target_id" => "landing_page"}]} = api_data, preview_opts) do

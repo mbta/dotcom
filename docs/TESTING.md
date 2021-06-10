@@ -1,3 +1,45 @@
+# Tests (WIP)
+
+Dotcom runs its test suite automatically using Github Actions, mainly in the [`tests.yml`](../.github/workflows/tests.yml) workflow.
+
+To run these same tests locally, we might recommend using [`act`](https://github.com/nektos/act) (note: usage of `act` requires Docker to be present and running). 
+
+You can use the job id to run that job only, for example:
+
+```
+act -j elixir_unit -s GITHUB_TOKEN
+```
+
+## Current tests enabled in Github Actions
+
+```
+mix format --check-formatted
+mix test --exclude wallaby --cover
+mix test --only wallaby
+mix credo diff master -a
+mix dialyzer --plt
+
+# in apps/site/assets
+npx stylelint css/**/*.scss --ignore-path .stylelintignore
+npx eslint --ext .js js
+npx mocha --require @babel/register --require ts-node/register js/test/**/*.js
+npx jest -c .ts/jest.config.js
+
+# in apps/site/assets/ts
+npx tsc --noEmit --skipLibCheck
+npx eslint --ext .ts,.tsx --max-warnings=0 .
+```
+
+Formatting tests to be enabled:
+```
+npx prettier "{js,ts}/**/*.{js,ts,tsx}" --list-different
+mix format --check-formatted
+
+# alternatively, just autofix:
+npx prettier --write "{js,ts}/**/*.{js,ts,tsx}"
+mix format
+```
+
 # Tests
 
 * `mix test` — Elixir tests
@@ -25,7 +67,7 @@ verify our type specifications and make sure we're calling functions properly.
 
 ## Linting
 
-* Elixir: `mix credo`
+* Elixir: `mix credo -a` (or `mix credo diff master -a` to check the difference between your index and the master branch)
 * SCSS: `npm run stylelint`
 * TypeScript: `npm run tslint`
 
