@@ -5,9 +5,6 @@ _build
 deps
 **/node_modules
 **/test
-rel
-!rel/vm.args
-!rel/config.exs
 erl_crash.dump
 build.sh
 deploy.sh
@@ -15,3 +12,5 @@ apps/site/priv
 aws
 site-build.zip
 bin
+Dockerfile
+.dockerignore
