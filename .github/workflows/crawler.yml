@@ -1,0 +1,24 @@
+name: Website Crawler
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows:
+      - Deploy to Dev
+    types:
+      - completed
+
+jobs:
+  crawler:
+    name: Website Crawler
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: erlef/setup-beam@v1
+      with:
+        otp-version: '24'
+        elixir-version: '1.12'
+    - name: Run Crawler
+      run: |
+        mix escript.install --force github mbta/link_checker
+        $HOME/.mix/escripts/crawler https://dev.mbtace.com/ --num-workers 3
