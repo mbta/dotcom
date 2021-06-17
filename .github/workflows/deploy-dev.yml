@@ -47,10 +47,6 @@ jobs:
           region: ${{ env.AWS_REGION }}
           deployment-package: ${{ steps.deployment-package.outputs.deployment-package }}
           use-existing-version-if-available: true
-      - name: Run Crawler
-        run: |
-          mix escript.install --force https://s3.amazonaws.com/mbta-dotcom/crawler
-          $HOME/.mix/escripts/crawler https://dev.mbtace.com --num-workers 3
       - uses: mbta/actions/notify-slack-deploy@v1
         if: ${{ !cancelled() }}
         with:
