@@ -192,6 +192,10 @@ const staticMapData: StaticMapData = {
 
 const routePatternsByDirection = routePatternsByDirectionData as RoutePatternsByDirection;
 
+const routes: RoutePatternsByDirection = {
+  "1": routePatternsByDirection["1"]
+};
+
 const shapesById = {
   "shape-1": {
     stop_ids: ["stop"],
@@ -231,11 +235,11 @@ jest.mock("../ScheduleDirection", () => {
 describe("ScheduleLoader", () => {
   let wrapper: ReactWrapper;
 
-  it("Renders SchedulePage", () => {
+  it("Renders additional line information", () => {
     wrapper = mount(
       <Provider store={store}>
         <ScheduleLoader
-          component="MAIN"
+          component="ADDITIONAL_LINE_INFORMATION"
           schedulePageData={{
             schedule_note: null,
             connections: [],
@@ -742,7 +746,7 @@ describe("ScheduleLoader", () => {
     wrapper = mount(
       <Provider store={store}>
         <ScheduleLoader
-          component="MAIN"
+          component="SCHEDULE_FINDER"
           schedulePageData={{
             schedule_note: null,
             connections: [],
@@ -883,10 +887,6 @@ describe("ScheduleLoader", () => {
   });
 
   it("Checks if it is a unidirectional route", () => {
-    const routes: RoutePatternsByDirection = {
-      "1": routePatternsByDirection["1"]
-    };
-
     const changeDirectionStub = jest.spyOn(scheduleStoreModule, "storeHandler");
 
     wrapper = mount(
@@ -952,5 +952,169 @@ describe("ScheduleLoader", () => {
 
     expect(renderSchedulePageStub).not.toHaveBeenCalled();
     expect(renderDirectionOrMapPageStub).not.toHaveBeenCalled();
+  });
+
+  it("it renders component conditionally (ScheduleNote instead of ScheduleFinder in this case)", () => {
+    const schedulePageData = {
+      route_patterns: routes,
+      schedule_note: scheduleNoteData,
+      connections: [],
+      fares,
+      fare_link: fareLink,
+      hours,
+      holidays,
+      pdfs,
+      teasers,
+      route,
+      services,
+      stops,
+      direction_id: 1,
+      line_diagram: lineDiagram,
+      today: "2019-12-05",
+      variant: null
+    };
+
+    document.body.innerHTML = `<div id="react-root">
+  <script id="js-schedule-page-data" type="text/plain">${JSON.stringify(
+    schedulePageData
+  )}</script>
+  </div>
+  <div id="react-schedule-note-root"></div>
+  <div id="react-schedule-finder-root"></div>`;
+
+    scheduleLoader.default();
+
+    const scheduleNoteNode = document.getElementById(
+      "react-schedule-note-root"
+    ) as HTMLElement;
+
+    const scheduleFinderNode = document.getElementById(
+      "react-schedule-finder-root"
+    ) as HTMLElement;
+
+    expect(scheduleNoteNode.innerHTML === "").toBe(false);
+    expect(scheduleFinderNode.innerHTML === "").toBe(true);
+  });
+
+  it("it renders with Schedule modal open", () => {
+    const stubFn = jest
+      .spyOn(scheduleStoreModule, "getCurrentState")
+      .mockImplementation(() => {
+        return {
+          selectedDirection: 0,
+          selectedOrigin: "place-welln",
+          modalMode: "schedule",
+          modalOpen: true
+        };
+      });
+
+    const schedulePageData = {
+      schedule_note: null,
+      connections: [],
+      fares,
+      fare_link: fareLink,
+      hours,
+      holidays,
+      pdfs,
+      teasers,
+      route,
+      services,
+      stops,
+      direction_id: 0,
+      route_patterns: {},
+      line_diagram: lineDiagram,
+      today: "2019-12-05",
+      variant: null
+    };
+
+    wrapper = mount(
+      <Provider store={store}>
+        <ScheduleLoader
+          component="SCHEDULE_FINDER"
+          schedulePageData={{
+            schedule_note: null,
+            connections: [],
+            fares,
+            fare_link: fareLink,
+            hours,
+            holidays,
+            pdfs,
+            teasers,
+            route,
+            services,
+            stops,
+            direction_id: 0,
+            route_patterns: routePatternsByDirection,
+            line_diagram: lineDiagram,
+            today: "2019-12-05",
+            variant: null
+          }}
+          updateURL={() => {}}
+        />
+      </Provider>
+    );
+
+    expect(wrapper.find(ScheduleFinderModal).exists()).toEqual(true);
+  });
+
+  it("it handles change in origin", () => {
+    const stubFn = jest
+      .spyOn(scheduleStoreModule, "getCurrentState")
+      .mockImplementation(() => {
+        return {
+          selectedDirection: 0,
+          selectedOrigin: "place-welln",
+          modalMode: "schedule",
+          modalOpen: true
+        };
+      });
+
+    wrapper = mount(
+      <Provider store={store}>
+        <ScheduleLoader
+          component="SCHEDULE_FINDER"
+          schedulePageData={{
+            schedule_note: null,
+            connections: [],
+            fares,
+            fare_link: fareLink,
+            hours,
+            holidays,
+            pdfs,
+            teasers,
+            route,
+            services,
+            stops,
+            direction_id: 0,
+            route_patterns: routePatternsByDirection,
+            line_diagram: lineDiagram,
+            today: "2019-12-05",
+            variant: null
+          }}
+          updateURL={() => {}}
+        />
+      </Provider>
+    );
+
+    const storeHandlerSpy = jest.spyOn(scheduleStoreModule, "storeHandler");
+
+    // trigger selection in origin
+    // first 2 SelectContainer's are from the ScheduleFinder 'covered' by the modal at this point
+    wrapper
+      .find("SelectContainer")
+      .at(3)
+      // @ts-ignore -- types for `invoke` seem to be too restrictive
+      .invoke("handleClick")();
+
+    expect(storeHandlerSpy).toHaveBeenCalledWith({
+      type: "OPEN_MODAL",
+      newStoreValues: {
+        modalMode: "origin"
+      }
+    });
+
+    stubFn.mockRestore();
+    storeHandlerSpy.mockRestore();
+    wrapper.unmount();
   });
 });
