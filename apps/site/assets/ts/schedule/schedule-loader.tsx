@@ -66,15 +66,14 @@ export const renderSchedulePage = (
   ReactDOM.render(
     <Provider store={store}>
       <ScheduleLoader
-        component="MAIN"
+        component="ADDITIONAL_LINE_INFORMATION"
         schedulePageData={schedulePageData}
         updateURL={updateURL}
       />
     </Provider>,
     document.getElementById("react-root")
   );
-  // Now we (conditionally) render "secondary" widgets:
-  // (only one will be shown at a time, depending on whether mobile or desktop)
+  // don't show Schedule Finder for subway
   if (scheduleNote) {
     ReactDOM.render(
       <Provider store={store}>

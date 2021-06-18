@@ -97,13 +97,7 @@
   margin-top: $base-spacing * 2;
 
   @include media-breakpoint-down(sm) {
-    display: none;
-  }
-}
-
-.m-schedule-page__schedule-notes--mobile {
-  @include media-breakpoint-up(md) {
-    display: none;
+    margin-top: 0;
   }
 }
 
