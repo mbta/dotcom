@@ -106,6 +106,15 @@ defmodule SiteWeb.CustomerSupportController do
     end
   end
 
+  def submit(conn, %{"support" => form_data}) do
+    comments = Map.get(form_data, "comments", nil)
+    Logger.warn("recaptcha validation missing")
+
+    conn
+    |> put_status(400)
+    |> render_form(%{errors: ["recaptcha"], comments: comments})
+  end
+
   @spec render_expandable_blocks(Plug.Conn.t(), list) :: [Phoenix.HTML.safe()]
   def render_expandable_blocks(assigns, content_blocks \\ @content_blocks) do
     content_blocks
