@@ -1,7 +1,20 @@
-.m-sales-locations__background-gray {
-  background: $gray-lightest;
-  margin-top: $space-16;
-  padding-top: $space-16;
+.m-sales-locations {
+  .background-gray {
+    background: $gray-lightest;
+    margin-top: $space-16;
+    padding-top: $space-16;
+  }
+  .limited-width {
+    max-width: 600px;
+  }
+  .error-message {
+    color: $error-text;
+    padding: 7px;
+  }
+  .feedback-section {
+    margin-top: $base-spacing * 5;
+    margin-bottom: $base-spacing * 2;
+  }
 }
 
 .c-sales-locations__cards {
@@ -98,25 +111,4 @@
   &::after {
     content: $fa-var-angle-down;
   }
-}
-
-.m-proposed-sales-locations__searchbar {
-  @include media-breakpoint-down(sm) {
-    display: flex;
-    flex-direction: column;
-  }
-  @include media-breakpoint-down(sm) {
-    .c-suggest-retailer {
-      order: -1;
-    }
-  }
-}
-
-.m-sales-locations__error-message {
-  color: $error-text;
-  padding: 7px;
-}
-
-.m-retail-sales-locations__upper-page {
-  max-width: 600px;
 }

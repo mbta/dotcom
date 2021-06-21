@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container m-sales-locations">
   <div class="col-md-8">
-    <div class="m-retail-sales-locations__upper-page">
+    <div class="limited-width">
       <h1>Retail Sales Locations</h1>
       <p>
         MBTA riders can purchase tickets and passes for the Commuter Rail, bus, subway, and ferry at stores located throughout the Greater Boston and Providence areas.
@@ -16,7 +16,7 @@
     </div>
     <%= if !is_nil(@fare_sales_locations) do %>
       <%= if Enum.empty?(@fare_sales_locations) do %>
-        <p class="m-sales-locations__error-message">Please enter an address that is within 100 miles of an MBTA service area.</p>
+        <p class="error-message">Please enter an address that is within 100 miles of an MBTA service area.</p>
       <% else %>
         <%= render "_nearby_locations.html", conn: @conn, address: @address, locations: @fare_sales_locations, search_position: @search_position %>
       <% end %>
