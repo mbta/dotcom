@@ -5,71 +5,91 @@
 <div class="page-section m-schedule-line">
   <div class="row">
     <div class="col-md-12">
-    <%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high) %>
+      <%= SiteWeb.AlertView.group(alerts: @alerts, route: @route, date_time: @date_time, priority_filter: :high) %>
     </div>
-    <% main_block = if Enum.empty?(@branches), do: "col-md-12", else: "col-xs-12 col-md-7" %>
-    <div class="<%= main_block %> m-schedule-line__main-content">
-      <div id="react-schedule-note-root">
-          <%= if @schedule_page_data[:schedule_note] do %>
-          <%= Site.React.render("ScheduleNote", %{scheduleNote: @schedule_page_data.schedule_note, className: "m-schedule-page__schedule-notes--mobile"}) %>
-          <% end %>
-      </div>
-    <%= if Enum.empty?(@branches) do %>
-      <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
-    <% else %>
-        <div id="react-schedule-finder-root">
-          <%= unless @schedule_page_data[:schedule_note] do %>
-            <%= Site.React.render("ScheduleFinder", %{
-              directionId: @direction_id,
-              route: Routes.Route.to_json_safe(@route),
-              stops: @schedule_page_data.stops,
-              services: @schedule_page_data.services,
-              routePatternsByDirection: @schedule_page_data.route_patterns
-            }) %>
-          <% end %>
-        </div>
 
-        <h2>
-          <%= if @route.type == 2 do %>
-            Schedule &amp; Maps
+    <div class="m-schedule-page">
+
+      <% main_block_size = if Enum.empty?(@branches), do: "col-md-12", else: "col-xs-12 col-md-7" %>
+      <div class="<%= main_block_size %> m-schedule-page__main-content">
+
+        <div class="m-schedule-line__main-content">
+          <%= if Enum.empty?(@branches) do %>
+            <%= render "_empty.html", date: @date, direction: Routes.Route.direction_name(@route, @direction_id), origin: nil, destination: nil, conn: @conn, error: assigns[:schedule_error] %>
           <% else %>
-            Schedules &amp; Maps
-          <% end %>
-        </h2>
 
-        <div id="react-schedule-direction-root">
-        </div>
+            <h2><%= if @route.type == 2, do: "Schedule", else: "Schedules" %> &amp; Maps</h2>
 
-        <div class="line-map-container">
-          <% map_pdf_url = @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>
-          <%= if display_map_link?(@route.type) do %>
-            <script id="static-map-data" type="text/plain">
-              <%= raw Poison.encode!(%{img_src: @map_img_src, pdf_url: map_pdf_url}) %>
-            </script>
-          <% else %>
-            <%= render "_line_map.html",
-              conn: @conn,
-              channel: @channel,
-              dynamic_map_data: @dynamic_map_data,
-              map_img_src: @map_img_src
-            %>
+            <div id="react-schedule-direction-root"></div>
+
+            <div class="line-map-container">
+              <% map_pdf_url = @route.type |> Routes.Route.type_atom() |> MapHelpers.map_pdf_url() %>
+              <%= if display_map_link?(@route.type) do %>
+                <script id="static-map-data" type="text/plain">
+                  <%= raw Poison.encode!(%{img_src: @map_img_src, pdf_url: map_pdf_url}) %>
+                </script>
+              <% else %>
+                <%= render "_line_map.html",
+                  conn: @conn,
+                  channel: @channel,
+                  dynamic_map_data: @dynamic_map_data,
+                  map_img_src: @map_img_src
+                %>
+              <% end %>
+            </div>
+
           <% end %>
         </div>
-    </div>
-    <% end %>
-    <% offset = if Enum.empty?(@branches), do: "col-md-offset-7 col-lg-offset-8", else: "col-lg-offset-1" %>
-    <div class="col-xs-12 col-md-5 col-lg-4 <%= offset %> m-schedule-line__side-content">
-      <% without_schedules = @schedule_page_data |> Map.put(:service_schedules, %{})%>
-      <div id="react-root">
-        <%= Site.React.render("SchedulePage", %{schedulePageData: without_schedules, selectedDirection: @direction_id}) %>
       </div>
-      <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
-      <%= if Application.get_env(:site, :dev_server?) do %>
-        <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/schedule.js" %>"></script>
-      <% else %>
-        <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
-        <script defer src="<%= static_url(@conn, "/js/schedule.js") %>"></script>
-      <% end %>
+
+      <% offset = if Enum.empty?(@branches), do: "col-md-offset-7 col-lg-offset-8", else: "col-lg-offset-1" %>
+      <div class="col-xs-12 col-md-5 col-lg-4 <%= offset %> m-schedule-page__schedule-finder-or-note">
+
+        <%= unless Enum.empty?(@branches) do %>
+          <div id="react-schedule-note-root">
+            <%= if @schedule_page_data[:schedule_note] do %>
+              <%= Site.React.render("ScheduleNote", %{scheduleNote: @schedule_page_data.schedule_note, className: "m-schedule-page__schedule-notes--desktop"}) %>
+            <% end %>
+          </div>
+          <div id="react-schedule-finder-root">
+            <%= unless @schedule_page_data[:schedule_note] do %>
+              <%= Site.React.render("ScheduleFinder", %{
+                directionId: @direction_id,
+                route: Routes.Route.to_json_safe(@route),
+                stops: @schedule_page_data.stops,
+                services: @schedule_page_data.services,
+                routePatternsByDirection: @schedule_page_data.route_patterns
+              }) %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="col-xs-12 col-md-5 col-lg-4 <%= offset %> m-schedule-page__side-content">
+
+        <div class="m-schedule-line__side-content">
+
+          <% %{teasers: teasers, pdfs: pdfs, connections: connections, fares: fares, fare_link: fare_link, route: route, hours: hours, holidays: holidays} = @schedule_page_data %>
+          <div id="react-root">
+            <%= Site.React.render("AdditionalLineInfo", %{
+              teasers: teasers,
+              pdfs: pdfs,
+              connections: connections,
+              fares: fares,
+              fareLink: fare_link,
+              route: route,
+              hours: hours,
+              holidays: holidays}) %>
+          </div>
+          <link rel="stylesheet" href="<%= static_url(@conn, "/css/map.css") %>" data-turbolinks-track="reload">
+          <%= if Application.get_env(:site, :dev_server?) do %>
+            <script defer src="<%= "#{Application.get_env(:site, :webpack_path)}/schedule.js" %>"></script>
+          <% else %>
+            <script defer src="<%= static_url(@conn, "/js/react.js") %>"></script>
+            <script defer src="<%= static_url(@conn, "/js/schedule.js") %>"></script>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>
