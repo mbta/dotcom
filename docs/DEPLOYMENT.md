@@ -38,3 +38,11 @@ The root (three-stage) `Dockerfile` is responsible for building and running the 
 
 - Run:
   The part of the Dockerfile used to run the application (last stage) runs the script that `distillery` provides for us to run the server (`/root/rel/site/bin/site foreground`). At startup, the `relx` application looks for configuration values that look like `${VARIABLE}` and replaces them with the `VARIABLE` environment variable. This allows us to make a single build, but use it for different environments by changing the environment variables.
+
+## Staging deployment
+
+Deploying to our staging servers can be done through GitHub Actions.
+
+![](run_workflow.png)
+
+Developers can manually request a deploy of any branch by using any of the deploy workflows. The deployment will be held in a "waiting" state until approved by an active developer. Active developers may approve their own requests.
