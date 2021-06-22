@@ -213,7 +213,7 @@ defmodule SiteWeb.PartialView do
       |> time_filter_params(filter)
 
     path =
-      apply(SiteWeb.Router.Helpers, path_method, [SiteWeb.Endpoint, :show, item.id, path_params])
+      apply(SiteWeb.Router.Helpers, path_method, [SiteWeb.Endpoint, :show, item, path_params])
 
     filter
     |> time_filter_text()
