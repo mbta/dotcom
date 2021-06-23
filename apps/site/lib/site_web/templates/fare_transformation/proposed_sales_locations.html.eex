@@ -22,6 +22,7 @@
       <%= if Enum.empty?(@nearby_proposed_locations) do %>
         <p class="error-message">Please enter an address that is within 100 miles of an MBTA service area.</p>
       <% else %>
+        <%= psl_types_buttons(@conn, @psl_type) %>
         <%= render SiteWeb.FareView, "_nearby_locations.html", conn: @conn, address: @address, locations: @nearby_proposed_locations, search_position: @search_position %>
       <% end %>
     <% end %>

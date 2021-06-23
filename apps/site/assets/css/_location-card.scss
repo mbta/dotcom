@@ -15,6 +15,20 @@
     margin-top: $base-spacing * 5;
     margin-bottom: $base-spacing * 2;
   }
+  .psl-type-buttons {
+    border-color: $brand-primary;
+    border-style: solid;
+    border-width: 1px;
+    border-radius: 4px;
+    color: $brand-primary;
+    padding: $base-spacing * .25 $base-spacing * .5;
+    margin-right: $base-spacing;
+    
+    &.selected {
+      background: $brand-primary;
+      color: $white;
+    }
+  }
 }
 
 .c-sales-locations__cards {
