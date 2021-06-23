@@ -1,5 +1,5 @@
 <div class="m-event__status-message <%= @class %>">
-  <%= if not @event_ended do %>
+  <%= if not @event_started do %>
     <%= link to: event_icalendar_path(@conn, @path),
       data: [turbolinks: false], class: "btn btn-secondary btn-lg m-event__add-button" do %>
         <%= fa "calendar-plus-o" %>
@@ -7,7 +7,8 @@
           <span class="m-event__add-text">Add</span>
         <% end %>
     <% end %>
-  <% else %>
+  <% end %>
+  <% if @event_ended do %>
     <%= if @class=="list-version" do %>
       <div class="m-event__ended-message">Ended</div>
     <% else %>

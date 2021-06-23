@@ -15,6 +15,9 @@
 
   .c-paragraph {
     padding-bottom: $base-spacing * 2;
+    .add-to-calendar-link {
+      font-weight: 500;
+    }
   }
 
   .m-event-section {
