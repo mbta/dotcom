@@ -33,9 +33,9 @@ defmodule Schedules.Repo do
     |> load_from_other_repos
   end
 
-  # Will almost always cache, unless the calling function explicitly passes "no_cache"
-  defp cache_condition(params, nil), do: cache(params, &all_from_params/1)
-  defp cache_condition(params, _no_cache), do: all_from_params(params)
+  # Will almost always use cache, unless the calling function explicitly passes "no_cache"
+  defp cache_condition(params, true), do: all_from_params(params)
+  defp cache_condition(params, _), do: cache(params, &all_from_params/1)
 
   @spec schedule_for_trip(Schedules.Trip.id_t(), Keyword.t()) :: [Schedule.t()] | {:error, any}
   def schedule_for_trip(trip_id, opts \\ [])
