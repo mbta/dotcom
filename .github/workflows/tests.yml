@@ -67,7 +67,6 @@ jobs:
       run: |
         git config --global url."https://github.com/".insteadOf ssh://git@github.com/
         npm run install:ci
-        npm run react:setup:ci
   
   file_changes:
     name: Before all / Note files changed
