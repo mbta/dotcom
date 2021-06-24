@@ -32,7 +32,7 @@ defmodule PredictedSchedule do
         direction_id: direction_id,
         date: Util.service_date(now)
       )
-    
+
     # if there are any schedules without a trip, maybe we need to... 
     # force another hit of the endpoint without using the cache??
     # because the trip ids in the cache has probably been changed during a deploy
