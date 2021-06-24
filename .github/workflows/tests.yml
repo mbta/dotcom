@@ -215,11 +215,7 @@ jobs:
           path: "apps/site/*/node_modules"
           key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
       - name: Build app
-        run: |
-          mix phx.digest
-          npm run react:build
-          npm run webpack:build
-          mix compile --warnings-as-errors
+        run: npm run build
       - env:
           RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
           RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
@@ -288,11 +284,7 @@ jobs:
         path: "apps/site/*/node_modules"
         key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
     - name: Build app
-      run: |
-        mix phx.digest
-        npm run react:build
-        npm run webpack:build
-        mix compile --warnings-as-errors
+      run: npm run build
     - run: npx jest -c ts/jest.config.js
       working-directory: apps/site/assets/
   
@@ -421,11 +413,7 @@ jobs:
           path: "apps/site/*/node_modules"
           key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
       - name: Build app
-        run: |
-          mix phx.digest
-          npm run react:build
-          npm run webpack:build
-          mix compile --warnings-as-errors
+        run: npm run build
       - env:
           RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
           RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
