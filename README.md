@@ -129,11 +129,6 @@ any given time, the site may not be compatible with the very latest API version 
     pip install -r requirements.txt
     ```
 
-1. Install npm globally
-   ```
-   npm install -g npm@6.7.0
-   ```
-
 1. Install our Node dependencies. From the root of this repo:
     ```
     npm run install
