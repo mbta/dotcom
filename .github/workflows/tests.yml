@@ -83,11 +83,11 @@ jobs:
       - id: changes
         run: |
           changes () { git diff --name-only --diff-filter=ACMRT ${{ github.event.pull_request.base.sha }} ${{ github.sha }} ; }
-          echo "changed files?  \n$(changes)"
-          echo "::set-output name=js::$(changes | grep "apps/site/assets/js/.*\\.js" | xargs)"
-          echo "::set-output name=ts::$(changes | grep "apps/site/assets/ts/.*\\.ts" | xargs)"
+          echo "changed files? $(changes)"
+          echo "::set-output name=js::$(changes | grep "apps/site/assets/js/.*\\.jsx?" | xargs)"
+          echo "::set-output name=ts::$(changes | grep "apps/site/assets/ts/.*\\.tsx?" | xargs)"
           echo "::set-output name=scss::$(changes | grep "apps/site/assets/css/.*\\.scss" | xargs)"
-          echo "::set-output name=ex::$(changes | grep ".*\\.exs\?\$" | xargs)"
+          echo "::set-output name=ex::$(changes | grep ".*\(\\.exs?|\\.eex\)" | xargs)"
 
   tslint:
     name: Linting / TypeScript
