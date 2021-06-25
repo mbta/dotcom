@@ -25,14 +25,17 @@ const TripSummary = ({
         </span>
         {tripInfo.times.length} stops, {tripInfo.duration} minutes total
       </div>
-      { showFare && (
+      {showFare && (
         <div>
           <span className="trip-details-table__title u-small-caps u-bold">
             Fare
           </span>
 
           {tripInfo.fare && tripInfo.fare.price}
-          <a className="trip-details-table__link" href={tripInfo.fare.fare_link}>
+          <a
+            className="trip-details-table__link"
+            href={tripInfo.fare.fare_link}
+          >
             View fares
           </a>
         </div>
@@ -69,7 +72,7 @@ const TripDetailsTable = ({
             </th>
           </tr>
         )}
-        <TripSummary tripInfo={tripInfo} showFare={showFare}/>
+        <TripSummary tripInfo={tripInfo} showFare={showFare} />
         <tr>
           <th scope="col" className="schedule-table__cell">
             Stops
