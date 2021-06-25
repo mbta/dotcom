@@ -11,9 +11,11 @@ interface Props {
 }
 
 const TripSummary = ({
-  tripInfo
+  tripInfo,
+  showFare
 }: {
   tripInfo: TripInfo;
+  showFare: boolean;
 }): ReactElement<HTMLElement> => (
   <tr className="trip-details-table__summary">
     <td colSpan={3} className="schedule-table__cell">
@@ -23,16 +25,18 @@ const TripSummary = ({
         </span>
         {tripInfo.times.length} stops, {tripInfo.duration} minutes total
       </div>
-      <div>
-        <span className="trip-details-table__title u-small-caps u-bold">
-          Fare
-        </span>
+      { showFare && (
+        <div>
+          <span className="trip-details-table__title u-small-caps u-bold">
+            Fare
+          </span>
 
-        {tripInfo.fare && tripInfo.fare.price}
-        <a className="trip-details-table__link" href={tripInfo.fare.fare_link}>
-          View fares
-        </a>
-      </div>
+          {tripInfo.fare && tripInfo.fare.price}
+          <a className="trip-details-table__link" href={tripInfo.fare.fare_link}>
+            View fares
+          </a>
+        </div>
+      )}
     </td>
   </tr>
 );
@@ -65,7 +69,7 @@ const TripDetailsTable = ({
             </th>
           </tr>
         )}
-        <TripSummary tripInfo={tripInfo} />
+        <TripSummary tripInfo={tripInfo} showFare={showFare}/>
         <tr>
           <th scope="col" className="schedule-table__cell">
             Stops
