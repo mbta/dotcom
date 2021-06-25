@@ -111,8 +111,7 @@ jobs:
         with:
           path: "apps/site/*/node_modules"
           key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
-      - run: npx eslint --ext .ts,.tsx --max-warnings=0 .
-        working-directory: apps/site/assets/ts
+      - run: npm run ci:lint:ts
   
   jslint:
     name: Linting / JavaScript
@@ -136,8 +135,7 @@ jobs:
         with:
           path: "apps/site/*/node_modules"
           key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
-      - run: npx eslint --ext .js js
-        working-directory: apps/site/assets
+      - run: npm run ci:lint:js
 
   stylelint:
     name: Linting / CSS
@@ -161,8 +159,7 @@ jobs:
       with:
         path: "apps/site/*/node_modules"
         key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
-    - run: npx stylelint css/**/*.scss --ignore-path .stylelintignore
-      working-directory: apps/site/assets/
+    - run: npm run ci:lint:scss
   
   elixirlint:
     name: Linting / Elixir
@@ -186,7 +183,7 @@ jobs:
         with:
           path: deps
           key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-      - run: mix credo diff master -a
+      - run: npm run ci:lint:ex
 
   elixir_unit:
     name: Unit tests / Elixir / --exclude wallaby --cover
@@ -220,7 +217,7 @@ jobs:
           RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
           RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
           OPEN_TRIP_PLANNER_URL: ${{ secrets.OPEN_TRIP_PLANNER_URL }}
-        run: mix test --exclude wallaby --cover
+        run: npm run ci:unit:exunit
       - name: Save PR information
         run: |
           echo "${{ github.event.pull_request.number }}" > cover/PR_NUMBER
@@ -254,8 +251,7 @@ jobs:
       with:
         path: "apps/site/*/node_modules"
         key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
-    - run: npx mocha --require @babel/register --require ts-node/register js/test/**/*.js
-      working-directory: apps/site/assets/
+    - run: npm run ci:unit:mocha
   
   js_unit_2:
     name: Unit tests / JavaScript & TypeScript / Jest
@@ -285,8 +281,7 @@ jobs:
         key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
     - name: Build app
       run: npm run build
-    - run: npx jest -c ts/jest.config.js
-      working-directory: apps/site/assets/
+    - run: npm run ci:unit:jest
   
   type_dialyzer:
     name: Type checks / Elixir
@@ -334,8 +329,7 @@ jobs:
         with:
           path: "apps/site/*/node_modules"
           key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
-      - run: npx tsc --noEmit --skipLibCheck
-        working-directory: apps/site/assets/ts
+      - run: npm run ci:types:ts
 
   elixir_format_check:
     name: Formatting / Elixir
@@ -359,7 +353,7 @@ jobs:
         with:
           path: deps
           key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock') }}
-      - run: mix format --check-formatted
+      - run: npm run ci:format:ex
   
   js_format_check:
     name: Formatting / JavaScript & TypeScript
@@ -383,8 +377,7 @@ jobs:
       with:
         path: "apps/site/*/node_modules"
         key: ${{ runner.os }}-nodejs-${{ hashFiles('apps/site/*/package-lock.json') }}
-    - run: npx prettier "{js,ts}/**/*.{js,ts,tsx}" --list-different
-      working-directory: apps/site/assets/
+    - run: npm run ci:format:ts
 
   elixir_wallaby:
     name: Integration tests / Elixir
@@ -418,4 +411,4 @@ jobs:
           RECAPTCHA_PUBLIC_KEY: 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI
           RECAPTCHA_PRIVATE_KEY: 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
           OPEN_TRIP_PLANNER_URL: ${{ secrets.OPEN_TRIP_PLANNER_URL }}
-        run: mix test --only wallaby
+        run: npm run ci:integration:ex
