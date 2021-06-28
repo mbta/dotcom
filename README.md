@@ -129,25 +129,17 @@ any given time, the site may not be compatible with the very latest API version 
     pip install -r requirements.txt
     ```
 
-1. Install npm globally
-   ```
-   npm install -g npm@6.7.0
-   ```
-
 1. Install our Node dependencies. From the root of this repo:
     ```
     npm run install
     ```
+    You won't see a `node_modules` folder at the root of this project -- this installs packages into `apps/site/assets` and `apps/site/react_renderer`.
 
-1. Setup serverside rendering for React:
+1.  Build the project:
     ```
-    npm run react:setup && npm run react:build
+    npm run build
     ```
-
-1.  Build the assets:
-    ```
-    npm run webpack:build
-    ```
+  This does several things: builds the Phoenix application assets, builds all the front-end assets, and then compiles the entire Elixir application.
 
 1. Set up required environment variables:
     ```
