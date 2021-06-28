@@ -1,6 +1,6 @@
 import React, { ReactElement, useReducer, useEffect } from "react";
 import { DirectionId, Route } from "../../../__v3api";
-import { formattedDate } from "../../../helpers/date";
+import { formattedDate, stringToDateObject } from "../../../helpers/date";
 import { reducer } from "../../../helpers/fetch";
 import { isInCurrentService } from "../../../helpers/service";
 import {
@@ -94,7 +94,7 @@ const ScheduleModalContent = ({
   );
 
   const serviceToday = services.some(service =>
-    isInCurrentService(service, new Date(today))
+    isInCurrentService(service, stringToDateObject(today))
   );
 
   const input: UserInput = {

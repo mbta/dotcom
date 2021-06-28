@@ -1,6 +1,6 @@
 import React, { ReactElement } from "react";
 import { Service } from "../../../../__v3api";
-import { shortDate } from "../../../../helpers/date";
+import { shortDate, stringToDateObject } from "../../../../helpers/date";
 import {
   ServiceGroupNames,
   serviceDays,
@@ -28,8 +28,8 @@ const ServiceOptGroup = ({
           service.type === "weekday" &&
           service.typicality !== "holiday_service";
 
-        const startDate = new Date(service.start_date);
-        const endDate = new Date(service.end_date);
+        const startDate = stringToDateObject(service.start_date);
+        const endDate = stringToDateObject(service.end_date);
         let optionText = "";
 
         if (
@@ -45,9 +45,9 @@ const ServiceOptGroup = ({
             .map(entry => {
               const [addedDate, addedNote] = entry;
               if (addedNote === "") {
-                return `${shortDate(new Date(addedDate))}`;
+                return `${shortDate(stringToDateObject(addedDate))}`;
               }
-              return `${addedNote}, ${shortDate(new Date(addedDate))}`;
+              return `${addedNote}, ${shortDate(stringToDateObject(addedDate))}`;
             })
             .join(", ");
         } else if (label === ServiceGroupNames.OTHER) {

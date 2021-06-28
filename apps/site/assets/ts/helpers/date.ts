@@ -1,3 +1,4 @@
+// this returns a Date() in the browser time zone, unlike new Date(unformatted)
 export const stringToDateObject = (unformatted: string): Date => {
   const [year, month, day] = unformatted
     .split(/-/)
