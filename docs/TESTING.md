@@ -51,14 +51,14 @@ Each test can be run locally by invoking the corresponding NPM script. All the t
 npm run ci:lint:ex
 # mix credo diff master -a
 ```
-*Runs only if a file with the `.ex` or `.exs` extenion was changed.*
+*Runs only if a file with the `.ex` or `.exs` extension was changed.*
 
 ### Unit tests / Elixir
 ```sh
 npm run ci:unit:exunit
 # mix test --exclude wallaby --cover
 ```
-*Runs only if a file with the `.ex`, `.exs` or `.eex` extenion was changed.*
+*Runs only if a file with the `.ex`, `.exs` or `.eex` extension was changed.*
 
 The CI task should also report test coverage on the PR.
 
