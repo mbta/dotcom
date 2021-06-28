@@ -1,52 +1,9 @@
-# Tests (WIP)
-
-Dotcom runs its test suite automatically using Github Actions, mainly in the [`tests.yml`](../.github/workflows/tests.yml) workflow.
-
-To run these same tests locally, we might recommend using [`act`](https://github.com/nektos/act) (note: usage of `act` requires Docker to be present and running). 
-
-You can use the job id to run that job only, for example:
-
-```
-act -j elixir_unit -s GITHUB_TOKEN
-```
-
-## Current tests enabled in Github Actions
-
-```
-mix format --check-formatted
-mix test --exclude wallaby --cover
-mix test --only wallaby
-mix credo diff master -a
-mix dialyzer --plt
-
-# in apps/site/assets
-npx stylelint css/**/*.scss --ignore-path .stylelintignore
-npx eslint --ext .js js
-npx mocha --require @babel/register --require ts-node/register js/test/**/*.js
-npx jest -c .ts/jest.config.js
-
-# in apps/site/assets/ts
-npx tsc --noEmit --skipLibCheck
-npx eslint --ext .ts,.tsx --max-warnings=0 .
-```
-
-Formatting tests to be enabled:
-```
-npx prettier "{js,ts}/**/*.{js,ts,tsx}" --list-different
-mix format --check-formatted
-
-# alternatively, just autofix:
-npx prettier --write "{js,ts}/**/*.{js,ts,tsx}"
-mix format
-```
-
 # Tests
 
-* `mix test` — Elixir tests
-* `npm run test:js` — JS tests
-* `npm run backstop` — Backstop tests (see section below for details)
+Common test suites developers might want to run:
 
-`npm test` runs all of these in succession.
+* `mix test` — Elixir tests
+* `npm run --prefix apps/site/assets mocha && npm run --prefix apps/site/assets jest` — all of the JavaScript tests
 
 IMPORTANT NOTE: As of June 2020, Lechmere is closed for construction and the E line will be terminating at North Station for now. This is the list of files that have been affected (whose changes will need to be reverted at a later time):
 
@@ -58,26 +15,119 @@ IMPORTANT NOTE: As of June 2020, Lechmere is closed for construction and the E l
 - `apps/site/test/site_web/views/partial_view_test.exs`
 - `apps/stops/test/route_stops_test.exs`
 
-## Dialyzer
+Dotcom runs its test suite automatically using Github Actions, mainly from the [`tests.yml`](../.github/workflows/tests.yml) workflow.
 
-* `mix dialyzer`
+Each test can be run locally by invoking the corresponding NPM script. All the tests are noted below.
 
-Dialyzer is a static analysis tool which looks at type information. We use it
-verify our type specifications and make sure we're calling functions properly.
+## Enabled in Github Actions
 
-## Linting
+### Linting / TypeScript
+```sh
+ npm run ci:lint:ts
+ # This actually runs the following:
+ # cd apps/site/assets/ts
+ # npx eslint -c .eslintrc.js --ext .ts,.tsx --max-warnings=0 .
+ ```
+*Runs only if a file with the `.ts` or `.tsx` extension was changed.*
 
-* Elixir: `mix credo -a` (or `mix credo diff master -a` to check the difference between your index and the master branch)
-* SCSS: `npm run stylelint`
-* TypeScript: `npm run tslint`
+### Linting / JavaScript
+```sh
+ npm run ci:lint:js
+ # cd apps/site/assets
+ # git diff --name-only --diff-filter=dx origin/master... | grep js/.*\\.js | xargs npx eslint -c .eslintrc.js
+ ```
+*Runs only if a file with the `.js` extension was changed.*
 
-## Formatting
+### Linting / CSS
+```sh
+ npm run ci:lint:scss
+ # cd apps/site/assets
+ # npx stylelint css/**/*.scss --ignore-path .stylelintignore
+ ```
+*Runs only if a file with the `.scss` extension was changed.*
 
-* Elixir: `mix format`
-* JavaScript/TypeScript: `npm run format`
+### Linting / Elixir
+```sh
+npm run ci:lint:ex
+# mix credo diff master -a
+```
+*Runs only if a file with the `.ex` or `.exs` extension was changed.*
 
-Frontend code is formatted by Prettier. If using the Prettier plugin for Visual
-Studio Code, ensure it uses the ignore file `apps/site/assets/.prettierignore`.
+### Unit tests / Elixir
+```sh
+npm run ci:unit:exunit
+# mix test --exclude wallaby --cover
+```
+*Runs only if a file with the `.ex`, `.exs` or `.eex` extension was changed.*
+
+The CI task should also report test coverage on the PR.
+
+### Unit tests / JavaScript / Mocha
+```sh
+npm run ci:unit:mocha
+# cd apps/site/assets
+# npx mocha --require @babel/register --require ts-node/register js/test/**/*.js
+```
+*Runs only if a file with the `.js` extension was changed.*
+
+### Unit tests / JavaScript & TypeScript / Jest
+```sh
+npm run ci:unit:jest
+# cd apps/site/assets
+# npx jest -c ts/jest.config.js
+```
+*Runs only if a file with the `.js` or `.ts`/`.tsx` extension was changed.*
+
+### Type checks / Elixir
+```sh
+npm run ci:types:ex
+# mix dialyzer --halt-exit-status
+```
+*Runs only if a file with the `.ex`, `.exs` or `.eex` extension was changed.*
+
+In CI this runs Dialyzer via the `mbta/actions/dialyzer@v1` action. Dialyzer is a static analysis tool which looks at type information. We use it to verify our type specifications and make sure we're calling functions properly.
+
+### Type checks / TypeScript
+```sh
+npm run ci:types:ts
+# cd apps/site/assets/ts
+# npx tsc --noEmit --skipLibCheck
+```
+*Runs only if a file with the `.ts` or `.tsx` extension was changed.*
+
+### Formatting / Elixir
+```sh
+npm run ci:format:ex
+# mix format --check-formatted
+```
+*Runs only if a file with the `.ex`, `.exs`, or `.eex` extension was changed.*
+
+### Formatting / JavaScript & TypeScript
+```sh
+npm run ci:format:ts
+# cd apps/site/assets
+# npx prettier --write "{js,ts}/**/*.{js,ts,tsx}" --list-different
+```
+*Runs only if a file with the `.js` or `.ts`/`.tsx` extension was changed.*
+
+Frontend code is formatted by Prettier. If using the Prettier plugin for Visual Studio Code, ensure it uses the ignore file `apps/site/assets/.prettierignore`.
+
+## Coming soon
+
+The following tests need additional fixes or implementation. These might be implemented in the `tests.yml` workflow or added to new workflows.
+
+### Integration tests / Elixir ([job](../.github/workflows/tests.yml#L398))
+```sh
+npm run ci:integration:ex
+# mix test --only wallaby
+```
+*Runs only if a file with the `.ex`, `.exs` or `.eex` extension was changed.*
+
+### Visual regression tests
+There is a WIP adding screenshot capturing and visual regression testing using the Percy service. This would replace the use of Backstop (which is at the moment not enabled).
+
+### Performance measurement
+There is an early WIP using the Lighthouse CI service for measuring performance metrics. Eventually this will run on a Github Action too.
 
 ## ExVCR and ExVCRHelpers
 
