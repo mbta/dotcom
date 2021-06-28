@@ -47,7 +47,9 @@ const ServiceOptGroup = ({
               if (addedNote === "") {
                 return `${shortDate(stringToDateObject(addedDate))}`;
               }
-              return `${addedNote}, ${shortDate(stringToDateObject(addedDate))}`;
+              return `${addedNote}, ${shortDate(
+                stringToDateObject(addedDate)
+              )}`;
             })
             .join(", ");
         } else if (label === ServiceGroupNames.OTHER) {
