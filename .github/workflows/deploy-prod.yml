@@ -3,7 +3,7 @@ name: Deploy to Production
 on:
   workflow_dispatch:
   schedule:
-  - cron: '0 6 * * 4'
+  - cron: '0 18 * * 4'
 
 jobs:
   deploy:
