@@ -96,7 +96,7 @@ defmodule OneWayTest do
         cents: 400,
         media: [:charlie_card],
         mode: :bus,
-        name: :inner_express_bus,
+        name: :express_bus,
         reduced: nil
       },
       %Fares.Fare{
@@ -104,23 +104,7 @@ defmodule OneWayTest do
         cents: 500,
         media: [:charlie_ticket, :cash],
         mode: :bus,
-        name: :inner_express_bus,
-        reduced: nil
-      },
-      %Fares.Fare{
-        additional_valid_modes: [],
-        cents: 525,
-        media: [:charlie_card],
-        mode: :bus,
-        name: :outer_express_bus,
-        reduced: nil
-      },
-      %Fares.Fare{
-        additional_valid_modes: [],
-        cents: 700,
-        media: [:charlie_ticket, :cash],
-        mode: :bus,
-        name: :outer_express_bus,
+        name: :express_bus,
         reduced: nil
       }
     ]
@@ -136,30 +120,17 @@ defmodule OneWayTest do
       assert %Fares.Fare{cents: 200} = base_fare(local_route, nil, nil, nil, fare_fn)
     end
 
-    test "returns the lowest and highest one-way trip fare that is not discounted for the inner express bus" do
-      inner_express_route = %Route{type: 3, id: "170"}
+    test "returns the lowest and highest one-way trip fare that is not discounted for the express bus" do
+      express_route = %Route{type: 3, id: "170"}
 
-      fare_fn = fn @default_filters ++ [name: :inner_express_bus] ->
-        Enum.filter(@bus_fares, &(&1.name == :inner_express_bus))
+      fare_fn = fn @default_filters ++ [name: :express_bus] ->
+        Enum.filter(@bus_fares, &(&1.name == :express_bus))
       end
 
       assert %Fares.Fare{cents: 400} =
-               recommended_fare(inner_express_route, nil, nil, nil, fare_fn)
+               recommended_fare(express_route, nil, nil, nil, fare_fn)
 
-      assert %Fares.Fare{cents: 500} = base_fare(inner_express_route, nil, nil, nil, fare_fn)
-    end
-
-    test "returns the lowest and highest one-way trip fare that is not discounted for the outer express bus" do
-      outer_express_route = %Route{type: 3, id: "352"}
-
-      fare_fn = fn @default_filters ++ [name: :outer_express_bus] ->
-        Enum.filter(@bus_fares, &(&1.name == :outer_express_bus))
-      end
-
-      assert %Fares.Fare{cents: 525} =
-               recommended_fare(outer_express_route, nil, nil, nil, fare_fn)
-
-      assert %Fares.Fare{cents: 700} = base_fare(outer_express_route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 500} = base_fare(express_route, nil, nil, nil, fare_fn)
     end
 
     test "returns the lowest and highest subway fare for for SL1 route (id=741)" do

@@ -103,28 +103,12 @@ defmodule FaresTest do
   end
 
   describe "express routes" do
-    test "inner_express?/1 returns true if a route id is in @inner_express_routes" do
-      for id <- Fares.inner_express() do
-        assert Fares.inner_express?(id)
+    test "express?/1 returns true if a route id is in @express_routes" do
+      for id <- Fares.express() do
+        assert Fares.express?(id)
       end
 
-      for id <- Fares.outer_express() do
-        refute Fares.inner_express?(id)
-      end
-
-      refute Fares.inner_express?("1")
-    end
-
-    test "outer_express?/1 returns true if a route id is in @outer_express_routes" do
-      for id <- Fares.outer_express() do
-        assert Fares.outer_express?(id)
-      end
-
-      for id <- Fares.inner_express() do
-        refute Fares.outer_express?(id)
-      end
-
-      refute Fares.outer_express?("1")
+      refute Fares.express?("1")
     end
   end
 
@@ -153,12 +137,8 @@ defmodule FaresTest do
       assert Fares.to_fare_atom(%Route{type: 3, id: "751"}) == :bus
     end
 
-    test "inner express bus returns :inner_express_bus" do
-      assert Fares.to_fare_atom(%Route{type: 3, id: "170"}) == :inner_express_bus
-    end
-
-    test "outer express bus returns :outer_express_bus" do
-      assert Fares.to_fare_atom(%Route{type: 3, id: "352"}) == :outer_express_bus
+    test "express bus returns :express_bus" do
+      assert Fares.to_fare_atom(%Route{type: 3, id: "170"}) == :express_bus
     end
 
     test "other types of routes return specific atoms" do

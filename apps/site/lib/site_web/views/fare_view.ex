@@ -72,12 +72,8 @@ defmodule SiteWeb.FareView do
     %DescriptionList{
       descriptions: [
         %Description{
-          term: fare_pass_name("Inner Express Bus One-Way"),
-          details: fare_pass_price("{{fare:inner_express_bus:charlie_card}}")
-        },
-        %Description{
-          term: fare_pass_name("Outer Express Bus One-Way"),
-          details: fare_pass_price("{{fare:outer_express_bus:charlie_card}}")
+          term: fare_pass_name("Express Bus One-Way"),
+          details: fare_pass_price("{{fare:express_bus:charlie_card}}")
         },
         %Description{
           term: fare_pass_name("Monthly LinkPass"),

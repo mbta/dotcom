@@ -129,7 +129,7 @@ defmodule SiteWeb.FareView.Description do
         %Fare{name: name, duration: :single_trip, media: [:charlie_ticket, :cash]},
         _assigns
       )
-      when name in [:inner_express_bus, :outer_express_bus] do
+      when name == :express_bus do
     "No free or discounted transfers."
   end
 
@@ -159,7 +159,7 @@ defmodule SiteWeb.FareView.Description do
     modes =
       [
         "Local Bus",
-        "Inner and Outer Express Bus",
+        "Express Bus",
         "Subway",
         "Commuter Rail Zones 1A-2 (M7 Card only)"
       ]
@@ -229,7 +229,7 @@ defmodule SiteWeb.FareView.Description do
 
   def description(
         %Fare{
-          name: :inner_express_bus,
+          name: :express_bus,
           media: [:charlie_card, :charlie_ticket],
           duration: :month
         },
@@ -237,32 +237,7 @@ defmodule SiteWeb.FareView.Description do
       ) do
     modes =
       [
-        "Inner Express Bus",
-        "Local Bus",
-        "Subway",
-        "Commuter Rail Zone 1A (CharlieTicket or pre-printed CharlieCard with valid date only)",
-        "Charlestown Ferry (CharlieTicket or pre-printed CharlieCard with valid date only)"
-      ]
-      |> list_items()
-
-    [
-      content_tag(:p, "Unlimited travel for 1 calendar month on:"),
-      content_tag(:ul, modes)
-    ]
-  end
-
-  def description(
-        %Fare{
-          name: :outer_express_bus,
-          media: [:charlie_card, :charlie_ticket],
-          duration: :month
-        },
-        _assigns
-      ) do
-    modes =
-      [
-        "Outer Express Bus",
-        "Inner Express Bus",
+        "Express Bus",
         "Local Bus",
         "Subway",
         "Commuter Rail Zone 1A (CharlieTicket or pre-printed CharlieCard with valid date only)",
@@ -349,7 +324,7 @@ defmodule SiteWeb.FareView.Description do
     |> list_items()
   end
 
-  defp bus_description_intro(name) when name in [:inner_express_bus, :outer_express_bus], do: ""
+  defp bus_description_intro(name) when name == :express_bus, do: ""
   defp bus_description_intro(_), do: "Travel on all local bus routes, SL4 and SL5. "
 
   defp cr_interzone_note do
@@ -396,11 +371,7 @@ defmodule SiteWeb.FareView.Description do
     ]
   end
 
-  defp valid_transfers(:inner_express_bus = name) do
-    [subway: "subway", local_bus: local_bus_text(name), outer_express_bus: "Outer Express Bus"]
-  end
-
-  defp valid_transfers(:outer_express_bus = name) do
+  defp valid_transfers(:express_bus = name) do
     [subway: "subway", local_bus: local_bus_text(name)]
   end
 
@@ -408,16 +379,15 @@ defmodule SiteWeb.FareView.Description do
     [
       subway: "subway",
       local_bus: local_bus_text(name),
-      inner_express_bus: "Inner Express Bus",
-      outer_express_bus: "Outer Express Bus"
+      express_bus: "Express Bus",
     ]
   end
 
   defp local_bus_text(:subway), do: ["Local Bus", "SL4", "SL5"]
   defp local_bus_text(:local_bus), do: ["another Local Bus", "SL4", "SL5"]
   defp local_bus_text(:local_bus_all), do: ["all Local Bus routes", "SL4", "SL5"]
-  defp local_bus_text(:outer_express_bus), do: ["Local Bus", "Inner Express Bus", "any SL route"]
-  defp local_bus_text(:inner_express_bus), do: ["Local Bus", "any SL route"]
+  # Should Express Bus be on this list or not?  Haven't figured out how it's used.
+  defp local_bus_text(:express_bus), do: ["Local Bus", "Express Bus", "any SL route"]
 
   defp transfers_filter({name, _}, fare) do
     other_fare = transfers_other_fare(name, fare)

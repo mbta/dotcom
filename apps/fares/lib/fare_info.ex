@@ -8,7 +8,7 @@ defmodule Fares.FareInfo do
   @doc "Load fare info from a CSV file."
   @spec fare_info() :: [Fare.t()]
   def fare_info() do
-    "priv/fares-sept1.csv"
+    "priv/fares-july1.csv"
     |> fare_data()
     |> Enum.flat_map(&mapper/1)
     |> Enum.concat(free_fare())
@@ -181,18 +181,17 @@ defmodule Fares.FareInfo do
   end
 
   def mapper([
-        mode,
+        "express_bus",
         charlie_card_price,
         day_reduced_price,
         _month_reduced_price,
         _day_pass_price,
         _week_pass_price,
         month_pass_price | _
-      ])
-      when mode in ["inner_express_bus", "outer_express_bus"] do
+      ]) do
     base = %Fare{
       mode: :bus,
-      name: :"#{mode}"
+      name: :express_bus
     }
 
     [

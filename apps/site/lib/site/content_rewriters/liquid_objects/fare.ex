@@ -28,9 +28,8 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
           | :ferry_cross_harbor
           | :ferry_inner_harbor
           | :foxboro
-          | :inner_express_bus
+          | :express_bus
           | :local_bus
-          | :outer_express_bus
           | :subway
 
   @type fare_value ::
@@ -49,6 +48,7 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
   @type request_tuple :: {:ok, [repo_arg]} | {:ok, {summary_mode, [repo_arg]}}
 
   @default_args [reduced: nil, duration: :single_trip]
+  # These are the route types that are compatible for fare ranges
   @summary_atoms [:commuter_rail, :bus_subway, :ferry]
 
   @fare_summary [
@@ -63,9 +63,8 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
     "ferry_cross_harbor",
     "ferry_inner_harbor",
     "foxboro",
-    "inner_express_bus",
+    "express_bus",
     "local_bus",
-    "outer_express_bus",
     "subway"
   ]
 
@@ -159,6 +158,10 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
   @spec parse_token(String.t(), [repo_arg], [String.t()]) :: {[repo_arg], [String.t()]}
   defp parse_token(value, good, bad) when value in @fare_summary do
     {filter_insert(good, mode: value), bad}
+  end
+
+  defp parse_token(value, good, bad) when value in ["inner_express_bus", "outer_express_bus", "express_bus"] do
+    {filter_insert(good, name: "express_bus"), bad}
   end
 
   defp parse_token(value, good, bad) when value in @fare_name do

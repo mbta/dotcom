@@ -441,8 +441,7 @@ defmodule SiteWeb.ScheduleView do
   def to_fare_summary_atom(%Route{type: 3, id: id}) do
     cond do
       Fares.silver_line_rapid_transit?(id) -> :subway
-      Fares.inner_express?(id) -> :inner_express_bus
-      Fares.outer_express?(id) -> :outer_express_bus
+      Fares.express?(id) -> :express_bus
       true -> :bus
     end
   end

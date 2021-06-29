@@ -14,7 +14,7 @@ defmodule SiteWeb.Mode.BusController do
   def mode_icon, do: :bus
 
   def fare_description do
-    "For Inner and Outer Express Bus fares, read the complete #{link_to_bus_fares()} page."
+    "For Express Bus fares, read the complete #{link_to_bus_fares()} page."
   end
 
   def fares do

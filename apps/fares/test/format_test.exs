@@ -46,8 +46,7 @@ defmodule Fares.FormatTest do
 
     test "gives a descriptive name for bus fares" do
       assert name(%Fare{name: :local_bus}) == "Local Bus"
-      assert name(%Fare{name: :inner_express_bus}) == "Inner Express Bus"
-      assert name(%Fare{name: :outer_express_bus}) == "Outer Express Bus"
+      assert name(%Fare{name: :express_bus}) == "Express Bus"
     end
 
     test "gives a descriptive name for ferry fares" do
@@ -99,21 +98,14 @@ defmodule Fares.FormatTest do
         name: {:zone, "7"}
       }
 
-      inner_express_fare = %Fare{
-        name: :inner_express_bus,
-        mode: :bus,
-        duration: :month
-      }
-
-      outer_express_fare = %Fare{
-        name: :outer_express_bus,
+      express_fare = %Fare{
+        name: :express_bus,
         mode: :bus,
         duration: :month
       }
 
       assert concise_full_name(cr_fare) == "Zone 7"
-      assert concise_full_name(inner_express_fare) == "Inner Express Bus"
-      assert concise_full_name(outer_express_fare) == "Outer Express Bus"
+      assert concise_full_name(express_fare) == "Express Bus"
     end
 
     test "returns the full_name for other fares" do

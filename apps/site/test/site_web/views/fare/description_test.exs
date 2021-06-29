@@ -61,9 +61,9 @@ defmodule SiteWeb.FareView.DescriptionTest do
                |> Enum.map(fn html -> Phoenix.HTML.safe_to_string(html) end)
     end
 
-    test "fare description for an inner express bus describes the modes you can use it on with a charlie ticket" do
+    test "fare description for an express bus describes the modes you can use it on with a charlie ticket" do
       result =
-        %Fare{name: :inner_express_bus, duration: :month, media: [:charlie_card, :charlie_ticket]}
+        %Fare{name: :express_bus, duration: :month, media: [:charlie_card, :charlie_ticket]}
         |> description(%{})
         |> List.flatten()
 
@@ -71,28 +71,7 @@ defmodule SiteWeb.FareView.DescriptionTest do
       body = result |> Enum.at(1) |> Phoenix.HTML.safe_to_string()
 
       assert intro =~ "Unlimited travel for 1 calendar month on:"
-      assert body =~ "Inner Express Bus"
-      assert body =~ "Subway"
-      assert body =~ "Local Bus"
-
-      assert body =~
-               "Commuter Rail Zone 1A (CharlieTicket or pre-printed CharlieCard with valid date only)"
-
-      assert body =~
-               "Charlestown Ferry (CharlieTicket or pre-printed CharlieCard with valid date only)"
-    end
-
-    test "fare description for an outer express bus describes the modes you can use it on with a charlie ticket" do
-      result =
-        %Fare{name: :outer_express_bus, duration: :month, media: [:charlie_card, :charlie_ticket]}
-        |> description(%{})
-        |> List.flatten()
-
-      intro = result |> List.first() |> Phoenix.HTML.safe_to_string()
-      body = result |> Enum.at(1) |> Phoenix.HTML.safe_to_string()
-
-      assert intro =~ "Unlimited travel for 1 calendar month on:"
-      assert body =~ "Inner Express Bus"
+      assert body =~ "Express Bus"
       assert body =~ "Subway"
       assert body =~ "Local Bus"
 
@@ -154,8 +133,7 @@ defmodule SiteWeb.FareView.DescriptionTest do
 
       result = fare |> transfers |> Enum.at(1) |> Phoenix.HTML.safe_to_string()
       assert result =~ "Transfer to subway: $"
-      assert result =~ "Transfer to Inner Express Bus: $"
-      assert result =~ "Transfer to Outer Express Bus: $"
+      assert result =~ "Transfer to Express Bus: $"
     end
 
     test "if current fare is most expensive, should have free transfers to other fares" do
@@ -170,16 +148,15 @@ defmodule SiteWeb.FareView.DescriptionTest do
       result = fare |> transfers |> Enum.take(1) |> iodata_to_binary()
 
       assert result =~ "Includes 1 free transfer to subway, another Local Bus, SL4, SL5,"
-      assert result =~ "Inner Express Bus"
-      assert result =~ "Outer Express Bus"
+      assert result =~ "Express Bus"
       assert result =~ "within 2 hours of your original ride."
     end
 
     test "if fare is somewhere in the middle, lists fare differences along with transfers" do
-      inner_express_fare =
+      express_fare =
         List.first(
           Fares.Repo.all(
-            name: :inner_express_bus,
+            name: :express_bus,
             duration: :single_trip,
             media: [:charlie_card, :charlie_ticket, :cash]
           )
@@ -190,16 +167,14 @@ defmodule SiteWeb.FareView.DescriptionTest do
         name: :local_bus,
         duration: :single_trip,
         media: [:charlie_card, :charlie_ticket, :cash],
-        cents: inner_express_fare.cents - 1
+        cents: express_fare.cents - 1
       }
 
       result = fare |> transfers
       result_1 = result |> Enum.at(0) |> iodata_to_binary()
       result_2 = result |> Enum.at(1) |> Phoenix.HTML.safe_to_string()
       assert result_1 =~ "Includes 1 free transfer to subway, another Local Bus"
-      assert result_2 =~ "Transfer to Inner Express Bus: $0.01"
-      # leave off cents
-      assert result_2 =~ "Transfer to Outer Express Bus: $1"
+      assert result_2 =~ "Transfer to Express Bus: $0.01"
     end
   end
 end
