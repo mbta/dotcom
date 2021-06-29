@@ -160,7 +160,7 @@ defmodule Site.ContentRewriters.LiquidObjects.Fare do
     {filter_insert(good, mode: value), bad}
   end
 
-  defp parse_token(value, good, bad) when value in ["inner_express_bus", "outer_express_bus", "express_bus"] do
+  defp parse_token(value, good, bad) when value in ["inner_express_bus", "outer_express_bus"] do
     {filter_insert(good, name: "express_bus"), bad}
   end
 
