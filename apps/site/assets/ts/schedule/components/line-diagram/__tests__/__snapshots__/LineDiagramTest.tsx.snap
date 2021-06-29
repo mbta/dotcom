@@ -17,7 +17,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
     </div>
   </SearchBox>
   <Provider store={{...}}>
-    <LineDiagramWithStops stops={{...}} handleStopClick={[Function]} liveData={{...}}>
+    <LineDiagramWithStops stops={{...}} handleStopClick={[Function (anonymous)]} liveData={{...}}>
       <div className=\\"m-schedule-diagram u-no-crowding-data\\">
         <Diagram lineDiagram={{...}} liveData={{...}}>
           <LiveVehicleIconSet stop={{...}} liveData={{...}} />
@@ -89,7 +89,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
           </svg>
         </Diagram>
         <ol>
-          <StopCard stop={{...}} onClick={[Function]} liveData={[undefined]}>
+          <StopCard stop={{...}} onClick={[Function (anonymous)]} liveData={[undefined]}>
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
                 <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -124,7 +124,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
               </section>
             </li>
           </StopCard>
-          <StopCard stop={{...}} onClick={[Function]} liveData={{...}}>
+          <StopCard stop={{...}} onClick={[Function (anonymous)]} liveData={{...}}>
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
                 <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -200,7 +200,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
               </section>
             </li>
           </StopCard>
-          <StopCard stop={{...}} onClick={[Function]} liveData={{...}}>
+          <StopCard stop={{...}} onClick={[Function (anonymous)]} liveData={{...}}>
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
                 <header className=\\"m-schedule-diagram__stop-heading\\">
@@ -269,7 +269,7 @@ exports[`LineDiagram renders and matches snapshot 1`] = `
               </section>
             </li>
           </StopCard>
-          <StopCard stop={{...}} onClick={[Function]} liveData={[undefined]}>
+          <StopCard stop={{...}} onClick={[Function (anonymous)]} liveData={[undefined]}>
             <li className=\\"m-schedule-diagram__stop\\" style={{...}}>
               <section className=\\"m-schedule-diagram__content\\">
                 <header className=\\"m-schedule-diagram__stop-heading\\">
