@@ -127,8 +127,7 @@ defmodule OneWayTest do
         Enum.filter(@bus_fares, &(&1.name == :express_bus))
       end
 
-      assert %Fares.Fare{cents: 400} =
-               recommended_fare(express_route, nil, nil, nil, fare_fn)
+      assert %Fares.Fare{cents: 400} = recommended_fare(express_route, nil, nil, nil, fare_fn)
 
       assert %Fares.Fare{cents: 500} = base_fare(express_route, nil, nil, nil, fare_fn)
     end

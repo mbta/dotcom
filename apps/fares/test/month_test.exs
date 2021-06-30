@@ -121,8 +121,7 @@ defmodule Fares.MonthTest do
         Enum.filter(@bus_fares, &(&1.name == :express_bus))
       end
 
-      assert %Fare{cents: 13_600} =
-               Month.recommended_pass(express_route, nil, nil, nil, fare_fn)
+      assert %Fare{cents: 13_600} = Month.recommended_pass(express_route, nil, nil, nil, fare_fn)
 
       assert %Fare{cents: 13_600} = Month.base_pass(express_route, nil, nil, nil, fare_fn)
     end
