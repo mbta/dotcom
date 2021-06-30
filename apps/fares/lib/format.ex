@@ -109,7 +109,7 @@ defmodule Fares.Format do
   @spec concise_full_name(Fare.t()) :: String.t() | iolist()
   def concise_full_name(%Fare{mode: :commuter_rail} = fare), do: name(fare)
 
-  def concise_full_name(%Fare{mode: :bus, name: name} = fare)
+  def concise_full_name(%Fare{mode: :bus, name: :express_bus} = fare)
       when name == :express_bus,
       do: name(fare)
 
