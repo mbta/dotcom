@@ -74,7 +74,7 @@ defmodule Site.Mixfile do
       {:sentry, "~> 7.0"},
       {:recon, "~> 2.5.1", only: :prod},
       {:diskusage_logger, "~> 0.2.0"},
-      {:hammer, "~> 4.0"},
+      {:hammer, "~> 6.0"},
       {:poolboy, "~> 1.5"},
       {:wallaby, "~> 0.22", runtime: false, only: :test},
       {:con_cache, "~> 0.12.0"},
