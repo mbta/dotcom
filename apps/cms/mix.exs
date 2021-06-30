@@ -52,7 +52,7 @@ defmodule CMS.Mixfile do
       {:poison, ">= 0.0.0", override: true},
       {:timex, ">= 0.0.0"},
       {:plug, "~> 1.7.2"},
-      {:html_sanitize_ex, "~> 1.3.0"},
+      {:html_sanitize_ex, "~> 1.4.1"},
       {:bypass, "~> 1.0", only: :test},
       {:quixir, "~> 0.9", only: :test},
       {:lcov_ex, "~> 0.2", only: [:dev, :test], runtime: false},
