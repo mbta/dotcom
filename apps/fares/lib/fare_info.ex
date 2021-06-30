@@ -8,7 +8,7 @@ defmodule Fares.FareInfo do
   @doc "Load fare info from a CSV file."
   @spec fare_info() :: [Fare.t()]
   def fare_info() do
-    "priv/fares-sept1.csv"
+    "priv/fares-july1.csv"
     |> fare_data()
     |> Enum.flat_map(&mapper/1)
     |> Enum.concat(free_fare())
@@ -142,45 +142,6 @@ defmodule Fares.FareInfo do
   end
 
   def mapper([
-        "local_bus",
-        charlie_card_price,
-        day_reduced_price,
-        _month_reduced_price,
-        _day_pass_price,
-        _week_pass_price,
-        month_pass_price | _
-      ]) do
-    base = %Fare{
-      mode: :bus,
-      name: :local_bus
-    }
-
-    [
-      %{
-        base
-        | duration: :single_trip,
-          media: [:charlie_card, :charlie_ticket, :cash],
-          reduced: nil,
-          cents: dollars_to_cents(charlie_card_price)
-      },
-      %{
-        base
-        | duration: :single_trip,
-          media: [:senior_card, :student_card],
-          reduced: :any,
-          cents: dollars_to_cents(day_reduced_price)
-      },
-      %{
-        base
-        | duration: :month,
-          media: [:charlie_card, :charlie_ticket],
-          reduced: nil,
-          cents: dollars_to_cents(month_pass_price)
-      }
-    ]
-  end
-
-  def mapper([
         mode,
         charlie_card_price,
         day_reduced_price,
@@ -189,7 +150,7 @@ defmodule Fares.FareInfo do
         _week_pass_price,
         month_pass_price | _
       ])
-      when mode in ["inner_express_bus", "outer_express_bus"] do
+      when mode in ["local_bus", "express_bus"] do
     base = %Fare{
       mode: :bus,
       name: :"#{mode}"

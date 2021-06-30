@@ -13,11 +13,8 @@ defmodule Fares do
   @silver_line_rapid_transit ~w(741 742 743 746)
   @silver_line_rapid_transit_set MapSet.new(@silver_line_rapid_transit)
 
-  @inner_express_routes ~w(170 325 326 351 426 428 434 450 459 501 502 503 504)
-  @inner_express_route_set MapSet.new(@inner_express_routes)
-
-  @outer_express_routes ~w(352 354 505)
-  @outer_express_route_set MapSet.new(@outer_express_routes)
+  @express_routes ~w(170 325 326 351 352 354 426 428 434 450 459 501 502 503 504 505)
+  @express_route_set MapSet.new(@express_routes)
 
   @foxboro_reverse_commute ~w(741 743 745 750 752 754 756)
   @foxboro_reverse_commute_set MapSet.new(@foxboro_reverse_commute)
@@ -170,19 +167,14 @@ defmodule Fares do
   def silver_line_airport_stop?("741", "17095"), do: true
   def silver_line_airport_stop?(<<_route_id::binary>>, <<_origin_id::binary>>), do: false
 
-  @spec inner_express?(Route.id_t()) :: boolean
-  def inner_express?(<<id::binary>>), do: id in @inner_express_route_set
-
-  @spec outer_express?(Route.id_t()) :: boolean
-  def outer_express?(<<id::binary>>), do: id in @outer_express_route_set
+  @spec express?(Route.id_t()) :: boolean
+  def express?(<<id::binary>>), do: id in @express_route_set
 
   def silver_line_rapid_transit, do: @silver_line_rapid_transit
 
-  def inner_express, do: @inner_express_routes
+  def express, do: @express_routes
 
-  def outer_express, do: @outer_express_routes
-
-  @type fare_atom :: Route.gtfs_route_type() | :inner_express_bus | :outer_express_bus
+  @type fare_atom :: Route.gtfs_route_type() | :express_bus
 
   @spec to_fare_atom(fare_atom | Route.id_t() | Route.t()) :: fare_atom
   def to_fare_atom(route_or_atom) do
@@ -190,8 +182,7 @@ defmodule Fares do
       %Route{type: 3, id: id} ->
         cond do
           silver_line_rapid_transit?(id) -> :subway
-          inner_express?(id) -> :inner_express_bus
-          outer_express?(id) -> :outer_express_bus
+          express?(id) -> :express_bus
           true -> :bus
         end
 
