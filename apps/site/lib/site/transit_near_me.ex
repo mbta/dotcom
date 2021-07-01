@@ -125,14 +125,17 @@ defmodule Site.TransitNearMe do
       |> expand_route_id()
       |> schedules_fn.(direction_id: direction_id, date: date)
 
-    # if there are any schedules without a trip, we need to ignore the cache
-    # because the trip ids in the cache has probably been changed during a deploy
-    if Enum.any?(schedule_data, fn sched -> Map.get(sched, :trip) === nil end) do
-      schedule_data =
+    schedule_data =
+      if is_list(schedule_data) &&
+           Enum.any?(schedule_data, fn sched -> sched |> Map.get(:trip) |> is_nil() end) do
+        # if there are any schedules without a trip, we need to ignore the cache
+        # because the trip ids in the cache has probably been changed during a deploy
         route_id
         |> expand_route_id()
         |> schedules_fn.(direction_id: direction_id, date: date, no_cache: true)
-    end
+      else
+        schedule_data
+      end
 
     case schedule_data do
       {:error, [%JsonApi.Error{code: "no_service"}]} ->
