@@ -33,20 +33,6 @@ defmodule PredictedSchedule do
         date: Util.service_date(now)
       )
 
-    # if there are any schedules without a trip, maybe we need to... 
-    # force another hit of the endpoint without using the cache??
-    # because the trip ids in the cache has probably been changed during a deploy
-    if Enum.any?(schedules, fn sched -> Map.get(sched, :trip) === nil end) do
-      schedules =
-        [route_id]
-        |> schedules_fn.(
-          stop_ids: stop_id,
-          direction_id: direction_id,
-          date: Util.service_date(now),
-          no_cache: true
-        )
-    end
-
     predicted_schedules =
       [route: route_id, stop: stop_id, direction_id: direction_id]
       |> predictions_fn.()
