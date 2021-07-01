@@ -235,7 +235,7 @@ defmodule Routes.RepoTest do
 
   describe "get_shapes/2" do
     test "Get valid response for bus route" do
-      shapes = @routes_repo_api.get_shapes("9", direction_id: 1)
+      shapes = @routes_repo_api.get_shapes("36", direction_id: 1)
       shape = List.first(shapes)
 
       assert Enum.count(shapes) >= 2
