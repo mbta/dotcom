@@ -456,12 +456,12 @@ defmodule SiteWeb.ScheduleControllerTest do
 
     test "Bus line with variant", %{conn: conn} do
       direction = 1
-      variant = List.last(@routes_repo_api.get_shapes("9", direction_id: direction)).id
+      variant = List.last(@routes_repo_api.get_shapes("36", direction_id: direction)).id
 
       conn =
         get(
           conn,
-          line_path(conn, :show, "9",
+          line_path(conn, :show, "36",
             "schedule_direction[direction_id]": direction,
             "schedule_direction[variant]": variant
           )

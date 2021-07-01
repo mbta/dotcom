@@ -57,20 +57,6 @@ defmodule FaresTest do
       end
     end
 
-    test "trips between a 'combo' zone stop and either South or North station are treated as zone 1A" do
-      assert Fares.fare_for_stops(:commuter_rail, "place-qnctr", "place-sstat") ==
-               {:ok, {:zone, "1A"}}
-
-      assert Fares.fare_for_stops(:commuter_rail, "place-sstat", "place-qnctr") ==
-               {:ok, {:zone, "1A"}}
-
-      assert Fares.fare_for_stops(:commuter_rail, "place-ER-0115", "place-north") ==
-               {:ok, {:zone, "1A"}}
-
-      assert Fares.fare_for_stops(:commuter_rail, "place-north", "place-ER-0115") ==
-               {:ok, {:zone, "1A"}}
-    end
-
     test "trips between a 'combo' zone and a non-terminus stop are treated as the general zone" do
       assert Fares.fare_for_stops(:commuter_rail, "place-qnctr", "place-PB-0245") ==
                {:ok, {:interzone, "6"}}
