@@ -29,10 +29,15 @@ jobs:
       uses: actions/cache@v2
       with:
         path: ~/.asdf
-        key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+        key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
       id: asdf-cache
     - name: <asdf> Install languages from .tool-versions (if needed)
       uses: asdf-vm/actions/install@v1
+      if: steps.asdf-cache.outputs.cache-hit != 'true'
+    - name: <Mix> Install Hex/Rebar (if needed)
+      run: |
+        mix local.hex --force
+        mix local.rebar --force
       if: steps.asdf-cache.outputs.cache-hit != 'true'
     - uses: mbta/actions/reshim-asdf@v1
     - name: <elixir> Restore dependencies cache
@@ -43,11 +48,7 @@ jobs:
       id: elixir-cache
     - name: <elixir> Install dependencies (if needed)
       if: steps.elixir-cache.outputs.cache-hit != 'true'
-      run: |
-        mix local.hex --force
-        mix local.rebar --force
-        mix deps.get
-
+      run: mix deps.get
     - name: <node> Restore dependencies cache
       uses: actions/cache@v2
       with:
@@ -96,7 +97,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
@@ -114,7 +115,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
@@ -132,7 +133,7 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: ~/.asdf
-        key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+        key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
     - uses: mbta/actions/reshim-asdf@v1
     - uses: actions/cache@v2
       with:
@@ -150,7 +151,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
@@ -168,7 +169,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
@@ -206,7 +207,7 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: ~/.asdf
-        key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+        key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
     - uses: mbta/actions/reshim-asdf@v1
     - uses: actions/cache@v2
       with:
@@ -224,7 +225,7 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: ~/.asdf
-        key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+        key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
     - uses: mbta/actions/reshim-asdf@v1
     - uses: actions/cache@v2
       with:
@@ -248,7 +249,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
@@ -266,7 +267,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
@@ -284,7 +285,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
@@ -302,7 +303,7 @@ jobs:
     - uses: actions/cache@v2
       with:
         path: ~/.asdf
-        key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+        key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
     - uses: mbta/actions/reshim-asdf@v1
     - uses: actions/cache@v2
       with:
@@ -321,7 +322,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.asdf
-          key: ${{ runner.os }}-asdf-v2-${{ hashFiles('.tool-versions') }}
+          key: ${{ runner.os }}-asdf-v3-${{ hashFiles('.tool-versions') }}
       - uses: mbta/actions/reshim-asdf@v1
       - uses: actions/cache@v2
         with:
