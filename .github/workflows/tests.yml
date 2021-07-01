@@ -13,6 +13,15 @@ on:
       - "*.md"
       - AUTHORS
 
+  push:
+    # Don't bother running if it's just a script or docs change
+    paths-ignore:
+      - "bin/**"
+      - Dockerfile
+      - "*.sh"
+      - "*.md"
+      - AUTHORS
+
 env:
   MIX_ENV: test
   V3_URL: ${{ secrets.V3_URL }}
