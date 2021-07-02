@@ -189,6 +189,7 @@ jobs:
       - name: Save PR information
         run: |
           mkdir -p cover
+          cat apps/*/cover/* > cover/lcov.info
           echo "${{ github.event.pull_request.number }}" > cover/PR_NUMBER
           echo "${{ github.event.pull_request.head.sha }}" > cover/PR_SHA
         if: github.event.pull_request
