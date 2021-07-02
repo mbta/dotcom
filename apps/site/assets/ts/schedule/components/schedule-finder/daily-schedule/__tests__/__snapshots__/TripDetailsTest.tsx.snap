@@ -23,20 +23,6 @@ exports[`TripDetails displays both scheduled and predicted times for CR if there
           56
            minutes total
         </div>
-        <div>
-          <span
-            className="trip-details-table__title u-small-caps u-bold"
-          >
-            Fare
-          </span>
-          $12.25
-          <a
-            className="trip-details-table__link"
-            href="/fares/commuter_rail?destination=place-NEC-1851&origin=place-bbsta"
-          >
-            View fares
-          </a>
-        </div>
       </td>
     </tr>
     <tr>
@@ -543,20 +529,6 @@ exports[`TripDetails it renders trip details for a bus trip 1`] = `
           14
            minutes total
         </div>
-        <div>
-          <span
-            className="trip-details-table__title u-small-caps u-bold"
-          >
-            Fare
-          </span>
-          $2.40
-          <a
-            className="trip-details-table__link"
-            href="/fares/bus-fares"
-          >
-            View fares
-          </a>
-        </div>
       </td>
     </tr>
     <tr>
@@ -799,20 +771,6 @@ exports[`TripDetails uses a predicted departure time in preference to a schedule
            stops, 
           32
            minutes total
-        </div>
-        <div>
-          <span
-            className="trip-details-table__title u-small-caps u-bold"
-          >
-            Fare
-          </span>
-          $1.70
-          <a
-            className="trip-details-table__link"
-            href="/fares/bus-fares"
-          >
-            View fares
-          </a>
         </div>
       </td>
     </tr>
