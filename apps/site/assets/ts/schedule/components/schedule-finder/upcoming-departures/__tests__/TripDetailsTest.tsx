@@ -69,6 +69,20 @@ describe("TripDetails", () => {
     expect(tree).toMatchSnapshot();
   });
 
+  it("it renders the loading state", () => {
+    const loadingState = {
+      data: null,
+      isLoading: true,
+      error: false
+    } as State;
+
+    createReactRoot();
+    const tree = renderer.create(
+      <TripDetails state={loadingState} showFare={false} />
+    );
+    expect(tree).toMatchSnapshot();
+  });
+
   it("uses a predicted departure time in preference to a scheduled one", () => {
     createReactRoot();
     const tree = renderer.create(
