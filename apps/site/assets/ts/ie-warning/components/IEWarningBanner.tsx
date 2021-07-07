@@ -1,16 +1,18 @@
 import React, { ReactElement, useState } from "react";
-import ReactDOM from "react-dom";
-import { caret } from "../helpers/icon";
-import { getCookie } from "../../js/cookies";
+import { caret } from "../../helpers/icon";
 
-const setCookie = (key: string, value: string, expDays: number) => {
-  let date = new Date();
+export const setCookie = (
+  key: string,
+  value: string,
+  expDays: number
+): void => {
+  const date = new Date();
   date.setTime(date.getTime() + expDays * 24 * 60 * 60 * 1000);
   const expires = `expires=${date.toUTCString()}`;
   document.cookie = `${key}=${value}; ${expires}; path=/`;
 };
 
-const IEWarning = (): ReactElement => {
+const IEWarningContent = (): ReactElement => {
   const [expanded, setExpanded] = useState(false);
 
   const toggleBlockingState = (): void => {
@@ -102,36 +104,17 @@ const IEWarning = (): ReactElement => {
   );
 };
 
-const render = (): void => {
-  const showIEwarning = getCookie("show_ie_warning");
+const IEWarning = (): ReactElement<HTMLElement> => (
+  // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+  <aside
+    aria-modal
+    aria-label="Internet Explorer warning"
+    role="dialog"
+    className="c-aside-content"
+    tabIndex={-1}
+  >
+    <IEWarningContent />
+  </aside>
+);
 
-  ReactDOM.render(
-    showIEwarning === "false" ? (
-      <></>
-    ) : (
-      // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
-      <aside
-        aria-modal
-        aria-label="Internet Explorer warning"
-        role="dialog"
-        className="c-aside-content"
-        tabIndex={-1}
-      >
-        <IEWarning />
-      </aside>
-    ),
-    document.getElementById("ie-warning")
-  );
-};
-
-const browserIsIE = (): boolean => {
-  const ua = navigator.userAgent;
-  // MSIE is used to detect old browsers and Trident is used to newer ones
-  return ua.indexOf("MSIE ") > -1 || ua.indexOf("Trident/") > -1;
-};
-
-export default (): void => {
-  if (browserIsIE()) {
-    render();
-  }
-};
+export default IEWarning;
