@@ -247,7 +247,7 @@ const ScheduleDirection = ({
           </a>
         </>
       )}
-      {lineState.data && (
+      {lineState.data && lineState.data[0] && (
         <LineDiagramAndStopListPage
           lineDiagram={lineState.data}
           route={route}
