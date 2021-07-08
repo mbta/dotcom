@@ -1,5 +1,3 @@
-import IEWarning from "../ts/ie-warning/ie-warning";
-
 const turbolinks = ($, w = window, doc = document) => {
   var lastScrollPosition = null;
   var scrollBehavior = null;
@@ -68,7 +66,6 @@ const turbolinks = ($, w = window, doc = document) => {
   doc.addEventListener(
     "turbolinks:render",
     () => {
-      IEWarning();
       // if it's cached render, not a real one, set the scroll/focus positions,
       // but don't clear them until we have the true rendering.
       const cachedRender =
