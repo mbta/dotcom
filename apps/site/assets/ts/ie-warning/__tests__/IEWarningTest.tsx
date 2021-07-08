@@ -61,11 +61,33 @@ it("makes the banner go away", () => {
 
   caret.simulate("click");
 
+  const mockToggle = jest.fn();
+  const mockAdd = jest.fn();
+  jest.spyOn(document, "querySelector").mockImplementation(
+    (selectors: string): HTMLElement => {
+      const aside = {
+        tagName: "ASIDE",
+        className: "c-aside-content",
+        classList: ({
+          toggle: mockToggle,
+          add: mockAdd
+        } as unknown) as DOMTokenList,
+        innerHTML: wrapper.find(".c-ie-warning-content").html()
+      };
+      return (aside as unknown) as HTMLElement;
+    }
+  );
+
   wrapper.find("button").simulate("click");
 
   expect(spy).toHaveBeenCalledWith("show_ie_warning", "false", 20 * 365);
+  expect(mockToggle).toHaveBeenCalledTimes(1);
+  expect(mockAdd).toHaveBeenCalledTimes(1);
 
   wrapper.unmount();
+  spy.mockRestore();
+  mockToggle.mockRestore();
+  mockAdd.mockRestore();
 });
 
 it("it renders nothing based on cookie", () => {
